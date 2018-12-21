@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "atitinka",
     "does not match" : "nesutapo",
     "Example: {placeholder}" : "Pavyzdys: {placeholder}",
+    "File name" : "Failo pavadinimas",
     "File size (upload)" : "Failo dydis (įkėlimas)",
     "less" : "mažiau",
     "less or equals" : "mažiau arba lygu",
