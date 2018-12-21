@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Svarbus",
     "New folder" : "Naujas aplankas",
     "Upload file" : "Įkelti failą",
+    "Remove from favorites" : "Šalinti iš mėgstamų",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
     "Added to favorites" : "Pridėta prie mėgstamųjų",
     "Removed from favorites" : "Pašalinta iš mėgstamųjų",

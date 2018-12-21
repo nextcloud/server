@@ -9,6 +9,7 @@ OC.L10N.register(
     "Update to %1$s is available." : "Yra prieinamas atnaujinimas į %1$s.",
     "Update for %1$s to version %2$s is available." : "Yra prieinamas %1$s atnaujinimas į versiją %2$s.",
     "Update for {app} to version %s is available." : "Yra prieinamas {app} atnaujinimas į versiją %s.",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Jūsų naudojama versija daugiau nebeprižiūrima. Esant galimybei, kaip įmanoma greičiau atnaujinkite į palaikomą versiją.",
     "Open updater" : "Atverti atnaujinimo programą",
     "Download now" : "Atsisiųsti dabar",
     "The update check is not yet finished. Please refresh the page." : "Atnaujinimų patikrinimas dar neužbaigtas. Prašome įkelti puslapį iš naujo.",
