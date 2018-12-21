@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import "@babel/polyfill";
 
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
