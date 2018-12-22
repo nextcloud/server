@@ -248,8 +248,11 @@
 		 * This method allows easy swapping of elements.
 		 */
 		swap: function (list, j, i) {
-			list[i].before(list[j]);
-			list[j].before(list[i]);
+			var before = function(node, insertNode) {
+				node.parentNode.insertBefore(insertNode, node);
+			}
+			before(list[i], list[j]);
+			before(list[j], list[i]);
 		}
 
 	};
