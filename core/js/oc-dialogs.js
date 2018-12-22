@@ -259,6 +259,17 @@ var OCdialogs = {
 			}
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add');
+			newButton.on('focus', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function() {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+					newButton.click();
+				});
+			});
+			newButton.on('blur', function() {
+				self.$filePicker.ocdialog('unsetEnterCallback');
+			});
+
 			OC.registerMenu(newButton,self.$filePicker.find('.menu'),function () {
 				$input.focus();
 				self.$filePicker.ocdialog('setEnterCallback', function() {
