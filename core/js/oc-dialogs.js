@@ -262,6 +262,8 @@ var OCdialogs = {
 			OC.registerMenu(newButton,self.$filePicker.find('.menu'),function () {
 				$input.focus();
 				self.$filePicker.ocdialog('setEnterCallback', function() {
+					event.stopImmediatePropagation();
+					event.preventDefault();
 					self.$form.submit();
 				});
 				var newName = $input.val();
@@ -275,7 +277,7 @@ var OCdialogs = {
 			var $input = $form.find('input[type=\'text\']');
 			var $submit = $form.find('input[type=\'submit\']');
 			$submit.on('click',function(event) {
-				event.stopPropagation();
+				event.stopImmediatePropagation();
 				event.preventDefault();
 				$form.submit();
 			});
@@ -314,10 +316,13 @@ var OCdialogs = {
 					OC.hideMenus();
 					self.$filePicker.ocdialog('unsetEnterCallback');
 					self.$filePicker.click();
+					$input.val(newText);
 				}
 			});
 			$input.keypress(function(event) {
 				if (event.keyCode == 13 || event.which == 13) {
+					event.stopImmediatePropagation();
+					event.preventDefault();
 					$form.submit();
 				}
 			});
