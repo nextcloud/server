@@ -307,6 +307,7 @@ OC.L10N.register(
     "Need help?" : "Yardım gerekiyor mu?",
     "See the documentation" : "Belgelere bakın",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Bu uygulamanın düzgün çalışabilmesi için JavaScript gereklidir. Lütfen {linkstart}JavaScript uygulamasını etkinleştirip{linkend} sayfayı yeniden yükleyin.",
+    "Get your own free account" : "Ücretsiz hesabınızı açın",
     "Skip to main content" : "Ana içeriğe geç",
     "Skip to navigation of app" : "Uygulama gezinmesine geç",
     "More apps" : "Diğer uygulamalar",
