@@ -307,6 +307,7 @@ OC.L10N.register(
     "Need help?" : "¿Necesita ayuda?",
     "See the documentation" : "Vea la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere JavaScript para operar correctamente. Por favor, {linkstart}habilite JavaScript{linkend} y recargue la página.",
+    "Get your own free account" : "Consigue tu propia cuenta gratuita",
     "Skip to main content" : "Saltar al contenido principal",
     "Skip to navigation of app" : "Saltar a la navegación de la app",
     "More apps" : "Más aplicaciones",
