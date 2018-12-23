@@ -112,7 +112,6 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addStyle('jquery-ui-fixes',null,true);
-			OC_Util::addVendorStyle('select2/select2', null, true);
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
 			OC_Util::addStyle('search', 'results');

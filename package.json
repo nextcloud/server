@@ -21,6 +21,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "Base64": "^0.3.0",
+    "Select2": "git+https://github.com/select2/select2.git#3.4.8",
     "autosize": "^4.0.2",
     "backbone": "^1.2.3",
     "blueimp-md5": "^2.7.0",
