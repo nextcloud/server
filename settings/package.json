@@ -35,7 +35,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "babel-loader": "^8.0.4",
-    "css-loader": "^2.0.1",
+    "css-loader": "^2.0.2",
     "file-loader": "^3.0.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
