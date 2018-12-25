@@ -235,7 +235,7 @@ OC.L10N.register(
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome de usuario SMTP",
     "SMTP Password" : "Contrasinal SMTP",
-    "Store credentials" : "Gardar as credenciais",
+    "Store credentials" : "Almacenar as credenciais",
     "Test email settings" : "Correo de proba dos axustes",
     "Send email" : "Enviar o correo",
     "Security & setup warnings" : "Avisos de seguridade e configuración",
