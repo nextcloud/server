@@ -307,6 +307,7 @@ OC.L10N.register(
     "Need help?" : "Hulp nodig?",
     "See the documentation" : "Zie de documentatie",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Deze applicatie heeft JavaScript nodig. {linkstart}Activeer JavaScript{linkend} en ververs deze pagina.",
+    "Get your own free account" : "Maak je eigen gratis account",
     "Skip to main content" : "Ga naar hoofdinhoud",
     "Skip to navigation of app" : "Ga naar navigatie van app",
     "More apps" : "Meer apps",
