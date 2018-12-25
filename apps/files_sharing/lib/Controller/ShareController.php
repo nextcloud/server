@@ -455,14 +455,26 @@ class ShareController extends AuthPublicShareController {
 
 		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			\OCP\Util::addScript('files_sharing', 'public_note');
-			if ($shareIsFolder) {
+			if ($shareIsFolder && $this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 				$response->setHeaderActions([
 					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
 					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
 					new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
 					new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
 				]);
-			} else {
+			} elseif ($shareIsFolder && !$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+				$response->setHeaderActions([
+					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
+					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
+					new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
+				]);
+			} elseif (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+				$response->setHeaderActions([
+					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
+					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
+					new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
+				]);
+			}	else {
 				$response->setHeaderActions([
 					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
 					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
