@@ -9,6 +9,7 @@ OC.L10N.register(
     "Secret" : "Μυστικό",
     "Add client" : "Προσθήκη πελάτη",
     "Add" : "Προσθήκη",
+    "Delete" : "Διαγραφή",
     "OAuth 2.0 allows external services to request access to %s." : "Το OAuth 2.0 επιτρέπει σε εξωτερικές υπηρεσίες να ζητούν πρόσβαση στο %s σας."
 },
 "nplurals=2; plural=(n != 1);");

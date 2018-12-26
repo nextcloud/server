@@ -137,6 +137,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Tags" : "Ετικέτες",
     "Deleted files" : "Διεγραμμένα αρχεία",
+    "Shares" : "Κοινόχρηστα",
     "Shared with others" : "Διαμοιρασμένα με άλλους",
     "Shared with you" : "Διαμοιρασμένα με εσάς",
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
