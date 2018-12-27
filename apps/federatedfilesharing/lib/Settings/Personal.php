@@ -60,7 +60,7 @@ class Personal implements ISettings {
 	 */
 	public function getForm() {
 		$cloudID = $this->userSession->getUser()->getCloudId();
-		$url = 'https://nextcloud.com/federation#' . $cloudID;
+		$url = 'https://nextcloud.com/sharing#' . $cloudID;
 
 		$parameters = [
 			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
