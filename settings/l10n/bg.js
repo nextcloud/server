@@ -102,6 +102,7 @@ OC.L10N.register(
     "Your apps" : "Вашите приложения",
     "Active apps" : "Включени приложения",
     "Disabled apps" : "Изключени приложения",
+    "Updates" : "Актуализации",
     "Default quota:" : "Стандартна квота:",
     "Select default quota" : "Изберете стандартна квота",
     "Show Languages" : "Показвай ползвания език",

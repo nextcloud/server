@@ -19,6 +19,7 @@ OC.L10N.register(
     "Check for changes" : "Változások keresése",
     "Never" : "Soha",
     "Once every direct access" : "Minden közvetlen elérésnél",
+    "Read only" : "Csak olvasható",
     "Delete" : "Törlés",
     "Admin defined" : "Rendszergazda definiálva",
     "Are you sure you want to delete this external storage?" : "Biztosan törlöd ezt a külső tárolót?",
