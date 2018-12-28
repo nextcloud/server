@@ -220,6 +220,7 @@
     "Test email settings" : "测试电子邮件设置",
     "Send email" : "发送邮件",
     "Security & setup warnings" : "安全及设置警告",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "你的每项配置对于实例的安全性和性能都至关重要。 为了帮助您，我们正在做一些自动检查。 有关详细信息，请参阅文档链接。",
     "All checks passed." : "所有检查已通过.",
     "There are some errors regarding your setup." : "关于您的设置有一些错误.",
     "There are some warnings regarding your setup." : "关于您的设置有一些警告.",

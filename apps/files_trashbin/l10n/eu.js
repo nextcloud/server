@@ -13,6 +13,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
     "Select all" : "Hautatu dena",
     "Name" : "Izena",
+    "Actions" : "Ekintzak",
     "Deleted" : "Ezabatuta",
     "Couldn't delete %s permanently" : "Ezin izan da %s betirako ezabatu",
     "Couldn't restore %s" : "Ezin izan da %s berreskuratu",

@@ -29,6 +29,7 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ezin izan da fitxategi hau deszifratu, ziurrenik elkarbanatutako fitxategi bat da. Mesdez, eskatu fitxategiaren jabeari fitxategia zurekin berriz elkarbana dezan.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ezin da fitxategi hau irakurri, ziur aski partekatutako fitxategia izango da. Fitxategiaren jabeari berriz partekatzeko eska iezaiozu",
     "Default encryption module" : "Defektuzko enkriptazio modulua",
+    "Default encryption module for server-side encryption" : "Lehenetsitako zifratze modulua zerbitzari aldeko zifratzerako",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Kaixo\n\nadministradoreak zerbitzari-aldeko enkriptazioa gaitu du. Zure fitxategiak '%s' pasahitza erabiliz enkriptatuko dira.\n\nWeb interfazea saioa hasi, 'oinarrizko enkripazio modulua' atalera joan zaitez eta pasahitza eguneratu.  Hortarako pasahitz zaharra 'pasahitz zaharra' atalean sartu eta zure oraingo pasahitza",
     "The share will expire on %s." : "Elkarbanaketa %s-n iraungiko da.",
     "Cheers!" : "Ongi izan!",

@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Iruzkin gehiago...",
     "Save" : "Gorde",
     "Allowed characters {count} of {max}" : "Onartutako karaktereak {max}-tik {count}",
+    "Error occurred while retrieving comment with ID {id}" : "Errorea gertatu da {id} ID-a duen iruzkina berreskuratzerakoan",
     "Error occurred while updating comment with id {id}" : "Akats bat gertatu da {id} id duen iruzkina aldatzerakoan",
     "Error occurred while posting comment" : "Akats bat gertatu da iruzkina bidaltzerakoan",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"],
