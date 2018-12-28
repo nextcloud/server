@@ -2,7 +2,7 @@ OC.L10N.register(
     "files",
     {
     "Storage is temporarily not available" : "Biltegiratzea ez dago erabilgarri une honetan",
-    "Storage invalid" : "Biltegi bliogabea",
+    "Storage invalid" : "Biltegi baliogabea",
     "Unknown error" : "Errore ezezaguna",
     "All files" : "Fitxategi guztiak",
     "Recent" : "Duela gutxi",
@@ -25,7 +25,7 @@ OC.L10N.register(
     "Actions" : "Ekintzak",
     "Rename" : "Berrizendatu",
     "Disconnect storage" : "Deskonektatu biltegia",
-    "Unshare" : "Ez elkarbanatu",
+    "Unshare" : "Ez partekatu",
     "Could not load info for file \"{file}\"" : "Ezin izan da \"{file}\" fitxategiaren informazioa kargatu",
     "Files" : "Fitxategiak",
     "Details" : "Xehetasunak",
