@@ -103,7 +103,7 @@ OC.L10N.register(
     "Groups" : "グループ",
     "Group list is empty" : "グループリストが空です",
     "Unable to retrieve the group list" : "グループリストを取得できません",
-    "Enforce two-factor authentication" : "二要素認証を実施する",
+    "Enforce two-factor authentication" : "2要素認証を実施する",
     "Limit to groups" : "次のグループに制限",
     "Two-factor authentication is not enforced for\tmembers of the following groups." : "以下のグループのメンバーの場合、二要素認証は強制されません。",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "公式アプリは Nextcloud コミュニティにより開発されています。公式アプリは Nextcloud の中心的な機能を提供し、製品として可能です。",
