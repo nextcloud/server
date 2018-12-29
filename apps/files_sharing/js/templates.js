@@ -21,7 +21,7 @@ templates['files_drop'] = template({"1":function(container,depth0,helpers,partia
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "\" data-name=\""
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "\">\n	'"
+    + "\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isUploading : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "</li>\n";
 },"useData":true});
