@@ -145,8 +145,9 @@ thead {
 }
 
 #public-upload #emptycontent li img {
-	vertical-align: text-bottom;
 	margin-right: 5px;
+	position: relative;
+	top: 2px;
 }
 
 #public-upload li span.icon-loading-small {
