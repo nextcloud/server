@@ -3,7 +3,7 @@
 templates['files_drop'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "\n		<span class=\"icon-loading-small\"></span> "
+  return "		<span class=\"icon-loading-small\"></span> "
     + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)))
     + "\n";
 },"3":function(container,depth0,helpers,partials,data) {
