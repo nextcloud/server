@@ -69,6 +69,7 @@
     "{actor} removed share" : "{actor} eltávolította a megosztást",
     "You shared {file} with {user}" : "Megosztottad ezt: {file} vele: {user}",
     "You removed {user} from {file}" : "Eltávolítottad ezt: {user} tőle: {file}",
+    "You removed yourself from {file}" : "Eltávolítottad magad innen: {file}",
     "{actor} removed themselves from {file}" : "{actor} eltávolították magukat a {file}-ból",
     "{actor} shared {file} with {user}" : "{actor} megosztotta ezt: {file} vele: {user}",
     "{actor} removed {user} from {file}" : "{actor} eltávolította ezt: {user} innen: {file}",

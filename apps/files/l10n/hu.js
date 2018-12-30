@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Saját mappa",
     "Close" : "Bezárás",
     "Could not create folder \"{dir}\"" : "{dir} mappa nem hozható létre",
+    "This will stop your current uploads." : "Ez meg fogja állítani a jelenlegi feltöltéseket.",
     "Upload cancelled." : "A feltöltést megszakítottuk.",
     "…" : "...",
     "Processing files …" : "Fájlok feldolgozása …",
