@@ -5,7 +5,7 @@
     "Select tag…" : "Изберете етикет...",
     "Tagged files" : "Отбелязани файлове",
     "Select tags to filter by" : "Филтриране по етикет",
-    "No tags found" : "Няма открити етикети",
+    "No tags found" : "Не са открити етикети",
     "Please select tags to filter by" : "Моля изберете етикети, за филтрирането",
     "No files found for the selected tags" : "Няма намерени файлове за избраните етикети",
     "Added system tag {systemtag}" : "Добавен системен етикет {systemtag}",
