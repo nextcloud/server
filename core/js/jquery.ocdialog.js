@@ -56,7 +56,7 @@
 				// Enter
 				if(event.keyCode === 13) {
 					event.stopImmediatePropagation();
-					if (self.enterCallback != null) {
+					if (self.enterCallback !== null) {
 						self.enterCallback();
 						event.preventDefault();
 						return false;
