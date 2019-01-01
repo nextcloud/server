@@ -60,6 +60,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/** @var CappedMemoryCache|Result[] */
 	private $objectCache;
+
 	/** @var CappedMemoryCache|bool[] */
 	private $directoryCache;
 
@@ -114,7 +115,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				unset($this->objectCache[$existingKey]);
 			}
 		}
-		unset($this->filesCache[$key]);
+		unset($this->directoryCache[$key], $this->filesCache[$key]);
 	}
 
 	/**
@@ -334,6 +335,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				if (is_array($result['CommonPrefixes'])) {
 					foreach ($result['CommonPrefixes'] as $prefix) {
 						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
+						$this->directoryCache[substr(trim($prefix['Prefix'], '/'), strlen($path))] = true;
 					}
 				}
 				if (is_array($result['Contents'])) {
