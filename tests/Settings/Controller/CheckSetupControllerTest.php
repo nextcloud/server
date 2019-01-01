@@ -148,7 +148,6 @@ class CheckSetupControllerTest extends TestCase {
 				'hasWorkingFileLocking',
 				'getLastCronInfo',
 				'getSuggestedOverwriteCliURL',
-				'getOutdatedCaches',
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isOpcacheProperlySetup',
@@ -435,9 +434,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
-			->method('getOutdatedCaches')
-			->willReturn([]);
-		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
 		$this->checkSetupController
@@ -504,7 +500,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isGetenvServerWorking' => true,
 				'isReadOnlyConfig' => false,
 				'hasValidTransactionIsolationLevel' => true,
-				'outdatedCaches' => [],
 				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,
 				'suggestedOverwriteCliURL' => '',

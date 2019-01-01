@@ -159,18 +159,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
-					if (data.outdatedCaches.length > 0) {
-						data.outdatedCaches.forEach(function(element){
-							messages.push({
-								msg: t(
-									'core',
-									'{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version.',
-									element
-								),
-								type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-							})
-						});
-					}
 					if(!data.hasWorkingFileLocking) {
 						messages.push({
 							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
