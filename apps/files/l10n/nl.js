@@ -144,7 +144,7 @@ OC.L10N.register(
     "Show hidden files" : "Verborgen bestanden tonen",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">om je bestanden te benaderen via WebDAV</a>",
-    "Toggle grid view" : "Omschakelen roosterbeeld",
+    "Toggle grid view" : "Omschakelen roosterweergave",
     "Cancel upload" : "Stop upload",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",
