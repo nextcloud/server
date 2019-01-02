@@ -108,7 +108,7 @@ pipeline:
       matrix:
         TESTS: litmus-v1
   litmus-v2:
-    image: nextcloudci/litmus-php7.1:1
+    image: nextcloudci/litmus-php7.2:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/litmus-v2/script.sh
