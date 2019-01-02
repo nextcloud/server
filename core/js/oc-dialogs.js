@@ -298,7 +298,7 @@ var OCdialogs = {
 				try {
 					if (!Files.isFileNameValid(filename)) {
 						// Files.isFileNameValid(filename) throws an exception itself
-					} else if (self.filelist.find(function(file){return file.name == this;},filename)) {
+					} else if (self.filelist.find(function(file){return file.name === this;},filename)) {
 						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
 							escape: false
 						});
