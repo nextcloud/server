@@ -239,6 +239,9 @@ class ShareAPIController extends OCSController {
 
 			$shareWithStart = ($hasCircleId? strrpos($share->getSharedWith(), '[') + 1: 0);
 			$shareWithLength = ($hasCircleId? -1: strpos($share->getSharedWith(), ' '));
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
+			}
 			$result['share_with'] = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 		} else if ($share->getShareType() === Share::SHARE_TYPE_ROOM) {
 			$result['share_with'] = $share->getSharedWith();
