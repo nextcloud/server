@@ -28,7 +28,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share\IManager;
+use OCP\Share\IManager as IShareManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,8 +41,11 @@ class MoveCalendar extends Command {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var IGroupManager $groupManager */
+	/** @var IGroupManager */
 	private $groupManager;
+
+	/** @var IShareManager */
+	private $shareManager;
 
 	/** @var IConfig $config */
 	private $config;
@@ -61,6 +64,7 @@ class MoveCalendar extends Command {
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
+	 * @param IShareManager $shareManager
 	 * @param IConfig $config
 	 * @param IL10N $l10n
 	 * @param CalDavBackend $calDav
@@ -68,6 +72,7 @@ class MoveCalendar extends Command {
 	function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,
+		IShareManager $shareManager,
 		IConfig $config,
 		IL10N $l10n,
 		CalDavBackend $calDav
@@ -75,6 +80,7 @@ class MoveCalendar extends Command {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->shareManager = $shareManager;
 		$this->config = $config;
 		$this->l10n = $l10n;
 		$this->calDav = $calDav;
@@ -102,14 +108,9 @@ class MoveCalendar extends Command {
 
 		$this->io = new SymfonyStyle($input, $output);
 
-		if (in_array('system', [$userOrigin, $userDestination], true)) {
-			throw new \InvalidArgumentException("User can't be system");
-		}
-
 		if (!$this->userManager->userExists($userOrigin)) {
 			throw new \InvalidArgumentException("User <$userOrigin> is unknown.");
 		}
-
 
 		if (!$this->userManager->userExists($userDestination)) {
 			throw new \InvalidArgumentException("User <$userDestination> is unknown.");
@@ -127,7 +128,9 @@ class MoveCalendar extends Command {
 			throw new \InvalidArgumentException("User <$userDestination> already has a calendar named <$name>.");
 		}
 
-		$this->checkShares($calendar, $userDestination, $input->getOption('force'));
+		if ($this->shareManager->shareWithGroupMembersOnly() === true) {
+			$this->checkShares($calendar, $userDestination, $input->getOption('force'));
+		}
 
 		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination);
 

@@ -27,6 +27,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\Share\IManager;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -43,6 +44,9 @@ class MoveCalendarTest extends TestCase {
 
 	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject $groupManager */
 	private $groupManager;
+
+	/** @var \OCP\Share\IManager|\PHPUnit_Framework_MockObject_MockObject $shareManager */
+	private $shareManager;
 
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $l10n */
 	private $config;
@@ -61,6 +65,7 @@ class MoveCalendarTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->shareManager = $this->createMock(IManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->calDav = $this->createMock(CalDavBackend::class);
@@ -68,6 +73,7 @@ class MoveCalendarTest extends TestCase {
 		$this->command = new MoveCalendar(
 			$this->userManager,
 			$this->groupManager,
+			$this->shareManager,
 			$this->config,
 			$this->l10n,
 			$this->calDav
@@ -106,20 +112,6 @@ class MoveCalendarTest extends TestCase {
 		$commandTester->execute([
 			'name' => $this->command->getName(),
 			'userorigin' => 'user',
-			'userdestination' => 'user2',
-		]);
-	}
-
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage User can't be system
-	 */
-	public function testTryToMoveToOrFromSystem()
-	{
-		$commandTester = new CommandTester($this->command);
-		$commandTester->execute([
-			'name' => $this->command->getName(),
-			'userorigin' => 'system',
 			'userdestination' => 'user2',
 		]);
 	}
@@ -214,6 +206,9 @@ class MoveCalendarTest extends TestCase {
 			->with(1234)
 			->willReturn([]);
 
+		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
+			->willReturn(true);
+
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
@@ -224,11 +219,18 @@ class MoveCalendarTest extends TestCase {
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 
+	public function dataTestMoveWithDestinationNotPartOfGroup(): array
+	{
+		return [
+			[true],
+			[false]
+		];
+	}
+
 	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.
+	 * @dataProvider dataTestMoveWithDestinationNotPartOfGroup
 	 */
-	public function testMoveWithDestinationNotPartOfGroup()
+	public function testMoveWithDestinationNotPartOfGroup(bool $shareWithGroupMembersOnly)
 	{
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
@@ -251,11 +253,19 @@ class MoveCalendarTest extends TestCase {
 			->with('principals/users/user2', 'personal')
 			->willReturn(null);
 
-		$this->calDav->expects($this->once())->method('getShares')
-			->with(1234)
-			->willReturn([
-				['href' => 'principal:principals/groups/nextclouders']
+		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
+			->willReturn($shareWithGroupMembersOnly);
+
+		if ($shareWithGroupMembersOnly === true) {
+			$this->calDav->expects($this->once())->method('getShares')
+				->with(1234)
+				->willReturn([
+					['href' => 'principal:principals/groups/nextclouders']
 			]);
+
+			$this->expectException(InvalidArgumentException::class);
+			$this->expectExceptionMessage("User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.");
+		}
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
@@ -287,6 +297,9 @@ class MoveCalendarTest extends TestCase {
 		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
 			->with('principals/users/user2', 'personal')
 			->willReturn(null);
+
+		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
+			->willReturn(true);
 
 		$this->calDav->expects($this->once())->method('getShares')
 			->with(1234)
@@ -331,6 +344,9 @@ class MoveCalendarTest extends TestCase {
 		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
 			->with('principals/users/user2', 'personal')
 			->willReturn(null);
+
+		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
+			->willReturn(true);
 
 		$this->calDav->expects($this->once())->method('getShares')
 			->with(1234)
