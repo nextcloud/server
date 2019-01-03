@@ -415,6 +415,8 @@ class Backend {
 			$currentUser = $owner;
 		}
 
+		$classification = (isset($objectData['classification']) ? $objectData['classification'] : 0);
+		
 		$object = $this->getObjectNameAndType($objectData);
 		$action = $action . '_' . $object['type'];
 
@@ -450,7 +452,9 @@ class Backend {
 						],
 					]
 				);
-			$this->activityManager->publish($event);
+			if ($event->getType() === 'calendar_event' && $classification === 0) {
+                                $this->activityManager->publish($event);
+                        }
 		}
 	}
 
