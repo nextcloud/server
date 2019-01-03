@@ -92,7 +92,9 @@
 					.css('background-image', 'url(' + OC.imagePath('core', 'actions/comment') + ')')
 					.css('opacity', '.4');
 				var dir = OC.dirname(result.path);
-				if (dir === '') {
+				// "result.path" does not include a leading "/", so "OC.dirname"
+				// returns the path itself for files or folders in the root.
+				if (dir === result.path) {
 					dir = '/';
 				}
 				$row.find('td.info a').attr('href',
