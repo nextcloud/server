@@ -20,6 +20,7 @@ default:
         - LoginPageContext
         - NotificationContext
         - PublicShareContext
+        - SearchContext
         - SettingsContext
         - SettingsMenuContext
         - ThemingAppContext
@@ -47,6 +48,7 @@ default:
         - LoginPageContext
         - NotificationContext
         - PublicShareContext
+        - SearchContext
         - SettingsContext
         - SettingsMenuContext
         - ThemingAppContext
