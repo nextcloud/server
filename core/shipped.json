@@ -34,7 +34,6 @@
     "theming",
     "twofactor_backupcodes",
     "updatenotification",
-    "user_external",
     "user_ldap",
     "workflowengine"
   ],
