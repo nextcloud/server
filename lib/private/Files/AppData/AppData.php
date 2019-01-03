@@ -132,8 +132,13 @@ class AppData implements IAppData {
 			}
 		}
 		try {
-			$path = $this->getAppDataFolderName() . '/' . $this->appId . '/' . $name;
-			$node = $this->rootFolder->get($path);
+			// Hardening if somebody wants to retrieve '/'
+			if ($name === '/') {
+				$node = $this->getAppDataFolder();
+			} else {
+				$path = $this->getAppDataFolderName() . '/' . $this->appId . '/' . $name;
+				$node = $this->rootFolder->get($path);
+			}
 		} catch (NotFoundException $e) {
 			$this->folders->set($key, $e);
 			throw $e;

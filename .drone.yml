@@ -50,7 +50,7 @@ pipeline:
       matrix:
         TESTS: vue-build-backupscodes
   checkers:
-    image: nextcloudci/php7.0:php7.0-19
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - ./autotest-checkers.sh
     secrets: [ github_token ]
@@ -65,14 +65,6 @@ pipeline:
     when:
       matrix:
         TESTS: handlebars
-  syntax-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - composer install
-      - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
-    when:
-      matrix:
-        TESTS: syntax-php7.0
   syntax-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -108,7 +100,7 @@ pipeline:
       matrix:
         TESTS: phan
   litmus-v1:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.1:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/litmus-v1/script.sh
@@ -116,7 +108,7 @@ pipeline:
       matrix:
         TESTS: litmus-v1
   litmus-v2:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.2:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -124,7 +116,7 @@ pipeline:
       matrix:
         TESTS: litmus-v2
   caldavtester-new-endpoint:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.1:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/caldav/install.sh
@@ -133,7 +125,7 @@ pipeline:
       matrix:
         TESTS: caldavtester-new-endpoint
   caldavtester-old-endpoint:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.1:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/caldav/install.sh
@@ -142,7 +134,7 @@ pipeline:
       matrix:
         TESTS: caldavtester-old-endpoint
   carddavtester-new-endpoint:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.1:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/carddav/install.sh
@@ -151,7 +143,7 @@ pipeline:
       matrix:
         TESTS: carddavtester-new-endpoint
   carddavtester-old-endpoint:
-    image: nextcloudci/litmus-php7.0:litmus-php7.0-6
+    image: nextcloudci/litmus-php7.1:1
     commands:
       - bash tests/travis/install.sh sqlite
       - bash apps/dav/tests/travis/carddav/install.sh
@@ -160,7 +152,7 @@ pipeline:
       matrix:
         TESTS: carddavtester-old-endpoint
   sqlite-php7.0-samba-native:
-      image: nextcloudci/samba-native-php7.0:samba-native-php7.0-3
+      image: nextcloudci/samba-native-php7.1:1
       commands:
         - smbd -D -FS &
         - ./autotest-external.sh sqlite smb-linux
@@ -171,9 +163,9 @@ pipeline:
         - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
       when:
         matrix:
-          TESTS: sqlite-php7.0-samba-native
+          TESTS: sqlite-php7.1-samba-native
   sqlite-php7.0-samba-non-native:
-      image: nextcloudci/samba-non-native-php7.0:samba-non-native-php7.0-4
+      image: nextcloudci/samba-non-native-php7.1:1
       commands:
         - smbd -D -FS &
         - ./autotest-external.sh sqlite smb-linux
@@ -184,9 +176,9 @@ pipeline:
         - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
       when:
         matrix:
-          TESTS: sqlite-php7.0-samba-non-native
+          TESTS: sqlite-php7.1-samba-non-native
   sqlite-php7.0-webdav-apache:
-    image: nextcloudci/webdav-apache-php7.0
+    image: nextcloudci/webdav-apache-php7.1:1
     commands:
       - apache2
       - ./autotest-external.sh sqlite webdav-apachedrone
@@ -197,15 +189,7 @@ pipeline:
       - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
     when:
       matrix:
-        TESTS: sqlite-php7.0-webdav-apache
-  nodb-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-    when:
-      matrix:
-        DB: NODB
-        PHP: "7.0"
+        TESTS: sqlite-php7.1-webdav-apache
   nodb-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -230,14 +214,6 @@ pipeline:
       matrix:
         DB: NODB
         PHP: 7.3
-  sqlite-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-    when:
-      matrix:
-        DB: sqlite
-        PHP: "7.0"
   sqlite-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -262,14 +238,6 @@ pipeline:
       matrix:
         DB: sqlite
         PHP: 7.3
-  mysql-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql
-        PHP: "7.0"
   mysql-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -294,14 +262,6 @@ pipeline:
       matrix:
         DB: mysql
         PHP: 7.3
-  mysql5.6-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.6
-        PHP: "7.0"
   mysql5.6-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -310,14 +270,6 @@ pipeline:
       matrix:
         DB: mysql5.6
         PHP: 7.1
-  mysql5.5-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-    when:
-      matrix:
-        DB: mysql5.5
-        PHP: "7.0"
   mysql5.5-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -326,15 +278,6 @@ pipeline:
       matrix:
         DB: mysql5.5
         PHP: 7.1
-  postgres-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - sleep 10 # gives the database enough time to initialize
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-    when:
-      matrix:
-        DB: postgres
-        PHP: "7.0"
   postgres-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -344,14 +287,6 @@ pipeline:
       matrix:
         DB: postgres
         PHP: 7.1
-  mysqlmb4-php7.0:
-    image: nextcloudci/php7.0:php7.0-19
-    commands:
-      - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-    when:
-      matrix:
-        DB: mysqlmb4
-        PHP: "7.0"
   mysqlmb4-php7.1:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -377,7 +312,7 @@ pipeline:
         DB: mysqlmb4
         PHP: 7.3
   integration-capabilities_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -386,7 +321,7 @@ pipeline:
       matrix:
         TESTS: integration-capabilities_features
   integration-federation_features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin
       - cd build/integration
@@ -395,7 +330,7 @@ pipeline:
       matrix:
         TESTS: integration-federation_features
   integration-auth:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -404,7 +339,7 @@ pipeline:
       matrix:
         TESTS: integration-auth
   integration-maintenance-mode:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -413,7 +348,7 @@ pipeline:
       matrix:
         TESTS: integration-maintenance-mode
   integration-ratelimiting:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - ./occ config:system:set redis host --value=cache
@@ -428,7 +363,7 @@ pipeline:
       matrix:
         TESTS: integration-ratelimiting
   integration-carddav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -437,7 +372,7 @@ pipeline:
       matrix:
         TESTS: integration-carddav
   integration-dav-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -446,7 +381,7 @@ pipeline:
       matrix:
         TESTS: integration-dav-v2
   integration-ocs-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -455,7 +390,7 @@ pipeline:
       matrix:
         TESTS: integration-ocs-v1
   integration-sharing-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -464,7 +399,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1
   integration-sharing-v1-part2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -473,7 +408,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1-part2
   integration-sharing-v1-part3:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -482,7 +417,7 @@ pipeline:
       matrix:
         TESTS: integration-sharing-v1-part3
   integration-checksums-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -491,7 +426,7 @@ pipeline:
       matrix:
         TESTS: integration-checksums
   integration-external-storage:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -500,7 +435,7 @@ pipeline:
       matrix:
         TESTS: integration-external-storage
   integration-provisioning-v1:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -509,7 +444,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v1
   integration-tags:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -518,7 +453,7 @@ pipeline:
       matrix:
         TESTS: integration-tags
   integration-caldav:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -527,7 +462,7 @@ pipeline:
       matrix:
         TESTS: integration-caldav
   integration-comments:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -536,7 +471,7 @@ pipeline:
       matrix:
         TESTS: integration-comments
   integration-comments-search:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -545,7 +480,7 @@ pipeline:
       matrix:
         TESTS: integration-comments-search
   integration-favorites:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -554,7 +489,7 @@ pipeline:
       matrix:
         TESTS: integration-favorites
   integration-provisioning-v2:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -563,7 +498,7 @@ pipeline:
       matrix:
         TESTS: integration-provisioning-v2
   integration-webdav-related:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -572,7 +507,7 @@ pipeline:
       matrix:
         TESTS: integration-webdav-related
   integration-sharees-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -581,7 +516,7 @@ pipeline:
       matrix:
         TESTS: integration-sharees-features
   integration-sharees-v2-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -590,7 +525,7 @@ pipeline:
       matrix:
         TESTS: integration-sharees-v2-features
   integration-setup-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - cd build/integration
       - ./run.sh setup_features/setup.feature
@@ -598,7 +533,7 @@ pipeline:
       matrix:
         TESTS: integration-setup-features
   integration-filesdrop-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -607,7 +542,7 @@ pipeline:
       matrix:
         TESTS: integration-filesdrop-features
   integration-transfer-ownership-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -616,7 +551,7 @@ pipeline:
       matrix:
         TESTS: integration-transfer-ownership-features
   integration-ldap-features:
-      image: nextcloudci/integration-php7.0:integration-php7.0-8
+      image: nextcloudci/integration-php7.1:1
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
         - ./occ app:enable user_ldap
@@ -626,7 +561,7 @@ pipeline:
         matrix:
           TESTS: integration-ldap-features
   integration-ldap-openldap-features:
-      image: nextcloudci/integration-php7.0:integration-php7.0-6
+      image: nextcloudci/integration-php7.1:1
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
         - ./occ config:system:set redis host --value=cache
@@ -641,7 +576,7 @@ pipeline:
         matrix:
           TESTS: integration-ldap-openldap-features
   integration-ldap-openldap-uid-features:
-        image: nextcloudci/integration-php7.0:integration-php7.0-6
+        image: nextcloudci/integration-php7.1:1
         commands:
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
           - ./occ config:system:set redis host --value=cache
@@ -656,7 +591,7 @@ pipeline:
           matrix:
             TESTS: integration-ldap-openldap-uid-features
   integration-ldap-openldap-numerical-id-features:
-    image: nextcloudci/integration-php7.0:integration-php7.0-6
+    image: nextcloudci/integration-php7.1:1
     commands:
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -671,7 +606,7 @@ pipeline:
       matrix:
         TESTS: integration-ldap-openldap-numerical-id-features
   integration-trashbin:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -680,7 +615,7 @@ pipeline:
       matrix:
         TESTS: integration-trashbin
   integration-remote-api:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -689,7 +624,7 @@ pipeline:
       matrix:
         TESTS: integration-remote-api
   integration-download:
-    image: nextcloudci/integration-php7.0:integration-php7.0-8
+    image: nextcloudci/integration-php7.1:1
     commands:
       - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
       - cd build/integration
@@ -775,7 +710,7 @@ pipeline:
         matrix:
           TESTS-ACCEPTANCE: apps
   nodb-codecov:
-    image: nextcloudci/php7.0:php7.0-19
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -786,7 +721,7 @@ pipeline:
       matrix:
         TESTS: nodb-codecov
   db-codecov:
-    image: nextcloudci/php7.0:php7.0-19
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - phpenmod xdebug
       - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
@@ -797,7 +732,7 @@ pipeline:
       matrix:
         TESTS: db-codecov
   object-store:
-      image: nextcloudci/php7.0:php7.0-19
+      image: nextcloudci/php7.1:php7.1-16
       commands:
         - phpenmod xdebug
         - ./tests/drone-wait-objectstore.sh
@@ -809,7 +744,7 @@ pipeline:
         matrix:
           TESTS: object-store
   memcache-memcached:
-    image: nextcloudci/php7.0-memcached:php7.0-memcached-9
+    image: nextcloudci/php7.1-memcached:1
     commands:
       - phpenmod xdebug
       - service memcached restart
@@ -821,7 +756,7 @@ pipeline:
       matrix:
         TEST: memcache-memcached
   memcache-redis-cluster:
-    image: nextcloudci/php7.0:php7.0-19
+    image: nextcloudci/php7.1:php7.1-16
     commands:
       - phpenmod xdebug
       - sleep 20
@@ -872,9 +807,6 @@ matrix:
     - TESTS: db-codecov
       ENABLE_REDIS: true
     - DB: NODB
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: NODB
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: NODB
@@ -884,9 +816,6 @@ matrix:
       PHP: 7.3
       ENABLE_REDIS: false
     - DB: sqlite
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: sqlite
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: sqlite
@@ -895,9 +824,6 @@ matrix:
     - DB: sqlite
       PHP: 7.3
       ENABLE_REDIS: false
-    - DB: mysql
-      PHP: 7.0
-      ENABLE_REDIS: true
     - DB: mysql
       PHP: 7.1
       ENABLE_REDIS: true
@@ -908,20 +834,10 @@ matrix:
       PHP: 7.3
       ENABLE_REDIS: false
     - DB: mysql5.6
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: mysql5.6
       PHP: 7.1
       ENABLE_REDIS: true
     - DB: mysql5.5
-      PHP: 7.0
-      ENABLE_REDIS: true
-    - DB: mysql5.5
       PHP: 7.1
-      ENABLE_REDIS: true
-    - DB: postgres
-      PHP: 7.0
-      POSTGRES: 9
       ENABLE_REDIS: true
     - DB: postgres
       PHP: 7.1
@@ -930,9 +846,6 @@ matrix:
     - DB: postgres
       PHP: 7.1
       POSTGRES: 10
-      ENABLE_REDIS: true
-    - DB: mysqlmb4
-      PHP: 7.0
       ENABLE_REDIS: true
     - DB: mysqlmb4
       PHP: 7.1
@@ -1006,7 +919,6 @@ matrix:
     - TESTS: acceptance
       TESTS-ACCEPTANCE: apps
     - TESTS: jsunit
-    - TESTS: syntax-php7.0
     - TESTS: syntax-php7.1
     - TESTS: syntax-php7.2
     - TESTS: syntax-php7.3
@@ -1027,12 +939,12 @@ matrix:
 #    - TESTS: object-store
 #      OBJECT_STORE: swift
 #      SWIFT-AUTH: v3
-    - TESTS: sqlite-php7.0-samba-native
-    - TESTS: sqlite-php7.0-samba-non-native
+    - TESTS: sqlite-php7.1-samba-native
+    - TESTS: sqlite-php7.1-samba-non-native
     - TEST: memcache-memcached
     - TEST: memcache-redis-cluster
       ENABLE_REDIS_CLUSTER: true
-    - TESTS: sqlite-php7.0-webdav-apache
+    - TESTS: sqlite-php7.1-webdav-apache
       ENABLE_REDIS: true
     - TESTS: ui-regression
 
