@@ -581,27 +581,42 @@ class Manager implements ICommentsManager {
 	 * @param int $folderId
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
+	 *
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
+
 		$query = $qb->select('f.fileid')
 			->addSelect($qb->func()->count('c.id', 'num_ids'))
-			->from('comments', 'c')
-			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
-				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
-				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT))
+			->from('filecache', 'f')
+			->leftJoin('f', 'comments', 'c', $qb->expr()->eq(
+				'f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT)
 			))
-			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
-				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
-				$qb->expr()->eq('m.object_id', 'c.object_id'),
-				$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID()))
+			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->eq(
+				'c.object_id', 'm.object_id'
 			))
-			->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->gt('c.creation_timestamp', 'marker_datetime'),
-				$qb->expr()->isNull('marker_datetime')
-			))
-			->groupBy('f.fileid');
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)),
+					$qb->expr()->orX(
+						$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
+						$qb->expr()->isNull('c.object_type')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
+						$qb->expr()->isNull('m.object_type')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID())),
+						$qb->expr()->isNull('m.user_id')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->gt('c.creation_timestamp', 'm.marker_datetime'),
+						$qb->expr()->isNull('m.marker_datetime')
+					)
+				)
+			)->groupBy('f.fileid');
 
 		$resultStatement = $query->execute();
 
