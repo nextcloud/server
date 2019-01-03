@@ -12,12 +12,13 @@
 		<li id="quota"
 			class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?><?php
 			if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			?>has-tooltip" title="<?php p($_['usage_relative'] . '%');
+			?>has-tooltip" title="<?php p($_['usage_relative'] . '%, ');
+			p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
 		} ?>">
 			<a href="#" class="icon-quota svg">
 				<p id="quotatext"><?php
 					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']]));
+						p($l->t('%1$s%% of %2$s used', [round($_['usage_relative'], 1), $_['total_space']]));
 					} else {
 						p($l->t('%s used', [$_['usage']]));
 					} ?></p>
