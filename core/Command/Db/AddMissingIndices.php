@@ -61,7 +61,7 @@ class AddMissingIndices extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->addShareTableIndicies($output);
+		$this->addCoreIndexes($output);
 
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
@@ -74,7 +74,7 @@ class AddMissingIndices extends Command {
 	 * @param OutputInterface $output
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
-	private function addShareTableIndicies(OutputInterface $output) {
+	private function addCoreIndexes(OutputInterface $output) {
 
 		$output->writeln('<info>Check indices of the share table.</info>');
 
@@ -116,6 +116,7 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the filecache table.</info>');
 		if ($schema->hasTable('filecache')) {
 			$table = $schema->getTable('filecache');
 			if (!$table->hasIndex('fs_mtime')) {
@@ -124,6 +125,18 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the twofactor_providers table.</info>');
+		if ($schema->hasTable('twofactor_providers')) {
+			$table = $schema->getTable('twofactor_providers');
+			if (!$table->hasIndex('twofactor_providers_uid')) {
+				$output->writeln('<info>Adding additional twofactor_providers_uid index to the twofactor_providers table, this can take some time...</info>');
+				$table->addIndex(['uid'], 'twofactor_providers_uid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Twofactor_providers table updated successfully.</info>');
 			}
 		}
 

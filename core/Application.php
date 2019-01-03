@@ -85,6 +85,14 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
 					}
 				}
+
+				if ($schema->hasTable('twofactor_providers')) {
+					$table = $schema->getTable('twofactor_providers');
+
+					if (!$table->hasIndex('twofactor_providers_uid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'twofactor_providers_uid');
+					}
+				}
 			}
 		);
 	}
