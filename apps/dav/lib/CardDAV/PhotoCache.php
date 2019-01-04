@@ -233,7 +233,7 @@ class PhotoCache {
 				'body'         => $val
 			];
 		} catch (\Exception $e) {
-			$this->logger->logException($ex, [
+			$this->logger->logException($e, [
 				'message' => 'Exception during vcard photo parsing'
 			]);
 		}
