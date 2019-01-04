@@ -425,7 +425,7 @@ class Session implements IUserSession, Emitter {
 
 				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 
-				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
+				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
 				if ($currentDelay === 0) {
 					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
 				}
