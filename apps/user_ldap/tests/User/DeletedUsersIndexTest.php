@@ -55,6 +55,9 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		$this->config = \OC::$server->getConfig();
 		$this->db = \OC::$server->getDatabaseConnection();
 
+		// ensure a clean database
+		$this->config->deleteAppFromAllUsers('user_ldap');
+
 		$this->mapping = $this->createMock(UserMapping::class);
 
 		$this->dui = new DeletedUsersIndex($this->config, $this->db, $this->mapping);
