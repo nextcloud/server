@@ -135,7 +135,7 @@ OC.L10N.register(
     "Save" : "Desa",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Amb PHP-FPM pot trigar 5 minuts a aplicar els canvis.",
     "Missing permissions to edit from here." : "Falta els permisos per editar des d'aquí.",
-    "%1$s of %2$s used" : "%1$s de %2$s utilitzat",
+    "%s of %s used" : "Usats %s de %s",
     "%s used" : "%s utilitzat",
     "Settings" : "Configuració",
     "Show hidden files" : "Mostra els fitxers ocults",
@@ -161,6 +161,6 @@ OC.L10N.register(
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text.txt",
     "Target folder" : "Carpeta de destí",
-    "%s of %s used" : "Usats %s de %s"
+    "%1$s of %2$s used" : "%1$s de %2$s utilitzat"
 },
 "nplurals=2; plural=(n != 1);");

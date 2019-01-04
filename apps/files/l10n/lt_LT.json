@@ -109,6 +109,7 @@
     "Save" : "Įrašyti",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Su PHP-FPM atnaujinimai gali užtrukti apie 5min.",
     "Missing permissions to edit from here." : "Draudžiama iš čia redaguoti",
+    "%s of %s used" : "naudojama %s iš %s",
     "%s used" : "%s panaudota",
     "Settings" : "Nustatymai",
     "Show hidden files" : "Rodyti paslėptus failus",
@@ -125,7 +126,6 @@
     "Deleted shares" : "Ištrinti viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Target folder" : "Paskirties aplankas",
-    "%s of %s used" : "naudojama %s iš %s"
+    "Target folder" : "Paskirties aplankas"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
