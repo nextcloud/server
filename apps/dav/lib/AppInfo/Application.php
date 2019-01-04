@@ -54,7 +54,8 @@ class Application extends App {
 
 		$container->registerService(PhotoCache::class, function(SimpleContainer $s) use ($server) {
 			return new PhotoCache(
-				$server->getAppDataDir('dav-photocache')
+				$server->getAppDataDir('dav-photocache'),
+				$server->getLogger()
 			);
 		});
 
