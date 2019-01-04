@@ -204,7 +204,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -255,7 +254,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -307,7 +305,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -357,7 +354,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -405,7 +401,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -453,7 +448,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -503,7 +497,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -551,7 +544,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: false,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -599,7 +591,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -668,7 +659,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -717,7 +707,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -766,7 +755,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -815,7 +803,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0

@@ -448,25 +448,6 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
-	/**
-	 * warn if outdated version of a memcache module is used
-	 */
-	protected function getOutdatedCaches(): array {
-		$caches = [
-			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
-			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
-		];
-		$outdatedCaches = [];
-		foreach ($caches as $php_module => $data) {
-			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
-			if ($isOutdated) {
-				$outdatedCaches[] = $data;
-			}
-		}
-
-		return $outdatedCaches;
-	}
-
 	protected function isSqliteUsed() {
 		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
 	}
@@ -647,7 +628,6 @@ Raw output
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
 				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
-				'outdatedCaches' => $this->getOutdatedCaches(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
