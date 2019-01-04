@@ -56,6 +56,12 @@ class AnonymousOptionsTest extends TestCase {
 
 		$this->assertEquals(200, $response->getStatus());
 	}
+
+	public function testAnonymousOptionsNonRootSubDir() {
+		$response = $this->sendRequest('OPTIONS', 'foo/bar');
+
+		$this->assertEquals(401, $response->getStatus());
+	}
 }
 
 class SapiMock extends Sapi {
