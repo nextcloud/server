@@ -127,6 +127,7 @@ OC.L10N.register(
     "Save" : "Shrani",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Uveljavljanje sprememb prek PHP-FPM lahko traja tudi 5  minut.",
     "Missing permissions to edit from here." : "Ni ustreznih dovoljenj za urejanje na tej ravni.",
+    "%s of %s used" : "%s od %s uporabljeno",
     "%s used" : "%s uporabljeno",
     "Settings" : "Nastavitve",
     "Show hidden files" : "Pokaži skrite datoteke",
@@ -150,7 +151,6 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisane povezave za souporabo",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
-    "Target folder" : "Ciljna mapa",
-    "%s of %s used" : "%s od %s uporabljeno"
+    "Target folder" : "Ciljna mapa"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

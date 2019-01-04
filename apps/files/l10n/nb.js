@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save" : "Lagre",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta 5 minutter før endringene trer i kraft.",
     "Missing permissions to edit from here." : "Manglende rettigheter til å redigere herfra.",
+    "%s of %s used" : "%s av %s brukt",
     "%s used" : "%s brukt",
     "Settings" : "Innstillinger",
     "Show hidden files" : "Vis skjulte filer",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Shared by link" : "Delt med lenke",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
-    "Target folder" : "Målmappe",
-    "%s of %s used" : "%s av %s brukt"
+    "Target folder" : "Målmappe"
 },
 "nplurals=2; plural=(n != 1);");

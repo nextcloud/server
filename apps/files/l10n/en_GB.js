@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save" : "Save",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "With PHP-FPM it might take 5 minutes for changes to be applied.",
     "Missing permissions to edit from here." : "Missing permissions to edit from here.",
+    "%s of %s used" : "%s of %s used",
     "%s used" : "%s used",
     "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "Target folder" : "Target folder",
-    "%s of %s used" : "%s of %s used"
+    "Target folder" : "Target folder"
 },
 "nplurals=2; plural=(n != 1);");

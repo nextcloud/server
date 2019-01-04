@@ -138,7 +138,7 @@ OC.L10N.register(
     "Save" : "保存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM の場合は値を変更後、反映されるのに5分程度かかります。",
     "Missing permissions to edit from here." : "ここから編集するための権限がありません。",
-    "%1$s of %2$s used" : "%2$s 中%1$s が使われています。",
+    "%s of %s used" : "%s / %s 使用中",
     "%s used" : "%s 使用中",
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",
@@ -164,6 +164,6 @@ OC.L10N.register(
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "Target folder" : "対象フォルダー",
-    "%s of %s used" : "%s / %s 使用中"
+    "%1$s of %2$s used" : "%2$s 中%1$s が使われています。"
 },
 "nplurals=1; plural=0;");

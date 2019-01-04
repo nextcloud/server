@@ -138,7 +138,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tardar hasta 5 minutos en realizarse los cambios.",
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
-    "%1$s of %2$s used" : "%1$s de %2$s utilizados",
+    "%s of %s used" : "%s de %s usado",
     "%s used" : "usado %s",
     "Settings" : "Ajustes",
     "Show hidden files" : "Mostrar archivos ocultos",
@@ -164,6 +164,6 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Target folder" : "Directorio de destino",
-    "%s of %s used" : "%s de %s usado"
+    "%1$s of %2$s used" : "%1$s de %2$s utilizados"
 },
 "nplurals=2; plural=(n != 1);");

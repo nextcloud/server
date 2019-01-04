@@ -121,6 +121,7 @@ OC.L10N.register(
     "Save" : "Gorde",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-rekin 5 minutu pasa daiteke aldaketak aplikatu ahal izateko.",
     "Missing permissions to edit from here." : "Missing permissions to edit from here.",
+    "%s of %s used" : "%s - %s-tik erabilita",
     "%s used" : "%s erabilita",
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
@@ -141,7 +142,6 @@ OC.L10N.register(
     "Shared by link" : "Partekatua esteka bidez",
     "Text file" : "Testu fitxategia",
     "New text file.txt" : "TXT berria.txt",
-    "Target folder" : "Xede karpeta",
-    "%s of %s used" : "%s - %s-tik erabilita"
+    "Target folder" : "Xede karpeta"
 },
 "nplurals=2; plural=(n != 1);");
