@@ -176,14 +176,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'length' => 8,
 				'default' => 0,
 			]);
-			$table->addColumn('mtime', 'integer', [
+			$table->addColumn('mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('storage_mtime', 'integer', [
+			$table->addColumn('storage_mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('encrypted', 'integer', [
