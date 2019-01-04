@@ -39,7 +39,7 @@ function escapeHTML(s) {
 }
 
 /** @namespace OCP */
-var OCP = {},
+var OCP = Object.assign({}, window.OCP),
 	/**
 	 * @namespace OC
 	 */
@@ -367,6 +367,7 @@ var OCP = {},
 	 * @param {string} app the app id to which the script belongs
 	 * @param {string} script the filename of the script
 	 * @param ready event handler to be called when the script is loaded
+	 * @deprecated 16.0.0 Use OCP.Loader.loadScript
 	 */
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
@@ -387,6 +388,7 @@ var OCP = {},
 	 * Loads a CSS file
 	 * @param {string} app the app id to which the css style belongs
 	 * @param {string} style the filename of the css file
+	 * @deprecated 16.0.0 Use OCP.Loader.loadStylesheet
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
