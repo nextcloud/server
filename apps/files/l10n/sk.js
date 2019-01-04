@@ -135,7 +135,7 @@ OC.L10N.register(
     "Save" : "Uložiť",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Použitím PHP-FPM môžu byť zmeny vykonané do 5 minút.",
     "Missing permissions to edit from here." : "Chýbajú oprávnenia pre možnosť tu upravovať.",
-    "%1$s of %2$s used" : "Využité: %1$s z %2$s",
+    "%s of %s used" : "Využité: %s z %s",
     "%s used" : "%s použitých",
     "Settings" : "Nastavenia",
     "Show hidden files" : "Zobraziť skryté súbory",
@@ -161,6 +161,6 @@ OC.L10N.register(
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Target folder" : "Cieľový priečinok",
-    "%s of %s used" : "Využité: %s z %s"
+    "%1$s of %2$s used" : "Využité: %1$s z %2$s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

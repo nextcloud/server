@@ -109,6 +109,7 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Me PHP-FPM mund të duhen 5 minuta që ndryshimet të hyjnë në fuqi.",
     "Missing permissions to edit from here." : "Mungojnë lejet për përpunim që nga këtu.",
+    "%s of %s used" : "%s nga %s është përdorur",
     "%s used" : "%s të përdorura",
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
@@ -131,7 +132,6 @@ OC.L10N.register(
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "Target folder" : "Dosja e synuar",
-    "%s of %s used" : "%s nga %s është përdorur"
+    "Target folder" : "Dosja e synuar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -133,6 +133,7 @@ OC.L10N.register(
     "Save" : "שמירה",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "בשימוש ב- PHP-FPM זה יכול להמשך 5 דקות לשינויים לחול.",
     "Missing permissions to edit from here." : "חסרות הרשאות לעריכה מכאן.",
+    "%s of %s used" : "%s מתוך %s בשימוש",
     "%s used" : "%s בשימוש",
     "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
@@ -156,7 +157,6 @@ OC.L10N.register(
     "Deleted shares" : "שיתופים שנמחקו",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "Target folder" : "תיקיית יעד",
-    "%s of %s used" : "%s מתוך %s בשימוש"
+    "Target folder" : "תיקיית יעד"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

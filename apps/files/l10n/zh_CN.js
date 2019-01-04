@@ -137,7 +137,7 @@ OC.L10N.register(
     "Save" : "保存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效.",
     "Missing permissions to edit from here." : "没有权限编辑",
-    "%1$s of %2$s used" : "%1$s已用，总计%2$s",
+    "%s of %s used" : "%s 已使用 (共 %s)",
     "%s used" : "%s 已使用",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
@@ -163,6 +163,6 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
     "Target folder" : "目标目录",
-    "%s of %s used" : "%s 已使用 (共 %s)"
+    "%1$s of %2$s used" : "%1$s已用，总计%2$s"
 },
 "nplurals=1; plural=0;");

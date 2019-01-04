@@ -138,7 +138,7 @@ OC.L10N.register(
     "Save" : "Mentés",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
-    "%1$s of %2$s used" : "%1$s a %2$s-ból használva",
+    "%s of %s used" : "%s / %s használt",
     "%s used" : "%s használt",
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
@@ -164,6 +164,6 @@ OC.L10N.register(
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "Target folder" : "Célmappa",
-    "%s of %s used" : "%s / %s használt"
+    "%1$s of %2$s used" : "%1$s a %2$s-ból használva"
 },
 "nplurals=2; plural=(n != 1);");
