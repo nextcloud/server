@@ -133,6 +133,7 @@
     "Save" : "儲存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
+    "%s of %s used" : "在 %s 中使用了%s ",
     "%s used" : "%s已使用",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
@@ -157,7 +158,6 @@
     "Deleted shares" : "已刪除的分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
-    "Target folder" : "目標資料夾",
-    "%s of %s used" : "在 %s 中使用了%s "
+    "Target folder" : "目標資料夾"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

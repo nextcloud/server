@@ -104,6 +104,7 @@ OC.L10N.register(
     "Maximum upload size" : "Maksimum oplaai grootte",
     "max. possible: " : "maks. moontlik:",
     "Save" : "Stoor",
+    "%s of %s used" : "%s van %s gebruik",
     "%s used" : "%s gebruik",
     "Settings" : "Instellings",
     "Show hidden files" : "Vertoon verborge lêers ",
@@ -123,7 +124,6 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "Target folder" : "Teikengids",
-    "%s of %s used" : "%s van %s gebruik"
+    "Target folder" : "Teikengids"
 },
 "nplurals=2; plural=(n != 1);");

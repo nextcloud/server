@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save" : "შენახვა",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ით ცვლილებების შენახვამ შეიძლება გასტანოს 5 წუთი.",
     "Missing permissions to edit from here." : "არასაკმარისი უფლებები აქედან შეცვლისათვის.",
+    "%s of %s used" : "%s სულ %s-დან მოხმარებულია",
     "%s used" : "%s მოხმარებულია",
     "Settings" : "პარამეტრები",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Target folder" : "დანიშნულების დირექტორია",
-    "%s of %s used" : "%s სულ %s-დან მოხმარებულია"
+    "Target folder" : "დანიშნულების დირექტორია"
 },
 "nplurals=2; plural=(n!=1);");

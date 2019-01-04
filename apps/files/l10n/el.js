@@ -121,6 +121,7 @@ OC.L10N.register(
     "Save" : "Αποθήκευση",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
+    "%s of %s used" : "%s από %s σε χρήση",
     "%s used" : "%sσε χρήση",
     "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
@@ -143,7 +144,6 @@ OC.L10N.register(
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Target folder" : "Φάκελος προορισμού",
-    "%s of %s used" : "%s από %s σε χρήση"
+    "Target folder" : "Φάκελος προορισμού"
 },
 "nplurals=2; plural=(n != 1);");

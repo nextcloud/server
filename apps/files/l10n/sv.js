@@ -138,7 +138,7 @@ OC.L10N.register(
     "Save" : "Spara",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta cirka 5 minuter för ändringarna att träda i kraft.",
     "Missing permissions to edit from here." : "Saknar rättigheter att ändra härifrån.",
-    "%1$s of %2$s used" : "%1$s av %2$s använt",
+    "%s of %s used" : "%s av %s använt",
     "%s used" : "%s använt",
     "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
@@ -164,6 +164,6 @@ OC.L10N.register(
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
     "Target folder" : "Målmapp",
-    "%s of %s used" : "%s av %s använt"
+    "%1$s of %2$s used" : "%1$s av %2$s använt"
 },
 "nplurals=2; plural=(n != 1);");
