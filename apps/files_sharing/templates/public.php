@@ -100,6 +100,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 			<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
 			<div id="drop-upload-progress-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploading files…')) ?></div>
 			<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
+			<ul id="drop-uploaded-files"></ul>
 
 			<?php if (!empty($_['disclaimer'])) { ?>
 				<div>

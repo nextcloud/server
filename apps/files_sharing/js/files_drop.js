@@ -61,7 +61,7 @@
 			$('#drop-upload-done-indicator').addClass('hidden');
 			$('#drop-upload-progress-indicator').removeClass('hidden');
 
-			$('#public-upload ul').append(output({isUploading: true, name: data.files[0].name}));
+			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
 			$('[data-toggle="tooltip"]').tooltip();
 			data.submit();
 	
@@ -69,7 +69,7 @@
 		},
 		
 		updateFileItem: function (fileName, fileItem) {
-			$('#public-upload ul li[data-name="' + fileName + '"]').replaceWith(fileItem);
+			$('#drop-uploaded-files li[data-name="' + fileName + '"]').replaceWith(fileItem);
 			$('[data-toggle="tooltip"]').tooltip();
 		},
 		
