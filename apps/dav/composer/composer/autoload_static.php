@@ -169,6 +169,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\BuildCalendarSearchIndex' => __DIR__ . '/..' . '/../lib/Migration/BuildCalendarSearchIndex.php',
         'OCA\\DAV\\Migration\\BuildCalendarSearchIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/BuildCalendarSearchIndexBackgroundJob.php',
         'OCA\\DAV\\Migration\\CalDAVRemoveEmptyValue' => __DIR__ . '/..' . '/../lib/Migration/CalDAVRemoveEmptyValue.php',
+        'OCA\\DAV\\Migration\\ChunkCleanup' => __DIR__ . '/..' . '/../lib/Migration/ChunkCleanup.php',
         'OCA\\DAV\\Migration\\FixBirthdayCalendarComponent' => __DIR__ . '/..' . '/../lib/Migration/FixBirthdayCalendarComponent.php',
         'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => __DIR__ . '/..' . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
         'OCA\\DAV\\Migration\\Version1004Date20170825134824' => __DIR__ . '/..' . '/../lib/Migration/Version1004Date20170825134824.php',
