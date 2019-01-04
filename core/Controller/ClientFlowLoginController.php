@@ -355,6 +355,18 @@ class ClientFlowLoginController extends Controller {
 		return new Http\RedirectResponse($redirectUri);
 	}
 
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
+		return new Http\RedirectResponse($redirectUri);
+	}
+
 	private function getServerPath(): string {
 		$serverPostfix = '';
 
