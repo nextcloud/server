@@ -452,9 +452,9 @@ class Backend {
 						],
 					]
 				);
-			if ($event->getType() === 'calendar_event' && $classification !== 0 && $user !== $owner) {
-                                continue;
-                        }
+			if ($classification !== 0 && $user !== $owner) {
+				continue;
+			}
 			$this->activityManager->publish($event);
 		}
 	}
