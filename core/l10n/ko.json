@@ -117,7 +117,6 @@
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "읽기 전용 설정이 활성화되었습니다. 이 상태에서는 웹 인터페이스를 통하여 일부 설정을 변경할 수 없습니다. 또한 매 업데이트마다 파일을 쓸 수 있는 상태로 변경해야 합니다.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "데이터베이스가 \"READ COMMITTED\" 트랜잭션 격리 수준에서 실행되고 있지 않습니다. 여러 작업이 동시에 실행될 때 문제가 발생할 수 있습니다.",
     "The PHP module \"fileinfo\" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "PHP의 \"fileinfo\" 모듈이 없습니다. 올바른 MIME 형식 감지를 위해서 이 모듈을 활성화하는 것을 추천합니다.",
-    "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "{name}의 버전 {version} 미만이 설치되어 있습니다. 안정성과 성능을 위해 {name}의 새로운 버전으로 업데이트하는 것을 권장합니다.",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems. See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a> for more information." : "트랜잭션 파일 잠금이 비활성화되어있어 동시 접근 시 문제가 발생할 수 있습니다. config.php에서 \"filelocking.enabled\"를 활성화하여 이 문제를 해결할 수 있습니다. 자세한 내용은 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">사용 설명서 ↗</a>를 참고하십시오.",
     "If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (suggestion: \"{suggestedOverwriteCliURL}\")" : "도메인의 루트 경로에 설치되어 있지 않고 시스템 Cron을 사용한다면 URL 생성에 문제가 발생할 수도 있습니다. 이 문제를 예방하려면 config.php의 \"overwrite.cli.url\" 옵션을 설치본의 웹 루트 경로로 설정하십시오(제안: \"{suggestedOverwriteCliURL}\")",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "CLI로 cron 작업을 실행시킬 수 없었습니다. 다음 오류가 발생했습니다:",
@@ -344,6 +343,7 @@
     "Add \"%s\" as trusted domain" : "\"%s\"을(를) 신뢰할 수 있는 도메인으로 추가",
     "%s will be updated to version %s" : "%s 앱을 버전 %s(으)로 업데이트합니다",
     "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다.",
-    "Thank you for your patience." : "기다려 주셔서 감사합니다."
+    "Thank you for your patience." : "기다려 주셔서 감사합니다.",
+    "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "{name}의 버전 {version} 미만이 설치되어 있습니다. 안정성과 성능을 위해 {name}의 새로운 버전으로 업데이트하는 것을 권장합니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

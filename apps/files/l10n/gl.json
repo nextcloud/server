@@ -137,6 +137,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podería levarlle 5 minutos para que se realicen os cambios.",
     "Missing permissions to edit from here." : "Faltan os permisos para poder editar desde aquí.",
     "%s of %s used" : "%s de %s utilizado",
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilizado",
     "%s used" : "%s utilizado",
     "Settings" : "Axustes",
     "Show hidden files" : "Amosar os ficheiros agachados",
