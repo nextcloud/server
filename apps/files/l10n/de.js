@@ -139,6 +139,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mit PHP-FPM kann es bis zu 5 Minuten dauern, bis die Einstellungen übernommen werden.",
     "Missing permissions to edit from here." : "Fehlende Berechtigungen, um dies von hier aus zu bearbeiten.",
     "%s of %s used" : "%s von %s verwendet",
+    "%1$s%% of %2$s used" : "%1$s%% von %2$s verwendet",
     "%s used" : "%s verwendet",
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",

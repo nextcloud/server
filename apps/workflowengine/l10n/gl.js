@@ -5,7 +5,7 @@ OC.L10N.register(
     "Add rule" : "Engadir unha regra",
     "Reset" : "Restabelecer",
     "Save" : "Gardar",
-    "Saving…" : "Gardando...",
+    "Saving…" : "Gardando…",
     "Group list is empty" : "A lista de grupos está baleira",
     "Unable to retrieve the group list" : "Non é posíbel recuperar a lista de grupos",
     "Saved" : "Gardado",
@@ -71,6 +71,6 @@ OC.L10N.register(
     "Workflow" : "Fluxo de traballo",
     "Files workflow engine" : "Motor de fluxo de traballo de ficheiros",
     "Open documentation" : "Documentación aberta",
-    "Loading…" : "Cargando..."
+    "Loading…" : "Cargando…"
 },
 "nplurals=2; plural=(n != 1);");
