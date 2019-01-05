@@ -114,7 +114,6 @@
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP не налаштований правильно для отримання змінних системного оточення. Запит getenv(\"PATH\") повертає пусті результати.",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Перевірте розділи <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документації по встановленню ↗</a> з замітками налаштування PHP на вашому сервері, особливо коли використовуєте php-fpm.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Увімкнена конфігурація тільки для читання. Це запобігає встановленню деяких опцій через веб-інтерфейс. Крім того, для кожного оновлення файл повинен бути зроблений з доступом на запис.",
-    "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "Встановлена версія {name} є меншою, ніж {version}, з причин стабільності та ефективності рекомендовано оновити версію {name}.",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Не вдалося виконати завдання cron за допомогою CLI. Виникла наступна технічна помилка:",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "Останнє виконання фонового завдання тривало {relativeTime}. Схоже, щось пішло не так.",
     "Check the background job settings" : "Перевірте налаштування фонового завдання",
@@ -348,6 +347,7 @@
     "%s will be updated to version %s" : "%s буде оновлено до версії %s",
     "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли сервер %s стане знову доступний.",
     "Thank you for your patience." : "Дякуємо за ваше терпіння.",
+    "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "Встановлена версія {name} є меншою, ніж {version}, з причин стабільності та ефективності рекомендовано оновити версію {name}.",
     "Copy URL" : "Копіювати URL",
     "Enable" : "Використати",
     "{sharee} (conversation)" : "{sharee} (розмова)"
