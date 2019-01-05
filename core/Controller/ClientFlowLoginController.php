@@ -336,4 +336,34 @@ class ClientFlowLoginController extends Controller {
 
 		return new Http\RedirectResponse($redirectUri);
 	}
+
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
+		return new Http\RedirectResponse($redirectUri);
+	}
+
+	private function getServerPath() {
+		$serverPostfix = '';
+		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
+		} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
+		}
+		$protocol = $this->request->getServerProtocol();
+		if ($protocol !== "https") {
+			$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+			$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+			if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+				$protocol = 'https';
+			}
+		}
+		return $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
+	}
 }
