@@ -45,6 +45,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use IPBlock;
 
 /**
  * Class for accessing variables in the request.
@@ -599,36 +600,34 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Checks if given $remoteAddress matches given $trustedProxy.
-	 * If $trustedProxy is an IPv4 IP range given in CIDR notation, true will be returned if
-	 * $remoteAddress is an IPv4 address within that IP range.
-	 * Otherwise $remoteAddress will be compared to $trustedProxy literally and the result
-	 * will be returned.
-	 * @return boolean true if $remoteAddress matches $trustedProxy, false otherwise
-	 */
-	protected function matchesTrustedProxy($trustedProxy, $remoteAddress) {
-		$cidrre = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]{1,2})$/';
-
-		if (preg_match($cidrre, $trustedProxy, $match)) {
-			$net = $match[1];
-			$shiftbits = min(32, max(0, 32 - intval($match[2])));
-			$netnum = ip2long($net) >> $shiftbits;
-			$ipnum = ip2long($remoteAddress) >> $shiftbits;
-
-			return $ipnum === $netnum;
-		}
-
-		return $trustedProxy === $remoteAddress;
-	}
-
-	/**
-	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
-	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
-	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
+	 * Checks if $remoteAddress matches an entry in $trustedProxies.
+	 *
+	 * An address is considered to be matching if it is present in the
+	 * table or part of a subnet present in the table.
+	 *
+	 * @param array $trustedProxies an array of IPv4 or IPv6 addresses or
+	 *   subnets (in CIRD notation)
+	 *
+	 * @param string $remoteAddress an IPv4 or IPv6 address
+	 *
+	 * @return boolean true if $remoteAddress matches any entry in
+	 *   $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
 		foreach ($trustedProxies as $tp) {
-			if ($this->matchesTrustedProxy($tp, $remoteAddress)) {
+			$subnet = null;
+
+			try {
+				# The prefix parameter of IPBlock::create act
+				# as a default value for when prefix is not
+				# specified in $tp.
+				$subnet = IPBlock::create($tp, '32');
+			} catch (InvalidArgumentException $e) {
+				# That should be logged somehow
+				continue;
+			}
+
+			if ($subnet && $subnet->contains($remoteAddress)) {
 				return true;
 			}
 		}
