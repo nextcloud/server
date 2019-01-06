@@ -190,6 +190,9 @@ class Scanner extends BasicEmitter implements IScanner {
 						/** @var CacheEntry $cacheData */
 						$cacheData = $this->cache->get($file);
 					}
+					if (empty($cacheData) || $cacheData['mtime'] != $data['mtime'] || $cacheData['checksum']==='') {
+						$data['checksum'] =  md5_file($this->storage->getLocalFile($file));
+					}
 					if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
 						// prevent empty etag
 						if (empty($cacheData['etag'])) {
@@ -216,8 +219,6 @@ class Scanner extends BasicEmitter implements IScanner {
 						$fileId = -1;
 					}
 					if (!empty($newData)) {
-						// Reset the checksum if the data has changed
-						$newData['checksum'] = '';
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
 					if (isset($cacheData['size'])) {

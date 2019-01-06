@@ -1552,6 +1552,9 @@ class View {
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
+			if ($data['checksum'] == '') {
+				$data['checksum'] = md5_file($storage->getLocalFile($internalPath));
+			}
 			$cache = $storage->getCache($path);
 
 			if (!$cache->inCache($internalPath)) {
