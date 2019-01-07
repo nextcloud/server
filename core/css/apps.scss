@@ -393,7 +393,7 @@ kbd {
 			&:before {
 				opacity: 1;
 			}
-			.app-navigation-entry-bullet {
+			> .app-navigation-entry-bullet {
 				background: transparent !important;
 			}
 		}
