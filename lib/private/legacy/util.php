@@ -470,7 +470,10 @@ class OC_Util {
 						closedir($dir);
 						return;
 					}
-					stream_copy_to_stream($sourceStream, $child->fopen('w'));
+					$targetStream = $child->fopen('w');
+					stream_copy_to_stream($sourceStream, $targetStream);
+					fclose($targetStream);
+					fclose($sourceStream);
 				}
 			}
 		}
