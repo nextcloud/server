@@ -80,6 +80,7 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var array Domains from which fonts can be loaded */
 	protected $allowedFontDomains = [
 		'\'self\'',
+		'data:',
 	];
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = [];
