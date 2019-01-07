@@ -40,6 +40,7 @@ div[contenteditable=false] {
 
 
 /* Default global values */
+div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
 select,
 button, .button,
 input:not([type='range']),
@@ -414,7 +415,7 @@ input {
 }
 
 /* Select2 overriding. Merged to core with vendor stylesheet */
-.select2-drop {
+div.select2-drop {
 	margin-top: -2px;
 	background-color: var(--color-main-background);
 	&.select2-drop-active {
@@ -474,8 +475,8 @@ input {
 	}
 }
 .select2-container-multi {
-	.select2-choices,
-	&.select2-container-active .select2-choices {
+	a.select2-choices,
+	&.select2-container-active a.select2-choices {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -511,7 +512,7 @@ input {
 		}
 	}
 }
-.select2-container {
+div.select2-container {
 	margin: 3px 3px 3px 0;
 	&.select2-container-multi .select2-choices {
 		display: flex;
@@ -520,7 +521,7 @@ input {
 			float: none;
 		}
 	}
-	.select2-choice {
+	a.select2-choice {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
