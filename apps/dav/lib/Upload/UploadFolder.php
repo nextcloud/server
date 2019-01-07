@@ -22,16 +22,22 @@
  */
 namespace OCA\DAV\Upload;
 
+use OCA\DAV\BackgroundJob\UploadCleanup;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\BackgroundJob\IJobList;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadFolder implements ICollection {
 
+	/** @var Directory */
 	private $node;
+	/** @var CleanupService */
+	private $cleanupService;
 
-	function __construct(Directory $node) {
+	function __construct(Directory $node, CleanupService $cleanupService) {
 		$this->node = $node;
+		$this->cleanupService = $cleanupService;
 	}
 
 	function createFile($name, $data = null) {
@@ -65,6 +71,9 @@ class UploadFolder implements ICollection {
 
 	function delete() {
 		$this->node->delete();
+
+		// Background cleanup job is not needed anymore
+		$this->cleanupService->removeJob($this->getName());
 	}
 
 	function getName() {

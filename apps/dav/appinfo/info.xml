@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.9.0</version>
+	<version>1.9.1</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -32,6 +32,9 @@
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
 			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
 		</post-migration>
+		<live-migration>
+			<step>OCA\DAV\Migration\ChunkCleanup</step>
+		</live-migration>
 	</repair-steps>
 
 	<commands>

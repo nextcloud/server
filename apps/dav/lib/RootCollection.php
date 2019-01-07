@@ -35,6 +35,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
 use OCA\DAV\CalDAV\Principal\Collection;
+use OCA\DAV\Upload\CleanupService;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -120,7 +121,10 @@ class RootCollection extends SimpleCollection {
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
-		$uploadCollection = new Upload\RootCollection($userPrincipalBackend, 'principals/users');
+		$uploadCollection = new Upload\RootCollection(
+			$userPrincipalBackend,
+			'principals/users',
+			\OC::$server->query(CleanupService::class));
 		$uploadCollection->disableListing = $disableListing;
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
