@@ -215,9 +215,7 @@ var OCdialogs = {
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
 
 		this.filelist = null;
-		if (path == undefined) {
-			path = '';
-		}
+		path = path || '';
 
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
@@ -236,14 +234,9 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
-<<<<<<< HEAD
 				emptytext: emptyText,
 				newtext: newText
-			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
-=======
-				emptytext: emptyText
 			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter);
->>>>>>> copy Dialog starts in current directory
 
 			if (modal === undefined) {
 				modal = false;

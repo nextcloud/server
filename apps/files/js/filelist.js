@@ -919,7 +919,7 @@
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
 			var dialogDir = self.getCurrentDirectory();
-			if (self.dirInfo.dirLastCopiedTo != undefined) {
+			if (typeof self.dirInfo.dirLastCopiedTo !== 'undefined') {
 				dialogDir = self.dirInfo.dirLastCopiedTo;
 			}
 			OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {

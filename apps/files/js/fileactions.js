@@ -649,7 +649,7 @@
 						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
 					}
 					var dialogDir = context.dir;
-					if (context.fileList.dirInfo.dirLastCopiedTo != undefined) {
+					if (typeof context.fileList.dirInfo.dirLastCopiedTo !== 'undefined') {
 						dialogDir = context.fileList.dirInfo.dirLastCopiedTo;
 					}
 					OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
