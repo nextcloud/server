@@ -512,7 +512,11 @@ class UsersController extends AUserData {
 				$targetUser->setQuota($quota);
 				break;
 			case 'password':
-				$targetUser->setPassword($value);
+				try {
+					$targetUser->setPassword($value);
+				} catch (HintException $e) { // password policy error
+					throw new OCSException($e->getMessage(), 103);
+				}
 				break;
 			case 'language':
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
