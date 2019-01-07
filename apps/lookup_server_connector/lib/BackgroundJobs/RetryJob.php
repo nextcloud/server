@@ -75,7 +75,7 @@ class RetryJob extends Job {
 	}
 
 	protected function run($argument) {
-		if ($argument['retryNo'] === 5 || empty($this->lookupServer)) {
+		if ($this->killBackgroundJob((int)$argument['retryNo'])) {
 			return;
 		}
 
@@ -109,5 +109,24 @@ class RetryJob extends Job {
 	 */
 	protected function shouldRun($argument) {
 		return !isset($argument['lastRun']) || ((time() - $argument['lastRun']) > $this->interval);
+	}
+
+	/**
+	 * check if we should kill the background job
+	 *
+	 * The lookup server should no longer be contacted if:
+	 *
+	 * - max retries are reached (set to 5)
+	 * - lookup server was disabled by the admin
+	 * - no valid lookup server URL given
+	 *
+	 * @param int $retryCount
+	 * @return bool
+	 */
+	protected function killBackgroundJob($retryCount) {
+		$maxTriesReached = $retryCount >= 5;
+		$lookupServerDisabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes';
+
+		return $maxTriesReached || $lookupServerDisabled || empty($this->lookupServer);
 	}
 }
