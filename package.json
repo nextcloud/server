@@ -41,7 +41,7 @@
     "moment": "^2.18.1",
     "select2": "^3.4.5",
     "snap.js": "^2.0.9",
-    "strengthify": "git+https://github.com/ChristophWurst/strengthify.git#feature/npm-package",
+    "strengthify": "git+https://github.com/MorrisJobke/strengthify.git",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
