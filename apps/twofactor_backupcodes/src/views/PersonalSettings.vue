@@ -103,3 +103,14 @@
 		}
 	}
 </script>
+
+<style scoped>
+	.backup-code {
+		font-family: monospace;
+		letter-spacing: 0.02em;
+		font-size: 1.2em;
+	}
+	.button {
+		display: inline-block;
+	}
+</style>
