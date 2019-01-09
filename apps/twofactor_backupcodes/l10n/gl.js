@@ -14,7 +14,7 @@ OC.L10N.register(
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes son os seus códigos de seguranza. Gárdeos e/ou imprímaos xa que non poderá volver lelos de novo.",
     "Save backup codes" : "Gardar os códigos de seguranza",
     "Print backup codes" : "Imprimir os códigos de seguranza",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "Los códigos de seguranza foron xerados. Usou {used} códigos de {total}.",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Os códigos de seguranza foron xerados. Usou {used} códigos de {total}.",
     "Regenerate backup codes" : "Rexenerar códigos de seguranza",
     "_icon-loading-small_::_generate-backup-codes_" : ["icona-de-carga-pequena","xerar-códigos-de-seguranza "],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se rexenera os códigos de seguranza, automaticamente invalidara os antigos códigos.",
