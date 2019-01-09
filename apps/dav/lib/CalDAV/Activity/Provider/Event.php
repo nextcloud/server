@@ -172,7 +172,7 @@ class Event extends Base {
 
 	private function generateClassifiedObjectParameter(array $eventData) {
 		$parameter = $this->generateObjectParameter($eventData);
-		if ($eventData['classified']) {
+		if (!empty($eventData['classified'])) {
 			$parameter['name'] = $this->l->t('Busy');
 		}
 		return $parameter;
