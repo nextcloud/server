@@ -64,7 +64,7 @@ OC.L10N.register(
     "Email sent" : "El correu electrónic s'ha enviat",
     "Disconnect" : "Desconnecta",
     "Revoke" : "Revocar",
-    "Allow filesystem access" : "Peret accés al sistema de fitxers",
+    "Allow filesystem access" : "Permet accedir al sistema de fitxers",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
