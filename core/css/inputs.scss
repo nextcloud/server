@@ -474,9 +474,9 @@ div.select2-drop {
 		cursor: pointer;
 	}
 }
-.select2-container-multi {
-	a.select2-choices,
-	&.select2-container-active a.select2-choices {
+div.select2-container-multi {
+	.select2-choices,
+	&.select2-container-active .select2-choices {
 		box-shadow: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
