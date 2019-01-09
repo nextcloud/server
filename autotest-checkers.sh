@@ -4,8 +4,6 @@ RESULT=0
 
 bash ./build/autoloaderchecker.sh
 RESULT=$(($RESULT+$?))
-bash ./build/mergejschecker.sh
-RESULT=$(($RESULT+$?))
 php ./build/translation-checker.php
 RESULT=$(($RESULT+$?))
 php ./build/htaccess-checker.php
