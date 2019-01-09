@@ -33,7 +33,7 @@
     "es6-shim": "^0.35.4",
     "handlebars": "^4.0.5",
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm",
-    "jquery": "^2.1.4",
+    "jquery": "^3.3.1",
     "jquery-migrate": "^1.4.0",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
