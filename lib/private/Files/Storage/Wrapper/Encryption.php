@@ -1033,7 +1033,6 @@ class Encryption extends Wrapper {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
 		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
-		fclose($stream);
 		fclose($target);
 		return $count;
 	}
