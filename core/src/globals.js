@@ -42,8 +42,8 @@ import jstimezonedetect from 'jstimezonedetect'
 import marked from 'marked'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
-import Select2 from 'select2'
-import 'select2/select2.css'
+import 'Select2'
+import 'Select2/select2.css'
 import 'snap.js/dist/snap'
 import 'strengthify'
 import 'strengthify/strengthify.css'
@@ -63,4 +63,3 @@ window['jQuery'] = $
 window['marked'] = marked
 window['md5'] = md5
 window['moment'] = moment
-window['Select2'] = Select2
