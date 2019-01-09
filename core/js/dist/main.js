@@ -421,5 +421,5 @@ function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=g
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-console.log(Select2),window._=s.a,window.$=o.a,window.autosize=l.a,window.Backbone=c.a,window.Clipboard=d.a,window.cssVars=C,window.dav=H.a,window.DOMPurify=O.a,window.Handlebars=j.a,window.jstimezonedetect=z.a,window.jstz=z.a,window.jQuery=o.a,window.marked=B.a,window.md5=W.a,window.moment=U.a}]);
+window._=s.a,window.$=o.a,window.autosize=l.a,window.Backbone=c.a,window.Clipboard=d.a,window.cssVars=C,window.dav=H.a,window.DOMPurify=O.a,window.Handlebars=j.a,window.jstimezonedetect=z.a,window.jstz=z.a,window.jQuery=o.a,window.marked=B.a,window.md5=W.a,window.moment=U.a}]);
 //# sourceMappingURL=main.js.map
