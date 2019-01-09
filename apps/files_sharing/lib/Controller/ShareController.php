@@ -456,9 +456,8 @@ class ShareController extends AuthPublicShareController {
 		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			\OCP\Util::addScript('files_sharing', 'public_note');
 
-
 			$downloadWhite = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
-			$downloadAllWhite =	new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
+			$downloadAllWhite = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
 			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
