@@ -157,6 +157,7 @@ return array(
     'OCA\\DAV\\Migration\\ChunkCleanup' => $baseDir . '/../lib/Migration/ChunkCleanup.php',
     'OCA\\DAV\\Migration\\FixBirthdayCalendarComponent' => $baseDir . '/../lib/Migration/FixBirthdayCalendarComponent.php',
     'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => $baseDir . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
+    'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => $baseDir . '/../lib/Migration/RemoveClassifiedEventActivity.php',
     'OCA\\DAV\\Migration\\Version1004Date20170825134824' => $baseDir . '/../lib/Migration/Version1004Date20170825134824.php',
     'OCA\\DAV\\Migration\\Version1004Date20170919104507' => $baseDir . '/../lib/Migration/Version1004Date20170919104507.php',
     'OCA\\DAV\\Migration\\Version1004Date20170924124212' => $baseDir . '/../lib/Migration/Version1004Date20170924124212.php',
