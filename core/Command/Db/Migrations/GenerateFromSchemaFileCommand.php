@@ -127,7 +127,11 @@ EOT
 				}
 				$default = $column->getDefault();
 				if ($default !== null) {
-					$default = is_numeric($default) ? $default : "'$default'";
+					if (is_string($default)) {
+						$default = "'$default'";
+					} else if (is_bool($default)) {
+						$default = ($default === true) ? 'true' : 'false';
+					}
 					$content .= str_replace('{{default}}', $default, <<<'EOT'
 				'default' => {{default}},
 
