@@ -86,7 +86,9 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	protected $allowedChildSrcDomains = [];
 
 	/** @var array Domains which can embed this Nextcloud instance */
-	protected $allowedFrameAncestors = [];
+	protected $allowedFrameAncestors = [
+		'\'self\'',
+	];
 
 	/** @var array Domains from which web-workers can be loaded */
 	protected $allowedWorkerSrcDomains = [];
