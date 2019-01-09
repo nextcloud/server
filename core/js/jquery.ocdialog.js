@@ -34,6 +34,8 @@
 				position: 'fixed'
 			});
 
+			this.enterCallback = null;
+
 			$(document).on('keydown keyup', function(event) {
 				if (
 					event.target !== self.$dialog.get(0) &&
@@ -54,6 +56,11 @@
 				// Enter
 				if(event.keyCode === 13) {
 					event.stopImmediatePropagation();
+					if (self.enterCallback !== null) {
+						self.enterCallback();
+						event.preventDefault();
+						return false;
+					}
 					if(event.type === 'keyup') {
 						event.preventDefault();
 						return false;
@@ -205,6 +212,12 @@
 		},
 		widget: function() {
 			return this.$dialog;
+		},
+		setEnterCallback: function(callback) {
+			this.enterCallback = callback;
+		},
+		unsetEnterCallback: function() {
+			this.enterCallback = null;
 		},
 		close: function() {
 			this._destroyOverlay();

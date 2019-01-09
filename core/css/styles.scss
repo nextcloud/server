@@ -701,10 +701,9 @@ code {
 	position: relative;
 
 	.dirtree {
-		width: 100%;
 		flex-wrap: wrap;
 		padding-left: 12px;
-		padding-right: 44px;
+		padding-right: 0px;
 		box-sizing: border-box;
 
 		div:first-child a {
@@ -745,6 +744,47 @@ code {
 	// keyboard focus
 	#picker-showgridview:focus + #picker-view-toggle {
 		opacity: 1;
+	}
+	
+	.actions.creatable {
+		flex-wrap: wrap;
+		padding: 0px;
+		box-sizing: border-box;
+		display: inline-flex;
+		float: none;
+		max-height: 36px;
+		max-width: 36px;
+		background-color: var(--color-background-dark);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-pill);
+		position: absolute;
+		top: 4px;
+		
+		.icon.icon-add{
+			background-image: var(--icon-add-000);
+			background-size: 16px 16px;
+			max-height:36px;
+			width:36px;
+			margin:0px;
+			
+		}
+
+		a {
+			width: 36px;
+			padding: 0px;
+			position: static;
+		}
+
+		.menu {
+			top:100%;
+			margin:10px;
+			margin-left: 0px;
+			form {
+				display:flex;
+				margin:10px;
+			}
+		}
+
 	}
 
 	.filelist-container {
