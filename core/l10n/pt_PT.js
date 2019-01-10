@@ -361,8 +361,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está atualmente no modo de manutenção, o que poderá demorar algum tempo.",
     "This page will refresh itself when the instance is available again." : "Esta página irá ser atualizada quando a instância ficar novamente disponível.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
-    "status" : "estado",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "Atualizado \"%s\" para %s",
     "%s (3rdparty)" : "%s (terceiros)",
     "There was an error loading your contacts" : "Ocorreu um erro ao carregar os seus contactos",

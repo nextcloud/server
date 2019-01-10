@@ -58,7 +58,7 @@
     "Empty filename is not allowed" : "Je třeba vyplnit název souboru",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Aplikace „%s“ nemůže být nainstalována protože soubor appinfo nelze přečíst.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikaci „%s“ nelze nainstalovat, protože není kompatibilní s touto verzí serveru.",
-    "__language_name__" : "Česky",
+    "__language_name__" : "čeština",
     "This is an automatically sent email, please do not reply." : "Toto je automaticky odesílaný email, neodpovídejte na něj.",
     "Help" : "Nápověda",
     "Apps" : "Aplikace",
