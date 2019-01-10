@@ -36,7 +36,7 @@
     "jquery-migrate": "^1.4.0",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
-    "marked": "^0.3.6",
+    "marked": "^0.6.0",
     "moment": "^2.23.0",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git",
