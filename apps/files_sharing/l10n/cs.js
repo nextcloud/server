@@ -106,7 +106,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "Cannot increase permissions" : "Nelze navýšit oprávnění",
-    "shared by %s" : "Sdílel %s",
+    "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
     "Direct link" : "Přímý odkaz",
     "Add to your Nextcloud" : "Přidat do Nextcloud",

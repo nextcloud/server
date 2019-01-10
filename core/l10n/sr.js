@@ -369,8 +369,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Овај %s је тренутно у режиму одржавања што може потрајати.",
     "This page will refresh itself when the instance is available again." : "Ова страница ће се сама освежити када инстанца постане поново доступна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте администратора ако се порука понавља или се неочекивано појавила.",
-    "status" : "статус",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "„%s“ ажуриран на %s",
     "%s (3rdparty)" : "%s (од 3. лица)",
     "There was an error loading your contacts" : "Догодила се грешка приликом учитавања Ваших контаката",

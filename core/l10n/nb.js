@@ -369,8 +369,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instansen er for øyeblikket i vedlikeholdsmodus, noe som kan vare en stund.",
     "This page will refresh itself when the instance is available again." : "Siden vil oppdatere seg selv når instans er tilgjengelig igjen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren hvis denne meldingen var uventet eller ikke forsvinner.",
-    "status" : "status",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "Oppdaterte \"%s\" til %s",
     "%s (3rdparty)" : "%s (tredjepart)",
     "There was an error loading your contacts" : "Feil ved innlasting av kontaktene dine",

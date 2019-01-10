@@ -367,8 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the instance is available again." : "Deze pagina wordt ververst als de server weer beschikbaar is.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
-    "status" : "status",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "\"%s\" geüpdatet naar %s",
     "%s (3rdparty)" : "%s (3rdparty)",
     "There was an error loading your contacts" : "Er is een fout opgetreden tijdens het laden van uw contacten",
