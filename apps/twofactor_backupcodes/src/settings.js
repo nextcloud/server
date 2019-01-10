@@ -4,9 +4,9 @@ import store from './store';
 
 Vue.prototype.t = t;
 
-const initialStateElem = JSON.parse(atob(document.getElementById('twofactor-backupcodes-initial-state').value));
+const initialStateElem = document.getElementById('twofactor-backupcodes-initial-state');
 store.replaceState(
-	initialStateElem
+	JSON.parse(atob(initialStateElem.value))
 )
 
 const View = Vue.extend(PersonalSettings)
