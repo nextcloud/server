@@ -367,8 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Bu %s kopyası şu anda bakım kipinde, bu işlem biraz zaman alabilir.",
     "This page will refresh itself when the instance is available again." : "Sistem yeniden kullanılabilir olduğunda bu sayfa kendiliğinden yenilenecek",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Bu ileti görüntülenmeye devam ediyor ya da beklenmedik şekilde ortaya çıkıyorsa sistem yöneticinizle görüşün.",
-    "status" : "durum",
-    "aria-hidden" : "aria-gizli",
     "Updated \"%s\" to %s" : "\"%s\", %s sürümüne güncellendi",
     "%s (3rdparty)" : "%s (3. taraf)",
     "There was an error loading your contacts" : "Kişileriniz yüklenirken bir sorun çıktı",

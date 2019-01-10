@@ -365,7 +365,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the instance is available again." : "Эта страница обновится автоматически когда сервер снова станет доступен.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
-    "status" : "состояние",
     "Updated \"%s\" to %s" : "«%s» обновлено до %s",
     "%s (3rdparty)" : "%s (стороннее)",
     "There was an error loading your contacts" : "При загрузке контактов произошла ошибка",

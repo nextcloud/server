@@ -367,8 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
     "This page will refresh itself when the instance is available again." : "Esta página será atualizada quando o Nextcloud estiver disponível novamente.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
-    "status" : "status",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "\"%s\" atualizado para %s",
     "%s (3rdparty)" : "%s (3rdparty)",
     "There was an error loading your contacts" : "Houve um erro carregando seus contatos",
