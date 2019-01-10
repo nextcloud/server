@@ -97,6 +97,7 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import marked from 'marked';
+import dompurify from 'dompurify'
 
 import AppScore from './appList/appScore';
 import AppManagement from './appManagement';
@@ -194,7 +195,7 @@ export default {
 			renderer.blockquote = function(quote) {
 				return quote;
 			};
-			return DOMPurify.sanitize(
+			return dompurify.sanitize(
 				marked(this.app.description.trim(), {
 					renderer: renderer,
 					gfm: false,
