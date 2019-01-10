@@ -37,6 +37,9 @@ class ExceptionSerializer {
 		'{closure}',
 		'createSessionToken',
 
+		// Provisioning
+		'addUser',
+
 		// TokenProvider
 		'getToken',
 		'isTokenPassword',
