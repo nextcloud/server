@@ -30,6 +30,7 @@ script('settings', 'vue-settings-admin-security');
 
 <div id="two-factor-auth" class="section">
 	<h2><?php p($l->t('Two-Factor Authentication'));?></h2>
+	<input type="hidden" id="two-factor-auth-settings-initial-state" value="<?php p(base64_encode(json_encode($_['mandatory2FAState']))); ?>">
 	<div id="two-factor-auth-settings"></div>
 </div>
 
