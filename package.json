@@ -37,7 +37,6 @@
     "jquery-migrate": "^1.4.0",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
-    "marked": "^0.3.6",
     "moment": "^2.18.1",
     "select2": "https://github.com/select2/select2#3.4.8",
     "snap.js": "^2.0.9",

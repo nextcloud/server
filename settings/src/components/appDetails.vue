@@ -96,6 +96,8 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
+import marked from 'marked'
+
 import AppScore from './appList/appScore';
 import AppManagement from './appManagement';
 import prefix from './prefixMixin';
@@ -162,8 +164,7 @@ export default {
 				.sort((a, b) => a.name.localeCompare(b.name));
 		},
 		renderMarkdown() {
-			// TODO: bundle marked as well
-			var renderer = new window.marked.Renderer();
+			var renderer = new marked.Renderer();
 			renderer.link = function(href, title, text) {
 				try {
 					var prot = decodeURIComponent(unescape(href))
@@ -194,7 +195,7 @@ export default {
 				return quote;
 			};
 			return DOMPurify.sanitize(
-				window.marked(this.app.description.trim(), {
+				marked(this.app.description.trim(), {
 					renderer: renderer,
 					gfm: false,
 					highlight: false,

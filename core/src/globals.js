@@ -39,7 +39,6 @@ import Handlebars from 'handlebars'
 import 'jcrop/js/jquery.Jcrop'
 import 'jcrop/css/jquery.Jcrop.css'
 import jstimezonedetect from 'jstimezonedetect'
-import marked from 'marked'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'Select2'
@@ -60,6 +59,5 @@ window['Handlebars'] = Handlebars
 window['jstimezonedetect'] = jstimezonedetect
 window['jstz'] = jstimezonedetect
 window['jQuery'] = $
-window['marked'] = marked
 window['md5'] = md5
 window['moment'] = moment
