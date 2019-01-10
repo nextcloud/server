@@ -369,7 +369,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Cette instance de %s est en cours de maintenance, cela peut prendre du temps.",
     "This page will refresh itself when the instance is available again." : "Cette page se rafraîchira d'elle-même lorsque le serveur sera de nouveau disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue.",
-    "status" : "statut",
     "Updated \"%s\" to %s" : "Mise à jour de « %s » vers %s",
     "%s (3rdparty)" : "%s (origine tierce)",
     "There was an error loading your contacts" : "Il y a eu une erreur lors du chargement de vos contacts",

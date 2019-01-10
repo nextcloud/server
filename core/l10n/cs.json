@@ -367,7 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instalace %s je právě ve stavu údržby a ta může chvíli trvat.",
     "This page will refresh itself when the instance is available again." : "Tato stránka se automaticky znovu načte, jakmile bude tato instance opět dostupná.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Pokud se tato zpráva objevuje opakovaně nebo nečekaně, obraťte se správce systému.",
-    "status" : "stav",
     "Updated \"%s\" to %s" : "Aktualizováno z „%s“ na %s",
     "%s (3rdparty)" : "%s (třetí strana)",
     "There was an error loading your contacts" : "Při načítání vašich kontaktů došlo k chybě",

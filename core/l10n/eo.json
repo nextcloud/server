@@ -367,8 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "La servilo %s estas nun en reĝimo de prizorgado, tio eble daŭros longatempe.",
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
-    "status" : "stato",
-    "aria-hidden" : "aria-hidden",
     "Updated \"%s\" to %s" : "Ĝisdatiĝis „%s“ al %s",
     "%s (3rdparty)" : "%s (el ekstera liveranto)",
     "There was an error loading your contacts" : "Eraro dum ŝargo de viaj kontaktoj",

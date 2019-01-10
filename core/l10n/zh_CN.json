@@ -367,8 +367,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "该实例 %s 当前处于维护模式, 这将花费一些时间.",
     "This page will refresh itself when the instance is available again." : "当实力再次可用时，页面会自动刷新。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现, 请联系你的系统管理员.",
-    "status" : "状态",
-    "aria-hidden" : "隐藏",
     "Updated \"%s\" to %s" : "更新 \"%s\" 为 %s",
     "%s (3rdparty)" : "%s（第三方）",
     "There was an error loading your contacts" : "加载联系人出错",
