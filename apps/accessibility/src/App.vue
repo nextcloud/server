@@ -21,7 +21,7 @@
 
 <script>
 import preview from './components/itemPreview';
-import axios from 'axios';
+import axios from 'nextcloud-axios';
 
 export default {
 	name: 'Accessibility',
@@ -52,9 +52,6 @@ export default {
 				theme: this.serverData.theme,
 				font: this.serverData.font
 			};
-		},
-		tokenHeaders() {
-			return { headers: { requesttoken: OC.requestToken } };
 		}
 	},
 	methods: {
@@ -75,8 +72,7 @@ export default {
 		selectItem(type, id) {
 			axios.post(
 					OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type,
-					{ value: id },
-					this.tokenHeaders
+					{ value: id }
 				)
 				.then(response => {
 					this.serverData[type] = id;
