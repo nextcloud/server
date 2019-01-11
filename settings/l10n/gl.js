@@ -304,7 +304,7 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Subscríbase ao noso boletín",
     "Profile picture" : "Imaxe do perfil",
     "Upload new" : "Novo envío",
-    "Select from Files" : "Seleccionar dende ficheiros",
+    "Select from Files" : "Seleccionar dende Ficheiros",
     "Remove image" : "Retirar a imaxe",
     "png or jpg, max. 20 MB" : "png ou jpg, max. 20 MB",
     "Picture provided by original account" : "Imaxe fornecida pola conta orixinal ",

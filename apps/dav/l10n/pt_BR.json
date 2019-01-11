@@ -27,6 +27,7 @@
     "You deleted event {event} from calendar {calendar}" : "Você excluiu o evento {event} do calendário {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} atualizou o evento {event} no calendário {calendar}",
     "You updated event {event} in calendar {calendar}" : "Você atualizou o evento {event} no calendário {calendar}",
+    "Busy" : "Ocupado",
     "{actor} created todo {todo} in list {calendar}" : "{actor} criou a tarefa {todo} na lista {calendar}",
     "You created todo {todo} in list {calendar}" : "Você criou a tarefa {todo} na lista {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} excluiu a tarefa {todo} da lista {calendar}",
