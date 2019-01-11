@@ -29,6 +29,7 @@ OC.L10N.register(
     "You deleted event {event} from calendar {calendar}" : "Обрисали сте догађај {event} из календара {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} је ажурирао догађај {event} у календару {calendar}",
     "You updated event {event} in calendar {calendar}" : "Ажурирали сте догађај {event} у календару {calendar}",
+    "Busy" : "Заузет/а",
     "{actor} created todo {todo} in list {calendar}" : "{actor} је направио подсетник {todo} у листи {calendar}",
     "You created todo {todo} in list {calendar}" : "Креирали сте подсетник {todo}  у листи {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} је обрисао подсетник {todo} из листе {calendar}",

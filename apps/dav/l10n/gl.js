@@ -29,6 +29,7 @@ OC.L10N.register(
     "You deleted event {event} from calendar {calendar}" : "Vostede eliminou o evento {event} do calendario {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} actualizou o evento {event} no calendario {calendar}",
     "You updated event {event} in calendar {calendar}" : "Vostede actualizou o evento {event} no calendario {calendar}",
+    "Busy" : "Ocupado",
     "{actor} created todo {todo} in list {calendar}" : "{actor} creou os asuntos pendentes {todo} na lista {calendar}",
     "You created todo {todo} in list {calendar}" : "Vostede creou os asuntos pendentes {todo} na lista {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} eliminou os asuntos pendentes {todo} da lista {calendar}",

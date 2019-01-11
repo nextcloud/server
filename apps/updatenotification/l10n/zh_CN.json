@@ -10,6 +10,7 @@
     "Update notification" : "更新通知",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "显示 Nextcloud 的更新提示，并提供更新器的认证页面。",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "您运行的版本已经不再被维护了。请尽快更新到一个受支持的版本。",
+    "Apps missing updates" : "缺少更新的应用",
     "View in store" : "在商店中查看",
     "Apps with available updates" : "有可用更新的应用",
     "Open updater" : "打开更新器",
