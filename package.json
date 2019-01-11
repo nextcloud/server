@@ -42,7 +42,7 @@
     "select2": "https://github.com/select2/select2#3.4.8",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git",
-    "underscore": "^1.8.3"
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
