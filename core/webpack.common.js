@@ -43,7 +43,7 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			handlebars: 'handlebars/dist/handlebars.min.js'
+			handlebars: 'handlebars/runtime'
 		},
 		extensions: ['*', '.js'],
 		symlinks: false
