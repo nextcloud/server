@@ -139,6 +139,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Per PHP-FPM, ŝanĝoj povas postuli 5 minutojn por aplikiĝi.",
     "Missing permissions to edit from here." : "Mankas permesoj por redakti ekde ĉi tie.",
     "%s of %s used" : "%s uzataj el %s",
+    "%1$s%% of %2$s used" : "%1$s%% el %2$s uzataj",
     "%s used" : "%s uzataj",
     "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",

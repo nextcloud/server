@@ -28,6 +28,8 @@ OC.L10N.register(
     "Couldn't send reset email. Please make sure your username is correct." : "Não foi possível enviar o e-mail de redefinição. Verifique se o seu nome de usuário está correto.",
     "Preparing update" : "Preparando a atualização",
     "[%d / %d]: %s" : "[%d / %d]: %s",
+    "Repair step: " : "Etapa do reparo: ",
+    "Repair info: " : "Informação do reparo: ",
     "Repair warning: " : "Aviso da reparação:",
     "Repair error: " : "Erro da reparação :",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Por favor, use a atualização de linha de comando, porque a atualização automática está desativada no config.php.",
