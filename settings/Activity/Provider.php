@@ -40,6 +40,9 @@ class Provider implements IProvider {
 	const EMAIL_CHANGED_BY = 'email_changed_by';
 	const EMAIL_CHANGED_SELF = 'email_changed_self';
 	const EMAIL_CHANGED = 'email_changed';
+	public const APP_TOKEN_CREATED = 'app_token_created';
+	public const APP_TOKEN_UPDATED = 'app_token_updated';
+	public const APP_TOKEN_DELETED = 'app_token_deleted';
 
 	/** @var IFactory */
 	protected $languageFactory;
@@ -107,6 +110,13 @@ class Provider implements IProvider {
 		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 
+		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
+			$subject = $this->l->t('You created app password "%1$s"', $event->getSubjectParameters());
+		} else if ($event->getSubject() === self::APP_TOKEN_UPDATED) {
+			$subject = $this->l->t('You updated app password "%1$s"', $event->getSubjectParameters());
+		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
+			$subject = $this->l->t('You deleted an app token');
+
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -131,6 +141,9 @@ class Provider implements IProvider {
 			case self::PASSWORD_RESET:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
+			case self::APP_TOKEN_CREATED:
+			case self::APP_TOKEN_UPDATED:
+			case self::APP_TOKEN_DELETED:
 				return [];
 			case self::PASSWORD_CHANGED_BY:
 			case self::EMAIL_CHANGED_BY:

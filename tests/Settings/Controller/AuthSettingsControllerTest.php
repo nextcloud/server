@@ -28,11 +28,13 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Controller\AuthSettingsController;
+use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Test\TestCase;
@@ -44,7 +46,6 @@ class AuthSettingsControllerTest extends TestCase {
 	private $request;
 	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
-	private $userManager;
 	private $session;
 	private $secureRandom;
 	private $uid;
@@ -54,13 +55,16 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->uid = 'jane';
-		$this->user = $this->createMock(IUser::class);
 
-		$this->controller = new AuthSettingsController('core', $this->request, $this->tokenProvider, $this->userManager, $this->session, $this->secureRandom, $this->uid);
+		$activityManager = $this->createMock(IManager::class);
+		$activityManager->method('generateEvent')
+			->willReturn($this->createMock(IEvent::class));
+		$logger = $this->createMock(ILogger::class);
+
+		$this->controller = new AuthSettingsController('core', $this->request, $this->tokenProvider, $this->session, $this->secureRandom, $this->uid, $activityManager, $logger);
 	}
 
 	public function testIndex() {
