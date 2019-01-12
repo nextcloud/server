@@ -1,2 +1,5 @@
 /core/js/dist/*.js binary
 /core/js/dist/*.js.map binary
+
+/apps/oauth2/js/oauth2.js
+/apps/oauth2/js/oauth2.js.map
