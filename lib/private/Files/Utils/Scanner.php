@@ -242,7 +242,7 @@ class Scanner extends PublicEmitter {
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
-				$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+				$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE | \OC\Files\Cache\Scanner::RECALCULATE_CHECKSUM_IF_EMPTY);
 				$cache = $storage->getCache();
 				if ($cache instanceof Cache) {
 					// only re-calculate for the root folder we scanned, anything below that is taken care of by the scanner

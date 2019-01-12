@@ -65,28 +65,6 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\Exception\NotFound;
 
-class md5sum_filter extends \php_user_filter
-{
-	function onCreate () {
-		$this->params->ctx = hash_init('md5');
-		return TRUE;
-	}
-
-	function onClose () {
-		return TRUE;
-	}
-
-	function filter ($in, $out, &$consumed, $closing)
-	{
-		while ($bucket = stream_bucket_make_writeable($in)) {
-			hash_update($this->params->ctx, $bucket->data);
-			$consumed += $bucket->datalen;
-			stream_bucket_append($out, $bucket);
-		}
-		return PSFS_PASS_ON;
-	}
-}
-
 class File extends Node implements IFile {
 
 	protected $request;
@@ -139,10 +117,7 @@ class File extends Node implements IFile {
 	 */
 	public function put($data) {
 
-		stream_filter_register('md5sum', 'OCA\\DAV\\Connector\\Sabre\\md5sum_filter');
-		$obj = new \stdClass();
-		$md5_filter = stream_filter_append($data, 'md5sum', STREAM_FILTER_READ, $obj);
-
+		$contextObject = \OC\StreamHashFilter::getContextObject($data);
 		try {
 			$exists = $this->fileView->file_exists($this->path);
 			if ($this->info && $exists && !$this->info->isUpdateable()) {
@@ -288,11 +263,10 @@ class File extends Node implements IFile {
 				$this->emitPostHooks($exists);
 			}
 
-			stream_filter_remove($md5_filter);
 			if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
 				$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
 			} else {
-				$checksum = hash_final($obj->ctx);
+				$checksum = hash_final($contextObject->hashContext);
 			}
 			$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
 			$this->refreshInfo();

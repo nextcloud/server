@@ -35,6 +35,7 @@ interface IScanner {
 	const REUSE_NONE = 0;
 	const REUSE_ETAG = 1;
 	const REUSE_SIZE = 2;
+	const RECALCULATE_CHECKSUM_IF_EMPTY = 4;
 
 	/**
 	 * scan a single file and store it in the cache

@@ -637,6 +637,12 @@ class View {
 	 * @throws \Exception
 	 */
 	public function file_put_contents($path, $data) {
+		if (is_string($data)) {
+			$stream = fopen('php://memory','r+');
+			fwrite($stream, $data);
+			rewind($stream);
+			$data = $stream;
+		}
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
@@ -660,11 +666,13 @@ class View {
 
 				/** @var \OC\Files\Storage\Storage $storage */
 				list($storage, $internalPath) = $this->resolvePath($path);
+				$contextObject = \OC\StreamHashFilter::getContextObject($data);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
 					list (, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
+					$this->putFileInfo($path, ['checksum' => hash_final($contextObject->hashContext)]);
 
 					$this->writeUpdate($storage, $internalPath);
 
@@ -683,8 +691,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = $this->file_exists($path) ? array('update', 'write') : array('create', 'write');
-			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
+			throw new \Exception('$data is neither resource nor string');
 		}
 	}
 
@@ -1553,7 +1560,7 @@ class View {
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
 			if ($data['checksum'] == '') {
-				$data['checksum'] = md5_file($storage->getLocalFile($internalPath));
+				$data['checksum'] = $storage->hash('md5', $internalPath);
 			}
 			$cache = $storage->getCache($path);
 
