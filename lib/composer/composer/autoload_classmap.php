@@ -1074,6 +1074,7 @@ return array(
     'OC\\Share\\Helper' => $baseDir . '/lib/private/Share/Helper.php',
     'OC\\Share\\SearchResultSorter' => $baseDir . '/lib/private/Share/SearchResultSorter.php',
     'OC\\Share\\Share' => $baseDir . '/lib/private/Share/Share.php',
+    'OC\\StreamHashFilter' => $baseDir . '/lib/private/StreamHashFilter.php',
     'OC\\Streamer' => $baseDir . '/lib/private/Streamer.php',
     'OC\\SubAdmin' => $baseDir . '/lib/private/SubAdmin.php',
     'OC\\Support\\CrashReport\\Registry' => $baseDir . '/lib/private/Support/CrashReport/Registry.php',

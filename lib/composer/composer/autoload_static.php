@@ -1104,6 +1104,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
         'OC\\Share\\SearchResultSorter' => __DIR__ . '/../../..' . '/lib/private/Share/SearchResultSorter.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
+        'OC\\StreamHashFilter' => __DIR__ . '/../../..' . '/lib/private/StreamHashFilter.php',
         'OC\\Streamer' => __DIR__ . '/../../..' . '/lib/private/Streamer.php',
         'OC\\SubAdmin' => __DIR__ . '/../../..' . '/lib/private/SubAdmin.php',
         'OC\\Support\\CrashReport\\Registry' => __DIR__ . '/../../..' . '/lib/private/Support/CrashReport/Registry.php',
