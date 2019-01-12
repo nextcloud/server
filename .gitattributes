@@ -3,3 +3,8 @@
 
 /apps/oauth2/js/oauth2.js
 /apps/oauth2/js/oauth2.js.map
+
+settings/js/settings-admin-security.js
+settings/js/settings-admin-security.js.map
+settings/js/settings-vue.js
+settings/js/settings-vue.js.map
