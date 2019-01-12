@@ -25,7 +25,7 @@
     "Backup code" : "Código de seguranza",
     "Use backup code" : "Usar código de seguranza",
     "Two factor backup codes" : "Códigos de seguranza de dous factores",
-    "A two-factor auth backup codes provider" : "Un fornecedor de códigos de seguranza para a autenticación de dous factores",
+    "A two-factor auth backup codes provider" : "Un provedor de códigos de seguranza para a autenticación de dous factores",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use un dos códigos de seguranza que gardou cuando axustou a autenticación de dous factores.",
     "Submit" : "Enviar ",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Los códigos de seguranza foron xerados. Usou {{used}} códigos de {{total}}."
