@@ -268,7 +268,7 @@ class File extends Node implements IFile {
 			} else {
 				$checksum = hash_final($contextObject->hashContext);
 			}
-			$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
+			$this->fileView->putFileInfo($this->path, ['checksum' => 'md5:' . $checksum]);
 			$this->refreshInfo();
 
 		} catch (StorageNotAvailableException $e) {

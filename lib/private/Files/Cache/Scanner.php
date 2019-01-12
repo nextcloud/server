@@ -191,7 +191,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$cacheData = $this->cache->get($file);
 					}
 					if (($reuseExisting & self::RECALCULATE_CHECKSUM_IF_EMPTY) && empty($cacheData['checksum'])) {
-						$data['checksum'] =  $this->storage->hash('md5', $file);
+						$data['checksum'] =  'md5:' . $this->storage->hash('md5', $file);
 					}
 					if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
 						// prevent empty etag

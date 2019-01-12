@@ -672,7 +672,7 @@ class View {
 					list (, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					$this->putFileInfo($path, ['checksum' => hash_final($contextObject->hashContext)]);
+					$this->putFileInfo($path, ['checksum' => 'md5:' . hash_final($contextObject->hashContext)]);
 
 					$this->writeUpdate($storage, $internalPath);
 
@@ -1560,7 +1560,7 @@ class View {
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
 			if ($data['checksum'] == '') {
-				$data['checksum'] = $storage->hash('md5', $internalPath);
+				$data['checksum'] = 'md5' . $storage->hash('md5', $internalPath);
 			}
 			$cache = $storage->getCache($path);
 
