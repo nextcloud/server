@@ -427,6 +427,11 @@ table td.selection {
 	opacity: 1;
 }
 
+/* Show checkbox with half opacity when selecting range */
+#fileList tr.halfselected td.selection>.selectCheckBox + label:before {
+	opacity: 0.5;
+}
+
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.selection>.selectCheckBox + label,
 .select-all + label {

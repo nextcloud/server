@@ -36,6 +36,7 @@
 		 */
 		show: function(context) {
 			this._context = context;
+			this.render();
 			this.$el.removeClass('hidden');
 			if (window.innerWidth < 480) {
 				this.$el.removeClass('menu-center').addClass('menu-right');

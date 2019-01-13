@@ -100,11 +100,12 @@
 							displayName:  t('files', 'Download'),
 							iconClass: 'icon-download',
 						},
+						OCA.Files.FileList.MultiSelectMenuActions.ToggleSelectionModeAction,
 						{
 							name: 'delete',
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
-						}
+						},
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
