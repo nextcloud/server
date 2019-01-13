@@ -47,7 +47,7 @@
 		<div class="personal-info icon-password">
 			<p>
 				<?php echo $l->t(
-					'Your data is protected by %sserver side encryption%s.',
+					'Your files are encrypted with %sserver side encryption%s.',
 					[
 						'<a href="https://nextcloud.com/blog/encryption-in-nextcloud/" target="_blank" title="" rel="noreferrer noopener">',
 						'</a>'
