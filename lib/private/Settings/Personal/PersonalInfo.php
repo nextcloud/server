@@ -144,7 +144,7 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
-			'dataLocation' => 'Germany',
+			'dataLocation' => $this->config->getSystemValue(ServerInfo::SETTING_LOCATION),
 			'provider' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER),
 			'providerLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_WEBSITE),
 			'providerPrivacyLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_PRIVACY_LINK),
