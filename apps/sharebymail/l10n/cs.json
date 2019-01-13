@@ -14,7 +14,7 @@
     "You shared {file} with {email} by mail" : "Emailem jste s {email} sdíleli {file}",
     "%3$s shared %1$s with %2$s by mail" : "%3$s s %2$s sdílel emailem %1$s",
     "{actor} shared {file} with {email} by mail" : "{actor} sdílel(a) {file} emailem s {email}",
-    "You unshared %1$s from %2$s by mail" : "Přestali jste sdílet %1$s od %2$s po emailu",
+    "You unshared %1$s from %2$s by mail" : "Přestali jste sdílet %1$s od %2$s po e-mailu",
     "You unshared {file} from {email} by mail" : "Zrušili jste sdílení {file} z {email} emailem",
     "%3$s unshared %1$s from %2$s by mail" : "%3$s zrušil(a) sdílení %1$s od %2$s po e-mailu",
     "{actor} unshared {file} from {email} by mail" : "{actor} zrušil(a) sdílení {file} od {email} po e-mailu",
