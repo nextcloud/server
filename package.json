@@ -54,7 +54,7 @@
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.28.4",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.2.1",
     "webpack-merge": "^4.2.1"
   }
 }
