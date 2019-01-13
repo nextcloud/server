@@ -26,7 +26,7 @@
 namespace OC\Settings\Personal;
 
 use OC\Accounts\AccountManager;
-use OC\Settings\Admin\ServerInfo;
+use OC\Settings\Theming\ServerInfo;
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -217,7 +217,7 @@ class PersonalInfo implements ISettings {
 		$userLang = $languages['commonlanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));		
+			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));
 			$userLang = $languages['languages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name

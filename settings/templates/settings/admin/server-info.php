@@ -57,7 +57,7 @@
 				placeholder="<?php p($l->t('company or person')); ?>">
 		</div>
 		<div>
-			<label class="label" for="providerWebsite"><?php p($l->t('Website')); ?></label>
+			<label class="label" for="providerWebsite"><?php p($l->t('Provider website')); ?></label>
 			<input
 				class="form-input"
 				id="providerWebsite"

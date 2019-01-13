@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\Settings\Admin;
+namespace OC\Settings\Theming;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -104,7 +104,7 @@ class ServerInfo implements ISettings {
 	 * @return string
 	 */
 	public function getSection() {
-		return 'server-info';
+		return 'theming';
 	}
 
 	/**
@@ -115,7 +115,7 @@ class ServerInfo implements ISettings {
 	 * priority values. It is required to return a value between 0 and 100.
 	 */
 	public function getPriority() {
-		return 20;
+		return 10;
 	}
 
 }

@@ -22,7 +22,7 @@
 
 namespace OC\Settings\Controller;
 
-use OC\Settings\Admin\ServerInfo;
+use OC\Settings\Theming\ServerInfo;
 use OCP\AppFramework\Controller;
 use OCP\IConfig;
 use OCP\IRequest;
