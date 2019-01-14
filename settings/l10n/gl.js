@@ -134,7 +134,7 @@ OC.L10N.register(
     "No results" : "Sen resultados",
     "View in store" : "Ver na tenda",
     "Visit website" : "Visite o sitio web",
-    "Report a bug" : "Informar dunha falla",
+    "Report a bug" : "Informar dun fallo",
     "User documentation" : "Documentación do usuario",
     "Admin documentation" : "Documentación do administrador",
     "Developer documentation" : "Documentación do desenvolvedor",

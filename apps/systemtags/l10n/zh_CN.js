@@ -35,11 +35,11 @@ OC.L10N.register(
     "%1$s added system tag %3$s to %2$s" : "%1$s 为 %2$s 添加了系统标签 %3$s",
     "{actor} added system tag {systemtag} to {file}" : "{actor} 为 {file} 添加了系统标签 {systemtag}",
     "You removed system tag %2$s from %1$s" : "您从 %1$s 移除了系统标签 %2$s",
-    "You removed system tag {systemtag} from {file}" : "您从 {file} 移除了系统标签 {systemtag}.",
+    "You removed system tag {systemtag} from {file}" : "您从 {file} 移除了系统标签 {systemtag}。",
     "%1$s removed system tag %3$s from %2$s" : "%1$s 从 %2$s 移除了系统标签 %3$s",
     "{actor} removed system tag {systemtag} from {file}" : "{actor} 从 {file} 中移除了系统标签 {systemtag}",
-    "%s (restricted)" : "%s (受限)",
-    "%s (invisible)" : "%s (不可见)",
+    "%s (restricted)" : "%s（受限）",
+    "%s (invisible)" : "%s（不可见）",
     "<strong>System tags</strong> for a file have been modified" : "已更改的文件的<strong>系统标签</strong> ",
     "Collaborative tags" : "协同标签",
     "Select tag …" : "选择标签...",
@@ -53,6 +53,6 @@ OC.L10N.register(
     "No entries found in this folder" : "此文件夹中无项目",
     "Size" : "大小",
     "Modified" : "修改日期",
-    "Create and edit collaborative tags. These tags affect all users." : "创建并编辑协同标签. 这些标签影响全部用户."
+    "Create and edit collaborative tags. These tags affect all users." : "创建并编辑协同标签。这些标签影响全部用户。"
 },
 "nplurals=1; plural=0;");

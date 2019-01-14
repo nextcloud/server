@@ -9,7 +9,7 @@ OC.L10N.register(
     "Group list is empty" : "A lista de grupos está baleira",
     "Unable to retrieve the group list" : "Non é posíbel recuperar a lista de grupos",
     "Saved" : "Gardado",
-    "Saving failed:" : "Produciuse unha falla ao gardar:",
+    "Saving failed:" : "Produciuse un fallo ao gardar:",
     "Add rule group" : "Engadir unha regra de grupo",
     "File MIME type" : "Tipo MIME do ficheiro",
     "is" : "é",

@@ -46,7 +46,7 @@ OC.L10N.register(
     "Could not move \"{file}\"" : "Non foi posíbel mover «{file}»",
     "copy" : "copiar",
     "Could not copy \"{file}\", target exists" : "Non foi posíbel copiar «{file}», o destino xa existe",
-    "Could not copy \"{file}\"" : "Non foi posíbel copiar «{file}¢",
+    "Could not copy \"{file}\"" : "Non foi posíbel copiar «{file}",
     "Copied {origin} inside {destination}" : "Copiado {origin} en {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiado {origin} e outros {nbfiles} ficheiros en {destination} ",
     "{newName} already exists" : "Xa existe {newName}",

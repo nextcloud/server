@@ -39,7 +39,6 @@
     "%1$s shared »%2$s« with you and wants to add" : "%1$s compartilhou »%2$s« com você e quer adicionar",
     "»%s« added a note to a file shared with you" : "»%s« adicionou uma anotação num arquivo compartilhado com você",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Você compartilhou »%1$s« com %2$s. O compartilhamento já foi enviado para o destinatário. Devido às políticas de segurança definidas pelo administrador de %3$s cada compartilhamento precisa ser protegido por senha e não é permitido enviar a senha diretamente ao destinatário. Portanto, você precisa encaminhar a senha manualmente para o destinatário.",
-    "Password to access »%1$s« shared with %2$s" : "Senha de acesso »%1$s« compartilhada com %2$s",
     "This is the password:" : "Essa é a senha:",
     "You can choose a different password at any time in the share dialog." : "Você pode escolher uma senha diferente a qualquer momento no diálogo compartilhamento.",
     "Could not find share" : "Não foi possível encontrar o compartilhamento",
@@ -58,6 +57,7 @@
     "It is protected with the following password: %s" : "Está protegido com a seguinte senha: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Você compartilhou »%s« com %s. O compartilhamento já foi enviado ao destinatário. Devido às políticas de segurança definidas pelo administrador de %s, cada compartilhamento necessita ser protegido por senha e não é permitido enviar a senha diretamente ao destinatário. Portanto você necessita enviar a senha manualmente ao destinatário.",
     "Password to access »%s« shared with %s" : "Senha para acessar »%s« compartilhado com %s",
-    "This is the password: %s" : "Essa é a senha: %s"
+    "This is the password: %s" : "Essa é a senha: %s",
+    "Password to access »%1$s« shared with %2$s" : "Senha de acesso »%1$s« compartilhada com %2$s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
