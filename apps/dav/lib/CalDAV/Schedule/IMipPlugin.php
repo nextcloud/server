@@ -244,7 +244,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addFooter();
 		$message->useTemplate($template);
 
-		# We choose to work like thinderbird Lightning.
+		# We choose to work like Thunderbird Lightning.
 		# using a plain text text/calendar ics.
 		# This plain text text/calendar part is needed for
 		# Microsoft Outlook versions <=2010 to work.
