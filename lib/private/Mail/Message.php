@@ -63,7 +63,7 @@ class Message implements IMessage {
 	 * @param $content-type = null: Mime Content-Type (e.g. text/plain or text/calendar)
 	 * @param $charset = null: Character Set (e.g. UTF-8)
 	 * @return $this
-	 * @since 14.0.4
+	 * @since 16.0.0
 	 */
 	public function addPart($data, $content_type = null, $charset = null): IMessage {
 	       # To be sure this works with iCalendar messages, we encode with 8bit instead of
