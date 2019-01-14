@@ -31,7 +31,7 @@ import 'jquery-ui-dist/jquery-ui.theme.css'
 import autosize from 'autosize'
 import Backbone from 'backbone'
 import 'bootstrap/js/tooltip'
-import Clipboard from 'clipboard'
+import ClipboardJS from 'clipboard'
 import cssVars from 'css-vars-ponyfill'
 import dav from 'davclient.js'
 import DOMPurify from 'dompurify'
@@ -52,7 +52,8 @@ window['_'] = _
 window['$'] = $
 window['autosize'] = autosize
 window['Backbone'] = Backbone
-window['Clipboard'] = Clipboard
+window['Clipboard'] = ClipboardJS
+window['ClipboardJS'] = ClipboardJS
 window['cssVars'] = cssVars
 window['dav'] = dav
 window['DOMPurify'] = DOMPurify
