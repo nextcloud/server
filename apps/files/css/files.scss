@@ -852,19 +852,27 @@ table.dragshadow td.size {
 					.nametext {
 						display: flex;
 						height: 44px;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
 						margin-top: $grid-size - $grid-pad;
-						padding-right: 0;
-						text-align: right;
+						text-align: center;
 						line-height: 44px;
-						padding-left: $grid-pad; // same as action icon right padding
+						padding: 0;
 
 						.innernametext {
 							display: inline-block;
-							width: 100%;
-							max-width: 80px;
+							text-align: center;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+						&:before {
+							content: '';
+							flex: 1;
+							min-width: 14px;
+						}
+						&:after {
+							content: '';
+							flex: 1;
+							min-width: 44px;
 						}
 
 						/* No space for extension in grid view */
@@ -878,6 +886,8 @@ table.dragshadow td.size {
 						margin-top: $grid-size - $grid-pad;
 						display: flex;
 						align-items: center;
+						position: absolute;
+						right: 0;
 
 						.action {
 							padding: $grid-pad;
@@ -887,17 +897,8 @@ table.dragshadow td.size {
 							align-items: center;
 							justify-content: center;
 
-							&.action-share.permanent.shared-style span {
-								/* Do not show "Shared" text next to icon as there is no space */
-								&:not(.icon) {
-									display: none;
-								}
-
-								/* If an avatar is present, show that instead of the icon */
-								&.avatar {
-									display: inline-block;
-									position: absolute;
-								}
+							&.action.action-share.permanent {
+								display: none;
 							}
 
 							/* In "Deleted files", do not show "Restore" text next to icon as there is no space */
