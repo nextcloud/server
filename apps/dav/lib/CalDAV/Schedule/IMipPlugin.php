@@ -247,7 +247,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		# We choose to work like Thunderbird Lightning.
 		# using a plain text text/calendar ics.
 		# This plain text text/calendar part is needed for
-		# Microsoft Outlook versions <=2010 to work.
+		# Microsoft Outlook versions <= 2010 to work.
 
 		# The attachment base64 text/calendar part is removed from the code
 		#$attachment = $this->mailer->createAttachment(
