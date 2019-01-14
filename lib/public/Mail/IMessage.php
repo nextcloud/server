@@ -44,7 +44,7 @@ interface IMessage {
 	 * @param $content-type = null: Mime Content-Type (e.g. text/plain or text/calendar)
 	 * @param $charset = null: Character Set (e.g. UTF-8)
 	 * @return IMessage
-	 * @since 14.0.4
+	 * @since 16.0.0
 	 */
 	public function addPart($body, $content_type = null, $charset = null): IMessage;
 
