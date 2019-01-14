@@ -193,10 +193,31 @@ class ShareesAPIController extends OCSController {
 
 		list($result, $hasMoreResults) = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
+		// Filter all labels for output
+		$result = array_map(function($types) {
+			return array_map(function($entry) {
+				if (isset($entry['label'])) {
+					$entry['label'] = htmlentities($entry['label']);
+				}
+				return $entry;
+			}, $types);
+		}, $result);
+
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if(isset($result['exact'])) {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
+
+		// Filter all exact matches
+		$result['exact'] = array_map(function($types) {
+			return array_map(function($entry) {
+				if (isset($entry['label'])) {
+					$entry['label'] = htmlentities($entry['label']);
+				}
+				return $entry;
+			}, $types);
+		}, $result['exact']);
+
 		$this->result = array_merge($this->result, $result);
 		$response = new DataResponse($this->result);
 
