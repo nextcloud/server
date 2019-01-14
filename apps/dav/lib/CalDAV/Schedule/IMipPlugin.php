@@ -249,14 +249,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		# This plain text text/calendar part is needed for
 		# Microsoft Outlook versions <= 2010 to work.
 
-		# The attachment base64 text/calendar part is removed from the code
-		#$attachment = $this->mailer->createAttachment(
-		#	$iTipMessage->message->serialize(),
-		#	'event.ics',// TODO(leon): Make file name unique, e.g. add event id
-		#	'text/calendar; method=' . $iTipMessage->method
-		#);
-		#$message->attach($attachment);
-
 		$itip_msg = $iTipMessage->message->serialize();
 		$message->addPart(
 				$itip_msg,
