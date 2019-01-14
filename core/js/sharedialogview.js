@@ -477,7 +477,7 @@
 
 		autocompleteRenderItem: function(ul, item) {
 			var icon = 'icon-user';
-			var text = item.label;
+			var text = escapeHTML(item.label);
 			var description = '';
 			var type = '';
 			var getTranslatedType = function(type) {
@@ -497,7 +497,7 @@
 			}
 
 			if (typeof item.name !== 'undefined') {
-				text = item.name;
+				text = escapeHTML(item.name);
 			}
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				icon = 'icon-contacts-dark';
