@@ -39,7 +39,6 @@
     "%1$s shared »%2$s« with you and wants to add" : "%1$s s vámi sdílí „%2$s“ a chce přidat",
     "»%s« added a note to a file shared with you" : "„%s“ přidal(a) poznámku k souboru, který je s vámi sdílený",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s „%1$s“ nasdílel(a) %2$s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %3$s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset ručně přeposlat.",
-    "Password to access »%1$s« shared with %2$s" : "Heslo pro přístup k „%1$s“ sdílenému s %2$s",
     "This is the password:" : "Toto je heslo:",
     "You can choose a different password at any time in the share dialog." : "V dialogu sdílení můžete kdykoliv vybrat jiné heslo.",
     "Could not find share" : "Sdílení se nedaří nalézt",
@@ -58,6 +57,7 @@
     "It is protected with the following password: %s" : "Je chráněn následujícím heslem: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s »%s» nasdílel(a) %s. Sdílení bylo již příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset manuálně přeposlat.",
     "Password to access »%s« shared with %s" : "Heslo pro přístup k „%s“ sdíleno s %s",
-    "This is the password: %s" : "Toto je heslo: %s"
+    "This is the password: %s" : "Toto je heslo: %s",
+    "Password to access »%1$s« shared with %2$s" : "Heslo pro přístup k „%1$s“ sdílenému s %2$s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
