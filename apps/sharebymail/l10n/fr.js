@@ -41,7 +41,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s a partagé \"%2$s\" avec vous et veut ajouter ",
     "»%s« added a note to a file shared with you" : "\"%s\" a ajouté une note à un fichier partagé avec vous.",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Vous venez de partager «%1$s» avec %2$s. Le partage a déjà été envoyé au destinataire. En raison de la politique de sécurité définie par l'administrateur de %3$s, chaque partage a besoin d'être protégé par mot de passe et il n'est pas autorisé d'envoyer le mot de passe directement au destinataire. C'est pourquoi vous devez transmettre le mot de passe manuellement au destinataire.",
-    "Password to access »%1$s« shared with %2$s" : "Mot de passe pour accéder à  «%1$s» partagé avec %2$s",
     "This is the password:" : "Voici le mot de passe :",
     "You can choose a different password at any time in the share dialog." : "Vous pouvez choisir un mot de passe différent à n'importe quel moment dans la boîte de dialogue de partage.",
     "Could not find share" : "Impossible de trouver le partage",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "It is protected with the following password: %s" : "Il est protégé avec le mot de passe suivant : %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Vous venez de partager «%s» avec %s. Le partage a déjà été envoyé au destinataire. En raison de la politique de sécurité définie par l'administrateur de %s, chaque partage a besoin d'être protégé par mot de passe et il n'est pas autorisé d'envoyer le mot de passe directement au destinataire. C'est pourquoi vous devez transmettre le mot de passe manuellement au destinataire.",
     "Password to access »%s« shared with %s" : "Mot de passe pour accèder à  «%s» partagé avec %s",
-    "This is the password: %s" : "Voici le mot de passe : %s"
+    "This is the password: %s" : "Voici le mot de passe : %s",
+    "Password to access »%1$s« shared with %2$s" : "Mot de passe pour accéder à  «%1$s» partagé avec %2$s"
 },
 "nplurals=2; plural=(n > 1);");

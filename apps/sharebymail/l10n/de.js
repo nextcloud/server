@@ -41,7 +41,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$shat »%2$s« mit Dir geteilt und möchte folgendes hinzufügen",
     "»%s« added a note to a file shared with you" : "»%s« « hat eine Bemerkung zu einer mit Dir geteilten Datei hinzugefügt",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du hast »%1$s« mit %2$s geteilt. Die Freigabe wurde an den Empfänger gesandt. Aufgrund der Sicherheits-Richtlinien, die der Administrator von %3$s vorgegeben hat, benötigt jede Freigabe einen Passwortschutz und es ist nicht zulässig, ein Passwort direkt an den Empfänger zu versenden. Aus diesem Grund musst Du das Passwort selbst an den Empfänger senden.",
-    "Password to access »%1$s« shared with %2$s" : "Passwort für den Zugriff auf %1$s, geteilt mit %2$s",
     "This is the password:" : "Das Passwort lautet: ",
     "You can choose a different password at any time in the share dialog." : "Im Teilen-Dialog kannst Du jederzeit ein anderes Passwort wählen.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "It is protected with the following password: %s" : "Dies ist mit dem folgendem Passwort geschützt: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du hast »%s« mit %s geteilt. Die Freigabe wurde an den Empfänger gesandt. Aufgrund der Sicherheits-Richtlinien, die der Administrator von %s vorgegeben hat, benötigt jede Freigabe einen Passwortschutz und es ist nicht zulässig, ein Passwort direkt an den Empfänger zu versenden. Aus diesem Grund musst Du das Passwort selbst an den Empfänger senden.",
     "Password to access »%s« shared with %s" : "Passwort für den Zugriff auf %s, geteilt mit %s",
-    "This is the password: %s" : "Das Passwort lautet: %s"
+    "This is the password: %s" : "Das Passwort lautet: %s",
+    "Password to access »%1$s« shared with %2$s" : "Passwort für den Zugriff auf %1$s, geteilt mit %2$s"
 },
 "nplurals=2; plural=(n != 1);");
