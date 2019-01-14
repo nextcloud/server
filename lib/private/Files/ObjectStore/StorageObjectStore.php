@@ -89,4 +89,7 @@ class StorageObjectStore implements IObjectStore {
 		$this->storage->unlink($urn);
 	}
 
+	public function objectExists($urn) {
+		return $this->storage->file_exists($urn);
+	}
 }
