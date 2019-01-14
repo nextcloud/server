@@ -126,6 +126,6 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 
 	protected function getPrincipal($principalUri) {
 		$uri = explode('/', $principalUri);
-		return $uri[2];
+		return array_pop($uri);
 	}
 }
