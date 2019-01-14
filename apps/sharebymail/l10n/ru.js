@@ -33,7 +33,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%1$s» пользователю %2$s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %3$s, каждый общий ресурс должен быть защищён паролем, а также не допускается непосредственное отправление пароля получателю, поэтому вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
-    "Password to access »%1$s« shared with %2$s" : "Пароль для доступа пользователя %2$s к ресурсу «%1$s»",
     "This is the password:" : "Пароль: ",
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
     "Could not find share" : "Не удалось найти общий ресурс",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "It is protected with the following password: %s" : "Доступ защищён следующим паролем: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%s» пользователю %s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %s, каждый общий ресурс должен быть защищён паролем, а так же не допускается непосредственное отправление пароля получателю, поэтому Вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
     "Password to access »%s« shared with %s" : "Паролем для доступа к «%s» поделились с %s",
-    "This is the password: %s" : "Пароль: %s"
+    "This is the password: %s" : "Пароль: %s",
+    "Password to access »%1$s« shared with %2$s" : "Пароль для доступа пользователя %2$s к ресурсу «%1$s»"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
