@@ -327,6 +327,8 @@ class UsersController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
+		$displayname = filter_var($displayname, FILTER_SANITIZE_STRING);
+
 		$user = $this->userSession->getUser();
 		$data = $this->accountManager->getUser($user);
 		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
