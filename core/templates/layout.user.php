@@ -59,10 +59,10 @@
 									</svg>
 								<div class="icon-loading-small-dark"
 									 style="display:none;"></div>
+								<span>
+									<?php p($entry['name']); ?>
+								</span>
 							</a>
-							<span>
-								<?php p($entry['name']); ?>
-							</span>
 						</li>
 					<?php endforeach; ?>
 					<li id="more-apps" class="menutoggle"
