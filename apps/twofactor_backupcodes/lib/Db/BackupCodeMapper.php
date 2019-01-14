@@ -22,11 +22,12 @@
 namespace OCA\TwoFactorBackupCodes\Db;
 
 use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 
-class BackupCodeMapper extends Mapper {
+class BackupCodeMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'twofactor_backupcodes');
@@ -43,14 +44,8 @@ class BackupCodeMapper extends Mapper {
 		$qb->select('id', 'user_id', 'code', 'used')
 			->from('twofactor_backupcodes')
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
-		$result = $qb->execute();
 
-		$rows = $result->fetchAll();
-		$result->closeCursor();
-
-		return array_map(function ($row) {
-			return BackupCode::fromRow($row);
-		}, $rows);
+		return self::findEntities($qb);
 	}
 
 	/**
