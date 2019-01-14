@@ -482,7 +482,7 @@ nav[role='navigation'] {
 		a.active {
 			opacity: 1;
 		}
-	
+
 		&:hover a + span,
 		a:focus + span,
 		&:hover span,
@@ -504,7 +504,7 @@ nav[role='navigation'] {
 			width: 20px;
 			height: 20px;
 		}
-	
+
 		/* App title */
 		span {
 			opacity: 0;
@@ -516,6 +516,7 @@ nav[role='navigation'] {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			transition: all var(--animation-quick) ease;
+			pointer-events: none;
 		}
 
 		/* Set up transitions for showing app titles on hover */
