@@ -39,6 +39,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\ILogger;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -80,6 +81,8 @@ class LostController extends Controller {
 	protected $timeFactory;
 	/** @var ICrypto */
 	protected $crypto;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param string $appName
@@ -108,7 +111,8 @@ class LostController extends Controller {
 								IManager $encryptionManager,
 								IMailer $mailer,
 								ITimeFactory $timeFactory,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -121,6 +125,7 @@ class LostController extends Controller {
 		$this->mailer = $mailer;
 		$this->timeFactory = $timeFactory;
 		$this->crypto = $crypto;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -236,10 +241,11 @@ class LostController extends Controller {
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
-		} catch (\Exception $e){
-			$response = new JSONResponse($this->error($e->getMessage()));
-			$response->throttle();
-			return $response;
+		} catch (\Exception $e) {
+			// Ignore the error since we do not want to leak this info
+			$this->logger->logException($e, [
+				'level' => ILogger::WARN
+			]);
 		}
 
 		$response = new JSONResponse($this->success());
