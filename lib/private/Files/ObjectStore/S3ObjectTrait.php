@@ -90,4 +90,8 @@ trait S3ObjectTrait {
 			'Key' => $urn
 		]);
 	}
+
+	public function objectExists($urn) {
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+	}
 }
