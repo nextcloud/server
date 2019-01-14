@@ -75,11 +75,10 @@ function emit_css_loading_tags($obj) {
  * @param string $script_content the inline script content, ignored when empty
 */
 function emit_script_tag($src, $script_content='') {
-	$defer_str=' defer';
 	$s='<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
 	if (!empty($src)) {
 		 // emit script tag for deferred loading from $src
-		$s.=$defer_str.' src="' . $src .'">';
+		$s.=' src="' . $src .'">';
 	} else if (!empty($script_content)) {
 		// emit script tag for inline script from $script_content without defer (see MDN)
 		$s.=">\n".$script_content."\n";
@@ -96,11 +95,11 @@ function emit_script_tag($src, $script_content='') {
  * @param array $obj all the script information from template
 */
 function emit_script_loading_tags($obj) {
-	foreach($obj['jsfiles'] as $jsfile) {
-		emit_script_tag($jsfile, '');
-	}
 	if (!empty($obj['inline_ocjs'])) {
 		emit_script_tag('', $obj['inline_ocjs']);
+	}
+	foreach($obj['jsfiles'] as $jsfile) {
+		emit_script_tag($jsfile, '');
 	}
 }
 
