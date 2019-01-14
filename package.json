@@ -48,7 +48,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.0",
     "babel-loader": "^8.0.5",
-    "css-loader": "^2.0.1",
+    "css-loader": "^2.1.0",
     "exports-loader": "^0.7.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
