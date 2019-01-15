@@ -41,6 +41,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s delade »%2$s« med dig och vill lägga till",
     "»%s« added a note to a file shared with you" : "»%s« la till en kommentar till en fil delad med dig",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du delade precis »%1$s« med %2$s. Delningen var redan skickat till mottagaren. På grund av säkerhetspolicyn definierad av administratören av %3$s måste varje delning vara lösenordsskyddad och det är inte tillåtet att skicka lösenordet direkt till mottagaren. Därför behöver du vidarebefordra lösenordet manuellt till mottagaren.",
+    "Password to access »%1$s« shared by you with %2$s" : "Lösenord för åtkomst till »%1$s« delad av dig med %2$s",
     "This is the password:" : "Detta är lösenordet:",
     "You can choose a different password at any time in the share dialog." : "Du kan välja ett annat lösenord när som helst i delningsdialogen.",
     "Could not find share" : "Kunde inte hitta delning",
