@@ -36,10 +36,10 @@ use Test\TestCase;
  */
 class ListCalendarsTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 	private $userManager;
 
-	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
 	private $calDav;
 
 	/** @var ListCalendars */
@@ -71,7 +71,7 @@ class ListCalendarsTest extends TestCase {
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
-			'user' => self::USERNAME,
+			'uid' => self::USERNAME,
 		]);
 		$this->assertContains("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
 	}
@@ -90,7 +90,7 @@ class ListCalendarsTest extends TestCase {
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
-			'user' => self::USERNAME,
+			'uid' => self::USERNAME,
 		]);
 		$this->assertContains("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
@@ -131,7 +131,7 @@ class ListCalendarsTest extends TestCase {
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
-			'user' => self::USERNAME,
+			'uid' => self::USERNAME,
 		]);
 		$this->assertContains($output, $commandTester->getDisplay());
 		$this->assertNotContains(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());

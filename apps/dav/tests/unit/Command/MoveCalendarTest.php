@@ -39,10 +39,10 @@ use Test\TestCase;
  */
 class MoveCalendarTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject $groupManager */
+	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
 	private $groupManager;
 
 	/** @var \OCP\Share\IManager|\PHPUnit_Framework_MockObject_MockObject $shareManager */
@@ -111,8 +111,8 @@ class MoveCalendarTest extends TestCase {
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => $this->command->getName(),
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 	}
 
@@ -139,8 +139,8 @@ class MoveCalendarTest extends TestCase {
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 	}
 
@@ -175,8 +175,8 @@ class MoveCalendarTest extends TestCase {
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 	}
 
@@ -206,14 +206,11 @@ class MoveCalendarTest extends TestCase {
 			->with(1234)
 			->willReturn([]);
 
-		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
-			->willReturn(true);
-
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
@@ -256,13 +253,12 @@ class MoveCalendarTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('shareWithGroupMembersOnly')
 			->willReturn($shareWithGroupMembersOnly);
 
+		$this->calDav->expects($this->once())->method('getShares')
+			->with(1234)
+			->willReturn([
+				['href' => 'principal:principals/groups/nextclouders']
+		]);
 		if ($shareWithGroupMembersOnly === true) {
-			$this->calDav->expects($this->once())->method('getShares')
-				->with(1234)
-				->willReturn([
-					['href' => 'principal:principals/groups/nextclouders']
-			]);
-
 			$this->expectException(InvalidArgumentException::class);
 			$this->expectExceptionMessage("User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.");
 		}
@@ -270,8 +266,8 @@ class MoveCalendarTest extends TestCase {
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 	}
 
@@ -314,8 +310,8 @@ class MoveCalendarTest extends TestCase {
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 		]);
 
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
@@ -338,7 +334,7 @@ class MoveCalendarTest extends TestCase {
 			->willReturn([
 				'id' => 1234,
 				'uri' => 'personal',
-				'{DAV:}displayname' => 'personal'
+				'{DAV:}displayname' => 'Personal'
 			]);
 
 		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
@@ -351,17 +347,81 @@ class MoveCalendarTest extends TestCase {
 		$this->calDav->expects($this->once())->method('getShares')
 			->with(1234)
 			->willReturn([
-				['href' => 'principal:principals/groups/nextclouders']
+				[
+					'href' => 'principal:principals/groups/nextclouders',
+					'{DAV:}displayname' => 'Personal'
+				]
 			]);
+		$this->calDav->expects($this->once())->method('updateShares');
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
 			'name' => 'personal',
-			'userorigin' => 'user',
-			'userdestination' => 'user2',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
 			'--force' => true
 		]);
 
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+	}
+
+	public function dataTestMoveWithCalendarAlreadySharedToDestination(): array
+	{
+		return [
+			[true],
+			[false]
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestMoveWithCalendarAlreadySharedToDestination
+	 */
+	public function testMoveWithCalendarAlreadySharedToDestination(bool $force)
+	{
+		$this->userManager->expects($this->at(0))
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+
+		$this->userManager->expects($this->at(1))
+			->method('userExists')
+			->with('user2')
+			->willReturn(true);
+
+		$this->calDav->expects($this->at(0))->method('getCalendarByUri')
+			->with('principals/users/user', 'personal')
+			->willReturn([
+				'id' => 1234,
+				'uri' => 'personal',
+				'{DAV:}displayname' => 'Personal',
+			]);
+
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+			->with('principals/users/user2', 'personal')
+			->willReturn(null);
+
+		$this->calDav->expects($this->once())->method('getShares')
+				->with(1234)
+				->willReturn([
+					[
+						'href' => 'principal:principals/users/user2',
+						'{DAV:}displayname' => 'Personal'
+					]
+			]);
+
+		if ($force === false) {
+			$this->expectException(InvalidArgumentException::class);
+			$this->expectExceptionMessage("The calendar <personal> is already shared to user <user2>.You may use -f to move the calendar while deleting this share.");
+		} else {
+			$this->calDav->expects($this->once())->method('updateShares');
+		}
+
+		$commandTester = new CommandTester($this->command);
+		$commandTester->execute([
+			'name' => 'personal',
+			'sourceuid' => 'user',
+			'destinationuid' => 'user2',
+			'--force' => $force,
+		]);
 	}
 }

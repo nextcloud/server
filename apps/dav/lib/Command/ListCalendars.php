@@ -59,13 +59,13 @@ class ListCalendars extends Command {
 		$this
 			->setName('dav:list-calendars')
 			->setDescription('List all calendars of a user')
-			->addArgument('user',
+			->addArgument('uid',
 				InputArgument::REQUIRED,
 				'User for whom all calendars will be listed');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$user = $input->getArgument('user');
+		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> is unknown.");
 		}
