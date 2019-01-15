@@ -29,6 +29,7 @@ OC.L10N.register(
     "You deleted event {event} from calendar {calendar}" : "Je verwijderde afspraak {event} uit agenda {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} heeft afspraak {event} in agenda {calendar} bijgewerkt",
     "You updated event {event} in calendar {calendar}" : "Je hebt afspraak {event} in agenda {calendar} bijgewerkt",
+    "Busy" : "Bezig",
     "{actor} created todo {todo} in list {calendar}" : "{actor} creëerde taak {todo} in lijst {calendar}",
     "You created todo {todo} in list {calendar}" : "Jij creëerde taak {todo} in lijst {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} heeft de taak {todo} uit lijst {calendar} verwijderd",

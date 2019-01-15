@@ -58,7 +58,6 @@ OC.L10N.register(
     "Show all contacts …" : "Näytä kaikki yhteystiedot…",
     "Loading your contacts …" : "Ladataan yhteystietojasi…",
     "Looking for {term} …" : "Etsii {term} …",
-    "size" : "koko",
     "No action available" : "Toimintoa ei saatavilla",
     "Error fetching contact actions" : "Virhe yhteystiedon toimintojen haussa",
     "Settings" : "Asetukset",

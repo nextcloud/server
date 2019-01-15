@@ -51,7 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "The mountpoint name contains invalid characters." : "Nomo de la munta punkto enhavas nevalidajn signojn.",
+    "The mountpoint name contains invalid characters." : "Nomo de la surmetingo enhavas nevalidajn signojn.",
     "Not allowed to create a federated share with the owner." : "Vi ne rajtas krei federan kunhavon kun la posedanto.",
     "Invalid or untrusted SSL certificate" : "SSL-atestilo ne validas aŭ ne fidindas",
     "Could not authenticate to remote share, password might be wrong" : "Aŭtentiga eraro al fora kunhavo: la pasvorto eble malĝustas.",

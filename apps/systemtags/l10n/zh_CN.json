@@ -33,7 +33,7 @@
     "%1$s added system tag %3$s to %2$s" : "%1$s 为 %2$s 添加了系统标签 %3$s",
     "{actor} added system tag {systemtag} to {file}" : "{actor} 为 {file} 添加了系统标签 {systemtag}",
     "You removed system tag %2$s from %1$s" : "您从 %1$s 移除了系统标签 %2$s",
-    "You removed system tag {systemtag} from {file}" : "您从 {file} 移除了系统标签 {systemtag}。",
+    "You removed system tag {systemtag} from {file}" : "您从 {file} 移除了系统标签 {systemtag}",
     "%1$s removed system tag %3$s from %2$s" : "%1$s 从 %2$s 移除了系统标签 %3$s",
     "{actor} removed system tag {systemtag} from {file}" : "{actor} 从 {file} 中移除了系统标签 {systemtag}",
     "%s (restricted)" : "%s（受限）",
