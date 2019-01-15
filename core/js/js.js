@@ -1354,7 +1354,9 @@ function initCore() {
 
 	// css variables fallback for IE
 	if (msie > 0 || trident > 0) {
-		cssVars();
+		cssVars({
+			watch: true
+		});
 	}
 
 	$(window).on('unload.main', function() {
