@@ -2,7 +2,7 @@
 OC.Lostpassword = {
 	sendErrorMsg : t('core', 'Couldn\'t send reset email. Please contact your administrator.'),
 
-	sendSuccessMsg : t('core', 'The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator.'),
+	sendSuccessMsg : t('core', 'We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator.'),
 
 	encryptedMsg : t('core', "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?")
 			+ ('<br /><input type="checkbox" id="encrypted-continue" class="checkbox checkbox--white" value="Yes" />')
