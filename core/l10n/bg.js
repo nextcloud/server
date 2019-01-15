@@ -54,8 +54,6 @@ OC.L10N.register(
     "No contacts found" : "Няма намерени контакти",
     "Show all contacts …" : "Покажи всички контакти ...",
     "Loading your contacts …" : "Зареждане на контактите ...",
-    "size" : "размер",
-    "(" : "(",
     "No action available" : "Няма налични действия",
     "Settings" : "Настройки",
     "Connection to server lost" : "Няма връзка със сървъра",
