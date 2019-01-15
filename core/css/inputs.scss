@@ -230,7 +230,7 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: url('../img/actions/triangle-s.svg') no-repeat right 4px center;
+	background: var(--icon-triangle-s-000) no-repeat right 4px center;
 	background-color: inherit;
 	outline: 0;
 	padding-right: 24px !important;
