@@ -41,6 +41,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s deelde »%2$s« met jou en wil toevoegen",
     "»%s« added a note to a file shared with you" : "»%s« voegde een notitie toe aan een bestand dat met jou is gedeeld",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Je deelde  »%1$s« met %2$s. De link is al gestuurd naar de geadresseerde. Vanwege de beveiligingsinstellingen, zoals ingesteld door de beheerder van %3$s, moet het delen worden beveiligd met een wachtwoord en is het niet toegestaan het wachtwoord rechtstreeks naar de ontvanger te versturen. Hierdoor moet je het wachtwoord zelf handmatig naar de ontvanger sturen.",
+    "Password to access »%1$s« shared by you with %2$s" : "Wachtwoord voor toegang tot »%1$s« door jou gedeeld met %2$s",
     "This is the password:" : "Dit is het wachtwoord:",
     "You can choose a different password at any time in the share dialog." : "Je kunt in de Delen-dialoog altijd een ander wachtwoord kiezen.",
     "Could not find share" : "Kon gedeeld niet vinden",
