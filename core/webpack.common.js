@@ -52,7 +52,8 @@ module.exports = [
 	},
 	{
 		entry: {
-			share_backend: path.resolve(__dirname, 'js/merged-share-backend.js')
+			share_backend: path.resolve(__dirname, 'js/merged-share-backend.js'),
+			template_prepend: path.resolve(__dirname, 'js/merged-template-prepend.js')
 		},
 		output: {
 			filename: '[name].js',
