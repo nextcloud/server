@@ -85,7 +85,7 @@ class Share extends Constants {
 					'supportedFileExtensions' => $supportedFileExtensions
 				);
 				if(count(self::$backendTypes) === 1) {
-					Util::addScript('core', 'merged-share-backend');
+					Util::addScript('core', 'dist/share_backend');
 				}
 				return true;
 			}
