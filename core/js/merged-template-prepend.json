@@ -17,5 +17,6 @@
   "select2-toggleselect.js",
   "placeholder.js",
   "jquery.avatar.js",
-  "jquery.contactsmenu.js"
+  "jquery.contactsmenu.js",
+  "jquery-ui-fixes.js"
 ]
