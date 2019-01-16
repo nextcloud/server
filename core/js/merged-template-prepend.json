@@ -18,5 +18,7 @@
   "placeholder.js",
   "jquery.avatar.js",
   "jquery.contactsmenu.js",
-  "jquery-ui-fixes.js"
+  "jquery-ui-fixes.js",
+  "search/search.js",
+  "search/searchprovider.js"
 ]

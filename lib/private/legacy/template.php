@@ -115,9 +115,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
 			OC_Util::addStyle('search', 'results');
-			OC_Util::addScript('search', 'search', true);
-			OC_Util::addScript('search', 'searchprovider');
-			OC_Util::addScript('merged-template-prepend', null, true);;
+			OC_Util::addScript('merged-template-prepend', null, true);
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
 			OC_Util::addScript('contactsmenu');
