@@ -41,6 +41,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sizinle »%2$s« ögesini paylaştı ve eklemenizi istiyor",
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "»%1$s« ögesini %2$s ile paylaştınız. Paylaşım alıcıya gönderildi. %3$s yöneticisi tarafından belirlenmiş güvenlik ilkelerine göre her bir paylaşım için bir parola belirtilmesi ve bu parolanın alıcıya doğrudan gönderilmemesi gerekiyor. Bu nedenle parolayı alıcıya el ile siz iletmelisiniz.",
+    "Password to access »%1$s« shared by you with %2$s" : "»%1$s« için %2$s üzerinden paylaştığınız erişim parolası",
     "This is the password:" : "Parola:",
     "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",

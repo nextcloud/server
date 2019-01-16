@@ -41,6 +41,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s је поделио „%2$s“ са Вама и жели да дода",
     "»%s« added a note to a file shared with you" : "„%s“ је додао белешку на фајл који дели са Вама",
     "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Управо сте поделили „%1$s“ са корисником %2$s. Дељење је већ послато примаоцу. Због безбедоносне политике коју је дефинисао администратор инстанце %3$s, свако дељење мора бити заштићено лозинком и није дозвољено да пошаљете лозинку директно кориснику. Због тога морате ручно послати лозинку примаоцу.",
+    "Password to access »%1$s« shared by you with %2$s" : "Корисник %2$s је поделио са Вама лозинку за приступ „%1$s“",
     "This is the password:" : "Ово је лозинка:",
     "You can choose a different password at any time in the share dialog." : "Можете да одаберете другу лозинку кад год желите у дијалогу за дељење.",
     "Could not find share" : "Не могу да пронађем дељење",

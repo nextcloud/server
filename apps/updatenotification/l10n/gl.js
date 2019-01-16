@@ -24,7 +24,7 @@ OC.L10N.register(
     "Update channel:" : "Canle de actualización:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sempre poderá actualizar á versión más recente ou á canle experimental, mais nunca poderá volver a unha canle máis estábel.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Teña en conta que despois da publicación dunha nova versión pode levar algún tempo antes de que se mostre eiquí. Programamos novas versións ao longo do tempo para os nosos usuarios e ás veces saltamos unha versión cando se atopan problemas.",
-    "Notify members of the following groups about available updates:" : "Notificar aos participantes nos seguintes grupos sobre actualizacións dispoñíbeis:",
+    "Notify members of the following groups about available updates:" : "Notificar aos membros dos seguintes grupos sobre actualizacións dispoñíbeis:",
     "Only notification for app updates are available." : "Só están dispoñíbeis as notificacións para actualizacións de aplicativos.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A canle de actualización seleccionada fai obsoletas as notificacións dedicadas para o servidor.",
     "The selected update channel does not support updates of the server." : "A canle de actualización seleccionada non admite actualizacións do servidor.",
