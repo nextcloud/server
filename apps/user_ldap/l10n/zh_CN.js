@@ -143,7 +143,7 @@ OC.L10N.register(
     "User Display Name Field" : "用户显示名称字段",
     "The LDAP attribute to use to generate the user's display name." : "用来生成用户的显示名称的 LDAP 属性。",
     "2nd User Display Name Field" : "第二用户显示名称字段",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "可选项。LDAP 属性被添加到显示名称的括号内。例如»John Doe (john.doe@example.org)«。",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "可选项。LDAP 属性被添加到显示名称的括号内。例如 »John Doe (john.doe@example.org)«。",
     "Base User Tree" : "基础用户树",
     "One User Base DN per line" : "每行一个用户基准判别名",
     "User Search Attributes" : "用户搜索属性",

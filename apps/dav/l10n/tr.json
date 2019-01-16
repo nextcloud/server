@@ -27,6 +27,7 @@
     "You deleted event {event} from calendar {calendar}" : "{calendar} takviminden {event} etkinliğini sildiniz",
     "{actor} updated event {event} in calendar {calendar}" : "{actor}, {calendar} takvimindeki {event} etkinliğini güncelledi",
     "You updated event {event} in calendar {calendar}" : "{calendar} takvimindeki {event} etkinliğini güncellediniz",
+    "Busy" : "Meşgul",
     "{actor} created todo {todo} in list {calendar}" : "{actor}, {calendar} takvimi listesine {todo} yapılacak işini ekledi",
     "You created todo {todo} in list {calendar}" : "{calendar} takvimi listesine {todo} yapılacak işini eklediniz",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor}, {calendar} takvimi listesinden {todo} yapılacak işini sildi",

@@ -112,6 +112,7 @@ OC.L10N.register(
     "Default quota" : "Numatytasis leidžiamas duomenų kiekis",
     "All languages" : "Visos kalbos",
     "Your apps" : "Jūsų programėlės",
+    "Active apps" : "Aktyvios programėlės",
     "Disabled apps" : "Išjungtos programėlės",
     "Updates" : "Atnaujinimai",
     "App bundles" : "Programėlių rinkiniai",
