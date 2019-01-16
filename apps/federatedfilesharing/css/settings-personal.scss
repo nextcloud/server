@@ -17,25 +17,22 @@
 
 [class^="social-"], [class*=" social-"] {
 	background-repeat: no-repeat;
-	background-position: 2px;
+	background-position: 8px;
 	min-width: 16px;
 	min-height: 16px;
-	padding-left: 29px;
-	background-size: 24px;
+	padding-left: 28px;
+	background-size: 16px;
 }
 
-.social-gnu {
-	background-image: url('../img/social-gnu.svg');
-}
 .social-diaspora {
-	background-image: url('../img/social-diaspora.svg');
+	@include icon-color('social-diaspora', 'federatedfilesharing', $color-black);
 }
 .social-twitter {
-	background-image: url('../img/social-twitter.svg');
+    @include icon-color('social-twitter', 'federatedfilesharing', $color-black);
 }
 .social-facebook {
-	background-image: url('../img/social-facebook.svg');
+	@include icon-color('social-facebook', 'federatedfilesharing', $color-black);
 }
 .social-googleplus {
-	background-image: url('../img/social-googleplus.svg');
+	@include icon-color('social-googleplus', 'federatedfilesharing', $color-black);
 }
