@@ -1,9 +1,9 @@
-require('./shareconfigmodel.js')
-require('./sharetemplates.js')
-require('./shareitemmodel.js')
-require('./sharesocialmanager.js')
-require('./sharedialogresharerinfoview.js')
-require('./sharedialoglinkshareview.js')
-require('./sharedialogshareelistview.js')
-require('./sharedialogview.js')
-require('./share.js')
+import './shareconfigmodel.js';
+import './sharetemplates.js';
+import './shareitemmodel.js';
+import './sharesocialmanager.js';
+import './sharedialogresharerinfoview.js';
+import './sharedialoglinkshareview.js';
+import './sharedialogshareelistview.js';
+import './sharedialogview.js';
+import './share.js';
