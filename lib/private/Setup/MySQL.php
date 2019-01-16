@@ -126,37 +126,46 @@ class MySQL extends AbstractDatabase {
 
 			//we don't have a dbuser specified in config
 			if ($this->dbUser !== $oldUser) {
-				//add prefix to the admin username to prevent collisions
-				$adminUser = substr('oc_' . $username, 0, 16);
+				// check if the current user actually has all required rights
+				$query = "SELECT user FROM mysql.user WHERE user=? AND Create_priv='Y' AND Grant_priv='Y' AND Create_user_priv='Y'";
+				$result = $connection->executeQuery($query, [$this->dbUser]);
 
-				$i = 1;
-				while (true) {
-					//this should be enough to check for admin rights in mysql
-					$query = 'SELECT user FROM mysql.user WHERE user=?';
-					$result = $connection->executeQuery($query, [$adminUser]);
+				if ($result) {
+					$data = $result->fetchAll();
 
-					//current dbuser has admin rights
-					if ($result) {
-						$data = $result->fetchAll();
-						//new dbuser does not exist
-						if (count($data) === 0) {
-							//use the admin login data for the new database user
-							$this->dbUser = $adminUser;
+					if (count($data) === 1) {
+						//add prefix to the admin username to prevent collisions
+						$adminUser = substr('oc_' . $username, 0, 16);
 
-							//create a random password so we don't need to store the admin password in the config file
-							$this->dbPassword =  $this->random->generate(30);
+						$i = 1;
+						while (true) {
+							// check if proposed username already exists
+							$query = 'SELECT user FROM mysql.user WHERE user=?';
+							$result = $connection->executeQuery($query, [$adminUser]);
 
-							$this->createDBUser($connection);
+							if ($result) {
+								$data = $result->fetchAll();
+								//new dbuser does not exist
+								if (count($data) === 0) {
+									//use the admin login data for the new database user
+									$this->dbUser = $adminUser;
 
-							break;
-						} else {
-							//repeat with different username
-							$length = strlen((string)$i);
-							$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
-							$i++;
+									//create a random password so we don't need to store the admin password in the config file
+									$this->dbPassword =  $this->random->generate(30);
+
+									$this->createDBUser($connection);
+
+									break;
+								} else {
+									//repeat with different username
+									$length = strlen((string)$i);
+									$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
+									$i++;
+								}
+							} else {
+								break;
+							}
 						}
-					} else {
-						break;
 					}
 				}
 			}
