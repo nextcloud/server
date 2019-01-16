@@ -19,21 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-import _ from 'underscore';
 import $ from 'jquery';
 
-import OC from './oc';
-import './globals';
-
-// fix device width on windows phone
-// TODO: check if still in use
-(function () {
-	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-		var msViewportStyle = document.createElement("style");
-		msViewportStyle.appendChild(
-			document.createTextNode("@-ms-viewport{width:auto!important}")
-		);
-		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-	}
-})();
+/**
+ * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
+ * @param {string} s String to sanitize
+ * @return {string} Sanitized string
+ */
+export default function (s) {
+	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
+};

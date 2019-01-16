@@ -19,14 +19,14 @@
  */
 
 /**
- * @namespace
+ * @namespace OC.AppConfig
  * @deprecated Use OCP.AppConfig instead
  */
-OC.AppConfig={
+const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getValue() instead
 	 */
-	getValue:function(app,key,defaultValue,callback){
+	getValue: function (app, key, defaultValue, callback) {
 		OCP.AppConfig.getValue(app, key, defaultValue, {
 			success: callback
 		});
@@ -35,14 +35,14 @@ OC.AppConfig={
 	/**
 	 * @deprecated Use OCP.AppConfig.setValue() instead
 	 */
-	setValue:function(app,key,value){
+	setValue: function (app, key, value) {
 		OCP.AppConfig.setValue(app, key, value);
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.getApps() instead
 	 */
-	getApps:function(callback){
+	getApps: function (callback) {
 		OCP.AppConfig.getApps({
 			success: callback
 		});
@@ -51,7 +51,7 @@ OC.AppConfig={
 	/**
 	 * @deprecated Use OCP.AppConfig.getKeys() instead
 	 */
-	getKeys:function(app,callback){
+	getKeys: function (app, callback) {
 		OCP.AppConfig.getKeys(app, {
 			success: callback
 		});
@@ -60,7 +60,9 @@ OC.AppConfig={
 	/**
 	 * @deprecated Use OCP.AppConfig.deleteKey() instead
 	 */
-	deleteKey:function(app,key){
+	deleteKey: function (app, key) {
 		OCP.AppConfig.deleteKey(app, key);
 	}
 };
+
+export default AppConfig;

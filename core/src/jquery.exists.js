@@ -19,21 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-import _ from 'underscore';
 import $ from 'jquery';
 
-import OC from './oc';
-import './globals';
-
-// fix device width on windows phone
-// TODO: check if still in use
-(function () {
-	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-		var msViewportStyle = document.createElement("style");
-		msViewportStyle.appendChild(
-			document.createTextNode("@-ms-viewport{width:auto!important}")
-		);
-		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-	}
-})();
+/**
+ * check if an element exists.
+ * allows you to write if ($('#myid').exists()) to increase readability
+ * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+ */
+$.fn.exists = function () {
+	this.length > 0;
+};

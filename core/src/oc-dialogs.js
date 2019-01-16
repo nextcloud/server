@@ -1,31 +1,30 @@
-/**
- * ownCloud
+/*
+ * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Bartek Przybylski, Christopher Schäpers, Thomas Tanghus
- * @copyright 2012 Bartek Przybylski bartek@alefzero.eu
+ * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
+ * @license GNU AGPL version 3 or any later version
  *
- * This library is distributed in the hope that it will be useful,
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* global alert */
 
 /**
- * this class to ease the usage of jquery dialogs
  * @lends OC.dialogs
  */
-var OCdialogs = {
+const OcDialogs = {
 	// dialog button types
 	YES_NO_BUTTONS:		70,
 	OK_BUTTONS:		71,
@@ -49,7 +48,7 @@ var OCdialogs = {
 			text,
 			title,
 			'alert',
-			OCdialogs.OK_BUTTON,
+			OcDialogs.OK_BUTTON,
 			callback,
 			modal
 		);
@@ -62,7 +61,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	info:function(text, title, callback, modal) {
-		this.message(text, title, 'info', OCdialogs.OK_BUTTON, callback, modal);
+		this.message(text, title, 'info', OcDialogs.OK_BUTTON, callback, modal);
 	},
 	/**
 	* displays confirmation dialog
@@ -77,7 +76,7 @@ var OCdialogs = {
 			text,
 			title,
 			'notice',
-			OCdialogs.YES_NO_BUTTONS,
+			OcDialogs.YES_NO_BUTTONS,
 			callback,
 			modal
 		);
@@ -95,7 +94,7 @@ var OCdialogs = {
 			text,
 			title,
 			'notice',
-			OCdialogs.YES_NO_BUTTONS,
+			OcDialogs.YES_NO_BUTTONS,
 			callback,
 			modal,
 			true
@@ -113,7 +112,7 @@ var OCdialogs = {
 	 */
 	prompt: function (text, title, callback, modal, name, password) {
 		return $.when(this._getMessageTemplate()).then(function ($tmpl) {
-			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
+			var dialogName = 'oc-dialog-' + OcDialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
 				dialog_name: dialogName,
@@ -170,7 +169,7 @@ var OCdialogs = {
 				}
 			});
 			input.focus();
-			OCdialogs.dialogsCounter++;
+			OcDialogs.dialogsCounter++;
 		});
 	},
 	/**
@@ -278,7 +277,7 @@ var OCdialogs = {
 					self.$form.submit();
 				});
 				var newName = $input.val();
-				lastPos = newName.lastIndexOf('.');
+				var lastPos = newName.lastIndexOf('.');
 				if (lastPos === -1) {
 					lastPos = newName.length;
 				}
@@ -380,33 +379,33 @@ var OCdialogs = {
 			};
 
 			var chooseCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_CHOOSE);
+				functionToCall(OcDialogs.FILEPICKER_TYPE_CHOOSE);
 			};
 
 			var copyCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_COPY);
+				functionToCall(OcDialogs.FILEPICKER_TYPE_COPY);
 			};
 
 			var moveCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_MOVE);
+				functionToCall(OcDialogs.FILEPICKER_TYPE_MOVE);
 			};
 
 			var buttonlist = [];
-			if (type === OCdialogs.FILEPICKER_TYPE_CHOOSE) {
+			if (type === OcDialogs.FILEPICKER_TYPE_CHOOSE) {
 				buttonlist.push({
 					text: t('core', 'Choose'),
 					click: chooseCallback,
 					defaultButton: true
 				});
 			} else {
-				if (type === OCdialogs.FILEPICKER_TYPE_COPY || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+				if (type === OcDialogs.FILEPICKER_TYPE_COPY || type === OcDialogs.FILEPICKER_TYPE_COPY_MOVE) {
 					buttonlist.push({
 						text: t('core', 'Copy'),
 						click: copyCallback,
 						defaultButton: false
 					});
 				}
-				if (type === OCdialogs.FILEPICKER_TYPE_MOVE || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+				if (type === OcDialogs.FILEPICKER_TYPE_MOVE || type === OcDialogs.FILEPICKER_TYPE_COPY_MOVE) {
 					buttonlist.push({
 						text: t('core', 'Move'),
 						click: moveCallback,
@@ -458,7 +457,7 @@ var OCdialogs = {
 	*/
 	message:function(content, title, dialogType, buttons, callback, modal, allowHtml) {
 		return $.when(this._getMessageTemplate()).then(function($tmpl) {
-			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
+			var dialogName = 'oc-dialog-' + OcDialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
 				dialog_name: dialogName,
@@ -472,7 +471,7 @@ var OCdialogs = {
 			$('body').append($dlg);
 			var buttonlist = [];
 			switch (buttons) {
-			case OCdialogs.YES_NO_BUTTONS:
+			case OcDialogs.YES_NO_BUTTONS:
 				buttonlist = [{
 					text: t('core', 'No'),
 					click: function(){
@@ -493,7 +492,7 @@ var OCdialogs = {
 					defaultButton: true
 				}];
 				break;
-			case OCdialogs.OK_BUTTON:
+			case OcDialogs.OK_BUTTON:
 				var functionToCall = function() {
 					$(dialogId).ocdialog('close');
 					if(callback !== undefined) {
@@ -513,7 +512,7 @@ var OCdialogs = {
 				modal: modal,
 				buttons: buttonlist
 			});
-			OCdialogs.dialogsCounter++;
+			OcDialogs.dialogsCounter++;
 		})
 		.fail(function(status, error) {
 			// If the method is called while navigating away from
@@ -1177,3 +1176,5 @@ var OCdialogs = {
 		}
 	}
 };
+
+export default OcDialogs

@@ -19,21 +19,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-import _ from 'underscore';
-import $ from 'jquery';
+/**
+ * Get a variable by name
+ * @param {string} name
+ * @return {*}
+ */
+export const get = name => {
+	const namespaces = name.split(".");
+	const tail = namespaces.pop();
+	let context = window;
 
-import OC from './oc';
-import './globals';
-
-// fix device width on windows phone
-// TODO: check if still in use
-(function () {
-	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-		var msViewportStyle = document.createElement("style");
-		msViewportStyle.appendChild(
-			document.createTextNode("@-ms-viewport{width:auto!important}")
-		);
-		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+	for (var i = 0; i < namespaces.length; i++) {
+		context = context[namespaces[i]];
+		if (!context) {
+			return false;
+		}
 	}
-})();
+	return context[tail];
+};
+
+/**
+ * Set a variable by name
+ * @param {string} name
+ * @param {*} value
+ */
+export const set = (name, value) => {
+	const namespaces = name.split(".");
+	const tail = namespaces.pop();
+	let context = window;
+
+	for (var i = 0; i < namespaces.length; i++) {
+		if (!context[namespaces[i]]) {
+			context[namespaces[i]] = {};
+		}
+		context = context[namespaces[i]];
+	}
+	context[tail] = value;
+};

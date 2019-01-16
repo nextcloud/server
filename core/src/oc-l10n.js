@@ -8,12 +8,14 @@
  *
  */
 
+import Handlebars from 'handlebars';
+
 /**
  * L10N namespace with localization functions.
  *
  * @namespace
  */
-OC.L10N = {
+const L10N = {
 	/**
 	 * String bundles with app name as key.
 	 * @type {Object.<String,String>}
@@ -329,7 +331,7 @@ OC.L10N = {
  * @param {number} [count] number to replace %n with
  * @return {string}
  */
-window.t = _.bind(OC.L10N.translate, OC.L10N);
+window.t = _.bind(L10N.translate, L10N);
 
 /**
  * translate a string
@@ -340,9 +342,10 @@ window.t = _.bind(OC.L10N.translate, OC.L10N);
  * @param [vars] map of placeholder key to value
  * @return {string} Translated string
  */
-window.n = _.bind(OC.L10N.translatePlural, OC.L10N);
+window.n = _.bind(L10N.translatePlural, L10N);
 
 Handlebars.registerHelper('t', function(app, text) {
-	return OC.L10N.translate(app, text);
+	return L10N.translate(app, text);
 });
 
+export default L10N

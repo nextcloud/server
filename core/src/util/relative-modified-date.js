@@ -19,21 +19,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-import _ from 'underscore';
-import $ from 'jquery';
+import OC from '../oc';
 
-import OC from './oc';
-import './globals';
-
-// fix device width on windows phone
-// TODO: check if still in use
-(function () {
-	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-		var msViewportStyle = document.createElement("style");
-		msViewportStyle.appendChild(
-			document.createTextNode("@-ms-viewport{width:auto!important}")
-		);
-		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-	}
-})();
+/**
+ * Takes an absolute timestamp and return a string with a human-friendly relative date
+ * @param {number} timestamp A Unix timestamp
+ */
+export default function (timestamp) {
+	/*
+	 We're multiplying by 1000 to bring the timestamp back to its original value
+	 per https://github.com/owncloud/core/pull/10647#discussion_r16790315
+	  */
+	return OC.Util.relativeModifiedDate(timestamp * 1000);
+}

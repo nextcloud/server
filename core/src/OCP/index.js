@@ -8,4 +8,4 @@ const OCP = {
 	Loader: loader,
 };
 
-window['OCP'] = Object.assign({}, window.OCP, OCP)
+export default OCP;

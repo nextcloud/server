@@ -18,12 +18,15 @@
  *
  */
 
+import OC from './oc';
+import OCA from './oca';
+
 /**
  * Namespace to hold functions related to convert mimetype to icons
  *
- * @namespace
+ * @namespace OC.MimeType
  */
-OC.MimeType = {
+const MimeType = {
 
 	/**
 	 * Cache that maps mimeTypes to icon urls
@@ -38,7 +41,7 @@ OC.MimeType = {
 	 * @param {array} files The available icons in this theme
 	 * @return {string} The icon to use or null if there is no match
 	 */
-	_getFile: function(mimeType, files) {
+	_getFile: function (mimeType, files) {
 		var icon = mimeType.replace(new RegExp('/', 'g'), '-');
 
 		// Generate path
@@ -69,7 +72,7 @@ OC.MimeType = {
 	 * @param {string} mimeType The mimeType to get the icon for
 	 * @return {string} Url to the icon for mimeType
 	 */
-	getIconUrl: function(mimeType) {
+	getIconUrl: function (mimeType) {
 		if (_.isUndefined(mimeType)) {
 			return undefined;
 		}
@@ -93,7 +96,7 @@ OC.MimeType = {
 				path += icon;
 			}
 		}
-		if(OCA.Theming && gotIcon === null) {
+		if (OCA.Theming && gotIcon === null) {
 			path = OC.generateUrl('/apps/theming/img/core/filetypes/');
 			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
 			gotIcon = true;
@@ -107,7 +110,7 @@ OC.MimeType = {
 
 		path += '.svg';
 
-		if(OCA.Theming) {
+		if (OCA.Theming) {
 			path += "?v=" + OCA.Theming.cacheBuster;
 		}
 
@@ -117,3 +120,5 @@ OC.MimeType = {
 	}
 
 };
+
+export default MimeType;

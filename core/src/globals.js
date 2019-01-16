@@ -48,19 +48,51 @@ import 'snap.js/dist/snap'
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
-window['_'] = _
-window['$'] = $
-window['autosize'] = autosize
-window['Backbone'] = Backbone
-window['Clipboard'] = ClipboardJS
-window['ClipboardJS'] = ClipboardJS
-window['cssVars'] = cssVars
-window['dav'] = dav
-window['DOMPurify'] = DOMPurify
-window['Handlebars'] = Handlebars
-window['jstimezonedetect'] = jstimezonedetect
-window['jstz'] = jstimezonedetect
-window['jQuery'] = $
-window['marked'] = marked
-window['md5'] = md5
-window['moment'] = moment
+import OC from './oc';
+import OCP from './OCP/index';
+import OCA from './oca';
+import escapeHTML from './util/escapeHTML'
+import './jquery.avatar';
+import './jquery.contactsmenu';
+import './jquery.exists';
+import './jquery.filter-attr';
+import './jquery.ocdialog';
+import './jquery.octemplate';
+import './jquery.placeholder';
+import './jquery.select-range';
+import './jquery.tipsy';
+import formatDate from './util/format-date';
+import getURLParameter from './util/get-url-parameter';
+import humanFileSize from './util/human-file-size';
+import relative_modified_date from './util/relative-modified-date';
+
+const expose = (name, object) => window[name] = object;
+
+// Vendor scripts
+expose('_', _);
+expose('$', $);
+expose('autosize', autosize);
+expose('Backbone', Backbone);
+expose('Clipboard', ClipboardJS);
+expose('ClipboardJS', ClipboardJS);
+expose('cssVars', cssVars);
+expose('dav', dav);
+expose('DOMPurify', DOMPurify);
+expose('Handlebars', Handlebars);
+expose('jstimezonedetect', jstimezonedetect);
+expose('jstz', jstimezonedetect);
+expose('jQuery', $);
+expose('marked', marked);
+expose('md5', md5);
+expose('moment', moment);
+
+// Nextcloud scripts
+expose('escapeHTML', escapeHTML);
+expose('formatDate', formatDate);
+expose('getURLParameter ', getURLParameter);
+window.humanFileSize = humanFileSize; // TODO: find out why `expose` does not work here
+expose('humanFileSize ', humanFileSize);
+expose('relative_modified_date ', relative_modified_date);
+expose('OC', OC);
+expose('OCP', OCP);
+expose('OCA', OCA);
