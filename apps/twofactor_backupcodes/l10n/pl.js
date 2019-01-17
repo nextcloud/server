@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "aktowowane",
-    "updated" : "zaktualizowane",
-    "mounted" : "zamontowane",
-    "deactivated" : "zdezaktywowane",
-    "beforeCreate" : "przed utworzeniem",
-    "created" : "utworzone",
-    "beforeUpdate" : "przed aktualizacją",
-    "beforeDestroy" : "przed zniszczeniem",
-    "destroyed" : "zniszczone",
-    "beforeMount" : "przed zamontowaniem",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "To są kody zapasowe. Proszę je zapisać i/lub wydrukować, ponieważ później nie będzie można ich ponownie odczytać",
     "Save backup codes" : "Zapisz kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
@@ -26,6 +16,16 @@ OC.L10N.register(
     "Use backup code" : "Użyj kodu zapasowego",
     "Two factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego",
     "A two-factor auth backup codes provider" : "Dostawca dwuskładnikowych kodów zapasowych ",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Kody zapasowe zostały wygenerowane. {{used}} z {{total}} kodów zostało wykorzystanych."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Kody zapasowe zostały wygenerowane. {{used}} z {{total}} kodów zostało wykorzystanych.",
+    "activated" : "aktowowane",
+    "updated" : "zaktualizowane",
+    "mounted" : "zamontowane",
+    "deactivated" : "zdezaktywowane",
+    "beforeCreate" : "przed utworzeniem",
+    "created" : "utworzone",
+    "beforeUpdate" : "przed aktualizacją",
+    "beforeDestroy" : "przed zniszczeniem",
+    "destroyed" : "zniszczone",
+    "beforeMount" : "przed zamontowaniem"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

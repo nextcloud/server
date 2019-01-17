@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Biðlarinn þinn hefur ekki heimild til að tengjast. Láttu kerfisstjórann þinn vita.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL-endurbeiningarslóðin verður að vera full URL-slóð, til dæmis: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Gerir kleift að nota OAuth2-samhæfða auðkenningu frá öðrum vefforritum.",

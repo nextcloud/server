@@ -1,11 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "aktiverad",
-    "updated" : "uppdaterad",
-    "mounted" : "monterad",
-    "deactivated" : "inaktiverad",
-    "created" : "skapad",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Detta är dina återställningsnycklar. Vänligen spara och/eller skriv ut dem eftersom du inte kommer kunna se dessa nycklar igen.",
     "Save backup codes" : "Spara återställningsnycklar",
     "Print backup codes" : "Skriv ut återställningsnycklar",
@@ -18,6 +13,11 @@ OC.L10N.register(
     "Second-factor backup codes" : "Tvåfaktorsautentisering",
     "Backup code" : "Återställningsnyckel",
     "Use backup code" : "Använd återställningsnyckel",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Återställningsnycklarna har skapats. {{used}} av {{total}} nycklar har använts."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Återställningsnycklarna har skapats. {{used}} av {{total}} nycklar har använts.",
+    "activated" : "aktiverad",
+    "updated" : "uppdaterad",
+    "mounted" : "monterad",
+    "deactivated" : "inaktiverad",
+    "created" : "skapad"
 },
 "nplurals=2; plural=(n != 1);");
