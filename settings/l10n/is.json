@@ -223,6 +223,7 @@
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Það er mikilvægt að setja þennan vefþjón upp þannig að hann getir sent tölvupóst, eins og fyrir endurstillingu lykilorða og útsendingu tilkynninga.",
     "Send mode" : "Sendihamur",
     "Encryption" : "Dulritun",
+    "Sendmail mode" : "Sendmail-hamur",
     "From address" : "Frá vistfangi",
     "mail" : "póstur",
     "Authentication method" : "Auðkenningarmáti",

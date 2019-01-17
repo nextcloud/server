@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "geactiveerd",
-    "updated" : "geüpdatet",
-    "mounted" : "aangekoppeld",
-    "deactivated" : "uitgeschakeld",
-    "beforeCreate" : "beforeCreate",
-    "created" : "gecreëerd",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "vernietigd",
-    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit zijn je back-upcodes. Bewaar ze en/of druk ze alsjeblieft af, want je ze niet later nog een keer opvragen.",
     "Save backup codes" : "Bewaren backup code",
     "Print backup codes" : "Afdrukken backup code",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Een two-factor auth backup codes provider",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Gebruik een van de backupcodes die je bewaarde bij het inschakelen van de twee-factor authenticatie.",
     "Submit" : "Verwerken",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes zijn gegenereerd. {{used}} van {{total}} codes zijn gebruikt."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes zijn gegenereerd. {{used}} van {{total}} codes zijn gebruikt.",
+    "activated" : "geactiveerd",
+    "updated" : "geüpdatet",
+    "mounted" : "aangekoppeld",
+    "deactivated" : "uitgeschakeld",
+    "beforeCreate" : "beforeCreate",
+    "created" : "gecreëerd",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "vernietigd",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n != 1);");

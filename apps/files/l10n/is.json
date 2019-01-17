@@ -137,6 +137,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Með PHP-FPM getur það tekið 5 mínútur fyrir breytingar að verða virkar.",
     "Missing permissions to edit from here." : "Vantar heimildir til að breyta einhverju héðan.",
     "%s of %s used" : "%s af %s notað",
+    "%1$s%% of %2$s used" : "%1$s%% af %2$s notað",
     "%s used" : "%s notað",
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",

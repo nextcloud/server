@@ -27,7 +27,7 @@ OC.L10N.register(
     "Invalid SMTP password." : "Nevalida SMTP-pasvorto.",
     "Email setting test" : "Provo de retpoŝtagordo",
     "Well done, %s!" : "Bonege, %s!",
-    "If you received this email, the email configuration seems to be correct." : "Si vi ricevis tiun ĉi retmesaĝon, retpoŝta agordo ŝajne estas ĝusta.",
+    "If you received this email, the email configuration seems to be correct." : "Se vi ricevis tiun ĉi retmesaĝon, retpoŝta agordo estas ĝusta, espereble.",
     "Email could not be sent. Check your mail server log" : "Retmesaĝo ne eblis esti sendita. Kontrolu vian servil-protokolon.",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Problem dum sendado de la retmesaĝo. Bv. ekzameni viajn agordojn. (Eraro: %s)",
     "You need to set your user email before being able to send test emails." : "Vi bezonas agordi vian retpoŝtadreso, antaŭ ol povi sendi provan retmesaĝon.",

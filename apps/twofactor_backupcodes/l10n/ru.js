@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "activated",
-    "updated" : "updated",
-    "mounted" : "mounted",
-    "deactivated" : "deactivated",
-    "beforeCreate" : "beforeCreate",
-    "created" : "created",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "destroyed",
-    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Это ваши резервные коды доступа. Пожалуйста, сохраните и/или распечатайте их, так как вы не сможете увидеть эти коды снова.",
     "Save backup codes" : "Сохранить резервные коды",
     "Print backup codes" : "Распечатать резервные коды",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Провайдер резервных копий для кодов двухфакторной аутентификации",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Использовать для двухфакторной аутентификации один из ранее выпущенных резервных кодов.",
     "Submit" : "Отправить",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Использовано {{used}} из {{total}} ранее выпущенных резервных кодов."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Использовано {{used}} из {{total}} ранее выпущенных резервных кодов.",
+    "activated" : "activated",
+    "updated" : "updated",
+    "mounted" : "mounted",
+    "deactivated" : "deactivated",
+    "beforeCreate" : "beforeCreate",
+    "created" : "created",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "destroyed",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
