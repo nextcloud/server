@@ -413,5 +413,27 @@ function O(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=_
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-window._=s.a,window.$=o.a,window.autosize=l.a,window.Backbone=c.a,window.Clipboard=h.a,window.ClipboardJS=h.a,window.cssVars=I,window.dav=N.a,window.DOMPurify=W.a,window.Handlebars=B.a,window.jstimezonedetect=q.a,window.jstz=q.a,window.jQuery=o.a,window.marked=G.a,window.md5=V.a,window.moment=X.a}]);
+window._=s.a,window.$=o.a,window.autosize=l.a,window.Backbone=c.a,window.Clipboard=h.a,window.ClipboardJS=h.a,window.cssVars=I,window.dav=N.a,window.DOMPurify=W.a,window.Handlebars=B.a,window.jstimezonedetect=q.a,window.jstz=q.a,window.jQuery=o.a,window.marked=G.a,window.md5=V.a,window.moment=X.a;
+/*
+ * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+var Z={},$={},ee={Loader:{loadScript:function(e,t){var n=e+t;return Z.hasOwnProperty(n)?Promise.resolve():(Z[n]=!0,new Promise(function(n,i){var s=OC.filePath(e,"js",t),r=document.createElement("script");r.src=s,r.setAttribute("nonce",btoa(OC.requestToken)),r.onload=function(){return n()},r.onerror=function(){return i("Failed to load script from ".concat(s))},document.head.appendChild(r)}))},loadStylesheet:function(e,t){var n=e+t;return $.hasOwnProperty(n)?Promise.resolve():($[n]=!0,new Promise(function(n,i){var s=OC.filePath(e,"css",t),r=document.createElement("link");r.href=s,r.type="text/css",r.rel="stylesheet",r.onload=function(){return n()},r.onerror=function(){return i("Failed to load stylesheet from ".concat(s))},document.head.appendChild(r)}))}}};window.OCP=Object.assign({},window.OCP,ee)}]);
 //# sourceMappingURL=main.js.map
