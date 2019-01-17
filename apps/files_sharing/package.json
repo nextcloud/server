@@ -1,0 +1,35 @@
+{
+  "name": "files_sharing",
+  "version": "1.0.0",
+  "description": "File sharing in Nextcloud",
+  "main": "files_sharing.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "webpack --progress --hide-modules --config webpack.prod.js",
+    "dev": "webpack --progress --watch --config webpack.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "nextcloud-axios": "^0.1.3",
+    "nextcloud-vue": "^0.5.0",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^2.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.20.0",
+    "webpack-cli": "^3.1.1",
+    "webpack-merge": "^4.1.4"
+  }
+}
