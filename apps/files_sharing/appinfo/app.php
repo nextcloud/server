@@ -43,7 +43,7 @@ $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
 		\OCP\Util::addStyle('files_sharing', 'mergedAdditionalStyles');
-		\OCP\Util::addScript('files_sharing', 'additionalScripts');
+		\OCP\Util::addScript('files_sharing', 'dist/files_sharing');
 	}
 );
 

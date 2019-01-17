@@ -14,6 +14,7 @@
 	var TEMPLATE =
 		'<div>' +
 		'<div class="dialogContainer"></div>' +
+		'<div id="collaborationResources"></div>' +
 		'</div>';
 
 	/**
@@ -76,6 +77,7 @@
 				this._dialog.model.on('change', function() {
 					self.trigger('sharesChanged', shareModel);
 				});
+
 			} else {
 				this.$el.empty();
 				// TODO: render placeholder text?
