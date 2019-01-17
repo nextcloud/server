@@ -708,7 +708,7 @@ code {
 		box-sizing: border-box;
 
 		div:first-child a {
-			background-image: url('../img/places/home.svg?v=1');
+			background-image: var(--icon-home-000);
 			background-repeat: no-repeat;
 			background-position: left center;
 		}

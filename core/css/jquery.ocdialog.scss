@@ -51,7 +51,7 @@
 	top: 0;
 	right: 0;
 	padding: 25px;
-	background: url('../img/actions/close.svg') no-repeat center;
+	background: var(--icon-close-000) no-repeat center;
 	opacity: .5;
 
 	&:hover,
