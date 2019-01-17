@@ -28,6 +28,10 @@
 	<body id="<?php p($_['bodyid']);?>">
 	<?php include 'layout.noscript.warning.php'; ?>
 
+		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
+			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
+		<?php }?>
+
 		<a href="#app-content" class="button primary skip-navigation skip-content"><?php p($l->t('Skip to main content')); ?></a>
 		<a href="#app-navigation" class="button primary skip-navigation"><?php p($l->t('Skip to navigation of app')); ?></a>
 
