@@ -45,6 +45,13 @@ $color-border-dark: lighten($color-main-background, 14%);
 	filter: invert(100%);
 }
 
+// since svg icons are inverted, revert to white for the header
+.header-right > * {
+	[class^='icon-'], [class*=' icon-'] {
+		filter: invert(100%);
+	}
+}
+
 .bubble,
 .app-navigation-entry-menu,
 .popovermenu {
@@ -65,9 +72,9 @@ $color-border-dark: lighten($color-main-background, 14%);
 	border: 1px solid var(--color-border);
 }
 
-// since svg icons are inverted, revert to white for the header
-.header-right > * {
-	[class^='icon-'], [class*=' icon-'] {
+// Prevent slideshow icons from going dark
+#slideshow {
+	[class^='icon-'], [class*=' icon-']{
 		filter: invert(100%);
 	}
 }
