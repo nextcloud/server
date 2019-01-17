@@ -24,6 +24,8 @@ $color-border-dark: lighten($color-main-background, 14%);
 		filter: invert(100%);
 	}
 }
+
+#navigation #apps li a,
 #body-settings #content.app-settings .app-image-icon,
 #body-settings #content.app-settings #app-sidebar #app-details-view h2 {
 	svg {
