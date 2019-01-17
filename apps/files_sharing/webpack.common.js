@@ -7,7 +7,7 @@ module.exports = {
 		path: path.resolve(__dirname, 'js/dist'),
 		publicPath: '/js/dist/',
 		filename: 'files_sharing.js',
-		chunkFilename: '[name].bundle.js'
+		chunkFilename: 'files_sharing.[name].js'
 },
 	module: {
 		rules: [
