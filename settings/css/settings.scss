@@ -739,23 +739,27 @@ span.usersLastLoginTooltip {
 	&.appwarning:hover {
 		background: #fbb;
 	}
-	.app-external, .app-version {
-		color: rgba(85, 85, 85, 0.5);
+	.app-external {
+		color: var(--color-text-maxcontrast);
 	}
 }
 
 span.version {
 	margin-left: 1em;
 	margin-right: 1em;
-	color: #555;
+	color: var(--color-text-maxcontrast);
+}
+
+.app-version {
+	color: var(--color-text-maxcontrast);
 }
 
 .app-level {
 	margin-top: 8px;
 	span {
-		color: #555;
+		color: var(--color-text-maxcontrast);
 		background-color: transparent;
-		border: 1px solid #555;
+		border: 1px solid var(--color-text-maxcontrast);
 		border-radius: var(--border-radius);
 		padding: 3px 6px;
 	}

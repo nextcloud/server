@@ -24,6 +24,13 @@ $color-border-dark: lighten($color-main-background, 14%);
 		filter: invert(100%);
 	}
 }
+#body-settings #content.app-settings .app-image-icon,
+#body-settings #content.app-settings #app-sidebar #app-details-view h2 {
+	svg {
+		filter: invert(100%);
+	}
+}
+
 .bubble,
 .app-navigation-entry-menu,
 .popovermenu {
