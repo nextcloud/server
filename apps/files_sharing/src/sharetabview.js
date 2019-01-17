@@ -83,6 +83,18 @@
 					self.trigger('sharesChanged', shareModel);
 				});
 
+				import('./../src/collaborationresources').then((Resources) => {
+					var vm = new Resources.Vue({
+						el: '#collaborationResources',
+						render: h => h(Resources.View),
+						data: {
+							model: this.model.toJSON()
+						},
+					});
+					this.model.on('change', () => { vm.data = this.model.toJSON() })
+
+				})
+
 			} else {
 				this.$el.empty();
 				// TODO: render placeholder text?
