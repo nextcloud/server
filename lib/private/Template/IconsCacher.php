@@ -51,7 +51,7 @@ class IconsCacher {
 	protected $timeFactory;
 
 	/** @var string */
-	private $iconVarRE = '/--(icon-[a-zA-Z0-9-]+):\s?url\(["\']([a-zA-Z0-9-_\~\/\.\?\=]+)[^;]+;/m';
+	private $iconVarRE = '/--(icon-[a-zA-Z0-9-]+):\s?url\(["\']?([a-zA-Z0-9-_\~\/\.\?\&\=\:\;\+\,]+)[^;]+;/m';
 
 	/** @var string */
 	private $fileName = 'icons-vars.css';
