@@ -60,6 +60,7 @@ OC.L10N.register(
     "Email sent" : "Το Email απεστάλη ",
     "Disconnect" : "Αποσύνδεση",
     "Revoke" : "Ανάκληση",
+    "Device settings" : "Ρυθμίσεις συσκευής",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

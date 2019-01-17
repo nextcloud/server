@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "etkinleştirildi",
-    "updated" : "güncellendi",
-    "mounted" : "bağlandı",
-    "deactivated" : "devre dışı bırakıldı",
-    "beforeCreate" : "eklenmedenOnce",
-    "created" : "eklenme",
-    "beforeUpdate" : "guncellenmedenOnce",
-    "beforeDestroy" : "yokEdilmedenOnce",
-    "destroyed" : "yokEdildi",
-    "beforeMount" : "baglanmadanOnce",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Yedek kodlarınızı burada görebilirsiniz. Kodları daha sonra göremeyeceğiniz için bu kodları kaydedin ya da yazdırın",
     "Save backup codes" : "Yedek kodları kaydet",
     "Print backup codes" : "Yedek kodları yazdır",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "İki aşamalı kimlik doğrulaması için yedek kodlar sağlayıcısı",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "İki aşamalı kimlik doğrulamasını ayarlarken yedek kodlarından birini kullanın.",
     "Submit" : "Gönder",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor.",
+    "activated" : "etkinleştirildi",
+    "updated" : "güncellendi",
+    "mounted" : "bağlandı",
+    "deactivated" : "devre dışı bırakıldı",
+    "beforeCreate" : "eklenmedenOnce",
+    "created" : "eklenme",
+    "beforeUpdate" : "guncellenmedenOnce",
+    "beforeDestroy" : "yokEdilmedenOnce",
+    "destroyed" : "yokEdildi",
+    "beforeMount" : "baglanmadanOnce"
 },
 "nplurals=2; plural=(n > 1);");

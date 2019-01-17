@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "aktivováno",
-    "updated" : "aktualizováno",
-    "mounted" : "připojeno (mount)",
-    "deactivated" : "deaktivováno",
-    "beforeCreate" : "předVytvořením",
-    "created" : "vytvořen",
-    "beforeUpdate" : "předAktualizací",
-    "beforeDestroy" : "předZničením",
-    "destroyed" : "zničeno",
-    "beforeMount" : "předPřipojením",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Zde jsou vaše záložní kódy. Kódy si uložte a/nebo vytiskněte, protože už je nebude možné zobrazit znovu.",
     "Save backup codes" : "Uložit záložní kódy",
     "Print backup codes" : "Vytisknout záložní kódy",
@@ -29,6 +19,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Poskytovatel záložních kódů pro dvoustupňové ověřování",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Použijte jeden ze svých záložních kódů které jste si uložili při nastavování dvoufázového ověřování.",
     "Submit" : "Odeslat",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Záložní kódy byly vytvořeny. {{used}} z {{total}} kódů bylo využito."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Záložní kódy byly vytvořeny. {{used}} z {{total}} kódů bylo využito.",
+    "activated" : "aktivováno",
+    "updated" : "aktualizováno",
+    "mounted" : "připojeno (mount)",
+    "deactivated" : "deaktivováno",
+    "beforeCreate" : "předVytvořením",
+    "created" : "vytvořen",
+    "beforeUpdate" : "předAktualizací",
+    "beforeDestroy" : "předZničením",
+    "destroyed" : "zničeno",
+    "beforeMount" : "předPřipojením"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

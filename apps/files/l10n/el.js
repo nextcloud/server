@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Σπίτι",
     "Close" : "Κλείσιμο",
     "Could not create folder \"{dir}\"" : "Αδυναμία δημιουργίας του φακέλου \"{dir}\"",
+    "This will stop your current uploads." : "Αυτό θα σταματήσει τις τρέχουσες μεταφορτώσεις.",
     "Upload cancelled." : "Η αποστολή ακυρώθηκε.",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Αδυναμία φόρτωσης {filename} καθώς είναι κατάλογος αρχείων ή έχει 0 bytes",

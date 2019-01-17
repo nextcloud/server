@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Περισσότερα σχόλια ...",
     "Save" : "Αποθήκευση",
     "Allowed characters {count} of {max}" : "Επιτρεπόμενοι χαρακτήρες {count} από {max}",
+    "Error occurred while retrieving comment with ID {id}" : "Παρουσιάστηκε σφάλμα κατά την ανάκτηση σχολίου με ID {id}",
     "Error occurred while updating comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την ενημέρωση του σχολίου με το αναγνωριστικό {id}",
     "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την δημοσίευση σχολίου",
     "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],

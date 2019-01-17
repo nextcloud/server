@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "ταιριάζει",
     "does not match" : "δεν ταιριάζει",
     "Example: {placeholder}" : "Παράδειγμα: {placeholder}",
+    "File name" : "Όνομα αρχείου",
     "File size (upload)" : "Μέγεθος αρχείου (μεταφόρτωση)",
     "less" : "Λιγότερα",
     "less or equals" : "Λιγότερο ή ίσον",
