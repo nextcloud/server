@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "attivati",
-    "updated" : "aggiornati",
-    "mounted" : "montati",
-    "deactivated" : "disattivati",
-    "beforeCreate" : "beforeCreate",
-    "created" : "creati",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "distrutti",
-    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Questi sono i tuoi codici di backup. Salvali e/o stampali poiché non potrai più leggerli successivamente",
     "Save backup codes" : "Salva i codici di backup",
     "Print backup codes" : "Stampa i codici di backup",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Un fornitore di codici di backup per l'autenticazione a due fattori",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno dei codici di backup che hai salvato quando configuri l'autenticazione a due fattori.",
     "Submit" : "Invia",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "I codici di backup sono stati generali. {{used}} di {{total}} codici sono stati utilizzati."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "I codici di backup sono stati generali. {{used}} di {{total}} codici sono stati utilizzati.",
+    "activated" : "attivati",
+    "updated" : "aggiornati",
+    "mounted" : "montati",
+    "deactivated" : "disattivati",
+    "beforeCreate" : "beforeCreate",
+    "created" : "creati",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "distrutti",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n != 1);");

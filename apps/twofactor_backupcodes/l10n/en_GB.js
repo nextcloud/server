@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "activated",
-    "updated" : "updated",
-    "mounted" : "mounted",
-    "deactivated" : "deactivated",
-    "beforeCreate" : "beforeCreate",
-    "created" : "created",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "destroyed",
-    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later",
     "Save backup codes" : "Save backup codes",
     "Print backup codes" : "Print backup codes",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "A two-factor auth backup codes provider",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
     "Submit" : "Submit",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes have been generated. {{used}} of {{total}} codes have been used."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes have been generated. {{used}} of {{total}} codes have been used.",
+    "activated" : "activated",
+    "updated" : "updated",
+    "mounted" : "mounted",
+    "deactivated" : "deactivated",
+    "beforeCreate" : "beforeCreate",
+    "created" : "created",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "destroyed",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n != 1);");

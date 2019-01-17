@@ -1,14 +1,4 @@
 { "translations": {
-    "activated" : "活性化されました",
-    "updated" : "アップデートされました",
-    "mounted" : "マウントされました",
-    "deactivated" : "失効した",
-    "beforeCreate" : "作成前",
-    "created" : "作成されました",
-    "beforeUpdate" : "更新前",
-    "beforeDestroy" : "破棄前",
-    "destroyed" : "破棄されました",
-    "beforeMount" : "マウント前",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "これらはあなたのバックアップコードです。 後からこのコードは見ることはできないので、保存するか印刷しておいてください",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",
@@ -28,6 +18,16 @@
     "A two-factor auth backup codes provider" : "2要素認証バックアップコードプロバイダ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "2要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
     "Submit" : "了解",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "バックアップコードが生成されました。 {{total}} 中の {{used}} コードが使用されています。"
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "バックアップコードが生成されました。 {{total}} 中の {{used}} コードが使用されています。",
+    "activated" : "活性化されました",
+    "updated" : "アップデートされました",
+    "mounted" : "マウントされました",
+    "deactivated" : "失効した",
+    "beforeCreate" : "作成前",
+    "created" : "作成されました",
+    "beforeUpdate" : "更新前",
+    "beforeDestroy" : "破棄前",
+    "destroyed" : "破棄されました",
+    "beforeMount" : "マウント前"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

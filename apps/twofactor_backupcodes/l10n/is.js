@@ -1,16 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "activated" : "virkjað",
-    "updated" : "uppfært",
-    "mounted" : "tengt í skráakerfi",
-    "deactivated" : "afvirkjað",
-    "beforeCreate" : "beforeCreate",
-    "created" : "búið til",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "eyðilagt",
-    "beforeMount" : "beforeMount",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Þetta eru öryggisafritunarkóðarnir þínir. Vistaðu þá og/eða prentaðu þá út, því þú munt ekki geta lesið þá aftur síðar í ferlinu",
     "Save backup codes" : "Vista öryggisafritunarkóða",
     "Print backup codes" : "Prenta öryggisafritunarkóða",
@@ -30,6 +20,16 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Útgefandi tveggja-þrepa öryggisafritunarkóða",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Notaðu einn af öryggisafritunarkóðunum sem þú vistaðir þegar þú settir upp tveggja-þátta auðkenningu.",
     "Submit" : "Senda inn",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Öryggisafritunarkóðar hafa verið útbúnir. {{used}} af {{total}} kóðum hafa verið notaðir."
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Öryggisafritunarkóðar hafa verið útbúnir. {{used}} af {{total}} kóðum hafa verið notaðir.",
+    "activated" : "virkjað",
+    "updated" : "uppfært",
+    "mounted" : "tengt í skráakerfi",
+    "deactivated" : "afvirkjað",
+    "beforeCreate" : "beforeCreate",
+    "created" : "búið til",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "eyðilagt",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
