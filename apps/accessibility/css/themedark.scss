@@ -40,6 +40,11 @@ $color-border-dark: lighten($color-main-background, 14%);
 	filter: none;
 }
 
+// Otherwise icon-more gets inverted via function
+#appmenu .icon-more-white {
+	filter: invert(100%);
+}
+
 .bubble,
 .app-navigation-entry-menu,
 .popovermenu {
