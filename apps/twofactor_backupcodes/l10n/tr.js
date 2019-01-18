@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Yedek kodlarınızı burada görebilirsiniz. Kodları daha sonra göremeyeceğiniz için bu kodları kaydedin ya da yazdırın",
     "Save backup codes" : "Yedek kodları kaydet",
     "Print backup codes" : "Yedek kodları yazdır",

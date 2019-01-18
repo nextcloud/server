@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Confirma que quere eliminar este almacenamento externo?",
     "Delete storage?" : "Eliminar o almacenamento?",
     "Saved" : "Gardado",
-    "Saving..." : "Gardando...",
+    "Saving..." : "Gardando…",
     "Save" : "Gardar",
     "Empty response from the server" : "Resposta baleira desde o servidor",
     "Couldn't access. Please log out and in again to activate this mount point" : "Non é posíbel acceder. Peche a sesión e volva iníciala para activar este punto de montaxe",

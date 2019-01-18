@@ -151,6 +151,7 @@
     "Failed to authenticate, try again" : "Kimlik doğrulanamadı, yeniden deneyin",
     "seconds ago" : "saniyeler önce",
     "Logging in …" : "Oturum açılıyor ...",
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.<br>E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dosyalarınız şifrelenmiş. Parola sıfırlama işleminden sonra verilerinize erişemeyeceksiniz.<br />Ne yapacağınızdan emin değilseniz, ilerlemeden önce sistem yöneticiniz ile görüşün.<br />Gerçekten devam etmek istiyor musunuz?",
     "I know what I'm doing" : "Ne yaptığımı biliyorum",
     "Password can not be changed. Please contact your administrator." : "Parola değiştirilemedi. Lütfen yöneticiniz ile görüşün.",

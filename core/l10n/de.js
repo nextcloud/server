@@ -153,6 +153,7 @@ OC.L10N.register(
     "Failed to authenticate, try again" : "Legitimierung fehlgeschlagen, noch einmal versuchen",
     "seconds ago" : "Gerade eben",
     "Logging in …" : "Melde an…",
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Rücksetzen des Passworts an die für dieses Konto bekannte E-Mail Adresse versendet. Solltest Du diesen nicht in Kürze erhalten, prüfe bitte Deinen Spam-Ordner.<br>Wenn Du keine E-Mail bekommen hast, wende Dich bitte an deinen lokalen Administrator.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Deine Dateien sind verschlüsselt. Es gibt keinen Weg Deine Dateien nach dem Rücksetzen des Passwortes wiederherzustellen.<br />Falls Du Dir nicht sicher bist, kontaktiere Deinen Administrator.<br />Möchtest Du wirklich fortfahren?",
     "I know what I'm doing" : "Ich weiß, was ich mache",
     "Password can not be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktiere deinen Administrator.",
