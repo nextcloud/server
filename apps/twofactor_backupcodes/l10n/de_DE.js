@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dies sind Ihre Backup-Codes. Bitte speichern und/oder drucken Sie diese, da diese Codes später nicht mehr gelesen werden können",
     "Save backup codes" : "Backup-Codes speichern",
     "Print backup codes" : "Backup-Codes drucken",
