@@ -918,6 +918,10 @@
 			};
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
+			var dialogDir = self.getCurrentDirectory();
+			if (typeof self.dirInfo.dirLastCopiedTo !== 'undefined') {
+				dialogDir = self.dirInfo.dirLastCopiedTo;
+			}
 			OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
 				self.fileMultiSelectMenu.toggleLoading('copyMove', true);
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
@@ -926,7 +930,8 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-			}, false, "httpd/unix-directory", true, actions);
+				self.dirInfo.dirLastCopiedTo = targetPath; 
+			}, false, "httpd/unix-directory", true, actions, dialogDir);
 			event.preventDefault();
 		},
 
