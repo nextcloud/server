@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Това е вашия резервен код. Моля, запишете го (или го принтирайте) защото по-късно няма да имате възможност да го видите.",
     "Save backup codes" : "Записване на резервния код",
     "Print backup codes" : "Принтиране на резервния код",
