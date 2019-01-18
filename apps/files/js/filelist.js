@@ -1674,7 +1674,7 @@
 							c: fileData.etag
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
-					previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
+					previewUrl = previewUrl.replace(/\(/g, '%28').replace(/\)/g, '%29');
 					iconDiv.css('background-image', 'url("' + previewUrl + '")');
 				}
 			}
@@ -2058,8 +2058,7 @@
 			}
 
 			previewURL = self.generatePreviewUrl(urlSpec);
-			previewURL = previewURL.replace('(', '%28');
-			previewURL = previewURL.replace(')', '%29');
+			previewUrl = previewUrl.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
 			// preload image to prevent delay
 			// this will make the browser cache the image
