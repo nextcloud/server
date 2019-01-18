@@ -416,14 +416,22 @@ $(document).ready(function() {
 	var $searchBox = $('#searchbox');
 	if ($searchResults.length > 0 && $searchBox.length > 0) {
 		$searchResults.addClass('hidden');
-		$searchResults.load(
-			OC.getRootPath() + '/core/search/templates/part.results.html',
-			function() {
-				OC.Search = new OCA.Search.Core(
-					$searchBox,
-					$searchResults
-				);
-			}
+		$searchResults.html('<table>\n' +
+			'\t<tbody>\n' +
+			'\t\t<tr class="template">\n' +
+			'\t\t\t<td class="icon"></td>\n' +
+			'\t\t\t<td class="info">\n' +
+			'\t\t\t\t<a class="link">\n' +
+			'\t\t\t\t\t<div class="name"></div>\n' +
+			'\t\t\t\t</a>\n' +
+			'\t\t\t</td>\n' +
+			'\t\t</tr>\n' +
+			'\t</tbody>\n' +
+			'</table>\n' +
+			'<div id="status"><span></span></div>');
+		OC.Search = new OCA.Search.Core(
+			$searchBox,
+			$searchResults
 		);
 	} else {
 		// check again later
