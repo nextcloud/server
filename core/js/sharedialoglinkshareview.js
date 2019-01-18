@@ -245,7 +245,7 @@
 							var $newShare = self.$el.find('li[data-share-id="'+newShareId+'"]');
 							// only open the menu by default if this is the first share
 							if ($newShare && shares.length === 1) {
-								$menu = $newShare.find('.popovermenu');
+								var $menu = $newShare.find('.popovermenu');
 								OC.showMenu(null, $menu);
 							}
 						}
@@ -257,7 +257,7 @@
 					// password failure? Show error
 					self.password = ''
 					if (isPasswordEnforced && response && response.responseJSON && response.responseJSON.ocs.meta && response.responseJSON.ocs.meta.message) {
-						$input = self.$el.find('.pending #enforcedPassText')
+						var $input = self.$el.find('.pending #enforcedPassText')
 						$input.tooltip('destroy');
 						$input.attr('title', response.responseJSON.ocs.meta.message);
 						$input.tooltip({placement: 'bottom', trigger: 'manual'});
