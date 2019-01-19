@@ -161,7 +161,7 @@ OC.L10N.register(
     "Shared with others" : "Compartido con outros",
     "Shared with you" : "Compartido con vostede",
     "Shared by link" : "Compartido por ligazón",
-    "Deleted shares" : "Comparticións eliminadas",
+    "Deleted shares" : "Recursos compartidos eliminados",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Target folder" : "Cartafol de destino",

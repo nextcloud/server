@@ -133,7 +133,7 @@ OC.L10N.register(
     "Uploaded files:" : "Ficheiros enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
     "Sharing %s failed because the back end does not allow shares from type %s" : "Fallou a compartición de %s, xa que a infraestrutura non permite accións do tipo %s",
-    "This share is password-protected" : "Esta compartición está protexida con contrasinal",
+    "This share is password-protected" : "Este recurso compartido está protexido con contrasinal",
     "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo.",
     "Password" : "Contrasinal"
 },
