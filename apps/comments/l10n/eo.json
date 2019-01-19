@@ -9,7 +9,7 @@
     "No comments yet, start the conversation!" : "Neniu komento, ekkonversaciu!",
     "More comments …" : "Pli da komentoj...",
     "Save" : "Konservi",
-    "Allowed characters {count} of {max}" : "Permesataj karakteroj: {count} el {max}",
+    "Allowed characters {count} of {max}" : "{count} el {max} signoj maksimume",
     "Error occurred while retrieving comment with ID {id}" : "Eraro dum ricevo de komento kun identigilo {id}",
     "Error occurred while updating comment with id {id}" : "Eraro dum ĝisdatigo de komento kun identigilo {id}",
     "Error occurred while posting comment" : "Eraro dum sendo de komento",
