@@ -29,7 +29,7 @@
     "clipboard": "^2.0.4",
     "css-vars-ponyfill": "^1.16.2",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.1.2",
-    "dompurify": "^1.0.4",
+    "dompurify": "^1.0.9",
     "handlebars": "^4.0.5",
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm",
     "jquery": "^2.1.4",
