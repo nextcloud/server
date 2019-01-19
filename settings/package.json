@@ -11,7 +11,7 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.js"
   },
   "dependencies": {
-    "dompurify": "^1.0.8",
+    "dompurify": "^1.0.9",
     "lodash": "^4.17.11",
     "marked": "^0.6.0",
     "nextcloud-axios": "^0.1.3",
