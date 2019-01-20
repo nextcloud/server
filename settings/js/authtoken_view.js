@@ -241,7 +241,7 @@
 			this._result.find('.clipboardButton').tooltip({placement: 'bottom', title: t('core', 'Copy'), trigger: 'hover'});
 
 			// Clipboard!
-			var clipboard = new Clipboard('.clipboardButton');
+			var clipboard = new ClipboardJS('.clipboardButton');
 			clipboard.on('success', function(e) {
 				var $input = $(e.trigger);
 				$input.tooltip('hide')
