@@ -148,7 +148,7 @@ class PersonalInfo implements ISettings {
 			'provider' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER),
 			'providerLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_WEBSITE),
 			'providerPrivacyLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_PRIVACY_LINK),
-			'encryptionEnabled' => true || $this->encryptionManager->isEnabled(),
+			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
 			'adminName' => $adminContact !== null ? $adminContact->getDisplayName() : '',
 			'adminMail' => $adminContact !== null ? $adminContact->getEMailAddress() : '',
 		] + $messageParameters + $languageParameters + $localeParameters;
