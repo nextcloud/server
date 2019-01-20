@@ -35,6 +35,7 @@
 			data.revokeText = t('settings', 'Revoke');
 			data.settingsTitle = t('settings', 'Device settings');
 			data.allowFSAccess = t('settings', 'Allow filesystem access');
+			data.renameText = t('settings', 'Rename');
 			return OC.Settings.Templates['authtoken'](data);
 		},
 
@@ -218,6 +219,8 @@
 			$el.on('click', 'a.icon-delete', _.bind(this._onDeleteToken, this));
 			$el.on('click', '.icon-more', _.bind(this._onConfigureToken, this));
 			$el.on('change', 'input.filesystem', _.bind(this._onSetTokenScope, this));
+			$el.on('click', '.icon-rename', _.bind(this._onRenameToken, this));
+			$el.on('keyup', 'input.rename-token', _.bind(this._onEnterTokenName, this));
 
 			this._form = $('#app-password-form');
 			this._tokenName = $('#app-password-name');
@@ -412,6 +415,49 @@
 
 			token.set('scope', scope);
 			token.save();
+		},
+
+		_onRenameToken: function (event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+			var id = $row.data('id');
+
+			var token = this.collection.get(id);
+			if (_.isUndefined(token)) {
+				// Ignore event
+				return;
+			}
+
+			$row.find('.token-name > span').addClass('hidden');
+			$row.find('.token-name > input').removeClass('hidden').focus();
+
+			this._hideConfigureToken();
+		},
+
+		_onEnterTokenName: function(event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+			var id = $row.data('id');
+
+			var token = this.collection.get(id);
+			if (_.isUndefined(token)) {
+				// Ignore event
+				return;
+			}
+
+			if (event.key === 'Enter') {
+				token.set('name', $target.context.value);
+
+				var _this = this;
+				$.when(token.save()).always(function () {
+					_this.render();
+				});
+			}
+
+			if (event.key === 'Escape') {
+				$row.find('.token-name > span').removeClass('hidden');
+				$row.find('.token-name > input').addClass('hidden');
+			}
 		},
 
 		_toggleFormResult: function (showForm) {

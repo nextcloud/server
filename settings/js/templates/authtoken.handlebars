@@ -3,7 +3,10 @@
 	    <div class="{{icon}}" />
 	</td>
 	<td class="token-name">
-		{{name}}
+		<span>{{name}}</span>
+        {{#if canRename}}
+            <input class="hidden rename-token" type="text" value="{{name}}" />
+        {{/if}}
 	</td>
 	<td>
 		<span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>
@@ -16,6 +19,11 @@
 				<label for="{{id}}_filesystem">{{allowFSAccess}}</label><br/>
 			</span></li>
 		{{/if}}
+        {{#if canRename}}
+            <li>
+                <a class="icon icon-rename" tabindex="0">{{renameText}}</a>
+            </li>
+        {{/if}}
 		{{#if canDelete}}
 			<li>
 				<a class="icon icon-delete" tabindex="0">{{revokeText}}</a>
