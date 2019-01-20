@@ -23,11 +23,10 @@
 
 namespace OC\Repair;
 
-use OC\AvatarManager;
+use OC\Avatar\AvatarManager;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Util;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
 

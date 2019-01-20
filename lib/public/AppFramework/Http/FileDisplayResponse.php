@@ -66,4 +66,13 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 			$output->setOutput($this->file->getContent());
 		}
 	}
+
+	/**
+	 * Returns the response file.
+	 *
+	 * @return \OCP\Files\File|\OCP\Files\SimpleFS\ISimpleFile
+	 */
+	public function getFile() {
+		return $this->file;
+	}
 }

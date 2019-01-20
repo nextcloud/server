@@ -22,11 +22,10 @@
  *
  */
 
-namespace Test;
+namespace Test\Avatar;
 
-use OC\Avatar;
-use OC\AvatarManager;
-use OC\Files\AppData\AppData;
+use OC\Avatar\UserAvatar;
+use OC\Avatar\AvatarManager;
 use OC\User\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
@@ -34,7 +33,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUser;
-use OCP\IUserManager;
 
 /**
  * Class AvatarManagerTest
@@ -103,7 +101,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('valid-user')
 			->willReturn($folder);
 
-		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
@@ -125,7 +123,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('valid-user')
 			->willReturn($folder);
 
-		$expected = new Avatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 }
