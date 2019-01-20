@@ -18,7 +18,7 @@
 	<?php endif; ?>
 
 	<?php if (empty($_['provider']) === false): ?>
-	<div class="personal-info icon-category-integration">
+	<div class="personal-info icon-home">
 		<p>
 			<?php
 				if (empty($_['providerLink']) === false) {
