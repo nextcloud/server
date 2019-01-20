@@ -118,6 +118,7 @@ class AuthSettingsController extends Controller {
 			$data['canRename'] = $token instanceof DefaultToken || $token instanceof PublicKeyToken;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
+				$data['canRename'] = false;
 				$data['current'] = true;
 			}
 			return $data;
@@ -155,6 +156,7 @@ class AuthSettingsController extends Controller {
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
+		$tokenData['canRename'] = true;
 
 		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $deviceToken->getName());
 

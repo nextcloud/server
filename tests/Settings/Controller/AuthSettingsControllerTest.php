@@ -109,7 +109,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'type' => 0,
 				'canDelete' => false,
 				'current' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'canRename' => true,
 			],
 			[
 				'id' => 200,
@@ -117,7 +118,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'lastActivity' => 0,
 				'type' => 0,
 				'canDelete' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'canRename' => true,
 			]
 		], $this->controller->index());
 	}
@@ -260,7 +262,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true]));
+		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
 	}
 
 	public function testUpdateTokenWrongUser() {
@@ -278,7 +280,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, ['filesystem' => true]);
+		$response = $this->controller->update($tokenId, ['filesystem' => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
@@ -292,7 +294,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update(42, ['filesystem' => true]);
+		$response = $this->controller->update(42, ['filesystem' => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
