@@ -2,7 +2,7 @@
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下是您的備用碼，由於備用碼不會再次顯示，請儲存 並/或 列印。",
     "Save backup codes" : "儲存備用碼",
     "Print backup codes" : "列印備用碼",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "備用碼已經建立，共{total}組備用碼中有{userd}組已經使用",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "備用碼已經建立，共{total}組備用碼中有{used}組已經使用",
     "Regenerate backup codes" : "重新產生備用碼",
     "_icon-loading-small_::_generate-backup-codes_" : ["產生備用碼"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "若您重新產生備用碼，原來舊的備用碼將自動失效。",
