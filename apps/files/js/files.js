@@ -32,7 +32,12 @@
 			});
 		},
 		// update quota
-		updateStorageQuotas: function() {
+		updateStorageQuotas: function () {
+			if (OC.currentUser) {
+				Files._updateStorageQuotas();
+			}
+		},
+		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
 			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
 				Files.updateQuota(response);
