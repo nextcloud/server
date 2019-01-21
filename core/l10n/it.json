@@ -151,6 +151,7 @@
     "Failed to authenticate, try again" : "Autenticazione non riuscita, prova ancora",
     "seconds ago" : "secondi fa",
     "Logging in …" : "Accesso in corso...",
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Abbiamo inviato un'email di ripristino della password all'indirizzo di posta che conosciamo per questo account. Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "I tuoi file sono cifrati. Non sarà più possibile recuperare i tuoi dati una volta che la password sarà reimpostata.<br />Se non sei sicuro, contatta l'amministratore prima di proseguire.<br />Vuoi davvero continuare?",
     "I know what I'm doing" : "So cosa sto facendo",
     "Password can not be changed. Please contact your administrator." : "La password non può essere cambiata. Contatta il tuo amministratore.",
