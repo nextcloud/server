@@ -151,6 +151,7 @@
     "Failed to authenticate, try again" : "Authenticatie mislukt, probeer opnieuw",
     "seconds ago" : "seconden geleden",
     "Logging in …" : "Inloggen...",
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "We hebben een wachtwoordherstel e-mail verzonden naar het e-mailadres dat bij ons bekend is voor dit account. Als je het niet binnen een redelijke tijd hebt ontvangen, controleer dan je spam / ongewenste mappen. <br> Als het bericht er niet is, vraag het dan je beheerder.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Je bestanden zijn versleuteld. Het is niet mogelijk om je gegevens terug te krijgen als je wachtwoord wordt gereset.<br />Als je niet zeker weer wat je moet doen, neem dan contact op met je beheerder voordat je verdergaat. <br />Wil je echt verder gaan?",
     "I know what I'm doing" : "Ik weet wat ik doe",
     "Password can not be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met je beheerder.",
