@@ -84,6 +84,9 @@ class RouteConfig {
 		// parse ocs simple routes
 		$this->processOCS($this->routes);
 
+		// parse ocs simple routes
+		$this->processOCSResources($this->routes);
+
 		$this->router->useCollection($oldCollection);
 	}
 
@@ -190,7 +193,58 @@ class RouteConfig {
 	 * For a given name and url restful routes are created:
 	 *  - index
 	 *  - show
-	 *  - new
+	 *  - create
+	 *  - update
+	 *  - destroy
+	 *
+	 * @param array $routes
+	 */
+	private function processOCSResources($routes)
+	{
+		// declaration of all restful actions
+		$actions = array(
+			array('name' => 'index', 'verb' => 'GET', 'on-collection' => true),
+			array('name' => 'show', 'verb' => 'GET'),
+			array('name' => 'create', 'verb' => 'POST', 'on-collection' => true),
+			array('name' => 'update', 'verb' => 'PUT'),
+			array('name' => 'destroy', 'verb' => 'DELETE'),
+		);
+
+		$resources = $routes['ocs-resources'] ?? [];
+		foreach ($resources as $resource => $config) {
+			$root = $config['root'] ?? '/apps/' . $this->appName;
+
+			// the url parameter used as id to the resource
+			foreach($actions as $action) {
+				$url = $root . $config['url'];
+				$method = $action['name'];
+				$verb = strtoupper($action['verb'] ?? 'GET');
+				$collectionAction = $action['on-collection'] ?? false;
+				if (!$collectionAction) {
+					$url .= '/{id}';
+				}
+				if (isset($action['url-postfix'])) {
+					$url .= '/' . $action['url-postfix'];
+				}
+
+				$controller = $resource;
+
+				$controllerName = $this->buildControllerName($controller);
+				$actionName = $this->buildActionName($method);
+
+				$routeName = 'ocs.' . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
+
+				$this->router->create($routeName, $url)->method($verb)->action(
+					new RouteActionHandler($this->container, $controllerName, $actionName)
+				);
+			}
+		}
+	}
+
+	/**
+	 * For a given name and url restful routes are created:
+	 *  - index
+	 *  - show
 	 *  - create
 	 *  - update
 	 *  - destroy

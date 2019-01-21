@@ -6,6 +6,9 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
 use OCP\ILogger;
+use OCP\Route\IRouter;
+use PHPUnit\Framework\MockObject\MockObject;
+use OC\Route\Router;
 
 class RoutingTest extends \Test\TestCase
 {
@@ -179,6 +182,27 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/apps/app1/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
 
+	public function testOCSResource()
+	{
+		$routes = ['ocs-resources' => ['account' => ['url' => '/accounts']]];
+
+		$this->assertOCSResource($routes, 'account', '/apps/app1/accounts', 'AccountController', 'id');
+	}
+
+	public function testOCSResourceWithUnderScoreName()
+	{
+		$routes = ['ocs-resources' => ['admin_accounts' => ['url' => '/admin/accounts']]];
+
+		$this->assertOCSResource($routes, 'admin_accounts', '/apps/app1/admin/accounts', 'AdminAccountsController', 'id');
+	}
+
+	public function testOCSResourceWithRoot()
+	{
+		$routes = ['ocs-resources' => ['admin_accounts' => ['url' => '/admin/accounts', 'root' => '/core/endpoint']]];
+
+		$this->assertOCSResource($routes, 'admin_accounts', '/core/endpoint/admin/accounts', 'AdminAccountsController', 'id');
+	}
+
 	public function testResource()
 	{
 		$routes = array('resources' => array('account' => array('url' => '/accounts')));
@@ -273,6 +297,67 @@ class RoutingTest extends \Test\TestCase
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $routes);
+
+		$config->register();
+	}
+
+	/**
+	 * @param array $yaml
+	 * @param string $resourceName
+	 * @param string $url
+	 * @param string $controllerName
+	 * @param string $paramName
+	 */
+	private function assertOCSResource($yaml, $resourceName, $url, $controllerName, $paramName): void {
+		/** @var IRouter|MockObject $router */
+		$router = $this->getMockBuilder(Router::class)
+			->setMethods(['create'])
+			->setConstructorArgs([$this->getMockBuilder(ILogger::class)->getMock()])
+			->getMock();
+
+		// route mocks
+		$container = new DIContainer('app1');
+		$indexRoute = $this->mockRoute($container, 'GET', $controllerName, 'index');
+		$showRoute = $this->mockRoute($container, 'GET', $controllerName, 'show');
+		$createRoute = $this->mockRoute($container, 'POST', $controllerName, 'create');
+		$updateRoute = $this->mockRoute($container, 'PUT', $controllerName, 'update');
+		$destroyRoute = $this->mockRoute($container, 'DELETE', $controllerName, 'destroy');
+
+		$urlWithParam = $url . '/{' . $paramName . '}';
+
+		// we expect create to be called once:
+		$router
+			->expects($this->at(0))
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $resourceName . '.index'), $this->equalTo($url))
+			->willReturn($indexRoute);
+
+		$router
+			->expects($this->at(1))
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam))
+			->willReturn($showRoute);
+
+		$router
+			->expects($this->at(2))
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $resourceName . '.create'), $this->equalTo($url))
+			->willReturn($createRoute);
+
+		$router
+			->expects($this->at(3))
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam))
+			->willReturn($updateRoute);
+
+		$router
+			->expects($this->at(4))
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam))
+			->willReturn($destroyRoute);
+
+		// load route configuration
+		$config = new RouteConfig($container, $router, $yaml);
 
 		$config->register();
 	}
