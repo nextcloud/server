@@ -20,7 +20,8 @@ $color-border-dark: lighten($color-main-background, 14%);
 #app-navigation > ul > li > a:first-child,
 #app-navigation > ul > li > ul > li > a:first-child,
 #contactsmenu-menu a,
-#expanddiv a {
+#expanddiv a,
+.activity-section .activity-icon.monochrome {
 	img {
 		filter: invert(100%);
 	}
