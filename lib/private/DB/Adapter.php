@@ -126,4 +126,17 @@ class Adapter {
 			return 0;
 		}
 	}
+
+	public function insertIgnoreConflict($table, $input) : int {
+		try {
+			$builder = $this->conn->getQueryBuilder();
+			$builder->insert($table);
+			foreach($input as $key => $value) {
+				$builder->setValue($key, $builder->createNamedParameter($value));
+			}
+			return $builder->execute();
+		} catch(UniqueConstraintViolationException $e) {
+			return 0;
+		}
+	}
 }

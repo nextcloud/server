@@ -257,6 +257,10 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
+	public function insertIgnoreConflict($table, $input) : int {
+		return $this->adapter->insertIgnoreConflict($table, $input);
+	}
+
 	private function getType($value) {
 		if (is_bool($value)) {
 			return IQueryBuilder::PARAM_BOOL;
