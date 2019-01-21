@@ -31,7 +31,7 @@ use BadMethodCallException;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Token\DefaultToken;
+use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Activity\Provider;
@@ -115,7 +115,7 @@ class AuthSettingsController extends Controller {
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
 			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof DefaultToken || $token instanceof PublicKeyToken;
+			$data['canRename'] = $token instanceof INamedToken;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;
@@ -231,7 +231,7 @@ class AuthSettingsController extends Controller {
 		]);
 
 
-		if ($token instanceof DefaultToken || $token instanceof PublicKeyToken) {
+		if ($token instanceof INamedToken) {
 			$token->setName($name);
 		}
 
