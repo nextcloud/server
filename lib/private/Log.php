@@ -80,6 +80,9 @@ class Log implements ILogger {
 		'\{closure\}',
 		'createSessionToken',
 
+		// Provisioning
+		'addUser',
+
 		// TokenProvider
 		'getToken',
 		'isTokenPassword',
