@@ -21,7 +21,6 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "Select2": "git+https://github.com/select2/select2.git#4.0.5",
     "autosize": "^4.0.2",
     "backbone": "^1.3.3",
     "blueimp-md5": "^2.7.0",
@@ -38,6 +37,7 @@
     "jstimezonedetect": "^1.0.6",
     "marked": "^0.6.0",
     "moment": "^2.23.0",
+    "select2": "^4.0.5",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git",
     "underscore": "^1.9.1"
