@@ -15,6 +15,8 @@ use OCP\IURLGenerator;
 
 /**
  * Class UrlGeneratorTest
+ *
+ * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
@@ -90,8 +92,8 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public function provideRoutes() {
 		return [
-			['files_ajax_list', 'http://localhost/nextcloud/index.php/apps/files/ajax/list.php'],
 			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
+			['cloud_federation_api.requesthandlercontroller.addShare', 'http://localhost/nextcloud/index.php/ocm/shares'],
 		];
 	}
 
