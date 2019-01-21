@@ -34,12 +34,6 @@ $color-border-dark: lighten($color-main-background, 14%);
 	}
 }
 
-// No inversion for icons which are already inverted via functions
-#contactsmenu-menu .emptycontent .icon-search,
-#contactsmenu-menu .other-actions.icon-more {
-	filter: none;
-}
-
 // Otherwise icon-more gets inverted via function
 #appmenu .icon-more-white {
 	filter: invert(100%);
