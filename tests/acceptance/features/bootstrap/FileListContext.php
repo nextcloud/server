@@ -133,6 +133,48 @@ class FileListContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function fileListHeader($fileListAncestor) {
+		return Locator::forThe()->css("thead")->
+				descendantOf($fileListAncestor)->
+				describedAs("Header in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function selectedFilesActionsMenuButton($fileListAncestor) {
+		return Locator::forThe()->css(".actions-selected")->
+				descendantOf(self::fileListHeader($fileListAncestor))->
+				describedAs("Selected files actions menu button in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function selectedFilesActionsMenu() {
+		return Locator::forThe()->css(".filesSelectMenu")->
+				describedAs("Selected files actions menu in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	private static function selectedFilesActionsMenuItemFor($itemText) {
+		return Locator::forThe()->xpath("//a[normalize-space() = '$itemText']")->
+				descendantOf(self::selectedFilesActionsMenu())->
+				describedAs($itemText . " item in selected files actions menu in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function moveOrCopySelectedFilesMenuItem() {
+		return self::selectedFilesActionsMenuItemFor("Move or copy");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function rowForFile($fileListAncestor, $fileName) {
 		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
 				descendantOf($fileListAncestor)->
@@ -146,6 +188,26 @@ class FileListContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->xpath("//preceding-sibling::tr//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName1']/ancestor::tr")->
 				descendantOf(self::rowForFile($fileListAncestor, $fileName2))->
 				describedAs("Row for file $fileName1 preceding $fileName2 in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function selectionCheckboxForFile($fileListAncestor, $fileName) {
+		// Note that the element that the user interacts with is the label, not
+		// the checbox itself.
+		return Locator::forThe()->css(".selection label")->
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Selection checkbox for file $fileName in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function selectionCheckboxInputForFile($fileListAncestor, $fileName) {
+		return Locator::forThe()->css(".selection input[type=checkbox]")->
+				descendantOf(self::rowForFile($fileListAncestor, $fileName))->
+				describedAs("Selection checkbox input for file $fileName in file list");
 	}
 
 	/**
@@ -304,6 +366,24 @@ class FileListContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Given I select :fileName
+	 */
+	public function iSelect($fileName) {
+		$this->iSeeThatIsNotSelected($fileName);
+
+		$this->actor->find(self::selectionCheckboxForFile($this->fileListAncestor, $fileName), 10)->click();
+	}
+
+	/**
+	 * @Given I start the move or copy operation for the selected files
+	 */
+	public function iStartTheMoveOrCopyOperationForTheSelectedFiles() {
+		$this->actor->find(self::selectedFilesActionsMenuButton($this->fileListAncestor), 10)->click();
+
+		$this->actor->find(self::moveOrCopySelectedFilesMenuItem(), 2)->click();
+	}
+
+	/**
 	 * @Given I open the details view for :fileName
 	 */
 	public function iOpenTheDetailsViewFor($fileName) {
@@ -443,6 +523,13 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
 		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($this->fileListAncestor, $fileName1, $fileName2), 10));
+	}
+
+	/**
+	 * @Then I see that :fileName is not selected
+	 */
+	public function iSeeThatIsNotSelected($fileName) {
+		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::selectionCheckboxInputForFile($this->fileListAncestor, $fileName), 10)->isChecked());
 	}
 
 	/**
