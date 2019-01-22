@@ -1137,7 +1137,13 @@ class View {
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
-					$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+					try {
+						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} catch (LockedException $e) {
+						// release the shared lock we acquired before quiting
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+						throw $e;
+					}
 				}
 				try {
 					if (!is_null($extraParam)) {
