@@ -141,7 +141,7 @@ OC.L10N.register(
     "%s of %s used" : "Usats %s de %s",
     "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat",
     "%s used" : "%s utilitzat",
-    "Settings" : "Configuració",
+    "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitza aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als teus arxius mitjançant WebDAV</a>",
