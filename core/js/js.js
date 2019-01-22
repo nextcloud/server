@@ -2082,12 +2082,9 @@ OC.Util = {
 				if (aNum == aa[x] && bNum == bb[x]) {
 					return aNum - bNum;
 				} else {
-					// Forcing 'en' locale to match the server-side locale which is
-					// always 'en'.
-					//
-					// Note: This setting isn't supported by all browsers but for the ones
+					// Note: This locale setting isn't supported by all browsers but for the ones
 					// that do there will be more consistency between client-server sorting
-					return aa[x].localeCompare(bb[x], 'en');
+					return aa[x].localeCompare(bb[x], OC.getLanguage());
 				}
 			}
 		}
