@@ -694,8 +694,8 @@ nav[role='navigation'] {
 			color: var(--color-primary-text);
 			width: 155px;
 			cursor: text;
-			background-color: var(--color-primary) !important;
-			border: 1px solid var(--color-primary-text-dark) !important;
+			background-color: transparent !important;
+			border: 1px solid var(--color-border) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;

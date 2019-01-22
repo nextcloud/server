@@ -290,7 +290,7 @@ label.infield {
 	position: absolute !important;
 	height: 20px;
 	width: 24px;
-	background-image: url('../img/actions/toggle.svg?v=1');
+	background-image: var(--icon-toggle-000);
 	background-repeat: no-repeat;
 	background-position: center;
 	opacity: .3;
@@ -312,8 +312,9 @@ label.infield {
 #personal-show + label {
 	display: block;
 	right: 0;
-	margin-top: -36px;
-    padding: 6px 4px;
+	margin-top: -41px;
+	margin-right: -6px;
+	padding: 22px;
 }
 
 /* Warnings and errors are the same */
@@ -709,7 +710,7 @@ code {
 		box-sizing: border-box;
 
 		div:first-child a {
-			background-image: url('../img/places/home.svg?v=1');
+			background-image: var(--icon-home-000);
 			background-repeat: no-repeat;
 			background-position: left center;
 		}
@@ -743,11 +744,12 @@ code {
 			opacity: 1;
 		}
 	}
+
 	// keyboard focus
 	#picker-showgridview:focus + #picker-view-toggle {
 		opacity: 1;
 	}
-	
+
 	.actions.creatable {
 		flex-wrap: wrap;
 		padding: 0px;
@@ -761,14 +763,13 @@ code {
 		border-radius: var(--border-radius-pill);
 		position: absolute;
 		top: 4px;
-		
+
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
 			background-size: 16px 16px;
-			max-height:36px;
-			width:36px;
-			margin:0px;
-			
+			max-height: 36px;
+			width: 36px;
+			margin: 0px;
 		}
 
 		a {
