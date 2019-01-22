@@ -154,7 +154,7 @@ class AuthSettingsController extends Controller {
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
 
-		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $name);
+		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $deviceToken->getName());
 
 		return new JSONResponse([
 			'token' => $token,
@@ -191,11 +191,18 @@ class AuthSettingsController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 *
-	 * @return array
+	 * @param int $id
+	 * @return array|JSONResponse
 	 */
 	public function destroy($id) {
-		$this->tokenProvider->invalidateTokenById($this->uid, $id);
-		$this->publishActivity(Provider::APP_TOKEN_DELETED, $id);
+		try {
+			$token = $this->findTokenByIdAndUser($id);
+		} catch (InvalidTokenException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		$this->tokenProvider->invalidateTokenById($this->uid, $token->getId());
+		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), $token->getName());
 		return [];
 	}
 
@@ -209,10 +216,7 @@ class AuthSettingsController extends Controller {
 	 */
 	public function update($id, array $scope) {
 		try {
-			$token = $this->tokenProvider->getTokenById((string)$id);
-			if ($token->getUID() !== $this->uid) {
-				throw new InvalidTokenException('User mismatch');
-			}
+			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -220,8 +224,9 @@ class AuthSettingsController extends Controller {
 		$token->setScope([
 			'filesystem' => $scope['filesystem']
 		]);
+
 		$this->tokenProvider->updateToken($token);
-		$this->publishActivity(Provider::APP_TOKEN_UPDATED, $id, $token->getName());
+		$this->publishActivity(Provider::APP_TOKEN_UPDATED, $token->getId(), $token->getName());
 		return [];
 	}
 
@@ -245,5 +250,21 @@ class AuthSettingsController extends Controller {
 			$this->logger->warning('could not publish activity');
 			$this->logger->logException($e);
 		}
+	}
+
+	/**
+	 * Find a token by given id and check if uid for current session belongs to this token
+	 *
+	 * @param int $id
+	 * @return IToken
+	 * @throws InvalidTokenException
+	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
+	 */
+	private function findTokenByIdAndUser(int $id): IToken {
+		$token = $this->tokenProvider->getTokenById((string)$id);
+		if ($token->getUID() !== $this->uid) {
+			throw new InvalidTokenException('This token does not belong to you!');
+		}
+		return $token;
 	}
 }

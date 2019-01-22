@@ -115,7 +115,7 @@ class Provider implements IProvider {
 		} else if ($event->getSubject() === self::APP_TOKEN_UPDATED) {
 			$subject = $this->l->t('You updated app password "%1$s"', $event->getSubjectParameters());
 		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
-			$subject = $this->l->t('You deleted an app token');
+			$subject = $this->l->t('You deleted app password "%1$s"', $event->getSubjectParameters());
 
 		} else {
 			throw new \InvalidArgumentException();
