@@ -168,13 +168,13 @@ class CollaborationResourcesController extends OCSController {
 	 * @param string $name
 	 * @return DataResponse
 	 */
-	public function createCollectionOnResource(string $resourceType, string $resourceId, string $name): DataResponse {
+	public function createCollectionOnResource(string $baseResourceType, string $baseResourceId, string $name): DataResponse {
 		if (!isset($name[0]) || isset($name[64])) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$resource = $this->manager->getResource($resourceType, $resourceId);
+			$resource = $this->manager->getResource($baseResourceType, $baseResourceId);
 		} catch (CollectionException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
