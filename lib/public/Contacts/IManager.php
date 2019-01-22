@@ -154,13 +154,25 @@ interface IManager {
 	public function register(\Closure $callable);
 
 	/**
+	 * Return a list of the user's addressbooks display names
+	 * 
 	 * @return array
 	 * @since 6.0.0
+	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
 	 */
 	public function getAddressBooks();
 
 	/**
+	 * Return a list of the user's addressbooks
+	 * 
+	 * @return IAddressBook[]
+	 * @since 16.0.0
+	 */
+	public function getUserAddressBooks();
+
+	/**
 	 * removes all registered address book instances
+	 * 
 	 * @return void
 	 * @since 6.0.0
 	 */
