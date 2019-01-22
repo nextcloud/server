@@ -441,6 +441,10 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('uid', 'core', 'timezone', 'Europe/Berlin');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
@@ -485,6 +489,10 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('uid', 'core', 'lostpassword');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 		$this->userSession->expects($this->once())
 			->method('createRememberMeToken')
 			->with($user);
@@ -545,6 +553,10 @@ class LoginControllerTest extends TestCase {
 			->method('deleteUserValue');
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -582,6 +594,10 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('jane', 'core', 'lostpassword');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
@@ -634,6 +650,10 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('john', 'core', 'lostpassword');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
@@ -686,6 +706,10 @@ class LoginControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('john', 'core', 'lostpassword');
+		$this->config
+			->method('getSystemValue')
+			->with('remember_login_cookie_lifetime')
+			->willReturn(1234);
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
