@@ -194,7 +194,7 @@ OC.FileUpload.prototype = {
 		var data = this.data;
 		var file = this.getFile();
 
-		// it was a folder upload, so make sure the parent directory exists alrady
+		// it was a folder upload, so make sure the parent directory exists already
 		var folderPromise;
 		if (file.relativePath) {
 			folderPromise = this.uploader.ensureFolderExists(this.getFullPath());
@@ -655,7 +655,7 @@ OC.Uploader.prototype = _.extend({
 				// when only replacement selected -> overwrite
 				self.onReplace(conflict.data('data'));
 			} else {
-				// when only original seleted -> skip
+				// when only original selected -> skip
 				// when none selected -> skip
 				self.onSkip(conflict.data('data'));
 			}
