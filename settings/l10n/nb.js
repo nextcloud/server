@@ -333,7 +333,7 @@ OC.L10N.register(
     "Hide description …" : "Skjul beskrivelse…",
     "This app has an update available." : "En oppdatering er tilgjengelig for dette programmet.",
     "Enable only for specific groups" : "Aktiver kun for gitte grupper",
-    "Online documentation" : "Elektronisk dokumentasjon",
+    "Online documentation" : "Online dokumentasjon",
     "Getting help" : "Skaffe hjelp",
     "Commercial support" : "Forretningsstøtte",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the Tips & Tricks section and the documentation for more information." : "Det er viktig for sikkerheten og ytelsen på din installasjon at alt er satt opp rett. For å hjelpe deg er det satt i verk noen automatiske sjekker. Se \"Tips og triks\"-delen og i dokumentasjonen for mer informasjon",

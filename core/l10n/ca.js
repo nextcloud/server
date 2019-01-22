@@ -142,7 +142,7 @@ OC.L10N.register(
     "Shared by" : "Compartit per",
     "No action available" : "Cap acció disponible",
     "Error fetching contact actions" : "Error al carregar les accions del contacte",
-    "Settings" : "Configuració",
+    "Settings" : "Paràmetres",
     "Connection to server lost" : "S'ha perdut la connexió amb el servidor",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problemes carregant la pagina, recarregant en 1%n segon","Problemes carregant la pagina, recarregant en 1%n segons"],
     "Saving..." : "Desant...",
