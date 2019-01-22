@@ -1239,9 +1239,13 @@ table.grid td.date {
 .icon-info {
 	padding: 11px 20px;
 	vertical-align: super;
+	opacity: .5;
 }
 
-#shareAPI h2, #encryptionAPI h2, #mail_general_settings h2 {
+#two-factor-auth h2,
+#shareAPI h2,
+#encryptionAPI h2,
+#mail_general_settings h2 {
 	display: inline-block;
 }
 
