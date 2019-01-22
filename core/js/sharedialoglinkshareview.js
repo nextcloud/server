@@ -579,19 +579,6 @@
 				!this.model.isFolder()
 				&& this.model.updatePermissionPossible();
 
-			var social = [];
-			OC.Share.Social.Collection.each(function(model) {
-				var url = model.get('url');
-				url = url.replace('{{reference}}', link);
-
-				social.push({
-					url: url,
-					label: t('core', 'Share to {name}', {name: model.get('name')}),
-					name: model.get('name'),
-					iconClass: model.get('iconClass'),
-					newWindow: model.get('newWindow')
-				});
-			});
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 
 			// what if there is another date picker on that page?
@@ -612,7 +599,6 @@
 			}
 
 			var popoverBase = {
-				social: social,
 				urlLabel: t('core', 'Link'),
 				hideDownloadLabel: t('core', 'Hide download'),
 				enablePasswordLabel: isPasswordEnforced ? t('core', 'Password protection enforced') : t('core', 'Password protect'),
@@ -653,8 +639,20 @@
 			var linkShares = this.getShareeList();
 			if(_.isArray(linkShares)) {
 				for (var i = 0; i < linkShares.length; i++) {
+					var social = [];
+					OC.Share.Social.Collection.each(function (model) {
+						var url = model.get('url');
+						url = url.replace('{{reference}}', linkShares[i].shareLinkURL);
+						social.push({
+							url: url,
+							label: t('core', 'Share to {name}', {name: model.get('name')}),
+							name: model.get('name'),
+							iconClass: model.get('iconClass'),
+							newWindow: model.get('newWindow')
+						});
+					});
 					var popover = this.getPopoverObject(linkShares[i])
-					linkShares[i].popoverMenu = this.popoverMenuTemplate(_.extend({}, popoverBase, popover));
+					linkShares[i].popoverMenu = this.popoverMenuTemplate(_.extend({}, popoverBase, popover, {social: social}));
 					linkShares[i].pendingPopoverMenu = pendingPopoverMenu
 				}
 			}
