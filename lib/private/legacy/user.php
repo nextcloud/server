@@ -270,7 +270,7 @@ class OC_User {
 		}
 
 		$logoutUrl = $urlGenerator->linkToRouteAbsolute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . \OCP\Util::callRegister();
+		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
 
 		return $logoutUrl;
 	}
