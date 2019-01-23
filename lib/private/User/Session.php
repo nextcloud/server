@@ -360,7 +360,8 @@ class Session implements IUserSession, Emitter {
 		$this->setUser($user);
 		$this->setLoginName($loginDetails['loginName']);
 
-		if(isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken) {
+		$isToken = isset($loginDetails['token']) && $loginDetails['token'] instanceof IToken;
+		if ($isToken) {
 			$this->setToken($loginDetails['token']->getId());
 			$this->lockdownManager->setToken($loginDetails['token']);
 			$firstTimeLogin = false;
@@ -368,7 +369,11 @@ class Session implements IUserSession, Emitter {
 			$this->setToken(null);
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
-		$this->manager->emit('\OC\User', 'postLogin', [$user, $loginDetails['password']]);
+		$this->manager->emit('\OC\User', 'postLogin', [
+			$user,
+			$loginDetails['password'],
+			$isToken,
+		]);
 		if($this->isLoggedIn()) {
 			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;

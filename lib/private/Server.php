@@ -413,9 +413,9 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
-			$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
+			$userSession->listen('\OC\User', 'postLogin', function ($user, $password, $isTokenLogin) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'isTokenLogin' => $isTokenLogin));
 			});
 			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
 				/** @var $user \OC\User\User */
