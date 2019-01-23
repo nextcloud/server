@@ -227,7 +227,7 @@ class PersonalInfo implements ISettings {
 
 		$uid = $user->getUID();
 
-		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', 'en_US');
+		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale());
 
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
 
