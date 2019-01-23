@@ -338,5 +338,13 @@ class SyncService {
 		}
 	}
 
-
+	/**
+	 * Delete the content of the system addressbook and the addressbook itself since it will be regenerated anyway
+	 * @return void
+	 */
+	public function purgeSystemAddressBook(): void
+	{
+		$systemAddressBook = $this->getLocalSystemAddressBook();
+		$this->backend->emptyAddressBook($systemAddressBook['id']);
+	}
 }

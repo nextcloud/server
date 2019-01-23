@@ -28,15 +28,27 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ContactsManagerTest extends TestCase {
-	public function test() {
+
+	public function dataForContactsManagerTest() {
+		return [
+			['yes'],
+			['no']
+		];
+	}
+
+	/**
+	 * @dataProvider dataForContactsManagerTest
+	 */
+	public function test(string $syncSystemAddressBook) {
 		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $cm */
 		$cm = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
-		$cm->expects($this->exactly(2))->method('registerAddressBook');
+		$cm->expects($this->exactly($syncSystemAddressBook === 'yes' ? 2 : 1))->method('registerAddressBook');
 		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)->disableOriginalConstructor()->getMock();
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backEnd */
 		$backEnd = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
@@ -45,7 +57,11 @@ class ContactsManagerTest extends TestCase {
 			]);
 
 		$l = $this->createMock(IL10N::class);
-		$app = new ContactsManager($backEnd, $l);
+		$config = $this->createMock(IConfig::class);
+
+		$config->method('getAppValue')->with('dav', 'syncSystemAddressbook', 'yes')->willReturn($syncSystemAddressBook);
+
+		$app = new ContactsManager($backEnd, $l, $config);
 		$app->setupContactsProvider($cm, 'user01', $urlGenerator);
 	}
 }

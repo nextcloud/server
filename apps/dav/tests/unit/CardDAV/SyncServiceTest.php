@@ -171,6 +171,19 @@ class SyncServiceTest extends TestCase {
 		$ss->deleteUser($user);
 	}
 
+	public function testPurgeSystemAddressBook()
+	{
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
+
+		$backend->expects($this->once())->method('emptyAddressBook');
+
+		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
+		$ss->purgeSystemAddressBook();
+	}
+
 	/**
 	 * @param int $createCount
 	 * @param int $updateCount

@@ -22,6 +22,7 @@
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\SyncService;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,12 +33,17 @@ class SyncSystemAddressBook extends Command {
 	/** @var SyncService */
 	private $syncService;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * @param SyncService $syncService
+	 * @param IConfig $config
 	 */
-	function __construct(SyncService $syncService) {
+	function __construct(SyncService $syncService, IConfig $config) {
 		parent::__construct();
 		$this->syncService = $syncService;
+		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -51,14 +57,19 @@ class SyncSystemAddressBook extends Command {
 	 * @param OutputInterface $output
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$output->writeln('Syncing users ...');
-		$progress = new ProgressBar($output);
-		$progress->start();
-		$this->syncService->syncInstance(function() use ($progress) {
-			$progress->advance();
-		});
+		if ($this->config->getAppValue('dav', 'syncSystemAddressbook', 'yes') === 'yes') {
+			$output->writeln('Syncing users ...');
+			$progress = new ProgressBar($output);
+			$progress->start();
+			$this->syncService->syncInstance(function() use ($progress) {
+				$progress->advance();
+			});
 
-		$progress->finish();
-		$output->writeln('');
+			$progress->finish();
+			$output->writeln('');
+		} else {
+			$this->syncService->purgeSystemAddressBook();
+			$output->writeln('Syncing system addressbook is disabled. Addressbook has been removed');
+		}
 	}
 }

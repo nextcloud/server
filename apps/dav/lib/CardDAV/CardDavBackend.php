@@ -470,7 +470,30 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
+	}
 
+	/**
+	 * Delete all the content from an addressbook
+	 *
+	 * @param mixed $addressBookId
+	 * @return void
+	 */
+	public function emptyAddressBook($addressBookId): void
+	{
+		$query = $this->db->getQueryBuilder();
+		$query->delete('cards')
+			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
+			->setParameter('addressbookid', $addressBookId)
+			->execute();
+
+		$query->delete('addressbookchanges')
+			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
+			->setParameter('addressbookid', $addressBookId)
+			->execute();
+
+		$query->delete($this->dbCardsPropertiesTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->execute();
 	}
 
 	/**
