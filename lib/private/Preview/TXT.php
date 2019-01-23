@@ -60,8 +60,9 @@ class TXT extends Provider {
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
-		$fontSize = $maxX ? (int) ((5 / 32) * $maxX) : 5; //5px
-		$lineSize = ceil($fontSize * 1.25);
+		// Define text size of text file preview
+		$fontSize = $maxX ? (int) ((2 / 32) * $maxX) : 5; //5px
+		$lineSize = ceil($fontSize * 1.5);
 
 		$image = imagecreate($maxX, $maxY);
 		imagecolorallocate($image, 255, 255, 255);
