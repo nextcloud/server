@@ -362,7 +362,7 @@
     "Are you really sure you want add {domain} as trusted domain?" : "Confirma que quere engadir {domain} como dominio de confianza?",
     "Add trusted domain" : "Engadir dominio de confianza",
     "Update to %s" : "Actualizar a %s",
-    "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Os aplicativos aprobados son desenvolvidos por desenvolvedores de confianza e pasaron un control de seguridade superficial. Mantéñense activamente nun repositorio de código aberto e os seus mantedores consideran que son estábeis para uso casual normal.",
+    "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Os aplicativos aprobados son desenvolvidos por desenvolvedores de confianza e pasaron un control de seguridade superficial. Mantéñense activamente nun repositorio de código aberto e os seus mantedores consideran que son estábeis para uso ocasional ou normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "A este aplicativo non se lle fixeron comprobacións de seguridade, ademais é novo ou coñecido por ser inestábel. Instálea baixo a súa responsabilidade.",
     "Disabling app …" : "Desactivando o aplicativo…",
     "Error while disabling app" : "Produciuse un erro ao desactivar o aplicativo",
