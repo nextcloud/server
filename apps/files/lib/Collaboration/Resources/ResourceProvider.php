@@ -25,6 +25,7 @@ namespace OCA\Files\Collaboration\Resources;
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUser;
 
 class ResourceProvider implements IProvider {
@@ -79,5 +80,16 @@ class ResourceProvider implements IProvider {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the icon class of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getIconClass(IResource $resource): string {
+		return 'icon-folder';
 	}
 }

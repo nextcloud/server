@@ -92,7 +92,7 @@
 				]
 			},
 			getIcon() {
-				return (resource) => [window.OCP.Collaboration.getIcon(resource.type)]
+				return (resource) => [window.OCP.Collaboration.getIcon(resource.type), resource.iconClass]
 			},
 			getLink() {
 				return (resource) => window.OCP.Collaboration.getLink(resource.type, resource.id)

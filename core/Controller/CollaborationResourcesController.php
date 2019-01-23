@@ -197,15 +197,16 @@ class CollaborationResourcesController extends OCSController {
 		];
 	}
 
-	protected function prepareResources(IResource $resource): array {
+	protected function prepareResources(IResource $resource): ?array {
 		if (!$resource->canAccess($this->userSession->getUser())) {
-			return [];
+			return null;
 		}
 
 		return [
 			'type' => $resource->getType(),
 			'id' => $resource->getId(),
 			'name' => $resource->getName(),
+			'iconClass' => $resource->getIconClass()
 		];
 	}
 }

@@ -47,6 +47,9 @@ class Resource implements IResource {
 	/** @var string|null */
 	protected $name;
 
+	/** @var string|null */
+	protected $iconClass;
+
 	public function __construct(
 		IManager $manager,
 		IDBConnection $connection,
@@ -85,6 +88,18 @@ class Resource implements IResource {
 		}
 
 		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getIconClass(): string {
+		if ($this->iconClass === null) {
+			$this->iconClass = $this->manager->getIconClass($this);
+		}
+
+		return $this->iconClass;
 	}
 
 	/**

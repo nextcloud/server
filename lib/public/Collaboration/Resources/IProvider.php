@@ -36,6 +36,15 @@ interface IProvider {
 	public function getName(IResource $resource): string;
 
 	/**
+	 * Get the icon class of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getIconClass(IResource $resource): string;
+
+	/**
 	 * Can a user/guest access the collection
 	 *
 	 * @param IResource $resource

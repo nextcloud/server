@@ -48,6 +48,12 @@ interface IResource {
 	public function getName(): string;
 
 	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getIconClass(): string;
+
+	/**
 	 * Can a user/guest access the resource
 	 *
 	 * @param IUser $user

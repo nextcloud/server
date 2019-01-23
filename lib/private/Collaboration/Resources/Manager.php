@@ -120,6 +120,22 @@ class Manager implements IManager {
 	}
 
 	/**
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 */
+	public function getIconClass(IResource $resource): string {
+		foreach ($this->getProviders() as $provider) {
+			try {
+				return $provider->getIconClass($resource);
+			} catch (ResourceException $e) {
+			}
+		}
+
+		return '';
+	}
+
+	/**
 	 * Can a user/guest access the collection
 	 *
 	 * @param IResource $resource
