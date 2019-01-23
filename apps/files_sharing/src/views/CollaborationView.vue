@@ -110,13 +110,13 @@
 			},
 			options() {
 				let options = [];
-				let types = window.Collaboration.getTypes();
+				let types = window.OCP.Collaboration.getTypes();
 				for(let type in types) {
 					options.push({
 						type: types[type],
-						title: window.Collaboration.getLabel(types[type]),
-						class: window.Collaboration.getIcon(types[type]),
-						action: () => window.Collaboration.trigger(types[type])
+						title: window.OCP.Collaboration.getLabel(types[type]),
+						class: window.OCP.Collaboration.getIcon(types[type]),
+						action: () => window.OCP.Collaboration.trigger(types[type])
 					})
 				}
 				for(let index in this.collections) {
@@ -161,13 +161,16 @@
 						'Content-Type': 'application/json; charset=UTF-8'
 					}
 				}).then((response) => {
-					console.log(response.data.ocs.data)
+					let newCollection = response.data.ocs.data
+					console.log('Add new collection', newCollection)
+					this.collections.push(newCollection)
+					this.addResourceToCollection(newCollection.id, resourceType.toString(), resourceId.toString())
 				});
 			},
 			addResourceToCollection(collectionId, resourceType, resourceId) {
 				/** TODO move to service */
 				const resourceBase = OC.linkToOCS(`collaboration/resources/collections`, 2);
-				axios.post(`${resourceBase}${collectionId}?format=json`, {
+				return axios.post(`${resourceBase}${collectionId}?format=json`, {
 					resourceType,
 					resourceId
 				}, {
@@ -176,7 +179,8 @@
 						'Content-Type': 'application/json; charset=UTF-8'
 					}
 				}).then((response) => {
-					console.log(response)
+					console.log('Add new collection', response.data.ocs.data)
+					this.collections.find((_item) => _item.id === collectionId).resources.push(response.data.ocs.data)
 				});
 			}
 		}

@@ -24,11 +24,12 @@
 	<li class="collection-list">
 		<avatar :displayName="collection.name" :allowPlaceholder="true"></avatar>
 		<span class="username" title="">{{ collection.name }}</span>
-		<div class="linked-icons">
-			<transition name="fade">
-				<a v-if="!detailsOpen" v-for="resource in collection.resources" :href="getLink(resource)" v-tooltip="resource.name"><span :class="getIcon(resource)"></span></a>
-			</transition>
-		</div>
+		<transition name="fade">
+			<div class="linked-icons" v-if="!detailsOpen">
+					<a v-for="resource in collection.resources" :href="getLink(resource)" v-tooltip="resource.name" :key="resource.id"><span :class="getIcon(resource)"></span></a>
+			</div>
+		</transition>
+
 		<span class="sharingOptionsGroup">
 				<div class="share-menu" v-click-outside="close">
 					<a href="#" class="icon icon-more" @click="toggle"></a>
@@ -41,7 +42,7 @@
 		<transition name="fade">
 			<ul class="resource-list-details" v-if="detailsOpen" v-click-outside="hideDetails">
 				<li v-for="resource in collection.resources">
-					<a :href="getLink(resource)"><span :class="getIcon(resource)"></span> {{ resource.name }}</a>
+					<a :href="getLink(resource)"><span :class="getIcon(resource)"></span> {{ resource.name || '' }}</a>
 					<span class="icon-delete"></span>
 				</li>
 			</ul>
@@ -91,10 +92,10 @@
 				]
 			},
 			getIcon() {
-				return (resource) => [window.Collaboration.getIcon(resource.type)]
+				return (resource) => [window.OCP.Collaboration.getIcon(resource.type)]
 			},
 			getLink() {
-				return (resource) => window.Collaboration.getLink(resource.type, resource.id)
+				return (resource) => window.OCP.Collaboration.getLink(resource.type, resource.id)
 			}
 		},
 		methods: {

@@ -13,4 +13,23 @@ import '../js/sharetabview'
 import '../js/share'
 import '../js/sharebreadcrumbview'
 
+window.OCP.Collaboration.registerType('files', {
+	action: () => {
+		return new Promise((resolve, reject) => {
+			OC.dialogs.filepicker('Link to a file', function (f) {
+				const client = OC.Files.getClient();
+				client.getFileInfo(f).then((status, fileInfo) => {
+					resolve(fileInfo.id)
+				}, () => {
+					reject()
+				})
+			}, false);
+		})
+	},
+	link: (id) => OC.generateUrl('/f/') + id,
+	icon: 'nav-icon-files',
+	/** used in "Link to a {typeString}" */
+	typeString: 'file'
+});
+
 window.OCA.Sharing = OCA.Sharing

@@ -36,55 +36,10 @@ import View from './views/CollaborationView'
 let selectAction = {};
 let icons = {};
 let types = {};
-
-window.Collaboration = {
-	/**
-	 *
-	 * @param type
-	 * @param {callback} selectCallback should return a promise
-	 */
-	registerType(type, typeDefinition) {
-		types[type] = typeDefinition;
-	},
-	trigger(type) {
-		return types[type].action()
-	},
-	getTypes() {
-		return Object.keys(types);
-	},
-	getIcon(type) {
-		return types[type].icon;
-	},
-	getLabel(type) {
-		return t('files_sharing', 'Link to a {label}', { label: types[type].typeString || type }, 1)
-	},
-	getLink(type, id) {
-		/* TODO: Allow action to be executed instead of href as well */
-		return types[type].link(id);
-	}
-}
-
-window.Collaboration.registerType('files', {
-	action: () => {
-		return new Promise((resolve, reject) => {
-			OC.dialogs.filepicker('Link to a file', function (f) {
-				const client = OC.Files.getClient();
-				client.getFileInfo(f).then((status, fileInfo) => {
-					resolve(fileInfo.id)
-				}, () => {
-					reject()
-				})
-			}, false);
-		})
-	},
-	link: (id) => OC.generateUrl('/f/') + id,
-	icon: 'nav-icon-files',
-	/** used in "Link to a {typeString}" */
-	typeString: 'file'
-});
+console.log('register types');
 
 /* TODO: temporary data for testing */
-window.Collaboration.registerType('calendar', {
+window.OCP.Collaboration.registerType('calendar', {
 	action: () => {
 		return new Promise((resolve, reject) => {
 			var id = window.prompt("calendar id", "1");
@@ -92,9 +47,10 @@ window.Collaboration.registerType('calendar', {
 		})
 	},
 	icon: 'icon-calendar-dark',
-	typeName: 'calendar',
+	typeString: 'calendar',
+	link: (id) => '#' + id,
 });
-window.Collaboration.registerType('contact', {
+window.OCP.Collaboration.registerType('contact', {
 	action: () => {
 		return new Promise((resolve, reject) => {
 			var id = window.prompt("contacts id", "1");
@@ -102,7 +58,9 @@ window.Collaboration.registerType('contact', {
 		})
 	},
 	icon: 'icon-contacts-dark',
-	typeName: 'contact',
+	link: (id) => '#' + id,
+	/** used in "Link to a {typeString}" */
+	typeString: 'contact'
 });
 
 export { Vue, View }
