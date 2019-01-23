@@ -20,144 +20,42 @@
  *
  */
 
-let resourceSelectHandlers = {};
+/**
+ * @typedef TypeDefinition
+ * @method {callback} action This action is executed to let the user select a resource
+ * @param {string} icon Contains the icon css class for the type
+ * @constructor
+ */
+
+/**
+ * @type {TypeDefinition[]}
+ **/
+let types = {};
 
 export default {
-
-	/**
-	 * @class
-	 * @param resourceType
-	 * @param resourceId
-	 * @constructor
-	 */
-	Resource: function(resourceType, resourceId) {
-		this.resourceType = '' + resourceType;
-		this.resourceId = '' + resourceId;
-	},
-
-	/**
-	 * @class
-	 * @param id
-	 * @param name
-	 * @constructor
-	 */
-	Collection: function(id, name) {
-		this.id = '' + id;
-		this.name = '' + name;
-		this.resources = [];
-	},
-
 	/**
 	 *
-	 * @param resourceType
-	 * @param title
-	 * @param selectorCallback
+	 * @param type
+	 * @param {TypeDefinition} typeDefinition
 	 */
-	registerResourceSelector: function(resourceType, title, selectorCallback) {
-		if (!this.resourceSelectHandlers.hasOwnProperty(resourceType)) {
-			this.resourceSelectHandlers[resourceType] = {
-				title: title,
-				callback: selectorCallback
-			};
-		}
+	registerType(type, typeDefinition) {
+		console.log('Type ' + type + ' registered')
+		types[type] = typeDefinition;
 	},
-
-	getResourceTypes: function() {
-		return this.resourceSelectHandlers;
+	trigger(type) {
+		return types[type].action()
 	},
-
-	/**
-	 * Select a resource for a given type
-	 *
-	 * @param resourceType
-	 * @param successCallback
-	 * @param abortCallback
-	 */
-	selectResource: function (resourceType, successCallback, abortCallback) {
-		this.resourceSelectHandlers[resourceType].callback(successCallback, abortCallback);
+	getTypes() {
+		return Object.keys(types);
 	},
-
-	getCollectionsByResource: function(resourceType, resourceId) {
-		// TODO: to implement
+	getIcon(type) {
+		return types[type].icon;
 	},
-
-	/**
-	 * Create a new collection from two resources
-	 *
-	 * @param name
-	 * @param resource1
-	 * @param resource2
-	 * @param successCallback
-	 * @param errorCallback
-	 */
-	createCollection: function (name, resource1, resource2, successCallback, errorCallback) {
-		var self = this;
-		this.createCollectionOnResource(name, resource1, function (collection) {
-			self.addResource(collection, resource2, function (collection) {
-				successCallback(collection);
-			})
-		});
+	getLabel(type) {
+		return t('files_sharing', 'Link to a {label}', { label: types[type].typeString || type }, 1)
 	},
-
-	/**
-	 *
-	 * @param name
-	 * @param resource1
-	 * @param successCallback
-	 * @param errorCallback
-	 */
-	createCollectionOnResource: function (name, resource1, successCallback, errorCallback) {
-		var data = {
-			name: name,
-			resourceType: resource1.resourceType,
-			resourceId: ''+resource1.resourceId,
-		};
-		var request = new XMLHttpRequest();
-		request.open('POST', OC.linkToOCS('collaboration/resources/' + data.resourceType, 2) + data.resourceId + '?format=json', true);
-		request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-		request.setRequestHeader('oc_requesttoken', OC.requestToken);
-		request.setRequestHeader('OCS-APIRequest', true);
-		request.onreadystatechange = function () {
-			if(request.readyState === 4 && request.status === 200) {
-				var result = JSON.parse(request.responseText);
-				var collection = new OCP.Collaboration.Collection(result.ocs.data.id, result.ocs.data.name);
-				collection.resources.push(resource1);
-				successCallback(collection);
-			}
-		};
-		request.send(JSON.stringify(data));
-	},
-
-	/**
-	 * Add a resource to a collection
-	 *
-	 * @param {OCP.Collaboration.Collection} collection
-	 * @param resource
-	 * @param successCallback
-	 * @param resource
-	 */
-	addResource: function (collection, resource, successCallback) {
-		var data = {
-			resourceType: resource.resourceType,
-			resourceId: '' + resource.resourceId,
-		};
-		var request = new XMLHttpRequest();
-		request.open('POST', OC.linkToOCS('collaboration/resources/collections', 2) + collection.id + '?format=json', true);
-		request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-		request.setRequestHeader('oc_requesttoken', OC.requestToken);
-		request.setRequestHeader('OCS-APIRequest', true);
-		request.onreadystatechange = function () {
-			if(request.readyState === 4 && request.status === 200) {
-				var result = JSON.parse(request.responseText);
-				collection.resources.push(resource);
-				successCallback(collection);
-			}
-		};
-		request.send(JSON.stringify(data));
-	},
-
-	removeResource: function(collection, resource) {
-		// TODO: to implement
+	getLink(type, id) {
+		/* TODO: Allow action to be executed instead of href as well */
+		return typeof types[type] !== 'undefined' ? types[type].link(id) : '';
 	}
-
 };
