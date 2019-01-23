@@ -194,7 +194,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 
 			var model = sinon.createStubInstance(OC.Share.ShareItemModel);
 			model.getSharesWithCurrentItem = function() { return [] };
-			model.hasLinkShare = function() { return false; };
+			model.hasLinkShares = function() { return false; };
 
 			shareTab.trigger('sharesChanged', model);
 
@@ -227,7 +227,7 @@ describe('OCA.Sharing.ShareBreadCrumbView tests', function() {
 			model.getSharesWithCurrentItem = function() { return [
 				{share_type: OC.Share.SHARE_TYPE_USER}
 			] };
-			model.hasLinkShare = function() { return true; };
+			model.hasLinkShares = function() { return true; };
 
 			shareTab.trigger('sharesChanged', model);
 
