@@ -140,6 +140,101 @@ Feature: app-files
     Then I see that the current section is "Deleted files"
     Then I see that the file list contains a file named "welcome.txt"
 
+  Scenario: move a file to another folder
+    Given I am logged in
+    And I create a new folder named "Destination"
+    When I start the move or copy operation for "welcome.txt"
+    And I select "Destination" in the file picker
+    And I move to the last selected folder in the file picker
+    Then I see that the file list does not contain a file named "welcome.txt"
+    And I enter in the folder named "Destination"
+    And I see that the file list contains a file named "welcome.txt"
+
+  Scenario: move a selection to another folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I create a new folder named "Not selected folder"
+    And I create a new folder named "Destination"
+    When I select "welcome.txt"
+    And I select "Folder"
+    And I start the move or copy operation for the selected files
+    And I select "Destination" in the file picker
+    And I move to the last selected folder in the file picker
+    Then I see that the file list does not contain a file named "welcome.txt"
+    And I see that the file list does not contain a file named "Folder"
+    And I see that the file list contains a file named "Not selected folder"
+    And I enter in the folder named "Destination"
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list does not contain a file named "Not selected folder"
+
+  Scenario: copy a file to another folder
+    Given I am logged in
+    And I create a new folder named "Destination"
+    When I start the move or copy operation for "welcome.txt"
+    And I select "Destination" in the file picker
+    And I copy to the last selected folder in the file picker
+    Then I enter in the folder named "Destination"
+    # The file will appear in the destination once the copy operation finishes
+    And I see that the file list contains a file named "welcome.txt"
+    # The Files app is open again to reload the file list in the root folder
+    And I open the Files app
+    And I see that the file list contains a file named "welcome.txt"
+
+  Scenario: copy a selection to another folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I create a new folder named "Not selected folder"
+    And I create a new folder named "Destination"
+    When I select "welcome.txt"
+    And I select "Folder"
+    And I start the move or copy operation for the selected files
+    And I select "Destination" in the file picker
+    And I copy to the last selected folder in the file picker
+    Then I enter in the folder named "Destination"
+    # The files will appear in the destination once the copy operation finishes
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list does not contain a file named "Not selected folder"
+    # The Files app is open again to reload the file list in the root folder
+    And I open the Files app
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list contains a file named "Not selected folder"
+
+  Scenario: copy a file in its same folder
+    Given I am logged in
+    When I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+
+  Scenario: copy a file twice in its same folder
+    Given I am logged in
+    And I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    When I start the move or copy operation for "welcome.txt"
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+    And I see that the file list contains a file named "welcome (copy 2).txt"
+
+  Scenario: copy a copy of a file in its same folder
+    Given I am logged in
+    And I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    When I start the move or copy operation for "welcome (copy).txt"
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+    And I see that the file list contains a file named "welcome (copy 2).txt"
+
   Scenario: rename a file with the details view open
     Given I am logged in
     And I open the details view for "welcome.txt"
