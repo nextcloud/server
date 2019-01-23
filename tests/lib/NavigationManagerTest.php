@@ -270,7 +270,7 @@ class NavigationManagerTest extends TestCase {
 			'logout' => [
 				'id'      => 'logout',
 				'order'   => 99999,
-				'href'    => 'https://example.com/logout?requesttoken='. \OCP\Util::callRegister(),
+				'href'    => 'https://example.com/logout?requesttoken='. urlencode(\OCP\Util::callRegister()),
 				'icon'    => '/apps/core/img/actions/logout.svg',
 				'name'    => 'Log out',
 				'active'  => false,
