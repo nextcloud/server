@@ -208,6 +208,7 @@ OC.L10N.register(
     "Help translate" : "Помогнете с превода",
     "Current password" : "Текуща парола",
     "Change password" : "Промени паролата",
+    "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
     "Devices & sessions" : "Устройства и сесии",
     "Web, desktop and mobile clients currently logged in to your account." : "Уеб, настолни и мобилни клиенти, които в момента са вписани чрез вашия акаунт.",
     "Device" : "Устройство",

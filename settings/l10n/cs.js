@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Místní a jazyková nastavení",
     "Current password" : "stávající heslo",
     "Change password" : "Změnit heslo",
+    "Use a second factor besides your password to increase security for your account." : "Pro zlepšení zabezpečení vašeho účtu použijte vedle hesla také druhý faktor.",
     "Devices & sessions" : "Zařízení a sezení",
     "Web, desktop and mobile clients currently logged in to your account." : "Weboví, desktopoví a mobilní klienti aktuálně přihlášení k vašemu účtu.",
     "Device" : "Přístroj",
