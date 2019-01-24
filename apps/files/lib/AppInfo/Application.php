@@ -27,9 +27,11 @@
 namespace OCA\Files\AppInfo;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
+use OCP\Collaboration\Resources\IManager;
 use \OCP\IContainer;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Capabilities;
@@ -99,5 +101,12 @@ class Application extends App {
 		 * Register capabilities
 		 */
 		$container->registerCapability(Capabilities::class);
+
+		/**
+		 * Register Collaboration ResourceProvider
+		 */
+		/** @var IManager $resourceManager */
+		$resourceManager = $container->query(IManager::class);
+		$resourceManager->registerResourceProvider($container->query(ResourceProvider::class));
 	}
 }

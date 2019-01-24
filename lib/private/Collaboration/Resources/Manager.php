@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace OC\Collaboration\Resources;
 
 
-use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
@@ -38,6 +37,9 @@ class Manager implements IManager {
 
 	/** @var IDBConnection */
 	protected $connection;
+
+	/** @var IProvider[] */
+	protected $providers = [];
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
@@ -96,9 +98,7 @@ class Manager implements IManager {
 	 * @since 15.0.0
 	 */
 	public function getProviders(): array {
-		return [
-			\OC::$server->query(ResourceProvider::class) // FIXME
-		];
+		return $this->providers;
 	}
 
 	/**
@@ -154,5 +154,12 @@ class Manager implements IManager {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param IProvider $provider
+	 */
+	public function registerResourceProvider(IProvider $provider): void {
+		$this->providers[] = $provider;
 	}
 }

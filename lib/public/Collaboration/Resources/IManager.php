@@ -50,4 +50,8 @@ interface IManager extends IProvider {
 	 */
 	public function getResource(string $type, string $id): IResource;
 
+	/**
+	 * @param IProvider $provider
+	 */
+	public function registerResourceProvider(IProvider $provider): void;
 }
