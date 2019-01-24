@@ -407,8 +407,6 @@ return array(
     'OC\\Accounts\\Hooks' => $baseDir . '/lib/private/Accounts/Hooks.php',
     'OC\\Activity\\Event' => $baseDir . '/lib/private/Activity/Event.php',
     'OC\\Activity\\EventMerger' => $baseDir . '/lib/private/Activity/EventMerger.php',
-    'OC\\Activity\\LegacyFilter' => $baseDir . '/lib/private/Activity/LegacyFilter.php',
-    'OC\\Activity\\LegacySetting' => $baseDir . '/lib/private/Activity/LegacySetting.php',
     'OC\\Activity\\Manager' => $baseDir . '/lib/private/Activity/Manager.php',
     'OC\\AllConfig' => $baseDir . '/lib/private/AllConfig.php',
     'OC\\AppConfig' => $baseDir . '/lib/private/AppConfig.php',

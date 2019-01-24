@@ -437,8 +437,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Accounts\\Hooks' => __DIR__ . '/../../..' . '/lib/private/Accounts/Hooks.php',
         'OC\\Activity\\Event' => __DIR__ . '/../../..' . '/lib/private/Activity/Event.php',
         'OC\\Activity\\EventMerger' => __DIR__ . '/../../..' . '/lib/private/Activity/EventMerger.php',
-        'OC\\Activity\\LegacyFilter' => __DIR__ . '/../../..' . '/lib/private/Activity/LegacyFilter.php',
-        'OC\\Activity\\LegacySetting' => __DIR__ . '/../../..' . '/lib/private/Activity/LegacySetting.php',
         'OC\\Activity\\Manager' => __DIR__ . '/../../..' . '/lib/private/Activity/Manager.php',
         'OC\\AllConfig' => __DIR__ . '/../../..' . '/lib/private/AllConfig.php',
         'OC\\AppConfig' => __DIR__ . '/../../..' . '/lib/private/AppConfig.php',
