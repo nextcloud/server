@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Taal",
     "Current password" : "Huidig wachtwoord",
     "Change password" : "Wijzig wachtwoord",
+    "Use a second factor besides your password to increase security for your account." : "Gebruik een tweede faktor naast je paswoord om de zekerheid van je account te verhogen. ",
     "Devices & sessions" : "Apparaten & sessies",
     "Web, desktop and mobile clients currently logged in to your account." : "Web, desktop en mobiele clients zijn nu ingelogd op je account.",
     "Device" : "Apparaat",

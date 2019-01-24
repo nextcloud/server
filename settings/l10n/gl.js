@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Configuración rexional",
     "Current password" : "Contrasinal actual",
     "Change password" : "Cambiar o contrasinal",
+    "Use a second factor besides your password to increase security for your account." : "Empregue un segundo factor ademais do seu contrasinal para aumentar a seguridade da súa conta.",
     "Devices & sessions" : "Dispositivos e sesións",
     "Web, desktop and mobile clients currently logged in to your account." : "Clientes web, móbiles e de escritorio actualmente conectados á súa conta.",
     "Device" : "Dispositivo",
