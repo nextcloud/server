@@ -1,7 +1,6 @@
-#accessibility {
-	max-width: 800px;
-}
+// Rules we could port to the rest of Nextcloud too
 
+// Proper highlight for links and focus feedback
 #accessibility a {
 	border-bottom: 1px dotted;
 
@@ -11,9 +10,25 @@
 	}
 }
 
+// Highlight checkbox label in bold for focus feedback
+// Drawback: Text width increases a bit
+#accessibility .checkbox:focus + label {
+	font-weight: bold;
+}
+
+// Limit width of settings sections for readability
+#accessibility .section p {
+	max-width: 800px;
+}
+
+// End of rules we could port to rest of Nextcloud
+
+
+
 .preview-list {
 	display: flex;
 	flex-direction: column;
+	max-width: 800px;
 }
 
 .preview {
