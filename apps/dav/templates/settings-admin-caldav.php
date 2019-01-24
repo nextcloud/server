@@ -30,7 +30,7 @@ script('dav', [
 ?>
 <form id="CalDAV" class="section">
 	<h2><?php p($l->t('Calendar server')); ?></h2>
-	<p class="settings-hint">Also install the <a target="_blank" href="apps/organization/calendar">Calendar app</a>, or
+	<p class="settings-hint">Also install the <a target="_blank" href="../apps/office/calendar">Calendar app</a>, or
 	<a target="_blank" href="<?php p(link_to_docs('user-sync-calendars')) ?>" rel="noreferrer noopener">connect your desktop & mobile for syncing</a>.</p>
 	<p>
 		<input type="checkbox" name="caldav_send_invitations" id="caldavSendInvitations" class="checkbox"
