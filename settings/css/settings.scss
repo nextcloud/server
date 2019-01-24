@@ -941,9 +941,9 @@ span.version {
 
 .section {
 	margin-bottom: 0;
-	/* use 2nd child since app-navigation-toggle is the first */
-	&:not(:nth-child(2)) {
-		border-top: 1px solid var(--color-border);
+	/* section divider lines, none needed for last one */
+	&:not(:last-child) {
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	/* correctly display help icons next to headings */
