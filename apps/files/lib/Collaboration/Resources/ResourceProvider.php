@@ -27,6 +27,7 @@ use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IURLGenerator;
 use OCP\IUser;
 
 class ResourceProvider implements IProvider {
@@ -36,11 +37,15 @@ class ResourceProvider implements IProvider {
 	/** @var IRootFolder */
 	protected $rootFolder;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/** @var array */
 	protected $nodes = [];
 
-	public function __construct(IRootFolder $rootFolder) {
+	public function __construct(IRootFolder $rootFolder, IURLGenerator $urlGenerator) {
 		$this->rootFolder = $rootFolder;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -101,5 +106,16 @@ class ResourceProvider implements IProvider {
 	 */
 	public function getType(): string {
 		return self::RESOURCE_TYPE;
+	}
+
+	/**
+	 * Get the link to a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getLink(IResource $resource): string {
+		return $this->urlGenerator->linkToRoute('files.viewcontroller.showFile', ['fileid' => $resource->getId()]);
 	}
 }

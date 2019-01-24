@@ -54,6 +54,12 @@ interface IResource {
 	public function getIconClass(): string;
 
 	/**
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getLink(): string;
+
+	/**
 	 * Can a user/guest access the resource
 	 *
 	 * @param IUser $user

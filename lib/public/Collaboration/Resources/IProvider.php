@@ -54,6 +54,15 @@ interface IProvider {
 	public function getIconClass(IResource $resource): string;
 
 	/**
+	 * Get the link to a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getLink(IResource $resource): string;
+
+	/**
 	 * Can a user/guest access the collection
 	 *
 	 * @param IResource $resource

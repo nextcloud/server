@@ -179,4 +179,24 @@ class Manager implements IManager {
 	public function getType(): string {
 		return '';
 	}
+
+	/**
+	 * Get the link to a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getLink(IResource $resource): string {
+		foreach ($this->getProviders() as $provider) {
+			if ($provider->getType() === $resource->getType()) {
+				try {
+					return $provider->getLink($resource);
+				} catch (ResourceException $e) {
+				}
+			}
+		}
+
+		return '';
+	}
 }

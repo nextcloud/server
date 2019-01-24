@@ -50,6 +50,9 @@ class Resource implements IResource {
 	/** @var string|null */
 	protected $iconClass;
 
+	/** @var string|null */
+	protected $link;
+
 	public function __construct(
 		IManager $manager,
 		IDBConnection $connection,
@@ -101,6 +104,15 @@ class Resource implements IResource {
 
 		return $this->iconClass;
 	}
+
+	public function getLink(): string {
+		if ($this->link === null) {
+			$this->link = $this->manager->getLink($this);
+		}
+
+		return $this->link;
+	}
+
 
 	/**
 	 * Can a user/guest access the resource
