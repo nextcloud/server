@@ -27,6 +27,15 @@ use OCP\IUser;
 interface IProvider {
 
 	/**
+	 * Get the type of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getType(): string;
+
+	/**
 	 * Get the display name of a resource
 	 *
 	 * @param IResource $resource

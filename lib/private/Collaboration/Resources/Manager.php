@@ -110,9 +110,11 @@ class Manager implements IManager {
 	 */
 	public function getName(IResource $resource): string {
 		foreach ($this->getProviders() as $provider) {
-			try {
-				return $provider->getName($resource);
-			} catch (ResourceException $e) {
+			if ($provider->getType() === $resource->getType()) {
+				try {
+					return $provider->getName($resource);
+				} catch (ResourceException $e) {
+				}
 			}
 		}
 
@@ -126,9 +128,11 @@ class Manager implements IManager {
 	 */
 	public function getIconClass(IResource $resource): string {
 		foreach ($this->getProviders() as $provider) {
-			try {
-				return $provider->getIconClass($resource);
-			} catch (ResourceException $e) {
+			if ($provider->getType() === $resource->getType()) {
+				try {
+					return $provider->getIconClass($resource);
+				} catch (ResourceException $e) {
+				}
 			}
 		}
 
@@ -145,11 +149,13 @@ class Manager implements IManager {
 	 */
 	public function canAccess(IResource $resource, IUser $user = null): bool {
 		foreach ($this->getProviders() as $provider) {
-			try {
-				if ($provider->canAccess($resource, $user)) {
-					return true;
+			if ($provider->getType() === $resource->getType()) {
+				try {
+					if ($provider->canAccess($resource, $user)) {
+						return true;
+					}
+				} catch (ResourceException $e) {
 				}
-			} catch (ResourceException $e) {
 			}
 		}
 
@@ -161,5 +167,16 @@ class Manager implements IManager {
 	 */
 	public function registerResourceProvider(IProvider $provider): void {
 		$this->providers[] = $provider;
+	}
+
+	/**
+	 * Get the type of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getType(): string {
+		return '';
 	}
 }

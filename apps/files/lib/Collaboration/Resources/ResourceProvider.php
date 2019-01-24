@@ -24,11 +24,14 @@ namespace OCA\Files\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IResource;
+use OCP\Collaboration\Resources\ResourceException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 
 class ResourceProvider implements IProvider {
+
+	const RESOURCE_TYPE = 'files';
 
 	/** @var IRootFolder */
 	protected $rootFolder;
@@ -63,10 +66,6 @@ class ResourceProvider implements IProvider {
 	 * @since 15.0.0
 	 */
 	public function canAccess(IResource $resource, IUser $user = null): bool {
-		if ($resource->getType() !== 'files') {
-			return false;
-		}
-
 		if (!$user instanceof IUser) {
 			return false;
 		}
@@ -91,5 +90,16 @@ class ResourceProvider implements IProvider {
 	 */
 	public function getIconClass(IResource $resource): string {
 		return 'icon-folder';
+	}
+
+	/**
+	 * Get the type of a resource
+	 *
+	 * @param IResource $resource
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getType(): string {
+		return self::RESOURCE_TYPE;
 	}
 }
