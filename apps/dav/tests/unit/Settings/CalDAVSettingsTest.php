@@ -49,7 +49,7 @@ class CalDAVSettingsTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertEquals('server', $this->settings->getSection());
+		$this->assertEquals('groupware', $this->settings->getSection());
 	}
 
 	public function testGetPriority() {

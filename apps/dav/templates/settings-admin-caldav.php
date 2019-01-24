@@ -37,7 +37,7 @@ script('dav', [
 			<?php ($_['send_invitations'] === 'yes') ? print_unescaped('checked="checked"') : null ?>/>
 		<label for="caldavSendInvitations"><?php p($l->t('Send invitations to attendees')); ?></label>
 		<br>
-		<em><?php p($l->t('Please make sure to properly set up the email settings above.')); ?></em>
+		<em><?php p($l->t('Please make sure to properly set up the email server.')); ?> <a href="../admin#mail_general_settings">↗</a></em>
 	</p>
 	<p>
 		<input type="checkbox" name="caldav_generate_birthday_calendar" id="caldavGenerateBirthdayCalendar" class="checkbox"
