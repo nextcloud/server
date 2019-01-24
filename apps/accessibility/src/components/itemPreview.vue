@@ -5,7 +5,7 @@
 			<h3>{{preview.title}}</h3>
 			<p>{{preview.text}}</p>
 			<input type="checkbox" class="checkbox" :id="'accessibility-' + preview.id" v-model="selected" />
-			<label :for="'accessibility-' + preview.id" @click="selectItem">{{t('accessibility', 'Enable')}}</label>
+			<label :for="'accessibility-' + preview.id" @click="selectItem">{{t('accessibility', 'Enable')}} {{preview.title.toLowerCase()}}</label>
 		</div>
 	</div>
 </template>
