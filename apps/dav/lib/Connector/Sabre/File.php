@@ -165,7 +165,7 @@ class File extends Node implements IFile {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
-			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
+			if (false && $partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$count = $partStorage->writeStream($internalPartPath, $data);
 				$result = $count > 0;
 				if ($result === false) {
