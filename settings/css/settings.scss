@@ -1517,12 +1517,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				> input:focus, >input:active {
 					+ .icon-confirm {
 						display: block !important;
+						position: absolute;
+						right: 0;
+						border: none;
+						background-color: transparent !important;
 					}
 				}
 				/* inputs like mail, username, password */
 				&:not(.userActions) > input:not([type='submit']) {
 					width: 100%;
 					min-width: 0;
+					&:focus,
+					&:active {
+						padding-right: 30px;
+					}
 				}
 				&.name {
 					word-break: break-all;
