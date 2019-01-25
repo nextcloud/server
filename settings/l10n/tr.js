@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Yerel Ayar",
     "Current password" : "Geçerli parola",
     "Change password" : "Parola değiştir",
+    "Use a second factor besides your password to increase security for your account." : "Parolanızın yanında ikinci bir doğrulama kullanarak hesabınızın güvenliğini arttırabilirsiniz.",
     "Devices & sessions" : "Aygıt ve oturumlar",
     "Web, desktop and mobile clients currently logged in to your account." : "Şu anda hesabınıza oturum açmış web, masaüstü ve mobil istemciler.",
     "Device" : "Aygıt",
