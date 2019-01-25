@@ -331,12 +331,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-mark-white.svg');
 }
 
-
-/* keep the labels for screen readers but hide them since we use placeholders */
-label.infield {
-	display: none;
-}
-
 /* Password strength meter */
 .strengthify-wrapper {
 	display: inline-block;
@@ -838,6 +832,8 @@ footer .info .entity-name {
 	display: none;
 }
 
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield,
 .hidden-visually {
 	position: absolute;
 	left:-10000px;

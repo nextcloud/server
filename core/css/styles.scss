@@ -256,12 +256,6 @@ body {
 	user-select: none;
 }
 
-/* keep the labels for screen readers but hide them since we use placeholders */
-
-label.infield {
-	display: none;
-}
-
 /* Show password toggle */
 
 #show, #dbpassword {
