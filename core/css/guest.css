@@ -384,8 +384,8 @@ label.infield {
 	display: none;
 }
 /* Feedback for keyboard focus and mouse hover */
-#show:focus + label, #dbpassword:focus + label, #personal-show:focus + label,
-#show + label:hover, #dbpassword + label:hover, #personal-show + label:hover {
+#show:focus + label, #dbpassword-toggle:focus + label, #personal-show:focus + label,
+#show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
   opacity: 1;
 }
 #pass2, input[name='personal-password-clone'] {
