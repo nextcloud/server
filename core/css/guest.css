@@ -362,9 +362,6 @@ label.infield {
 	top: .8em;
 	float: right;
 }
-#show, #dbpassword-toggle, #personal-show {
-	display: none;
-}
 #show + label, #dbpassword-toggle + label {
 	right: 21px;
 	top: 15px !important;
@@ -385,6 +382,11 @@ label.infield {
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
 	display: none;
+}
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label, #dbpassword:focus + label, #personal-show:focus + label,
+#show + label:hover, #dbpassword + label:hover, #personal-show + label:hover {
+  opacity: 1;
 }
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
