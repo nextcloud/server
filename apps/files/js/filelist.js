@@ -2058,7 +2058,7 @@
 			}
 
 			previewURL = self.generatePreviewUrl(urlSpec);
-			previewUrl = previewUrl.replace(/\(/g, '%28').replace(/\)/g, '%29');
+			previewURL = previewURL.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
 			// preload image to prevent delay
 			// this will make the browser cache the image
