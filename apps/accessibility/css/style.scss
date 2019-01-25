@@ -2,11 +2,11 @@
 
 // Proper highlight for links and focus feedback
 #accessibility a {
-	border-bottom: 1px dotted;
+	font-weight: bold;
 
 	&:hover,
 	&:focus {
-		border-bottom-style: solid;
+		text-decoration: underline;
 	}
 }
 
