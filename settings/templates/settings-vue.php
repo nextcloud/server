@@ -21,7 +21,7 @@
  *
  */
 
-script('settings', 'settings-vue');
+script('settings', 'vue-settings-apps-users-management');
 style('settings', 'settings');
 
 // Do we have some data to inject ?

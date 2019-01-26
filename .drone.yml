@@ -15,9 +15,14 @@ pipeline:
       matrix:
         TESTS: jsunit
   vue-build-settings:
-    image: node
+    image: nextcloudci/node:node-4
     commands:
-     - ./build/vue-builds.sh ./settings/js/settings-vue.js
+     - cd settings/
+     - find js/ -type f -iname 'vue-*' -delete
+     - npm install
+     - npm run build
+     - git status
+     - bash -c "[[ ! \"`git status --porcelain js/`\" ]] || ( echo 'Uncommited changes in vue build' && exit 1 )"
     when:
       matrix:
         TESTS: vue-build-settings
