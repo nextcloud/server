@@ -35,6 +35,14 @@ use Sabre\VObject\Reader;
 
 class PhotoCache {
 
+	/** @var array  */
+	protected const ALLOWED_CONTENT_TYPES = [
+		'image/png' => 'png',
+		'image/jpeg' => 'jpg',
+		'image/gif' => 'gif',
+		'application/octet-stream' => 'ico',
+	];
+
 	/** @var IAppData */
 	protected $appData;
 
@@ -90,27 +98,26 @@ class PhotoCache {
 	/**
 	 * @param ISimpleFolder $folder
 	 * @param Card $card
+	 * @throws NotPermittedException
 	 */
-	private function init(ISimpleFolder $folder, Card $card) {
+	private function init(ISimpleFolder $folder, Card $card): void {
 		$data = $this->getPhoto($card);
 
-		if ($data === false) {
+		if ($data === false || !isset($data['Content-Type'])) {
 			$folder->newFile('nophoto');
-		} else {
-			switch ($data['Content-Type']) {
-				case 'image/png':
-					$ext = 'png';
-					break;
-				case 'image/jpeg':
-					$ext = 'jpg';
-					break;
-				case 'image/gif':
-					$ext = 'gif';
-					break;
-			}
-			$file = $folder->newFile('photo.' . $ext);
-			$file->putContent($data['body']);
+			return;
 		}
+
+		$contentType = $data['Content-Type'];
+		$extension = self::ALLOWED_CONTENT_TYPES[$contentType] ?? null;
+
+		if ($extension === null) {
+			$folder->newFile('nophoto');
+			return;
+		}
+
+		$file = $folder->newFile('photo.' . $extension);
+		$file->putContent($data['body']);
 	}
 
 	private function hasPhoto(ISimpleFolder $folder) {
@@ -147,7 +154,7 @@ class PhotoCache {
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
-	
+
 			try {
 				$file = $folder->newFile($path);
 				$file->putContent($photo->data());
@@ -180,15 +187,14 @@ class PhotoCache {
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	private function getExtension(ISimpleFolder $folder) {
-		if ($folder->fileExists('photo.jpg')) {
-			return 'jpg';
-		} elseif ($folder->fileExists('photo.png')) {
-			return 'png';
-		} elseif ($folder->fileExists('photo.gif')) {
-			return 'gif';
+	private function getExtension(ISimpleFolder $folder): string {
+		foreach (self::ALLOWED_CONTENT_TYPES as $extension) {
+			if ($folder->fileExists('photo.' . $extension)) {
+				return $extension;
+			}
 		}
-		throw new NotFoundException;
+
+		throw new NotFoundException('Avatar not found');
 	}
 
 	private function getPhoto(Card $node) {
@@ -218,13 +224,7 @@ class PhotoCache {
 				$type = $this->getBinaryType($photo);
 			}
 
-			$allowedContentTypes = [
-				'image/png',
-				'image/jpeg',
-				'image/gif',
-			];
-
-			if (!in_array($type, $allowedContentTypes, true)) {
+			if (empty($type) || !isset(self::ALLOWED_CONTENT_TYPES[$type])) {
 				$type = 'application/octet-stream';
 			}
 
