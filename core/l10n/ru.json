@@ -151,6 +151,7 @@
     "Failed to authenticate, try again" : "Ошибка аутентификации. Попробуйте снова.",
     "seconds ago" : "несколько секунд назад",
     "Logging in …" : "Вход в систему…",
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Письмо с инструкциями по сбору пароля было отправлено на адрес электронной почты, указанный для этой учётной записи. Если это письмо не будет получено в разумное время, проверьте папку «Спам».<br> В случае, если письмо не будет получено, сообщите об этом администратору системы.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы хранятся в зашифрованном виде. После сброса пароля будет невозможно получить доступ к этим данным. <br /> Если вы не уверены что делать дальше — обратитесь к вашему системному администратору. <br /> Действительно продолжить?",
     "I know what I'm doing" : "Я понимаю, что делаю",
     "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь с вашим системным администратором.",
