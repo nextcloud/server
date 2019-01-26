@@ -254,15 +254,16 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
-	 * @throws \Exception if app can't be enabled for groups
+	 * @throws \InvalidArgumentException if app can't be enabled for groups
+	 * @throws AppPathNotFoundException
 	 */
 	public function enableAppForGroups($appId, $groups) {
+		// Check if app exists
+		$this->getAppPath($appId);
+
 		$info = $this->getAppInfo($appId);
-		if (!empty($info['types'])) {
-			$protectedTypes = array_intersect($this->protectedAppTypes, $info['types']);
-			if (!empty($protectedTypes)) {
-				throw new \Exception("$appId can't be enabled for groups.");
-			}
+		if (!empty($info['types']) && $this->hasProtectedAppType($info['types'])) {
+			throw new \InvalidArgumentException("$appId can't be enabled for groups.");
 		}
 
 		$groupIds = array_map(function ($group) {

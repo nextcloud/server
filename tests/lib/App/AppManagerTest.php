@@ -149,7 +149,23 @@ class AppManagerTest extends TestCase {
 			new Group('group2', array(), null)
 		);
 		$this->expectClearCache();
-		$this->manager->enableAppForGroups('test', $groups);
+
+		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
+			])
+			->setMethods([
+				'getAppPath',
+			])
+			->getMock();
+
+		$manager->expects($this->exactly(2))
+			->method('getAppPath')
+			->with('test')
+			->willReturn('apps/test');
+
+		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
@@ -183,9 +199,15 @@ class AppManagerTest extends TestCase {
 				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
 			])
 			->setMethods([
-				'getAppInfo'
+				'getAppPath',
+				'getAppInfo',
 			])
 			->getMock();
+
+		$manager->expects($this->once())
+			->method('getAppPath')
+			->with('test')
+			->willReturn(null);
 
 		$manager->expects($this->once())
 			->method('getAppInfo')
@@ -226,9 +248,15 @@ class AppManagerTest extends TestCase {
 				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
 			])
 			->setMethods([
-				'getAppInfo'
+				'getAppPath',
+				'getAppInfo',
 			])
 			->getMock();
+
+		$manager->expects($this->once())
+			->method('getAppPath')
+			->with('test')
+			->willReturn(null);
 
 		$manager->expects($this->once())
 			->method('getAppInfo')
