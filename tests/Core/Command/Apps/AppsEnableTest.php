@@ -74,10 +74,10 @@ class AppsEnableTest extends TestCase {
 		return [
 			[['admin_audit'], null, 0, 'admin_audit enabled'],
 			[['comments'], null, 0, 'comments enabled'],
-			[['invalid_app'], null, 1, 'invalid_app not found'],
+			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
 
 			[['admin_audit', 'comments'], null, 0, "admin_audit enabled\ncomments enabled"],
-			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit enabled\ncomments enabled\ninvalid_app not found"],
+			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit enabled\ncomments enabled\nCould not download app invalid_app"],
 
 			[['admin_audit'], ['admin'], 1, "admin_audit can't be enabled for groups"],
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
@@ -87,7 +87,7 @@ class AppsEnableTest extends TestCase {
 
 			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification enabled for groups: admin'],
 			[['updatenotification', 'logreader'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin"],
-			[['updatenotification', 'logreader', 'invalid_app'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin"],
+			[['updatenotification', 'logreader', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }

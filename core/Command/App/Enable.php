@@ -26,6 +26,7 @@
 
 namespace OC\Core\Command\App;
 
+use OC\Installer;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\IGroup;
@@ -97,7 +98,17 @@ class Enable extends Command implements CompletionAwareInterface {
 			return $group->getDisplayName();
 		}, $groupIds);
 
+
 		try {
+			/** @var Installer $installer */
+			$installer = \OC::$server->query(Installer::class);
+
+			if (false === $installer->isDownloaded($appId)) {
+				$installer->downloadApp($appId);
+			}
+
+			$installer->installApp($appId);
+
 			if ($groupIds === []) {
 				$this->appManager->enableApp($appId);
 				$output->writeln($appId . ' enabled');

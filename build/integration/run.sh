@@ -48,8 +48,6 @@ export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
 if [ "$INSTALLED" == "true" ]; then
 
     #Enable external storage app
-    $OCC app:install --keep-disabled files_external
-    $OCC app:install --keep-disabled user_ldap
     $OCC app:enable files_external user_ldap
 
     mkdir -p work/local_storage
