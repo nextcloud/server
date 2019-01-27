@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Daniel Kesselberg (mail@danielkesselberg.de)
  *
@@ -44,6 +45,9 @@ class AppsEnableTest extends TestCase {
 		);
 
 		$this->commandTester = new CommandTester($command);
+
+		\OC::$server->getAppManager()->disableApp('admin_audit');
+		\OC::$server->getAppManager()->disableApp('comments');
 	}
 
 	/**
@@ -53,7 +57,7 @@ class AppsEnableTest extends TestCase {
 	 * @param $statusCode
 	 * @param $output
 	 */
-	public function testCommandInput($appId, $groups, $statusCode, $output) {
+	public function testCommandInput($appId, $groups, $statusCode, $output): void {
 		$input = ['app-id' => $appId];
 
 		if (is_array($groups)) {
@@ -66,7 +70,7 @@ class AppsEnableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
-	public function dataCommandInput() {
+	public function dataCommandInput(): array {
 		return [
 			[['admin_audit'], null, 0, 'admin_audit enabled'],
 			[['comments'], null, 0, 'comments enabled'],

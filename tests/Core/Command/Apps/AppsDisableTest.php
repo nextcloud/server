@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Daniel Kesselberg (mail@danielkesselberg.de)
  *
@@ -55,7 +56,7 @@ class AppsDisableTest extends TestCase {
 	 * @param $statusCode
 	 * @param $output
 	 */
-	public function testCommandInput($appId, $statusCode, $output) {
+	public function testCommandInput($appId, $statusCode, $output): void {
 		$input = ['app-id' => $appId];
 
 		$this->commandTester->execute($input);
@@ -64,7 +65,7 @@ class AppsDisableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
-	public function dataCommandInput() {
+	public function dataCommandInput(): array {
 		return [
 			[['admin_audit'], 0, 'admin_audit disabled'],
 			[['comments'], 0, 'comments disabled'],

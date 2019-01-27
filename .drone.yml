@@ -562,7 +562,6 @@ pipeline:
       image: nextcloudci/integration-php7.1:1
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-        - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-ocs.feature
       when:
@@ -577,7 +576,6 @@ pipeline:
         - ./occ config:system:set redis timeout --value=0 --type=integer
         - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
         - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-        - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-openldap.feature
       when:
@@ -592,7 +590,6 @@ pipeline:
           - ./occ config:system:set redis timeout --value=0 --type=integer
           - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
           - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-          - ./occ app:enable user_ldap
           - cd build/integration
           - ./run.sh ldap_features/openldap-uid-username.feature
         when:
@@ -607,7 +604,6 @@ pipeline:
     - ./occ config:system:set redis timeout --value=0 --type=integer
     - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
     - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-    - ./occ app:enable user_ldap
     - cd build/integration
     - ./run.sh ldap_features/openldap-numerical-id.feature
     when:
