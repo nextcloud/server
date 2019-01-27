@@ -30,8 +30,21 @@ script('dav', [
 ?>
 <form id="CalDAV" class="section">
 	<h2><?php p($l->t('Calendar server')); ?></h2>
-	<p class="settings-hint">Also install the <a target="_blank" href="../apps/office/calendar">Calendar app</a>, or
-	<a target="_blank" href="<?php p(link_to_docs('user-sync-calendars')) ?>" rel="noreferrer noopener">connect your desktop & mobile for syncing</a>.</p>
+	<p class="settings-hint">
+		<?php print_unescaped(str_replace(
+			[
+				'{calendarappstoreopen}',
+				'{calendardocopen}',
+				'{linkclose}',
+			],
+			[
+				'<a target="_blank" href="../apps/office/calendar">',
+				'<a target="_blank" href="' . link_to_docs('user-sync-calendars') . '" rel="noreferrer noopener">',
+				'</a>',
+			],
+			$l->t('Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}.')
+		)); ?>
+	</p>
 	<p>
 		<input type="checkbox" name="caldav_send_invitations" id="caldavSendInvitations" class="checkbox"
 			<?php ($_['send_invitations'] === 'yes') ? print_unescaped('checked="checked"') : null ?>/>
@@ -47,7 +60,7 @@ script('dav', [
 					'<a href="../admin#mail_general_settings">',
 					'</a>',
 				],
-				$l->t('Please make sure to properly set up {emailopen}the email server↗{linkclose}.')
+				$l->t('Please make sure to properly set up {emailopen}the email server{linkclose}.')
 			)); ?>
 		</em>
 	</p>
