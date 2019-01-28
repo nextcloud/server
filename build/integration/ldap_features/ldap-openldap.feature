@@ -24,7 +24,7 @@ Feature: LDAP
     And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
-  Scenario: Test valid configuration with LDAP protoccol and port by logging in
+  Scenario: Test valid configuration with LDAP protocol and port by logging in
     Given modify LDAP configuration
       | ldapHost | ldap://openldap:389 |
     And cookies are reset
