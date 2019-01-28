@@ -83,11 +83,11 @@ class AppsEnableTest extends TestCase {
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
 			[['updatenotification'], ['admin'], 0, 'updatenotification enabled for groups: admin'],
-			[['updatenotification', 'logreader'], ['admin'], 0, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin"],
+			[['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
 
 			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification enabled for groups: admin'],
-			[['updatenotification', 'logreader'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin"],
-			[['updatenotification', 'logreader', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\nlogreader enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
+			[['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }
