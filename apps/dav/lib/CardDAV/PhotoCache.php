@@ -40,7 +40,7 @@ class PhotoCache {
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
 		'image/gif' => 'gif',
-		'application/octet-stream' => 'ico',
+		'image/vnd.microsoft.icon' => 'ico',
 	];
 
 	/** @var IAppData */
