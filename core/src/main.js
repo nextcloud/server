@@ -22,5 +22,9 @@
 import '@babel/polyfill'
 
 import './globals'
+import $ from 'jquery'
+import {registerAppsSlideToggle} from './OC/apps'
 
-import './OCP/index'
+$(document).ready(function () {
+	registerAppsSlideToggle();
+});

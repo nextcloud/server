@@ -19,5 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Apps from './apps'
+
 /** @namespace OC */
-export default {};
+export default {
+	Apps,
+};
