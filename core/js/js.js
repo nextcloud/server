@@ -39,11 +39,12 @@ function escapeHTML(s) {
 }
 
 /** @namespace OCP */
-var OCP = Object.assign({}, window.OCP),
-	/**
-	 * @namespace OC
-	 */
-	OC = {
+var OCP = Object.assign({}, window.OCP);
+
+/**
+ * @namespace OC
+ */
+Object.assign(window.OC, {
 	PERMISSION_NONE:0,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
@@ -900,7 +901,7 @@ var OCP = Object.assign({}, window.OCP),
 		}
 
 	}
-};
+});
 
 /**
  * Current user attributes
@@ -2337,12 +2338,6 @@ OC.set=function(name, value) {
 		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
 	}
 })();
-
-/**
- * Namespace for apps
- * @namespace OCA
- */
-window.OCA = {};
 
 /**
  * select a range in an input field
