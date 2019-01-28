@@ -10,7 +10,6 @@
   "public/whatsnew.js",
   "config.js",
   "oc-requesttoken.js",
-  "apps.js",
   "mimetype.js",
   "mimetypelist.js",
   "oc-backbone.js",
