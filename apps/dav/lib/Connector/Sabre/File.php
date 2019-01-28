@@ -188,7 +188,9 @@ class File extends Node implements IFile {
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
 					$expected = $_SERVER['CONTENT_LENGTH'];
 				}
-				throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				if ($expected !== "0") {
+					throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				}
 			}
 
 			// if content length is sent by client:
