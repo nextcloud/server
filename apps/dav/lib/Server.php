@@ -162,7 +162,10 @@ class Server {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 			$this->server->addPlugin(new VCFExportPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
+			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
+				\OC::$server->getAppDataDir('dav-photocache'),
+				\OC::$server->getLogger())
+			));
 		}
 
 		// system tags plugins
