@@ -1083,6 +1083,9 @@ span.version {
 		height: 64px;
 		opacity: .1;
 	}
+	&:hover {
+		background-color: var(--color-background-dark);
+	}
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
