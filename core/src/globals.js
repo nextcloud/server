@@ -48,6 +48,10 @@ import 'snap.js/dist/snap'
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
+import OC from './OC/index'
+import OCP from './OCP/index'
+import OCA from './OCA/index'
+
 window['_'] = _
 window['$'] = $
 window['autosize'] = autosize
@@ -64,3 +68,7 @@ window['jQuery'] = $
 window['marked'] = marked
 window['md5'] = md5
 window['moment'] = moment
+
+window['OC'] = OC
+window['OCP'] = OCP
+window['OCA'] = OCA

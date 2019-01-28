@@ -4,8 +4,6 @@
 import loader from './loader'
 
 /** @namespace OCP */
-const OCP = {
+export default {
 	Loader: loader,
 };
-
-window['OCP'] = Object.assign({}, window.OCP, OCP)
