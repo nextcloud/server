@@ -55,41 +55,46 @@
 	   href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
 	<p class="settings-hint"><?php p($l->t('For optimal performance it\'s important to configure background jobs correctly. For bigger instances \'Cron\' is the recommended setting. Please see the documentation for more information.'));?></p>
-	<p>
-		<input type="radio" name="mode" value="ajax" class="radio"
-			   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
-			print_unescaped('checked="checked"');
-		} ?>>
-		<label for="backgroundjobs_ajax">AJAX</label><br/>
-		<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
-	</p>
-	<p>
-		<input type="radio" name="mode" value="webcron" class="radio"
-			   id="backgroundjobs_webcron" <?php if ($_['backgroundjobs_mode'] === "webcron") {
-			print_unescaped('checked="checked"');
-		} ?>>
-		<label for="backgroundjobs_webcron">Webcron</label><br/>
-		<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.")); ?></em>
-	</p>
-	<p>
-		<input type="radio" name="mode" value="cron" class="radio"
-			   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
-			print_unescaped('checked="checked"');
-		}
-		if (!$_['cli_based_cron_possible']) {
-			print_unescaped('disabled');
-		}?>>
-		<label for="backgroundjobs_cron">Cron</label><br/>
-		<em><?php p($l->t("Use system cron service to call the cron.php file every 15 minutes.")); ?>
-			<?php if($_['cli_based_cron_possible']) {
-				p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
-			} else {
-				print_unescaped(str_replace(
-					['{linkstart}', '{linkend}'],
-					['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
-					$l->t('To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.')
-				));
-		} ?></em>
+	<form action="#">
+		<fieldset>
+			<legend class="hidden-visually"><?php p($l->t('Pick background job setting'));?></legend>
+			<p>
+				<input type="radio" name="mode" value="ajax" class="radio"
+					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
+					print_unescaped('checked="checked"');
+				} ?>>
+				<label for="backgroundjobs_ajax">AJAX</label><br/>
+				<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
+			</p>
+			<p>
+				<input type="radio" name="mode" value="webcron" class="radio"
+					   id="backgroundjobs_webcron" <?php if ($_['backgroundjobs_mode'] === "webcron") {
+					print_unescaped('checked="checked"');
+				} ?>>
+				<label for="backgroundjobs_webcron">Webcron</label><br/>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.")); ?></em>
+			</p>
+			<p>
+				<input type="radio" name="mode" value="cron" class="radio"
+					   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
+					print_unescaped('checked="checked"');
+				}
+				if (!$_['cli_based_cron_possible']) {
+					print_unescaped('disabled');
+				}?>>
+				<label for="backgroundjobs_cron">Cron</label><br/>
+				<em><?php p($l->t("Use system cron service to call the cron.php file every 15 minutes.")); ?>
+					<?php if($_['cli_based_cron_possible']) {
+						p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
+					} else {
+						print_unescaped(str_replace(
+							['{linkstart}', '{linkend}'],
+							['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
+							$l->t('To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.')
+						));
+				} ?></em>
 
-	</p>
+			</p>
+		</fieldset>
+	</form>
 </div>
