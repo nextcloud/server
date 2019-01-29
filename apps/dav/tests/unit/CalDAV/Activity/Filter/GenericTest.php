@@ -28,6 +28,9 @@ use OCA\DAV\CalDAV\Activity\Filter\Todo;
 use OCP\Activity\IFilter;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class GenericTest extends TestCase {
 
 	public function dataFilters() {

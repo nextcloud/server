@@ -44,6 +44,8 @@ use OCP\App\IAppManager;
  * Class AppSettingsControllerTest
  *
  * @package Tests\Settings\Controller
+ *
+ * @group DB
  */
 class AppSettingsControllerTest extends TestCase {
 	/** @var AppSettingsController */

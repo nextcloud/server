@@ -263,6 +263,7 @@ return array(
     'OCP\\Group\\Backend\\IGroupDetailsBackend' => $baseDir . '/lib/public/Group/Backend/IGroupDetailsBackend.php',
     'OCP\\Group\\Backend\\IIsAdminBackend' => $baseDir . '/lib/public/Group/Backend/IIsAdminBackend.php',
     'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => $baseDir . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
+    'OCP\\Group\\ISubAdmin' => $baseDir . '/lib/public/Group/ISubAdmin.php',
     'OCP\\Http\\Client\\IClient' => $baseDir . '/lib/public/Http/Client/IClient.php',
     'OCP\\Http\\Client\\IClientService' => $baseDir . '/lib/public/Http/Client/IClientService.php',
     'OCP\\Http\\Client\\IResponse' => $baseDir . '/lib/public/Http/Client/IResponse.php',
