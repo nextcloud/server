@@ -18,11 +18,13 @@
  *
  */
 
+import OCP from '../OCP/index';
+
 /**
  * @namespace
- * @deprecated Use OCP.AppConfig instead
+ * @deprecated 16.0.0 Use OCP.AppConfig instead
  */
-OC.AppConfig={
+const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getValue() instead
 	 */
@@ -63,4 +65,7 @@ OC.AppConfig={
 	deleteKey:function(app,key){
 		OCP.AppConfig.deleteKey(app, key);
 	}
+
 };
+
+export default AppConfig;

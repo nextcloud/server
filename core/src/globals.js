@@ -72,3 +72,24 @@ window['moment'] = moment
 window['OC'] = OC
 window['OCP'] = OCP
 window['OCA'] = OCA
+
+/**
+ * translate a string
+ * @param {string} app the id of the app for which to translate the string
+ * @param {string} text the string to translate
+ * @param [vars] map of placeholder key to value
+ * @param {number} [count] number to replace %n with
+ * @return {string}
+ */
+window.t = _.bind(OC.L10N.translate, OC.L10N);
+
+/**
+ * translate a string
+ * @param {string} app the id of the app for which to translate the string
+ * @param {string} text_singular the string to translate for exactly one object
+ * @param {string} text_plural the string to translate for n objects
+ * @param {number} count number to determine whether to use singular or plural
+ * @param [vars] map of placeholder key to value
+ * @return {string} Translated string
+ */
+window.n = _.bind(OC.L10N.translatePlural, OC.L10N);
