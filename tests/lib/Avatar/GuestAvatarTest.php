@@ -64,7 +64,7 @@ class GuestAvatarTest extends TestCase {
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
 		$expectedFile = file_get_contents(
-			__DIR__ . '/../../data/guest_avatar_einstein_32.svg'
+			__DIR__ . '/../../data/guest_avatar_einstein_32.png'
 		);
 		self::assertEquals(trim($expectedFile), trim($avatar->getContent()));
 	}

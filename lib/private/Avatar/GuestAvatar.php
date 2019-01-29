@@ -90,8 +90,8 @@ class GuestAvatar extends Avatar {
 	 * @return InMemoryFile
 	 */
 	public function getFile($size) {
-		$avatar = $this->getAvatarVector($size);
-		return new InMemoryFile('avatar.svg', $avatar);
+		$avatar = $this->generateAvatar($this->userDisplayName, $size);
+		return new InMemoryFile('avatar.png', $avatar);
 	}
 
 	/**
