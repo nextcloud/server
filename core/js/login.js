@@ -41,4 +41,10 @@ $(document).ready(function() {
 	$('form[name=login]').submit(OC.Login.onLogin);
 
 	$('#remember_login').click(OC.Login.rememberLogin);
+
+	var clearParamRegex = new RegExp('clear=1');
+	if (clearParamRegex.test(window.location.href)) {
+		window.localStorage.clear();
+		window.sessionStorage.clear();
+	}
 });
