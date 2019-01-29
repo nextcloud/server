@@ -21,39 +21,165 @@
  */
 
 import axios from 'nextcloud-axios';
+import Vuex from 'vuex';
+import Vue from 'vue';
 
 class Service {
 	constructor() {
-		this.service = axios.create();
+		this.http = axios;
+		this.baseUrl = OC.linkToOCS(`collaboration/resources`);
 	}
 
 	listCollection(collectionId) {
-		return this.service.get(`/collaboration/resources/collections/${collectionId}`)
+		return this.http.get(`${this.baseUrl}collections/${collectionId}`)
 	}
 
-	addResource(collectionId, resource) {
-		return this.service.post(`/collaboration/resources/collections/${collectionId}`)
+	renameCollection(collectionId, collectionName) {
+		const resourceBase = OC.linkToOCS(`collaboration/resources/collections`, 2);
+		return this.http.put(`${resourceBase}${collectionId}?format=json`, {
+			collectionName
+		}).then(result => {
+			return result.data.ocs.data;
+		})
 	}
 
-	removeResource() {
-		return this.service.post(`/collaboration/resources/collections/${collectionId}`)
+	getCollectionsByResource(resourceType, resourceId) {
+		const resourceBase = OC.linkToOCS(`collaboration/resources/${resourceType}`);
+		return this.http.get(`${resourceBase}${resourceId}?format=json`)
+			.then(result => {
+				return result.data.ocs.data;
+			})
+			.catch(error => {
+				console.error(error);
+				return Promise.reject(error);
+			});
 	}
 
-	createCollectionOnResource(resourceType, resourceId) {
-		return this.service.post(`/collaboration/resources/${resourceType}/${resourceId}`)
+	createCollection(resourceType, resourceId, name) {
+		const resourceBase = OC.linkToOCS(`collaboration/resources/${resourceType}`, 2);
+		return this.http.post(`${resourceBase}${resourceId}?format=json`, {
+			name: name
+		})
+			.then((response) => {
+				return response.data.ocs.data
+			})
+			.catch(error => {
+				console.error(error);
+				return Promise.reject(error);
+			});
 	}
 
-	getCollectionByResource(resourceType, resourceId) {
-		return this.service.get(`/collaboration/resources/${resourceType}/${resourceId}`)
+	addResource(collectionId, resourceType, resourceId) {
+		resourceId = '' + resourceId;
+		const resourceBase = OC.linkToOCS(`collaboration/resources/collections`, 2);
+		return this.http.post(`${resourceBase}${collectionId}?format=json`, {
+			resourceType,
+			resourceId
+		}).then((response) => {
+			return response.data.ocs.data
+		});
 	}
 
-	getProviders() {
-
+	removeResource(collectionId, resourceType, resourceId) {
+		return this.http.delete(`${this.baseUrl}/collections/${collectionId}`, { params: { resourceType, resourceId } } )
+			.then((response) => {
+				return response.data.ocs.data
+			});
 	}
 
-	search() {
+	search(query) {
+		const searchBase = OC.linkToOCS(`collaboration/resources/collections/search`);
+		return this.http.get(`${searchBase}%25${query}%25?format=json`)
+			.then((response) => {
+				return response.data.ocs.data
+			});
+	}
 
+}
+
+const service = new Service();
+
+const StoreModule = {
+	state: {
+		collections: []
+	},
+	mutations: {
+		addCollections (state, collections) {
+			state.collections = collections;
+		},
+		addCollection (state, collection) {
+			state.collections.push(collection)
+		},
+		removeCollection (state, collectionId) {
+			state.collections = state.collections.filter(item => item.id !== collectionId)
+		},
+		updateCollection(state, collection) {
+			let index = state.collections.findIndex((_item) => _item.id === collection.id)
+			if (index !== -1) {
+				Vue.set(state.collections, index, collection);
+			} else {
+				state.collections.push(collection)
+			}
+		}
+	},
+	getters: {
+		collectionsByResource(state) {
+			return (resourceType, resourceId) => {
+				return state.collections.filter((collection) => {
+					return typeof collection.resources.find((resource) => resource && resource.id === ''+resourceId && resource.type === resourceType) !== 'undefined'
+				})
+			}
+		},
+		getSearchResults(state) {
+			return (term) => {
+				return state.collections.filter((collection) => collection.name.contains(term))
+			}
+		}
+	},
+	actions: {
+		fetchCollectionsByResource(context, {resourceType, resourceId}) {
+			return service.getCollectionsByResource(resourceType, resourceId).then((collections) => {
+				context.commit('addCollections', collections)
+				return collections;
+			});
+		},
+		createCollection(context, {baseResourceType, baseResourceId, resourceType, resourceId, name}) {
+			return service.createCollection(baseResourceType, baseResourceId, name).then((collection) => {
+				context.commit('addCollection', collection)
+				context.dispatch('addResourceToCollection', {
+					collectionId: collection.id,
+					resourceType, resourceId
+				})
+			})
+		},
+		renameCollection(context, {collectionId, name}) {
+			return service.renameCollection(collectionId, name).then((collection) => {
+				context.commit('updateCollection', collection)
+				return collection
+			})
+		},
+		addResourceToCollection(context, {collectionId, resourceType, resourceId}) {
+			return service.addResource(collectionId, resourceType, resourceId).then((collection) => {
+				context.commit('updateCollection', collection)
+				return collection
+			})
+		},
+		removeResource(context, {collectionId, resourceType, resourceId}) {
+			return service.removeResource(collectionId, resourceType, resourceId).then((collection) => {
+				if (collection.resources.length > 0) {
+					context.commit('updateCollection', collection)
+				} else {
+					context.commit('removeCollection', collectionId)
+				}
+			})
+		},
+		search(context, query) {
+			return service.search(query)
+		}
 	}
 }
 
-export default new Service;
+const Store = () => new Vuex.Store(StoreModule);
+
+export default service;
+export { StoreModule, Store };

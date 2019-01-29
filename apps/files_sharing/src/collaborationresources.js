@@ -21,46 +21,19 @@
  */
 
 import Vue from 'vue'
+import Vuex from 'vuex'
 import { PopoverMenu } from 'nextcloud-vue'
 import ClickOutside from 'vue-click-outside'
 import { VTooltip } from 'v-tooltip'
+import { Store } from './services/collections';
 
 Vue.prototype.t = t;
 
 Vue.component('PopoverMenu', PopoverMenu)
 Vue.directive('ClickOutside', ClickOutside)
 Vue.directive('Tooltip', VTooltip)
+Vue.use(Vuex);
 
-import View from './views/CollaborationView'
+import View from './CollaborationView'
 
-let selectAction = {};
-let icons = {};
-let types = {};
-console.log('register types');
-
-/* TODO: temporary data for testing */
-window.OCP.Collaboration.registerType('calendar', {
-	action: () => {
-		return new Promise((resolve, reject) => {
-			var id = window.prompt("calendar id", "1");
-			resolve(id);
-		})
-	},
-	icon: 'icon-calendar-dark',
-	typeString: 'calendar',
-	link: (id) => '#' + id,
-});
-window.OCP.Collaboration.registerType('contact', {
-	action: () => {
-		return new Promise((resolve, reject) => {
-			var id = window.prompt("contacts id", "1");
-			resolve(id);
-		})
-	},
-	icon: 'icon-contacts-dark',
-	link: (id) => '#' + id,
-	/** used in "Link to a {typeString}" */
-	typeString: 'contact'
-});
-
-export { Vue, View }
+export { Vue, View, Store }

@@ -193,7 +193,7 @@ class CollaborationResourcesController extends OCSController {
 		return [
 			'id' => $collection->getId(),
 			'name' => $collection->getName(),
-			'resources' => array_map([$this, 'prepareResources'], $collection->getResources()),
+			'resources' => array_values(array_filter(array_map([$this, 'prepareResources'], $collection->getResources()))),
 		];
 	}
 

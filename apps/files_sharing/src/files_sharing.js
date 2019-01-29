@@ -1,10 +1,5 @@
-// CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(OC.requestToken)
 
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// eslint-disable-next-line
+__webpack_nonce__ = btoa(OC.requestToken)
 __webpack_public_path__ = OC.linkTo('files_sharing', 'js/dist/')
 
 import '../js/app'
@@ -26,10 +21,8 @@ window.OCP.Collaboration.registerType('files', {
 			}, false);
 		})
 	},
-	link: (id) => OC.generateUrl('/f/') + id,
-	icon: 'nav-icon-files',
 	/** used in "Link to a {typeString}" */
-	typeString: 'file'
+	typeString: t('files_sharing', 'file')
 });
 
 window.OCA.Sharing = OCA.Sharing

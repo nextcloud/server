@@ -21,12 +21,16 @@
   -->
 
 <template>
-	<li class="collection-list">
+	<li class="collection-list" v-click-outside="hideDetails">
 		<avatar :displayName="collection.name" :allowPlaceholder="true"></avatar>
-		<span class="username" title="">{{ collection.name }}</span>
+		<span class="username" title="" @click="showDetails" v-if="this.newName === ''">{{ collection.name }}</span>
+		<form v-else @submit.prevent="renameCollection">
+			<input type="text" v-model="newName" autocomplete="off" autocapitalize="off">
+			<input type="submit" value="" class="icon-confirm">
+		</form>
 		<transition name="fade">
 			<div class="linked-icons" v-if="!detailsOpen">
-					<a v-for="resource in collection.resources" :href="getLink(resource)" v-tooltip="resource.name" :key="resource.id"><span :class="getIcon(resource)"></span></a>
+					<a v-for="resource in collection.resources" :href="resource.link" v-tooltip="resource.name" :key="resource.id"><span :class="getIcon(resource)"></span></a>
 			</div>
 		</transition>
 
@@ -40,10 +44,10 @@
 				</div>
 		</span>
 		<transition name="fade">
-			<ul class="resource-list-details" v-if="detailsOpen" v-click-outside="hideDetails">
+			<ul class="resource-list-details" v-if="detailsOpen">
 				<li v-for="resource in collection.resources">
-					<a :href="getLink(resource)"><span :class="getIcon(resource)"></span> {{ resource.name || '' }}</a>
-					<span class="icon-delete"></span>
+					<a :href="resource.link"><span :class="getIcon(resource)"></span><span class="resource-name">{{ resource.name || '' }}</span></a>
+					<span class="icon-delete" @click="removeResource(collection, resource)"></span>
 				</li>
 			</ul>
 		</transition>
@@ -51,6 +55,8 @@
 </template>
 
 <script>
+	import service from '../services/collections';
+
 	import { Avatar } from 'nextcloud-vue';
 
 	export default {
@@ -66,7 +72,8 @@
 		data() {
 			return {
 				isOpen: false,
-				detailsOpen: false
+				detailsOpen: false,
+				newName: '',
 			}
 		},
 		computed: {
@@ -81,21 +88,14 @@
 						text: t('files_sharing', 'Details'),
 					},
 					{
-						action: () => {  },
+						action: () => this.openRename(),
 						icon: 'icon-rename',
 						text: t('files_sharing', 'Rename collection'),
-					},{
-						action: () => {  },
-						icon: 'icon-delete',
-						text: t('files_sharing', 'Remove collection'),
 					}
 				]
 			},
 			getIcon() {
-				return (resource) => [window.OCP.Collaboration.getIcon(resource.type), resource.iconClass]
-			},
-			getLink() {
-				return (resource) => window.OCP.Collaboration.getLink(resource.type, resource.id)
+				return (resource) => [resource.iconClass]
 			}
 		},
 		methods: {
@@ -108,8 +108,27 @@
 			toggle() {
 				this.isOpen = !this.isOpen
 			},
+			showDetails() {
+				this.detailsOpen = true
+			},
 			hideDetails() {
 				this.detailsOpen = false
+			},
+			removeResource(collection, resource) {
+				this.$store.dispatch('removeResource', {
+					collectionId: collection.id, resourceType: resource.type, resourceId: resource.id
+				})
+			},
+			openRename() {
+				this.newName = this.collection.name;
+			},
+			renameCollection() {
+				this.$store.dispatch('renameCollection', {
+					collectionId: this.collection.id,
+					name: this.newName
+				}).then((collection) => {
+					this.newName = '';
+				});
 			}
 		}
 	}
@@ -138,7 +157,15 @@
 	}
 	.collection-list {
 		flex-wrap: wrap;
+		height: auto;
+
+		form, .username {
+			flex-basis: 10%;
+			flex-grow: 1;
+			display: flex;
+		}
 		.resource-list-details {
+			flex-basis: 100%;
 			width: 100%;
 			li {
 				display: flex;
@@ -146,13 +173,22 @@
 				a {
 					flex-grow: 1;
 					padding: 3px;
+					max-width: calc(100% - 30px);
+					display: flex;
 				}
 			}
 			span {
 				display: inline-block;
-				padding: 8px;
 				vertical-align: top;
 				margin-right: 10px;
+			}
+			span.resource-name {
+				text-overflow: ellipsis;
+				overflow: hidden;
+				position: relative;
+				vertical-align: top;
+				white-space: nowrap;
+				flex-grow: 1;
 			}
 		}
 	}
