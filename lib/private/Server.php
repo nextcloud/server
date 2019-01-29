@@ -141,6 +141,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
+use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -1200,6 +1201,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+
+		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
 
 		$this->connectDispatcher();
 	}

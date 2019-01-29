@@ -293,6 +293,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Group\\Backend\\IGroupDetailsBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IGroupDetailsBackend.php',
         'OCP\\Group\\Backend\\IIsAdminBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IIsAdminBackend.php',
         'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
+        'OCP\\Group\\ISubAdmin' => __DIR__ . '/../../..' . '/lib/public/Group/ISubAdmin.php',
         'OCP\\Http\\Client\\IClient' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClient.php',
         'OCP\\Http\\Client\\IClientService' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClientService.php',
         'OCP\\Http\\Client\\IResponse' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IResponse.php',

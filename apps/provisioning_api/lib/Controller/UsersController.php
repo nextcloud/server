@@ -809,11 +809,8 @@ class UsersController extends AUserData {
 			return new DataResponse();
 		}
 		// Go
-		if ($subAdminManager->createSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->createSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**
@@ -845,11 +842,8 @@ class UsersController extends AUserData {
 		}
 
 		// Go
-		if ($subAdminManager->deleteSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->deleteSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**

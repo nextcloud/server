@@ -2738,44 +2738,6 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 103
-	 * @expectedExceptionMessage Unknown error occurred
-	 */
-	public function testAddSubAdminUnsuccessful() {
-		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('ExistingUser')
-			->will($this->returnValue($targetUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('get')
-			->with('TargetGroup')
-			->will($this->returnValue($targetGroup));
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdminOfGroup')
-			->with($targetUser, $targetGroup)
-			->will($this->returnValue(false));
-		$subAdminManager
-			->expects($this->once())
-			->method('createSubAdmin')
-			->with($targetUser, $targetGroup)
-			->will($this->returnValue(false));
-		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->will($this->returnValue($subAdminManager));
-
-		$this->api->addSubAdmin('ExistingUser', 'TargetGroup');
-	}
-
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 101
 	 * @expectedExceptionMessage User does not exist
 	 */
@@ -2875,44 +2837,6 @@ class UsersControllerTest extends TestCase {
 			->will($this->returnValue($subAdminManager));
 
 		$this->assertEquals([], $this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom')->getData());
-	}
-
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 103
-	 * @expectedExceptionMessage Unknown error occurred
-	 */
-	public function testRemoveSubAdminUnsuccessful() {
-		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('ExistingUser')
-			->will($this->returnValue($targetUser));
-		$this->groupManager
-			->expects($this->once())
-			->method('get')
-			->with('GroupToDeleteFrom')
-			->will($this->returnValue($targetGroup));
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()->getMock();
-		$subAdminManager
-			->expects($this->once())
-			->method('isSubAdminOfGroup')
-			->with($targetUser, $targetGroup)
-			->will($this->returnValue(true));
-		$subAdminManager
-			->expects($this->once())
-			->method('deleteSubAdmin')
-			->with($targetUser, $targetGroup)
-			->will($this->returnValue(false));
-		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->will($this->returnValue($subAdminManager));
-
-		$this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom');
 	}
 
 	/**
