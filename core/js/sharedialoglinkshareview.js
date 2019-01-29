@@ -644,7 +644,6 @@
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
-				showPasswordCheckBox: showPasswordCheckBox,
 				isPasswordEnforced: isPasswordEnforced,
 			});
 
