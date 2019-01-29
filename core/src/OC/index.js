@@ -24,6 +24,7 @@ import Backbone from 'backbone';
 import Apps from './apps'
 import AppConfig from './appconfig'
 import ContactsMenu from './contactsmenu';
+import EventSource from './eventsource'
 import {davCall, davSync} from './backbone-webdav';
 
 // Patch Backbone for DAV
@@ -37,5 +38,6 @@ export default {
 	Apps,
 	AppConfig,
 	Backbone,
+	EventSource,
 	ContactsMenu,
 };

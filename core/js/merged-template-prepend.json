@@ -4,7 +4,6 @@
   "js.js",
   "l10n.js",
   "octemplate.js",
-  "eventsource.js",
   "public/appconfig.js",
   "public/comments.js",
   "public/whatsnew.js",
