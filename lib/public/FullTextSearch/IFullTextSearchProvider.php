@@ -173,7 +173,7 @@ interface IFullTextSearchProvider {
 	 * called only once (per user).
 	 *
 	 * @since 16.0.0
-	 * 
+	 *
 	 * @param string $userId
 	 *
 	 * @return array
@@ -203,7 +203,7 @@ interface IFullTextSearchProvider {
 	 *
 	 * @return IndexDocument[]
 	 */
-	public function generateIndexableDocuments(string $userId, string $chunk = ''): array;
+	public function generateIndexableDocuments(string $userId, string $chunk): array;
 
 
 	/**
