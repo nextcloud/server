@@ -22,7 +22,6 @@
 		"octemplate.js",
 		"contactsmenu_templates.js",
 		"eventsource.js",
-		"config.js",
 		"public/appconfig.js",
 		"public/comments.js",
 		"public/publicpage.js",

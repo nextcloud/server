@@ -22,6 +22,7 @@
 import Backbone from 'backbone';
 
 import Apps from './apps'
+import AppConfig from './appconfig'
 import ContactsMenu from './contactsmenu';
 import {davCall, davSync} from './backbone-webdav';
 
@@ -34,6 +35,7 @@ Object.assign(Backbone, {
 /** @namespace OC */
 export default {
 	Apps,
+	AppConfig,
 	Backbone,
 	ContactsMenu,
 };
