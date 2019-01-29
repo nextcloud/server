@@ -29,15 +29,6 @@ if (typeof console === "undefined" || typeof console.log === "undefined") {
 	}
 }
 
-/**
-* Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
-* @param {string} s String to sanitize
-* @return {string} Sanitized string
-*/
-function escapeHTML(s) {
-	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
-}
-
 /** @namespace OCP */
 var OCP = Object.assign({}, window.OCP);
 
@@ -1833,13 +1824,6 @@ OC.PasswordConfirmation = {
 $(document).ready(initCore);
 
 /**
- * Filter Jquery selector by attribute value
- */
-$.fn.filterAttr = function(attr_name, attr_value) {
-	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
-};
-
-/**
  * Returns a human readable file size
  * @param {number} size Size in bytes
  * @param {boolean} skipSmallSizes return '< 1 kB' for small files
@@ -2338,93 +2322,3 @@ OC.set=function(name, value) {
 		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
 	}
 })();
-
-/**
- * select a range in an input field
- * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
- * @param {type} start
- * @param {type} end
- */
-jQuery.fn.selectRange = function(start, end) {
-	return this.each(function() {
-		if (this.setSelectionRange) {
-			this.focus();
-			this.setSelectionRange(start, end);
-		} else if (this.createTextRange) {
-			var range = this.createTextRange();
-			range.collapse(true);
-			range.moveEnd('character', end);
-			range.moveStart('character', start);
-			range.select();
-		}
-	});
-};
-
-/**
- * check if an element exists.
- * allows you to write if ($('#myid').exists()) to increase readability
- * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
- */
-jQuery.fn.exists = function(){
-	return this.length > 0;
-};
-
-/**
- * jQuery tipsy shim for the bootstrap tooltip
- */
-jQuery.fn.tipsy = function(argument) {
-	console.warn('Deprecation warning: tipsy is deprecated. Use tooltip instead.');
-	if(typeof argument === 'object' && argument !== null) {
-
-		// tipsy defaults
-		var options = {
-			placement: 'bottom',
-			delay: { 'show': 0, 'hide': 0},
-			trigger: 'hover',
-			html: false,
-			container: 'body'
-		};
-		if(argument.gravity) {
-			switch(argument.gravity) {
-				case 'n':
-				case 'nw':
-				case 'ne':
-					options.placement='bottom';
-					break;
-				case 's':
-				case 'sw':
-				case 'se':
-					options.placement='top';
-					break;
-				case 'w':
-					options.placement='right';
-					break;
-				case 'e':
-					options.placement='left';
-					break;
-			}
-		}
-		if(argument.trigger) {
-			options.trigger = argument.trigger;
-		}
-		if(argument.delayIn) {
-			options.delay.show = argument.delayIn;
-		}
-		if(argument.delayOut) {
-			options.delay.hide = argument.delayOut;
-		}
-		if(argument.html) {
-			options.html = true;
-		}
-		if(argument.fallback) {
-			options.title = argument.fallback;
-		}
-		// destroy old tooltip in case the title has changed
-		jQuery.fn.tooltip.call(this, 'destroy');
-		jQuery.fn.tooltip.call(this, options);
-	} else {
-		this.tooltip(argument);
-		jQuery.fn.tooltip.call(this, argument);
-	}
-	return this;
-};

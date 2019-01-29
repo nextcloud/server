@@ -1,7 +1,7 @@
 /*
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,13 +19,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-
-import './globals'
-import $ from 'jquery'
-import './jquery/index'
-import {registerAppsSlideToggle} from './OC/apps'
-
-$(document).ready(function () {
-	registerAppsSlideToggle();
-});
+/**
+ * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
+ * @param {string} s String to sanitize
+ * @return {string} Sanitized string
+ */
+export default function escapeHTML (s) {
+	return s.toString()
+		.split('&')
+		.join('&amp;')
+		.split('<')
+		.join('&lt;').split('>')
+		.join('&gt;').split('"')
+		.join('&quot;').split('\'')
+		.join('&#039;');
+}
