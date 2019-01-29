@@ -31,6 +31,7 @@ use function array_diff;
 use function array_filter;
 use BadMethodCallException;
 use Exception;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
@@ -362,6 +363,14 @@ class Manager {
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
 		$this->config->setUserValue($user->getUID(), 'login_token_2fa', $token->getId(), $this->timeFactory->getTime());
+	}
+
+	public function clearTwoFactorPending(string $userId) {
+		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
+
+		foreach ($tokensNeeding2FA as $tokenId) {
+			$this->tokenProvider->invalidateTokenById($userId, $tokenId);
+		}
 	}
 
 }
