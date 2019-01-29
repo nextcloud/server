@@ -116,9 +116,6 @@ class PersonalInfo implements ISettings {
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($userData);
 
-		$adminContactConfigId = $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_ADMIN_CONTACT);
-		$adminContact = $this->userManager->get($adminContactConfigId);
-
 		$parameters = [
 			'total_space' => $totalSpace,
 			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
@@ -144,16 +141,38 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
+		] + $this->getWhereIsYourDataParams() + $messageParameters + $languageParameters + $localeParameters;
+
+		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+	}
+
+	/**
+	 * Returns the "where is your data" template params.
+	 *
+	 * @return array
+	 */
+	private function getWhereIsYourDataParams() {
+
+		$adminContactConfigId = $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_ADMIN_CONTACT);
+		$adminContact = $this->userManager->get($adminContactConfigId);
+
+		$params = [
 			'dataLocation' => $this->config->getSystemValue(ServerInfo::SETTING_LOCATION),
 			'provider' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER),
 			'providerLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_WEBSITE),
 			'providerPrivacyLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_PRIVACY_LINK),
 			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
 			'adminName' => $adminContact !== null ? $adminContact->getDisplayName() : '',
-			'adminMail' => $adminContact !== null ? $adminContact->getEMailAddress() : '',
-		] + $messageParameters + $languageParameters + $localeParameters;
+			'adminMail' => $adminContact !== null ? $adminContact->getEMailAddress() : ''
+		];
 
-		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+		$params['show_where_is_your_data_section'] = empty($params['dataLocation']) === false
+			|| empty($params['provider']) === false
+			|| $params['encryptionEnabled'] === true
+			|| empty($params['adminName']) === false;
+
+		return $params;
+
 	}
 
 	/**

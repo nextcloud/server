@@ -95,7 +95,11 @@ script('settings', [
 				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
 			</div>
 		</div>
-		<?php include __DIR__ . '/partials/where-is-your-data.php' ?>
+		<?php
+			if ($_['show_where_is_your_data_section']) {
+				include __DIR__ . '/partials/where-is-your-data.php';
+			}
+		?>
 	</div>
 
 	<div class="personal-settings-container">
