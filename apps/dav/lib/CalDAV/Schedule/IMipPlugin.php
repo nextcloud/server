@@ -44,6 +44,9 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
+use Sabre\VObject\Recur\NoInstancesException;
+
 /**
  * iMIP handler.
  *
@@ -159,6 +162,14 @@ class IMipPlugin extends SabreIMipPlugin {
 			return;
 		}
 
+		try {
+			[$start, $end, $hasTime] = $this->getNextAppearance($iTipMessage->message);
+		} catch (MaxInstancesExceededException $e) {
+			return;
+		} catch (NoInstancesException $e) {
+			return;
+		}
+
 		// Strip off mailto:
 		$sender = substr($iTipMessage->sender, 7);
 		$recipient = substr($iTipMessage->recipient, 7);
@@ -180,26 +191,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$meetingTitle = $vevent->SUMMARY;
 		$meetingDescription = $vevent->DESCRIPTION;
 
-		$start = $vevent->DTSTART;
-		if (isset($vevent->DTEND)) {
-			$end = $vevent->DTEND;
-		} elseif (isset($vevent->DURATION)) {
-			$isFloating = $vevent->DTSTART->isFloating();
-			$end = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
-			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
-			$end->setDateTime($endDateTime, $isFloating);
-		} elseif (!$vevent->DTSTART->hasTime()) {
-			$isFloating = $vevent->DTSTART->isFloating();
-			$end = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
-			$endDateTime = $endDateTime->modify('+1 day');
-			$end->setDateTime($endDateTime, $isFloating);
-		} else {
-			$end = clone $vevent->DTSTART;
-		}
-
-		$meetingWhen = $this->generateWhenString($l10n, $start, $end);
+		$meetingWhen = $this->generateWhenString($l10n, $start, $end, !$hasTime);
 
 		$meetingUrl = $vevent->URL;
 		$meetingLocation = $vevent->LOCATION;
@@ -346,71 +338,90 @@ class IMipPlugin extends SabreIMipPlugin {
 	}
 
 	/**
-	 * @param IL10N $l10n
-	 * @param Property $dtstart
-	 * @param Property $dtend
+	 * @param VCalendar $vObject
+	 * @return array
+	 * @throws \Sabre\VObject\Recur\MaxInstancesExceededException
+	 * @throws \Sabre\VObject\Recur\NoInstancesException
 	 */
-	private function generateWhenString(IL10N $l10n, Property $dtstart, Property $dtend) {
-		$isAllDay = $dtstart instanceof Property\ICalendar\Date;
+	protected function getNextAppearance(VCalendar $vObject): array {
+		/** @var VEvent $component */
+		$component = $vObject->VEVENT;
 
-		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtstart */
-		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtend */
-		/** @var \DateTimeImmutable $dtstartDt */
-		$dtstartDt = $dtstart->getDateTime();
-		/** @var \DateTimeImmutable $dtendDt */
-		$dtendDt = $dtend->getDateTime();
+		$dtStart = $component->DTSTART;
+		$start = $dtStart->getDateTime();
 
-		$diff = $dtstartDt->diff($dtendDt);
+		if (!isset($component->RRULE)) {
+			if (isset($component->DTEND)) {
+				$end = $component->DTEND->getDateTime();
+			} elseif (isset($component->DURATION)) {
+				$end = clone $start;
+				$end = $end->add(DateTimeParser::parse($component->DURATION->getValue()));
+			} elseif (!$dtStart->hasTime()) {
+				$end = clone $start;
+				$end = $end->modify('+1 day');
+			} else {
+				$end = clone $start;
+			}
+		} else {
+			$it = new EventIterator($vObject, (string)$component->UID);
+			$start = $it->getDtStart();
+			$today = new \DateTime();
+			while ($it->valid() && $start < $today) {
+				$start = $it->getDtStart();
+				$end = $it->getDtEnd();
+				$it->next();
+			}
+		}
 
-		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
+		$startDateTime = new \DateTime(null, $start->getTimezone());
+		$startDateTime->setTimestamp($start->getTimestamp());
+		$endDateTime = new \DateTime(null, $end->getTimezone());
+		$endDateTime->setTimestamp($end->getTimestamp());
 
+		return [$startDateTime, $endDateTime, $component->DTSTART->hasTime()];
+	}
+
+	/**
+	 * @param IL10N $l10n
+	 * @param \DateTime $start
+	 * @param \DateTime $end
+	 * @param \bool $isAllDay
+	 */
+	private function generateWhenString(IL10N $l10n, \DateTime $start, \DateTime $end, bool $isAllDay) {
+		$diff = $start->diff($end);
 		if ($isAllDay) {
 			// One day event
 			if ($diff->days === 1) {
-				return $l10n->l('date', $dtstartDt, ['width' => 'medium']);
+				return $l10n->l('date', $start, ['width' => 'medium']);
 			}
 
 			//event that spans over multiple days
-			$localeStart = $l10n->l('date', $dtstartDt, ['width' => 'medium']);
-			$localeEnd = $l10n->l('date', $dtendDt, ['width' => 'medium']);
+			$localeStart = $l10n->l('date', $start, ['width' => 'medium']);
+			$localeEnd = $l10n->l('date', $end, ['width' => 'medium']);
 
 			return $localeStart . ' - ' . $localeEnd;
 		}
 
-		/** @var Property\ICalendar\DateTime $dtstart */
-		/** @var Property\ICalendar\DateTime $dtend */
-		$isFloating = $dtstart->isFloating();
-		$startTimezone = $endTimezone = null;
-		if (!$isFloating) {
-			$prop = $dtstart->offsetGet('TZID');
-			if ($prop instanceof Parameter) {
-				$startTimezone = $prop->getValue();
-			}
+		$startTimezone = $start->getTimezone()->getName();
+		$endTimezone = $end->getTimezone()->getName();
 
-			$prop = $dtend->offsetGet('TZID');
-			if ($prop instanceof Parameter) {
-				$endTimezone = $prop->getValue();
-			}
-		}
-
-		$localeStart = $l10n->l('weekdayName', $dtstartDt, ['width' => 'abbreviated']) . ', ' .
-			$l10n->l('datetime', $dtstartDt, ['width' => 'medium|short']);
+		$localeStart = $l10n->l('weekdayName', $start, ['width' => 'abbreviated']) . ', ' .
+			$l10n->l('datetime', $start, ['width' => 'medium|short']);
 
 		// always show full date with timezone if timezones are different
 		if ($startTimezone !== $endTimezone) {
-			$localeEnd = $l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
+			$localeEnd = $l10n->l('datetime', $end, ['width' => 'medium|short']);
 
 			return $localeStart . ' (' . $startTimezone . ') - ' .
 				$localeEnd . ' (' . $endTimezone . ')';
 		}
 
 		// show only end time if date is the same
-		if ($this->isDayEqual($dtstartDt, $dtendDt)) {
-			$localeEnd = $l10n->l('time', $dtendDt, ['width' => 'short']);
+		if ($this->isDayEqual($start, $end)) {
+			$localeEnd = $l10n->l('time', $end, ['width' => 'short']);
 		} else {
-			$localeEnd = $l10n->l('weekdayName', $dtendDt, ['width' => 'abbreviated']) . ', ' .
-				$l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
+			$localeEnd = $l10n->l('weekdayName', $end, ['width' => 'abbreviated']) . ', ' .
+				$l10n->l('datetime', $end, ['width' => 'medium|short']);
 		}
 
 		return  $localeStart . ' - ' . $localeEnd . ' (' . $startTimezone . ')';
