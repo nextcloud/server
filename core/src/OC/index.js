@@ -19,9 +19,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Backbone from 'backbone';
+
 import Apps from './apps'
+import ContactsMenu from './contactsmenu';
+import {davCall, davSync} from './backbone-webdav';
+
+// Patch Backbone for DAV
+Object.assign(Backbone, {
+	davCall,
+	davSync,
+});
 
 /** @namespace OC */
 export default {
 	Apps,
+	Backbone,
+	ContactsMenu,
 };
