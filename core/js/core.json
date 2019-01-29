@@ -1,12 +1,7 @@
 {
 	"libraries": [
-		"jquery-showpassword.js",
-		"jquery.avatar.js",
-		"jquery.contactsmenu.js",
-		"placeholder.js"
 	],
 	"modules": [
-		"jquery.ocdialog.js",
 		"oc-dialogs.js",
 		"js.js",
 		"share.js",
@@ -18,7 +13,6 @@
 		"sharedialoglinkshareview.js",
 		"sharedialogresharerinfoview.js",
 		"sharedialogshareelistview.js",
-		"octemplate.js",
 		"contactsmenu_templates.js",
 		"public/appconfig.js",
 		"public/comments.js",

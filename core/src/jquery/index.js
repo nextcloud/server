@@ -1,7 +1,7 @@
 /*
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,13 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-
-import './globals'
-import $ from 'jquery'
-import './jquery/index'
-import {registerAppsSlideToggle} from './OC/apps'
-
-$(document).ready(function () {
-	registerAppsSlideToggle();
-});
+import './avatar'
+import './contactsmenu'
+import './exists'
+import './filterattr'
+import './ocdialog'
+import './octemplate'
+import './placeholder'
+import './selectrange'
+import './showpassword'
+import './tipsy'
+import './ui-fixes'

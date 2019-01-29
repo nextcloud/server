@@ -51,6 +51,7 @@ import 'strengthify/strengthify.css'
 import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
+import escapeHTML from './Util/escapeHTML'
 
 window['_'] = _
 window['$'] = $
@@ -72,6 +73,7 @@ window['moment'] = moment
 window['OC'] = OC
 window['OCP'] = OCP
 window['OCA'] = OCA
+window['escapeHTML'] = escapeHTML
 
 /**
  * translate a string

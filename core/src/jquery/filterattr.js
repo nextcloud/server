@@ -19,13 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-
-import './globals'
 import $ from 'jquery'
-import './jquery/index'
-import {registerAppsSlideToggle} from './OC/apps'
 
-$(document).ready(function () {
-	registerAppsSlideToggle();
-});
+/**
+ * Filter jQuery selector by attribute value
+ */
+$.fn.filterAttr = function (attrName, attrValue) {
+	return this.filter(function () {
+		return $(this).attr(attrName) === attrValue;
+	});
+};

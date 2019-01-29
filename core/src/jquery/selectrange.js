@@ -1,7 +1,7 @@
 /*
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,13 +19,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-
-import './globals'
 import $ from 'jquery'
-import './jquery/index'
-import {registerAppsSlideToggle} from './OC/apps'
 
-$(document).ready(function () {
-	registerAppsSlideToggle();
-});
+/**
+ * select a range in an input field
+ * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
+ * @param {type} start
+ * @param {type} end
+ */
+$.fn.selectRange = function (start, end) {
+	return this.each(function () {
+		if (this.setSelectionRange) {
+			this.focus();
+			this.setSelectionRange(start, end);
+		} else if (this.createTextRange) {
+			var range = this.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', end);
+			range.moveStart('character', start);
+			range.select();
+		}
+	});
+};
