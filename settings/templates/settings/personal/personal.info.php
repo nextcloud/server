@@ -32,9 +32,6 @@ script('settings', [
 	'federationscopemenu',
 	'settings/personalInfo',
 ]);
-vendor_script('jcrop/js/jquery.Jcrop');
-vendor_style('jcrop/css/jquery.Jcrop');
-
 ?>
 
 <div id="personal-settings">

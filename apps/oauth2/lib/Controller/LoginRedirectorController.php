@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -22,8 +23,12 @@
 namespace OCA\OAuth2\Controller;
 
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -35,6 +40,8 @@ class LoginRedirectorController extends Controller {
 	private $clientMapper;
 	/** @var ISession */
 	private $session;
+	/** @var IL10N */
+	private $l;
 
 	/**
 	 * @param string $appName
@@ -42,16 +49,19 @@ class LoginRedirectorController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ClientMapper $clientMapper
 	 * @param ISession $session
+	 * @param IL10N $l
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
-								ISession $session) {
+								ISession $session,
+								IL10N $l) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
 		$this->session = $session;
+		$this->l = $l;
 	}
 
 	/**
@@ -62,12 +72,20 @@ class LoginRedirectorController extends Controller {
 	 * @param string $client_id
 	 * @param string $state
 	 * @param string $response_type
-	 * @return RedirectResponse
+	 * @return Response
 	 */
 	public function authorize($client_id,
 							  $state,
-							  $response_type) {
-		$client = $this->clientMapper->getByIdentifier($client_id);
+							  $response_type): Response {
+		try {
+			$client = $this->clientMapper->getByIdentifier($client_id);
+		} catch (ClientNotFoundException $e) {
+			$response = new TemplateResponse('core', '404', 'guest');
+			$response->setParams([
+				'content' => $this->l->t('Your client is not authorized to connect. Please inform the administrator of your client.'),
+			]);
+			return $response;
+		}
 
 		if ($response_type !== 'code') {
 			//Fail

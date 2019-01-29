@@ -140,160 +140,107 @@ Feature: app-files
     Then I see that the current section is "Deleted files"
     Then I see that the file list contains a file named "welcome.txt"
 
+  Scenario: move a file to another folder
+    Given I am logged in
+    And I create a new folder named "Destination"
+    When I start the move or copy operation for "welcome.txt"
+    And I select "Destination" in the file picker
+    And I move to the last selected folder in the file picker
+    Then I see that the file list does not contain a file named "welcome.txt"
+    And I enter in the folder named "Destination"
+    And I see that the file list contains a file named "welcome.txt"
+
+  Scenario: move a selection to another folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I create a new folder named "Not selected folder"
+    And I create a new folder named "Destination"
+    When I select "welcome.txt"
+    And I select "Folder"
+    And I start the move or copy operation for the selected files
+    And I select "Destination" in the file picker
+    And I move to the last selected folder in the file picker
+    Then I see that the file list does not contain a file named "welcome.txt"
+    And I see that the file list does not contain a file named "Folder"
+    And I see that the file list contains a file named "Not selected folder"
+    And I enter in the folder named "Destination"
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list does not contain a file named "Not selected folder"
+
+  Scenario: copy a file to another folder
+    Given I am logged in
+    And I create a new folder named "Destination"
+    When I start the move or copy operation for "welcome.txt"
+    And I select "Destination" in the file picker
+    And I copy to the last selected folder in the file picker
+    Then I enter in the folder named "Destination"
+    # The file will appear in the destination once the copy operation finishes
+    And I see that the file list contains a file named "welcome.txt"
+    # The Files app is open again to reload the file list in the root folder
+    And I open the Files app
+    And I see that the file list contains a file named "welcome.txt"
+
+  Scenario: copy a selection to another folder
+    Given I am logged in
+    And I create a new folder named "Folder"
+    And I create a new folder named "Not selected folder"
+    And I create a new folder named "Destination"
+    When I select "welcome.txt"
+    And I select "Folder"
+    And I start the move or copy operation for the selected files
+    And I select "Destination" in the file picker
+    And I copy to the last selected folder in the file picker
+    Then I enter in the folder named "Destination"
+    # The files will appear in the destination once the copy operation finishes
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list does not contain a file named "Not selected folder"
+    # The Files app is open again to reload the file list in the root folder
+    And I open the Files app
+    And I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "Folder"
+    And I see that the file list contains a file named "Not selected folder"
+
+  Scenario: copy a file in its same folder
+    Given I am logged in
+    When I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+
+  Scenario: copy a file twice in its same folder
+    Given I am logged in
+    And I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    When I start the move or copy operation for "welcome.txt"
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+    And I see that the file list contains a file named "welcome (copy 2).txt"
+
+  Scenario: copy a copy of a file in its same folder
+    Given I am logged in
+    And I start the move or copy operation for "welcome.txt"
+    # No folder was explicitly selected, so the last selected folder is the
+    # current folder.
+    And I copy to the last selected folder in the file picker
+    When I start the move or copy operation for "welcome (copy).txt"
+    And I copy to the last selected folder in the file picker
+    Then I see that the file list contains a file named "welcome.txt"
+    And I see that the file list contains a file named "welcome (copy).txt"
+    And I see that the file list contains a file named "welcome (copy 2).txt"
+
   Scenario: rename a file with the details view open
     Given I am logged in
     And I open the details view for "welcome.txt"
     When I rename "welcome.txt" to "farewell.txt"
     Then I see that the file list contains a file named "farewell.txt"
     And I see that the file name shown in the details view is "farewell.txt"
-
-  Scenario: open the menu in a public shared link
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt"
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    And I open the Share menu
-    Then I see that the Share menu is shown
-
-  Scenario: hide download in a public shared link
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt"
-    And I set the download of the shared link as hidden
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    Then I see that the download button is not shown
-    And I see that the Share menu button is not shown
-
-  Scenario: show download again in a public shared link
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt"
-    And I set the download of the shared link as hidden
-    And I set the download of the shared link as shown
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    Then I see that the download button is shown
-    And I open the Share menu
-    And I see that the Share menu is shown
-
-  Scenario: creation is not possible by default in a public shared folder
-    Given I act as John
-    And I am logged in
-    And I create a new folder named "Shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
-    And I share the link for "Shared folder"
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    And I see that the file list is eventually loaded
-    Then I see that it is not possible to create new files
-
-  Scenario: create folder in a public editable shared folder
-    Given I act as John
-    And I am logged in
-    And I create a new folder named "Editable shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
-    And I share the link for "Editable shared folder"
-    And I set the shared link as editable
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    And I create a new folder named "Subfolder"
-    Then I see that the file list contains a file named "Subfolder"
-
-  Scenario: owner sees folder created in the public page of an editable shared folder
-    Given I act as John
-    And I am logged in
-    And I create a new folder named "Editable shared folder"
-    # To share the link the "Share" inline action has to be clicked but, as the
-    # details view is opened automatically when the folder is created, clicking
-    # on the inline action could fail if it is covered by the details view due
-    # to its opening animation. Instead of ensuring that the animations of the
-    # contents and the details view have both finished it is easier to close the
-    # details view and wait until it is closed before continuing.
-    And I close the details view
-    And I see that the details view is closed
-    And I share the link for "Editable shared folder"
-    And I set the shared link as editable
-    And I write down the shared link
-    And I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the shared link I wrote down
-    And I create a new folder named "Subfolder"
-    And I see that the file list contains a file named "Subfolder"
-    When I act as John
-    And I enter in the folder named "Editable shared folder"
-    Then I see that the file list contains a file named "Subfolder"
-
-  Scenario: set a password to a shared link
-    Given I am logged in
-    And I share the link for "welcome.txt"
-    When I protect the shared link with the password "abcdef"
-    Then I see that the working icon for password protect is shown
-    And I see that the working icon for password protect is eventually not shown
-    And I see that the link share is password protected
-    # As Talk is not enabled in the acceptance tests of the server the checkbox
-    # is never shown.
-    And I see that the checkbox to protect the password of the link share by Talk is not shown
-
-  Scenario: access a shared link protected by password with a valid password
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt" protected by the password "abcdef"
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I see that the current page is the Authenticate page for the shared link I wrote down
-    And I authenticate with password "abcdef"
-    Then I see that the current page is the shared link I wrote down
-    And I see that the shared file preview shows the text "Welcome to your Nextcloud account!"
-
-  Scenario: access a shared link protected by password with an invalid password
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt" protected by the password "abcdef"
-    And I write down the shared link
-    When I act as Jane
-    And I visit the shared link I wrote down
-    And I authenticate with password "fedcba"
-    Then I see that the current page is the Authenticate page for the shared link I wrote down
-    And I see that a wrong password for the shared file message is shown
-
-  Scenario: access a direct download shared link protected by password with a valid password
-    Given I act as John
-    And I am logged in
-    And I share the link for "welcome.txt" protected by the password "abcdef"
-    And I write down the shared link
-    When I act as Jane
-    And I visit the direct download shared link I wrote down
-    And I see that the current page is the Authenticate page for the direct download shared link I wrote down
-    And I authenticate with password "abcdef"
-    # download starts no page redirection
-    And I see that the current page is the Authenticate page for the direct download shared link I wrote down
 
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in

@@ -613,6 +613,54 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
+	public function testGetByIdMountRoot() {
+		$manager = $this->createMock(Manager::class);
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->createMock(View::class);
+		$root = $this->getMockBuilder(Root::class)
+			->setMethods(['getMountsIn', 'getMount'])
+			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
+			->getMock();
+		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$mount = new MountPoint($storage, '/bar');
+		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([''])->getMock();
+
+		$fileInfo = new CacheEntry(['path' => '', 'mimetype' => 'text/plain'], null);
+
+		$storage->expects($this->once())
+			->method('getCache')
+			->will($this->returnValue($cache));
+
+		$this->userMountCache->expects($this->any())
+			->method('getMountsForFileId')
+			->with(1)
+			->will($this->returnValue([new CachedMountInfo(
+				$this->user,
+				1,
+				0,
+				'/bar/',
+				1,
+				''
+			)]));
+
+		$cache->expects($this->once())
+			->method('get')
+			->with(1)
+			->will($this->returnValue($fileInfo));
+
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar')
+			->will($this->returnValue($mount));
+
+		$node = new \OC\Files\Node\Folder($root, $view, '/bar');
+		$result = $node->getById(1);
+		$this->assertEquals(1, count($result));
+		$this->assertEquals('/bar', $result[0]->getPath());
+	}
+
 	public function testGetByIdOutsideFolder() {
 		$manager = $this->createMock(Manager::class);
 		/**

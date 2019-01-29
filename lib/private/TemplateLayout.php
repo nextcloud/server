@@ -210,7 +210,14 @@ class TemplateLayout extends \OC_Template {
 			if (substr($file, -strlen('print.css')) === 'print.css') {
 				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
 			} else {
-				$this->append( 'cssfiles', $web.'/'.$file . $this->getVersionHashSuffix($web, $file)  );
+				$suffix = $this->getVersionHashSuffix($web, $file);
+
+				if (strpos($file, '?v=') == false) {
+					$this->append( 'cssfiles', $web.'/'.$file . $suffix);
+				} else {
+					$this->append( 'cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
+				}
+
 			}
 		}
 	}

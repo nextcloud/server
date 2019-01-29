@@ -39,10 +39,11 @@ use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
-class Storage extends DAV implements ISharedStorage {
+class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	/** @var ICloudId */
 	private $cloudId;
 	/** @var string */

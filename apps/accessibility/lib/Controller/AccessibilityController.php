@@ -121,6 +121,7 @@ class AccessibilityController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDisplayResponse
 	 */
@@ -191,6 +192,7 @@ class AccessibilityController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDownloadResponse
 	 */

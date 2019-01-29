@@ -144,7 +144,7 @@ class IconsCacherTest extends \Test\TestCase {
 		";
 
 		$iconsFile = $this->createMock(ISimpleFile::class);
-		$this->folder->expects($this->exactly(6))
+		$this->folder->expects($this->exactly(4))
 			->method('getFile')
 			->willReturn($iconsFile);
 

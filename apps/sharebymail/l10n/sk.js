@@ -32,7 +32,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vám sprístupnil »%2$s« s poznámkou:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vám sprístupnil »%2$s« s poznámkou",
     "»%s« added a note to a file shared with you" : "»%s« pridal poznámku k súboru ktorý s Vami zdieľa",
-    "Password to access »%1$s« shared with %2$s" : "Heslo pre prístup k »%1$s« sprístupnené používateľovi %2$s",
     "This is the password:" : "Toto je heslo:",
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Password to access »%s« shared to you by %s" : "Heslo pre prístup k »%s« Vám sprístupnil %s",
     "It is protected with the following password: %s" : "Je chránené nasledovným heslom: %s",
     "Password to access »%s« shared with %s" : "Heslo pre prístup k »%s« sprístupnené používateľovi %s",
-    "This is the password: %s" : "Toto je heslo: %s"
+    "This is the password: %s" : "Toto je heslo: %s",
+    "Password to access »%1$s« shared with %2$s" : "Heslo pre prístup k »%1$s« sprístupnené používateľovi %2$s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

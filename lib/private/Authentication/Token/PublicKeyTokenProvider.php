@@ -295,6 +295,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Generate new key
 		$res = openssl_pkey_new($config);
+		if ($res === false) {
+			$this->logOpensslError();
+		}
+
 		openssl_pkey_export($res, $privateKey);
 
 		// Extract the public key from $res to $pubKey
@@ -343,5 +347,11 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
-
+	private function logOpensslError() {
+		$errors = [];
+		while ($error = openssl_error_string()) {
+			$errors[] = $error;
+		}
+		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
+	}
 }

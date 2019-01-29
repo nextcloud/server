@@ -71,10 +71,16 @@ class Validator implements IValidator {
 			foreach ($matches[1] as $parameter) {
 				if (!isset($parameters[$parameter])) {
 					throw new InvalidObjectExeption('Parameter is undefined');
-				} else {
-					$this->validateParameter($parameters[$parameter]);
 				}
 			}
+		}
+
+		foreach ($parameters as $parameter) {
+			if (!\is_array($parameter)) {
+				throw new InvalidObjectExeption('Parameter is malformed');
+			}
+
+			$this->validateParameter($parameter);
 		}
 	}
 

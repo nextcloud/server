@@ -4,7 +4,7 @@ If you have questions about how to install or use Nextcloud, please direct these
 
 ### Short version
 
- * The [**issue template can be found here**][template] but be aware of the different repositories! See list below. Please always use the issue template when reporting issues.
+ * The [**issue templates can be found here**][templates] but be aware of the different repositories! See list below. Please always use an issue template when reporting issues.
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
@@ -15,11 +15,11 @@ If you have questions about how to install or use Nextcloud, please direct these
 * __SECURITY__: Report any potential security bug to us via [our HackerOne page](https://hackerone.com/nextcloud) or security@nextcloud.com following our [security policy](https://nextcloud.com/security/) instead of filing an issue in our bug tracker.
 * The issues in other components should be reported in their respective repositories: You will find them in our [GitHub Organization](https://github.com/nextcloud/)
 
-* Report the issue using our [template][template], it includes all the information we need to track down the issue.
+* Report the issue using one of our [templates][templates], they include all the information we need to track down the issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
-[template]: ./ISSUE_TEMPLATE.md
+[templates]: ./ISSUE_TEMPLATE
 [forum]: https://help.nextcloud.com/
 [irc]: https://webchat.freenode.net/?channels=nextcloud
 

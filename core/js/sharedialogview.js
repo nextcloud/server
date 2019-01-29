@@ -338,7 +338,7 @@
 						 * build the result array that only contains all contact entries from
 						 * merged contacts, if the search term matches its contact name
 						 */
-						for (i = 0; i < groupedLength; i++) {
+						for (var i = 0; i < groupedLength; i++) {
 							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
 								grouped[i].merged = true;
 							}
@@ -477,7 +477,7 @@
 
 		autocompleteRenderItem: function(ul, item) {
 			var icon = 'icon-user';
-			var text = item.label;
+			var text = escapeHTML(item.label);
 			var description = '';
 			var type = '';
 			var getTranslatedType = function(type) {
@@ -497,7 +497,7 @@
 			}
 
 			if (typeof item.name !== 'undefined') {
-				text = item.name;
+				text = escapeHTML(item.name);
 			}
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				icon = 'icon-contacts-dark';
@@ -772,7 +772,16 @@
 						event.preventDefault();
 					},
 					source: this.autocompleteHandler,
-					select: this._onSelectRecipient
+					select: this._onSelectRecipient,
+					open: function() {
+						var autocomplete = $(this).autocomplete('widget');
+						var numberOfItems = autocomplete.find('li').size();
+						autocomplete.removeClass('item-count-1');
+						autocomplete.removeClass('item-count-2');
+						if (numberOfItems <= 2) {
+							autocomplete.addClass('item-count-' + numberOfItems);
+						}
+					}
 				}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
 
 				$shareField.on('keydown', null, shareFieldKeydownHandler);

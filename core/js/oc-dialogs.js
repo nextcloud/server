@@ -189,8 +189,9 @@ var OCdialogs = {
 	 * @param mimetypeFilter mimetype to filter by - directories will always be included
 	 * @param modal make the dialog modal
 	 * @param type Type of file picker : Choose, copy, move, copy and move
+	 * @param path path to the folder that the the file can be picket from
 	*/
-	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type) {
+	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type, path) {
 		var self = this;
 
 		this.filepicker.sortField = 'name';
@@ -205,12 +206,16 @@ var OCdialogs = {
 		}
 
 		var emptyText = t('core', 'No files in here');
+		var newText = t('files', 'New folder');
 		if (type === this.FILEPICKER_TYPE_COPY || type === this.FILEPICKER_TYPE_MOVE || type === this.FILEPICKER_TYPE_COPY_MOVE) {
 			emptyText = t('core', 'No more subfolders in here');
 		}
 
 		this.filepicker.loading = true;
 		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
+
+		this.filelist = null;
+		path = path || '';
 
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
 			self.filepicker.loading = false;
@@ -229,8 +234,9 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialogName,
 				title: title,
-				emptytext: emptyText
-			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetypeFilter);
+				emptytext: emptyText,
+				newtext: newText
+			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter);
 
 			if (modal === undefined) {
 				modal = false;
@@ -239,10 +245,10 @@ var OCdialogs = {
 				multiselect = false;
 			}
 
-			// No grid for IE! 
+			// No grid for IE!
 			if (OC.Util.isIE()) {
 				self.$filePicker.find('#picker-view-toggle').remove();
-				self.$filePicker.find('#filestable').removeClass('view-grid');
+				self.$filePicker.find('#picker-filestable').removeClass('view-grid');
 			}
 
 			$('body').append(self.$filePicker);
@@ -253,6 +259,86 @@ var OCdialogs = {
 			if (!OC.Util.isIE()) {
 				self._getGridSettings();
 			}
+
+			var newButton = self.$filePicker.find('.actions.creatable .button-add');
+			newButton.on('focus', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function() {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+					newButton.click();
+				});
+			});
+			newButton.on('blur', function() {
+				self.$filePicker.ocdialog('unsetEnterCallback');
+			});
+
+			OC.registerMenu(newButton,self.$filePicker.find('.menu'),function () {
+				$input.focus();
+				self.$filePicker.ocdialog('setEnterCallback', function() {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+					self.$form.submit();
+				});
+				var newName = $input.val();
+				var lastPos = newName.lastIndexOf('.');
+				if (lastPos === -1) {
+					lastPos = newName.length;
+				}
+				$input.selectRange(0, lastPos);
+			});
+			var $form = self.$filePicker.find('.filenameform');
+			var $input = $form.find('input[type=\'text\']');
+			var $submit = $form.find('input[type=\'submit\']');
+			$submit.on('click',function(event) {
+				event.stopImmediatePropagation();
+				event.preventDefault();
+				$form.submit();
+			});
+
+			var checkInput = function () {
+				var filename = $input.val();
+				try {
+					if (!Files.isFileNameValid(filename)) {
+						// Files.isFileNameValid(filename) throws an exception itself
+					} else if (self.filelist.find(function(file){return file.name === this;},filename)) {
+						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
+							escape: false
+						});
+					} else {
+						return true;
+					}
+				} catch (error) {
+					$input.attr('title', error);
+					$input.tooltip({placement: 'right', trigger: 'manual', 'container': '.newFolderMenu'});
+					$input.tooltip('fixTitle');
+					$input.tooltip('show');
+					$input.addClass('error');
+				}
+				return false;
+			};
+
+			$form.on('submit', function(event) {
+				event.stopPropagation();
+				event.preventDefault();
+
+				if (checkInput()) { 
+					var newname = $input.val();
+					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
+						self._fillFilePicker(self.$filePicker.data('path') + newname );
+					});
+					OC.hideMenus();
+					self.$filePicker.ocdialog('unsetEnterCallback');
+					self.$filePicker.click();
+					$input.val(newText);
+				}
+			});
+			$input.keypress(function(event) {
+				if (event.keyCode === 13 || event.which === 13) {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+					$form.submit();
+				}
+			});
 
 			self.$filePicker.ready(function() {
 				self.$fileListHeader = self.$filePicker.find('.filelist thead tr');
@@ -271,7 +357,7 @@ var OCdialogs = {
 					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc';
 					self._fillFilePicker(dir);
 				});
-				self._fillFilePicker('');
+				self._fillFilePicker(path);
 			});
 
 			// build buttons
@@ -808,7 +894,7 @@ var OCdialogs = {
 	_getGridSettings: function() {
 		var self = this;
 		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
-			self.$showGridView.checked = response.gridview;
+			self.$showGridView.get(0).checked = response.gridview;
 			self.$showGridView.next('#picker-view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
@@ -826,7 +912,6 @@ var OCdialogs = {
 		this.$showGridView.next('#picker-view-toggle')
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
 			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-			
 		$('.list-container').toggleClass('view-grid', show);
 	},
 	_getFilePickerTemplate: function() {
@@ -913,6 +998,7 @@ var OCdialogs = {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s');
 		}
 		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
+			self.filelist = files;
 			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function (file) {
 					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;

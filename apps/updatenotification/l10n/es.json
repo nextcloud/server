@@ -10,9 +10,12 @@
     "Update notification" : "Notificación de actualización",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Muestra notificaciones de actualizaciones para Nexcloud y provee el SSO para el actualizador.",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versión que usas yo no está mantenida. Por favor, asegúrate de actualizar a una versión soportada tan pronto como sea posible.",
+    "Apps missing updates" : "Apps con actualizaciones no disponibles",
+    "View in store" : "Ver en la tienda",
     "Apps with available updates" : "Apps con actualizaciones disponibles",
     "Open updater" : "Abrir el actualizador",
     "Download now" : "Descargar ahora",
+    "What's new?" : "¿Qué hay de nuevo?",
     "The update check is not yet finished. Please refresh the page." : "La comprobación de actuliazaciones no ha finalizado aún. Por favor, recarga la página.",
     "Your version is up to date." : "Su versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Se está usando un servidor de actualización no estándar para comprobar actualizaciones:",
@@ -33,8 +36,8 @@
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> es la versión estable más reciente. Es adecuada para uso en producción y siempre se actualizará a la última versión principal.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> es una versión preliminar solo para probar nuevas características, no para entornos de producción.",
     "View changelog" : "Ver registro de cambios",
-    "Could not start updater, please try the manual update" : "No se ha podido iniciar el actualizador. Por favor, prueba a realizar la actualización de forma manual",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no tiene actualización disponible para esta versión.","<strong>%n</strong> apps no tienen actualización disponible para esta versión."],
+    "Could not start updater, please try the manual update" : "No se ha podido iniciar el actualizador. Por favor, prueba a realizar la actualización de forma manual",
     "A new version is available: %s" : "Hay una nueva versión disponible: %s",
     "Checked on %s" : "Comprobado el %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

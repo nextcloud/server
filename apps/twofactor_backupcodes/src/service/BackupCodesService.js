@@ -1,21 +1,7 @@
-import axio from 'axios';
-
-export function getState () {
-	const url = OC.generateUrl('/apps/twofactor_backupcodes/settings/state');
-
-	return axio.get(url, {
-		headers: {
-			requesttoken: OC.requestToken
-		}
-	}).then(resp => resp.data);
-}
+import Axios from 'nextcloud-axios'
 
 export function generateCodes () {
 	const url = OC.generateUrl('/apps/twofactor_backupcodes/settings/create');
 
-	return axio.post(url, {}, {
-		headers: {
-			requesttoken: OC.requestToken
-		}
-	}).then(resp => resp.data)
+	return Axios.post(url, {}).then(resp => resp.data)
 }

@@ -34,11 +34,13 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Types\Type;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
 use OC\DB\MissingIndexInformation;
+use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
@@ -261,7 +263,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated() {
-		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+		if (version_compare(PHP_VERSION, '7.1.0', '<')) {
 			return true;
 		}
 
@@ -446,25 +448,6 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
-	/**
-	 * warn if outdated version of a memcache module is used
-	 */
-	protected function getOutdatedCaches(): array {
-		$caches = [
-			'apcu'	=> ['name' => 'APCu', 'version' => '4.0.6'],
-			'redis'	=> ['name' => 'Redis', 'version' => '2.2.5'],
-		];
-		$outdatedCaches = [];
-		foreach ($caches as $php_module => $data) {
-			$isOutdated = extension_loaded($php_module) && version_compare(phpversion($php_module), $data['version'], '<');
-			if ($isOutdated) {
-				$outdatedCaches[] = $data;
-			}
-		}
-
-		return $outdatedCaches;
-	}
-
 	protected function isSqliteUsed() {
 		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
 	}
@@ -527,7 +510,7 @@ Raw output
 		return [];
 	}
 
-	protected function isPhpMailerUsed(): bool {
+	protected function isPHPMailerUsed(): bool {
 		return $this->config->getSystemValue('mail_smtpmode', 'smtp') === 'php';
 	}
 
@@ -583,6 +566,60 @@ Raw output
 	}
 
 	/**
+	 * Checks for potential PHP modules that would improve the instance
+	 *
+	 * @return string[] A list of PHP modules that is recommended
+	 */
+	protected function hasRecommendedPHPModules(): array {
+		$recommendedPHPModules = [];
+
+		if (!function_exists('grapheme_strlen')) {
+			$recommendedPHPModules[] = 'intl';
+		}
+
+		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
+			if (!extension_loaded('imagick')) {
+				$recommendedPHPModules[] = 'imagick';
+			}
+		}
+
+		return $recommendedPHPModules;
+	}
+
+	protected function hasBigIntConversionPendingColumns(): array {
+		// copy of ConvertFilecacheBigInt::getColumnsByTable()
+		$tables = [
+			'activity' => ['activity_id', 'object_id'],
+			'activity_mq' => ['mail_id'],
+			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
+			'mimetypes' => ['id'],
+			'storages' => ['numeric_id'],
+		];
+
+		$schema = new SchemaWrapper($this->db);
+		$isSqlite = $this->db->getDatabasePlatform() instanceof SqlitePlatform;
+		$pendingColumns = [];
+
+		foreach ($tables as $tableName => $columns) {
+			if (!$schema->hasTable($tableName)) {
+				continue;
+			}
+
+			$table = $schema->getTable($tableName);
+			foreach ($columns as $columnName) {
+				$column = $table->getColumn($columnName);
+				$isAutoIncrement = $column->getAutoincrement();
+				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
+				if ($column->getType()->getName() !== Type::BIGINT && !$isAutoIncrementOnSqlite) {
+					$pendingColumns[] = $tableName . '.' . $columnName;
+				}
+			}
+		}
+
+		return $pendingColumns;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -591,7 +628,6 @@ Raw output
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
 				'isReadOnlyConfig' => $this->isReadOnlyConfig(),
 				'hasValidTransactionIsolationLevel' => $this->hasValidTransactionIsolationLevel(),
-				'outdatedCaches' => $this->getOutdatedCaches(),
 				'hasFileinfoInstalled' => $this->hasFileinfoInstalled(),
 				'hasWorkingFileLocking' => $this->hasWorkingFileLocking(),
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
@@ -617,10 +653,12 @@ Raw output
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'isPhpMailerUsed' => $this->isPhpMailerUsed(),
+				'isPHPMailerUsed' => $this->isPHPMailerUsed(),
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
+				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
+				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 			]
 		);
 	}

@@ -119,7 +119,12 @@ namespace OC {
 		}
 
 		/**
+		 * Return a list of the user's addressbooks display names
+		 * ! The addressBook displayName are not unique, please use getUserAddressBooks
+		 * 
 		 * @return array
+		 * @since 6.0.0
+		 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
 		 */
 		public function getAddressBooks() {
 			$this->loadAddressBooks();
@@ -129,6 +134,17 @@ namespace OC {
 			}
 
 			return $result;
+		}
+
+		/**
+		 * Return a list of the user's addressbooks
+		 * 
+		 * @return IAddressBook[]
+		 * @since 16.0.0
+		 */
+		public function getUserAddressBooks(): Array {
+			$this->loadAddressBooks();
+			return $this->addressBooks;
 		}
 
 		/**

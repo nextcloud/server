@@ -39,11 +39,12 @@ function escapeHTML(s) {
 }
 
 /** @namespace OCP */
-var OCP = {},
-	/**
-	 * @namespace OC
-	 */
-	OC = {
+var OCP = Object.assign({}, window.OCP);
+
+/**
+ * @namespace OC
+ */
+Object.assign(window.OC, {
 	PERMISSION_NONE:0,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
@@ -367,6 +368,7 @@ var OCP = {},
 	 * @param {string} app the app id to which the script belongs
 	 * @param {string} script the filename of the script
 	 * @param ready event handler to be called when the script is loaded
+	 * @deprecated 16.0.0 Use OCP.Loader.loadScript
 	 */
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
@@ -387,6 +389,7 @@ var OCP = {},
 	 * Loads a CSS file
 	 * @param {string} app the app id to which the css style belongs
 	 * @param {string} style the filename of the css file
+	 * @deprecated 16.0.0 Use OCP.Loader.loadStylesheet
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
@@ -898,7 +901,7 @@ var OCP = {},
 		}
 
 	}
-};
+});
 
 /**
  * Current user attributes
@@ -1352,7 +1355,9 @@ function initCore() {
 
 	// css variables fallback for IE
 	if (msie > 0 || trident > 0) {
-		cssVars();
+		cssVars({
+			watch: true
+		});
 	}
 
 	$(window).on('unload.main', function() {
@@ -1790,6 +1795,7 @@ OC.PasswordConfirmation = {
 					var $error = $('<p></p>').addClass('msg warning').text(config.error);
 				}
 				$dialog.find('.oc-dialog-content').append($error);
+				$dialog.find('.oc-dialog-buttonrow').addClass('aside');
 
 				var $buttons = $dialog.find('button');
 				$buttons.eq(0).hide();
@@ -2077,12 +2083,9 @@ OC.Util = {
 				if (aNum == aa[x] && bNum == bb[x]) {
 					return aNum - bNum;
 				} else {
-					// Forcing 'en' locale to match the server-side locale which is
-					// always 'en'.
-					//
-					// Note: This setting isn't supported by all browsers but for the ones
+					// Note: This locale setting isn't supported by all browsers but for the ones
 					// that do there will be more consistency between client-server sorting
-					return aa[x].localeCompare(bb[x], 'en');
+					return aa[x].localeCompare(bb[x], OC.getLanguage());
 				}
 			}
 		}
@@ -2335,12 +2338,6 @@ OC.set=function(name, value) {
 		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
 	}
 })();
-
-/**
- * Namespace for apps
- * @namespace OCA
- */
-window.OCA = {};
 
 /**
  * select a range in an input field

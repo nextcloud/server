@@ -29,7 +29,6 @@ namespace OC\Settings\Controller;
 use OC\Log;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\StreamResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 
 /**
@@ -39,10 +38,10 @@ use OCP\IRequest;
  */
 class LogSettingsController extends Controller {
 
-	/** @var ILogger */
+	/** @var Log */
 	private $log;
 
-	public function __construct(string $appName, IRequest $request, ILogger $logger) {
+	public function __construct(string $appName, IRequest $request, Log $logger) {
 		parent::__construct($appName, $request);
 		$this->log = $logger;
 	}

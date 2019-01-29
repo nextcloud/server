@@ -7,6 +7,7 @@
 /apps/inc.php
 /assets
 /.htaccess
+/node_modules
 /translationfiles
 /translationtool.phar
 

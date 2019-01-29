@@ -41,6 +41,7 @@ namespace OC\Settings\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\User_Proxy;
@@ -128,9 +129,9 @@ class UsersController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * 
+	 *
 	 * Display users list template
-	 * 
+	 *
 	 * @return TemplateResponse
 	 */
 	public function usersListByGroup() {
@@ -140,9 +141,9 @@ class UsersController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * 
+	 *
 	 * Display users list template
-	 * 
+	 *
 	 * @return TemplateResponse
 	 */
 	public function usersList() {
@@ -150,7 +151,7 @@ class UsersController extends Controller {
 		$uid = $user->getUID();
 
 		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
-				
+
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 		$isLDAPUsed = false;
@@ -166,22 +167,17 @@ class UsersController extends Controller {
 				}
 			}
 		}
-		
-		/* ENCRYPTION CONFIG */
-		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
-		$useMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', true);
-		// If masterKey enabled, then you can change password. This is to avoid data loss!
-		$canChangePassword = ($isEncryptionEnabled && $useMasterKey) || $useMasterKey;
-		
-		
-		/* GROUPS */		
+
+		$canChangePassword = $this->canAdminChangeUserPasswords();
+
+		/* GROUPS */
 		$groupsInfo = new \OC\Group\MetaData(
 			$uid,
 			$this->isAdmin,
 			$this->groupManager,
 			$this->userSession
 		);
-		
+
 		$groupsInfo->setSorting($sortGroupsBy);
 		list($adminGroup, $groups) = $groupsInfo->get();
 
@@ -190,7 +186,7 @@ class UsersController extends Controller {
 				return $ldapFound || $backend instanceof User_Proxy;
 			});
 		}
-		
+
 		if ($this->isAdmin) {
 			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsers();
 			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
@@ -221,7 +217,7 @@ class UsersController extends Controller {
 			'name' => 'Disabled users',
 			'usercount' => $disabledUsers
 		];
-		
+
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
 		$quotaPreset = explode(',', $quotaPreset);
@@ -230,12 +226,12 @@ class UsersController extends Controller {
 		}
 		$quotaPreset = array_diff($quotaPreset, array('default', 'none'));
 		$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
-		
+
 		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
-		
+
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();
-		
+
 		/* FINAL DATA */
 		$serverData = array();
 		// groups
@@ -252,6 +248,38 @@ class UsersController extends Controller {
 		$serverData['canChangePassword'] = $canChangePassword;
 
 		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
+	}
+
+	/**
+	 * check if the admin can change the users password
+	 *
+	 * The admin can change the passwords if:
+	 *
+	 *   - no encryption module is loaded and encryption is disabled
+	 *   - encryption module is loaded but it doesn't require per user keys
+	 *
+	 * The admin can not change the passwords if:
+	 *
+	 *   - an encryption module is loaded and it uses per-user keys
+	 *   - encryption is enabled but no encryption modules are loaded
+	 *
+	 * @return bool
+	 */
+	protected function canAdminChangeUserPasswords() {
+		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
+		try {
+			$noUserSpecificEncryptionKeys =!$this->encryptionManager->getEncryptionModule()->needDetailedAccessList();
+			$isEncryptionModuleLoaded = true;
+		} catch (ModuleDoesNotExistsException $e) {
+			$noUserSpecificEncryptionKeys = true;
+			$isEncryptionModuleLoaded = false;
+		}
+
+		$canChangePassword = ($isEncryptionEnabled && $isEncryptionModuleLoaded  && $noUserSpecificEncryptionKeys)
+			|| (!$isEncryptionEnabled && !$isEncryptionModuleLoaded)
+			|| (!$isEncryptionEnabled && $isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys);
+
+		return $canChangePassword;
 	}
 
 	/**

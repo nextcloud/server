@@ -124,6 +124,7 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
     "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
+    "%s of %s used" : "Kasutatud %s/%s",
     "%s used" : "Kasutatud %s",
     "Settings" : "Seaded",
     "Show hidden files" : "Näita peidetud faile",
@@ -145,7 +146,6 @@ OC.L10N.register(
     "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Target folder" : "Sihtkaust",
-    "%s of %s used" : "Kasutatud %s/%s"
+    "Target folder" : "Sihtkaust"
 },
 "nplurals=2; plural=(n != 1);");

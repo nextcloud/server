@@ -24,6 +24,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\IAppData;
+use OCP\ILogger;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -34,16 +35,29 @@ use Sabre\VObject\Reader;
 
 class PhotoCache {
 
-	/** @var IAppData $appData */
+	/** @var array  */
+	protected const ALLOWED_CONTENT_TYPES = [
+		'image/png' => 'png',
+		'image/jpeg' => 'jpg',
+		'image/gif' => 'gif',
+		'image/vnd.microsoft.icon' => 'ico',
+	];
+
+	/** @var IAppData */
 	protected $appData;
+
+	/** @var ILogger */
+	protected $logger;
 
 	/**
 	 * PhotoCache constructor.
 	 *
 	 * @param IAppData $appData
+	 * @param ILogger $logger
 	 */
-	public function __construct(IAppData $appData) {
+	public function __construct(IAppData $appData, ILogger $logger) {
 		$this->appData = $appData;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -84,27 +98,26 @@ class PhotoCache {
 	/**
 	 * @param ISimpleFolder $folder
 	 * @param Card $card
+	 * @throws NotPermittedException
 	 */
-	private function init(ISimpleFolder $folder, Card $card) {
+	private function init(ISimpleFolder $folder, Card $card): void {
 		$data = $this->getPhoto($card);
 
-		if ($data === false) {
+		if ($data === false || !isset($data['Content-Type'])) {
 			$folder->newFile('nophoto');
-		} else {
-			switch ($data['Content-Type']) {
-				case 'image/png':
-					$ext = 'png';
-					break;
-				case 'image/jpeg':
-					$ext = 'jpg';
-					break;
-				case 'image/gif':
-					$ext = 'gif';
-					break;
-			}
-			$file = $folder->newFile('photo.' . $ext);
-			$file->putContent($data['body']);
+			return;
 		}
+
+		$contentType = $data['Content-Type'];
+		$extension = self::ALLOWED_CONTENT_TYPES[$contentType] ?? null;
+
+		if ($extension === null) {
+			$folder->newFile('nophoto');
+			return;
+		}
+
+		$file = $folder->newFile('photo.' . $extension);
+		$file->putContent($data['body']);
 	}
 
 	private function hasPhoto(ISimpleFolder $folder) {
@@ -134,13 +147,14 @@ class PhotoCache {
 
 			$ratio = $photo->width() / $photo->height();
 			if ($ratio < 1) {
-				$ratio = 1/$ratio;
+				$ratio = 1 / $ratio;
 			}
-			$size = (int)($size * $ratio);
 
+			$size = (int) ($size * $ratio);
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
+
 			try {
 				$file = $folder->newFile($path);
 				$file->putContent($photo->data());
@@ -151,7 +165,6 @@ class PhotoCache {
 
 		return $file;
 	}
-
 
 	/**
 	 * @param int $addressBookId
@@ -174,15 +187,14 @@ class PhotoCache {
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	private function getExtension(ISimpleFolder $folder) {
-		if ($folder->fileExists('photo.jpg')) {
-			return 'jpg';
-		} elseif ($folder->fileExists('photo.png')) {
-			return 'png';
-		} elseif ($folder->fileExists('photo.gif')) {
-			return 'gif';
+	private function getExtension(ISimpleFolder $folder): string {
+		foreach (self::ALLOWED_CONTENT_TYPES as $extension) {
+			if ($folder->fileExists('photo.' . $extension)) {
+				return $extension;
+			}
 		}
-		throw new NotFoundException;
+
+		throw new NotFoundException('Avatar not found');
 	}
 
 	private function getPhoto(Card $node) {
@@ -193,37 +205,37 @@ class PhotoCache {
 			}
 
 			$photo = $vObject->PHOTO;
-			$type = $this->getType($photo);
-
 			$val = $photo->getValue();
+
+			// handle data URI. e.g PHOTO;VALUE=URI:data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE
 			if ($photo->getValueType() === 'URI') {
 				$parsed = \Sabre\URI\parse($val);
-				//only allow data://
+
+				// only allow data://
 				if ($parsed['scheme'] !== 'data') {
 					return false;
 				}
 				if (substr_count($parsed['path'], ';') === 1) {
-					list($type,) = explode(';', $parsed['path']);
+					list($type) = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
+			} else {
+				// get type if binary data
+				$type = $this->getBinaryType($photo);
 			}
 
-			$allowedContentTypes = [
-				'image/png',
-				'image/jpeg',
-				'image/gif',
-			];
-
-			if(!in_array($type, $allowedContentTypes, true)) {
+			if (empty($type) || !isset(self::ALLOWED_CONTENT_TYPES[$type])) {
 				$type = 'application/octet-stream';
 			}
 
 			return [
 				'Content-Type' => $type,
-				'body' => $val
+				'body'         => $val
 			];
-		} catch(\Exception $ex) {
-
+		} catch (\Exception $e) {
+			$this->logger->logException($e, [
+				'message' => 'Exception during vcard photo parsing'
+			]);
 		}
 		return false;
 	}
@@ -240,7 +252,7 @@ class PhotoCache {
 	 * @param Binary $photo
 	 * @return string
 	 */
-	private function getType(Binary $photo) {
+	private function getBinaryType(Binary $photo) {
 		$params = $photo->parameters();
 		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
 			/** @var Parameter $typeParam */

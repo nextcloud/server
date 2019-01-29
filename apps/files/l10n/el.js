@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Σπίτι",
     "Close" : "Κλείσιμο",
     "Could not create folder \"{dir}\"" : "Αδυναμία δημιουργίας του φακέλου \"{dir}\"",
+    "This will stop your current uploads." : "Αυτό θα σταματήσει τις τρέχουσες μεταφορτώσεις.",
     "Upload cancelled." : "Η αποστολή ακυρώθηκε.",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Αδυναμία φόρτωσης {filename} καθώς είναι κατάλογος αρχείων ή έχει 0 bytes",
@@ -121,6 +122,7 @@ OC.L10N.register(
     "Save" : "Αποθήκευση",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
+    "%s of %s used" : "%s από %s σε χρήση",
     "%s used" : "%sσε χρήση",
     "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
@@ -137,12 +139,12 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Tags" : "Ετικέτες",
     "Deleted files" : "Διεγραμμένα αρχεία",
+    "Shares" : "Κοινόχρηστα",
     "Shared with others" : "Διαμοιρασμένα με άλλους",
     "Shared with you" : "Διαμοιρασμένα με εσάς",
     "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Target folder" : "Φάκελος προορισμού",
-    "%s of %s used" : "%s από %s σε χρήση"
+    "Target folder" : "Φάκελος προορισμού"
 },
 "nplurals=2; plural=(n != 1);");

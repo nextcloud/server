@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contacte con el administrador",
     "Could not move \"{file}\", target exists" : "No se pudo mover \"{file}\", ya existe",
     "Could not move \"{file}\"" : "No se pudo mover \"{file}\"",
+    "copy" : "copiar",
     "Could not copy \"{file}\", target exists" : "No se ha podido copiar \"{file}\", ya existe el destino",
     "Could not copy \"{file}\"" : "No se ha podido copiar \"{file}\"",
     "Copied {origin} inside {destination}" : "Se ha copiado {origin} dentro de {destination}",
@@ -137,7 +138,8 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tardar hasta 5 minutos en realizarse los cambios.",
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
-    "%1$s of %2$s used" : "%1$s de %2$s utilizados",
+    "%s of %s used" : "%s de %s usado",
+    "%1$s%% of %2$s used" : "%1$s %% de %2$s usados",
     "%s used" : "usado %s",
     "Settings" : "Ajustes",
     "Show hidden files" : "Mostrar archivos ocultos",
@@ -163,6 +165,6 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Target folder" : "Directorio de destino",
-    "%s of %s used" : "%s de %s usado"
+    "%1$s of %2$s used" : "%1$s de %2$s utilizados"
 },
 "nplurals=2; plural=(n != 1);");

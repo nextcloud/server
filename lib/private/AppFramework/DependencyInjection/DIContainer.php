@@ -58,9 +58,11 @@ use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCA\WorkflowEngine\Manager;
 
@@ -69,7 +71,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	/**
 	 * @var array
 	 */
-	private $middleWares = array();
+	private $middleWares = [];
 
 	/** @var ServerContainer */
 	private $server;
@@ -102,7 +104,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerService(IOutput::class, function($c){
+		$this->registerService(IOutput::class, function(){
 			return new Output($this->getServer()->getWebRoot());
 		});
 
@@ -123,7 +125,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->query('AppName'));
 		});
 
-		$this->registerService(IServerContainer::class, function ($c) {
+		$this->registerService(IServerContainer::class, function () {
 			return $this->getServer();
 		});
 		$this->registerAlias('ServerContainer', IServerContainer::class);
@@ -179,16 +181,35 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Middleware
 		 */
-		$app = $this;
-		$this->registerService('SecurityMiddleware', function($c) use ($app){
-			/** @var \OC\Server $server */
-			$server = $app->getServer();
+		$this->registerService('MiddlewareDispatcher', function(SimpleContainer $c) {
+			$server =  $this->getServer();
 
-			return new SecurityMiddleware(
-				$c['Request'],
-				$server->query(IControllerMethodReflector::class),
-				$server->getNavigationManager(),
-				$server->getURLGenerator(),
+			$dispatcher = new MiddlewareDispatcher();
+			$dispatcher->registerMiddleware(
+				new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
+					$c->query(IRequest::class),
+					$c->query(IControllerMethodReflector::class)
+				)
+			);
+			$dispatcher->registerMiddleware(
+				new CORSMiddleware(
+					$c->query(IRequest::class),
+					$c->query(IControllerMethodReflector::class),
+					$c->query(IUserSession::class),
+					$c->query(OC\Security\Bruteforce\Throttler::class)
+				)
+			);
+			$dispatcher->registerMiddleware(
+				new OCSMiddleware(
+					$c->query(IRequest::class)
+				)
+			);
+
+			$securityMiddleware = new SecurityMiddleware(
+				$c->query(IRequest::class),
+				$c->query(IControllerMethodReflector::class),
+				$c->query(INavigationManager::class),
+				$c->query(IURLGenerator::class),
 				$server->getLogger(),
 				$c['AppName'],
 				$server->getUserSession()->isLoggedIn(),
@@ -199,105 +220,59 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getAppManager(),
 				$server->getL10N('lib')
 			);
-		});
-
-		$this->registerService(OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class, function ($c) use ($app) {
-			/** @var \OC\Server $server */
-			$server = $app->getServer();
-
-			return new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
-				$c->query(IControllerMethodReflector::class),
-				$server->getSession(),
-				$server->getUserSession(),
-				$server->query(ITimeFactory::class)
+			$dispatcher->registerMiddleware($securityMiddleware);
+			$dispatcher->registerMiddleware(
+				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
+					$c->query(IControllerMethodReflector::class),
+					$c->query(ISession::class),
+					$c->query(IUserSession::class),
+					$c->query(ITimeFactory::class)
+				)
 			);
-		});
-
-		$this->registerService('BruteForceMiddleware', function($c) use ($app) {
-			/** @var \OC\Server $server */
-			$server = $app->getServer();
-
-			return new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
-				$c->query(IControllerMethodReflector::class),
-				$server->getBruteForceThrottler(),
-				$server->getRequest()
+			$dispatcher->registerMiddleware(
+				new TwoFactorMiddleware(
+					$c->query(OC\Authentication\TwoFactorAuth\Manager::class),
+					$c->query(IUserSession::class),
+					$c->query(ISession::class),
+					$c->query(IURLGenerator::class),
+					$c->query(IControllerMethodReflector::class),
+					$c->query(IRequest::class)
+				)
 			);
-		});
-
-		$this->registerService('RateLimitingMiddleware', function($c) use ($app) {
-			/** @var \OC\Server $server */
-			$server = $app->getServer();
-
-			return new RateLimitingMiddleware(
-				$server->getRequest(),
-				$server->getUserSession(),
-				$c->query(IControllerMethodReflector::class),
-				$c->query(OC\Security\RateLimiting\Limiter::class)
+			$dispatcher->registerMiddleware(
+				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
+					$c->query(IControllerMethodReflector::class),
+					$c->query(OC\Security\Bruteforce\Throttler::class),
+					$c->query(IRequest::class)
+				)
 			);
-		});
-
-		$this->registerService('CORSMiddleware', function($c) {
-			return new CORSMiddleware(
-				$c['Request'],
-				$c->query(IControllerMethodReflector::class),
-				$c->query(IUserSession::class),
-				$c->getServer()->getBruteForceThrottler()
+			$dispatcher->registerMiddleware(
+				new RateLimitingMiddleware(
+					$c->query(IRequest::class),
+					$c->query(IUserSession::class),
+					$c->query(IControllerMethodReflector::class),
+					$c->query(OC\Security\RateLimiting\Limiter::class)
+				)
 			);
-		});
-
-		$this->registerService('SessionMiddleware', function($c) use ($app) {
-			return new SessionMiddleware(
-				$c['Request'],
-				$c->query(IControllerMethodReflector::class),
-				$app->getServer()->getSession()
+			$dispatcher->registerMiddleware(
+				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
+					$c->query(IRequest::class),
+					$c->query(ISession::class),
+					$c->query(\OCP\IConfig::class)
+				)
 			);
-		});
 
-		$this->registerService('TwoFactorMiddleware', function (SimpleContainer $c) use ($app) {
-			$twoFactorManager = $c->getServer()->getTwoFactorAuthManager();
-			$userSession = $app->getServer()->getUserSession();
-			$session = $app->getServer()->getSession();
-			$urlGenerator = $app->getServer()->getURLGenerator();
-			$reflector = $c->query(IControllerMethodReflector::class);
-			$request = $app->getServer()->getRequest();
-			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector, $request);
-		});
-
-		$this->registerService('OCSMiddleware', function (SimpleContainer $c) {
-			return new OCSMiddleware(
-				$c['Request']
-			);
-		});
-
-		$this->registerService(OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class, function (SimpleContainer $c) {
-			return new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
-				$c['Request'],
-				$c->query(IControllerMethodReflector::class)
-			);
-		});
-
-		$middleWares = &$this->middleWares;
-		$this->registerService('MiddlewareDispatcher', function(SimpleContainer $c) use (&$middleWares) {
-			$dispatcher = new MiddlewareDispatcher();
-			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class]);
-			$dispatcher->registerMiddleware($c['CORSMiddleware']);
-			$dispatcher->registerMiddleware($c['OCSMiddleware']);
-			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
-			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class]);
-			$dispatcher->registerMiddleware($c['TwoFactorMiddleware']);
-			$dispatcher->registerMiddleware($c['BruteForceMiddleware']);
-			$dispatcher->registerMiddleware($c['RateLimitingMiddleware']);
-			$dispatcher->registerMiddleware(new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
-				$c['Request'],
-				$c->query(ISession::class),
-				$c->query(\OCP\IConfig::class)
-			));
-
-			foreach($middleWares as $middleWare) {
+			foreach($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
 			}
 
-			$dispatcher->registerMiddleware($c['SessionMiddleware']);
+			$dispatcher->registerMiddleware(
+				new SessionMiddleware(
+					$c->query(IRequest::class),
+					$c->query(IControllerMethodReflector::class),
+					$c->query(ISession::class)
+				)
+			);
 			return $dispatcher;
 		});
 

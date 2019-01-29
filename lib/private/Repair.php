@@ -147,7 +147,7 @@ class Repair implements IOutput {
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig())
+			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger())
 		];
 	}
 

@@ -80,12 +80,15 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var array Domains from which fonts can be loaded */
 	protected $allowedFontDomains = [
 		'\'self\'',
+		'data:',
 	];
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = [];
 
 	/** @var array Domains which can embed this Nextcloud instance */
-	protected $allowedFrameAncestors = [];
+	protected $allowedFrameAncestors = [
+		'\'self\'',
+	];
 
 	/** @var array Domains from which web-workers can be loaded */
 	protected $allowedWorkerSrcDomains = [];

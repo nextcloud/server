@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
     "Could not move \"{file}\", target exists" : "Gat ekki fært \"{file}\", markskrá er til",
     "Could not move \"{file}\"" : "Gat ekki fært \"{file}\"",
+    "copy" : "afrit",
     "Could not copy \"{file}\", target exists" : "Gat ekki afritað \"{file}\", markskrá er til",
     "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
     "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
@@ -137,7 +138,8 @@ OC.L10N.register(
     "Save" : "Vista",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Með PHP-FPM getur það tekið 5 mínútur fyrir breytingar að verða virkar.",
     "Missing permissions to edit from here." : "Vantar heimildir til að breyta einhverju héðan.",
-    "%1$s of %2$s used" : "%1$s af %2$s notað",
+    "%s of %s used" : "%s af %s notað",
+    "%1$s%% of %2$s used" : "%1$s%% af %2$s notað",
     "%s used" : "%s notað",
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
@@ -163,6 +165,6 @@ OC.L10N.register(
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Target folder" : "Markmappa",
-    "%s of %s used" : "%s af %s notað"
+    "%1$s of %2$s used" : "%1$s af %2$s notað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

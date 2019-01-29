@@ -148,7 +148,8 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	 * @return IPersonalProviderSettings
 	 */
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
-		return new Personal();
+		$state = $this->storage->getBackupCodesState($user);
+		return new Personal(base64_encode(json_encode($state)));
 	}
 
 }

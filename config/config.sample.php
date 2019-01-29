@@ -225,8 +225,8 @@ $CONFIG = array(
 'allow_user_to_change_display_name' => true,
 
 /**
- * Lifetime of the remember login cookie, which is set when the user clicks
- * the ``remember`` checkbox on the login screen.
+ * Lifetime of the remember login cookie. This should be larger than the
+ * session_lifetime. If it is set to 0 remember me is disabled.
  *
  * Defaults to ``60*60*24*15`` seconds (15 days)
  */
@@ -420,6 +420,26 @@ $CONFIG = array(
  * allows to only send plain text emails.
  */
 'mail_send_plaintext_only' => false,
+
+/**
+ * This depends on ``mail_smtpmode``. Array of additional streams options that
+ * will be passed to underlying Swift mailer implementation.
+ * Defaults to an empty array.
+ */
+'mail_smtpstreamoptions' => array(),
+
+/**
+ * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
+ *
+ * For ``smtp`` the sendmail binary is started with the parameter ``-bs``:
+ *   - Use the SMTP protocol on standard input and output.
+ *
+ * For ``pipe`` the binary is started with the parameters ``-t``:
+ *   - Read message from STDIN and extract recipients.
+ *
+ * Defaults to ``smtp``
+ */
+'mail_sendmailmode' => 'smtp',
 
 /**
  * Proxy Configurations

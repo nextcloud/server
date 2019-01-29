@@ -4,7 +4,7 @@ OC.L10N.register(
     "Loading preview…" : "Chargement de la prévisualisation...",
     "Saved" : "Enregistré",
     "Admin" : "Administration",
-    "a safe home for all your data" : "un endroit sûr pour toutes vos données",
+    "a safe home for all your data" : "un lieu sûr pour toutes vos données",
     "Name cannot be empty" : "Le nom ne peut pas être vide",
     "The given name is too long" : "Le nom donné est trop long",
     "The given web address is too long" : "L'adresse web donnée est trop longue",

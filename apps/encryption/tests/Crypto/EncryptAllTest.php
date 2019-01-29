@@ -126,8 +126,6 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface->expects($this->any())->method('getUsers')->willReturn(['user1', 'user2']);
 
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
-		$this->secureRandom->expects($this->any())->method('getMediumStrengthGenerator')->willReturn($this->secureRandom);
-		$this->secureRandom->expects($this->any())->method('getLowStrengthGenerator')->willReturn($this->secureRandom);
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
 
 

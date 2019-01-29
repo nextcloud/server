@@ -158,6 +158,7 @@ $(document).ready(function(){
 			$('#mail_smtpsecure_label').addClass('hidden');
 			$('#mail_smtpsecure').addClass('hidden');
 			$('#mail_credentials').addClass('hidden');
+			$('#mail_sendmailmode_label, #mail_sendmailmode').removeClass('hidden');
 		} else {
 			$('#setting_smtpauth').removeClass('hidden');
 			$('#setting_smtphost').removeClass('hidden');
@@ -166,6 +167,7 @@ $(document).ready(function(){
 			if ($('#mail_smtpauth').is(':checked')) {
 				$('#mail_credentials').removeClass('hidden');
 			}
+			$('#mail_sendmailmode_label, #mail_sendmailmode').addClass('hidden');
 		}
 	});
 
@@ -242,66 +244,73 @@ $(document).ready(function(){
 		$("#selectExcludedGroups").toggleClass('hidden', !this.checked);
 	});
 
-	// run setup checks then gather error messages
-	$.when(
-		OC.SetupChecks.checkWebDAV(),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, 200),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-		OC.SetupChecks.checkSetup(),
-		OC.SetupChecks.checkGeneric(),
-		OC.SetupChecks.checkDataProtected()
-	).then(function(check1, check2, check3, check4, check5, check6, check7) {
-		var messages = [].concat(check1, check2, check3, check4, check5, check6, check7);
-		var $el = $('#postsetupchecks');
-		$('#security-warning-state-loading').addClass('hidden');
+	var setupChecks = function () {
+		// run setup checks then gather error messages
+		$.when(
+			OC.SetupChecks.checkWebDAV(),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, [200, 501]),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkSetup(),
+			OC.SetupChecks.checkGeneric(),
+			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), oc_defaults.docPlaceholderUrl),
+			OC.SetupChecks.checkDataProtected()
+		).then(function (check1, check2, check3, check4, check5, check6, check7, check8) {
+			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8);
+			var $el = $('#postsetupchecks');
+			$('#security-warning-state-loading').addClass('hidden');
 
-		var hasMessages = false;
-		var $errorsEl = $el.find('.errors');
-		var $warningsEl = $el.find('.warnings');
-		var $infoEl = $el.find('.info');
+			var hasMessages = false;
+			var $errorsEl = $el.find('.errors');
+			var $warningsEl = $el.find('.warnings');
+			var $infoEl = $el.find('.info');
 
-		for (var i = 0; i < messages.length; i++ ) {
-			switch(messages[i].type) {
-				case OC.SetupChecks.MESSAGE_TYPE_INFO:
-					$infoEl.append('<li>' + messages[i].msg + '</li>');
-					break;
-				case OC.SetupChecks.MESSAGE_TYPE_WARNING:
-					$warningsEl.append('<li>' + messages[i].msg + '</li>');
-					break;
-				case OC.SetupChecks.MESSAGE_TYPE_ERROR:
-				default:
-					$errorsEl.append('<li>' + messages[i].msg + '</li>');
+			for (var i = 0; i < messages.length; i++) {
+				switch (messages[i].type) {
+					case OC.SetupChecks.MESSAGE_TYPE_INFO:
+						$infoEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_WARNING:
+						$warningsEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_ERROR:
+					default:
+						$errorsEl.append('<li>' + messages[i].msg + '</li>');
+				}
 			}
-		}
 
-		if ($errorsEl.find('li').length > 0) {
-			$errorsEl.removeClass('hidden');
-			hasMessages = true;
-		}
-		if ($warningsEl.find('li').length > 0) {
-			$warningsEl.removeClass('hidden');
-			hasMessages = true;
-		}
-		if ($infoEl.find('li').length > 0) {
-			$infoEl.removeClass('hidden');
-			hasMessages = true;
-		}
-
-		if (hasMessages) {
-			$('#postsetupchecks-hint').removeClass('hidden');
 			if ($errorsEl.find('li').length > 0) {
-				$('#security-warning-state-failure').removeClass('hidden');
-			} else {
-				$('#security-warning-state-warning').removeClass('hidden');
+				$errorsEl.removeClass('hidden');
+				hasMessages = true;
 			}
-		} else {
-			var securityWarning = $('#security-warning');
-			if (securityWarning.children('ul').children().length === 0) {
-				$('#security-warning-state-ok').removeClass('hidden');
-			} else {
-				$('#security-warning-state-failure').removeClass('hidden');
+			if ($warningsEl.find('li').length > 0) {
+				$warningsEl.removeClass('hidden');
+				hasMessages = true;
 			}
-		}
-	});
+			if ($infoEl.find('li').length > 0) {
+				$infoEl.removeClass('hidden');
+				hasMessages = true;
+			}
+
+			if (hasMessages) {
+				$('#postsetupchecks-hint').removeClass('hidden');
+				if ($errorsEl.find('li').length > 0) {
+					$('#security-warning-state-failure').removeClass('hidden');
+				} else {
+					$('#security-warning-state-warning').removeClass('hidden');
+				}
+			} else {
+				var securityWarning = $('#security-warning');
+				if (securityWarning.children('ul').children().length === 0) {
+					$('#security-warning-state-ok').removeClass('hidden');
+				} else {
+					$('#security-warning-state-failure').removeClass('hidden');
+				}
+			}
+		});
+	};
+
+	if (document.getElementById('security-warning') !== null) {
+		setupChecks();
+	}
 });

@@ -205,7 +205,7 @@ class UsersController extends AUserData {
 	 * @param string $displayName
 	 * @param string $email
 	 * @param array $groups
-	 * @param array $subadmins
+	 * @param array $subadmin
 	 * @param string $quota
 	 * @param string $language
 	 * @return DataResponse

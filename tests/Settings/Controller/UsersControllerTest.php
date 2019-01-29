@@ -11,6 +11,7 @@
 namespace Tests\Settings\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Group\Group;
 use OC\Group\Manager;
 use OC\Settings\Controller\UsersController;
@@ -98,7 +99,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
-		
+
 		$this->l->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
@@ -511,6 +512,51 @@ class UsersControllerTest extends \Test\TestCase {
 		$result = $controller->getVerificationCode('account', false);
 
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+	}
+
+	/**
+	 * @dataProvider dataTestCanAdminChangeUserPasswords
+	 *
+	 * @param bool $encryptionEnabled
+	 * @param bool $encryptionModuleLoaded
+	 * @param bool $masterKeyEnabled
+	 * @param bool $expected
+	 */
+	public function testCanAdminChangeUserPasswords($encryptionEnabled,
+													$encryptionModuleLoaded,
+													$masterKeyEnabled,
+													$expected) {
+		$controller = $this->getController();
+
+		$this->encryptionManager->expects($this->any())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
+		$this->encryptionManager->expects($this->any())
+			->method('getEncryptionModule')
+			->willReturnCallback(function() use ($encryptionModuleLoaded) {
+				if ($encryptionModuleLoaded) return $this->encryptionModule;
+				else throw new ModuleDoesNotExistsException();
+			});
+		$this->encryptionModule->expects($this->any())
+			->method('needDetailedAccessList')
+			->willReturn(!$masterKeyEnabled);
+
+		$result = $this->invokePrivate($controller, 'canAdminChangeUserPasswords', []);
+		$this->assertSame($expected, $result);
+	}
+
+	public function dataTestCanAdminChangeUserPasswords() {
+		return [
+			// encryptionEnabled, encryptionModuleLoaded, masterKeyEnabled, expectedResult
+			[true, true, true, true],
+			[false, true, true, true],
+			[true, false, true, false],
+			[false, false, true, true],
+			[true, true, false, false],
+			[false, true, false, false],
+			[true, false, false, false],
+			[false, false, false, true],
+		];
 	}
 
 }

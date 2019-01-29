@@ -12,6 +12,7 @@
     "Home" : "Casa",
     "Close" : "Tanca",
     "Could not create folder \"{dir}\"" : "No s'ha pogut crear la carpeta \"{dir}\"",
+    "This will stop your current uploads." : "Això aturarà les pujades actuals.",
     "Upload cancelled." : "La pujada s'ha cancel·lat.",
     "…" : ".....",
     "Processing files …" : "Processant arxius …",
@@ -19,6 +20,7 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hi ha prou espai lliure, està carregant {size1} però només pot {size2}",
     "Target folder \"{dir}\" does not exist any more" : "La carpeta objectiu \"{dir}\" ja no existeix",
     "Not enough free space" : "Espai lliure insuficient",
+    "An unknown error has occurred" : "S'ha produït un error desconegut",
     "Uploading …" : "Carregant...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Carregant aquest element no està soportat",
@@ -40,6 +42,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Comproveu els registres o contacteu amb l'administrador.",
     "Could not move \"{file}\", target exists" : "No s'ha pugut moure \"{file}\", el destí ja existeix",
     "Could not move \"{file}\"" : "No s'ha pogut moure \"{file}\"",
+    "copy" : "copiar",
     "Could not copy \"{file}\", target exists" : "No s'ha pogut copiar",
     "Could not copy \"{file}\"" : "No s'ha pogut copiar",
     "Copied {origin} inside {destination}" : "Copiat {origen} dins {destinació}",
@@ -133,9 +136,10 @@
     "Save" : "Desa",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Amb PHP-FPM pot trigar 5 minuts a aplicar els canvis.",
     "Missing permissions to edit from here." : "Falta els permisos per editar des d'aquí.",
-    "%1$s of %2$s used" : "%1$s de %2$s utilitzat",
+    "%s of %s used" : "Usats %s de %s",
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat",
     "%s used" : "%s utilitzat",
-    "Settings" : "Configuració",
+    "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitza aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als teus arxius mitjançant WebDAV</a>",
@@ -159,6 +163,6 @@
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text.txt",
     "Target folder" : "Carpeta de destí",
-    "%s of %s used" : "Usats %s de %s"
+    "%1$s of %2$s used" : "%1$s de %2$s utilitzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

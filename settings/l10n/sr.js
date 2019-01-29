@@ -225,6 +225,7 @@ OC.L10N.register(
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Важно је да подесите сервер да може да шаље е-пошту, када нпр. треба послати ресетовање лозинке или нека обавештења.",
     "Send mode" : "Режим слања",
     "Encryption" : "Шифровање",
+    "Sendmail mode" : "Sendmail режим",
     "From address" : "Са адресе",
     "mail" : "пошта",
     "Authentication method" : "Начин провере идентитета",

@@ -46,12 +46,14 @@ class Propagator implements IPropagator {
 	private $connection;
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @param IDBConnection $connection
+	 * @var array
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection) {
+	private $ignore = [];
+
+	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection, array $ignore = []) {
 		$this->storage = $storage;
 		$this->connection = $connection;
+		$this->ignore = $ignore;
 	}
 
 
@@ -62,6 +64,13 @@ class Propagator implements IPropagator {
 	 * @suppress SqlInjectionChecker
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
+		// Do not propogate changes in ignored paths
+		foreach ($this->ignore as $ignore) {
+			if (strpos($internalPath, $ignore) === 0) {
+				return;
+			}
+		}
+
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
@@ -97,9 +106,9 @@ class Propagator implements IPropagator {
 				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
-		}
 
-		$builder->execute();
+			$builder->execute();
+		}
 	}
 
 	protected function getParents($path) {

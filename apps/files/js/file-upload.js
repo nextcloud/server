@@ -194,7 +194,7 @@ OC.FileUpload.prototype = {
 		var data = this.data;
 		var file = this.getFile();
 
-		// it was a folder upload, so make sure the parent directory exists alrady
+		// it was a folder upload, so make sure the parent directory exists already
 		var folderPromise;
 		if (file.relativePath) {
 			folderPromise = this.uploader.ensureFolderExists(this.getFullPath());
@@ -528,7 +528,9 @@ OC.Uploader.prototype = _.extend({
 				self.filesClient.createDirectory(fullPath).always(function(status) {
 					// 405 is expected if the folder already exists
 					if ((status >= 200 && status < 300) || status === 405) {
-						self.trigger('createdfolder', fullPath);
+						if (status !== 405) {
+							self.trigger('createdfolder', fullPath);
+						}
 						deferred.resolve();
 						return;
 					}
@@ -660,7 +662,7 @@ OC.Uploader.prototype = _.extend({
 				// when only replacement selected -> overwrite
 				self.onReplace(conflict.data('data'));
 			} else {
-				// when only original seleted -> skip
+				// when only original selected -> skip
 				// when none selected -> skip
 				self.onSkip(conflict.data('data'));
 			}
@@ -857,7 +859,8 @@ OC.Uploader.prototype = _.extend({
 				type: 'PUT',
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
-				sequentialUploads: true,
+				sequentialUploads: false,
+				limitConcurrentUploads: 10,
 				//singleFileUploads is on by default, so the data.files array will always have length 1
 				/**
 				 * on first add of every selection
@@ -1036,7 +1039,7 @@ OC.Uploader.prototype = _.extend({
 						// target folder does not exist any more
 						OC.Notification.show(t('files', 'Target folder "{dir}" does not exist any more', {dir: upload.getFullPath()} ), {type: 'error'});
 						self.cancelUploads();
-					} else if (status === 507) {
+					} else if (data.textStatus === 'notenoughspace') {
 						// not enough space
 						OC.Notification.show(t('files', 'Not enough free space'), {type: 'error'});
 						self.cancelUploads();

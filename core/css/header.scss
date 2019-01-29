@@ -482,7 +482,7 @@ nav[role='navigation'] {
 		a.active {
 			opacity: 1;
 		}
-	
+
 		&:hover a + span,
 		a:focus + span,
 		&:hover span,
@@ -494,6 +494,7 @@ nav[role='navigation'] {
 			overflow: hidden;
 			background-color: var(--color-primary-element);
 			padding: 0 5px;
+			z-index: 2;
 		}
 
 		/* hidden apps menu */
@@ -503,18 +504,19 @@ nav[role='navigation'] {
 			width: 20px;
 			height: 20px;
 		}
-	
+
 		/* App title */
 		span {
 			opacity: 0;
 			position: absolute;
 			color: var(--color-primary-text);
-			bottom: -5px;
+			bottom: 2px;
 			width: calc(100% - 4px);
 			text-align: center;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			transition: all var(--animation-quick) ease;
+			pointer-events: none;
 		}
 
 		/* Set up transitions for showing app titles on hover */
@@ -692,8 +694,8 @@ nav[role='navigation'] {
 			color: var(--color-primary-text);
 			width: 155px;
 			cursor: text;
-			background-color: var(--color-primary) !important;
-			border: 1px solid var(--color-primary-text-dark) !important;
+			background-color: transparent !important;
+			border: 1px solid var(--color-border) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;
@@ -717,5 +719,20 @@ nav[role='navigation'] {
 		&::-webkit-search-cancel-button {
 			-webkit-appearance: none;
 		}
+	}
+}
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent,
+header .emptycontent {
+	h2 {
+		font-weight: normal;
+		font-size: 16px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 48px;
+		height: 48px;
+		width: 48px;
 	}
 }

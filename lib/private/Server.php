@@ -413,9 +413,9 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
-			$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
+			$userSession->listen('\OC\User', 'postLogin', function ($user, $password, $isTokenLogin) {
 				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'isTokenLogin' => $isTokenLogin));
 			});
 			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
 				/** @var $user \OC\User\User */
@@ -553,7 +553,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
 
-		$this->registerService(\OCP\ILogger::class, function (Server $c) {
+		$this->registerService(\OC\Log::class, function (Server $c) {
 			$logType = $c->query('AllConfig')->getSystemValue('log_type', 'file');
 			$factory = new LogFactory($c, $this->getSystemConfig());
 			$logger = $factory->get($logType);
@@ -561,7 +561,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new Log($logger, $this->getSystemConfig(), null, $registry);
 		});
-		$this->registerAlias('Logger', \OCP\ILogger::class);
+		$this->registerAlias(\OCP\ILogger::class, \OC\Log::class);
+		$this->registerAlias('Logger', \OC\Log::class);
 
 		$this->registerService(ILogFactory::class, function (Server $c) {
 			return new LogFactory($c, $this->getSystemConfig());

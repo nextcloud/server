@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Вашем клијенту није одобрено повезивање. Обавестите администратора који је Ваш клијент.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Адреса за преусмеравање мора бити пуна адреса, нпр: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Дозвољава OAuth2 компатибилну идентификацију са других веб апликација,",

@@ -84,7 +84,7 @@
 					}
 				}
 
-				if (shareModel.hasLinkShare()) {
+				if (shareModel.hasLinkShares()) {
 					shareTypes.push(OC.Share.SHARE_TYPE_LINK);
 				}
 

@@ -148,16 +148,17 @@ class CheckSetupControllerTest extends TestCase {
 				'hasWorkingFileLocking',
 				'getLastCronInfo',
 				'getSuggestedOverwriteCliURL',
-				'getOutdatedCaches',
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isOpcacheProperlySetup',
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'isSqliteUsed',
-				'isPhpMailerUsed',
+				'isPHPMailerUsed',
 				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
+				'hasRecommendedPHPModules',
+				'hasBigIntConversionPendingColumns',
 			])->getMock();
 	}
 
@@ -433,9 +434,6 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
-			->method('getOutdatedCaches')
-			->willReturn([]);
-		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
 		$this->checkSetupController
@@ -472,7 +470,7 @@ class CheckSetupControllerTest extends TestCase {
 			]);
 		$this->checkSetupController
 			->expects($this->once())
-			->method('isPhpMailerUsed')
+			->method('isPHPMailerUsed')
 			->willReturn(false);
 		$this->checker
 			->expects($this->once())
@@ -487,12 +485,21 @@ class CheckSetupControllerTest extends TestCase {
 			->method('getAppDirsWithDifferentOwner')
 			->willReturn([]);
 
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasRecommendedPHPModules')
+			->willReturn([]);
+
+		$this->checkSetupController
+			->expects($this->once())
+			->method('hasBigIntConversionPendingColumns')
+			->willReturn([]);
+
 		$expected = new DataResponse(
 			[
 				'isGetenvServerWorking' => true,
 				'isReadOnlyConfig' => false,
 				'hasValidTransactionIsolationLevel' => true,
-				'outdatedCaches' => [],
 				'hasFileinfoInstalled' => true,
 				'hasWorkingFileLocking' => true,
 				'suggestedOverwriteCliURL' => '',
@@ -525,16 +532,18 @@ class CheckSetupControllerTest extends TestCase {
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
-				'isPhpMailerUsed' => false,
+				'isPHPMailerUsed' => false,
 				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
+				'recommendedPHPModules' => [],
+				'pendingBigIntConversionColumns' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
 	}
 
-	public function testIsPhpMailerUsed() {
+	public function testIsPHPMailerUsed() {
 		$checkSetupController = $this->getMockBuilder('\OC\Settings\Controller\CheckSetupController')
 			->setConstructorArgs([
 				'settings',
@@ -564,8 +573,8 @@ class CheckSetupControllerTest extends TestCase {
 			->with('mail_smtpmode', 'smtp')
 			->will($this->returnValue('not-php'));
 
-		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
-		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPhpMailerUsed'));
+		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
+		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
 	}
 
 	public function testGetCurlVersion() {

@@ -68,7 +68,8 @@ try {
 	OC_App::loadApps(array('filesystem', 'logging'));
 
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
-		throw new Exception('App not installed: ' . $app);
+		http_response_code(501);
+		exit;
 	}
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);

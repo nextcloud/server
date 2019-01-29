@@ -116,7 +116,7 @@ class ControllerTest extends \Test\TestCase {
 			'test' => 'something',
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Type' => 'application/json; charset=utf-8',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self'",
 		];
 
 		$response = $this->controller->customDataResponse(array('hi'));

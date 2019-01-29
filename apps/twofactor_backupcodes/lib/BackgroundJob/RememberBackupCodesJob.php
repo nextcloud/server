@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 
@@ -38,9 +38,6 @@ class RememberBackupCodesJob extends TimedJob {
 
 	/** @var IUserManager */
 	private $userManager;
-
-	/** @var ITimeFactory */
-	private $time;
 
 	/** @var IManager */
 	private $notificationManager;
@@ -53,6 +50,7 @@ class RememberBackupCodesJob extends TimedJob {
 								ITimeFactory $timeFactory,
 								IManager $notificationManager,
 								IJobList $jobList) {
+		parent::__construct($timeFactory);
 		$this->registry = $registry;
 		$this->userManager = $userManager;
 		$this->time = $timeFactory;

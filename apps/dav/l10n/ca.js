@@ -44,6 +44,7 @@ OC.L10N.register(
     "Contacts" : "Contactes",
     "Technical details" : "Detalls tècnics",
     "Remote Address: %s" : "Adreça remota: %s",
-    "Request ID: %s" : "Sol·licitud ID: %s "
+    "Request ID: %s" : "Sol·licitud ID: %s ",
+    "Save" : "Desa"
 },
 "nplurals=2; plural=(n != 1);");

@@ -42,6 +42,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
     "Could not move \"{file}\", target exists" : "Tiedoston \"{file}\" siirtäminen ei onnistunut, kohde on olemassa",
     "Could not move \"{file}\"" : "Tiedoston \"{file}\" siirtäminen ei onnistunut",
+    "copy" : "kopio",
     "Could not copy \"{file}\", target exists" : "Tiedostoa \"{file}\" ei voitu kopioida, kohde on olemassa",
     "Could not copy \"{file}\"" : "Tiedostoa \"{file}\" ei voitu kopioida",
     "{newName} already exists" : "{newName} on jo olemassa",
@@ -127,12 +128,14 @@
     "Save" : "Tallenna",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
     "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
-    "%1$s of %2$s used" : "%1$s/%2$s käytetty",
+    "%s of %s used" : "%s / %s käytetty",
+    "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty",
     "%s used" : "%s käytetty",
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>",
+    "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
     "Cancel upload" : "Perus lähetys",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
@@ -152,6 +155,6 @@
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Target folder" : "Kohdekansio",
-    "%s of %s used" : "%s / %s käytetty"
+    "%1$s of %2$s used" : "%1$s/%2$s käytetty"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -138,7 +138,7 @@ class ClientFlowLoginController extends Controller {
 			$this->appName,
 			'403',
 			[
-				'file' => $this->l10n->t('State token does not match'),
+				'message' => $this->l10n->t('State token does not match'),
 			],
 			'guest'
 		);
@@ -207,6 +207,7 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 * @UseSession
 	 *
 	 * @param string $stateToken
@@ -236,34 +237,6 @@ class ClientFlowLoginController extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'serverHost' => $this->getServerPath(),
-				'oauthState' => $this->session->get('oauth.state'),
-			],
-			'guest'
-		);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
-	 * @param string $stateToken
-	 * @param string $clientIdentifier
-	 * @return TemplateResponse
-	 */
-	public function redirectPage($stateToken = '',
-								 $clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
-
-		return new TemplateResponse(
-			$this->appName,
-			'loginflow/redirect',
-			[
-				'urlGenerator' => $this->urlGenerator,
-				'stateToken' => $stateToken,
-				'clientIdentifier' => $clientIdentifier,
 				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
@@ -351,6 +324,18 @@ class ClientFlowLoginController extends Controller {
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
+		return new Http\RedirectResponse($redirectUri);
+	}
+
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
 		return new Http\RedirectResponse($redirectUri);
 	}
 

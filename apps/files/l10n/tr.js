@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör yazılabilir değil. Lütfen günlük kayıtlarına bakın ya da yönetici ile görüşün",
     "Could not move \"{file}\", target exists" : "\"{file}\" taşınamadı, hedef zaten var",
     "Could not move \"{file}\"" : "\"{file}\" taşınamadı",
+    "copy" : "kopya",
     "Could not copy \"{file}\", target exists" : "\"{file}\" dosyası kopyalanamadı, hedef zaten var",
     "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
     "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
@@ -137,7 +138,8 @@ OC.L10N.register(
     "Save" : "Kaydet",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM üzerinde değişikliklerin uygulanması 5 dakika sürebilir.",
     "Missing permissions to edit from here." : "Buradan düzenleme için izinler eksik.",
-    "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
+    "%s of %s used" : "%s / %s kullanılıyor",
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s kullanılmış",
     "%s used" : "%s kullanılıyor",
     "Settings" : "Ayarlar",
     "Show hidden files" : "Gizli dosyaları görüntüle",
@@ -163,6 +165,6 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Target folder" : "Hedef klasör",
-    "%s of %s used" : "%s / %s kullanılıyor"
+    "%1$s of %2$s used" : "%1$s / %2$s kullanıldı"
 },
 "nplurals=2; plural=(n > 1);");

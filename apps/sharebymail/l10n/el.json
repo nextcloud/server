@@ -16,9 +16,13 @@
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε αυτοδημιουργημένο συνθηματικό. Παρακαλούμε βάλτε μία έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και προσπαθήστε ξανά.",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
+    "%1$s shared »%2$s« with you." : "%1$s διαμοιράστηκε »%2$s« με εσάς.",
     "Click the button below to open it." : "Κάντε κλικ στο παρακάτω κουμπί για να το ανοίξετε.",
     "Open »%s«" : "Ανοίξτε »%s«",
+    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s διαμοιράστηκε »%2$s« με εσάς. Θα πρέπει να έχετε ήδη λάβει ένα ξεχωριστό mail με έναν σύνδεσμο με πρόσβαση σε αυτό.",
+    "Password to access »%1$s« shared to you by %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε μαζί σας μέσω %2$s",
     "Password to access »%s«" : "Συνθηματικό για πρόσβαση στο »%s«",
+    "This is the password:" : "Αυτό είναι το συνθηματικό:",
     "You can choose a different password at any time in the share dialog." : "Μπορείτε να διαλέξετε ένα διαφορετικό συνθηματικό οποιαδήποτε στιγμή στον διάλογο διαμοιρασμού.",
     "Could not find share" : "Αδυναμία εύρεσης κοινόχρηστου",
     "Share by mail" : "Διαμοιρασμός με ηλεκτρονική αλληλογραφία",
@@ -35,6 +39,7 @@
     "It is protected with the following password: %s" : "Είναι προστατευμένο με το ακόλουθο συνθηματικό: %s",
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Έχετε μόλις διαμοιραστεί »%s« με %s. Ο διαμοιρασμός έχει ήδη σταλθεί στον παραλήπτη. Βάση των πολιτικών ασφαλείας που έχουν ορισθεί από τον διαχειριστή του %s ο κάθε διαμοιρασμός χρειάζεται να προστατεύεται από ένα συνθηματικό και δεν επιτρέπετε να σταλθεί το συνθηματικό απευθείας στον παραλήπτη. Επομένως χρειάζεται να προωθήσετε το συνθηματικό χειροκίνητα στον παραλήπτη.",
     "Password to access »%s« shared with %s" : "Συνθηματικό για πρόσβαση στο »%s« διαμοιράστηκε με %s",
-    "This is the password: %s" : "Αυτό είναι το συνθηματικό: %s"
+    "This is the password: %s" : "Αυτό είναι το συνθηματικό: %s",
+    "Password to access »%1$s« shared with %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε με %2$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

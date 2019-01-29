@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import Axios from 'nextcloud-axios'
 import OAuthItem from './components/OAuthItem';
 
 export default {
@@ -74,36 +74,27 @@ export default {
 		};
 	},
 	beforeMount: function() {
-		let requestToken = OC.requestToken;
-		let tokenHeaders = { headers: { requesttoken: requestToken } };
-
-		axios.get(OC.generateUrl('apps/oauth2/clients'), tokenHeaders)
+		Axios.get(OC.generateUrl('apps/oauth2/clients'))
 			.then((response) => {
 			this.clients = response.data;
 		});
 	},
 	methods: {
 		deleteClient(id) {
-			let requestToken = OC.requestToken;
-			let tokenHeaders = { headers: { requesttoken: requestToken } };
-
-			axios.delete(OC.generateUrl('apps/oauth2/clients/{id}', {id: id}), tokenHeaders)
+			Axios.delete(OC.generateUrl('apps/oauth2/clients/{id}', {id: id}))
 				.then((response) => {
 					this.clients = this.clients.filter(client => client.id !== id);
 				});
 		},
 		addClient() {
-			let requestToken = OC.requestToken;
-			let tokenHeaders = { headers: { requesttoken: requestToken } };
 			this.newClient.error = false;
 
-			axios.post(
+			Axios.post(
 				OC.generateUrl('apps/oauth2/clients'),
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri
-				},
-				tokenHeaders
+				}
 			).then(response => {
 				this.clients.push(response.data);
 

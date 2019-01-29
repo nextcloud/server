@@ -648,6 +648,10 @@
 					if (permissions & OC.PERMISSION_UPDATE) {
 						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
 					}
+					var dialogDir = context.dir;
+					if (typeof context.fileList.dirInfo.dirLastCopiedTo !== 'undefined') {
+						dialogDir = context.fileList.dirInfo.dirLastCopiedTo;
+					}
 					OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 							context.fileList.copy(filename, targetPath, false, context.dir);
@@ -655,7 +659,8 @@
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 							context.fileList.move(filename, targetPath, false, context.dir);
 						}
-					}, false, "httpd/unix-directory", true, actions);
+						context.fileList.dirInfo.dirLastCopiedTo = targetPath; 
+					}, false, "httpd/unix-directory", true, actions, dialogDir);
 				}
 			});
 

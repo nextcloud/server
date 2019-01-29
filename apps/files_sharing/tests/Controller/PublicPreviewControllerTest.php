@@ -136,6 +136,7 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
 	}
 
@@ -190,6 +191,7 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
 	}
 }

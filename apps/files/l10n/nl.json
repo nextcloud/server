@@ -42,6 +42,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
     "Could not move \"{file}\", target exists" : "Kon \"{file}\" niet verplaatsen, doel bestaat al",
     "Could not move \"{file}\"" : "Kon \"{file}\" niet verplaatsen",
+    "copy" : "kopiëren",
     "Could not copy \"{file}\", target exists" : "Kon \"{bestand}\" niet kopiëren, het doel bestaat",
     "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
     "Copied {origin} inside {destination}" : "Kopieerde {oorsprong} binnen {bestemming}",
@@ -135,13 +136,14 @@
     "Save" : "Bewaren",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Met PHP-FPM kan het 5 minuten duren voordat wijzigingen zijn doorgevoerd.",
     "Missing permissions to edit from here." : "Ontbrekende rechten om vanaf hier te bewerken.",
-    "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
+    "%s of %s used" : "%s van %s gebruikt",
+    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt",
     "%s used" : "%s gebruikt",
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">om je bestanden te benaderen via WebDAV</a>",
-    "Toggle grid view" : "Omschakelen roosterbeeld",
+    "Toggle grid view" : "Omschakelen roosterweergave",
     "Cancel upload" : "Stop upload",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",
@@ -161,6 +163,6 @@
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Target folder" : "Doelmap",
-    "%s of %s used" : "%s van %s gebruikt"
+    "%1$s of %2$s used" : "%1$s van %2$s gebruikt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -17,7 +17,8 @@
 	{{/if}}
 	{{#each linkShares}}
 		<li data-share-id="{{cid}}">
-			<div class="avatar icon-public-white"></div><span class="username" title="{{linkShareLabel}}">{{linkShareLabel}}</span>
+			<div class="avatar icon-public-white"></div>
+			<span class="username" title="{{linkShareCreationDate}}">{{linkShareLabel}}</span>
 			
 			<span class="sharingOptionsGroup">
 				<a href="#" class="clipboard-button icon icon-clippy has-tooltip" data-clipboard-text="{{shareLinkURL}}" title="{{copyLabel}}"></a>

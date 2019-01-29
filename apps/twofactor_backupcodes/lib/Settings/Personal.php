@@ -24,14 +24,22 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Settings;
 
-
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Template;
 
 class Personal implements IPersonalProviderSettings {
 
+	/** @var string */
+	private $state;
+
+	public function __construct(string $state) {
+		$this->state = $state;
+	}
+
 	public function getBody(): Template {
-		return new Template('twofactor_backupcodes', 'personal');
+		$template = new Template('twofactor_backupcodes', 'personal');
+		$template->assign('state', $this->state);
+		return $template;
 	}
 
 }

@@ -31,6 +31,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\Authentication\TwoFactorAuth\Manager;
 use OC\HintException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,6 +40,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\ILogger;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -57,7 +59,6 @@ use OCP\Security\ISecureRandom;
  * @package OC\Core\Controller
  */
 class LostController extends Controller {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var IUserManager */
@@ -80,6 +81,10 @@ class LostController extends Controller {
 	protected $timeFactory;
 	/** @var ICrypto */
 	protected $crypto;
+	/** @var ILogger */
+	private $logger;
+	/** @var Manager */
+	private $twoFactorManager;
 
 	/**
 	 * @param string $appName
@@ -108,7 +113,9 @@ class LostController extends Controller {
 								IManager $encryptionManager,
 								IMailer $mailer,
 								ITimeFactory $timeFactory,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								ILogger $logger,
+								Manager $twoFactorManager) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -121,6 +128,8 @@ class LostController extends Controller {
 		$this->mailer = $mailer;
 		$this->timeFactory = $timeFactory;
 		$this->crypto = $crypto;
+		$this->logger = $logger;
+		$this->twoFactorManager = $twoFactorManager;
 	}
 
 	/**
@@ -236,10 +245,11 @@ class LostController extends Controller {
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
-		} catch (\Exception $e){
-			$response = new JSONResponse($this->error($e->getMessage()));
-			$response->throttle();
-			return $response;
+		} catch (\Exception $e) {
+			// Ignore the error since we do not want to leak this info
+			$this->logger->logException($e, [
+				'level' => ILogger::WARN
+			]);
 		}
 
 		$response = new JSONResponse($this->success());
@@ -283,6 +293,8 @@ class LostController extends Controller {
 			}
 
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
+
+			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();

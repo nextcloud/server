@@ -27,6 +27,7 @@
     "You deleted event {event} from calendar {calendar}" : "Smazal(a) jste událost {event} z kalendáře {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} aktualizoval(a) událost {event} v kalendáři {calendar}",
     "You updated event {event} in calendar {calendar}" : "Aktualizoval(a) jste událost {event} v kalendáři {calendar}",
+    "Busy" : "Zaneprázdněn(a)",
     "{actor} created todo {todo} in list {calendar}" : "{actor} vytvořil(a) v seznamu {calendar} vytvořila úkol {todo}",
     "You created todo {todo} in list {calendar}" : "V seznamu {calendar} jste vytvořil(a) úkol {todo}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} smazal(a) úkol {todo} ze seznamu {calendar}",

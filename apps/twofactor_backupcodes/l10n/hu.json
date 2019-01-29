@@ -12,6 +12,10 @@
     "Backup code" : "Biztonsági kód",
     "Use backup code" : "Biztonsági kód használata",
     "Two factor backup codes" : "Kétfaktoros biztonsági mentési kódok",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "A biztonsági kódok elkészültek. Felhasználva: {{used}}, ennyiből: {{total}}."
+    "A two-factor auth backup codes provider" : "Kétfaktoros azonosítás biztonsági kódok szolgáltatója",
+    "Submit" : "Küldés",
+    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "A biztonsági kódok elkészültek. Felhasználva: {{used}}, ennyiből: {{total}}.",
+    "activated" : "Aktivált",
+    "updated" : "frissítve"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

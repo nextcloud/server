@@ -34,17 +34,13 @@
 
 <script>
 	import confirmPassword from 'nextcloud-password-confirmation';
-
-	import {getState, generateCodes} from '../service/BackupCodesService';
 	import {print} from '../service/PrintService';
 
 	export default {
 		name: "PersonalSettings",
 		data() {
 			return {
-				enabled: false,
 				generatingCodes: false,
-				codes: undefined
 			};
 		},
 		computed: {
@@ -55,30 +51,27 @@
 				return 'data:text/plain,' + encodeURIComponent(this.codes.reduce((prev, code) => {
 					return prev + code + '\r\n';
 				}, ''));
+			},
+			enabled: function() {
+				return this.$store.state.enabled
+			},
+			total: function() {
+				return this.$store.state.total
+			},
+			used: function() {
+				return this.$store.state.used
+			},
+			codes: function() {
+				return this.$store.state.codes
 			}
-		},
-		created: function() {
-			getState()
-				.then(state => {
-					this.enabled = state.enabled;
-					this.total = state.total;
-					this.used = state.used;
-				})
-				.catch(console.error.bind(this));
 		},
 		methods: {
 			generateBackupCodes: function() {
 				confirmPassword().then(() => {
 					// Hide old codes
-					this.enabled = false;
 					this.generatingCodes = true;
 
-					generateCodes().then(data => {
-						this.enabled = data.state.enabled;
-						this.total = data.state.total;
-						this.used = data.state.used;
-						this.codes = data.codes;
-
+					this.$store.dispatch('generate').then(data => {
 						this.generatingCodes = false;
 					}).catch(err => {
 						OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'));
@@ -103,3 +96,14 @@
 		}
 	}
 </script>
+
+<style scoped>
+	.backup-code {
+		font-family: monospace;
+		letter-spacing: 0.02em;
+		font-size: 1.2em;
+	}
+	.button {
+		display: inline-block;
+	}
+</style>

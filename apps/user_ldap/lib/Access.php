@@ -609,30 +609,46 @@ class Access extends LDAPUtility {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if(($isUser && $intName !== '' && !$this->ncUserManager->userExists($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
-			if($mapper->map($fdn, $intName, $uuid)) {
-				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-				if($this->ncUserManager instanceof PublicEmitter && $isUser) {
-					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
-				}
-				$newlyMapped = true;
+		if( $intName !== ''
+			&& (($isUser && !$this->ncUserManager->userExists($intName))
+				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
+			)
+		) {
+			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+			if($newlyMapped) {
 				return $intName;
 			}
 		}
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 
+		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
-				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$altName]);
+		if (is_string($altName)) {
+			if($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+				$newlyMapped = true;
+				return $altName;
 			}
-			$newlyMapped = true;
-			return $altName;
 		}
 
 		//if everything else did not help..
 		\OCP\Util::writeLog('user_ldap', 'Could not create unique name for '.$fdn.'.', ILogger::INFO);
+		return false;
+	}
+
+	protected function mapAndAnnounceIfApplicable(
+		AbstractMapping $mapper,
+		string $fdn,
+		string $name,
+		string $uuid,
+		bool $isUser
+	) :bool {
+		if($mapper->map($fdn, $name, $uuid)) {
+			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
+				$this->cacheUserExists($name);
+				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -879,7 +895,7 @@ class Access extends LDAPUtility {
 			});
 		}
 		$this->batchApplyUserAttributes($recordsToUpdate);
-		return $this->fetchList($ldapRecords, count($attr) > 1);
+		return $this->fetchList($ldapRecords, $this->manyAttributes($attr));
 	}
 
 	/**
@@ -922,7 +938,7 @@ class Access extends LDAPUtility {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), count($attr) > 1);
+		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), $this->manyAttributes($attr));
 	}
 
 	/**
@@ -959,7 +975,11 @@ class Access extends LDAPUtility {
 	 * Executes an LDAP search
 	 */
 	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
-		return $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
+		$result = [];
+		foreach($this->connection->ldapBaseUsers as $base) {
+			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+		}
+		return $result;
 	}
 
 	/**
@@ -970,7 +990,12 @@ class Access extends LDAPUtility {
 	 * @return false|int
 	 */
 	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBaseUsers as $base) {
+			$count = $this->count($filter, [$base], $attr, $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -984,7 +1009,11 @@ class Access extends LDAPUtility {
 	 * Executes an LDAP search
 	 */
 	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
-		return $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		$result = [];
+		foreach($this->connection->ldapBaseGroups as $base) {
+			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+		}
+		return $result;
 	}
 
 	/**
@@ -996,7 +1025,12 @@ class Access extends LDAPUtility {
 	 * @return int|bool
 	 */
 	public function countGroups($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBaseGroups as $base) {
+			$count = $this->count($filter, [$base], $attr, $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -1007,7 +1041,12 @@ class Access extends LDAPUtility {
 	 * @return int|bool
 	 */
 	public function countObjects($limit = null, $offset = null) {
-		return $this->count('objectclass=*', $this->connection->ldapBase, array('dn'), $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBase as $base) {
+			$count = $this->count('objectclass=*', [$base], ['dn'], $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -2009,6 +2048,19 @@ class Access extends LDAPUtility {
 		}
 
 		return $pagedSearchOK;
+	}
+
+	/**
+	 * Is more than one $attr used for search?
+	 *
+	 * @param string|string[]|null $attr
+	 * @return bool
+	 */
+	private function manyAttributes($attr): bool {
+		if (\is_array($attr)) {
+			return \count($attr) > 1;
+		}
+		return false;
 	}
 
 }

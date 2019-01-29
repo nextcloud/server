@@ -923,6 +923,10 @@
 			};
 
 			var actions = this.isSelectedMovable() ? OC.dialogs.FILEPICKER_TYPE_COPY_MOVE : OC.dialogs.FILEPICKER_TYPE_COPY;
+			var dialogDir = self.getCurrentDirectory();
+			if (typeof self.dirInfo.dirLastCopiedTo !== 'undefined') {
+				dialogDir = self.dirInfo.dirLastCopiedTo;
+			}
 			OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
 				self.fileMultiSelectMenu.toggleLoading('copyMove', true);
 				if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
@@ -931,7 +935,8 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-			}, false, "httpd/unix-directory", true, actions);
+				self.dirInfo.dirLastCopiedTo = targetPath; 
+			}, false, "httpd/unix-directory", true, actions, dialogDir);
 			event.preventDefault();
 		},
 
@@ -1674,7 +1679,7 @@
 							c: fileData.etag
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
-					previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
+					previewUrl = previewUrl.replace(/\(/g, '%28').replace(/\)/g, '%29');
 					iconDiv.css('background-image', 'url("' + previewUrl + '")');
 				}
 			}
@@ -2058,8 +2063,7 @@
 			}
 
 			previewURL = self.generatePreviewUrl(urlSpec);
-			previewURL = previewURL.replace('(', '%28');
-			previewURL = previewURL.replace(')', '%29');
+			previewURL = previewURL.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
 			// preload image to prevent delay
 			// this will make the browser cache the image

@@ -8,9 +8,12 @@
     "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
     "Update for {app} to version %s is available." : "{app} %s verzió frissítése elérhető",
     "Update notification" : "Frissítési értesítés",
+    "Apps missing updates" : "Alkalmazások frissítés nélkül",
+    "View in store" : "Nézze meg a boltban",
     "Apps with available updates" : "Alkalmazások frissítéssel",
     "Open updater" : "Frissítő megnyitása",
     "Download now" : "Letöltés most",
+    "What's new?" : "Újdonságok?",
     "The update check is not yet finished. Please refresh the page." : "A frissítéskeresés még nem ért véget. Kérjük frissítsd az oldalt.",
     "Your version is up to date." : "Verzió frissítve.",
     "A non-default update server is in use to be checked for updates:" : "Egy nem alapértelmezett szervert használunk a frissítések kereséséhez:",
@@ -27,8 +30,8 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ellenőrizd, hogy a config.php-dben nincs-e beállítva a <samp>appstoreenabled</samp> false-ra.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazásbolthoz, vagy az nem adott vissza frissítéseket egyáltalán. Keress frissítéseket kézzel, vagy győződj meg arról, hogy a szervered hozzáfér az internethez és eléri az alkalmazásboltot.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás felfrissítve a legújabb verzióra.",
-    "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
+    "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Checked on %s" : "Ellenőrizve: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

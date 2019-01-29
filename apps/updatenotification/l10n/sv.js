@@ -23,6 +23,12 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Endast notifikation för app-uppdateringar är tillgängliga.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valda uppdateringskanalen gör dedikerade notiser för servern förlegade.",
     "The selected update channel does not support updates of the server." : "Den valda uppdateringskanalen stödjer inte uppdateringar för servern.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "En ny version är tillgänglig: <strong>{newVersionString}</strong>",
+    "Checking apps for compatible updates" : "Kontrollera appar för kompatibla uppdateringar",
+    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
+    "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen.",
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
     "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt",
     "A new version is available: %s" : "En ny version är tillgänglig: %s",
     "Checked on %s" : "Senast kontrollerad %s"

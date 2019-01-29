@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Saját mappa",
     "Close" : "Bezárás",
     "Could not create folder \"{dir}\"" : "{dir} mappa nem hozható létre",
+    "This will stop your current uploads." : "Ez meg fogja állítani a jelenlegi feltöltéseket.",
     "Upload cancelled." : "A feltöltést megszakítottuk.",
     "…" : "...",
     "Processing files …" : "Fájlok feldolgozása …",
@@ -21,6 +22,7 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nincs elég szabad hely. A feltöltés mérete {size1}, de csak ennyi hely van: {size2}.",
     "Target folder \"{dir}\" does not exist any more" : "A célmappa már nem létezik: \"{dir}\"",
     "Not enough free space" : "Nincs elég szabad hely",
+    "An unknown error has occurred" : "Ismeretlen hiba történt",
     "Uploading …" : "Feltöltés...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Ennek az elemnek a feltöltése nem támogatott",
@@ -42,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem elérhető, kérem nézze meg a naplófájlokat vagy keresse a rendszergazdát",
     "Could not move \"{file}\", target exists" : "{file} fájl nem áthelyezhető, mert a cél már létezik",
     "Could not move \"{file}\"" : "{file} fájl nem áthelyezhető",
+    "copy" : "másolat",
     "Could not copy \"{file}\", target exists" : "Nem sikerült \"{file}\" másolása, a cél már létezik",
     "Could not copy \"{file}\"" : "\"{file}\" másolása sikertelen",
     "Copied {origin} inside {destination}" : "{origin} átmásolva ide: {destination}",
@@ -135,7 +138,7 @@ OC.L10N.register(
     "Save" : "Mentés",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
-    "%1$s of %2$s used" : "%1$s a %2$s-ból használva",
+    "%s of %s used" : "%s / %s használt",
     "%s used" : "%s használt",
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
@@ -161,6 +164,6 @@ OC.L10N.register(
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "Target folder" : "Célmappa",
-    "%s of %s used" : "%s / %s használt"
+    "%1$s of %2$s used" : "%1$s a %2$s-ból használva"
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,7 +5,7 @@ OC.L10N.register(
     "Storage invalid" : "Speicher ungültig",
     "Unknown error" : "Unbekannter Fehler",
     "All files" : "Alle Dateien",
-    "Recent" : "Aktuelle",
+    "Recent" : "Neueste",
     "Favorites" : "Favoriten",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Move or copy" : "Verschieben oder kopieren",
@@ -138,7 +138,8 @@ OC.L10N.register(
     "Save" : "Speichern",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mit PHP-FPM kann es bis zu 5 Minuten dauern, bis die Einstellungen übernommen werden.",
     "Missing permissions to edit from here." : "Fehlende Berechtigungen, um dies von hier aus zu bearbeiten.",
-    "%1$s of %2$s used" : "%1$s von %2$s verwendet",
+    "%s of %s used" : "%s von %s verwendet",
+    "%1$s%% of %2$s used" : "%1$s%% von %2$s verwendet",
     "%s used" : "%s verwendet",
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
@@ -164,6 +165,6 @@ OC.L10N.register(
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Target folder" : "Zielordner",
-    "%s of %s used" : "%s von %s verwendet"
+    "%1$s of %2$s used" : "%1$s von %2$s verwendet"
 },
 "nplurals=2; plural=(n != 1);");

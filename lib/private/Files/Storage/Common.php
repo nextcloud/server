@@ -368,7 +368,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$storage = $this;
 		}
 		if (!isset($storage->propagator)) {
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection());
+			$config = \OC::$server->getSystemConfig();
+			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
 		}
 		return $storage->propagator;
 	}

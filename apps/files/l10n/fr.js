@@ -44,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Ce dossier n'est pas disponible. Consultez les logs ou contactez votre administrateur",
     "Could not move \"{file}\", target exists" : "Impossible de déplacer \"{file}\", la cible existe",
     "Could not move \"{file}\"" : "Impossible de déplacer \"{file}\"",
+    "copy" : "Copier",
     "Could not copy \"{file}\", target exists" : "Impossible de copier \"{file}\", la cible existe",
     "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} copié dans {destination}",
@@ -80,7 +81,7 @@ OC.L10N.register(
     "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"],
     "View in folder" : "Afficher dans le dossier",
     "Copied!" : "Copié !",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copier lien direct (fonctionne seulement pour les utilisateurs qui ont accès a ce fichier/dossier)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copier le Lien direct (fonctionne uniquement pour les utilisateurs autorisés à accéder à ce fichier ou à ce dossier)",
     "Path" : "Chemin",
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
     "Favorited" : "Marqué comme favori",
@@ -137,7 +138,8 @@ OC.L10N.register(
     "Save" : "Enregistrer",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Avec PHP-FPM il peut se passer jusqu'à 5 minutes pour que les changements soient appliqués.",
     "Missing permissions to edit from here." : "Permissions insuffisantes pour modifier à partir d'ici.",
-    "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
+    "%s of %s used" : "%s de %s utilisé",
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilisés",
     "%s used" : "%s utilisé",
     "Settings" : "Paramètres",
     "Show hidden files" : "Afficher les fichiers cachés",
@@ -163,6 +165,6 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Target folder" : "Dossier cible",
-    "%s of %s used" : "%s de %s utilisé"
+    "%1$s of %2$s used" : "%1$s utilisés sur %2$s"
 },
 "nplurals=2; plural=(n > 1);");

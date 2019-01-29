@@ -130,7 +130,10 @@ class LoginController extends Controller {
 		}
 		$this->userSession->logout();
 
-		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
+			'core.login.showLoginForm',
+			['clear' => true] // this param the the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+		));
 		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 		return $response;
 	}
@@ -329,7 +332,14 @@ class LoginController extends Controller {
 		// TODO: remove password checks from above and let the user session handle failures
 		// requires https://github.com/owncloud/core/pull/24616
 		$this->userSession->completeLogin($loginResult, ['loginName' => $user, 'password' => $password]);
-		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, IToken::REMEMBER);
+
+		$tokenType = IToken::REMEMBER;
+		if ((int)$this->config->getSystemValue('remember_login_cookie_lifetime', 60*60*24*15) === 0) {
+			$remember_login = false;
+			$tokenType = IToken::DO_NOT_REMEMBER;
+		}
+
+		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, $tokenType);
 		$this->userSession->updateTokens($loginResult->getUID(), $password);
 
 		// User has successfully logged in, now remove the password reset link, when it is available

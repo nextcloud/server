@@ -24,6 +24,8 @@
 namespace Test\Repair;
 
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\Migration\IOutput;
 use OC\Repair\NC15\SetVcardDatabaseUID;
 use Test\TestCase;
 
@@ -38,11 +40,15 @@ class SetVcardDatabaseUIDTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 
+	/** @var Ilogger */
+	private $logger;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->repair = new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), $this->config);
+		$this->logger = $this->createMock(Ilogger::class);
+		$this->repair = new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), $this->config, $this->logger);
 	}
 
 	protected function tearDown() {
@@ -86,7 +92,8 @@ class SetVcardDatabaseUIDTest extends TestCase {
 	 * @param string|boolean $expected
 	 */
 	public function testExtractUIDFromVcard($from, $expected) {
-		$uid = $this->invokePrivate($this->repair, 'getUid', ['carddata' => $from]);
+		$output = $this->createMock(IOutput::class);
+		$uid = $this->invokePrivate($this->repair, 'getUid', ['carddata' => $from, 'output' => $output]);
 		$this->assertEquals($expected, $uid);
 	}
 

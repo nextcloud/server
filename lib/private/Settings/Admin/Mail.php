@@ -57,6 +57,7 @@ class Mail implements ISettings {
 			'mail_smtpauth'         => $this->config->getSystemValue('mail_smtpauth', false),
 			'mail_smtpname'         => $this->config->getSystemValue('mail_smtpname', ''),
 			'mail_smtppassword'     => $this->config->getSystemValue('mail_smtppassword', ''),
+			'mail_sendmailmode'     => $this->config->getSystemValue('mail_sendmailmode', 'smtp'),
 		];
 
 		if ($parameters['mail_smtppassword'] !== '') {
