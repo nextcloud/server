@@ -68,6 +68,35 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param int $id
+	 * @return ICollection
+	 * @throws CollectionException when the collection could not be found
+	 * @since 15.0.0
+	 */
+	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('collres_collections')
+			->where($query->expr()->iLike('name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
+			->setMaxResults($limit)
+			->setFirstResult($start);
+		$result = $query->execute();
+		$collections = [];
+		/** TODO: this is a huge performance bottleneck */
+		while ($row = $result->fetch()) {
+			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name']);
+			if ($collection->canAccess($user)) {
+				$collections[] = $collection;
+			}
+		}
+		$result->closeCursor();
+
+		// TODO: call with increased first result if no matches found
+
+		return $collections;
+	}
+
+	/**
 	 * @param string $name
 	 * @return ICollection
 	 * @since 15.0.0
@@ -198,5 +227,20 @@ class Manager implements IManager {
 		}
 
 		return '';
+	}
+
+	/**
+	 * @param string $name
+	 * @return ICollection
+	 * @since 15.0.0
+	 */
+	public function renameCollection(int $id, string $name): ICollection {
+		$query = $this->connection->getQueryBuilder();
+		$query->update('collres_collections')
+			->set('name', $query->createNamedParameter($name))
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$query->execute();
+
+		return new Collection($this, $this->connection, $id, $name);
 	}
 }

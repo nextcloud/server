@@ -88,6 +88,22 @@ class CollaborationResourcesController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param int $collectionId
+	 * @return DataResponse
+	 */
+	public function searchCollections(string $filter): DataResponse {
+		try {
+			$collections = $this->manager->searchCollections($this->userSession->getUser(), $filter);
+		} catch (CollectionException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		return new DataResponse(array_map([$this, 'prepareCollection'], $collections));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $collectionId
 	 * @param string $resourceType
 	 * @param string $resourceId
 	 * @return DataResponse
@@ -189,6 +205,31 @@ class CollaborationResourcesController extends OCSController {
 		return new DataResponse($this->prepareCollection($collection));
 	}
 
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $collectionId
+	 * @param string $collectionName
+	 * @return DataResponse
+	 */
+	public function renameCollection(int $collectionId, string $collectionName): DataResponse {
+		try {
+			$collection = $this->manager->getCollection($collectionId);
+			if (!$collection->canAccess($this->userSession->getUser())) {
+				throw new CollectionException('Not found');
+			}
+		} catch (CollectionException $exception) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$collection = $this->manager->renameCollection($collectionId, $collectionName);
+		} catch (CollectionException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse($this->prepareCollection($collection));
+	}
+
 	protected function prepareCollection(ICollection $collection): array {
 		return [
 			'id' => $collection->getId(),
@@ -206,7 +247,8 @@ class CollaborationResourcesController extends OCSController {
 			'type' => $resource->getType(),
 			'id' => $resource->getId(),
 			'name' => $resource->getName(),
-			'iconClass' => $resource->getIconClass()
+			'iconClass' => $resource->getIconClass(),
+			'link' => $resource->getLink(),
 		];
 	}
 }

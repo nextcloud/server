@@ -42,6 +42,14 @@ interface IManager extends IProvider {
 	 */
 	public function newCollection(string $name): ICollection;
 
+
+	/**
+	 * @param string $name
+	 * @return ICollection
+	 * @since 15.0.0
+	 */
+	public function renameCollection(int $id, string $name): ICollection;
+
 	/**
 	 * @param string $type
 	 * @param string $id
