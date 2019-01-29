@@ -85,16 +85,20 @@
 				'		<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
 				'	</span></li>' +
 				'{{/if}}' +
-				'	<li><span class="shareOption menuitem">' +
+				'<li>' +
+				'	<span class="shareOption menuitem">' +
 				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox"' +
 				'			{{#if isPasswordSet}}checked="checked"{{/if}} {{#if isPasswordEnforced}}disabled="disabled"{{/if}} value="1" />' +
 				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-				'	</span></li>' +
-				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
-				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
-				'    <input type="submit" class="icon-confirm share-pass-submit" value="" />' +
-				'    <span class="icon icon-loading-small hidden"></span>' +
-				'	</span></li>' +
+				'	</span>' +
+				'</li>' +
+				'<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu">' +
+				'	<span class="shareOption menuitem icon-share-pass">' +
+				'		<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
+				'		<input type="submit" class="icon-confirm share-pass-submit" value="" />' +
+				'		<span class="icon icon-loading-small hidden"></span>' +
+				'	</span>' +
+				'</li>' +
 				'<li>' +
 				'	<span class="shareOption menuitem">' +
 				'		<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"' +
