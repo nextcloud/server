@@ -845,7 +845,8 @@ OC.Uploader.prototype = _.extend({
 				type: 'PUT',
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
-				sequentialUploads: true,
+				sequentialUploads: false,
+				limitConcurrentUploads: 10,
 				//singleFileUploads is on by default, so the data.files array will always have length 1
 				/**
 				 * on first add of every selection
