@@ -50,7 +50,7 @@ class UserPluginManager {
 	}
 
 	/**
-	 * Registers a group plugin that may implement some actions, overriding User_LDAP's user actions.
+	 * Registers a user plugin that may implement some actions, overriding User_LDAP's user actions.
 	 *
 	 * @param ILDAPUserPlugin $plugin
 	 */
