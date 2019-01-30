@@ -516,7 +516,9 @@ OC.Uploader.prototype = _.extend({
 				self.filesClient.createDirectory(fullPath).always(function(status) {
 					// 405 is expected if the folder already exists
 					if ((status >= 200 && status < 300) || status === 405) {
-						self.trigger('createdfolder', fullPath);
+						if (status !== 405) {
+							self.trigger('createdfolder', fullPath);
+						}
 						deferred.resolve();
 						return;
 					}
