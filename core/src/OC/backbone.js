@@ -19,19 +19,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Apps from './apps'
-import AppConfig from './appconfig'
-import Backbone from './backbone'
-import ContactsMenu from './contactsmenu'
-import EventSource from './eventsource'
-import L10N from './l10n'
+import VendorBackbone from 'backbone';
+import {davCall, davSync} from './backbone-webdav';
 
-/** @namespace OC */
-export default {
-	Apps,
-	AppConfig,
-	Backbone,
-	ContactsMenu,
-	EventSource,
-	L10N,
-}
+const Backbone = VendorBackbone.noConflict();
+
+// Patch Backbone for DAV
+Object.assign(Backbone, {
+	davCall,
+	davSync: davSync(Backbone),
+});
+
+export default Backbone;
