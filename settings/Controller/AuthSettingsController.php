@@ -261,7 +261,7 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	private function findTokenByIdAndUser(int $id): IToken {
-		$token = $this->tokenProvider->getTokenById((string)$id);
+		$token = $this->tokenProvider->getTokenById($id);
 		if ($token->getUID() !== $this->uid) {
 			throw new InvalidTokenException('This token does not belong to you!');
 		}
