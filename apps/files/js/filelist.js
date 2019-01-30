@@ -299,7 +299,13 @@
 			this.fileSummary = this._createSummary();
 
 			if (options.multiSelectMenu) {
-				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(options.multiSelectMenu);
+				this.multiSelectMenuItems = options.multiSelectMenu;
+				for (var i=0; i<this.multiSelectMenuItems.length; i++) {
+					if (_.isFunction(this.multiSelectMenuItems[i])) {
+						this.multiSelectMenuItems[i] = this.multiSelectMenuItems[i](this);
+					}
+				}
+				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems);
 				this.fileMultiSelectMenu.render();
 				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 			}
@@ -363,6 +369,7 @@
 			});
 
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -418,7 +425,23 @@
 			$('#app-content').off('appresized', this._onResize);
 		},
 
+		_selectionMode: 'single',
+		_getCurrentSelectionMode: function () {
+			return this._selectionMode;
+		},
+		_onClickToggleSelectionMode: function () {
+			this._selectionMode = (this._selectionMode === 'range') ? 'single' : 'range';
+			if (this._selectionMode === 'single') {
+				this._removeHalfSelection();
+			}
+		},
+
 		multiSelectMenuClick: function (ev, action) {
+				var actionFunction = _.find(this.multiSelectMenuItems, function (item) {return item.name === action;}).action;
+				if (actionFunction) {
+					actionFunction(ev);
+					return;
+				}
 				switch (action) {
 					case 'delete':
 						this._onClickDeleteSelected(ev)
@@ -685,7 +708,7 @@
 		 * @param {Object} $tr single file row element
 		 * @param {bool} state true to select, false to deselect
 		 */
-		_selectFileEl: function($tr, state, showDetailsView) {
+		_selectFileEl: function($tr, state) {
 			var $checkbox = $tr.find('td.selection>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
@@ -711,6 +734,73 @@
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
 
+		_selectRange: function($tr) {
+			var checked = $tr.hasClass('selected');
+			var $lastTr = $(this._lastChecked);
+			var lastIndex = $lastTr.index();
+			var currentIndex = $tr.index();
+			var $rows = this.$fileList.children('tr');
+
+			// last clicked checkbox below current one ?
+			if (lastIndex > currentIndex) {
+				var aux = lastIndex;
+				lastIndex = currentIndex;
+				currentIndex = aux;
+			}
+
+			// auto-select everything in-between
+			for (var i = lastIndex; i <= currentIndex; i++) {
+				this._selectFileEl($rows.eq(i), !checked);
+			}
+			this._removeHalfSelection();
+			this._selectionMode = 'single';
+		},
+
+		_selectSingle: function($tr) {
+			var state = !$tr.hasClass('selected');
+			this._selectFileEl($tr, state);
+		},
+
+		_onMouseOverCheckbox: function(e) {
+			if (this._getCurrentSelectionMode() !== 'range') {
+				return;
+			}
+			var $currentTr = $(e.target).closest('tr');
+
+			var $lastTr = $(this._lastChecked);
+			var lastIndex = $lastTr.index();
+			var currentIndex = $currentTr.index();
+			var $rows = this.$fileList.children('tr');
+
+			// last clicked checkbox below current one ?
+			if (lastIndex > currentIndex) {
+				var aux = lastIndex;
+				lastIndex = currentIndex;
+				currentIndex = aux;
+			}
+
+			// auto-select everything in-between
+			this._removeHalfSelection();
+			for (var i = 0; i <= $rows.length; i++) {
+				var $tr = $rows.eq(i);
+				var $checkbox = $tr.find('td.selection>.selectCheckBox');
+				if(lastIndex <= i && i <= currentIndex) {
+					$tr.addClass('halfselected');
+					$checkbox.prop('checked', true);
+				}
+			}
+		},
+
+		_removeHalfSelection: function() {
+			var $rows = this.$fileList.children('tr');
+			for (var i = 0; i <= $rows.length; i++) {
+				var $tr = $rows.eq(i);
+				$tr.removeClass('halfselected');
+				var $checkbox = $tr.find('td.selection>.selectCheckBox');
+				$checkbox.prop('checked', !!this._selectedFiles[$tr.data('id')]);
+			}
+		},
+
 		/**
 		 * Event handler for when clicking on files to select them
 		 */
@@ -722,28 +812,11 @@
 			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
 				event.preventDefault();
 				if (event.shiftKey) {
-					var $lastTr = $(this._lastChecked);
-					var lastIndex = $lastTr.index();
-					var currentIndex = $tr.index();
-					var $rows = this.$fileList.children('tr');
-
-					// last clicked checkbox below current one ?
-					if (lastIndex > currentIndex) {
-						var aux = lastIndex;
-						lastIndex = currentIndex;
-						currentIndex = aux;
-					}
-
-					// auto-select everything in-between
-					for (var i = lastIndex + 1; i < currentIndex; i++) {
-						this._selectFileEl($rows.eq(i), true);
-					}
+					this._selectRange($tr);
+				} else {
+					this._selectSingle($tr);
 				}
-				else {
-					this._lastChecked = $tr;
-				}
-				var $checkbox = $tr.find('td.selection>.selectCheckBox');
-				this._selectFileEl($tr, !$checkbox.prop('checked'));
+				this._lastChecked = $tr;
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
@@ -802,8 +875,11 @@
 		 */
 		_onClickFileCheckbox: function(e) {
 			var $tr = $(e.target).closest('tr');
-			var state = !$tr.hasClass('selected');
-			this._selectFileEl($tr, state);
+			if(this._getCurrentSelectionMode() === 'range') {
+				this._selectRange($tr);
+			} else {
+				this._selectSingle($tr);
+			}
 			this._lastChecked = $tr;
 			this.updateSelectionSummary();
 			if (this._detailsView && !this._detailsView.$el.hasClass('disappear')) {
@@ -3539,6 +3615,21 @@
 			return null;
 		}
 	};
+
+	FileList.MultiSelectMenuActions = {
+		ToggleSelectionModeAction: function(fileList) {
+			return {
+				name: 'toggleSelectionMode',
+				displayName: function(context) {
+					return t('files', 'Select file range');
+				},
+				iconClass: 'icon-fullscreen',
+				action: function() {
+					fileList._onClickToggleSelectionMode();
+				},
+			};
+		},
+	},
 
 	/**
 	 * Sort comparators.
