@@ -144,6 +144,7 @@ use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
@@ -1203,6 +1204,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
+
+		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
 		$this->connectDispatcher();
 	}

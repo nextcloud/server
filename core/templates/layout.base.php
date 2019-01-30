@@ -18,6 +18,9 @@
 	</head>
 	<body id="body-public" class="layout-base">
 		<?php include 'layout.noscript.warning.php'; ?>
+		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
+			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
+		<?php }?>
 		<div id="content" class="app-public" role="main">
 			<?php print_unescaped($_['content']); ?>
 		</div>
