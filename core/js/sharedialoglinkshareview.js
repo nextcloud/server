@@ -85,18 +85,20 @@
 				'		<label for="sharingDialogAllowPublicEditing-{{cid}}">{{publicEditingLabel}}</label>' +
 				'	</span></li>' +
 				'{{/if}}' +
-				'{{#if showPasswordCheckBox}}' +
-				'	<li><span class="shareOption menuitem">' +
+				'<li>' +
+				'	<span class="shareOption menuitem">' +
 				'		<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox"' +
 				'			{{#if isPasswordSet}}checked="checked"{{/if}} {{#if isPasswordEnforced}}disabled="disabled"{{/if}} value="1" />' +
 				'		<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-				'	</span></li>' +
-				'	<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu"><span class="shareOption menuitem icon-share-pass">' +
-				'    	<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
-				'    <input type="submit" class="icon-confirm share-pass-submit" value="" />' +
-				'    <span class="icon icon-loading-small hidden"></span>' +
-				'	</span></li>' +
-				'{{/if}}' +
+				'	</span>' +
+				'</li>' +
+				'<li class="{{#unless isPasswordSet}}hidden{{/unless}} linkPassMenu">' +
+				'	<span class="shareOption menuitem icon-share-pass">' +
+				'		<input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" autocomplete="new-password" />' +
+				'		<input type="submit" class="icon-confirm share-pass-submit" value="" />' +
+				'		<span class="icon icon-loading-small hidden"></span>' +
+				'	</span>' +
+				'</li>' +
 				'<li>' +
 				'	<span class="shareOption menuitem">' +
 				'		<input id="expireDate-{{cid}}" type="checkbox" name="expirationDate" class="expireDate checkbox"' +
@@ -536,9 +538,6 @@
 			var isPasswordSet = !!this.model.get('linkShare').password;
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink')
 			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true
-			var showPasswordCheckBox = isLinkShare
-				&& (   !this.configModel.get('enforcePasswordForPublicLink')
-					|| !this.model.get('linkShare').password);
 			var passwordPlaceholderInitial = this.configModel.get('enforcePasswordForPublicLink')
 				? PASSWORD_PLACEHOLDER_MESSAGE : PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL;
 
@@ -610,7 +609,6 @@
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
 				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault || isPasswordEnforced,
-				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
 				publicEditing: publicEditable,
 				publicEditingChecked: publicEditingChecked,
@@ -644,7 +642,6 @@
 				passwordLabel: t('core', 'Password'),
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordPlaceholderInitial: passwordPlaceholderInitial,
-				showPasswordCheckBox: showPasswordCheckBox,
 				isPasswordEnforced: isPasswordEnforced,
 			});
 
