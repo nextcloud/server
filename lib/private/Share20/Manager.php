@@ -692,15 +692,15 @@ class Manager implements IManager {
 							$emailAddress,
 							$share->getExpirationDate()
 						);
-						$this->logger->debug('Send share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
+						$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
 					} else {
-						$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+						$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
 					}
 				} else {
-					$this->logger->debug('Share notification not send to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
 				}
 			} else {
-				$this->logger->debug('Share notification not send because mailsend is false.', ['app' => 'share']);
+				$this->logger->debug('Share notification not sent because mailsend is false.', ['app' => 'share']);
 			}
 		}
 
@@ -708,13 +708,16 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Send mail notifications
+	 *
+	 * This method will catch and log mail transmission errors
+	 *
 	 * @param IL10N $l Language of the recipient
 	 * @param string $filename file/folder name
 	 * @param string $link link to the file/folder
 	 * @param string $initiator user ID of share sender
 	 * @param string $shareWith email address of share receiver
 	 * @param \DateTime|null $expiration
-	 * @return bool
 	 */
 	protected function sendMailNotification(IL10N $l,
 											$filename,
@@ -777,14 +780,11 @@ class Manager implements IManager {
 			$failedRecipients = $this->mailer->send($message);
 			if(!empty($failedRecipients)) {
 				$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
-				return false;
+				return;
 			}
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['message' => 'Share notification mail could not be sent']);
-			return false;
 		}
-
-		return true;
 	}
 
 	/**
