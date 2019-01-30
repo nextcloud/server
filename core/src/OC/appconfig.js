@@ -20,6 +20,8 @@
 
 import OCP from '../OCP/index';
 
+import {getValue, setValue, getApps, getKeys, deleteKey} from '../OCP/appconfig'
+
 /**
  * @namespace
  * @deprecated 16.0.0 Use OCP.AppConfig instead
@@ -28,8 +30,8 @@ const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getValue() instead
 	 */
-	getValue:function(app,key,defaultValue,callback){
-		OCP.AppConfig.getValue(app, key, defaultValue, {
+	getValue: function (app, key, defaultValue, callback) {
+		getValue(app, key, defaultValue, {
 			success: callback
 		});
 	},
@@ -37,15 +39,15 @@ const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.setValue() instead
 	 */
-	setValue:function(app,key,value){
-		OCP.AppConfig.setValue(app, key, value);
+	setValue: function (app, key, value) {
+		setValue(app, key, value);
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.getApps() instead
 	 */
-	getApps:function(callback){
-		OCP.AppConfig.getApps({
+	getApps: function (callback) {
+		getApps({
 			success: callback
 		});
 	},
@@ -53,8 +55,8 @@ const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getKeys() instead
 	 */
-	getKeys:function(app,callback){
-		OCP.AppConfig.getKeys(app, {
+	getKeys: function (app, callback) {
+		getKeys(app, {
 			success: callback
 		});
 	},
@@ -62,8 +64,8 @@ const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.deleteKey() instead
 	 */
-	deleteKey:function(app,key){
-		OCP.AppConfig.deleteKey(app, key);
+	deleteKey: function (app, key) {
+		deleteKey(app, key);
 	}
 
 };

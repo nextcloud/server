@@ -1,9 +1,6 @@
 [
   "oc-dialogs.js",
   "js.js",
-  "public/appconfig.js",
-  "public/comments.js",
-  "public/whatsnew.js",
   "oc-requesttoken.js",
   "mimetype.js",
   "mimetypelist.js",
