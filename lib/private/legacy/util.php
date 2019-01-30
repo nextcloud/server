@@ -1334,19 +1334,11 @@ class OC_Util {
 	 * @param string $path the path of the file to clear from the cache
 	 * @return bool true if underlying function returns true, otherwise false
 	 */
-	public static function deleteFromOpcodeCache($path) {
-		$ret = false;
-		if ($path) {
-			// APC >= 3.1.1
-			if (function_exists('apc_delete_file')) {
-				$ret = @apc_delete_file($path);
-			}
-			// Zend OpCache >= 7.0.0, PHP >= 5.5.0
-			if (function_exists('opcache_invalidate')) {
-				$ret = @opcache_invalidate($path);
-			}
+	public static function deleteFromOpcodeCache($path): bool {
+		if (!empty($path) && function_exists('opcache_invalidate')) {
+			return @opcache_invalidate($path); // Zend OpCache >= 7.0.0, PHP >= 5.5.0
 		}
-		return $ret;
+		return false;
 	}
 
 	/**
@@ -1355,21 +1347,10 @@ class OC_Util {
 	 * in case the opcode cache does not re-validate files
 	 *
 	 * @return void
-	 * @suppress PhanDeprecatedFunction
-	 * @suppress PhanUndeclaredConstant
 	 */
-	public static function clearOpcodeCache() {
-		// APC
-		if (function_exists('apc_clear_cache')) {
-			apc_clear_cache();
-		}
-		// Zend Opcache
-		if (function_exists('accelerator_reset')) {
-			accelerator_reset();
-		}
-		// Opcache (PHP >= 5.5)
+	public static function clearOpcodeCache(): void {
 		if (function_exists('opcache_reset')) {
-			@opcache_reset();
+			@opcache_reset(); // Opcache (PHP >= 5.5)
 		}
 	}
 
