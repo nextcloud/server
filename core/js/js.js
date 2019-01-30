@@ -1457,14 +1457,18 @@ function initCore() {
 		$toggle.attr('href', '#');
 		$navigation.hide();
 
-		// show loading feedback
+		// show loading feedback on more apps list
 		$navigation.delegate('a', 'click', function(event) {
 			var $app = $(event.target);
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
-				$app.addClass('app-loading');
+				$app.find('svg').remove();
+				$app.find('div').remove(); // prevent odd double-clicks
+				// no need for theming, loader is already inverted on dark mode
+				// but we need it over the primary colour
+				$app.prepend($('<div/>').addClass('icon-loading-small'));
 			} else {
 				// Close navigation when opening app in
 				// a new tab
@@ -1480,13 +1484,20 @@ function initCore() {
 			}
 		});
 
-		$appmenu.delegate('a', 'click', function(event) {
+		// show loading feedback on visible apps list
+		$appmenu.delegate('li:not(#more-apps) > a', 'click', function(event) {
 			var $app = $(event.target);
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			if(event.which === 1 && !event.ctrlKey && !event.metaKey) {
-				$app.addClass('app-loading');
+			if(event.which === 1 && !event.ctrlKey && !event.metaKey && $app.parent('#more-apps').length === 0) {
+				$app.find('svg').remove();
+				$app.find('div').remove(); // prevent odd double-clicks
+				$app.prepend($('<div/>').addClass(
+					OCA.Theming && OCA.Theming.inverted
+						? 'icon-loading-small'
+						: 'icon-loading-small-dark'
+				));
 			} else {
 				// Close navigation when opening app in
 				// a new tab

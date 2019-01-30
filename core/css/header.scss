@@ -77,6 +77,8 @@
 
 #header {
 	/* Header menu */
+	$header-menu-entry-height: 44px;
+
 	.header-left > nav > .menu,
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
@@ -86,10 +88,11 @@
 		z-index: 2000;
 		position: absolute;
 		max-width: 350px;
-		max-height: 280px;
-		right: 5px;
+		max-height: $header-menu-entry-height * 7.5; // half entry
+		right: 5px; // relative to parent
 		top: $header-height;
 		margin: 0;
+		-webkit-overflow-scrolling: touch;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -106,6 +109,51 @@
 			position: absolute;
 			pointer-events: none;
 			right: 10px;
+		}
+
+		/* Use by the apps menu and the settings right menu */
+		ul {
+			li {
+				a {
+					display: inline-flex;
+					align-items: center;
+					height: $header-menu-entry-height;
+					color: var(--color-main-text);
+					padding: 10px 12px;
+					box-sizing: border-box;
+					opacity: .7;
+					white-space: nowrap;
+					position: relative;
+					width: 100%;
+					&:hover,
+					&:focus,
+					&:active,
+					&.active {
+						opacity: 1;
+						box-shadow: inset 4px 0 var(--color-primary);
+					}
+					span {
+						display: inline-block;
+						padding-bottom: 0;
+						color: var(--color-main-text);
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						max-width: 110px;
+					}
+					.icon-loading-small {
+						margin-right: 10px;
+						background-size: 16px 16px;
+					}
+					img,
+					svg {
+						opacity: .7;
+						margin-right: 10px;
+						height: 16px;
+						width: 16px;
+					}
+				}
+			}
 		}
 	}
 	.logo {
@@ -265,81 +313,16 @@ nav[role='navigation'] {
 
 #navigation {
 	box-sizing: border-box;
-	* {
-		box-sizing: border-box;
+	.in-header {
+		display: none;
 	}
-	li {
-		display: inline-block;
-	}
-	a {
-		position: relative;
-		width: 100%;
-		display: inline-flex;
-		padding: 10px 12px;
-		height: 40px;
-		align-items: center;
-		span {
-			display: inline-block;
-			padding-bottom: 0;
-			padding-left: 10px;
-			color: var(--color-main-text);
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			max-width: 110px;
-		}
-		svg,
-		span {
-			opacity: .7;
-		}
-		&:hover svg,
-		&:focus svg,
-		&:hover span,
-		&:focus span {
-			opacity: 1;
-		}
-		&.active {
-			svg, span {
-				opacity: 1;
-			}
-		}
-	}
-	.app-icon {
-		margin: 0 auto;
-		padding: 0;
-		max-height: 32px;
-		max-width: 32px;
-	}
-
-	/* loading feedback for apps */
-	.app-loading {
-		.icon-loading-small {
-			display: inline !important;
-			position: absolute;
-			left: 12px;
-			width: 16px;
-			height: 16px;
-		}
-		.app-icon {
-			opacity: 0;
-		}
-	}
-
 }
 
-/* Apps management */
 #apps {
 	max-height: inherit;
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
-	.in-header {
-		display: none;
-	}
-	ul {
-		display: flex;
-		flex-direction: column;
-	}
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -418,37 +401,6 @@ nav[role='navigation'] {
 
 	#expanddiv:after {
 		right: 22px;
-	}
-}
-
-/* Settings menu */
-#expanddiv {
-	a {
-		display: inline-flex;
-		align-items: center;
-		height: 40px;
-		color: var(--color-main-text);
-		padding: 12px;
-		box-sizing: border-box;
-		opacity: .7;
-		white-space: nowrap;
-
-		.icon-loading-small {
-			margin-right: 9px;
-			background-size: 16px 16px;
-		}
-		img {
-			margin-right: 9px;
-			height: 16px;
-			width: 16px;
-		}
-		&:hover,
-		&:focus,
-		&:active,
-		&.active {
-			opacity: 1;
-			box-shadow: inset 4px 0 var(--color-primary);
-		}
 	}
 }
 
@@ -531,18 +483,6 @@ nav[role='navigation'] {
 			transition: border var(--animation-quick) ease;
 		}
 	}
-
-	.app-loading {
-		> svg {
-			display: none;
-		}
-		.icon-loading-small-dark {
-			width: 20px;
-			height: 20px;
-			display: block !important;
-		}
-	}
-
 
 	/* Show all app titles on hovering app menu area */
 	&:hover {
