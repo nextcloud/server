@@ -444,7 +444,7 @@ OC.L10N.register(
     "Hardening and security guidance" : "Guia de protecció i seguretat",
     "You are using <strong>%s</strong> of <strong>%s</strong>" : "Estàs fent servir <strong>%s</strong> de <strong>%s</strong>",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Estàs fent servir <strong>%s</strong> de <strong>%s</strong> (<strong>%s %%</strong>)",
-    "Settings" : "Preferències",
+    "Settings" : "Paràmetres",
     "Show storage location" : "Mostra la ubicació del magatzem",
     "Show email address" : "Mostrar l'adreça de correu electrònic",
     "Send email to new user" : "Enviar correu electrònic al nou usuari",

@@ -63,6 +63,7 @@
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "无法检测到用户的显示名称属性。请在高级 LDAP 设置中指定。",
     "Could not find the desired feature" : "无法找到所需的功能",
     "Invalid Host" : "无效的主机",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "这个应用能够让管理员们将一个基于LDAP的用户目录与Nextcloud连接起来",
     "Test Configuration" : "测试配置",
     "Help" : "帮助",
     "Groups meeting these criteria are available in %s:" : "满足这些条件组在%s可供选择：",

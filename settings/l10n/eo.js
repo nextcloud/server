@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Lokaĵaro",
     "Current password" : "Nuna pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
+    "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
     "Devices & sessions" : "Aparatoj kaj seancoj",
     "Web, desktop and mobile clients currently logged in to your account." : "Reta, surtabla kaj portebla klientoj nun konektitaj al via konto.",
     "Device" : "Aparato",

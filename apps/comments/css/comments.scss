@@ -65,7 +65,7 @@
 #commentsTabView .comment {
 	position: relative;
 	/** padding bottom is little more so that the top and bottom gap look uniform **/
-	padding: 10px 0px 15px;
+	padding: 10px 0 15px;
 }
 
 #commentsTabView .comments .comment {
@@ -112,11 +112,11 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: -moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
-	background: -webkit-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
-	background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
-	background: -ms-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
-	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	background: -moz-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));
+	background: -webkit-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));
+	background: -o-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));
+	background: -ms-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));
+	background: linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));
 	background-repeat: no-repeat;
 }
 

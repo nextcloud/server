@@ -22,6 +22,7 @@
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Storage;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -29,18 +30,30 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class LegacyVersionsBackend implements IVersionBackend {
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var IUserManager */
+	private $userManager;
 
-	public function __construct(IRootFolder $rootFolder) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
 	}
 
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
+		$storage = $file->getStorage();
+		if ($storage->instanceOfStorage(SharedStorage::class)) {
+			$owner = $storage->getOwner('');
+			$user = $this->userManager->get($owner);
+		}
+
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$versions = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file->getPath()));
+		$nodes = $userFolder->getById($file->getId());
+		$file2 = array_pop($nodes);
+		$versions = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file2->getPath()));
 
 		return array_map(function (array $data) use ($file, $user) {
 			return new Version(

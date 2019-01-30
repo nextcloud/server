@@ -23,6 +23,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\User\Backend;
+use OC\User\NoUserException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
@@ -79,7 +80,9 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @return array
+	 * @throws NotFoundException
 	 * @throws OCSException
+	 * @throws OCSNotFoundException
 	 */
 	protected function getUserData(string $userId): array {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -111,9 +114,17 @@ abstract class AUserData extends OCSController {
 			$gids[] = $group->getGID();
 		}
 
+		try {
+			# might be thrown by LDAP due to handling of users disappears
+			# from the external source (reasons unknown to us)
+			# cf. https://github.com/nextcloud/server/issues/12991
+			$data['storageLocation'] = $targetUserObject->getHome();
+		} catch (NoUserException $e) {
+			throw new OCSNotFoundException($e->getMessage(), $e);
+		}
+
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
-		$data['storageLocation'] = $targetUserObject->getHome();
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
