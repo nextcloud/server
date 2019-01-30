@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,25 +15,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'accessibility#getCss', 'url' => '/css/user-{md5}', 'verb' => 'GET'],
-		['name' => 'accessibility#getJavascript', 'url' => '/js/accessibility', 'verb' => 'GET'],
-    ],
-    'ocs' => [
-		[
-			'name' => 'Config#getConfig',
-			'url'  => '/api/v1/config',
-			'verb' => 'GET',
-        ],
-		[
-			'name' => 'Config#setConfig',
-			'url'  => '/api/v1/config/{key}',
-			'verb' => 'POST',
-		],
-    ]
-];
+namespace OC\Files\ObjectStore;
+
+
+use OpenStack\Identity\v2\Service;
+
+class SwiftV2CachingAuthService extends Service {
+	public function authenticate(array $options = []): array {
+		if (!empty($options['v2cachedToken'])) {
+			return [$options['v2cachedToken'], $options['v2serviceUrl']];
+		} else {
+			return parent::authenticate($options);
+		}
+	}
+}

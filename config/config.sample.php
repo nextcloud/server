@@ -225,8 +225,8 @@ $CONFIG = array(
 'allow_user_to_change_display_name' => true,
 
 /**
- * Lifetime of the remember login cookie, which is set when the user clicks
- * the ``remember`` checkbox on the login screen.
+ * Lifetime of the remember login cookie. This should be larger than the
+ * session_lifetime. If it is set to 0 remember me is disabled.
  *
  * Defaults to ``60*60*24*15`` seconds (15 days)
  */

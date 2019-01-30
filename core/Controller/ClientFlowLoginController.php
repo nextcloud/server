@@ -138,7 +138,7 @@ class ClientFlowLoginController extends Controller {
 			$this->appName,
 			'403',
 			[
-				'file' => $this->l10n->t('State token does not match'),
+				'message' => $this->l10n->t('State token does not match'),
 			],
 			'guest'
 		);
