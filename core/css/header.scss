@@ -318,6 +318,13 @@ nav[role='navigation'] {
 	}
 }
 
+#apps {
+	max-height: inherit;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
 /* USER MENU -----------------------------------------------------------------*/
 #settings {
 	display: inline-block;
