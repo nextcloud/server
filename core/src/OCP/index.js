@@ -3,7 +3,7 @@
  */
 import * as AppConfig from './appconfig'
 import * as Comments from './comments'
-import initialState from './initialstate'
+import * as InitialState from './initialstate'
 import Loader from './loader'
 import * as WhatsNew from './whatsnew'
 
@@ -11,7 +11,7 @@ import * as WhatsNew from './whatsnew'
 export default {
 	AppConfig,
 	Comments,
-	InitialState: initialState,
+	InitialState,
 	Loader,
 	WhatsNew,
 };

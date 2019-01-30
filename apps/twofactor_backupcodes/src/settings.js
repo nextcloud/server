@@ -4,7 +4,7 @@ import store from './store';
 
 Vue.prototype.t = t;
 
-const initialState = OCP.InitialState.loadState('twofactor_backupcodes');
+const initialState = OCP.InitialState.loadState('twofactor_backupcodes', 'state');
 store.replaceState(
 	initialState
 )

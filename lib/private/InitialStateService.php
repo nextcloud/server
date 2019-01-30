@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OC;
 
+use Closure;
 use OCP\IInitialStateService;
 use OCP\ILogger;
 
@@ -32,43 +33,58 @@ class InitialStateService implements IInitialStateService {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var array */
+	/** @var string[][] */
 	private $states = [];
 
-	/** @var array */
+	/** @var Closure[][] */
 	private $lazyStates = [];
 
 	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
 	}
 
-	public function provideInitialState(string $appName, $data) {
+	public function provideInitialState(string $appName, string $key, $data): void {
 		// Scalars and JsonSerializable are fine
 		if (is_scalar($data) || $data instanceof \JsonSerializable || is_array($data)) {
-			$this->states[$appName] = json_encode($data);
+			if (!isset($this->states[$appName])) {
+				$this->states[$appName] = [];
+			}
+			$this->states[$appName][$key] = json_encode($data);
 			return;
 		}
 
 		$this->logger->warning('Invalid data provided to provideInitialState by ' . $appName);
 	}
 
-	public function provideLazyInitialState(string $appName, \Closure $closure) {
-		$this->lazyStates[$appName] = $closure;
+	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
+		if (!isset($this->lazyStates[$appName])) {
+			$this->lazyStates[$appName] = [];
+		}
+		$this->lazyStates[$appName][$key] = $closure;
+	}
+
+	/**
+	 * Invoke all callbacks to populate the `states` property
+	 */
+	private function invokeLazyStateCallbacks(): void {
+		foreach ($this->lazyStates as $app => $lazyStates) {
+			foreach ($lazyStates as $key => $lazyState) {
+				$this->provideInitialState($app, $key, $lazyState());
+			}
+		}
+		$this->lazyStates = [];
 	}
 
 	public function getInitialStates(): array {
-		$states = $this->states;
-		foreach ($this->lazyStates as $app => $lazyState) {
-			$state = $lazyState();
+		$this->invokeLazyStateCallbacks();
 
-			if (!($lazyState instanceof \JsonSerializable)) {
-				$this->logger->warning($app . ' provided an invalid lazy state');
+		$appStates = [];
+		foreach ($this->states as $app => $states) {
+			foreach ($states as $key => $value) {
+				$appStates["$app-$key"] = $value;
 			}
-
-			$states[$app] = json_encode($state);
 		}
-
-		return $states;
+		return $appStates;
 	}
 
 }

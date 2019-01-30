@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace OCP;
 
+use Closure;
+
 /**
  * @since 16.0.0
  */
@@ -36,9 +38,10 @@ interface IInitialStateService {
 	 * @since 16.0.0
 	 *
 	 * @param string $appName
+	 * @param string $key
 	 * @param bool|int|float|string|array|\JsonSerializable $data
 	 */
-	public function provideInitialState(string $appName, $data);
+	public function provideInitialState(string $appName, string $key, $data): void;
 
 	/**
 	 * Allows an app to provide its initial state via a lazy method.
@@ -50,7 +53,8 @@ interface IInitialStateService {
 	 * @since 16.0.0
 	 *
 	 * @param string $appName
-	 * @param \Closure $closure Has to return an object that implements JsonSerializable
+	 * @param string $key
+	 * @param Closure $closure returns a primitive or an object that implements JsonSerializable
 	 */
-	public function provideLazyInitialState(string $appName, \Closure $closure);
+	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void;
 }

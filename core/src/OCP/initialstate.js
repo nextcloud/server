@@ -21,22 +21,20 @@
  */
 
 /**
- * @namespace OCP
- * @class InitialState
+ * @namespace OCP.InitialState
  */
-export default {
-	loadState: function(app) {
-		const elem = document.querySelector('#initial-state-' + app);
-		if (elem === null) {
-			console.error('Could not find initial state of ' + app);
-			throw new Error('Could not find initial state of ' + app);
-		}
 
-		try {
-			return JSON.parse(atob(elem.value));
-		} catch (e) {
-			console.error('Could not parse initial state of ' + app);
-			throw new Error('Could not parse initial state of ' + app);
-		}
-	},
+export function loadState (app, key) {
+	const elem = document.querySelector(`#initial-state-${app}-${key}`);
+	if (elem === null) {
+		console.error('Could not find initial state of ' + app);
+		throw new Error('Could not find initial state of ' + app);
+	}
+
+	try {
+		return JSON.parse(atob(elem.value));
+	} catch (e) {
+		console.error('Could not parse initial state of ' + app);
+		throw new Error('Could not parse initial state of ' + app);
+	}
 }
