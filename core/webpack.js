@@ -4,7 +4,8 @@ const webpack = require('webpack');
 module.exports = [
 	{
 		entry: {
-			main: path.join(__dirname, 'src/main.js'),
+			login: path.join(__dirname, 'src/login.js'),
+			main: path.join(__dirname, 'src/main.js')
 		},
 		output: {
 			filename: '[name].js',
