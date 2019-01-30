@@ -7,6 +7,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Sulzer <jonas@violoncello.ch>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@pontapreta.net>
  * @author Morris Jobke <hey@morrisjobke.de>
