@@ -21,6 +21,7 @@
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LostController;
 use OC\Mail\Message;
 use OCP\AppFramework\Http\JSONResponse;
@@ -74,6 +75,8 @@ class LostControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
 	private $crypto;
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	private $twofactorManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -124,6 +127,7 @@ class LostControllerTest extends \Test\TestCase {
 			->method('isEnabled')
 			->willReturn(true);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->twofactorManager = $this->createMock(Manager::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -137,7 +141,8 @@ class LostControllerTest extends \Test\TestCase {
 			$this->encryptionManager,
 			$this->mailer,
 			$this->timeFactory,
-			$this->crypto
+			$this->crypto,
+			$this->twofactorManager
 		);
 	}
 
