@@ -854,7 +854,6 @@
 			var isPasswordSet = !!share.password;
 			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
-			var showPasswordCheckBox = !isPasswordEnforced || !share.password;
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 			var defaultExpireDays = this.configModel.get('defaultExpireDate');
 			var hasExpireDate = !!share.expiration || isExpirationEnforced;
@@ -891,7 +890,6 @@
 				shareLinkURL: share.url,
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault || isPasswordEnforced,
-				showPasswordCheckBox: showPasswordCheckBox,
 				showPasswordByTalkCheckBox: isTalkEnabled && isPasswordSet,
 				passwordByTalkLabel: t('core', 'Password protect by Talk'),
 				isPasswordByTalkSet: sendPasswordByTalk,
