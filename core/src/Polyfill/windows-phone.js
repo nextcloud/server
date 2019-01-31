@@ -1,7 +1,7 @@
 /*
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import '@babel/polyfill'
-import './Polyfill/index'
-
-import './globals'
-import $ from 'jquery'
-import './jquery/index'
-import {registerAppsSlideToggle} from './OC/apps'
-
-$(document).ready(function () {
-	registerAppsSlideToggle();
-});
+// fix device width on windows phone
+if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+	const msViewportStyle = document.createElement("style");
+	msViewportStyle.appendChild(
+		document.createTextNode("@-ms-viewport{width:auto!important}")
+	);
+	document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+}

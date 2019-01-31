@@ -18,16 +18,6 @@ if (typeof oc_webroot === "undefined") {
 		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
 	}
 }
-if (typeof console === "undefined" || typeof console.log === "undefined") {
-	if (!window.console) {
-		window.console = {};
-	}
-	var noOp = function() { };
-	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd'];
-	for (var i = 0; i < methods.length; i++) {
-		console[methods[i]] = noOp;
-	}
-}
 
 /** @namespace OCP */
 var OCP = Object.assign({}, window.OCP);
@@ -2308,14 +2298,3 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
-
-// fix device width on windows phone
-(function() {
-	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-		var msViewportStyle = document.createElement("style");
-		msViewportStyle.appendChild(
-			document.createTextNode("@-ms-viewport{width:auto!important}")
-		);
-		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-	}
-})();
