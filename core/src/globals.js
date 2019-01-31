@@ -52,6 +52,7 @@ import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
 import escapeHTML from './Util/escapeHTML'
+import humanFileSize from './Util/human-file-size'
 
 window['_'] = _
 window['$'] = $
@@ -74,6 +75,7 @@ window['OC'] = OC
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = escapeHTML
+window['humanFileSize'] = humanFileSize
 
 /**
  * translate a string

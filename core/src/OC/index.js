@@ -30,6 +30,7 @@ import Notification from './notification'
 import PasswordConfirmation from './password-confirmation'
 import Plugins from './plugins'
 import search from './search'
+import Util from './util'
 
 /** @namespace OC */
 export default {
@@ -44,4 +45,5 @@ export default {
 	PasswordConfirmation,
 	Plugins,
 	search,
+	Util,
 }
