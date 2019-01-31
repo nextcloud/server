@@ -66,9 +66,6 @@
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
 			var trashElement=$(".nav-trashbin");
-
-			//this div is required to prefetch the icon, otherwise it takes a second to show up
-			trashElement.append("<div class='nav-icon-trashbin-starred'></div>")
 			trashElement.droppable({
 				over: function( event, ui ) {
 					trashElement.addClass('dropzone-background')
