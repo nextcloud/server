@@ -23,14 +23,12 @@
 
 namespace OCA\DAV\Provisioning\Apple;
 
-use OCA\Theming\ThemingDefaults;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\UUIDUtil;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -52,7 +50,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $userSession;
 
 	/**
-	 * @var ThemingDefaults
+	 * @var \OC_Defaults
 	 */
 	protected $themingDefaults;
 
@@ -76,13 +74,13 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	 *
 	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
-	 * @param ThemingDefaults $themingDefaults
+	 * @param \OC_Defaults $themingDefaults
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param \closure $uuidClosure
 	 */
 	public function __construct(IUserSession $userSession, IURLGenerator $urlGenerator,
-								ThemingDefaults $themingDefaults, IRequest $request,
+								\OC_Defaults $themingDefaults, IRequest $request,
 								IL10N $l10n, \closure $uuidClosure) {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
