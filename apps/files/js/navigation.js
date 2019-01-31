@@ -62,13 +62,13 @@
 		 * Setup UI events
 		 */
 		_setupEvents: function () {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
 			var trashElement=$(".nav-trashbin");
 			trashElement.droppable({
 				over: function( event, ui ) {
-					trashElement.addClass('dropzone-background')
+					trashElement.addClass('dropzone-background');
 				},
 				out: function( event, ui ) {
 					trashElement.removeClass('dropzone-background');
@@ -219,7 +219,7 @@
 		 */
 		setInitialQuickaccessSettings: function () {
 			var quickAccessKey = this.$quickAccessListKey;
-			var quickAccessMenu = document.getElementById(quickAccessKey)
+			var quickAccessMenu = document.getElementById(quickAccessKey);
 			if (quickAccessMenu) {
 				var list = quickAccessMenu.getElementsByTagName('li');
 				this.QuickSort(list, 0, list.length - 1);
