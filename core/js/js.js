@@ -493,13 +493,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	 * Do a search query and display the results
-	 * @param {string} query the search query
-	 */
-	search: function (query) {
-		OC.Search.search(query, null, 0, 30);
-	},
-	/**
 	 * Dialog helper for jquery dialogs.
 	 *
 	 * @namespace OC.dialogs
@@ -871,13 +864,6 @@ Object.assign(window.OC, {
 });
 
 /**
- * @namespace OC.search
- */
-OC.search.customResults = {};
-/**
- * @deprecated use get/setFormatter() instead
- */
-OC.search.resultTypes = {};
 
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
