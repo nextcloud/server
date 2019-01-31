@@ -384,6 +384,10 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	@include icon-color('text', 'filetypes', $color-black, 1, true);
 }
 
+.icon-filetype-file {
+	@include icon-color('file', 'filetypes', $color-black, 1, true);
+}
+
 @include icon-black-white('folder', 'filetypes', 1, true);
 .icon-filetype-folder {
 	@include icon-color('folder', 'filetypes', $color-black, 1, true);

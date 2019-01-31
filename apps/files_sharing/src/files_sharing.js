@@ -22,7 +22,8 @@ window.OCP.Collaboration.registerType('files', {
 		});
 	},
 	/** used in "Link to a {typeString}" */
-	typeString: t('files_sharing', 'file')
+	typeString: t('files_sharing', 'file'),
+	typeIconClass: 'icon-files-dark'
 });
 
 window.OCA.Sharing = OCA.Sharing;

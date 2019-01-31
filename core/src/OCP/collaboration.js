@@ -49,7 +49,7 @@ export default {
 		return Object.keys(types);
 	},
 	getIcon(type) {
-		return types[type].icon || '';
+		return types[type].typeIconClass || '';
 	},
 	getLabel(type) {
 		return t('files_sharing', 'Link to a {label}', { label: types[type].typeString || type }, 1)

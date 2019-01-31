@@ -48,6 +48,13 @@ class ResourceProvider implements IProvider {
 		$this->urlGenerator = $urlGenerator;
 	}
 
+	private function getNode(IResource $resource): ?Node {
+		if (isset($this->nodes[(int) $resource->getId()])) {
+			return $this->nodes[(int) $resource->getId()];
+		}
+		return null;
+	}
+
 	/**
 	 * Get the display name of a resource
 	 *
@@ -94,7 +101,11 @@ class ResourceProvider implements IProvider {
 	 * @since 15.0.0
 	 */
 	public function getIconClass(IResource $resource): string {
-		return 'icon-folder';
+		$node = $this->getNode($resource);
+		if ($node && $node->getMimetype() === 'httpd/unix-directory') {
+			return 'icon-files-dark';
+		}
+		return 'icon-filetype-file';
 	}
 
 	/**
