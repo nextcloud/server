@@ -27,6 +27,7 @@ import EventSource from './eventsource'
 import L10N from './l10n'
 import msg from './msg'
 import Notification from './notification'
+import Plugins from './plugins'
 
 /** @namespace OC */
 export default {
@@ -38,4 +39,5 @@ export default {
 	L10N,
 	msg,
 	Notification,
+	Plugins,
 }
