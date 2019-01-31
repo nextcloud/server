@@ -2600,7 +2600,7 @@
 				}
 
 				try {
-					var newName = input.val();
+					var newName = input.val().trim();
 					input.tooltip('hide');
 					form.remove();
 
