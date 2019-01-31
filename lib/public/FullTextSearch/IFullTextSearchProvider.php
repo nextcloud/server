@@ -176,7 +176,7 @@ interface IFullTextSearchProvider {
 	 *
 	 * @param string $userId
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function generateChunks(string $userId): array;
 
@@ -196,7 +196,8 @@ interface IFullTextSearchProvider {
 	 *
 	 * @see IndexDocument
 	 *
-	 * @since 16.0.0
+	 * @since 15.0.0
+	 *  -> 16.0.0: the parameter "$chunk" was added
 	 *
 	 * @param string $userId
 	 * @param string $chunk
