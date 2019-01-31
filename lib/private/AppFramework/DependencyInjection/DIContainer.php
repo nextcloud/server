@@ -261,6 +261,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->query(\OCP\IConfig::class)
 				)
 			);
+			$dispatcher->registerMiddleware(
+				$c->query(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
+			);
 
 			foreach($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
