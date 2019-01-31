@@ -364,7 +364,6 @@
 
 			var self=this;
 			this.$fileList.on("droppedOnTrash", function (event, filename, directory) {
-				//self.fileActions.triggerAction('Favorite', self.getModelForFile(file), self);
 				self.do_delete(filename, directory)
 			});
 
