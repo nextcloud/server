@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	import CollectionList from './components/CollectionList'
+	import CollectionList from './../components/CollectionList'
 
 	export default {
 		name: 'CollaborationView',

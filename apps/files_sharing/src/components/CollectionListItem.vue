@@ -55,8 +55,6 @@
 </template>
 
 <script>
-	import service from '../services/collections';
-
 	import { Avatar } from 'nextcloud-vue';
 
 	export default {
