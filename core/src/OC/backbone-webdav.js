@@ -255,7 +255,7 @@ function callMethod (client, options, model, headers) {
 	});
 }
 
-export function davCall (options, model) {
+export const davCall = (options, model) => {
 	var client = new dav.Client({
 		baseUrl: options.url,
 		xmlNamespaces: _.extend({
@@ -284,7 +284,7 @@ export function davCall (options, model) {
 /**
  * DAV transport
  */
-export function davSync (method, model, options) {
+export const davSync = Backbone => (method, model, options) => {
 	var params = {type: methodMap[method] || method};
 	var isCollection = (model instanceof Backbone.Collection);
 
