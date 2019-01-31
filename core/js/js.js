@@ -754,20 +754,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	 * Wrapper for matchMedia
-	 *
-	 * This is makes it possible for unit tests to
-	 * stub matchMedia (which doesn't work in PhantomJS)
-	 * @private
-	 */
-	_matchMedia: function(media) {
-		if (window.matchMedia) {
-			return window.matchMedia(media);
-		}
-		return false;
-	},
-
-	/**
 	 * Returns the user's locale as a BCP 47 compliant language tag
 	 *
 	 * @return {String} locale string
