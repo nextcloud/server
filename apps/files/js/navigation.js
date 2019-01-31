@@ -84,14 +84,13 @@
 				drop: function (event, ui) {
 					var $selectedFiles = $(ui.draggable);
 
-					if (ui.helper.find('tr').size() === 1) {
-						var $tr = $selectedFiles.closest('tr');
-						$selectedFiles.trigger('droppedOnTrash', $tr.attr('data-file'), $tr.attr('data-dir'));
-					} else {
-						var item = ui.helper.find('tr');
-						for (var i = 0; i < item.length; i++) {
-							$selectedFiles.trigger('droppedOnTrash', item[i].getAttribute('data-file'), item[i].getAttribute('data-dir'));
-						}
+					// FIXME: when there are a lot of selected files the helper
+					// contains only a subset of them; the list of selected
+					// files should be gotten from the file list instead to
+					// ensure that all of them are removed.
+					var item = ui.helper.find('tr');
+					for (var i = 0; i < item.length; i++) {
+						$selectedFiles.trigger('droppedOnTrash', item[i].getAttribute('data-file'), item[i].getAttribute('data-dir'));
 					}
 				}
 			});
