@@ -27,6 +27,7 @@ import EventSource from './eventsource'
 import L10N from './l10n'
 import msg from './msg'
 import Notification from './notification'
+import PasswordConfirmation from './password-confirmation'
 import Plugins from './plugins'
 import search from './search'
 
@@ -40,6 +41,7 @@ export default {
 	L10N,
 	msg,
 	Notification,
+	PasswordConfirmation,
 	Plugins,
 	search,
 }
