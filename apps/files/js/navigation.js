@@ -65,32 +65,31 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
-			var trashElement=$('.nav-trashbin');
+			var trashElement = $('.nav-trashbin');
 			trashElement.droppable({
-				over: function( event, ui ) {
+				over: function (event, ui) {
 					trashElement.addClass('dropzone-background');
 				},
-				out: function( event, ui ) {
+				out: function (event, ui) {
 					trashElement.removeClass('dropzone-background');
 				},
-				activate: function( event, ui ) {
-					var elem=trashElement.find('a').first();
+				activate: function (event, ui) {
+					var elem = trashElement.find('a').first();
 					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
 				},
-				deactivate: function( event, ui ) {
-					var elem=trashElement.find('a').first();
+				deactivate: function (event, ui) {
+					var elem = trashElement.find('a').first();
 					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
 				},
-				drop: function( event, ui ) {
-
+				drop: function (event, ui) {
 					var $selectedFiles = $(ui.draggable);
 
-					if (ui.helper.find('tr').size()===1) {
+					if (ui.helper.find('tr').size() === 1) {
 						var $tr = $selectedFiles.closest('tr');
 						$selectedFiles.trigger('droppedOnTrash', $tr.attr('data-file'), $tr.attr('data-dir'));
-					}else{
+					} else {
 						var item = ui.helper.find('tr');
-						for(var i=0; i<item.length;i++){
+						for (var i = 0; i < item.length; i++) {
 							$selectedFiles.trigger('droppedOnTrash', item[i].getAttribute('data-file'), item[i].getAttribute('data-dir'));
 						}
 					}
