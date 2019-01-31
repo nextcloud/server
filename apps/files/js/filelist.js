@@ -356,7 +356,6 @@
 
 			$.event.trigger({type: "droppedOnTrash"});
 
-			var self=this;
 			this.$fileList.on("droppedOnTrash", function (event, filename, directory) {
 				self.do_delete(filename, directory)
 			});
