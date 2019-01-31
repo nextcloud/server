@@ -25,6 +25,7 @@ import Backbone from './backbone'
 import ContactsMenu from './contactsmenu'
 import EventSource from './eventsource'
 import L10N from './l10n'
+import Notification from './notification'
 
 /** @namespace OC */
 export default {
@@ -34,4 +35,5 @@ export default {
 	ContactsMenu,
 	EventSource,
 	L10N,
+	Notification,
 }
