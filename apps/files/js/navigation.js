@@ -65,21 +65,21 @@
 			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
-			var trashElement = $('.nav-trashbin');
-			trashElement.droppable({
+			var trashBinElement = $('.nav-trashbin');
+			trashBinElement.droppable({
 				over: function (event, ui) {
-					trashElement.addClass('dropzone-background');
+					trashBinElement.addClass('dropzone-background');
 				},
 				out: function (event, ui) {
-					trashElement.removeClass('dropzone-background');
+					trashBinElement.removeClass('dropzone-background');
 				},
 				activate: function (event, ui) {
-					var elem = trashElement.find('a').first();
-					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
+					var element = trashBinElement.find('a').first();
+					element.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
 				},
 				deactivate: function (event, ui) {
-					var elem = trashElement.find('a').first();
-					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
+					var element = trashBinElement.find('a').first();
+					element.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
 				},
 				drop: function (event, ui) {
 					var $selectedFiles = $(ui.draggable);
