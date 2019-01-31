@@ -354,8 +354,6 @@
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
-			$.event.trigger({type: "droppedOnTrash"});
-
 			this.$fileList.on("droppedOnTrash", function (event, filename, directory) {
 				self.do_delete(filename, directory)
 			});
