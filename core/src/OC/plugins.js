@@ -27,7 +27,7 @@
  * @type Array.<OC.Plugin>
  * @todo make a real private
  */
-export const _plugins = {};
+export let _plugins = {};
 
 /**
  * Register plugin
