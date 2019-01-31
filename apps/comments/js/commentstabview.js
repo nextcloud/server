@@ -185,9 +185,6 @@
 		},
 
 		_onAutoComplete: function(query, callback) {
-			if(_.isEmpty(query)) {
-				return;
-			}
 			var s = this;
 			if(!_.isUndefined(this._autoCompleteRequestTimer)) {
 				clearTimeout(this._autoCompleteRequestTimer);
