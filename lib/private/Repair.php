@@ -30,14 +30,11 @@
 
 namespace OC;
 
-use OCP\AppFramework\QueryException;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use OC\Avatar\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
-use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\ClearFrontendCaches;
+use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
@@ -46,6 +43,7 @@ use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\NC15\SetVcardDatabaseUID;
+use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -55,6 +53,9 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
+use OCP\AppFramework\QueryException;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -147,7 +148,8 @@ class Repair implements IOutput {
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger())
+			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger()),
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache')),
 		];
 	}
 

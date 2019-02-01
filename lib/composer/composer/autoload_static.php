@@ -1011,6 +1011,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\NC14\\AddPreviewBackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC14/AddPreviewBackgroundCleanupJob.php',
         'OC\\Repair\\NC14\\RepairPendingCronJobs' => __DIR__ . '/../../..' . '/lib/private/Repair/NC14/RepairPendingCronJobs.php',
         'OC\\Repair\\NC15\\SetVcardDatabaseUID' => __DIR__ . '/../../..' . '/lib/private/Repair/NC15/SetVcardDatabaseUID.php',
+        'OC\\Repair\\NC16\\CleanupCardDAVPhotoCache' => __DIR__ . '/../../..' . '/lib/private/Repair/NC16/CleanupCardDAVPhotoCache.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Owncloud\\DropAccountTermsTable' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
