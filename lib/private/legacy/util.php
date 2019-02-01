@@ -1332,56 +1332,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Clear a single file from the opcode cache
-	 * This is useful for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 * Returns true if successful, false if unsuccessful:
-	 * caller should fall back on clearing the entire cache
-	 * with clearOpcodeCache() if unsuccessful
-	 *
-	 * @param string $path the path of the file to clear from the cache
-	 * @return bool true if underlying function returns true, otherwise false
-	 */
-	public static function deleteFromOpcodeCache($path) {
-		$ret = false;
-		if ($path) {
-			// APC >= 3.1.1
-			if (function_exists('apc_delete_file')) {
-				$ret = @apc_delete_file($path);
-			}
-			// Zend OpCache >= 7.0.0, PHP >= 5.5.0
-			if (function_exists('opcache_invalidate')) {
-				$ret = @opcache_invalidate($path);
-			}
-		}
-		return $ret;
-	}
-
-	/**
-	 * Clear the opcode cache if one exists
-	 * This is necessary for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 *
-	 * @return void
-	 * @suppress PhanDeprecatedFunction
-	 * @suppress PhanUndeclaredConstant
-	 */
-	public static function clearOpcodeCache() {
-		// APC
-		if (function_exists('apc_clear_cache')) {
-			apc_clear_cache();
-		}
-		// Zend Opcache
-		if (function_exists('accelerator_reset')) {
-			accelerator_reset();
-		}
-		// Opcache (PHP >= 5.5)
-		if (function_exists('opcache_reset')) {
-			@opcache_reset();
-		}
-	}
-
-	/**
 	 * Normalize a unicode string
 	 *
 	 * @param string $value a not normalized string
