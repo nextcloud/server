@@ -28,6 +28,7 @@ use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\PublicShareController;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -65,6 +66,15 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
+	}
+
+	public function testPublicShareController() {
+		$this->dispatcher->expects($this->never())
+			->method($this->anything());
+		$this->userSession->expects($this->never())
+			->method($this->anything());
+
+		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
 	}
 
 	public function testTemplateResponseNotLoggedIn() {
