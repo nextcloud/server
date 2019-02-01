@@ -28,11 +28,12 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Controller\AuthSettingsController;
+use OCP\Activity\IEvent;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Test\TestCase;
@@ -41,26 +42,39 @@ class AuthSettingsControllerTest extends TestCase {
 
 	/** @var AuthSettingsController */
 	private $controller;
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $tokenProvider;
-	private $userManager;
+	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $session;
+	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
-	private $uid;
+	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
+	private $uid = 'jane';
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
-		$this->uid = 'jane';
-		$this->user = $this->createMock(IUser::class);
+		$this->activityManager = $this->createMock(IManager::class);
+		/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $logger */
+		$logger = $this->createMock(ILogger::class);
 
-		$this->controller = new AuthSettingsController('core', $this->request, $this->tokenProvider, $this->userManager, $this->session, $this->secureRandom, $this->uid);
+		$this->controller = new AuthSettingsController(
+			'core',
+			$this->request,
+			$this->tokenProvider,
+			$this->session,
+			$this->secureRandom,
+			$this->uid,
+			$this->activityManager,
+			$logger
+		);
 	}
 
 	public function testIndex() {
@@ -78,14 +92,14 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenByUser')
 			->with($this->uid)
-			->will($this->returnValue($tokens));
+			->willReturn($tokens);
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('session123'));
+			->willReturn('session123');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('session123')
-			->will($this->returnValue($sessionToken));
+			->willReturn($sessionToken);
 
 		$this->assertEquals([
 			[
@@ -116,39 +130,42 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('sessionid'));
+			->willReturn('sessionid');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sessionid')
-			->will($this->returnValue($sessionToken));
+			->willReturn($sessionToken);
 		$this->tokenProvider->expects($this->once())
 			->method('getPassword')
 			->with($sessionToken, 'sessionid')
-			->will($this->returnValue($password));
+			->willReturn($password);
 		$sessionToken->expects($this->once())
 			->method('getLoginName')
-			->will($this->returnValue('User13'));
+			->willReturn('User13');
 
 		$this->secureRandom->expects($this->exactly(5))
 			->method('generate')
 			->with(5, ISecureRandom::CHAR_HUMAN_READABLE)
-			->will($this->returnValue('XXXXX'));
+			->willReturn('XXXXX');
 		$newToken = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
-			->will($this->returnValue($deviceToken));
+			->willReturn($deviceToken);
 
 		$deviceToken->expects($this->once())
 			->method('jsonSerialize')
-			->will($this->returnValue(['dummy' => 'dummy', 'canDelete' => true]));
+			->willReturn(['dummy' => 'dummy', 'canDelete' => true]);
+
+		$this->mockActivityManager();
 
 		$expected = [
 			'token' => $newToken,
 			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
 			'loginName' => 'User13',
 		];
+
 		$response = $this->controller->create($name);
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals($expected, $response->getData());
@@ -172,7 +189,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->returnValue('sessionid'));
+			->willReturn('sessionid');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sessionid')
@@ -185,23 +202,49 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public function testDestroy() {
-		$id = 123;
-		$user = $this->createMock(IUser::class);
+		$tokenId = 124;
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+		$this->mockActivityManager();
+
+		$token->expects($this->exactly(2))
+			->method('getId')
+			->willReturn($tokenId);
+
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('jane');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
-			->with($this->uid, $id);
+			->with($this->uid, $tokenId);
 
-		$this->assertEquals([], $this->controller->destroy($id));
+		$this->assertEquals([], $this->controller->destroy($tokenId));
 	}
 
-	public function testUpdateToken() {
+	public function testDestroyWrongUser() {
+		$tokenId = 124;
 		$token = $this->createMock(DefaultToken::class);
 
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo(42))
-			->willReturn($token);
+		$this->mockGetTokenById($tokenId, $token);
+
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('foobar');
+
+		$response = $this->controller->destroy($tokenId);
+		$this->assertSame([], $response->getData());
+		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+
+	public function testUpdateToken() {
+		$tokenId = 42;
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+		$this->mockActivityManager();
 
 		$token->expects($this->once())
 			->method('getUID')
@@ -217,16 +260,14 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update(42, ['filesystem' => true]));
+		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true]));
 	}
 
 	public function testUpdateTokenWrongUser() {
+		$tokenId = 42;
 		$token = $this->createMock(DefaultToken::class);
 
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenById')
-			->with($this->equalTo(42))
-			->willReturn($token);
+		$this->mockGetTokenById($tokenId, $token);
 
 		$token->expects($this->once())
 			->method('getUID')
@@ -237,7 +278,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update(42, ['filesystem' => true]);
+		$response = $this->controller->update($tokenId, ['filesystem' => true]);
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
@@ -256,4 +297,22 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
+	private function mockActivityManager(): void {
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($this->createMock(IEvent::class));
+		$this->activityManager->expects($this->once())
+			->method('publish');
+	}
+
+	/**
+	 * @param int $tokenId
+	 * @param $token
+	 */
+	private function mockGetTokenById(int $tokenId, $token): void {
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($this->equalTo($tokenId))
+			->willReturn($token);
+	}
 }
