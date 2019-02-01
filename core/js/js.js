@@ -1312,40 +1312,6 @@ function initCore() {
 $(document).ready(initCore);
 
 /**
- * Format an UNIX timestamp to a human understandable format
- * @param {number} timestamp UNIX timestamp
- * @return {string} Human readable format
- */
-function formatDate(timestamp){
-	return OC.Util.formatDate(timestamp);
-}
-
-//
-/**
- * Get the value of a URL parameter
- * @link http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
- * @param {string} name URL parameter
- * @return {string}
- */
-function getURLParameter(name) {
-	return decodeURIComponent(
-		(new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(
-			location.search)||[,''])[1].replace(/\+/g, '%20')
-		)||'';
-}
-
-/**
- * Takes an absolute timestamp and return a string with a human-friendly relative date
- * @param {number} timestamp A Unix timestamp
- */
-function relative_modified_date(timestamp) {
-	/*
-	 Were multiplying by 1000 to bring the timestamp back to its original value
-	 per https://github.com/owncloud/core/pull/10647#discussion_r16790315
-	  */
-	return OC.Util.relativeModifiedDate(timestamp * 1000);
-}
-
 // fallback to hashchange when no history support
 if (window.history.pushState) {
 	window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History);

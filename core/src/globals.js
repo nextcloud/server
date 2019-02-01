@@ -52,7 +52,10 @@ import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
 import escapeHTML from './Util/escapeHTML'
+import formatDate from './Util/format-date'
+import getUrlParameter from './Util/get-url-parameter'
 import humanFileSize from './Util/human-file-size'
+import relative_modified_date from './Util/relative-modified-date'
 
 window['_'] = _
 window['$'] = $
@@ -75,7 +78,10 @@ window['OC'] = OC
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = escapeHTML
+window['formatDate'] = formatDate
+window['getUrlParameter'] = getUrlParameter
 window['humanFileSize'] = humanFileSize
+window['relative_modified_date'] = relative_modified_date
 
 /**
  * translate a string
