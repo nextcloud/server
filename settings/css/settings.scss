@@ -955,6 +955,12 @@ span.version {
 			display: inline-block;
 		}
 	}
+
+}
+
+.app-settings #app-content a {
+	text-decoration-line: underline;
+	text-decoration-style: dotted;
 }
 
 .personal-settings-setting-box .section {
