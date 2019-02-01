@@ -354,6 +354,15 @@ input {
 			&:checked:disabled + label:before {
 				background-color: $color-checkbox-radio-disabled;
 			}
+
+			// Detail description below label of checkbox or radio button
+			& + label ~ em {
+				display: inline-block;
+				margin-left: 18px;
+			}
+			& + label ~ em:last-of-type {
+				margin-bottom: 12px;
+			}
 		}
 		&.checkbox {
 			+ label:before {
