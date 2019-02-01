@@ -29,6 +29,7 @@ use OCP\Files\NotPermittedException;
  * This class represents a file that is only hold in memory.
  *
  * @package OC\Files\SimpleFS
+ * @since 16.0.0
  */
 class InMemoryFile implements ISimpleFile {
 	/**
@@ -50,6 +51,7 @@ class InMemoryFile implements ISimpleFile {
 	 *
 	 * @param string $name The file name
 	 * @param string $contents The file contents
+	 * @since 16.0.0
 	 */
 	public function __construct(string $name, string $contents) {
 		$this->name = $name;
@@ -58,6 +60,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getName() {
 		return $this->name;
@@ -65,6 +68,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getSize() {
 		return strlen($this->contents);
@@ -72,6 +76,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getETag() {
 		return '';
@@ -79,6 +84,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getMTime() {
 		return time();
@@ -86,6 +92,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getContent() {
 		return $this->contents;
@@ -93,6 +100,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function putContent($data) {
 		$this->contents = $data;
@@ -100,6 +108,8 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * In memory files can't be deleted.
+	 *
+	 * @since 16.0.0
 	 */
 	public function delete() {
 		// unimplemented for in memory files
@@ -107,6 +117,7 @@ class InMemoryFile implements ISimpleFile {
 
 	/**
 	 * @inheritdoc
+	 * @since 16.0.0
 	 */
 	public function getMimeType() {
 		$fileInfo = new \finfo(FILEINFO_MIME_TYPE);
@@ -117,6 +128,7 @@ class InMemoryFile implements ISimpleFile {
 	 * Stream reading is unsupported for in memory files.
 	 *
 	 * @throws NotPermittedException
+	 * @since 16.0.0
 	 */
 	public function read() {
 		throw new NotPermittedException(
@@ -128,6 +140,7 @@ class InMemoryFile implements ISimpleFile {
 	 * Stream writing isn't available for in memory files.
 	 *
 	 * @throws NotPermittedException
+	 * @since 16.0.0
 	 */
 	public function write() {
 		throw new NotPermittedException(
