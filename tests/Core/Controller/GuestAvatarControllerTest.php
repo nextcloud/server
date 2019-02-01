@@ -85,6 +85,5 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 
 		$this->assertGreaterThanOrEqual(201, $response->getStatus());
 		$this->assertInstanceOf(FileDisplayResponse::class, $response);
-		$this->assertSame($this->file, $response->getFile());
 	}
 }
