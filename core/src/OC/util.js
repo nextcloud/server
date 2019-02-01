@@ -28,6 +28,26 @@ import History from './util-history'
 import OC from './index'
 import humanFileSize from '../Util/human-file-size'
 
+function chunkify(t) {
+	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
+	let tz = [], x = 0, y = -1, n = 0, code, c;
+
+	while (x < t.length) {
+		c = t.charAt(x);
+		// only include the dot in strings
+		var m = ((!n && c === '.') || (c >= '0' && c <= '9'));
+		if (m !== n) {
+			// next chunk
+			y++;
+			tz[y] = '';
+			n = m;
+		}
+		tz[y] += c;
+		x++;
+	}
+	return tz;
+}
+
 /**
  * Utility functions
  * @namespace OC.Util
@@ -169,26 +189,6 @@ export default {
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	},
 
-	_chunkify: function (t) {
-		// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
-		var tz = [], x = 0, y = -1, n = 0, code, c;
-
-		while (x < t.length) {
-			c = t.charAt(x);
-			// only include the dot in strings
-			var m = ((!n && c === '.') || (c >= '0' && c <= '9'));
-			if (m !== n) {
-				// next chunk
-				y++;
-				tz[y] = '';
-				n = m;
-			}
-			tz[y] += c;
-			x++;
-		}
-		return tz;
-	},
-
 	/**
 	 * Compare two strings to provide a natural sort
 	 * @param a first string to compare
@@ -198,8 +198,8 @@ export default {
 	 */
 	naturalSortCompare: function (a, b) {
 		var x;
-		var aa = this._chunkify(a);
-		var bb = this._chunkify(b);
+		var aa = chunkify(a);
+		var bb = chunkify(b);
 
 		for (x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
