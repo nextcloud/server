@@ -118,10 +118,8 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addScript('search', 'search', true);
 			OC_Util::addScript('search', 'searchprovider');
 			OC_Util::addScript('merged-template-prepend', null, true);
-			OC_Util::addScript('jquery-ui-fixes');
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
-			OC_Util::addScript('contactsmenu');
 			OC_Util::addScript('contactsmenu_templates');
 			OC_Util::addScript('core', 'dist/main', true);
 
