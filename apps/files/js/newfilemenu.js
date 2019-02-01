@@ -167,7 +167,7 @@
 				event.preventDefault();
 
 				if (checkInput()) {
-					var newname = $input.val().trim();
+					var newname = $input.val();
 
 					/* Find the right actionHandler that should be called.
 					 * Actions is retrieved by using `actionSpec.id` */
