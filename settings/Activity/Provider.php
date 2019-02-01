@@ -111,11 +111,11 @@ class Provider implements IProvider {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 
 		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
-			$subject = $this->l->t('You created app password "%1$s"', $event->getSubjectParameters());
+			$subject = $this->l->t('You created app password "{token}"');
 		} else if ($event->getSubject() === self::APP_TOKEN_UPDATED) {
-			$subject = $this->l->t('You updated app password "%1$s"', $event->getSubjectParameters());
+			$subject = $this->l->t('You updated app password "{token}"');
 		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
-			$subject = $this->l->t('You deleted app password "%1$s"', $event->getSubjectParameters());
+			$subject = $this->l->t('You deleted app password "{token}"');
 
 		} else {
 			throw new \InvalidArgumentException();
@@ -141,14 +141,21 @@ class Provider implements IProvider {
 			case self::PASSWORD_RESET:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
-			case self::APP_TOKEN_CREATED:
-			case self::APP_TOKEN_UPDATED:
-			case self::APP_TOKEN_DELETED:
 				return [];
 			case self::PASSWORD_CHANGED_BY:
 			case self::EMAIL_CHANGED_BY:
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
+				];
+			case self::APP_TOKEN_CREATED:
+			case self::APP_TOKEN_UPDATED:
+			case self::APP_TOKEN_DELETED:
+				return [
+					'token' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters[0],
+					]
 				];
 		}
 
