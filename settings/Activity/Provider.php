@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -34,12 +35,12 @@ use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
 
-	const PASSWORD_CHANGED_BY = 'password_changed_by';
-	const PASSWORD_CHANGED_SELF = 'password_changed_self';
-	const PASSWORD_RESET = 'password_changed';
-	const EMAIL_CHANGED_BY = 'email_changed_by';
-	const EMAIL_CHANGED_SELF = 'email_changed_self';
-	const EMAIL_CHANGED = 'email_changed';
+	public const PASSWORD_CHANGED_BY = 'password_changed_by';
+	public const PASSWORD_CHANGED_SELF = 'password_changed_self';
+	public const PASSWORD_RESET = 'password_changed';
+	public const EMAIL_CHANGED_BY = 'email_changed_by';
+	public const EMAIL_CHANGED_SELF = 'email_changed_self';
+	public const EMAIL_CHANGED = 'email_changed';
 	public const APP_TOKEN_CREATED = 'app_token_created';
 	public const APP_TOKEN_UPDATED = 'app_token_updated';
 	public const APP_TOKEN_DELETED = 'app_token_deleted';
@@ -62,13 +63,10 @@ class Provider implements IProvider {
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IUserManager $userManager
-	 * @param IManager $activityManager
-	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IUserManager $userManager, IManager $activityManager) {
+	public function __construct(IFactory $languageFactory,
+								IURLGenerator $url,
+								IUserManager $userManager,
+								IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->userManager = $userManager;
@@ -83,9 +81,9 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'settings') {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Unknown app');
 		}
 
 		$this->l = $this->languageFactory->get('settings', $language);
@@ -118,7 +116,7 @@ class Provider implements IProvider {
 			$subject = $this->l->t('You deleted app password "{token}"');
 
 		} else {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Unknown subject');
 		}
 
 		$parsedParameters = $this->getParameters($event);
@@ -132,7 +130,7 @@ class Provider implements IProvider {
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -159,7 +157,7 @@ class Provider implements IProvider {
 				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new \InvalidArgumentException('Unknown subject');
 	}
 
 	/**
@@ -168,7 +166,7 @@ class Provider implements IProvider {
 	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$placeholders = $replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
@@ -179,11 +177,7 @@ class Provider implements IProvider {
 			->setRichSubject($subject, $parameters);
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
-	protected function generateUserParameter($uid) {
+	protected function generateUserParameter(string $uid): array {
 		if (!isset($this->displayNames[$uid])) {
 			$this->displayNames[$uid] = $this->getDisplayName($uid);
 		}
@@ -195,11 +189,7 @@ class Provider implements IProvider {
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
+	protected function getDisplayName(string $uid): string {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();
