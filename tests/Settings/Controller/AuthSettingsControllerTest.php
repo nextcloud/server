@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -110,7 +109,7 @@ class AuthSettingsControllerTest extends TestCase {
 				'canDelete' => false,
 				'current' => true,
 				'scope' => ['filesystem' => true],
-				'canRename' => true,
+				'canRename' => false,
 			],
 			[
 				'id' => 200,
@@ -164,7 +163,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$expected = [
 			'token' => $newToken,
-			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
+			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true, 'canRename' => true],
 			'loginName' => 'User13',
 		];
 
