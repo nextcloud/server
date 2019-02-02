@@ -440,7 +440,14 @@ table.nostyle {
 		}
 
 		&.token-name {
-			padding: 10px 0;
+			padding: 10px 6px;
+			&.token-rename {
+				padding: 0;
+			}
+			input {
+				width: 100%;
+				margin: 0;
+			}
 		}
 
 		&.more {
@@ -455,6 +462,9 @@ table.nostyle {
 				height: 44px;
 			}
 		}
+	}
+	tr > *:nth-child(2) {
+		padding-left: 6px;
 	}
 	tr > *:nth-child(3) {
 		text-align: right;
