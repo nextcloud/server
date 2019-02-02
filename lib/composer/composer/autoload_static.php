@@ -524,6 +524,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Token\\DefaultTokenCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenCleanupJob.php',
         'OC\\Authentication\\Token\\DefaultTokenMapper' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenMapper.php',
         'OC\\Authentication\\Token\\DefaultTokenProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/DefaultTokenProvider.php',
+        'OC\\Authentication\\Token\\INamedToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/INamedToken.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
         'OC\\Authentication\\Token\\IToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IToken.php',
         'OC\\Authentication\\Token\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/Manager.php',

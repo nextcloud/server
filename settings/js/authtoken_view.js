@@ -451,7 +451,7 @@
 			var tokenId = $row.data('id');
 			var token = this.collection.get(tokenId);
 
-			if (_.isUndefined(token)) {
+			if (_.isUndefined(token) || token.get('current') === true) {
 				// Ignore event
 				return;
 			}
