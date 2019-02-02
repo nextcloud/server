@@ -3,7 +3,7 @@
 templates['authtoken'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "            <input class=\"hidden rename-token\" type=\"text\" value=\""
+  return "            <input class=\"hidden\" type=\"text\" value=\""
     + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)))
     + "\" />\n";
 },"3":function(container,depth0,helpers,partials,data) {

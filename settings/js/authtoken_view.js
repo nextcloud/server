@@ -220,7 +220,8 @@
 			$el.on('click', '.icon-more', _.bind(this._onConfigureToken, this));
 			$el.on('change', 'input.filesystem', _.bind(this._onSetTokenScope, this));
 			$el.on('click', '.icon-rename', _.bind(this._onRenameToken, this));
-			$el.on('keyup', 'input.rename-token', _.bind(this._onEnterTokenName, this));
+			$el.on('dblclick', '.token-name > span', _.bind(this._onRenameToken, this));
+			$el.on('keyup', '.token-name > input', _.bind(this._onEnterTokenName, this));
 
 			this._form = $('#app-password-form');
 			this._tokenName = $('#app-password-name');
@@ -420,16 +421,25 @@
 		_onRenameToken: function (event) {
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
-			var id = $row.data('id');
 
-			var token = this.collection.get(id);
-			if (_.isUndefined(token)) {
+			var tokenId = $row.data('id');
+			var token = this.collection.get(tokenId);
+
+			if (_.isUndefined(token) || token.get('current') === true) {
 				// Ignore event
 				return;
 			}
 
-			$row.find('.token-name > span').addClass('hidden');
-			$row.find('.token-name > input').removeClass('hidden').focus();
+			var $tokenName = $row.find('.token-name');
+			var showTokenNameInput = !$tokenName.hasClass('token-rename'); // if class token-rename present input is already visible.
+
+			this._hideTokenNameInput();
+
+			if (showTokenNameInput) {
+				$tokenName.addClass('token-rename');
+				$tokenName.find('span').addClass('hidden');
+				$tokenName.find('input').removeClass('hidden').val(token.get('name')).focus();
+			}
 
 			this._hideConfigureToken();
 		},
@@ -437,9 +447,10 @@
 		_onEnterTokenName: function(event) {
 			var $target = $(event.target);
 			var $row = $target.closest('tr');
-			var id = $row.data('id');
 
-			var token = this.collection.get(id);
+			var tokenId = $row.data('id');
+			var token = this.collection.get(tokenId);
+
 			if (_.isUndefined(token)) {
 				// Ignore event
 				return;
@@ -455,9 +466,15 @@
 			}
 
 			if (event.key === 'Escape') {
-				$row.find('.token-name > span').removeClass('hidden');
-				$row.find('.token-name > input').addClass('hidden');
+				this._hideTokenNameInput();
 			}
+		},
+
+		_hideTokenNameInput: function () {
+			var $tokenList = $('.token-list td.token-name');
+			$tokenList.removeClass('token-rename');
+			$tokenList.find('span').removeClass('hidden');
+			$tokenList.find('input').addClass('hidden');
 		},
 
 		_toggleFormResult: function (showForm) {
