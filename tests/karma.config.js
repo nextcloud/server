@@ -45,6 +45,7 @@ module.exports = function(config) {
 		return [
 			'files',
 			'files_trashbin',
+			'files_versions',
 			{
 				name: 'files_sharing',
 				srcFiles: [
@@ -73,17 +74,6 @@ module.exports = function(config) {
 					'apps/files_external/js/statusmanager.js'
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
-			},
-			{
-				name: 'files_versions',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/files_versions/js/versionmodel.js',
-					'apps/files_versions/js/templates.js',
-					'apps/files_versions/js/versioncollection.js',
-					'apps/files_versions/js/versionstabview.js'
-				],
-				testFiles: ['apps/files_versions/tests/js/**/*.js']
 			},
 			{
 				name: 'comments',
@@ -117,8 +107,7 @@ module.exports = function(config) {
 			{
 				name: 'settings',
 				srcFiles: [
-					'settings/js/apps.js',
-					'core/vendor/marked/marked.min.js'
+					'settings/js/apps.js'
 				]
 			}
 		];
