@@ -140,12 +140,14 @@ const ContactsListItemView = View.extend({
 		'click .icon-more': '_onToggleActionsMenu'
 	},
 
+	contactTemplate: require('./contactsmenu/contact.handlebars'),
+
 	/**
 	 * @param {object} data
 	 * @returns {undefined}
 	 */
 	template: function (data) {
-		return OC.ContactsMenu.Templates['contact'](data);
+		return this.contactTemplate(data);
 	},
 
 	/**
@@ -236,6 +238,13 @@ const ContactsMenuView = View.extend({
 		'input #contactsmenu-search': '_onSearch'
 	},
 
+	templates: {
+		loading: require('./contactsmenu/loading.handlebars'),
+		error: require('./contactsmenu/error.handlebars'),
+		menu: require('./contactsmenu/menu.handlebars'),
+		list: require('./contactsmenu/list.handlebars')
+	},
+
 	/**
 	 * @returns {undefined}
 	 */
@@ -256,7 +265,7 @@ const ContactsMenuView = View.extend({
 	 * @returns {string}
 	 */
 	loadingTemplate: function (data) {
-		return OC.ContactsMenu.Templates['loading'](data);
+		return this.templates.loading(data);
 	},
 
 	/**
@@ -264,7 +273,7 @@ const ContactsMenuView = View.extend({
 	 * @returns {string}
 	 */
 	errorTemplate: function (data) {
-		return OC.ContactsMenu.Templates['error'](
+		return this.templates.error(
 			_.extend({
 				couldNotLoadText: t('core', 'Could not load your contacts')
 			}, data)
@@ -276,7 +285,7 @@ const ContactsMenuView = View.extend({
 	 * @returns {string}
 	 */
 	contentTemplate: function (data) {
-		return OC.ContactsMenu.Templates['menu'](
+		return this.templates.menu(
 			_.extend({
 				searchContactsText: t('core', 'Search contacts …')
 			}, data)
@@ -288,7 +297,7 @@ const ContactsMenuView = View.extend({
 	 * @returns {string}
 	 */
 	contactsTemplate: function (data) {
-		return OC.ContactsMenu.Templates['list'](
+		return this.templates.list(
 			_.extend({
 				noContactsFoundText: t('core', 'No contacts found'),
 				showAllContactsText: t('core', 'Show all contacts …')

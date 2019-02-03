@@ -34,6 +34,8 @@ const LIST = ''
 	+ '    </ul>'
 	+ '</div>';
 
+const entryTemplate = require('./contactsmenu/jquery_entry.handlebars');
+
 $.fn.contactsMenu = function (shareWith, shareType, appendTo) {
 	// 0 - user, 4 - email, 6 - remote
 	var allowedTypes = [0, 4, 6];
@@ -80,7 +82,7 @@ $.fn.contactsMenu = function (shareWith, shareType, appendTo) {
 			}
 
 			actions.forEach(function (action) {
-				var template = OC.ContactsMenu.Templates['jquery_entry'];
+				var template = entryTemplate;
 				$list.find('ul').append(template(action));
 			});
 
@@ -97,7 +99,7 @@ $.fn.contactsMenu = function (shareWith, shareType, appendTo) {
 				title = t('core', 'Error fetching contact actions');
 			}
 
-			var template = OC.ContactsMenu.Templates['jquery_entry'];
+			var template = entryTemplate;
 			$list.find('ul').append(template({
 				hyperlink: '#',
 				title: title
