@@ -61,7 +61,6 @@ class Application extends App {
 		$dispatcher->addListener(
 			'OCA\Files::loadAdditionalScripts',
 			function() {
-				Util::addScript('oc-backbone-webdav');
 				Util::addScript('comments', 'merged');
 				Util::addStyle('comments', 'autocomplete');
 				Util::addStyle('comments', 'comments');

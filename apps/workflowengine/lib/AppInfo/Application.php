@@ -54,7 +54,6 @@ class Application extends \OCP\AppFramework\App {
 				script('core', [
 					'files/fileinfo',
 					'files/client',
-					'oc-backbone-webdav',
 					'systemtags/systemtags',
 					'systemtags/systemtagmodel',
 					'systemtags/systemtagscollection',
