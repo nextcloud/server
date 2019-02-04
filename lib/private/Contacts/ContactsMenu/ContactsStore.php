@@ -81,6 +81,7 @@ class ContactsStore implements IContactsStore {
 		$conn = \OC::$server->getDatabaseConnection();
         	$sharedWith = $conn->executeQuery('SELECT DISTINCT * FROM oc_share');
 
+		// Matching contacts who shared with current user
 		while ($row = $sharedWith->fetch()) {
 		    for ($i = 0; $i < count($allContacts); $i++) {
 			if ($row['share_with'] == $allContacts[$i]['UID']) {
