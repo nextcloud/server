@@ -1097,6 +1097,9 @@ span.version {
 			display: block;
 			margin: 8px 0;
 		}
+		&:hover {
+			background-color: var(--color-background-dark);
+		}
 	}
 	.app-description {
 		p {
@@ -1501,6 +1504,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {
 					border-color: var(--color-border) !important;
+				}
+				&:not(#grid-header) {
+					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
 			}
 			> div,
