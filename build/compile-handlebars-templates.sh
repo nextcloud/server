@@ -7,9 +7,6 @@ cd $REPODIR
 # Settings
 handlebars -n OC.Settings.Templates  settings/js/templates -f settings/js/templates.js
 
-# Contactsmenu
-handlebars -n OC.ContactsMenu.Templates core/js/contactsmenu -f core/js/contactsmenu_templates.js
-
 # Systemtags
 handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
 

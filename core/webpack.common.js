@@ -32,6 +32,13 @@ module.exports = [
 						name: '[name].[ext]?[hash]',
 						limit: 8192
 					}
+				},
+				{
+					test: /\.handlebars/,
+					loader: "handlebars-loader",
+					query: {
+						extensions: '.handlebars'
+					}
 				}
 			]
 		},
