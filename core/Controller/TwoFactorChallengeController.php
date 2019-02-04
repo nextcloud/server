@@ -31,7 +31,7 @@ use OC_User;
 use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
@@ -100,7 +100,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $redirect_url
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
@@ -115,7 +115,7 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 			'logout_url' => $this->getLogoutUrl(),
 		];
-		return new TemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
+		return new StandaloneTemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
 
 	/**
@@ -125,7 +125,7 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
-	 * @return TemplateResponse|RedirectResponse
+	 * @return StandaloneTemplateResponse|RedirectResponse
 	 */
 	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();
@@ -160,7 +160,7 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
-		$response = new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
+		$response = new StandaloneTemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
 		if ($provider instanceof IProvidesCustomCSP) {
 			$response->setContentSecurityPolicy($provider->getCSP());
 		}

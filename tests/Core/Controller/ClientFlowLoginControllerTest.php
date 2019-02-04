@@ -30,7 +30,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -108,7 +108,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	}
 
 	public function testShowAuthPickerPageNoClientOrOauthRequest() {
-		$expected = new TemplateResponse(
+		$expected = new StandaloneTemplateResponse(
 			'core',
 			'error',
 			[
@@ -166,7 +166,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getServerProtocol')
 			->willReturn('https');
 
-		$expected = new TemplateResponse(
+		$expected = new StandaloneTemplateResponse(
 			'core',
 			'loginflow/authpicker',
 			[
@@ -225,7 +225,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('getServerProtocol')
 			->willReturn('https');
 
-		$expected = new TemplateResponse(
+		$expected = new StandaloneTemplateResponse(
 			'core',
 			'loginflow/authpicker',
 			[
@@ -253,7 +253,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('remove')
 			->with('client.flow.state.token');
 
-		$expected = new TemplateResponse(
+		$expected = new StandaloneTemplateResponse(
 			'core',
 			'403',
 			[

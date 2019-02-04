@@ -27,7 +27,7 @@ use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
@@ -100,7 +100,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->with($user)
 			->will($this->returnValue($providerSet));
 
-		$expected = new TemplateResponse('core', 'twofactorselectchallenge', [
+		$expected = new StandaloneTemplateResponse('core', 'twofactorselectchallenge', [
 			'providers' => [
 				$p1,
 			],
@@ -151,7 +151,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('fetchPage')
 			->will($this->returnValue('<html/>'));
 
-		$expected = new TemplateResponse('core', 'twofactorshowchallenge', [
+		$expected = new StandaloneTemplateResponse('core', 'twofactorshowchallenge', [
 			'error' => true,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,

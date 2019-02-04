@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
@@ -54,7 +55,7 @@ class AdditionalScriptsMiddleware extends Middleware {
 		if ($response instanceof TemplateResponse) {
 			$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS);
 
-			if ($this->userSession->isLoggedIn()) {
+			if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
 				$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN);
 			}
 		}
