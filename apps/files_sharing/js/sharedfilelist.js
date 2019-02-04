@@ -41,6 +41,7 @@
 		_clientSideSort: true,
 		_allowSelection: false,
 		_isOverview: false,
+		_sharedWithGroups: false,
 
 		/**
 		 * @private
@@ -64,6 +65,9 @@
 			if (options && options.isOverview) {
 				this._isOverview = true;
 			}
+			if (options && options.sharedWithGroups) {
+				this._sharedWithGroups = true;
+			}
 		},
 
 		_renderRow: function() {
@@ -86,11 +90,25 @@
 				var permission = parseInt($tr.attr('data-permissions')) | OC.PERMISSION_DELETE;
 				$tr.attr('data-permissions', permission);
 			}
+			
 			if (this._showDeleted) {
 				var permission = fileData.permissions;
 				$tr.attr('data-share-permissions', permission);
 			}
+			if (this._sharedWithGroups) {
+				var group = fileData.group ;
+				$tr.attr('data-share-groups',group);
 
+				// add group name
+				td = $('<td></td>').attr({"class": "groups"});
+				td.append($('<span></span>').attr({
+						"class": "modified",
+						"title": group
+					}).text(group)
+						.tooltip({placement: 'top'})
+				);
+				$tr.append(td);
+			}
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {
 				var expirationTimestamp = 0;
@@ -326,6 +344,12 @@
 					return share.share_type === OC.Share.SHARE_TYPE_LINK;
 				});
 			}
+			if (this._sharedWithGroups) {
+				files = _.filter(data, function(share) {
+					return share.share_type === OC.Share.SHARE_TYPE_GROUP;
+				});
+			}
+
 
 			// OCS API uses non-camelcased names
 			files = _.chain(files)
@@ -360,6 +384,11 @@
 						file.permissions = share.permissions;
 						if (file.path) {
 							file.extraData = share.file_target;
+						}
+
+						if (share.share_type == OC.Share.SHARE_TYPE_GROUP) {
+							file.group = share.share_with_displayname;
+							file.groupId = share.share_with;
 						}
 					}
 					else {

@@ -22,6 +22,7 @@ OCA.Sharing.App = {
 	_inFileList: null,
 	_outFileList: null,
 	_overviewFileList: null,
+	_groupsFileList: null,
 
 	initSharingIn: function($el) {
 		if (this._inFileList) {
@@ -75,6 +76,43 @@ OCA.Sharing.App = {
 			'<p>' + t('files_sharing', 'Files and folders you share will show up here') + '</p>');
 		return this._outFileList;
 	},
+
+	initSharingGroups: function($el) {
+		if (this._groupsFileList) {
+			return this._groupsFileList;
+		}
+		this._groupsFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				id: 'shares.groups',
+				sharedWithUser: true,
+				sharedWithGroups: true,
+				fileActions: this._createFileActions(),
+				config: OCA.Files.App.getFilesConfig(),
+				// The file list is created when a "show" event is handled, so
+				// it should be marked as "shown" like it would have been done
+				// if handling the event with the file list already created.
+				shown: true
+			}
+		);
+
+		this._extendFileList(this._groupsFileList);
+		this._groupsFileList.appName = t('files_sharing', 'Shared with groups');
+		this._groupsFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>' +
+			'<h2>' + t('files_sharing', 'Nothing shared with your groups yet') + '</h2>' +
+			'<p>' + t('files_sharing', 'Files and folders others share with your groups will show up here') + '</p>');
+
+		//add col for group name
+		this._groupsFileList.$table.find("thead tr").append('<td id=headerGroup class="column-groups">' +
+								    '<a class="columntitle" data-sort="groups">'+
+								    '<span>' + t('files_sharing','Group') + '</span>' +
+								    '<span class="sort-indicator icon-triangle-s"></span>'+
+								    '</a>' +	
+								    '</td>') ;  ;
+
+		return this._groupsFileList;
+	},
+
 
 	initSharingLinks: function($el) {
 		if (this._linkFileList) {
@@ -181,6 +219,12 @@ OCA.Sharing.App = {
 	removeSharingOverview: function() {
 		if (this._overviewFileList) {
 			this._overviewFileList.$fileList.empty();
+		}
+	},
+
+	removeSharingGroups: function() {
+		if (this._groupsFileList) {
+			this._groupsFileList.$fileList.empty();
 		}
 	},
 
@@ -302,5 +346,11 @@ $(document).ready(function() {
 	});
 	$('#app-content-shareoverview').on('hide', function() {
 		OCA.Sharing.App.removeSharingOverview();
+	});
+	$('#app-content-sharinggroups').on('show', function(e) {
+		OCA.Sharing.App.initSharingGroups($(e.target));
+	});
+	$('#app-content-sharinggroups').on('hide', function() {
+		OCA.Sharing.App.removeSharingGroups();
 	});
 });

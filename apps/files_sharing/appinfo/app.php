@@ -74,6 +74,15 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		'name' => $l->t('Shared with you'),
 	]);
 
+	array_push($sharingSublistArray, [
+                'id' => 'sharinggroups',
+                'appname' => 'files_sharing',
+                'script' => 'list.php',
+                'order' => 20,
+                'name' => $l->t('Shared with groups'),
+        ]);
+	
+
 	if (\OCP\Util::isSharingDisabledForUser() === false) {
 		// Check if sharing by link is enabled
 		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
