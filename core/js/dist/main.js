@@ -720,7 +720,7 @@ window._=r.a,window.$=a.a,window.autosize=u.a,window.Backbone=d.a,window.Clipboa
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */,window.getUrlParameter=function(e){return decodeURIComponent((new RegExp("[?|&]"+e+"=([^&;]+?)(&|#|;|$)").exec(location.search)||[,""])[1].replace(/\+/g,"%20"))||""},window.humanFileSize=ne.a,window.relative_modified_date=function(e){return console.warn("relative_modified_date is deprecated, use OC.Util.relativeModifiedDate instead"),$.a.Util.relativeModifiedDate(1e3*e)},window.t=r.a.bind($.a.L10N.translate,$.a.L10N),window.n=r.a.bind($.a.L10N.translatePlural,$.a.L10N),
+ */,window.getURLParameter=function(e){return decodeURIComponent((new RegExp("[?|&]"+e+"=([^&;]+?)(&|#|;|$)").exec(location.search)||[,""])[1].replace(/\+/g,"%20"))||""},window.humanFileSize=ne.a,window.relative_modified_date=function(e){return console.warn("relative_modified_date is deprecated, use OC.Util.relativeModifiedDate instead"),$.a.Util.relativeModifiedDate(1e3*e)},window.t=r.a.bind($.a.L10N.translate,$.a.L10N),window.n=r.a.bind($.a.L10N.translatePlural,$.a.L10N),
 /*
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
