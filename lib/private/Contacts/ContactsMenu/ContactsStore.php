@@ -75,10 +75,25 @@ class ContactsStore implements IContactsStore {
 			'FN',
 			'EMAIL'
 		]);
+		
+		$sharedContacts = [];
+		
+		$conn = \OC::$server->getDatabaseConnection();
+        	// Retrieving shared contacts/users from database
+		$sharedWith = $conn->executeQuery('SELECT DISTINCT * FROM oc_share');
+		
+		// Matching who shared with current user
+		while ($row = $sharedWith->fetch()) {
+		    for ($i = 0; $i < count($allContacts); $i++) {
+			if ($row['share_with'] == $allContacts[$i]['UID']) {
+			    $sharedContacts[] = $allContacts[$i];
+			}
+		    }
+		}
 
 		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
-		}, $allContacts);
+		}, $sharedContacts);
 		return $this->filterContacts(
 			$user,
 			$entries,
