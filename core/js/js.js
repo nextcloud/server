@@ -863,8 +863,6 @@ Object.assign(window.OC, {
 	}
 });
 
-/**
-
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
