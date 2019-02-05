@@ -757,7 +757,7 @@
 				// disabled, let's hide the input and
 				// set the expireDate to nothing
 				$element.closest('li').next('li').addClass('hidden');
-				this.setExpirationDate('');
+				this.setExpirationDate('', shareId);
 			} else {
 				// enabled, show the input and the datepicker
 				$element.closest('li').next('li').removeClass('hidden');
