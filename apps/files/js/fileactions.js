@@ -64,7 +64,7 @@
 		 * Removes an event handler
 		 *
 		 * @param {String} eventName event name
-		 * @param Function callback
+		 * @param {Function} callback
 		 */
 		off: function(eventName, callback) {
 			this.$el.off(eventName, callback);
@@ -664,9 +664,16 @@
 				}
 			});
 
-			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
-				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
-				context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+			this.registerAction({
+				name: 'Open',
+				mime: 'dir',
+				permissions: OC.PERMISSION_READ,
+				icon: '',
+				actionHandler: function (filename, context) {
+					var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
+					context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+				},
+				displayName: t('files', 'Open')
 			});
 
 			this.registerAction({
