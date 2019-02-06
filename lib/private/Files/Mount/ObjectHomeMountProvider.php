@@ -110,7 +110,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];
 		}
-		$config['arguments']['user'] = $user;
 
 		$bucket = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'bucket', null);
 
@@ -134,6 +133,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		// instantiate object store implementation
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 
+		$config['arguments']['user'] = $user;
 		return $config;
 	}
 }
