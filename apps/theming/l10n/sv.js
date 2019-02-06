@@ -42,7 +42,7 @@ OC.L10N.register(
     "Privacy policy link" : "Länk integritetspolicy",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Ladda upp nya favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera faviconer baserat på den uppladdade logotypen och färgen.",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
     "There is no error, the file uploaded with success" : "Det finns inga fel, uppladdning av filen lyckades ",
     "The uploaded file was only partially uploaded" : "Den uppladdade filen laddades bara upp delvis",
     "Failed to write file to disk." : "Misslyckades att skriva till disk",

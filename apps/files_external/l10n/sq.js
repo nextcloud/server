@@ -32,7 +32,6 @@ OC.L10N.register(
     "External mount error" : "Gabim i jashtëm montimi",
     "external-storage" : "ruajtje-jashtme",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "S’u mor dot lista e pikave të montimit Windows network drive: përgjigje e zbrazët nga shërbyesi",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Disa nga pikat e jashtme të formësuara të montimit s’janë të lidhura. Ju lutemi, klikoni në shigjetën(at) e kuqe për më tepër të dhëna",
     "Please enter the credentials for the {mount} mount" : "Ju lutemi, jepni kredencialet për pikën e montimit {mount}",
     "Username" : "Emër përdoruesi",
     "Password" : "Fjalëkalim",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Disa nga pikat e jashtme të formësuara të montimit s’janë të lidhura. Ju lutemi, klikoni në shigjetën(at) e kuqe për më tepër të dhëna",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nuk është instaluar.Montimi i %s nuk është i mundur.Ju lutem kërkojini administratorit të sistemit tuaj ta instalojë.",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"

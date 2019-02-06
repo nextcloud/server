@@ -1,4 +1,5 @@
 { "translations": {
+    "_" : "_",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ово су Ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи да их прочитате.",
     "Save backup codes" : "Сачувај резервне кодове",
     "Print backup codes" : "Одштампај резервне кодове",

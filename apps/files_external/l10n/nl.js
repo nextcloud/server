@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Extern koppelpunt fout",
     "external-storage" : "externe opslag",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Kon geen overzicht met Windows netwerk koppelpunten krijgen: Maak de server reactie leeg",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie",
     "Please enter the credentials for the {mount} mount" : "Geef de inloggegevens op voor de {mount} mount",
     "Username" : "Gebruikersnaam",
     "Password" : "Wachtwoord",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "Are you sure you want to delete this external storage" : "Weet je zeker dat je de externe opslag wilt verwijderen",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren.",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"

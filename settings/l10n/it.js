@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Localizzazione",
     "Current password" : "Password attuale",
     "Change password" : "Modifica password",
+    "Use a second factor besides your password to increase security for your account." : "Utilizza un secondo fattore oltre alla tua password per aumentare la sicurezza per il tuo account.",
     "Devices & sessions" : "Dispositivi e sessioni",
     "Web, desktop and mobile clients currently logged in to your account." : "Client web, desktop e mobile attualmente connessi al tuo account.",
     "Device" : "Dispositivo",

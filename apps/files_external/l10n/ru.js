@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Ошибка внешнего подключения",
     "external-storage" : "внешнее-хранилище",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Не удалось получить список точек подключения сетевых дисков Windows: пустой ответ от сервера",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации нажмите на красную строку(и)",
     "Please enter the credentials for the {mount} mount" : "Укажите учётные данные для точки подключения «{mount}»",
     "Username" : "Имя пользователя",
     "Password" : "Пароль",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
     "Are you sure you want to delete this external storage" : "Действительно удалить это внешнее хранилище?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации нажмите на красную строку(и)",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
     "Allow users to mount the following external storage" : "Разрешить использование следующих служб хранения данных:"
