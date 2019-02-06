@@ -134,6 +134,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 
 		$config['arguments']['user'] = $user;
+
 		return $config;
 	}
 }
