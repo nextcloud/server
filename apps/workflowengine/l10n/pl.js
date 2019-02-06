@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "pasuje",
     "does not match" : "nie pasuje",
     "Example: {placeholder}" : "Przykład: {placeholder}",
+    "File name" : "Nazwa pliku",
     "File size (upload)" : "Rozmiar pliku (wczytywanego)",
     "less" : "mniejszy",
     "less or equals" : "mniejszy lub równy",
