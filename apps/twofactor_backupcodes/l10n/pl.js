@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "To są kody zapasowe. Proszę je zapisać i/lub wydrukować, ponieważ później nie będzie można ich ponownie odczytać",
     "Save backup codes" : "Zapisz kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
@@ -12,10 +13,13 @@ OC.L10N.register(
     "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
     "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuetapowego swojego konta",
     "Second-factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego",
-    "Backup code" : "Kod zapasowy",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Włączyłeś uwierzytelnianie dwuskładnikowe, ale jeszcze nie wygenerowałeś kodów zapasowych. Pamiętaj, aby to zrobić na wypadek utraty dostępu do drugiego składnika.",
+    "Backup code" : "Kody zapasowe",
     "Use backup code" : "Użyj kodu zapasowego",
     "Two factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego",
     "A two-factor auth backup codes provider" : "Dostawca dwuskładnikowych kodów zapasowych ",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
+    "Submit" : "Prześlij",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Kody zapasowe zostały wygenerowane. {{used}} z {{total}} kodów zostało wykorzystanych.",
     "activated" : "aktowowane",
     "updated" : "zaktualizowane",

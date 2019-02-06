@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Extern Lagring",
+    "External storages" : "Extern lagring",
     "Personal" : "Privat",
     "System" : "System",
     "Grant access" : "Bevilja åtkomst",
@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Fel vid extern montering",
     "external-storage" : "extern-lagring",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Kunde inte hämta lista med Windows nätverksmonteringspunkter: Tomt svar från servern",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Några av de konfigurerade externa monteringspunkter är inte anslutna. Klicka på den röda rad(er) för mer information.",
     "Please enter the credentials for the {mount} mount" : "Vänligen ange uppgifterna för {mount} montering",
     "Username" : "Användarnamn",
     "Password" : "Lösenord",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
     "Are you sure you want to delete this external storage" : "Är du säker att du vill ta bort denna externa lagringen",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Några av de konfigurerade externa monteringspunkter är inte anslutna. Klicka på den röda rad(er) för mer information.",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" är inte installerad. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
     "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"

@@ -18,7 +18,7 @@ OC.L10N.register(
     "Open updater" : "Abrir o actualizador",
     "Download now" : "Descargar agora",
     "What's new?" : "Que hai de novo?",
-    "The update check is not yet finished. Please refresh the page." : "A comprobación de actualización aínda non rematou. Por favor recargue a páxina.",
+    "The update check is not yet finished. Please refresh the page." : "A comprobación de actualización aínda non rematou. Recargue a páxina.",
     "Your version is up to date." : "A súa versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Está en uso un servidor de actualizacións que non é o predeterminado para comprobar as actualizacións:",
     "Update channel:" : "Canle de actualización:",

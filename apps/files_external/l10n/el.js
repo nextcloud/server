@@ -34,7 +34,6 @@ OC.L10N.register(
     "External mount error" : "Σφάλμα εξωτερικής προσάρτησης",
     "external-storage" : "εξωτερική-αποθήκευση",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Αδυναμία λήψης της λίστας των σημείων προσάρτησης δικτύων Windows: Κενή απάντηση από τον διακομιστή",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Μερικά από τα διαμορφωμένα εξωτερικά σημεία προσάρτησης δεν είναι συνδεδεμένα. Παρακαλούμε κάντε κλικ στο κόκκινο βέλος(οι) για περισσότερες πληροφορίες",
     "Please enter the credentials for the {mount} mount" : "Παρακαλούμε βάλτε τα διαπιστευτήρια  για την  {mount} προσάρτηση",
     "Username" : "Όνομα χρήστη",
     "Password" : "Κωδικός πρόσβασης",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Μερικά από τα διαμορφωμένα εξωτερικά σημεία προσάρτησης δεν είναι συνδεδεμένα. Παρακαλούμε κάντε κλικ στο κόκκινο βέλος(οι) για περισσότερες πληροφορίες",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" δεν είναι εγκατεστημένο. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκαταστήσει. ",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"

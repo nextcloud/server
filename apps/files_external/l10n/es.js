@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Error de montaje externo",
     "external-storage" : "almacenamiento-externo",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "No se ha podido recuperar la lista de puntos de montaje de las unidades de red de Windows: respuesta vacía del servidor",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algunos de los puntos de montaje externos configurados no están conectados. Por favor, haga clic en la fila roja (s) para obtener más información",
     "Please enter the credentials for the {mount} mount" : "Por favor introduzca los credenciales para el punto de montaje {mount}",
     "Username" : "Nombre de usuario",
     "Password" : "Contraseña",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales.",
     "Are you sure you want to delete this external storage" : "¿Estás seguro de que quieres eliminar este almacenamiento externo?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algunos de los puntos de montaje externos configurados no están conectados. Por favor, haga clic en la fila roja (s) para obtener más información",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no está instalado. El montaje de %s no es posible. Por favor, pregunte a su administrador del sistema para instalarlo.",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
