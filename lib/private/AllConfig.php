@@ -126,6 +126,42 @@ class AllConfig implements \OCP\IConfig {
 	}
 
 	/**
+	 * Looks up a boolean system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueBool(string $key, bool $default = false): bool {
+		return (bool) $this->getSystemValue($key, $default);
+	}
+
+	/**
+	 * Looks up an integer system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueInt(string $key, int $default = 0): int {
+		return (int) $this->getSystemValue($key, $default);
+	}
+
+	/**
+	 * Looks up a string system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueString(string $key, string $default = ''): string {
+		return (string) $this->getSystemValue($key, $default);
+	}
+
+	/**
 	 * Looks up a system wide defined value and filters out sensitive data
 	 *
 	 * @param string $key the key of the value, under which it was saved
