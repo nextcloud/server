@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "שגיאת עגינה חיצונית",
     "external-storage" : "אחסון חיצוני",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "לא ניתן לקבל את רשימת נקודות העגינה לכונני רשת ב־Windows: תגובה ריקה מהשרת",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "חלק מנקודות העיגון החיצוניות שהוגדרו אינן מחוברות. יש ללחוץ על השורה/ות האדומה/ות למידע נוסף",
     "Please enter the credentials for the {mount} mount" : "יש להזין את פרטי הגישה עבור התקן עגינה {mount}",
     "Username" : "שם משתמש",
     "Password" : "סיסמא",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
     "Are you sure you want to delete this external storage" : "למחוק את התקן האחסון החיצוני הזה",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "חלק מנקודות העיגון החיצוניות שהוגדרו אינן מחוברות. יש ללחוץ על השורה/ות האדומה/ות למידע נוסף",
     "OpenStack" : "OpenStack",
     "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא"
 },

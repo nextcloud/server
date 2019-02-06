@@ -68,6 +68,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
     "New" : "Nova",
+    "Select file range" : "Elekti dosierintervalon",
     "{used} of {quota} used" : "{used} uzataj el {quota}",
     "{used} used" : "{used} uzataj",
     "\"{name}\" is an invalid file name." : "„{name}“ estas nevalida dosiernomo.",

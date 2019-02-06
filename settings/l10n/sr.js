@@ -332,6 +332,7 @@ OC.L10N.register(
     "Locale" : "Локалитет",
     "Current password" : "Тренутна лозинка",
     "Change password" : "Измени лозинку",
+    "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
     "Devices & sessions" : "Уређаји & сесије",
     "Web, desktop and mobile clients currently logged in to your account." : "Веб, рачунарски и мобилни клијенти тренутно пријављени на Ваш налог.",
     "Device" : "Уређај",

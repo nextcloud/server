@@ -139,6 +139,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM の場合は値を変更後、反映されるのに5分程度かかります。",
     "Missing permissions to edit from here." : "ここから編集するための権限がありません。",
     "%s of %s used" : "%s / %s 使用中",
+    "%1$s%% of %2$s used" : "%2$s 中%1$s %%が使われています。",
     "%s used" : "%s 使用中",
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",

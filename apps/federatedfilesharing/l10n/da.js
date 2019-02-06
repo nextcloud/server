@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Kunne ikke skabe forbindelse til føderal deling ",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke skabe forbindelse til føderal deling, måske var passwordet forkert.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Føderal deling anmodning sendt, du vil modtage en invitation. Tjek dine notifikationer.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Kunne ikke skabe forbindelse til føderal deling, det ser ud til at føderal serveren er for gammel (Nextcloud <=9).",
     "Not allowed to create a federated share with the same user" : "Det er ikke tilladt at danne et datafællesskab med samme bruger",
     "File is already shared with %s" : "Filen deles allerede med %s",
     "Could not find share" : "Kan ikke finde deling",

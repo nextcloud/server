@@ -33,7 +33,6 @@ OC.L10N.register(
     "External mount error" : "გარე მონტაჟის შეცდომა",
     "external-storage" : "გარე-საცავი",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Windows-ის ქსელის დრაივის მონტაჯის წერტილების სიის მოპოვება ვერ მოხერხდა: ცარიელი პასუხი სერვერიდან",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "ზოგი კონფიგურირებული გარე მონტაჟის წერიტილი არაა დაკავშირებული. მეტი ინფორმაციისთვის გთხოვთ დააწკაპუნოთ წითელ რიგ(ებ)ს.",
     "Please enter the credentials for the {mount} mount" : "გთხოვთ {mount} მონტაჟისთვის შეიყვანოთ მონაცემები",
     "Username" : "მომხმარებლის სახელი",
     "Password" : "პაროლი",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
     "Are you sure you want to delete this external storage" : "დარწმუნებული ხართ, რომ გსურთ ამ გარე საცავის გაუქმება?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "ზოგი კონფიგურირებული გარე მონტაჟის წერიტილი არაა დაკავშირებული. მეტი ინფორმაციისთვის გთხოვთ დააწკაპუნოთ წითელ რიგ(ებ)ს.",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" არაა დაყენებული. %s-ის მონტაჟი ვერ ხერხდება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს მისი დაყენება.",
     "Allow users to mount the following external storage" : "მივცეთ მომხმარებლებს შემდეგი გარე საცავების მონტაჟის უფლება"
