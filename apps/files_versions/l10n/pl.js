@@ -5,6 +5,8 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Nie udało się przywrócić {file} do wersji z {timestamp}.",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajtów","%n bajtów","%n bajtów"],
     "Restore" : "Przywróć",
+    "No other versions available" : "Nie są dostępne żadne inne wersje",
+    "This application automatically maintains older versions of files that are changed." : "Ta aplikacja przechowuje starsze wersje plików poddanych modyfikacji.",
     "Could not revert: %s" : "Nie można przywrócić: %s",
     "No earlier versions available" : "Brak dostępnych wcześniejszych wersji",
     "More versions …" : "Więcej wersji…"

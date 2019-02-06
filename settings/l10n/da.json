@@ -214,6 +214,7 @@
     "Server-side encryption" : "Kryptering på serversiden",
     "Enable server-side encryption" : "Slå kryptering til på serversiden",
     "Please read carefully before activating server-side encryption: " : "Læs venligst dette omhyggeligt, før der aktivere kryptering på serversiden:",
+    "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "Kryptering alene garanterer ikke systemets sikkerhed. I dokumentationen er der mere information om hvordan krypteringsappen virker, og kan bruges.",
     "This is the final warning: Do you really want to enable encryption?" : "Dette er den sidste advarsel: Sikker på at du vil slå kryptering til?",
     "Enable encryption" : "Slå kryptering til",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Der er ikke indlæst et krypteringsmodul - slå venligst et krypteringsmodul til i app-menuen.",

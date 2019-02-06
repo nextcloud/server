@@ -83,7 +83,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "Delt med dig af {owner}",
     "Choose a password for the public link" : "Vælg et kodeord til det offentlige link",
     "Choose a password for the public link or press the \"Enter\" key" : "Vælg en kode for det \"offentlige link\" og tryk \"Enter\"",
-    "Copied!" : "Kopirét!",
+    "Copied!" : "Kopieret!",
     "Copy link" : "Kopier link",
     "Not supported!" : "Ikke understøttet!",
     "Press ⌘-C to copy." : "Tryk ⌘-C for at kopiere.",
