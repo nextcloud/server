@@ -75,7 +75,7 @@ class Application extends \OCP\AppFramework\App {
 	 * register hooks
 	 */
 	public function registerHooks() {
-		if (!$this->config->getSystemValue('maintenance', false)) {
+		if (!$this->config->getSystemValueBool('maintenance')) {
 
 			$container = $this->getContainer();
 			$server = $container->getServer();

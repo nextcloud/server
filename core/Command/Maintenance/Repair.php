@@ -106,7 +106,7 @@ class Repair extends Command {
 			}
 		}
 
-		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
+		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
 		$this->progress = new ProgressBar($output);

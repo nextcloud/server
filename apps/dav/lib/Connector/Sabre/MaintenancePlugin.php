@@ -78,7 +78,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function checkMaintenanceMode() {
-		if ($this->config->getSystemValue('maintenance', false)) {
+		if ($this->config->getSystemValueBool('maintenance')) {
 			throw new ServiceUnavailable('System in maintenance mode.');
 		}
 		if (Util::needUpgrade()) {
