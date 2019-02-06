@@ -149,7 +149,7 @@ class Repair implements IOutput {
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger()),
-			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache')),
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
 		];
 	}
 

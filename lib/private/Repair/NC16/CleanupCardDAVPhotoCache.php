@@ -22,11 +22,11 @@ declare(strict_types=1);
 
 namespace OC\Repair\NC16;
 
-use OC\Files\AppData\AppData;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -44,12 +44,16 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	/** @var IConfig */
 	private $config;
 
-	/** @var AppData */
+	/** @var IAppData */
 	private $appData;
 
-	public function __construct(IConfig $config, IAppData $appData) {
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(IConfig $config, IAppData $appData, ILogger $logger) {
 		$this->config = $config;
 		$this->appData = $appData;
+		$this->logger = $logger;
 	}
 
 	public function getName(): string {
@@ -78,7 +82,8 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 				/** @var ISimpleFolder $folder */
 				$folder->getFile('photo.')->delete();
 			} catch (\Exception $e) {
-				$output->warning('Could not delete "photo." file in dav-photocache/' . $folder->getName());
+				$this->logger->logException($e);
+				$output->warning('Could not delete file "dav-photocache/' . $folder->getName() . '/photo."');
 			}
 		}
 	}
