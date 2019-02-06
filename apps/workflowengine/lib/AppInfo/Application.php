@@ -59,8 +59,6 @@ class Application extends \OCP\AppFramework\App {
 					'systemtags/systemtagscollection',
 				]);
 
-				vendor_script('jsTimezoneDetect/jstz');
-
 				script('workflowengine', [
 					'admin',
 					'templates',
