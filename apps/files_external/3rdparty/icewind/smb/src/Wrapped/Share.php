@@ -13,7 +13,6 @@ use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
-use Icewind\SMB\IFileInfo;
 use Icewind\SMB\INotifyHandler;
 use Icewind\SMB\IServer;
 use Icewind\SMB\System;
@@ -159,13 +158,14 @@ class Share extends AbstractShare {
 		if ($path !== "" && $path !== "/") {
 			$parent = dirname($path);
 			$dir = $this->dir($parent);
-			$file = array_values(array_filter($dir, function(IFileInfo $info) use ($path) {
+			$file = array_values(array_filter($dir, function(FileInfo $info) use ($path) {
 				return $info->getPath() === $path;
 			}));
 			if ($file) {
 				return $file[0];
 			}
 		}
+
 		$escapedPath = $this->escapePath($path);
 		$output = $this->execute('allinfo ' . $escapedPath);
 		// Windows and non Windows Fileserver may respond different
