@@ -57,9 +57,9 @@ OC.L10N.register(
     "Request ID: %s" : "Eskatutako ID: 1%s",
     "Save" : "Gorde",
     "Send invitations to attendees" : "Gonbidatutakoei gonbidapenak bidali",
-    "Please make sure to properly set up the email settings above." : "Mesedez, eposta ezarpenak ondo zehaztuta daudela ziurta ezazu",
     "The meeting »%s« with %s was canceled." : "1%s-rekin duzun » 1%s « bilera ezeztatu da",
     "%s invited you to »%s«" : "1%s-k »1%s«-ra gonbidatu zaitu",
-    "CalDAV server" : "CalDAV zerbitzaria"
+    "CalDAV server" : "CalDAV zerbitzaria",
+    "Please make sure to properly set up the email settings above." : "Mesedez, eposta ezarpenak ondo zehaztuta daudela ziurta ezazu"
 },
 "nplurals=2; plural=(n != 1);");

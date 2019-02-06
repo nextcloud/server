@@ -12,6 +12,7 @@ OC.L10N.register(
     "More comments …" : "Mais comentários ...",
     "Save" : "Guardar",
     "Allowed characters {count} of {max}" : "{count} de {max} caracteres restantes",
+    "Error occurred while retrieving comment with ID {id}" : "Ocorreu um erro durante a obtenção do comentário com ID {id}",
     "Error occurred while updating comment with id {id}" : "Ocorreu um erro ao tentar atualizar o comentário com o id {id}",
     "Error occurred while posting comment" : "Ocorreu um erro ao tentar publicar o comentário",
     "_%n unread comment_::_%n unread comments_" : ["%n comentários por ler","%n comentários por ler"],
@@ -26,6 +27,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> aos ficheiros",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Foste mencionado e, “{file}”, num comentário de um utilizador que foi entretanto removido",
     "{user} mentioned you in a comment on “{file}”" : "{user} mencionou-te num comentário em “{file}”",
+    "Files app plugin to add comments to files" : "Plugin de aplicação de ficheiros para adicionar comentários aos ficheiros",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Foste mencionado em “%s”, num comentário de um utilizador que foi entretanto removido",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s mencionou-te num comentário em “%2$s”"
 },
