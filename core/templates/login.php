@@ -1,6 +1,5 @@
 <?php /** @var $l \OCP\IL10N */ ?>
 <?php
-vendor_script('jsTimezoneDetect/jstz');
 script('core', 'merged-login');
 
 use OC\Core\Controller\LoginController;
