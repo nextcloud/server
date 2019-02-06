@@ -21,49 +21,12 @@
 
 namespace Icewind\SMB;
 
-interface IServer {
+interface ITimeZoneProvider {
 	/**
-	 * @return IAuth
-	 */
-	public function getAuth();
-
-	/**
-	 * @return string
-	 */
-	public function getHost();
-
-	/**
-	 * @return \Icewind\SMB\IShare[]
+	 * Get the timezone of the smb server
 	 *
-	 * @throws \Icewind\SMB\Exception\AuthenticationException
-	 * @throws \Icewind\SMB\Exception\InvalidHostException
-	 */
-	public function listShares();
-
-	/**
-	 * @param string $name
-	 * @return \Icewind\SMB\IShare
-	 */
-	public function getShare($name);
-
-	/**
+	 * @param string $host
 	 * @return string
 	 */
-	public function getTimeZone();
-
-	/**
-	 * @return ISystem
-	 */
-	public function getSystem();
-
-	/**
-	 * @return IOptions
-	 */
-	public function getOptions();
-
-	/**
-	 * @param ISystem $system
-	 * @return bool
-	 */
-	public static function available(ISystem $system);
+	public function get($host);
 }

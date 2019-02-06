@@ -30,7 +30,10 @@ class NativeFileInfo implements IFileInfo {
 	/**
 	 * @var array|null
 	 */
-	protected $statCache;
+	protected $statCache = null;
+
+	/** @var callable|null */
+	protected $statCallback = null;
 
 	/**
 	 * @var int
@@ -41,13 +44,20 @@ class NativeFileInfo implements IFileInfo {
 	 * @param NativeShare $share
 	 * @param string $path
 	 * @param string $name
-	 * @param array $stat
+	 * @param array|callable $stat
 	 */
-	public function __construct($share, $path, $name, $stat = null) {
+	public function __construct($share, $path, $name, $stat) {
 		$this->share = $share;
 		$this->path = $path;
 		$this->name = $name;
-		$this->statCache = $stat;
+
+		if (is_array($stat)) {
+			$this->statCache = $stat;
+		} elseif (is_callable($stat)) {
+			$this->statCallback = $stat;
+		} else {
+			throw new \InvalidArgumentException('$stat needs to be an array or callback');
+		}
 	}
 
 	/**
@@ -69,7 +79,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	protected function stat() {
 		if (is_null($this->statCache)) {
-			$this->statCache = $this->share->getStat($this->getPath());
+			$this->statCache = call_user_func($this->statCallback);
 		}
 		return $this->statCache;
 	}
