@@ -33,7 +33,7 @@ namespace OC;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OC\AvatarManager;
+use OC\Avatar\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearGeneratedAvatarCache;

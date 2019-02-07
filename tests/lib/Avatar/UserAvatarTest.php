@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test;
+namespace Test\Avatar;
 
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
@@ -18,11 +18,11 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 
-class AvatarTest extends \Test\TestCase {
+class UserAvatarTest extends \Test\TestCase {
 	/** @var Folder | \PHPUnit_Framework_MockObject_MockObject */
 	private $folder;
 
-	/** @var \OC\Avatar */
+	/** @var \OC\Avatar\UserAvatar */
 	private $avatar;
 
 	/** @var \OC\User\User | \PHPUnit_Framework_MockObject_MockObject $user */
@@ -41,7 +41,7 @@ class AvatarTest extends \Test\TestCase {
 		$this->user = $this->createMock(User::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->avatar = new \OC\Avatar(
+		$this->avatar = new \OC\Avatar\UserAvatar(
 			$this->folder,
 			$l,
 			$this->user,

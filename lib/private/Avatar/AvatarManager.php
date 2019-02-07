@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OC;
+namespace OC\Avatar;
 
 use OC\User\Manager;
 use OCP\Files\IAppData;
@@ -102,7 +102,7 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		return new Avatar($folder, $this->l, $user, $this->logger, $this->config);
+		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
 	}
 
 	/**
@@ -119,5 +119,15 @@ class AvatarManager implements IAvatarManager {
 			}
 			$this->config->setUserValue($userId, 'avatar', 'generated', 'false');
 		}
+	}
+
+	/**
+	 * Returns a GuestAvatar.
+	 *
+	 * @param string $name The guest name, e.g. "Albert".
+	 * @return IAvatar
+	 */
+	public function getGuestAvatar(string $name): IAvatar {
+		return new GuestAvatar($name, $this->logger);
 	}
 }

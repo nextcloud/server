@@ -45,4 +45,13 @@ interface IAvatarManager {
 	 */
 	public function getAvatar(string $user) : IAvatar;
 
+	/**
+	 * Returns a guest user avatar instance.
+	 *
+	 * @param string $name The guest name, e.g. "Albert".
+	 * @return IAvatar
+	 * @since 16.0.0
+	 */
+	public function getGuestAvatar(string $name): IAvatar;
+
 }
