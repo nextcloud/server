@@ -244,34 +244,43 @@ class ShareByMailProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @param string $type
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	protected function createShareActivity(IShare $share, string $type = 'share') {
-
+		// Workaround for issue https://github.com/nextcloud/server/issues/14082
+		//
+		// When a new share is created, node path in share object is based on the logged in user ("shared by")
+		// When a share is deleted, node path in share object is based on the share owner
+		// Here we test to see if either path is relative to the logged in user
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+
+		$userRelativePath = $userFolder->getRelativePath($share->getNode()->getPath());
+		if (!$userRelativePath) {
+		  $userRelativePath = $ownerFolder->getRelativePath($share->getNode()->getPath());
+		}
+		if (!$userRelativePath) {
+		  throw new \OCP\Files\InvalidPathException('Could not find relative path to share');
+		}
 
 		$this->publishActivity(
 			$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_SELF : Activity::SUBJECT_UNSHARED_EMAIL_SELF,
-			[$userFolder->getRelativePath($share->getNode()->getPath()), $share->getSharedWith()],
+			[$userRelativePath, $share->getSharedWith()],
 			$share->getSharedBy(),
 			$share->getNode()->getId(),
-			$userFolder->getRelativePath($share->getNode()->getPath())
+			$userRelativePath
 		);
 
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
-			$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-			$fileId = $share->getNode()->getId();
-			$nodes = $ownerFolder->getById($fileId);
-			$ownerPath = $nodes[0]->getPath();
 			$this->publishActivity(
 				$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_BY : Activity::SUBJECT_UNSHARED_EMAIL_BY,
-				Activity::SUBJECT_SHARED_EMAIL_BY,
-				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
+				[$userRelativePath, $share->getSharedWith(), $share->getSharedBy()],
 				$share->getShareOwner(),
-				$fileId,
-				$ownerFolder->getRelativePath($ownerPath)
+		        $share->getNode()->getId(),
+        		$userRelativePath
 			);
 		}
-
 	}
 
 	/**
