@@ -49,7 +49,7 @@ class Manager implements IManager {
 	 * @param int $id
 	 * @return ICollection
 	 * @throws CollectionException when the collection could not be found
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getCollection(int $id): ICollection {
 		$query = $this->connection->getQueryBuilder();
@@ -68,10 +68,12 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param int $id
-	 * @return ICollection
-	 * @throws CollectionException when the collection could not be found
-	 * @since 15.0.0
+	 * @param IUser $user
+	 * @param string $filter
+	 * @param int $limit
+	 * @param int $start
+	 * @return ICollection[]
+	 * @since 16.0.0
 	 */
 	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
 		$query = $this->connection->getQueryBuilder();
@@ -99,7 +101,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $name
 	 * @return ICollection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function newCollection(string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();
@@ -116,7 +118,7 @@ class Manager implements IManager {
 	 * @param string $type
 	 * @param string $id
 	 * @return IResource
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getResource(string $type, string $id): IResource {
 		return new Resource($this, $this->connection, $type, $id);
@@ -124,7 +126,7 @@ class Manager implements IManager {
 
 	/**
 	 * @return IProvider[]
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getProviders(): array {
 		return $this->providers;
@@ -135,7 +137,7 @@ class Manager implements IManager {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(IResource $resource): string {
 		foreach ($this->getProviders() as $provider) {
@@ -174,7 +176,7 @@ class Manager implements IManager {
 	 * @param IResource $resource
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IResource $resource, IUser $user = null): bool {
 		foreach ($this->getProviders() as $provider) {
@@ -203,7 +205,7 @@ class Manager implements IManager {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string {
 		return '';
@@ -214,7 +216,7 @@ class Manager implements IManager {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getLink(IResource $resource): string {
 		foreach ($this->getProviders() as $provider) {
@@ -232,7 +234,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $name
 	 * @return ICollection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function renameCollection(int $id, string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();

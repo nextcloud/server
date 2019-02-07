@@ -24,6 +24,9 @@ namespace OCP\Collaboration\Resources;
 
 use OCP\IUser;
 
+/**
+ * @since 16.0.0
+ */
 interface IProvider {
 
 	/**
@@ -31,7 +34,7 @@ interface IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string;
 
@@ -40,7 +43,7 @@ interface IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(IResource $resource): string;
 
@@ -49,7 +52,7 @@ interface IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getIconClass(IResource $resource): string;
 
@@ -58,7 +61,7 @@ interface IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getLink(IResource $resource): string;
 
@@ -68,7 +71,7 @@ interface IProvider {
 	 * @param IResource $resource
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IResource $resource, IUser $user = null): bool;
 

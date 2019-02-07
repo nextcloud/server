@@ -67,7 +67,7 @@ class Resource implements IResource {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string {
 		return $this->type;
@@ -75,7 +75,7 @@ class Resource implements IResource {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getId(): string {
 		return $this->id;
@@ -83,7 +83,7 @@ class Resource implements IResource {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(): string {
 		if ($this->name === null) {
@@ -95,7 +95,7 @@ class Resource implements IResource {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getIconClass(): string {
 		if ($this->iconClass === null) {
@@ -119,7 +119,7 @@ class Resource implements IResource {
 	 *
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool {
 		return $this->manager->canAccess($this, $user);
@@ -127,7 +127,7 @@ class Resource implements IResource {
 
 	/**
 	 * @return ICollection[]
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getCollections(): array {
 		$collections = [];

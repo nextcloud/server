@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace OCP\Collaboration\Resources;
 
 /**
- * @since 15.0.0
+ * @since 16.0.0
  */
 interface IManager extends IProvider {
 
@@ -31,14 +31,14 @@ interface IManager extends IProvider {
 	 * @param int $id
 	 * @return ICollection
 	 * @throws CollectionException when the collection could not be found
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getCollection(int $id): ICollection;
 
 	/**
 	 * @param string $name
 	 * @return ICollection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function newCollection(string $name): ICollection;
 
@@ -46,7 +46,7 @@ interface IManager extends IProvider {
 	/**
 	 * @param string $name
 	 * @return ICollection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function renameCollection(int $id, string $name): ICollection;
 
@@ -54,7 +54,7 @@ interface IManager extends IProvider {
 	 * @param string $type
 	 * @param string $id
 	 * @return IResource
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getResource(string $type, string $id): IResource;
 

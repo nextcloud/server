@@ -64,7 +64,7 @@ class Collection implements ICollection {
 
 	/**
 	 * @return int
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getId(): int {
 		return $this->id;
@@ -72,7 +72,7 @@ class Collection implements ICollection {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(): string {
 		return $this->name;
@@ -80,7 +80,7 @@ class Collection implements ICollection {
 
 	/**
 	 * @return IResource[]
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getResources(): array {
 		if (empty($this->resources)) {
@@ -104,7 +104,7 @@ class Collection implements ICollection {
 	 *
 	 * @param IResource $resource
 	 * @throws ResourceException when the resource is already part of the collection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function addResource(IResource $resource) {
 		array_map(function(IResource $r) use ($resource) {
@@ -134,7 +134,7 @@ class Collection implements ICollection {
 	 * Removes a resource from a collection
 	 *
 	 * @param IResource $resource
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function removeResource(IResource $resource) {
 		$this->resources = array_filter($this->resources, function(IResource $r) use ($resource) {
@@ -158,7 +158,7 @@ class Collection implements ICollection {
 	 *
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool {
 		foreach ($this->getResources() as $resource) {

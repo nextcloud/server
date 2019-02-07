@@ -23,6 +23,9 @@ declare(strict_types=1);
 namespace OCP\Collaboration\Resources;
 
 
+/**
+ * @since 16.0.0
+ */
 class ResourceException extends \RuntimeException {
 
 }

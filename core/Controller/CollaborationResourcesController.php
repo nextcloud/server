@@ -87,7 +87,7 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param int $collectionId
+	 * @param string $filter
 	 * @return DataResponse
 	 */
 	public function searchCollections(string $filter): DataResponse {
@@ -179,8 +179,8 @@ class CollaborationResourcesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $resourceType
-	 * @param string $resourceId
+	 * @param string $baseResourceType
+	 * @param string $baseResourceId
 	 * @param string $name
 	 * @return DataResponse
 	 */

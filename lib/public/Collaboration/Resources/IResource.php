@@ -25,37 +25,37 @@ namespace OCP\Collaboration\Resources;
 use OCP\IUser;
 
 /**
- * @since 15.0.0
+ * @since 16.0.0
  */
 interface IResource {
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string;
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getId(): string;
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(): string;
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getIconClass(): string;
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getLink(): string;
 
@@ -64,13 +64,13 @@ interface IResource {
 	 *
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool;
 
 	/**
 	 * @return ICollection[]
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getCollections(): array;
 }

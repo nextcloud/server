@@ -25,25 +25,25 @@ namespace OCP\Collaboration\Resources;
 use OCP\IUser;
 
 /**
- * @since 15.0.0
+ * @since 16.0.0
  */
 interface ICollection {
 
 	/**
 	 * @return int
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getId(): int;
 
 	/**
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(): string;
 
 	/**
 	 * @return IResource[]
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getResources(): array;
 
@@ -52,7 +52,7 @@ interface ICollection {
 	 *
 	 * @param IResource $resource
 	 * @throws ResourceException when the resource is already part of the collection
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function addResource(IResource $resource);
 
@@ -60,7 +60,7 @@ interface ICollection {
 	 * Removes a resource from a collection
 	 *
 	 * @param IResource $resource
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function removeResource(IResource $resource);
 
@@ -69,7 +69,7 @@ interface ICollection {
 	 *
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool;
 }
