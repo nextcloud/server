@@ -46,6 +46,9 @@ class Collection implements ICollection {
 	/** @var string */
 	protected $name;
 
+	/** @var bool|null */
+	protected $access;
+
 	/** @var IResource[] */
 	protected $resources;
 
@@ -53,12 +56,14 @@ class Collection implements ICollection {
 		IManager $manager,
 		IDBConnection $connection,
 		int $id,
-		string $name
+		string $name,
+		?bool $access
 	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->id = $id;
 		$this->name = $name;
+		$this->access = $access;
 		$this->resources = [];
 	}
 
@@ -161,13 +166,16 @@ class Collection implements ICollection {
 	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool {
-		foreach ($this->getResources() as $resource) {
-			if ($resource->canAccess($user)) {
-				return true;
+		if ($this->access === null) {
+			$this->access = false;
+			foreach ($this->getResources() as $resource) {
+				if ($resource->canAccess($user)) {
+					$this->access = true;
+				}
 			}
 		}
 
-		return false;
+		return $this->access;
 	}
 
 	protected function isSameResource(IResource $resource1, IResource $resource2): bool {

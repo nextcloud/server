@@ -26,7 +26,6 @@ namespace OC\Collaboration\Resources;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;
-use OCP\Collaboration\Resources\ResourceException;
 use OCP\IDBConnection;
 use OCP\IUser;
 
@@ -44,6 +43,9 @@ class Resource implements IResource {
 	/** @var string */
 	protected $id;
 
+	/** @var bool|null */
+	protected $access;
+
 	/** @var string|null */
 	protected $name;
 
@@ -57,12 +59,14 @@ class Resource implements IResource {
 		IManager $manager,
 		IDBConnection $connection,
 		string $type,
-		string $id
+		string $id,
+		?bool $access
 	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->type = $type;
 		$this->id = $id;
+		$this->access = $access;
 	}
 
 	/**
@@ -122,7 +126,10 @@ class Resource implements IResource {
 	 * @since 16.0.0
 	 */
 	public function canAccess(IUser $user = null): bool {
-		return $this->manager->canAccess($this, $user);
+		if ($this->access === null) {
+			$this->access = $this->manager->canAccess($this, $user);
+		}
+		return $this->access;
 	}
 
 	/**

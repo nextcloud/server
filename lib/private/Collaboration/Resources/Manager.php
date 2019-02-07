@@ -193,6 +193,85 @@ class Manager implements IManager {
 		return false;
 	}
 
+	public function cacheAccessForResource(IResource $resource, ?IUser $user, bool $access): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->insert('collres_accesscache')
+			->values([
+				'user_id' => $query->createNamedParameter($userId),
+				'resource_id' => $query->createNamedParameter($resource->getId()),
+				'access' => $query->createNamedParameter($access),
+			]);
+		$query->execute();
+	}
+
+	public function cacheAccessForCollection(ICollection $collection, ?IUser $user, bool $access): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->insert('collres_accesscache')
+			->values([
+				'user_id' => $query->createNamedParameter($userId),
+				'collection_id' => $query->createNamedParameter($collection->getId()),
+				'access' => $query->createNamedParameter($access),
+			]);
+		$query->execute();
+	}
+
+	public function invalidateAccessCacheForUser(?IUser $user): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->delete('collres_accesscache')
+			->where($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
+		$query->execute();
+	}
+
+	public function invalidateAccessCacheForResource(IResource $resource): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->delete('collres_accesscache')
+			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
+		$query->execute();
+
+		foreach ($resource->getCollections() as $collection) {
+			$this->invalidateAccessCacheForCollection($collection);
+		}
+	}
+
+	protected function invalidateAccessCacheForCollection(ICollection $collection): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->delete('collres_accesscache')
+			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())));
+		$query->execute();
+	}
+
+	public function invalidateAccessCacheForResourceByUser(IResource $resource, ?IUser $user): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->delete('collres_accesscache')
+			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())))
+			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
+		$query->execute();
+
+		foreach ($resource->getCollections() as $collection) {
+			$this->invalidateAccessCacheForCollectionByUser($collection, $user);
+		}
+	}
+
+	protected function invalidateAccessCacheForCollectionByUser(ICollection $collection, ?IUser $user): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->delete('collres_accesscache')
+			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())))
+			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
+		$query->execute();
+	}
+
 	/**
 	 * @param IProvider $provider
 	 */

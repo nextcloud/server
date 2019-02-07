@@ -28,7 +28,7 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-class Version15000Date20180917092725 extends SimpleMigrationStep {
+class Version16000Date20190207141427 extends SimpleMigrationStep {
 
 
 	/**
@@ -72,6 +72,30 @@ class Version15000Date20180917092725 extends SimpleMigrationStep {
 			]);
 
 			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
+		}
+
+		if (!$schema->hasTable('collres_accesscache')) {
+			$table = $schema->createTable('collres_accesscache');
+
+			$table->addColumn('user_id', Type::STRING, [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('collection_id', Type::BIGINT, [
+				'notnull' => false,
+			]);
+			$table->addColumn('resource_id', Type::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
+			$table->addColumn('access', Type::SMALLINT, [
+				'notnull' => true,
+				'default' => 0,
+			]);
+
+			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_id'], 'collres_unique_user');
+			$table->addIndex(['user_id', 'resource_id'], 'collres_user_res');
+			$table->addIndex(['user_id', 'collection_id'], 'collres_user_coll');
 		}
 
 		return $schema;
