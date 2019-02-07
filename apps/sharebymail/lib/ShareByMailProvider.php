@@ -264,7 +264,6 @@ class ShareByMailProvider implements IShareProvider {
 			$ownerPath = $nodes[0]->getPath();
 			$this->publishActivity(
 				$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_BY : Activity::SUBJECT_UNSHARED_EMAIL_BY,
-				Activity::SUBJECT_SHARED_EMAIL_BY,
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
 				$share->getShareOwner(),
 				$fileId,
