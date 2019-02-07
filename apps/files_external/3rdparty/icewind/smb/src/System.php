@@ -16,6 +16,8 @@ class System {
 
 	private $stdbuf;
 
+	private $date;
+
 	public static function getFD($num) {
 		$folders = array(
 			'/proc/self/fd',
@@ -41,6 +43,13 @@ class System {
 			$this->net = trim(`which net`);
 		}
 		return $this->net;
+	}
+
+	public function getDatePath() {
+		if (!$this->date) {
+			$this->date = trim(`which date`);
+		}
+		return $this->date;
 	}
 
 	public function hasStdBuf() {

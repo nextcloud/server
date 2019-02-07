@@ -150,6 +150,7 @@ class Share extends AbstractShare {
 				return $file[0];
 			}
 		}
+
 		$escapedPath = $this->escapePath($path);
 		$output = $this->execute('allinfo ' . $escapedPath);
 		// Windows and non Windows Fileserver may respond different
