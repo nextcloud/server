@@ -27,7 +27,9 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\PublicShareController;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -65,6 +67,31 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
+	}
+
+	public function testPublicShareController() {
+		$this->dispatcher->expects($this->never())
+			->method($this->anything());
+		$this->userSession->expects($this->never())
+			->method($this->anything());
+
+		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
+	}
+
+	public function testStandaloneTemplateResponse() {
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->willReturnCallback(function($eventName) {
+				if ($eventName === TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS) {
+					return;
+				}
+
+				$this->fail('Wrong event dispatched');
+			});
+		$this->userSession->expects($this->never())
+			->method($this->anything());
+
+		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(StandaloneTemplateResponse::class));
 	}
 
 	public function testTemplateResponseNotLoggedIn() {

@@ -25,8 +25,10 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\AppFramework\PublicShareController;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -42,10 +44,18 @@ class AdditionalScriptsMiddleware extends Middleware {
 	}
 
 	public function afterController($controller, $methodName, Response $response): Response {
+		/*
+		 * There is no need to emit these signals on a public share page
+		 * There is a separate event for that already
+		 */
+		if ($controller instanceof PublicShareController) {
+			return $response;
+		}
+
 		if ($response instanceof TemplateResponse) {
 			$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS);
 
-			if ($this->userSession->isLoggedIn()) {
+			if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
 				$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN);
 			}
 		}
