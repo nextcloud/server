@@ -36,6 +36,11 @@ namespace OCA\User_LDAP;
 /**
  * @property int ldapPagingSize holds an integer
  * @property string ldapUserAvatarRule
+ * @property string ldapEmailAttribute
+ * @property string ldapUserDisplayName
+ * @property string ldapUserFilter
+ * @property string ldapGroupFilter
+ * @property string[] ldapBase
  */
 class Configuration {
 	const AVATAR_PREFIX_DEFAULT = 'default';

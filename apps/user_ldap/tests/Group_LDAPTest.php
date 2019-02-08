@@ -105,9 +105,13 @@ class Group_LDAPTest extends TestCase {
 			->method('groupname2dn')
 			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
 
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
-			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
+			->will($this->returnValue(['u11', 'u22', 'u33', 'u34']));
+		$access->expects($this->atLeastOnce())
+			->method('isRecordOnLDAP')
+			->with($this->anything())
+			->willReturn(true);
 
 		// for primary groups
 		$access->expects($this->once())
@@ -132,9 +136,9 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('fetchListOfUsers')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnCallback(function($name) {
 				//the search operation will call readAttribute, thus we need
@@ -145,14 +149,21 @@ class Group_LDAPTest extends TestCase {
 				if(strpos($name, 'u') === 0) {
 					return strpos($name, '3');
 				}
-				return array('u11', 'u22', 'u33', 'u34');
+				return ['u11', 'u22', 'u33', 'u34'];
 			}));
+		$access->expects($this->atLeastOnce())
+			->method('isRecordOnLDAP')
+			->with($this->anything())
+			->willReturn(true);
 
 		$access->expects($this->any())
 			->method('dn2username')
 			->will($this->returnCallback(function() {
 				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
+		$access->expects($this->any())
+			->method('escapeFilterPart')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -262,10 +273,10 @@ class Group_LDAPTest extends TestCase {
 		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
 		$attr = 'gidNumber';
 
-		$access->expects($this->once())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->with($dn, $attr)
-			->will($this->returnValue(array('3117')));
+			->will($this->returnValue(['3117']));
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 
@@ -283,7 +294,7 @@ class Group_LDAPTest extends TestCase {
 		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
 		$attr = 'gidNumber';
 
-		$access->expects($this->once())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->with($dn, $attr)
 			->will($this->returnValue(false));
@@ -416,10 +427,10 @@ class Group_LDAPTest extends TestCase {
 		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
 		$attr = 'primaryGroupToken';
 
-		$access->expects($this->once())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->with($dn, $attr)
-			->will($this->returnValue(array('3117')));
+			->will($this->returnValue(['3117']));
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 
@@ -439,7 +450,7 @@ class Group_LDAPTest extends TestCase {
 		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
 		$attr = 'primaryGroupToken';
 
-		$access->expects($this->once())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->with($dn, $attr)
 			->will($this->returnValue(false));
@@ -506,16 +517,20 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				} else if($attr === 'gidNumber') {
 					return [4211];
 				}
-				return array();
+				return [];
 			}));
+		$access->expects($this->atLeastOnce())
+			->method('isRecordOnLDAP')
+			->with($this->anything())
+			->willReturn(true);
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
@@ -543,20 +558,24 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			}));
+		$access->expects($this->atLeastOnce())
+			->method('isRecordOnLDAP')
+			->with($this->anything())
+			->willReturn(true);
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
-			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
+			->will($this->returnValue(['lisa', 'bart', 'kira', 'brad']));
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
@@ -579,14 +598,19 @@ class Group_LDAPTest extends TestCase {
 			->method('getFromCache')
 			->will($this->returnValue(null));
 
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			}));
+
+		$access->expects($this->atLeastOnce())
+			->method('isRecordOnLDAP')
+			->with($this->anything())
+			->willReturn(true);
 
 		$access->expects($this->any())
 			->method('groupname2dn')
@@ -1018,7 +1042,7 @@ class Group_LDAPTest extends TestCase {
 	 */
 	public function testGroupMembers($groupDN, $expectedMembers, $groupsInfo = null) {
 		$access = $this->getAccessMock();
-		$access->expects($this->any())
+		$access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->willReturnCallback(function($group) use ($groupDN, $expectedMembers, $groupsInfo) {
 				if(isset($groupsInfo[$group])) {

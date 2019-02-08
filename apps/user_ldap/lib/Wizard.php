@@ -131,11 +131,15 @@ class Wizard extends LDAPUtility {
 		return (string)$count;
 	}
 
+	/**
+	 * @return bool|WizardResult
+	 * @throws \Exception
+	 */
 	public function countGroups() {
 		$filter = $this->configuration->ldapGroupFilter;
 
 		if(empty($filter)) {
-			$output = self::$l->n('%s group found', '%s groups found', 0, array(0));
+			$output = self::$l->n('%s group found', '%s groups found', 0, [0]);
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
@@ -195,27 +199,28 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * counts users with a specified attribute
-	 * @param string $attr
-	 * @param bool $existsCheck
+	 *
 	 * @return int|bool
+	 * @throws ServerNotAvailableException
 	 */
-	public function countUsersWithAttribute($attr, $existsCheck = false) {
-		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapPort',
-										   'ldapBase',
-										   'ldapUserFilter',
-										   ))) {
+	public function countUsersWithAttribute(string $attr, bool $existsCheck = false) {
+		if(!$this->checkRequirements([
+			'ldapHost',
+			'ldapPort',
+			'ldapBase',
+			'ldapUserFilter',
+		])) {
 			return  false;
 		}
 
-		$filter = $this->access->combineFilterWithAnd(array(
+		$filter = $this->access->combineFilterWithAnd([
 			$this->configuration->ldapUserFilter,
 			$attr . '=*'
-		));
+		]);
 
 		$limit = ($existsCheck === false) ? null : 1;
 
-		return $this->access->countUsers($filter, array('dn'), $limit);
+		return $this->access->countUsers($filter, ['dn'], $limit);
 	}
 
 	/**
@@ -225,11 +230,12 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function detectUserDisplayNameAttribute() {
-		if(!$this->checkRequirements(array('ldapHost',
-										'ldapPort',
-										'ldapBase',
-										'ldapUserFilter',
-										))) {
+		if(!$this->checkRequirements([
+			'ldapHost',
+			'ldapPort',
+			'ldapBase',
+			'ldapUserFilter',
+		])) {
 			return  false;
 		}
 
@@ -247,7 +253,8 @@ class Wizard extends LDAPUtility {
 		}
 
 		// first attribute that has at least one result wins
-		$displayNameAttrs = array('displayname', 'cn');
+		/** @noinspection SpellCheckingInspection */
+		$displayNameAttrs = ['displayname', 'cn'];
 		foreach ($displayNameAttrs as $attr) {
 			$count = (int)$this->countUsersWithAttribute($attr, true);
 
@@ -267,26 +274,26 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|bool
 	 */
 	public function detectEmailAttribute() {
-		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapPort',
-										   'ldapBase',
-										   'ldapUserFilter',
-										   ))) {
+		if(!$this->checkRequirements([
+			'ldapHost',
+			'ldapPort',
+			'ldapBase',
+			'ldapUserFilter',
+		])) {
 			return  false;
 		}
 
 		$attr = $this->configuration->ldapEmailAttribute;
+		$writeLog = false;
 		if ($attr !== '') {
 			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				return false;
 			}
 			$writeLog = true;
-		} else {
-			$writeLog = false;
 		}
 
-		$emailAttributes = array('mail', 'mailPrimaryAddress');
+		$emailAttributes = ['mail', 'mailPrimaryAddress'];
 		$winner = '';
 		$maxUsers = 0;
 		foreach($emailAttributes as $attr) {
@@ -300,9 +307,10 @@ class Wizard extends LDAPUtility {
 		if($winner !== '') {
 			$this->applyFind('ldap_email_attr', $winner);
 			if($writeLog) {
-				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
-					'automatically been reset, because the original value ' .
-					'did not return any results.', ILogger::INFO);
+				\OC::$server->getLogger()->info(
+					'The mail attribute has automatically been reset, because the original value did not return any results',
+					['app' => 'user_ldap']
+				);
 			}
 		}
 
@@ -627,15 +635,14 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @return bool|WizardResult
-	 * @param string $loginName
 	 * @throws \Exception
 	 */
-	public function testLoginName($loginName) {
-		if(!$this->checkRequirements(array('ldapHost',
+	public function testLoginName(string $loginName) {
+		if(!$this->checkRequirements(['ldapHost',
 			'ldapPort',
 			'ldapBase',
 			'ldapLoginFilter',
-		))) {
+		])) {
 			return false;
 		}
 
@@ -654,6 +661,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception($this->ldap->error($cr));
 		}
 		$filter = str_replace('%uid', $loginName, $this->access->connection->ldapLoginFilter);
+		/** @noinspection SpellCheckingInspection */
 		$this->result->addChange('ldap_test_loginname', $users);
 		$this->result->addChange('ldap_test_effective_filter', $filter);
 		return $this->result;
@@ -832,11 +840,9 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * Checks whether for a given BaseDN results will be returned
-	 * @param string $base the BaseDN to test
-	 * @return bool true on success, false otherwise
 	 * @throws \Exception
 	 */
-	private function testBaseDN($base) {
+	private function testBaseDN(string $base): bool {
 		$cr = $this->getConnection();
 		if(!$cr) {
 			throw new \Exception('Could not connect to LDAP');
@@ -844,12 +850,14 @@ class Wizard extends LDAPUtility {
 
 		//base is there, let's validate it. If we search for anything, we should
 		//get a result set > 0 on a proper base
-		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
+		$rr = $this->ldap->search($cr, $base, 'objectClass=*', ['dn'], 0, 1);
 		if(!$this->ldap->isResource($rr)) {
 			$errorNo  = $this->ldap->errno($cr);
 			$errorMsg = $this->ldap->error($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
-							' Error '.$errorNo.': '.$errorMsg, ILogger::INFO);
+			\OC::$server->getLogger()->info(
+				'Wiz: Could not search base {base}, Error {errno}: {error}',
+				['app' => 'user_ldap', 'base' => $base, 'errno' => $errorNo, 'error' => $errorMsg]
+			);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -862,15 +870,15 @@ class Wizard extends LDAPUtility {
 	 * a configured objectClass. I.e. not necessarily for all available groups
 	 * memberOf does work.
 	 *
-	 * @return bool true if it does, false otherwise
+	 * @throws ServerNotAvailableException
 	 * @throws \Exception
 	 */
-	private function testMemberOf() {
+	private function testMemberOf(): bool {
 		$cr = $this->getConnection();
 		if(!$cr) {
 			throw new \Exception('Could not connect to LDAP');
 		}
-		$result = $this->access->countUsers('memberOf=*', array('memberOf'), 1);
+		$result = $this->access->countUsers('memberOf=*', ['memberOf'], 1);
 		if(is_int($result) &&  $result > 0) {
 			return true;
 		}
@@ -1131,9 +1139,9 @@ class Wizard extends LDAPUtility {
 	 * yields most result entries
 	 * @return array|false an array with the values on success, false otherwise
 	 */
-	public function cumulativeSearchOnAttribute($filters, $attr, $dnReadLimit = 3, &$maxF = null) {
-		$dnRead = array();
-		$foundItems = array();
+	public function cumulativeSearchOnAttribute(array $filters, string $attr, int $dnReadLimit = 3, string &$maxF = null) {
+		$dnRead = [];
+		$foundItems = [];
 		$maxEntries = 0;
 		if(!is_array($this->configuration->ldapBase)
 		   || !isset($this->configuration->ldapBase[0])) {
@@ -1154,7 +1162,7 @@ class Wizard extends LDAPUtility {
 				continue;
 			}
 			// 20k limit for performance and reason
-			$rr = $this->ldap->search($cr, $base, $filter, array($attr), 0, 20000);
+			$rr = $this->ldap->search($cr, $base, $filter, [$attr], 0, 20000);
 			if(!$this->ldap->isResource($rr)) {
 				continue;
 			}
@@ -1178,7 +1186,7 @@ class Wizard extends LDAPUtility {
 					if($dn === false || in_array($dn, $dnRead)) {
 						continue;
 					}
-					$newItems = array();
+					$newItems = [];
 					$state = $this->getAttributeValuesFromEntry($attributes,
 																$attr,
 																$newItems);
@@ -1249,15 +1257,7 @@ class Wizard extends LDAPUtility {
 		return $availableFeatures;
 	}
 
-	/**
-	 * appends a list of values fr
-	 * @param resource $result the return value from ldap_get_attributes
-	 * @param string $attribute the attribute values to look for
-	 * @param array &$known new values will be appended here
-	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
-	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
-	 */
-	private function getAttributeValuesFromEntry($result, $attribute, &$known) {
+	private function getAttributeValuesFromEntry(array $result, string $attribute, array &$known): int {
 		if(!is_array($result)
 		   || !isset($result['count'])
 		   || !$result['count'] > 0) {

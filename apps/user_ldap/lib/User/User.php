@@ -620,8 +620,11 @@ class User {
 	 * called by a post_login hook to handle password expiry
 	 *
 	 * @param array $params
+	 * @throws \OC\ServerNotAvailableException
+	 * @throws \OCP\PreConditionNotMetException
+	 * @throws \Exception
 	 */
-	public function handlePasswordExpiry($params) {
+	public function handlePasswordExpiry(array $params): void {
 		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
 		if (empty($ppolicyDN) || ((int)$this->connection->turnOnPasswordChange !== 1)) {
 			return;//password expiry handling disabled
@@ -629,8 +632,8 @@ class User {
 		$uid = $params['uid'];
 		if(isset($uid) && $uid === $this->getUsername()) {
 			//retrieve relevant user attributes
-			$result = $this->access->search('objectclass=*', array($this->dn), ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
-			
+			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
+
 			if(array_key_exists('pwdpolicysubentry', $result[0])) {
 				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
 				if($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)){
@@ -646,7 +649,7 @@ class User {
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
 			$result = $this->connection->getFromCache($cacheKey);
 			if(is_null($result)) {
-				$result = $this->access->search('objectclass=*', array($ppolicyDN), ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
+				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
 				$this->connection->writeToCache($cacheKey, $result);
 			}
 			
@@ -662,10 +665,10 @@ class User {
 					&&($pwdGraceUseTimeCount < (int)$pwdGraceAuthNLimit[0])) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
 					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showLoginFormInvalidPassword', array('user' => $uid)));
+					'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
 				}
 				exit();
 			}
@@ -673,7 +676,7 @@ class User {
 			if($pwdReset && (count($pwdReset) > 0) && $pwdReset[0] === 'TRUE') { //user must change his password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
-				'user_ldap.renewPassword.showRenewPasswordForm', array('user' => $uid)));
+				'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();
 			}
 			//handle password expiry warning

@@ -559,7 +559,7 @@ class AccessTest extends TestCase {
 			->method('search')
 			->willReturn([$fakeSearchResultResource]);
 		$this->ldap
-			->expects($this->exactly(count($base)))
+			->expects($this->exactly(1))
 			->method('getEntries')
 			->willReturn($fakeLdapEntries);
 
@@ -571,7 +571,7 @@ class AccessTest extends TestCase {
 	public function testSearchNoPagedSearch() {
 		// scenario: no pages search, 1 search base
 		$filter = 'objectClass=nextcloudUser';
-		$base = ['ou=zombies,dc=foobar,dc=nextcloud,dc=com'];
+		$base = 'ou=zombies,dc=foobar,dc=nextcloud,dc=com';
 
 		$fakeConnection = new \stdClass();
 		$fakeSearchResultResource = new \stdClass();

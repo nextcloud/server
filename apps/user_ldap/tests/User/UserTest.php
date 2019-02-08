@@ -545,7 +545,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
-		$this->access->expects($this->any())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
@@ -599,7 +599,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarCorruptPhotoProvided() {
-		$this->access->expects($this->any())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
@@ -645,7 +645,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarUnsupportedThumbnailPhotoProvided() {
-		$this->access->expects($this->any())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
@@ -700,7 +700,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarNotProvided() {
-		$this->access->expects($this->any())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($dn === $this->dn
@@ -962,7 +962,7 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo('homeFolderNamingRule'))
 			->will($this->returnValue('attr:foobar'));
 
-		$this->access->expects($this->once())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnValue(false));
 
@@ -984,7 +984,7 @@ class UserTest extends \Test\TestCase {
 			->with($this->equalTo('homeFolderNamingRule'))
 			->will($this->returnValue('attr:foobar'));
 
-		$this->access->expects($this->once())
+		$this->access->expects($this->atLeastOnce())
 			->method('readAttribute')
 			->will($this->returnValue(false));
 
@@ -1066,7 +1066,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->will($this->returnCallback(function($filter, $base) {
-				if($base === [$this->dn]) {
+				if($base === $this->dn) {
 					return [
 						[
 							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'],
@@ -1074,7 +1074,7 @@ class UserTest extends \Test\TestCase {
 						],
 					];
 				}
-				if($base === ['cn=default,ou=policies,dc=foo,dc=bar']) {
+				if($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],
@@ -1129,7 +1129,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->will($this->returnCallback(function($filter, $base) {
-				if($base === [$this->dn]) {
+				if($base === $this->dn) {
 					return [
 						[
 							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
@@ -1138,7 +1138,7 @@ class UserTest extends \Test\TestCase {
 						]
 					];
 				}
-				if($base === ['cn=custom,ou=policies,dc=foo,dc=bar']) {
+				if($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],

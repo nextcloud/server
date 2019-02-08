@@ -309,7 +309,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function userExistsOnLDAP($user) {
+	public function userExistsOnLDAP($user): bool {
 		if(is_string($user)) {
 			$user = $this->access->userManager->get($user);
 		}
@@ -319,7 +319,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		$dn = $user->getDN();
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapUserFilter))) {
+		if(!$this->access->isRecordOnLDAP($dn, $this->access->connection->ldapUserFilter)) {
 			try {
 				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
 				if (!$uuid) {
@@ -327,7 +327,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if ($newDn === $dn || !is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+				if ($newDn === $dn || !$this->access->isRecordOnLDAP($newDn, $this->access->connection->ldapUserFilter)) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);

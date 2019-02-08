@@ -45,12 +45,18 @@ use OCP\ILogger;
  *
  * @property string ldapHost
  * @property string ldapPort holds the port number
+ * @property string ldapLoginFilter
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property string ldapUserDisplayName2
  * @property string ldapUserAvatarRule
+ * @property string ldapGroupFilter
+ * @property string ldapGidNumber
+ * @property string ldapDynamicGroupMemberURL
  * @property boolean turnOnPasswordChange
+ * @property string[] ldapBase
  * @property string[] ldapBaseUsers
+ * @property string[] ldapBaseGroups
  * @property int|null ldapPagingSize holds an integer
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  * @property string ldapUuidUserAttribute
@@ -60,6 +66,7 @@ use OCP\ILogger;
  * @property string ldapQuotaAttribute
  * @property string ldapQuotaDefault
  * @property string ldapEmailAttribute
+ * @property string ldapDefaultPPolicyDN
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
