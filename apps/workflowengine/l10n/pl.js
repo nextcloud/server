@@ -68,8 +68,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Sprawdź, czy %s nie istnieje",
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
-    "Workflow" : "Wpływ na pracę",
-    "Files workflow engine" : "Piliki silnika workflow",
+    "Workflow" : "Workflow",
+    "Files workflow engine" : "Pliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
     "Loading…" : "Wczytywanie…"
 },
