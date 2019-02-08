@@ -31,10 +31,12 @@ use BadMethodCallException;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Activity\Provider;
 use OCP\Activity\IManager;
+use OC\Authentication\Token\PublicKeyToken;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\ILogger;
@@ -112,11 +114,12 @@ class AuthSettingsController extends Controller {
 
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
+			$data['canDelete'] = true;
+			$data['canRename'] = $token instanceof INamedToken;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
+				$data['canRename'] = false;
 				$data['current'] = true;
-			} else {
-				$data['canDelete'] = true;
 			}
 			return $data;
 		}, $tokens);
@@ -153,6 +156,7 @@ class AuthSettingsController extends Controller {
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
+		$tokenData['canRename'] = true;
 
 		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $deviceToken->getName());
 
@@ -212,9 +216,10 @@ class AuthSettingsController extends Controller {
 	 *
 	 * @param int $id
 	 * @param array $scope
+	 * @param string $name
 	 * @return array|JSONResponse
 	 */
-	public function update($id, array $scope) {
+	public function update($id, array $scope, string $name) {
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
@@ -224,6 +229,11 @@ class AuthSettingsController extends Controller {
 		$token->setScope([
 			'filesystem' => $scope['filesystem']
 		]);
+
+
+		if ($token instanceof INamedToken) {
+			$token->setName($name);
+		}
 
 		$this->tokenProvider->updateToken($token);
 		$this->publishActivity(Provider::APP_TOKEN_UPDATED, $token->getId(), $token->getName());

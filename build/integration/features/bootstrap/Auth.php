@@ -132,6 +132,7 @@ trait Auth {
 				'requesttoken' => $this->requestToken,
 			],
 			'json' => [
+				'name' => md5(microtime()),
 				'scope' => [
 					'filesystem' => false,
 				],
