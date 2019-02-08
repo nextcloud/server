@@ -14,6 +14,7 @@ OC.L10N.register(
     "Home" : "Start",
     "Close" : "Zamknij",
     "Could not create folder \"{dir}\"" : "Nie można utworzyć folderu „{dir}”",
+    "This will stop your current uploads." : "Spowoduje to zatrzymanie wysyłania plików.",
     "Upload cancelled." : "Wysyłanie anulowane.",
     "…" : "…",
     "Processing files …" : "Przetwarzam pliki ...",
@@ -43,6 +44,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Ten folder jest niedostępny, proszę sprawdzić logi lub skontaktować się z administratorem.",
     "Could not move \"{file}\", target exists" : "Nie można przenieść „{file}” - plik o takiej nazwie już istnieje",
     "Could not move \"{file}\"" : "Nie można przenieść \"{file}\"",
+    "copy" : "kopia",
     "Could not copy \"{file}\", target exists" : "Nie można skopiować \"{file}\", plik już istnieje",
     "Could not copy \"{file}\"" : "Nie można skopiować \"{file}\"",
     "Copied {origin} inside {destination}" : "Skopiowano {origin} wewnątrz {destination}",
@@ -85,6 +87,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
     "Favorited" : "Ulubiony",
     "Favorite" : "Ulubione",
+    "You can only favorite a single file or folder at a time" : "Do Ulubionych możesz dodać tylko pojedynczy plik lub folder na raz",
     "New folder" : "Nowy folder",
     "Upload file" : "Wyślij plik",
     "Not favorited" : "Wyłączone z ulubionych",
@@ -138,6 +141,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Z PHP-FPM zastosowanie zmian może zająć 5 minut.",
     "Missing permissions to edit from here." : "Brakuje uprawnień do edycji.",
     "%s of %s used" : "Wykorzystano %s z %s",
+    "%1$s%% of %2$s used" : "%1$s%% z %2$s jest używanych",
     "%s used" : "Wykorzystane: %s",
     "Settings" : "Ustawienia",
     "Show hidden files" : "Pokaż ukryte pliki",
@@ -162,6 +166,7 @@ OC.L10N.register(
     "Deleted shares" : "Usunięte udostępnione",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
-    "Target folder" : "Folder docelowy"
+    "Target folder" : "Folder docelowy",
+    "%1$s of %2$s used" : "%1$s z %2$s jest używany"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
