@@ -282,13 +282,13 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	&:focus {
 		@include icon-color('star', 'actions', $color-black, 1, true);
 	}
-	@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+	@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 }
 
 .icon-star {
 	&:hover,
 	&:focus {
-		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 	}
 }
 

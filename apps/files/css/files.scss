@@ -699,7 +699,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 	}
 }
 
@@ -722,7 +722,13 @@ table.dragshadow td.size {
 
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgb(179, 230, 255);
+	background-color: rgba( $color-primary, .3 );
+}
+.dropzone-background {
+	background-color: rgba( $color-primary, .3 );
+	:hover{
+		box-shadow: none !important;
+	}
 }
 
 
