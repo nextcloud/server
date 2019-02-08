@@ -10,7 +10,7 @@ OC.L10N.register(
     "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización para {app} a la versión %s está disponible.",
     "Open updater" : "Abrir actualizador",
-    "Your version is up to date." : "Su verisón está actualizada.",
+    "Your version is up to date." : "Su versión está actualizada.",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Siempre puede actualizar a una versión más reciente / canal experimental. Sinembargo nunca podrá desactualizar la versión a un canal más estable. ",
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos de las actualizaciones disponibles:",
     "Only notification for app updates are available." : "Sólo se tienen disponibles notificaciones de actualizaciones de la aplicación.",
