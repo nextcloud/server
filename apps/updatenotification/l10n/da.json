@@ -7,6 +7,7 @@
     "Update to %1$s is available." : "Opdatering til %1$s er tilgængelig.",
     "Update for %1$s to version %2$s is available." : "Opdatering af %1$s til version %2$s er tilgængelig.",
     "Update for {app} to version %s is available." : "Opdatering af {app} til version %s er tilgængelig.",
+    "Apps with available updates" : "Apps med opdateringer",
     "Open updater" : "Åbn for opdatering",
     "Download now" : "Hent nu",
     "The update check is not yet finished. Please refresh the page." : "Opdateringstjek er ikke færdigt. Genindlæs venligst siden.",
