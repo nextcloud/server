@@ -31,7 +31,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud Federated Cloud ID",
     "Sharing" : "Deling",
     "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
-    "Open documentation" : "Åben dokumentation",
+    "Open documentation" : "Åbn dokumentation",
     "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellem servere.",
     "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
     "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere",

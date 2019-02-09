@@ -67,7 +67,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Workflow" : "Workflow",
     "Files workflow engine" : "Filer workflow motoren",
-    "Open documentation" : "Åben dokumentationen",
+    "Open documentation" : "Åbn dokumentationen",
     "Loading…" : "Indlæser..."
 },
 "nplurals=2; plural=(n != 1);");
