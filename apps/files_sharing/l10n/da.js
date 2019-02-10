@@ -22,6 +22,7 @@ OC.L10N.register(
     "Downloaded via public link" : "Downloaded via et offentligt link",
     "Downloaded by {email}" : "Downloaded af {email}",
     "{email} downloaded {file}" : "{email} downloadede {file}",
+    "Shared with group {group}" : "Delt med gruppe {group}",
     "{actor} shared with group {group}" : "{actor} delte med gruppe {group}",
     "{actor} removed share for group {group}" : "{actor} fjernede deling fra gruppe {group}",
     "You shared {file} with group {group}" : "Du delte {file} med gruppe {group}",

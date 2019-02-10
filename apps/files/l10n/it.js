@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "Rinomina",
     "Copy" : "Copia",
     "Choose target folder" : "Scegli la cartella di destinazione",
+    "Open" : "Apri",
     "Disconnect storage" : "Disconnetti archiviazione",
     "Unshare" : "Rimuovi condivisione",
     "Could not load info for file \"{file}\"" : "Impossibile caricare le informazioni per il file \"{file}\"",

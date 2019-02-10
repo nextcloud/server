@@ -50,6 +50,8 @@ OC.L10N.register(
     "Where:" : "Hvor:",
     "Description:" : "Beskrivelse:",
     "Link:" : "Link:",
+    "Accept" : "Accepter",
+    "Decline" : "Afvis",
     "More options …" : "Flere indstillinger…",
     "Contacts" : "Kontakter",
     "WebDAV" : "WebDAV",

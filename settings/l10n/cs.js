@@ -69,6 +69,7 @@ OC.L10N.register(
     "Revoke" : "Odvolat",
     "Device settings" : "Nastavení zařízení",
     "Allow filesystem access" : "Umožnit přístup k souborovému systému",
+    "Rename" : "Přejmenovat",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",
