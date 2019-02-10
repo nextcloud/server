@@ -25,7 +25,7 @@
   "dependencies": {
     "nextcloud-vue": "^0.6.1",
     "v-tooltip": "^2.0.0-rc.33",
-    "vue": "^2.6.2",
+    "vue": "^2.6.4",
     "vue-click-outside": "^1.0.7"
   },
   "devDependencies": {
@@ -38,7 +38,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "vue-loader": "^15.6.2",
-    "vue-template-compiler": "^2.6.2",
+    "vue-template-compiler": "^2.6.4",
     "webpack": "^4.29.2",
     "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1"
