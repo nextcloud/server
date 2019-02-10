@@ -65,8 +65,10 @@ class PersonalInfo implements ISettings {
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param AccountManager $accountManager
+	 * @param IAppManager $appManager
 	 * @param IFactory $l10nFactory
 	 * @param IL10N $l
+	 * @param EncryptionManager $encryptionManager
 	 */
 	public function __construct(
 		IConfig $config,
@@ -151,7 +153,7 @@ class PersonalInfo implements ISettings {
 	 *
 	 * @return array
 	 */
-	private function getWhereIsYourDataParams() {
+	private function getWhereIsYourDataParams(): array {
 
 		$adminContactConfigId = $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_ADMIN_CONTACT);
 		$adminContact = $this->userManager->get($adminContactConfigId);

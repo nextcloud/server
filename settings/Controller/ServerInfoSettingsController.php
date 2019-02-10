@@ -53,7 +53,7 @@ class ServerInfoSettingsController extends Controller {
 		string $providerWebsite,
 		string $providerPrivacyLink,
 		string $adminContact
-	) {
+	): void {
 		$configs = [
 			ServerInfo::SETTING_LOCATION => $location,
 			ServerInfo::SETTING_PROVIDER => $provider,

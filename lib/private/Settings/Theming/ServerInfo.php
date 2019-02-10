@@ -63,7 +63,7 @@ class ServerInfo implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$parameters = [
 			'location' => $this->config->getSystemValue(self::SETTING_LOCATION),
 			'provider' => $this->config->getSystemValue(self::SETTING_PROVIDER),
@@ -80,7 +80,7 @@ class ServerInfo implements ISettings {
 	 *
 	 * @return array[] An array or arrays with the keys 'id' and 'displayName'
 	 */
-	private function getAdminListValues() {
+	private function getAdminListValues(): array {
 		$adminGroup = $this->groupManager->get('admin');
 		$users = $adminGroup->getUsers();
 
@@ -103,7 +103,7 @@ class ServerInfo implements ISettings {
 	 *
 	 * @return string
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'theming';
 	}
 
@@ -114,7 +114,7 @@ class ServerInfo implements ISettings {
 	 * the admin section. The forms are arranged in ascending order of the
 	 * priority values. It is required to return a value between 0 and 100.
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 
