@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "Nimeä uudelleen",
     "Copy" : "Kopioi",
     "Choose target folder" : "Valitse kohdekansio",
+    "Open" : "Avaa",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
     "Could not load info for file \"{file}\"" : "Ei voida ladata tiedoston \"{file}\" tietoja",

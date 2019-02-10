@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "Renommer",
     "Copy" : "Copier",
     "Choose target folder" : "Sélectionner le dossier cible",
+    "Open" : "Ouvrir",
     "Disconnect storage" : "Déconnecter ce support de stockage",
     "Unshare" : "Ne plus partager",
     "Could not load info for file \"{file}\"" : "Impossible de charger les informations du fichier \"{file}\"",

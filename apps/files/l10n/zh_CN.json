@@ -47,7 +47,7 @@
     "Could not copy \"{file}\"" : "不能复制 \"{文件}\"",
     "Copied {origin} inside {destination}" : "在 {destination} 内复制 {origin}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "在 {destination} 内复制 {origin} 和 {nbfiles} 其他文件",
-    "{newName} already exists" : "{newname} 已经存在",
+    "{newName} already exists" : "{newName} 已经存在",
     "Could not rename \"{fileName}\", it does not exist any more" : "无法重命名 \"{fileName}\"，此文件已经不存在",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "文件夹 \"{dir}\" 中已经存在 \"{targetName}\"。请尝试其他的名称。",
     "Could not rename \"{fileName}\"" : "无法重命名 \"{fileName}\"",
