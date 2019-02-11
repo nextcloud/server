@@ -121,6 +121,8 @@
     "User documentation" : "Brugerdokumentation",
     "Admin documentation" : "Admin-dokumentation",
     "Developer documentation" : "Dokumentation for udviklere",
+    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Denne app har ikke angivet en mindste understøttede version af Nextcloud. I fremtiden vil det være en fejl.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Denne app har ikke angivet en højeste understøttede version af Nextcloud. I fremtiden vil det være en fejl.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Dette program kan ikke installeres, da følgende afhængigheder ikke imødekommes:",
     "Update to {update}" : "Opdater til {update}",
     "No apps found for your version" : "Ingen apps fundet til din verion",
