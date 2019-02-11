@@ -60,11 +60,11 @@ a {
 	* {
 		cursor: pointer;
 	}
-}
 
-a.external {
-	margin: 0 3px;
-	text-decoration: underline;
+	&.external {
+		margin: 0 3px;
+		text-decoration: underline;
+	}
 }
 
 input {

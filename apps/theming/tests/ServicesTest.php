@@ -26,13 +26,11 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\Capabilities;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Settings\Admin;
-use OCA\Theming\Settings\Section;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
-use OCP\Settings\ISection;
 use OCP\Settings\ISettings;
 use Test\TestCase;
 
@@ -72,8 +70,6 @@ class ServicesTest extends TestCase  {
 			// Settings
 			[Admin::class],
 			[Admin::class, ISettings::class],
-			[Section::class],
-			[Section::class, ISection::class],
 		];
 	}
 

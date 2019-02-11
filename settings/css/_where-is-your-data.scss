@@ -1,0 +1,10 @@
+/* Copyright (c) 2018 Michael Weimann <mail@michael-weimann.eu
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+.where-is-your-data {
+	// @todo replace by common link style as soon as available
+	a:not(.icon-info) {
+		border-bottom: 1px dotted;
+	}
+}

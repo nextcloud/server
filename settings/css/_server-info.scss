@@ -1,0 +1,99 @@
+/* Copyright (c) 2018 Michael Weimann <mail@michael-weimann.eu
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+.server-info-settings {
+	.label {
+		display: block;
+	}
+
+	.form-input {
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	.margin-bottom {
+		margin-bottom: 15px;
+	}
+
+	.form-actions {
+		text-align: right;
+
+		.button {
+			align-items: center;
+			display: inline-flex;
+			margin: 0;
+			transition: background-color 500ms linear;
+
+			.default-label,
+			.working-label,
+			.success-label,
+			.error-label {
+				align-items: center;
+				gap: 4px;
+			}
+
+			.working-label,
+			.success-label,
+			.error-label {
+				display: none;
+			}
+		}
+
+		.button-working,
+		.button-success,
+		.button-error {
+			background-color: $color-background-dark;
+			color: $color-text-lighter;
+			opacity: 1;
+
+			.default-label {
+				display: none;
+			}
+		}
+
+		.button-working {
+			.working-label {
+				display: inline-flex;
+			}
+		}
+
+		.button-success {
+			background-color: $color-success;
+			border-color: darken($color-success, 10%);
+			color: $color-primary-text-dark;
+
+			.success-label {
+				display: inline-flex;
+			}
+		}
+
+		.button-error {
+			background-color: $color-error;
+			border-color: darken($color-error, 10%);
+			color: $color-primary-text-dark;
+
+			.error-label {
+				display: inline-flex;
+			}
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.label {
+			display: inline-block;
+			text-align: right;
+			width: 175px;
+		}
+
+		.form-input {
+			margin-left: 5px;
+			width: 225px;
+		}
+
+		.form-actions {
+			margin-left: 180px;
+			width: 225px;
+		}
+	}
+}
