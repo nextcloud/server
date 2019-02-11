@@ -8,8 +8,8 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "webpack --progress --hide-modules --config core/webpack.prod.js",
-    "dev": "webpack --progress --watch --config core/webpack.dev.js"
+    "build": "webpack --progress --hide-modules --config webpack.prod.js",
+    "dev": "webpack --progress --watch --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
