@@ -69,6 +69,7 @@ OC.L10N.register(
     "Revoke" : "Revogar",
     "Device settings" : "Axustes do dispositivo",
     "Allow filesystem access" : "Permitir o acceso aos  sistema de ficheiros",
+    "Rename" : "Renomear",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

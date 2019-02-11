@@ -329,7 +329,7 @@
     "Wrong password." : "Złe hasło",
     "User disabled" : "Użytkownik zablokowany",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Wykryliśmy wiele nieudanych prób logowania z Twojego adresu IP. W związku z tym kolejne logowanie będzie możliwe za 30 sekund.",
-    "Forgot password?" : "Zapomniano hasła?",
+    "Forgot password?" : "Zapomniałeś hasła?",
     "Back to login" : "Powrót do logowania",
     "Connect to your account" : "Połącz się z kontem",
     "Please log in before granting %1$s access to your %2$s account." : "Zaloguj się proszę, przed przyznaniem %1$s dostępu do swojego %2$s konta.",
