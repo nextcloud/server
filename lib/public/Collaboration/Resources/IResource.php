@@ -62,11 +62,11 @@ interface IResource {
 	/**
 	 * Can a user/guest access the resource
 	 *
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IUser $user = null): bool;
+	public function canAccess(?IUser $user): bool;
 
 	/**
 	 * @return ICollection[]

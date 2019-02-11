@@ -43,6 +43,9 @@ class Resource implements IResource {
 	/** @var string */
 	protected $id;
 
+	/** @var IUser|null */
+	protected $userForAccess;
+
 	/** @var bool|null */
 	protected $access;
 
@@ -60,12 +63,14 @@ class Resource implements IResource {
 		IDBConnection $connection,
 		string $type,
 		string $id,
-		?bool $access
+		?IUser $userForAccess = null,
+		?bool $access = null
 	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->type = $type;
 		$this->id = $id;
+		$this->userForAccess = $userForAccess;
 		$this->access = $access;
 	}
 
@@ -117,19 +122,42 @@ class Resource implements IResource {
 		return $this->link;
 	}
 
-
 	/**
 	 * Can a user/guest access the resource
 	 *
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IUser $user = null): bool {
-		if ($this->access === null) {
-			$this->access = $this->manager->canAccess($this, $user);
+	public function canAccess(?IUser $user): bool {
+		if ($user instanceof IUser) {
+			return $this->canUserAccess($user);
 		}
-		return $this->access;
+		return $this->canGuestAccess();
+	}
+
+	protected function canUserAccess(IUser $user): bool {
+		if (\is_bool($this->access) && $this->userForAccess instanceof IUser && $user->getUID() === $this->userForAccess->getUID()) {
+			return $this->access;
+		}
+
+		$access = $this->manager->canAccessResource($this, $user);
+		if ($this->userForAccess instanceof IUser && $user->getUID() === $this->userForAccess->getUID()) {
+			$this->access = $access;
+		}
+		return $access;
+	}
+
+	protected function canGuestAccess(): bool {
+		if (\is_bool($this->access) && !$this->userForAccess instanceof IUser) {
+			return $this->access;
+		}
+
+		$access = $this->manager->canAccessResource($this, null);
+		if (!$this->userForAccess instanceof IUser) {
+			$this->access = $access;
+		}
+		return $access;
 	}
 
 	/**

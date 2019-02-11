@@ -59,7 +59,7 @@ class CollaborationResourcesController extends OCSController {
 	 * @throws CollectionException when the collection was not found for the user
 	 */
 	protected function getCollection(int $collectionId): ICollection {
-		$collection = $this->manager->getCollection($collectionId);
+		$collection = $this->manager->getCollectionForUser($collectionId, $this->userSession->getUser());
 
 		if (!$collection->canAccess($this->userSession->getUser())) {
 			throw new CollectionException('Not found');
@@ -115,9 +115,9 @@ class CollaborationResourcesController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		try {
-			$resource = $this->manager->getResource($resourceType, $resourceId);
-		} catch (ResourceException $e) {
+		$resource = $this->manager->createResource($resourceType, $resourceId);
+
+		if (!$resource->canAccess($this->userSession->getUser())) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -145,7 +145,7 @@ class CollaborationResourcesController extends OCSController {
 		}
 
 		try {
-			$resource = $this->manager->getResource($resourceType, $resourceId);
+			$resource = $this->manager->getResourceForUser($resourceType, $resourceId, $this->userSession->getUser());
 		} catch (CollectionException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -164,8 +164,8 @@ class CollaborationResourcesController extends OCSController {
 	 */
 	public function getCollectionsByResource(string $resourceType, string $resourceId): DataResponse {
 		try {
-			$resource = $this->manager->getResource($resourceType, $resourceId);
-		} catch (CollectionException $e) {
+			$resource = $this->manager->getResourceForUser($resourceType, $resourceId, $this->userSession->getUser());
+		} catch (ResourceException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -190,7 +190,7 @@ class CollaborationResourcesController extends OCSController {
 		}
 
 		try {
-			$resource = $this->manager->getResource($baseResourceType, $baseResourceId);
+			$resource = $this->manager->createResource($baseResourceType, $baseResourceId);
 		} catch (CollectionException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -214,19 +214,13 @@ class CollaborationResourcesController extends OCSController {
 	 */
 	public function renameCollection(int $collectionId, string $collectionName): DataResponse {
 		try {
-			$collection = $this->manager->getCollection($collectionId);
-			if (!$collection->canAccess($this->userSession->getUser())) {
-				throw new CollectionException('Not found');
-			}
+			$collection = $this->getCollection($collectionId);
 		} catch (CollectionException $exception) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		try {
-			$collection = $this->manager->renameCollection($collectionId, $collectionName);
-		} catch (CollectionException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		}
+		$collection->setName($collectionName);
+
 		return new DataResponse($this->prepareCollection($collection));
 	}
 

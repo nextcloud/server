@@ -42,6 +42,12 @@ interface ICollection {
 	public function getName(): string;
 
 	/**
+	 * @param string $name
+	 * @since 16.0.0
+	 */
+	public function setName(string $name): void;
+
+	/**
 	 * @return IResource[]
 	 * @since 16.0.0
 	 */
@@ -54,7 +60,7 @@ interface ICollection {
 	 * @throws ResourceException when the resource is already part of the collection
 	 * @since 16.0.0
 	 */
-	public function addResource(IResource $resource);
+	public function addResource(IResource $resource): void;
 
 	/**
 	 * Removes a resource from a collection
@@ -62,14 +68,14 @@ interface ICollection {
 	 * @param IResource $resource
 	 * @since 16.0.0
 	 */
-	public function removeResource(IResource $resource);
+	public function removeResource(IResource $resource): void;
 
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IUser $user = null): bool;
+	public function canAccess(?IUser $user): bool;
 }

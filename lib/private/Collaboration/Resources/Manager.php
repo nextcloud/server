@@ -35,6 +35,10 @@ use OCP\IUser;
 
 class Manager implements IManager {
 
+	public const TABLE_COLLECTIONS = 'collres_collections';
+	public const TABLE_RESOURCES = 'collres_resources';
+	public const TABLE_ACCESS_CACHE = 'collres_accesscache';
+
 	/** @var IDBConnection */
 	protected $connection;
 
@@ -54,7 +58,7 @@ class Manager implements IManager {
 	public function getCollection(int $id): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('collres_collections')
+			->from(self::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->execute();
 		$row = $result->fetch();
@@ -68,6 +72,45 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param int $id
+	 * @param IUser|null $user
+	 * @return ICollection
+	 * @throws CollectionException when the collection could not be found
+	 * @since 16.0.0
+	 */
+	public function getCollectionForUser(int $id, ?IUser $user): ICollection {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('*')
+			->from(self::TABLE_COLLECTIONS)
+			->leftJoin(
+				'r', self::TABLE_ACCESS_CACHE, 'a',
+				$query->expr()->andX(
+					$query->expr()->eq('c.id', 'a.resource_id'),
+					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				)
+			)
+			->where($query->expr()->eq('c.id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if (!$row) {
+			throw new CollectionException('Collection not found');
+		}
+
+
+		$access = $row['access'] === null ? null : (bool) $row['access'];
+		if ($user instanceof IUser) {
+			$access = [$user->getUID() => $access];
+			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $access, null);
+		}
+
+		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], [], $access);
+	}
+
+	/**
 	 * @param IUser $user
 	 * @param string $filter
 	 * @param int $limit
@@ -78,7 +121,7 @@ class Manager implements IManager {
 	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('collres_collections')
+			->from(self::TABLE_COLLECTIONS)
 			->where($query->expr()->iLike('name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
 			->setMaxResults($limit)
 			->setFirstResult($start);
@@ -105,7 +148,7 @@ class Manager implements IManager {
 	 */
 	public function newCollection(string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();
-		$query->insert('collres_collections')
+		$query->insert(self::TABLE_COLLECTIONS)
 			->values([
 				'name' => $query->createNamedParameter($name),
 			]);
@@ -120,8 +163,79 @@ class Manager implements IManager {
 	 * @return IResource
 	 * @since 16.0.0
 	 */
-	public function getResource(string $type, string $id): IResource {
+	public function createResource(string $type, string $id): IResource {
 		return new Resource($this, $this->connection, $type, $id);
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $id
+	 * @param IUser|null $user
+	 * @return IResource
+	 * @throws ResourceException
+	 * @since 16.0.0
+	 */
+	public function getResourceForUser(string $type, string $id, ?IUser $user): IResource {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('r.*', 'a.access')
+			->from(self::TABLE_RESOURCES, 'r')
+			->leftJoin(
+				'r', self::TABLE_ACCESS_CACHE, 'a',
+				$query->expr()->andX(
+					$query->expr()->eq('r.id', 'a.resource_id'),
+					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				)
+			)
+			->where($query->expr()->eq('r.resource_type', $query->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
+			->andWhere($query->expr()->eq('r.resource_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_STR)));
+		$result = $query->execute();
+		$row = $result;
+		$result->closeCursor();
+
+		if (!$row) {
+			throw new ResourceException('Resource not found');
+		}
+
+		$access = $row['access'] === null ? null : (bool) $row['access'];
+		if ($user instanceof IUser) {
+			return new Resource($this, $this->connection, $type, $id, $user, $access);
+		}
+
+		return new Resource($this, $this->connection, $type, $id, null, $access);
+	}
+
+	/**
+	 * @param ICollection $collection
+	 * @param IUser|null $user
+	 * @return IResource[]
+	 * @since 16.0.0
+	 */
+	public function getResourcesByCollectionForUser(ICollection $collection, ?IUser $user): array {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('r.*', 'a.access')
+			->from(self::TABLE_RESOURCES, 'r')
+			->leftJoin(
+				'r', self::TABLE_ACCESS_CACHE, 'a',
+				$query->expr()->andX(
+					$query->expr()->eq('r.id', 'a.resource_id'),
+					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				)
+			)
+			->where($query->expr()->eq('r.collection_id', $query->createNamedParameter($collection->getId(), IQueryBuilder::PARAM_INT)));
+
+		$resources = [];
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
+		}
+		$result->closeCursor();
+
+		return $resources;
 	}
 
 	/**
@@ -174,30 +288,53 @@ class Manager implements IManager {
 	 * Can a user/guest access the collection
 	 *
 	 * @param IResource $resource
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IResource $resource, IUser $user = null): bool {
+	public function canAccessResource(IResource $resource, ?IUser $user): bool {
+		$access = false;
 		foreach ($this->getProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
 					if ($provider->canAccess($resource, $user)) {
-						return true;
+						$access = true;
+						break;
 					}
 				} catch (ResourceException $e) {
 				}
 			}
 		}
 
-		return false;
+		$this->cacheAccessForResource($resource, $user, $access);
+		return $access;
+	}
+
+	/**
+	 * Can a user/guest access the collection
+	 *
+	 * @param ICollection $collection
+	 * @param IUser|null $user
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public function canAccessCollection(ICollection $collection, ?IUser $user): bool {
+		$access = false;
+		foreach ($collection->getResources() as $resource) {
+			if ($resource->canAccess($user)) {
+				$access = true;
+			}
+		}
+
+		$this->cacheAccessForCollection($collection, $user, $access);
+		return $access;
 	}
 
 	public function cacheAccessForResource(IResource $resource, ?IUser $user, bool $access): void {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
-		$query->insert('collres_accesscache')
+		$query->insert(self::TABLE_ACCESS_CACHE)
 			->values([
 				'user_id' => $query->createNamedParameter($userId),
 				'resource_id' => $query->createNamedParameter($resource->getId()),
@@ -210,7 +347,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
-		$query->insert('collres_accesscache')
+		$query->insert(self::TABLE_ACCESS_CACHE)
 			->values([
 				'user_id' => $query->createNamedParameter($userId),
 				'collection_id' => $query->createNamedParameter($collection->getId()),
@@ -223,7 +360,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
-		$query->delete('collres_accesscache')
+		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
 		$query->execute();
 	}
@@ -231,7 +368,7 @@ class Manager implements IManager {
 	public function invalidateAccessCacheForResource(IResource $resource): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('collres_accesscache')
+		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
 		$query->execute();
 
@@ -240,10 +377,10 @@ class Manager implements IManager {
 		}
 	}
 
-	protected function invalidateAccessCacheForCollection(ICollection $collection): void {
+	public function invalidateAccessCacheForCollection(ICollection $collection): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('collres_accesscache')
+		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())));
 		$query->execute();
 	}
@@ -252,7 +389,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
-		$query->delete('collres_accesscache')
+		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
 		$query->execute();
@@ -266,7 +403,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
-		$query->delete('collres_accesscache')
+		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
 		$query->execute();
@@ -308,20 +445,5 @@ class Manager implements IManager {
 		}
 
 		return '';
-	}
-
-	/**
-	 * @param string $name
-	 * @return ICollection
-	 * @since 16.0.0
-	 */
-	public function renameCollection(int $id, string $name): ICollection {
-		$query = $this->connection->getQueryBuilder();
-		$query->update('collres_collections')
-			->set('name', $query->createNamedParameter($name))
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$query->execute();
-
-		return new Collection($this, $this->connection, $id, $name);
 	}
 }

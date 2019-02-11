@@ -69,10 +69,10 @@ interface IProvider {
 	 * Can a user/guest access the collection
 	 *
 	 * @param IResource $resource
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IResource $resource, IUser $user = null): bool;
+	public function canAccessResource(IResource $resource, ?IUser $user): bool;
 
 }

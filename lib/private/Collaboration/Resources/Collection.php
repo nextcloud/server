@@ -34,7 +34,7 @@ use OCP\IUser;
 
 class Collection implements ICollection {
 
-	/** @var IManager */
+	/** @var IManager|Manager */
 	protected $manager;
 
 	/** @var IDBConnection */
@@ -45,6 +45,9 @@ class Collection implements ICollection {
 
 	/** @var string */
 	protected $name;
+
+	/** @var IUser|null */
+	protected $userForAccess;
 
 	/** @var bool|null */
 	protected $access;
@@ -57,12 +60,14 @@ class Collection implements ICollection {
 		IDBConnection $connection,
 		int $id,
 		string $name,
-		?bool $access
+		?IUser $userForAccess = null,
+		?bool $access = null
 	) {
 		$this->manager = $manager;
 		$this->connection = $connection;
 		$this->id = $id;
 		$this->name = $name;
+		$this->userForAccess = $userForAccess;
 		$this->access = $access;
 		$this->resources = [];
 	}
@@ -84,21 +89,26 @@ class Collection implements ICollection {
 	}
 
 	/**
+	 * @param string $name
+	 * @since 16.0.0
+	 */
+	public function setName(string $name): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->update(Manager::TABLE_COLLECTIONS)
+			->set('name', $query->createNamedParameter($name))
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
+		$query->execute();
+
+		$this->name = $name;
+	}
+
+	/**
 	 * @return IResource[]
 	 * @since 16.0.0
 	 */
 	public function getResources(): array {
 		if (empty($this->resources)) {
-			$query = $this->connection->getQueryBuilder();
-			$query->select('resource_type', 'resource_id')
-				->from('collres_resources')
-				->where($query->expr()->eq('collection_id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)));
-
-			$result = $query->execute();
-			while ($row = $result->fetch()) {
-				$this->resources[] = $this->manager->getResource($row['resource_type'], $row['resource_id']);
-			}
-			$result->closeCursor();
+			$this->resources = $this->manager->getResourcesByCollectionForUser($this, $this->userForAccess);
 		}
 
 		return $this->resources;
@@ -111,17 +121,17 @@ class Collection implements ICollection {
 	 * @throws ResourceException when the resource is already part of the collection
 	 * @since 16.0.0
 	 */
-	public function addResource(IResource $resource) {
+	public function addResource(IResource $resource): void {
 		array_map(function(IResource $r) use ($resource) {
 			if ($this->isSameResource($r, $resource)) {
 				throw new ResourceException('Already part of the collection');
 			}
-		}, $this->resources);
+		}, $this->getResources());
 
 		$this->resources[] = $resource;
 
 		$query = $this->connection->getQueryBuilder();
-		$query->insert('collres_resources')
+		$query->insert(Manager::TABLE_RESOURCES)
 			->values([
 				'collection_id' => $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT),
 				'resource_type' => $query->createNamedParameter($resource->getType()),
@@ -133,6 +143,8 @@ class Collection implements ICollection {
 		} catch (ConstraintViolationException $e) {
 			throw new ResourceException('Already part of the collection');
 		}
+
+		$this->manager->invalidateAccessCacheForCollection($this);
 	}
 
 	/**
@@ -141,13 +153,13 @@ class Collection implements ICollection {
 	 * @param IResource $resource
 	 * @since 16.0.0
 	 */
-	public function removeResource(IResource $resource) {
-		$this->resources = array_filter($this->resources, function(IResource $r) use ($resource) {
+	public function removeResource(IResource $resource): void {
+		$this->resources = array_filter($this->getResources(), function(IResource $r) use ($resource) {
 			return !$this->isSameResource($r, $resource);
 		});
 
 		$query = $this->connection->getQueryBuilder();
-		$query->delete('collres_resources')
+		$query->delete(Manager::TABLE_RESOURCES)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType())))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
@@ -155,27 +167,48 @@ class Collection implements ICollection {
 
 		if (empty($this->resources)) {
 			$this->removeCollection();
+		} else {
+			$this->manager->invalidateAccessCacheForCollection($this);
 		}
+
 	}
 
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param IUser $user
+	 * @param IUser|null $user
 	 * @return bool
 	 * @since 16.0.0
 	 */
-	public function canAccess(IUser $user = null): bool {
-		if ($this->access === null) {
-			$this->access = false;
-			foreach ($this->getResources() as $resource) {
-				if ($resource->canAccess($user)) {
-					$this->access = true;
-				}
-			}
+	public function canAccess(?IUser $user): bool {
+		if ($user instanceof IUser) {
+			return $this->canUserAccess($user);
+		}
+		return $this->canGuestAccess();
+	}
+
+	protected function canUserAccess(IUser $user): bool {
+		if (\is_bool($this->access) && $this->userForAccess instanceof IUser && $user->getUID() === $this->userForAccess->getUID()) {
+			return $this->access;
 		}
 
-		return $this->access;
+		$access = $this->manager->canAccessCollection($this, $user);
+		if ($this->userForAccess instanceof IUser && $user->getUID() === $this->userForAccess->getUID()) {
+			$this->access = $access;
+		}
+		return $access;
+	}
+
+	protected function canGuestAccess(): bool {
+		if (\is_bool($this->access) && !$this->userForAccess instanceof IUser) {
+			return $this->access;
+		}
+
+		$access = $this->manager->canAccessCollection($this, null);
+		if (!$this->userForAccess instanceof IUser) {
+			$this->access = $access;
+		}
+		return $access;
 	}
 
 	protected function isSameResource(IResource $resource1, IResource $resource2): bool {
@@ -183,12 +216,13 @@ class Collection implements ICollection {
 			$resource1->getId() === $resource2->getId();
 	}
 
-	protected function removeCollection() {
+	protected function removeCollection(): void {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete('collres_collections')
+		$query->delete(Manager::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$this->manager->invalidateAccessCacheForCollection($this);
 		$this->id = 0;
 	}
 }

@@ -77,7 +77,7 @@ class ResourceProvider implements IProvider {
 	 * @return bool
 	 * @since 15.0.0
 	 */
-	public function canAccess(IResource $resource, IUser $user = null): bool {
+	public function canAccessResource(IResource $resource, IUser $user = null): bool {
 		if (!$user instanceof IUser) {
 			return false;
 		}
