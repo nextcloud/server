@@ -54,7 +54,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.1",
+    "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1"
   }
