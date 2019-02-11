@@ -35,6 +35,8 @@
  *
  */
 
+use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Config\UserPlaceholderHandler;
 use phpseclib\Crypt\AES;
 use \OCA\Files_External\AppInfo\Application;
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
@@ -104,7 +106,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::setUserVars($uid, $option);
+				$option = self::substitutePlaceholdersInConfig($option);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -113,7 +115,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, true);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::setUserVars($uid, $option);
+				$option = self::substitutePlaceholdersInConfig($uid, $option);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -199,18 +201,26 @@ class OC_Mount_Config {
 	 * @param string $user user value
 	 * @param string|array $input
 	 * @return string
+	 * @deprecated use self::substitutePlaceholdersInConfig($input)
 	 */
 	public static function setUserVars($user, $input) {
-		if (is_array($input)) {
-			foreach ($input as &$value) {
-				if (is_string($value)) {
-					$value = str_replace('$user', $user, $value);
-				}
-			}
-		} else {
-			if (is_string($input)) {
-				$input = str_replace('$user', $user, $input);
-			}
+		$handler = self::$app->getContainer()->query(UserPlaceholderHandler::class);
+		return $handler->handle($input);
+	}
+
+	/**
+	 * @param mixed $input
+	 * @return mixed
+	 * @throws \OCP\AppFramework\QueryException
+	 * @since 16.0.0
+	 */
+	public static function substitutePlaceholdersInConfig($input) {
+		/** @var BackendService $backendService */
+		$backendService = self::$app->getContainer()->query(BackendService::class);
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $backendService->getConfigHandlers();
+		foreach ($handlers as $handler) {
+			$input = $handler->handle($input);
 		}
 		return $input;
 	}
@@ -229,7 +239,7 @@ class OC_Mount_Config {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
 		foreach ($options as &$option) {
-			$option = self::setUserVars(OCP\User::getUser(), $option);
+			$option = self::substitutePlaceholdersInConfig($option);
 		}
 		if (class_exists($class)) {
 			try {
