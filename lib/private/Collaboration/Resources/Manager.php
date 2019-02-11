@@ -100,7 +100,6 @@ class Manager implements IManager {
 			throw new CollectionException('Collection not found');
 		}
 
-
 		$access = $row['access'] === null ? null : (bool) $row['access'];
 		if ($user instanceof IUser) {
 			$access = [$user->getUID() => $access];
@@ -120,23 +119,38 @@ class Manager implements IManager {
 	 */
 	public function searchCollections(IUser $user, string $filter, int $limit = 50, int $start = 0): array {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('c.*', 'a.access')
 			->from(self::TABLE_COLLECTIONS)
-			->where($query->expr()->iLike('name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
+			->leftJoin(
+				'r', self::TABLE_ACCESS_CACHE, 'a',
+				$query->expr()->andX(
+					$query->expr()->eq('c.id', 'a.resource_id'),
+					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+				)
+			)
+			->where($query->expr()->iLike('c.name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
+			->andWhere($query->expr()->neq('a.access', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
 			->setMaxResults($limit)
 			->setFirstResult($start);
 		$result = $query->execute();
 		$collections = [];
-		/** TODO: this is a huge performance bottleneck */
+
+		$foundResults = 0;
 		while ($row = $result->fetch()) {
-			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name']);
+			$foundResults++;
+			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 			if ($collection->canAccess($user)) {
 				$collections[] = $collection;
 			}
 		}
 		$result->closeCursor();
 
-		// TODO: call with increased first result if no matches found
+		if (empty($collections) && $foundResults === $limit) {
+			$this->searchCollections($user, $filter, $limit, $start + $limit);
+		}
 
 		return $collections;
 	}
