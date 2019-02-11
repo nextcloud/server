@@ -132,6 +132,7 @@ class Manager implements IManager {
 			)
 			->where($query->expr()->iLike('c.name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->neq('a.access', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->orderBy('c.id')
 			->setMaxResults($limit)
 			->setFirstResult($start);
 		$result = $query->execute();
