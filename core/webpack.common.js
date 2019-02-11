@@ -59,7 +59,8 @@ module.exports = [
 	},
 	{
 		entry: {
-			share_backend: path.resolve(__dirname, 'js/merged-share-backend.js')
+			share_backend: path.resolve(__dirname, 'js/merged-share-backend.js'),
+			systemtags: path.resolve(__dirname, 'js/systemtags/merged-systemtags.js')
 		},
 		output: {
 			filename: '[name].js',
@@ -71,7 +72,15 @@ module.exports = [
 					test: /\.js$/,
 					loader: 'babel-loader',
 					exclude: /node_modules/
-				}
+				},
+				{
+					test: /\.css$/,
+					use: ['style-loader', 'css-loader']
+				},
+				{
+					test: /\.scss$/,
+					use: ['style-loader', 'css-loader', 'sass-loader']
+				},
 			]
 		}
 	}
