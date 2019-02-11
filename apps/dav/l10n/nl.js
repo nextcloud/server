@@ -60,6 +60,7 @@ OC.L10N.register(
     "More options …" : "Meer opties …",
     "More options at %s" : "Meer opties op %s",
     "Contacts" : "Contactpersonen",
+    "Configures a CalDAV account" : "Configureert een CalDAV account",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
     "Technical details" : "Technische details",

@@ -6,6 +6,7 @@
     "Client Identifier" : "Asiakkaan tunniste",
     "Secret" : "Salaisuus",
     "Add client" : "Lisää asiakas",
-    "Add" : "Lisää"
+    "Add" : "Lisää",
+    "Delete" : "Poista"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
