@@ -177,8 +177,10 @@ class Throttler {
 				$part = ord($addr[(int)($i/8)]);
 				$orig = ord($ip[(int)($i/8)]);
 
-				$part = $part & (15 << (1 - ($i % 2)));
-				$orig = $orig & (15 << (1 - ($i % 2)));
+				$bitmask = 1 << (7 - ($i % 8));
+
+				$part = $part & $bitmask;
+				$orig = $orig & $bitmask;
 
 				if ($part !== $orig) {
 					$valid = false;
