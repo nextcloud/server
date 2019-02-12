@@ -328,7 +328,7 @@ class BackendService {
 					'Handler for %s is not an instance of IConfigHandler', $placeholder
 				));
 			}
-			$this->configHandlers[] = $handler;
+			$this->configHandlers[$placeholder] = $handler;
 			$newLoaded = true;
 		}
 		$this->configHandlerLoaders = [];

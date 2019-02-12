@@ -789,6 +789,50 @@ class UserTest extends \Test\TestCase {
 		$this->user->update();
 	}
 
+	public function extStorageHomeDataProvider() {
+		return [
+			[ 'myFolder', null ],
+			[ '', null, false ],
+			[ 'myFolder', 'myFolder' ],
+		];
+	}
+
+	/**
+	 * @dataProvider extStorageHomeDataProvider
+	 */
+	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
+		if($valueFromLDAP === null) {
+			$this->connection->expects($this->once())
+				->method('__get')
+				->willReturnMap([
+					['ldapExtStorageHomeAttribute', 'homeDirectory'],
+				]);
+
+			$return = [];
+			if($isSet) {
+				$return[] = $expected;
+			}
+			$this->access->expects($this->once())
+				->method('readAttribute')
+				->with($this->dn, 'homeDirectory')
+				->willReturn($return);
+		}
+
+		if($expected !== '') {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with($this->uid, 'user_ldap', 'extStorageHome', $expected);
+		} else {
+			$this->config->expects($this->once())
+				->method('deleteUserValue')
+				->with($this->uid, 'user_ldap', 'extStorageHome');
+		}
+
+		$actual = $this->user->updateExtStorageHome($valueFromLDAP);
+		$this->assertSame($expected, $actual);
+
+	}
+
 	public function testUpdateNoRefresh() {
 		$this->config->expects($this->at(0))
 			->method('getUserValue')
@@ -867,15 +911,16 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testProcessAttributes() {
-		$requiredMethods = array(
+		$requiredMethods = [
 			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
 			'composeAndStoreDisplayName',
 			'storeLDAPUserName',
 			'getHomePath',
-			'updateAvatar'
-		);
+			'updateAvatar',
+			'updateExtStorageHome',
+		];
 
 		/** @var User|\PHPUnit_Framework_MockObject_MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
@@ -914,6 +959,7 @@ class UserTest extends \Test\TestCase {
 			strtolower($this->connection->ldapQuotaAttribute) => ['4096'],
 			strtolower($this->connection->ldapEmailAttribute) => ['alice@wonderland.org'],
 			strtolower($this->connection->ldapUserDisplayName) => ['Aaaaalice'],
+			strtolower($this->connection->ldapExtStorageHomeAttribute) => ['homeDirectory'],
 			'uid' => [$this->uid],
 			'homedirectory' => ['Alice\'s Folder'],
 			'memberof' => ['cn=groupOne', 'cn=groupTwo'],

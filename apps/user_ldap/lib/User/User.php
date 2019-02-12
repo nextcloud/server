@@ -32,6 +32,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
@@ -243,6 +244,13 @@ class User {
 			$groups = $ldapEntry['memberof'];
 		}
 		$this->connection->writeToCache($cacheKey, $groups);
+
+		//external storage var
+		$attr = strtolower($this->connection->ldapExtStorageHomeAttribute);
+		if(isset($ldapEntry[$attr])) {
+			$this->updateExtStorageHome($ldapEntry[$attr][0]);
+		}
+		unset($attr);
 
 		//Avatar
 		/** @var Connection $connection */
@@ -614,6 +622,47 @@ class User {
 			]);
 		}
 		return false;
+	}
+
+	/**
+	 * @throws AttributeNotSet
+	 * @throws \OC\ServerNotAvailableException
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function getExtStorageHome():string {
+		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
+		if ($value !== '') {
+			return $value;
+		}
+
+		$value = $this->updateExtStorageHome();
+		if ($value !== '') {
+			return $value;
+		}
+
+		throw new AttributeNotSet(sprintf(
+			'external home storage attribute yield no value for %s', $this->getUsername()
+		));
+	}
+
+	/**
+	 * @throws \OCP\PreConditionNotMetException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function updateExtStorageHome(string $valueFromLDAP = null):string {
+		if($valueFromLDAP === null) {
+			$extHomeValues = $this->access->readAttribute($this->getDN(), $this->connection->ldapExtStorageHomeAttribute);
+		} else {
+			$extHomeValues = [$valueFromLDAP];
+		}
+		if ($extHomeValues && isset($extHomeValues[0])) {
+			$extHome = $extHomeValues[0];
+			$this->config->setUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', $extHome);
+			return $extHome;
+		} else {
+			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', 'extStorageHome');
+			return '';
+		}
 	}
 
 	/**

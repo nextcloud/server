@@ -176,6 +176,7 @@ class Manager {
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
+			$this->access->getConnection()->ldapExtStorageHomeAttribute,
 		];
 
 		$homeRule = $this->access->getConnection()->homeFolderNamingRule;

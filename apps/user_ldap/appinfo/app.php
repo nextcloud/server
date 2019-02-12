@@ -34,6 +34,8 @@
 	return new OCA\User_LDAP\GroupPluginManager();
 });
 
+$app = new \OCA\User_LDAP\AppInfo\Application();
+
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 if(count($configPrefixes) > 0) {
@@ -67,6 +69,8 @@ if(count($configPrefixes) > 0) {
 	OC::$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
 
 	\OC::$server->getGroupManager()->addBackend($groupBackend);
+
+	$app->registerBackendDependents();
 }
 
 \OCP\Util::connectHook(
