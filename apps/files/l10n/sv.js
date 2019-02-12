@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "Byt namn",
     "Copy" : "Kopiera",
     "Choose target folder" : "Välj målmapp",
+    "Open" : "Öppna",
     "Disconnect storage" : "Koppla bort lagring",
     "Unshare" : "Sluta dela",
     "Could not load info for file \"{file}\"" : "Kunde inte ladda information för fil \"{file}\"",
