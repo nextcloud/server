@@ -11,6 +11,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Aktualizacja dla {app} do wersji %s jest dostępna.",
     "Update notification" : "Powiadomienie o aktualizacji",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Wyświetla powiadomienia o aktualizacji dla usługi NextCloud i udostępnia SSO dla aktualizatora.",
+    "Apps missing updates" : "Brakujące aktualizacje aplikacji",
     "View in store" : "Zobacz w sklepie",
     "Apps with available updates" : "Dostępne aktualizacje",
     "Open updater" : "Otwórz aktualizator",
