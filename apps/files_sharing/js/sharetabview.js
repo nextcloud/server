@@ -24,6 +24,11 @@
 		id: 'shareTabView',
 		className: 'tab shareTabView',
 
+		initialize: function(name, options) {
+			OCA.Files.DetailTabView.prototype.initialize.call(this, name, options);
+			OC.Plugins.attach('OCA.Sharing.ShareTabView', this);
+		},
+
 		template: function(params) {
 			return 	TEMPLATE;
 		},
@@ -80,6 +85,7 @@
 				this.$el.empty();
 				// TODO: render placeholder text?
 			}
+			this.trigger('rendered');
 		}
 	});
 
