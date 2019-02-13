@@ -4,7 +4,7 @@
 			<template v-if="isNewVersionAvailable">
 				<p v-if="versionIsEol">
 					<span class="warning">
-						<span class="icon icon-error"></span>
+						<span class="icon icon-error-white"></span>
 						{{ t('updatenotification', 'The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.') }}
 					</span>
 				</p>
