@@ -411,6 +411,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->eq('f.size', new Literal(0))
 			))
+			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_versions/%')))
+			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_trashbin/%')))
 			->orderBy('f.mtime', 'DESC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
