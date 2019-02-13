@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "Преименуј",
     "Copy" : "Копирај",
     "Choose target folder" : "Одаберите одредишну фасциклу",
+    "Open" : "Отвори",
     "Disconnect storage" : "Искључи складиште",
     "Unshare" : "Укини дељење",
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла \"{file}\"",
