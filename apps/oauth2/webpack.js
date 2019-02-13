@@ -13,6 +13,9 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          hotReload: false
+        }
       },
       {
         test: /\.css$/,

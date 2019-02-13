@@ -14,6 +14,16 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
+  webpack-build:
+    image: nextcloudci/node:node-4
+    commands:
+      - npm install
+      - npm run build
+      - git status
+      - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
+    when:
+      matrix:
+        TESTS: webpack-build
   vue-build-settings:
     image: nextcloudci/node:node-4
     commands:
@@ -33,13 +43,6 @@ pipeline:
     when:
       matrix:
         TESTS: vue-build-updatenotification
-  vue-build-oauth2:
-    image: node
-    commands:
-     - ./build/vue-builds.sh ./apps/oauth2/js/oauth2.js
-    when:
-      matrix:
-        TESTS: vue-build-oauth2
   vue-build-accessibility:
     image: node
     commands:
@@ -801,9 +804,9 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
+    - TESTS: webpack-build
     - TESTS: vue-build-settings
     - TESTS: vue-build-updatenotification
-    - TESTS: vue-build-oauth2
     - TESTS: vue-build-accessibility
     - TESTS: vue-build-backupcodes
     - TESTS: handlebars

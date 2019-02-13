@@ -75,6 +75,9 @@ $expectedFiles = [
 	'tests',
 	'themes',
 	'version.php',
+	'webpack.common.js',
+	'webpack.dev.js',
+	'webpack.prod.js',
 ];
 $actualFiles = [];
 
