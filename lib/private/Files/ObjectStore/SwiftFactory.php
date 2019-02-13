@@ -174,6 +174,7 @@ class SwiftFactory {
 		}
 
 		if (!$hasValidCachedToken) {
+			unset($this->params['cachedToken']);
 			try {
 				list($token, $serviceUrl) = $authService->authenticate($this->params);
 				$this->cacheToken($token, $serviceUrl, $cacheKey);
