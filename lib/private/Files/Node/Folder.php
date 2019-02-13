@@ -377,8 +377,30 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mountMap = array_combine($storageIds, $mounts);
 		$folderMimetype = $mimetypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 
-		//todo look into options of filtering path based on storage id (only search in files/ for home storage, filter by share root for shared, etc)
+		// Search in batches of 500 entries
+		$searchLimit = 500;
+		$results = [];
+		do {
+			$searchResult = $this->recentSearch($searchLimit, $offset, $storageIds, $folderMimetype);
 
+			// Exit condition if there are no more results
+			if (count($searchResult) === 0) {
+				break;
+			}
+
+			$parseResult = $this->recentParse($searchResult, $mountMap, $mimetypeLoader);
+
+			foreach ($parseResult as $result) {
+				$results[] = $result;
+			}
+
+			$offset += $searchLimit;
+		} while (count($results) < $limit);
+
+		return array_slice($results, 0, $limit);
+	}
+
+	private function recentSearch($limit, $offset, $storageIds, $folderMimetype) {
 		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query = $builder
 			->select('f.*')
@@ -392,9 +414,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 			->orderBy('f.mtime', 'DESC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
+		return $query->execute()->fetchAll();
+	}
 
-		$result = $query->execute()->fetchAll();
-
+	private function recentParse($result, $mountMap, $mimetypeLoader) {
 		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
 			$mount = $mountMap[$entry['storage']];
 			$entry['internalPath'] = $entry['path'];
