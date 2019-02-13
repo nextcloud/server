@@ -85,7 +85,7 @@ OC.L10N.register(
     "Allow editing" : "Dovoli urejanje",
     "Email link to person" : "Posreduj povezavo po elektronski pošti",
     "Send" : "Pošlji",
-    "Allow upload and editing" : "Dovoli nalaganje in urejanje",
+    "Allow upload and editing" : "Dovoli pošiljanje in urejanje",
     "Read only" : "Samo branje",
     "File drop (upload only)" : "Povleci datoteke (samo nalaganje)",
     "Set expiration date" : "Nastavi datum preteka",
