@@ -158,7 +158,7 @@ class AuthSettingsController extends Controller {
 		$tokenData['canDelete'] = true;
 		$tokenData['canRename'] = true;
 
-		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $deviceToken->getName());
+		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), ['name' => $deviceToken->getName()]);
 
 		return new JSONResponse([
 			'token' => $token,
@@ -206,7 +206,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->invalidateTokenById($this->uid, $token->getId());
-		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), $token->getName());
+		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), ['name' => $token->getName()]);
 		return [];
 	}
 
@@ -226,32 +226,34 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$token->setScope([
-			'filesystem' => $scope['filesystem']
-		]);
+		$currentName = $token->getName();
 
+		if ($scope !== $token->getScopeAsArray()) {
+			$token->setScope(['filesystem' => $scope['filesystem']]);
+			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		}
 
-		if ($token instanceof INamedToken) {
+		if ($token instanceof INamedToken && $name !== $currentName) {
 			$token->setName($name);
+			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $token->getId(), ['name' => $currentName, 'newName' => $name]);
 		}
 
 		$this->tokenProvider->updateToken($token);
-		$this->publishActivity(Provider::APP_TOKEN_UPDATED, $token->getId(), $token->getName());
 		return [];
 	}
 
 	/**
 	 * @param string $subject
 	 * @param int $id
-	 * @param string|null $tokenName
+	 * @param array $parameters
 	 */
-	private function publishActivity(string $subject, int $id, ?string $tokenName = null): void {
+	private function publishActivity(string $subject, int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('security')
 			->setAffectedUser($this->uid)
 			->setAuthor($this->uid)
-			->setSubject($subject, [$tokenName])
+			->setSubject($subject, $parameters)
 			->setObject('app_token', $id, 'App Password');
 
 		try {
