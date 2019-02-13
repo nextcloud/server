@@ -46,6 +46,7 @@ module.exports = function(config) {
 			'files',
 			'files_trashbin',
 			'files_versions',
+			'systemtags',
 			{
 				name: 'files_sharing',
 				srcFiles: [
@@ -91,18 +92,6 @@ module.exports = function(config) {
 					'apps/comments/js/filesplugin.js'
 				],
 				testFiles: ['apps/comments/tests/js/**/*.js']
-			},
-			{
-				name: 'systemtags',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/systemtags/js/app.js',
-					'apps/systemtags/js/systemtagsinfoview.js',
-					'apps/systemtags/js/systemtagsinfoviewtoggleview.js',
-					'apps/systemtags/js/systemtagsfilelist.js',
-					'apps/systemtags/js/filesplugin.js'
-				],
-				testFiles: ['apps/systemtags/tests/js/**/*.js']
 			},
 			{
 				name: 'settings',
