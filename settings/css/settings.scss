@@ -905,6 +905,10 @@ span.version {
 	}
 }
 
+#version.section {
+	border-bottom: none;
+}
+
 .section {
 	margin-bottom: 0;
 	/* use 2nd child since app-navigation-toggle is the first */
