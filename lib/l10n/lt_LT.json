@@ -182,6 +182,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Patikrinkite \"duomenų direktorijos\" reikšmę konfigūracijoje.",
     "Your data directory is invalid" : "Neteisingas duomenų katalogas",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Įsitikinkite, kad šakniniame duomenų kataloge yra  yra \".ocdata\" failas.",
+    "Action \"%s\" not supported or implemented." : "Veiksmas \"%s\" nepalaikomas ar neįgyvendintas.",
     "Storage unauthorized. %s" : "Saugykla nesankcionuota. %s",
     "Storage incomplete configuration. %s" : "Nepilna saugyklos konfigūracija. %s",
     "Storage connection error. %s" : "Saugyklos sujungimo ryšio klaida. %s",

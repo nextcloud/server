@@ -32,6 +32,7 @@ OC.L10N.register(
     "Rename" : "重新命名",
     "Copy" : "複製",
     "Choose target folder" : "選擇目標資料夾",
+    "Open" : "開啟",
     "Disconnect storage" : "切斷儲存空間連接",
     "Unshare" : "取消分享",
     "Could not load info for file \"{file}\"" : "無法讀取 \"{file}\" 的詳細資料",
@@ -141,6 +142,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
     "%s of %s used" : "在 %s 中使用了%s ",
+    "%1$s%% of %2$s used" : "在%2$s使用了%1$s%%",
     "%s used" : "%s已使用",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
@@ -165,6 +167,7 @@ OC.L10N.register(
     "Deleted shares" : "已刪除的分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
-    "Target folder" : "目標資料夾"
+    "Target folder" : "目標資料夾",
+    "%1$s of %2$s used" : "在  %2$s中使用了%1$s "
 },
 "nplurals=1; plural=0;");
