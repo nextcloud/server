@@ -25,25 +25,25 @@ use \OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use Test\TestCase;
 
 class ExcludeFileByNameFilterIteratorTest extends TestCase {
-	/** @var ExcludeFileByNameFilterIterator */
+	/** @var ExcludeFileByNameFilterIterator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filter;
 
 	public function setUp() {
 		parent::setUp();
 		$this->filter = $this->getMockBuilder(ExcludeFileByNameFilterIterator::class)
 			->disableOriginalConstructor()
-			->getMock()
-		;
+			->setMethods(['current'])
+			->getMock();
 
 	}
 
-	public function fileNameProvider(){
+	public function fileNameProvider(): array {
 		return [
 			['a file', true],
 			['Thumbs.db', false],
 			['another file', true],
 			['.directory', false],
-			['.webapp-netxcloud-12.0.5', false],
+			['.webapp-nextcloud-12.0.5', false],
 			['wx.webapp-nextcloud-obee', true],
 		];
 	}
@@ -53,17 +53,18 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
-	public function testAcceptForFiles($fileName, $expectedResult){
-		$iteratorMock = $this->createMock(\DirectoryIterator::class);
-		$iteratorMock->method('getFilename')
-			->will($this->returnValue($fileName))
-		;
+	public function testAcceptForFiles($fileName, $expectedResult): void {
+		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
+			->disableOriginalConstructor()
+			->setMethods(['getFilename', 'isDir'])
+			->getMock();
 
-		$this->filter->method('isDir')
-			->will($this->returnValue(false));
+		$iteratorMock->method('getFilename')
+			->willReturn($fileName);
+		$iteratorMock->method('isDir')
+			->willReturn(false);
 		$this->filter->method('current')
-			->will($this->returnValue($iteratorMock))
-		;
+			->willReturn($iteratorMock);
 
 		$actualResult = $this->filter->accept();
 		$this->assertEquals($expectedResult, $actualResult);
@@ -72,21 +73,22 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	/**
 	 * @dataProvider fileNameProvider
 	 * @param string $fileName
-	 * @param bool $fakeExpectedResult
+	 * @param bool $expectedResult
 	 */
-	public function testAcceptForDirs($fileName, $fakeExpectedResult){
-		$iteratorMock = $this->createMock(\DirectoryIterator::class);
-		$iteratorMock->method('getFilename')
-			->will($this->returnValue($fileName))
-		;
+	public function testAcceptForDirs($fileName, $expectedResult): void {
+		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
+			->disableOriginalConstructor()
+			->setMethods(['getFilename', 'isDir'])
+			->getMock();
 
-		$this->filter->method('isDir')
-			->will($this->returnValue(true));
+		$iteratorMock->method('getFilename')
+			->willReturn($fileName);
+		$iteratorMock->method('isDir')
+			->willReturn(true);
 		$this->filter->method('current')
-			->will($this->returnValue($iteratorMock))
-		;
+			->willReturn($iteratorMock);
 
 		$actualResult = $this->filter->accept();
-		$this->assertFalse($actualResult);
+		$this->assertTrue($actualResult);
 	}
 }

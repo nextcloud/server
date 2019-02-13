@@ -52,24 +52,27 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 *
 	 * @var array
 	 */
-	private $excludedFileNamePatterns = [
-		'/\.webapp-nextcloud-(\d+\.){3}(-r\d+)?/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
+	private $excludedFilenamePatterns = [
+		'/^\.webapp-nextcloud-.*/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
  	];
 
 	/**
 	 * @return bool
 	 */
 	public function accept() {
-		if($this->isDir()) {
+		/** @var \SplFileInfo $current */
+		$current = $this->current();
+
+		if ($current->isDir()) {
 			return true;
 		}
 
-		$currentFileName = $this->current()->getFilename();
+		$currentFileName = $current->getFilename();
 		if (in_array($currentFileName, $this->excludedFilenames, true)){
 			return false;
 		}
 
-		foreach ($this->excludedFileNamePatterns as $pattern){
+		foreach ($this->excludedFilenamePatterns as $pattern){
 			if (preg_match($pattern, $currentFileName) > 0){
 				return false;
 			}
