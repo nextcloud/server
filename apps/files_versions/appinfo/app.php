@@ -22,6 +22,4 @@
  *
  */
 
-\OCP\Util::addStyle('files_versions', 'versions');
-
 \OCA\Files_Versions\Hooks::connectHooks();
