@@ -27,6 +27,7 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
@@ -416,6 +417,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private function getAbsolutePath(IMountPoint $mount, $path) {
 		$storage = $mount->getStorage();
 		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Jail')) {
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				$storage->getSourceStorage();
+			}
 			/** @var \OC\Files\Storage\Wrapper\Jail $storage */
 			$jailRoot = $storage->getUnjailedPath('');
 			$rootLength = strlen($jailRoot) + 1;
