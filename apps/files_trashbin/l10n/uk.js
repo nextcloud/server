@@ -2,12 +2,12 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Видалені файли",
+    "restored" : "відновлено",
     "Restore" : "Відновити",
     "Delete" : "Видалити",
     "Delete permanently" : "Видалити назавжди",
     "This operation is forbidden" : "Ця операція заборонена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорія недоступна, будь ласка, перевірте файл журналу або зверніться до адміністратора  ",
-    "restored" : "відновлено",
     "No deleted files" : "Немає видалених файлів",
     "You will be able to recover deleted files from here" : "Ви зможете відновлювати видалені файли звідси",
     "No entries found in this folder" : "Записів не знайдено в цій папці",

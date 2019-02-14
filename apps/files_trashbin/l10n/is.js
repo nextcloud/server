@@ -2,6 +2,8 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "eyddar skrár",
+    "restored" : "endurheimt",
+    "This application enables users to restore files that were deleted from the system." : "Þetta forrit gerir notendum kleift að endurheimta skrár sem eytt hefur verið af kerfinu.",
     "Restore" : "Endurheimta",
     "Delete" : "Eyða",
     "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
@@ -12,8 +14,6 @@ OC.L10N.register(
     "Error while removing files from trashbin" : "Villa við að fjarlægja skrár úr ruslafötunni",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
-    "restored" : "endurheimt",
-    "This application enables users to restore files that were deleted from the system." : "Þetta forrit gerir notendum kleift að endurheimta skrár sem eytt hefur verið af kerfinu.",
     "No deleted files" : "Engar eyddar skrár",
     "You will be able to recover deleted files from here" : "Þú getur endurheimt eyddar skrár héðan",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",

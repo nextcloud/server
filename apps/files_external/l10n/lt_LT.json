@@ -6,7 +6,7 @@
     "Error configuring OAuth1" : "Klaida, konfigūruojant OAuth1",
     "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "Error configuring OAuth2" : "Klaida, konfigūruojant OAuth2",
-    "Generate keys" : "Sukurti raktus",
+    "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
     "All users. Type to select user or group." : "Visi naudotojai. Pradėkite rašyti, jei norite pasirinkti konkretų naudotoją ar grupę.",
     "(group)" : "(grupė)",
