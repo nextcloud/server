@@ -233,18 +233,22 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testGetAttributes($minimal) {
 		$this->connection->setConfiguration([
-			'ldapEmailAttribute' => 'mail',
+			'ldapEmailAttribute' => 'MAIL',
 			'ldapUserAvatarRule' => 'default',
 			'ldapQuotaAttribute' => '',
+			'ldapUserDisplayName2' => 'Mail',
 		]);
 
 		$attributes = $this->manager->getAttributes($minimal);
 
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array($this->access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes));
+		$this->assertTrue(!in_array($this->access->getConnection()->ldapEmailAttribute, $attributes)); #cases check
 		$this->assertFalse(in_array('', $attributes));
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
+		$valueCounts = array_count_values($attributes);
+		$this->assertSame(1, $valueCounts['mail']);
 	}
 
 }
