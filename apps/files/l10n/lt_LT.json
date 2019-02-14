@@ -31,7 +31,7 @@
     "Select" : "Pasirinkti",
     "Unable to determine date" : "Nepavyksta nustatyti datos",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Katalogas neprieinamas, prašome peržiūrėti žurnalo įrašus arba susisiekti su administratoriumi",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Šis katalogas neprieinamas, prašome peržiūrėti žurnalo įrašus arba susisiekti su administratoriumi",
     "Could not move \"{file}\", target exists" : "Nepavyko perkelti \"{file}\", toks jau egzistuoja",
     "Could not move \"{file}\"" : "Nepavyko perkelti \"{file}\"",
     "copy" : "kopija",

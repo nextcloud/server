@@ -2,12 +2,12 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Files delite",
+    "restored" : "restaurate",
     "Restore" : "Restaurar",
     "Delete" : "Deler",
     "Delete permanently" : "Deler permanentemente",
     "This operation is forbidden" : "Iste operation es prohibite",
     "This directory is unavailable, please check the logs or contact the administrator" : "Iste directorio non es disponibile, per favor verifica le registros o contacta le administrator",
-    "restored" : "restaurate",
     "No deleted files" : "Nulle files delite",
     "You will be able to recover deleted files from here" : "Tu potera recuperar files delite desde ci",
     "No entries found in this folder" : "Nulle entratas trovate in iste dossier",

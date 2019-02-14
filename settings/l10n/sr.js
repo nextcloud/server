@@ -8,7 +8,6 @@ OC.L10N.register(
     "You changed your email address" : "Променили сте адресу е-поште",
     "Your email address was changed by an administrator" : "Администратор је изменио адресу Ваше е-поште",
     "You created app password \"{token}\"" : "Направили сте апликативну лозинку \"{token}\"",
-    "You updated app password \"{token}\"" : "Ажурирали сте апликативну лозинку \"{token}\"",
     "You deleted app password \"{token}\"" : "Обрисали сте апликативну лозинку \"{token}\"",
     "Security" : "Безбедност",
     "You successfully logged in using two-factor authentication (%1$s)" : "Успешно сте се пријавили са двофакторском провером идентитета (%1$s)",

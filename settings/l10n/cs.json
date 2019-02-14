@@ -6,7 +6,6 @@
     "You changed your email address" : "Změnili jste svou emailovou adresu",
     "Your email address was changed by an administrator" : "Vaše emailová adresa byla změněna správcem",
     "You created app password \"{token}\"" : "Vytvořili jste heslo pro aplikaci „{token}“",
-    "You updated app password \"{token}\"" : "Aktualizovali jste heslo pro aplikaci „{token}“",
     "You deleted app password \"{token}\"" : "Smazali jste heslo pro aplikaci „{token}“",
     "Security" : "Zabezpečení",
     "You successfully logged in using two-factor authentication (%1$s)" : "Úspěšně jste se přihlásili pomocí dvoufázového ověření (%1$s)",

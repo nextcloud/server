@@ -8,7 +8,6 @@ OC.L10N.register(
     "You changed your email address" : "Vi ŝanĝis vian retpoŝtadreson",
     "Your email address was changed by an administrator" : "Administranto ŝanĝis vian retpoŝtadreson",
     "You created app password \"{token}\"" : "Vi kreis aplikaĵan pasvorton „{token}“",
-    "You updated app password \"{token}\"" : "Vi ĝisdatigis aplikaĵan pasvorton „{token}“",
     "You deleted app password \"{token}\"" : "Vi forigis aplikaĵan pasvorton „{token}“",
     "Security" : "Sekurigo",
     "You successfully logged in using two-factor authentication (%1$s)" : "Vi sukcese ensalutis uzante dufazan aŭtentigon (%1$s)",

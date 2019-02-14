@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Ištrinti failai",
+    "restored" : "atkurta",
     "Restore" : "Atkurti",
     "Delete" : "Ištrinti",
     "Error while restoring file from trashbin" : "Klaida atkuriant failą iš šiukšlinės",
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Error while removing files from trashbin" : "Klaida šalinant failus iš šiukšlinės",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Katalogas neprieinamas, prašome peržiūrėti žurnalo įrašus arba susisiekti su administratoriumi",
-    "restored" : "atkurta",
     "No deleted files" : "Jokių ištrintų failų",
     "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
     "Select all" : "Pažymėti viską",
