@@ -53,7 +53,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 * @var array
 	 */
 	private $excludedFilenamePatterns = [
-		'/^\.webapp-nextcloud-.*/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
+		'/^\.webapp-nextcloud-(\d+\.){2}(\d+)(-r\d+)?$/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
  	];
 
 	/**

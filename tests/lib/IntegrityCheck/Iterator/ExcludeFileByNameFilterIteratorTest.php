@@ -34,7 +34,6 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 			->disableOriginalConstructor()
 			->setMethods(['current'])
 			->getMock();
-
 	}
 
 	public function fileNameProvider(): array {
@@ -43,7 +42,8 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 			['Thumbs.db', false],
 			['another file', true],
 			['.directory', false],
-			['.webapp-nextcloud-12.0.5', false],
+			['.webapp-nextcloud-15.0.2', false],
+			['.webapp-nextcloud-14.0.5-r3', false],
 			['wx.webapp-nextcloud-obee', true],
 		];
 	}
