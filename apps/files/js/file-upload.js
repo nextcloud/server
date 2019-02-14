@@ -429,6 +429,11 @@ OC.Uploader.prototype = _.extend({
 	fileList: null,
 
 	/**
+	 * @type OCA.Files.OperationProgressBar
+	 */
+	progressBar: null,
+
+	/**
 	 * @type OC.Files.Client
 	 */
 	filesClient: null,
@@ -759,14 +764,6 @@ OC.Uploader.prototype = _.extend({
 		callbacks.onNoConflicts(selection);
 	},
 
-	_hideProgressBar: function() {
-		var self = this;
-		$('#uploadprogresswrapper .stop').fadeOut();
-		$('#uploadprogressbar').fadeOut(function() {
-			self.$uploadEl.trigger(new $.Event('resized'));
-		});
-	},
-
 	_updateProgressBarOnUploadStop: function() {
 		if (this._pendingUploadDoneCount === 0) {
 			// All the uploads ended and there is no pending operation, so hide
@@ -780,17 +777,31 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 
-		$('#uploadprogressbar .label .mobile').text(t('core', '…'));
-		$('#uploadprogressbar .label .desktop').text(t('core', 'Processing files …'));
+		this._setProgressBarText(t('core', 'Processing files …'), t('core', '…'));
 
 		// Nothing is being uploaded at this point, and the pending operations
 		// can not be cancelled, so the cancel button should be hidden.
-		$('#uploadprogresswrapper .stop').fadeOut();
+		this._hideCancelButton();
+	},
+
+	_hideProgressBar: function() {
+		this.progressBar.hideProgressBar();
+	},
+
+	_hideCancelButton: function() {
+		this.progressBar.hideCancelButton();
 	},
 
 	_showProgressBar: function() {
-		$('#uploadprogressbar').fadeIn();
-		this.$uploadEl.trigger(new $.Event('resized'));
+		this.progressBar.showProgressBar();
+	},
+
+	_setProgressBarValue: function(value) {
+		this.progressBar.setProgressBarValue(value);
+	},
+
+	_setProgressBarText: function(textDesktop, textMobile, title) {
+		this.progressBar.setProgressBarText(textDesktop, textMobile, title);
 	},
 
 	/**
@@ -826,6 +837,7 @@ OC.Uploader.prototype = _.extend({
 		options = options || {};
 
 		this.fileList = options.fileList;
+		this.progressBar = options.progressBar;
 		this.filesClient = options.filesClient || OC.Files.getClient();
 		this.davClient = new OC.Files.Client({
 			host: this.filesClient.getHost(),
@@ -839,7 +851,7 @@ OC.Uploader.prototype = _.extend({
 		this.$uploadEl = $uploadEl;
 
 		if ($uploadEl.exists()) {
-			$('#uploadprogresswrapper .stop').on('click', function() {
+			this.progressBar.on('cancel', function() {
 				self.cancelUploads();
 			});
 
@@ -1099,16 +1111,8 @@ OC.Uploader.prototype = _.extend({
 				// add progress handlers
 				fileupload.on('fileuploadstart', function(e, data) {
 					self.log('progress handle fileuploadstart', e, data);
-					$('#uploadprogresswrapper .stop').show();
-					$('#uploadprogresswrapper .label').show();
-					$('#uploadprogressbar').progressbar({value: 0});
-					$('#uploadprogressbar .ui-progressbar-value').
-						html('<em class="label inner"><span class="desktop">'
-							+ t('files', 'Uploading …')
-							+ '</span><span class="mobile">'
-							+ t('files', '…')
-							+ '</span></em>');
-					$('#uploadprogressbar').tooltip({placement: 'bottom'});
+					self._setProgressBarText(t('files', 'Uploading …'), t('files', '…'));
+					self._setProgressBarValue(0);
 					self._showProgressBar();
 					// initial remaining time variables
 					lastUpdate   = new Date().getTime();
@@ -1158,16 +1162,12 @@ OC.Uploader.prototype = _.extend({
 						// show "Uploading ..." for durations longer than 4 hours
 						h = t('files', 'Uploading …');
 					}
-					$('#uploadprogressbar .label .mobile').text(h);
-					$('#uploadprogressbar .label .desktop').text(h);
-					$('#uploadprogressbar').attr('original-title',
-						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
+					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
 							totalSize: humanFileSize(data.total),
 							bitrate: humanFileSize(data.bitrate / 8) + '/s'
-						})
-					);
-					$('#uploadprogressbar').progressbar('value', progress);
+						}));
+					self._setProgressBarValue(progress);
 					self.trigger('progressall', e, data);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {

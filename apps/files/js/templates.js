@@ -245,6 +245,22 @@ templates['newfilemenu_filename_form'] = template({"compiler":[7,">= 4.0.0"],"ma
     + alias4(((helper = (helper = helpers.fileName || (depth0 != null ? depth0.fileName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fileName","hash":{},"data":data}) : helper)))
     + "\" autocomplete=\"off\" autocapitalize=\"off\">\n	<input type=\"submit\" value=\" \" class=\"icon-confirm\" />\n</form>\n";
 },"useData":true});
+templates['operationprogressbar'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<div id=\"uploadprogressbar\">\n	<em class=\"label outer\" style=\"display:none\"></em>\n</div>\n<button class=\"stop icon-close\" style=\"display:none\">\n	<span class=\"hidden-visually\">"
+    + container.escapeExpression(((helper = (helper = helpers.textCancelButton || (depth0 != null ? depth0.textCancelButton : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"textCancelButton","hash":{},"data":data}) : helper)))
+    + "</span>\n</button>\n";
+},"useData":true});
+templates['operationprogressbarlabel'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<em class=\"label\">\n	<span class=\"desktop\">"
+    + alias4(((helper = (helper = helpers.textDesktop || (depth0 != null ? depth0.textDesktop : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"textDesktop","hash":{},"data":data}) : helper)))
+    + "</span>\n	<span class=\"mobile\">"
+    + alias4(((helper = (helper = helpers.textMobile || (depth0 != null ? depth0.textMobile : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"textMobile","hash":{},"data":data}) : helper)))
+    + "</span>\n</em>\n";
+},"useData":true});
 templates['template_addbutton'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
