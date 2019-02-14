@@ -47,7 +47,7 @@
 			<ul class="resource-list-details" v-if="detailsOpen">
 				<li v-for="resource in collection.resources">
 					<a :href="resource.link"><span :class="getIcon(resource)"></span><span class="resource-name">{{ resource.name || '' }}</span></a>
-					<span class="icon-delete" @click="removeResource(collection, resource)"></span>
+					<span class="icon-close" @click="removeResource(collection, resource)"></span>
 				</li>
 			</ul>
 		</transition>
@@ -168,6 +168,11 @@
 			li {
 				display: flex;
 				margin-left: 44px;
+				border-radius: 3px;
+
+				&:hover {
+					background-color: var(--color-background-dark);
+				}
 				a {
 					flex-grow: 1;
 					padding: 3px;
