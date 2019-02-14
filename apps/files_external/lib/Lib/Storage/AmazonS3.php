@@ -335,7 +335,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				if (is_array($result['CommonPrefixes'])) {
 					foreach ($result['CommonPrefixes'] as $prefix) {
 						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
-						$this->directoryCache[substr(trim($prefix['Prefix'], '/'), strlen($path))] = true;
+						$this->directoryCache[trim($prefix['Prefix'], '/')] = true;
 					}
 				}
 				if (is_array($result['Contents'])) {
@@ -433,6 +433,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function is_dir($path) {
 		$path = $this->normalizePath($path);
+
+		if (isset($this->filesCache[$path])) {
+			return false;
+		}
+
 		try {
 			return $this->isRoot($path) || $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
