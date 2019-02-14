@@ -42,7 +42,7 @@ OCA.Trashbin.App = {
 				multiSelectMenu: [
 					{
 						name: 'restore',
-						displayName: t('files', 'Restore'),
+						displayName: t('files_trashbin', 'Restore'),
 						iconClass: 'icon-history',
 					},
 					{
