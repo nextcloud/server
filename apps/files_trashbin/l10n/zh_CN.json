@@ -1,5 +1,6 @@
 { "translations": {
     "Deleted files" : "已删除文件",
+    "restored" : "已恢复",
     "Restore" : "恢复",
     "Delete" : "删除",
     "Error while restoring file from trashbin" : "从垃圾桶删除文件时出错",
@@ -10,7 +11,6 @@
     "Error while removing files from trashbin" : "从垃圾桶删除文件时出错",
     "This operation is forbidden" : "操作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "此目录不可用，请检查日志或联系管理员",
-    "restored" : "已恢复",
     "No deleted files" : "无已删除文件",
     "You will be able to recover deleted files from here" : "您可以在此处恢复已删除的文件",
     "No entries found in this folder" : "此文件夹中无项目",

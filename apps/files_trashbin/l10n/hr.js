@@ -2,10 +2,10 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Izbrisane datoteke",
+    "restored" : "Obnovljeno",
     "Restore" : "Obnovite",
     "Delete" : "Izbrišite",
     "Delete permanently" : "Trajno izbrišite",
-    "restored" : "Obnovljeno",
     "No entries found in this folder" : "Zapis nije pronadjen u ovom direktorijumu ",
     "Select all" : "Selektiraj sve",
     "Name" : "Naziv",

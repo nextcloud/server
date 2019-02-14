@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Raderade filer",
+    "restored" : "återställd",
     "Restore" : "Återskapa",
     "Delete" : "Radera",
     "Error while restoring file from trashbin" : "Det gick inte att återställa filen från papperskorgen",
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Error while removing files from trashbin" : "Fel vid borttagning av filer från papperskorgen",
     "This operation is forbidden" : "Denna åtgärd är förbjuden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
-    "restored" : "återställd",
     "No deleted files" : "Inga raderade filer",
     "You will be able to recover deleted files from here" : "Du kommer kunna återskapa raderade filer härifrån",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
