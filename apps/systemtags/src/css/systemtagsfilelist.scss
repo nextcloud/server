@@ -12,10 +12,6 @@
 	margin-left: 10px;
 }
 
-.nav-icon-systemtagsfilter {
-	@include icon-color('tag', 'systemtags', $color-black);
-}
-
 #app-sidebar .mainFileInfoView .tag-label {
 	cursor: pointer;
 	padding: 13px;

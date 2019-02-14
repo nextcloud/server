@@ -34,8 +34,7 @@ $eventDispatcher->addListener(
 	function() {
 		// FIXME: no public API for these ?
 		\OCP\Util::addScript('dist/systemtags');
-		\OCP\Util::addScript('systemtags', 'merged');
-		\OCP\Util::addStyle('systemtags', 'systemtagsfilelist');
+		\OCP\Util::addScript('systemtags', 'systemtags');
 	}
 );
 

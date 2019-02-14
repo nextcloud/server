@@ -7,6 +7,8 @@
 /apps/files_versions/js/files_versions.js.map binary
 /apps/oauth2/js/oauth2.js binary
 /apps/oauth2/js/oauth2.js.map binary
+/apps/systemtags/js/systemtags.js binary
+/apps/systemtags/js/systemtags.js.map binary
 /apps/twofactor_backupcodes/js/*.js binary
 /apps/twofactor_backupcodes/js/*.js.map binary
 /apps/updatenotification/js/updatenotification.js binary
