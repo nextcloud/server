@@ -6,7 +6,6 @@
     "You changed your email address" : "Você alterou seu e-mail",
     "Your email address was changed by an administrator" : "Seu e-mail foi alterado pelo administrador",
     "You created app password \"{token}\"" : "Você criou a senha de aplicativo \"{token}\"",
-    "You updated app password \"{token}\"" : "Sua senha atualizada de aplicativo \"{token}\"",
     "You deleted app password \"{token}\"" : "Você excluiu a senha de aplicativo \"{token}\"",
     "Security" : "Segurança",
     "You successfully logged in using two-factor authentication (%1$s)" : "Você conectou com sucesso usando a autenticação de dois fatores (%1$s)",

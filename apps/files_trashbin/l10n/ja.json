@@ -1,5 +1,7 @@
 { "translations": {
     "Deleted files" : "ゴミ箱",
+    "restored" : "復元済",
+    "This application enables users to restore files that were deleted from the system." : "このアプリケーションを使用すると、ユーザーはシステムから削除されたファイルを復元できます。",
     "Restore" : "復元",
     "Delete" : "削除",
     "Error while restoring file from trashbin" : "ごみ箱からファイルを復元中にエラーが発生しました",
@@ -10,8 +12,6 @@
     "Error while removing files from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました",
     "This operation is forbidden" : "この操作は禁止されています",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
-    "restored" : "復元済",
-    "This application enables users to restore files that were deleted from the system." : "このアプリケーションを使用すると、ユーザーはシステムから削除されたファイルを復元できます。",
     "No deleted files" : "削除されたファイルはありません",
     "You will be able to recover deleted files from here" : "ここから削除されたファイルを元に戻すことができます。",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",

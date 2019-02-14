@@ -71,7 +71,7 @@ OC.L10N.register(
     "Private" : "Privatu",
     "Only visible to local users" : "Matoma tik vietiniams naudotojams",
     "Only visible to you" : "Matoma tik jums",
-    "Contacts" : "Kontaktai",
+    "Contacts" : "Adresatai",
     "Visible to local users and to trusted servers" : "Matoma tik vietiniams naudotojams ir patikimiems serveriams",
     "Public" : "Vieša",
     "Will be synced to a global and public address book" : "Bus sinchronizuota į visuotinę ir viešą adresų knygą",
