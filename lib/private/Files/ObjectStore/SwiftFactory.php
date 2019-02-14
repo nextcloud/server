@@ -122,7 +122,7 @@ class SwiftFactory {
 			'handler' => HandlerStack::create()
 		]);
 
-		if (isset($this->params['user']) && isset($this->params['user']['name'])) {
+		if (isset($this->params['user']) && is_array($this->params['user']) && isset($this->params['user']['name'])) {
 			if (!isset($this->params['scope'])) {
 				throw new StorageAuthException('Scope has to be defined for V3 requests');
 			}
