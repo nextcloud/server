@@ -12,9 +12,4 @@
 /apps/updatenotification/js/updatenotification.js binary
 /apps/updatenotification/js/updatenotification.js.map binary
 
-/settings/js/settings-admin-security.js binary
-/settings/js/settings-admin-security.js.map binary
-/settings/js/settings-vue.js binary
-/settings/js/settings-vue.js.map binary
-/settings/js/0.js binary
-/settings/js/0.js.map binary
+/settings/js/vue* binary
