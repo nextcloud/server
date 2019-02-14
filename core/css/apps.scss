@@ -934,6 +934,7 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
+			border-radius: 0; // otherwise Safari will cut the border-radius area
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
