@@ -40,10 +40,6 @@
 	font-weight: normal;
 }
 
-#updatenotification .warning {
-	color: #ce3702;
-}
-
 #updatenotification .whatsNew {
 	display: inline-block;
 }
