@@ -220,6 +220,7 @@ class BackendServiceTest extends \Test\TestCase {
 	public function invalidConfigPlaceholderProvider() {
 		return [
 			[['@user']],
+			[['$user']],
 			[['hællo']],
 			[['spa ce']],
 			[['yo\o']],

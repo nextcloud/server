@@ -4,6 +4,7 @@
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @license AGPL-3.0
  *
@@ -292,8 +293,8 @@ class BackendService {
 	 *
 	 * The function of the provided $placeholder is mostly to act a sorting
 	 * criteria, so longer placeholders are replaced first. This avoids
-	 * "@user" overwriting parts of "@userMail" and "@userLang", for example.
-	 * The provided value should not contain the @ prefix, only a-z0-9 are
+	 * "$user" overwriting parts of "$userMail" and "$userLang", for example.
+	 * The provided value should not contain the $ prefix, only a-z0-9 are
 	 * allowed. Upper case letters are lower cased, the replacement is case-
 	 * insensitive.
 	 *
