@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "{dir} mappa nem hozható létre",
     "This will stop your current uploads." : "Ez meg fogja állítani a jelenlegi feltöltéseket.",
     "Upload cancelled." : "A feltöltést megszakítottuk.",
-    "…" : "...",
     "Processing files …" : "Fájlok feldolgozása …",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "A(z) {filename} fájl nem tölthető fel, mert ez vagy egy könyvtár, vagy pedig 0 bájtból áll.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nincs elég szabad hely. A feltöltés mérete {size1}, de csak ennyi hely van: {size2}.",
     "Target folder \"{dir}\" does not exist any more" : "A célmappa már nem létezik: \"{dir}\"",
@@ -145,7 +145,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>",
     "Toggle grid view" : "Rácsnézet váltás",
-    "Cancel upload" : "Feltöltés megszakítása",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
@@ -164,6 +163,7 @@ OC.L10N.register(
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "Target folder" : "Célmappa",
+    "Cancel upload" : "Feltöltés megszakítása",
     "%1$s of %2$s used" : "%1$s a %2$s-ból használva"
 },
 "nplurals=2; plural=(n != 1);");

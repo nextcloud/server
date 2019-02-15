@@ -16,7 +16,6 @@ OC.L10N.register(
     "Your version is up to date." : "თქვენ იყენბთ ბოლო ვერსიას.",
     "A non-default update server is in use to be checked for updates:" : "განახლებების შესამოწმებლად მოქმედია არა-საწყისი სერვერი:",
     "Update channel:" : "განახლების არხი:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "გაითვალისწინეთ, ახალი რელიზი აქ გამოჩენამდე, საჭიროებს გარკვეულ დროს. ჩვენ მომხმარებლებისთვის ვუშვებთ ახალ ვერსიებს და ხანდახან პრობლემების პოვნისას ზოგიერთ ვერსიას ვტოვებთ.",
     "Notify members of the following groups about available updates:" : "შემდეგი ჯგუფის წევრებს გაუგზავნეთ შეტყობინება ხელმისაწვდომ განახლებებზე:",
     "Only notification for app updates are available." : "შეტყობინება ხელმისაწვდომია მხოლოდ აპლიკაციების განახლებებზე.",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "შემოწმდა {lastCheckedDate}-ზე",
     "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში",
     "A new version is available: %s" : "ხელმისაწვდომია ახალი ვერსია: %s",
-    "Checked on %s" : "შემოწმდა %s-ზე"
+    "Checked on %s" : "შემოწმდა %s-ზე",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება."
 },
 "nplurals=2; plural=(n!=1);");

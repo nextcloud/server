@@ -133,7 +133,6 @@ OC.L10N.register(
     "Show hidden files" : "Pokaži skrite datoteke",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV</a>.",
-    "Cancel upload" : "Prekliči pošiljanje",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino, ali pa omogočite usklajevanje z napravami!",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
@@ -151,6 +150,7 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisane povezave za souporabo",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt",
-    "Target folder" : "Ciljna mapa"
+    "Target folder" : "Ciljna mapa",
+    "Cancel upload" : "Prekliči pošiljanje"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

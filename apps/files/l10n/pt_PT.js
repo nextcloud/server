@@ -130,7 +130,6 @@ OC.L10N.register(
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">aceder aos seus ficheiros por WebDAV</a>",
-    "Cancel upload" : "Cancelar envio",
     "No files in here" : "Nenhuns ficheiros aqui",
     "Upload some content or sync with your devices!" : "Envie algum conteúdo ou sincronize com os seus dispositivos!",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Target folder" : "Pasta de destino"
+    "Target folder" : "Pasta de destino",
+    "Cancel upload" : "Cancelar envio"
 },
 "nplurals=2; plural=(n != 1);");
