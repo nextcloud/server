@@ -838,7 +838,6 @@ return array(
     'OC\\Files\\Storage\\Wrapper\\PermissionsMask' => $baseDir . '/lib/private/Files/Storage/Wrapper/PermissionsMask.php',
     'OC\\Files\\Storage\\Wrapper\\Quota' => $baseDir . '/lib/private/Files/Storage/Wrapper/Quota.php',
     'OC\\Files\\Storage\\Wrapper\\Wrapper' => $baseDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
-    'OC\\Files\\Stream\\CountReadStream' => $baseDir . '/lib/private/Files/Stream/CountReadStream.php',
     'OC\\Files\\Stream\\Encryption' => $baseDir . '/lib/private/Files/Stream/Encryption.php',
     'OC\\Files\\Stream\\Quota' => $baseDir . '/lib/private/Files/Stream/Quota.php',
     'OC\\Files\\Type\\Detection' => $baseDir . '/lib/private/Files/Type/Detection.php',

@@ -868,7 +868,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Storage\\Wrapper\\PermissionsMask' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/PermissionsMask.php',
         'OC\\Files\\Storage\\Wrapper\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Quota.php',
         'OC\\Files\\Storage\\Wrapper\\Wrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
-        'OC\\Files\\Stream\\CountReadStream' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/CountReadStream.php',
         'OC\\Files\\Stream\\Encryption' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Encryption.php',
         'OC\\Files\\Stream\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Quota.php',
         'OC\\Files\\Type\\Detection' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Detection.php',
