@@ -137,7 +137,6 @@ OC.L10N.register(
     "Show hidden files" : "Show hidden files",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>",
-    "Cancel upload" : "Cancel upload",
     "No files in here" : "No files in here",
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
     "No entries found in this folder" : "No entries found in this folder",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "Target folder" : "Target folder"
+    "Target folder" : "Target folder",
+    "Cancel upload" : "Cancel upload"
 },
 "nplurals=2; plural=(n != 1);");

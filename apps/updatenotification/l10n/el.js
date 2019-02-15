@@ -17,7 +17,6 @@ OC.L10N.register(
     "What's new?" : "Τι νέο υπάρχει;",
     "Your version is up to date." : "Έχετε την τελευταία έκδοση.",
     "Update channel:" : "Ενημέρωση καναλιού:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Σημειώστε ότι μετά από μια νέα διανομή μπορεί να περάσει λίγος καιρός πριν εμφανιστεί εδώ. Κυκλοφορούμε κατά διαστήματα νέες εκδόσεις στους χρήστες μας και κάποιες φορές παραλείπουμε κάποια έκδοση αν βρεθούν προβλήματα.",
     "Notify members of the following groups about available updates:" : "Να ενημερωθούν τα μέλη των παρακάτω ομάδων σχετικά με τις διαθέσιμες ενημερώσεις:",
     "Only notification for app updates are available." : "Είναι μόνο διαθέσιμες οι ενημερώσεις για την εφαρμογή",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "View changelog" : "Εμφάνιση αλλαγών",
     "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση",
     "A new version is available: %s" : "Μία νέα έκδοση είναι διαθέσιμη: %s",
-    "Checked on %s" : "Ελέγχθηκε στις %s"
+    "Checked on %s" : "Ελέγχθηκε στις %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι."
 },
 "nplurals=2; plural=(n != 1);");

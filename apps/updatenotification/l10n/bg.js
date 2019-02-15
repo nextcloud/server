@@ -18,7 +18,6 @@ OC.L10N.register(
     "Your version is up to date." : "Ползвате последната версия.",
     "A non-default update server is in use to be checked for updates:" : "Проверката за налични актуализации се извършва чрез сървър, който е различен от стандартния:",
     "Update channel:" : "Канал за актуализиране:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Винаги може да актуализирате до по-нова версия / експериментален канал. Но не можете да се върнете до по-стабилен канал.",
     "Notify members of the following groups about available updates:" : "Известявай следните групи при наличие на актуализация:",
     "Only notification for app updates are available." : "Налични са само известия за актуализации на приложенията.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Избрания канал за актуализации прави известията за този сървър остарели.",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "View changelog" : "Преглед на списъка с промени",
     "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление",
     "A new version is available: %s" : "Налична е нова версия: %s",
-    "Checked on %s" : "Проверено на %s"
+    "Checked on %s" : "Проверено на %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Винаги може да актуализирате до по-нова версия / експериментален канал. Но не можете да се върнете до по-стабилен канал."
 },
 "nplurals=2; plural=(n != 1);");

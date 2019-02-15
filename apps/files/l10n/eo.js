@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Ne eblas krei dosierujon „{dir}“",
     "This will stop your current uploads." : "Tio haltigos viajn nunajn alŝutojn.",
     "Upload cancelled." : "La alŝuto nuliĝis.",
-    "…" : "… ",
     "Processing files …" : "Traktado de dosieroj…",
+    "…" : "… ",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ne povis alŝuti {filename} ĉar ĝi estas dosierujo aŭ ĝi havas 0 bajtoj",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ne sufiĉas libera spaco: vi alŝutas {size1} sed nur {size2} restas",
     "Target folder \"{dir}\" does not exist any more" : "Cela dosierujo \"{dir}\" ne plu ekzistas",
@@ -149,7 +149,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>",
     "Toggle grid view" : "Baskuligi kradan vidon",
-    "Cancel upload" : "Nuligi alŝuton",
     "No files in here" : "Neniu dosiero ĉi tie",
     "Upload some content or sync with your devices!" : "Alŝutu iom da enhavo aŭ sinkronigu kun viaj aparatoj!",
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Target folder" : "Cela dosierujo",
+    "Cancel upload" : "Nuligi alŝuton",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s"
 },
 "nplurals=2; plural=(n != 1);");

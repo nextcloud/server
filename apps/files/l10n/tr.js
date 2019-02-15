@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "\"{dir}\" klasörü oluşturulamadı",
     "This will stop your current uploads." : "Bu işlem geçerli yüklemeleri durduracak.",
     "Upload cancelled." : "Yükleme iptal edildi.",
-    "…" : "…",
     "Processing files …" : "Dosyalar işleniyor…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "{filename} bir klasör ya da 0 bayt boyutunda olduğundan yüklenemedi",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterli boş alan yok. Yüklemek istediğiniz boyut {size1} ancak yalnız {size2} boş alan var",
     "Target folder \"{dir}\" does not exist any more" : "\"{dir}\" hedef klasörü artık yok",
@@ -149,7 +149,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">bu adresi kullanın</a>",
     "Toggle grid view" : "Tablo görünümünü değiştir",
-    "Cancel upload" : "Yüklemeyi iptal et",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Target folder" : "Hedef klasör",
+    "Cancel upload" : "Yüklemeyi iptal et",
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı"
 },
 "nplurals=2; plural=(n > 1);");

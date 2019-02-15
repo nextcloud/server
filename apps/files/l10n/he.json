@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "לא ניתן ליצור את התיקייה \"{dir}\"",
     "This will stop your current uploads." : "פעולה זו תעצור את השליחות הנוכחיות שלך.",
     "Upload cancelled." : "ההעלאה בוטלה.",
-    "…" : "…",
     "Processing files …" : "הקבצים עוברים עיבוד…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "לא ניתן להעלות {filename} כיוון שמדובר בתיקייה או שגודלו 0 בייט",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "לא קיים מספיק מקום פנוי, הקובץ המיועד להעלאה {size1} אבל נשאר {size2} בלבד",
     "Target folder \"{dir}\" does not exist any more" : "תיקיית היעד „{dir}” לא קיים עוד",
@@ -147,7 +147,6 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">לגשת לקבצים שלך באמצעות WebDAV</a>",
     "Toggle grid view" : "החלפת תצוגת טבלה",
-    "Cancel upload" : "ביטול העלאה",
     "No files in here" : "אין כאן קבצים",
     "Upload some content or sync with your devices!" : "יש להעלות קצת תוכן או לסנכרן עם ההתקנים שלך!",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
@@ -166,6 +165,7 @@
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Target folder" : "תיקיית יעד",
+    "Cancel upload" : "ביטול העלאה",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }
