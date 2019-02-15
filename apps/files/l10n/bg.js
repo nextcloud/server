@@ -15,8 +15,8 @@ OC.L10N.register(
     "Close" : "Затвори",
     "Could not create folder \"{dir}\"" : "Папката \"{dir}\" не може да бъде създадена",
     "Upload cancelled." : "Качването е прекъснато.",
-    "…" : "…",
     "Processing files …" : "Обработване на файлове ...",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Неуспешно качване на {filename}, защото е директория или с размер 0 байта.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Няма достатъчно свободно място. Опитвате да качите {size1} при свободни само {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Дестинацията \"{dir}\" не съществува",
@@ -124,7 +124,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">достъп до файловете ви чрез WebDAV</a>",
     "Toggle grid view" : "Превключи решетъчния изглед",
-    "Cancel upload" : "Откажи качването",
     "No files in here" : "Няма файлове",
     "Upload some content or sync with your devices!" : "Качете съдържание или синхронизирайте с вашите устройства!",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
@@ -143,6 +142,7 @@ OC.L10N.register(
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
     "Target folder" : "Дестинация",
+    "Cancel upload" : "Откажи качването",
     "%1$s of %2$s used" : "%1$s от %2$s използвани"
 },
 "nplurals=2; plural=(n != 1);");

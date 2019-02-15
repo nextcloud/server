@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "Non foi posíbel crear o cartafol «{dir}»",
     "This will stop your current uploads." : "Isto deterá os envíos actuais.",
     "Upload cancelled." : "Envío cancelado.",
-    "…" : "…",
     "Processing files …" : "Procesando ficheiros …",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Non é posíbel enviar {filename}, xa que ou é un directorio ou ten 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Non hai espazo libre abondo, o seu envío é de {size1} mais só dispón de {size2}",
     "Target folder \"{dir}\" does not exist any more" : "O cartafol de destino «{dir}» xa non existe",
@@ -147,7 +147,6 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Empregue este enderezo <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder aos seu aplicativo Ficheiros mediante WebDAV</a>",
     "Toggle grid view" : "Alternar a vista como grella",
-    "Cancel upload" : "Cancelar o envío",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
@@ -166,6 +165,7 @@
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Target folder" : "Cartafol de destino",
+    "Cancel upload" : "Cancelar o envío",
     "%1$s of %2$s used" : "%s de %s utilizado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

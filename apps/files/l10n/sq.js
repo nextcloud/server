@@ -114,7 +114,6 @@ OC.L10N.register(
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Anulo ngarkimin",
     "No files in here" : "S’ka kartela këtu",
     "Upload some content or sync with your devices!" : "Ngarkoni ca lëndë ose bëni njëkohësim me pajisjet tuaja!",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "Target folder" : "Dosja e synuar"
+    "Target folder" : "Dosja e synuar",
+    "Cancel upload" : "Anulo ngarkimin"
 },
 "nplurals=2; plural=(n != 1);");

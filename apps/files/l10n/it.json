@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "Impossibile creare la cartella \"{dir}\"",
     "This will stop your current uploads." : "Questo fermerà i caricamenti attuali.",
     "Upload cancelled." : "Caricamento annullato.",
-    "…" : "…",
     "Processing files …" : "Elaborazione file in corso…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossibile caricare {filename} poiché è una cartella oppure ha una dimensione di 0 byte",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Spazio insufficiente, stai caricando {size1}, ma è rimasto solo {size2}",
     "Target folder \"{dir}\" does not exist any more" : "La cartella di destinazione \"{dir}\" non esiste più",
@@ -147,7 +147,6 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedere ai tuoi file con WebDAV</a>",
     "Toggle grid view" : "Commuta la vista a griglia",
-    "Cancel upload" : "Annulla caricamento",
     "No files in here" : "Qui non c'è alcun file",
     "Upload some content or sync with your devices!" : "Carica alcuni contenuti o sincronizza con i tuoi dispositivi!",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
@@ -166,6 +165,7 @@
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
     "Target folder" : "Cartella di destinazione",
+    "Cancel upload" : "Annulla caricamento",
     "%1$s of %2$s used" : "%1$s di %2$s utilizzati"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

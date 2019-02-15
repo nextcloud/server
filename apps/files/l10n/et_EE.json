@@ -128,7 +128,6 @@
     "Show hidden files" : "Näita peidetud faile",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">oma failidele WebDAV kaudu ligi pääseda</a>",
-    "Cancel upload" : "Tühista üleslaadimine",
     "No files in here" : "Siin ei ole faile",
     "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
@@ -144,6 +143,7 @@
     "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Target folder" : "Sihtkaust"
+    "Target folder" : "Sihtkaust",
+    "Cancel upload" : "Tühista üleslaadimine"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
