@@ -87,16 +87,16 @@ class FeedBackHandler {
 				$this->eventSource->send('success', (string)$this->l10n->t('[%d / %d]: %s', [$this->progressStateStep, $this->progressStateMax, $this->currentStep]));
 				break;
 			case '\OC\Repair::step':
-				$this->eventSource->send('success', (string)$this->l10n->t('Repair step: ') . $event->getArgument(0));
+				$this->eventSource->send('success', (string)$this->l10n->t('Repair step:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::info':
-				$this->eventSource->send('success', (string)$this->l10n->t('Repair info: ') . $event->getArgument(0));
+				$this->eventSource->send('success', (string)$this->l10n->t('Repair info:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::warning':
-				$this->eventSource->send('notice', (string)$this->l10n->t('Repair warning: ') . $event->getArgument(0));
+				$this->eventSource->send('notice', (string)$this->l10n->t('Repair warning:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::error':
-				$this->eventSource->send('notice', (string)$this->l10n->t('Repair error: ') . $event->getArgument(0));
+				$this->eventSource->send('notice', (string)$this->l10n->t('Repair error:') . ' ' . $event->getArgument(0));
 				break;
 		}
 	}
