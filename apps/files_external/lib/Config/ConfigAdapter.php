@@ -29,7 +29,6 @@ namespace OCA\Files_External\Config;
 use OC\Files\Storage\Wrapper\Availability;
 use OCA\Files_External\Migration\StorageMigrator;
 use OCP\Files\Storage;
-use OC\Files\Mount\MountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCA\Files_External\Lib\PersonalMount;
 use OCP\Files\Config\IMountProvider;
@@ -73,12 +72,11 @@ class ConfigAdapter implements IMountProvider {
 	 *
 	 * @param StorageConfig $storage
 	 * @param IUser $user
+	 * @throws \OCP\AppFramework\QueryException
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user) {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, \OC_Mount_Config::setUserVars(
-				$user->getUID(), $value
-			));
+			$storage->setBackendOption($option, \OC_Mount_Config::substitutePlaceholdersInConfig($value));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');

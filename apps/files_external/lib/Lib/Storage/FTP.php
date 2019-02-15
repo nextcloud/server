@@ -44,8 +44,6 @@ class FTP extends StreamWrapper{
 	private $secure;
 	private $root;
 
-	private static $tempFiles=array();
-
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$this->host=$params['host'];
