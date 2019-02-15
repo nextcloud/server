@@ -35,6 +35,7 @@
 			data.revokeText = t('settings', 'Revoke');
 			data.settingsTitle = t('settings', 'Device settings');
 			data.allowFSAccess = t('settings', 'Allow filesystem access');
+			data.renameText = t('settings', 'Rename');
 			return OC.Settings.Templates['authtoken'](data);
 		},
 
@@ -106,7 +107,7 @@
 				iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk.*$/,
 				androidTalkClient:/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk.*$/,
 				// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
-				davDroid: /DAVdroid\/([0-9.]+)/,
+				davDroid: /DAV(droid|x5)\/([0-9.]+)/,
 				// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
 				webPirate: /(Sailfish).*WebPirate\/(\d+)/,
 				// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
@@ -218,6 +219,9 @@
 			$el.on('click', 'a.icon-delete', _.bind(this._onDeleteToken, this));
 			$el.on('click', '.icon-more', _.bind(this._onConfigureToken, this));
 			$el.on('change', 'input.filesystem', _.bind(this._onSetTokenScope, this));
+			$el.on('click', '.icon-rename', _.bind(this._onRenameToken, this));
+			$el.on('dblclick', '.token-name > span', _.bind(this._onRenameToken, this));
+			$el.on('keyup', '.token-name > input', _.bind(this._onEnterTokenName, this));
 
 			this._form = $('#app-password-form');
 			this._tokenName = $('#app-password-name');
@@ -241,7 +245,7 @@
 			this._result.find('.clipboardButton').tooltip({placement: 'bottom', title: t('core', 'Copy'), trigger: 'hover'});
 
 			// Clipboard!
-			var clipboard = new Clipboard('.clipboardButton');
+			var clipboard = new ClipboardJS('.clipboardButton');
 			clipboard.on('success', function(e) {
 				var $input = $(e.trigger);
 				$input.tooltip('hide')
@@ -412,6 +416,65 @@
 
 			token.set('scope', scope);
 			token.save();
+		},
+
+		_onRenameToken: function (event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+
+			var tokenId = $row.data('id');
+			var token = this.collection.get(tokenId);
+
+			if (_.isUndefined(token) || token.get('current') === true) {
+				// Ignore event
+				return;
+			}
+
+			var $tokenName = $row.find('.token-name');
+			var showTokenNameInput = !$tokenName.hasClass('token-rename'); // if class token-rename present input is already visible.
+
+			this._hideTokenNameInput();
+
+			if (showTokenNameInput) {
+				$tokenName.addClass('token-rename');
+				$tokenName.find('span').addClass('hidden');
+				$tokenName.find('input').removeClass('hidden').val(token.get('name')).focus();
+			}
+
+			this._hideConfigureToken();
+		},
+
+		_onEnterTokenName: function(event) {
+			var $target = $(event.target);
+			var $row = $target.closest('tr');
+
+			var tokenId = $row.data('id');
+			var token = this.collection.get(tokenId);
+
+			if (_.isUndefined(token) || token.get('current') === true) {
+				// Ignore event
+				return;
+			}
+
+			if (event.key === 'Enter') {
+				token.set('name', $target.context.value);
+
+				var _this = this;
+				$.when(token.save()).always(function () {
+					_this.render();
+				});
+			}
+
+			if (event.key === 'Escape') {
+				this._hideTokenNameInput();
+			}
+		},
+
+		_hideTokenNameInput: function () {
+			var $tokenList = $('.token-list td.token-name');
+			$tokenList.removeClass('token-rename');
+			$tokenList.find('span').removeClass('hidden');
+			$tokenList.find('input').addClass('hidden');
 		},
 
 		_toggleFormResult: function (showForm) {

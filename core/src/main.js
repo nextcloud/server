@@ -20,7 +20,13 @@
  */
 
 import '@babel/polyfill'
+import './Polyfill/index'
 
 import './globals'
+import $ from 'jquery'
+import './jquery/index'
+import {registerAppsSlideToggle} from './OC/apps'
 
-import './OCP/index'
+$(document).ready(function () {
+	registerAppsSlideToggle();
+});

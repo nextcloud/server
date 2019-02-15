@@ -841,8 +841,9 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-$popoveritem-height: 38px;
+$popoveritem-height: 44px;
 $popovericon-size: 16px;
+$outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 
 .ie,
 .edge {
@@ -861,7 +862,6 @@ $popovericon-size: 16px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border-radius: var(--border-radius);
-	border: 1px solid transparent;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -934,6 +934,7 @@ $popovericon-size: 16px;
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
+			border-radius: 0; // otherwise Safari will cut the border-radius area
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
@@ -1000,7 +1001,7 @@ $popovericon-size: 16px;
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
-				padding-right: 10px !important;
+				padding-right: $outter-margin !important;
 			}
 			/* DEPRECATED! old img in popover fallback
 			 * TODO: to remove */
@@ -1039,28 +1040,29 @@ $popovericon-size: 16px;
 			}
 			/* Inputs inside popover supports text, submit & reset */
 			input {
-				min-width: #{$popoveritem-height - 4px}; /* twice the margin */
-				max-height: #{$popoveritem-height - 4px}; /* twice the margin */
+				min-width: $popoveritem-height;
+				max-height: #{$popoveritem-height - 4px}; /* twice the element margin-y */
 				margin: 2px 0;
 				flex: 1 1 auto;
+				// space between inline inputs
 				&:not(:first-child) {
 					margin-left: 5px;
 				}
 			}
 		}
-		/* css hack, only first not hidden*/
+		/* css hack, only first not hidden */
 		&:not(.hidden):not([style*='display:none']) {
 			&:first-of-type {
 				> button, > a, > .menuitem {
 					> form, > input {
-						margin-top: 10px;
+						margin-top: $outter-margin - 2px; // minus the input margin
 					}
 				}
 			}
 			&:last-of-type {
 				> button, > a, > .menuitem {
 					> form, > input {
-						margin-bottom: 10px;
+						margin-bottom: $outter-margin - 2px; // minus the input margin
 					}
 				}
 			}

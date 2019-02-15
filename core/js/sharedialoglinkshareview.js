@@ -245,7 +245,7 @@
 							var $newShare = self.$el.find('li[data-share-id="'+newShareId+'"]');
 							// only open the menu by default if this is the first share
 							if ($newShare && shares.length === 1) {
-								$menu = $newShare.find('.popovermenu');
+								var $menu = $newShare.find('.popovermenu');
 								OC.showMenu(null, $menu);
 							}
 						}
@@ -257,7 +257,7 @@
 					// password failure? Show error
 					self.password = ''
 					if (isPasswordEnforced && response && response.responseJSON && response.responseJSON.ocs.meta && response.responseJSON.ocs.meta.message) {
-						$input = self.$el.find('.pending #enforcedPassText')
+						var $input = self.$el.find('.pending #enforcedPassText')
 						$input.tooltip('destroy');
 						$input.attr('title', response.responseJSON.ocs.meta.message);
 						$input.tooltip({placement: 'bottom', trigger: 'manual'});
@@ -757,7 +757,7 @@
 				// disabled, let's hide the input and
 				// set the expireDate to nothing
 				$element.closest('li').next('li').addClass('hidden');
-				this.setExpirationDate('');
+				this.setExpirationDate('', shareId);
 			} else {
 				// enabled, show the input and the datepicker
 				$element.closest('li').next('li').removeClass('hidden');
@@ -854,7 +854,6 @@
 			var isPasswordSet = !!share.password;
 			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
-			var showPasswordCheckBox = !isPasswordEnforced || !share.password;
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 			var defaultExpireDays = this.configModel.get('defaultExpireDate');
 			var hasExpireDate = !!share.expiration || isExpirationEnforced;
@@ -891,7 +890,6 @@
 				shareLinkURL: share.url,
 				passwordPlaceholder: isPasswordSet ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				isPasswordSet: isPasswordSet || isPasswordEnabledByDefault || isPasswordEnforced,
-				showPasswordCheckBox: showPasswordCheckBox,
 				showPasswordByTalkCheckBox: isTalkEnabled && isPasswordSet,
 				passwordByTalkLabel: t('core', 'Password protect by Talk'),
 				isPasswordByTalkSet: sendPasswordByTalk,

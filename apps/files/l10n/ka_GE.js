@@ -137,7 +137,6 @@ OC.L10N.register(
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">იქონიოთ წვდომა თქვენს ფაილებთან WebDAV-ით</a>",
-    "Cancel upload" : "ატვირთვის შეჩერება",
     "No files in here" : "აქ ფაილები არაა",
     "Upload some content or sync with your devices!" : "ატვირთეთ რამე ან მოახდინეთ სინქრონიზაცია თქვენს მოწყობილობებთან!",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანები ვერ იქნა ნაპოვნი",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Target folder" : "დანიშნულების დირექტორია"
+    "Target folder" : "დანიშნულების დირექტორია",
+    "Cancel upload" : "ატვირთვის შეჩერება"
 },
 "nplurals=2; plural=(n!=1);");

@@ -23,6 +23,7 @@
 
 namespace OC\Files\ObjectStore;
 
+use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 
 const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
@@ -72,10 +73,12 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	function writeObject($urn, $stream) {
-		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
-			'mup_threshold' => S3_UPLOAD_PART_SIZE,
+		$uploader = new MultipartUploader($this->getConnection(), $stream, [
+			'bucket' => $this->bucket,
+			'key' => $urn,
 			'part_size' => S3_UPLOAD_PART_SIZE
 		]);
+		$uploader->upload();
 	}
 
 	/**

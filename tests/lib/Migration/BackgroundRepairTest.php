@@ -21,13 +21,12 @@
 
 namespace Test\Migration;
 
-
 use OC\Migration\BackgroundRepair;
 use OC\NeedsUpdateException;
 use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
@@ -57,14 +56,17 @@ class TestRepairStep implements IRepairStep {
 
 class BackgroundRepairTest extends TestCase {
 
-	/** @var \OC\BackgroundJob\JobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\BackgroundJob\JobList|\PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 
-	/** @var BackgroundRepair | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var BackgroundRepair|\PHPUnit_Framework_MockObject_MockObject */
 	private $job;
 
-	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
+
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject $dispatcher  */
+	private $dispatcher;
 
 	public function setUp() {
 		parent::setUp();
@@ -78,6 +80,9 @@ class BackgroundRepairTest extends TestCase {
 		$this->job = $this->getMockBuilder(BackgroundRepair::class)
 			->setMethods(['loadApp'])
 			->getMock();
+
+		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->job->setDispatcher($this->dispatcher);
 	}
 
 	public function testNoArguments() {
@@ -96,8 +101,11 @@ class BackgroundRepairTest extends TestCase {
 	}
 
 	public function testUnknownStep() {
+		$this->dispatcher->expects($this->never())->method('dispatch');
+
 		$this->jobList->expects($this->once())->method('remove');
 		$this->logger->expects($this->once())->method('logException');
+
 		$this->job->setArgument([
 			'app' => 'test',
 			'step' => 'j'
@@ -106,13 +114,11 @@ class BackgroundRepairTest extends TestCase {
 	}
 
 	public function testWorkingStep() {
-		/** @var EventDispatcher | \PHPUnit_Framework_MockObject_MockObject $dispatcher */
-		$dispatcher = $this->createMock(EventDispatcher::class);
-		$dispatcher->expects($this->once())->method('dispatch')
+		$this->dispatcher->expects($this->once())->method('dispatch')
 			->with('\OC\Repair::step', new GenericEvent('\OC\Repair::step', ['A test repair step']));
 
 		$this->jobList->expects($this->once())->method('remove');
-		$this->job->setDispatcher($dispatcher);
+
 		$this->job->setArgument([
 			'app' => 'test',
 			'step' => '\Test\Migration\TestRepairStep'

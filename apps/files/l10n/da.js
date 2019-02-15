@@ -137,7 +137,6 @@ OC.L10N.register(
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">få adgang til dine filer via WebDAV</a>",
-    "Cancel upload" : "Annuller upload ",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Shared by link" : "Delt via link",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "Target folder" : "Destinations mappe"
+    "Target folder" : "Destinations mappe",
+    "Cancel upload" : "Annuller upload "
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "No se pudo crear la carpeta \"{dir}\"",
     "This will stop your current uploads." : "Esto detendrá las actuales subidas.",
     "Upload cancelled." : "Subida cancelada.",
-    "…" : "...",
     "Processing files …" : "Procesando archivos...",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "No ha sido posible subir {filename} porque es un directorio o tiene 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hay suficiente espacio libre. Quiere subir {size1} pero solo quedan {size2}",
     "Target folder \"{dir}\" does not exist any more" : "La carpeta de destino \"{dir}\" ya no existe",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder a tus archivos vía WebDAV</a>",
     "Toggle grid view" : "Alternar vista de cuadrícula",
-    "Cancel upload" : "Cancelar subida",
     "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "¡Suba contenidos o sincronice sus dispositivos!",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Target folder" : "Directorio de destino",
+    "Cancel upload" : "Cancelar subida",
     "%1$s of %2$s used" : "%1$s de %2$s utilizados"
 },
 "nplurals=2; plural=(n != 1);");

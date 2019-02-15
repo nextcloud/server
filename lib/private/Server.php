@@ -58,6 +58,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
+use OC\Avatar\AvatarManager;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
@@ -141,8 +142,10 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
+use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
@@ -1200,6 +1203,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+
+		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
+
+		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
 		$this->connectDispatcher();
 	}

@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "フォルダー \"{dir}\" を作成できませんでした",
     "This will stop your current uploads." : "現在のアップロードが停止されます。",
     "Upload cancelled." : "アップロードはキャンセルされました。",
-    "…" : "…",
     "Processing files …" : "ファイルの処理中...",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "ディレクトリであるか、または0バイトのため {filename} をアップロードできません",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "空き容量が十分でなく、 {size1} をアップロードしていますが、 {size2} しか残っていません。",
     "Target folder \"{dir}\" does not exist any more" : "対象フォルダー \"{dir}\" がもう存在しません",
@@ -137,13 +137,13 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM の場合は値を変更後、反映されるのに5分程度かかります。",
     "Missing permissions to edit from here." : "ここから編集するための権限がありません。",
     "%s of %s used" : "%s / %s 使用中",
+    "%1$s%% of %2$s used" : "%2$s 中%1$s %%が使われています。",
     "%s used" : "%s 使用中",
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
     "Toggle grid view" : "グリッド表示の切り替え",
-    "Cancel upload" : "アップロードをキャンセル",
     "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
@@ -162,6 +162,7 @@
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "Target folder" : "対象フォルダー",
+    "Cancel upload" : "アップロードをキャンセル",
     "%1$s of %2$s used" : "%2$s 中%1$s が使われています。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

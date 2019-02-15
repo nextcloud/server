@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -34,12 +35,17 @@ use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
 
-	const PASSWORD_CHANGED_BY = 'password_changed_by';
-	const PASSWORD_CHANGED_SELF = 'password_changed_self';
-	const PASSWORD_RESET = 'password_changed';
-	const EMAIL_CHANGED_BY = 'email_changed_by';
-	const EMAIL_CHANGED_SELF = 'email_changed_self';
-	const EMAIL_CHANGED = 'email_changed';
+	public const PASSWORD_CHANGED_BY = 'password_changed_by';
+	public const PASSWORD_CHANGED_SELF = 'password_changed_self';
+	public const PASSWORD_RESET = 'password_changed';
+	public const EMAIL_CHANGED_BY = 'email_changed_by';
+	public const EMAIL_CHANGED_SELF = 'email_changed_self';
+	public const EMAIL_CHANGED = 'email_changed';
+	public const APP_TOKEN_CREATED = 'app_token_created';
+	public const APP_TOKEN_DELETED = 'app_token_deleted';
+	public const APP_TOKEN_RENAMED = 'app_token_renamed';
+	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
+	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
 
 	/** @var IFactory */
 	protected $languageFactory;
@@ -59,13 +65,10 @@ class Provider implements IProvider {
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IUserManager $userManager
-	 * @param IManager $activityManager
-	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IUserManager $userManager, IManager $activityManager) {
+	public function __construct(IFactory $languageFactory,
+								IURLGenerator $url,
+								IUserManager $userManager,
+								IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->userManager = $userManager;
@@ -80,9 +83,9 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'settings') {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Unknown app');
 		}
 
 		$this->l = $this->languageFactory->get('settings', $language);
@@ -107,8 +110,19 @@ class Provider implements IProvider {
 		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 
+		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
+			$subject = $this->l->t('You created app password "{token}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
+			$subject = $this->l->t('You deleted app password "{token}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_RENAMED) {
+			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
+			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
+			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
+
 		} else {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Unknown subject');
 		}
 
 		$parsedParameters = $this->getParameters($event);
@@ -122,7 +136,7 @@ class Provider implements IProvider {
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -137,9 +151,33 @@ class Provider implements IProvider {
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
 				];
+			case self::APP_TOKEN_CREATED:
+			case self::APP_TOKEN_DELETED:
+			case self::APP_TOKEN_FILESYSTEM_GRANTED:
+			case self::APP_TOKEN_FILESYSTEM_REVOKED:
+				return [
+					'token' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters['name'],
+					]
+				];
+			case self::APP_TOKEN_RENAMED:
+				return [
+					'token' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters['name'],
+					],
+					'newToken' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters['newName'],
+					]
+				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new \InvalidArgumentException('Unknown subject');
 	}
 
 	/**
@@ -148,7 +186,7 @@ class Provider implements IProvider {
 	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$placeholders = $replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
@@ -159,11 +197,7 @@ class Provider implements IProvider {
 			->setRichSubject($subject, $parameters);
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
-	protected function generateUserParameter($uid) {
+	protected function generateUserParameter(string $uid): array {
 		if (!isset($this->displayNames[$uid])) {
 			$this->displayNames[$uid] = $this->getDisplayName($uid);
 		}
@@ -175,11 +209,7 @@ class Provider implements IProvider {
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
+	protected function getDisplayName(string $uid): string {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();

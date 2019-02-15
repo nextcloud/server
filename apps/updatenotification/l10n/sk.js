@@ -18,7 +18,6 @@ OC.L10N.register(
     "Your version is up to date." : "Vaša verzia je atuálna.",
     "A non-default update server is in use to be checked for updates:" : "Pre kontrolu aktualizácií sa používa iný než predvolený server:",
     "Update channel:" : "Aktualizačný kanál:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy je možné prejsť na novšiu verziu / experimentálny kanál. Ale následne nie je možné prejsť naspäť na staršiu verziu / stabilnejší kanál.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Upozorňujeme, že po oficiálnom vydaní novej verzie môže chvíľu trvať, než sa tu objaví. Nové verzie medzi našich používateľov distribuujeme priebežne rozložené v čase a ak sa nájdu chyby, niekedy danú verziu preskočíme.",
     "Notify members of the following groups about available updates:" : "Upozorňovať členov nasledujúcich skupín o dostupných aktualizáciach:",
     "Only notification for app updates are available." : "Sú dostupné upozornenia iba pre aktualizácie aplikácií.",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikácia nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong> aplikácie nemá dostupnú aktualizáciu na túto verziu ","<strong>%n</strong> aplikácií nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong>aplikácií nemá dostupnú aktualizáciu na túto verziu"],
     "Could not start updater, please try the manual update" : "Nebolo možné spustiť aktualizátor, skúste prosím manuálnu aktualizáciu",
     "A new version is available: %s" : "Je dostupná nová verzia: %s",
-    "Checked on %s" : "Skontrolované %s"
+    "Checked on %s" : "Skontrolované %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy je možné prejsť na novšiu verziu / experimentálny kanál. Ale následne nie je možné prejsť naspäť na staršiu verziu / stabilnejší kanál."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

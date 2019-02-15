@@ -186,6 +186,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware(
+				$c->query(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
+			);
+
+			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
 					$c->query(IRequest::class),
 					$c->query(IControllerMethodReflector::class)
@@ -260,6 +264,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->query(ISession::class),
 					$c->query(\OCP\IConfig::class)
 				)
+			);
+			$dispatcher->registerMiddleware(
+				$c->query(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
 			foreach($this->middleWares as $middleWare) {

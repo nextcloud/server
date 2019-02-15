@@ -120,6 +120,9 @@
 .nav-icon-deletedshares {
 	@include icon-color('unshare', 'files', $color-black);
 }
+.nav-icon-favorites-starred {
+	@include icon-color('star-dark', 'actions', $color-yellow, 2, true);
+}
 
 #app-navigation .nav-files a.nav-icon-files {
 	width: auto;
@@ -427,6 +430,11 @@ table td.selection {
 	opacity: 1;
 }
 
+/* Show checkbox with half opacity when selecting range */
+#fileList tr.halfselected td.selection>.selectCheckBox + label:before {
+	opacity: 0.5;
+}
+
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.selection>.selectCheckBox + label,
 .select-all + label {
@@ -699,7 +707,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 	}
 }
 
@@ -722,7 +730,13 @@ table.dragshadow td.size {
 
 .breadcrumb .canDrop > a,
 #filestable tbody tr.canDrop {
-	background-color: rgb(179, 230, 255);
+	background-color: rgba( $color-primary, .3 );
+}
+.dropzone-background {
+	background-color: rgba( $color-primary, .3 );
+	:hover{
+		box-shadow: none !important;
+	}
 }
 
 

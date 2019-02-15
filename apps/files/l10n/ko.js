@@ -130,7 +130,6 @@ OC.L10N.register(
     "Show hidden files" : "숨김 파일 보이기",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">내 파일에 WebDAV로 접근</a>하려면 이 주소를 사용하십시오",
-    "Cancel upload" : "업로드 취소",
     "No files in here" : "여기에 파일 없음",
     "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
     "No entries found in this folder" : "이 폴더에 항목 없음",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Shared by link" : "링크로 공유됨",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "Target folder" : "대상 폴더"
+    "Target folder" : "대상 폴더",
+    "Cancel upload" : "업로드 취소"
 },
 "nplurals=1; plural=0;");

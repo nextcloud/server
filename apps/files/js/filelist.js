@@ -299,7 +299,13 @@
 			this.fileSummary = this._createSummary();
 
 			if (options.multiSelectMenu) {
-				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(options.multiSelectMenu);
+				this.multiSelectMenuItems = options.multiSelectMenu;
+				for (var i=0; i<this.multiSelectMenuItems.length; i++) {
+					if (_.isFunction(this.multiSelectMenuItems[i])) {
+						this.multiSelectMenuItems[i] = this.multiSelectMenuItems[i](this);
+					}
+				}
+				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems);
 				this.fileMultiSelectMenu.render();
 				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 			}
@@ -354,15 +360,16 @@
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
-			$.event.trigger({type: "droppedOnTrash"});
+			this.$fileList.on("droppedOnFavorites", function (event, file) {
+				self.fileActions.triggerAction('Favorite', self.getModelForFile(file), self);
+			});
 
-			var self=this;
-			this.$fileList.on("droppedOnTrash", function (event, filename, directory) {
-				//self.fileActions.triggerAction('Favorite', self.getModelForFile(file), self);
-				self.do_delete(filename, directory)
+			this.$fileList.on('droppedOnTrash', function (event, filename, directory) {
+				self.do_delete(filename, directory);
 			});
 
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
+			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -379,11 +386,16 @@
 				});
 			}
 
+			this._operationProgressBar = new OCA.Files.OperationProgressBar();
+			this._operationProgressBar.render();
+			this.$el.find('#uploadprogresswrapper').replaceWith(this._operationProgressBar.$el);
+
 			if (options.enableUpload) {
 				// TODO: auto-create this element
 				var $uploadEl = this.$el.find('#file_upload_start');
 				if ($uploadEl.exists()) {
 					this._uploader = new OC.Uploader($uploadEl, {
+						progressBar: this._operationProgressBar,
 						fileList: this,
 						filesClient: this.filesClient,
 						dropZone: $('#content'),
@@ -418,7 +430,23 @@
 			$('#app-content').off('appresized', this._onResize);
 		},
 
+		_selectionMode: 'single',
+		_getCurrentSelectionMode: function () {
+			return this._selectionMode;
+		},
+		_onClickToggleSelectionMode: function () {
+			this._selectionMode = (this._selectionMode === 'range') ? 'single' : 'range';
+			if (this._selectionMode === 'single') {
+				this._removeHalfSelection();
+			}
+		},
+
 		multiSelectMenuClick: function (ev, action) {
+				var actionFunction = _.find(this.multiSelectMenuItems, function (item) {return item.name === action;}).action;
+				if (actionFunction) {
+					actionFunction(ev);
+					return;
+				}
 				switch (action) {
 					case 'delete':
 						this._onClickDeleteSelected(ev)
@@ -685,7 +713,7 @@
 		 * @param {Object} $tr single file row element
 		 * @param {bool} state true to select, false to deselect
 		 */
-		_selectFileEl: function($tr, state, showDetailsView) {
+		_selectFileEl: function($tr, state) {
 			var $checkbox = $tr.find('td.selection>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
@@ -711,6 +739,73 @@
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
 
+		_selectRange: function($tr) {
+			var checked = $tr.hasClass('selected');
+			var $lastTr = $(this._lastChecked);
+			var lastIndex = $lastTr.index();
+			var currentIndex = $tr.index();
+			var $rows = this.$fileList.children('tr');
+
+			// last clicked checkbox below current one ?
+			if (lastIndex > currentIndex) {
+				var aux = lastIndex;
+				lastIndex = currentIndex;
+				currentIndex = aux;
+			}
+
+			// auto-select everything in-between
+			for (var i = lastIndex; i <= currentIndex; i++) {
+				this._selectFileEl($rows.eq(i), !checked);
+			}
+			this._removeHalfSelection();
+			this._selectionMode = 'single';
+		},
+
+		_selectSingle: function($tr) {
+			var state = !$tr.hasClass('selected');
+			this._selectFileEl($tr, state);
+		},
+
+		_onMouseOverCheckbox: function(e) {
+			if (this._getCurrentSelectionMode() !== 'range') {
+				return;
+			}
+			var $currentTr = $(e.target).closest('tr');
+
+			var $lastTr = $(this._lastChecked);
+			var lastIndex = $lastTr.index();
+			var currentIndex = $currentTr.index();
+			var $rows = this.$fileList.children('tr');
+
+			// last clicked checkbox below current one ?
+			if (lastIndex > currentIndex) {
+				var aux = lastIndex;
+				lastIndex = currentIndex;
+				currentIndex = aux;
+			}
+
+			// auto-select everything in-between
+			this._removeHalfSelection();
+			for (var i = 0; i <= $rows.length; i++) {
+				var $tr = $rows.eq(i);
+				var $checkbox = $tr.find('td.selection>.selectCheckBox');
+				if(lastIndex <= i && i <= currentIndex) {
+					$tr.addClass('halfselected');
+					$checkbox.prop('checked', true);
+				}
+			}
+		},
+
+		_removeHalfSelection: function() {
+			var $rows = this.$fileList.children('tr');
+			for (var i = 0; i <= $rows.length; i++) {
+				var $tr = $rows.eq(i);
+				$tr.removeClass('halfselected');
+				var $checkbox = $tr.find('td.selection>.selectCheckBox');
+				$checkbox.prop('checked', !!this._selectedFiles[$tr.data('id')]);
+			}
+		},
+
 		/**
 		 * Event handler for when clicking on files to select them
 		 */
@@ -722,28 +817,11 @@
 			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
 				event.preventDefault();
 				if (event.shiftKey) {
-					var $lastTr = $(this._lastChecked);
-					var lastIndex = $lastTr.index();
-					var currentIndex = $tr.index();
-					var $rows = this.$fileList.children('tr');
-
-					// last clicked checkbox below current one ?
-					if (lastIndex > currentIndex) {
-						var aux = lastIndex;
-						lastIndex = currentIndex;
-						currentIndex = aux;
-					}
-
-					// auto-select everything in-between
-					for (var i = lastIndex + 1; i < currentIndex; i++) {
-						this._selectFileEl($rows.eq(i), true);
-					}
+					this._selectRange($tr);
+				} else {
+					this._selectSingle($tr);
 				}
-				else {
-					this._lastChecked = $tr;
-				}
-				var $checkbox = $tr.find('td.selection>.selectCheckBox');
-				this._selectFileEl($tr, !$checkbox.prop('checked'));
+				this._lastChecked = $tr;
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
@@ -802,8 +880,11 @@
 		 */
 		_onClickFileCheckbox: function(e) {
 			var $tr = $(e.target).closest('tr');
-			var state = !$tr.hasClass('selected');
-			this._selectFileEl($tr, state);
+			if(this._getCurrentSelectionMode() === 'range') {
+				this._selectRange($tr);
+			} else {
+				this._selectSingle($tr);
+			}
 			this._lastChecked = $tr;
 			this.updateSelectionSummary();
 			if (this._detailsView && !this._detailsView.$el.hasClass('disappear')) {
@@ -1674,7 +1755,7 @@
 							c: fileData.etag
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
-					previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
+					previewUrl = previewUrl.replace(/\(/g, '%28').replace(/\)/g, '%29');
 					iconDiv.css('background-image', 'url("' + previewUrl + '")');
 				}
 			}
@@ -2058,8 +2139,7 @@
 			}
 
 			previewURL = self.generatePreviewUrl(urlSpec);
-			previewURL = previewURL.replace('(', '%28');
-			previewURL = previewURL.replace(')', '%29');
+			previewURL = previewURL.replace(/\(/g, '%28').replace(/\)/g, '%29');
 
 			// preload image to prevent delay
 			// this will make the browser cache the image
@@ -2131,21 +2211,39 @@
 		remove: function(name, options){
 			options = options || {};
 			var fileEl = this.findFileEl(name);
-			var fileId = fileEl.data('id');
-			var index = fileEl.index();
-			if (!fileEl.length) {
-				return null;
+			var fileData = _.findWhere(this.files, {name: name});
+			if (!fileData) {
+				return;
 			}
+			var fileId = fileData.id;
 			if (this._selectedFiles[fileId]) {
 				// remove from selection first
 				this._selectFileEl(fileEl, false);
 				this.updateSelectionSummary();
 			}
+			if (this._selectedFiles[fileId]) {
+				delete this._selectedFiles[fileId];
+				this._selectionSummary.remove(fileData);
+				this.updateSelectionSummary();
+			}
+			var index = this.files.findIndex(function(el){return el.name==name;});
+			this.files.splice(index, 1);
+
+			// TODO: improve performance on batch update
+			this.isEmpty = !this.files.length;
+			if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
+				this.updateEmptyContent();
+				this.fileSummary.remove({type: fileData.type, size: fileData.size}, true);
+			}
+
+			if (!fileEl.length) {
+				return null;
+			}
+
 			if (this._dragOptions && (fileEl.data('permissions') & OC.PERMISSION_DELETE)) {
 				// file is only draggable when delete permissions are set
 				fileEl.find('td.filename').draggable('destroy');
 			}
-			this.files.splice(index, 1);
 			if (this._currentFileModel && this._currentFileModel.get('id') === fileId) {
 				// Note: in the future we should call destroy() directly on the model
 				// and the model will take care of the deletion.
@@ -2155,12 +2253,6 @@
 				this._updateDetailsView(null);
 			}
 			fileEl.remove();
-			// TODO: improve performance on batch update
-			this.isEmpty = !this.files.length;
-			if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
-				this.updateEmptyContent();
-				this.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')}, true);
-			}
 
 			var lastIndex = this.$fileList.children().length;
 			// if there are less elements visible than one page
@@ -2207,29 +2299,6 @@
 				fileNames = [fileNames];
 			}
 
-			function Semaphore(max) {
-				var counter = 0;
-				var waiting = [];
-
-				this.acquire = function() {
-					if(counter < max) {
-						counter++;
-						return new Promise(function(resolve) { resolve(); });
-					} else {
-						return new Promise(function(resolve) { waiting.push(resolve); });
-					}
-				};
-
-				this.release = function() {
-					counter--;
-					if (waiting.length > 0 && counter < max) {
-						counter++;
-						var promise = waiting.shift();
-						promise();
-					}
-				};
-			}
-
 			var moveFileFunction = function(fileName) {
 				var $tr = self.findFileEl(fileName);
 				self.showFileBusyState($tr, true);
@@ -2241,7 +2310,7 @@
 				return self.filesClient.move(dir + fileName, targetPath + fileName)
 					.done(function() {
 						// if still viewing the same directory
-						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 							// recalculate folder size
 							var oldFile = self.findFileEl(target);
 							var newFile = self.findFileEl(fileName);
@@ -2250,7 +2319,6 @@
 							oldFile.data('size', newSize);
 							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
 
-							// TODO: also update entry in FileList.files
 							self.remove(fileName);
 						}
 					})
@@ -2270,22 +2338,33 @@
 						self.showFileBusyState($tr, false);
 					});
 			};
+			return this.reportOperationProgress(fileNames, moveFileFunction, callback);
+		},
 
-			var mcSemaphore = new Semaphore(10);
+		_reflect: function (promise){
+			return promise.then(function(v){ return {};}, function(e){ return {};});
+		},
+
+		reportOperationProgress: function (fileNames, operationFunction, callback){
+			var self = this;
+			self._operationProgressBar.showProgressBar(false);
+			var mcSemaphore = new OCA.Files.Semaphore(5);
 			var counter = 0;
 			var promises = _.map(fileNames, function(arg) {
 				return mcSemaphore.acquire().then(function(){
-					moveFileFunction(arg).then(function(){
+					return operationFunction(arg).always(function(){
 						mcSemaphore.release();
 						counter++;
+						self._operationProgressBar.setProgressBarValue(100.0*counter/fileNames.length);
 					});
 				});
 			});
 
-			return Promise.all(promises).then(function(){
+			return Promise.all(_.map(promises, self._reflect)).then(function(){
 				if (callback) {
 					callback();
 				}
+				self._operationProgressBar.hideProgressBar();
 			});
 		},
 
@@ -2310,7 +2389,7 @@
 			if (!_.isArray(fileNames)) {
 				fileNames = [fileNames];
 			}
-			_.each(fileNames, function(fileName) {
+			var copyFileFunction = function(fileName) {
 				var $tr = self.findFileEl(fileName);
 				self.showFileBusyState($tr, true);
 				if (targetPath.charAt(targetPath.length - 1) !== '/') {
@@ -2366,12 +2445,12 @@
 						}
 					}
 				}
-				self.filesClient.copy(dir + fileName, targetPathAndName)
+				return self.filesClient.copy(dir + fileName, targetPathAndName)
 					.done(function () {
 						filesToNotify.push(fileName);
 
 						// if still viewing the same directory
-						if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
 							// recalculate folder size
 							var oldFile = self.findFileEl(target);
 							var newFile = self.findFileEl(fileName);
@@ -2438,11 +2517,8 @@
 							}
 						}
 					});
-			});
-
-			if (callback) {
-				callback();
-			}
+			};
+			return this.reportOperationProgress(fileNames, copyFileFunction, callback);
 		},
 
 		/**
@@ -2525,7 +2601,7 @@
 				}
 
 				try {
-					var newName = input.val();
+					var newName = input.val().trim();
 					input.tooltip('hide');
 					form.remove();
 
@@ -2864,9 +2940,6 @@
 				// delete all files in directory
 				files = _.pluck(this.files, 'name');
 			}
-			if (files) {
-				this.showFileBusyState(files, true);
-			}
 			// Finish any existing actions
 			if (this.lastAction) {
 				this.lastAction();
@@ -2874,43 +2947,38 @@
 
 			dir = dir || this.getCurrentDirectory();
 
-			function removeFromList(file) {
-				var fileEl = self.remove(file, {updateSummary: false});
-				// FIXME: not sure why we need this after the
-				// element isn't even in the DOM any more
-				fileEl.find('.selectCheckBox').prop('checked', false);
-				fileEl.removeClass('selected');
-				self.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')});
-				// TODO: this info should be returned by the ajax call!
-				self.updateEmptyContent();
-				self.fileSummary.update();
-				self.updateSelectionSummary();
-				// FIXME: don't repeat this, do it once all files are done
-				self.updateStorageStatistics();
-				self.updateStorageQuotas();
-			}
-
-			_.each(files, function(file) {
-				self.filesClient.remove(dir + '/' + file)
+			var removeFunction = function(fileName) {
+				var $tr = self.findFileEl(fileName);
+				self.showFileBusyState($tr, true);
+				return self.filesClient.remove(dir + '/' + fileName)
 					.done(function() {
-						removeFromList(file);
+						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
+							self.remove(fileName);
+						}
 					})
 					.fail(function(status) {
 						if (status === 404) {
 							// the file already did not exist, remove it from the list
-							removeFromList(file);
+							if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
+								self.remove(fileName);
+							}
 						} else {
 							// only reset the spinner for that one file
 							OC.Notification.show(t('files', 'Error deleting file "{fileName}".',
-								{fileName: file}), {type: 'error'}
+								{fileName: fileName}), {type: 'error'}
 							);
-							var deleteAction = self.findFileEl(file).find('.action.delete');
-							deleteAction.removeClass('icon-loading-small').addClass('icon-delete');
-							self.showFileBusyState(files, false);
 						}
+					})
+					.always(function() {
+						self.showFileBusyState($tr, false);
 					});
-			});
+			};
+			return this.reportOperationProgress(files, removeFunction).then(function(){
+					self.updateStorageStatistics();
+					self.updateStorageQuotas();
+				});
 		},
+
 		/**
 		 * Creates the file summary section
 		 */
@@ -3540,6 +3608,21 @@
 			return null;
 		}
 	};
+
+	FileList.MultiSelectMenuActions = {
+		ToggleSelectionModeAction: function(fileList) {
+			return {
+				name: 'toggleSelectionMode',
+				displayName: function(context) {
+					return t('files', 'Select file range');
+				},
+				iconClass: 'icon-fullscreen',
+				action: function() {
+					fileList._onClickToggleSelectionMode();
+				},
+			};
+		},
+	},
 
 	/**
 	 * Sort comparators.

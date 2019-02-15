@@ -26,7 +26,7 @@ OC.L10N.register(
     "Share by mail" : "Delt med mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillad brugere at dele et personligt link til en fil eller folder ved at skrive en email ind.",
     "Send password by mail" : "Send kodeord på mail",
-    "Enforce password protection" : "Tving kodeords beskyttelse",
+    "Enforce password protection" : "Gennemtving beskyttelse med kodeord",
     "Sharing %s failed, this item is already shared with %s" : "Deling %s fejlede, dette objekt er allerede delt med %s",
     "%s shared »%s« with you" : "%s delt »%s« med dig",
     "%s shared »%s« with you." : "%s delte »%s« med dig.",

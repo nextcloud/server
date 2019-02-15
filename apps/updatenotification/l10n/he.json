@@ -15,13 +15,13 @@
     "The update check is not yet finished. Please refresh the page." : "בדיקת העדכונים לא הסתיימה עדיין. נא לעדכן את העמוד.",
     "Your version is up to date." : "הגרסה שבידך מעודכנת.",
     "Update channel:" : "עדכון ערוץ:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "תמיד ניתן לעדכן לגרסה חדשה / ערוץ ניסיון. אבל לא ניתן להוריד גרסה לערוץ יציב יותר.",
     "Notify members of the following groups about available updates:" : "דיווח למשתמשים של קבוצות אלו על עדכונים זמינים:",
     "A new version is available: <strong>{newVersionString}</strong>" : "גרסה חדשה זמינה: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "נבדק לאחרונה ב־{lastCheckedDate}",
     "Checking apps for compatible updates" : "היישומונים נבדקים לאיתור עדכונים תואמים",
     "Could not start updater, please try the manual update" : "לא ניתן להתחיל את המעדכן, נא לנסות לעדכן ידנית",
     "A new version is available: %s" : "קיימת גרסה מעודכנת: %s",
-    "Checked on %s" : "נבדק לאחרונה ב- %s"
+    "Checked on %s" : "נבדק לאחרונה ב- %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "תמיד ניתן לעדכן לגרסה חדשה / ערוץ ניסיון. אבל לא ניתן להוריד גרסה לערוץ יציב יותר."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

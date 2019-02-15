@@ -282,13 +282,13 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	&:focus {
 		@include icon-color('star', 'actions', $color-black, 1, true);
 	}
-	@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+	@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 }
 
 .icon-star {
 	&:hover,
 	&:focus {
-		@include icon-color('star-dark', 'actions', 'FC0', 1, true);
+		@include icon-color('star-dark', 'actions', $color-yellow, 1, true);
 	}
 }
 
@@ -314,10 +314,25 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 .icon-video-off-white {
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
 }
-
 @include icon-black-white('video-switch', 'actions', 1, true);
-@include icon-black-white('view-close', 'actions', 1, true);
-@include icon-black-white('view-download', 'actions', 1, true);
+
+/* SHADOW WHITE ICONS: white version only ----------------------------------- */
+.icon-view-close,
+.icon-view-close-white {
+	@include icon-color('view-close', 'actions', $color-white, 1, true);
+}
+.icon-view-download,
+.icon-view-download-white {
+	@include icon-color('view-download', 'actions', $color-white, 1, true);
+}
+.icon-view-pause,
+.icon-view-pause-white {
+	@include icon-color('view-pause', 'actions', $color-white, 1, true);
+}
+.icon-view-play,
+.icon-view-play-white {
+	@include icon-color('view-play', 'actions', $color-white, 1, true);
+}
 
 .icon-view-next {
 	@include icon-color('arrow-right', 'actions', $color-black, 1, true);
@@ -326,8 +341,6 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	}
 }
 
-@include icon-black-white('view-pause', 'actions', 1, true);
-@include icon-black-white('view-play', 'actions', 1, true);
 
 .icon-view-previous {
 	@include icon-color('arrow-left', 'actions', $color-black, 1, true);
@@ -466,7 +479,10 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	@include icon-color('search', 'actions', $color-black, 1, true);
 }
 
-
 .icon-talk {
 	@include icon-color('app-dark', 'spreed', $color-black, 1);
+}
+
+.nav-icon-systemtagsfilter {
+	@include icon-color('tag', 'actions', $color-black, 1, true);
 }

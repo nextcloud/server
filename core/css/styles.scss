@@ -60,11 +60,11 @@ a {
 	* {
 		cursor: pointer;
 	}
-}
 
-a.external {
-	margin: 0 3px;
-	text-decoration: underline;
+	&.external {
+		margin: 0 3px;
+		text-decoration: underline;
+	}
 }
 
 input {
@@ -770,6 +770,7 @@ code {
 			max-height: 36px;
 			width: 36px;
 			margin: 0px;
+			opacity: .5;
 		}
 
 		a {

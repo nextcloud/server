@@ -280,7 +280,7 @@ var OCdialogs = {
 					self.$form.submit();
 				});
 				var newName = $input.val();
-				lastPos = newName.lastIndexOf('.');
+				var lastPos = newName.lastIndexOf('.');
 				if (lastPos === -1) {
 					lastPos = newName.length;
 				}

@@ -37,6 +37,9 @@ namespace OCP\AppFramework\Http;
  */
 class TemplateResponse extends Response {
 
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
+
 	/**
 	 * name of the template
 	 * @var string

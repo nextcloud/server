@@ -21,6 +21,7 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IAuth;
+use Icewind\SMB\IOptions;
 
 /**
  * Low level wrapper for libsmbclient-php with error handling
@@ -76,14 +77,16 @@ class NativeState {
 
 	/**
 	 * @param IAuth $auth
+	 * @param IOptions $options
 	 * @return bool
 	 */
-	public function init(IAuth $auth) {
+	public function init(IAuth $auth, IOptions $options) {
 		if ($this->connected) {
 			return true;
 		}
 		$this->state = smbclient_state_new();
 		smbclient_option_set($this->state, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, false);
+		smbclient_option_set($this->state, SMBCLIENT_OPT_TIMEOUT, $options->getTimeout() * 1000);
 		$auth->setExtraSmbClientOptions($this->state);
 		$result = @smbclient_state_init($this->state, $auth->getWorkgroup(), $auth->getUsername(), $auth->getPassword());
 

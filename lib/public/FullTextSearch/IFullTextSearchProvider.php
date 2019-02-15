@@ -164,6 +164,24 @@ interface IFullTextSearchProvider {
 
 
 	/**
+	 * Allow the provider to generate a list of chunk to split a huge list of
+	 * indexable documents
+	 *
+	 * During the indexing the generateIndexableDocuments method will be called
+	 * for each entry of the returned array.
+	 * If the returned array is empty, the generateIndexableDocuments() will be
+	 * called only once (per user).
+	 *
+	 * @since 16.0.0
+	 *
+	 * @param string $userId
+	 *
+	 * @return string[]
+	 */
+	public function generateChunks(string $userId): array;
+
+
+	/**
 	 * Returns all indexable document for a user as an array of IndexDocument.
 	 *
 	 * There is no need to fill each IndexDocument with content; at this point,
@@ -179,12 +197,14 @@ interface IFullTextSearchProvider {
 	 * @see IndexDocument
 	 *
 	 * @since 15.0.0
+	 *  -> 16.0.0: the parameter "$chunk" was added
 	 *
 	 * @param string $userId
+	 * @param string $chunk
 	 *
 	 * @return IndexDocument[]
 	 */
-	public function generateIndexableDocuments(string $userId): array;
+	public function generateIndexableDocuments(string $userId, string $chunk): array;
 
 
 	/**

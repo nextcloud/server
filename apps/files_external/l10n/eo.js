@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Eraro de surmetingo ekstera",
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Ne eblis ricevi liston de surmetingoj el Windows-retdisko: malplena respondo el la servilo",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Iuj agorditaj eksteraj surmetingoj ne estas konektitaj. Bv. alklaki la ruĝa(j)n vico(j)n por pli da informoj",
     "Please enter the credentials for the {mount} mount" : "Bv. entajpi la akreditilojn de la surmetingo {mount}",
     "Username" : "Uzantnomo",
     "Password" : "Pasvorto",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
     "Are you sure you want to delete this external storage" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Iuj agorditaj eksteraj surmetingoj ne estas konektitaj. Bv. alklaki la ruĝa(j)n vico(j)n por pli da informoj",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ ne estas instalita. Surmetado de %s ne eblas. Bv. vidi kun via administranto.",
     "Allow users to mount the following external storage" : "Permesi al uzantoj surmeti la jenan eksteran konservejon"

@@ -45,6 +45,8 @@ module.exports = function(config) {
 		return [
 			'files',
 			'files_trashbin',
+			'files_versions',
+			'systemtags',
 			{
 				name: 'files_sharing',
 				srcFiles: [
@@ -75,17 +77,6 @@ module.exports = function(config) {
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},
 			{
-				name: 'files_versions',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/files_versions/js/versionmodel.js',
-					'apps/files_versions/js/templates.js',
-					'apps/files_versions/js/versioncollection.js',
-					'apps/files_versions/js/versionstabview.js'
-				],
-				testFiles: ['apps/files_versions/tests/js/**/*.js']
-			},
-			{
 				name: 'comments',
 				srcFiles: [
 					// need to enforce loading order...
@@ -103,22 +94,9 @@ module.exports = function(config) {
 				testFiles: ['apps/comments/tests/js/**/*.js']
 			},
 			{
-				name: 'systemtags',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/systemtags/js/app.js',
-					'apps/systemtags/js/systemtagsinfoview.js',
-					'apps/systemtags/js/systemtagsinfoviewtoggleview.js',
-					'apps/systemtags/js/systemtagsfilelist.js',
-					'apps/systemtags/js/filesplugin.js'
-				],
-				testFiles: ['apps/systemtags/tests/js/**/*.js']
-			},
-			{
 				name: 'settings',
 				srcFiles: [
-					'settings/js/apps.js',
-					'core/vendor/marked/marked.min.js'
+					'settings/js/apps.js'
 				]
 			}
 		];

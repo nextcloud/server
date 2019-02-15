@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "pasuje",
     "does not match" : "nie pasuje",
     "Example: {placeholder}" : "Przykład: {placeholder}",
+    "File name" : "Nazwa pliku",
     "File size (upload)" : "Rozmiar pliku (wczytywanego)",
     "less" : "mniejszy",
     "less or equals" : "mniejszy lub równy",
@@ -67,8 +68,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Sprawdź, czy %s nie istnieje",
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
-    "Workflow" : "Wpływ na pracę",
-    "Files workflow engine" : "Piliki silnika workflow",
+    "Workflow" : "Workflow",
+    "Files workflow engine" : "Pliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
     "Loading…" : "Wczytywanie…"
 },

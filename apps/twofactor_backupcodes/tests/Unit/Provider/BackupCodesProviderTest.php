@@ -25,6 +25,7 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Provider;
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
@@ -45,6 +46,9 @@ class BackupCodesProviderTest extends TestCase {
 	/** @var AppManager|PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
+	/** @var IInitialStateService|PHPUnit_Framework_MockObject_MockObject */
+	private $initialState;
+
 	/** @var BackupCodesProvider */
 	private $provider;
 
@@ -55,8 +59,9 @@ class BackupCodesProviderTest extends TestCase {
 		$this->storage = $this->createMock(BackupCodeStorage::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(AppManager::class);
+		$this->initialState = $this->createMock(IInitialStateService::class);
 
-		$this->provider = new BackupCodesProvider($this->appName, $this->storage, $this->l10n, $this->appManager);
+		$this->provider = new BackupCodesProvider($this->appName, $this->storage, $this->l10n, $this->appManager, $this->initialState);
 	}
 
 	public function testGetId() {

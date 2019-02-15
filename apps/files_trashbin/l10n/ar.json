@@ -1,11 +1,11 @@
 { "translations": {
     "Deleted files" : "حذف الملفات",
+    "restored" : "تمت الاستعادة",
     "Restore" : "استعيد",
     "Delete" : "إلغاء",
     "Delete permanently" : "حذف بشكل دائم",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
     "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر, الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
-    "restored" : "تمت الاستعادة",
     "No deleted files" : "لا يوجد ملفات محذوفة",
     "You will be able to recover deleted files from here" : "سوف تكون قادر على استعادة الملفات المحذوفة من هنا",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",

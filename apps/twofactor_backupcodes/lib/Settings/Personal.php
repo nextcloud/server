@@ -28,18 +28,8 @@ use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Template;
 
 class Personal implements IPersonalProviderSettings {
-
-	/** @var string */
-	private $state;
-
-	public function __construct(string $state) {
-		$this->state = $state;
-	}
-
 	public function getBody(): Template {
-		$template = new Template('twofactor_backupcodes', 'personal');
-		$template->assign('state', $this->state);
-		return $template;
+		return new Template('twofactor_backupcodes', 'personal');
 	}
 
 }

@@ -25,7 +25,7 @@ namespace Test\Repair;
 
 use OCP\IConfig;
 use OCP\Migration\IOutput;
-use OC\AvatarManager;
+use OC\Avatar\AvatarManager;
 use OC\Repair\ClearGeneratedAvatarCache;
 
 class ClearGeneratedAvatarCacheTest extends \Test\TestCase {

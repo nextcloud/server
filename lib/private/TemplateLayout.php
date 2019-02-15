@@ -220,6 +220,10 @@ class TemplateLayout extends \OC_Template {
 
 			}
 		}
+
+		/** @var InitialStateService $initialState */
+		$initialState = \OC::$server->query(InitialStateService::class);
+		$this->assign('initialStates', $initialState->getInitialStates());
 	}
 
 	/**

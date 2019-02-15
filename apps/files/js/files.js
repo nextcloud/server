@@ -33,6 +33,9 @@
 		},
 		// update quota
 		updateStorageQuotas: function() {
+			Files._updateStorageQuotasThrottled();
+		},
+		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
 			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
 				Files.updateQuota(response);
@@ -356,6 +359,7 @@
 	};
 
 	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
+	Files._updateStorageQuotasThrottled = _.throttle(Files._updateStorageQuotas, 30000);
 	OCA.Files.Files = Files;
 })();
 

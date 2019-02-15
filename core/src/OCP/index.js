@@ -1,11 +1,17 @@
 /**
  *
  */
-import loader from './loader'
+import * as AppConfig from './appconfig'
+import * as Comments from './comments'
+import * as InitialState from './initialstate'
+import Loader from './loader'
+import * as WhatsNew from './whatsnew'
 
 /** @namespace OCP */
-const OCP = {
-	Loader: loader,
+export default {
+	AppConfig,
+	Comments,
+	InitialState,
+	Loader,
+	WhatsNew,
 };
-
-window['OCP'] = Object.assign({}, window.OCP, OCP)

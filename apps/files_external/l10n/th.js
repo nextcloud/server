@@ -26,7 +26,6 @@ OC.L10N.register(
     "There was an error with message: " : "มีข้อความแสดงข้อผิดพลาด",
     "External mount error" : "การติดจากตั้งภายนอกเกิดข้อผิดพลาด",
     "external-storage" : "ที่จัดเก็บข้อมูลภายนอก",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "การกำหนดค่าบางส่วนของจุดเชื่อมต่อภายนอกไม่ถูกเชื่อมต่อ กรุณาคลิกที่ตรงสีแดงสำหรับข้อมูลเพิ่มเติม",
     "Please enter the credentials for the {mount} mount" : "กรุณากรอกข้อมูลประจำตัวสำหรับ {mount} ",
     "Username" : "ชื่อผู้ใช้งาน",
     "Password" : "รหัสผ่าน",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "การกำหนดค่าบางส่วนของจุดเชื่อมต่อภายนอกไม่ถูกเชื่อมต่อ กรุณาคลิกที่ตรงสีแดงสำหรับข้อมูลเพิ่มเติม",
     "OpenStack" : "OpenStack",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
 },

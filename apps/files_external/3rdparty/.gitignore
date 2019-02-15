@@ -1,4 +1,5 @@
 example.php
+.editorconfig
 icewind/smb/tests
 icewind/smb/install_libsmbclient.sh
 icewind/smb/Makefile

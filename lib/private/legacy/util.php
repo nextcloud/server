@@ -43,6 +43,7 @@
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
+ * @author Robert Dailey <rcdailey@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -789,13 +790,20 @@ class OC_Util {
 					];
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-				//common hint for all file permissions error messages
-				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
-					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
-				$errors[] = [
-					'error' => 'Your data directory is not writable',
-					'hint' => $permissionsHint
-				];
+				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
+				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
+				$handle = fopen($testFile, 'w');
+				if (!$handle || fwrite($handle, 'Test write operation') === FALSE) {
+					$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
+					$errors[] = [
+						'error' => 'Your data directory is not writable',
+						'hint' => $permissionsHint
+					];
+				} else {
+					fclose($handle);
+					unlink($testFile);
+				}
 			} else {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			}
@@ -1321,56 +1329,6 @@ class OC_Util {
 		}
 
 		return $theme;
-	}
-
-	/**
-	 * Clear a single file from the opcode cache
-	 * This is useful for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 * Returns true if successful, false if unsuccessful:
-	 * caller should fall back on clearing the entire cache
-	 * with clearOpcodeCache() if unsuccessful
-	 *
-	 * @param string $path the path of the file to clear from the cache
-	 * @return bool true if underlying function returns true, otherwise false
-	 */
-	public static function deleteFromOpcodeCache($path) {
-		$ret = false;
-		if ($path) {
-			// APC >= 3.1.1
-			if (function_exists('apc_delete_file')) {
-				$ret = @apc_delete_file($path);
-			}
-			// Zend OpCache >= 7.0.0, PHP >= 5.5.0
-			if (function_exists('opcache_invalidate')) {
-				$ret = @opcache_invalidate($path);
-			}
-		}
-		return $ret;
-	}
-
-	/**
-	 * Clear the opcode cache if one exists
-	 * This is necessary for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 *
-	 * @return void
-	 * @suppress PhanDeprecatedFunction
-	 * @suppress PhanUndeclaredConstant
-	 */
-	public static function clearOpcodeCache() {
-		// APC
-		if (function_exists('apc_clear_cache')) {
-			apc_clear_cache();
-		}
-		// Zend Opcache
-		if (function_exists('accelerator_reset')) {
-			accelerator_reset();
-		}
-		// Opcache (PHP >= 5.5)
-		if (function_exists('opcache_reset')) {
-			@opcache_reset();
-		}
 	}
 
 	/**

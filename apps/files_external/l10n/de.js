@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Fehler beim Einbinden des externen Speichers",
     "external-storage" : "Externer Speicher",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Es konnte keine Liste der Windows-Netzlaufwerke empfangen werden: Leere Antwort vom Server",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Einige der konfigurierten externen Einbindungspunkte sind nicht verbunden. Bitte klicke auf die roten Zeile(n) für weitere Informationen",
     "Please enter the credentials for the {mount} mount" : "Bitte gib die Anmeldeinformationen für den {mount} Speicher an",
     "Username" : "Benutzername",
     "Password" : "Passwort",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen.",
     "Are you sure you want to delete this external storage" : "Möchtest Du wirklich diesen externen Speicher löschen?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Einige der konfigurierten externen Einbindungspunkte sind nicht verbunden. Bitte klicke auf die roten Zeile(n) für weitere Informationen",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ist nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an den Administrator.",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den folgenden externen Speicher einzubinden:"

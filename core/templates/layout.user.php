@@ -28,6 +28,10 @@
 	<body id="<?php p($_['bodyid']);?>">
 	<?php include 'layout.noscript.warning.php'; ?>
 
+		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
+			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
+		<?php }?>
+
 		<a href="#app-content" class="button primary skip-navigation skip-content"><?php p($l->t('Skip to main content')); ?></a>
 		<a href="#app-navigation" class="button primary skip-navigation"><?php p($l->t('Skip to navigation of app')); ?></a>
 
@@ -57,8 +61,6 @@
 										<?php } ?>
 										<image x="0" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet"<?php if ($_['themingInvertMenu']) { ?> filter="url(#invertMenuMain-<?php p($entry['id']); ?>)"<?php } ?> xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon" />
 									</svg>
-								<div class="icon-loading-small-dark"
-									 style="display:none;"></div>
 								<span>
 									<?php p($entry['name']); ?>
 								</span>
@@ -87,7 +89,6 @@
 											<defs><filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter></defs>
 											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invertMenuMore-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>"  class="app-icon"></image>
 										</svg>
-										<div class="icon-loading-small" style="display:none;"></div>
 										<span><?php p($entry['name']); ?></span>
 									</a>
 									</li>

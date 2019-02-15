@@ -34,7 +34,6 @@ OC.L10N.register(
     "External mount error" : "Ekstern oppkoblingsfeil",
     "external-storage" : "eksternlagring",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Klarte ikke å hente listen over oppkoblingspunkter for Windowsnettverks-disker: Tomt svar fra tjeneren",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Noen av de oppsatte eksterne oppkoblingspunktene er ikke tilkoblet. Klikk på de røde raden(e) for mer informasjon.",
     "Please enter the credentials for the {mount} mount" : "Legg inn påloggingsdetaljer for {mount}",
     "Username" : "Brukernavn",
     "Password" : "Passord",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lagringsplassen?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Noen av de oppsatte eksterne oppkoblingspunktene er ikke tilkoblet. Klikk på de røde raden(e) for mer informasjon.",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installert. Oppkobling av %s er ikke mulig. Spør din systemadministrator om å installere det.",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"

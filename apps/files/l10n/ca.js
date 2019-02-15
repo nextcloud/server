@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "No s'ha pogut crear la carpeta \"{dir}\"",
     "This will stop your current uploads." : "Això aturarà les pujades actuals.",
     "Upload cancelled." : "La pujada s'ha cancel·lat.",
-    "…" : ".....",
     "Processing files …" : "Processant arxius …",
+    "…" : ".....",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "No es pot pujar {filename} perquè és una carpeta o té 0 bytes",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hi ha prou espai lliure, està carregant {size1} però només pot {size2}",
     "Target folder \"{dir}\" does not exist any more" : "La carpeta objectiu \"{dir}\" ja no existeix",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitza aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als teus arxius mitjançant WebDAV</a>",
     "Toggle grid view" : "Commuta vista de quadrícula",
-    "Cancel upload" : "Cancel·la la pujada",
     "No files in here" : "No hi ha arxius",
     "Upload some content or sync with your devices!" : "Pugi continguts o sincronitzi els seus dispositius.",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text.txt",
     "Target folder" : "Carpeta de destí",
+    "Cancel upload" : "Cancel·la la pujada",
     "%1$s of %2$s used" : "%1$s de %2$s utilitzat"
 },
 "nplurals=2; plural=(n != 1);");

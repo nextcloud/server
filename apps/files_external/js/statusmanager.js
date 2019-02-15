@@ -291,18 +291,11 @@ OCA.Files_External.StatusManager = {
 
 				var rolQueue = new OCA.Files_External.StatusManager.RollingQueue(ajaxQueue, 4, function () {
 					if (!self.notificationHasShown) {
-						var showNotification = false;
 						$.each(self.mountStatus, function (key, value) {
 							if (value.status === 1) {
 								self.notificationHasShown = true;
-								showNotification = true;
 							}
 						});
-						if (showNotification) {
-							OC.Notification.show(t('files_external', 'Some of the configured external mount points are not connected. Please click on the red row(s) for more information'), 
-								{type: 'error'}
-							);
-						}
 					}
 				});
 				rolQueue.runQueue();

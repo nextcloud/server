@@ -31,6 +31,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\Authentication\TwoFactorAuth\Manager;
 use OC\HintException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -58,7 +59,6 @@ use OCP\Security\ISecureRandom;
  * @package OC\Core\Controller
  */
 class LostController extends Controller {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var IUserManager */
@@ -83,6 +83,8 @@ class LostController extends Controller {
 	protected $crypto;
 	/** @var ILogger */
 	private $logger;
+	/** @var Manager */
+	private $twoFactorManager;
 
 	/**
 	 * @param string $appName
@@ -112,7 +114,8 @@ class LostController extends Controller {
 								IMailer $mailer,
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
-								ILogger $logger) {
+								ILogger $logger,
+								Manager $twoFactorManager) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -126,6 +129,7 @@ class LostController extends Controller {
 		$this->timeFactory = $timeFactory;
 		$this->crypto = $crypto;
 		$this->logger = $logger;
+		$this->twoFactorManager = $twoFactorManager;
 	}
 
 	/**
@@ -289,6 +293,8 @@ class LostController extends Controller {
 			}
 
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
+
+			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();

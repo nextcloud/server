@@ -53,9 +53,13 @@ class LegacyTrashBackend implements ITrashBackend {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
 		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {
+			$originalLocation = $isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName();
+			if (!$originalLocation) {
+				$originalLocation = $file->getName();
+			}
 			return new TrashItem(
 				$this,
-				$isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName(),
+				$originalLocation,
 				$file->getMTime(),
 				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
 				$file,

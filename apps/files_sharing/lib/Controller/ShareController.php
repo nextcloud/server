@@ -7,6 +7,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Sulzer <jonas@violoncello.ch>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@pontapreta.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -455,21 +456,29 @@ class ShareController extends AuthPublicShareController {
 
 		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			\OCP\Util::addScript('files_sharing', 'public_note');
+
+			$downloadWhite = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
+			$downloadAllWhite = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
+			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
+			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
+			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
+			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']);
+
+			$responseComposer = [];
+
 			if ($shareIsFolder) {
-				$response->setHeaderActions([
-					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
-					new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
-					new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
-					new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
-				]);
+				$responseComposer[] = $downloadAllWhite;
+				$responseComposer[] = $downloadAll;
 			} else {
-				$response->setHeaderActions([
-					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
-					new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
-					new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
-					new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
-				]);
+				$responseComposer[] = $downloadWhite;
+				$responseComposer[] = $download;
 			}
+			$responseComposer[] = $directLink;
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+				$responseComposer[] = $externalShare;
+			}
+
+			$response->setHeaderActions($responseComposer);
 		}
 
 		$response->setContentSecurityPolicy($csp);

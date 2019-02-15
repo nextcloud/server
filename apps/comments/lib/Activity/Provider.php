@@ -204,7 +204,6 @@ class Provider implements IProvider {
 		try {
 			$comment = $this->commentsManager->get((string) $commentId);
 			$message = $comment->getMessage();
-			$message = str_replace(['<', '>', "\n"], ['&lt;', '&gt;', '<br />'], $message);
 
 			$mentionCount = 1;
 			$mentions = [];

@@ -36,7 +36,7 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -131,10 +131,10 @@ class ClientFlowLoginController extends Controller {
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	private function stateTokenForbiddenResponse() {
-		$response = new TemplateResponse(
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'403',
 			[
@@ -153,7 +153,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $clientIdentifier
 	 *
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
@@ -166,7 +166,7 @@ class ClientFlowLoginController extends Controller {
 		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
 		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
 		if ($clientRequest !== 'true' && $client === null) {
-			return new TemplateResponse(
+			return new StandaloneTemplateResponse(
 				$this->appName,
 				'error',
 				[
@@ -188,7 +188,7 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::stateName, $stateToken);
 
-		return new TemplateResponse(
+		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/authpicker',
 			[
@@ -212,7 +212,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function grantPage($stateToken = '',
 								 $clientIdentifier = '') {
@@ -227,7 +227,7 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		return new TemplateResponse(
+		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/grant',
 			[

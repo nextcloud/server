@@ -338,7 +338,7 @@
 						 * build the result array that only contains all contact entries from
 						 * merged contacts, if the search term matches its contact name
 						 */
-						for (i = 0; i < groupedLength; i++) {
+						for (var i = 0; i < groupedLength; i++) {
 							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
 								grouped[i].merged = true;
 							}

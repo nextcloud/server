@@ -512,7 +512,11 @@ class UsersController extends AUserData {
 				$targetUser->setQuota($quota);
 				break;
 			case 'password':
-				$targetUser->setPassword($value);
+				try {
+					$targetUser->setPassword($value);
+				} catch (HintException $e) { // password policy error
+					throw new OCSException($e->getMessage(), 103);
+				}
 				break;
 			case 'language':
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
@@ -809,11 +813,8 @@ class UsersController extends AUserData {
 			return new DataResponse();
 		}
 		// Go
-		if ($subAdminManager->createSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->createSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**
@@ -845,11 +846,8 @@ class UsersController extends AUserData {
 		}
 
 		// Go
-		if ($subAdminManager->deleteSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->deleteSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**

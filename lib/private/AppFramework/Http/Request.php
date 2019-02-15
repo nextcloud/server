@@ -759,11 +759,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getRawPathInfo(): string {
 		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
-		// remove too many leading slashes - can be caused by reverse proxy configuration
-		if (strpos($requestUri, '/') === 0) {
-			$requestUri = '/' . ltrim($requestUri, '/');
-		}
-
+		// remove too many slashes - can be caused by reverse proxy configuration
 		$requestUri = preg_replace('%/{2,}%', '/', $requestUri);
 
 		// Remove the query string from REQUEST_URI

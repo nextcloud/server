@@ -15,8 +15,8 @@ OC.L10N.register(
     "Close" : "Sluit",
     "Could not create folder \"{dir}\"" : "Kan nie gids \"{dir}\" skep nie",
     "Upload cancelled." : "Oplaai gekanselleer.",
-    "…" : "…",
     "Processing files …" : "Verwerk tans lêers …",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan nie {filename} oplaai nie aangesien dit óf 'n gids is óf 0 grepe groot is",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nie genoeg oop spasie nie, u laai {size1} op maar slegs {size2} is oor",
     "Target folder \"{dir}\" does not exist any more" : "Teikengids \"{dir}\" bestaan nie meer nie",
@@ -115,7 +115,6 @@ OC.L10N.register(
     "Show hidden files" : "Vertoon verborge lêers ",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik dié adres vir <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">toegang tot lêers d.m.v. WebDAV</a>",
-    "Cancel upload" : "Kanselleer oplaai",
     "No files in here" : "Geen lêers hierbinne nie",
     "Upload some content or sync with your devices!" : "Laai 'n paar lêers op of sinchroniseer met u toestelle",
     "No entries found in this folder" : "Geen inskrwyings in hierdie gids gevind",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
     "Target folder" : "Teikengids",
+    "Cancel upload" : "Kanselleer oplaai",
     "%1$s of %2$s used" : "%1$s van %2$s gebruik"
 },
 "nplurals=2; plural=(n != 1);");

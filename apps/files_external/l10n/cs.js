@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Chyba vzdáleného úložiště",
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Nepodařilo se obdržet seznam síťových úložišť systému Windows: prázdná odpověď serveru",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Některá z nastavených vzdálených úložišť nejsou připojena. Pro více informací prosím klikněte na červenou šipku(y)",
     "Please enter the credentials for the {mount} mount" : "Zadejte přihlašovací údaje k přípojnému bodu {mount}",
     "Username" : "Uživatelské jméno",
     "Password" : "Heslo",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
     "Are you sure you want to delete this external storage" : "Opravdu chcete odstranit toto externí úložiště",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Některá z nastavených vzdálených úložišť nejsou připojena. Pro více informací prosím klikněte na červenou šipku(y)",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ není nainstalováno. Není možné připojit %s. Požádejte správce systému o instalaci.",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
