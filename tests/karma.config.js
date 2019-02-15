@@ -54,10 +54,8 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'apps/files_sharing/js/app.js',
 					'apps/files_sharing/js/sharedfilelist.js',
-					'apps/files_sharing/js/share.js',
-					'apps/files_sharing/js/sharebreadcrumbview.js',
+					'apps/files_sharing/js/additionalScripts.js',
 					'apps/files_sharing/js/public.js',
-					'apps/files_sharing/js/sharetabview.js',
 					'apps/files_sharing/js/files_drop.js',
 					'apps/files_sharing/js/templates.js',
 				],
