@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "Kon map \"{dir}\" niet aanmaken",
     "This will stop your current uploads." : "Dit beëindigt onderhanden uploads",
     "Upload cancelled." : "Uploaden geannuleerd.",
-    "…" : "...",
     "Processing files …" : "Verwerken bestanden ...",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan {filename} niet uploaden omdat het een map is of 0 bytes groot is",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Niet genoeg vrije ruimte. Je uploadt {size1}, maar er is slechts {size2} beschikbaar",
     "Target folder \"{dir}\" does not exist any more" : "Doelmap \"{dir}\" bestaat niet meer",
@@ -147,7 +147,6 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">om je bestanden te benaderen via WebDAV</a>",
     "Toggle grid view" : "Omschakelen roosterweergave",
-    "Cancel upload" : "Stop upload",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",
     "No entries found in this folder" : "Niets",
@@ -166,6 +165,7 @@
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Target folder" : "Doelmap",
+    "Cancel upload" : "Stop upload",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Nemožno vytvoriť priečinok \"{dir}\"",
     "This will stop your current uploads." : "Toto zastaví práve prebiehajúce nahrávania.",
     "Upload cancelled." : "Odosielanie je zrušené.",
-    "…" : "...",
     "Processing files …" : "Spracovávam súbory ...",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nemožno nahrať súbor {filename}, pretože je to priečinok, alebo má 0 bitov",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nie je dostatok voľného miesta, chcete nahrať {size1} ale k dispozíciji je len {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Cieľový priečinok \"{dir}\" už neexistuje",
@@ -148,7 +148,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použiť túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">prístup ku svojím súborom cez WebDAV</a>",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky",
-    "Cancel upload" : "Zrušiť nahrávanie",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
@@ -167,6 +166,7 @@ OC.L10N.register(
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Target folder" : "Cieľový priečinok",
+    "Cancel upload" : "Zrušiť nahrávanie",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

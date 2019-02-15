@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "无法创建文件夹 \"{dir}\"",
     "This will stop your current uploads." : "这会终止您当前的上传。",
     "Upload cancelled." : "上传已取消。",
-    "…" : "…",
     "Processing files …" : "文件处理中…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "无法上传文件 {filename}，因为它是一个目录或者是大小为 0 的空文件",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "可用空间不足，您上传的文件大小为 {size1} ，但可用空间仅剩 {size2}",
     "Target folder \"{dir}\" does not exist any more" : "目标目录 \"{dir}\" 不存在",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">通过 WebDAV 访问您的文件</a>",
     "Toggle grid view" : "切换网格视图",
-    "Cancel upload" : "取消上传",
     "No files in here" : "无文件",
     "Upload some content or sync with your devices!" : "上传或从您的设备中同步！",
     "No entries found in this folder" : "文件夹中无项目",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
     "Target folder" : "目标目录",
+    "Cancel upload" : "取消上传",
     "%1$s of %2$s used" : "%1$s已用，总计%2$s"
 },
 "nplurals=1; plural=0;");

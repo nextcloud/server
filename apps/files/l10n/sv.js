@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Kunde inte skapa mapp \"{dir}\"",
     "This will stop your current uploads." : "Detta kommer att stoppa nuvarande uppladdningar.",
     "Upload cancelled." : "Uppladdning avbruten.",
-    "…" : "...",
     "Processing files …" : "Bearbetar filer ...",
+    "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan inte ladda upp {filename} eftersom den antingen är en mapp eller har 0 bytes.",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Inte tillräckligt med ledigt utrymme, du laddar upp {size1} men endast {size2} finns kvar.",
     "Target folder \"{dir}\" does not exist any more" : "Målmapp \"{dir}\" existerar inte mer",
@@ -149,7 +149,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">komma åt dina filer med WebDAV</a>",
     "Toggle grid view" : "Växla rutnätsvy",
-    "Cancel upload" : "Avbryt uppladdning",
     "No files in here" : "Inga filer kunde hittas",
     "Upload some content or sync with your devices!" : "Ladda upp innehåll eller synkronisera med dina enheter!",
     "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Textfil",
     "New text file.txt" : "nytextfil.txt",
     "Target folder" : "Målmapp",
+    "Cancel upload" : "Avbryt uppladdning",
     "%1$s of %2$s used" : "%1$s av %2$s använt"
 },
 "nplurals=2; plural=(n != 1);");

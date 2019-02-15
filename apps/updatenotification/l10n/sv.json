@@ -15,7 +15,6 @@
     "Your version is up to date." : "Din version är uppdaterad.",
     "A non-default update server is in use to be checked for updates:" : "En icke-standard updateringsserver används för att kolla efter uppdateringar:",
     "Update channel:" : "Uppdateringskanal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid uppdatera till en nyare version / experimentell kanal. Men du kan aldrig nedgradera till en mer stabil kanal.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Notera att när en ny version släppts kan det ta lite tid innan den dyker upp här. Vi rullar ut nya versioner till våra användare vid utspridda tillfällen och hoppar ibland över versioner när problem hittas.",
     "Notify members of the following groups about available updates:" : "Notifiera medlemmar i följande grupper om tillgängliga uppdateraingar:",
     "Only notification for app updates are available." : "Endast notifikation för app-uppdateringar är tillgängliga.",
@@ -25,10 +24,11 @@
     "Checking apps for compatible updates" : "Kontrollera appar för kompatibla uppdateringar",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
     "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt",
     "A new version is available: %s" : "En ny version är tillgänglig: %s",
-    "Checked on %s" : "Senast kontrollerad %s"
+    "Checked on %s" : "Senast kontrollerad %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid uppdatera till en nyare version / experimentell kanal. Men du kan aldrig nedgradera till en mer stabil kanal.",
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

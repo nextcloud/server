@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Gat ekki búið til möppuna \"{dir}\"",
     "This will stop your current uploads." : "Þetta mun stöðva núverandi innsendingar þínar.",
     "Upload cancelled." : "Hætt við innsendingu.",
-    "…" : "…",
     "Processing files …" : "Vinn með skrár …",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Tókst ekki að hlaða inn {filename} þar sem þetta er mappa eða er 0 bæti",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ekki nægilegt laust pláss, þú ert að senda inn {size1} en einungis {size2} eru eftir",
     "Target folder \"{dir}\" does not exist any more" : "Markmappan \"{dir}\" er ekki lengur til",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>",
     "Toggle grid view" : "Víxla reitasýn af/á",
-    "Cancel upload" : "Hætta við innsendingu",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Target folder" : "Markmappa",
+    "Cancel upload" : "Hætta við innsendingu",
     "%1$s of %2$s used" : "%1$s af %2$s notað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

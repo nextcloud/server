@@ -17,7 +17,6 @@
     "Your version is up to date." : "Your version is up to date.",
     "A non-default update server is in use to be checked for updates:" : "A non-default update server is in use to be checked for updates:",
     "Update channel:" : "Update channel:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.",
     "Notify members of the following groups about available updates:" : "Notify members of the following groups about available updates:",
     "Only notification for app updates are available." : "Only notification for app updates are available.",
@@ -29,13 +28,14 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>All</strong> apps have an update for this version available",
-    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2).",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.",
     "View changelog" : "View changelog",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app has no update for this version available","<strong>%n</strong> apps have no update for this version available"],
     "Could not start updater, please try the manual update" : "Could not start updater, please try the manual update",
     "A new version is available: %s" : "A new version is available: %s",
-    "Checked on %s" : "Checked on %s"
+    "Checked on %s" : "Checked on %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.",
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2).",
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version.",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Impossible de créer le dossier \"{dir}\"",
     "This will stop your current uploads." : "Cela va arrêter vos téléversements actuels.",
     "Upload cancelled." : "Téléversement annulé.",
-    "…" : "…",
     "Processing files …" : "Fichiers en cours d'exécution …",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Espace libre insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",
     "Target folder \"{dir}\" does not exist any more" : "Le dossier cible « {dir} » n'existe plus",
@@ -149,7 +149,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
-    "Cancel upload" : "Annuler le téléversement",
     "No files in here" : "Aucun fichier",
     "Upload some content or sync with your devices!" : "Déposez du contenu ou synchronisez vos appareils !",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Target folder" : "Dossier cible",
+    "Cancel upload" : "Annuler le téléversement",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s"
 },
 "nplurals=2; plural=(n > 1);");

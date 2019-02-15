@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Невозможно создать каталог «{dir}»",
     "This will stop your current uploads." : "Это действие остановит активные сеансы передачи файлов на сервер. ",
     "Upload cancelled." : "Выгрузка отменена.",
-    "…" : "…",
     "Processing files …" : "Обработка файлов…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Невозможно загрузить «{filename}», так как это либо каталог, либо файл нулевого размера",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостаточно свободного места, вы передаёте на сервер {size1}, но доступно только {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Целевой каталог «{dir}» более не существует",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступа к вашим файлам через WebDAV</a>",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
-    "Cancel upload" : "Отменить загрузку",
     "No files in here" : "Здесь нет файлов",
     "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
     "No entries found in this folder" : "В этом каталоге ничего не найдено",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
     "Target folder" : "Целевой каталог",
+    "Cancel upload" : "Отменить загрузку",
     "%1$s of %2$s used" : "использовано %1$s из %2$s "
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

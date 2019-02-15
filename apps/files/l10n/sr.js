@@ -16,8 +16,8 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Не могу да направим фасциклу \"{dir}\"",
     "This will stop your current uploads." : "Ово ће да прекине тренутна отпремања.",
     "Upload cancelled." : "Отпремање је отказано.",
-    "…" : "…",
     "Processing files …" : "Обрађујем фајлове…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Не могу да отпремим {filename} јер је то или директоријум или има 0 бајтова",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Нема простора. Отпремате {size1} али само {size2} је преостало",
     "Target folder \"{dir}\" does not exist any more" : "Одредишна фасцикла \"{dir}\" више не постоји",
@@ -149,7 +149,6 @@ OC.L10N.register(
     "WebDAV" : "ВебДАВ",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
-    "Cancel upload" : "Откажи отпремање",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Target folder" : "Одредишна фасцикла",
+    "Cancel upload" : "Откажи отпремање",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

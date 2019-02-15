@@ -14,8 +14,8 @@
     "Could not create folder \"{dir}\"" : "Der Ordner konnte nicht erstellt werden \"{dir}\"",
     "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
     "Upload cancelled." : "Hochladen abgebrochen.",
-    "…" : "…",
     "Processing files …" : "Dateien werden verarbeitet…",
+    "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nicht genügend freier Speicherplatz, Du möchtest{size1} hochladen, es sind jedoch nur noch {size2} verfügbar.",
     "Target folder \"{dir}\" does not exist any more" : "Ziel-Verzeichnis \"{dir}\" existiert nicht mehr",
@@ -147,7 +147,6 @@
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">über WebDAV auf Deine Dateien zuzugreifen</a>",
     "Toggle grid view" : "Rasteransicht umschalten",
-    "Cancel upload" : "Hochladen abbrechen",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit deinen Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
@@ -166,6 +165,7 @@
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Target folder" : "Zielordner",
+    "Cancel upload" : "Hochladen abbrechen",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
