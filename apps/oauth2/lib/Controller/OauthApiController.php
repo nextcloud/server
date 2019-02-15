@@ -35,6 +35,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -54,8 +55,10 @@ class OauthApiController extends Controller {
 	private $time;
 	/** @var Throttler */
 	private $throttler;
-    /** @var IUserManager */
+	/** @var IUserManager */
 	private $userManager;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -66,7 +69,8 @@ class OauthApiController extends Controller {
 								ISecureRandom $secureRandom,
 								ITimeFactory $time,
 								Throttler $throttler,
-								IUserManager $userManager) {
+								IUserManager $userManager,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
@@ -76,6 +80,7 @@ class OauthApiController extends Controller {
 		$this->time = $time;
 		$this->throttler = $throttler;
 		$this->userManager = $userManager;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -166,7 +171,28 @@ class OauthApiController extends Controller {
 		$this->accessTokenMapper->update($accessToken);
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
+		$jwt = $this->getIdToken($client_id, $appToken, $client);
 
+		return new JSONResponse(
+			[
+				'access_token' => $newToken,
+				'token_type' => 'Bearer',
+				'expires_in' => 3600,
+				'refresh_token' => $newCode,
+				'user_id' => $appToken->getUID(),
+				'id_token' => $jwt,
+			]
+		);
+	}
+
+	/**
+	 * @param $client_id
+	 * @param \OC\Authentication\Token\IToken $appToken
+	 * @param \OCA\OAuth2\Db\Client $client
+	 * @return string
+	 */
+	private function getIdToken($client_id, \OC\Authentication\Token\IToken $appToken, \OCA\OAuth2\Db\Client $client)
+	{
 		// The id token needs to be correctly build as JWT. Taken from https://dev.to/robdwaller/how-to-create-a-json-web-token-using-php-3gml
 
 		// Create token header as a JSON string
@@ -177,16 +203,25 @@ class OauthApiController extends Controller {
 
 		// Create token payload as a JSON string
 		$payload = json_encode([
-			// required for OIDC
-			'iss' => \OC::$server->getURLGenerator()->getBaseUrl(),
+			// required for OIDC, see https://openid.net/specs/openid-connect-core-1_0.html#IDToken
+			// Issuer Identifier for the Issuer of the response.
+			'iss' => $this->urlGenerator->getBaseUrl(),
+			// Subject Identifier. A locally unique and never reassigned identifier within the Issuer for the End-User, which is intended to be consumed by the Client
 			'sub' => $appToken->getUID(),
+			// Audience(s) that this ID Token is intended for. It MUST contain the OAuth 2.0 client_id of the Relying Party as an audience value.
 			'aud' => $client_id,
+			// Expiration time on or after which the ID Token MUST NOT be accepted for processing.
 			'exp' => $appToken->getExpires(),
+			// Time at which the JWT was issued.
 			'iat' => $this->time->getTime(),
+			// Time when the End-User authentication occurred.
 			'auth_time' => $this->time->getTime(),
 
 			// optional, can be requested by claims, we don't support requesting claims as of now, so we just send them always
+			// see https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+			// End-User's preferred e-mail address.
 			'email' => $user->getEMailAddress(),
+			// End-User's full name in displayable form including all name parts, possibly including titles and suffixes
 			'name' => $user->getDisplayName(),
 
 		]);
@@ -205,16 +240,6 @@ class OauthApiController extends Controller {
 
 		// Create JWT
 		$jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
-
-		return new JSONResponse(
-			[
-				'access_token' => $newToken,
-				'token_type' => 'Bearer',
-				'expires_in' => 3600,
-				'refresh_token' => $newCode,
-				'user_id' => $appToken->getUID(),
-				'id_token' => $jwt,
-			]
-		);
+		return $jwt;
 	}
 }

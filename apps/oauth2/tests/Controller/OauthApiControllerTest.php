@@ -37,6 +37,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
@@ -62,6 +63,8 @@ class OauthApiControllerTest extends TestCase {
 	private $throttler;
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -77,6 +80,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -88,7 +92,8 @@ class OauthApiControllerTest extends TestCase {
 			$this->secureRandom,
 			$this->time,
 			$this->throttler,
-			$this->userManager
+			$this->userManager,
+			$this->urlGenerator
 		);
 	}
 
@@ -287,6 +292,9 @@ class OauthApiControllerTest extends TestCase {
 				})
 			);
 
+		$this->urlGenerator->method('getBaseUrl')
+			->willReturn('http://localhost');
+
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
 			'token_type' => 'Bearer',
@@ -395,6 +403,9 @@ class OauthApiControllerTest extends TestCase {
 						$token->getEncryptedToken() === 'newEncryptedToken';
 				})
 			);
+
+		$this->urlGenerator->method('getBaseUrl')
+			->willReturn('http://localhost');
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
@@ -507,6 +518,9 @@ class OauthApiControllerTest extends TestCase {
 						$token->getEncryptedToken() === 'newEncryptedToken';
 				})
 			);
+
+		$this->urlGenerator->method('getBaseUrl')
+			->willReturn('http://localhost');
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
