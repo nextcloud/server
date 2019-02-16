@@ -10,6 +10,8 @@ OC.L10N.register(
     "You created app password \"{token}\"" : "Hai creato la password di applicazione \"{token}\"",
     "You deleted app password \"{token}\"" : "Hai eliminato la password di applicazione \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Hai rinominato la password applicativa da \"{token}\" a \"{newToken}\"",
+    "You granted filesystem access to app password \"{token}\"" : "Hai concesso l'accesso al filesystem alla password di applicazione \"{token}\"",
+    "You revoked filesystem access from app password \"{token}\"" : "Hai revocato l'accesso al filesystem dalla password di applicazione \"{token}\"",
     "Security" : "Sicurezza",
     "You successfully logged in using two-factor authentication (%1$s)" : "Hai effettuato correttamente l'accesso utilizzando l'autenticazione a due fattori (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Un tentativo di utilizzare l'autenticazione a due fattori non è riuscito (%1$s)",
