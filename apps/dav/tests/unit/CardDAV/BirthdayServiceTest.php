@@ -329,6 +329,32 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->ensureCalendarExists('principal001');
 	}
 
+	public function testResetForUser() {
+		$this->calDav->expects($this->at(0))
+			->method('getCalendarByUri')
+			->with('principals/users/user123', 'contact_birthdays')
+			->willReturn(['id' => 42]);
+
+		$this->calDav->expects($this->at(1))
+			->method('getCalendarObjects')
+			->with(42, 0)
+			->willReturn([['uri' => '1.ics'], ['uri' => '2.ics'], ['uri' => '3.ics']]);
+
+		$this->calDav->expects($this->at(2))
+			->method('deleteCalendarObject')
+			->with(42, '1.ics', 0);
+
+		$this->calDav->expects($this->at(3))
+			->method('deleteCalendarObject')
+			->with(42, '2.ics', 0);
+
+		$this->calDav->expects($this->at(4))
+			->method('deleteCalendarObject')
+			->with(42, '3.ics', 0);
+
+		$this->service->resetForUser('user123');
+	}
+
 	public function providesBirthday() {
 		return [
 			[true,

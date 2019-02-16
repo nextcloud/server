@@ -137,9 +137,9 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureCalendarExists($principal) {
-		$book = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
-		if (!is_null($book)) {
-			return $book;
+		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
+		if (!is_null($calendar)) {
+			return $calendar;
 		}
 		$this->calDavBackEnd->createCalendar($principal, self::BIRTHDAY_CALENDAR_URI, [
 			'{DAV:}displayname' => 'Contact birthdays',
@@ -268,6 +268,19 @@ class BirthdayService {
 		$vEvent->add($alarm);
 		$vCal->add($vEvent);
 		return $vCal;
+	}
+
+	/**
+	 * @param string $user
+	 */
+	public function resetForUser($user) {
+		$principal = 'principals/users/'.$user;
+		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
+		$calendarObjects = $this->calDavBackEnd->getCalendarObjects($calendar['id'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
+
+		foreach($calendarObjects as $calendarObject) {
+			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
+		}
 	}
 
 	/**
