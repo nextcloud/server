@@ -83,11 +83,11 @@ class Manager implements IManager {
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
 		$query->select('*')
-			->from(self::TABLE_COLLECTIONS)
+			->from(self::TABLE_COLLECTIONS, 'c')
 			->leftJoin(
-				'r', self::TABLE_ACCESS_CACHE, 'a',
+				'c', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
-					$query->expr()->eq('c.id', 'a.resource_id'),
+					$query->expr()->eq('c.id', 'a.collection_id'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
@@ -103,10 +103,10 @@ class Manager implements IManager {
 		$access = $row['access'] === null ? null : (bool) $row['access'];
 		if ($user instanceof IUser) {
 			$access = [$user->getUID() => $access];
-			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $access, null);
+			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, null);
 		}
 
-		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], [], $access);
+		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
 	}
 
 	/**
@@ -122,16 +122,16 @@ class Manager implements IManager {
 		$userId = $user instanceof IUser ? $user->getUID() : '';
 
 		$query->select('c.*', 'a.access')
-			->from(self::TABLE_COLLECTIONS)
+			->from(self::TABLE_COLLECTIONS, 'c')
 			->leftJoin(
-				'r', self::TABLE_ACCESS_CACHE, 'a',
+				'c', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
-					$query->expr()->eq('c.id', 'a.resource_id'),
+					$query->expr()->eq('c.id', 'a.collection_id'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
 			->where($query->expr()->iLike('c.name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
-			->andWhere($query->expr()->neq('a.access', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('a.access', $query->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
 			->orderBy('c.id')
 			->setMaxResults($limit)
 			->setFirstResult($start);
@@ -199,14 +199,14 @@ class Manager implements IManager {
 			->leftJoin(
 				'r', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
-					$query->expr()->eq('r.id', 'a.resource_id'),
+					$query->expr()->eq('r.resource_id', 'a.resource_id'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
 			->where($query->expr()->eq('r.resource_type', $query->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('r.resource_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_STR)));
 		$result = $query->execute();
-		$row = $result;
+		$row = $result->fetch();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -236,7 +236,7 @@ class Manager implements IManager {
 			->leftJoin(
 				'r', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
-					$query->expr()->eq('r.id', 'a.resource_id'),
+					$query->expr()->eq('r.resource_id', 'a.resource_id'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
@@ -312,7 +312,7 @@ class Manager implements IManager {
 		foreach ($this->getProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
-					if ($provider->canAccess($resource, $user)) {
+					if ($provider->canAccessResource($resource, $user)) {
 						$access = true;
 						break;
 					}
