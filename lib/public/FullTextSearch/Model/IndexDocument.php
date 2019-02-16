@@ -183,6 +183,17 @@ class IndexDocument implements JsonSerializable {
 		return $this->index;
 	}
 
+	/**
+	 * return if Index is defined.
+	 *
+	 * @since 16.0.0
+	 *
+	 * @return bool
+	 */
+	final public function hasIndex(): bool {
+		return $this->index !== null;
+	}
+
 
 	/**
 	 * Set the modified time of the original document.
