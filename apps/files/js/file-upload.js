@@ -194,6 +194,9 @@ OC.FileUpload.prototype = {
 		var data = this.data;
 		var file = this.getFile();
 
+		if (self.aborted === true) {
+			return $.Deferred().resolve().promise();
+		}
 		// it was a folder upload, so make sure the parent directory exists already
 		var folderPromise;
 		if (file.relativePath) {
@@ -243,8 +246,10 @@ OC.FileUpload.prototype = {
 		}
 
 		// wait for creation of the required directory before uploading
-		$.when(folderPromise, chunkFolderPromise).then(function() {
-			data.submit();
+		return Promise.all([folderPromise, chunkFolderPromise]).then(function() {
+			if (self.aborted !== true) {
+				data.submit();
+			}
 		}, function() {
 			self.abort();
 		});
@@ -295,6 +300,7 @@ OC.FileUpload.prototype = {
 		}
 		this.data.abort();
 		this.deleteUpload();
+		this.aborted = true;
 	},
 
 	/**
@@ -317,7 +323,7 @@ OC.FileUpload.prototype = {
 		if (response.errorThrown) {
 			// attempt parsing Sabre exception is available
 			var xml = response.jqXHR.responseXML;
-			if (xml.documentElement.localName === 'error' && xml.documentElement.namespaceURI === 'DAV:') {
+			if (xml && xml.documentElement.localName === 'error' && xml.documentElement.namespaceURI === 'DAV:') {
 				var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
 				var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
 				if (messages.length) {
@@ -554,7 +560,15 @@ OC.Uploader.prototype = _.extend({
 		var self = this;
 		_.each(uploads, function(upload) {
 			self._uploads[upload.data.uploadId] = upload;
-			upload.submit();
+		});
+		self.totalToUpload = _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
+		var semaphore = new OCA.Files.Semaphore(5);
+		var promises = _.map(uploads, function(upload) {
+			return semaphore.acquire().then(function(){
+				return upload.submit().then(function(){
+					semaphore.release();
+				});
+			});
 		});
 	},
 
@@ -861,7 +875,6 @@ OC.Uploader.prototype = _.extend({
 				autoUpload: false,
 				sequentialUploads: false,
 				limitConcurrentUploads: 10,
-				//singleFileUploads is on by default, so the data.files array will always have length 1
 				/**
 				 * on first add of every selection
 				 * - check all files of originalFiles array with files in dir
@@ -885,15 +898,6 @@ OC.Uploader.prototype = _.extend({
 					var upload = new OC.FileUpload(self, data);
 					// can't link directly due to jQuery not liking cyclic deps on its ajax object
 					data.uploadId = upload.getId();
-
-					// we need to collect all data upload objects before
-					// starting the upload so we can check their existence
-					// and set individual conflict actions. Unfortunately,
-					// there is only one variable that we can use to identify
-					// the selection a data upload is part of, so we have to
-					// collect them in data.originalFiles turning
-					// singleFileUploads off is not an option because we want
-					// to gracefully handle server errors like 'already exists'
 
 					// create a container where we can store the data objects
 					if ( ! data.originalFiles.selection ) {
@@ -1030,7 +1034,7 @@ OC.Uploader.prototype = _.extend({
 
 					self.removeUpload(upload);
 
-					if (data.textStatus === 'abort') {
+					if (data.textStatus === 'abort' || data.errorThrown === 'abort') {
 						self.showUploadCancelMessage();
 					} else if (status === 412) {
 						// file already exists
@@ -1134,14 +1138,15 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					self.log('progress handle fileuploadprogressall', e, data);
-					var progress = (data.loaded / data.total) * 100;
+					var total = self.totalToUpload;
+					var progress = (data.loaded / total) * 100;
 					var thisUpdate = new Date().getTime();
 					var diffUpdate = (thisUpdate - lastUpdate)/1000; // eg. 2s
 					lastUpdate = thisUpdate;
 					var diffSize = data.loaded - lastSize;
 					lastSize = data.loaded;
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1MiB/2s = 0.5MiB/s, unit is byte per second
-					var remainingSeconds = ((data.total - data.loaded) / diffSize);
+					var remainingSeconds = ((total - data.loaded) / diffSize);
 					if(remainingSeconds >= 0) {
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
@@ -1164,7 +1169,7 @@ OC.Uploader.prototype = _.extend({
 					}
 					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
 							loadedSize: humanFileSize(data.loaded),
-							totalSize: humanFileSize(data.total),
+							totalSize: humanFileSize(total),
 							bitrate: humanFileSize(data.bitrate / 8) + '/s'
 						}));
 					self._setProgressBarValue(progress);

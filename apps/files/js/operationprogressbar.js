@@ -32,8 +32,9 @@
 		},
 
 		hideCancelButton: function() {
+			var self = this;
 			$('#uploadprogresswrapper .stop').fadeOut(function() {
-				this.$el.trigger(new $.Event('resized'));
+				self.$el.trigger(new $.Event('resized'));
 			});
 		},
 
