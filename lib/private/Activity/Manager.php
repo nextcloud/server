@@ -58,7 +58,7 @@ class Manager implements IManager {
 	protected $formattingObjectId;
 
 	/** @var bool */
-	protected $requirePNG;
+	protected $requirePNG = false;
 
 	/** @var string */
 	protected $currentUserId;
