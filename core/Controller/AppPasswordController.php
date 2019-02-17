@@ -24,13 +24,17 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use BadMethodCallException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Settings\Activity\Provider;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
@@ -46,6 +50,12 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/** @var IProvider */
 	private $tokenProvider;
 
+	/** @var IActivityManager */
+	private $activityManager;
+
+	/** @var ILogger */
+	private $logger;
+
 	/** @var IStore */
 	private $credentialStore;
 
@@ -54,13 +64,17 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 								ISession $session,
 								ISecureRandom $random,
 								IProvider $tokenProvider,
-								IStore $credentialStore) {
+								IStore $credentialStore,
+								IActivityManager $activityManager,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
 		$this->random = $random;
 		$this->tokenProvider = $tokenProvider;
 		$this->credentialStore = $credentialStore;
+		$this->activityManager = $activityManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -91,7 +105,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$credentials->getUID(),
 			$credentials->getLoginName(),
@@ -100,6 +114,21 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('security')
+			->setAffectedUser($credentials->getUID())
+			->setAuthor($credentials->getUID())
+			->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $generatedToken->getName()])
+			->setObject('app_token', $generatedToken->getId(), 'App Password');
+
+		try {
+			$this->activityManager->publish($event);
+		} catch (BadMethodCallException $e) {
+			$this->logger->warning('could not publish activity');
+			$this->logger->logException($e);
+		}
 
 		return new DataResponse([
 			'apppassword' => $token

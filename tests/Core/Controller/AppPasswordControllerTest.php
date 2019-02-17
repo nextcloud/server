@@ -27,11 +27,14 @@ namespace Tests\Core\Controller;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\AppPasswordController;
+use OCP\Activity\IEvent;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
@@ -55,6 +58,9 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var IRequest|MockObject */
 	private $request;
 
+	/** @var IActivityManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $activityManager;
+
 	/** @var AppPasswordController */
 	private $controller;
 
@@ -66,6 +72,9 @@ class AppPasswordControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->credentialStore = $this->createMock(IStore::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->activityManager = $this->createMock(IActivityManager::class);
+		/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $logger */
+		$logger = $this->createMock(ILogger::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -73,7 +82,9 @@ class AppPasswordControllerTest extends TestCase {
 			$this->session,
 			$this->random,
 			$this->tokenProvider,
-			$this->credentialStore
+			$this->credentialStore,
+			$this->activityManager,
+			$logger
 		);
 	}
 
@@ -134,6 +145,12 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::DO_NOT_REMEMBER
 			);
 
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($this->createMock(IEvent::class));
+		$this->activityManager->expects($this->once())
+			->method('publish');
+
 		$this->controller->getAppPassword();
 	}
 
@@ -171,6 +188,12 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::PERMANENT_TOKEN,
 				IToken::DO_NOT_REMEMBER
 			);
+
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($this->createMock(IEvent::class));
+		$this->activityManager->expects($this->once())
+			->method('publish');
 
 		$this->controller->getAppPassword();
 	}
