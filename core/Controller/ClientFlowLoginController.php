@@ -26,19 +26,23 @@
 
 namespace OC\Core\Controller;
 
+use BadMethodCallException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Settings\Activity\Provider;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -68,6 +72,10 @@ class ClientFlowLoginController extends Controller {
 	private $accessTokenMapper;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var IActivityManager */
+	private $activityManager;
+	/** @var ILogger */
+	private $logger;
 
 	const stateName = 'client.flow.state.token';
 
@@ -84,6 +92,8 @@ class ClientFlowLoginController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
+	 * @param IActivityManager $activityManager
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -96,7 +106,9 @@ class ClientFlowLoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								IActivityManager $activityManager,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -108,6 +120,8 @@ class ClientFlowLoginController extends Controller {
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->crypto = $crypto;
+		$this->activityManager = $activityManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -322,6 +336,21 @@ class ClientFlowLoginController extends Controller {
 
 			// Clear the token from the login here
 			$this->tokenProvider->invalidateToken($sessionId);
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('security')
+			->setAffectedUser($uid)
+			->setAuthor($uid)
+			->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $generatedToken->getName()])
+			->setObject('app_token', $generatedToken->getId(), 'App Password');
+
+		try {
+			$this->activityManager->publish($event);
+		} catch (BadMethodCallException $e) {
+			$this->logger->warning('could not publish activity');
+			$this->logger->logException($e);
 		}
 
 		return new Http\RedirectResponse($redirectUri);
