@@ -53,6 +53,7 @@
     "Please login with the new password" : "Prisijunkite su nauju slaptažodžiu",
     "Your password will expire tomorrow." : "Jūsų slaptažodžio galiojimo laikas pasibaigs rytoj.",
     "Your password will expire today." : "Jūsų slaptažodžio galiojimo laikas baigiasi šiandien.",
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Jūsų slaptažodis nustos galioti po %n dienos.","Jūsų slaptažodis nustos galioti po %n dienų.","Jūsų slaptažodis nustos galioti po %n dienų.","Jūsų slaptažodis nustos galioti po %n dienos."],
     "LDAP / AD integration" : "LDAP / AD integracija",
     "_%s group found_::_%s groups found_" : ["Rasta %s grupė","Rastos %s grupės","Rastos %s grupės","Rastos %s grupės"],
     "_%s user found_::_%s users found_" : ["Rastas %s naudotojas","Rasti %s naudotojai","Rasta %s naudotojų","Rasta %s naudotojų"],
