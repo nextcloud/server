@@ -6,9 +6,9 @@
   "license": "AGPL3",
   "private": true,
   "scripts": {
-    "dev": "webpack --config webpack.dev.js",
-    "watch": "webpack --progress --watch --config webpack.dev.js",
-    "build": "webpack --progress --hide-modules --config webpack.prod.js"
+    "dev": "NODE_ENV=development webpack --config webpack.dev.js",
+    "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
+    "build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.prod.js"
   },
   "dependencies": {
     "dompurify": "^1.0.9",
