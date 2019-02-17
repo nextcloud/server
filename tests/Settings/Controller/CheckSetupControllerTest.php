@@ -310,19 +310,21 @@ class CheckSetupControllerTest extends TestCase {
 	 * @dataProvider dataForwardedForHeadersWorking
 	 *
 	 * @param array $trustedProxies
-	 * @param string $remoteAddrNoForwarded
+	 * @param string $remoteAddrNotForwarded
 	 * @param string $remoteAddr
 	 * @param bool $result
 	 */
-	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNoForwarded, string $remoteAddr, bool $result) {
+	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result) {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
 			->willReturn($trustedProxies);
-		$this->request->expects($this->once())
+		$this->request->expects($this->atLeastOnce())
 			->method('getHeader')
-			->with('REMOTE_ADDR')
-			->willReturn($remoteAddrNoForwarded);
+			->willReturnMap([
+				['REMOTE_ADDR', $remoteAddrNotForwarded],
+				['X-Forwarded-Host', '']
+			]);
 		$this->request->expects($this->any())
 			->method('getRemoteAddress')
 			->willReturn($remoteAddr);
@@ -341,6 +343,27 @@ class CheckSetupControllerTest extends TestCase {
 			'trusted proxy, remote addr is trusted proxy, x-forwarded-for working' => [['1.1.1.1'], '1.1.1.1', '2.2.2.2', true],
 			'trusted proxy, remote addr is trusted proxy, x-forwarded-for not set' => [['1.1.1.1'], '1.1.1.1', '1.1.1.1', false],
 		];
+	}
+
+	public function testForwardedHostPresentButTrustedProxiesEmpty() {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies', [])
+			->willReturn([]);
+		$this->request->expects($this->atLeastOnce())
+			->method('getHeader')
+			->willReturnMap([
+				['REMOTE_ADDR', '1.1.1.1'],
+				['X-Forwarded-Host', 'nextcloud.test']
+			]);
+		$this->request->expects($this->any())
+			->method('getRemoteAddress')
+			->willReturn('1.1.1.1');
+
+		$this->assertEquals(
+			false,
+			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
+		);
 	}
 
 	public function testCheck() {
@@ -365,10 +388,12 @@ class CheckSetupControllerTest extends TestCase {
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
 
-		$this->request->expects($this->once())
+		$this->request->expects($this->atLeastOnce())
 			->method('getHeader')
-			->with('REMOTE_ADDR')
-			->willReturn('4.3.2.1');
+			->willReturnMap([
+				['REMOTE_ADDR', '4.3.2.1'],
+				['X-Forwarded-Host', '']
+			]);
 
 		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
 			->disableOriginalConstructor()->getMock();
