@@ -1,8 +1,8 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Kan niet schrijven naar de \"config\" directory",
+    "Cannot write into \"config\" directory!" : "Kan niet schrijven naar de \"config\" directory!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dit kan opgelost worden door de config map op de webserver schrijfrechten te geven",
     "See %s" : "Zie %s",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Of, als je liever config.php allees-lezen witl houden, stel de optie \"config_is_read_only\" in op true.",
+    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Of, als je liever config.php alleen-lezen wilt houden, stel de optie \"config_is_read_only\" in op true.",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dit kan opgelost worden door de config map op de webserver schrijf rechten te geven. See %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Of, als je liever config.php Alleen-lezen houdt, stel de optie  \"config_is_read_only\" in op true. Zie %s",
     "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "De bestanden van de app %$1s zijn niet correct vervangen. Zorg ervoor dat de app versie compatibel is met de server.",
@@ -74,6 +74,7 @@
     "Basic settings" : "Basis-instellingen",
     "Sharing" : "Delen",
     "Security" : "Beveiliging",
+    "Theming" : "Stijlen",
     "Groupware" : "Groupware",
     "Additional settings" : "Aanvullende instellingen",
     "Personal info" : "Persoonlijke informatie",
