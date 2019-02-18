@@ -33,7 +33,7 @@ OC.L10N.register(
     "{actor} created todo {todo} in list {calendar}" : "{actor} vytvořil(a) v seznamu {calendar} vytvořila úkol {todo}",
     "You created todo {todo} in list {calendar}" : "V seznamu {calendar} jste vytvořil(a) úkol {todo}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} smazal(a) úkol {todo} ze seznamu {calendar}",
-    "You deleted todo {todo} from list {calendar}" : "Ze seznamu {todo} jste smazal(a) úkol {todo}",
+    "You deleted todo {todo} from list {calendar}" : "Ze seznamu {calendar} jste smazal(a) úkol {todo}",
     "{actor} updated todo {todo} in list {calendar}" : "{actor} aktualizoval(a) úkol {todo} v seznamu {calendar}",
     "You updated todo {todo} in list {calendar}" : "Aktualizoval(a) jste úkol {todo} v seznamu {calendar}",
     "{actor} solved todo {todo} in list {calendar}" : "{actor} vyřešil(a) úkol {todo} v seznamu {calendar}",
