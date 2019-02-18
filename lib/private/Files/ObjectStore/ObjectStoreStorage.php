@@ -26,9 +26,9 @@
 namespace OC\Files\ObjectStore;
 
 use Icewind\Streams\CallbackWrapper;
+use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
-use OC\Files\Stream\CountReadStream;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 
@@ -443,7 +443,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		try {
 			//upload to object storage
 			if ($size === null) {
-				$countStream = CountReadStream::wrap($stream, function ($writtenSize) use ($fileId, &$size) {
+				$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, &$size) {
 					$this->getCache()->update($fileId, [
 						'size' => $writtenSize
 					]);
