@@ -12,10 +12,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          hotReload: false
-        }
+        loader: 'vue-loader'
       },
       {
         test: /\.css$/,

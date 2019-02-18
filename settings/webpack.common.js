@@ -32,10 +32,7 @@ module.exports = {
 			},
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					hotReload: false // disables Hot Reload
-				}
+				loader: 'vue-loader'
 			},
 			{
 				test: /\.js$/,
