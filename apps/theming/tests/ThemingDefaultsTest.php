@@ -41,6 +41,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
@@ -67,6 +68,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $appManager;
 	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $imageManager;
+	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $navigationManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -78,6 +81,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->util = $this->createMock(Util::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->defaults = new \OC_Defaults();
 		$this->urlGenerator
 			->expects($this->any())
@@ -90,7 +94,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->cacheFactory,
 			$this->util,
 			$this->imageManager,
-			$this->appManager
+			$this->appManager,
+			$this->navigationManager
 		);
 	}
 
@@ -266,6 +271,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetShortFooterEmptyUrl() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -281,6 +287,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetShortFooterEmptySlogan() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -296,6 +303,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetShortFooterImprint() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -316,6 +324,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetShortFooterPrivacy() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -336,6 +345,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetShortFooterAllLegalLinks() {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -367,6 +377,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @dataProvider invalidLegalUrlProvider
 	 */
 	public function testGetShortFooterInvalidImprint($invalidImprintUrl) {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -386,6 +397,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @dataProvider invalidLegalUrlProvider
 	 */
 	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl) {
+		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')

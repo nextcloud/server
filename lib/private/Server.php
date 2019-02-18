@@ -964,7 +964,8 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getMemCacheFactory(),
 					new Util($c->getConfig(), $this->getAppManager(), $c->getAppDataDir('theming')),
 					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator(), $this->getMemCacheFactory(), $this->getLogger()),
-					$c->getAppManager()
+					$c->getAppManager(),
+					$c->getNavigationManager()
 				);
 			}
 			return new \OC_Defaults();
