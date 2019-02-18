@@ -24,20 +24,18 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use BadMethodCallException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Settings\Activity\Provider;
-use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
 
@@ -50,14 +48,11 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/** @var IProvider */
 	private $tokenProvider;
 
-	/** @var IActivityManager */
-	private $activityManager;
-
-	/** @var ILogger */
-	private $logger;
-
 	/** @var IStore */
 	private $credentialStore;
+
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -65,16 +60,14 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 								ISecureRandom $random,
 								IProvider $tokenProvider,
 								IStore $credentialStore,
-								IActivityManager $activityManager,
-								ILogger $logger) {
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
 		$this->random = $random;
 		$this->tokenProvider = $tokenProvider;
 		$this->credentialStore = $credentialStore;
-		$this->activityManager = $activityManager;
-		$this->logger = $logger;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -115,20 +108,8 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			IToken::DO_NOT_REMEMBER
 		);
 
-		$event = $this->activityManager->generateEvent();
-		$event->setApp('settings')
-			->setType('security')
-			->setAffectedUser($credentials->getUID())
-			->setAuthor($credentials->getUID())
-			->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $generatedToken->getName()])
-			->setObject('app_token', $generatedToken->getId(), 'App Password');
-
-		try {
-			$this->activityManager->publish($event);
-		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity');
-			$this->logger->logException($e);
-		}
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
 
 		return new DataResponse([
 			'apppassword' => $token
