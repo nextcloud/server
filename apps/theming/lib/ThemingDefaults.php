@@ -39,6 +39,7 @@ use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 
 class ThemingDefaults extends \OC_Defaults {
@@ -57,6 +58,9 @@ class ThemingDefaults extends \OC_Defaults {
 	private $util;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var INavigationManager */
+	private $navigationManager;
+
 	/** @var string */
 	private $name;
 	/** @var string */
@@ -94,7 +98,8 @@ class ThemingDefaults extends \OC_Defaults {
 								ICacheFactory $cacheFactory,
 								Util $util,
 								ImageManager $imageManager,
-								IAppManager $appManager
+								IAppManager $appManager,
+								INavigationManager $navigationManager
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -104,6 +109,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
 		$this->appManager = $appManager;
+		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
@@ -169,6 +175,15 @@ class ThemingDefaults extends \OC_Defaults {
 				'url' => (string)$this->getPrivacyUrl()
 			],
 		];
+
+		$navigation = $this->navigationManager->getAll(INavigationManager::TYPE_GUEST);
+		$guestNavigation = array_map(function($nav) {
+			return [
+				'text' => $nav['name'],
+				'url' => $nav['href']
+			];
+		}, $navigation);
+		$links = array_merge($links, $guestNavigation);
 
 		$legalLinks = ''; $divider = '';
 		foreach($links as $link) {
