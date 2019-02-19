@@ -91,6 +91,46 @@
 			return deferred.promise();
 		},
 
+
+		/**
+		 * Check whether the .well-known URLs works.
+		 *
+		 * @param url the URL to test
+		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
+		 *
+		 * @return $.Deferred object resolved with an array of error messages
+		 */
+		checkProviderUrl: function(url, placeholderUrl, runCheck) {
+			var expectedStatus = [200];
+			var deferred = $.Deferred();
+
+			if(runCheck === false) {
+				deferred.resolve([]);
+				return deferred.promise();
+			}
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (expectedStatus.indexOf(xhr.status) === -1) {
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
+					messages.push({
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'GET',
+				url: url,
+				complete: afterCall,
+				allowAuthErrors: true
+			});
+			return deferred.promise();
+		},
+
+
 		/**
 		 * Check whether the WOFF2 URLs works.
 		 *
