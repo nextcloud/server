@@ -21,12 +21,27 @@
 
 namespace OCP\Files\Cache;
 
-use OC\Files\Cache\AbstractCacheEvent;
+use OCP\Files\Storage\IStorage;
 
 /**
- * Event for when a new entry gets added to the cache
- *
  * @since 16.0.0
  */
-class CacheInsertEvent extends AbstractCacheEvent {
+interface ICacheEvent {
+	/**
+	 * @return IStorage
+	 * @since 16.0.0
+	 */
+	public function getStorage(): IStorage;
+
+	/**
+	 * @return string
+	 * @since 16.0.0
+	 */
+	public function getPath(): string;
+
+	/**
+	 * @return int
+	 * @since 16.0.0
+	 */
+	public function getFileId(): int;
 }

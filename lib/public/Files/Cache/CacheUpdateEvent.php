@@ -24,9 +24,9 @@ namespace OCP\Files\Cache;
 use OC\Files\Cache\AbstractCacheEvent;
 
 /**
- * Event for when a new entry gets added to the cache
+ * Event for when an existing entry in the cache gets updated
  *
  * @since 16.0.0
  */
-class CacheInsertEvent extends AbstractCacheEvent {
+class CacheUpdateEvent extends AbstractCacheEvent {
 }

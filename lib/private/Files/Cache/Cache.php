@@ -41,6 +41,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Doctrine\DBAL\Driver\Statement;
 use OCP\Files\Cache\CacheInsertEvent;
+use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use \OCP\Files\IMimeTypeLoader;
@@ -230,7 +231,7 @@ class Cache implements ICache {
 	 */
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
-			$this->update($id, $data);
+			$this->update($id, $data, $file);
 			return $id;
 		} else {
 			return $this->insert($file, $data);
@@ -337,6 +338,11 @@ class Cache implements ICache {
 			') AND `fileid` = ? ';
 		$this->connection->executeQuery($sql, $params);
 
+		$path = $this->getPathById($id);
+		// path can still be null if the file doesn't exist
+		if ($path !== null) {
+			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $path, $id));
+		}
 	}
 
 	/**
