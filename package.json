@@ -26,7 +26,7 @@
     "autosize": "^4.0.2",
     "backbone": "^1.3.3",
     "blueimp-md5": "^2.10.0",
-    "bootstrap": "^3.4.0",
+    "bootstrap": "^3.4.1",
     "clipboard": "^2.0.4",
     "css-vars-ponyfill": "^1.16.4",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.1.3",
