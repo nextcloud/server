@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\External;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\Files_Sharing\ISharedStorage;
@@ -279,6 +280,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		} catch (ConnectException $e) {
 			$returnValue = false;
 		} catch (ClientException $e) {
+			$returnValue = false;
+		} catch (RequestException $e) {
 			$returnValue = false;
 		}
 
