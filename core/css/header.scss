@@ -572,11 +572,6 @@ nav[role='navigation'] {
 	li a:focus::before {
 		z-index: 101;
 	}
-	&.menu-open li:hover a::before,
-	&.menu-open li a.active::before,
-	&.menu-open li:hover span {
-		display: none !important;
-	}
 
 	li.hidden {
 		display: none;
