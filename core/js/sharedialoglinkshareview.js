@@ -54,7 +54,7 @@
 			// hide download
 			'change .hideDownloadCheckbox': 'onHideDownloadChange',
 			// password
-			'click input.share-pass-submit': 'onPasswordEntered', 
+			'click input.share-pass-submit': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp', // check for the enter key
 			'change .showPasswordCheckbox': 'onShowPasswordClick',
 			'change .passwordByTalkCheckbox': 'onPasswordByTalkChange',
@@ -110,7 +110,7 @@
 				// changes; other changes in the link shares does not trigger
 				// a rendering, so the view must be rendered again as needed in
 				// those cases (for example, when a link share is removed).
-				
+
 				var previousLinkShares = model.previous('linkShares');
 				if (previousLinkShares.length !== linkShares.length) {
 					return;
@@ -211,6 +211,8 @@
 
 			var isPasswordEnforced = this.configModel.get('enforcePasswordForPublicLink');
 			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
+			var isPasswordEnabledByDefault = this.configModel.get('enableLinkPasswordByDefault') === true;
+
 
 			// set default expire date
 			if (isExpirationEnforced) {
@@ -240,7 +242,7 @@
 						self.render();
 						// open the menu by default
 						// we can only do that after the render
-						if (newShareId) {
+						if (newShareId && isPasswordEnabledByDefault) {
 							var shares = self.$el.find('li[data-share-id]');
 							var $newShare = self.$el.find('li[data-share-id="'+newShareId+'"]');
 							// only open the menu by default if this is the first share
