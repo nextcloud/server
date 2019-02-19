@@ -3431,15 +3431,15 @@ class ManagerTest extends \Test\TestCase {
 		$extraProvider = $this->createMock(IShareProvider::class);
 		$factory->setSecondProvider($extraProvider);
 
-		$owner = $this->createMock(IUser::class);
-		$owner->expects($this->once())
+		$nodeOwner = $this->createMock(IUser::class);
+		$nodeOwner->expects($this->once())
 			->method('getUID')
-			->willReturn('owner');
+			->willReturn('user1');
 
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getOwner')
-			->willReturn($owner);
+			->willReturn($nodeOwner);
 		$node->method('getId')
 			->willReturn(42);
 
@@ -3447,10 +3447,17 @@ class ManagerTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$folder = $this->createMock(Folder::class);
 
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
+
 		$file->method('getParent')
 			->willReturn($folder);
 		$file->method('getPath')
 			->willReturn('/owner/files/folder/file');
+		$file->method('getOwner')
+			->willReturn($owner);
 		$file->method('getId')
 			->willReturn(23);
 		$folder->method('getParent')
@@ -3459,12 +3466,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('/owner/files/folder');
 		$userFolder->method('getById')
 			->with($this->equalTo(42))
-			->willReturn([$file]);
+			->willReturn([12 => $file]);
 		$userFolder->method('getPath')
-			->willReturn('/owner/files');
+			->willReturn('/user1/files');
 
 		$this->userManager->method('userExists')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn(true);
 
 		$this->defaultProvider->method('getAccessList')
@@ -3498,7 +3505,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn($userFolder);
 
 		$expected = [
@@ -3540,26 +3547,33 @@ class ManagerTest extends \Test\TestCase {
 		$extraProvider = $this->createMock(IShareProvider::class);
 		$factory->setSecondProvider($extraProvider);
 
-		$owner = $this->createMock(IUser::class);
-		$owner->expects($this->once())
+		$nodeOwner = $this->createMock(IUser::class);
+		$nodeOwner->expects($this->once())
 			->method('getUID')
-			->willReturn('owner');
+			->willReturn('user1');
 
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getOwner')
-			->willReturn($owner);
+			->willReturn($nodeOwner);
 		$node->method('getId')
 			->willReturn(42);
 
 		$userFolder = $this->createMock(Folder::class);
 		$file = $this->createMock(File::class);
+
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
 		$folder = $this->createMock(Folder::class);
 
 		$file->method('getParent')
 			->willReturn($folder);
 		$file->method('getPath')
 			->willReturn('/owner/files/folder/file');
+		$file->method('getOwner')
+			->willReturn($owner);
 		$file->method('getId')
 			->willReturn(23);
 		$folder->method('getParent')
@@ -3568,12 +3582,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('/owner/files/folder');
 		$userFolder->method('getById')
 			->with($this->equalTo(42))
-			->willReturn([$file]);
+			->willReturn([42 => $file]);
 		$userFolder->method('getPath')
-			->willReturn('/owner/files');
+			->willReturn('/user1/files');
 
 		$this->userManager->method('userExists')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn(true);
 
 		$this->defaultProvider->method('getAccessList')
@@ -3609,7 +3623,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn($userFolder);
 
 		$expected = [

@@ -1419,10 +1419,12 @@ class Manager implements IManager {
 			return $al;
 		}
 
-		//Get node for the owner
+		//Get node for the owner and correct the owner in case of external storages
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
-			$path = $userFolder->getById($path->getId())[0];
+			$nodes = $userFolder->getById($path->getId());
+			$path = array_shift($nodes);
+			$owner = $path->getOwner()->getUID();
 		}
 
 		$providers = $this->factory->getAllProviders();
