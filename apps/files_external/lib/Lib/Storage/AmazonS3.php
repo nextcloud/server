@@ -309,7 +309,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 						$files[] = $file;
 
 						// store this information for later usage
-						$this->filesCache[$file] = [
+						$this->filesCache[$path . $file] = [
 							'ContentLength' => $object['Size'],
 							'LastModified' => (string)$object['LastModified'],
 						];
@@ -408,7 +408,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			if ($this->headObject($path)) {
+			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
 				return 'file';
 			}
 			if ($this->headObject($path . '/')) {
