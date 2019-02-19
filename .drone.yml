@@ -17,7 +17,7 @@ pipeline:
   webpack-build:
     image: nextcloudci/node:node-4
     commands:
-      - npm install
+      - npm ci
       - npm run build
       - git status
       - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
