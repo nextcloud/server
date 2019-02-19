@@ -46,6 +46,8 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ClientFlowLoginController extends Controller {
 	/** @var IUserSession */
@@ -68,6 +70,8 @@ class ClientFlowLoginController extends Controller {
 	private $accessTokenMapper;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	const stateName = 'client.flow.state.token';
 
@@ -84,6 +88,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -96,7 +101,8 @@ class ClientFlowLoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -108,6 +114,7 @@ class ClientFlowLoginController extends Controller {
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->crypto = $crypto;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -323,6 +330,9 @@ class ClientFlowLoginController extends Controller {
 			// Clear the token from the login here
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
+
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
 
 		return new Http\RedirectResponse($redirectUri);
 	}

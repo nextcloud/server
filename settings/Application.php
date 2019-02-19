@@ -28,8 +28,10 @@
 
 namespace OC\Settings;
 
+use BadMethodCallException;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\IToken;
 use OC\Server;
 use OC\Settings\Activity\Provider;
 use OC\Settings\Activity\SecurityFilter;
@@ -38,11 +40,15 @@ use OC\Settings\Activity\SecuritySetting;
 use OC\Settings\Activity\Setting;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OC\Settings\Middleware\SubadminMiddleware;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\Defaults;
 use OCP\IContainer;
+use OCP\ILogger;
 use OCP\Settings\IManager;
 use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @package OC\Settings
@@ -108,6 +114,31 @@ class Application extends App {
 				$server->getCrypto(),
 				Util::getDefaultEmailAddress('no-reply')
 			);
+		});
+
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $container->getServer()->getEventDispatcher();
+		$eventDispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
+			if (($token = $event->getSubject()) instanceof IToken) {
+				/** @var IActivityManager $activityManager */
+				$activityManager = $container->query(IActivityManager::class);
+				/** @var ILogger $logger */
+				$logger = $container->query(ILogger::class);
+
+				$activity = $activityManager->generateEvent();
+				$activity->setApp('settings')
+					->setType('security')
+					->setAffectedUser($token->getUID())
+					->setAuthor($token->getUID())
+					->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
+					->setObject('app_token', $token->getId());
+
+				try {
+					$activityManager->publish($activity);
+				} catch (BadMethodCallException $e) {
+					$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
+				}
+			}
 		});
 	}
 
