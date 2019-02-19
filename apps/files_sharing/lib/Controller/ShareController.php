@@ -433,6 +433,7 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filemultiselectmenu');
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
+			\OCP\Util::addScript('files', 'operationprogressbar');
 		}
 
 		// OpenGraph Support: http://ogp.me/
