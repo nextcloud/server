@@ -149,7 +149,7 @@ class Enable extends Command implements CompletionAwareInterface {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
 				return $group->getGID();
-			}, \OC::$server->getGroupManager()->search($context->getCurrentWord()));
+			}, $this->groupManager->search($context->getCurrentWord()));
 		}
 		return [];
 	}
