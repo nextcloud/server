@@ -445,6 +445,15 @@ pipeline:
     when:
       matrix:
         TESTS: integration-comments
+  integration-comments-ocs-search:
+    image: nextcloudci/integration-php7.1:1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh features/comments-ocs-search.feature
+    when:
+      matrix:
+        TESTS: integration-comments-ocs-search
   integration-comments-search:
     image: nextcloudci/integration-php7.1:1
     commands:
@@ -845,6 +854,7 @@ matrix:
     - TESTS: integration-tags
     - TESTS: integration-caldav
     - TESTS: integration-comments
+    - TESTS: integration-comments-ocs-search
     - TESTS: integration-comments-search
     - TESTS: integration-favorites
     - TESTS: integration-provisioning-v2
