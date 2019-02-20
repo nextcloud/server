@@ -181,8 +181,12 @@ class File extends Node implements IFile {
 
 				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
 				$result = $count > 0;
+
 				if ($result === false) {
 					$result = $isEOF;
+					if (is_resource($wrappedData)) {
+						$result = feof($wrappedData);
+					}
 				}
 
 			} else {
