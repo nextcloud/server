@@ -131,6 +131,8 @@ class LoginController extends Controller {
 		$this->userSession->logout();
 
 		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		$this->session->set('clearingExecutionContexts', '1');
+		$this->session->close();
 		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 		return $response;
 	}
@@ -146,7 +148,6 @@ class LoginController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
-
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}

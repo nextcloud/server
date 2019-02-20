@@ -279,6 +279,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$middleWares = &$this->middleWares;
 		$this->registerService('MiddlewareDispatcher', function(SimpleContainer $c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
+			$dispatcher->registerMiddleware($c->query(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class));
 			$dispatcher->registerMiddleware($c[OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class]);
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
 			$dispatcher->registerMiddleware($c['OCSMiddleware']);
