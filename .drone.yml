@@ -24,13 +24,6 @@ pipeline:
     when:
       matrix:
         TESTS: webpack-build
-  vue-build-backupcodes:
-    image: node
-    commands:
-      - ./build/vue-builds.sh ./apps/twofactor_backupcodes/js/settings.js
-    when:
-      matrix:
-        TESTS: vue-build-backupscodes
   checkers:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -779,7 +772,6 @@ matrix:
   include:
     - TESTS: checkers
     - TESTS: webpack-build
-    - TESTS: vue-build-backupcodes
     - TESTS: handlebars
     - TESTS: nodb-codecov
       ENABLE_REDIS: true
