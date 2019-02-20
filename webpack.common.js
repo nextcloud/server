@@ -7,6 +7,7 @@ const files_trashbin = require('./apps/files_trashbin/webpack')
 const files_versions = require('./apps/files_versions/webpack')
 const oauth2 = require('./apps/oauth2/webpack')
 const systemtags = require('./apps/systemtags/webpack')
+const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
 const updatenotifications = require('./apps/updatenotification/webpack')
 
 module.exports = [].concat(
@@ -18,5 +19,6 @@ module.exports = [].concat(
 	files_versions,
 	oauth2,
 	systemtags,
+	twofactor_backupscodes,
 	updatenotifications
 );
