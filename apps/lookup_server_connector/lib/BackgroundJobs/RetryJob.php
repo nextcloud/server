@@ -36,8 +36,8 @@ class RetryJob extends Job {
 	private $jobList;
 	/** @var string */
 	private $lookupServer;
-	/** @var int how much time should be between two tries (10 minutes) */
-	private $interval = 600;
+	/** @var int how much time should be between two, will be increased for each retry */
+	private $interval = 100;
 
 	/**
 	 * @param IClientService $clientService
@@ -108,7 +108,9 @@ class RetryJob extends Job {
 	 * @return bool
 	 */
 	protected function shouldRun($argument) {
-		return !isset($argument['lastRun']) || ((time() - $argument['lastRun']) > $this->interval);
+		$retryNo = (int)$argument['retryNo'];
+		$delay = $this->interval * 6 ** $retryNo;
+		return !isset($argument['lastRun']) || ((time() - $argument['lastRun']) > $delay);
 	}
 
 	/**
