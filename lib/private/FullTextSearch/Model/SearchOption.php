@@ -28,26 +28,21 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\FullTextSearch\Model;
+namespace OC\FullTextSearch\Model;
 
 
 use JsonSerializable;
+use OCP\FullTextSearch\Model\ISearchOption;
 
 
 /**
  * @since 15.0.0
  *
- * Class SearchOption
+ * Class ISearchOption
  *
- * @package OCP\FullTextSearch\Model
+ * @package OC\FullTextSearch\Model
  */
-final class SearchOption implements JsonSerializable {
-
-
-	const CHECKBOX = 'checkbox';
-	const INPUT = 'input';
-
-	const INPUT_SMALL = 'small';
+final class SearchOption implements ISearchOption, JsonSerializable {
 
 
 	/** @var string */
@@ -116,7 +111,7 @@ final class SearchOption implements JsonSerializable {
 	 */
 
 	/**
-	 * SearchOption constructor.
+	 * ISearchOption constructor.
 	 *
 	 * Some value can be setduring the creation of the object.
 	 *
@@ -148,9 +143,9 @@ final class SearchOption implements JsonSerializable {
 	 *
 	 * @param string $name
 	 *
-	 * @return SearchOption
+	 * @return ISearchOption
 	 */
-	public function setName(string $name): SearchOption {
+	public function setName(string $name): ISearchOption {
 		$this->name = $name;
 
 		return $this;
@@ -175,9 +170,9 @@ final class SearchOption implements JsonSerializable {
 	 *
 	 * @param string $title
 	 *
-	 * @return SearchOption
+	 * @return ISearchOption
 	 */
-	public function setTitle(string $title): SearchOption {
+	public function setTitle(string $title): ISearchOption {
 		$this->title = $title;
 
 		return $this;
@@ -197,15 +192,15 @@ final class SearchOption implements JsonSerializable {
 
 	/**
 	 * Set the type of the option.
-	 * $type can be SearchOption::CHECKBOX or SearchOption::INPUT
+	 * $type can be ISearchOption::CHECKBOX or ISearchOption::INPUT
 	 *
 	 * @since 15.0.0
 	 *
 	 * @param string $type
 	 *
-	 * @return SearchOption
+	 * @return ISearchOption
 	 */
-	public function setType(string $type): SearchOption {
+	public function setType(string $type): ISearchOption {
 		$this->type = $type;
 
 		return $this;
@@ -225,15 +220,15 @@ final class SearchOption implements JsonSerializable {
 
 	/**
 	 * In case of Type is INPUT, set the size of the input field.
-	 * Value can be SearchOption::INPUT_SMALL or not defined.
+	 * Value can be ISearchOption::INPUT_SMALL or not defined.
 	 *
 	 * @since 15.0.0
 	 *
 	 * @param string $size
 	 *
-	 * @return SearchOption
+	 * @return ISearchOption
 	 */
-	public function setSize(string $size): SearchOption {
+	public function setSize(string $size): ISearchOption {
 		$this->size = $size;
 
 		return $this;
@@ -259,9 +254,9 @@ final class SearchOption implements JsonSerializable {
 	 *
 	 * @param string $placeholder
 	 *
-	 * @return SearchOption
+	 * @return ISearchOption
 	 */
-	public function setPlaceholder(string $placeholder): SearchOption {
+	public function setPlaceholder(string $placeholder): ISearchOption {
 		$this->placeholder = $placeholder;
 
 		return $this;

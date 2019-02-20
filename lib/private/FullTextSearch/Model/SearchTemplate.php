@@ -28,15 +28,17 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\FullTextSearch\Model;
+namespace OC\FullTextSearch\Model;
 
 
 use JsonSerializable;
 use OCP\FullTextSearch\IFullTextSearchProvider;
+use OCP\FullTextSearch\Model\ISearchOption;
+use OCP\FullTextSearch\Model\ISearchTemplate;
 
 
 /**
- * Class SearchTemplate
+ * Class ISearchTemplate
  *
  * This is a data transfer object that should be created by Content Provider
  * when the getSearchTemplate() method is called.
@@ -58,9 +60,9 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  *
  * @since 15.0.0
  *
- * @package OCP\FullTextSearch\Model
+ * @package OC\FullTextSearch\Model
  */
-final class SearchTemplate implements JsonSerializable {
+final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 
 
 	/** @var string */
@@ -80,7 +82,7 @@ final class SearchTemplate implements JsonSerializable {
 
 
 	/**
-	 * SearchTemplate constructor.
+	 * ISearchTemplate constructor.
 	 *
 	 * the class of the icon and the css file to be loaded can be set during the
 	 * creation of the object.
@@ -104,9 +106,9 @@ final class SearchTemplate implements JsonSerializable {
 	 *
 	 * @param string $class
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function setIcon(string $class): SearchTemplate {
+	public function setIcon(string $class): ISearchTemplate {
 		$this->icon = $class;
 
 		return $this;
@@ -131,9 +133,9 @@ final class SearchTemplate implements JsonSerializable {
 	 *
 	 * @param string $css
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function setCss(string $css): SearchTemplate {
+	public function setCss(string $css): ISearchTemplate {
 		$this->css = $css;
 
 		return $this;
@@ -161,9 +163,9 @@ final class SearchTemplate implements JsonSerializable {
 	 *
 	 * @param string $template
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function setTemplate(string $template): SearchTemplate {
+	public function setTemplate(string $template): ISearchTemplate {
 		$this->template = $template;
 
 		return $this;
@@ -185,15 +187,15 @@ final class SearchTemplate implements JsonSerializable {
 	 * Add an option in the Panel that is displayed when the user start a search
 	 * within the app that generate the content.
 	 *
-	 * @see SearchOption
+	 * @see ISearchOption
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param SearchOption $option
+	 * @param ISearchOption $option
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function addPanelOption(SearchOption $option): SearchTemplate {
+	public function addPanelOption(ISearchOption $option): ISearchTemplate {
 		$this->panelOptions[] = $option;
 
 		return $this;
@@ -214,15 +216,15 @@ final class SearchTemplate implements JsonSerializable {
 	/**
 	 * Add an option in the left panel of the FullTextSearch navigation page.
 	 *
-	 * @see SearchOption
+	 * @see ISearchOption
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param SearchOption $option
+	 * @param ISearchOption $option
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function addNavigationOption(SearchOption $option): SearchTemplate {
+	public function addNavigationOption(ISearchOption $option): ISearchTemplate {
 		$this->navigationOptions[] = $option;
 
 		return $this;
