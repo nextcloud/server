@@ -83,7 +83,7 @@
 					self.trigger('sharesChanged', shareModel);
 				});
 
-				import('./../src/collaborationresources').then((Resources) => {
+				import('./collaborationresources').then((Resources) => {
 					var vm = new Resources.Vue({
 						el: '#collaborationResources',
 						render: h => h(Resources.View),

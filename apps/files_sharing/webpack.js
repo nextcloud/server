@@ -1,26 +1,39 @@
 const path = require('path');
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
-	entry: path.join(__dirname, 'src', 'additionalScripts.js'),
+	entry: {
+		'additionalScripts': path.join(__dirname, 'src', 'additionalScripts.js'),
+		'files_sharing': path.join(__dirname, 'src', 'files_sharing.js'),
+},
 	output: {
-		path: path.resolve(__dirname, './js'),
+		path: path.resolve(__dirname, './js/dist/'),
 		publicPath: '/js/',
-		filename: 'additionalScripts.js'
+		filename: '[name].js',
+		chunkFilename: 'files_sharing.[id].js'
+
 	},
 	module: {
 		rules: [
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
+				use: ['vue-style-loader', 'css-loader']
 			},
 			{
 				test: /\.scss$/,
-				use: ['style-loader', 'css-loader', 'sass-loader']
+				use: ['vue-style-loader', 'css-loader', 'sass-loader']
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
 			},
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
-				exclude: /node_modules/
+				exclude: /node_modules/,
+				options: {
+					plugins: ['@babel/plugin-syntax-dynamic-import']
+				}
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,
@@ -31,7 +44,11 @@ module.exports = {
 			}
 		]
 	},
+	plugins: [new VueLoaderPlugin()],
 	resolve: {
-		extensions: ['*', '.js']
+		alias: {
+			vue$: 'vue/dist/vue.runtime.esm.js',
+		},
+		extensions: ['*', '.js', '.vue', '.json']
 	}
 };

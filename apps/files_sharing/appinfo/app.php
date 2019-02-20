@@ -42,7 +42,7 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
-		\OCP\Util::addScript('files_sharing', 'additionalScripts');
+		\OCP\Util::addScript('files_sharing', 'dist/additionalScripts');
 	}
 );
 
