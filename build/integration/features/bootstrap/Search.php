@@ -30,14 +30,6 @@ trait Search {
 	// trait.
 
 	/**
-	 * @When /^searching for "([^"]*)"$/
-	 * @param string $query
-	 */
-	public function searchingFor(string $query) {
-		$this->searchForInApp($query, '');
-	}
-
-	/**
 	 * @When /^searching for "([^"]*)" in app "([^"]*)"$/
 	 * @param string $query
 	 * @param string $app
