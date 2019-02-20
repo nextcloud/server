@@ -112,10 +112,10 @@
 			var afterCall = function(xhr) {
 				var messages = [];
 				if (expectedStatus.indexOf(xhr.status) === -1) {
-					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
 					messages.push({
-						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation page</a>. On Nginx those are typically the lines starting with "location ~" that need an update.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}
 				deferred.resolve(messages);
