@@ -451,21 +451,20 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
-		var scrollingArea = FileList.$container;
+		var scrollingArea = window;
 		var currentScrollTop = $(scrollingArea).scrollTop();
 		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
 
 		var bottom = $(window).innerHeight() - scrollArea;
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top) {
-			$('html, body').animate({
-
-				scrollTop: $(scrollingArea).scrollTop(currentScrollTop - 10)
+			$(scrollingArea).animate({
+				scrollTop: currentScrollTop - 10
 			}, 400);
 
 		} else if (event.pageY > bottom) {
-			$('html, body').animate({
-				scrollTop: $(scrollingArea).scrollTop(currentScrollTop + 10)
+			$(scrollingArea).animate({
+				scrollTop: currentScrollTop + 10
 			}, 400);
 		}
 
