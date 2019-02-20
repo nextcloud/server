@@ -444,6 +444,9 @@ td.avatar {
 			padding-right: 20px;
 		}
 	}
+	.type-error:before {
+		: '❗ ';
+	}
 }
 
 tr .action:not(.permanent), .selectedActions a {
