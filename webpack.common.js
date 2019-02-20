@@ -1,4 +1,6 @@
-const core = require('./core/webpack');
+const core = require('./core/webpack')
+const settings = require('./settings/webpack')
+
 const accessibility = require('./apps/accessibility/webpack')
 const files_sharing = require('./apps/files_sharing/webpack')
 const files_trashbin = require('./apps/files_trashbin/webpack')
@@ -9,6 +11,7 @@ const updatenotifications = require('./apps/updatenotification/webpack')
 
 module.exports = [].concat(
 	core,
+	settings,
 	accessibility,
 	files_sharing,
 	files_trashbin,
