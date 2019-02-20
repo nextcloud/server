@@ -250,12 +250,14 @@ $(document).ready(function(){
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, [200, 501]),
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+		OC.SetupChecks.checkProviderUrl('/ocm-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+		OC.SetupChecks.checkProviderUrl('/ocs-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric(),
 		OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), oc_defaults.docPlaceholderUrl),
 		OC.SetupChecks.checkDataProtected()
-	).then(function(check1, check2, check3, check4, check5, check6, check7, check8) {
-		var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8);
+	).then(function(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10) {
+		var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10);
 		var $el = $('#postsetupchecks');
 		$('#security-warning-state-loading').addClass('hidden');
 
