@@ -5,7 +5,7 @@ module.exports = {
 	entry: {
 		'additionalScripts': path.join(__dirname, 'src', 'additionalScripts.js'),
 		'files_sharing': path.join(__dirname, 'src', 'files_sharing.js'),
-},
+	},
 	output: {
 		path: path.resolve(__dirname, './js/dist/'),
 		publicPath: '/js/',
@@ -49,6 +49,9 @@ module.exports = {
 		alias: {
 			vue$: 'vue/dist/vue.runtime.esm.js',
 		},
-		extensions: ['*', '.js', '.vue', '.json']
-	}
+		extensions: ['*', '.js', '.vue', '.json'],
+		modules: [
+			path.join(__dirname, '../../node_modules')
+		]
+	},
 };

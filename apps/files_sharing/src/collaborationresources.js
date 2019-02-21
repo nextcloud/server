@@ -25,7 +25,10 @@ import Vuex from 'vuex';
 import { PopoverMenu } from 'nextcloud-vue';
 import ClickOutside from 'vue-click-outside';
 import { VTooltip } from 'v-tooltip';
-import { CollectionStore as Store } from './collectionstore';
+import { CollectionStoreModule } from 'nextcloud-vue-collections';
+
+const Store = () => new Vuex.Store(CollectionStoreModule);
+
 
 Vue.prototype.t = t;
 
