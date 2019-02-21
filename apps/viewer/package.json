@@ -1,0 +1,83 @@
+{
+  "name": "viewer",
+  "description": "Simple file viewer with slideshow for media",
+  "version": "1.0.0",
+  "author": "John Molakvoæ <skjnldsv@protonmail.com>",
+  "contributors": [
+    "John Molakvoæ <skjnldsv@protonmail.com>"
+  ],
+  "keywords": [
+    "nextcloud",
+    "files",
+    "viewer",
+    "slideshow",
+    "modal",
+    "gallery"
+  ],
+  "bugs": {
+    "url": "https://github.com/nextcloud/viewer/issues"
+  },
+  "repository": {
+    "url": "git+https://github.com/nextcloud/viewer.git",
+    "type": "git"
+  },
+  "homepage": "https://github.com/nextcloud/viewer",
+  "license": "agpl",
+  "private": true,
+  "scripts": {
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack --progress --watch --config webpack.dev.js",
+    "build": "webpack --progress --hide-modules --config webpack.prod.js",
+    "lint": "eslint --ext .js,.vue src",
+    "lint:fix": "eslint --ext .js,.vue src --fix",
+    "stylelint": "stylelint src",
+    "stylelint:fix": "stylelint src --fix"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "mime-types": "^2.1.22",
+    "nextcloud-server": "^0.15.9",
+    "nextcloud-vue": "^0.7.0",
+    "vue": "^2.6.6",
+    "vue-smooth-reflow": "^0.1.12",
+    "xml2js": "^0.4.19"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "eslint": "^5.14.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "file-loader": "^3.0.1",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "stylelint": "^8.4.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.5.3",
+    "stylelint-webpack-plugin": "^0.10.5",
+    "vue-loader": "^15.6.3",
+    "vue-template-compiler": "^2.6.6",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
