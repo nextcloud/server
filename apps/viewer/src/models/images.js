@@ -23,7 +23,7 @@
 import Images from 'Components/Images'
 
 export default {
-	name: 'Images',
+	id: 'images',
 	group: 'media',
 	mimes: [
 		'image/png',

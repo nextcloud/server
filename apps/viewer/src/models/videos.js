@@ -23,7 +23,7 @@
 import Videos from 'Components/Videos'
 
 export default {
-	name: 'Videos',
+	id: 'videos',
 	group: 'media',
 	mimes: [
 		'video/mpeg',

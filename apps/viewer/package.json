@@ -39,7 +39,6 @@
     "nextcloud-server": "^0.15.9",
     "nextcloud-vue": "^0.7.0",
     "vue": "^2.6.6",
-    "vue-smooth-reflow": "^0.1.12",
     "xml2js": "^0.4.19"
   },
   "browserslist": [

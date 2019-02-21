@@ -25,6 +25,7 @@
 		v-if="path"
 		:key="path"
 		autoplay
+		autobuffer
 		preload
 		:controls="visibleControls"
 		@canplay="doneLoading"

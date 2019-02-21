@@ -42,7 +42,6 @@
 <script>
 import Mime from 'mime-types'
 import Vue from 'vue'
-import smoothReflow from 'vue-smooth-reflow'
 
 import { Modal } from 'nextcloud-vue'
 
@@ -55,10 +54,6 @@ export default {
 		Modal
 	},
 
-	mixins: [
-		smoothReflow
-	],
-
 	data: () => ({
 		components: {},
 		currentIndex: 0,
@@ -68,28 +63,25 @@ export default {
 		mimeGroups: {},
 		handlers: OCA.Viewer.availableHandlers,
 		loading: true,
+		registeredHandlers: [],
 		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
 	}),
 
 	watch: {
 		// make sure any late external app can register handlers
 		handlers: function() {
-			this.registerHandlers()
+			this.registerHandler(this.handlers[this.handlers.length - 1])
 		}
 	},
 
 	beforeMount() {
 		// register on load
 		document.addEventListener('DOMContentLoaded', event => {
-			this.registerHandlers()
+			this.handlers.forEach(handler => {
+				this.registerHandler(handler)
+			})
 		})
 
-	},
-
-	mounted() {
-		this.$smoothReflow({
-			el: this.$refs.wrapper
-		})
 	},
 
 	methods: {
@@ -146,53 +138,71 @@ export default {
 
 		/**
 		 * Registering possible new handers
+		 *
+		 * @param {Object} handler the handler to register
+		 * @param {String} handler.id unique handler identifier
+		 * @param {Array} handler.mimes list of valid mimes compatible with the handler
+		 * @param {Object} handler.component a vuejs component to render when a file matching the mime list is opened
+		 * @param {String} [handler.group] a group name to be associated with for the slideshow
 		 */
-		registerHandlers() {
-			this.handlers.forEach(handler => {
+		registerHandler(handler) {
+			// checking if handler is not already registered
+			if (handler.id && this.registeredHandlers.indexOf(handler.id) > -1) {
+				console.error(`The following handler is already registered`, handler)
+				return
+			}
 
-				// checking valid handler mime data
-				if (!handler.mimes || !Array.isArray(handler.mimes)) {
-					console.error(`The following handler doesn't have proper mime data`, handler)
+			// checking valid handler id
+			if (!handler.id || handler.id.trim() === '' || typeof handler.id !== 'string') {
+				console.error(`The following handler doesn't have proper id`, handler)
+				return
+			}
+
+			// checking valid handler mime data
+			if (!handler.mimes || !Array.isArray(handler.mimes)) {
+				console.error(`The following handler doesn't have proper mime data`, handler)
+				return
+			}
+
+			// checking valid handler component data
+			if (!handler.component || typeof handler.component !== 'object') {
+				console.error(`The following handler doesn't have proper component`, handler)
+				return
+			}
+
+			handler.mimes.forEach(mime => {
+				// checking valid mime
+				if (this.components[mime]) {
+					console.error(`The following mime is already registered`, mime, handler)
 					return
 				}
 
-				// checking valid handler component data
-				if (!handler.component || typeof handler.component !== 'object') {
-					console.error(`The following handler doesn't have proper component`, handler)
-					return
-				}
-
-				handler.mimes.forEach(mime => {
-					// checking valid mime
-					if (this.components[mime]) {
-						console.error(`The following mime is already registered`, mime, handler)
-						return
-					}
-
-					// unregistered handler, let's go!
-					OCA.Files.fileActions.registerAction({
-						name: 'view',
-						displayName: t('viewer', 'View'),
-						mime: mime,
-						permissions: OC.PERMISSION_READ,
-						actionHandler: this.openFile
-					})
-					OCA.Files.fileActions.setDefault(mime, 'view')
-
-					// register groups
-					if (handler.group) {
-						this.mimeGroups[mime] = handler.group
-						// init if undefined
-						if (!this.mimeGroups[handler.group]) {
-							this.mimeGroups[handler.group] = []
-						}
-						this.mimeGroups[handler.group].push(mime)
-					}
-
-					// register mime's component
-					this.components[mime] = handler.component
-					Vue.component(handler.component.name, handler.component)
+				// unregistered handler, let's go!
+				OCA.Files.fileActions.registerAction({
+					name: 'view',
+					displayName: t('viewer', 'View'),
+					mime: mime,
+					permissions: OC.PERMISSION_READ,
+					actionHandler: this.openFile
 				})
+				OCA.Files.fileActions.setDefault(mime, 'view')
+
+				// register groups
+				if (handler.group) {
+					this.mimeGroups[mime] = handler.group
+					// init if undefined
+					if (!this.mimeGroups[handler.group]) {
+						this.mimeGroups[handler.group] = []
+					}
+					this.mimeGroups[handler.group].push(mime)
+				}
+
+				// set the handler as registered
+				this.registeredHandlers.push(handler.id)
+
+				// register mime's component
+				this.components[mime] = handler.component
+				Vue.component(handler.component.name, handler.component)
 			})
 		},
 
