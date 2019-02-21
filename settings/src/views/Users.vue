@@ -425,6 +425,10 @@ export default {
 			} else {
 				Vue.set(addGroup, 'action', function() {
 					self.showAddGroupEntry = true
+					// focus input
+					Vue.nextTick(() => {
+						window.addgroup.querySelector('form > input[type="text"]').focus()
+					})
 				})
 			}
 			groups.unshift(addGroup);
