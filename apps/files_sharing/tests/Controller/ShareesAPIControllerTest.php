@@ -236,12 +236,13 @@ class ShareesAPIControllerTest extends TestCase {
 
 		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->exactly(2))
+		$config->expects($this->exactly(3))
 			->method('getAppValue')
-			->with('core', $this->anything(), $this->anything())
+			->with($this->anything(), $this->anything(), $this->anything())
 			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', $apiSetting],
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', $enumSetting],
+				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
 			]);
 
 		$this->shareManager->expects($itemType === 'file' || $itemType === 'folder' ? $this->once() : $this->never())

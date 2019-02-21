@@ -92,6 +92,7 @@ class ShareesAPIController extends OCSController {
 		'lookup' => [],
 		'circles' => [],
 		'rooms' => [],
+		'lookupEnabled' => false,
 	];
 
 	protected $reachedEndFor = [];
@@ -212,6 +213,7 @@ class ShareesAPIController extends OCSController {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
 		$this->result = array_merge($this->result, $result);
+		$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		$response = new DataResponse($this->result);
 
 		if ($hasMoreResults) {
