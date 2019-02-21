@@ -1,4 +1,5 @@
-<fieldset id="ldapWizard3">
+<fieldset id="ldapWizard3" class="section">
+	<h2><?php p($l->t('Login attributes'));?></h2>
 	<div>
 		<p>
 			<?php p($l->t('When logging in, %s will find the user based on the following attributes:', [$theme->getName()]));?>

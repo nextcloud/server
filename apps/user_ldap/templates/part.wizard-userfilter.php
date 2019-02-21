@@ -1,4 +1,5 @@
-<fieldset id="ldapWizard2">
+<fieldset id="ldapWizard2" class="section">
+	<h2><?php p($l->t('Users'));?></h2>
 	<div>
 		<p>
 			<?php p($l->t('Listing and searching for users is constrained by these criteria:'));?>

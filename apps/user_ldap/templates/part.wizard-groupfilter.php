@@ -1,4 +1,5 @@
-<fieldset id="ldapWizard4">
+<fieldset id="ldapWizard4" class="section">
+	<h2><?php p($l->t('Groups'));?></h2>
 	<div>
 		<p>
 			<?php p($l->t('Groups meeting these criteria are available in %s:', [$theme->getName()]));?>

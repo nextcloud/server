@@ -1,4 +1,5 @@
-<fieldset id="ldapWizard1">
+<fieldset id="ldapWizard1" class="section">
+		<h2><?php p($l->t('LDAP server settings'));?></h2>
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
 		<?php

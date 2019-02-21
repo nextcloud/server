@@ -212,6 +212,7 @@ select[multiple=multiple] + button {
 #ldapSettings {
 	background-color: white;
 	padding: 0;
+	border: none;
 }
 
 #ldapSettings > fieldset {
