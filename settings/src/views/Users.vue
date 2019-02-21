@@ -227,6 +227,12 @@ export default {
 				.then(() => {
 					this.showAddGroupEntry = false;
 					this.loadingAddGroup = false;
+					this.$router.push({
+						name: 'group',
+						params: {
+							selectedGroup: gid
+						}
+					})
 				})
 				.catch(() => {
 					this.loadingAddGroup = false;
