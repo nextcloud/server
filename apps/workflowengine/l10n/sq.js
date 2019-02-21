@@ -64,8 +64,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontrolli %s nuk ekziston",
     "Check %s is invalid" : "Kontrolli %s është i pavlefshëm",
     "Check #%s does not exist" : "Kontrolli #%s nuk ekziston",
-    "Workflow" : "Rrjedha e punëve",
     "Open documentation" : "Dokumentacion i hapur",
-    "Loading…" : "Po ngarkohet..."
+    "Loading…" : "Po ngarkohet...",
+    "Workflow" : "Rrjedha e punëve"
 },
 "nplurals=2; plural=(n != 1);");

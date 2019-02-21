@@ -21,7 +21,7 @@ OC.L10N.register(
     "Select all" : "Tout sélectionner",
     "Name" : "Nom",
     "Actions" : "Actions",
-    "Deleted" : "Effacé",
+    "Deleted" : "Supprimé",
     "Couldn't delete %s permanently" : "Impossible de supprimer %s définitivement",
     "Couldn't restore %s" : "Impossible de restaurer %s",
     "Error" : "Erreur"

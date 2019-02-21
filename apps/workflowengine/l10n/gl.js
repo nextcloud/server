@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Non existe a proba %s",
     "Check %s is invalid" : "A proba %s é incorrecta",
     "Check #%s does not exist" : "Non existe a proba num. %s ",
-    "Workflow" : "Fluxo de traballo",
     "Files workflow engine" : "Motor de fluxo de traballo de ficheiros",
     "Open documentation" : "Documentación aberta",
-    "Loading…" : "Cargando…"
+    "Loading…" : "Cargando…",
+    "Workflow" : "Fluxo de traballo"
 },
 "nplurals=2; plural=(n != 1);");

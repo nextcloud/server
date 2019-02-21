@@ -2,6 +2,8 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "_" : "_",
+    "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
+    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estos son sus códigos de respaldo. Por favor guardelos y/o imprimalos ya que no podrá obtenerlos de nuevo.",
     "Save backup codes" : "Guardar códigos de respaldo",
     "Print backup codes" : "Imprimir códigos de respaldo",
@@ -10,8 +12,6 @@ OC.L10N.register(
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si regenera los códigos de respaldo, automáticamente invalidarás los antiguos.",
     "Generate backup codes" : "Generar códigos de respaldo",
-    "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
-    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "You created two-factor backup codes for your account" : "Has creado códigos de respaldo para la verificación en dos pasos de tu cuenta",
     "Second-factor backup codes" : "Códigos de respaldo para verificación en dos pasos",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Asegúrate de hacerlo para usarlos en caso de pérdida de acceso del segundo paso",

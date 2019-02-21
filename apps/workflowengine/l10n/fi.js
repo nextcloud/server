@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Tarkistusta %s ei ole olemassa",
     "Check %s is invalid" : "Tarkistus %s on virheellinen",
     "Check #%s does not exist" : "Tarkistusta #%s ei ole olemassa",
-    "Workflow" : "Työnkulku",
     "Files workflow engine" : "Tiedostojen työnkulkumoottori",
     "Open documentation" : "Avaa dokumentaatio",
-    "Loading…" : "Ladataan…"
+    "Loading…" : "Ladataan…",
+    "Workflow" : "Työnkulku"
 },
 "nplurals=2; plural=(n != 1);");

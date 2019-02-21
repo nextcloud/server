@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Tjek %s eksisterer ikke",
     "Check %s is invalid" : "Tjek %s er invalid",
     "Check #%s does not exist" : "Tjek #%s eksisterer",
-    "Workflow" : "Workflow",
     "Files workflow engine" : "Filer workflow motoren",
     "Open documentation" : "Åbn dokumentationen",
-    "Loading…" : "Indlæser..."
+    "Loading…" : "Indlæser...",
+    "Workflow" : "Workflow"
 },
 "nplurals=2; plural=(n != 1);");

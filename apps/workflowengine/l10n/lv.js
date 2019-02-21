@@ -66,8 +66,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Pārbaude %s nepastāv",
     "Check %s is invalid" : "Pārbaude %s ir nederīga",
     "Check #%s does not exist" : "Pārbaude #%s nepastāv",
-    "Workflow" : "Darbplūsma",
     "Open documentation" : "Atvērt dokumentāciju",
-    "Loading…" : "Ielādē …"
+    "Loading…" : "Ielādē …",
+    "Workflow" : "Darbplūsma"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
