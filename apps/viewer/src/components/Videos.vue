@@ -27,9 +27,12 @@
 		autoplay
 		preload
 		:controls="visibleControls"
+		:height="height"
+		:width="width"
 		@canplay="doneLoading"
 		@mouseenter="showControls"
-		@mouseleave="hideControls">
+		@mouseleave="hideControls"
+		@loadedmetadata="updateVideoSize">
 
 		<source :src="path" :type="mime">
 
@@ -47,10 +50,38 @@ export default {
 	],
 	data() {
 		return {
+			height: null,
+			width: null,
 			visibleControls: false
 		}
 	},
 	methods: {
+		updateVideoSize() {
+			const modalContainer = this.$parent.$el.querySelector('.modal-container')
+			const parentHeight = modalContainer.clientHeight
+			const parentWidth = modalContainer.clientWidth
+			const videoHeight = this.$el.videoHeight
+			const videoWidth = this.$el.videoWidth
+
+			const heightRatio = parentHeight / videoHeight
+			const widthRatio = parentWidth / videoWidth
+
+			// if the video height is capped by the parent height
+			// AND the video is bigger than the parent
+			if (heightRatio < widthRatio && heightRatio < 1) {
+				this.height = parentHeight
+
+			// if the video width is capped by the parent width
+			// AND the video is bigger than the parent
+			} else if (heightRatio > widthRatio && widthRatio < 1) {
+				this.width = parentWidth
+
+			// RESET
+			} else {
+				this.height = null
+				this.width = null
+			}
+		},
 		showControls() {
 			this.visibleControls = true
 		},
@@ -64,8 +95,9 @@ export default {
 <style scoped>
 video {
 	background-color: black;
-	width: 100% !important;
-	height: auto !important;
-	object-fit: contain;
+	max-width: 100%;
+	max-height: 100%;
+	align-self: center;
+	justify-self: center;
 }
 </style>

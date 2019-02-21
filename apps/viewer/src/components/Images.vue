@@ -52,12 +52,12 @@ export default {
 
 			// if the image height is capped by the parent height
 			// AND the image is bigger than the parent
-			if (heightRatio < widthRatio && widthRatio < 1) {
+			if (heightRatio < widthRatio && heightRatio < 1) {
 				this.height = parentHeight
 
 			// if the image width is capped by the parent width
 			// AND the image is bigger than the parent
-			} else if (heightRatio > widthRatio && heightRatio < 1) {
+			} else if (heightRatio > widthRatio && widthRatio < 1) {
 				this.width = parentWidth
 
 			// RESET
