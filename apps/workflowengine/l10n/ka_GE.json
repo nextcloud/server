@@ -62,9 +62,9 @@
     "Check %s does not exist" : "შეამოწმეთ %s არ არსებობს",
     "Check %s is invalid" : "შეამოწმეთ %s არასწორია",
     "Check #%s does not exist" : "შეამოწმეთ #%s არ არსებობს",
-    "Workflow" : "შრომითი პროცესები",
     "Files workflow engine" : "ფაილების სამუშაოს შესრულების ძრავა",
     "Open documentation" : "ღია დოკუმენტაცია",
-    "Loading…" : "იტვირთება..."
+    "Loading…" : "იტვირთება...",
+    "Workflow" : "შრომითი პროცესები"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

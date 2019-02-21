@@ -111,6 +111,8 @@
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定组启用。如果没有设置两步验证方式提供者，他们则不能登录到系统。",
     "Enforce two-factor authentication" : "强制启用两步验证",
     "Limit to groups" : "限制于组",
+    "Enforcement of two-factor authentication can be set for certain groups only." : "可以仅为某些组设置双因素身份验证的强制执行。",
+    "Enforced groups" : "强制群组",
     "Excluded groups" : "排除群组",
     "Save changes" : "保存修改",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方应用由社区和内部开发。其可以提供核心功能并保证生产用途。",

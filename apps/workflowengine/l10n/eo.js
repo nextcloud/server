@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontrolo %s ne ekzistas",
     "Check %s is invalid" : "Kontrolo %s ne validas",
     "Check #%s does not exist" : "Kontrolo n-ro %s ne ekzistas",
-    "Workflow" : "Laborfluo",
     "Files workflow engine" : "Modulo de dosiera laborfluo",
     "Open documentation" : "Malfermi dokumentaron",
-    "Loading…" : "Ŝargante..."
+    "Loading…" : "Ŝargante...",
+    "Workflow" : "Laborfluo"
 },
 "nplurals=2; plural=(n != 1);");

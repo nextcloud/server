@@ -66,9 +66,9 @@ OC.L10N.register(
     "Check %s does not exist" : "La validación %s no existe",
     "Check %s is invalid" : "La validación %s no es inválida",
     "Check #%s does not exist" : "La validación #%s no existe",
-    "Workflow" : "Flujo de trabajo",
     "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Abrir la documentación",
-    "Loading…" : "Cargando..."
+    "Loading…" : "Cargando...",
+    "Workflow" : "Flujo de trabajo"
 },
 "nplurals=2; plural=(n != 1);");

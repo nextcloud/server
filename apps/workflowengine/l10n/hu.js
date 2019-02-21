@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "%s nem létezik, ellenőrizd",
     "Check %s is invalid" : "%s érvénytelen, ellenőrizd",
     "Check #%s does not exist" : "#%s nem létezik, ellenőrizd",
-    "Workflow" : "Munkafolyamat",
     "Files workflow engine" : "Fájl munkafolyamat motor",
     "Open documentation" : "Dokumentáció megnyitása",
-    "Loading…" : "Betöltés..."
+    "Loading…" : "Betöltés...",
+    "Workflow" : "Munkafolyamat"
 },
 "nplurals=2; plural=(n != 1);");

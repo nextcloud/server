@@ -67,8 +67,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Έλεγχος %s δεν υπάρχει",
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
-    "Workflow" : "Ροή εργασίας",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Loading…" : "Φορτώνει..."
+    "Loading…" : "Φορτώνει...",
+    "Workflow" : "Ροή εργασίας"
 },
 "nplurals=2; plural=(n != 1);");
