@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<AppContent app-name="settings" :navigation-class="{ 'icon-loading': loading }">
+	<AppContent app-name="settings" :navigation-class="{ 'icon-loading': loadingAddGroup }">
 		<template #navigation>
 			<AppNavigationNew button-id="new-user-button" :text="t('settings','New user')" button-class="icon-add" @click="toggleNewUserMenu" />
 			<ul id="usergrouplist">
@@ -242,9 +242,6 @@ export default {
 	computed: {
 		users() {
 			return this.$store.getters.getUsers;
-		},
-		loading() {
-			return Object.keys(this.users).length === 0;
 		},
 		usersOffset() {
 			return this.$store.getters.getUsersOffset;
