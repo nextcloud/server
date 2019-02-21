@@ -33,6 +33,7 @@
 		<component
 			:is="currentModal"
 			ref="wrapper"
+			:key="currentFile.path"
 			:mime="currentFile.mime"
 			:path="currentFile.path"
 			@loaded="doneLoading" />

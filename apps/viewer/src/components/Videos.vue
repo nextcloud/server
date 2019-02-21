@@ -23,7 +23,6 @@
 <template>
 	<video
 		v-if="path"
-		:key="path"
 		autoplay
 		preload
 		:controls="visibleControls"
