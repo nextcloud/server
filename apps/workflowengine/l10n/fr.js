@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Vérifiez si %s n'existe pas",
     "Check %s is invalid" : "Vérifiez si %s est invalide",
     "Check #%s does not exist" : "Vérifiez si #%s n'existe pas",
-    "Workflow" : "Flux d'activités",
     "Files workflow engine" : "Moteur de Workflow de fichiers",
     "Open documentation" : "Voir la documentation",
-    "Loading…" : "Chargement..."
+    "Loading…" : "Chargement...",
+    "Workflow" : "Flux d'activités"
 },
 "nplurals=2; plural=(n > 1);");

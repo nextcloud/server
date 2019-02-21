@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Check %s does not exist",
     "Check %s is invalid" : "Check %s is invalid",
     "Check #%s does not exist" : "Check #%s does not exist",
-    "Workflow" : "Workflow",
     "Files workflow engine" : "Files workflow engine",
     "Open documentation" : "Open documentation",
-    "Loading…" : "Loading…"
+    "Loading…" : "Loading…",
+    "Workflow" : "Workflow"
 },
 "nplurals=2; plural=(n != 1);");

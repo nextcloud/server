@@ -66,9 +66,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Comprovació %s no existeix",
     "Check %s is invalid" : "Comprovació %s no és vàlid",
     "Check #%s does not exist" : "Comprovació #%s no existeix",
-    "Workflow" : "Flux de treball",
     "Files workflow engine" : "Fitxers del motor de flux de treball",
     "Open documentation" : "Obrir documentació",
-    "Loading…" : "Carregant..."
+    "Loading…" : "Carregant...",
+    "Workflow" : "Flux de treball"
 },
 "nplurals=2; plural=(n != 1);");

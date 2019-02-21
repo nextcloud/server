@@ -59,8 +59,8 @@ OC.L10N.register(
     "Operation #%s does not exist" : "Tegevus # %s ei leitud",
     "Operation %s does not exist" : "Tegevust %s ei leitud",
     "Operation %s is invalid" : "Tegevus %s on vigane",
-    "Workflow" : "Töövoog",
     "Open documentation" : "Ava dokumentatsioon",
-    "Loading…" : "Laadimine..."
+    "Loading…" : "Laadimine...",
+    "Workflow" : "Töövoog"
 },
 "nplurals=2; plural=(n != 1);");

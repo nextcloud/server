@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Die Prüfung %s existiert nicht",
     "Check %s is invalid" : "Die Prüfung %s ist ungültig",
     "Check #%s does not exist" : "Die Prüfung #%s existiert nicht",
-    "Workflow" : "Workflow",
     "Files workflow engine" : "Datei-Workflow-Engine",
     "Open documentation" : "Dokumentation öffnen",
-    "Loading…" : "Laden…"
+    "Loading…" : "Laden…",
+    "Workflow" : "Workflow"
 },
 "nplurals=2; plural=(n != 1);");

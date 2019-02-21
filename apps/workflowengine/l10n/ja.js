@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "チェック %s は存在しません",
     "Check %s is invalid" : "チェック %s は無効です",
     "Check #%s does not exist" : "チェック #%s は存在しません",
-    "Workflow" : "ワークフロー",
     "Files workflow engine" : "ファイルワークフローエンジン",
     "Open documentation" : "ドキュメントを開く",
-    "Loading…" : "読み込み中..."
+    "Loading…" : "読み込み中...",
+    "Workflow" : "ワークフロー"
 },
 "nplurals=1; plural=0;");
