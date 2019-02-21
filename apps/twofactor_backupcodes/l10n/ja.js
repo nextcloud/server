@@ -1,6 +1,8 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
+    "Nextcloud backup codes" : "Nextcloud バックアップコード",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "これらはあなたのバックアップコードです。 後からこのコードは見ることはできないので、保存するか印刷しておいてください",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",
@@ -9,8 +11,6 @@ OC.L10N.register(
     "_icon-loading-small_::_generate-backup-codes_" : ["生成バックアップコード"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "バックアップコードを再生成すると、自動的に古いコードが無効になります。",
     "Generate backup codes" : "バックアップコードを生成する",
-    "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
-    "Nextcloud backup codes" : "Nextcloud バックアップコード",
     "You created two-factor backup codes for your account" : "アカウントの2要素認証バックアップコードを作成しました",
     "Second-factor backup codes" : "第二要素バックアップコード",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "2要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。",

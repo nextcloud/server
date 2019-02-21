@@ -2,6 +2,8 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "_" : "_",
+    "An error occurred while generating your backup codes" : "Produciuse un erro ao rexenerar os seus códigos de seguranza",
+    "Nextcloud backup codes" : "Códigos de seguranza do Nextcloud",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes son os seus códigos de seguranza. Gárdeos e/ou imprímaos xa que non poderá volver lelos de novo.",
     "Save backup codes" : "Gardar os códigos de seguranza",
     "Print backup codes" : "Imprimir os códigos de seguranza",
@@ -10,8 +12,6 @@ OC.L10N.register(
     "_icon-loading-small_::_generate-backup-codes_" : ["icona-de-carga-pequena","xerar-códigos-de-seguranza "],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se rexenera os códigos de seguranza, automaticamente invalidara os antigos códigos.",
     "Generate backup codes" : "Xerar códigos de seguranza",
-    "An error occurred while generating your backup codes" : "Produciuse un erro ao rexenerar os seus códigos de seguranza",
-    "Nextcloud backup codes" : "Códigos de seguranza do Nextcloud",
     "You created two-factor backup codes for your account" : "Creou códigos de seguranza de dous factores para a súa conta",
     "Second-factor backup codes" : "Códigos de seguranza do segundo factor",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Activou a autenticación de dous factores mais non xerou aída os códigos de seguranza. Asegúrese de facelo para o caso de perda de acceso ao seu segundo factor.",

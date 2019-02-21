@@ -68,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Sjekk %s finnes ikke",
     "Check %s is invalid" : "Sjekk %s er ugyldig",
     "Check #%s does not exist" : "Sjekk #%s finnes ikke",
-    "Workflow" : "Arbeidsflyt",
     "Files workflow engine" : "Arbeidsflytmotor for filer",
     "Open documentation" : "Åpne dokumentasjonen",
-    "Loading…" : "Laster…"
+    "Loading…" : "Laster…",
+    "Workflow" : "Arbeidsflyt"
 },
 "nplurals=2; plural=(n != 1);");

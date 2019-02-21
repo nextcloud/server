@@ -64,8 +64,8 @@
     "Check %s does not exist" : "검사 %s이(가) 존재하지 않음",
     "Check %s is invalid" : "검사 %s이(가) 잘못됨",
     "Check #%s does not exist" : "검사 #%s이(가) 존재하지 않음",
-    "Workflow" : "작업 흐름",
     "Open documentation" : "문서 열기",
-    "Loading…" : "불러오는 중…"
+    "Loading…" : "불러오는 중…",
+    "Workflow" : "작업 흐름"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

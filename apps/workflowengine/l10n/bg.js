@@ -65,8 +65,8 @@ OC.L10N.register(
     "Check %s does not exist" : "Проверка %s не съществува",
     "Check %s is invalid" : "Проверка %s е невалидна",
     "Check #%s does not exist" : "Проверка #%s не съществува",
-    "Workflow" : "Работен процес",
     "Open documentation" : "Отвори документация",
-    "Loading…" : "Зареждане..."
+    "Loading…" : "Зареждане...",
+    "Workflow" : "Работен процес"
 },
 "nplurals=2; plural=(n != 1);");

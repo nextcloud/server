@@ -67,9 +67,9 @@ OC.L10N.register(
     "Check %s does not exist" : "%s neegzistuoja",
     "Check %s is invalid" : "Neteisingas %s",
     "Check #%s does not exist" : "#%s neegzistuoja",
-    "Workflow" : "Darbo eiga",
     "Files workflow engine" : "Darbo eigos su failais modulis",
     "Open documentation" : "Atverti dokumentaciją",
-    "Loading…" : "Įkeliama…"
+    "Loading…" : "Įkeliama…",
+    "Workflow" : "Darbo eiga"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
