@@ -1,10 +1,8 @@
 <template>
 	<div id="accessibility" class="section">
 		<h2>{{t('accessibility', 'Accessibility')}}</h2>
-		<p>
-			{{t('accessibility', 'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders.')}} We aim to be compliant with the <a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">Web Content Accessibility Guidelines</a>  2.1 on AA level, with the high contrast theme even on AAA level.</br>
-			If you find any issues, don’t hesitate to report them on <a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">our issue tracker</a>. And if you want to get involved, come join <a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">our design team</a>!
-		</p>
+		<p v-html="description" />
+		<p v-html="descriptionDetail" />
 
 		<div class="preview-list">
 			<preview v-for="preview in themes" :preview="preview"
@@ -50,6 +48,21 @@ export default {
 				theme: this.serverData.theme,
 				font: this.serverData.font
 			};
+		},
+		description() {
+			return t('accessibility', 'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level.', {guidelines: this.guidelinesLink})
+		},
+		guidelinesLink() {
+			return `<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">${t('accessibility', 'Web Content Accessibility Guidelines')}</a>`
+		},
+		descriptionDetail() {
+			return t('accessibility', 'If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!', {issuetracker: this.issuetrackerLink, designteam: this.designteamLink})
+		},
+		issuetrackerLink() {
+			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">${t('accessibility', 'our issue tracker')}</a>`
+		},
+		designteamLink() {
+			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">${t('accessibility', 'our design team')}</a>`
 		}
 	},
 	methods: {
