@@ -189,7 +189,7 @@ export default {
 		 * In case the user directly loaded the user list within a group
 		 * the watch won't be triggered. We need to initialize it.
 		 */
-		this.setNewUserDefaultGroup(this.$route.params.selectedGroup);
+		this.setNewUserDefaultGroup(this.selectedGroup);
 
 		/** 
 		 * Register search
@@ -339,6 +339,8 @@ export default {
 		resetForm() {
 			// revert form to original state
 			Object.assign(this.newUser, this.$options.data.call(this).newUser);
+			// reset group
+			this.setNewUserDefaultGroup(this.selectedGroup);
 			this.loading.all = false;
 		},
 		createUser() {
