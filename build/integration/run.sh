@@ -48,8 +48,7 @@ export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
 if [ "$INSTALLED" == "true" ]; then
 
     #Enable external storage app
-    $OCC app:enable files_external
-    $OCC app:enable user_ldap
+    $OCC app:enable files_external user_ldap
 
     mkdir -p work/local_storage
     OUTPUT_CREATE_STORAGE=`$OCC files_external:create local_storage local null::null -c datadir=$PWD/work/local_storage`
@@ -71,8 +70,7 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC files_external:delete -y $ID_STORAGE
 
     #Disable external storage app
-    $OCC app:disable files_external
-    $OCC app:disable user_ldap
+    $OCC app:disable files_external user_ldap
 fi
 
 if [ -z $HIDE_OC_LOGS ]; then
