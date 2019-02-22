@@ -21,14 +21,35 @@
   -->
 
 <template>
-	<collection-list type="files"></collection-list>
+	<collection-list v-if="fileId" type="files" :id="fileId" :name="filename"></collection-list>
 </template>
 
 <script>
 	import { CollectionList } from 'nextcloud-vue-collections'
 
+	/**
+	 * Those translations will be used by the vue component but they should be shipped with the server
+	 * t('files_sharing', 'Add to a collection')
+	 * t('files_sharing', 'Details')
+	 * t('files_sharing', 'Rename collection')
+	 */
+
 	export default {
 		name: 'CollaborationView',
+		computed: {
+			fileId() {
+				if (this.$root.model && this.$root.model.id) {
+					return '' + this.$root.model.id;
+				}
+				return null;
+			},
+			filename() {
+				if (this.$root.model && this.$root.model.name) {
+					return '' + this.$root.model.name;
+				}
+				return '';
+			}
+		},
 		components: {
 			CollectionList
 		}

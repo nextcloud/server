@@ -21,26 +21,19 @@
  */
 
 import Vue from 'vue';
-import Vuex from 'vuex';
 import { PopoverMenu } from 'nextcloud-vue';
 import ClickOutside from 'vue-click-outside';
 import { VTooltip } from 'v-tooltip';
-import { CollectionStoreModule } from 'nextcloud-vue-collections';
-
-const Store = () => new Vuex.Store(CollectionStoreModule);
-
 
 Vue.prototype.t = t;
 
 Vue.component('PopoverMenu', PopoverMenu);
 Vue.directive('ClickOutside', ClickOutside);
 Vue.directive('Tooltip', VTooltip);
-Vue.use(Vuex);
 
 import View from './views/CollaborationView';
 
 export {
 	Vue,
-	View,
-	Store
+	View
 };
