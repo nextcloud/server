@@ -83,6 +83,19 @@ interface IManager extends IProvider {
 	public function invalidateAccessCacheForResourceByUser(IResource $resource, ?IUser $user): void;
 
 	/**
+	 * @param IProvider $provider
+	 * @since 16.0.0
+	 */
+	public function invalidateAccessCacheForProvider(IProvider $provider): void;
+
+	/**
+	 * @param IProvider $provider
+	 * @param IUser|null $user
+	 * @since 16.0.0
+	 */
+	public function invalidateAccessCacheForProviderByUser(IProvider $provider, ?IUser $user): void;
+
+	/**
 	 * @param string $type
 	 * @param string $id
 	 * @return IResource

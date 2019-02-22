@@ -85,6 +85,11 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 				'notnull' => false,
 				'default' => 0,
 			]);
+			$table->addColumn('resource_type', Type::STRING, [
+				'notnull' => false,
+				'length' => 64,
+				'default' => '',
+			]);
 			$table->addColumn('resource_id', Type::STRING, [
 				'notnull' => false,
 				'length' => 64,
@@ -95,8 +100,8 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 
-			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_id'], 'collres_unique_user');
-			$table->addIndex(['user_id', 'resource_id'], 'collres_user_res');
+			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
+			$table->addIndex(['user_id', 'resource_type', 'resource_id'], 'collres_user_res');
 			$table->addIndex(['user_id', 'collection_id'], 'collres_user_coll');
 		}
 

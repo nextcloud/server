@@ -200,6 +200,7 @@ class Manager implements IManager {
 				'r', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
 					$query->expr()->eq('r.resource_id', 'a.resource_id'),
+					$query->expr()->eq('r.resource_type', 'a.resource_type'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
@@ -237,6 +238,7 @@ class Manager implements IManager {
 				'r', self::TABLE_ACCESS_CACHE, 'a',
 				$query->expr()->andX(
 					$query->expr()->eq('r.resource_id', 'a.resource_id'),
+					$query->expr()->eq('r.resource_type', 'a.resource_type'),
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
@@ -362,6 +364,7 @@ class Manager implements IManager {
 		$query->select('access')
 			->from(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId(), IQueryBuilder::PARAM_STR)))
+			->andWhere($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType(), IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
 			->setMaxResults(1);
 
@@ -403,6 +406,7 @@ class Manager implements IManager {
 			->values([
 				'user_id' => $query->createNamedParameter($userId),
 				'resource_id' => $query->createNamedParameter($resource->getId()),
+				'resource_type' => $query->createNamedParameter($resource->getType()),
 				'access' => $query->createNamedParameter($access),
 			]);
 		try {
@@ -440,7 +444,8 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
-			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
+			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())))
+			->andWhere($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType(), IQueryBuilder::PARAM_STR)));
 		$query->execute();
 
 		foreach ($resource->getCollections() as $collection) {
@@ -453,6 +458,14 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())));
+		$query->execute();
+	}
+
+	public function invalidateAccessCacheForProvider(IProvider $provider): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->delete(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->eq('resource_type', $query->createNamedParameter($provider->getType(), IQueryBuilder::PARAM_STR)));
 		$query->execute();
 	}
 
@@ -476,6 +489,16 @@ class Manager implements IManager {
 
 		$query->delete(self::TABLE_ACCESS_CACHE)
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId())))
+			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
+		$query->execute();
+	}
+
+	public function invalidateAccessCacheForProviderByUser(IProvider $provider, ?IUser $user): void {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->delete(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->eq('resource_type', $query->createNamedParameter($provider->getType(), IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
 		$query->execute();
 	}
