@@ -53,7 +53,8 @@ class MaintenancePluginTest extends TestCase {
 	public function testMaintenanceMode() {
 		$this->config
 			->expects($this->exactly(1))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
+			->with('maintenance')
 			->will($this->returnValue(true));
 
 		$this->maintenancePlugin->checkMaintenanceMode();
