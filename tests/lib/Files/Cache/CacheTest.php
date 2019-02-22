@@ -332,7 +332,7 @@ class CacheTest extends \Test\TestCase {
 		$userId = $this->getUniqueId('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		$this->loginAsUser($userId);
-		$user = new \OC\User\User($userId, null);
+		$user = new \OC\User\User($userId, null, \OC::$server->getEventDispatcher());
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
@@ -402,7 +402,7 @@ class CacheTest extends \Test\TestCase {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new \OC\User\User($userId, null);
+		$user = new \OC\User\User($userId, null, \OC::$server->getEventDispatcher());
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';

@@ -45,7 +45,7 @@ class IntegrationTest extends \Test\TestCase {
 
 		\OC_Hook::clear('OC_Filesystem');
 
-		$user = new User($this->getUniqueID('user'), new \Test\Util\User\Dummy);
+		$user = new User($this->getUniqueID('user'), new \Test\Util\User\Dummy, \OC::$server->getEventDispatcher());
 		$this->loginAsUser($user->getUID());
 
 		$this->view = new View();

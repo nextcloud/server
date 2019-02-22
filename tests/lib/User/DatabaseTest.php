@@ -22,7 +22,7 @@
 
 namespace Test\User;
 use OC\HintException;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OC\User\User;
 
@@ -34,7 +34,7 @@ use OC\User\User;
 class DatabaseTest extends Backend {
 	/** @var array */
 	private $users;
-	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $eventDispatcher;
 
 	public function getUser() {
@@ -46,7 +46,7 @@ class DatabaseTest extends Backend {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->eventDispatcher = $this->createMock(EventDispatcher::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->backend=new \OC\User\Database($this->eventDispatcher);
 	}
@@ -124,8 +124,8 @@ class DatabaseTest extends Backend {
 		$user2 = $this->getUser();
 		$this->backend->createUser($user2, 'pass1');
 
-		$user1Obj = new User($user1, $this->backend);
-		$user2Obj = new User($user2, $this->backend);
+		$user1Obj = new User($user1, $this->backend, $this->eventDispatcher);
+		$user2Obj = new User($user2, $this->backend, $this->eventDispatcher);
 		$emailAddr1 = "$user1@nextcloud.com";
 		$emailAddr2 = "$user2@nextcloud.com";
 

@@ -1299,7 +1299,7 @@ class View {
 		if ($owner instanceof IUser) {
 			return $owner;
 		} else {
-			return new User($ownerId, null);
+			return new User($ownerId, null, \OC::$server->getEventDispatcher());
 		}
 	}
 

@@ -18,6 +18,7 @@ use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Files\NotFoundException;
 
@@ -45,14 +46,7 @@ abstract class NodeTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$urlGenerator = $this->getMockBuilder(IURLGenerator
-		::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlGenerator);
+		$this->user = $this->createMock(IUser::class);
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();

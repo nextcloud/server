@@ -42,30 +42,34 @@ use OCP\IUser;
 use OCP\IConfig;
 use OCP\UserInterface;
 use \OCP\IUserBackend;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class User implements IUser {
-	/** @var string $uid */
+	/** @var string */
 	private $uid;
 
-	/** @var string $displayName */
+	/** @var string */
 	private $displayName;
 
-	/** @var UserInterface $backend */
+	/** @var UserInterface|null */
 	private $backend;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
-	/** @var bool $enabled */
+	/** @var bool */
 	private $enabled;
 
-	/** @var Emitter|Manager $emitter */
+	/** @var Emitter|Manager */
 	private $emitter;
 
-	/** @var string $home */
+	/** @var string */
 	private $home;
 
-	/** @var int $lastLogin */
+	/** @var int */
 	private $lastLogin;
 
-	/** @var \OCP\IConfig $config */
+	/** @var \OCP\IConfig */
 	private $config;
 
 	/** @var IAvatarManager */
@@ -74,16 +78,10 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/**
-	 * @param string $uid
-	 * @param UserInterface $backend
-	 * @param \OC\Hooks\Emitter $emitter
-	 * @param IConfig|null $config
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
+		$this->dispatcher = $dispatcher;
 		$this->emitter = $emitter;
 		if(is_null($config)) {
 			$config = \OC::$server->getConfig();
@@ -115,7 +113,7 @@ class User implements IUser {
 	public function getDisplayName() {
 		if (!isset($this->displayName)) {
 			$displayName = '';
-			if ($this->backend and $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
+			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
 				// get display name and strip whitespace from the beginning and end of it
 				$backendDisplayName = $this->backend->getDisplayName($this->uid);
 				if (is_string($backendDisplayName)) {
@@ -199,6 +197,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
+		$this->dispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preDelete', array($this));
 		}
@@ -243,6 +242,7 @@ class User implements IUser {
 			$accountManager = \OC::$server->query(AccountManager::class);
 			$accountManager->deleteUser($this);
 
+			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postDelete', array($this));
 			}
@@ -258,11 +258,19 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
+		$this->dispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
+			'password' => $password,
+			'recoveryPassword' => $recoveryPassword,
+		]));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
+			$this->dispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
+				'password' => $password,
+				'recoveryPassword' => $recoveryPassword,
+			]));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
 			}
@@ -455,6 +463,11 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
+		$this->dispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
+			'feature' => $feature,
+			'value' => $value,
+			'oldValue' => $oldValue,
+		]));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
 		}
