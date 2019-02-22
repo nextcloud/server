@@ -371,6 +371,7 @@ class Manager implements IManager {
 		foreach ($collection->getResources() as $resource) {
 			if ($resource->canAccess($user)) {
 				$access = true;
+				break;
 			}
 		}
 
