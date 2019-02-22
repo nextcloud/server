@@ -216,10 +216,9 @@ class ScanAppData extends Base {
 	 * @return string
 	 */
 	protected function formatExecTime() {
-		list($secs, ) = explode('.', sprintf("%.1f", $this->execTime));
-
-		# if you want to have microseconds add this:   . '.' . $tens;
-		return date('H:i:s', $secs);
+		$secs = round($this->execTime);
+		# convert seconds into HH:MM:SS form
+		return sprintf('%02d:%02d:%02d', ($secs/3600), ($secs/60%60), $secs%60);
 	}
 
 	/**
