@@ -9,6 +9,7 @@ OC.L10N.register(
     "Your email address was changed by an administrator" : "Votre adresse e-mail a été modifiée par un administrateur",
     "You created app password \"{token}\"" : "Vous avez créé un mot de passe d'application \"{token}\"",
     "You deleted app password \"{token}\"" : "Vous avez supprimé un mot de passe d'application \"{token}\"",
+    "You renamed app password \"{token}\" to \"{newToken}\"" : "Vous avez renommé le mot de passe d'application \"{token}\" en \"{newToken}\" ",
     "Security" : "Sécurité",
     "You successfully logged in using two-factor authentication (%1$s)" : "Vous avez réussi à vous connecter en utilisant l'authentification à deux facteurs (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Une tentative de connexion utilisant l'authentification à deux facteurs a échoué (%1$s)",
