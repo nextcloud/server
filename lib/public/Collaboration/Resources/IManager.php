@@ -64,6 +64,25 @@ interface IManager extends IProvider {
 	public function canAccessCollection(ICollection $collection, ?IUser $user): bool;
 
 	/**
+	 * @param IUser|null $user
+	 * @since 16.0.0
+	 */
+	public function invalidateAccessCacheForUser(?IUser $user): void;
+
+	/**
+	 * @param IResource $resource
+	 * @since 16.0.0
+	 */
+	public function invalidateAccessCacheForResource(IResource $resource): void;
+
+	/**
+	 * @param IResource $resource
+	 * @param IUser|null $user
+	 * @since 16.0.0
+	 */
+	public function invalidateAccessCacheForResourceByUser(IResource $resource, ?IUser $user): void;
+
+	/**
 	 * @param string $type
 	 * @param string $id
 	 * @return IResource
