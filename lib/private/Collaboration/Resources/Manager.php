@@ -406,7 +406,10 @@ class Manager implements IManager {
 				'resource_id' => $query->createNamedParameter($resource->getId()),
 				'access' => $query->createNamedParameter($access),
 			]);
-		$query->execute();
+		try {
+			$query->execute();
+		} catch (UniqueConstraintViolationException $e) {
+		}
 	}
 
 	public function cacheAccessForCollection(ICollection $collection, ?IUser $user, bool $access): void {
@@ -419,7 +422,10 @@ class Manager implements IManager {
 				'collection_id' => $query->createNamedParameter($collection->getId()),
 				'access' => $query->createNamedParameter($access),
 			]);
-		$query->execute();
+		try {
+			$query->execute();
+		} catch (UniqueConstraintViolationException $e) {
+		}
 	}
 
 	public function invalidateAccessCacheForUser(?IUser $user): void {
