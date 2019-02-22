@@ -50,11 +50,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+$checkered-size: 20px;
+$checkered-color: #999;
+
 img {
 	max-width: 100%;
 	max-height: 100%;
 	align-self: center;
 	justify-self: center;
+	background-image: linear-gradient(45deg, #{$checkered-color} 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
+		linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
+		linear-gradient(45deg, #{$checkered-color} 25%, #fff 25%);
+	background-size: 2 * $checkered-size 2 * $checkered-size;
+	background-position: 0 0, 0 0, -#{$checkered-size} -#{$checkered-size}, $checkered-size $checkered-size;
 }
 </style>

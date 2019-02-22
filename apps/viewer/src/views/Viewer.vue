@@ -324,7 +324,6 @@ export default {
 .modal-mask .modal-container {
 	display: flex !important;
 	width: auto !important;
-	background-color: black !important;
 }
 
 .component-fade-enter-active, .component-fade-leave-active {
