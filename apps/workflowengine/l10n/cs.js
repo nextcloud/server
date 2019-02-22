@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontrola %s neexistuje",
     "Check %s is invalid" : "Kontrola %s je neplatná",
     "Check #%s does not exist" : "Kontrola č. %s neexistuje",
+    "Tag management" : "Správa štítků",
     "Files workflow engine" : "Engine práce se soubory",
     "Open documentation" : "Otevřít dokumentaci",
     "Loading…" : "Načítání…",
