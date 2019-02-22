@@ -23,11 +23,14 @@
 <template>
 	<video
 		v-if="path"
-		autoplay
+		:autoplay="active"
 		preload
 		:controls="visibleControls"
-		:height="height"
-		:width="width"
+		:style="{
+			height: height + 'px',
+			width: width + 'px'
+		}"
+		@click="playPause"
 		@canplay="doneLoading"
 		@mouseenter="showControls"
 		@mouseleave="hideControls"
@@ -49,43 +52,35 @@ export default {
 	],
 	data() {
 		return {
-			height: null,
-			width: null,
 			visibleControls: false
+		}
+	},
+	watch: {
+		active: function(val, old) {
+			// the item was hidden before and is now the current view
+			if (val === true && old === false) {
+				this.$el.play()
+			}
 		}
 	},
 	methods: {
 		updateVideoSize() {
-			const modalContainer = this.$parent.$el.querySelector('.modal-container')
-			const parentHeight = modalContainer.clientHeight
-			const parentWidth = modalContainer.clientWidth
 			const videoHeight = this.$el.videoHeight
 			const videoWidth = this.$el.videoWidth
-
-			const heightRatio = parentHeight / videoHeight
-			const widthRatio = parentWidth / videoWidth
-
-			// if the video height is capped by the parent height
-			// AND the video is bigger than the parent
-			if (heightRatio < widthRatio && heightRatio < 1) {
-				this.height = parentHeight
-
-			// if the video width is capped by the parent width
-			// AND the video is bigger than the parent
-			} else if (heightRatio > widthRatio && widthRatio < 1) {
-				this.width = parentWidth
-
-			// RESET
-			} else {
-				this.height = null
-				this.width = null
-			}
+			this.updateHeightWidth(videoHeight, videoWidth)
 		},
 		showControls() {
 			this.visibleControls = true
 		},
 		hideControls() {
 			this.visibleControls = false
+		},
+		playPause() {
+			if (this.$el.paused) {
+				this.$el.play()
+			} else {
+				this.$el.pause()
+			}
 		}
 	}
 }

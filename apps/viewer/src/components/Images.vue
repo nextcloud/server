@@ -21,8 +21,13 @@
  -->
 
 <template>
-	<img ref="img" :src="path" :height="height"
-		:width="width" @load="updateImgSize">
+	<img
+		:src="path"
+		:style="{
+			height: height + 'px',
+			width: width + 'px'
+		}"
+		@load="updateImgSize">
 </template>
 
 <script>
@@ -33,38 +38,11 @@ export default {
 	mixins: [
 		mime
 	],
-	data() {
-		return {
-			height: null,
-			width: null
-		}
-	},
 	methods: {
 		updateImgSize() {
-			const modalContainer = this.$parent.$el.querySelector('.modal-container')
-			const parentHeight = modalContainer.clientHeight
-			const parentWidth = modalContainer.clientWidth
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
-
-			const heightRatio = parentHeight / naturalHeight
-			const widthRatio = parentWidth / naturalWidth
-
-			// if the image height is capped by the parent height
-			// AND the image is bigger than the parent
-			if (heightRatio < widthRatio && heightRatio < 1) {
-				this.height = parentHeight
-
-			// if the image width is capped by the parent width
-			// AND the image is bigger than the parent
-			} else if (heightRatio > widthRatio && widthRatio < 1) {
-				this.width = parentWidth
-
-			// RESET
-			} else {
-				this.height = null
-				this.width = null
-			}
+			this.updateHeightWidth(naturalHeight, naturalWidth)
 
 			this.doneLoading()
 		}

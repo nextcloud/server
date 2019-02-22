@@ -22,21 +22,36 @@
 
 <template>
 	<modal
-		v-if="currentModal"
+		v-if="currentFile.modal"
 		:class="{'icon-loading': loading}"
-		:view="currentModal"
-		:has-previous="currentIndex > 0"
-		:has-next="currentIndex < fileList.length - 1"
+		:view="currentFile.modal"
+		:has-previous="hasPrevious"
+		:has-next="hasNext"
 		@close="close"
 		@previous="previous"
 		@next="next">
 		<component
-			:is="currentModal"
-			ref="wrapper"
+			v-show="false"
+			:is="previousFile.modal"
+			ref="previous-content"
+			:key="previousFile.path"
+			:mime="previousFile.mime"
+			:path="previousFile.path" />
+		<component
+			:is="currentFile.modal"
+			ref="content"
 			:key="currentFile.path"
 			:mime="currentFile.mime"
 			:path="currentFile.path"
+			:active="true"
 			@loaded="doneLoading" />
+		<component
+			v-show="false"
+			:is="nextFile.modal"
+			ref="next-content"
+			:key="nextFile.path"
+			:mime="nextFile.mime"
+			:path="nextFile.path" />
 	</modal>
 </template>
 
@@ -58,15 +73,25 @@ export default {
 	data: () => ({
 		components: {},
 		currentIndex: 0,
-		currentModal: null,
+		previousFile: {},
 		currentFile: {},
+		nextFile: {},
 		fileList: [],
-		mimeGroups: {},
 		handlers: OCA.Viewer.availableHandlers,
 		loading: true,
+		mimeGroups: {},
 		registeredHandlers: [],
 		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
 	}),
+
+	computed: {
+		hasPrevious() {
+			return this.currentIndex > 0
+		},
+		hasNext() {
+			return this.currentIndex < this.fileList.length - 1
+		}
+	},
 
 	watch: {
 		// make sure any late external app can register handlers
@@ -102,19 +127,22 @@ export default {
 			const mimes = this.mimeGroups[group]
 
 			if (this.components[mime]) {
-				this.currentModal = this.components[mime]
 				this.currentFile = {
 					relativePath,
 					path,
-					mime
+					mime,
+					modal: this.components[mime]
 				}
 				console.debug('Opened', path, mime)
 			}
 
 			// retrieve and store file List
 			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
+
 			// store current position
-			this.currentIndex = this.fileList.findIndex(file => file['d:href'][0] === this.root + relativePath)
+			this.currentIndex = this.fileList.findIndex(file => decodeURI(file['d:href'][0]) === this.root + relativePath)
+
+			this.updatePreviousNext()
 		},
 
 		/**
@@ -125,14 +153,60 @@ export default {
 		openFileFromList(fileInfo) {
 			const path = fileInfo['d:href'][0]
 			const mime = Mime.lookup(path)
+			const modal = this.components[mime]
 
-			if (this.components[mime]) {
-				this.currentModal = this.components[mime]
+			if (modal) {
 				this.currentFile = {
 					path,
-					mime
+					mime,
+					modal
 				}
 				console.debug('Opened', path, mime)
+			}
+
+			this.updatePreviousNext()
+
+		},
+
+		/**
+		 * Update the previous and next file components
+		 */
+		updatePreviousNext() {
+			const prev = this.fileList[this.currentIndex - 1]
+			const next = this.fileList[this.currentIndex + 1]
+
+			if (prev) {
+				const path = prev['d:href'][0]
+				const mime = Mime.lookup(path)
+				const modal = this.components[mime]
+
+				if (modal) {
+					this.previousFile = {
+						path,
+						mime,
+						modal
+					}
+				}
+			// RESET
+			} else {
+				this.previousFile = {}
+			}
+
+			if (next) {
+				const path = next['d:href'][0]
+				const mime = Mime.lookup(path)
+				const modal = this.components[mime]
+
+				if (modal) {
+					this.nextFile = {
+						path,
+						mime,
+						modal
+					}
+				}
+			// RESET
+			} else {
+				this.nextFile = {}
 			}
 
 		},
@@ -246,9 +320,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .modal-mask .modal-container {
 	display: flex !important;
 	width: auto !important;
+	background-color: black !important;
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+	transition: opacity .3s ease;
+}
+
+.component-fade-enter, .component-fade-leave-to {
+	opacity: 0;
 }
 </style>

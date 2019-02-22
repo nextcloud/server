@@ -22,6 +22,10 @@
 
 export default {
 	props: {
+		active: {
+			type: Boolean,
+			default: false
+		},
 		path: {
 			type: String,
 			required: true
@@ -31,9 +35,57 @@ export default {
 			required: true
 		}
 	},
+
+	data() {
+		return {
+			height: null,
+			width: null
+		}
+	},
+
+	watch: {
+		active: function(val, old) {
+			// the item was hidden before and is now the current view
+			if (val === true && old === false) {
+				this.doneLoading()
+			}
+		}
+	},
+
 	methods: {
 		doneLoading(event) {
 			this.$emit('loaded', event)
+		},
+		updateHeightWidth(contentHeight, contentWidth) {
+			const modalContainer = this.$parent.$el.querySelector('.modal-wrapper')
+			if (modalContainer) {
+				// ! modal container have maxHeight:80% AND maxWidth: 900px
+				const parentHeight = Math.floor(modalContainer.clientHeight * 0.8)
+				const parentWidth = modalContainer.clientWidth > 900
+					? 900
+					: modalContainer.clientWidth
+
+				const heightRatio = parentHeight / contentHeight
+				const widthRatio = parentWidth / contentWidth
+
+				// if the video height is capped by the parent height
+				// AND the video is bigger than the parent
+				if (heightRatio < widthRatio && heightRatio < 1) {
+					this.height = parentHeight
+					this.width = Math.floor(contentWidth / contentHeight * parentHeight)
+
+				// if the video width is capped by the parent width
+				// AND the video is bigger than the parent
+				} else if (heightRatio > widthRatio && widthRatio < 1) {
+					this.width = parentWidth
+					this.height = Math.floor(contentHeight / contentWidth * parentWidth)
+
+				// RESET
+				} else {
+					this.height = contentHeight
+					this.width = contentWidth
+				}
+			}
 		}
 	}
 }
