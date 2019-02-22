@@ -67,7 +67,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		// Decide which page we show
-		if($renderAs == 'user') {
+		if($renderAs === 'user') {
 			parent::__construct( 'core', 'layout.user' );
 			if(in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
@@ -115,10 +115,12 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('themingInvertMenu', false);
 			}
 
-		} else if ($renderAs == 'error') {
+		} else if ($renderAs === 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
-		} else if ($renderAs == 'guest') {
+			$this->assign('user_displayname', '');
+			$this->assign('user_uid', '');
+		} else if ($renderAs === 'guest') {
 			parent::__construct('core', 'layout.guest');
 			\OC_Util::addStyle('guest');
 			$this->assign('bodyid', 'body-login');
@@ -126,7 +128,7 @@ class TemplateLayout extends \OC_Template {
 			$userDisplayName = \OC_User::getDisplayName();
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
-		} else if ($renderAs == 'public') {
+		} else if ($renderAs === 'public') {
 			parent::__construct('core', 'layout.public');
 			$this->assign( 'appid', $appId );
 			$this->assign('bodyid', 'body-public');
