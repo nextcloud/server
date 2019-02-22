@@ -38,6 +38,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems' => __DIR__ . '/..' . '/../lib/BackgroundJob/DeleteOrphanedItems.php',
         'OCA\\Files\\BackgroundJob\\ScanFiles' => __DIR__ . '/..' . '/../lib/BackgroundJob/ScanFiles.php',
         'OCA\\Files\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
+        'OCA\\Files\\Collaboration\\Resources\\Listener' => __DIR__ . '/..' . '/../lib/Collaboration/Resources/Listener.php',
         'OCA\\Files\\Collaboration\\Resources\\ResourceProvider' => __DIR__ . '/..' . '/../lib/Collaboration/Resources/ResourceProvider.php',
         'OCA\\Files\\Command\\DeleteOrphanedFiles' => __DIR__ . '/..' . '/../lib/Command/DeleteOrphanedFiles.php',
         'OCA\\Files\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
