@@ -256,12 +256,6 @@ body {
 	user-select: none;
 }
 
-/* keep the labels for screen readers but hide them since we use placeholders */
-
-label.infield {
-	display: none;
-}
-
 /* Show password toggle */
 
 #show, #dbpassword {
@@ -269,10 +263,6 @@ label.infield {
 	right: 1em;
 	top: .8em;
 	float: right;
-}
-
-#show, #dbpassword, #personal-show {
-	display: none;
 }
 
 #show + label, #dbpassword + label {
@@ -296,6 +286,18 @@ label.infield {
 	opacity: .3;
 }
 
+/* Feedback for keyboard focus and mouse hover */
+#show,
+#dbpassword,
+#personal-show {
+	&:focus + label {
+		opacity: 1;
+	}
+	+ label:hover {
+		opacity: 1;
+	}
+}
+
 #show + label:before, #dbpassword + label:before, #personal-show + label:before {
 	display: none;
 }
@@ -312,8 +314,8 @@ label.infield {
 #personal-show + label {
 	display: block;
 	right: 0;
-	margin-top: -41px;
-	margin-right: -6px;
+	margin-top: -43px;
+	margin-right: -4px;
 	padding: 22px;
 }
 

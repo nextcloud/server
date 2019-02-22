@@ -50,14 +50,14 @@ script('core', [
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="none" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
-			<input type="checkbox" id="show" name="show">
+			<input type="checkbox" id="show" class="hidden-visually" name="show">
 			<label for="show"></label>
 		</p>
 	</fieldset>
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t( 'Storage & database' )); ?> <img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -113,7 +113,7 @@ script('core', [
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="checkbox" id="dbpassword-toggle" name="dbpassword-toggle">
+				<input type="checkbox" id="dbpassword-toggle" class="hidden-visually" name="dbpassword-toggle">
 				<label for="dbpassword-toggle"></label>
 			</p>
 			<p class="groupmiddle">

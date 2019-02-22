@@ -917,3 +917,14 @@ progress {
 	animation-duration: .7s;
 	animation-timing-function: ease-out;
 }
+
+// Keep the labels for screen readers but hide them since we use placeholders
+// Same as .hidden-visually
+label.infield {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
