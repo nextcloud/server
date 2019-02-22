@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace OC\Collaboration\Resources;
 
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
@@ -308,6 +309,11 @@ class Manager implements IManager {
 	 * @since 16.0.0
 	 */
 	public function canAccessResource(IResource $resource, ?IUser $user): bool {
+		$access = $this->checkAccessCacheForUserByResource($resource, $user);
+		if (\is_bool($access)) {
+			return $access;
+		}
+
 		$access = false;
 		foreach ($this->getProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
@@ -334,6 +340,11 @@ class Manager implements IManager {
 	 * @since 16.0.0
 	 */
 	public function canAccessCollection(ICollection $collection, ?IUser $user): bool {
+		$access = $this->checkAccessCacheForUserByCollection($collection, $user);
+		if (\is_bool($access)) {
+			return $access;
+		}
+
 		$access = false;
 		foreach ($collection->getResources() as $resource) {
 			if ($resource->canAccess($user)) {
@@ -343,6 +354,46 @@ class Manager implements IManager {
 
 		$this->cacheAccessForCollection($collection, $user, $access);
 		return $access;
+	}
+
+	protected function checkAccessCacheForUserByResource(IResource $resource, ?IUser $user): ?bool {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('access')
+			->from(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId(), IQueryBuilder::PARAM_STR)))
+			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->setMaxResults(1);
+
+		$hasAccess = null;
+		$result = $query->execute();
+		if ($row = $result->fetch()) {
+			$hasAccess = (bool) $row['access'];
+		}
+		$result->closeCursor();
+
+		return $hasAccess;
+	}
+
+	protected function checkAccessCacheForUserByCollection(ICollection $collection, ?IUser $user): ?bool {
+		$query = $this->connection->getQueryBuilder();
+		$userId = $user instanceof IUser ? $user->getUID() : '';
+
+		$query->select('access')
+			->from(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->eq('collection_id', $query->createNamedParameter($collection->getId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
+			->setMaxResults(1);
+
+		$hasAccess = null;
+		$result = $query->execute();
+		if ($row = $result->fetch()) {
+			$hasAccess = (bool) $row['access'];
+		}
+		$result->closeCursor();
+
+		return $hasAccess;
 	}
 
 	public function cacheAccessForResource(IResource $resource, ?IUser $user, bool $access): void {
