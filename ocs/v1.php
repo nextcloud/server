@@ -33,7 +33,7 @@ require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
 if (\OCP\Util::needUpgrade()
-	|| \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	http_response_code(503);
@@ -103,4 +103,3 @@ try {
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }
-
