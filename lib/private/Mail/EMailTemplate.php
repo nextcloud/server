@@ -436,6 +436,7 @@ EOF;
 		}
 
 		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
 
 		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
 		if ($plainText !== false) {
