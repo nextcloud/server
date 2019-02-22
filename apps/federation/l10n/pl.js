@@ -3,13 +3,13 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "Dodano do listy zaufanych serwerów.",
     "Server is already in the list of trusted servers." : "Serwer znajduje się już na liście zaufanych serwerów.",
-    "No server to federate with found" : "Nie znaleziono stowarzyszonego serwera",
+    "No server to federate with found" : "Nie znaleziono federacyjnego serwera",
     "Could not add server" : "Nie można dodać serwera",
-    "Federation" : "Stowarzyszenia",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Stowarzyszenie umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu użytkownika.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Stowarzyszenie pozwala łączyć się z innymi zaufanymi użytkownikami i wymieniać się z nimi katalogami. Na przykład, może  to być wykorzystane do autouzupełniania w dzieleniu się ze stowarzyszonym użytkownikiem.",
+    "Federation" : "Federacje",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federacje umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu użytkownika.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federacja umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu użytkownika. Na przykład będzie to używane do automatycznego uzupełniania zewnętrznych użytkowników w celu udostępnienia federacyjnego.",
     "Trusted servers" : "Zaufane serwery",
-    "Add server automatically once a federated share was created successfully" : "Dodaj serwer automatycznie po pomyślnym utworzeniu stowarzyszonego udziału.",
+    "Add server automatically once a federated share was created successfully" : "Dodaj serwer automatycznie po pomyślnym utworzeniu federacyjnego udziału.",
     "+ Add trusted server" : "+ Dodaj zaufany serwer",
     "Trusted server" : "Zaufany serwer",
     "Add" : "Dodaj"
