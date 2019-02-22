@@ -83,10 +83,12 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('collection_id', Type::BIGINT, [
 				'notnull' => false,
+				'default' => 0,
 			]);
 			$table->addColumn('resource_id', Type::STRING, [
 				'notnull' => false,
 				'length' => 64,
+				'default' => '',
 			]);
 			$table->addColumn('access', Type::SMALLINT, [
 				'notnull' => true,
