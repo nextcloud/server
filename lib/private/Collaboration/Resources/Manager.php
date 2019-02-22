@@ -103,8 +103,7 @@ class Manager implements IManager {
 
 		$access = $row['access'] === null ? null : (bool) $row['access'];
 		if ($user instanceof IUser) {
-			$access = [$user->getUID() => $access];
-			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, null);
+			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
 		}
 
 		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
