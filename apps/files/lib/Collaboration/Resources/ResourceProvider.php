@@ -109,9 +109,8 @@ class ResourceProvider implements IProvider {
 	}
 
 	/**
-	 * Get the type of a resource
+	 * Get the resource type of the provider
 	 *
-	 * @param IResource $resource
 	 * @return string
 	 * @since 15.0.0
 	 */

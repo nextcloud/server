@@ -489,9 +489,8 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Get the type of a resource
+	 * Get the resource type of the provider
 	 *
-	 * @param IResource $resource
 	 * @return string
 	 * @since 16.0.0
 	 */
