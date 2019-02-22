@@ -24,6 +24,7 @@ namespace OC\Collaboration\Resources;
 
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
@@ -32,6 +33,7 @@ use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IUser;
 
 class Manager implements IManager {
@@ -42,12 +44,18 @@ class Manager implements IManager {
 
 	/** @var IDBConnection */
 	protected $connection;
+	/** @var ILogger */
+	protected $logger;
 
-	/** @var IProvider[] */
+	/** @var string[] */
 	protected $providers = [];
 
-	public function __construct(IDBConnection $connection) {
+	/** @var IProvider[] */
+	protected $providerInstances = [];
+
+	public function __construct(IDBConnection $connection, ILogger $logger) {
 		$this->connection = $connection;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -260,7 +268,20 @@ class Manager implements IManager {
 	 * @since 16.0.0
 	 */
 	public function getProviders(): array {
-		return $this->providers;
+		if (!empty($this->providers)) {
+			foreach ($this->providers as $provider) {
+				try {
+					$this->providerInstances[] = \OC::$server->query($provider);
+				} catch (QueryException $e) {
+					$this->logger->logException($e, [
+						'message' => 'Error when instantiating resource provider'
+					]);
+				}
+			}
+			$this->providers = [];
+		}
+
+		return $this->providerInstances;
 	}
 
 	/**
@@ -504,9 +525,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param IProvider $provider
+	 * @param string $provider
 	 */
-	public function registerResourceProvider(IProvider $provider): void {
+	public function registerResourceProvider(string $provider): void {
 		$this->providers[] = $provider;
 	}
 

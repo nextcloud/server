@@ -114,7 +114,8 @@ interface IManager extends IProvider {
 	public function getResourceForUser(string $type, string $id, ?IUser $user): IResource;
 
 	/**
-	 * @param IProvider $provider
+	 * @param string $provider
+	 * @since 16.0.0
 	 */
-	public function registerResourceProvider(IProvider $provider): void;
+	public function registerResourceProvider(string $provider): void;
 }

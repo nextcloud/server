@@ -108,7 +108,7 @@ class Application extends App {
 		 */
 		/** @var IManager $resourceManager */
 		$resourceManager = $container->query(IManager::class);
-		$resourceManager->registerResourceProvider($container->query(ResourceProvider::class));
+		$resourceManager->registerResourceProvider(ResourceProvider::class);
 		Listener::register($server->getEventDispatcher());
 	}
 }
