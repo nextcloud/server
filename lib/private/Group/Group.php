@@ -30,6 +30,7 @@
 
 namespace OC\Group;
 
+use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
@@ -349,5 +350,15 @@ class Group implements IGroup {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public function hideFromCollaboration(): bool {
+		return array_reduce($this->backends, function(bool $hide, GroupInterface $backend) {
+			return $hide | ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
+		}, false);
 	}
 }

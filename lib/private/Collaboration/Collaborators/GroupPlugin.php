@@ -73,6 +73,10 @@ class GroupPlugin implements ISearchPlugin {
 
 		$lowerSearch = strtolower($search);
 		foreach ($groups as $group) {
+			if ($group->hideFromCollaboration()) {
+				continue;
+			}
+
 			// FIXME: use a more efficient approach
 			$gid = $group->getGID();
 			if (!in_array($gid, $groupIds)) {
