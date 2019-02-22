@@ -27,6 +27,7 @@
 namespace OCA\Files\AppInfo;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
@@ -108,5 +109,6 @@ class Application extends App {
 		/** @var IManager $resourceManager */
 		$resourceManager = $container->query(IManager::class);
 		$resourceManager->registerResourceProvider($container->query(ResourceProvider::class));
+		Listener::register($server->getEventDispatcher());
 	}
 }
