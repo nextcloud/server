@@ -1,13 +1,13 @@
 <template>
-	<a :class="{preview: true, selected: preview.id === selected}"
-	   href="#" @click="selectItem">
+	<div :class="{preview: true}">
 		<div class="preview-image" :style="{backgroundImage: 'url(' + preview.img + ')'}"></div>
-		<h3>
-			<span>{{preview.title}}</span>
-			<div class="icon-checkmark-color">{{t('accessibility', 'enabled')}}</div>
-		</h3>
-		<p>{{preview.text}}</p>
-	</a>
+		<div class="preview-description">
+			<h3>{{preview.title}}</h3>
+			<p>{{preview.text}}</p>
+			<input type="checkbox" class="checkbox" :id="'accessibility-' + preview.id" :checked="selected === preview.id" />
+			<label :for="'accessibility-' + preview.id" @click="selectItem">{{t('accessibility', 'Enable')}} {{preview.title.toLowerCase()}}</label>
+		</div>
+	</div>
 </template>
 
 <script>
