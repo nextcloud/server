@@ -225,6 +225,10 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	protected function prepareCollection(ICollection $collection): array {
+		if (!$collection->canAccess($this->userSession->getUser())) {
+			return null;
+		}
+
 		return [
 			'id' => $collection->getId(),
 			'name' => $collection->getName(),
