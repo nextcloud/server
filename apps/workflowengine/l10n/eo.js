@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontrolo %s ne ekzistas",
     "Check %s is invalid" : "Kontrolo %s ne validas",
     "Check #%s does not exist" : "Kontrolo n-ro %s ne ekzistas",
+    "Tag management" : "Etikeda administrado",
     "Files workflow engine" : "Modulo de dosiera laborfluo",
     "Open documentation" : "Malfermi dokumentaron",
     "Loading…" : "Ŝargante...",
