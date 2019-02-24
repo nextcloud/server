@@ -43,7 +43,7 @@ class Listener {
 		$dispatcher->addListener(IGroup::class . '::postAddUser', $listener);
 		$dispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
 
-		$dispatcher->addListener(IGroup::class . '::postDelete', function(GenericEvent $event) {
+		$dispatcher->addListener(IUser::class . '::postDelete', function(GenericEvent $event) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 			/** @var IManager $resourceManager */
