@@ -11,6 +11,7 @@
     <namespace>Viewer</namespace>
     <category>tools</category>
     <bugs>https://github.com/nextcloud/viewer</bugs>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png</screenshot>
     <dependencies>
         <nextcloud min-version="15" max-version="16"/>
     </dependencies>

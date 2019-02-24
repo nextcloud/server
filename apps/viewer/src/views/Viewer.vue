@@ -31,8 +31,8 @@
 		@previous="previous"
 		@next="next">
 		<component
-			v-show="false"
 			:is="previousFile.modal"
+			v-show="false"
 			ref="previous-content"
 			:key="previousFile.path"
 			:mime="previousFile.mime"
@@ -46,8 +46,8 @@
 			:active="true"
 			@loaded="doneLoading" />
 		<component
-			v-show="false"
 			:is="nextFile.modal"
+			v-show="false"
 			ref="next-content"
 			:key="nextFile.path"
 			:mime="nextFile.mime"
