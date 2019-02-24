@@ -1,6 +1,6 @@
 all: dev-setup build-js-production
 
-dev-setup: clean clean-dev npm-init
+dev-setup: clean-dev npm-init
 
 npm-init:
 	npm install
@@ -16,10 +16,6 @@ build-js-production:
 
 watch-js:
 	npm run watch
-
-clean:
-	rm -f js/vue-*.js
-	rm -f js/vue-*.js.map
 
 clean-dev:
 	rm -rf node_modules
