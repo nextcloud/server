@@ -52,6 +52,11 @@ class ResourceProvider implements IProvider {
 		if (isset($this->nodes[(int) $resource->getId()])) {
 			return $this->nodes[(int) $resource->getId()];
 		}
+		$nodes = $this->rootFolder->getById((int) $resource->getId());
+		if (!empty($nodes)) {
+			$this->nodes[(int) $resource->getId()] = array_shift($nodes);
+			return $this->nodes[(int) $resource->getId()];
+		}
 		return null;
 	}
 
@@ -65,6 +70,10 @@ class ResourceProvider implements IProvider {
 	public function getName(IResource $resource): string {
 		if (isset($this->nodes[(int) $resource->getId()])) {
 			return $this->nodes[(int) $resource->getId()]->getPath();
+		}
+		$node = $this->getNode($resource);
+		if ($node) {
+			return $node->getName();
 		}
 		return '';
 	}
