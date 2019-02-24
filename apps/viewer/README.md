@@ -4,18 +4,18 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 
 ![viewer](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png)
 
-## 🎛 Current support
+## 📋 Current support
 - Images
 - Videos
 
-## How to setup the development app
+## 🎛 How to setup the development app
 1. ☁ Clone this into your `apps` folder of your Nextcloud
 2. 👩‍💻 In a terminal, run the command `make dev-setup` to install the dependencies
 3. 🏗 Then to build the Javascript whenever you make changes, run `make build-js`
 4. ✅ Enable the app through the app management of your Nextcloud
 5. 🎉 Partytime!
 
-## Add you own file view
+## 🔍 Add you own file view
 If you want to make your app compatible with this app, you can use the `OCA.Viewer` methods
 1. Create a vue component which use the `path` and `mime` props (they will be automatically passed by the viewer)
 2. Register your mime viewer with the following:
