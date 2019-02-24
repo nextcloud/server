@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Проверите да ли %s постоји",
     "Check %s is invalid" : "Проверите да ли је %s исправно",
     "Check #%s does not exist" : "Проверите да ли #%s постоји",
+    "Tag management" : "Управљање ознакама",
     "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
     "Loading…" : "Учитавање…",
