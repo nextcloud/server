@@ -32,7 +32,7 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				options: {
-					plugins: ['@babel/plugin-syntax-dynamic-import']
+					plugins: ['@babel/plugin-syntax-dynamic-import', 'transform-es2015-arrow-functions']
 				}
 			},
 			{
