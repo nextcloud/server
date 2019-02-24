@@ -1381,8 +1381,12 @@ class View {
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
-
-			$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
+			$ownerId = $storage->getOwner($internalPath);
+			$owner = null;
+			if ($ownerId !== null) {
+				// ownerId might be null if files are accessed with an access token without file system access
+				$owner = $this->getUserObjectForOwner($ownerId);
+			}
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
 			if ($data and isset($data['fileid'])) {
