@@ -25,10 +25,12 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OC\User\Manager;
 use OCA\User_LDAP\IGroupLDAP;
 use OCP\IConfig;
 use OCP\IServerContainer;
 use OCA\User_LDAP\IUserLDAP;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class LDAPProviderTest
@@ -60,21 +62,21 @@ class LDAPProviderTest extends \Test\TestCase {
 		$server->expects($this->any())
             ->method($this->anything())
             ->willReturnSelf();
-			
+
 		return $server;
 	}
 
 	private function getUserManagerMock(IUserLDAP $userBackend) {
-		$userManager = $this->getMockBuilder('OC\User\Manager')
+		$userManager = $this->getMockBuilder(Manager::class)
 			->setMethods(['getBackends'])
-			->setConstructorArgs([$this->createMock(IConfig::class)])
+			->setConstructorArgs([$this->createMock(IConfig::class), $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$userManager->expects($this->any())
 			->method('getBackends')
 			->willReturn([$userBackend]);
 		return $userManager;
 	}
-	
+
 	private function getGroupManagerMock(IGroupLDAP $groupBackend) {
 		$groupManager = $this->getMockBuilder('OC\Group\Manager')
 			->setMethods(['getBackends'])
