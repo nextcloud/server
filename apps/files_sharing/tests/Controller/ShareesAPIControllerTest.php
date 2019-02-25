@@ -50,6 +50,9 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var ShareesAPIController */
 	protected $sharees;
 
+	/** @var string */
+	protected $uid;
+
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
@@ -62,6 +65,7 @@ class ShareesAPIControllerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		$this->uid = 'test123';
 		$this->request = $this->createMock(IRequest::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
@@ -74,6 +78,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 
 		$this->sharees = new ShareesAPIController(
+			$this->uid,
 			'files_sharing',
 			$this->request,
 			$configMock,
@@ -243,6 +248,8 @@ class ShareesAPIControllerTest extends TestCase {
 			->method('allowGroupSharing')
 			->willReturn($allowGroupSharing);
 
+		/** @var string */
+		$uid = 'test123';
 		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
@@ -251,6 +258,7 @@ class ShareesAPIControllerTest extends TestCase {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
+				$uid,
 				'files_sharing',
 				$request,
 				$config,
@@ -335,6 +343,8 @@ class ShareesAPIControllerTest extends TestCase {
 		$config->expects($this->never())
 			->method('getAppValue');
 
+		/** @var string */
+		$uid = 'test123';
 		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
@@ -343,6 +353,7 @@ class ShareesAPIControllerTest extends TestCase {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
+				$uid,
 				'files_sharing',
 				$request,
 				$config,

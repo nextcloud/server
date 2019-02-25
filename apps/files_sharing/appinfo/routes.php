@@ -94,6 +94,11 @@ return [
 			'url' => '/api/v1/sharees',
 			'verb' => 'GET',
 		],
+		[
+			'name' => 'ShareesAPI#findRecommended',
+			'url' => '/api/v1/sharees_recommended',
+			'verb' => 'GET',
+		],
 		/*
 		 * Remote Shares
 		 */
