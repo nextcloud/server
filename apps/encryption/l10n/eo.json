@@ -1,7 +1,7 @@
 { "translations": {
     "Missing recovery key password" : "Mankas pasvorto de la restaŭroŝlosilo",
     "Please repeat the recovery key password" : "Bv. ripeti la pasvorton de restaŭroŝlosilo",
-    "Repeated recovery key password does not match the provided recovery key password" : "La ripetita pasvorto de restaŭroŝlosilo ne kongruas kun la donita pasvorto de restaŭroŝlosilo",
+    "Repeated recovery key password does not match the provided recovery key password" : "La du pasvortoj pri la restaŭroŝlosilo ne kongruas",
     "Recovery key successfully enabled" : "Restaŭroŝlosilo sukcese ebligita",
     "Could not enable recovery key. Please check your recovery key password!" : "Restaŭroŝlosilo ne povis esti ŝaltita. Bv. kontroli vian pasvorton de restaŭroŝlosilo!",
     "Recovery key successfully disabled" : "Restaŭroŝlosilo sukcese malŝaltita",
@@ -48,11 +48,17 @@
     "New recovery key password" : "Nova pasvorto de restaŭroŝlosilo",
     "Repeat new recovery key password" : "Ripetu la novan pasvorton de restaŭroŝlosilo",
     "Change Password" : "Ŝanĝi pasvorton",
+    "Basic encryption module" : "Bazĉifrada modulo",
+    "Your private key password no longer matches your log-in password." : "La pasvorto de via privata ŝlosilo ne plu kongruas kun via ensaluta pasvorto.",
+    "Set your old private key password to your current log-in password:" : "Agordi la pasvorton de via antaŭa privata ŝlosilo al via nuna ensaluta pasvorto:",
+    " If you don't remember your old password you can ask your administrator to recover your files." : "Se vi ne memoras vian antaŭan pasvorton, vi povas peti al via administranto restaŭri viajn dosierojn.",
     "Old log-in password" : "Malnova ensaluta pasvorto",
     "Current log-in password" : "Nuna ensaluta pasvorto",
     "Update Private Key Password" : "Ĝisdatigi la pasvorton de la malpublika ŝlosilo",
-    "Enable password recovery:" : "Kapabligi restaŭron de pasvorto:",
-    "Enabled" : "Kapabligita",
-    "Disabled" : "Malkapabligita"
+    "Enable password recovery:" : "Ŝalti restaŭron de pasvorto:",
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ŝalti tiun opcion ebligas al vi rehavi aliron al viaj ĉifritaj dosierojn okaze de pasvorta perdo.",
+    "Enabled" : "Ŝaltita",
+    "Disabled" : "Malŝaltita",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vi devas transigi viajn ĉifroŝlosilojn el antaŭa versio (ownCloud ⩽ 8.0) al nova. Bv. ruli komandlinie „occ encryption:migrate“ aŭ kontakti vian administranton."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
