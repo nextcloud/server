@@ -32,11 +32,11 @@
 		@next="next">
 		<component
 			:is="previousFile.modal"
-			v-show="false"
 			ref="previous-content"
 			:key="previousFile.path"
 			:mime="previousFile.mime"
-			:path="previousFile.path" />
+			:path="previousFile.path"
+			class="hidden-visually" />
 		<component
 			:is="currentFile.modal"
 			ref="content"
@@ -47,11 +47,11 @@
 			@loaded="doneLoading" />
 		<component
 			:is="nextFile.modal"
-			v-show="false"
 			ref="next-content"
 			:key="nextFile.path"
 			:mime="nextFile.mime"
-			:path="nextFile.path" />
+			:path="nextFile.path"
+			class="hidden-visually" />
 	</modal>
 </template>
 
