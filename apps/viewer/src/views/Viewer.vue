@@ -59,7 +59,7 @@
 import Mime from 'mime-types'
 import Vue from 'vue'
 
-import { Modal } from 'nextcloud-vue'
+import Modal from 'nextcloud-vue/dist/Components/Modal'
 
 import FileList from 'Services/FileList'
 
