@@ -54,7 +54,7 @@ class InfoParserTest extends TestCase {
 			['expected-info.json', 'valid-info.xml'],
 			[null, 'invalid-info.xml'],
 			['navigation-one-item.json', 'navigation-one-item.xml'],
-			['navigation-two-item.json', 'navigation-two-item.xml'],
+			['navigation-two-items.json', 'navigation-two-items.xml'],
 		];
 	}
 }
