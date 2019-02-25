@@ -36,6 +36,7 @@
     padding: 10px 0;
     filter: drop-shadow(0 1px 10px var(--color-box-shadow));
     &.in,
+    &.show,
     &.tooltip[aria-hidden='false'] {
         visibility: visible;
         opacity: 1;
@@ -80,7 +81,7 @@
     &.top-left,
     &[x-placement^='top'],
     &.top-right {
-        .tooltip-arrow {
+        .tooltip-arrow, .arrow {
             bottom: 0;
             border-width: 10px 10px 0;
             border-top-color: var(--color-main-background);
@@ -99,7 +100,7 @@
     &[x-placement^='bottom'],
     &.bottom-left,
     &.bottom-right {
-        .tooltip-arrow {
+        .tooltip-arrow, .arrow {
             top: 0;
             border-width: 0 10px 10px;
             border-bottom-color: var(--color-main-background);
@@ -129,7 +130,7 @@
     border-radius: var(--border-radius);
 }
 
-.tooltip-arrow {
+.tooltip-arrow, .tooltip .arrow {
     position: absolute;
     width: 0;
     height: 0;
