@@ -296,6 +296,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Group\\Backend\\ICreateGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICreateGroupBackend.php',
         'OCP\\Group\\Backend\\IDeleteGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IDeleteGroupBackend.php',
         'OCP\\Group\\Backend\\IGroupDetailsBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IGroupDetailsBackend.php',
+        'OCP\\Group\\Backend\\IHideFromCollaborationBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IHideFromCollaborationBackend.php',
         'OCP\\Group\\Backend\\IIsAdminBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IIsAdminBackend.php',
         'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
         'OCP\\Group\\ISubAdmin' => __DIR__ . '/../../..' . '/lib/public/Group/ISubAdmin.php',

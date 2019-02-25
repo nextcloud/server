@@ -266,6 +266,7 @@ return array(
     'OCP\\Group\\Backend\\ICreateGroupBackend' => $baseDir . '/lib/public/Group/Backend/ICreateGroupBackend.php',
     'OCP\\Group\\Backend\\IDeleteGroupBackend' => $baseDir . '/lib/public/Group/Backend/IDeleteGroupBackend.php',
     'OCP\\Group\\Backend\\IGroupDetailsBackend' => $baseDir . '/lib/public/Group/Backend/IGroupDetailsBackend.php',
+    'OCP\\Group\\Backend\\IHideFromCollaborationBackend' => $baseDir . '/lib/public/Group/Backend/IHideFromCollaborationBackend.php',
     'OCP\\Group\\Backend\\IIsAdminBackend' => $baseDir . '/lib/public/Group/Backend/IIsAdminBackend.php',
     'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => $baseDir . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
     'OCP\\Group\\ISubAdmin' => $baseDir . '/lib/public/Group/ISubAdmin.php',
