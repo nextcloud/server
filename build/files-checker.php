@@ -59,6 +59,7 @@ $expectedFiles = [
 	'index.html',
 	'index.php',
 	'lib',
+	'Makefile',
 	'occ',
 	'ocs',
 	'ocs-provider',

@@ -91,10 +91,10 @@ class Application {
 		$inputDefinition = $application->getDefinition();
 		$inputDefinition->addOption(
 			new InputOption(
-				'no-warnings', 
-				null, 
-				InputOption::VALUE_NONE, 
-				'Skip global warnings, show command output only', 
+				'no-warnings',
+				null,
+				InputOption::VALUE_NONE,
+				'Skip global warnings, show command output only',
 				null
 			)
 		);
@@ -119,7 +119,7 @@ class Application {
 			if ($this->config->getSystemValue('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
-				} elseif ($this->config->getSystemValue('maintenance', false)) {
+				} elseif ($this->config->getSystemValueBool('maintenance')) {
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					OC_App::loadApps();

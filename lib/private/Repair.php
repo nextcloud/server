@@ -43,6 +43,7 @@ use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\NC15\SetVcardDatabaseUID;
+use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
 use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -150,6 +151,7 @@ class Repair implements IOutput {
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
+			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
 		];
 	}
 

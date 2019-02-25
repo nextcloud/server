@@ -26,8 +26,11 @@
 
 namespace OC\Core\Command\App;
 
+use OC\Installer;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -39,23 +42,31 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Enable extends Command implements CompletionAwareInterface {
 
 	/** @var IAppManager */
-	protected $manager;
+	protected $appManager;
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
+	/** @var int */
+	protected $exitCode = 0;
 
 	/**
-	 * @param IAppManager $manager
+	 * @param IAppManager $appManager
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IAppManager $manager) {
+	public function __construct(IAppManager $appManager, IGroupManager $groupManager) {
 		parent::__construct();
-		$this->manager = $manager;
+		$this->appManager = $appManager;
+		$this->groupManager = $groupManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:enable')
 			->setDescription('enable an app')
 			->addArgument(
 				'app-id',
-				InputArgument::REQUIRED,
+				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 				'enable the specified app'
 			)
 			->addOption(
@@ -63,28 +74,70 @@ class Enable extends Command implements CompletionAwareInterface {
 				'g',
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
 				'enable the app only for a list of groups'
-			)
-		;
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getArgument('app-id');
+		$appIds = $input->getArgument('app-id');
+		$groups = $this->resolveGroupIds($input->getOption('groups'));
 
-		if (!\OC_App::getAppPath($appId)) {
+		foreach ($appIds as $appId) {
+			$this->enableApp($appId, $groups, $output);
+		}
+
+		return $this->exitCode;
+	}
+
+	/**
+	 * @param string $appId
+	 * @param array $groupIds
+	 * @param OutputInterface $output
+	 */
+	private function enableApp(string $appId, array $groupIds, OutputInterface $output): void {
+		$groupNames = array_map(function (IGroup $group) {
+			return $group->getDisplayName();
+		}, $groupIds);
+
+
+		try {
+			/** @var Installer $installer */
+			$installer = \OC::$server->query(Installer::class);
+
+			if (false === $installer->isDownloaded($appId)) {
+				$installer->downloadApp($appId);
+			}
+
+			$installer->installApp($appId);
+
+			if ($groupIds === []) {
+				$this->appManager->enableApp($appId);
+				$output->writeln($appId . ' enabled');
+			} else {
+				$this->appManager->enableAppForGroups($appId, $groupIds);
+				$output->writeln($appId . ' enabled for groups: ' . implode(', ', $groupNames));
+			}
+		} catch (AppPathNotFoundException $e) {
 			$output->writeln($appId . ' not found');
-			return 1;
+			$this->exitCode = 1;
+		} catch (\Exception $e) {
+			$output->writeln($e->getMessage());
+			$this->exitCode = 1;
 		}
+	}
 
-		$groups = $input->getOption('groups');
-		$appClass = new \OC_App();
-		if (empty($groups)) {
-			$appClass->enable($appId);
-			$output->writeln($appId . ' enabled');
-		} else {
-			$appClass->enable($appId, $groups);
-			$output->writeln($appId . ' enabled for groups: ' . implode(', ', $groups));
+	/**
+	 * @param array $groupIds
+	 * @return array
+	 */
+	private function resolveGroupIds(array $groupIds): array {
+		$groups = [];
+		foreach ($groupIds as $groupId) {
+			$group = $this->groupManager->get($groupId);
+			if ($group instanceof IGroup) {
+				$groups[] = $group;
+			}
 		}
-		return 0;
+		return $groups;
 	}
 
 	/**
@@ -94,9 +147,9 @@ class Enable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'groups') {
-			return array_map(function(IGroup $group) {
+			return array_map(function (IGroup $group) {
 				return $group->getGID();
-			}, \OC::$server->getGroupManager()->search($context->getCurrentWord()));
+			}, $this->groupManager->search($context->getCurrentWord()));
 		}
 		return [];
 	}

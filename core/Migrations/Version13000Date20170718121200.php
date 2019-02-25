@@ -523,7 +523,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'authtoken_token_index');
-			$table->addIndex(['last_activity'], 'authtoken_last_activity_index');
+			$table->addIndex(['last_activity'], 'authtoken_last_activity_idx');
 		}
 
 		if (!$schema->hasTable('bruteforce_attempts')) {

@@ -106,7 +106,7 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 			return false;
 		}
 		// Load the enabled apps here

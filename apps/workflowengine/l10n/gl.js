@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Non existe a proba %s",
     "Check %s is invalid" : "A proba %s é incorrecta",
     "Check #%s does not exist" : "Non existe a proba num. %s ",
+    "Tag management" : "Xestión de etiquetas",
     "Files workflow engine" : "Motor de fluxo de traballo de ficheiros",
     "Open documentation" : "Documentación aberta",
     "Loading…" : "Cargando…",

@@ -123,7 +123,7 @@ class ModeTest extends TestCase {
 		string $expectedOutput
 	) {
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->willReturn($currentMaintenanceState);
 
 		if ($expectedMaintenanceState !== null) {

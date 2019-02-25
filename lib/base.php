@@ -285,7 +285,7 @@ class OC {
 
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
-		if (\OC::$server->getSystemConfig()->getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
 			header('Retry-After: 120');
@@ -938,7 +938,7 @@ class OC {
 				if (function_exists('opcache_reset')) {
 					opcache_reset();
 				}
-				if (!$systemConfig->getValue('maintenance', false)) {
+				if (!((bool) $systemConfig->getValue('maintenance', false))) {
 					self::printUpgradePage($systemConfig);
 					exit();
 				}
@@ -966,7 +966,7 @@ class OC {
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
-			&& !$systemConfig->getValue('maintenance', false)) {
+			&& !((bool) $systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
 			if(\OC::$server->getUserSession()->isLoggedIn()) {
 				OC_App::loadApps();
@@ -979,7 +979,7 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
+				if (!((bool) $systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}

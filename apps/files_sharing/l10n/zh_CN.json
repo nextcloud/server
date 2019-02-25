@@ -20,6 +20,7 @@
     "Download" : "下载",
     "Delete" : "删除",
     "You can upload into this folder" : "您可以上传文件至此文件夹",
+    "Terms of service" : "服务条款",
     "No compatible server found at {remote}" : " {remote} 未发现匹配的服务器",
     "Invalid server URL" : "无效的服务器地址",
     "Failed to add the public link to your Nextcloud" : "添加公开链接到您的 Nextcloud 失败",

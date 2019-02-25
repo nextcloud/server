@@ -50,6 +50,9 @@
 		/** @type {object} **/
 		_lastSuggestions: undefined,
 
+		/** @type {object} **/
+		_lastRecommendations: undefined,
+
 		/** @type {int} **/
 		_pendingOperationsCount: 0,
 
@@ -382,7 +385,299 @@
 			return this._lastSuggestions.promise;
 		},
 
+		_getRecommendations: function(model) {
+			if (this._lastRecommendations &&
+				this._lastRecommendations.model === model) {
+				return this._lastRecommendations.promise;
+			}
+
+			var deferred = $.Deferred();
+
+			$.get(
+				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees_recommended',
+				{
+					format: 'json',
+					itemType: model.get('itemType')
+				},
+				function (result) {
+					if (result.ocs.meta.statuscode === 100) {
+						var filter = function(users, groups, remotes, remote_groups, emails, circles, rooms) {
+							if (typeof(emails) === 'undefined') {
+								emails = [];
+							}
+							if (typeof(circles) === 'undefined') {
+								circles = [];
+							}
+							if (typeof(rooms) === 'undefined') {
+								rooms = [];
+							}
+
+							var usersLength;
+							var groupsLength;
+							var remotesLength;
+							var remoteGroupsLength;
+							var emailsLength;
+							var circlesLength;
+							var roomsLength;
+
+							var i, j;
+
+							//Filter out the current user
+							usersLength = users.length;
+							for (i = 0; i < usersLength; i++) {
+								if (users[i].value.shareWith === OC.currentUser) {
+									users.splice(i, 1);
+									break;
+								}
+							}
+
+							// Filter out the owner of the share
+							if (model.hasReshare()) {
+								usersLength = users.length;
+								for (i = 0 ; i < usersLength; i++) {
+									if (users[i].value.shareWith === model.getReshareOwner()) {
+										users.splice(i, 1);
+										break;
+									}
+								}
+							}
+
+							var shares = model.get('shares');
+							var sharesLength = shares.length;
+
+							// Now filter out all sharees that are already shared with
+							for (i = 0; i < sharesLength; i++) {
+								var share = shares[i];
+
+								if (share.share_type === OC.Share.SHARE_TYPE_USER) {
+									usersLength = users.length;
+									for (j = 0; j < usersLength; j++) {
+										if (users[j].value.shareWith === share.share_with) {
+											users.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_GROUP) {
+									groupsLength = groups.length;
+									for (j = 0; j < groupsLength; j++) {
+										if (groups[j].value.shareWith === share.share_with) {
+											groups.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE) {
+									remotesLength = remotes.length;
+									for (j = 0; j < remotesLength; j++) {
+										if (remotes[j].value.shareWith === share.share_with) {
+											remotes.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+									remoteGroupsLength = remote_groups.length;
+									for (j = 0; j < remoteGroupsLength; j++) {
+										if (remote_groups[j].value.shareWith === share.share_with) {
+											remote_groups.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
+									emailsLength = emails.length;
+									for (j = 0; j < emailsLength; j++) {
+										if (emails[j].value.shareWith === share.share_with) {
+											emails.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_CIRCLE) {
+									circlesLength = circles.length;
+									for (j = 0; j < circlesLength; j++) {
+										if (circles[j].value.shareWith === share.share_with) {
+											circles.splice(j, 1);
+											break;
+										}
+									}
+								} else if (share.share_type === OC.Share.SHARE_TYPE_ROOM) {
+									roomsLength = rooms.length;
+									for (j = 0; j < roomsLength; j++) {
+										if (rooms[j].value.shareWith === share.share_with) {
+											rooms.splice(j, 1);
+											break;
+										}
+									}
+								}
+							}
+						};
+
+						filter(
+							result.ocs.data.exact.users,
+							result.ocs.data.exact.groups,
+							result.ocs.data.exact.remotes,
+							result.ocs.data.exact.remote_groups,
+							result.ocs.data.exact.emails,
+							result.ocs.data.exact.circles,
+							result.ocs.data.exact.rooms
+						);
+
+						var exactUsers   = result.ocs.data.exact.users;
+						var exactGroups  = result.ocs.data.exact.groups;
+						var exactRemotes = result.ocs.data.exact.remotes || [];
+						var exactRemoteGroups = result.ocs.data.exact.remote_groups || [];
+						var exactEmails = [];
+						if (typeof(result.ocs.data.emails) !== 'undefined') {
+							exactEmails = result.ocs.data.exact.emails;
+						}
+						var exactCircles = [];
+						if (typeof(result.ocs.data.circles) !== 'undefined') {
+							exactCircles = result.ocs.data.exact.circles;
+						}
+						var exactRooms = [];
+						if (typeof(result.ocs.data.rooms) !== 'undefined') {
+							exactRooms = result.ocs.data.exact.rooms;
+						}
+
+						var exactMatches = exactUsers.concat(exactGroups).concat(exactRemotes).concat(exactRemoteGroups).concat(exactEmails).concat(exactCircles).concat(exactRooms);
+
+						filter(
+							result.ocs.data.users,
+							result.ocs.data.groups,
+							result.ocs.data.remotes,
+							result.ocs.data.remote_groups,
+							result.ocs.data.emails,
+							result.ocs.data.circles,
+							result.ocs.data.rooms
+						);
+
+						var users   = result.ocs.data.users;
+						var groups  = result.ocs.data.groups;
+						var remotes = result.ocs.data.remotes || [];
+						var remoteGroups = result.ocs.data.remote_groups || [];
+						var lookup = result.ocs.data.lookup || [];
+						var emails = [];
+						if (typeof(result.ocs.data.emails) !== 'undefined') {
+							emails = result.ocs.data.emails;
+						}
+						var circles = [];
+						if (typeof(result.ocs.data.circles) !== 'undefined') {
+							circles = result.ocs.data.circles;
+						}
+						var rooms = [];
+						if (typeof(result.ocs.data.rooms) !== 'undefined') {
+							rooms = result.ocs.data.rooms;
+						}
+
+						var suggestions = exactMatches.concat(users).concat(groups).concat(remotes).concat(remoteGroups).concat(emails).concat(circles).concat(rooms).concat(lookup);
+
+						function dynamicSort(property) {
+							return function (a,b) {
+								var aProperty = '';
+								var bProperty = '';
+								if (typeof a[property] !== 'undefined') {
+									aProperty = a[property];
+								}
+								if (typeof b[property] !== 'undefined') {
+									bProperty = b[property];
+								}
+								return (aProperty < bProperty) ? -1 : (aProperty > bProperty) ? 1 : 0;
+							}
+						}
+
+						/**
+						 * Sort share entries by uuid to properly group them
+						 */
+						var grouped = suggestions.sort(dynamicSort('uuid'));
+
+						var previousUuid = null;
+						var groupedLength = grouped.length;
+						var result = [];
+						/**
+						 * build the result array that only contains all contact entries from
+						 * merged contacts, if the search term matches its contact name
+						 */
+						for (var i = 0; i < groupedLength; i++) {
+							if (typeof grouped[i].uuid !== 'undefined' && grouped[i].uuid === previousUuid) {
+								grouped[i].merged = true;
+							}
+							if (typeof grouped[i].merged === 'undefined') {
+								result.push(grouped[i]);
+							}
+							previousUuid = grouped[i].uuid;
+						}
+						var moreResultsAvailable =
+							(
+								oc_config['sharing.maxAutocompleteResults'] > 0
+								&& Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+								<= Math.max(
+									users.length + exactUsers.length,
+									groups.length + exactGroups.length,
+									remoteGroups.length + exactRemoteGroups.length,
+									remotes.length + exactRemotes.length,
+									emails.length + exactEmails.length,
+									circles.length + exactCircles.length,
+									rooms.length + exactRooms.length,
+									lookup.length
+								)
+							);
+
+						deferred.resolve(result, exactMatches, moreResultsAvailable);
+					} else {
+						deferred.reject(result.ocs.meta.message);
+					}
+				}
+			).fail(function() {
+				deferred.reject();
+			});
+
+			this._lastRecommendations = {
+				model: model,
+				promise: deferred.promise()
+			};
+
+			return this._lastRecommendations.promise;
+		},
+
+		recommendationHandler: function (response) {
+			var view = this;
+			var $shareWithField = $('.shareWithField');
+			this._getRecommendations(
+				view.model
+			).done(function(suggestions, exactMatches) {
+				view._pendingOperationsCount--;
+				if (view._pendingOperationsCount === 0) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+				}
+
+				if (suggestions.length > 0) {
+					$shareWithField
+						.autocomplete("option", "autoFocus", true);
+
+					response(suggestions);
+				} else {
+					console.info('no sharing recommendations found');
+					response();
+				}
+			}).fail(function(message) {
+				view._pendingOperationsCount--;
+				if (view._pendingOperationsCount === 0) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					$confirm.removeClass('hidden');
+				}
+
+				console.error('could not load recommendations', message)
+			});
+		},
+
 		autocompleteHandler: function (search, response) {
+			// If nothing is entered we show recommendations instead of search
+			// results
+			if (search.term.length === 0) {
+				this.recommendationHandler(response);
+				return;
+			}
+
 			var $shareWithField = $('.shareWithField'),
 				view = this,
 				$loading = this.$el.find('.shareWithLoading'),
@@ -766,7 +1061,7 @@
 				};
 
 				$shareField.autocomplete({
-					minLength: 1,
+					minLength: 0,
 					delay: 750,
 					focus: function(event) {
 						event.preventDefault();

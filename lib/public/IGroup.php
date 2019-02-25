@@ -138,4 +138,10 @@ interface IGroup {
 	 * @since 14.0.0
 	 */
 	public function canAddUser();
+
+	/**
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public function hideFromCollaboration(): bool;
 }
