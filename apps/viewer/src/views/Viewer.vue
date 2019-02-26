@@ -27,6 +27,7 @@
 		:view="currentFile.modal"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
+		:enable-slideshow="true"
 		@close="close"
 		@previous="previous"
 		@next="next">
