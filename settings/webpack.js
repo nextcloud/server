@@ -4,7 +4,8 @@ const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
 	entry: {
 		'settings-apps-users-management': path.join(__dirname, 'src', 'main-apps-users-management'),
-		'settings-admin-security': path.join(__dirname, 'src', 'main-admin-security')
+		'settings-admin-security': path.join(__dirname, 'src', 'main-admin-security'),
+		'settings-personal-security': path.join(__dirname, 'src', 'main-personal-security')
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),

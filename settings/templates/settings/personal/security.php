@@ -22,11 +22,8 @@
  */
 
 script('settings', [
-	'authtoken',
-	'authtoken_collection',
 	'templates',
-	'authtoken_view',
-	'settings/authtoken-init'
+	'vue-settings-personal-security',
 ]);
 
 if($_['passwordChangeSupported']) {
@@ -93,39 +90,4 @@ if($_['passwordChangeSupported']) {
 	</ul>
 </div>
 
-<div id="security" class="section">
-	<h2><?php p($l->t('Devices & sessions'));?></h2>
-	<p class="settings-hint hidden-when-empty"><?php p($l->t('Web, desktop and mobile clients currently logged in to your account.'));?></p>
-	<table class="icon-loading">
-		<thead class="token-list-header">
-			<tr>
-				<th></th>
-				<th><?php p($l->t('Device'));?></th>
-				<th><?php p($l->t('Last activity'));?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody class="token-list">
-		</tbody>
-	</table>
-	<div id="app-password-form">
-		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
-		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
-	</div>
-	<div id="app-password-result" class="hidden">
-		<span>
-			<?php p($l->t('Use the credentials below to configure your app or device.')); ?>
-			<?php p($l->t('For security reasons this password will only be shown once.')); ?>
-		</span>
-		<div class="app-password-row">
-			<span class="app-password-label"><?php p($l->t('Username')); ?></span>
-			<input id="new-app-login-name" type="text" readonly="readonly"/>
-		</div>
-		<div class="app-password-row">
-			<span class="app-password-label"><?php p($l->t('Password')); ?></span>
-			<input id="new-app-password" type="text" readonly="readonly"/>
-			<a class="clipboardButton icon icon-clippy" data-clipboard-target="#new-app-password"></a>
-			<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
-		</div>
-	</div>
-</div>
+<div id="security" class="section"></div>
