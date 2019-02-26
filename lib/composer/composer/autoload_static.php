@@ -134,6 +134,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Calendar\\Room\\IRoom' => __DIR__ . '/../../..' . '/lib/public/Calendar/Room/IRoom.php',
         'OCP\\Capabilities\\ICapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/ICapability.php',
         'OCP\\Capabilities\\IPublicCapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IPublicCapability.php',
+        'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',
         'OCP\\Collaboration\\AutoComplete\\IManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/IManager.php',
         'OCP\\Collaboration\\AutoComplete\\ISorter' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/ISorter.php',
         'OCP\\Collaboration\\Collaborators\\ISearch' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Collaborators/ISearch.php',
