@@ -43,6 +43,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share;
 use OCP\Share\IShare;
+use OCP\Lock\ILockingProvider;
 
 
 abstract class Node implements \Sabre\DAV\INode {
@@ -321,6 +322,62 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		return '';
+	}
+
+	/**
+	 * @param string $user
+	 * @return string
+	 */
+	public function getShareeFromShare($user) {
+		$sharees = [];
+
+		if ($user == null) {
+			return $sharees;
+		}
+		$types = [
+			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_REMOTE, 
+			Share::SHARE_TYPE_GROUP,
+		];
+
+		if ($this->getPath() === "/") {
+			return $sharees;
+		}
+
+		$path = $this->getPath();
+
+		if ($path !== null) {
+			$userFolder = \OC::$server->getRootFolder()->getUserFolder($user);
+			try {
+				$path = $userFolder->get($path);
+				$this->lock($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				throw new OCSNotFoundException($this->l->t('Wrong path, file/folder doesn\'t exist'));
+			} catch (LockedException $e) {
+				throw new OCSNotFoundException($this->l->t('Could not lock path'));
+			}
+		}
+
+		foreach ($types as $shareType) {
+			$shares = $this->shareManager->getSharesBy($user, $shareType, $path, false, -1, 0);
+			foreach ($shares as $share) {
+				if ($share->getSharedBy() === $user) {
+					$sharees[] = $share->getSharedWith();
+				}
+			}
+		}
+		return implode(', ', $sharees);
+	}
+
+	/**
+	 * Lock a Node
+	 *
+	 * @param \OCP\Files\Node $node
+	 * @throws LockedException
+	 */
+	private function lock(\OCP\Files\Node $node) {
+		$node->lock(ILockingProvider::LOCK_SHARED);
+		$this->lockedNode = $node;
 	}
 
 	/**
