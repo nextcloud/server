@@ -10,6 +10,8 @@
 
 /* global Handlebars, escapeHTML */
 
+import Tribute from 'tributejs'
+
 (function(OC, OCA) {
 
 	/**
@@ -19,8 +21,7 @@
 		/** @lends OCA.Comments.CommentsTabView.prototype */ {
 		id: 'commentsTabView',
 		className: 'tab commentsTabView',
-		_autoCompleteData: undefined,
-		_commentsModifyMenu: undefined,
+		tribute: null,
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
@@ -126,59 +127,42 @@
 			this.$el.find('.newCommentForm .message').focus();	
 		},
 
+		_formatAutoCompleteSnippet: function(item) {
+			return '<li>' +
+				'<span class="avatar-name-wrapper">' +
+					'<span class="avatar" ' +
+						'data-username="' + escapeHTML(item.original.id) + '" ' + // for avatars
+						'data-user="' + escapeHTML(item.original.id) + '" ' + // for contactsmenu
+						'data-user-display-name="' + escapeHTML(item.original.label) + '">' +
+					'</span>' +
+					'<strong>' + escapeHTML(item.original.label) + '</strong>' +
+				'</span></li>';
+		},
+
 		_initAutoComplete: function($target) {
 			var s = this;
-			var limit = 10;
-			if(!_.isUndefined(OC.appConfig.comments)) {
-				limit = OC.appConfig.comments.maxAutoCompleteResults;
-			}
-			$target.atwho({
-				at: '@',
-				limit: limit,
-				callbacks: {
-					remoteFilter: s._onAutoComplete,
-					highlighter: function (li) {
-						// misuse the highlighter callback to instead of
-						// highlighting loads the avatars.
-						var $li = $(li);
-						$li.find('.avatar').avatar(undefined, 32);
-						return $li;
-					},
-					sorter: function (q, items) { return items; }
+			this.tribute = new Tribute({
+				trigger: '@',
+				selectClass: 'cur',
+				values: function(text, cb) {
+					s._onAutoComplete(text, cb);
+
 				},
-				displayTpl: function (item) {
-					return '<li>' +
-						'<span class="avatar-name-wrapper">' +
-							'<span class="avatar" ' +
-									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
-									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
-									'data-user-display-name="' + escapeHTML(item.label) + '">' +
-							'</span>' +
-							'<strong>' + escapeHTML(item.label) + '</strong>' +
-						'</span></li>';
+				selectTemplate: function(item) {
+					return s._composeHTMLMention(item.original.id, item.original.label);
 				},
-				insertTpl: function (item) {
-					return '' +
-						'<span class="avatar-name-wrapper">' +
-							'<span class="avatar" ' +
-									'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
-									'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
-									'data-user-display-name="' + escapeHTML(item.label) + '">' +
-							'</span>' +
-							'<strong>' + escapeHTML(item.label) + '</strong>' +
-						'</span>';
-				},
-				searchKey: "label"
+				menuItemTemplate: s._formatAutoCompleteSnippet,
+				lookup: 'label',
+				requireLeadingSpace: true,
+				allowSpaces: true,
+				positionMenu: true,
+				searchOpts: { pre: '', post: '' },
 			});
-			$target.on('inserted.atwho', function (je, $el) {
+			this.tribute.attach($target[0]);
+			$target[0].addEventListener('tribute-replaced', function (e) {
 				var editionMode = true;
 				s._postRenderItem(
-					// we need to pass the parent of the inserted element
-					// passing the whole comments form would re-apply and request
-					// avatars from the server
-					$(je.target).find(
-						'span[data-username="' + $el.find('[data-username]').data('username') + '"]'
-					).parent(),
+					$target.find('span[data-username="' + e.detail.item.original.id + '"]').parent(),
 					editionMode
 				);
 			});
@@ -190,10 +174,10 @@
 				clearTimeout(this._autoCompleteRequestTimer);
 			}
 			this._autoCompleteRequestTimer = _.delay(function() {
-				if(!_.isUndefined(this._autoCompleteRequestCall)) {
-					this._autoCompleteRequestCall.abort();
+				if(!_.isUndefined(s._autoCompleteRequestCall)) {
+					s._autoCompleteRequestCall.abort();
 				}
-				this._autoCompleteRequestCall = $.ajax({
+				s._autoCompleteRequestCall = $.ajax({
 					url: OC.linkToOCS('core', 2) + 'autocomplete/get',
 					data: {
 						search: query,
@@ -207,6 +191,9 @@
 					},
 					success: function (result) {
 						callback(result.ocs.data);
+					},
+					error: function () {
+						callback([]);
 					}
 				});
 			}, 400);
@@ -529,7 +516,7 @@
 			// autocomplete popover is being shown Enter does not submit the
 			// form either; it will be handled by At.js which will add the
 			// currently selected item to the message.
-			if (ev.keyCode === 13 && !ev.shiftKey && !$field.atwho('isSelecting')) {
+			if (ev.keyCode === 13 && !ev.shiftKey && !this.tribute.isActive) {
 				$submitButton.click();
 				ev.preventDefault();
 			}

@@ -9,9 +9,6 @@ import './filesplugin'
 import './activitytabviewplugin'
 import './search'
 
-import './vendor/Caret.js/dist/jquery.caret.min'
-import './vendor/At.js/dist/js/jquery.atwho.min'
-
 import './style/autocomplete.scss'
 import './style/comments.scss'
 
