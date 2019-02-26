@@ -37,8 +37,8 @@
     "axios": "^0.18.0",
     "mime-types": "^2.1.22",
     "nextcloud-server": "^0.15.9",
-    "nextcloud-vue": "^0.7.0",
-    "vue": "^2.6.6",
+    "nextcloud-vue": "^0.7.1",
+    "vue": "^2.6.7",
     "xml2js": "^0.4.19"
   },
   "browserslist": [
@@ -49,10 +49,10 @@
     "node": ">=10.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
@@ -70,10 +70,10 @@
     "sass-loader": "^7.1.0",
     "stylelint": "^8.4.0",
     "stylelint-config-recommended-scss": "^3.2.0",
-    "stylelint-scss": "^3.5.3",
+    "stylelint-scss": "^3.5.4",
     "stylelint-webpack-plugin": "^0.10.5",
     "vue-loader": "^15.6.4",
-    "vue-template-compiler": "^2.6.6",
+    "vue-template-compiler": "^2.6.7",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1",
