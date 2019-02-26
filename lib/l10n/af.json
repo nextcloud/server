@@ -1,0 +1,14 @@
+{ "translations": {
+    "__language_name__" : "Afrikaans",
+    "Help" : "Hulp",
+    "Apps" : "Toeps",
+    "Settings" : "Instellings",
+    "Log out" : "Meld af",
+    "Users" : "Gebruikers",
+    "Unknown user" : "Onbekende gebruiker",
+    "Create" : "Skep",
+    "Delete" : "Skrap",
+    "Share" : "Deel",
+    "Security" : "Sekuriteit"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
