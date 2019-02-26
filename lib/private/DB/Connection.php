@@ -257,8 +257,8 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
-	public function insertIgnoreConflict($table, $input) : int {
-		return $this->adapter->insertIgnoreConflict($table, $input);
+	public function insertIgnoreConflict(string $table, array $values) : int {
+		return $this->adapter->insertIgnoreConflict($table, $values);
 	}
 
 	private function getType($value) {

@@ -130,11 +130,11 @@ class Adapter {
 	/*
 	 * @suppress SqlInjectionChecker
 	 */
-	public function insertIgnoreConflict($table, $input) : int {
+	public function insertIgnoreConflict(string $table,array $values) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);
-			foreach($input as $key => $value) {
+			foreach($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
 			return $builder->execute();

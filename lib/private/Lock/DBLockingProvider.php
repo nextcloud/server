@@ -131,10 +131,13 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @param int $lock
 	 * @return int number of inserted rows
 	 */
-
 	protected function initLockField(string $path, int $lock = 0): int {
 		$expire = $this->getExpireTime();
-		return $this->connection->insertIgnoreConflict('file_locks', ['key' => $path, 'lock' => $lock, 'ttl' => $expire]);
+		return $this->connection->insertIgnoreConflict('file_locks', [
+			'key' => $path,
+			'lock' => $lock,
+			'ttl' => $expire
+		]);
 	}
 
 	/**

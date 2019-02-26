@@ -39,15 +39,13 @@ class AdapterPgSql extends Adapter {
 	/*
 	 * @suppress SqlInjectionChecker
 	 */
-	public function insertIgnoreConflict($table, $input) : int {
+	public function insertIgnoreConflict(string $table,array $values) : int {
 		$builder = $this->conn->getQueryBuilder();
-		$builder->insert($table)
-			->values($input);
-		foreach($input as $key => $value) {
+		$builder->insert($table);
+		foreach($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
 		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		$inserts = array_values($input);
-		return $this->conn->executeUpdate($queryString, $inserts);
+		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
 	}
 }

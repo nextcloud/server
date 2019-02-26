@@ -128,11 +128,11 @@ interface IDBConnection {
 	 * Implementation is not fully finished and should not be used!
 	 *
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
-	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array $values data that should be inserted into the table  (column name => value)
 	 * @return int number of inserted rows
-	 * @since 17.0.0
+	 * @since 16.0.0
 	 */
-	public function insertIgnoreConflict($table, $input) : int;
+	public function insertIgnoreConflict(string $table,array $values) : int;
 
 	/**
 	 * Insert or update a row value
