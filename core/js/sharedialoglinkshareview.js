@@ -778,6 +778,17 @@
 			this.model.saveLinkShare({expireDate: expireDate});
 		},
 
+		onChangeExpirationDate: function(event) {
+			var $element = $(event.target);
+			var expireDate = $element.val();
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDatePicker-' + shareId;
+
+			this.setExpirationDate(expireDate, shareId);
+			$(expirationDatePicker).datepicker('hide');
+		}
+
 	});
 
 	OC.Share.ShareDialogLinkShareView = ShareDialogLinkShareView;
