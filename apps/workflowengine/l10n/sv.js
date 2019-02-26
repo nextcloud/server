@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontroll av %s existerar inte",
     "Check %s is invalid" : "Kontroll av %s är ogiltig",
     "Check #%s does not exist" : "Kontroll av #%s existerar inte",
+    "Tag management" : "Tagghantering",
     "Open documentation" : "Öppna dokumentation",
     "Loading…" : "Laddar...",
     "Workflow" : "Arbetsflöde"
