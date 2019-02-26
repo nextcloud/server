@@ -3,6 +3,8 @@
 
 /apps/accessibility/js/accessibility.js binary
 /apps/accessibility/js/accessibility.js.map binary
+/apps/comments/js/*.js binary
+/apps/comments/js/*.js.map binary
 /apps/files_sharing/js/additionalScripts.js binary
 /apps/files_sharing/js/additionalScripts.js.map binary
 /apps/files_versions/js/files_versions.js binary

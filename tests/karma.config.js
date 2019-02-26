@@ -77,17 +77,7 @@ module.exports = function(config) {
 			{
 				name: 'comments',
 				srcFiles: [
-					// need to enforce loading order...
-					'apps/comments/js/app.js',
-					'apps/comments/js/templates.js',
-					'apps/comments/js/vendor/Caret.js/dist/jquery.caret.min.js',
-					'apps/comments/js/vendor/At.js/dist/js/jquery.atwho.min.js',
-					'apps/comments/js/commentmodel.js',
-					'apps/comments/js/commentcollection.js',
-					'apps/comments/js/commentsummarymodel.js',
-					'apps/comments/js/commentsmodifymenu.js',
-					'apps/comments/js/commentstabview.js',
-					'apps/comments/js/filesplugin.js'
+					'apps/comments/js/comments.js'
 				],
 				testFiles: ['apps/comments/tests/js/**/*.js']
 			},
