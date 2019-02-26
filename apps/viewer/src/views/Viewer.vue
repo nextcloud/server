@@ -28,6 +28,7 @@
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
 		:enable-slideshow="true"
+		:title="currentTitle"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -91,6 +92,13 @@ export default {
 		},
 		hasNext() {
 			return this.currentIndex < this.fileList.length - 1
+		},
+		currentTitle() {
+			if (this.currentFile && this.currentFile.path) {
+				const path = this.currentFile.path.split('/')
+				return path[path.length - 1]
+			}
+			return ''
 		}
 	},
 
