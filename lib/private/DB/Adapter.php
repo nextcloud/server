@@ -127,6 +127,9 @@ class Adapter {
 		}
 	}
 
+	/*
+	 * @suppress SqlInjectionChecker
+	 */
 	public function insertIgnoreConflict($table, $input) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();

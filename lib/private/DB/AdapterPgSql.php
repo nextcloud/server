@@ -36,6 +36,9 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
+	/*
+	 * @suppress SqlInjectionChecker
+	 */
 	public function insertIgnoreConflict($table, $input) : int {
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table)
