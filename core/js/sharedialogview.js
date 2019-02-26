@@ -32,6 +32,10 @@
 		/** @type {boolean} **/
 		_showLink: true,
 
+		_lookup: false,
+
+		_lookupAllowed: false,
+
 		/** @type {string} **/
 		tagName: 'div',
 
@@ -125,24 +129,28 @@
 
 		/* trigger search after the field was re-selected */
 		onShareWithFieldFocus: function() {
-			this.$el.find('.shareWithField').autocomplete("search");
+			var $shareWithField = this.$el.find('.shareWithField');
+			$shareWithField.autocomplete("search", $shareWithField.val());
 		},
 
-		_getSuggestions: function(searchTerm, perPage, model) {
+		_getSuggestions: function(searchTerm, perPage, model, lookup) {
 			if (this._lastSuggestions &&
 				this._lastSuggestions.searchTerm === searchTerm &&
+				this._lastSuggestions.lookup === lookup &&
 				this._lastSuggestions.perPage === perPage &&
 				this._lastSuggestions.model === model) {
 				return this._lastSuggestions.promise;
 			}
 
 			var deferred = $.Deferred();
+			var view = this;
 
 			$.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
 					format: 'json',
 					search: searchTerm,
+					lookup: lookup,
 					perPage: perPage,
 					itemType: model.get('itemType')
 				},
@@ -300,6 +308,7 @@
 						var remotes = result.ocs.data.remotes;
 						var remoteGroups = result.ocs.data.remote_groups;
 						var lookup = result.ocs.data.lookup;
+						var lookupEnabled = result.ocs.data.lookupEnabled;
 						var emails = [];
 						if (typeof(result.ocs.data.emails) !== 'undefined') {
 							emails = result.ocs.data.emails;
@@ -365,8 +374,17 @@
 										lookup.length
 									)
 							);
+						if (!view._lookup && lookupEnabled) {
+							result.push(
+								{
+									label: t('core', 'Search globally'),
+									value: {},
+									lookup: true
+								}
+							)
+						}
 
-						deferred.resolve(result, exactMatches, moreResultsAvailable);
+						deferred.resolve(result, exactMatches, moreResultsAvailable, lookupEnabled);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
@@ -377,6 +395,7 @@
 
 			this._lastSuggestions = {
 				searchTerm: searchTerm,
+				lookup: lookup,
 				perPage: perPage,
 				model: model,
 				promise: deferred.promise()
@@ -641,14 +660,8 @@
 			var $shareWithField = $('.shareWithField');
 			this._getRecommendations(
 				view.model
-			).done(function(suggestions, exactMatches) {
-				view._pendingOperationsCount--;
-				if (view._pendingOperationsCount === 0) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-				}
-
+			).done(function(suggestions) {
+				console.info('recommendations', suggestions);
 				if (suggestions.length > 0) {
 					$shareWithField
 						.autocomplete("option", "autoFocus", true);
@@ -659,13 +672,6 @@
 					response();
 				}
 			}).fail(function(message) {
-				view._pendingOperationsCount--;
-				if (view._pendingOperationsCount === 0) {
-					$loading.addClass('hidden');
-					$loading.removeClass('inlineblock');
-					$confirm.removeClass('hidden');
-				}
-
 				console.error('could not load recommendations', message)
 			});
 		},
@@ -674,6 +680,7 @@
 			// If nothing is entered we show recommendations instead of search
 			// results
 			if (search.term.length === 0) {
+				console.info(search.term, 'empty search term -> using recommendations');
 				this.recommendationHandler(response);
 				return;
 			}
@@ -716,7 +723,8 @@
 			this._getSuggestions(
 				search.term.trim(),
 				perPage,
-				view.model
+				view.model,
+				view._lookup
 			).done(function(suggestions, exactMatches, moreResultsAvailable) {
 				view._pendingOperationsCount--;
 				if (view._pendingOperationsCount === 0) {
@@ -747,7 +755,7 @@
 						.attr('data-original-title', title)
 						.tooltip('hide')
 						.tooltip({
-							placement: 'bottom',
+							placement: 'top',
 							trigger: 'manual'
 						})
 						.tooltip('fixTitle')
@@ -818,6 +826,10 @@
 				insert.addClass('merged');
 				text = item.value.shareWith;
 				description = type;
+			} else if (item.lookup) {
+				text = item.label;
+				icon = false;
+				insert.append('<span class="icon icon-search search-globally"></span>');
 			} else {
 				var avatar = $("<div class='avatardiv'></div>").appendTo(insert);
 				if (item.value.shareType === OC.Share.SHARE_TYPE_USER || item.value.shareType === OC.Share.SHARE_TYPE_CIRCLE) {
@@ -843,7 +855,9 @@
 				)
 				.appendTo(insert);
 			insert.attr('title', item.value.shareWith);
-			insert.append('<span class="icon '+icon+'" title="' + text + '"></span>');
+			if (icon) {
+				insert.append('<span class="icon ' + icon + '" title="' + text + '"></span>');
+			}
 			insert = $("<a>")
 				.append(insert);
 			return $("<li>")
@@ -865,6 +879,18 @@
 				setTimeout(function() {
 					$(e.target).attr('disabled', false)
 						.autocomplete('search', $(e.target).val());
+				}, 0);
+				return false;
+			}
+
+			if (s.item.lookup) {
+				// Retrigger search but with global lookup this time
+				this._lookup = true;
+				var $shareWithField = this.$el.find('.shareWithField');
+				var val = $shareWithField.val();
+				setTimeout(function() {
+					console.debug('searching again, but globally. search term: ' + val);
+					$shareWithField.autocomplete("search", val);
 				}, 0);
 				return false;
 			}
@@ -947,12 +973,11 @@
 			};
 
 			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
-			var onlyExactMatches = true;
 			this._getSuggestions(
 				$shareWithField.val(),
 				perPage,
 				this.model,
-				onlyExactMatches
+				this._lookup
 			).done(function(suggestions, exactMatches) {
 				if (suggestions.length === 0) {
 					restoreUI();
