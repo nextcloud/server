@@ -104,6 +104,7 @@ return array(
     'OCP\\Calendar\\Room\\IRoom' => $baseDir . '/lib/public/Calendar/Room/IRoom.php',
     'OCP\\Capabilities\\ICapability' => $baseDir . '/lib/public/Capabilities/ICapability.php',
     'OCP\\Capabilities\\IPublicCapability' => $baseDir . '/lib/public/Capabilities/IPublicCapability.php',
+    'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => $baseDir . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',
     'OCP\\Collaboration\\AutoComplete\\IManager' => $baseDir . '/lib/public/Collaboration/AutoComplete/IManager.php',
     'OCP\\Collaboration\\AutoComplete\\ISorter' => $baseDir . '/lib/public/Collaboration/AutoComplete/ISorter.php',
     'OCP\\Collaboration\\Collaborators\\ISearch' => $baseDir . '/lib/public/Collaboration/Collaborators/ISearch.php',
