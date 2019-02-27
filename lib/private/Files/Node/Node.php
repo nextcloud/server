@@ -190,12 +190,13 @@ class Node implements \OCP\Files\Node {
 	}
 
 	/**
+	 * @param bool $includeMounts
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getSize() {
-		return $this->getFileInfo()->getSize();
+	public function getSize($includeMounts = true) {
+		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
 	/**

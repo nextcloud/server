@@ -282,9 +282,10 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
+	 * @param bool $includeMounts
 	 * @return int
 	 */
-	public function getSize() {
+	public function getSize($includeMounts = true) {
 		return null;
 	}
 
