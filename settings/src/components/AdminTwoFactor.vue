@@ -94,7 +94,11 @@
 		mounted () {
 			// Groups are loaded dynamically, but the assigned ones *should*
 			// be valid groups, so let's add them as initial state
-			this.groups = _.sortedUniq(this.state.enforcedGroups.concat(this.state.excludedGroups))
+			this.groups = _.sortedUniq(_.uniq(this.state.enforcedGroups.concat(this.state.excludedGroups)))
+
+			// Populate the groups with a first set so the dropdown is not empty
+			// when opening the page the first time
+			this.searchGroup('')
 		},
 		methods: {
 			searchGroup: _.debounce(function (query) {
@@ -102,7 +106,7 @@
 				Axios.get(OC.linkToOCS(`cloud/groups?offset=0&search=${encodeURIComponent(query)}&limit=20`, 2))
 					.then(res => res.data.ocs)
 					.then(ocs => ocs.data.groups)
-					.then(groups => this.groups = _.sortedUniq(this.groups.concat(groups)))
+					.then(groups => this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))))
 					.catch(err => console.error('could not search groups', err))
 					.then(() => this.loadingGroups = false)
 			}, 500),
