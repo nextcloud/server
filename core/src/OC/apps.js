@@ -25,8 +25,7 @@ const Apps = {
  */
 Apps.showAppSidebar = function ($el) {
 	var $appSidebar = $el || $('#app-sidebar');
-	$appSidebar.removeClass('disappear')
-		.show('slide', {direction: 'right'}, 300);
+	$appSidebar.removeClass('disappear').show();
 	$('#app-content').trigger(new $.Event('appresized'));
 };
 
@@ -38,10 +37,7 @@ Apps.showAppSidebar = function ($el) {
  */
 Apps.hideAppSidebar = function ($el) {
 	var $appSidebar = $el || $('#app-sidebar');
-	$appSidebar.hide('slide', {direction: 'right'}, 300,
-		function () {
-			$appSidebar.addClass('disappear');
-		});
+	$appSidebar.hide().addClass('disappear');
 	$('#app-content').trigger(new $.Event('appresized'));
 };
 
