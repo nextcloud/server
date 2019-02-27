@@ -25,10 +25,11 @@
 		v-if="currentFile.modal"
 		:class="{'icon-loading': loading}"
 		:view="currentFile.modal"
+		:actions="actions"
+		:enable-slideshow="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
-		:enable-slideshow="true"
-		:title="currentTitle"
+		:title="currentFileName"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -73,16 +74,22 @@ export default {
 	},
 
 	data: () => ({
+		handlers: OCA.Viewer.availableHandlers,
+
 		components: {},
+		mimeGroups: {},
+		registeredHandlers: [],
+
 		currentIndex: 0,
 		previousFile: {},
 		currentFile: {},
 		nextFile: {},
+
 		fileList: [],
-		handlers: OCA.Viewer.availableHandlers,
+
 		loading: true,
-		mimeGroups: {},
-		registeredHandlers: [],
+		openedSidebar: false,
+
 		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
 	}),
 
@@ -93,12 +100,21 @@ export default {
 		hasNext() {
 			return this.currentIndex < this.fileList.length - 1
 		},
-		currentTitle() {
+		currentFileName() {
 			if (this.currentFile && this.currentFile.path) {
 				const path = this.currentFile.path.split('/')
 				return path[path.length - 1]
 			}
 			return ''
+		},
+		actions() {
+			return [
+				{
+					text: t('viewer', 'Share'),
+					icon: 'icon-share-white-forced',
+					action: this.showSharingSidebar
+				}
+			]
 		}
 	},
 
@@ -170,7 +186,11 @@ export default {
 					mime,
 					modal
 				}
-				console.debug('Opened', path, mime)
+
+				// if the sidebar is already opened, change the current file
+				if (this.openedSidebar) {
+					OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
+				}
 			}
 
 			this.updatePreviousNext()
@@ -324,13 +344,33 @@ export default {
 		 */
 		doneLoading() {
 			this.loading = false
+		},
+
+		/**
+		 * Show the sharing sidebar
+		 */
+
+		showSharingSidebar() {
+			// Open the sidebar sharing tab
+			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
+
+			const sidebar = document.getElementById('app-sidebar')
+			const closeButton = sidebar.querySelector('.icon-close')
+
+			// Sidebar above the modal
+			sidebar.style.zIndex = 10001
+			this.openedSidebar = true
+			closeButton.addEventListener('click', e => {
+				sidebar.style.zIndex = null
+				this.openedSidebar = false
+			})
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-.modal-mask .modal-container {
+#modal-mask #modal-container {
 	display: flex !important;
 	width: auto !important;
 }
@@ -341,5 +381,10 @@ export default {
 
 .component-fade-enter, .component-fade-leave-to {
 	opacity: 0;
+}
+
+// force white icon
+.icon-share-white-forced {
+	background-image: url('~Assets/share-white.svg');
 }
 </style>
