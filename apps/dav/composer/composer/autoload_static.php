@@ -84,6 +84,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\CardDavBackend' => __DIR__ . '/..' . '/../lib/CardDAV/CardDavBackend.php',
         'OCA\\DAV\\CardDAV\\ContactsManager' => __DIR__ . '/..' . '/../lib/CardDAV/ContactsManager.php',
         'OCA\\DAV\\CardDAV\\Converter' => __DIR__ . '/..' . '/../lib/CardDAV/Converter.php',
+        'OCA\\DAV\\CardDAV\\HasPhotoPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/HasPhotoPlugin.php',
         'OCA\\DAV\\CardDAV\\ImageExportPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/ImageExportPlugin.php',
         'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/MultiGetExportPlugin.php',
         'OCA\\DAV\\CardDAV\\PhotoCache' => __DIR__ . '/..' . '/../lib/CardDAV/PhotoCache.php',
