@@ -57,7 +57,7 @@
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
-				<p>
+				<p class="topMargin">
 					<em>{{ t('updatenotification', 'A non-default update server is in use to be checked for updates:') }} <code>{{updateServerURL}}</code></em>
 				</p>
 			</template>
@@ -496,5 +496,8 @@
 	#updatenotification .update-menu .icon-star:hover,
 	#updatenotification .update-menu .icon-star:focus {
 		background-image: var(--icon-star-000);
+	}
+	#updatenotification .topMargin {
+		margin-top: 15px;
 	}
 </style>
