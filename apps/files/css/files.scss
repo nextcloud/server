@@ -252,6 +252,7 @@ table th#headerName {
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
+table th#headerGroup,
 table th#headerDate, table td.date,
 table th.column-last, table td.column-last {
 	-moz-box-sizing: border-box;
@@ -942,8 +943,9 @@ table.dragshadow td.size {
 				}
 			}
 
-			/* No space for filesize and date in grid view */
+			/* No space for filesize ,groups and date in grid view */
 			&.filesize,
+			&.groups,
 			&.date {
 				display: none;
 			}

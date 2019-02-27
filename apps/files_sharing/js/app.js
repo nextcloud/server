@@ -103,7 +103,7 @@ OCA.Sharing.App = {
 			'<p>' + t('files_sharing', 'Files and folders others share with your groups will show up here') + '</p>');
 
 		//add col for group name
-		this._groupsFileList.$table.find("thead tr").append('<td id=headerGroup class="column-groups">' +
+		this._groupsFileList.$table.find("thead tr").append('<th id=headerGroup class="column-groups">' +
 								    '<a class="columntitle" data-sort="groups">'+
 								    '<span>' + t('files_sharing','Group') + '</span>' +
 								    '<span class="sort-indicator icon-triangle-s"></span>'+
