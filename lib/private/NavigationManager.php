@@ -271,10 +271,10 @@ class NavigationManager implements INavigationManager {
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
-			if (empty($info['navigations'])) {
+			if (!isset($info['navigations']['navigation'])) {
 				continue;
 			}
-			foreach ($info['navigations'] as $nav) {
+			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				if (!isset($nav['name'])) {
 					continue;
 				}
@@ -286,7 +286,7 @@ class NavigationManager implements INavigationManager {
 					continue;
 				}
 				$l = $this->l10nFac->get($app);
-				$id = isset($nav['id']) ? $nav['id'] : $app;
+				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
 				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
