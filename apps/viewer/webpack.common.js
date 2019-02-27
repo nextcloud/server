@@ -36,10 +36,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'file-loader',
-				options: {
-					name: '[name].[ext]?[hash]'
-				}
+				loader: 'url-loader'
 			}
 		]
 	},
@@ -49,6 +46,7 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
+			Assets: path.resolve(__dirname, 'src/assets/'),
 			Components: path.resolve(__dirname, 'src/components/'),
 			Mixins: path.resolve(__dirname, 'src/mixins/'),
 			Models: path.resolve(__dirname, 'src/models/'),
