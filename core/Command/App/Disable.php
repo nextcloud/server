@@ -36,39 +36,52 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Disable extends Command implements CompletionAwareInterface {
 
 	/** @var IAppManager */
-	protected $manager;
+	protected $appManager;
+
+	/** @var int */
+	protected $exitCode = 0;
 
 	/**
-	 * @param IAppManager $manager
+	 * @param IAppManager $appManager
 	 */
-	public function __construct(IAppManager $manager) {
+	public function __construct(IAppManager $appManager) {
 		parent::__construct();
-		$this->manager = $manager;
+		$this->appManager = $appManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:disable')
 			->setDescription('disable an app')
 			->addArgument(
 				'app-id',
-				InputArgument::REQUIRED,
+				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 				'disable the specified app'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getArgument('app-id');
-		if ($this->manager->isInstalled($appId)) {
-			try {
-				$this->manager->disableApp($appId);
-				$output->writeln($appId . ' disabled');
-			} catch(\Exception $e) {
-				$output->writeln($e->getMessage());
-				return 2;
-			}
-		} else {
+		$appIds = $input->getArgument('app-id');
+
+		foreach ($appIds as $appId) {
+			$this->disableApp($appId, $output);
+		}
+
+		return $this->exitCode;
+	}
+
+	private function disableApp(string $appId, OutputInterface $output): void {
+		if ($this->appManager->isInstalled($appId) === false) {
 			$output->writeln('No such app enabled: ' . $appId);
+			return;
+		}
+
+		try {
+			$this->appManager->disableApp($appId);
+			$output->writeln($appId . ' disabled');
+		} catch (\Exception $e) {
+			$output->writeln($e->getMessage());
+			$this->exitCode = 2;
 		}
 	}
 
@@ -88,7 +101,7 @@ class Disable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app-id') {
-			return array_diff(\OC_App::getEnabledApps(true, true), $this->manager->getAlwaysEnabledApps());
+			return array_diff(\OC_App::getEnabledApps(true, true), $this->appManager->getAlwaysEnabledApps());
 		}
 		return [];
 	}

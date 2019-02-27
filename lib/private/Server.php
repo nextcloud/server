@@ -58,6 +58,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
+use OC\Avatar\AvatarManager;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
@@ -963,7 +964,8 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getMemCacheFactory(),
 					new Util($c->getConfig(), $this->getAppManager(), $c->getAppDataDir('theming')),
 					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator(), $this->getMemCacheFactory(), $this->getLogger()),
-					$c->getAppManager()
+					$c->getAppManager(),
+					$c->getNavigationManager()
 				);
 			}
 			return new \OC_Defaults();

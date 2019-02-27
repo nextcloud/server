@@ -16,7 +16,6 @@ OC.L10N.register(
     "Your version is up to date." : "La teva versió està actualitzada.",
     "A non-default update server is in use to be checked for updates:" : "S'utilitza un servidor d'actualització no predeterminat per comprovar si hi ha actualitzacions:",
     "Update channel:" : "Actualitzar canal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sempre podràs actualitzar a una versió més recent / canal experimental. Però mai es pot fer un \"downgrade\" a un canal més estable.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Tingueu en compte que després d'un nou llançament, pot trigar un temps abans que aparegui aquí. Desplegem noves versions distribuïdes amb el temps als nostres usuaris i, de vegades, ometen una versió quan es detecten problemes.",
     "Notify members of the following groups about available updates:" : "Notificar als membres dels següents grups sobre les actualitzacions disponibles:",
     "Only notification for app updates are available." : "Només notificació d'actualitzacions d'apps estan disponibles.",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "View changelog" : "Mostra el registre de canvis",
     "Could not start updater, please try the manual update" : "No s'ha pogut iniciar actualitzador, provi l'actualització manual",
     "A new version is available: %s" : "Una nova versió està disponible: %s",
-    "Checked on %s" : "Comprovat en %s"
+    "Checked on %s" : "Comprovat en %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sempre podràs actualitzar a una versió més recent / canal experimental. Però mai es pot fer un \"downgrade\" a un canal més estable."
 },
 "nplurals=2; plural=(n != 1);");

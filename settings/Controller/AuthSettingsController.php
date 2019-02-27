@@ -31,10 +31,12 @@ use BadMethodCallException;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Activity\Provider;
 use OCP\Activity\IManager;
+use OC\Authentication\Token\PublicKeyToken;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\ILogger;
@@ -112,11 +114,12 @@ class AuthSettingsController extends Controller {
 
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
+			$data['canDelete'] = true;
+			$data['canRename'] = $token instanceof INamedToken;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
+				$data['canRename'] = false;
 				$data['current'] = true;
-			} else {
-				$data['canDelete'] = true;
 			}
 			return $data;
 		}, $tokens);
@@ -153,8 +156,9 @@ class AuthSettingsController extends Controller {
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
+		$tokenData['canRename'] = true;
 
-		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), $deviceToken->getName());
+		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), ['name' => $deviceToken->getName()]);
 
 		return new JSONResponse([
 			'token' => $token,
@@ -202,7 +206,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->invalidateTokenById($this->uid, $token->getId());
-		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), $token->getName());
+		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), ['name' => $token->getName()]);
 		return [];
 	}
 
@@ -212,36 +216,44 @@ class AuthSettingsController extends Controller {
 	 *
 	 * @param int $id
 	 * @param array $scope
+	 * @param string $name
 	 * @return array|JSONResponse
 	 */
-	public function update($id, array $scope) {
+	public function update($id, array $scope, string $name) {
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$token->setScope([
-			'filesystem' => $scope['filesystem']
-		]);
+		$currentName = $token->getName();
+
+		if ($scope !== $token->getScopeAsArray()) {
+			$token->setScope(['filesystem' => $scope['filesystem']]);
+			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		}
+
+		if ($token instanceof INamedToken && $name !== $currentName) {
+			$token->setName($name);
+			$this->publishActivity(Provider::APP_TOKEN_RENAMED, $token->getId(), ['name' => $currentName, 'newName' => $name]);
+		}
 
 		$this->tokenProvider->updateToken($token);
-		$this->publishActivity(Provider::APP_TOKEN_UPDATED, $token->getId(), $token->getName());
 		return [];
 	}
 
 	/**
 	 * @param string $subject
 	 * @param int $id
-	 * @param string|null $tokenName
+	 * @param array $parameters
 	 */
-	private function publishActivity(string $subject, int $id, ?string $tokenName = null): void {
+	private function publishActivity(string $subject, int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('security')
 			->setAffectedUser($this->uid)
 			->setAuthor($this->uid)
-			->setSubject($subject, [$tokenName])
+			->setSubject($subject, $parameters)
 			->setObject('app_token', $id, 'App Password');
 
 		try {

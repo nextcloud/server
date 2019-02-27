@@ -36,6 +36,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -166,10 +167,26 @@ class File extends Node implements IFile {
 			}
 
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
-				$count = $partStorage->writeStream($internalPartPath, $data);
+
+				if (!is_resource($data)) {
+					$data = fopen('php://temp', 'r+');
+					fwrite($data, 'foobar');
+					rewind($data);
+				}
+
+				$isEOF = false;
+				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function($stream) use (&$isEOF) {
+					$isEOF = feof($stream);
+				});
+
+				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
 				$result = $count > 0;
+
 				if ($result === false) {
-					$result = feof($data);
+					$result = $isEOF;
+					if (is_resource($wrappedData)) {
+						$result = feof($wrappedData);
+					}
 				}
 
 			} else {

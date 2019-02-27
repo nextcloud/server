@@ -57,8 +57,8 @@ OC.L10N.register(
     "The given group does not exist" : "Өгөгдсөн бүлэг байхгүй байна",
     "Check %s is invalid or does not exist" : "%sшалгахад хүчингүй эсвэл байхгүй байна",
     "Operation #%s does not exist" : "%s үйл ажиллагаа байхгүй",
-    "Workflow" : "ажлын үйл явц",
     "Open documentation" : "Нээлттэй баримт бичиг",
-    "Loading…" : "уншиж байна"
+    "Loading…" : "уншиж байна",
+    "Workflow" : "ажлын үйл явц"
 },
 "nplurals=2; plural=(n != 1);");

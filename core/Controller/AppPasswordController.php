@@ -34,6 +34,8 @@ use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
 
@@ -49,18 +51,23 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/** @var IStore */
 	private $credentialStore;
 
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								ISession $session,
 								ISecureRandom $random,
 								IProvider $tokenProvider,
-								IStore $credentialStore) {
+								IStore $credentialStore,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
 		$this->random = $random;
 		$this->tokenProvider = $tokenProvider;
 		$this->credentialStore = $credentialStore;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -91,7 +98,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$credentials->getUID(),
 			$credentials->getLoginName(),
@@ -100,6 +107,9 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
+
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
 
 		return new DataResponse([
 			'apppassword' => $token

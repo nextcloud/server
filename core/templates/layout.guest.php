@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
-	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
+	<head
+<?php if ($_['user_uid']) { ?>
+	data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>"
+<?php } ?>
+ data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<meta charset="utf-8">
 		<title>
 		<?php p($theme->getTitle()); ?>
 		</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="referrer" content="no-referrer">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">

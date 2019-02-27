@@ -30,3 +30,6 @@ import './selectrange'
 import './showpassword'
 import './tipsy'
 import './ui-fixes'
+
+import './css/jquery-ui-fixes.scss'
+import './css/jquery.ocdialog.scss'

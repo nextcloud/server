@@ -61,7 +61,7 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 ### Building front-end code 🏗
 
-We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the `settings` subfolder:
+We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
 ``` bash
 # install dependencies
@@ -75,9 +75,6 @@ make watch-js
 
 # build for production with minification
 make build-js-production
-
-# clean output files
-make clean
 ```
 
 **When making changes, also commit the compiled files!**

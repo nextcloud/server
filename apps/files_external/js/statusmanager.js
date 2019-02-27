@@ -288,6 +288,17 @@ OCA.Files_External.StatusManager = {
 					};
 					ajaxQueue.push(queueElement);
 				});
+
+				var rolQueue = new OCA.Files_External.StatusManager.RollingQueue(ajaxQueue, 4, function () {
+					if (!self.notificationHasShown) {
+						$.each(self.mountStatus, function (key, value) {
+							if (value.status === 1) {
+								self.notificationHasShown = true;
+							}
+						});
+					}
+				});
+				rolQueue.runQueue();
 			}
 		});
 	},

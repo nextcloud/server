@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Errore di mount esterno",
     "external-storage" : "archiviazione-esterna",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Impossibile ottenere l'elenco dei punti di mount delle unità di rete Windows: risposta vuota dal server",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alcuni dei punti di mount esterni configurati non sono connessi. Fai clic sulle righe rosse per ulteriori informazioni",
     "Please enter the credentials for the {mount} mount" : "Digita le credenziali per montare {mount}",
     "Username" : "Nome utente",
     "Password" : "Password",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
     "Are you sure you want to delete this external storage" : "Sei sicuro di voler eliminare questa archiviazione esterna?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alcuni dei punti di mount esterni configurati non sono connessi. Fai clic sulle righe rosse per ulteriori informazioni",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" non è installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo.",
     "Allow users to mount the following external storage" : "Consenti agli utenti di montare la seguente archiviazione esterna"

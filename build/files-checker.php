@@ -59,6 +59,7 @@ $expectedFiles = [
 	'index.html',
 	'index.php',
 	'lib',
+	'Makefile',
 	'occ',
 	'ocs',
 	'ocs-provider',
@@ -75,6 +76,9 @@ $expectedFiles = [
 	'tests',
 	'themes',
 	'version.php',
+	'webpack.common.js',
+	'webpack.dev.js',
+	'webpack.prod.js',
 ];
 $actualFiles = [];
 

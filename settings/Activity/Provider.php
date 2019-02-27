@@ -42,8 +42,10 @@ class Provider implements IProvider {
 	public const EMAIL_CHANGED_SELF = 'email_changed_self';
 	public const EMAIL_CHANGED = 'email_changed';
 	public const APP_TOKEN_CREATED = 'app_token_created';
-	public const APP_TOKEN_UPDATED = 'app_token_updated';
 	public const APP_TOKEN_DELETED = 'app_token_deleted';
+	public const APP_TOKEN_RENAMED = 'app_token_renamed';
+	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
+	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
 
 	/** @var IFactory */
 	protected $languageFactory;
@@ -110,10 +112,14 @@ class Provider implements IProvider {
 
 		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			$subject = $this->l->t('You created app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_UPDATED) {
-			$subject = $this->l->t('You updated app password "{token}"');
 		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_RENAMED) {
+			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
+			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
+		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
+			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
 
 		} else {
 			throw new \InvalidArgumentException('Unknown subject');
@@ -146,13 +152,27 @@ class Provider implements IProvider {
 					'actor' => $this->generateUserParameter($parameters[0]),
 				];
 			case self::APP_TOKEN_CREATED:
-			case self::APP_TOKEN_UPDATED:
 			case self::APP_TOKEN_DELETED:
+			case self::APP_TOKEN_FILESYSTEM_GRANTED:
+			case self::APP_TOKEN_FILESYSTEM_REVOKED:
 				return [
 					'token' => [
 						'type' => 'highlight',
 						'id' => $event->getObjectId(),
-						'name' => $parameters[0],
+						'name' => $parameters['name'],
+					]
+				];
+			case self::APP_TOKEN_RENAMED:
+				return [
+					'token' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters['name'],
+					],
+					'newToken' => [
+						'type' => 'highlight',
+						'id' => $event->getObjectId(),
+						'name' => $parameters['newName'],
 					]
 				];
 		}

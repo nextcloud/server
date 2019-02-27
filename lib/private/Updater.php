@@ -104,7 +104,7 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', ILogger::DEBUG);
 
-		$wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 
 		if(!$wasMaintenanceModeEnabled) {
 			$this->config->setSystemValue('maintenance', true);
@@ -614,4 +614,3 @@ class Updater extends BasicEmitter {
 	}
 
 }
-

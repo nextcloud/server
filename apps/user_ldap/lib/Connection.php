@@ -60,6 +60,8 @@ use OCP\ILogger;
  * @property string ldapQuotaAttribute
  * @property string ldapQuotaDefault
  * @property string ldapEmailAttribute
+ * @property string ldapExtStorageHomeAttribute
+ * @property string homeFolderNamingRule
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;

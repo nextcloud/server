@@ -260,7 +260,7 @@ class Router implements IRouter {
 			$this->loadRoutes($app);
 		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			\OC::$REQUESTEDAPP = $url;
-			if (!\OC::$server->getConfig()->getSystemValue('maintenance', false) && !Util::needUpgrade()) {
+			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
 			}
 			$this->loadRoutes('core');

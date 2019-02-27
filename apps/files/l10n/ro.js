@@ -117,7 +117,6 @@ OC.L10N.register(
     "Show hidden files" : "Arată fișierele ascunse",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">pentru a accesa Fișierele prin WebDAV</a>",
-    "Cancel upload" : "Anulează încărcarea",
     "No files in here" : "Niciun fișier aici",
     "Upload some content or sync with your devices!" : "Încarcă ceva conținut sau sincronizează cu dispozitivele tale!",
     "No entries found in this folder" : "Niciun element găsit în acest director",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Shared by link" : "Partajat prin link",
     "Text file" : "Fișier text",
     "New text file.txt" : "New text file.txt",
-    "Target folder" : "Directorul destinație"
+    "Target folder" : "Directorul destinație",
+    "Cancel upload" : "Anulează încărcarea"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

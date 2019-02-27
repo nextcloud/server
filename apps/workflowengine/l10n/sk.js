@@ -68,9 +68,10 @@ OC.L10N.register(
     "Check %s does not exist" : "Kontrola %s neexistuje",
     "Check %s is invalid" : "Kontrola %s je neplatná",
     "Check #%s does not exist" : "Kontrola #%s neexistuje",
-    "Workflow" : "Systém práce",
+    "Tag management" : "Správa štítkov",
     "Files workflow engine" : "Typ spôsobu práce súborov",
     "Open documentation" : "Otvoriť dokumentáciu",
-    "Loading…" : "Načítava sa..."
+    "Loading…" : "Načítava sa...",
+    "Workflow" : "Systém práce"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

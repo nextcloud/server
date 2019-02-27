@@ -180,7 +180,7 @@ class Upgrade extends Command {
 			$dispatcher->addListener('\OC\Repair::info', $repairListener);
 			$dispatcher->addListener('\OC\Repair::warning', $repairListener);
 			$dispatcher->addListener('\OC\Repair::error', $repairListener);
-			
+
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
@@ -264,7 +264,7 @@ class Upgrade extends Command {
 			}
 
 			return self::ERROR_SUCCESS;
-		} else if($this->config->getSystemValue('maintenance', false)) {
+		} else if($this->config->getSystemValueBool('maintenance')) {
 			//Possible scenario: Nextcloud core is updated but an app failed
 			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '

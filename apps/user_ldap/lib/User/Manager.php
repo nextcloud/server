@@ -169,19 +169,15 @@ class Manager {
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$attributes = array_merge(Access::UUID_ATTRIBUTES, ['dn', 'uid', 'samaccountname', 'memberof']);
-		$possible = array(
+		$baseAttributes = array_merge(Access::UUID_ATTRIBUTES, ['dn', 'uid', 'samaccountname', 'memberof']);
+		$attributes = [
 			$this->access->getConnection()->ldapExpertUUIDUserAttr,
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
-		);
-		foreach($possible as $attr) {
-			if(!is_null($attr)) {
-				$attributes[] = $attr;
-			}
-		}
+			$this->access->getConnection()->ldapExtStorageHomeAttribute,
+		];
 
 		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
 		if(strpos($homeRule, 'attr:') === 0) {
@@ -197,11 +193,16 @@ class Manager {
 			);
 		}
 
-		// remove possible empty attributes
-		$attributes = array_values(
-			array_filter($attributes, function ($attributeName) {
-				return !empty($attributeName);
-			})
+		$attributes = array_reduce($attributes,
+			function($list, $attribute) {
+				$attribute = strtolower(trim((string)$attribute));
+				if(!empty($attribute) && !in_array($attribute, $list)) {
+					$list[] = $attribute;
+				}
+
+				return $list;
+			},
+			$baseAttributes // hard-coded, lower-case, non-empty attributes
 		);
 
 		return $attributes;

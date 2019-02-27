@@ -27,6 +27,7 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
@@ -376,8 +377,30 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mountMap = array_combine($storageIds, $mounts);
 		$folderMimetype = $mimetypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 
-		//todo look into options of filtering path based on storage id (only search in files/ for home storage, filter by share root for shared, etc)
+		// Search in batches of 500 entries
+		$searchLimit = 500;
+		$results = [];
+		do {
+			$searchResult = $this->recentSearch($searchLimit, $offset, $storageIds, $folderMimetype);
 
+			// Exit condition if there are no more results
+			if (count($searchResult) === 0) {
+				break;
+			}
+
+			$parseResult = $this->recentParse($searchResult, $mountMap, $mimetypeLoader);
+
+			foreach ($parseResult as $result) {
+				$results[] = $result;
+			}
+
+			$offset += $searchLimit;
+		} while (count($results) < $limit);
+
+		return array_slice($results, 0, $limit);
+	}
+
+	private function recentSearch($limit, $offset, $storageIds, $folderMimetype) {
 		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query = $builder
 			->select('f.*')
@@ -388,12 +411,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->eq('f.size', new Literal(0))
 			))
+			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_versions/%')))
+			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_trashbin/%')))
 			->orderBy('f.mtime', 'DESC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
+		return $query->execute()->fetchAll();
+	}
 
-		$result = $query->execute()->fetchAll();
-
+	private function recentParse($result, $mountMap, $mimetypeLoader) {
 		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
 			$mount = $mountMap[$entry['storage']];
 			$entry['internalPath'] = $entry['path'];
@@ -416,6 +442,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private function getAbsolutePath(IMountPoint $mount, $path) {
 		$storage = $mount->getStorage();
 		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Jail')) {
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				$storage->getSourceStorage();
+			}
 			/** @var \OC\Files\Storage\Wrapper\Jail $storage */
 			$jailRoot = $storage->getUnjailedPath('');
 			$rootLength = strlen($jailRoot) + 1;

@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "Erreur de point de montage externe",
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Impossible d'aller chercher la liste des points de montage des disques réseaux Windows : Réponse vide du serveur",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Certains points de montage externes configurés ne sont pas connectés. Veuillez cliquer sur la(les) ligne(s) rouge(s) pour plus d'informations",
     "Please enter the credentials for the {mount} mount" : "Veuillez entrer les identifiants pour le montage {mount}",
     "Username" : "Nom d'utilisateur",
     "Password" : "Mot de passe",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
     "Are you sure you want to delete this external storage" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Certains points de montage externes configurés ne sont pas connectés. Veuillez cliquer sur la(les) ligne(s) rouge(s) pour plus d'informations",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" n'est pas installé. Le montage de %s n'est pas possible. Merci de demander à l'administrateur système de l'installer.",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"

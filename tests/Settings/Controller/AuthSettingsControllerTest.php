@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -109,7 +108,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'type' => 0,
 				'canDelete' => false,
 				'current' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'canRename' => false,
 			],
 			[
 				'id' => 200,
@@ -117,7 +117,8 @@ class AuthSettingsControllerTest extends TestCase {
 				'lastActivity' => 0,
 				'type' => 0,
 				'canDelete' => true,
-				'scope' => ['filesystem' => true]
+				'scope' => ['filesystem' => true],
+				'canRename' => true,
 			]
 		], $this->controller->index());
 	}
@@ -162,7 +163,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$expected = [
 			'token' => $newToken,
-			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true],
+			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true, 'canRename' => true],
 			'loginName' => 'User13',
 		];
 
@@ -238,8 +239,19 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
+	public function dataRenameToken(): array {
+		return [
+			'App password => Other token name' => ['App password', 'Other token name'],
+			'Other token name => App password' => ['Other token name', 'App password'],
+		];
+	}
 
-	public function testUpdateToken() {
+	/**
+	 * @dataProvider dataRenameToken
+	 * @param string $name
+	 * @param string $newName
+	 */
+	public function testUpdateRename(string $name, string $newName): void {
 		$tokenId = 42;
 		$token = $this->createMock(DefaultToken::class);
 
@@ -251,16 +263,95 @@ class AuthSettingsControllerTest extends TestCase {
 			->willReturn('jane');
 
 		$token->expects($this->once())
-			->method('setScope')
-			->with($this->equalTo([
-				'filesystem' => true
-			]));
+			->method('getName')
+			->willReturn($name);
+
+		$token->expects($this->once())
+			->method('getScopeAsArray')
+			->willReturn(['filesystem' => true]);
+
+		$token->expects($this->once())
+			->method('setName')
+			->with($this->equalTo($newName));
 
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true]));
+		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], $newName));
+	}
+
+	public function dataUpdateFilesystemScope(): array {
+		return [
+			'Grant filesystem access' => [false, true],
+			'Revoke filesystem access' => [true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataUpdateFilesystemScope
+	 * @param bool $filesystem
+	 * @param bool $newFilesystem
+	 */
+	public function testUpdateFilesystemScope(bool $filesystem, bool $newFilesystem): void {
+		$tokenId = 42;
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+		$this->mockActivityManager();
+
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('jane');
+
+		$token->expects($this->once())
+			->method('getName')
+			->willReturn('App password');
+
+		$token->expects($this->once())
+			->method('getScopeAsArray')
+			->willReturn(['filesystem' => $filesystem]);
+
+		$token->expects($this->once())
+			->method('setScope')
+			->with($this->equalTo(['filesystem' => $newFilesystem]));
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($this->equalTo($token));
+
+		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => $newFilesystem], 'App password'));
+	}
+
+	public function testUpdateNoChange(): void {
+		$tokenId = 42;
+		$token = $this->createMock(DefaultToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('jane');
+
+		$token->expects($this->once())
+			->method('getName')
+			->willReturn('App password');
+
+		$token->expects($this->once())
+			->method('getScopeAsArray')
+			->willReturn(['filesystem' => true]);
+
+		$token->expects($this->never())
+			->method('setName');
+
+		$token->expects($this->never())
+			->method('setScope');
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($this->equalTo($token));
+
+		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
 	}
 
 	public function testUpdateTokenWrongUser() {
@@ -278,7 +369,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, ['filesystem' => true]);
+		$response = $this->controller->update($tokenId, ['filesystem' => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
@@ -292,7 +383,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update(42, ['filesystem' => true]);
+		$response = $this->controller->update(42, ['filesystem' => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}

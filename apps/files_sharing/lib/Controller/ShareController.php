@@ -361,6 +361,7 @@ class ShareController extends AuthPublicShareController {
 			$folder->assign('isPublic', true);
 			$folder->assign('hideFileList', $hideFileList);
 			$folder->assign('publicUploadEnabled', 'no');
+			// default to list view
 			$folder->assign('showgridview', false);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
@@ -372,6 +373,7 @@ class ShareController extends AuthPublicShareController {
 			$shareIsFolder = false;
 		}
 
+		// default to list view
 		$shareTmpl['showgridview'] = false;
 
 		$shareTmpl['hideFileList'] = $hideFileList;
@@ -433,6 +435,7 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filemultiselectmenu');
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
+			\OCP\Util::addScript('files', 'operationprogressbar');
 		}
 
 		// OpenGraph Support: http://ogp.me/

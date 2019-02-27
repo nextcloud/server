@@ -18,7 +18,6 @@
     "Your version is up to date." : "最新版です。",
     "A non-default update server is in use to be checked for updates:" : "更新のチェックにデフォルト以外の更新サーバーが利用されています:",
     "Update channel:" : "アップデートチャンネル:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "新しいリリースの後、公開されるまでには時間がかかります。\n新しいバージョンを公開して配布しますが、問題が発見されたときにバージョンをスキップすることがあります。",
     "Notify members of the following groups about available updates:" : "次のグループのメンバーに利用可能なアップデートを通知する:",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
@@ -29,9 +28,11 @@
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
     "View changelog" : "変更履歴を確認する",
+    "Beta" : "ベータ",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"],
     "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
-    "Checked on %s" : "%s に確認"
+    "Checked on %s" : "%s に確認",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

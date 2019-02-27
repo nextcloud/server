@@ -30,14 +30,11 @@
 
 namespace OC;
 
-use OCP\AppFramework\QueryException;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
-use OC\AvatarManager;
+use OC\Avatar\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
-use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\ClearFrontendCaches;
+use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
@@ -46,6 +43,8 @@ use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\NC15\SetVcardDatabaseUID;
+use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
+use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -55,7 +54,10 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use OCP\AppFramework\QueryException;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair implements IOutput {
@@ -63,7 +65,7 @@ class Repair implements IOutput {
 	/** @var IRepairStep[] */
 	private $repairSteps;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
 	/** @var string */
@@ -73,9 +75,9 @@ class Repair implements IOutput {
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
-	 * @param EventDispatcher $dispatcher
+	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct($repairSteps = [], EventDispatcher $dispatcher = null) {
+	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
 		$this->repairSteps = $repairSteps;
 		$this->dispatcher  = $dispatcher;
 	}
@@ -147,7 +149,9 @@ class Repair implements IOutput {
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger())
+			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger()),
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
+			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
 		];
 	}
 

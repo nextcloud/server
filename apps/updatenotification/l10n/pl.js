@@ -11,14 +11,16 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Aktualizacja dla {app} do wersji %s jest dostępna.",
     "Update notification" : "Powiadomienie o aktualizacji",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Wyświetla powiadomienia o aktualizacji dla usługi NextCloud i udostępnia SSO dla aktualizatora.",
+    "Apps missing updates" : "Brakujące aktualizacje aplikacji",
+    "View in store" : "Zobacz w sklepie",
     "Apps with available updates" : "Dostępne aktualizacje",
     "Open updater" : "Otwórz aktualizator",
     "Download now" : "Pobierz teraz",
+    "What's new?" : "Co nowego?",
     "The update check is not yet finished. Please refresh the page." : "Sprawdzanie aktualizacji nie zostało jeszcze zakończone. Odśwież stronę.",
     "Your version is up to date." : "Posiadasz aktualną wersję.",
     "A non-default update server is in use to be checked for updates:" : "Do sprawdzania aktualizacji nie są używane domyślne serwery aktualizacji:",
     "Update channel:" : "Kanał aktualizacji:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Zauważ, że po opublikowaniu nowej wersji może minąć trochę czasu, zanim pojawi się ona tutaj. Publikację dla naszych użytkowników rozkładamy w czasie, a czasami pomijamy wersję, gdy znajdziemy jakieś błędy.",
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach: ",
     "Only notification for app updates are available." : "Tylko powiadomienia o aktualizacjach aplikacji są dostępne.",
@@ -34,6 +36,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>aplikacja nie ma aktualizacji dla tej wersji","<strong>%n</strong>aplikacje nie mają aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają aktualizacji dla tej wersji"],
     "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie",
     "A new version is available: %s" : "Dostępna jest nowa wersja: %s",
-    "Checked on %s" : "Sprawdzono: %s"
+    "Checked on %s" : "Sprawdzono: %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

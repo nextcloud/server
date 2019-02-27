@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Notifications;
 
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -33,8 +34,12 @@ class Notifier implements INotifier {
 	/** @var IFactory */
 	private $factory;
 
-	public function __construct(IFactory $factory) {
+	/** @var IURLGenerator */
+	private $url;
+
+	public function __construct(IFactory $factory, IURLGenerator $url) {
 		$this->factory = $factory;
+		$this->url = $url;
 	}
 
 	public function prepare(INotification $notification, $languageCode) {
@@ -53,6 +58,8 @@ class Notifier implements INotifier {
 				)->setParsedMessage(
 					$l->t('You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.')
 				);
+
+				$notification->setLink($this->url->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']));
 				return $notification;
 
 			default:

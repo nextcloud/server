@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "pasuje",
     "does not match" : "nie pasuje",
     "Example: {placeholder}" : "Przykład: {placeholder}",
+    "File name" : "Nazwa pliku",
     "File size (upload)" : "Rozmiar pliku (wczytywanego)",
     "less" : "mniejszy",
     "less or equals" : "mniejszy lub równy",
@@ -67,9 +68,10 @@ OC.L10N.register(
     "Check %s does not exist" : "Sprawdź, czy %s nie istnieje",
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
-    "Workflow" : "Wpływ na pracę",
-    "Files workflow engine" : "Piliki silnika workflow",
+    "Tag management" : "Zarządzanie tagami",
+    "Files workflow engine" : "Pliki silnika workflow",
     "Open documentation" : "Otwórz dokumentację",
-    "Loading…" : "Wczytywanie…"
+    "Loading…" : "Wczytywanie…",
+    "Workflow" : "Workflow"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -25,7 +25,6 @@ class NativeWriteStream extends NativeStream {
 		$this->writeBuffer = fopen('php://memory', 'r+');
 
 		return parent::stream_open($path, $mode, $options, $opened_path);
-
 	}
 
 	/**
@@ -39,13 +38,13 @@ class NativeWriteStream extends NativeStream {
 	 */
 	public static function wrap($state, $smbStream, $mode, $url) {
 		stream_wrapper_register('nativesmb', NativeWriteStream::class);
-		$context = stream_context_create(array(
-			'nativesmb' => array(
+		$context = stream_context_create([
+			'nativesmb' => [
 				'state'  => $state,
 				'handle' => $smbStream,
 				'url'    => $url
-			)
-		));
+			]
+		]);
 		$fh = fopen('nativesmb://', $mode, false, $context);
 		stream_wrapper_unregister('nativesmb');
 		return $fh;

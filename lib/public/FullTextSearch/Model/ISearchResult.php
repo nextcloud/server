@@ -93,7 +93,7 @@ interface ISearchResult {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @return array
+	 * @return IndexDocument[]
 	 */
 	public function getDocuments(): array;
 

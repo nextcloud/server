@@ -60,8 +60,10 @@ $invert: luma($color-primary) > 0.6;
 			border: 1px solid nc-lighten($color-primary-text, 50%);
 		}
 		input.primary,
+		button.primary,
 		#alternative-logins li a {
 			background-color: $color-primary;
+			color: $color-primary-text;
 		}
 		a,
 		label,

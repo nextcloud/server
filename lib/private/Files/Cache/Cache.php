@@ -40,10 +40,13 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Doctrine\DBAL\Driver\Statement;
+use OCP\Files\Cache\CacheInsertEvent;
+use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use \OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchQuery;
+use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 
 /**
@@ -71,6 +74,8 @@ class Cache implements ICache {
 	 */
 	protected $storageId;
 
+	private $storage;
+
 	/**
 	 * @var Storage $storageCache
 	 */
@@ -84,18 +89,17 @@ class Cache implements ICache {
 	 */
 	protected $connection;
 
+	protected $eventDispatcher;
+
 	/** @var QuerySearchHelper */
 	protected $querySearchHelper;
 
 	/**
-	 * @param \OC\Files\Storage\Storage|string $storage
+	 * @param IStorage $storage
 	 */
-	public function __construct($storage) {
-		if ($storage instanceof \OC\Files\Storage\Storage) {
-			$this->storageId = $storage->getId();
-		} else {
-			$this->storageId = $storage;
-		}
+	public function __construct(IStorage $storage) {
+		$this->storageId = $storage->getId();
+		$this->storage = $storage;
 		if (strlen($this->storageId) > 64) {
 			$this->storageId = md5($this->storageId);
 		}
@@ -103,6 +107,7 @@ class Cache implements ICache {
 		$this->storageCache = new Storage($storage);
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->eventDispatcher = \OC::$server->getEventDispatcher();
 		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
 	}
 
@@ -226,7 +231,7 @@ class Cache implements ICache {
 	 */
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
-			$this->update($id, $data);
+			$this->update($id, $data, $file);
 			return $id;
 		} else {
 			return $this->insert($file, $data);
@@ -283,9 +288,11 @@ class Cache implements ICache {
 			}
 
 			if ($builder->execute()) {
-				return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+				$fileId = (int)$this->connection->lastInsertId('*PREFIX*filecache');
+				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId));
+				return $fileId;
 			}
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			// entry exists already
 		}
 
@@ -331,6 +338,11 @@ class Cache implements ICache {
 			') AND `fileid` = ? ';
 		$this->connection->executeQuery($sql, $params);
 
+		$path = $this->getPathById($id);
+		// path can still be null if the file doesn't exist
+		if ($path !== null) {
+			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $path, $id));
+		}
 	}
 
 	/**

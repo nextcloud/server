@@ -35,7 +35,6 @@ OC.L10N.register(
     "External mount error" : "External mount error",
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Couldn't fetch list of Windows network drive mount points: Empty response from server",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Some of the configured external mount points are not connected. Please click on the red row(s) for more information",
     "Please enter the credentials for the {mount} mount" : "Please enter the credentials for the {mount} mount",
     "Username" : "Username",
     "Password" : "Password",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
     "Are you sure you want to delete this external storage" : "Are you sure you want to delete this external storage",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Some of the configured external mount points are not connected. Please click on the red row(s) for more information",
     "OpenStack" : "OpenStack",
     "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.",
     "Allow users to mount the following external storage" : "Allow users to mount the following external storage"

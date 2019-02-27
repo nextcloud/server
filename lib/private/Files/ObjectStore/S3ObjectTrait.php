@@ -23,8 +23,11 @@
 
 namespace OC\Files\ObjectStore;
 
+use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartUploader;
+use Aws\S3\ObjectUploader;
 use Aws\S3\S3Client;
+use Icewind\Streams\CallbackWrapper;
 
 const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
 
@@ -73,12 +76,30 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	function writeObject($urn, $stream) {
-		$uploader = new MultipartUploader($this->getConnection(), $stream, [
+		$count = 0;
+		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
+			$count += $read;
+		});
+
+		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,
 			'part_size' => S3_UPLOAD_PART_SIZE
 		]);
-		$uploader->upload();
+
+		try {
+			$uploader->upload();
+		} catch (S3MultipartUploadException $e) {
+			// This is an emty file so just touch it then
+			if ($count === 0 && feof($countStream)) {
+				$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
+				$uploader->upload();
+			} else {
+				throw $e;
+			}
+		}
+
+		fclose($countStream);
 	}
 
 	/**

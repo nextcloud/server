@@ -14,46 +14,16 @@ pipeline:
     when:
       matrix:
         TESTS: jsunit
-  vue-build-settings:
+  webpack-build:
     image: nextcloudci/node:node-4
     commands:
-     - cd settings/
-     - find js/ -type f -iname 'vue-*' -delete
-     - npm install
-     - npm run build
-     - git status
-     - bash -c "[[ ! \"`git status --porcelain js/`\" ]] || ( echo 'Uncommited changes in vue build' && exit 1 )"
+      - npm ci
+      - npm run build
+      - git status
+      - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
     when:
       matrix:
-        TESTS: vue-build-settings
-  vue-build-updatenotification:
-    image: node
-    commands:
-     - ./build/vue-builds.sh ./apps/updatenotification/js/updatenotification.js
-    when:
-      matrix:
-        TESTS: vue-build-updatenotification
-  vue-build-oauth2:
-    image: node
-    commands:
-     - ./build/vue-builds.sh ./apps/oauth2/js/oauth2.js
-    when:
-      matrix:
-        TESTS: vue-build-oauth2
-  vue-build-accessibility:
-    image: node
-    commands:
-     - ./build/vue-builds.sh ./apps/accessibility/js/accessibility.js
-    when:
-      matrix:
-        TESTS: vue-build-accessibility
-  vue-build-backupcodes:
-    image: node
-    commands:
-      - ./build/vue-builds.sh ./apps/twofactor_backupcodes/js/settings.js
-    when:
-      matrix:
-        TESTS: vue-build-backupscodes
+        TESTS: webpack-build
   checkers:
     image: nextcloudci/php7.1:php7.1-16
     commands:
@@ -559,7 +529,6 @@ pipeline:
       image: nextcloudci/integration-php7.1:1
       commands:
         - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-        - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-ocs.feature
       when:
@@ -574,7 +543,6 @@ pipeline:
         - ./occ config:system:set redis timeout --value=0 --type=integer
         - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
         - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-        - ./occ app:enable user_ldap
         - cd build/integration
         - ./run.sh ldap_features/ldap-openldap.feature
       when:
@@ -589,7 +557,6 @@ pipeline:
           - ./occ config:system:set redis timeout --value=0 --type=integer
           - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
           - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-          - ./occ app:enable user_ldap
           - cd build/integration
           - ./run.sh ldap_features/openldap-uid-username.feature
         when:
@@ -604,7 +571,6 @@ pipeline:
     - ./occ config:system:set redis timeout --value=0 --type=integer
     - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
     - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
-    - ./occ app:enable user_ldap
     - cd build/integration
     - ./run.sh ldap_features/openldap-numerical-id.feature
     when:
@@ -801,11 +767,7 @@ pipeline:
 matrix:
   include:
     - TESTS: checkers
-    - TESTS: vue-build-settings
-    - TESTS: vue-build-updatenotification
-    - TESTS: vue-build-oauth2
-    - TESTS: vue-build-accessibility
-    - TESTS: vue-build-backupcodes
+    - TESTS: webpack-build
     - TESTS: handlebars
     - TESTS: nodb-codecov
       ENABLE_REDIS: true

@@ -20,7 +20,7 @@
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
     "Update channel:" : "Aktualizovat kanál:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy můžete aktualizovat na novější verzi / experimentální kanál. Poté ale nelze nikdy provést downgrade zpět na nižší stabilní kanál.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté ale nelze vrátit zpět na starší, stabilnější verzi.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Všimněte si, že po vydání nové verze může chvíli trvat, než se zde objeví. Distribuujeme nové verze průběžně rozložené v čase mezi naše uživatele a pokud  jsou nalezeny problémy někdy danou verzi přeskočíme.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
     "Only notification for app updates are available." : "Je možné pouze upozornění na dostupné aktualizace aplikací.",
@@ -32,13 +32,20 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nedaří se spojit s katalogem aplikací nebo tento nevrátil vůbec žádné aktualizace. Vyhledejte aktualizace ručně nebo ověřte, zda má váš server přístup k Internetu a může se spojit s katalogem.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všehny</strong> aplikace mají k dispozici aktualizaci pro tuto verzi",
-    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produkční</strong> vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2).",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> je nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení.",
     "View changelog" : "Zobrazit souhrn změn",
+    "Stable" : "Stabilní",
+    "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",
+    "Production" : "Produkční",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2) a pouze pokud je instance už na nejnovější podverzi.",
+    "Beta" : "Vývojové",
+    "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"],
     "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
     "A new version is available: %s" : "Je dostupná nová verze: %s",
-    "Checked on %s" : "Zkontrolováno %s"
+    "Checked on %s" : "Zkontrolováno %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy můžete aktualizovat na novější verzi / experimentální kanál. Poté ale nelze nikdy provést downgrade zpět na nižší stabilní kanál.",
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produkční</strong> vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2).",
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> je nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi.",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

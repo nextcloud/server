@@ -21,10 +21,10 @@
     "less or equals" : "weniger oder gleich",
     "greater or equals" : "größer oder gleich",
     "greater" : "größer",
-    "File system tag" : "Dateisystem-Tag",
-    "is tagged with" : "hat den Tag",
-    "is not tagged with" : "hat nicht den Tag",
-    "Select tag…" : "Wähle einen Tag…",
+    "File system tag" : "Dateisystem-Schlagwort",
+    "is tagged with" : "hat das Schlagwort",
+    "is not tagged with" : "ist nicht verschlagwortet mit",
+    "Select tag…" : "Wähle ein Schlagwort…",
     "Request remote address" : "IP Adresse der Anfrage",
     "matches IPv4" : "entspricht IPv4",
     "does not match IPv4" : "entspricht nicht IPv4",
@@ -51,7 +51,7 @@
     "The given operator is invalid" : "Der angegebene Operator ist ungültig",
     "The given regular expression is invalid" : "Der angegebene Reguläre Ausdruck ist ungültig",
     "The given file size is invalid" : "Die angegebene Dateigröße ist ungültig",
-    "The given tag id is invalid" : "Die angegebene Tag ID ist ungültig",
+    "The given tag id is invalid" : "Die angegebene Schlagwort-ID ist ungültig",
     "The given IP range is invalid" : "Der angegebene IP-Bereich ist ungültig",
     "The given IP range is not valid for IPv4" : "Der angegebene IP-Bereich ist ungültig für IPv4",
     "The given IP range is not valid for IPv6" : "Der angegebene IP-Bereich ist ungültig für IPv6",
@@ -66,9 +66,10 @@
     "Check %s does not exist" : "Die Prüfung %s existiert nicht",
     "Check %s is invalid" : "Die Prüfung %s ist ungültig",
     "Check #%s does not exist" : "Die Prüfung #%s existiert nicht",
-    "Workflow" : "Workflow",
+    "Tag management" : "Schlagwortverwaltung",
     "Files workflow engine" : "Datei-Workflow-Engine",
     "Open documentation" : "Dokumentation öffnen",
-    "Loading…" : "Laden…"
+    "Loading…" : "Laden…",
+    "Workflow" : "Workflow"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -189,7 +189,7 @@ export default {
 		 * In case the user directly loaded the user list within a group
 		 * the watch won't be triggered. We need to initialize it.
 		 */
-		this.setNewUserDefaultGroup(this.$route.params.selectedGroup);
+		this.setNewUserDefaultGroup(this.selectedGroup);
 
 		/** 
 		 * Register search
@@ -206,7 +206,7 @@ export default {
 				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
 					// disabled group is empty, redirection to all users
 					this.$router.push({name: 'users'});
-					this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+					this.$refs.infiniteLoading.stateChanger.reset()
 				}
 				return disabledUsers;
 			}
@@ -253,6 +253,9 @@ export default {
 		usersLimit() {
 			return this.$store.getters.getUsersLimit;
 		},
+		usersCount() {
+			return this.users.length
+		},
 
 		/* LANGUAGES */
 		languages() {
@@ -272,8 +275,22 @@ export default {
 		// watch url change and group select
 		selectedGroup: function (val, old) {
 			this.$store.commit('resetUsers');
-			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+			this.$refs.infiniteLoading.stateChanger.reset()
 			this.setNewUserDefaultGroup(val);
+		},
+
+		// make sure the infiniteLoading state is changed if we manually
+		// add/remove data from the store
+		usersCount: function(val, old) {
+			// deleting the last user, reset the list 
+			if (val === 0 && old === 1) {
+				this.$refs.infiniteLoading.stateChanger.reset()
+			// adding the first user, warn the infiniteLoader that 
+			// the list is not empty anymore (we don't fetch the newly
+			// added user as we already have all the info we need)
+			} else if (val === 1 && old === 0) {
+				this.$refs.infiniteLoading.stateChanger.loaded()
+			}
 		}
 	},
 	methods: {
@@ -313,7 +330,7 @@ export default {
 		search(query) {
 			this.searchQuery = query;
 			this.$store.commit('resetUsers');
-			this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+			this.$refs.infiniteLoading.stateChanger.reset()
 		},
 		resetSearch() {
 			this.search('');
@@ -322,6 +339,8 @@ export default {
 		resetForm() {
 			// revert form to original state
 			Object.assign(this.newUser, this.$options.data.call(this).newUser);
+			// reset group
+			this.setNewUserDefaultGroup(this.selectedGroup);
 			this.loading.all = false;
 		},
 		createUser() {
@@ -336,7 +355,9 @@ export default {
 				quota: this.newUser.quota.id,
 				language: this.newUser.language.code,
 			})
-			.then(() => this.resetForm())
+			.then(() => {
+				this.resetForm()
+			})
 			.catch((error) => {
 				this.loading.all = false;
 				if (error.response && error.response.data && error.response.data.ocs && error.response.data.ocs.meta) {

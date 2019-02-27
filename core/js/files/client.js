@@ -427,6 +427,9 @@
 		_getSabreException: function(response) {
 			var result = {};
 			var xml = response.xhr.responseXML;
+			if (xml === null) {
+				return result;
+			}
 			var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
 			var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
 			if (messages.length) {

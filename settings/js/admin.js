@@ -251,12 +251,14 @@ $(document).ready(function(){
 			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!oc_appconfig.core.public_webfinger, [200, 501]),
 			OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkProviderUrl('/ocm-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkProviderUrl('/ocs-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkSetup(),
 			OC.SetupChecks.checkGeneric(),
 			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), oc_defaults.docPlaceholderUrl),
 			OC.SetupChecks.checkDataProtected()
-		).then(function (check1, check2, check3, check4, check5, check6, check7, check8) {
-			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8);
+		).then(function (check1, check2, check3, check4, check5, check6, check7, check8, check9, check10) {
+			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10);
 			var $el = $('#postsetupchecks');
 			$('#security-warning-state-loading').addClass('hidden');
 
@@ -313,4 +315,107 @@ $(document).ready(function(){
 	if (document.getElementById('security-warning') !== null) {
 		setupChecks();
 	}
+
+	// server info
+
+	var serverInfoForm = $('#server-info-form');
+	var serverInfoWorkingTimeoutHandle;
+	var serverInfoSubmitButton = $('#server-info-submit-button');
+
+	/**
+	 * Sets the server info submit button state to default.
+	 */
+	function setServerInfoButtonDefault() {
+		serverInfoSubmitButton.removeClass('button-success');
+		serverInfoSubmitButton.removeClass('button-error');
+		serverInfoSubmitButton.removeClass('button-working');
+	}
+
+	/**
+	 * Sets the server info submit button state to working.
+	 */
+	function setServerInfoButtonWorking() {
+		serverInfoSubmitButton.removeClass('button-success');
+		serverInfoSubmitButton.removeClass('button-error');
+		serverInfoSubmitButton.addClass('button-working');
+	}
+
+	/**
+	 * Sets the server info submit button state to success.
+	 */
+	function setServerInfoButtonSuccess() {
+		serverInfoSubmitButton.removeClass('button-error');
+		serverInfoSubmitButton.removeClass('button-working');
+		serverInfoSubmitButton.addClass('button-success');
+	}
+
+	/**
+	 * Sets the server info submit button state to error.
+	 */
+	function setServerInfoButtonError() {
+		serverInfoSubmitButton.removeClass('button-success');
+		serverInfoSubmitButton.removeClass('button-working');
+		serverInfoSubmitButton.addClass('button-error');
+	}
+
+	/**
+	 * Clears the server info working timeout, if present.
+	 */
+	function clearServerInfoWorkingTimeout() {
+		if (serverInfoWorkingTimeoutHandle) {
+			clearTimeout(serverInfoWorkingTimeoutHandle);
+			serverInfoWorkingTimeoutHandle = undefined;
+		}
+	}
+
+	/**
+	 * Unlocks the server info form, e.g. removing readonly from inputs.
+	 */
+	function unlockForm() {
+		serverInfoForm.find('input, select').prop('readonly', false);
+		serverInfoSubmitButton.prop('disabled', false);
+	}
+
+	/**
+	 * Resets the submit button state one of the form elements is changed.
+	 */
+	serverInfoForm.find('input, select').on('keyup change', function() {
+		setServerInfoButtonDefault();
+	});
+
+	/**
+	 * Handles the server info form submit.
+	 */
+	serverInfoForm.on('submit', function(event) {
+		event.stopImmediatePropagation();
+		event.preventDefault();
+
+		serverInfoForm.find('input, select').prop('readonly', true);
+		serverInfoSubmitButton.prop('disabled', true);
+
+		clearServerInfoWorkingTimeout();
+
+		// start show spinner only if request takes longer than one second
+		serverInfoWorkingTimeoutHandle = setTimeout(function() {
+			setServerInfoButtonWorking();
+		}, 1000);
+
+		$.ajax({
+			url: OC.generateUrl('/settings/serverinfo'),
+			type: 'POST',
+			data: serverInfoForm.serialize(),
+			success: function() {
+				clearServerInfoWorkingTimeout();
+				setServerInfoButtonSuccess();
+				unlockForm();
+				serverInfoSubmitButton.blur();
+			},
+			error: function() {
+				clearServerInfoWorkingTimeout();
+				setServerInfoButtonError();
+				unlockForm();
+				serverInfoSubmitButton.blur();
+			}
+		});
+	});
 });

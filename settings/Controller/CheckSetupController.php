@@ -289,9 +289,14 @@ class CheckSetupController extends Controller {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
 
-		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies)) {
+		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host')) {
+			return false;
+		}
+
+		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies, true)) {
 			return $remoteAddress !== $this->request->getRemoteAddress();
 		}
+
 		// either not enabled or working correctly
 		return true;
 	}

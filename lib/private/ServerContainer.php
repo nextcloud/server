@@ -107,6 +107,10 @@ class ServerContainer extends SimpleContainer {
 	public function query($name) {
 		$name = $this->sanitizeName($name);
 
+		if (isset($this[$name])) {
+			return $this[$name];
+		}
+
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
 		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {

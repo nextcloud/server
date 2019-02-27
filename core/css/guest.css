@@ -331,12 +331,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-mark-white.svg');
 }
 
-
-/* keep the labels for screen readers but hide them since we use placeholders */
-label.infield {
-	display: none;
-}
-
 /* Password strength meter */
 .strengthify-wrapper {
 	display: inline-block;
@@ -362,9 +356,6 @@ label.infield {
 	top: .8em;
 	float: right;
 }
-#show, #dbpassword-toggle, #personal-show {
-	display: none;
-}
 #show + label, #dbpassword-toggle + label {
 	right: 21px;
 	top: 15px !important;
@@ -385,6 +376,11 @@ label.infield {
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
 	display: none;
+}
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label, #dbpassword-toggle:focus + label, #personal-show:focus + label,
+#show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
+  opacity: 1;
 }
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
@@ -836,6 +832,8 @@ footer .info .entity-name {
 	display: none;
 }
 
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield,
 .hidden-visually {
 	position: absolute;
 	left:-10000px;

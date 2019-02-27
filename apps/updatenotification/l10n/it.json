@@ -20,7 +20,7 @@
     "Your version is up to date." : "La tua versione è aggiornata.",
     "A non-default update server is in use to be checked for updates:" : "Stai utilizzando un server non predefinito per controllare gli aggiornamenti:",
     "Update channel:" : "Canale di aggiornamento:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Puoi aggiornare sempre a una nuova versione / canale sperimentale. Ma non puoi mai tornare a una versione precedente.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Puoi aggiornare sempre a una nuova versione. Ma non puoi mai tornare a una versione precedente.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota che, dopo una nuova versione, potrebbe essere necessario del tempo prima che sia mostrato qui. Rilasciamo nel tempo nuove versioni ai nostri utenti e, a volte, saltiamo una versione, se troviamo dei problemi.",
     "Notify members of the following groups about available updates:" : "Notifica i membri dei seguenti gruppi sugli aggiornamenti disponibili:",
     "Only notification for app updates are available." : "Sono disponibili solo le notifiche per gli aggiornamenti delle applicazioni.",
@@ -32,13 +32,20 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Assicurati che il tuo config.php non abbia <samp>appstoreenabled</samp> impostata a false.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Impossibile connettersi al negozio delle applicazioni o il negozio delle applicazioni non ha restituito alcun aggiornamento. Cerca manualmente gli aggiornamenti o assicurati che il server abbia accesso a Internet e possa collegarsi al negozio delle applicazioni.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Tutte</strong> le applicazioni hanno un aggiornamento disponibile per questa versione",
-    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produzione</strong> fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2).",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabile</strong> è la versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> è una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "View changelog" : "Visualizza le novità",
+    "Stable" : "Stabile",
+    "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
+    "Production" : "Produzione",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2).",
+    "Beta" : "Beta",
+    "A pre-release version only for testing new features, not for production environments." : "Una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> applicazione non ha un aggiornamento disponibile per questa versione","<strong>%n</strong> applicazioni non hanno un aggiornamento disponibile per questa versione"],
     "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale",
     "A new version is available: %s" : "Una nuova versione è disponibile: %s",
-    "Checked on %s" : "Controllato il %s"
+    "Checked on %s" : "Controllato il %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Puoi aggiornare sempre a una nuova versione / canale sperimentale. Ma non puoi mai tornare a una versione precedente.",
+    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produzione</strong> fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2).",
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabile</strong> è la versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> è una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

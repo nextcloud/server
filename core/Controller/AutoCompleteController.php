@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -25,27 +26,33 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\OCSController as Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IRequest;
 use OCP\Share;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AutoCompleteController extends Controller {
 	/** @var ISearch */
 	private $collaboratorSearch;
 	/** @var IManager */
 	private $autoCompleteManager;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		ISearch $collaboratorSearch,
-		IManager $autoCompleteManager
+		IManager $autoCompleteManager,
+		EventDispatcherInterface $dispatcher
 	) {
 		parent::__construct($appName, $request);
 
 		$this->collaboratorSearch = $collaboratorSearch;
 		$this->autoCompleteManager = $autoCompleteManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -59,10 +66,22 @@ class AutoCompleteController extends Controller {
 	 * @param int $limit
 	 * @return DataResponse
 	 */
-	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER], $limit = 10) {
+	public function get($search, $itemType, $itemId, $sorter = null, $shareTypes = [Share::SHARE_TYPE_USER], $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
-		list($results,) = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
+		[$results,] = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
+
+		$event = new AutoCompleteEvent([
+			'search' => $search,
+			'results' => $results,
+			'itemType' => $itemType,
+			'itemId' => $itemId,
+			'sorter' => $sorter,
+			'shareTypes' => $shareTypes,
+			'limit' => $limit,
+		]);
+		$this->dispatcher->dispatch(IManager::class . '::filterResults', $event);
+		$results = $event->getResults();
 
 		$exactMatches = $results['exact'];
 		unset($results['exact']);
@@ -83,7 +102,7 @@ class AutoCompleteController extends Controller {
 	}
 
 
-	protected function prepareResultArray(array $results) {
+	protected function prepareResultArray(array $results): array {
 		$output = [];
 		foreach ($results as $type => $subResult) {
 			foreach ($subResult as $result) {

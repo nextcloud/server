@@ -61,7 +61,7 @@ $application->add(new \OC\Core\Command\Integrity\CheckCore(
 
 if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Disable(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager()));
+	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\App\Install());
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
@@ -140,8 +140,11 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(), \OC::$server->getAppManager()));
+		new \OC\Repair([], \OC::$server->getEventDispatcher()),
+		\OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher(),
+		\OC::$server->getAppManager()
+	));
 
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));

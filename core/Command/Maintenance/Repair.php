@@ -77,11 +77,14 @@ class Repair extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$includeExpensive = $input->getOption('include-expensive');
-		if ($includeExpensive) {
-			foreach ($this->repair->getExpensiveRepairSteps() as $step) {
-				$this->repair->addStep($step);
-			}
+		$repairSteps = $this->repair::getRepairSteps();
+
+		if ($input->getOption('include-expensive')) {
+			$repairSteps = array_merge($repairSteps, $this->repair::getExpensiveRepairSteps());
+		}
+
+		foreach ($repairSteps as $step) {
+			$this->repair->addStep($step);
 		}
 
 		$apps = $this->appManager->getInstalledApps();
@@ -103,7 +106,7 @@ class Repair extends Command {
 			}
 		}
 
-		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
+		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
 		$this->progress = new ProgressBar($output);

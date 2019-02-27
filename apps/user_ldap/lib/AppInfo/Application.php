@@ -23,7 +23,9 @@
 
 namespace OCA\User_LDAP\AppInfo;
 
+use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
+use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\App;
@@ -56,5 +58,19 @@ class Application extends App {
 		$container->registerService(ILDAPWrapper::class, function () {
 			return new LDAP();
 		});
+	}
+
+	public function registerBackendDependents() {
+		$container = $this->getContainer();
+
+		$container->getServer()->getEventDispatcher()->addListener(
+			'OCA\\Files_External::loadAdditionalBackends',
+			function() use ($container) {
+				$storagesBackendService = $container->query(BackendService::class);
+				$storagesBackendService->registerConfigHandler('home', function () use ($container) {
+					return $container->query(ExtStorageConfigHandler::class);
+				});
+			}
+		);
 	}
 }

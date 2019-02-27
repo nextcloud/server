@@ -47,8 +47,8 @@ OC.L10N.register(
     "Operation #%s does not exist" : "La operación #%s nun esiste",
     "Operation %s does not exist" : "La operación %s nun esiste",
     "Operation %s is invalid" : "La operación %s nun ye válida",
-    "Workflow" : "Fluxu de trabayu",
     "Open documentation" : "Abrir documentación",
-    "Loading…" : "Cargando..."
+    "Loading…" : "Cargando...",
+    "Workflow" : "Fluxu de trabayu"
 },
 "nplurals=2; plural=(n != 1);");

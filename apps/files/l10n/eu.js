@@ -126,7 +126,6 @@ OC.L10N.register(
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Igoera bertan behera utzita",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
@@ -142,6 +141,7 @@ OC.L10N.register(
     "Shared by link" : "Partekatua esteka bidez",
     "Text file" : "Testu fitxategia",
     "New text file.txt" : "TXT berria.txt",
-    "Target folder" : "Xede karpeta"
+    "Target folder" : "Xede karpeta",
+    "Cancel upload" : "Igoera bertan behera utzita"
 },
 "nplurals=2; plural=(n != 1);");

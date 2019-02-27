@@ -26,17 +26,21 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Notification;
 
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
 	/** @var Notifier */
 	protected $notifier;
 
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory|MockObject */
 	protected $factory;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
+	protected $url;
+	/** @var IL10N|MockObject */
 	protected $l;
 
 	protected function setUp() {
@@ -49,12 +53,14 @@ class NotifierTest extends TestCase {
 				return vsprintf($string, $args);
 			});
 		$this->factory = $this->createMock(IFactory::class);
+		$this->url = $this->createMock(IURLGenerator::class);
 		$this->factory->expects($this->any())
 			->method('get')
 			->willReturn($this->l);
 
 		$this->notifier = new Notifier(
-			$this->factory
+			$this->factory,
+			$this->url
 		);
 	}
 
@@ -112,6 +118,15 @@ class NotifierTest extends TestCase {
 		$notification->expects($this->once())
 			->method('setParsedMessage')
 			->with('You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.')
+			->willReturnSelf();
+
+		$this->url->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('settings.PersonalSettings.index', ['section' => 'security'])
+			->willReturn('linkToRouteAbsolute');
+		$notification->expects($this->once())
+			->method('setLink')
+			->with('linkToRouteAbsolute')
 			->willReturnSelf();
 
 		$return = $this->notifier->prepare($notification, 'nl');

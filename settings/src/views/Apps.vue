@@ -21,25 +21,27 @@
   -->
 
 <template>
-	<div id="content" class="app-settings" :class="{ 'with-app-sidebar': currentApp}">
-		<app-navigation :menu="menu" />
-		<div id="app-content" class="app-settings-content" :class="{ 'icon-loading': loadingList }">
+	<AppContent app-name="settings" :class="{ 'with-app-sidebar': currentApp}"
+	:content-class="{ 'icon-loading': loadingList }" :navigation-class="{ 'icon-loading': loading }">
+		<template #navigation>
+			<ul id="appscategories">
+				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
+			</ul>
+		</template>
+		<template #content class="app-settings-content" :class="{ 'icon-loading': loadingList }">
 			<app-list :category="category" :app="currentApp" :search="searchQuery"></app-list>
-		</div>
-		<div id="app-sidebar" v-if="id && currentApp">
+		</template>
+		<template #sidebar v-if="id && currentApp" >
 			<app-details :category="category" :app="currentApp"></app-details>
-		</div>
-	</div>
+		</template>
+	</AppContent>
 </template>
 
-
 <script>
-import { AppNavigation } from 'nextcloud-vue';
+import { AppContent, AppNavigationItem } from 'nextcloud-vue';
 import appList from '../components/appList';
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
-import Multiselect from 'vue-multiselect';
-import api from '../store/api';
 import AppDetails from '../components/appDetails';
 
 Vue.use(VueLocalStorage)
@@ -57,9 +59,10 @@ export default {
 		}
 	},
 	components: {
+		AppContent,
 		AppDetails,
-		AppNavigation,
 		appList,
+		AppNavigationItem,
 	},
 	methods: {
 		setSearch(query) {
@@ -161,10 +164,7 @@ export default {
 			];
 
 			if (!this.settings.appstoreEnabled) {
-				return {
-					id: 'appscategories',
-					items: defaultCategories,
-				}
+				return defaultCategories
 			}
 
 			if (this.$store.getters.getUpdateCount > 0) {
@@ -204,11 +204,7 @@ export default {
 			});
 
 			// Return
-			return {
-				id: 'appscategories',
-				items: categories,
-				loading: this.loading
-			}
+			return categories
 		},
 	}
 }

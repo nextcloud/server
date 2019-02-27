@@ -64,8 +64,8 @@ OC.L10N.register(
     "Check %s does not exist" : "%s را چک کنید وجود ندارد",
     "Check %s is invalid" : "%s را چک کنید معتبر نیست",
     "Check #%s does not exist" : "%s را چک کنید وجود ندارد ",
-    "Workflow" : "جریان کاری",
     "Open documentation" : "مستندات باز",
-    "Loading…" : "در حال بار گزاری"
+    "Loading…" : "در حال بار گزاری",
+    "Workflow" : "جریان کاری"
 },
 "nplurals=2; plural=(n > 1);");

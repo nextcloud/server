@@ -4,7 +4,7 @@
 			<template v-if="isNewVersionAvailable">
 				<p v-if="versionIsEol">
 					<span class="warning">
-						<span class="icon icon-error"></span>
+						<span class="icon icon-error-white"></span>
 						{{ t('updatenotification', 'The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.') }}
 					</span>
 				</p>
@@ -63,20 +63,22 @@
 			</template>
 		</div>
 
+		<h3 class="update-channel-selector">
+			{{ t('updatenotification', 'Update channel:') }}
+			<div class="update-menu">
+				<span class="icon-update-menu" @click="toggleUpdateChannelMenu">
+					{{ localizedChannelName }}
+					<span class="icon-triangle-s"></span>
+				</span>
+				<div class="popovermenu menu menu-center" v-bind:class="{ 'show-menu': openedUpdateChannelMenu}">
+					<popover-menu :menu="channelList" />
+				</div>
+			</div>
+		</h3>
+		<span id="channel_save_msg" class="msg"></span><br />
 		<p>
-			<label for="release-channel">{{ t('updatenotification', 'Update channel:') }}</label>
-			<select id="release-channel" v-model="currentChannel" @change="changeReleaseChannel">
-				<option v-for="channel in channels" :value="channel">{{channel}}</option>
-			</select>
-			<span id="channel_save_msg" class="msg"></span><br />
-			<em>{{ t('updatenotification', 'You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.') }}</em><br />
+			<em>{{ t('updatenotification', 'You can always update to a newer version. But you can never downgrade to a more stable version.') }}</em><br />
 			<em>{{ t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.') }}</em>
-		</p>
-
-		<p class="channel-description">
-			<span v-html="productionInfoString"></span><br>
-			<span v-html="stableInfoString"></span><br>
-			<span v-html="betaInfoString"></span>
 		</p>
 
 		<p id="oca_updatenotification_groups">
@@ -131,11 +133,11 @@
 				hideMissingUpdates: false,
 				hideAvailableUpdates: true,
 				openedWhatsNew: false,
+				openedUpdateChannelMenu: false,
 			};
 		},
 
 		_$el: null,
-		_$releaseChannel: null,
 		_$notifyGroups: null,
 
 		watch: {
@@ -211,19 +213,7 @@
 					this.missingAppUpdates.length);
 			},
 
-			productionInfoString: function() {
-				return t('updatenotification', '<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2).');
-			},
-
-			stableInfoString: function() {
-				return t('updatenotification', '<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version.');
-			},
-
-			betaInfoString: function() {
-				return t('updatenotification', '<strong>beta</strong> is a pre-release version only for testing new features, not for production environments.');
-			},
-
-			whatsNew: function () {
+			whatsNew: function() {
 				if(this.whatsNewData.length === 0) {
 					return null;
 				}
@@ -241,6 +231,65 @@
 					});
 				}
 				return whatsNew;
+			},
+
+			channelList: function() {
+				let channelList = [];
+
+				channelList.push({
+					text: t('updatenotificaiton', 'Stable'),
+					longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
+					icon: 'icon-checkmark',
+					active: this.currentChannel === 'stable',
+					action: this.changeReleaseChannelToStable
+				});
+
+				channelList.push({
+					text: t('updatenotificaiton', 'Production'),
+					longtext: t('updatenotification', 'Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version.'),
+					icon: 'icon-star',
+					active: this.currentChannel === 'production',
+					action: this.changeReleaseChannelToProduction
+				});
+
+				channelList.push({
+					text: t('updatenotificaiton', 'Beta'),
+					longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
+					icon: 'icon-category-customization',
+					active: this.currentChannel === 'beta',
+					action: this.changeReleaseChannelToBeta
+				});
+
+				if (this.isNonDefaultChannel) {
+					channelList.push({
+						text: this.currentChannel,
+						icon: 'icon-rename',
+						active: true
+					});
+				}
+
+				return channelList;
+			},
+
+			isNonDefaultChannel: function() {
+				return this.currentChannel !== 'production' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta';
+			},
+
+			localizedChannelName: function() {
+				switch (this.currentChannel) {
+					case 'production':
+						return t('updatenotificaiton', 'Production');
+						break;
+					case 'stable':
+						return t('updatenotificaiton', 'Stable');
+						break;
+					case 'beta':
+						return t('updatenotificaiton', 'Beta');
+						break;
+					default:
+						return this.currentChannel;
+						break;
+				}
 			}
 		},
 
@@ -268,8 +317,17 @@
 					form.submit();
 				}.bind(this));
 			},
-			changeReleaseChannel: function() {
-				this.currentChannel = this._$releaseChannel.val();
+			changeReleaseChannelToStable: function() {
+				this.changeReleaseChannel('stable')
+			},
+			changeReleaseChannelToProduction: function() {
+				this.changeReleaseChannel('production')
+			},
+			changeReleaseChannelToBeta: function() {
+				this.changeReleaseChannel('beta')
+			},
+			changeReleaseChannel: function(channel) {
+				this.currentChannel = channel;
 
 				$.ajax({
 					url: OC.generateUrl('/apps/updatenotification/channel'),
@@ -281,6 +339,11 @@
 						OC.msg.finishedAction('#channel_save_msg', data);
 					}
 				});
+
+				this.openedUpdateChannelMenu = false;
+			},
+			toggleUpdateChannelMenu: function() {
+				this.openedUpdateChannelMenu = !this.openedUpdateChannelMenu;
 			},
 			toggleHideMissingUpdates: function() {
 				this.hideMissingUpdates = !this.hideMissingUpdates;
@@ -324,7 +387,6 @@
 		},
 		mounted: function () {
 			this._$el = $(this.$el);
-			this._$releaseChannel = this._$el.find('#release-channel');
 			this._$notifyGroups = this._$el.find('#oca_updatenotification_groups_list');
 			this._$notifyGroups.on('change', function () {
 				this.$emit('input');
@@ -350,6 +412,7 @@
 <style lang="sass" scoped>
 	#updatenotification {
 		margin-top: -25px;
+		margin-bottom: 200px;
 		div.update,
 		p:not(.inlineblock) {
 			margin-bottom: 25px;
@@ -365,6 +428,10 @@
 			&:first-of-type {
 				margin-top: 0;
 			}
+			&.update-channel-selector {
+				display: inline-block;
+				cursor: inherit;
+			}
 		}
 		.icon {
 			display: inline-block;
@@ -372,16 +439,6 @@
 		}
 		.icon-triangle-s, .icon-triangle-n {
 			opacity: 0.5;
-		}
-		.channel-description span {
-			color: var(--color-text-lighter);
-			strong {
-				color: var(--color-main-text);
-				font-weight: normal;
-			}
-		}
-		.warning {
-			color: var(--color-error);
 		}
 		.whatsNew {
 			display: inline-block;
@@ -400,5 +457,44 @@
 		.applist {
 			margin-bottom: 25px;
 		}
+
+		.update-menu {
+			position: relative;
+			cursor: pointer;
+			margin-left: 3px;
+			display: inline-block;
+			.icon-update-menu {
+				cursor: inherit;
+				.icon-triangle-s {
+					display: inline-block;
+					vertical-align: middle;
+					cursor: inherit;
+					opacity: 1;
+				}
+			}
+			.popovermenu {
+				display: none;
+				top: 28px;
+				&.show-menu {
+					display: block;
+				}
+			}
+		}
+	}
+</style>
+<style lang="sass">
+	/* override needed to make menu wider */
+	#updatenotification .popovermenu {
+		p {
+			margin-top: 5px;
+			width: 100%;
+		}
+		margin-top: 5px;
+		width: 300px;
+	}
+	/* override needed to replace yellow hover state with a dark one */
+	#updatenotification .update-menu .icon-star:hover,
+	#updatenotification .update-menu .icon-star:focus {
+		background-image: var(--icon-star-000);
 	}
 </style>

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Your version is up to date." : "Du har nyeste versjon.",
     "A non-default update server is in use to be checked for updates:" : "En ikke-forvalgt oppdateringstjener brukes for å se etter oppdateringer:",
     "Update channel:" : "Oppdateringskanal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vær oppmerksom på at etter en ny utgivelse kan det ta noe tid før den vises her. Vi ruller ut nye versjonen spredt utover tid til våre brukere, og av og til hoppes det over en versjon når problemer dukker opp.",
     "Notify members of the following groups about available updates:" : "Informer medlemmene i følgende grupper om tilgjengelig oppdateringer:",
     "Only notification for app updates are available." : "Kun varsler for app oppdateringer er tilgjengelig.",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Sist sjekket {lastCheckedDate}",
     "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt",
     "A new version is available: %s" : "En ny versjon er tilgjengelig: %s",
-    "Checked on %s" : "Sjekket %s"
+    "Checked on %s" : "Sjekket %s",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal."
 },
 "nplurals=2; plural=(n != 1);");

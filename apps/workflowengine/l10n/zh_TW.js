@@ -64,8 +64,8 @@ OC.L10N.register(
     "Check %s does not exist" : "檢查 %s 不存在",
     "Check %s is invalid" : "檢查 %s 無效",
     "Check #%s does not exist" : "檢查 #%s 不存在",
-    "Workflow" : "工作流程",
     "Open documentation" : "開啟說明文件",
-    "Loading…" : "載入中…"
+    "Loading…" : "載入中…",
+    "Workflow" : "工作流程"
 },
 "nplurals=1; plural=0;");

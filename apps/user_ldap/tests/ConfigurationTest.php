@@ -97,6 +97,8 @@ class ConfigurationTest extends \Test\TestCase {
 			'set avatar rule, default' => ['ldapUserAvatarRule', 'default', 'default'],
 			'set avatar rule, none' => ['ldapUserAvatarRule', 'none', 'none'],
 			'set avatar rule, data attribute' => ['ldapUserAvatarRule', 'data:jpegPhoto', 'data:jpegPhoto'],
+
+			'set external storage home attribute' => ['ldapExtStorageHomeAttribute', 'homePath', 'homePath'],
 		);
 	}
 

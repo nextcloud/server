@@ -68,9 +68,10 @@ OC.L10N.register(
     "Check %s does not exist" : "Проверите да ли %s постоји",
     "Check %s is invalid" : "Проверите да ли је %s исправно",
     "Check #%s does not exist" : "Проверите да ли #%s постоји",
-    "Workflow" : "Процес рада",
+    "Tag management" : "Управљање ознакама",
     "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
-    "Loading…" : "Учитавање…"
+    "Loading…" : "Учитавање…",
+    "Workflow" : "Процес рада"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

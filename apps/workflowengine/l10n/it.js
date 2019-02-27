@@ -68,9 +68,10 @@ OC.L10N.register(
     "Check %s does not exist" : "Il controllo %s non esiste",
     "Check %s is invalid" : "Il controllo %s non è valido",
     "Check #%s does not exist" : "Il controllo #%s non esiste",
-    "Workflow" : "Flusso di lavoro",
+    "Tag management" : "Gestione etichette",
     "Files workflow engine" : "Motore delle procedure dei file",
     "Open documentation" : "Apri documentazione",
-    "Loading…" : "Caricamento in corso..."
+    "Loading…" : "Caricamento in corso...",
+    "Workflow" : "Flusso di lavoro"
 },
 "nplurals=2; plural=(n != 1);");

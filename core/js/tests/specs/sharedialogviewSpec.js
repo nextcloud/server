@@ -350,7 +350,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -365,7 +366,11 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([], [], false)).toEqual(true);
+			sinon.assert.calledWithExactly(doneStub, [{
+				label: t('core', 'Search globally'),
+				value: {},
+				lookup: true
+			}], [], false, true);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -401,7 +406,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -416,14 +422,20 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bobby',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 		it('single exact match', function() {
@@ -458,7 +470,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -473,17 +486,23 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 		it('mixed matches', function() {
@@ -549,7 +568,8 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -564,7 +584,7 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
@@ -580,6 +600,11 @@ describe('OC.Share.ShareDialogView', function() {
 				}, {
 					'label': 'bobfans',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
@@ -588,8 +613,9 @@ describe('OC.Share.ShareDialogView', function() {
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -657,7 +683,8 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -672,7 +699,7 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
@@ -688,6 +715,11 @@ describe('OC.Share.ShareDialogView', function() {
 				}, {
 					'label': 'bobfans',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
@@ -696,8 +728,9 @@ describe('OC.Share.ShareDialogView', function() {
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
 				}],
+				true,
 				true
-			)).toEqual(true);
+			);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -733,7 +766,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -752,11 +786,18 @@ describe('OC.Share.ShareDialogView', function() {
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-				}], [{
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}],
+				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
+				false,
+				true
 			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 
@@ -769,17 +810,23 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(failStub.called).toEqual(false);
 
 			expect(done2Stub.calledOnce).toEqual(true);
-			expect(done2Stub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(fail2Stub.called).toEqual(false);
 		});
 
@@ -815,7 +862,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -830,17 +878,23 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 
 			var done2Stub = sinon.stub();
@@ -880,17 +934,23 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(fail2Stub.called).toEqual(false);
 
 			expect(done3Stub.calledOnce).toEqual(true);
-			expect(done3Stub.calledWithExactly(
+			sinon.assert.calledWithExactly(done3Stub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(fail3Stub.called).toEqual(false);
 		});
 	});
@@ -944,7 +1004,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'groups': [],
 							'remotes': [],
 							'remote_groups': [],
-							'lookup': []
+							'lookup': [],
+							'lookupEnabled': true
 						}
 					}
 				});
@@ -953,13 +1014,17 @@ describe('OC.Share.ShareDialogView', function() {
 					{'Content-Type': 'application/json'},
 					jsonData
 				);
-				expect(response.calledWithExactly([{
+				sinon.assert.calledWithExactly(response, [{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}, {
 					'label': 'bobby',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
-				}])).toEqual(true);
+				}, {
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}]);
 				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 			});
 
@@ -1001,7 +1066,8 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'remotes': [],
 							'remote_groups': [],
-							'lookup': []
+							'lookup': [],
+							'lookupEnabled': true
 						}
 					}
 				});
@@ -1010,13 +1076,17 @@ describe('OC.Share.ShareDialogView', function() {
 					{'Content-Type': 'application/json'},
 					jsonData
 				);
-				expect(response.calledWithExactly([{
+				sinon.assert.calledWithExactly(response, [{
 					'label': 'group',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group'}
 				}, {
 					'label': 'group2',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
-				}])).toEqual(true);
+				}, {
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}]);
 				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 			});
 

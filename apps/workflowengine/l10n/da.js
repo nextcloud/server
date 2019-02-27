@@ -6,6 +6,7 @@ OC.L10N.register(
     "Reset" : "Reset",
     "Save" : "Gem",
     "Saving…" : "Gemmer...",
+    "Group list is empty" : "Gruppelisten er tom",
     "Unable to retrieve the group list" : "Kan ikke hente gruppelisten",
     "Saved" : "Gemt",
     "Saving failed:" : "Kunne ikke gemme:",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "matches" : "er lig med",
     "does not match" : "er ikke lig med",
     "Example: {placeholder}" : "Eksempel: {placeholder}",
+    "File name" : "Filnavn",
     "File size (upload)" : "Filstørrelse (upload)",
     "less" : "mindre",
     "less or equals" : "mindre eller lig med",
@@ -44,6 +46,7 @@ OC.L10N.register(
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
+    "Thunderbird & Outlook addons" : "Thunderbird & Outlook tilføjelser",
     "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
     "is not member of" : "er ikke medlem af",
@@ -65,9 +68,9 @@ OC.L10N.register(
     "Check %s does not exist" : "Tjek %s eksisterer ikke",
     "Check %s is invalid" : "Tjek %s er invalid",
     "Check #%s does not exist" : "Tjek #%s eksisterer",
-    "Workflow" : "Workflow",
     "Files workflow engine" : "Filer workflow motoren",
-    "Open documentation" : "Åben dokumentationen",
-    "Loading…" : "Indlæser..."
+    "Open documentation" : "Åbn dokumentationen",
+    "Loading…" : "Indlæser...",
+    "Workflow" : "Workflow"
 },
 "nplurals=2; plural=(n != 1);");

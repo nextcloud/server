@@ -435,6 +435,7 @@ EOF;
 			$text = htmlspecialchars($text);
 		}
 
+		$this->ensureBodyListClosed();
 		$this->ensureBodyIsOpened();
 
 		$this->htmlBody .= vsprintf($this->bodyText, [$text]);

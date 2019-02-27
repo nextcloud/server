@@ -36,6 +36,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class AppPasswordControllerTest extends TestCase {
@@ -55,6 +56,9 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var IRequest|MockObject */
 	private $request;
 
+	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
+
 	/** @var AppPasswordController */
 	private $controller;
 
@@ -66,6 +70,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->credentialStore = $this->createMock(IStore::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -73,7 +78,8 @@ class AppPasswordControllerTest extends TestCase {
 			$this->session,
 			$this->random,
 			$this->tokenProvider,
-			$this->credentialStore
+			$this->credentialStore,
+			$this->eventDispatcher
 		);
 	}
 
@@ -134,6 +140,9 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::DO_NOT_REMEMBER
 			);
 
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch');
+
 		$this->controller->getAppPassword();
 	}
 
@@ -171,6 +180,9 @@ class AppPasswordControllerTest extends TestCase {
 				IToken::PERMANENT_TOKEN,
 				IToken::DO_NOT_REMEMBER
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch');
 
 		$this->controller->getAppPassword();
 	}

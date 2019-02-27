@@ -134,6 +134,9 @@ class LoginController extends Controller {
 			'core.login.showLoginForm',
 			['clear' => true] // this param the the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
 		));
+
+		$this->session->set('clearingExecutionContexts', '1');
+		$this->session->close();
 		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 		return $response;
 	}
@@ -149,7 +152,6 @@ class LoginController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
-
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}

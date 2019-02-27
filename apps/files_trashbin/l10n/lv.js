@@ -2,12 +2,12 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "Dzēstās datnes",
+    "restored" : "atjaunots",
     "Restore" : "Atjaunot",
     "Delete" : "Dzēst",
     "Delete permanently" : "Dzēst pavisam",
     "This operation is forbidden" : "Šī darbība ir aizliegta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis direktorijs nav pieejams, lūdzu pārbaudiet žurnālus vai sazinieties ar administratoru",
-    "restored" : "atjaunots",
     "No deleted files" : "Nav dzēstu datņu",
     "You will be able to recover deleted files from here" : "No šejienes būs iespējams atgūt dzēstās datnes",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
