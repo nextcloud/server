@@ -59,7 +59,7 @@
   "devDependencies": {
     "@babel/core": "^7.3.3",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "exports-loader": "^0.7.0",
