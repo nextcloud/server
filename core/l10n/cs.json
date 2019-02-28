@@ -132,6 +132,7 @@
     "Access control" : "Řízení přístupu",
     "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} nasdílel(a) prostřednictvím odkazu",
     "Share details could not be loaded for this item." : "Detaily sdílení pro tuto položku nelze načíst.",
+    "Search globally" : "Hledat globálně",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Alespoň {count} znak je vyžadován pro automatické doplňování","Alespoň {count} znaky jsou vyžadovány pro automatické doplňování","Alespoň {count} znaků je vyžadováno pro automatické doplňování","Alespoň {count} znaků je vyžadováno pro automatické doplňování"],
     "This list is maybe truncated - please refine your search term to see more results." : "Tento seznam je možná zkrácený – upřesněte vyhledávací výraz pro více výsledků.",
     "No users or groups found for {search}" : "Nebyli nalezeni žádní členové ani skupiny pro {search}",

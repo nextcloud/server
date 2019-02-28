@@ -132,6 +132,7 @@
     "Access control" : "Control de acceso",
     "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} compartido mediante unha ligazón",
     "Share details could not be loaded for this item." : "Non foi posíbel cargar os detalles de compartición para este elemento.",
+    "Search globally" : "Facer unha busca global",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Necesítase cando menos {count} carácter para o autocompletado","Necesítanse cando menos {count} caracteres para o autocompletado"],
     "This list is maybe truncated - please refine your search term to see more results." : "É probábel que esta lista estea truncada, afine o termo de busca para ver máis resultados.",
     "No users or groups found for {search}" : "Non se atoparon usuarios ou grupos para {search}",
