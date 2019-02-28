@@ -100,6 +100,7 @@ export default {
 
 		components: {},
 		mimeGroups: {},
+		mimesAliases: {},
 		registeredHandlers: [],
 
 		currentIndex: 0,
@@ -171,7 +172,8 @@ export default {
 			this.failed = false
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
-			const mime = Mime.lookup(path)
+
+			const mime = this.getMime(path)
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
@@ -183,7 +185,6 @@ export default {
 					mime,
 					modal: this.components[mime]
 				}
-				console.debug('Opened', path, mime)
 			}
 
 			// retrieve and store file List
@@ -202,7 +203,7 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			const path = fileInfo['d:href'][0]
-			const mime = Mime.lookup(path)
+			const mime = this.getMime(path)
 			const modal = this.components[mime]
 
 			if (modal) {
@@ -232,7 +233,7 @@ export default {
 
 			if (prev) {
 				const path = prev['d:href'][0]
-				const mime = Mime.lookup(path)
+				const mime = this.getMime(path)
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -250,7 +251,7 @@ export default {
 
 			if (next) {
 				const path = next['d:href'][0]
-				const mime = Mime.lookup(path)
+				const mime = this.getMime(path)
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -329,6 +330,12 @@ export default {
 					this.mimeGroups[handler.group].push(mime)
 				}
 
+				if (handler.mimesAliases) {
+					Object.keys(handler.mimesAliases).forEach(mime => {
+						this.mimesAliases[mime] = handler.mimesAliases[mime]
+					})
+				}
+
 				// set the handler as registered
 				this.registeredHandlers.push(handler.id)
 
@@ -336,6 +343,19 @@ export default {
 				this.components[mime] = handler.component
 				Vue.component(handler.component.name, handler.component)
 			})
+		},
+
+		/**
+		 * Extract mime from file path or use existing alias
+		 *
+		 * @param {String} path the file path
+		 * @returns {String} the mime type
+		 */
+		getMime(path) {
+			const mime = Mime.lookup(path)
+			return this.mimesAliases[mime]
+				? this.mimesAliases[mime]
+				: mime
 		},
 
 		/**

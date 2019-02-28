@@ -29,7 +29,14 @@ export default {
 		'video/mpeg',
 		'video/ogg',
 		'video/webm',
-		'video/mp4'
+		'video/mp4',
+		'video/x-matroska',
+		'video/x-m4v',
+		'video/x-flv',
+		'video/quicktime'
 	],
+	mimesAliases: {
+		'video/x-matroska': 'video/webm'
+	},
 	component: Videos
 }
