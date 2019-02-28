@@ -438,6 +438,18 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+					if (data.isMysqlUsedWithoutUTF8MB4) {
+						messages.push({
+							msg: t(
+								'core',
+								'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
+								{
+									docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
+								}
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 
 				} else {
 					messages.push({

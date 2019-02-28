@@ -159,6 +159,7 @@ class CheckSetupControllerTest extends TestCase {
 				'getAppDirsWithDifferentOwner',
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
+				'isMysqlUsedWithoutUTF8MB4',
 			])->getMock();
 	}
 
@@ -520,6 +521,11 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasBigIntConversionPendingColumns')
 			->willReturn([]);
 
+		$this->checkSetupController
+			->expects($this->once())
+			->method('isMysqlUsedWithoutUTF8MB4')
+			->willReturn(false);
+
 		$expected = new DataResponse(
 			[
 				'isGetenvServerWorking' => true,
@@ -563,6 +569,7 @@ class CheckSetupControllerTest extends TestCase {
 				'appDirsWithDifferentOwner' => [],
 				'recommendedPHPModules' => [],
 				'pendingBigIntConversionColumns' => [],
+				'isMysqlUsedWithoutUTF8MB4' => false,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -1343,5 +1350,54 @@ Array
 				]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
+	}
+
+	public function dataForIsMysqlUsedWithoutUTF8MB4() {
+		return [
+			['sqlite', false, false],
+			['sqlite', true, false],
+			['postgres', false, false],
+			['postgres', true, false],
+			['oci', false, false],
+			['oci', true, false],
+			['mysql', false, true],
+			['mysql', true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataForIsMysqlUsedWithoutUTF8MB4
+	 */
+	public function testIsMysqlUsedWithoutUTF8MB4(string $db, bool $useUTF8MB4, bool $expected) {
+		$this->config->method('getSystemValue')
+			->will($this->returnCallback(function($key, $default) use ($db, $useUTF8MB4) {
+				if ($key === 'dbtype') {
+					return $db;
+				}
+				if ($key === 'mysql.utf8mb4') {
+					return $useUTF8MB4;
+				}
+				return $default;
+			}));
+
+		$checkSetupController = new CheckSetupController(
+				'settings',
+				$this->request,
+				$this->config,
+				$this->clientService,
+				$this->urlGenerator,
+				$this->util,
+				$this->l10n,
+				$this->checker,
+				$this->logger,
+				$this->dispatcher,
+				$this->db,
+				$this->lockingProvider,
+				$this->dateTimeFormatter,
+				$this->memoryInfo,
+				$this->secureRandom
+			);
+
+		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
 	}
 }

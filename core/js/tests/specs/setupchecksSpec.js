@@ -247,7 +247,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -297,7 +298,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -348,7 +350,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -397,7 +400,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -444,7 +448,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -493,7 +498,8 @@ describe('OC.SetupChecks tests', function() {
 						'/some/path'
 					],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -540,7 +546,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -587,7 +594,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -634,7 +642,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -702,7 +711,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -750,7 +760,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -798,7 +809,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -846,7 +858,8 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [],
 					recommendedPHPModules: [],
-					pendingBigIntConversionColumns: []
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false
 				})
 			);
 
@@ -854,6 +867,54 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		it('should return an error if the php version is no longer supported', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnection: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: true
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a href="https://docs.example.org/admin-mysql-utf8mb4" rel="noreferrer noopener">the documentation page about this</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});

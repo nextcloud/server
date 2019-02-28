@@ -591,6 +591,10 @@ Raw output
 		return $recommendedPHPModules;
 	}
 
+	protected function isMysqlUsedWithoutUTF8MB4(): bool {
+		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
+	}
+
 	protected function hasBigIntConversionPendingColumns(): array {
 		// copy of ConvertFilecacheBigInt::getColumnsByTable()
 		$tables = [
@@ -664,6 +668,7 @@ Raw output
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
+				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 			]
 		);
 	}
