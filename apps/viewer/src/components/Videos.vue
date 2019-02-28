@@ -60,6 +60,10 @@ export default {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
 				this.$el.play()
+
+			// the item was playing before and is now hidden
+			} else if (val === false && old === true) {
+				this.$el.pause()
 			}
 		}
 	},
