@@ -77,33 +77,24 @@
 		},
 		data () {
 			return {
-				state: {
-					enforced: false,
-					enforcedGroups: [],
-					excludedGroups: [],
-				},
 				loading: false,
 				groups: [],
 				loadingGroups: false,
 			}
 		},
+		computed: {
+			state: function() {
+				return  {
+					enforced: this.$store.state.enforced,
+					enforcedGroups: this.$store.state.enforcedGroups,
+					excludedGroups: this.$store.state.excludedGroups,
+				}
+			}
+		},
 		mounted () {
-			this.loading = true
-			Axios.get(OC.generateUrl('/settings/api/admin/twofactorauth'))
-				.then(resp => resp.data)
-				.then(state => {
-					this.state = state
-
-					// Groups are loaded dynamically, but the assigned ones *should*
-					// be valid groups, so let's add them as initial state
-					this.groups = _.sortedUniq(this.state.enforcedGroups.concat(this.state.excludedGroups))
-
-					this.loading = false
-				})
-				.catch(err => {
-					console.error('Could not load two-factor state', err)
-					throw err
-				})
+			// Groups are loaded dynamically, but the assigned ones *should*
+			// be valid groups, so let's add them as initial state
+			this.groups = _.sortedUniq(this.state.enforcedGroups.concat(this.state.excludedGroups))
 		},
 		methods: {
 			searchGroup: _.debounce(function (query) {
