@@ -1,3 +1,4 @@
+@apache
 Feature: login
 
   Scenario: log in with valid user and password
