@@ -1,3 +1,4 @@
+@apache
 Feature: apps
 
   Scenario: enable an installed app

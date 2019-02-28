@@ -1,3 +1,4 @@
+@apache
 Feature: users
 
   Scenario: create a new user
