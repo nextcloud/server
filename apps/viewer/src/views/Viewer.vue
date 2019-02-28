@@ -45,7 +45,6 @@
 			@error="previousFailed" />
 		<error
 			v-else
-			:path="previousFile.path"
 			class="hidden-visually" />
 
 		<!-- CURRENT -->
@@ -61,7 +60,7 @@
 			@error="currentFailed" />
 		<error
 			v-else
-			:path="currentFile.path" />
+			:name="currentFileName" />
 
 		<!-- NEXT -->
 		<component
@@ -75,7 +74,6 @@
 			@error="nextFailed" />
 		<error
 			v-else
-			:path="nextFile.path"
 			class="hidden-visually" />
 	</modal>
 </template>

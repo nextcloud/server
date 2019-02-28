@@ -23,7 +23,7 @@
 <template>
 	<div id="emptycontent">
 		<div class="icon-error" />
-		<h2>{{ t('viewer', 'An error occued during the load of the file {path}', { path }) }}</h2>
+		<h2>{{ t('viewer', 'An error occurred during the load of the file {name}', { name }) }}</h2>
 	</div>
 </template>
 
@@ -32,10 +32,9 @@ export default {
 	name: 'Error',
 
 	props: {
-		path: {
+		name: {
 			type: String,
-			default: '',
-			required: true
+			default: ''
 		}
 	}
 }
