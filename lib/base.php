@@ -456,20 +456,6 @@ class OC {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
 	}
 
-	public static function loadAppClassPaths() {
-		foreach (OC_App::getEnabledApps() as $app) {
-			$appPath = OC_App::getAppPath($app);
-			if ($appPath === false) {
-				continue;
-			}
-
-			$file = $appPath . '/appinfo/classpath.php';
-			if (file_exists($file)) {
-				require_once $file;
-			}
-		}
-	}
-
 	/**
 	 * Try to set some values to the required Nextcloud default
 	 */
@@ -905,9 +891,6 @@ class OC {
 
 		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
 		$systemConfig = \OC::$server->getSystemConfig();
-		// load all the classpaths from the enabled apps so they are available
-		// in the routing files of each app
-		OC::loadAppClassPaths();
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
