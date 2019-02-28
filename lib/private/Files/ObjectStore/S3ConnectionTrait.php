@@ -101,7 +101,7 @@ trait S3ConnectionTrait {
 
 		if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
 			$logger = \OC::$server->getLogger();
-			$logger->warning('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
+			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
 					 ['app' => 'objectstore']);
 		}
 
