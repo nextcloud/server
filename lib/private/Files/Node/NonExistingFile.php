@@ -66,9 +66,9 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getSize() {
+	public function getSize($includeMounts = true) {
 		if ($this->fileInfo) {
-			return parent::getSize();
+			return parent::getSize($includeMounts);
 		} else {
 			throw new NotFoundException();
 		}

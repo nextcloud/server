@@ -82,8 +82,8 @@ class TrashItem implements ITrashItem {
 		return $this->fileInfo->getEtag();
 	}
 
-	public function getSize() {
-		return $this->fileInfo->getSize();
+	public function getSize($includeMounts = true) {
+		return $this->fileInfo->getSize($includeMounts);
 	}
 
 	public function getMtime() {
@@ -133,7 +133,7 @@ class TrashItem implements ITrashItem {
 	public function isReadable() {
 		return $this->fileInfo->isReadable();
 	}
-	
+
 	public function isUpdateable() {
 		return $this->fileInfo->isUpdateable();
 	}

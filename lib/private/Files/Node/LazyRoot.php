@@ -214,7 +214,7 @@ class LazyRoot implements IRootFolder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSize() {
+	public function getSize($includeMounts = true) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
