@@ -35,10 +35,6 @@
 		<command>OCA\Files\Command\ScanAppData</command>
 	</commands>
 
-	<settings>
-		<admin>OCA\Files\Settings\Admin</admin>
-	</settings>
-
 	<activity>
 		<settings>
 			<setting>OCA\Files\Activity\Settings\FavoriteAction</setting>

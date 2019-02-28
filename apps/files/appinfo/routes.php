@@ -77,11 +77,6 @@ $application->registerRoutes(
 				'verb' => 'GET',
 			],
 			[
-				'name' => 'settings#setMaxUploadSize',
-				'url' => '/settings/maxUpload',
-				'verb' => 'POST',
-			],
-			[
 				'name' => 'ajax#getStorageStats',
 				'url' => '/ajax/getstoragestats.php',
 				'verb' => 'GET',

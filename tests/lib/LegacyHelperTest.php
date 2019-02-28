@@ -47,28 +47,6 @@ class LegacyHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider phpFileSizeProvider
-	 */
-	public function testPhpFileSize($expected, $input)
-	{
-		$result = OC_Helper::phpFileSize($input);
-		$this->assertEquals($expected, $result);
-	}
-
-	public function phpFileSizeProvider()
-	{
-		return array(
-			array('0B', 0),
-			array('1K', 1024),
-			array('9.5M', 10000000),
-			array('1.3G', 1395864371),
-			array('465.7G', 500000000000),
-			array('465661.3G', 500000000000000),
-			array('465661287.3G', 500000000000000000),
-		);
-	}
-
-	/**
 	 * @dataProvider providesComputerFileSize
 	 */
 	function testComputerFileSize($expected, $input) {
