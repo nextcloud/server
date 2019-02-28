@@ -1,3 +1,4 @@
+@apache
 Feature: app-files
 
   Scenario: open and close the details view
