@@ -67,6 +67,9 @@ class IMipPluginTest extends TestCase {
 		$timeFactory->method('getTime')->willReturn(1);
 		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->with('dav.invitation_link_recipients', true)
+			->willReturn(true);
 		$l10n = $this->createMock(IL10N::class);
 		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
 		$l10nFactory = $this->createMock(IFactory::class);
@@ -114,6 +117,10 @@ class IMipPluginTest extends TestCase {
 			'SUMMARY' => 'Fellowship meeting',
 			'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
 		]);
+
+		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
+		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:frodo@hobb.it', [ 'RSVP' => 'TRUE' ] );
+
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->recipient = 'mailto:frodo@hobb.it';
 
@@ -150,6 +157,10 @@ class IMipPluginTest extends TestCase {
 		$timeFactory->method('getTime')->willReturn(1);
 		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->with('dav.invitation_link_recipients', true)
+			->willReturn(true);
+
 		$l10n = $this->createMock(IL10N::class);
 		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
 		$l10nFactory = $this->createMock(IFactory::class);
@@ -194,6 +205,8 @@ class IMipPluginTest extends TestCase {
 			'SUMMARY' => 'Fellowship meeting',
 			'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
 		]);
+		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
+		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:frodo@hobb.it', [ 'RSVP' => 'TRUE' ] );
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->recipient = 'mailto:frodo@hobb.it';
 
@@ -237,6 +250,9 @@ class IMipPluginTest extends TestCase {
 		$timeFactory->method('getTime')->willReturn(1496912528);
 		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->with('dav.invitation_link_recipients', true)
+			->willReturn(true);
 		$l10n = $this->createMock(IL10N::class);
 		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
 		$l10nFactory = $this->createMock(IFactory::class);
@@ -282,6 +298,8 @@ class IMipPluginTest extends TestCase {
 			'SEQUENCE' => 42,
 			'SUMMARY' => 'Fellowship meeting',
 		], $veventParams));
+		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
+		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:frodo@hobb.it', [ 'RSVP' => 'TRUE' ] );
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->recipient = 'mailto:frodo@hobb.it';
 
@@ -306,6 +324,120 @@ class IMipPluginTest extends TestCase {
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20170301T000000Z'], false],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=33'], true],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20171001T000000Z'], true],
+		];
+	}
+
+	/**
+	* @dataProvider dataIncludeResponseButtons
+	*/
+	public function testIncludeResponseButtons( $config_setting, $recipient, $has_buttons ) {
+		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setFrom')->willReturn($mailMessage);
+		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
+		$mailMessage->method('setTo')->willReturn($mailMessage);
+		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
+		$mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailAttachment = $this->createMock(IAttachment::class);
+		$mailer->method('createEMailTemplate')->willReturn($emailTemplate);
+		$mailer->method('createMessage')->willReturn($mailMessage);
+		$mailer->method('createAttachment')->willReturn($emailAttachment);
+		$mailer->expects($this->once())->method('send');
+		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
+		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
+		$timeFactory->method('getTime')->willReturn(1);
+		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->with('dav.invitation_link_recipients', true)
+			->willReturn($config_setting);
+		$l10n = $this->createMock(IL10N::class);
+		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
+		$l10nFactory = $this->createMock(IFactory::class);
+		$l10nFactory->method('get')->willReturn($l10n);
+		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
+		$db = $this->createMock(IDBConnection::class);
+		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
+		$random = $this->createMock(ISecureRandom::class);
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
+		$defaults = $this->createMock(Defaults::class);
+		$defaults->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('Instance Name 123'));
+
+		if ($has_buttons) {
+		$random->expects($this->once())
+			->method('generate')
+			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			->will($this->returnValue('random_token'));
+		}
+
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+
+		if ($has_buttons) {
+			$db->expects($this->once())
+				->method('getQueryBuilder')
+				->with()
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(0))
+				->method('insert')
+				->with('calendar_invitations')
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(8))
+				->method('values')
+				->will($this->returnValue($queryBuilder));
+			$queryBuilder->expects($this->at(9))
+				->method('execute');
+		} else {
+			$queryBuilder->expects($this->never())
+				->method('insert')
+				->with('calendar_invitations');
+		}
+
+		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', [
+			'UID' => $message->uid,
+			'SEQUENCE' => $message->sequence,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
+		]);
+
+		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
+		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ] );
+
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->recipient = 'mailto:'.$recipient;
+
+		$emailTemplate->expects($this->once())
+			->method('setSubject')
+			->with('Invitation: Fellowship meeting');
+		$mailMessage->expects($this->once())
+			->method('setTo')
+			->with([$recipient => null]);
+		$mailMessage->expects($this->once())
+			->method('setReplyTo')
+			->with(['gandalf@wiz.ard' => null]);
+
+		$plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function dataIncludeResponseButtons() {
+		return [
+			// dav.invitation_link_recipients, recipient, $has_buttons
+			[ true, 'joe@internal.com', true],
+			[ 'joe@internal.com', 'joe@internal.com', true],
+			[ 'internal.com', 'joe@internal.com', true],
+			[ ['pete@otherinternal.com', 'internal.com'], 'joe@internal.com', true],
+			[ false, 'joe@internal.com', false],
+			[ 'internal.com', 'joe@external.com', false],
+			[ ['jane@otherinternal.com', 'internal.com'], 'joe@otherinternal.com', false],
 		];
 	}
 }
