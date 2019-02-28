@@ -33,26 +33,48 @@
 		@close="close"
 		@previous="previous"
 		@next="next">
+		<!-- PREVIOUS -->
 		<component
 			:is="previousFile.modal"
+			v-if="!previousFile.failed"
 			ref="previous-content"
 			:key="previousFile.path"
 			:mime="previousFile.mime"
 			:path="previousFile.path"
+			class="hidden-visually"
+			@error="previousFailed" />
+		<error
+			v-else
+			:path="previousFile.path"
 			class="hidden-visually" />
+
+		<!-- CURRENT -->
 		<component
 			:is="currentFile.modal"
+			v-if="!currentFile.failed"
 			ref="content"
 			:key="currentFile.path"
 			:mime="currentFile.mime"
 			:path="currentFile.path"
 			:active="true"
-			@loaded="doneLoading" />
+			@loaded="doneLoading"
+			@error="currentFailed" />
+		<error
+			v-else
+			:path="currentFile.path" />
+
+		<!-- NEXT -->
 		<component
 			:is="nextFile.modal"
+			v-if="!nextFile.failed"
 			ref="next-content"
 			:key="nextFile.path"
 			:mime="nextFile.mime"
+			:path="nextFile.path"
+			class="hidden-visually"
+			@error="nextFailed" />
+		<error
+			v-else
 			:path="nextFile.path"
 			class="hidden-visually" />
 	</modal>
@@ -64,13 +86,15 @@ import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
 
+import Error from 'Components/Error'
 import FileList from 'Services/FileList'
 
 export default {
 	name: 'Viewer',
 
 	components: {
-		Modal
+		Modal,
+		Error
 	},
 
 	data: () => ({
@@ -86,6 +110,8 @@ export default {
 		nextFile: {},
 
 		fileList: [],
+
+		failed: false,
 
 		loading: true,
 		openedSidebar: false,
@@ -144,6 +170,7 @@ export default {
 		 */
 		async openFile(fileName, fileInfo) {
 			this.loading = true
+			this.failed = false
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 			const mime = Mime.lookup(path)
@@ -184,7 +211,8 @@ export default {
 				this.currentFile = {
 					path,
 					mime,
-					modal
+					modal,
+					failed: false
 				}
 
 				// if the sidebar is already opened, change the current file
@@ -213,7 +241,8 @@ export default {
 					this.previousFile = {
 						path,
 						mime,
-						modal
+						modal,
+						failed: false
 					}
 				}
 			// RESET
@@ -230,7 +259,8 @@ export default {
 					this.nextFile = {
 						path,
 						mime,
-						modal
+						modal,
+						failed: false
 					}
 				}
 			// RESET
@@ -324,6 +354,7 @@ export default {
 		 */
 		previous() {
 			this.loading = true
+			this.failed = false
 			this.currentIndex--
 
 			this.openFileFromList(this.fileList[this.currentIndex])
@@ -334,9 +365,26 @@ export default {
 		 */
 		next() {
 			this.loading = true
+			this.failed = false
 			this.currentIndex++
 
 			this.openFileFromList(this.fileList[this.currentIndex])
+		},
+
+		/**
+		 * Failures handlers
+		 */
+		previousFailed() {
+			this.previousFile.failed = true
+		},
+
+		currentFailed() {
+			this.currentFile.failed = true
+			this.loading = false
+		},
+
+		nextFailed() {
+			this.nextFile.failed = true
 		},
 
 		/**
