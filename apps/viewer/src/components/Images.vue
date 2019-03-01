@@ -22,7 +22,7 @@
 
 <template>
 	<img
-		:src="path"
+		:src="data"
 		:style="{
 			height: height + 'px',
 			width: width + 'px'
@@ -32,19 +32,46 @@
 
 <script>
 import mime from 'Mixins/Mime'
+import axios from 'axios'
+import Vue from 'vue'
+import AsyncComputed from 'vue-async-computed'
+
+Vue.use(AsyncComputed)
 
 export default {
 	name: 'Videos',
 	mixins: [
 		mime
 	],
+	asyncComputed: {
+		data() {
+			if (this.mime !== 'image/svg+xml') {
+				return this.path
+			}
+			return this.getBase64FromImage()
+		}
+	},
 	methods: {
 		updateImgSize() {
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
-			this.updateHeightWidth(naturalHeight, naturalWidth)
+			// displaying tiny images makes no sense,
+			// let's try to an least dispay them at 100x100
+			this.updateHeightWidth(
+				Math.max(naturalHeight, 100),
+				Math.max(naturalWidth, 100)
+			)
 
 			this.doneLoading()
+		},
+		/**
+		 * Manually retrieve the path and return its base64
+		 *
+		 * @returns {String}
+		 */
+		async getBase64FromImage() {
+			const file = await axios.get(this.path)
+			return `data:${this.mime};base64,${btoa(file.data)}`
 		}
 	}
 }

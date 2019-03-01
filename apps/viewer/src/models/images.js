@@ -30,7 +30,8 @@ export default {
 		'image/jpeg',
 		'image/gif',
 		'image/x-xbitmap',
-		'image/bmp'
+		'image/bmp',
+		'image/svg+xml'
 	],
 	component: Images
 }
