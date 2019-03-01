@@ -59,9 +59,8 @@ interface IIndex {
 	const INDEX_PARTS = 16;
 	const INDEX_FULL = 28;
 	const INDEX_REMOVE = 32;
-
-	const INDEX_DONE = 32;
-	const INDEX_FAILED = 64;
+	const INDEX_DONE = 64;
+	const INDEX_FAILED = 128;
 
 	const ERROR_FAILED = 1;
 	const ERROR_FAILED2 = 2;
