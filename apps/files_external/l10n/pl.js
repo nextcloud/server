@@ -104,7 +104,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Udostępnij",
     "SMB / CIFS using OC login" : "SMB / CIFS przy użyciu loginu OC",
-    "Username as share" : "Użytkownik jako zasób",
+    "Username as share" : "Nazwa użytkownika jako udostępniona",
     "OpenStack Object Storage" : "Magazyn obiektów OpenStack",
     "Service name" : "Nazwa serwisu",
     "Request timeout (seconds)" : "Limit czasu żądania (sekundy)",
