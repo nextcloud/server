@@ -258,9 +258,9 @@ class CacheWrapper extends Cache {
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null) {
+	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
 		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($path, $data);
+			$this->getCache()->correctFolderSize($path, $data, $isBackgroundScan);
 		}
 	}
 
