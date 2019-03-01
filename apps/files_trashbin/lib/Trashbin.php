@@ -680,10 +680,11 @@ class Trashbin {
 		// calculate available space for trash bin
 		// subtract size of files and current trash bin size from quota
 		if ($softQuota) {
-			$files_view = new View('/' . $user . '/files');
-			$rootInfo = $files_view->getFileInfo('/', false);
-			$free = $quota - $rootInfo['size']; // remaining free space for user
-
+			$userFolder = \OC::$server->getUserFolder($user);
+			if(is_null($userFolder)) {
+				return 0;
+			}
+			$free = $quota - $userFolder->getSize(false); // remaining free space for user
 			if ($free > 0) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
 			} else {
