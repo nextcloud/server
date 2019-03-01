@@ -427,84 +427,6 @@ table.nostyle {
 	}
 }
 
-/* Devices & sessions access & tokens */
-#security {
-	table {
-		width: 100%;
-		min-height: 50px;
-		padding-top: 5px;
-		max-width: 580px;
-		th {
-			opacity: .5;
-			padding: 10px 10px 10px 0;
-		}
-	}
-	.token-list td {
-		border-top: 1px solid var(--color-border);
-		max-width: 200px;
-		white-space: normal;
-		vertical-align: middle;
-		position: relative;
-
-		&%icon {
-			overflow: visible;
-			position: relative;
-			width: 16px;
-		}
-
-		&.token-name {
-			padding: 10px 6px;
-			&.token-rename {
-				padding: 0;
-			}
-			input {
-				width: 100%;
-				margin: 0;
-			}
-		}
-
-		&.more {
-			@extend %icon;
-		}
-		&.client {
-			@extend %icon;
-
-			div {
-				opacity: 0.57;
-				width: 44px;
-				height: 44px;
-			}
-		}
-	}
-	tr > *:nth-child(2) {
-		padding-left: 6px;
-	}
-	tr > *:nth-child(3) {
-		text-align: right;
-	}
-	.token-list {
-		td > a.icon-more {
-			transition: opacity var(--animation-quick);
-		}
-		a.icon-more {
-			padding: 14px;
-			display: block;
-			width: 44px;
-			height: 44px;
-			opacity: .5;
-		}
-		tr {
-			&:hover td > a.icon,
-			td > a.icon:focus,
-			&.active td > a.icon {
-				opacity: 1;
-			}
-		}
-	}
-}
-
-
-
 /* Two-Factor Authentication (2FA) */
 
 #two-factor-auth {
@@ -521,30 +443,6 @@ table.nostyle {
 		height: 16px;
 		vertical-align: sub;
 	}
-}
-
-
-#new-app-login-name,
-#new-app-password {
-	width: 245px;
-	font-family: monospace;
-}
-
-.app-password-row {
-	display: table-row;
-	.icon {
-		background-size: 16px 16px;
-		display: inline-block;
-		position: relative;
-		top: 3px;
-		margin-left: 5px;
-		margin-right: 8px;
-	}
-}
-
-.app-password-label {
-	display: table-cell;
-	padding-right: 1em;
 }
 
 .social-button {
