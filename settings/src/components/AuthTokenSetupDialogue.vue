@@ -63,14 +63,27 @@
 				{{ t('settings', 'Done') }}
 			</button>
 		</div>
+		<div class="app-password-row">
+			<span class="app-password-label"></span>
+			<a v-if="!showQR"
+			   @click="showQR = true">
+				{{ t('settings', 'Show QR code for mobile apps') }}
+			</a>
+			<QR v-else
+				:value="qrUrl"></QR>
+		</div>
 	</div>
 </template>
 
 <script>
+	import QR from '@chenfengyuan/vue-qrcode';
 	import confirmPassword from 'nextcloud-password-confirmation';
 
 	export default {
 		name: 'AuthTokenSetupDialogue',
+		components: {
+			QR,
+		},
 		props: {
 			add: {
 				type: Function,
@@ -85,6 +98,8 @@
 				appPassword: '',
 				loginName: '',
 				passwordCopied: false,
+				showQR: false,
+				qrUrl: '',
 				hoveringCopyButton: false,
 			}
 		},
@@ -124,9 +139,13 @@
 						this.adding = true;
 						this.loginName = token.loginName;
 						this.appPassword = token.token;
+
+						const server = window.location.protocol + '//' + window.location.host + OC.getRootPath();
+						this.qrUrl = `nc://login/user:${token.loginName}&password:${token.token}&server:${server}`;
+
 						this.$nextTick(() => {
 							this.$refs.appPassword.select();
-						})
+						});
 					})
 					.catch(err => {
 						console.error('could not create a new app password', err);
@@ -146,6 +165,8 @@
 			reset () {
 				this.adding = false;
 				this.loading = false;
+				this.showQR = false;
+				this.qrUrl = '';
 				this.deviceName = '';
 				this.appPassword = '';
 				this.loginName = '';
@@ -172,6 +193,8 @@
 	.app-password-label {
 		display: table-cell;
 		padding-right: 1em;
+		text-align: right;
+		vertical-align: middle;
 	}
 
 	.monospaced {
