@@ -27,13 +27,20 @@ namespace OC\Settings\Personal;
 use function array_filter;
 use function array_map;
 use function is_null;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\INamedToken;
+use OC\Authentication\Token\IProvider as IAuthTokenProvider;
+use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorManager;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
+use OCP\IInitialStateService;
+use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
@@ -44,21 +51,41 @@ class Security implements ISettings {
 	/** @var TwoFactorManager */
 	private $twoFactorManager;
 
+	/** @var IAuthTokenProvider */
+	private $tokenProvider;
+
 	/** @var ProviderLoader */
 	private $providerLoader;
 
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var ISession */
+	private $session;
+
+	/** @var IInitialStateService */
+	private $initialStateService;
+	/**
+	 * @var string|null
+	 */
+	private $uid;
 
 	public function __construct(IUserManager $userManager,
 								TwoFactorManager $providerManager,
+								IAuthTokenProvider $tokenProvider,
 								ProviderLoader $providerLoader,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								ISession $session,
+								IInitialStateService $initialStateService,
+								?string $UserId) {
 		$this->userManager = $userManager;
 		$this->twoFactorManager = $providerManager;
+		$this->tokenProvider = $tokenProvider;
 		$this->providerLoader = $providerLoader;
 		$this->userSession = $userSession;
+		$this->session = $session;
+		$this->initialStateService = $initialStateService;
+		$this->uid = $UserId;
 	}
 
 	/**
@@ -66,11 +93,17 @@ class Security implements ISettings {
 	 * @since 9.1
 	 */
 	public function getForm() {
-		$user = $this->userManager->get(\OC_User::getUser());
+		$user = $this->userManager->get($this->uid);
 		$passwordChangeSupported = false;
 		if ($user !== null) {
 			$passwordChangeSupported = $user->canChangePassword();
 		}
+
+		$this->initialStateService->provideInitialState(
+			'settings',
+			'app_tokens',
+			$this->getAppTokens()
+		);
 
 		return new TemplateResponse('settings', 'settings/personal/security', [
 			'passwordChangeSupported' => $passwordChangeSupported,
@@ -116,4 +149,32 @@ class Security implements ISettings {
 			}))
 		];
 	}
+
+	private function getAppTokens(): array {
+		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
+
+		try {
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			return [];
+		}
+		try {
+			$sessionToken = $this->tokenProvider->getToken($sessionId);
+		} catch (InvalidTokenException $ex) {
+			return [];
+		}
+
+		return array_map(function (IToken $token) use ($sessionToken) {
+			$data = $token->jsonSerialize();
+			$data['canDelete'] = true;
+			$data['canRename'] = $token instanceof INamedToken;
+			if ($sessionToken->getId() === $token->getId()) {
+				$data['canDelete'] = false;
+				$data['canRename'] = false;
+				$data['current'] = true;
+			}
+			return $data;
+		}, $tokens);
+	}
+
 }

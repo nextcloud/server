@@ -76,53 +76,6 @@ class AuthSettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testIndex() {
-		$token1 = new DefaultToken();
-		$token1->setId(100);
-		$token2 = new DefaultToken();
-		$token2->setId(200);
-		$tokens = [
-			$token1,
-			$token2,
-		];
-		$sessionToken = new DefaultToken();
-		$sessionToken->setId(100);
-
-		$this->tokenProvider->expects($this->once())
-			->method('getTokenByUser')
-			->with($this->uid)
-			->willReturn($tokens);
-		$this->session->expects($this->once())
-			->method('getId')
-			->willReturn('session123');
-		$this->tokenProvider->expects($this->once())
-			->method('getToken')
-			->with('session123')
-			->willReturn($sessionToken);
-
-		$this->assertEquals([
-			[
-				'id' => 100,
-				'name' => null,
-				'lastActivity' => 0,
-				'type' => 0,
-				'canDelete' => false,
-				'current' => true,
-				'scope' => ['filesystem' => true],
-				'canRename' => false,
-			],
-			[
-				'id' => 200,
-				'name' => null,
-				'lastActivity' => 0,
-				'type' => 0,
-				'canDelete' => true,
-				'scope' => ['filesystem' => true],
-				'canRename' => true,
-			]
-		], $this->controller->index());
-	}
-
 	public function testCreate() {
 		$name = 'Nexus 4';
 		$sessionToken = $this->createMock(IToken::class);

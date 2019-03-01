@@ -24,7 +24,6 @@
 		<h2>{{ t('settings', 'Devices & sessions') }}</h2>
 		<p class="settings-hint hidden-when-empty">{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}</p>
 		<AuthTokenList :tokens="tokens"
-					   :loading="loading"
 					   @toggleScope="toggleTokenScope"
 					   @rename="rename"
 					   @delete="deleteToken"/>
@@ -48,30 +47,20 @@
 
 	export default {
 		name: "AuthTokenSection",
+		props: {
+			tokens: {
+				type: Array,
+				requried: true,
+			},
+		},
 		components: {
 			AuthTokenSetupDialogue,
 			AuthTokenList
 		},
 		data() {
 			return {
-				loading: true,
 				baseUrl: OC.generateUrl('/settings/personal/authtokens'),
-				tokens: [],
 			}
-		},
-		mounted() {
-			Axios.get(this.baseUrl)
-				.then(resp => resp.data)
-				.then(tokens => {
-					console.debug('loaded app tokens', tokens);
-					this.loading = false;
-					this.tokens = tokens;
-				})
-				.catch(err => {
-					OC.Notification.showTemporary(t('core', 'Error while loading browser sessions and device tokens'));
-					console.error('could not load app tokens', err);
-					throw err;
-				});
 		},
 		methods: {
 			addNewToken (name) {
