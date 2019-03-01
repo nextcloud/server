@@ -113,7 +113,6 @@ export default {
 		failed: false,
 
 		loading: true,
-		openedSidebar: false,
 
 		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
 	}),
@@ -133,13 +132,15 @@ export default {
 			return ''
 		},
 		actions() {
-			return [
-				{
-					text: t('viewer', 'Share'),
-					icon: 'icon-share-white-forced',
-					action: this.showSharingSidebar
-				}
-			]
+			return OCA.Sharing
+				? [
+					{
+						text: t('viewer', 'Share'),
+						icon: 'icon-share-white-forced',
+						action: this.showSharingSidebar
+					}
+				]
+				: []
 		}
 	},
 
@@ -212,11 +213,6 @@ export default {
 					mime,
 					modal,
 					failed: false
-				}
-
-				// if the sidebar is already opened, change the current file
-				if (this.openedSidebar) {
-					OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
 				}
 			}
 
@@ -419,17 +415,7 @@ export default {
 		showSharingSidebar() {
 			// Open the sidebar sharing tab
 			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
-
-			const sidebar = document.getElementById('app-sidebar')
-			const closeButton = sidebar.querySelector('.icon-close')
-
-			// Sidebar above the modal
-			sidebar.style.zIndex = 10001
-			this.openedSidebar = true
-			closeButton.addEventListener('click', e => {
-				sidebar.style.zIndex = null
-				this.openedSidebar = false
-			})
+			this.close()
 		}
 	}
 }
