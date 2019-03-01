@@ -438,12 +438,7 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			$userSession = \OC::$server->getUserSession();
-			$currentUser = $userSession->getUser();
-
-			$userSession->setUser($user);
-			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles();
-			$userSession->setUser($currentUser);
+			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
 
 			$circles = array_map(function($circle) {
 				/** @var \OCA\Circles\Model\Circle $group */
