@@ -100,16 +100,19 @@ trait S3ConnectionTrait {
 		$this->connection = new S3Client($options);
 
 		if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
-			throw new \Exception("The configured bucket name is invalid: " . $this->bucket);
+			$logger = \OC::$server->getLogger();
+			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
+					 ['app' => 'objectstore']);
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
 			$logger = \OC::$server->getLogger();
 			try {
 				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
-				$this->connection->createBucket(array(
-					'Bucket' => $this->bucket
-				));
+				if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
+					throw new \Exception("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
+				}
+				$this->connection->createBucket(array('Bucket' => $this->bucket));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				$logger->logException($e, [
