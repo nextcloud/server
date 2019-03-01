@@ -44,6 +44,7 @@ return array(
     'OCP\\AppFramework\\Http\\NotFoundResponse' => $baseDir . '/lib/public/AppFramework/Http/NotFoundResponse.php',
     'OCP\\AppFramework\\Http\\OCSResponse' => $baseDir . '/lib/public/AppFramework/Http/OCSResponse.php',
     'OCP\\AppFramework\\Http\\RedirectResponse' => $baseDir . '/lib/public/AppFramework/Http/RedirectResponse.php',
+    'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => $baseDir . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
     'OCP\\AppFramework\\Http\\Response' => $baseDir . '/lib/public/AppFramework/Http/Response.php',
     'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => $baseDir . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
     'OCP\\AppFramework\\Http\\StreamResponse' => $baseDir . '/lib/public/AppFramework/Http/StreamResponse.php',
