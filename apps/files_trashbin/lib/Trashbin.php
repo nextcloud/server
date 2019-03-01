@@ -684,7 +684,7 @@ class Trashbin {
 			if(is_null($userFolder)) {
 				return 0;
 			}
-			$free = $quota - $userFolder->getSize(); // remaining free space for user
+			$free = $quota - $userFolder->getSize(false); // remaining free space for user
 			if ($free > 0) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
 			} else {
