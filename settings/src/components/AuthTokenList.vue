@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<table id="app-tokens-table" :class="{ 'icon-loading' : loading }">
+	<table id="app-tokens-table">
 		<thead v-if="tokens.length">
 		<tr>
 			<th></th>
@@ -51,10 +51,6 @@
 		props: {
 			tokens: {
 				type: Array,
-				required: true,
-			},
-			loading: {
-				type: Boolean,
 				required: true,
 			}
 		},

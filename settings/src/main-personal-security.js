@@ -32,4 +32,8 @@ Vue.use(VTooltip);
 Vue.prototype.t = t;
 
 const View = Vue.extend(AuthTokenSection);
-new View().$mount('#security');
+new View({
+	propsData: {
+		tokens: OCP.InitialState.loadState('settings', 'app_tokens'),
+	}
+}).$mount('#security');

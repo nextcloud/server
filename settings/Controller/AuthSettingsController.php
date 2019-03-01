@@ -95,39 +95,6 @@ class AuthSettingsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
-	 *
-	 * @return JSONResponse|array
-	 */
-	public function index() {
-		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
-
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
-			return $this->getServiceNotAvailableResponse();
-		}
-		try {
-			$sessionToken = $this->tokenProvider->getToken($sessionId);
-		} catch (InvalidTokenException $ex) {
-			return $this->getServiceNotAvailableResponse();
-		}
-
-		return array_map(function (IToken $token) use ($sessionToken) {
-			$data = $token->jsonSerialize();
-			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken;
-			if ($sessionToken->getId() === $token->getId()) {
-				$data['canDelete'] = false;
-				$data['canRename'] = false;
-				$data['current'] = true;
-			}
-			return $data;
-		}, $tokens);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
