@@ -62,6 +62,9 @@ use OCP\ILogger;
  * @property string ldapEmailAttribute
  * @property string ldapExtStorageHomeAttribute
  * @property string homeFolderNamingRule
+ * @property bool|string ldapNestedGroups
+ * @property string[] ldapBaseGroups
+ * @property string ldapGroupFilter
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;

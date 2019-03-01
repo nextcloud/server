@@ -1049,7 +1049,7 @@ services:
       matrix:
         TESTS: acceptance
   openldap:
-    image: nextcloudci/openldap:openldap-6
+    image: nextcloudci/openldap:openldap-7
     environment:
       - SLAPD_DOMAIN=nextcloud.ci
       - SLAPD_ORGANIZATION=Nextcloud
