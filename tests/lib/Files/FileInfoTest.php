@@ -14,6 +14,7 @@ use OC\Files\Storage\Home;
 use OC\Files\Storage\Temporary;
 use OC\User\User;
 use OCP\IConfig;
+use OCP\IUser;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
@@ -29,9 +30,15 @@ class FileInfoTest extends TestCase {
 	}
 
 	public function testIsMountedHomeStorage() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		$user->method('getHome')
+			->willReturn('foo');
+
 		$fileInfo = new FileInfo(
 			'',
-			new Home(['user' => new User('foo', $this->userBackend, null, $this->config)]),
+			new Home(['user' => $user]),
 			'', [], null);
 		$this->assertFalse($fileInfo->isMounted());
 	}

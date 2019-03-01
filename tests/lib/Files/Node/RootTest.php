@@ -39,14 +39,7 @@ class RootTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$urlgenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
+		$this->user = $this->createMock(IUser::class);
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();

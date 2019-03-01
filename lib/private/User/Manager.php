@@ -39,6 +39,7 @@ use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
 use OCP\UserInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -68,16 +69,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	private $cachedUsers = array();
 
-	/**
-	 * @var \OCP\IConfig $config
-	 */
+	/** @var IConfig */
 	private $config;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher) {
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */
@@ -156,7 +155,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this, $this->config);
+		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}

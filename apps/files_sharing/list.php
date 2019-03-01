@@ -32,7 +32,6 @@ $tmpl = new OCP\Template('files_sharing', 'list', '');
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 
-OCP\Util::addScript('files_sharing', 'app');
-OCP\Util::addScript('files_sharing', 'sharedfilelist');
+OCP\Util::addScript('files_sharing', 'dist/files_sharing');
 
 $tmpl->printPage();

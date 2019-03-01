@@ -14,6 +14,7 @@
 	var TEMPLATE =
 		'<div>' +
 		'<div class="dialogContainer"></div>' +
+		'<div id="collaborationResources"></div>' +
 		'</div>';
 
 	/**
@@ -81,6 +82,19 @@
 				this._dialog.model.on('change', function() {
 					self.trigger('sharesChanged', shareModel);
 				});
+
+				import('./collaborationresources').then((Resources) => {
+					var vm = new Resources.Vue({
+						el: '#collaborationResources',
+						render: h => h(Resources.View),
+						data: {
+							model: this.model.toJSON()
+						},
+					});
+					this.model.on('change', () => { vm.data = this.model.toJSON() })
+
+				})
+
 			} else {
 				this.$el.empty();
 				// TODO: render placeholder text?

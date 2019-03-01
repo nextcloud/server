@@ -716,6 +716,7 @@ class OC {
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
+		self::registerResourceCollectionHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
@@ -845,6 +846,10 @@ class OC {
 	private static function registerAccountHooks() {
 		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->getLogger());
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
+	}
+
+	private static function registerResourceCollectionHooks() {
+		\OC\Collaboration\Resources\Listener::register(\OC::$server->getEventDispatcher());
 	}
 
 	/**

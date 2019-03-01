@@ -28,6 +28,7 @@ use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @group DB
@@ -167,7 +168,7 @@ class SessionTest extends \Test\TestCase {
 				'getUser'
 			])
 			->getMock();
-		$user = new User('sepp', null);
+		$user = new User('sepp', null, $this->createMock(EventDispatcherInterface::class));
 		$userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($isLoggedIn ? $user : null));
@@ -184,7 +185,7 @@ class SessionTest extends \Test\TestCase {
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('foo'));
@@ -220,12 +221,12 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(true));
@@ -271,12 +272,12 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(false));
@@ -299,12 +300,12 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger);
 
-		$user = $this->getMockBuilder(User::class)->setConstructorArgs(['foo', $backend])->getMock();
+		$user = $this->createMock(IUser::class);
 
 		$session->expects($this->never())
 			->method('set');
@@ -535,7 +536,7 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -621,7 +622,7 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -681,7 +682,7 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -729,7 +730,7 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config])
+			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -765,8 +766,8 @@ class SessionTest extends \Test\TestCase {
 
 	public function testActiveUserAfterSetSession() {
 		$users = array(
-			'foo' => new User('foo', null),
-			'bar' => new User('bar', null)
+			'foo' => new User('foo', null, $this->createMock(EventDispatcherInterface::class)),
+			'bar' => new User('bar', null, $this->createMock(EventDispatcherInterface::class))
 		);
 
 		$manager = $this->getMockBuilder('\OC\User\Manager')

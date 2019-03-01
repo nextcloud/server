@@ -7,6 +7,7 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Cache\ICache;
 use OCP\IConfig;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EncryptionTest extends \Test\TestCase {
 
@@ -47,7 +48,7 @@ class EncryptionTest extends \Test\TestCase {
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename'])
-			->setConstructorArgs([new View(), new \OC\User\Manager($config), $groupManager, $config, $arrayCache])
+			->setConstructorArgs([new View(), new \OC\User\Manager($config, $this->createMock(EventDispatcherInterface::class)), $groupManager, $config, $arrayCache])
 			->getMock();
 		$util->expects($this->any())
 			->method('getUidAndFilename')

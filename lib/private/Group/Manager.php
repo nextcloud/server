@@ -44,6 +44,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -61,39 +62,37 @@ use OCP\IUser;
  * @package OC\Group
  */
 class Manager extends PublicEmitter implements IGroupManager {
-	/**
-	 * @var GroupInterface[] $backends
-	 */
-	private $backends = array();
+	/** @var GroupInterface[] */
+	private $backends = [];
 
-	/**
-	 * @var \OC\User\Manager $userManager
-	 */
+	/** @var \OC\User\Manager */
 	private $userManager;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+	/** @var ILogger */
+	private $logger;
 
-	/**
-	 * @var \OC\Group\Group[]
-	 */
-	private $cachedGroups = array();
+	/** @var \OC\Group\Group[] */
+	private $cachedGroups = [];
 
-	/**
-	 * @var \OC\Group\Group[]
-	 */
-	private $cachedUserGroups = array();
+	/** @var \OC\Group\Group[] */
+	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
 
-	/** @var ILogger */
-	private $logger;
-
 	/**
 	 * @param \OC\User\Manager $userManager
+	 * @param EventDispatcherInterface $dispatcher
 	 * @param ILogger $logger
 	 */
-	public function __construct(\OC\User\Manager $userManager, ILogger $logger) {
+	public function __construct(\OC\User\Manager $userManager,
+								EventDispatcherInterface $dispatcher,
+								ILogger $logger) {
 		$this->userManager = $userManager;
+		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
+
 		$cachedGroups = & $this->cachedGroups;
 		$cachedUserGroups = & $this->cachedUserGroups;
 		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
@@ -101,19 +100,19 @@ class Manager extends PublicEmitter implements IGroupManager {
 			 * @var \OC\Group\Group $group
 			 */
 			unset($cachedGroups[$group->getGID()]);
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
-			$cachedUserGroups = array();
+			$cachedUserGroups = [];
 		});
 	}
 
@@ -144,7 +143,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	public function clearBackends() {
-		$this->backends = array();
+		$this->backends = [];
 		$this->clearCaches();
 	}
 
@@ -158,8 +157,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 
 	protected function clearCaches() {
-		$this->cachedGroups = array();
-		$this->cachedUserGroups = array();
+		$this->cachedGroups = [];
+		$this->cachedUserGroups = [];
 	}
 
 	/**
@@ -179,7 +178,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OCP\IGroup
 	 */
 	protected function getGroupObject($gid, $displayName = null) {
-		$backends = array();
+		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::GROUP_DETAILS)) {
 				$groupData = $backend->getGroupDetails($gid);
@@ -197,7 +196,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (count($backends) === 0) {
 			return null;
 		}
-		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->userManager, $this, $displayName);
+		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
 		return $this->cachedGroups[$gid];
 	}
 
@@ -239,7 +238,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function search($search, $limit = null, $offset = null) {
-		$groups = array();
+		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
 			foreach ($groupIds as $groupId) {
@@ -276,7 +275,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (isset($this->cachedUserGroups[$uid])) {
 			return $this->cachedUserGroups[$uid];
 		}
-		$groups = array();
+		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getUserGroups($uid);
 			if (is_array($groupIds)) {
@@ -351,11 +350,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
 		if(is_null($group)) {
-			return array();
+			return [];
 		}
 
 		$search = trim($search);
-		$groupUsers = array();
+		$groupUsers = [];
 
 		if(!empty($search)) {
 			// only user backends have the capability to do a complex search for users
@@ -384,7 +383,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$groupUsers = $group->searchUsers('', $limit, $offset);
 		}
 
-		$matchingUsers = array();
+		$matchingUsers = [];
 		foreach($groupUsers as $groupUser) {
 			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}

@@ -17,7 +17,9 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -144,10 +146,14 @@ class AppManagerTest extends TestCase {
 	}
 
 	public function testEnableAppForGroups() {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')
+			->willReturn('group1');
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')
+			->willReturn('group2');
+
+		$groups = [$group1, $group2];
 		$this->expectClearCache();
 
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
@@ -187,10 +193,14 @@ class AppManagerTest extends TestCase {
 	 * @param array $appInfo
 	 */
 	public function testEnableAppForGroupsAllowedTypes(array $appInfo) {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')
+			->willReturn('group1');
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')
+			->willReturn('group2');
+
+		$groups = [$group1, $group2];
 		$this->expectClearCache();
 
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
@@ -237,10 +247,14 @@ class AppManagerTest extends TestCase {
 	 * @expectedExceptionMessage test can't be enabled for groups.
 	 */
 	public function testEnableAppForGroupsForbiddenTypes($type) {
-		$groups = array(
-			new Group('group1', array(), null),
-			new Group('group2', array(), null)
-		);
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')
+			->willReturn('group1');
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')
+			->willReturn('group2');
+
+		$groups = [$group1, $group2];
 
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
@@ -284,10 +298,11 @@ class AppManagerTest extends TestCase {
 	}
 
 	private function newUser($uid) {
-		$config = $this->createMock(IConfig::class);
-		$urlgenerator = $this->createMock(IURLGenerator::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn($uid);
 
-		return new User($uid, null, null, $config, $urlgenerator);
+		return $user;
 	}
 
 	public function testIsEnabledForUserEnabled() {
