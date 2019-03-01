@@ -13,7 +13,7 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "Trykk ⌘-C for å kopiere",
     "Press Ctrl-C to copy." : "Trykk Ctrl-C for å kopiere",
     "Invalid Federated Cloud ID" : "Ugyldig ID for sammenknyttet sky",
-    "Server to server sharing is not enabled on this server" : "Tjener til tjener deling er ikke aktivert på denne tjeneren",
+    "Server to server sharing is not enabled on this server" : "Server til server deling er ikke aktivert på denne serveren",
     "Couldn't establish a federated share." : "Kunne ikke etablere en sammenknyttet ressurs",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke etablere en sammenknyttet ressurs, kanskje passordet var feil.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sammenknyttet ressurs forespurt, du vil motta en invitasjon. Sjekk varslene dine.",
@@ -32,9 +32,9 @@ OC.L10N.register(
     "Federated file sharing" : "Sammenknyttet fildeling",
     "Federated Cloud Sharing" : "Sammenknyttet skydeling",
     "Open documentation" : "Åpne dokumentasjonen",
-    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom tjenere.",
-    "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne tjeneren sender delinger til andre tjenere",
-    "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne tjeneren mottar delinger fra andre tjenere",
+    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom servere.",
+    "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
+    "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere",
     "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
     "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
     "Federated Cloud" : "Sammenknyttet sky",
@@ -52,6 +52,6 @@ OC.L10N.register(
     "Federated share added" : "Sammenknyttet ressurs lagt til",
     "Couldn't add remote share" : "Kunne ikke legge til ekstern ressurs",
     "Sharing %s failed, because this item is already shared with %s" : "Deling av %s mislyktes, fordi dette elementet allerede er delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje tjeneren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje serveren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat."
 },
 "nplurals=2; plural=(n != 1);");
