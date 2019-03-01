@@ -134,6 +134,7 @@ OC.L10N.register(
     "Access control" : "Zugriffskontrolle",
     "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} mittels Link geteilt",
     "Share details could not be loaded for this item." : "Details der geteilten Freigabe zu diesem Eintrag konnten nicht geladen werden.",
+    "Search globally" : "Global suchen",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Mindestens {count} Zeichen wird für die Autovervollständigung benötigt","Mindestens {count} Zeichen werden für die Autovervollständigung benötigt"],
     "This list is maybe truncated - please refine your search term to see more results." : "Die Liste ist unter Umständen gekürzt - Bitte verfeinern Sie Ihre Suche um mehr Ergebnisse zu erhalten.",
     "No users or groups found for {search}" : "Keine Benutzer oder Gruppen für {search} gefunden",
