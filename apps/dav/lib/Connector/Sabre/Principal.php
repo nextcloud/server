@@ -426,13 +426,12 @@ class Principal implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getCircleMembership($principal) {
+	public function getCircleMembership($principal):array {
 		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			return [];
 		}
 
 		list($prefix, $name) = \Sabre\Uri\split($principal);
-
 		if ($this->hasCircles && $prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
 			if (!$user) {
