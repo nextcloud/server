@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Ari Selseng <ari@selseng.net>
  * @author Artem Kochnev <MrJeos@gmail.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Florin Peter <github@florin-peter.de>
@@ -774,15 +775,38 @@ class Cache implements ICache {
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null) {
+	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
 		$this->calculateFolderSize($path, $data);
 		if ($path !== '') {
 			$parent = dirname($path);
 			if ($parent === '.' or $parent === '/') {
 				$parent = '';
 			}
-			$this->correctFolderSize($parent);
+			if ($isBackgroundScan) {
+				$parentData = $this->get($parent);
+				if ($parentData['size'] !== -1 && $this->getIncompleteChildrenCount($parentData['fileid']) === 0) {
+					$this->correctFolderSize($parent, $parentData, $isBackgroundScan);
+				}
+			} else {
+				$this->correctFolderSize($parent);
+			}
 		}
+	}
+
+	/**
+	 * get the incomplete count that shares parent $folder
+	 *
+	 * @param int $fileId the file id of the folder
+	 * @return int
+	 */
+	public function getIncompleteChildrenCount($fileId) {
+		if ($fileId > -1) {
+			$sql = 'SELECT count(*)
+					FROM `*PREFIX*filecache` WHERE `parent` = ? AND size = -1';
+			$result = $this->connection->executeQuery($sql, [$fileId]);
+			return (int)$result->fetchColumn();
+		}
+		return -1;
 	}
 
 	/**
