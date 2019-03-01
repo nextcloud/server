@@ -671,12 +671,11 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @return IIndexDocument
 	 */
 	final public function addExcerpt(string $source, string $excerpt): IIndexDocument {
-		$excerpt = $this->cleanExcerpt($excerpt);
-		if (!array_key_exists($source, $this->excerpts)) {
-			$this->excerpts[$source] = [];
-		}
-
-		$this->excerpts[$source][] = $excerpt;
+		$this->excerpts[] =
+			[
+				'source' => $source,
+				'excerpt' => $this->cleanExcerpt($excerpt)
+			];
 
 		return $this;
 	}
@@ -694,13 +693,9 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	final public function setExcerpts(array $excerpts): IIndexDocument {
 		$new = [];
 		foreach ($excerpts as $entry) {
-			$newExcerpts = array_map(function (string $excerpt): string {
-				return $this->cleanExcerpt($excerpt);
-			}, $entry['excerpt']);
-
 			$new[] = [
 				'source' => $entry['source'],
-				'excerpt' => $newExcerpts
+				'excerpt' => $this->cleanExcerpt($entry['excerpt'])
 			];
 		}
 
