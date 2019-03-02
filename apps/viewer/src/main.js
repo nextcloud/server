@@ -25,6 +25,8 @@ import ViewerService from 'Services/Viewer'
 
 import { generateFilePath } from 'nextcloud-server/dist/router'
 
+Vue.prototype.$ = $
+
 Vue.prototype.t = t
 Vue.prototype.n = n
 

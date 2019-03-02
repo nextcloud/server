@@ -7,6 +7,7 @@ module.exports = {
 		jest: true
 	},
 	globals: {
+		$: true,
 		t: true,
 		n: true,
 		OC: true,

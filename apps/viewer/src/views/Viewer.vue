@@ -192,7 +192,7 @@ export default {
 			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
 
 			// store current position
-			this.currentIndex = this.fileList.findIndex(file => decodeURI(file['d:href'][0]) === this.root + relativePath)
+			this.currentIndex = this.fileList.findIndex(file => decodeURI(file.href) === this.root + relativePath)
 
 			this.updatePreviousNext()
 		},
@@ -203,7 +203,7 @@ export default {
 		 * @param {Object} fileInfo the opened file info
 		 */
 		openFileFromList(fileInfo) {
-			const path = fileInfo['d:href'][0]
+			const path = fileInfo.href
 			const mime = this.getMime(path)
 			const modal = this.components[mime]
 
@@ -228,7 +228,7 @@ export default {
 			const next = this.fileList[this.currentIndex + 1]
 
 			if (prev) {
-				const path = prev['d:href'][0]
+				const path = prev.href
 				const mime = this.getMime(path)
 				const modal = this.components[mime]
 
@@ -246,7 +246,7 @@ export default {
 			}
 
 			if (next) {
-				const path = next['d:href'][0]
+				const path = next.href
 				const mime = this.getMime(path)
 				const modal = this.components[mime]
 

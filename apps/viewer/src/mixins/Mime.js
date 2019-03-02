@@ -67,7 +67,7 @@ export default {
 			const modalContainer = this.$parent.$el.querySelector('#modal-wrapper')
 			if (modalContainer) {
 				// ! modal container have maxHeight:80% AND maxWidth: 900px
-				const parentHeight = Math.ceil(modalContainer.clientHeight * 0.8)
+				const parentHeight = Math.round(modalContainer.clientHeight * 0.8)
 				const parentWidth = modalContainer.clientWidth > 900
 					? 900
 					: modalContainer.clientWidth
@@ -79,13 +79,13 @@ export default {
 				// AND the video is bigger than the parent
 				if (heightRatio < widthRatio && heightRatio < 1) {
 					this.height = parentHeight
-					this.width = Math.ceil(contentWidth / contentHeight * parentHeight)
+					this.width = Math.round(contentWidth / contentHeight * parentHeight)
 
 				// if the video width is capped by the parent width
 				// AND the video is bigger than the parent
 				} else if (heightRatio > widthRatio && widthRatio < 1) {
 					this.width = parentWidth
-					this.height = Math.ceil(contentHeight / contentWidth * parentWidth)
+					this.height = Math.round(contentHeight / contentWidth * parentWidth)
 
 				// RESET
 				} else {
