@@ -752,13 +752,14 @@ class Storage {
 				if ($softQuota) {
 					$userFolder = \OC::$server->getUserFolder($uid);
 					if(is_null($userFolder)) {
-						return 0;
-					}
-					$free = $quota - $userFolder->getSize(false); // remaining free space for user
-					if ($free > 0) {
-						$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+						$availableSpace = 0;
 					} else {
-						$availableSpace = $free - $versionsSize;
+						$free = $quota - $userFolder->getSize(false); // remaining free space for user
+						if ($free > 0) {
+							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+						} else {
+							$availableSpace = $free - $versionsSize;
+						}
 					}
 				} else {
 					$availableSpace = $quota;
