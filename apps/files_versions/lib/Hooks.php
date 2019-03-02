@@ -149,6 +149,7 @@ class Hooks {
 	 * Load additional scripts when the files app is visible
 	 */
 	public static function onLoadFilesAppScripts() {
+		\OCP\Util::addScript('oc-backbone-webdav');
 		\OCP\Util::addScript('files_versions', 'merged');
 	}
 }
