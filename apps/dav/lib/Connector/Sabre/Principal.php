@@ -34,6 +34,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -404,7 +406,13 @@ class Principal implements BackendInterface {
 			return null;
 		}
 
-		$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId);
+		try {
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
+		} catch(QueryException $ex) {
+			return null;
+		} catch(CircleDoesNotExistException $ex) {
+			return null;
+		}
 
 		if (!$circle) {
 			return null;
