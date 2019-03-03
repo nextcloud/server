@@ -28,10 +28,11 @@ use Sabre\CardDAV\Card;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
-class HasPhotoPlugin extends \Sabre\CardDAV\Plugin {
+class HasPhotoPlugin extends ServerPlugin {
 
 	/** @var Server */
 	protected $server;
@@ -44,7 +45,6 @@ class HasPhotoPlugin extends \Sabre\CardDAV\Plugin {
 	 */
 	function initialize(Server $server) {
 		$server->on('propFind', [$this, 'propFind']);
-		parent::initialize($server);
 	}
 
 	/**
