@@ -155,7 +155,7 @@ class Notify extends Base {
 	}
 
 	private function markParentAsOutdated($mountId, $path) {
-		$parent = dirname($path);
+		$parent = ltrim(dirname($path), '/');
 		if ($parent === '.') {
 			$parent = '';
 		}
