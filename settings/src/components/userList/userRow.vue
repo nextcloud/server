@@ -73,6 +73,7 @@
 						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
 						 label="name" track-by="id" class="multiselect-vue" :limit="2"
 						 :multiple="true" :taggable="settings.isAdmin" :closeOnSelect="false"
+						 :tag-width="60"
 						 @tag="createGroup" @select="addUserGroup" @remove="removeUserGroup">
 				<span slot="limit" class="multiselect__limit" v-tooltip.auto="formatGroupsTitle(userGroups)">+{{userGroups.length-2}}</span>
 				<span slot="noResult">{{t('settings', 'No results')}}</span>
@@ -82,7 +83,7 @@
 			<multiselect :value="userSubAdminsGroups" :options="subAdminsGroups" :disabled="loading.subadmins||loading.all"
 						 :placeholder="t('settings', 'Set user as admin for')"
 						 label="name" track-by="id" class="multiselect-vue" :limit="2"
-						 :multiple="true" :closeOnSelect="false"
+						 :multiple="true" :closeOnSelect="false" :tag-width="60"
 						 @select="addUserSubAdmin" @remove="removeUserSubAdmin">
 				<span slot="limit" class="multiselect__limit" v-tooltip.auto="formatGroupsTitle(userSubAdminsGroups)">+{{userSubAdminsGroups.length-2}}</span>
 				<span slot="noResult">{{t('settings', 'No results')}}</span>
@@ -127,11 +128,10 @@
 </template>
 
 <script>
-import popoverMenu from '../popoverMenu';
 import ClickOutside from 'vue-click-outside';
-import Multiselect from 'vue-multiselect';
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
+import { PopoverMenu, Multiselect } from 'nextcloud-vue'
 
 Vue.use(VTooltip)
 
@@ -139,7 +139,7 @@ export default {
 	name: 'userRow',
 	props: ['user', 'settings', 'groups', 'subAdminsGroups', 'quotaOptions', 'showConfig', 'languages', 'externalActions'],
 	components: {
-		popoverMenu,
+		PopoverMenu,
 		Multiselect
 	},
 	directives: {

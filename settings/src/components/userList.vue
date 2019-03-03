@@ -80,7 +80,7 @@
 						 tag-placeholder="create" :placeholder="t('settings', 'Add user in group')"
 						 label="name" track-by="id" class="multiselect-vue"
 						 :multiple="true" :taggable="true" :close-on-select="false"
-						 @tag="createGroup">
+						 :tag-width="60" @tag="createGroup">
 							 <!-- If user is not admin, he is a subadmin.
 							 	  Subadmins can't create users outside their groups
 								  Therefore, empty select is forbidden -->
@@ -91,7 +91,7 @@
 				<multiselect :options="subAdminsGroups" v-model="newUser.subAdminsGroups"
 							 :placeholder="t('settings', 'Set user as admin for')"
 							 label="name" track-by="id" class="multiselect-vue"
-							 :multiple="true" :close-on-select="false">
+							 :multiple="true" :close-on-select="false" :tag-width="60">
 					<span slot="noResult">{{t('settings', 'No results')}}</span>
 			</multiselect>
 			</div>
@@ -137,7 +137,7 @@
 
 <script>
 import userRow from './userList/userRow';
-import Multiselect from 'vue-multiselect';
+import { Multiselect } from 'nextcloud-vue'
 import InfiniteLoading from 'vue-infinite-loading';
 import Vue from 'vue';
 
