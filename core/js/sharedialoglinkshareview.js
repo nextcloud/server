@@ -790,6 +790,17 @@
 			this.model.saveLinkShare({expireDate: expireDate, cid: shareId});
 		},
 
+		onChangeExpirationDate: function(event) {
+			var $element = $(event.target);
+			var expireDate = $element.val();
+			var li = $element.closest('li[data-share-id]');
+			var shareId = li.data('share-id');
+			var expirationDatePicker = '#expirationDatePicker-' + shareId;
+
+			this.setExpirationDate(expireDate, shareId);
+			$(expirationDatePicker).datepicker('hide');
+		},
+
 		/**
 		 * get an array of sharees' share properties
 		 *
