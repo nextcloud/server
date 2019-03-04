@@ -169,9 +169,12 @@ class File extends Node implements IFile {
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 
 				if (!is_resource($data)) {
-					$data = fopen('php://temp', 'r+');
-					fwrite($data, 'foobar');
-					rewind($data);
+					$tmpData = fopen('php://temp', 'r+');
+					if ($data !== null) {
+						fwrite($tmpData, $data);
+						rewind($tmpData);
+					}
+					$data = $tmpData;
 				}
 
 				$isEOF = false;
