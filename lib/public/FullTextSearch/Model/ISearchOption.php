@@ -32,7 +32,7 @@ namespace OCP\FullTextSearch\Model;
 
 
 /**
- * @since 15.0.0
+ * @since 16.0.0
  *
  * Interface ISearchOption
  *
@@ -41,9 +41,19 @@ namespace OCP\FullTextSearch\Model;
 interface ISearchOption {
 
 
+	/**
+	 * @since 16.0.0
+	 */
 	const CHECKBOX = 'checkbox';
+
+	/**
+	 * @since 16.0.0
+	 */
 	const INPUT = 'input';
 
+	/**
+	 * @since 16.0.0
+	 */
 	const INPUT_SMALL = 'small';
 
 
@@ -54,7 +64,7 @@ interface ISearchOption {
 	 *
 	 * @see ISearchRequest::getOption
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $name
 	 *
@@ -65,7 +75,7 @@ interface ISearchOption {
 	/**
 	 * Get the name/key of the option.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -75,7 +85,7 @@ interface ISearchOption {
 	/**
 	 * Set the title/display name of the option.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $title
 	 *
@@ -86,7 +96,7 @@ interface ISearchOption {
 	/**
 	 * Get the title of the option.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -97,7 +107,7 @@ interface ISearchOption {
 	 * Set the type of the option.
 	 * $type can be ISearchOption::CHECKBOX or ISearchOption::INPUT
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $type
 	 *
@@ -108,7 +118,7 @@ interface ISearchOption {
 	/**
 	 * Get the type of the option.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -119,7 +129,7 @@ interface ISearchOption {
 	 * In case of Type is INPUT, set the size of the input field.
 	 * Value can be ISearchOption::INPUT_SMALL or not defined.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $size
 	 *
@@ -130,7 +140,7 @@ interface ISearchOption {
 	/**
 	 * Get the size of the INPUT.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -141,7 +151,7 @@ interface ISearchOption {
 	 * In case of Type is , set the placeholder to be displayed in the input
 	 * field.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $placeholder
 	 *
@@ -152,7 +162,7 @@ interface ISearchOption {
 	/**
 	 * Get the placeholder.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */

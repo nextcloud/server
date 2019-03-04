@@ -47,7 +47,7 @@ namespace OCP\FullTextSearch\Model;
  *
  * @see IIndexDocument::setAccess
  *
- * @since 15.0.0
+ * @since 16.0.0
  *
  * @package OCP\FullTextSearch\Model
  */
@@ -57,7 +57,7 @@ interface IDocumentAccess {
 	/**
 	 * Owner of the document can be set at the init of the object.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * IDocumentAccess constructor.
 	 *
@@ -69,7 +69,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $ownerId
 	 *
@@ -80,7 +80,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -90,7 +90,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $viewerId
 	 *
@@ -101,7 +101,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -111,7 +111,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
@@ -122,7 +122,7 @@ interface IDocumentAccess {
 	/**
 	 * Add an entry to the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $user
 	 *
@@ -134,7 +134,7 @@ interface IDocumentAccess {
 	 * Add multiple entries to the list of users that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
@@ -145,7 +145,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the complete list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -155,7 +155,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
@@ -166,7 +166,7 @@ interface IDocumentAccess {
 	/**
 	 * Add an entry to the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $group
 	 *
@@ -178,7 +178,7 @@ interface IDocumentAccess {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
@@ -189,7 +189,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the complete list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -199,7 +199,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
@@ -210,7 +210,7 @@ interface IDocumentAccess {
 	/**
 	 * Add an entry to the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $circle
 	 *
@@ -222,7 +222,7 @@ interface IDocumentAccess {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
@@ -233,7 +233,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the complete list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -243,7 +243,7 @@ interface IDocumentAccess {
 	/**
 	 * Set the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $links
 	 *
@@ -254,7 +254,7 @@ interface IDocumentAccess {
 	/**
 	 * Get the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */

@@ -51,7 +51,7 @@ use OCP\FullTextSearch\Model\IDocumentAccess;
  *
  * @see IIndexDocument::setAccess
  *
- * @since 15.0.0
+ * @since 16.0.0
  *
  * @package OC\FullTextSearch\Model
  */
@@ -80,7 +80,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Owner of the document can be set at the init of the object.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * IDocumentAccess constructor.
 	 *
@@ -94,7 +94,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $ownerId
 	 *
@@ -109,7 +109,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -121,7 +121,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $viewerId
 	 *
@@ -136,7 +136,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -148,7 +148,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
@@ -163,7 +163,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Add an entry to the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $user
 	 *
@@ -179,7 +179,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add multiple entries to the list of users that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
@@ -194,7 +194,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the complete list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -206,7 +206,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
@@ -221,7 +221,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Add an entry to the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $group
 	 *
@@ -237,7 +237,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
@@ -252,7 +252,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the complete list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -264,7 +264,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
@@ -279,7 +279,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Add an entry to the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $circle
 	 *
@@ -295,7 +295,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
@@ -310,7 +310,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the complete list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -322,7 +322,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Set the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $links
 	 *
@@ -337,7 +337,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	/**
 	 * Get the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -347,7 +347,7 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 
 
 	/**
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
