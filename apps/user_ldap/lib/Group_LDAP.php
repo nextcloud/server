@@ -1139,6 +1139,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if ($this->groupPluginManager->implementsActions(GroupInterface::ADD_TO_GROUP)) {
 			if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
 				$this->access->connection->clearCache();
+				unset($this->cachedGroupMembers[$gid]);
 			}
 			return $ret;
 		}
@@ -1156,6 +1157,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if ($this->groupPluginManager->implementsActions(GroupInterface::REMOVE_FROM_GROUP)) {
 			if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
 				$this->access->connection->clearCache();
+				unset($this->cachedGroupMembers[$gid]);
 			}
 			return $ret;
 		}
