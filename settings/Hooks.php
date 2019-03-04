@@ -25,9 +25,12 @@
 
 namespace OC\Settings;
 
+use OC\Settings\Activity\GroupProvider;
 use OC\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -40,6 +43,8 @@ class Hooks {
 
 	/** @var IActivityManager */
 	protected $activityManager;
+	/** @var IGroupManager|\OC\Group\Manager */
+	protected $groupManager;
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var IUserSession */
@@ -56,6 +61,7 @@ class Hooks {
 	protected $l;
 
 	public function __construct(IActivityManager $activityManager,
+								IGroupManager $groupManager,
 								IUserManager $userManager,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
@@ -64,6 +70,7 @@ class Hooks {
 								IFactory $languageFactory,
 								IL10N $l) {
 		$this->activityManager = $activityManager;
+		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
@@ -208,6 +215,80 @@ class Hooks {
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->useTemplate($template);
 			$this->mailer->send($message);
+		}
+	}
+
+	/**
+	 * @param IGroup $group
+	 * @param IUser $user
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 */
+	public function addUserToGroup(IGroup $group, IUser $user): void {
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
+		$usersToNotify[] = $user;
+
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('group_settings');
+
+		$actor = $this->userSession->getUser();
+		if ($actor instanceof IUser) {
+			$event->setAuthor($actor->getUID())
+				->setSubject(GroupProvider::ADDED_TO_GROUP, [
+					'user' => $user->getUID(),
+					'group' => $group->getGID(),
+					'actor' => $actor->getUID(),
+				]);
+		} else {
+			$event->setSubject(GroupProvider::ADDED_TO_GROUP, [
+				'user' => $user->getUID(),
+				'group' => $group->getGID(),
+			]);
+		}
+
+		foreach ($usersToNotify as $userToNotify) {
+			$event->setAffectedUser($userToNotify->getUID());
+			$this->activityManager->publish($event);
+		}
+	}
+
+	/**
+	 * @param IGroup $group
+	 * @param IUser $user
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 */
+	public function removeUserFromGroup(IGroup $group, IUser $user): void {
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
+		$usersToNotify[] = $user;
+
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('group_settings');
+
+		$actor = $this->userSession->getUser();
+		if ($actor instanceof IUser) {
+			$event->setAuthor($actor->getUID())
+				->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
+					'user' => $user->getUID(),
+					'group' => $group->getGID(),
+					'actor' => $actor->getUID(),
+				]);
+		} else {
+			$event->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
+				'user' => $user->getUID(),
+				'group' => $group->getGID(),
+			]);
+		}
+
+		foreach ($usersToNotify as $userToNotify) {
+			$event->setAffectedUser($userToNotify->getUID());
+			$this->activityManager->publish($event);
 		}
 	}
 }
