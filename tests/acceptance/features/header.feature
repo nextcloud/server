@@ -1,3 +1,4 @@
+@apache
 Feature: header
 
   Scenario: admin users can see admin-level items in the Settings menu
