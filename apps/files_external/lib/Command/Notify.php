@@ -37,6 +37,7 @@ use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -49,11 +50,14 @@ class Notify extends Base {
 	private $connection;
 	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
 	private $updateQuery;
+	/** @var ILogger */
+	private $log;
 
-	function __construct(GlobalStoragesService $globalService, IDBConnection $connection) {
+	function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->connection = $connection;
+		$this->logger = $logger;
 		$this->updateQuery = $this->getUpdateQuery($this->connection);
 	}
 
@@ -159,7 +163,8 @@ class Notify extends Base {
 
 		try {
 			$this->updateQuery->execute([$parent, $mountId]);
-		} catch (DriverException $th) {
+		} catch (DriverException $ex) {
+			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while trying to mark folder as outdated', 'level' => ILogger::WARN]);
 			$this->connection = $this->reconnectToDatabase($this->connection, $output);
 			$output->writeln('<info>Needed to reconnect to the database</info>');
 			$this->updateQuery = $this->getUpdateQuery($this->connection);
@@ -212,12 +217,14 @@ class Notify extends Base {
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
+			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while disconnecting from DB', 'level' => ILogger::WARN]);
 			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
 		}
 		while (!$connection->isConnected()) {
 			try {
 				$connection->connect();
 			} catch (\Exception $ex) {
+				$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while re-connecting to database', 'level' => ILogger::WARN]);
 				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
 				sleep(60);
 			}
