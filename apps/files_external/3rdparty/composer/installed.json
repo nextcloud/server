@@ -1,17 +1,17 @@
 [
     {
         "name": "icewind/smb",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/icewind1991/SMB.git",
-            "reference": "bd43cdecd09ffe289fd2881761d4c72e60c95aeb"
+            "reference": "55b7d1a71f5c031a0257e321bf5fc5281b7cf4a9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/bd43cdecd09ffe289fd2881761d4c72e60c95aeb",
-            "reference": "bd43cdecd09ffe289fd2881761d4c72e60c95aeb",
+            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/55b7d1a71f5c031a0257e321bf5fc5281b7cf4a9",
+            "reference": "55b7d1a71f5c031a0257e321bf5fc5281b7cf4a9",
             "shasum": ""
         },
         "require": {
@@ -21,7 +21,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.7"
         },
-        "time": "2019-02-06T16:53:32+00:00",
+        "time": "2019-03-04T15:12:50+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
