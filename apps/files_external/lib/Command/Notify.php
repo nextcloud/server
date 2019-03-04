@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
+ * @author Ari Selseng <ari@selseng.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -24,6 +25,7 @@
 
 namespace OCA\Files_External\Command;
 
+use Doctrine\DBAL\Exception\DriverException;
 use OC\Core\Command\Base;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
@@ -35,6 +37,7 @@ use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -47,17 +50,15 @@ class Notify extends Base {
 	private $connection;
 	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
 	private $updateQuery;
+	/** @var ILogger */
+	private $logger;
 
-	function __construct(GlobalStoragesService $globalService, IDBConnection $connection) {
+	function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->connection = $connection;
-		// the query builder doesn't really like subqueries with parameters
-		$this->updateQuery = $this->connection->prepare(
-			'UPDATE *PREFIX*filecache SET size = -1
-			WHERE `path` = ?
-			AND `storage` IN (SELECT storage_id FROM *PREFIX*mounts WHERE mount_id = ?)'
-		);
+		$this->logger = $logger;
+		$this->updateQuery = $this->getUpdateQuery($this->connection);
 	}
 
 	protected function configure() {
@@ -143,9 +144,9 @@ class Notify extends Base {
 				$this->logUpdate($change, $output);
 			}
 			if ($change instanceof IRenameChange) {
-				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath());
+				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath(), $output);
 			}
-			$this->markParentAsOutdated($mount->getId(), $change->getPath());
+			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output);
 		});
 	}
 
@@ -154,12 +155,21 @@ class Notify extends Base {
 		return new $class($mount->getBackendOptions());
 	}
 
-	private function markParentAsOutdated($mountId, $path) {
+	private function markParentAsOutdated($mountId, $path, OutputInterface $output) {
 		$parent = ltrim(dirname($path), '/');
 		if ($parent === '.') {
 			$parent = '';
 		}
-		$this->updateQuery->execute([$parent, $mountId]);
+
+		try {
+			$this->updateQuery->execute([$parent, $mountId]);
+		} catch (DriverException $ex) {
+			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while trying to mark folder as outdated', 'level' => ILogger::WARN]);
+			$this->connection = $this->reconnectToDatabase($this->connection, $output);
+			$output->writeln('<info>Needed to reconnect to the database</info>');
+			$this->updateQuery = $this->getUpdateQuery($this->connection);
+			$this->updateQuery->execute([$parent, $mountId]);
+		}
 	}
 
 	private function logUpdate(IChange $change, OutputInterface $output) {
@@ -187,6 +197,41 @@ class Notify extends Base {
 
 		$output->writeln($text);
 	}
+
+	/**
+	 * @return \Doctrine\DBAL\Statement
+	*/
+	private function getUpdateQuery(IDBConnection $connection) {
+		// the query builder doesn't really like subqueries with parameters
+		return $connection->prepare(
+			'UPDATE *PREFIX*filecache SET size = -1
+			WHERE `path` = ?
+			AND `storage` IN (SELECT storage_id FROM *PREFIX*mounts WHERE mount_id = ?)'
+		);
+	}
+
+	/**
+	 * @return \OCP\IDBConnection
+	*/
+	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output) {
+		try {
+			$connection->close();
+		} catch (\Exception $ex) {
+			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while disconnecting from DB', 'level' => ILogger::WARN]);
+			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
+		}
+		while (!$connection->isConnected()) {
+			try {
+				$connection->connect();
+			} catch (\Exception $ex) {
+				$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while re-connecting to database', 'level' => ILogger::WARN]);
+				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
+				sleep(60);
+			}
+		}
+		return $connection;
+	}
+
 
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, $verbose, OutputInterface $output) {
 		usleep(100 * 1000); //give time for the notify to start
