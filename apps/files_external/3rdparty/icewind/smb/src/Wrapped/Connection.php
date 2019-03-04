@@ -66,7 +66,11 @@ class Connection extends RawConnection {
 		$this->parser->checkConnectionError($promptLine);
 
 		$output = [];
-		$line = $this->readLine();
+		if (!$this->isPrompt($promptLine)) {
+			$line = $promptLine;
+		} else {
+			$line = $this->readLine();
+		}
 		if ($line === false) {
 			$this->unknownError($promptLine);
 		}
