@@ -260,7 +260,15 @@ class AccessibilityController extends Controller {
 	 * @return string
 	 */
 	private function invertSvgIconsColor(string $css) {
-		return str_replace(['color=000', 'color=fff', 'color=***'], ['color=***', 'color=000', 'color=fff'], $css);
+		return str_replace(
+			['color=000&', 'color=fff&', 'color=***&'],
+			['color=***&', 'color=000&', 'color=fff&'],
+			str_replace(
+				['color=000000&', 'color=ffffff&', 'color=******&'],
+				['color=******&', 'color=000000&', 'color=ffffff&'],
+				$css
+			)
+		);
 	}
 
 	/**
