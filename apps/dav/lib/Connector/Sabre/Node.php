@@ -297,7 +297,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getNoteFromShare($user) {
-		if ($user == null) {
+		if ($user === null) {
 			return '';
 		}
 
