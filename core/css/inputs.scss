@@ -20,6 +20,8 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 	font-family: var(--font-face) !important;
 }
 
+$default-height: 34px;
+
 /* Simple selector to allow easy overriding */
 select,
 button,
@@ -28,7 +30,7 @@ textarea,
 div[contenteditable=true],
 div[contenteditable=false] {
 	width: 130px;
-	min-height: 32px;
+	min-height: $default-height;
 	box-sizing: border-box;
 }
 
@@ -37,7 +39,6 @@ div[contenteditable=false] {
  * color-text-lighter		active state
  * color-text-maxcontrast 	disabled state
  */
-
 
 /* Default global values */
 div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
@@ -138,6 +139,8 @@ input {
 	&:not([type='radio']):not([type='checkbox']):not([type='range']):not([type='submit']):not([type='button']):not([type='reset']):not([type='color']):not([type='file']):not([type='image']) {
 		-webkit-appearance: textfield;
 		-moz-appearance: textfield;
+		// force height for inline elements like inputs (not textarea, contenteditable...)
+		height: $default-height;
 	}
 	&[type='radio'],
 	&[type='checkbox'],
@@ -172,7 +175,7 @@ input[type='submit'],
 input[type='reset'] {
 	padding: 6px 12px;
 	width: auto;
-	min-height: 34px;
+	min-height: $default-height;
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: var(--color-background-dark);
@@ -234,6 +237,8 @@ select {
 	background-color: inherit;
 	outline: 0;
 	padding-right: 24px !important;
+	// force height for inline elements like inputs (not textarea, contenteditable...)
+	height: $default-height;
 }
 
 /* Confirm inputs */
@@ -249,7 +254,8 @@ input {
 			/* Avoid background under border */
 			background-color: var(--color-main-background) !important;
 			opacity: 1;
-			width: 34px;
+			height: $default-height;
+			width: $default-height;
 			padding: 7px 6px;
 			cursor: pointer;
 			margin-right: 0;
@@ -684,7 +690,7 @@ div.select2-container {
 		cursor: pointer;
 		position: relative;
 		border-radius: var(--border-radius);
-		height: 34px;
+		height: $default-height;
 		/* tag wrapper */
 		.multiselect__tags-wrap {
 			align-items: center;

@@ -1492,9 +1492,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					}
 				}
 				.icon-confirm {
-					width: 32px;
-					height: 32px;
-					flex: 0 0 32px;
+					flex: 0 0 auto;
 					cursor: pointer;
 					&:not(:active) {
 						display: none;
