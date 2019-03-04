@@ -51,7 +51,7 @@ class Notify extends Base {
 	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
 	private $updateQuery;
 	/** @var ILogger */
-	private $log;
+	private $logger;
 
 	function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
 		parent::__construct();
