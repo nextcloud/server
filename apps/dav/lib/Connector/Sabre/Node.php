@@ -41,6 +41,8 @@ use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use OCP\Share;
+use OCP\Share\IShare;
 
 
 abstract class Node implements \Sabre\DAV\INode {
@@ -288,6 +290,35 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		return $permissions;
+	}
+
+	/**
+	 * @param string $user
+	 * @return string
+	 */
+	public function getNoteFromShare($user) {
+		if ($user === null) {
+			return '';
+		}
+
+		$types = [
+			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_GROUP,
+			Share::SHARE_TYPE_CIRCLE,
+			Share::SHARE_TYPE_ROOM
+		];
+
+		foreach ($types as $shareType) {
+			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
+			foreach ($shares as $share) {
+				$note = $share->getNote();
+				if($share->getShareOwner() !== $user && !empty($note)) {
+					return $note;
+				}
+			}
+		}
+
+		return '';
 	}
 
 	/**
