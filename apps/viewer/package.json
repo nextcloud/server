@@ -38,7 +38,7 @@
     "mime-types": "^2.1.22",
     "nextcloud-server": "^0.15.9",
     "nextcloud-vue": "^0.8.0",
-    "vue": "^2.6.7",
+    "vue": "^2.6.8",
     "vue-async-computed": "^3.6.1",
     "xml2js": "^0.4.19"
   },
@@ -75,7 +75,7 @@
     "stylelint-webpack-plugin": "^0.10.5",
     "url-loader": "^1.1.2",
     "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.6.7",
+    "vue-template-compiler": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1",
