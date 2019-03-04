@@ -87,32 +87,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Make a php file size
-	 * @param int $bytes file size in bytes
-	 * @return string a php parseable file size
-	 *
-	 * Makes 2048 to 2k and 2^41 to 2048G
-	 */
-	public static function phpFileSize($bytes) {
-		if ($bytes < 0) {
-			return "?";
-		}
-		if ($bytes < 1024) {
-			return $bytes . "B";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "K";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "M";
-		}
-		$bytes = round($bytes / 1024, 1);
-		return $bytes . "G";
-	}
-
-	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
 	 * @return float|bool a file size in bytes

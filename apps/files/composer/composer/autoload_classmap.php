@@ -31,9 +31,7 @@ return array(
     'OCA\\Files\\Command\\TransferOwnership' => $baseDir . '/../lib/Command/TransferOwnership.php',
     'OCA\\Files\\Controller\\AjaxController' => $baseDir . '/../lib/Controller/AjaxController.php',
     'OCA\\Files\\Controller\\ApiController' => $baseDir . '/../lib/Controller/ApiController.php',
-    'OCA\\Files\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Files\\Controller\\ViewController' => $baseDir . '/../lib/Controller/ViewController.php',
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files\\Service\\TagService' => $baseDir . '/../lib/Service/TagService.php',
-    'OCA\\Files\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );
