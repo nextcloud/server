@@ -21,7 +21,7 @@
     Header set Cache-Control "max-age=7200, public"
   </FilesMatch>
 </IfModule>
-<IfModule mod_php5.c>
+<IfModule mod_php7.c>
 php_value upload_max_filesize 513M
 php_value post_max_size 513M
 php_value memory_limit 512M
