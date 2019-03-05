@@ -1272,6 +1272,10 @@ class UsersControllerTest extends TestCase {
 			->will($this->returnValue($targetUser));
 		$targetUser
 			->expects($this->once())
+			->method('canChangePassword')
+			->will($this->returnValue(true));
+		$targetUser
+			->expects($this->once())
 			->method('setPassword')
 			->with('NewPassword');
 		$targetUser
