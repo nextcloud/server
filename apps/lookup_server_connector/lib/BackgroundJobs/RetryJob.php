@@ -38,6 +38,8 @@ class RetryJob extends Job {
 	private $lookupServer;
 	/** @var int how much time should be between two, will be increased for each retry */
 	private $interval = 100;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @param IClientService $clientService
@@ -49,6 +51,7 @@ class RetryJob extends Job {
 								IConfig $config) {
 		$this->clientService = $clientService;
 		$this->jobList = $jobList;
+		$this->config = $config;
 
 		if ($config->getSystemValue('has_internet_connection', true) === false) {
 			return;
