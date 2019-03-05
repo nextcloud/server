@@ -1061,6 +1061,8 @@ return array(
     'OC\\Session\\Internal' => $baseDir . '/lib/private/Session/Internal.php',
     'OC\\Session\\Memory' => $baseDir . '/lib/private/Session/Memory.php',
     'OC\\Session\\Session' => $baseDir . '/lib/private/Session/Session.php',
+    'OC\\Settings\\Activity\\GroupProvider' => $baseDir . '/settings/Activity/GroupProvider.php',
+    'OC\\Settings\\Activity\\GroupSetting' => $baseDir . '/settings/Activity/GroupSetting.php',
     'OC\\Settings\\Activity\\Provider' => $baseDir . '/settings/Activity/Provider.php',
     'OC\\Settings\\Activity\\SecurityFilter' => $baseDir . '/settings/Activity/SecurityFilter.php',
     'OC\\Settings\\Activity\\SecurityProvider' => $baseDir . '/settings/Activity/SecurityProvider.php',
