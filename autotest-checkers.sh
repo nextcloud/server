@@ -9,7 +9,12 @@ RESULT=$(($RESULT+$?))
 php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
 
-
+dataDirCreated=0
+if ! [ -e data/ ]; then
+    dataDirCreated=1
+    echo "Create directory 'data/'"
+    mkdir data/
+fi
 for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do
     echo "Testing $app"
     if
@@ -34,6 +39,10 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
     fi
     RESULT=$(($RESULT+$?))
 done;
+if [ $dataDirCreated == 1 ]; then
+    echo "Delete created directory 'data/'"
+    rm -rf data/
+fi
 
 php ./build/files-checker.php
 RESULT=$(($RESULT+$?))
