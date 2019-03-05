@@ -750,13 +750,16 @@ class Storage {
 			// subtract size of files and current versions size from quota
 			if ($quota >= 0) {
 				if ($softQuota) {
-					$files_view = new View('/' . $uid . '/files');
-					$rootInfo = $files_view->getFileInfo('/', false);
-					$free = $quota - $rootInfo['size']; // remaining free space for user
-					if ($free > 0) {
-						$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+					$userFolder = \OC::$server->getUserFolder($uid);
+					if(is_null($userFolder)) {
+						$availableSpace = 0;
 					} else {
-						$availableSpace = $free - $versionsSize;
+						$free = $quota - $userFolder->getSize(false); // remaining free space for user
+						if ($free > 0) {
+							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+						} else {
+							$availableSpace = $free - $versionsSize;
+						}
 					}
 				} else {
 					$availableSpace = $quota;
