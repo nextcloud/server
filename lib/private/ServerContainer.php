@@ -72,6 +72,19 @@ class ServerContainer extends SimpleContainer {
 	}
 
 	/**
+	 * @param string $appName
+	 * @return DIContainer
+	 * @throws QueryException
+	 */
+	public function getRegisteredAppContainer(string $appName) {
+		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName, ''))])) {
+			return $this->appContainers[strtolower(App::buildAppNamespace($appName, ''))];
+		}
+
+		throw new QueryException();
+	}
+
+	/**
 	 * @param string $namespace
 	 * @param string $sensitiveNamespace
 	 * @return DIContainer
