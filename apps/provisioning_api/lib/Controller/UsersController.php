@@ -513,6 +513,9 @@ class UsersController extends AUserData {
 				break;
 			case 'password':
 				try {
+					if (!$targetUser->canChangePassword()) {
+						throw new OCSException('Setting the password is not supported by the users backend', 103);
+					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
 					throw new OCSException($e->getMessage(), 103);
