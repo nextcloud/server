@@ -1095,6 +1095,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Session\\Internal' => __DIR__ . '/../../..' . '/lib/private/Session/Internal.php',
         'OC\\Session\\Memory' => __DIR__ . '/../../..' . '/lib/private/Session/Memory.php',
         'OC\\Session\\Session' => __DIR__ . '/../../..' . '/lib/private/Session/Session.php',
+        'OC\\Settings\\Activity\\GroupProvider' => __DIR__ . '/../../..' . '/settings/Activity/GroupProvider.php',
+        'OC\\Settings\\Activity\\GroupSetting' => __DIR__ . '/../../..' . '/settings/Activity/GroupSetting.php',
         'OC\\Settings\\Activity\\Provider' => __DIR__ . '/../../..' . '/settings/Activity/Provider.php',
         'OC\\Settings\\Activity\\SecurityFilter' => __DIR__ . '/../../..' . '/settings/Activity/SecurityFilter.php',
         'OC\\Settings\\Activity\\SecurityProvider' => __DIR__ . '/../../..' . '/settings/Activity/SecurityProvider.php',
