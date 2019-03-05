@@ -400,6 +400,8 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $circleUniqueId
 	 * @return array|null
+	 * @suppress PhanUndeclaredClassMethod
+	 * @suppress PhanUndeclaredClassCatch
 	 */
 	protected function circleToPrincipal($circleUniqueId) {
 		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
@@ -433,6 +435,7 @@ class Principal implements BackendInterface {
 	 * @param bool $needGroups
 	 * @return array
 	 * @throws Exception
+	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {
 		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
