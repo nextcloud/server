@@ -229,9 +229,9 @@ function execute_tests {
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d mysql:5.7
-				--innodb_large_prefix=true
-				--innodb_file_format=barracuda
+				-d mysql:5.7 \
+				--innodb_large_prefix=true \
+				--innodb_file_format=barracuda \
 				--innodb_file_per_table=true)
 
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
