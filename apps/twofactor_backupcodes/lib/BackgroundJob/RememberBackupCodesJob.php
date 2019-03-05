@@ -70,7 +70,15 @@ class RememberBackupCodesJob extends TimedJob {
 		}
 
 		$providers = $this->registry->getProviderStates($user);
-		if (isset($providers['backup_codes']) && $providers['backup_codes'] === true) {
+		$state2fa = array_reduce($providers, function(bool $carry, bool $state) {
+			return $carry || $state;
+		}, false);
+
+		/*
+		 * If no provider is active or if the backup codes are already generate
+		 * we can remove the job
+		 */
+		if ($state2fa === false || (isset($providers['backup_codes']) && $providers['backup_codes'] === true)) {
 			// Backup codes already generated lets remove this job
 			$this->jobList->remove(self::class, $argument);
 			return;
