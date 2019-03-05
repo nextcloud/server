@@ -110,6 +110,8 @@ Feature: LDAP
       | ldapNestedGroups              | 1 |
       | useMemberOfToDetectMembership | 1 |
       | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
     And As an "admin"
     # for population
     And sending "GET" to "/cloud/groups"
@@ -129,6 +131,8 @@ Feature: LDAP
       | ldapNestedGroups              | 1 |
       | useMemberOfToDetectMembership | 0 |
       | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
     And As an "admin"
     # for population
     And sending "GET" to "/cloud/groups"
@@ -148,6 +152,8 @@ Feature: LDAP
       | ldapNestedGroups              | 1 |
       | useMemberOfToDetectMembership | 1 |
       | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
     And As an "admin"
     # for population
     And sending "GET" to "/cloud/groups"

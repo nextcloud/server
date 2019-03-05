@@ -53,6 +53,7 @@ Scenario: Test LDAP group membership with intermediate groups not matching filte
     | ldapNestedGroups              | 1 |
     | useMemberOfToDetectMembership | 1 |
     | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+    | ldapGroupMemberAssocAttr      | member |
   And As an "admin"
   # for population
   And sending "GET" to "/cloud/groups"
