@@ -70,7 +70,7 @@ class UpdateLookupServer {
 			return;
 		}
 
-		$this->lookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes';
+		$this->lookupServerEnabled = $config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes';
 
 		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if(!empty($this->lookupServer)) {
