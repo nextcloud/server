@@ -61,7 +61,8 @@ class Application extends App {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getShareManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->getConfig()
+				\OC::$server->getConfig(),
+				\OC::$server->getAppManager()
 			);
 		});
 

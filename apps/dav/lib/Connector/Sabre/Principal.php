@@ -35,6 +35,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -64,6 +65,9 @@ class Principal implements BackendInterface {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/** @var string */
 	private $principalPrefix;
 
@@ -86,12 +90,14 @@ class Principal implements BackendInterface {
 								IShareManager $shareManager,
 								IUserSession $userSession,
 								IConfig $config,
+								IAppManager $appManager,
 								$principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->config = $config;
+		$this->appManager = $appManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 	}
@@ -404,7 +410,7 @@ class Principal implements BackendInterface {
 	 * @suppress PhanUndeclaredClassCatch
 	 */
 	protected function circleToPrincipal($circleUniqueId) {
-		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return null;
 		}
 
@@ -438,7 +444,7 @@ class Principal implements BackendInterface {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {
-		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
 
