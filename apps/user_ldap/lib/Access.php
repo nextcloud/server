@@ -366,7 +366,9 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		try {
-			return @$this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
+			// try PASSWD extended operation first
+			return @$this->invokeLDAPMethod('exopPasswd', $cr, $userDN, '', $password) ||
+						@$this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
 		} catch(ConstraintViolationException $e) {
 			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ').$e->getMessage(), $e->getCode());
 		}
