@@ -28,14 +28,15 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\FullTextSearch\Model;
+namespace OC\FullTextSearch\Model;
 
 
 use JsonSerializable;
+use OCP\FullTextSearch\Model\IDocumentAccess;
 
 
 /**
- * Class DocumentAccess
+ * Class IDocumentAccess
  *
  * This object is used as a data transfer object when
  *
@@ -48,13 +49,14 @@ use JsonSerializable;
  * During the search, it is internally use to define to which group, circles, ...
  * a user that perform the search belongs to.
  *
- * @see IndexDocument::setAccess
+ * @see IIndexDocument::setAccess
  *
- * @since 15.0.0
+ * @since 16.0.0
  *
- * @package OCP\FullTextSearch\Model
+ * @package OC\FullTextSearch\Model
  */
-final class DocumentAccess implements JsonSerializable {
+final class DocumentAccess implements IDocumentAccess, JsonSerializable {
+
 
 	/** @var string */
 	private $ownerId;
@@ -78,9 +80,9 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Owner of the document can be set at the init of the object.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
-	 * DocumentAccess constructor.
+	 * IDocumentAccess constructor.
 	 *
 	 * @param string $ownerId
 	 */
@@ -92,13 +94,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $ownerId
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setOwnerId(string $ownerId) {
+	public function setOwnerId(string $ownerId): IDocumentAccess {
 		$this->ownerId = $ownerId;
 
 		return $this;
@@ -107,7 +109,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the Owner of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -119,13 +121,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $viewerId
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setViewerId(string $viewerId): DocumentAccess {
+	public function setViewerId(string $viewerId): IDocumentAccess {
 		$this->viewerId = $viewerId;
 
 		return $this;
@@ -134,7 +136,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the viewer of the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return string
 	 */
@@ -146,13 +148,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setUsers(array $users): DocumentAccess {
+	public function setUsers(array $users): IDocumentAccess {
 		$this->users = $users;
 
 		return $this;
@@ -161,13 +163,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Add an entry to the list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $user
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function addUser(string $user): DocumentAccess {
+	public function addUser(string $user): IDocumentAccess {
 		$this->users[] = $user;
 
 		return $this;
@@ -177,13 +179,13 @@ final class DocumentAccess implements JsonSerializable {
 	 * Add multiple entries to the list of users that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $users
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function addUsers($users): DocumentAccess {
+	public function addUsers($users): IDocumentAccess {
 		$this->users = array_merge($this->users, $users);
 
 		return $this;
@@ -192,7 +194,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the complete list of users that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -204,13 +206,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setGroups(array $groups): DocumentAccess {
+	public function setGroups(array $groups): IDocumentAccess {
 		$this->groups = $groups;
 
 		return $this;
@@ -219,13 +221,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Add an entry to the list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $group
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function addGroup(string $group): DocumentAccess {
+	public function addGroup(string $group): IDocumentAccess {
 		$this->groups[] = $group;
 
 		return $this;
@@ -235,11 +237,11 @@ final class DocumentAccess implements JsonSerializable {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $groups
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
 	public function addGroups(array $groups) {
 		$this->groups = array_merge($this->groups, $groups);
@@ -250,7 +252,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the complete list of groups that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -262,13 +264,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setCircles(array $circles): DocumentAccess {
+	public function setCircles(array $circles): IDocumentAccess {
 		$this->circles = $circles;
 
 		return $this;
@@ -277,13 +279,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Add an entry to the list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param string $circle
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function addCircle(string $circle): DocumentAccess {
+	public function addCircle(string $circle): IDocumentAccess {
 		$this->circles[] = $circle;
 
 		return $this;
@@ -293,13 +295,13 @@ final class DocumentAccess implements JsonSerializable {
 	 * Add multiple entries to the list of groups that have read access to the
 	 * document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $circles
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function addCircles(array $circles): DocumentAccess {
+	public function addCircles(array $circles): IDocumentAccess {
 		$this->circles = array_merge($this->circles, $circles);
 
 		return $this;
@@ -308,7 +310,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the complete list of circles that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -320,13 +322,13 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Set the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @param array $links
 	 *
-	 * @return DocumentAccess
+	 * @return IDocumentAccess
 	 */
-	public function setLinks(array $links): DocumentAccess {
+	public function setLinks(array $links): IDocumentAccess {
 		$this->links = $links;
 
 		return $this;
@@ -335,7 +337,7 @@ final class DocumentAccess implements JsonSerializable {
 	/**
 	 * Get the list of links that have read access to the document.
 	 *
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */
@@ -345,7 +347,7 @@ final class DocumentAccess implements JsonSerializable {
 
 
 	/**
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 *
 	 * @return array
 	 */

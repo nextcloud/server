@@ -31,9 +31,9 @@ declare(strict_types=1);
 namespace OCP\FullTextSearch;
 
 
-use OCP\FullTextSearch\Model\DocumentAccess;
+use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
-use OCP\FullTextSearch\Model\IndexDocument;
+use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\FullTextSearch\Model\ISearchResult;
 
@@ -190,11 +190,11 @@ interface IFullTextSearchPlatform {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 *
 	 * @return IIndex
 	 */
-	public function indexDocument(IndexDocument $document): IIndex;
+	public function indexDocument(IIndexDocument $document): IIndex;
 
 
 	/**
@@ -204,9 +204,9 @@ interface IFullTextSearchPlatform {
 	 * @since 15.0.0
 	 *
 	 * @param ISearchResult $result
-	 * @param DocumentAccess $access
+	 * @param IDocumentAccess $access
 	 */
-	public function searchRequest(ISearchResult $result, DocumentAccess $access);
+	public function searchRequest(ISearchResult $result, IDocumentAccess $access);
 
 
 	/**
@@ -218,9 +218,9 @@ interface IFullTextSearchPlatform {
 	 * @param string $providerId
 	 * @param string $documentId
 	 *
-	 * @return IndexDocument
+	 * @return IIndexDocument
 	 */
-	public function getDocument(string $providerId, string $documentId): IndexDocument;
+	public function getDocument(string $providerId, string $documentId): IIndexDocument;
 
 
 }
