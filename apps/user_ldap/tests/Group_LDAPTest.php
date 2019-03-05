@@ -39,7 +39,6 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
-use function SebastianBergmann\GlobalState\functions;
 use Test\TestCase;
 
 /**
