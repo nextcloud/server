@@ -16,7 +16,7 @@ Feature: app-comments
     And I see a comment with "Hello world" as message
     When I open the details view for "Folder"
     # The "Comments" tab should already be opened
-    Then I see that there are no comments
+#    Then I see that there are no comments
 
   Scenario: write a comment in a file right after writing a comment in another file
     Given I am logged in
