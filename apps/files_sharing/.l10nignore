@@ -1,2 +1,6 @@
 #webpack bundled files
 js/additionalScripts.js
+js/dist/additionalScripts.js
+js/dist/files_sharing.js
+js/dist/files_sharing2.js
+js/dist/files_sharing3.js
