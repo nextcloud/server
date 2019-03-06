@@ -365,6 +365,7 @@ class User implements IUser {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
 		if ($oldStatus !== $this->enabled) {
+			// TODO: First change the value, then trigger the event as done for all other properties.
 			$this->triggerChange('enabled', $enabled, $oldStatus);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 		}
