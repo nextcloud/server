@@ -41,7 +41,7 @@
 			:key="previousFile.path"
 			:mime="previousFile.mime"
 			:path="previousFile.path"
-			class="hidden-visually"
+			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<error
 			v-else
@@ -56,6 +56,7 @@
 			:mime="currentFile.mime"
 			:path="currentFile.path"
 			:active="true"
+			class="file-view"
 			@loaded="doneLoading"
 			@error="currentFailed" />
 		<error
@@ -70,7 +71,7 @@
 			:key="nextFile.path"
 			:mime="nextFile.mime"
 			:path="nextFile.path"
-			class="hidden-visually"
+			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<error
 			v-else
@@ -438,5 +439,10 @@ export default {
 // force white icon
 .icon-share-white-forced {
 	background-image: url('~Assets/share-white.svg');
+}
+
+.file-view {
+	transition: height 100ms ease,
+		width 100ms ease;
 }
 </style>

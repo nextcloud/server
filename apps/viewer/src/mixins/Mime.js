@@ -67,7 +67,7 @@ export default {
 			const modalContainer = this.$parent.$el.querySelector('#modal-wrapper')
 			if (modalContainer) {
 				// ! modal container have maxHeight:80% AND maxWidth: 900px
-				const parentHeight = Math.round(modalContainer.clientHeight * 0.8)
+				const parentHeight = Math.round(modalContainer.clientHeight * 0.8) - 50 // minus header
 				const parentWidth = modalContainer.clientWidth > 900
 					? 900
 					: modalContainer.clientWidth
