@@ -660,7 +660,7 @@ class Manager implements IManager {
 
 		// Pre share event
 		$event = new GenericEvent($share);
-		$a = $this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
+		$this->eventDispatcher->dispatch('OCP\Share::preShare', $event);
 		if ($event->isPropagationStopped() && $event->hasArgument('error')) {
 			throw new \Exception($event->getArgument('error'));
 		}
