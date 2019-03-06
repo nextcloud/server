@@ -112,8 +112,11 @@ class Installer {
 			);
 		}
 
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		$ignoreMax = in_array($appId, $ignoreMaxApps);
+
 		$version = implode('.', \OCP\Util::getVersion());
-		if (!\OC_App::isAppCompatible($version, $info)) {
+		if (!\OC_App::isAppCompatible($version, $info, $ignoreMax)) {
 			throw new \Exception(
 				// TODO $l
 				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
@@ -123,7 +126,7 @@ class Installer {
 		}
 
 		// check for required dependencies
-		\OC_App::checkAppDependencies($this->config, $l, $info);
+		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
 		\OC_App::registerAutoloading($appId, $basedir);
 
 		//install the database

@@ -93,11 +93,8 @@ class AppFetcher extends Fetcher {
 						$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
 						$ncVersion = $this->getVersion();
 						$min = $version->getMinimumVersion();
-						$max = $version->getMaximumVersion();
 						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
-						$maxFulfilled = $max !== '' &&
-							$this->compareVersion->isCompatible($ncVersion, $max, '<=');
-						if ($minFulfilled && $maxFulfilled) {
+						if ($minFulfilled) {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
@@ -113,19 +110,14 @@ class AppFetcher extends Fetcher {
 			}
 			usort($versions, 'version_compare');
 			$versions = array_reverse($versions);
-			$compatible = false;
 			if(isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
 					if ((string)$release['version'] === (string)$highestVersion) {
-						$compatible = true;
 						$response['data'][$dataKey]['releases'] = [$release];
 						break;
 					}
 				}
-			}
-			if(!$compatible) {
-				unset($response['data'][$dataKey]);
 			}
 		}
 
@@ -134,13 +126,7 @@ class AppFetcher extends Fetcher {
 	}
 
 	private function setEndpoint() {
-		$versionArray = explode('.', $this->getVersion());
-		$this->endpointUrl = sprintf(
-			'https://apps.nextcloud.com/api/v1/platform/%d.%d.%d/apps.json',
-			$versionArray[0],
-			$versionArray[1],
-			$versionArray[2]
-		);
+		$this->endpointUrl = 'https://apps.nextcloud.com/api/v1/apps.json';
 	}
 
 	/**
