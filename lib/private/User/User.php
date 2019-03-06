@@ -138,11 +138,12 @@ class User implements IUser {
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
+		$oldDisplayName = $this->getDisplayName();
 		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName)) {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
-				$this->triggerChange('displayName', $displayName);
+				$this->triggerChange('displayName', $displayName, $oldDisplayName);
 			}
 			return $result !== false;
 		} else {
@@ -365,7 +366,7 @@ class User implements IUser {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
 		if ($oldStatus !== $this->enabled) {
-			$this->triggerChange('enabled', $enabled);
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 		}
 	}
@@ -409,7 +410,7 @@ class User implements IUser {
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		if($quota !== $oldQuota) {
-			$this->triggerChange('quota', $quota);
+			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 	}
 

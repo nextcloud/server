@@ -436,7 +436,7 @@ class User {
 			if (!empty($oldName) && $user instanceof \OC\User\User) {
 				// if it was empty, it would be a new record, not a change emitting the trigger could
 				// potentially cause a UniqueConstraintViolationException, depending on some factors.
-				$user->triggerChange('displayName', $displayName);
+				$user->triggerChange('displayName', $displayName, $oldName);
 			}
 		}
 		return $displayName;
