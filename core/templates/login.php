@@ -61,7 +61,7 @@ use OC\Core\Controller\LoginController;
 
 		<?php if (!empty($_[LoginController::LOGIN_MSG_INVALIDPASSWORD])) { ?>
 			<p class="warning wrongPasswordMsg">
-				<?php p($l->t('Wrong password.')); ?>
+				<?php p($l->t('Wrong username or password.')); ?>
 			</p>
 		<?php } else if (!empty($_[LoginController::LOGIN_MSG_USERDISABLED])) { ?>
 			<p class="warning userDisabledMsg">
