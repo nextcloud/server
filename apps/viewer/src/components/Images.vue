@@ -34,6 +34,7 @@
 import mime from 'Mixins/Mime'
 import axios from 'axios'
 import Vue from 'vue'
+import debounce from 'debounce'
 import AsyncComputed from 'vue-async-computed'
 
 Vue.use(AsyncComputed)
@@ -51,7 +52,13 @@ export default {
 			return this.getBase64FromImage()
 		}
 	},
+	mounted() {
+		window.addEventListener('resize', debounce(() => {
+			this.updateImgSize()
+		}, 100))
+	},
 	methods: {
+		// Updates the dimensions of the modal
 		updateImgSize() {
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
@@ -64,6 +71,7 @@ export default {
 
 			this.doneLoading()
 		},
+
 		/**
 		 * Manually retrieve the path and return its base64
 		 *
