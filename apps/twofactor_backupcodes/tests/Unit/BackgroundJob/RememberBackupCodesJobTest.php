@@ -114,6 +114,34 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
+	public function testNoActiveProvider() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('validUID');
+		$this->userManager->method('get')
+			->with('validUID')
+			->willReturn($user);
+
+		$this->registry->method('getProviderStates')
+			->with($user)
+			->willReturn([
+				'backup_codes' => false,
+				'foo' => false,
+			]);
+
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(
+				RememberBackupCodesJob::class,
+				['uid' => 'validUID']
+			);
+
+		$this->notificationManager->expects($this->never())
+			->method($this->anything());
+
+		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+	}
+
 	public function testNotificationSend() {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -125,7 +153,8 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->registry->method('getProviderStates')
 			->with($user)
 			->willReturn([
-				'backup_codes' => false
+				'backup_codes' => false,
+				'foo' => true,
 			]);
 
 		$this->jobList->expects($this->never())

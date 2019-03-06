@@ -30,6 +30,7 @@ use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
 use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
 use OCA\TwoFactorBackupCodes\Listener\IListener;
+use OCA\TwoFactorBackupCodes\Listener\ProviderDisabled;
 use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
@@ -79,6 +80,12 @@ class Application extends App {
 		$eventDispatcher->addListener(IRegistry::EVENT_PROVIDER_ENABLED, function(RegistryEvent $event) use ($container) {
 			/** @var IListener $listener */
 			$listener = $container->query(ProviderEnabled::class);
+			$listener->handle($event);
+		});
+
+		$eventDispatcher->addListener(IRegistry::EVENT_PROVIDER_DISABLED, function(RegistryEvent $event) use ($container) {
+			/** @var IListener $listener */
+			$listener = $container->query(ProviderDisabled::class);
 			$listener->handle($event);
 		});
 	}
