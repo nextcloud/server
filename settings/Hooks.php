@@ -224,7 +224,7 @@ class Hooks {
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 */
-	public function addUserToGroup(IGroup $group, IUser $user): void {
+	public function addUserToGroup(IGroup $group, IUser $user) {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
 		$usersToNotify[] = $user;
@@ -261,7 +261,7 @@ class Hooks {
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 */
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
+	public function removeUserFromGroup(IGroup $group, IUser $user) {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
 		$usersToNotify[] = $user;

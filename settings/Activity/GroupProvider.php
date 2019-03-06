@@ -37,8 +37,8 @@ use OCP\L10N\IFactory as L10nFactory;
 
 class GroupProvider implements IProvider {
 
-	public const ADDED_TO_GROUP = 'group_added';
-	public const REMOVED_FROM_GROUP = 'group_removed';
+	const ADDED_TO_GROUP = 'group_added';
+	const REMOVED_FROM_GROUP = 'group_removed';
 
 	/** @var L10nFactory */
 	private $l10n;
@@ -132,7 +132,7 @@ class GroupProvider implements IProvider {
 	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+	protected function setSubjects(IEvent $event, string $subject, array $parameters) {
 		$placeholders = $replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';

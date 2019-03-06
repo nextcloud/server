@@ -44,7 +44,6 @@ use OCP\AppFramework\App;
 use OCP\Defaults;
 use OCP\IContainer;
 use OCP\IGroup;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
@@ -136,14 +135,14 @@ class Application extends App {
 		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}
 
-	public function addUserToGroup(IGroup $group, IUser $user): void {
+	public function addUserToGroup(IGroup $group, IUser $user) {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->addUserToGroup($group, $user);
 		
 	}
 
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
+	public function removeUserFromGroup(IGroup $group, IUser $user) {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->removeUserFromGroup($group, $user);
