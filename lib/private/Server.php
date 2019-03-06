@@ -497,8 +497,6 @@ class Server extends ServerContainer implements IServerContainer {
 				ArrayCache::class
 			);
 			$config = $c->getConfig();
-			$request = $c->getRequest();
-			$urlGenerator = new URLGenerator($config, $arrayCacheFactory, $request);
 
 			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
@@ -970,8 +968,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC_Defaults();
 		});
 		$this->registerService(SCSSCacher::class, function (Server $c) {
-			/** @var Factory $cacheFactory */
-			$cacheFactory = $c->query(Factory::class);
 			return new SCSSCacher(
 				$c->getLogger(),
 				$c->query(\OC\Files\AppData\Factory::class),
@@ -985,8 +981,6 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
-			/** @var Factory $cacheFactory */
-			$cacheFactory = $c->query(Factory::class);
 			return new JSCombiner(
 				$c->getAppDataDir('js'),
 				$c->getURLGenerator(),
