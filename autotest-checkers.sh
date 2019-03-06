@@ -28,10 +28,7 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
         [ "$app" == "files_sharing" ] || \
         [ "$app" == "files_trashbin" ] || \
         [ "$app" == "files_versions" ] || \
-        [ "$app" == "lookup_server_connector" ] || \
         [ "$app" == "provisioning_api" ] || \
-        [ "$app" == "testing" ] || \
-        [ "$app" == "twofactor_backupcodes" ] || \
         [ "$app" == "updatenotification" ] || \
         [ "$app" == "user_ldap" ]
     then
