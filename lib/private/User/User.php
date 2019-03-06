@@ -158,12 +158,12 @@ class User implements IUser {
 	 */
 	public function setEMailAddress($mailAddress) {
 		$oldMailAddress = $this->getEMailAddress();
-		if($mailAddress === '') {
-			$this->config->deleteUserValue($this->uid, 'settings', 'email');
-		} else {
-			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
-		}
 		if($oldMailAddress !== $mailAddress) {
+			if($mailAddress === '') {
+				$this->config->deleteUserValue($this->uid, 'settings', 'email');
+			} else {
+				$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+			}
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -407,8 +407,8 @@ class User implements IUser {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
-		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		if($quota !== $oldQuota) {
+			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 	}
