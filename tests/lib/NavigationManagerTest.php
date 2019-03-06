@@ -301,7 +301,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['route' => 'test.page.index', 'name' => 'Test']
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test']
+					]
 				]]
 			],
 			'minimalistic-settings' => [
@@ -320,9 +322,11 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
-				]
-				]],
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
+					],
+				]]
+			],
 			'admin' => [
 				array_merge(
 					['settings' => $defaults['settings']],
@@ -340,7 +344,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
+					'navigation' => [
+						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
+					],
 				]],
 				true
 			],
@@ -351,7 +357,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
+					'navigation' => [
+						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
+					],
 				]],
 				true
 			],

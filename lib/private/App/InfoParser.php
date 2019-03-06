@@ -52,7 +52,7 @@ class InfoParser {
 			return null;
 		}
 
-		if(!is_null($this->cache)) {
+		if ($this->cache !== null) {
 			$fileCacheKey = $file . filemtime($file);
 			if ($cachedValue = $this->cache->get($fileCacheKey)) {
 				return json_decode($cachedValue, true);
@@ -205,10 +205,22 @@ class InfoParser {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
 
-		if(!is_null($this->cache)) {
+		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
+			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
+		}
+
+		if ($this->cache !== null) {
 			$this->cache->set($fileCacheKey, json_encode($array));
 		}
 		return $array;
+	}
+
+	/**
+	 * @param $data
+	 * @return bool
+	 */
+	private function isNavigationItem($data): bool {
+		return isset($data['name'], $data['route']);
 	}
 
 	/**
