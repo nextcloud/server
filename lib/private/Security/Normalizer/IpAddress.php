@@ -68,6 +68,9 @@ class IpAddress {
 	 * @return string
 	 */
 	private function getIPv6Subnet(string $ip, int $maskBits = 48): string {
+		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
+			$ip = substr($ip, 1, strlen($ip) - 2);
+		}
 		$binary = \inet_pton($ip);
 		for ($i = 128; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
