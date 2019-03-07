@@ -98,16 +98,27 @@ class Group_LDAPTest extends TestCase {
 	public function testCountEmptySearchString() {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
+		$groupDN = 'cn=group,dc=foo,dc=bar';
 
 		$this->enableGroups($access);
 
 		$access->expects($this->any())
 			->method('groupname2dn')
-			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
+			->will($this->returnValue($groupDN));
 
 		$access->expects($this->any())
 			->method('readAttribute')
-			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
+			->willReturnCallback(function($dn) use ($groupDN) {
+				if($dn === $groupDN) {
+					return [
+						'uid=u11,ou=users,dc=foo,dc=bar',
+						'uid=u22,ou=users,dc=foo,dc=bar',
+						'uid=u33,ou=users,dc=foo,dc=bar',
+						'uid=u34,ou=users,dc=foo,dc=bar'
+					];
+				}
+				return [];
+			});
 
 		// for primary groups
 		$access->expects($this->once())
@@ -132,7 +143,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('fetchListOfUsers')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$access->expects($this->any())
 			->method('readAttribute')
@@ -145,7 +156,7 @@ class Group_LDAPTest extends TestCase {
 				if(strpos($name, 'u') === 0) {
 					return strpos($name, '3');
 				}
-				return array('u11', 'u22', 'u33', 'u34');
+				return ['u11', 'u22', 'u33', 'u34'];
 			}));
 
 		$access->expects($this->any())
@@ -625,7 +636,7 @@ class Group_LDAPTest extends TestCase {
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
-		$access->expects($this->exactly(3))
+		$access->expects($this->exactly(1))
 			->method('groupsMatchFilter')
 			->will($this->returnArgument(0));
 
@@ -659,14 +670,15 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('username2dn')
 			->will($this->returnValue($dn));
-
 		$access->expects($this->never())
 			->method('readAttribute')
 			->with($dn, 'memberOf');
-
 		$access->expects($this->once())
 			->method('nextcloudGroupNames')
 			->will($this->returnValue([]));
+		$access->expects($this->any())
+			->method('groupsMatchFilter')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groupBackend->getUserGroups('userX');
@@ -680,12 +692,15 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
-				if($name === 'useMemberOfToDetectMembership') {
-					return 0;
-				} else if($name === 'ldapDynamicGroupMemberURL') {
-					return '';
-				} else if($name === 'ldapNestedGroups') {
-					return false;
+				switch($name) {
+					case 'useMemberOfToDetectMembership':
+						return 0;
+					case 'ldapDynamicGroupMemberURL':
+						return '';
+					case 'ldapNestedGroups':
+						return false;
+					case 'ldapGroupMemberAssocAttr':
+						return 'member';
 				}
 				return 1;
 			}));
@@ -716,10 +731,12 @@ class Group_LDAPTest extends TestCase {
 			->method('nextcloudGroupNames')
 			->with([$group1, $group2])
 			->will($this->returnValue(['group1', 'group2']));
-
 		$access->expects($this->once())
 			->method('fetchListOfGroups')
 			->will($this->returnValue([$group1, $group2]));
+		$access->expects($this->any())
+			->method('groupsMatchFilter')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');
@@ -999,14 +1016,6 @@ class Group_LDAPTest extends TestCase {
 				$groups1,
 				['cn=Birds,' . $base => $groups1]
 			],
-			[ #2 – test uids with nested groups
-				'cn=Birds,' . $base,
-				$expGroups2,
-				[
-					'cn=Birds,' . $base => $groups1,
-					'8427' => $groups2Nested, // simplified - nested groups would work with DNs
-				],
-			],
 		];
 	}
 
@@ -1045,9 +1054,7 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
 
-		$expected = array_keys(array_flip($expectedMembers));
-
-		$this->assertEquals($expected, array_keys($resultingMembers), '', 0.0, 10, true);
+		$this->assertEquals($expectedMembers, $resultingMembers, '', 0.0, 10, true);
 	}
 
 }
