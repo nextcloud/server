@@ -506,6 +506,8 @@ export default {
 		width: auto !important;
 		border-radius: 0 !important;
 		background-color: white;
+		justify-content: center;
+		align-items: center;
 	}
 
 	// dark bg while loading to avoid flashing white screen

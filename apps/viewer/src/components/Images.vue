@@ -22,12 +22,17 @@
 
 <template>
 	<img
+		:class="{zoomed: zoomRatio !== 1}"
 		:src="data"
 		:style="{
-			height: height + 'px',
-			width: width + 'px'
+			height: zoomHeight + 'px',
+			width: zoomWidth + 'px',
+			marginTop: shiftY + 'px',
+			marginLeft: shiftX + 'px'
 		}"
-		@load="updateImgSize">
+		@load="updateImgSize"
+		@wheel="updateZoom"
+		@dblclick="resetZoom">
 </template>
 
 <script>
@@ -44,12 +49,35 @@ export default {
 	mixins: [
 		mime
 	],
+	data() {
+		return {
+			shiftX: 0,
+			shiftY: 0,
+			zoomRatio: 1
+		}
+	},
+	computed: {
+		zoomHeight() {
+			return Math.round(this.height * this.zoomRatio)
+		},
+		zoomWidth() {
+			return Math.round(this.width * this.zoomRatio)
+		}
+	},
 	asyncComputed: {
 		data() {
 			if (this.mime !== 'image/svg+xml') {
 				return this.path
 			}
 			return this.getBase64FromImage()
+		}
+	},
+	watch: {
+		active: function(val, old) {
+			// the item was hidden before and is now the current view
+			if (val === true && old === false) {
+				this.resetZoom()
+			}
 		}
 	},
 	mounted() {
@@ -80,6 +108,40 @@ export default {
 		async getBase64FromImage() {
 			const file = await axios.get(this.path)
 			return `data:${this.mime};base64,${btoa(file.data)}`
+		},
+
+		/**
+		 * Handle zooming
+		 *
+		 * @param {Event} event the scroll event
+		 */
+		updateZoom(event) {
+			event.stopPropagation()
+			event.preventDefault()
+
+			// scrolling position relative to the image
+			const scrollX = event.clientX - this.$el.x - (this.width * this.zoomRatio / 2)
+			const scrollY = event.clientY - this.$el.y - (this.height * this.zoomRatio / 2)
+			const scrollPercX = Math.round(scrollX / (this.width * this.zoomRatio) * 100) / 100
+			const scrollPercY = Math.round(scrollY / (this.height * this.zoomRatio) * 100) / 100
+			const isZoomIn = event.deltaY < 0
+
+			const newZoomRatio = isZoomIn
+				? Math.min(this.zoomRatio + 0.2, 5)		// prevent too big zoom
+				: Math.max(this.zoomRatio - 0.2, 1)		// prevent too small zoom
+
+			// calc how much the img grow from its current size
+			// and adjust the margin accordingly
+			const growX = this.width * newZoomRatio - this.width * this.zoomRatio
+			const growY = this.height * newZoomRatio - this.height * this.zoomRatio
+
+			// compensate for existing margins
+			this.shiftX = this.shiftX + Math.round(-scrollPercX * growX)
+			this.shiftY = this.shiftY + Math.round(-scrollPercY * growY)
+			this.zoomRatio = newZoomRatio
+		},
+		resetZoom() {
+			this.zoomRatio = 1
 		}
 	}
 }
@@ -94,6 +156,11 @@ img {
 	max-height: 100%;
 	align-self: center;
 	justify-self: center;
+	// animate zooming/resize
+	transition: height 100ms ease,
+		width 100ms ease,
+		margin-top 100ms ease,
+		margin-left 100ms ease;
 	&:hover {
 		background-image: linear-gradient(45deg, #{$checkered-color} 25%, transparent 25%),
 			linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
@@ -101,6 +168,12 @@ img {
 			linear-gradient(45deg, #{$checkered-color} 25%, #fff 25%);
 		background-size: 2 * $checkered-size 2 * $checkered-size;
 		background-position: 0 0, 0 0, -#{$checkered-size} -#{$checkered-size}, $checkered-size $checkered-size;
+	}
+	&.zoomed {
+		position: absolute;
+		max-height: none;
+		max-width: none;
+		z-index: 10000;
 	}
 }
 </style>
