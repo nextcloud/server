@@ -8,7 +8,7 @@ style('federatedfilesharing', 'settings-personal');
 <?php if ($_['outgoingServer2serverShareEnabled']): ?>
 	<div id="fileSharingSettings" class="section">
 		<h2 data-anchor-name="federated-cloud"><?php p($l->t('Federated Cloud')); ?></h2>
-		<p class="settings-hint"><?php p($l->t('You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')); ?></p>
+		<p class="settings-hint"><?php p($l->t('You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')); ?></p>
 
 		<p>
 			<?php p($l->t('Your Federated Cloud ID:')); ?>
