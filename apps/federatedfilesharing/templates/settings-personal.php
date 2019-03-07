@@ -28,10 +28,6 @@ style('federatedfilesharing', 'settings-personal');
 				data-url='https://twitter.com/intent/tweet?text=<?php p(urlencode($_['message_with_URL'])); ?>'>
 				Twitter
 			</button>
-			<button class="social-googleplus pop-up"
-				data-url='https://plus.google.com/share?url=<?php p(urlencode($_['reference'])); ?>'>
-				Google+
-			</button>
 			<button class="social-diaspora pop-up"
 					data-url='https://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
 				Diaspora
