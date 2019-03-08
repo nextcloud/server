@@ -254,6 +254,18 @@ class Definitions {
 					'description' => 'The full URL to the file',
 					'example' => 'http://localhost/index.php/f/42',
 				],
+				'mimetype' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
+				],
 			],
 		],
 		'highlight' => [
