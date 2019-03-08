@@ -77,7 +77,7 @@ class Application extends App {
 	}
 
 	/**
-	 * @param IManager $contactsManager
+	 * @param IContactsManager $contactsManager
 	 */
 	public function setupSystemContactsProvider(IContactsManager $contactsManager) {
 		/** @var ContactsManager $cm */

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +58,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param string $appNamespace
 	 */
-	public function registerNamespace($appName, $appNamespace) {
+	public function registerNamespace(string $appName, string $appNamespace): void {
 		// Cut of OCA\ and lowercase
 		$appNamespace = strtolower(substr($appNamespace, strrpos($appNamespace, '\\') + 1));
 		$this->namespaces[$appNamespace] = $appName;
@@ -67,8 +68,21 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param DIContainer $container
 	 */
-	public function registerAppContainer($appName, DIContainer $container) {
+	public function registerAppContainer(string $appName, DIContainer $container): void {
 		$this->appContainers[strtolower(App::buildAppNamespace($appName, ''))] = $container;
+	}
+
+	/**
+	 * @param string $appName
+	 * @return DIContainer
+	 * @throws QueryException
+	 */
+	public function getRegisteredAppContainer(string $appName): DIContainer {
+		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName, ''))])) {
+			return $this->appContainers[strtolower(App::buildAppNamespace($appName, ''))];
+		}
+
+		throw new QueryException();
 	}
 
 	/**
@@ -77,7 +91,7 @@ class ServerContainer extends SimpleContainer {
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer($namespace, $sensitiveNamespace) {
+	protected function getAppContainer(string $namespace, string $sensitiveNamespace): DIContainer {
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
