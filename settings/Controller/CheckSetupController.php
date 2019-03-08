@@ -628,6 +628,42 @@ Raw output
 		return $pendingColumns;
 	}
 
+	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
+		$objectStore = $this->config->getSystemValue('objectstore', null);
+		$objectStoreMultibucket = $this->config->getSystemValue('objectstore_multibucket', null);
+
+		if (!isset($objectStoreMultibucket) && !isset($objectStore)) {
+			return true;
+		}
+
+		if (isset($objectStoreMultibucket['class']) && $objectStoreMultibucket['class'] !== 'OC\\Files\\ObjectStore\\S3') {
+			return true;
+		}
+
+		if (isset($objectStore['class']) && $objectStore['class'] !== 'OC\\Files\\ObjectStore\\S3') {
+			return true;
+		}
+
+		$tempPath = sys_get_temp_dir();
+		if (!is_dir($tempPath)) {
+			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. value: ' . $tempPath);
+			return false;
+		}
+		$freeSpaceInTemp = disk_free_space($tempPath);
+		if ($freeSpaceInTemp === false) {
+			$this->logger->error('Error while checking the available disk space of temporary PHP path - no free disk space returned. temporary path: ' . $tempPath);
+			return false;
+		}
+
+		$freeSpaceInTempInGB = $freeSpaceInTemp / 1024 / 1024 / 1024;
+		if ($freeSpaceInTempInGB > 50) {
+			return true;
+		}
+
+		$this->logger->warning('Checking the available space in the temporary path resulted in ' . round($freeSpaceInTempInGB, 1) . ' GB instead of the recommended 50GB. Path: ' . $tempPath);
+		return false;
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -669,6 +705,7 @@ Raw output
 				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
+				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 			]
 		);
 	}
