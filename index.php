@@ -3,7 +3,7 @@
  *
  * Your webserver seems to be not configured to use PHP or PHP is not installed. 
  * Please contact your administrator or follow our documentation: 
- * https://docs.nextcloud.com/server/13/admin_manual/installation/source_installation.html 
+ * https://docs.nextcloud.com/server/15/admin_manual/installation/source_installation.html 
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
