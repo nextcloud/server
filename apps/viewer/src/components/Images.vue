@@ -114,6 +114,7 @@ export default {
 		 * Handle zooming
 		 *
 		 * @param {Event} event the scroll event
+		 * @returns {null}
 		 */
 		updateZoom(event) {
 			event.stopPropagation()
@@ -130,6 +131,11 @@ export default {
 				? Math.min(this.zoomRatio + 0.2, 5)		// prevent too big zoom
 				: Math.max(this.zoomRatio - 0.2, 1)		// prevent too small zoom
 
+			// do not continue, img is back to its original state
+			if (newZoomRatio === 1) {
+				return this.resetZoom()
+			}
+
 			// calc how much the img grow from its current size
 			// and adjust the margin accordingly
 			const growX = this.width * newZoomRatio - this.width * this.zoomRatio
@@ -140,8 +146,11 @@ export default {
 			this.shiftY = this.shiftY + Math.round(-scrollPercY * growY)
 			this.zoomRatio = newZoomRatio
 		},
+
 		resetZoom() {
 			this.zoomRatio = 1
+			this.shiftX = 0
+			this.shiftY = 0
 		}
 	}
 }
