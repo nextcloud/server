@@ -31,6 +31,8 @@ namespace OC\Settings;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OC\Settings\Activity\GroupProvider;
+use OC\Settings\Activity\GroupSetting;
 use OC\Settings\Activity\Provider;
 use OC\Settings\Activity\SecurityFilter;
 use OC\Settings\Activity\SecurityProvider;
@@ -41,6 +43,8 @@ use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
 use OCP\Defaults;
 use OCP\IContainer;
+use OCP\IGroup;
+use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -118,11 +122,30 @@ class Application extends App {
 		$activityManager->registerFilter(SecurityFilter::class); // FIXME move to info.xml
 		$activityManager->registerSetting(SecuritySetting::class); // FIXME move to info.xml
 		$activityManager->registerProvider(SecurityProvider::class); // FIXME move to info.xml
+		$activityManager->registerSetting(GroupSetting::class); // FIXME move to info.xml
+		$activityManager->registerProvider(GroupProvider::class); // FIXME move to info.xml
 
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 
+		$groupManager = $this->getContainer()->getServer()->getGroupManager();
+		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
+		$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
+
 		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
+	}
+
+	public function addUserToGroup(IGroup $group, IUser $user) {
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->addUserToGroup($group, $user);
+		
+	}
+
+	public function removeUserFromGroup(IGroup $group, IUser $user) {
+		/** @var Hooks $hooks */
+		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks->removeUserFromGroup($group, $user);
 	}
 
 	/**
