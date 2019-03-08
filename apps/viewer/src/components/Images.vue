@@ -26,7 +26,6 @@
 			dragging,
 			zoomed: zoomRatio !== 1
 		}"
-		:draggable="true"
 		:src="data"
 		:style="{
 			height: zoomHeight + 'px',
@@ -34,12 +33,10 @@
 			marginTop: shiftY + 'px',
 			marginLeft: shiftX + 'px'
 		}"
-		@drag="dragHandler"
-		@dragstart="dragStart"
-		@dragend="dragEnd"
 		@load="updateImgSize"
 		@wheel="updateZoom"
-		@dblclick="resetZoom">
+		@dblclick="resetZoom"
+		@mousedown="dragStart">
 </template>
 
 <script>
@@ -89,9 +86,12 @@ export default {
 		}
 	},
 	mounted() {
+		// update image size on window resize
 		window.addEventListener('resize', debounce(() => {
 			this.updateImgSize()
 		}, 100))
+		// end the dragging if your mouse go out of the content
+		window.addEventListener('mouseout', this.dragEnd)
 	},
 	methods: {
 		// Updates the dimensions of the modal
@@ -165,25 +165,34 @@ export default {
 		 * Dragging handlers
 		 *
 		 * @param {Event} event the event
-		 * @returns {Boolean} false
 		 */
 		dragStart(event) {
-			// cursor hack
-			event.dataTransfer.effectAllowed = 'move'
-			this.dragX = event.pageX
-			this.dragY = event.pageY
+			event.preventDefault()
+			const { pageX, pageY } = event
+
+			this.dragX = pageX
+			this.dragY = pageY
 			this.dragging = true
-			return false
+			this.$el.onmouseup = this.dragEnd
+			this.$el.onmousemove = this.dragHandler
 		},
-		dragEnd() {
+		dragEnd(event) {
+			event.preventDefault()
+
 			this.dragging = false
+			this.$el.onmouseup = null
+			this.$el.onmousemove = null
 		},
-		dragHandler({ pageX, pageY }) {
-			if (this.zoomRatio > 1) {
+		dragHandler(event) {
+			event.preventDefault()
+			const { pageX, pageY } = event
+
+			if (this.dragging && this.zoomRatio > 1 && pageX > 0 && pageY > 0) {
 				const moveX = this.shiftX + (pageX - this.dragX)
 				const moveY = this.shiftY + (pageY - this.dragY)
 				const growX = this.zoomWidth - this.width
 				const growY = this.zoomHeight - this.height
+
 				this.shiftX = Math.min(Math.max(moveX, -growX / 2), growX / 2)
 				this.shiftY = Math.min(Math.max(moveY, -growY / 2), growX / 2)
 				this.dragX = pageX
@@ -220,7 +229,7 @@ img {
 		position: absolute;
 		max-height: none;
 		max-width: none;
-		z-index: 10000;
+		z-index: 10010;
 		cursor: move;
 	}
 
