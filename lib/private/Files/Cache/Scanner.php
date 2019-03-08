@@ -532,7 +532,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$callback();
 			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
 			if ($this->cacheActive && $this->cache instanceof Cache) {
-				$this->cache->correctFolderSize($path);
+				$this->cache->correctFolderSize($path, null, true);
 			}
 		} catch (\OCP\Files\StorageInvalidException $e) {
 			// skip unavailable storages
