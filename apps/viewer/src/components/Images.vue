@@ -22,7 +22,11 @@
 
 <template>
 	<img
-		:class="{zoomed: zoomRatio !== 1}"
+		:class="{
+			dragging,
+			zoomed: zoomRatio !== 1
+		}"
+		:draggable="true"
 		:src="data"
 		:style="{
 			height: zoomHeight + 'px',
@@ -30,6 +34,9 @@
 			marginTop: shiftY + 'px',
 			marginLeft: shiftX + 'px'
 		}"
+		@drag="dragHandler"
+		@dragstart="dragStart"
+		@dragend="dragEnd"
 		@load="updateImgSize"
 		@wheel="updateZoom"
 		@dblclick="resetZoom">
@@ -51,6 +58,7 @@ export default {
 	],
 	data() {
 		return {
+			dragging: false,
 			shiftX: 0,
 			shiftY: 0,
 			zoomRatio: 1
@@ -151,6 +159,36 @@ export default {
 			this.zoomRatio = 1
 			this.shiftX = 0
 			this.shiftY = 0
+		},
+
+		/**
+		 * Dragging handlers
+		 *
+		 * @param {Event} event the event
+		 * @returns {Boolean} false
+		 */
+		dragStart(event) {
+			// cursor hack
+			event.dataTransfer.effectAllowed = 'move'
+			this.dragX = event.pageX
+			this.dragY = event.pageY
+			this.dragging = true
+			return false
+		},
+		dragEnd() {
+			this.dragging = false
+		},
+		dragHandler({ pageX, pageY }) {
+			if (this.zoomRatio > 1) {
+				const moveX = this.shiftX + (pageX - this.dragX)
+				const moveY = this.shiftY + (pageY - this.dragY)
+				const growX = this.zoomWidth - this.width
+				const growY = this.zoomHeight - this.height
+				this.shiftX = Math.min(Math.max(moveX, -growX / 2), growX / 2)
+				this.shiftY = Math.min(Math.max(moveY, -growY / 2), growX / 2)
+				this.dragX = pageX
+				this.dragY = pageY
+			}
 		}
 	}
 }
@@ -183,6 +221,12 @@ img {
 		max-height: none;
 		max-width: none;
 		z-index: 10000;
+		cursor: move;
+	}
+
+	&.dragging {
+		transition: none !important;
+		cursor: move;
 	}
 }
 </style>
