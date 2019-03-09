@@ -609,7 +609,7 @@ class DefaultShareProvider implements IShareProvider {
 	 */
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
+		$qb->selectDistinct('*')
 			->from('share')
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),

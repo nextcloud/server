@@ -627,25 +627,45 @@ class ShareAPIController extends OCSController {
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $node, false, -1, 0));
-			if($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
+
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $node, true, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $node, true, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $node, true, -1, 0));
 				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, false, -1, 0));
+				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, true, -1, 0));
 			}
 			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $node, false, -1, 0));
+				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $node, true, -1, 0));
 			}
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $node, true, -1, 0));
 		}
 
-		$formatted = [];
+		$formatted = $miniFormatted = [];
+		$resharingRight = false;
+		$known = [];
 		foreach ($shares as $share) {
+			if (in_array($share->getId(), $known)) {
+				continue;
+			}
+
 			try {
-				$formatted[] = $this->formatShare($share);
-			} catch (NotFoundException $e) {
+				$format = $this->formatShare($share, $folder);
+
+				$known[] = $share->getId();
+				$formatted[] = $format;
+				if ($share->getSharedBy() === $this->currentUser) {
+					$miniFormatted[] = $format;
+				}
+				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $folder)) {
+					$resharingRight = true;
+				}
+			} catch (\Exception $e) {
 				//Ignore this share
 			}
+		}
+
+		if (!$resharingRight) {
+			$formatted = $miniFormatted;
 		}
 
 		return new DataResponse($formatted);
