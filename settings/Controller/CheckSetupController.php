@@ -289,7 +289,7 @@ class CheckSetupController extends Controller {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');
 
-		if (empty($trustedProxies) && $this->request->getHeader('X-Forwarded-Host')) {
+		if ($trustedProxies === [] && $this->request->getHeader('X-Forwarded-Host') !== '') {
 			return false;
 		}
 
