@@ -226,8 +226,9 @@ export default {
 			return this.users.filter(user => user.enabled !== false);
 		},
 		groups() {
-			// data provided php side + remove the disabled group
+			// data provided php side + remove the disabled and the notGrouped group
 			return this.$store.getters.getGroups
+				.filter(group => group.id !== 'notGrouped')
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name));
 		},
