@@ -201,7 +201,18 @@ const actions = {
 	getUsers(context, { offset, limit, search, group }) {
 		search = typeof search === 'string' ? search : '';
 		group = typeof group === 'string' ? group : '';
-		if (group !== '') {
+		if (group === 'notGrouped') {
+			return api.get(OC.linkToOCS(`cloud/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+			.then((response) => {
+				if (Object.keys(response.data.ocs.data.users).length > 0) {
+					context.commit('appendUsers', response.data.ocs.data.users);
+					return true;
+				}
+				return false;
+			})
+			.catch((error) => context.commit('API_FAILURE', error));
+		}
+		else if (group !== '') {
 			return api.get(OC.linkToOCS(`cloud/groups/${group}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.users).length > 0) {

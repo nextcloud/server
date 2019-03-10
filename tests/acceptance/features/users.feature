@@ -58,6 +58,21 @@ Feature: users
 #    When I open the User settings
 #    Then I see that the section "Disabled users" is not shown
 
+  Scenario: users navigation without not grouped users
+    Given I act as Jane
+    And I am logged in as the admin
+    And I open the User settings
+    And I open the "Users w/o groups" section
+    And I see that the list of users contains only the user notGroupedUser
+    # disabled because we need the TAB patch:
+    # https://github.com/minkphp/MinkSelenium2Driver/pull/244
+    # When I assign the user notGroupedUser to the group admin
+    # Then I see that the section "Users w/o groups" is not shown
+    # check again after reloading the settings
+    # When I open the User settings
+    # Then I see that the section "Users w/o groups" is not shown
+
+
   Scenario: assign user to a group
     Given I act as Jane
     And I am logged in as the admin

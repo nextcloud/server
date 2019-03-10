@@ -187,11 +187,13 @@ class UsersController extends Controller {
 			});
 		}
 
+		$notGroupedUsers = 0;
 		if ($this->isAdmin) {
 			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsers();
 			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
 				return $v + (int)$w;
 			}, 0);
+			$notGroupedUsers = $this->userManager->countNotGroupedUsers();
 		} else {
 			// User is subadmin !
 			// Map group list to names to retrieve the countDisabledUsersOfGroups
@@ -217,6 +219,11 @@ class UsersController extends Controller {
 			'name' => 'Disabled users',
 			'usercount' => $disabledUsers
 		];
+		$notGroupedUsersGroup = [
+			'id' => 'notGrouped',
+			'name' => 'Users w/o groups',
+			'usercount' => $notGroupedUsers
+		];
 
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
@@ -235,7 +242,7 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = array();
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
+		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups, [$notGroupedUsersGroup]);
 		// Various data
 		$serverData['isAdmin'] = $this->isAdmin;
 		$serverData['sortGroups'] = $sortGroupsBy;
@@ -497,3 +504,4 @@ class UsersController extends Controller {
 		return base64_encode($signature);
 	}
 }
+

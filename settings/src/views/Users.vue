@@ -306,13 +306,15 @@ export default {
 			set: function(quota) {
 				this.selectedQuota =  quota;
 			}
-			
+
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
 		menu() {
 			// Data provided php side
 			let self = this;
+
+			// Entry: add "groups"
 			let groups = this.$store.getters.getGroups;
 			groups = Array.isArray(groups) ? groups : [];
 
@@ -338,7 +340,7 @@ export default {
 					item.utils.counter = group.usercount - group.disabled;
 				}
 
-				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
+				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin && item.id !== 'notGrouped') {
 					// add delete button on real groups
 					item.utils.actions = [{
 						icon: 'icon-delete',
@@ -352,7 +354,7 @@ export default {
 			});
 
 			// Every item is added on top of the array, so we're going backward
-			// Groups, separator, disabled, admin, everyone
+			// Groups, separator, no groups, separator, admin, disabled, everyone
 
 			// Add separator
 			let realGroups = groups.find((group) => {return group.id !== 'disabled' && group.id !== 'admin'});
@@ -366,7 +368,18 @@ export default {
 				groups.unshift(separator);
 			}
 
-			// Adjust admin and disabled groups
+			// Entry: adjust "no groups"
+			let notGroupedGroup = groups.find(group => group.id == 'notGrouped');
+
+			if (notGroupedGroup && notGroupedGroup.text) {
+				// filter out to re-add later to correct position
+				groups = groups.filter(group => notGroupedGroup != group);
+
+				notGroupedGroup.text = t('settings', 'Users w/o groups');							// rename notGrouped group
+				groups.unshift(notGroupedGroup);													// re-add notGrouped group
+			}
+
+			// Entry: adjust "admin and disabled groups"
 			let adminGroup = groups.find(group => group.id == 'admin');
 			let disabledGroup = groups.find(group => group.id == 'disabled');
 
@@ -390,7 +403,7 @@ export default {
 			}
 
 
-			// Add everyone group
+			// Entry: add "everyone group"
 			let everyoneGroup = {
 				id: 'everyone',
 				key: 'everyone',
@@ -398,6 +411,7 @@ export default {
 				router: {name:'users'},
 				text: t('settings', 'Everyone'),
 			};
+
 			// users count
 			if (this.userCount > 0) {
 				Vue.set(everyoneGroup, 'utils', {
@@ -406,6 +420,7 @@ export default {
 			}
 			groups.unshift(everyoneGroup);
 
+			// Entry: add "add group"
 			let addGroup = {
 				id: 'addgroup',
 				key: 'addgroup',

@@ -496,6 +496,37 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * returns how many enabled users have no groups
+	 *
+	 * @return int
+	 * @since 1?.0.0
+	 */
+	public function countNotGroupedUsers(): int {
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder->select($queryBuilder->func()->count('*'))
+			->from('accounts', 'a')
+			->leftJoin('a', 'group_user', 'g',  $queryBuilder->expr()->eq('a.uid', 'g.uid'))
+			->innerJoin('a', 'preferences', 'p', $queryBuilder->expr()->eq('a.uid', 'p.userid'))
+			->where($queryBuilder->expr()->isNull('g.uid'))
+			->andWhere($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
+			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
+			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('true'), IQueryBuilder::PARAM_STR));
+
+
+		$result = $queryBuilder->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+
+		if ($count !== false) {
+			$count = (int)$count;
+		} else {
+			$count = 0;
+		}
+
+		return $count;
+	}
+
+	/**
 	 * returns how many users have logged in once
 	 *
 	 * @return int

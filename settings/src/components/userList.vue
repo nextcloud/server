@@ -210,6 +210,15 @@ export default {
 				}
 				return disabledUsers;
 			}
+			else if (this.selectedGroup === 'notGrouped') {
+				let noGroupsUsers = this.users.filter(user => user.groups.length === 0 && user.enabled === true);
+				if (noGroupsUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
+					// noGroups group is empty, redirection to all users
+					this.$router.push({name: 'users'});
+					this.$refs.infiniteLoading.stateChanger.reset()
+				}
+				return noGroupsUsers;
+			}
 			if (!this.settings.isAdmin) {
 				// we don't want subadmins to edit themselves
 				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
@@ -406,3 +415,4 @@ export default {
 	}
 }
 </script>
+
