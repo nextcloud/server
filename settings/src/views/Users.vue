@@ -306,7 +306,7 @@ export default {
 			set: function(quota) {
 				this.selectedQuota =  quota;
 			}
-
+			
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
