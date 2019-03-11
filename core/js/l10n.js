@@ -167,7 +167,7 @@ OC.L10N = {
 	 * @private
 	 */
 	_getPlural: function(number) {
-		var locale = OC.getLocale();
+		var locale = OC.getLanguage();
 		if ('pt_BR' === locale) {
 			// temporary set a locale for brazilian
 			locale = 'xbr';
