@@ -193,7 +193,7 @@ class UsersController extends Controller {
 			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
 				return $v + (int)$w;
 			}, 0);
-			$notGroupedUsers = $this->userManager->countNotGroupedUsers();
+			$notGroupedUsers = $isLDAPUsed ? -1 : $this->userManager->countNotGroupedUsers();
 		} else {
 			// User is subadmin !
 			// Map group list to names to retrieve the countDisabledUsersOfGroups
