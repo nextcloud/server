@@ -631,7 +631,7 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $node, true, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $node, true, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $node, true, -1, 0));
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, false, -1, 0));
+			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
 				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, true, -1, 0));
 			}
 			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
