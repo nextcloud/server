@@ -30,6 +30,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\AppFramework\App;
 use OCP\Route\IRouter;
 
 /**
@@ -155,8 +156,21 @@ class RouteConfig {
 
 			$controllerName = $this->buildControllerName($controller);
 			$actionName = $this->buildActionName($action);
+			$appName = $simpleRoute['app'] ?? $this->appName;
 
-			$routeName = $this->appName . '.' . $controller . '.' . $action . $postfix;
+			if (isset($simpleRoute['app'])) {
+				// Legacy routes that need to be globally available while they are handled by an app
+				// E.g. '/f/{id}', '/s/{token}', '/call/{token}', …
+				$controllerName = str_replace('controllerController', 'Controller', $controllerName);
+				if ($controllerName === 'PublicpreviewController') {
+					$controllerName = 'PublicPreviewController';
+				} else if ($controllerName === 'RequesthandlerController') {
+					$controllerName = 'RequestHandlerController';
+				}
+				$controllerName = App::buildAppNamespace($appName) . '\\Controller\\' . $controllerName;
+			}
+
+			$routeName = $appName . '.' . $controller . '.' . $action . $postfix;
 
 			// register the route
 			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);

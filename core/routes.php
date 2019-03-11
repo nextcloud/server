@@ -78,6 +78,17 @@ $application->registerRoutes($this, [
 		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
 		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
+
+		// Legacy routes that need to be globally available while they are handled by an app
+		['name' => 'viewcontroller#showFile', 'url' => '/f/{fileid}', 'verb' => 'GET', 'app' => 'files'],
+		['name' => 'sharecontroller#showShare', 'url' => '/s/{token}', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'sharecontroller#showAuthenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'sharecontroller#authenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'POST', 'app' => 'files_sharing'],
+		['name' => 'sharecontroller#downloadShare', 'url' => '/s/{token}/download', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'publicpreview#directLink', 'url' => '/s/{token}/preview', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'requesthandlercontroller#addShare', 'url' => '/ocm/shares', 'verb' => 'POST', 'app' => 'cloud_federation_api'],
+		['name' => 'requesthandlercontroller#receiveNotification', 'url' => '/ocm/notifications', 'verb' => 'POST', 'app' => 'cloud_federation_api'],
+		['name' => 'pagecontroller#showCall', 'url' => '/call/{token}', 'verb' => 'GET', 'app' => 'spreed'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -109,93 +120,3 @@ $application->registerRoutes($this, [
 // Routing
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
-
-// File routes
-$this->create('files.viewcontroller.showFile', '/f/{fileid}')->action(function($urlParams) {
-	$app = new \OCA\Files\AppInfo\Application($urlParams);
-	$app->dispatch('ViewController', 'index');
-});
-
-// Call routes
-/**
- * @suppress PhanUndeclaredClassConstant
- * @suppress PhanUndeclaredClassMethod
- */
-$this->create('spreed.pagecontroller.showCall', '/call/{token}')->action(function($urlParams) {
-	if (class_exists(\OCA\Spreed\AppInfo\Application::class, false)) {
-		$app = new \OCA\Spreed\AppInfo\Application($urlParams);
-		$app->dispatch('PageController', 'index');
-	} else {
-		throw new \OC\HintException('App spreed is not enabled');
-	}
-});
-
-// OCM routes
-/**
- * @suppress PhanUndeclaredClassConstant
- * @suppress PhanUndeclaredClassMethod
- */
-$this->create('cloud_federation_api.requesthandlercontroller.addShare', '/ocm/shares')->post()->action(function($urlParams) {
-	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
-		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
-		$app->dispatch('RequestHandlerController', 'addShare');
-	} else {
-		throw new \OC\HintException('Cloud Federation API not enabled');
-	}
-});
-
-/**
- * @suppress PhanUndeclaredClassConstant
- * @suppress PhanUndeclaredClassMethod
- */
-$this->create('cloud_federation_api.requesthandlercontroller.receiveNotification', '/ocm/notifications')->post()->action(function($urlParams) {
-	if (class_exists(\OCA\CloudFederationAPI\AppInfo\Application::class, false)) {
-		$app = new \OCA\CloudFederationAPI\AppInfo\Application($urlParams);
-		$app->dispatch('RequestHandlerController', 'receiveNotification');
-	} else {
-		throw new \OC\HintException('Cloud Federation API not enabled');
-	}
-});
-
-
-// Sharing routes
-$this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
-	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
-		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
-		$app->dispatch('ShareController', 'showShare');
-	} else {
-		throw new \OC\HintException('App file sharing is not enabled');
-	}
-});
-$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate/{redirect}')->post()->action(function($urlParams) {
-	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
-		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
-		$app->dispatch('ShareController', 'authenticate');
-	} else {
-		throw new \OC\HintException('App file sharing is not enabled');
-	}
-});
-$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate/{redirect}')->get()->action(function($urlParams) {
-	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
-		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
-		$app->dispatch('ShareController', 'showAuthenticate');
-	} else {
-		throw new \OC\HintException('App file sharing is not enabled');
-	}
-});
-$this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/download')->get()->action(function($urlParams) {
-	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
-		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
-		$app->dispatch('ShareController', 'downloadShare');
-	} else {
-		throw new \OC\HintException('App file sharing is not enabled');
-	}
-});
-$this->create('files_sharing.publicpreview.directLink', '/s/{token}/preview')->get()->action(function($urlParams) {
-	if (class_exists(\OCA\Files_Sharing\AppInfo\Application::class, false)) {
-		$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
-		$app->dispatch('PublicPreviewController', 'directLink');
-	} else {
-		throw new \OC\HintException('App file sharing is not enabled');
-	}
-});
