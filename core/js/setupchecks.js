@@ -466,10 +466,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.',
-								{
-									docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
-								}
+								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
