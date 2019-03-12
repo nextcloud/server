@@ -31,6 +31,7 @@ namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http\ICallbackResponse;
@@ -81,6 +82,7 @@ class App {
 	 * @param string $methodName the method that you want to call
 	 * @param DIContainer $container an instance of a pimple container.
 	 * @param array $urlParams list of URL parameters (optional)
+	 * @throws HintException
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
@@ -94,6 +96,12 @@ class App {
 		try {
 			$controller = $container->query($controllerName);
 		} catch(QueryException $e) {
+			if (strpos($controllerName, '\\Controller\\') !== false) {
+				// This is from a global registered app route that is not enabled.
+				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
+				throw new HintException('App ' . strtolower($app) . ' is not enabled');
+			}
+
 			if ($appName === 'core') {
 				$appNameSpace = 'OC\\Core';
 			} else if ($appName === 'settings') {
