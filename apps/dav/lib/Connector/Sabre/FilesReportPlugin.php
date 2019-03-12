@@ -25,6 +25,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OCP\App\IAppManager;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\ServerPlugin;
@@ -98,6 +99,11 @@ class FilesReportPlugin extends ServerPlugin {
 	private $userFolder;
 
 	/**
+	 * @var IAppManager
+	 */
+	private $appManager;
+
+	/**
 	 * @param Tree $tree
 	 * @param View $view
 	 * @param ISystemTagManager $tagManager
@@ -106,6 +112,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param Folder $userFolder
+	 * @param IAppManager $appManager
 	 */
 	public function __construct(Tree $tree,
 								View $view,
@@ -114,7 +121,8 @@ class FilesReportPlugin extends ServerPlugin {
 								ITagManager $fileTagger,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
-								Folder $userFolder
+								Folder $userFolder,
+								IAppManager $appManager
 	) {
 		$this->tree = $tree;
 		$this->fileView = $view;
@@ -124,6 +132,7 @@ class FilesReportPlugin extends ServerPlugin {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->userFolder = $userFolder;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -349,7 +358,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return array
 	 */
 	private function getCirclesFileIds(array $circlesIds) {
-		if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			return array();
 		}
 		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
