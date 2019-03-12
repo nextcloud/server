@@ -7,6 +7,8 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -125,6 +127,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			\OCP\Share::SHARE_TYPE_REMOTE,
 			\OCP\Share::SHARE_TYPE_EMAIL,
 			\OCP\Share::SHARE_TYPE_ROOM,
+			\OCP\Share::SHARE_TYPE_CIRCLE,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types

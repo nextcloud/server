@@ -35,6 +35,7 @@ use InvalidArgumentException;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -131,6 +132,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IConfig::class),
+				$this->createMock(IAppManager::class),
 				])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();

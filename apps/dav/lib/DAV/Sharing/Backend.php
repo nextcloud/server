@@ -99,7 +99,7 @@ class Backend {
 		}
 
 		$principal = explode('/', $parts[1], 3);
-		if (count($principal) !== 3 || $principal[0] !== 'principals' || !in_array($principal[1], ['users', 'groups'], true)) {
+		if (count($principal) !== 3 || $principal[0] !== 'principals' || !in_array($principal[1], ['users', 'groups', 'circles'], true)) {
 			// Invalid principal
 			return;
 		}
