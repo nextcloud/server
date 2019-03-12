@@ -23,7 +23,7 @@
 <template>
 	<div id="emptycontent">
 		<div class="icon-error" />
-		<h2>{{ t('viewer', 'An error occurred during the load of the file {name}', { name }) }}</h2>
+		<h2>{{ t('viewer', 'Error loading {name}', { name }) }}</h2>
 	</div>
 </template>
 
