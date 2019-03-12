@@ -534,9 +534,6 @@ form #selectDbType label {
 	color:#888;
 	cursor:pointer;
 	border: 1px solid #ddd;
-}
-form #selectDbType label span {
-	cursor: pointer;
 	padding: 10px 17px;
 }
 form #selectDbType label.ui-state-hover,
