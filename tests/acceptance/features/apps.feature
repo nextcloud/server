@@ -68,9 +68,9 @@ Feature: apps
     And I am logged in as the admin
     And I open the Apps management
     And I see that the current section is "Your apps"
-    When I open the "Files" section
-    Then I see that there some apps listed from the app store
-    And I see that the current section is "Files"
+    #When I open the "Files" section
+    #Then I see that there some apps listed from the app store
+    #And I see that the current section is "Files"
 
   Scenario: View app details for app store apps
     Given I act as Jane
