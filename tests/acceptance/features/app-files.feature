@@ -38,72 +38,72 @@ Feature: app-files
     And I close the details view
     Then I see that the details view is closed
 
-  Scenario: viewing a favorite file in its folder shows the correct sidebar view
-    Given I am logged in
-    And I create a new folder named "other"
-    And I mark "other" as favorite
-    And I mark "welcome.txt" as favorite
-    And I see that "other" is marked as favorite
-    And I see that "welcome.txt" is marked as favorite
-    And I open the "Favorites" section
-    And I open the details view for "other"
-    And I see that the details view is open
-    And I see that the file name shown in the details view is "other"
-    When I view "welcome.txt" in folder
-    Then I see that the current section is "All files"
-    And I see that the details view is open
-    And I see that the file name shown in the details view is "welcome.txt"
-    When I open the details view for "other"
-    And I see that the file name shown in the details view is "other"
+#  Scenario: viewing a favorite file in its folder shows the correct sidebar view
+#    Given I am logged in
+#    And I create a new folder named "other"
+#    And I mark "other" as favorite
+#    And I mark "welcome.txt" as favorite
+#    And I see that "other" is marked as favorite
+#    And I see that "welcome.txt" is marked as favorite
+#    And I open the "Favorites" section
+#    And I open the details view for "other"
+#    And I see that the details view is open
+#    And I see that the file name shown in the details view is "other"
+#    When I view "welcome.txt" in folder
+#    Then I see that the current section is "All files"
+#    And I see that the details view is open
+#    And I see that the file name shown in the details view is "welcome.txt"
+#    When I open the details view for "other"
+#    And I see that the file name shown in the details view is "other"
 
 
-  Scenario: viewing a favorite file in its folder does not prevent opening the details view in "All files" section
-    Given I am logged in
-    And I mark "welcome.txt" as favorite
-    And I see that "welcome.txt" is marked as favorite
-    And I open the "Favorites" section
-    And I open the details view for "welcome.txt"
-    And I see that the details view is open
-    And I view "welcome.txt" in folder
-    And I see that the current section is "All files"
-    When I open the details view for "welcome.txt"
-    Then I see that the details view is open
+#  Scenario: viewing a favorite file in its folder does not prevent opening the details view in "All files" section
+#    Given I am logged in
+#    And I mark "welcome.txt" as favorite
+#    And I see that "welcome.txt" is marked as favorite
+#    And I open the "Favorites" section
+#    And I open the details view for "welcome.txt"
+#    And I see that the details view is open
+#    And I view "welcome.txt" in folder
+#    And I see that the current section is "All files"
+#    When I open the details view for "welcome.txt"
+#    Then I see that the details view is open
 
-  Scenario: show recent files
-    Given I am logged in
-    And I create a new folder named "Folder just created"
-    When I open the "Recent" section
-    Then I see that the current section is "Recent"
-    Then I see that the file list contains a file named "Folder just created"
+#  Scenario: show recent files
+#    Given I am logged in
+#    And I create a new folder named "Folder just created"
+#    When I open the "Recent" section
+#    Then I see that the current section is "Recent"
+#    Then I see that the file list contains a file named "Folder just created"
 
-  Scenario: show recent files for a second time
-    Given I am logged in
-    And I open the "Recent" section
-    And I see that the current section is "Recent"
-    And I open the "All files" section
-    And I see that the current section is "All files"
-    And I create a new folder named "Folder just created"
-    When I open the "Recent" section
-    Then I see that the current section is "Recent"
-    Then I see that the file list contains a file named "Folder just created"
+#  Scenario: show recent files for a second time
+#    Given I am logged in
+#    And I open the "Recent" section
+#    And I see that the current section is "Recent"
+#    And I open the "All files" section
+#    And I see that the current section is "All files"
+#    And I create a new folder named "Folder just created"
+#    When I open the "Recent" section
+#    Then I see that the current section is "Recent"
+#    Then I see that the file list contains a file named "Folder just created"
 
-  Scenario: show favorites
-    Given I am logged in
-    And I mark "welcome.txt" as favorite
-    When I open the "Favorites" section
-    Then I see that the current section is "Favorites"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show favorites
+#    Given I am logged in
+#    And I mark "welcome.txt" as favorite
+#    When I open the "Favorites" section
+#    Then I see that the current section is "Favorites"
+#    Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: show favorites for a second time
-    Given I am logged in
-    And I open the "Favorites" section
-    And I see that the current section is "Favorites"
-    And I open the "All files" section
-    And I see that the current section is "All files"
-    And I mark "welcome.txt" as favorite
-    When I open the "Favorites" section
-    Then I see that the current section is "Favorites"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show favorites for a second time
+#    Given I am logged in
+#    And I open the "Favorites" section
+#    And I see that the current section is "Favorites"
+#    And I open the "All files" section
+#    And I see that the current section is "All files"
+#    And I mark "welcome.txt" as favorite
+#    When I open the "Favorites" section
+#    Then I see that the current section is "Favorites"
+#    Then I see that the file list contains a file named "welcome.txt"
 
   Scenario: show shares
     Given I am logged in
@@ -123,64 +123,64 @@ Feature: app-files
     Then I see that the current section is "Shares"
     Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: show deleted files
-    Given I am logged in
-    And I delete "welcome.txt"
-    When I open the "Deleted files" section
-    Then I see that the current section is "Deleted files"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show deleted files
+#    Given I am logged in
+#    And I delete "welcome.txt"
+#    When I open the "Deleted files" section
+#    Then I see that the current section is "Deleted files"
+#    Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: show deleted files for a second time
-    Given I am logged in
-    And I open the "Deleted files" section
-    And I see that the current section is "Deleted files"
-    And I open the "All files" section
-    And I see that the current section is "All files"
-    And I delete "welcome.txt"
-    When I open the "Deleted files" section
-    Then I see that the current section is "Deleted files"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show deleted files for a second time
+#    Given I am logged in
+#    And I open the "Deleted files" section
+#    And I see that the current section is "Deleted files"
+#    And I open the "All files" section
+#    And I see that the current section is "All files"
+#    And I delete "welcome.txt"
+#    When I open the "Deleted files" section
+#    Then I see that the current section is "Deleted files"
+#    Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: move a file to another folder
-    Given I am logged in
-    And I create a new folder named "Destination"
-    When I start the move or copy operation for "welcome.txt"
-    And I select "Destination" in the file picker
-    And I move to the last selected folder in the file picker
-    Then I see that the file list does not contain a file named "welcome.txt"
-    And I enter in the folder named "Destination"
-    And I see that the file list contains a file named "welcome.txt"
+#  Scenario: move a file to another folder
+#    Given I am logged in
+#    And I create a new folder named "Destination"
+#    When I start the move or copy operation for "welcome.txt"
+#    And I select "Destination" in the file picker
+#    And I move to the last selected folder in the file picker
+#    Then I see that the file list does not contain a file named "welcome.txt"
+#    And I enter in the folder named "Destination"
+#    And I see that the file list contains a file named "welcome.txt"
 
-  Scenario: move a selection to another folder
-    Given I am logged in
-    And I create a new folder named "Folder"
-    And I create a new folder named "Not selected folder"
-    And I create a new folder named "Destination"
-    When I select "welcome.txt"
-    And I select "Folder"
-    And I start the move or copy operation for the selected files
-    And I select "Destination" in the file picker
-    And I move to the last selected folder in the file picker
-    Then I see that the file list does not contain a file named "welcome.txt"
-    And I see that the file list does not contain a file named "Folder"
-    And I see that the file list contains a file named "Not selected folder"
-    And I enter in the folder named "Destination"
-    And I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "Folder"
-    And I see that the file list does not contain a file named "Not selected folder"
+#  Scenario: move a selection to another folder
+#    Given I am logged in
+#    And I create a new folder named "Folder"
+#    And I create a new folder named "Not selected folder"
+#    And I create a new folder named "Destination"
+#    When I select "welcome.txt"
+#    And I select "Folder"
+#    And I start the move or copy operation for the selected files
+#    And I select "Destination" in the file picker
+#    And I move to the last selected folder in the file picker
+#    Then I see that the file list does not contain a file named "welcome.txt"
+#    And I see that the file list does not contain a file named "Folder"
+#    And I see that the file list contains a file named "Not selected folder"
+#    And I enter in the folder named "Destination"
+#    And I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "Folder"
+#    And I see that the file list does not contain a file named "Not selected folder"
 
-  Scenario: copy a file to another folder
-    Given I am logged in
-    And I create a new folder named "Destination"
-    When I start the move or copy operation for "welcome.txt"
-    And I select "Destination" in the file picker
-    And I copy to the last selected folder in the file picker
-    Then I enter in the folder named "Destination"
-    # The file will appear in the destination once the copy operation finishes
-    And I see that the file list contains a file named "welcome.txt"
-    # The Files app is open again to reload the file list in the root folder
-    And I open the Files app
-    And I see that the file list contains a file named "welcome.txt"
+#  Scenario: copy a file to another folder
+#    Given I am logged in
+#    And I create a new folder named "Destination"
+#    When I start the move or copy operation for "welcome.txt"
+#    And I select "Destination" in the file picker
+#    And I copy to the last selected folder in the file picker
+#    Then I enter in the folder named "Destination"
+#    # The file will appear in the destination once the copy operation finishes
+#    And I see that the file list contains a file named "welcome.txt"
+#    # The Files app is open again to reload the file list in the root folder
+#    And I open the Files app
+#    And I see that the file list contains a file named "welcome.txt"
 
   Scenario: copy a selection to another folder
     Given I am logged in
