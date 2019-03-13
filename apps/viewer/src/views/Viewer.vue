@@ -84,6 +84,7 @@ import Mime from 'mime-types'
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
+import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
 import FileList from 'Services/FileList'
@@ -115,7 +116,7 @@ export default {
 
 		loading: true,
 
-		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
+		root: generateRemoteUrl(`/dav/files/${OC.getCurrentUser().uid}`)
 	}),
 
 	computed: {
