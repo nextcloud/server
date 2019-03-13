@@ -443,7 +443,9 @@ export default {
 		showAppsSidebar() {
 			this.showSidebar = true
 			const sidebar = document.getElementById('app-sidebar')
-			sidebar.classList.add('app-sidebar--full')
+			if (sidebar) {
+				sidebar.classList.add('app-sidebar--full')
+			}
 
 			// overriding closing function
 			const origHideAppsSidebar = OC.Apps.hideAppSidebar
@@ -458,7 +460,9 @@ export default {
 		hideAppsSidebar() {
 			this.showSidebar = false
 			const sidebar = document.getElementById('app-sidebar')
-			sidebar.classList.remove('app-sidebar--full')
+			if (sidebar) {
+				sidebar.classList.remove('app-sidebar--full')
+			}
 		},
 
 		onResize(event) {
