@@ -33,6 +33,7 @@
 		:title="currentFileName"
 		:disable-swipe="disableSwipe"
 		:size="isMobile ? 'full' : 'large'"
+		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -116,6 +117,9 @@ export default {
 		fileList: [],
 
 		isMobile: window.outerWidth < 768,
+		showSidebar: false,
+		sidebarWidth: 0,
+
 		disableSwipe: false,
 		failed: false,
 		loading: true,
@@ -372,6 +376,7 @@ export default {
 			this.currentFile = {}
 			this.currentModal = null
 			this.fileList = []
+			this.hideAppsSidebar()
 		},
 
 		/**
@@ -426,21 +431,51 @@ export default {
 		showSharingSidebar() {
 			// Open the sidebar sharing tab
 			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
-			this.close()
+			this.showAppsSidebar()
+		},
+
+		showAppsSidebar() {
+			this.showSidebar = true
+			const sidebar = document.getElementById('app-sidebar')
+			sidebar.classList.add('app-sidebar--full')
+
+			// overriding closing function
+			const origHideAppsSidebar = OC.Apps.hideAppSidebar
+			OC.Apps.hideAppSidebar = ($el) => {
+				this.hideAppsSidebar()
+				origHideAppsSidebar($el)
+			}
+
+			this.sidebarWidth = sidebar.offsetWidth
+		},
+
+		hideAppsSidebar() {
+			this.showSidebar = false
+			const sidebar = document.getElementById('app-sidebar')
+			sidebar.classList.remove('app-sidebar--full')
 		},
 
 		onResize(event) {
+			// Update mobile mode
 			this.isMobile = window.outerWidth < 768
+			// update sidebar width
+			const sidebar = document.getElementById('app-sidebar')
+			if (sidebar) {
+				this.sidebarWidth = sidebar.offsetWidth
+			}
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-#viewer-content.modal-mask .modal-container {
-	display: flex !important;
-	width: auto !important;
-	border-radius: 0 !important;
+#viewer-content.modal-mask {
+	transition: width ease 100ms;
+	.modal-container {
+		display: flex !important;
+		width: auto !important;
+		border-radius: 0 !important;
+	}
 }
 
 .component-fade-enter-active, .component-fade-leave-active {
@@ -459,5 +494,15 @@ export default {
 .file-view {
 	transition: height 100ms ease,
 		width 100ms ease;
+}
+
+#app-sidebar.app-sidebar--full {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	z-index: 15000;
+	.thumbnailContainer {
+		display: none;
+	}
 }
 </style>
