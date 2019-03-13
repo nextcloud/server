@@ -183,15 +183,13 @@ class TrashbinTest extends \Test\TestCase {
 		$remainingFiles = array_slice($manipulatedList, $count);
 		$this->assertSame(1, count($remainingFiles));
 		$remainingFile = reset($remainingFiles);
-		// TODO: failing test
-		#$this->assertSame('file2.txt', $remainingFile['name']);
+		$this->assertSame('file2.txt', $remainingFile['name']);
 
 		// check that file1.txt and file3.txt was really deleted
 		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 		$this->assertSame(1, count($newTrashContent));
 		$element = reset($newTrashContent);
-		// TODO: failing test
-		#$this->assertSame('file2.txt', $element['name']);
+		$this->assertSame('file2.txt', $element['name']);
 	}
 
 	/**
