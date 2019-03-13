@@ -23,6 +23,7 @@
 <template>
 	<modal
 		v-if="currentFile.modal"
+		id="viewer-content"
 		:class="{'icon-loading': loading}"
 		:view="currentFile.modal"
 		:actions="actions"
@@ -30,6 +31,9 @@
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
 		:title="currentFileName"
+		:disable-swipe="disableSwipe"
+		:size="isMobile ? 'full' : 'large'"
+		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -84,6 +88,7 @@ import Mime from 'mime-types'
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
+import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
 import FileList from 'Services/FileList'
@@ -111,11 +116,15 @@ export default {
 
 		fileList: [],
 
-		failed: false,
+		isMobile: window.outerWidth < 768,
+		showSidebar: false,
+		sidebarWidth: 0,
 
+		disableSwipe: false,
+		failed: false,
 		loading: true,
 
-		root: `/remote.php/dav/files/${OC.getCurrentUser().uid}`
+		root: generateRemoteUrl(`/dav/files/${OC.getCurrentUser().uid}`)
 	}),
 
 	computed: {
@@ -160,6 +169,11 @@ export default {
 			})
 		})
 
+		window.addEventListener('resize', this.onResize)
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('resize', this.onResize)
 	},
 
 	methods: {
@@ -172,6 +186,10 @@ export default {
 		async openFile(fileName, fileInfo) {
 			this.loading = true
 			this.failed = false
+
+			// prevent scrolling while opened
+			document.body.style.overflow = 'hidden'
+
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 
@@ -193,7 +211,7 @@ export default {
 			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
 
 			// store current position
-			this.currentIndex = this.fileList.findIndex(file => decodeURI(file.href) === this.root + relativePath)
+			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
 
 			this.updatePreviousNext()
 		},
@@ -362,6 +380,9 @@ export default {
 			this.currentFile = {}
 			this.currentModal = null
 			this.fileList = []
+			this.hideAppsSidebar()
+			// restore default
+			document.body.style.overflow = null
 		},
 
 		/**
@@ -416,16 +437,56 @@ export default {
 		showSharingSidebar() {
 			// Open the sidebar sharing tab
 			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
-			this.close()
+			this.showAppsSidebar()
+		},
+
+		showAppsSidebar() {
+			this.showSidebar = true
+			const sidebar = document.getElementById('app-sidebar')
+			if (sidebar) {
+				sidebar.classList.add('app-sidebar--full')
+			}
+
+			// overriding closing function
+			const origHideAppsSidebar = OC.Apps.hideAppSidebar
+			OC.Apps.hideAppSidebar = ($el) => {
+				this.hideAppsSidebar()
+				origHideAppsSidebar($el)
+			}
+
+			this.sidebarWidth = sidebar.offsetWidth
+		},
+
+		hideAppsSidebar() {
+			this.showSidebar = false
+			const sidebar = document.getElementById('app-sidebar')
+			if (sidebar) {
+				sidebar.classList.remove('app-sidebar--full')
+			}
+		},
+
+		onResize(event) {
+			// Update mobile mode
+			this.isMobile = window.outerWidth < 768
+			// update sidebar width
+			const sidebar = document.getElementById('app-sidebar')
+			if (sidebar) {
+				this.sidebarWidth = sidebar.offsetWidth
+			}
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-#modal-mask #modal-container {
-	display: flex !important;
-	width: auto !important;
+#viewer-content.modal-mask {
+	transition: width ease 100ms;
+	.modal-container {
+		display: flex !important;
+		width: auto !important;
+		border-radius: 0 !important;
+		background-color: black;
+	}
 }
 
 .component-fade-enter-active, .component-fade-leave-active {
@@ -444,5 +505,15 @@ export default {
 .file-view {
 	transition: height 100ms ease,
 		width 100ms ease;
+}
+
+#app-sidebar.app-sidebar--full {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	z-index: 15000;
+	.thumbnailContainer {
+		display: none;
+	}
 }
 </style>

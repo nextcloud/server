@@ -64,13 +64,13 @@ export default {
 			this.$emit('loaded', event)
 		},
 		updateHeightWidth(contentHeight, contentWidth) {
-			const modalContainer = this.$parent.$el.querySelector('#modal-wrapper')
+			const modalContainer = this.$parent.$el.querySelector('.modal-wrapper')
 			if (modalContainer) {
-				// ! modal container have maxHeight:80% AND maxWidth: 900px
-				const parentHeight = Math.round(modalContainer.clientHeight * 0.8) - 50 // minus header
-				const parentWidth = modalContainer.clientWidth > 900
-					? 900
-					: modalContainer.clientWidth
+				const wrapperMaxHeight = window.getComputedStyle(modalContainer.children[0]).maxHeight.replace('%', '')
+				const wrapperMaxWidth = window.getComputedStyle(modalContainer.children[0]).maxWidth.replace('%', '')
+
+				const parentHeight = Math.round(modalContainer.clientHeight * Number(wrapperMaxHeight) / 100) - 50 // minus header
+				const parentWidth = Math.round(modalContainer.clientWidth * Number(wrapperMaxWidth) / 100)
 
 				const heightRatio = parentHeight / contentHeight
 				const widthRatio = parentWidth / contentWidth

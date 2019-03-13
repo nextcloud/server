@@ -21,6 +21,7 @@
  */
 
 import axios from 'axios'
+import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 /**
  *
@@ -31,7 +32,7 @@ import axios from 'axios'
 export default async function(user, path, mimes) {
 	const response = await axios({
 		method: 'PROPFIND',
-		url: `/remote.php/dav/files/${user}${path}`,
+		url: generateRemoteUrl(`/dav/files/${user}${path}`),
 		headers: {
 			requesttoken: OC.requestToken,
 			'content-Type': 'text/xml'
