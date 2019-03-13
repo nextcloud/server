@@ -475,6 +475,7 @@ export default {
 		display: flex !important;
 		width: auto !important;
 		border-radius: 0 !important;
+		background-color: black;
 	}
 }
 
