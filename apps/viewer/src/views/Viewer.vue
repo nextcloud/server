@@ -23,6 +23,7 @@
 <template>
 	<modal
 		v-if="currentFile.modal"
+		id="viewer-content"
 		:class="{'icon-loading': loading}"
 		:view="currentFile.modal"
 		:actions="actions"
@@ -30,6 +31,8 @@
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
 		:title="currentFileName"
+		:disable-swipe="disableSwipe"
+		:size="isMobile ? 'full' : 'large'"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -112,8 +115,9 @@ export default {
 
 		fileList: [],
 
+		isMobile: window.outerWidth < 768,
+		disableSwipe: false,
 		failed: false,
-
 		loading: true,
 
 		root: generateRemoteUrl(`/dav/files/${OC.getCurrentUser().uid}`)
@@ -161,6 +165,11 @@ export default {
 			})
 		})
 
+		window.addEventListener('resize', this.onResize)
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('resize', this.onResize)
 	},
 
 	methods: {
@@ -194,7 +203,7 @@ export default {
 			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
 
 			// store current position
-			this.currentIndex = this.fileList.findIndex(file => decodeURI(file.href) === this.root + relativePath)
+			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
 
 			this.updatePreviousNext()
 		},
@@ -418,15 +427,20 @@ export default {
 			// Open the sidebar sharing tab
 			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
 			this.close()
+		},
+
+		onResize(event) {
+			this.isMobile = window.outerWidth < 768
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-#modal-mask #modal-container {
+#viewer-content.modal-mask .modal-container {
 	display: flex !important;
 	width: auto !important;
+	border-radius: 0 !important;
 }
 
 .component-fade-enter-active, .component-fade-leave-active {
