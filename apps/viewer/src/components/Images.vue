@@ -40,7 +40,7 @@ import AsyncComputed from 'vue-async-computed'
 Vue.use(AsyncComputed)
 
 export default {
-	name: 'Videos',
+	name: 'Images',
 	mixins: [
 		mime
 	],
