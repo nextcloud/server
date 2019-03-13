@@ -186,6 +186,10 @@ export default {
 		async openFile(fileName, fileInfo) {
 			this.loading = true
 			this.failed = false
+
+			// prevent scrolling while opened
+			document.body.style.overflow = 'hidden'
+
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 
@@ -377,6 +381,8 @@ export default {
 			this.currentModal = null
 			this.fileList = []
 			this.hideAppsSidebar()
+			// restore default
+			document.body.style.overflow = null
 		},
 
 		/**
