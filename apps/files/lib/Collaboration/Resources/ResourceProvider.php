@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
@@ -24,7 +25,6 @@ namespace OCA\Files\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IResource;
-use OCP\Collaboration\Resources\ResourceException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IURLGenerator;
@@ -65,7 +65,7 @@ class ResourceProvider implements IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getName(IResource $resource): string {
 		if (isset($this->nodes[(int) $resource->getId()])) {
@@ -84,7 +84,7 @@ class ResourceProvider implements IProvider {
 	 * @param IResource $resource
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccessResource(IResource $resource, IUser $user = null): bool {
 		if (!$user instanceof IUser) {
@@ -107,21 +107,25 @@ class ResourceProvider implements IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
-	public function getIconClass(IResource $resource): string {
+	public function getIconLink(IResource $resource): string {
 		$node = $this->getNode($resource);
 		if ($node && $node->getMimetype() === 'httpd/unix-directory') {
-			return 'icon-files-dark';
+			return $this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->imagePath('core', 'places/files')
+			);
 		}
-		return 'icon-filetype-file';
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath('core', 'filetypes/file')
+		);
 	}
 
 	/**
 	 * Get the resource type of the provider
 	 *
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string {
 		return self::RESOURCE_TYPE;
@@ -132,7 +136,7 @@ class ResourceProvider implements IProvider {
 	 *
 	 * @param IResource $resource
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getLink(IResource $resource): string {
 		return $this->urlGenerator->linkToRoute('files.viewcontroller.showFile', ['fileid' => $resource->getId()]);

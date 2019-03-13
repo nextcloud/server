@@ -309,11 +309,11 @@ class Manager implements IManager {
 	 * @param IResource $resource
 	 * @return string
 	 */
-	public function getIconClass(IResource $resource): string {
+	public function getIconLink(IResource $resource): string {
 		foreach ($this->getProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
-					return $provider->getIconClass($resource);
+					return $provider->getIconLink($resource);
 				} catch (ResourceException $e) {
 				}
 			}

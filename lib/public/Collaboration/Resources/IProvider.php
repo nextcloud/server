@@ -53,7 +53,7 @@ interface IProvider {
 	 * @return string
 	 * @since 16.0.0
 	 */
-	public function getIconClass(IResource $resource): string;
+	public function getIconLink(IResource $resource): string;
 
 	/**
 	 * Get the link to a resource

@@ -106,9 +106,9 @@ class Resource implements IResource {
 	 * @return string
 	 * @since 16.0.0
 	 */
-	public function getIconClass(): string {
+	public function getIconLink(): string {
 		if ($this->iconClass === null) {
-			$this->iconClass = $this->manager->getIconClass($this);
+			$this->iconClass = $this->manager->getIconLink($this);
 		}
 
 		return $this->iconClass;

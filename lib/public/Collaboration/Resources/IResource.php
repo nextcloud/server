@@ -48,10 +48,11 @@ interface IResource {
 	public function getName(): string;
 
 	/**
+	 * Absolute link to an icon to represent the resource
 	 * @return string
 	 * @since 16.0.0
 	 */
-	public function getIconClass(): string;
+	public function getIconLink(): string;
 
 	/**
 	 * @return string
