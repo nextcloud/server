@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import Mime from 'mime-types'
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
