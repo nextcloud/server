@@ -39,7 +39,6 @@ export default {
 	 * @param {TypeDefinition} typeDefinition
 	 */
 	registerType(type, typeDefinition) {
-		console.log('Type ' + type + ' registered')
 		types[type] = typeDefinition;
 	},
 	trigger(type) {

@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<collection-list v-if="fileId" type="files" :id="fileId" :name="filename"></collection-list>
+	<collection-list v-if="fileId" type="file" :id="fileId" :name="filename"></collection-list>
 </template>
 
 <script>

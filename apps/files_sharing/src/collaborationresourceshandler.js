@@ -1,7 +1,7 @@
 __webpack_public_path__ = OC.linkTo('files_sharing', 'js/dist/');
 __webpack_nonce__ = btoa(OC.requestToken);
 
-window.OCP.Collaboration.registerType('files', {
+window.OCP.Collaboration.registerType('file', {
 	action: () => {
 		return new Promise((resolve, reject) => {
 			OC.dialogs.filepicker('Link to a file', function (f) {
