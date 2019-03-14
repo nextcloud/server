@@ -197,8 +197,8 @@ export default {
 			const mimes = this.mimeGroups[group]
 
 			// retrieve, sort and store file List
-			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
-				.sort(OCA.Files.App.fileList._sortComparator)
+			const fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
+			this.fileList = fileList.sort(OCA.Files.App.fileList._sortComparator)
 
 			// store current position
 			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
