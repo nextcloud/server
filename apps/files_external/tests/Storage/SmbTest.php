@@ -98,7 +98,9 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$notifyHandler = $this->instance->notify('');
 		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
+		sleep(1);
 		$this->instance->rename('/newfile.txt', 'renamed.txt');
+		sleep(1);
 		$this->instance->unlink('/renamed.txt');
 		sleep(1); //time for all changes to be processed
 
@@ -119,7 +121,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		];
 
 		foreach ($expected as $expectedChange) {
-			$this->assertContains($expectedChange, $changes, '', false, false); // dont check object identity
+			$this->assertContains($expectedChange, $changes, 'Actual changes are:' . PHP_EOL . print_r($expected, true), false, false); // dont check object identity
 		}
 	}
 
