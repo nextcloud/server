@@ -31,7 +31,7 @@
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
 		:title="currentFileName"
-		:disable-swipe="disableSwipe"
+		:enable-swipe="canSwipe"
 		:size="isMobile ? 'full' : 'large'"
 		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
@@ -60,6 +60,7 @@
 			:mime="currentFile.mime"
 			:path="getPath(currentFile)"
 			:active="true"
+			:can-swipe.sync="canSwipe"
 			class="file-view"
 			@loaded="doneLoading"
 			@error="currentFailed" />
@@ -119,7 +120,7 @@ export default {
 		showSidebar: false,
 		sidebarWidth: 0,
 
-		disableSwipe: false,
+		canSwipe: true,
 		failed: false,
 		loading: true,
 
@@ -506,6 +507,8 @@ export default {
 		width: auto !important;
 		border-radius: 0 !important;
 		background-color: white;
+		justify-content: center;
+		align-items: center;
 	}
 
 	// dark bg while loading to avoid flashing white screen

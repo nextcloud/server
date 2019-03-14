@@ -33,6 +33,10 @@ export default {
 		mime: {
 			type: String,
 			required: true
+		},
+		canSwipe: {
+			type: Boolean,
+			default: true
 		}
 	},
 
@@ -93,6 +97,12 @@ export default {
 					this.width = contentWidth
 				}
 			}
+		},
+		enableSwipe() {
+			this.$emit('update:canSwipe', true)
+		},
+		disableSwipe() {
+			this.$emit('update:canSwipe', false)
 		}
 	}
 }
