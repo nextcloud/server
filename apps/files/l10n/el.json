@@ -114,12 +114,6 @@
     "Unlimited" : "Απεριόριστο",
     "Upload (max. %s)" : "Διαμοιρασμός (max. %s)",
     "File Management" : "Διαχείριση αρχείων",
-    "File handling" : "Διαχείριση αρχείων",
-    "Maximum upload size" : "Μέγιστο μέγεθος αποστολής",
-    "max. possible: " : "μέγιστο δυνατό:",
-    "Save" : "Αποθήκευση",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
-    "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
     "%s of %s used" : "%s από %s σε χρήση",
     "%s used" : "%sσε χρήση",
     "Settings" : "Ρυθμίσεις",
@@ -143,6 +137,12 @@
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
     "Target folder" : "Φάκελος προορισμού",
+    "File handling" : "Διαχείριση αρχείων",
+    "Maximum upload size" : "Μέγιστο μέγεθος αποστολής",
+    "max. possible: " : "μέγιστο δυνατό:",
+    "Save" : "Αποθήκευση",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
+    "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři",
     "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře",
     "Federated Cloud" : "Sdružený cloud",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud, ownCloud, nebo Pydio! Jen zadejte jejich sdružené cloud ID do dialogu pro sdílení. Vypadá jako person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. sdruženého cloudu. Má podobu person@cloud.example.com",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it so your friends can share files with you:" : "Nasdílejte to, aby mohli vaši přátelé sdílet soubory s vámi:",
     "Add to your website" : "Přidat na svou webovou stránku",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Federated share added" : "Propojené sdílení bylo přidáno",
     "Couldn't add remote share" : "Nepodařilo se přidat propojené sdílení",
     "Sharing %s failed, because this item is already shared with %s" : "Sdílení položky %s se nezdařilo, protože položka už je s uživatelem %s sdílena",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud, ownCloud, nebo Pydio! Jen zadejte jejich sdružené cloud ID do dialogu pro sdílení. Vypadá jako person@cloud.example.com"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

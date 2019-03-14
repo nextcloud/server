@@ -45,7 +45,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Тражи кориснике и у глобалним и јавним именицима",
     "Allow users to publish their data to a global and public address book" : "Дозволи корисницима да објаве своје податке у јавне и глобалне именике",
     "Federated Cloud" : "Здружени облак",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд, Оунклауд или Пидио. Само унесите њихов ИД Здруженог Облака у дијалог за дељење. ИД изгледа нешто попут person@cloud.example.com",
     "Your Federated Cloud ID:" : "ИД вашег здруженог облака:",
     "Share it so your friends can share files with you:" : "Поделите да би Ваши пријатељи могли да деле са Вама:",
     "Add to your website" : "Додај на свој веб сајт",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Federated share added" : "Здружено дељење додато",
     "Couldn't add remote share" : "Не могу да додам удаљено дељење",
     "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд, Оунклауд или Пидио. Само унесите њихов ИД Здруженог Облака у дијалог за дељење. ИД изгледа нешто попут person@cloud.example.com"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

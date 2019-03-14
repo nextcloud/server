@@ -50,7 +50,7 @@ OC.L10N.register(
     "New recovery key password" : "Nova contrasenya de clau de recuperació",
     "Repeat new recovery key password" : "Repetiu la contrasenya de la clau de recuperació nova",
     "Change Password" : "Canvia la contrasenya",
-    "Basic encryption module" : "Mòdul bà sic de xifratge",
+    "Basic encryption module" : "Mòdul bàsic de xifratge",
     "Your private key password no longer matches your log-in password." : "La clau privada ja no es correspon amb la contrasenya d'accés:",
     "Set your old private key password to your current log-in password:" : "Establiu la vostra antiga clau privada a l'actual contrasenya d'accés:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Si no recordeu la contrasenya anterior podeu demanar a l'administrador que recuperi els vostres fitxers.",

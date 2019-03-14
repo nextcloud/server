@@ -37,7 +37,6 @@
     "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
     "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública",
     "Federated Cloud" : "Nuvem Federada",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode partilhar com qualquer pessoa que use Nextcloud, ownCloud ou Pydio! Basta inserir Cloud ID federado no diálogo de partilha. Deve ser idêntico a pessoa@cloud.exemplo.com",
     "Your Federated Cloud ID:" : "A sua id. da Nuvem Federada:",
     "Share it so your friends can share files with you:" : "Partilhe para que os seus amigos possam partilhar ficheiros consigo:",
     "Add to your website" : "Adicione ao seu site da Web",
@@ -51,6 +50,7 @@
     "Federated share added" : "Partilha federada adicionada",
     "Couldn't add remote share" : "Não foi possível adicionar partilha remota",
     "Sharing %s failed, because this item is already shared with %s" : "A partilha %s falhou, porque este item já está a ser partilhado com %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. "
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. ",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode partilhar com qualquer pessoa que use Nextcloud, ownCloud ou Pydio! Basta inserir Cloud ID federado no diálogo de partilha. Deve ser idêntico a pessoa@cloud.exemplo.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

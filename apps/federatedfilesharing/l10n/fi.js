@@ -43,7 +43,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
     "Allow users to publish their data to a global and public address book" : "Salli käyttäjien julkaista tietojaan maailmanlaajuisessa ja julkisessa osoitekirjassa",
     "Federated Cloud" : "Federoitu pilvi",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloudia, ownCloudia tai Pydiota! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.esimerkki.fi",
     "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Share it so your friends can share files with you:" : "Jaa se, jotta ystäväsi voivat jakaa tiedostoja kanssasi:",
     "Add to your website" : "Lisää verkkosivuillesi",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "Federated share added" : "Federoitu jako lisätty",
     "Couldn't add remote share" : "Etäjaon liittäminen epäonnistui",
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloudia, ownCloudia tai Pydiota! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.esimerkki.fi"
 },
 "nplurals=2; plural=(n != 1);");

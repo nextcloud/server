@@ -40,7 +40,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános névjegyekben",
     "Allow users to publish their data to a global and public address book" : "Minden felhasználó a közös adattárolót és névjegyzéket használja",
     "Federated Cloud" : "Egyesített felhő",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bárkivel megoszthatsz aki Nextcloud-ot, ownCloud-ot vagy Pydio-t használ! Csak add meg az egységesített megosztási azonosítójukat a megosztási ablakban. Valahogy így néz ki: person@cloud.example.com",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it so your friends can share files with you:" : "Oszd meg, hogy a barátaid is megoszthassanak veled fájlokat:",
     "Add to your website" : "Adja hozzá saját weboldalához",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Federated share added" : "Egyesített megosztás hozzáadva",
     "Couldn't add remote share" : "Távoli megosztás nem adható hozzá",
     "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bárkivel megoszthatsz aki Nextcloud-ot, ownCloud-ot vagy Pydio-t használ! Csak add meg az egységesített megosztási azonosítójukat a megosztási ablakban. Valahogy így néz ki: person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

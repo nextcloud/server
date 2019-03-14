@@ -116,12 +116,6 @@
     "A file or folder has been <strong>restored</strong>" : "Um ficheiro ou pasta foram <strong>restaurados</strong>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (máx. %s)",
-    "File handling" : "Utilização do ficheiro",
-    "Maximum upload size" : "Tamanho máximo de envio",
-    "max. possible: " : "Máx. possível: ",
-    "Save" : "Guardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com o PHP-FPM poderá demorar 5 minutos até que as alterações sejam aplicadas.",
-    "Missing permissions to edit from here." : "Faltam permissões para editar a partir daqui.",
     "%s of %s used" : "%s de %s utilizado",
     "%s used" : "%s utilizado",
     "Settings" : "Configurações",
@@ -144,6 +138,12 @@
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Target folder" : "Pasta de destino",
+    "File handling" : "Utilização do ficheiro",
+    "Maximum upload size" : "Tamanho máximo de envio",
+    "max. possible: " : "Máx. possível: ",
+    "Save" : "Guardar",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com o PHP-FPM poderá demorar 5 minutos até que as alterações sejam aplicadas.",
+    "Missing permissions to edit from here." : "Faltam permissões para editar a partir daqui.",
     "Cancel upload" : "Cancelar envio"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

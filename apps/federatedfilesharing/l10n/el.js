@@ -35,7 +35,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Αναζήτηση σε γενικό και δημόσιο βιβλίο διευθύνσεων για χρήστες",
     "Allow users to publish their data to a global and public address book" : "Επιτρέψτε στους χρήστες να δημοσιεύουν τα δεδομένα τους σε ένα γενικό και δημόσιο βιβλίο διευθύνσεων",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud, ownCloud η Pydio! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com",
     "Your Federated Cloud ID:" : "Το ID σας στο Federated Cloud:",
     "Share it so your friends can share files with you:" : "Διαμοιραστείτε το ώστε οι φίλοι σας να μπορούν να διαμοιράζονται αρχεία με εσάς:",
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Federated share added" : "O Federated διαμοιρασμός προστέθηκε",
     "Couldn't add remote share" : "Αδυναμία προσθήκης απομακρυσμένου κοινόχρηστου φακέλου",
     "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud, ownCloud η Pydio! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

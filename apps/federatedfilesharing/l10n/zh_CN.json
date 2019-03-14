@@ -36,7 +36,6 @@
     "Search global and public address book for users" : "在全局和公开地址簿中寻找用户",
     "Allow users to publish their data to a global and public address book" : "允许用户将其数据发布到全球和公共通讯录",
     "Federated Cloud" : "联合云",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以与任何使用 Nextcloud，ownCloud 或 Pydio 的人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com",
     "Your Federated Cloud ID:" : "您的联合云 ID：",
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
     "Add to your website" : "添加到您的网站",
@@ -50,6 +49,7 @@
     "Federated share added" : "共享协作已添加",
     "Couldn't add remote share" : "无法添加远程共享",
     "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以与任何使用 Nextcloud，ownCloud 或 Pydio 的人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -45,7 +45,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Искать пользователей в глобальной и открытой адресной книге",
     "Allow users to publish their data to a global and public address book" : "Разрешить пользователям публиковать свои данные в глобальной и общедоступной адресной книге",
     "Federated Cloud" : "Федерация облачных хранилищ",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com».",
     "Your Federated Cloud ID:" : "Ваш ID в федерации облачных хранилищ:",
     "Share it so your friends can share files with you:" : "Сообщите его друзьям, чтобы они могли поделиться с вами файлами:",
     "Add to your website" : "Добавить к себе на сайт",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Federated share added" : "Добавлен общий федеративный ресурс",
     "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
     "Sharing %s failed, because this item is already shared with %s" : "Не удалось предоставить доступ к «%s» , пользователю%s доступ уже предоставлен",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com»."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

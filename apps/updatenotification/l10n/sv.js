@@ -13,6 +13,7 @@ OC.L10N.register(
     "Apps with available updates" : "Appar med tillgängliga uppdateringar",
     "Open updater" : "Öppna uppdateraren",
     "Download now" : "Ladda ned nu",
+    "What's new?" : "Vad är nytt?",
     "The update check is not yet finished. Please refresh the page." : "Uppdateringskontrollen är inte färdig ännu. Var god uppdatera sidan.",
     "Your version is up to date." : "Din version är uppdaterad.",
     "A non-default update server is in use to be checked for updates:" : "En icke-standard updateringsserver används för att kolla efter uppdateringar:",
