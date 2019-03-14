@@ -279,6 +279,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		if (!$this->verifyUid($uid)) {
+			return false;
+		}
+
 		$localBackends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof Database) {
@@ -597,5 +601,15 @@ class Manager extends PublicEmitter implements IUserManager {
 		return array_values(array_filter($users, function($u) {
 			return ($u instanceof IUser);
 		}));
+	}
+
+	private function verifyUid(string $uid): bool {
+		$appdata = 'appdata_' . $this->config->getSystemValueString('instanceid');
+
+		if ($uid === '.htaccess' || $uid === 'files_external' || $uid === '.ocdata' || $uid === 'owncloud.log' || $uid === 'nextcloud.log' || $uid === $appdata) {
+			return false;
+		}
+
+		return true;
 	}
 }
