@@ -86,8 +86,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$checkered-size: 20px;
-$checkered-color: #999;
+$checkered-size: 8px;
+$checkered-color: #efefef;
 
 img {
 	max-width: 100%;
