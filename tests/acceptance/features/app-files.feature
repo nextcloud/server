@@ -112,16 +112,16 @@ Feature: app-files
     Then I see that the current section is "Shares"
     Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: show shares for a second time
-    Given I am logged in
-    And I open the "Shares" section
-    And I see that the current section is "Shares"
-    And I open the "All files" section
-    And I see that the current section is "All files"
-    And I share the link for "welcome.txt"
-    When I open the "Shares" section
-    Then I see that the current section is "Shares"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show shares for a second time
+#    Given I am logged in
+#    And I open the "Shares" section
+#    And I see that the current section is "Shares"
+#    And I open the "All files" section
+#    And I see that the current section is "All files"
+#    And I share the link for "welcome.txt"
+#    When I open the "Shares" section
+#    Then I see that the current section is "Shares"
+#    Then I see that the file list contains a file named "welcome.txt"
 
 #  Scenario: show deleted files
 #    Given I am logged in
