@@ -137,7 +137,7 @@ export default {
 		currentFileName() {
 			if (this.currentFile && this.currentFile.path) {
 				const path = this.currentFile.path.split('/')
-				return path[path.length - 1]
+				return decodeURI(path[path.length - 1])
 			}
 			return ''
 		},
