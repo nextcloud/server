@@ -615,6 +615,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * create new user
 	 * @param string $username username of the new user
 	 * @param string $password password of the new user
+	 * @throws \UnexpectedValueException
 	 * @return bool
 	 */
 	public function createUser($username, $password) {
@@ -624,7 +625,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 					//updates user mapping
 					$this->access->dn2ocname($dn, $username, true);
 				} else {
-					throw new \Exception("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
 				}
 			}
 			return (bool) $dn;
