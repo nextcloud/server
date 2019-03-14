@@ -129,10 +129,10 @@ export default {
 
 	computed: {
 		hasPrevious() {
-			return this.currentIndex > 0
+			return this.fileList.length > 1
 		},
 		hasNext() {
-			return this.currentIndex < this.fileList.length - 1
+			return this.fileList.length > 1
 		},
 		currentFileName() {
 			if (this.currentFile && this.currentFile.path) {
@@ -378,7 +378,11 @@ export default {
 		previous() {
 			this.loading = true
 			this.failed = false
+
 			this.currentIndex--
+			if (this.currentIndex < 0) {
+				this.currentIndex = this.fileList.length - 1
+			}
 
 			this.openFileFromList(this.fileList[this.currentIndex])
 		},
@@ -389,7 +393,11 @@ export default {
 		next() {
 			this.loading = true
 			this.failed = false
+
 			this.currentIndex++
+			if (this.currentIndex > this.fileList.length - 1) {
+				this.currentIndex = 0
+			}
 
 			this.openFileFromList(this.fileList[this.currentIndex])
 		},
