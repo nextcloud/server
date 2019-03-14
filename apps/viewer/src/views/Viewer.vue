@@ -193,7 +193,7 @@ export default {
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 
-			const mime = this.getMime(path)
+			const mime = fileInfo.$file.data('mime')
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
@@ -223,7 +223,7 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			const path = fileInfo.href
-			const mime = this.getMime(path)
+			const mime = fileInfo.mimetype
 			const modal = this.components[mime]
 
 			if (modal) {
@@ -248,7 +248,7 @@ export default {
 
 			if (prev) {
 				const path = prev.href
-				const mime = this.getMime(path)
+				const mime = prev.mimetype
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -266,7 +266,7 @@ export default {
 
 			if (next) {
 				const path = next.href
-				const mime = this.getMime(path)
+				const mime = next.mimetype
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -358,19 +358,6 @@ export default {
 				this.components[mime] = handler.component
 				Vue.component(handler.component.name, handler.component)
 			})
-		},
-
-		/**
-		 * Extract mime from file path or use existing alias
-		 *
-		 * @param {String} path the file path
-		 * @returns {String} the mime type
-		 */
-		getMime(path) {
-			const mime = Mime.lookup(path)
-			return this.mimesAliases[mime]
-				? this.mimesAliases[mime]
-				: mime
 		},
 
 		/**
