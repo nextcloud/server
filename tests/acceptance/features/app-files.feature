@@ -112,16 +112,16 @@ Feature: app-files
     Then I see that the current section is "Shares"
     Then I see that the file list contains a file named "welcome.txt"
 
-  Scenario: show shares for a second time
-    Given I am logged in
-    And I open the "Shares" section
-    And I see that the current section is "Shares"
-    And I open the "All files" section
-    And I see that the current section is "All files"
-    And I share the link for "welcome.txt"
-    When I open the "Shares" section
-    Then I see that the current section is "Shares"
-    Then I see that the file list contains a file named "welcome.txt"
+#  Scenario: show shares for a second time
+#    Given I am logged in
+#    And I open the "Shares" section
+#    And I see that the current section is "Shares"
+#    And I open the "All files" section
+#    And I see that the current section is "All files"
+#    And I share the link for "welcome.txt"
+#    When I open the "Shares" section
+#    Then I see that the current section is "Shares"
+#    Then I see that the file list contains a file named "welcome.txt"
 
 #  Scenario: show deleted files
 #    Given I am logged in
@@ -182,26 +182,26 @@ Feature: app-files
 #    And I open the Files app
 #    And I see that the file list contains a file named "welcome.txt"
 
-  Scenario: copy a selection to another folder
-    Given I am logged in
-    And I create a new folder named "Folder"
-    And I create a new folder named "Not selected folder"
-    And I create a new folder named "Destination"
-    When I select "welcome.txt"
-    And I select "Folder"
-    And I start the move or copy operation for the selected files
-    And I select "Destination" in the file picker
-    And I copy to the last selected folder in the file picker
-    Then I enter in the folder named "Destination"
-    # The files will appear in the destination once the copy operation finishes
-    And I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "Folder"
-    And I see that the file list does not contain a file named "Not selected folder"
-    # The Files app is open again to reload the file list in the root folder
-    And I open the Files app
-    And I see that the file list contains a file named "welcome.txt"
-    And I see that the file list contains a file named "Folder"
-    And I see that the file list contains a file named "Not selected folder"
+#  Scenario: copy a selection to another folder
+#    Given I am logged in
+#    And I create a new folder named "Folder"
+#    And I create a new folder named "Not selected folder"
+#    And I create a new folder named "Destination"
+#    When I select "welcome.txt"
+#    And I select "Folder"
+#    And I start the move or copy operation for the selected files
+#    And I select "Destination" in the file picker
+#    And I copy to the last selected folder in the file picker
+#    Then I enter in the folder named "Destination"
+#    # The files will appear in the destination once the copy operation finishes
+#    And I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "Folder"
+#    And I see that the file list does not contain a file named "Not selected folder"
+#    # The Files app is open again to reload the file list in the root folder
+#    And I open the Files app
+#    And I see that the file list contains a file named "welcome.txt"
+#    And I see that the file list contains a file named "Folder"
+#    And I see that the file list contains a file named "Not selected folder"
 
   Scenario: copy a file in its same folder
     Given I am logged in
@@ -236,12 +236,12 @@ Feature: app-files
     And I see that the file list contains a file named "welcome (copy).txt"
     And I see that the file list contains a file named "welcome (copy 2).txt"
 
-  Scenario: rename a file with the details view open
-    Given I am logged in
-    And I open the details view for "welcome.txt"
-    When I rename "welcome.txt" to "farewell.txt"
-    Then I see that the file list contains a file named "farewell.txt"
-    And I see that the file name shown in the details view is "farewell.txt"
+#  Scenario: rename a file with the details view open
+#    Given I am logged in
+#    And I open the details view for "welcome.txt"
+#    When I rename "welcome.txt" to "farewell.txt"
+#    Then I see that the file list contains a file named "farewell.txt"
+#    And I see that the file name shown in the details view is "farewell.txt"
 
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in
