@@ -38,7 +38,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Sök global och offentlig adressbok för användare",
     "Allow users to publish their data to a global and public address book" : "Tillåt användare att publicera deras data till en global och publik adressbok",
     "Federated Cloud" : "Federerat moln",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dela med vem som helst som använder Nextcloud, ownCloud eller Pydio! Ange bara deras federerade moln-ID i dela-dialogen. Exempelvis person@cloud.example.com",
     "Your Federated Cloud ID:" : "Ditt federerade moln-ID:",
     "Share it so your friends can share files with you:" : "Dela det så att dina vänner kan dela filer med dig:",
     "Add to your website" : "Lägg till på din hemsida",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Federated share added" : "Federerad delning tillagd",
     "Couldn't add remote share" : "Kunde inte lägga till extern delning",
     "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dela med vem som helst som använder Nextcloud, ownCloud eller Pydio! Ange bara deras federerade moln-ID i dela-dialogen. Exempelvis person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

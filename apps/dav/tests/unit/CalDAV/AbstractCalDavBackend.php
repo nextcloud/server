@@ -27,6 +27,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -83,6 +84,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IConfig::class),
+				$this->createMock(IAppManager::class),
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();

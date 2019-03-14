@@ -39,7 +39,6 @@
     "Search global and public address book for users" : "Vyhľadávať používateľov v globálnom a verejnom adresári kontaktov",
     "Allow users to publish their data to a global and public address book" : "Povoliť používateľom publikovanie ich dát do globálneho a verejného adresára",
     "Federated Cloud" : "Združený Cloud",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Môžete zdieľať s kýmkoľvek kto používa Nextcloud, ownCloud alebo Pydio! Len zadajte ich združené Cloud ID v dialógu pre zdieľanie. Vyzerá podobne ako person@cloud.example.com",
     "Your Federated Cloud ID:" : "Vaše združené Cloud ID",
     "Share it so your friends can share files with you:" : "Zdieľajte to, aby mohli vaši priatelia zdieľať súbory s vami:",
     "Add to your website" : "Pridať na svoju webstránku",
@@ -53,6 +52,7 @@
     "Federated share added" : "Združené sprístupnenie pridané",
     "Couldn't add remote share" : "Nedá sa pridať vzdialené sprístupnenie",
     "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Môžete zdieľať s kýmkoľvek kto používa Nextcloud, ownCloud alebo Pydio! Len zadajte ich združené Cloud ID v dialógu pre zdieľanie. Vyzerá podobne ako person@cloud.example.com"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

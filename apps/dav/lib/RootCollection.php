@@ -58,7 +58,8 @@ class RootCollection extends SimpleCollection {
 			$groupManager,
 			$shareManager,
 			\OC::$server->getUserSession(),
-			$config
+			$config,
+			\OC::$server->getAppManager()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $l10n);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);

@@ -7,14 +7,14 @@ Feature: app-comments
     When I create a new comment with "Hello world" as message
     Then I see a comment with "Hello world" as message
 
-  Scenario: open the comments for a different file
-    Given I am logged in
-    And I create a new folder named "Folder"
-    And I open the details view for "welcome.txt"
-    And I open the "Comments" tab in the details view
-    And I create a new comment with "Hello world" as message
-    And I see a comment with "Hello world" as message
-    When I open the details view for "Folder"
+#  Scenario: open the comments for a different file
+#    Given I am logged in
+#    And I create a new folder named "Folder"
+#    And I open the details view for "welcome.txt"
+#    And I open the "Comments" tab in the details view
+#    And I create a new comment with "Hello world" as message
+#    And I see a comment with "Hello world" as message
+#    When I open the details view for "Folder"
     # The "Comments" tab should already be opened
 #    Then I see that there are no comments
 

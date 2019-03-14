@@ -51,7 +51,8 @@ class Application extends App {
 				$server->getGroupManager(),
 				$server->getShareManager(),
 				$server->getUserSession(),
-				$server->getConfig()
+				$server->getConfig(),
+				$server->getAppManager()
 			);
 		});
 

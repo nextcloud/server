@@ -19,7 +19,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "クラウド共有リクエストが送信されました。招待が受信できます。通知を確認してください。",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "フェデレーション共有を確立できませんでした。連合するサーバーが古すぎます（Nextcloud <= 9）。",
     "It is not allowed to send federated group shares from this server." : "このサーバーからフェデレーショングループ共有を送信することはできません。",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "このアイテムは既に %2$s と共有されているため、%1$s の共有に失敗しました",
+    "Sharing %1$s failed, because this item is already shared with %2$s" : "このアイテムはすでに %2$s と共有されているため、%1$s の共有に失敗しました",
     "Not allowed to create a federated share with the same user" : "同じユーザーでクラウド共有は作成できません。",
     "File is already shared with %s" : "ファイルはすでに %s と共有されています。",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s の共有に失敗しました。%2$s が見つかりませんでした。おそらくサーバーに接続できないか、自己証明書を使用しています。",
@@ -45,7 +45,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "グローバルまたはユーザーの公開アドレス帳を検索する",
     "Allow users to publish their data to a global and public address book" : "公開アドレス帳をグローバルに公開することをユーザーに許可する",
     "Federated Cloud" : "クラウド共有",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud 、 ownCloud 、 Pydio を使う人とは誰とでも共有できます。クラウド共有IDを共有ダイアログに入力するだけです。例：person@cloud.example.com",
     "Your Federated Cloud ID:" : "あなたのクラウド共有ID：",
     "Share it so your friends can share files with you:" : "友達があなたとファイルを共有できるよう、シェアしましょう:",
     "Add to your website" : "ウェブサイトに追加",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Federated share added" : "クラウド共有が追加されました",
     "Couldn't add remote share" : "リモート共有を追加できませんでした",
     "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud 、 ownCloud 、 Pydio を使う人とは誰とでも共有できます。クラウド共有IDを共有ダイアログに入力するだけです。例：person@cloud.example.com"
 },
 "nplurals=1; plural=0;");

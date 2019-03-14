@@ -12,6 +12,8 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -301,6 +303,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		// query for shared calendars
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
+		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
+
 		$principals = array_map(function($principal) {
 			return urldecode($principal);
 		}, $principals);

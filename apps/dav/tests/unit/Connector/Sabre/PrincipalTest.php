@@ -29,6 +29,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\User;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -59,19 +60,25 @@ class PrincipalTest extends TestCase {
 	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject  */
 	private $config;
 
+	/** @var IAppManager | \PHPUnit_Framework_MockObject_MockObject  */
+	private $appManager;
+
 	public function setUp() {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
 			$this->groupManager,
 			$this->shareManager,
 			$this->userSession,
-			$this->config);
+			$this->config,
+			$this->appManager
+		);
 		parent::setUp();
 	}
 

@@ -83,11 +83,16 @@ class AppsEnableTest extends TestCase {
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
 			[['updatenotification'], ['admin'], 0, 'updatenotification enabled for groups: admin'],
-			[['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
+# TODO: not reliable due to dependency to appstore
+#			[['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
+			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
 
 			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification enabled for groups: admin'],
-			[['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
-			[['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"],
+# TODO: not reliable due to dependency to appstore
+#			[['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
+#			[['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
+			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }

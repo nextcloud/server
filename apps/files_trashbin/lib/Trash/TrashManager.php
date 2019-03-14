@@ -99,7 +99,10 @@ class TrashManager implements ITrashManager {
 		}
 		try {
 			$backend = $this->getBackendForStorage($storage);
-			return $backend->moveToTrash($storage, $internalPath);
+			$this->trashPaused = true;
+			$result = $backend->moveToTrash($storage, $internalPath);
+			$this->trashPaused = false;
+			return $result;
 		} catch (BackendNotFoundException $e) {
 			return false;
 		}

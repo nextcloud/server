@@ -13,6 +13,8 @@
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -32,6 +34,9 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -40,7 +45,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
 class Principal implements BackendInterface {
@@ -60,11 +65,17 @@ class Principal implements BackendInterface {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/** @var string */
 	private $principalPrefix;
 
 	/** @var bool */
 	private $hasGroups;
+
+	/** @var bool */
+	private $hasCircles;
 
 	/**
 	 * @param IUserManager $userManager
@@ -79,14 +90,16 @@ class Principal implements BackendInterface {
 								IShareManager $shareManager,
 								IUserSession $userSession,
 								IConfig $config,
+								IAppManager $appManager,
 								$principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->config = $config;
+		$this->appManager = $appManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
-		$this->hasGroups = ($principalPrefix === 'principals/users/');
+		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 	}
 
 	/**
@@ -130,6 +143,12 @@ class Principal implements BackendInterface {
 
 			if ($user !== null) {
 				return $this->userToPrincipal($user);
+			}
+		} else if ($prefix === 'principals/circles') {
+			try {
+				return $this->circleToPrincipal($name);
+			} catch (QueryException $e) {
+				return null;
 			}
 		}
 		return null;
@@ -386,6 +405,72 @@ class Principal implements BackendInterface {
 
 	public function getPrincipalPrefix() {
 		return $this->principalPrefix;
+	}
+
+	/**
+	 * @param string $circleUniqueId
+	 * @return array|null
+	 * @throws \OCP\AppFramework\QueryException
+	 * @suppress PhanUndeclaredClassMethod
+	 * @suppress PhanUndeclaredClassCatch
+	 */
+	protected function circleToPrincipal($circleUniqueId) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+			return null;
+		}
+
+		try {
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
+		} catch(QueryException $ex) {
+			return null;
+		} catch(CircleDoesNotExistException $ex) {
+			return null;
+		}
+
+		if (!$circle) {
+			return null;
+		}
+
+		$principal = [
+			'uri' => 'principals/circles/' . $circleUniqueId,
+			'{DAV:}displayname' => $circle->getName(),
+		];
+
+		return $principal;
+	}
+
+	/**
+	 * Returns the list of circles a principal is a member of
+	 *
+	 * @param string $principal
+	 * @return array
+	 * @throws Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 * @suppress PhanUndeclaredClassMethod
+	 */
+	public function getCircleMembership($principal):array {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+			return [];
+		}
+
+		list($prefix, $name) = \Sabre\Uri\split($principal);
+		if ($this->hasCircles && $prefix === $this->principalPrefix) {
+			$user = $this->userManager->get($name);
+			if (!$user) {
+				throw new Exception('Principal not found');
+			}
+
+			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
+
+			$circles = array_map(function($circle) {
+				/** @var \OCA\Circles\Model\Circle $circle */
+				return 'principals/circles/' . urlencode($circle->getUniqueId());
+			}, $circles);
+
+			return $circles;
+		}
+
+		return [];
 	}
 
 }

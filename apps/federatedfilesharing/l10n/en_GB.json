@@ -37,7 +37,6 @@
     "Search global and public address book for users" : "Search global and public address book for users",
     "Allow users to publish their data to a global and public address book" : "Allow users to publish their data to a global and public address book",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
     "Your Federated Cloud ID:" : "Your Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Add to your website" : "Add to your website",
@@ -51,6 +50,7 @@
     "Federated share added" : "Federated share added",
     "Couldn't add remote share" : "Couldn't add remote share",
     "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

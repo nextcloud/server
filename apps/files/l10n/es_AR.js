@@ -101,12 +101,6 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite las notificación de la creación y cambios a sus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
-    "File handling" : "Administración de archivos",
-    "Maximum upload size" : "Tamaño máximo de carga",
-    "max. possible: " : "max. posible:",
-    "Save" : "Guardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios apliquen. ",
-    "Missing permissions to edit from here." : "Faltan privilegios para editar desde aquí. ",
     "%s of %s used" : "%s de %s usado",
     "%s used" : "%s usado",
     "Settings" : "Configuraciones ",
@@ -127,6 +121,12 @@ OC.L10N.register(
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Target folder" : "Carpeta destino"
+    "Target folder" : "Carpeta destino",
+    "File handling" : "Administración de archivos",
+    "Maximum upload size" : "Tamaño máximo de carga",
+    "max. possible: " : "max. posible:",
+    "Save" : "Guardar",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios apliquen. ",
+    "Missing permissions to edit from here." : "Faltan privilegios para editar desde aquí. "
 },
 "nplurals=2; plural=(n != 1);");

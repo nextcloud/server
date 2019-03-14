@@ -94,12 +94,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
-    "File handling" : "Datņu pārvaldība",
-    "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
-    "max. possible: " : "maksimālais iespējamais:",
-    "Save" : "Saglabāt",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ar PHP-FPM var aizņemt 5 minūtes, kamēr izmaiņas stāsies spēkā.",
-    "Missing permissions to edit from here." : "Nepietiekamas tiesības lai rediģētu no šejienes.",
     "Settings" : "Iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "WebDAV" : "WebDAV",
@@ -117,6 +111,12 @@ OC.L10N.register(
     "Shared by link" : "Koplietots ar saiti",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
-    "Target folder" : "Mērķa mape"
+    "Target folder" : "Mērķa mape",
+    "File handling" : "Datņu pārvaldība",
+    "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
+    "max. possible: " : "maksimālais iespējamais:",
+    "Save" : "Saglabāt",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ar PHP-FPM var aizņemt 5 minūtes, kamēr izmaiņas stāsies spēkā.",
+    "Missing permissions to edit from here." : "Nepietiekamas tiesības lai rediģētu no šejienes."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
