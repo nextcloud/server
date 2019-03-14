@@ -162,11 +162,33 @@
 
 			fileActions.registerAction({
 				name: 'Share',
-				displayName: '',
+				displayName: function(context) {
+					if (context && context.$file) {
+						var shareType = parseInt(context.$file.data('share-types'), 10)
+						var shareOwner = context.$file.data('share-owner-id')
+						if (shareType >= 0 || shareOwner) {
+							return t('core', 'Shared')
+						}
+					}
+					return t('core', 'Share')
+				},
 				altText: t('core', 'Share'),
 				mime: 'all',
+				order: -60,
 				permissions: OC.PERMISSION_ALL,
-				iconClass: 'icon-shared',
+				iconClass: function(fileName, context) {
+					var shareType = parseInt(context.$file.data('share-types'), 10)
+					if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+						return 'icon-public'
+					}
+					return 'icon-shared'
+				},
+				icon: function(fileName, context) {
+					var shareOwner = context.$file.data('share-owner-id')
+					if (shareOwner) {
+						return OC.generateUrl(`/avatar/${shareOwner}/32`)
+					}
+				},
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName, context) {
 					// do not open sidebar if permission is set and equal to 0
