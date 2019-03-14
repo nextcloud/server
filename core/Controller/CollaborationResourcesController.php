@@ -241,12 +241,6 @@ class CollaborationResourcesController extends OCSController {
 			return null;
 		}
 
-		return [
-			'type' => $resource->getType(),
-			'id' => $resource->getId(),
-			'name' => $resource->getName(),
-			'iconLink' => $resource->getIconLink(),
-			'link' => $resource->getLink(),
-		];
+		return $resource->getRichObject();
 	}
 }

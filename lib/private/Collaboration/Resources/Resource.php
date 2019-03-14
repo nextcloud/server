@@ -49,14 +49,8 @@ class Resource implements IResource {
 	/** @var bool|null */
 	protected $access;
 
-	/** @var string|null */
-	protected $name;
-
-	/** @var string|null */
-	protected $iconClass;
-
-	/** @var string|null */
-	protected $link;
+	/** @var array|null */
+	protected $data;
 
 	public function __construct(
 		IManager $manager,
@@ -91,35 +85,15 @@ class Resource implements IResource {
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 * @since 16.0.0
 	 */
-	public function getName(): string {
-		if ($this->name === null) {
-			$this->name = $this->manager->getName($this);
+	public function getRichObject(): array {
+		if ($this->data === null) {
+			$this->data = $this->manager->getResourceRichObject($this);
 		}
 
-		return $this->name;
-	}
-
-	/**
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getIconLink(): string {
-		if ($this->iconClass === null) {
-			$this->iconClass = $this->manager->getIconLink($this);
-		}
-
-		return $this->iconClass;
-	}
-
-	public function getLink(): string {
-		if ($this->link === null) {
-			$this->link = $this->manager->getLink($this);
-		}
-
-		return $this->link;
+		return $this->data;
 	}
 
 	/**

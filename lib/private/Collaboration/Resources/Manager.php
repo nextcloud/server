@@ -285,41 +285,23 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Get the display name of a resource
+	 * Get the rich object data of a resource
 	 *
 	 * @param IResource $resource
-	 * @return string
+	 * @return array
 	 * @since 16.0.0
 	 */
-	public function getName(IResource $resource): string {
+	public function getResourceRichObject(IResource $resource): array {
 		foreach ($this->getProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
-					return $provider->getName($resource);
+					return $provider->getResourceRichObject($resource);
 				} catch (ResourceException $e) {
 				}
 			}
 		}
 
-		return '';
-	}
-
-	/**
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 */
-	public function getIconLink(IResource $resource): string {
-		foreach ($this->getProviders() as $provider) {
-			if ($provider->getType() === $resource->getType()) {
-				try {
-					return $provider->getIconLink($resource);
-				} catch (ResourceException $e) {
-				}
-			}
-		}
-
-		return '';
+		return [];
 	}
 
 	/**
@@ -539,26 +521,6 @@ class Manager implements IManager {
 	 * @since 16.0.0
 	 */
 	public function getType(): string {
-		return '';
-	}
-
-	/**
-	 * Get the link to a resource
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getLink(IResource $resource): string {
-		foreach ($this->getProviders() as $provider) {
-			if ($provider->getType() === $resource->getType()) {
-				try {
-					return $provider->getLink($resource);
-				} catch (ResourceException $e) {
-				}
-			}
-		}
-
 		return '';
 	}
 }
