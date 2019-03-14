@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Serĉi mallokan kaj publikan adresaron por trovi uzantojn",
     "Allow users to publish their data to a global and public address book" : "Permesi al uzantoj aperigi iliajn datumojn en mallokan kaj publikan adresaron ",
     "Federated Cloud" : "Federa nubo",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vi povas kunhavigi kun iu, kiu uzas Nextcloud, ownCloud aŭ Pydio! Entajpu simple lian aŭ ŝian federnuban identigilon en la kunhaviga dialogo. Federnuba identigilo similas al persono@nubo.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vi povas kunhavigi kun iu, kiu uzas Nextcloud aŭ aliaj serviloj kaj servoj kungruaj kun „Open Cloud Mesh (OCM)“! Entajpu simple lian aŭ ŝian federnuban identigilon en la kunhaviga dialogo. Federnuba identigilo similas al persono@nubo.example.com",
     "Your Federated Cloud ID:" : "Via federnuba identigilo:",
     "Share it so your friends can share files with you:" : "Kunhavigu ĝin, por ke viaj amikoj povu kunhavigi dosierojn kun vi:",
     "Add to your website" : "Aldoni al via TTT-ejo",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Federated share added" : "Federa kunhavo aldonita",
     "Couldn't add remote share" : "Ne povis aldoni federan kunhavon",
     "Sharing %s failed, because this item is already shared with %s" : "Kunhavigo de %s malsukcesis, ĉar la ero jam kunhaviĝis kun %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de %s malsukcesis, ne eblis trovi %s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de %s malsukcesis, ne eblis trovi %s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vi povas kunhavigi kun iu, kiu uzas Nextcloud, ownCloud aŭ Pydio! Entajpu simple lian aŭ ŝian federnuban identigilon en la kunhaviga dialogo. Federnuba identigilo similas al persono@nubo.example.com"
 },
 "nplurals=2; plural=(n != 1);");

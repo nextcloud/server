@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Vérifiez si %s n'existe pas",
     "Check %s is invalid" : "Vérifiez si %s est invalide",
     "Check #%s does not exist" : "Vérifiez si #%s n'existe pas",
+    "Tag management" : "Gestion des étiquettes",
     "Files workflow engine" : "Moteur de Workflow de fichiers",
     "Open documentation" : "Voir la documentation",
     "Loading…" : "Chargement...",

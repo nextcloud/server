@@ -38,7 +38,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "მოძებნეთ გლობალური და ღია მომხმარებლების მისამართების წიგნები",
     "Allow users to publish their data to a global and public address book" : "დართეთ ნება მომხმარებლებს გამოაქყვეყნონ მათი მონაცემები გლობალურ და საზოგადო მისამართების წიგნებში",
     "Federated Cloud" : "ფედერალური ქლაუდი",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "შეგიძლიათ გაუზიაროთ ნებისმიერ ადამიანს ვინც იყენებს Nextcloud-ს, ownCloud-ს ან Pydio!-ს უბრალოდ მოათავსეთ მათი ფედერალური ქლაუდ ID-ები გაზიარების დიალოგში. ის გამოიყურება როგოც person@cloud.example.com",
     "Your Federated Cloud ID:" : "თქვენი ფედერალური ქლაუდ ID:",
     "Share it so your friends can share files with you:" : "გააზიარეთ, რომ თქვენმა მეგობრებმაც შეძლონ ფაილების გაზიარება თქვენთან:",
     "Add to your website" : "საიტზე დამატება",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Federated share added" : "ფედერალური გაზიარება დაემატა",
     "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
     "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "შეგიძლიათ გაუზიაროთ ნებისმიერ ადამიანს ვინც იყენებს Nextcloud-ს, ownCloud-ს ან Pydio!-ს უბრალოდ მოათავსეთ მათი ფედერალური ქლაუდ ID-ები გაზიარების დიალოგში. ის გამოიყურება როგოც person@cloud.example.com"
 },
 "nplurals=2; plural=(n!=1);");

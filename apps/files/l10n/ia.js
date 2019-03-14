@@ -96,12 +96,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Un nove file o dossier ha essite <strong>create</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar notificationes concernente le creation e le modification de tu <strong>files favorite</strong> <em>(Solmente fluxo)</em>",
     "Upload (max. %s)" : "Incarga (maxime %s)",
-    "File handling" : "Gestion de file",
-    "Maximum upload size" : "Maxime dimension de incarga",
-    "max. possible: " : "maxime possibile:",
-    "Save" : "Salveguardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM possibilemente il requirera 5 minutas pro modificationes esser applicate.",
-    "Missing permissions to edit from here." : "Il manca permissiones pro modificar desde ci.",
     "Settings" : "Configurationes",
     "Show hidden files" : "Monstrar files occultate",
     "WebDAV" : "WebDAV",
@@ -119,6 +113,12 @@ OC.L10N.register(
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
     "New text file.txt" : "Nove texto file.txt",
-    "Target folder" : "Dossier de destination"
+    "Target folder" : "Dossier de destination",
+    "File handling" : "Gestion de file",
+    "Maximum upload size" : "Maxime dimension de incarga",
+    "max. possible: " : "maxime possibile:",
+    "Save" : "Salveguardar",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM possibilemente il requirera 5 minutas pro modificationes esser applicate.",
+    "Missing permissions to edit from here." : "Il manca permissiones pro modificar desde ci."
 },
 "nplurals=2; plural=(n != 1);");

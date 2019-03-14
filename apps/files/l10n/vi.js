@@ -102,12 +102,6 @@ OC.L10N.register(
     "{user} moved {oldfile} to {newfile}" : "{user} đã chuyển {oldfile} tới {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Một tệp đã được thêm hoặc bị xóa khỏi <strong>mục yêu thích của bạn</strong>",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
-    "File handling" : "Xử lý tập tin",
-    "Maximum upload size" : "Kích thước tối đa ",
-    "max. possible: " : "tối đa cho phép:",
-    "Save" : "Lưu",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Với PHP-FPM, có thể mất 5 phút để áp dụng các thay đổi.",
-    "Missing permissions to edit from here." : "Thiếu quyền để chỉnh sửa từ đây.",
     "Settings" : "Cài đặt",
     "Show hidden files" : "Hiển thị cac file bị ẩn",
     "WebDAV" : "WebDAV",
@@ -124,6 +118,12 @@ OC.L10N.register(
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Text file" : "Tập tin văn bản",
-    "Target folder" : "Thư mục đích"
+    "Target folder" : "Thư mục đích",
+    "File handling" : "Xử lý tập tin",
+    "Maximum upload size" : "Kích thước tối đa ",
+    "max. possible: " : "tối đa cho phép:",
+    "Save" : "Lưu",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Với PHP-FPM, có thể mất 5 phút để áp dụng các thay đổi.",
+    "Missing permissions to edit from here." : "Thiếu quyền để chỉnh sửa từ đây."
 },
 "nplurals=1; plural=0;");

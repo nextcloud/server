@@ -13,6 +13,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Select all" : "Velg alle",
     "Name" : "Navn",
+    "Actions" : "Handlinger",
     "Deleted" : "Slettet",
     "Couldn't delete %s permanently" : "Kunne ikke slette %s fullstendig",
     "Couldn't restore %s" : "Kunne ikke gjenopprette %s",

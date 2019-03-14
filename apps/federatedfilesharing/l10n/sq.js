@@ -37,7 +37,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",
     "Allow users to publish their data to a global and public address book" : "Lejo përdoruesit të publikojnë të dhënat e tyre në një libër adresash botërore dhe globale",
     "Federated Cloud" : "Re e Federuar",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ju mund të ndani me këdo që përdor Nextcloud, ownCloud ose Pydio! Vetëm vendosni ID e tyre të Federated Cloud në dialogun e shpërndarjeve. Duket si person@cloud.example.com",
     "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
     "Share it so your friends can share files with you:" : "Shërndajeni që miqtë tuaj mund të ndajnë skedarë me ju:",
     "Add to your website" : "Shtojeni te sajti juaj",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Federated share added" : "Ndarje e federuar u shtua",
     "Couldn't add remote share" : "Nuk mund të shtohet ndarja në largësi",
     "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ju mund të ndani me këdo që përdor Nextcloud, ownCloud ose Pydio! Vetëm vendosni ID e tyre të Federated Cloud në dialogun e shpërndarjeve. Duket si person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

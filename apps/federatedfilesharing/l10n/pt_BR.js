@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Procurar por usuários em catálogo de endereços global e público",
     "Allow users to publish their data to a global and public address book" : "Permitir que os usuários publiquem seus dados em um catálogo de endereços global e público",
     "Federated Cloud" : "Nuvem Federada",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer um que use Nextcloud, ownCloud ou Pydio! Apenas coloque a ID de Nuvem Federada no diálogo de compartilhamento. Isto é algo como person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer pessoa que use Nextcloud ou outros servidores compatíveis com o Open Cloud Mesh (OCM)! Basta colocar sua ID da nuvem federada na caixa de diálogo de compartilhamento. Algo como person@cloud.example.com",
     "Your Federated Cloud ID:" : "Sua ID de Nuvem Federada:",
     "Share it so your friends can share files with you:" : "Compartilhe e seus amigos poderão compartilhar arquivos com você:",
     "Add to your website" : "Adicione ao seu website",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Federated share added" : "Compartilhamento Federado adicionado",
     "Couldn't add remote share" : "Não foi possível adicionar o compartilhamento remoto",
     "Sharing %s failed, because this item is already shared with %s" : "Compartilhamento %s falhou porque este item já está compartilhado com %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartilhamento %s falhou, não foi possível encontrar %s. Talvez o servidor esteja inacessível ou esteja sendo utilizado um certificado de auto-assinatura"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartilhamento %s falhou, não foi possível encontrar %s. Talvez o servidor esteja inacessível ou esteja sendo utilizado um certificado de auto-assinatura",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer um que use Nextcloud, ownCloud ou Pydio! Apenas coloque a ID de Nuvem Federada no diálogo de compartilhamento. Isto é algo como person@cloud.example.com"
 },
 "nplurals=2; plural=(n > 1);");

@@ -116,12 +116,6 @@
     "A file or folder has been <strong>restored</strong>" : "Fail või kaust on <strong>taastatud</strong>",
     "Unlimited" : "Piiramatult",
     "Upload (max. %s)" : "Üleslaadimine (max. %s)",
-    "File handling" : "Failide käsitlemine",
-    "Maximum upload size" : "Maksimaalne üleslaadimise suurus",
-    "max. possible: " : "maks. võimalik: ",
-    "Save" : "Salvesta",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
-    "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
     "%s of %s used" : "Kasutatud %s/%s",
     "%s used" : "Kasutatud %s",
     "Settings" : "Seaded",
@@ -144,6 +138,12 @@
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Target folder" : "Sihtkaust",
+    "File handling" : "Failide käsitlemine",
+    "Maximum upload size" : "Maksimaalne üleslaadimise suurus",
+    "max. possible: " : "maks. võimalik: ",
+    "Save" : "Salvesta",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
+    "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
     "Cancel upload" : "Tühista üleslaadimine"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

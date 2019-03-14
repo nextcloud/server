@@ -37,7 +37,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Helbide liburu global eta publikoetak erabiltzaileak bilatu",
     "Allow users to publish their data to a global and public address book" : "Erabiltzaileei bere datuak helbide-liburu publiko eta orokorrean publikatzea baimendu",
     "Federated Cloud" : "Hodei Federatua",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud edo Pydio erabiltzen duen edonorrekin parteka dezakezu! Beraien Federatutako Hodei ID-a idatzi partekatzeen laukian. Honen itxura dute: pertsona@hodei.adibide.com",
     "Your Federated Cloud ID:" : "Federatutatako Hodei ID:",
     "Share it so your friends can share files with you:" : "Partekatu zure lagunek fitxategiak zurekin partekatzeko:",
     "Add to your website" : "Zure webgunera gehitu",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Federated share added" : "Federatutako partekatzea gehituta",
     "Couldn't add remote share" : "Ezin izan da urruneko partekatzea gehitu",
     "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud edo Pydio erabiltzen duen edonorrekin parteka dezakezu! Beraien Federatutako Hodei ID-a idatzi partekatzeen laukian. Honen itxura dute: pertsona@hodei.adibide.com"
 },
 "nplurals=2; plural=(n != 1);");

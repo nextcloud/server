@@ -101,8 +101,6 @@ OC.L10N.register(
     "{user} renamed {oldfile} to {newfile}" : "{user} {oldfile} فایل {newfile} نوم ته اړولی ",
     "Upload (max. %s)" : "پورته کول (%s نهايي)",
     "File Management" : "فایلونه ترتیبول",
-    "File handling" : "فایلونه سمبالول",
-    "Save" : "ساتل",
     "Settings" : "سمونې",
     "Show hidden files" : "پټ فایلونه ليدل",
     "Toggle grid view" : "په جدولي شکل ليدل",
@@ -123,6 +121,8 @@ OC.L10N.register(
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
     "Target folder" : "د ورانتقالېدو فولډر",
+    "File handling" : "فایلونه سمبالول",
+    "Save" : "ساتل",
     "Cancel upload" : "پرېښودل"
 },
 "nplurals=2; plural=(n != 1);");
