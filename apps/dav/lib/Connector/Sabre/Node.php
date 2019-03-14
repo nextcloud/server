@@ -138,7 +138,9 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		$newPath = $parentPath . '/' . $newName;
 
-		$this->fileView->rename($this->path, $newPath);
+		if (!$this->fileView->rename($this->path, $newPath)) {
+			throw new \Sabre\DAV\Exception('Failed to rename '. $this->path . ' to ' . $newPath);
+		}
 
 		$this->path = $newPath;
 
