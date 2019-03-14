@@ -236,12 +236,12 @@ Feature: app-files
     And I see that the file list contains a file named "welcome (copy).txt"
     And I see that the file list contains a file named "welcome (copy 2).txt"
 
-  Scenario: rename a file with the details view open
-    Given I am logged in
-    And I open the details view for "welcome.txt"
-    When I rename "welcome.txt" to "farewell.txt"
-    Then I see that the file list contains a file named "farewell.txt"
-    And I see that the file name shown in the details view is "farewell.txt"
+#  Scenario: rename a file with the details view open
+#    Given I am logged in
+#    And I open the details view for "welcome.txt"
+#    When I rename "welcome.txt" to "farewell.txt"
+#    Then I see that the file list contains a file named "farewell.txt"
+#    And I see that the file name shown in the details view is "farewell.txt"
 
   Scenario: marking a file as favorite causes the file list to be sorted again
     Given I am logged in
