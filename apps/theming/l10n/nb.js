@@ -25,9 +25,9 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruker et tilpasset tema. Innstillinger i app for tilpasning av tema kan bli overskrevet av disse.",
     "Legal notice" : "Juridisk varsel",
     "Privacy policy" : "Personvern",
-    "Theming" : "Draktvalg",
-    "Adjust the Nextcloud theme" : "Tilpass Nextcloud tema/drakt",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Draktvalg gjør det enkelt å tilpasse utseende og følelsen av din installasjon og støttede klienter. Dette vil bli synlig for alle brukere.",
+    "Theming" : "Temavalg",
+    "Adjust the Nextcloud theme" : "Tilpass Nextcloud-tema",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temavalg gjør det enkelt å tilpasse utseende og følelsen av din installasjon og støttede klienter. Dette vil bli synlig for alle brukere.",
     "Name" : "Navn",
     "Reset to default" : "Tilbakestill til standard",
     "Web link" : "Nettside lenke",
@@ -51,7 +51,7 @@ OC.L10N.register(
     "The uploaded file was only partially uploaded" : "Filen ble bare delvis lastet opp",
     "Failed to write file to disk." : "Skriving til disk mislyktes",
     "A PHP extension stopped the file upload." : "En PHP-utvidelse stoppet filopplastingen.",
-    "You are already using a custom theme" : "Du bruker allerede en egendefinert drakt",
+    "You are already using a custom theme" : "Du bruker allerede et egendefinert tema",
     "Web address https://…" : "Nettadresse https://…"
 },
 "nplurals=2; plural=(n != 1);");

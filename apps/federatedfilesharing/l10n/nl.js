@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Doorzoeken van openbare adresboeken voor gebruikers",
     "Allow users to publish their data to a global and public address book" : "Publiek maken van data met een openbaar adresboek toestaan",
     "Federated Cloud" : "Gefedereerde Cloud",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of Pydio gebruikt! Gebruik simpelweg hun gefedereerde Cloud ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of een ander Open Cloud Mesh (OCM) compatible server of services gebruikt! Gebruik simpelweg hun gefedereerde Cloud ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com",
     "Your Federated Cloud ID:" : "Je gefedereerde Cloud ID:",
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Add to your website" : "Toevoegen aan je website",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Federated share added" : "Gefedereerd share is toegevoegd",
     "Couldn't add remote share" : "Kon geen externe share toevoegen",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of Pydio gebruikt! Gebruik simpelweg hun gefedereerde Cloud ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com"
 },
 "nplurals=2; plural=(n != 1);");

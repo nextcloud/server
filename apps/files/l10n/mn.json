@@ -93,10 +93,6 @@
     "{user} renamed {oldfile} to {newfile}" : "{user} хэрэглэгч {oldfile} файлын нэрийг {newfile} болгож өөрчлөв",
     "You moved {oldfile} to {newfile}" : "Та {oldfile} файлыг {newfile} болгож зөөв",
     "{user} moved {oldfile} to {newfile}" : "{user} хэрэглэгч {oldfile} файлыг {newfile} болгож зөөв",
-    "File handling" : "файлтай харьцах",
-    "Maximum upload size" : "хамгийн их байршуулах хэмжээ",
-    "max. possible: " : "боломжтой хамгийн их хэмжээ",
-    "Save" : "хадгалах",
     "Settings" : "Тохиргоо",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
     "No files in here" : "энэд файл байхгүй байна",
@@ -110,6 +106,10 @@
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
-    "Target folder" : "Заагч хавтас"
+    "Target folder" : "Заагч хавтас",
+    "File handling" : "файлтай харьцах",
+    "Maximum upload size" : "хамгийн их байршуулах хэмжээ",
+    "max. possible: " : "боломжтой хамгийн их хэмжээ",
+    "Save" : "хадгалах"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

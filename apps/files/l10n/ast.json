@@ -78,12 +78,6 @@
     "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Llendar les notificaciones tocantes a creación y cambeos a tos <strong>ficheros favoritos</strong <em>(namás Stream)</em>",
     "Upload (max. %s)" : "Xuba (máx. %s)",
-    "File handling" : "Alministración de ficheros",
-    "Maximum upload size" : "Tamañu máximu de xubida",
-    "max. possible: " : "máx. posible:",
-    "Save" : "Guardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM pue retrasase 5 minutos pa que los cambeos s'apliquen.",
-    "Missing permissions to edit from here." : "Falten permisos pa editar dende equí.",
     "Settings" : "Axustes",
     "Show hidden files" : "Amosar ficheros ocultos",
     "WebDAV" : "WebDAV",
@@ -99,6 +93,12 @@
     "Deleted files" : "Ficheros desaniciaos",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "Nuevu testu ficheru.txt",
-    "Target folder" : "Carpeta oxetivu"
+    "Target folder" : "Carpeta oxetivu",
+    "File handling" : "Alministración de ficheros",
+    "Maximum upload size" : "Tamañu máximu de xubida",
+    "max. possible: " : "máx. posible:",
+    "Save" : "Guardar",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM pue retrasase 5 minutos pa que los cambeos s'apliquen.",
+    "Missing permissions to edit from here." : "Falten permisos pa editar dende equí."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

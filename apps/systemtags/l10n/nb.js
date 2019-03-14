@@ -43,6 +43,7 @@ OC.L10N.register(
     "Please select tags to filter by" : "Velg merkelapper å filtrere etter",
     "No files found for the selected tags" : "Ingen filer funnet for de valgte merkelappene",
     "Select tag …" : "Velg merkelapp…",
+    "Create a new tag" : "Lag en ny merkelapp",
     "Name" : "Navn",
     "Public" : "Offentlig",
     "Restricted" : "Begrenset",

@@ -96,12 +96,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)",
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
-    "File handling" : "Fichier handling",
-    "Maximum upload size" : "Maximum Upload Gréisst ",
-    "max. possible: " : "max. méiglech:",
-    "Save" : "Späicheren",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mat PHP-FPM kann et 5 Minutten dauern bis d'Ännerungen iwwerholl goufen",
-    "Missing permissions to edit from here." : "Net genuch Recher fir hei eppes ze veränneren",
     "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",
@@ -119,6 +113,12 @@ OC.L10N.register(
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
-    "Target folder" : "Ziel Dossier"
+    "Target folder" : "Ziel Dossier",
+    "File handling" : "Fichier handling",
+    "Maximum upload size" : "Maximum Upload Gréisst ",
+    "max. possible: " : "max. méiglech:",
+    "Save" : "Späicheren",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mat PHP-FPM kann et 5 Minutten dauern bis d'Ännerungen iwwerholl goufen",
+    "Missing permissions to edit from here." : "Net genuch Recher fir hei eppes ze veränneren"
 },
 "nplurals=2; plural=(n != 1);");

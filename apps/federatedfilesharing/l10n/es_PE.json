@@ -35,7 +35,6 @@
     "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
     "Allow users to publish their data to a global and public address book" : "Permitirle a los usuarios publicar sus datos a una libreta de direcciones global y pública",
     "Federated Cloud" : "Nube Federada",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puedes compartir con cualquiera que use NextCloud, ownCloud o Pydio! Solo ingresa tu ID de Nube Federada en ventana de diálogo de compartir. Se ve algo así como person@cloud.example.com",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Add to your website" : "Agregar a tu sitio web",
@@ -49,6 +48,7 @@
     "Federated share added" : "Elemento compartido Federado agregado",
     "Couldn't add remote share" : "No fue posible agregar el elemento compartido remoto",
     "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puedes compartir con cualquiera que use NextCloud, ownCloud o Pydio! Solo ingresa tu ID de Nube Federada en ventana de diálogo de compartir. Se ve algo así como person@cloud.example.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
