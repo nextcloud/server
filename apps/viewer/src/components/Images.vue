@@ -136,8 +136,8 @@ export default {
 			const isZoomIn = event.deltaY < 0
 
 			const newZoomRatio = isZoomIn
-				? Math.min(this.zoomRatio + 0.2, 5)		// prevent too big zoom
-				: Math.max(this.zoomRatio - 0.2, 1)		// prevent too small zoom
+				? Math.min(this.zoomRatio + 0.1, 5)		// prevent too big zoom
+				: Math.max(this.zoomRatio - 0.1, 1)		// prevent too small zoom
 
 			// do not continue, img is back to its original state
 			if (newZoomRatio === 1) {
@@ -150,12 +150,14 @@ export default {
 			const growY = this.height * newZoomRatio - this.height * this.zoomRatio
 
 			// compensate for existing margins
+			this.disableSwipe()
 			this.shiftX = this.shiftX + Math.round(-scrollPercX * growX)
 			this.shiftY = this.shiftY + Math.round(-scrollPercY * growY)
 			this.zoomRatio = newZoomRatio
 		},
 
 		resetZoom() {
+			this.enableSwipe()
 			this.zoomRatio = 1
 			this.shiftX = 0
 			this.shiftY = 0
