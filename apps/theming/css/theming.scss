@@ -69,7 +69,7 @@ $invert: luma($color-primary) > 0.6;
 		label,
 		p,
 		#alternative-logins legend {
-			color: var(--color-primary-text);
+			color: $color-primary-text;
 		}
 		input[type='checkbox'].checkbox--white + label:before {
 			border-color: nc-darken($color-primary-element, 40%) !important;
@@ -86,7 +86,7 @@ $invert: luma($color-primary) > 0.6;
 	}
 	/* Always give primary button a border for light primary colors */
 	.primary {
-		border-color: var(--color-border) !important;
+		border-color: $color-border !important;
 	}
 } @else {
 	#appmenu:not(.inverted) svg {
@@ -193,7 +193,7 @@ input.primary,
 	#body-login {
 
 		a, label, p {
-			color: var(--color-primary-text);
+			color: $color-primary-text;
 		}
 
 	}
