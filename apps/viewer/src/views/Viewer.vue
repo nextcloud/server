@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import Mime from 'mime-types'
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
@@ -129,15 +128,15 @@ export default {
 
 	computed: {
 		hasPrevious() {
-			return this.currentIndex > 0
+			return this.fileList.length > 1
 		},
 		hasNext() {
-			return this.currentIndex < this.fileList.length - 1
+			return this.fileList.length > 1
 		},
 		currentFileName() {
 			if (this.currentFile && this.currentFile.path) {
 				const path = this.currentFile.path.split('/')
-				return path[path.length - 1]
+				return decodeURI(path[path.length - 1])
 			}
 			return ''
 		},
@@ -193,7 +192,7 @@ export default {
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 
-			const mime = this.getMime(path)
+			const mime = fileInfo.$file.data('mime')
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
@@ -223,7 +222,7 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			const path = fileInfo.href
-			const mime = this.getMime(path)
+			const mime = fileInfo.mimetype
 			const modal = this.components[mime]
 
 			if (modal) {
@@ -248,7 +247,7 @@ export default {
 
 			if (prev) {
 				const path = prev.href
-				const mime = this.getMime(path)
+				const mime = prev.mimetype
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -266,7 +265,7 @@ export default {
 
 			if (next) {
 				const path = next.href
-				const mime = this.getMime(path)
+				const mime = next.mimetype
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -361,19 +360,6 @@ export default {
 		},
 
 		/**
-		 * Extract mime from file path or use existing alias
-		 *
-		 * @param {String} path the file path
-		 * @returns {String} the mime type
-		 */
-		getMime(path) {
-			const mime = Mime.lookup(path)
-			return this.mimesAliases[mime]
-				? this.mimesAliases[mime]
-				: mime
-		},
-
-		/**
 		 * Close the viewer
 		 */
 		close() {
@@ -391,7 +377,11 @@ export default {
 		previous() {
 			this.loading = true
 			this.failed = false
+
 			this.currentIndex--
+			if (this.currentIndex < 0) {
+				this.currentIndex = this.fileList.length - 1
+			}
 
 			this.openFileFromList(this.fileList[this.currentIndex])
 		},
@@ -402,7 +392,11 @@ export default {
 		next() {
 			this.loading = true
 			this.failed = false
+
 			this.currentIndex++
+			if (this.currentIndex > this.fileList.length - 1) {
+				this.currentIndex = 0
+			}
 
 			this.openFileFromList(this.fileList[this.currentIndex])
 		},

@@ -36,7 +36,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "debounce": "^1.2.0",
-    "mime-types": "^2.1.22",
     "nextcloud-server": "^0.15.9",
     "nextcloud-vue": "^0.9.1",
     "vue": "^2.6.8",
