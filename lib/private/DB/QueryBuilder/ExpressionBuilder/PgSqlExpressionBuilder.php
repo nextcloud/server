@@ -37,12 +37,14 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	 * @return string
 	 */
 	public function castColumn($column, $type) {
-		if ($type === IQueryBuilder::PARAM_INT) {
-			$column = $this->helper->quoteColumnName($column);
-			return new QueryFunction('CAST(' . $column . ' AS INT)');
+		switch ($type) {
+			case IQueryBuilder::PARAM_INT:
+				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS INT)');
+			case IQueryBuilder::PARAM_STR:
+				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS TEXT)');
+			default:
+				return parent::castColumn($column, $type);
 		}
-
-		return parent::castColumn($column, $type);
 	}
 
 	/**
