@@ -504,4 +504,3 @@ class UsersController extends Controller {
 		return base64_encode($signature);
 	}
 }
-
