@@ -86,6 +86,10 @@ class PublicCalendarRootTest extends TestCase {
 			->withAnyParameters()
 			->willReturn([]);
 
+		$this->principal->expects($this->any())->method('getCircleMembership')
+			->withAnyParameters()
+			->willReturn([]);
+
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
@@ -112,6 +116,11 @@ class PublicCalendarRootTest extends TestCase {
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([]);
+
+		$this->principal->expects($this->any())->method('getCircleMembership')
+			->withAnyParameters()
+			->willReturn([]);
+
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
 			$this->backend->deleteCalendar($book['id']);

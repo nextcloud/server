@@ -271,7 +271,8 @@ class Server {
 						\OC::$server->getTagManager(),
 						$userSession,
 						\OC::$server->getGroupManager(),
-						$userFolder
+						$userFolder,
+						\OC::$server->getAppManager()
 					));
 					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
 						$this->server->tree,

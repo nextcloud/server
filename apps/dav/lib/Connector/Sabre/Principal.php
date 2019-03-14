@@ -45,7 +45,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
 class Principal implements BackendInterface {
@@ -145,7 +145,11 @@ class Principal implements BackendInterface {
 				return $this->userToPrincipal($user);
 			}
 		} else if ($prefix === 'principals/circles') {
-			return $this->circleToPrincipal($name);
+			try {
+				return $this->circleToPrincipal($name);
+			} catch (QueryException $e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -406,6 +410,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $circleUniqueId
 	 * @return array|null
+	 * @throws \OCP\AppFramework\QueryException
 	 * @suppress PhanUndeclaredClassMethod
 	 * @suppress PhanUndeclaredClassCatch
 	 */
@@ -438,9 +443,9 @@ class Principal implements BackendInterface {
 	 * Returns the list of circles a principal is a member of
 	 *
 	 * @param string $principal
-	 * @param bool $needGroups
 	 * @return array
 	 * @throws Exception
+	 * @throws \OCP\AppFramework\QueryException
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {
@@ -458,13 +463,13 @@ class Principal implements BackendInterface {
 			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
 
 			$circles = array_map(function($circle) {
-				/** @var \OCA\Circles\Model\Circle $group */
+				/** @var \OCA\Circles\Model\Circle $circle */
 				return 'principals/circles/' . urlencode($circle->getUniqueId());
 			}, $circles);
 
 			return $circles;
-
 		}
+
 		return [];
 	}
 
