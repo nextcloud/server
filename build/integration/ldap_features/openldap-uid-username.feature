@@ -108,3 +108,13 @@ Feature: LDAP
       | lloyd     |
       | priscilla |
       | shannah   |
+
+  Scenario: Deleting an unavailable LDAP user
+    Given As an "admin"
+    And sending "GET" to "/cloud/users"
+    And modify LDAP configuration
+      | ldapUserFilter | (&(objectclass=inetorgperson)(!(uid=alice))) |
+    And invoking occ with "ldap:check-user alice"
+    And the command output contains the text "Clean up the user's remnants by"
+    And invoking occ with "user:delete alice"
+    Then the command output contains the text "The specified user was deleted"
