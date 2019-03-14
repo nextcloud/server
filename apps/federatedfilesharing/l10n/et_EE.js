@@ -37,7 +37,6 @@ OC.L10N.register(
     "Search global and public address book for users" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust",
     "Allow users to publish their data to a global and public address book" : "Luba kasutajatel avaldada oma andmeid globaalses ja avalikus aadressiraamatus",
     "Federated Cloud" : "Liitpilv",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sa võid jagada kõigiga kes kasutab Nextcloudi, ownCloudi või Pydio't. Lihtsalt siseta jagamise dialoogi nende liitpilve ID. See näeb välja nagu person@cloud.example.com",
     "Your Federated Cloud ID:" : "Sinu liitpilve ID:",
     "Share it so your friends can share files with you:" : "Jaga seda, et su sõbrad saaksid sinuga faile jagada:",
     "Add to your website" : "Lisa oma veebisaidile",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Federated share added" : "Liitjagamine lisatud",
     "Couldn't add remote share" : "Ei suutnud lisada kaugjagamist",
     "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sa võid jagada kõigiga kes kasutab Nextcloudi, ownCloudi või Pydio't. Lihtsalt siseta jagamise dialoogi nende liitpilve ID. See näeb välja nagu person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

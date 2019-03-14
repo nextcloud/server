@@ -66,6 +66,7 @@
     "Check %s does not exist" : "检查 %s 不存在",
     "Check %s is invalid" : "检查%s是不可用",
     "Check #%s does not exist" : "检查 #%s 不存在",
+    "Tag management" : "标签管理",
     "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
     "Loading…" : "加载中...",

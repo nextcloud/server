@@ -43,7 +43,7 @@
     "Search global and public address book for users" : "Genel ve herkese açık adres defterinde kullanıcı ara",
     "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
     "Federated Cloud" : "Birleşmiş Bulut",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud ya da Pydio kullanıcıları ile paylaşım yapılaiblir. Yalnızca paylaşım penceresine person@cloud.example.com gibi Birleşmiş Bulut kodunu yazın.",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi Birleşmiş Bulut kodunu yazmanız yeterlidir.",
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Add to your website" : "Web sitenize ekleyin",
@@ -57,6 +57,7 @@
     "Federated share added" : "Birleşmiş paylaşım eklendi",
     "Couldn't add remote share" : "Uzak paylaşım eklenemedi",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud ya da Pydio kullanıcıları ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi Birleşmiş Bulut kodunu yazmanız yeterlidir."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

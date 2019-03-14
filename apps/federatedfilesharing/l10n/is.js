@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Leita að notendum í víðværri og opinberri vistfangaskrá",
     "Allow users to publish their data to a global and public address book" : "Leifa notendum að birta gögnin sín í víðværri og opinberri vistfangaskrá",
     "Federated Cloud" : "Skýjasamband (federated)",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud, ownCloud eða Pydio! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
     "Your Federated Cloud ID:" : "Skýjasambandsauðkennið þitt (Federated Cloud ID):",
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "Federated share added" : "Bætti við skýjasambandssameign",
     "Couldn't add remote share" : "Gat ekki bætt við fjartengdri sameign",
     "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud, ownCloud eða Pydio! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

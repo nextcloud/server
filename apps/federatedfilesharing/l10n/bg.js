@@ -25,7 +25,6 @@ OC.L10N.register(
     "Open documentation" : "Отвори документацията",
     "Allow users on this server to send shares to other servers" : "Позволи на потребители от този сървър да споделят папки  с други сървъри",
     "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделяте с всеки потребител на Nextcloud, ownCloud или Pydio! Просто поставете техния Federated Cloud ID в полето за споделяне. Формата е като на имейл адрес: person@cloud.example.com",
     "Your Federated Cloud ID:" : "Вашият Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Споделете, за да могат приятелите ви да споделят файлове, с вас:",
     "Add to your website" : "Добавете към вашия уеб сайт",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "Could not authenticate to remote share, password might be wrong" : "Неуспешно удостоверяване на отдалеченото споделяне, възможно е паролата да е грешна",
     "Storage not valid" : "Невалидно хранилище",
     "Couldn't add remote share" : "Неуспешно добавяне на отдалечена споделена директория.",
-    "Sharing %s failed, because this item is already shared with %s" : "Неуспешно споделяне на %s, защото съдържанието е вече споделено с %s."
+    "Sharing %s failed, because this item is already shared with %s" : "Неуспешно споделяне на %s, защото съдържанието е вече споделено с %s.",
+    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделяте с всеки потребител на Nextcloud, ownCloud или Pydio! Просто поставете техния Federated Cloud ID в полето за споделяне. Формата е като на имейл адрес: person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");
