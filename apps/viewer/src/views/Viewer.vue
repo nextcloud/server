@@ -42,9 +42,9 @@
 			:is="previousFile.modal"
 			v-if="!previousFile.failed"
 			ref="previous-content"
-			:key="previousFile.path"
+			:key="getPath(previousFile)"
 			:mime="previousFile.mime"
-			:path="previousFile.path"
+			:path="getPath(previousFile)"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<error
@@ -56,9 +56,9 @@
 			:is="currentFile.modal"
 			v-if="!currentFile.failed"
 			ref="content"
-			:key="currentFile.path"
+			:key="getPath(currentFile)"
 			:mime="currentFile.mime"
-			:path="currentFile.path"
+			:path="getPath(currentFile)"
 			:active="true"
 			class="file-view"
 			@loaded="doneLoading"
@@ -72,9 +72,9 @@
 			:is="nextFile.modal"
 			v-if="!nextFile.failed"
 			ref="next-content"
-			:key="nextFile.path"
+			:key="getPath(nextFile)"
 			:mime="nextFile.mime"
-			:path="nextFile.path"
+			:path="getPath(nextFile)"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<error
@@ -87,7 +87,7 @@
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
-import { generateRemoteUrl } from 'nextcloud-server/dist/router'
+import { generateRemoteUrl, generateUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
 import FileList from 'Services/FileList'
@@ -123,7 +123,7 @@ export default {
 		failed: false,
 		loading: true,
 
-		root: generateRemoteUrl(`/dav/files/${OC.getCurrentUser().uid}`)
+		root: generateRemoteUrl(`dav/files/${OC.getCurrentUser().uid}`)
 	}),
 
 	computed: {
@@ -134,9 +134,8 @@ export default {
 			return this.fileList.length > 1
 		},
 		currentFileName() {
-			if (this.currentFile && this.currentFile.path) {
-				const path = this.currentFile.path.split('/')
-				return decodeURI(path[path.length - 1])
+			if (this.currentFile) {
+				return this.currentFile.name
 			}
 			return ''
 		},
@@ -197,20 +196,24 @@ export default {
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
 
-			if (this.components[mime]) {
-				this.currentFile = {
-					relativePath,
-					path,
-					mime,
-					modal: this.components[mime]
-				}
-			}
-
 			// retrieve and store file List
 			this.fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
 
 			// store current position
 			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
+
+			fileInfo = this.fileList[this.currentIndex]
+			if (this.components[mime]) {
+				this.currentFile = {
+					relativePath,
+					path,
+					mime,
+					hasPreview: fileInfo.hasPreview,
+					id: fileInfo.id,
+					name: fileInfo.name,
+					modal: this.components[mime]
+				}
+			}
 
 			this.updatePreviousNext()
 		},
@@ -222,20 +225,23 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			const path = fileInfo.href
+			const id = fileInfo.id
+			const name = fileInfo.name
+			const hasPreview = fileInfo.hasPreview
 			const mime = fileInfo.mimetype
 			const modal = this.components[mime]
-
 			if (modal) {
 				this.currentFile = {
 					path,
 					mime,
+					id,
+					name,
+					hasPreview,
 					modal,
 					failed: false
 				}
 			}
-
 			this.updatePreviousNext()
-
 		},
 
 		/**
@@ -247,6 +253,9 @@ export default {
 
 			if (prev) {
 				const path = prev.href
+				const id = prev.id
+				const name = prev.name
+				const hasPreview = prev.hasPreview
 				const mime = prev.mimetype
 				const modal = this.components[mime]
 
@@ -254,6 +263,9 @@ export default {
 					this.previousFile = {
 						path,
 						mime,
+						id,
+						name,
+						hasPreview,
 						modal,
 						failed: false
 					}
@@ -265,6 +277,9 @@ export default {
 
 			if (next) {
 				const path = next.href
+				const id = next.id
+				const name = next.name
+				const hasPreview = next.hasPreview
 				const mime = next.mimetype
 				const modal = this.components[mime]
 
@@ -272,6 +287,9 @@ export default {
 					this.nextFile = {
 						path,
 						mime,
+						id,
+						name,
+						hasPreview,
 						modal,
 						failed: false
 					}
@@ -357,6 +375,13 @@ export default {
 				this.components[mime] = handler.component
 				Vue.component(handler.component.name, handler.component)
 			})
+		},
+
+		getPath(fileInfo) {
+			if (fileInfo.hasPreview) {
+				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${window.outerWidth}&y=${window.outerHeight}&a=true`)
+			}
+			return fileInfo.path
 		},
 
 		/**
@@ -479,6 +504,11 @@ export default {
 		display: flex !important;
 		width: auto !important;
 		border-radius: 0 !important;
+		background-color: white;
+	}
+
+	// dark bg while loading to avoid flashing white screen
+	&.icon-loading .modal-container {
 		background-color: black;
 	}
 }
