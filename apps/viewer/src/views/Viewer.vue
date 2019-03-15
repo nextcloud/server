@@ -509,14 +509,10 @@ export default {
 		display: flex !important;
 		width: auto !important;
 		border-radius: 0 !important;
-		background-color: white;
+		// let the mime components manage their own background-color
+		background-color: transparent;
 		justify-content: center;
 		align-items: center;
-	}
-
-	// dark bg while loading to avoid flashing white screen
-	&.icon-loading .modal-container {
-		background-color: black;
 	}
 }
 

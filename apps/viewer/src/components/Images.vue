@@ -24,6 +24,7 @@
 	<img
 		:class="{
 			dragging,
+			loaded,
 			zoomed: zoomRatio !== 1
 		}"
 		:src="data"
@@ -35,7 +36,7 @@
 		}"
 		@load="updateImgSize"
 		@wheel="updateZoom"
-		@dblclick="resetZoom"
+		@dblclick="onDblclick"
 		@mousedown="dragStart">
 </template>
 
@@ -58,7 +59,8 @@ export default {
 			dragging: false,
 			shiftX: 0,
 			shiftY: 0,
-			zoomRatio: 1
+			zoomRatio: 1,
+			loaded: false
 		}
 	},
 	computed: {
@@ -100,6 +102,7 @@ export default {
 	methods: {
 		// Updates the dimensions of the modal
 		updateImgSize() {
+			this.loaded = true
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
 			// displaying tiny images makes no sense,
@@ -204,6 +207,13 @@ export default {
 				this.dragX = pageX
 				this.dragY = pageY
 			}
+		},
+		onDblclick() {
+			if (this.zoomRatio > 1) {
+				this.resetZoom()
+			} else {
+				this.zoomRatio = 1.3
+			}
 		}
 	}
 }
@@ -218,11 +228,14 @@ img {
 	max-height: 100%;
 	align-self: center;
 	justify-self: center;
+	// black while loading
+	background-color: #000;
 	// animate zooming/resize
 	transition: height 100ms ease,
 		width 100ms ease,
 		margin-top 100ms ease,
 		margin-left 100ms ease;
+	// show checkered bg on hover if not currently zooming (but ok if zoomed)
 	&:hover {
 		background-image: linear-gradient(45deg, #{$checkered-color} 25%, transparent 25%),
 			linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
@@ -230,6 +243,10 @@ img {
 			linear-gradient(45deg, #{$checkered-color} 25%, #fff 25%);
 		background-size: 2 * $checkered-size 2 * $checkered-size;
 		background-position: 0 0, 0 0, -#{$checkered-size} -#{$checkered-size}, $checkered-size $checkered-size;
+	}
+	&.loaded {
+		// white once done loading
+		background-color: #fff;
 	}
 	&.zoomed {
 		position: absolute;
