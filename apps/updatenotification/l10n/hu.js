@@ -31,6 +31,7 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ellenőrizd, hogy a config.php-dben nincs-e beállítva a <samp>appstoreenabled</samp> false-ra.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazásbolthoz, vagy az nem adott vissza frissítéseket egyáltalán. Keress frissítéseket kézzel, vagy győződj meg arról, hogy a szervered hozzáfér az internethez és eléri az alkalmazásboltot.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás felfrissítve a legújabb verzióra.",
+    "View changelog" : "Változásnapló megjelenítése",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
     "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "A new version is available: %s" : "Új verzió érhető el: %s",
