@@ -153,10 +153,9 @@ script('core', [
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
-			<p><?php p($l->t('You have choosen SQLite as database.'));?></p>
-			<p><?php p($l->t('SQLite should only be choosen for minimal and development instances.'));?></p>
-			<p><?php p($l->t('For productive instances we recommend to choose a different database backend.'));?></p>
-			<p><?php p($l->t('Using clients for file syncing the use of SQLite is highly discouraged.')); ?></p>
+			<p><?php p($l->t('You chose SQLite as database.'));?></p>
+			<p><?php p($l->t('SQLite should only be used for minimal and development instances. For production we recommend a different database backend.'));?></p>
+			<p><?php p($l->t('If you use clients for file syncing, the use of SQLite is highly discouraged.')); ?></p>
 		</fieldset>
 	<?php endif ?>
 
