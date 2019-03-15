@@ -69,6 +69,7 @@ export default {
 	},
 
 	mounted() {
+		// detect error and let the viewer know
 		this.$el.addEventListener('error', e => {
 			console.error('Error loading', this.path, e)
 			this.$emit('error', e)
@@ -76,12 +77,25 @@ export default {
 	},
 
 	methods: {
-		doneLoading(event) {
+
+		/**
+		 * This is used to make the viewer know this file is complete or ready
+		 * ! you NEED to use it to make the viewer aware of the current loading state
+		 */
+		doneLoading() {
 			// send the current state
 			this.$emit('update:loaded', true)
 			// save the current state
 			this.isLoaded = true
 		},
+
+		/**
+		 * Updates the current height and width data
+		 * based on the viewer maximum size
+		 *
+		 * @param {Integer} contentHeight your element height
+		 * @param {Integer} contentWidth your element width
+		 */
 		updateHeightWidth(contentHeight, contentWidth) {
 			const modalContainer = this.$parent.$el.querySelector('.modal-wrapper')
 			if (modalContainer) {
@@ -113,9 +127,17 @@ export default {
 				}
 			}
 		},
+
+		/**
+		 * Enable the viewer swiping previous/next capability
+		 */
 		enableSwipe() {
 			this.$emit('update:canSwipe', true)
 		},
+
+		/**
+		 * Disable the viewer swiping previous/next capability
+		 */
 		disableSwipe() {
 			this.$emit('update:canSwipe', false)
 		}
