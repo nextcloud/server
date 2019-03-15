@@ -174,7 +174,7 @@
 				},
 				altText: t('core', 'Share'),
 				mime: 'all',
-				order: -60,
+				order: -150,
 				permissions: OC.PERMISSION_ALL,
 				iconClass: function(fileName, context) {
 					var shareType = parseInt(context.$file.data('share-types'), 10)
