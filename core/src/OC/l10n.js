@@ -173,18 +173,18 @@ const L10n = {
 	 * @private
 	 */
 	_getPlural: function(number) {
-		var locale = OC.getLocale();
-		if ('pt_BR' === locale) {
+		var language = OC.getLanguage();
+		if ('pt_BR' === language) {
 			// temporary set a locale for brazilian
-			locale = 'xbr';
+			language = 'xbr';
 		}
 
-		if (typeof locale === 'undefined') {
+		if (typeof language === 'undefined' || language === '') {
 			return (1 == number) ? 0 : 1;
 		}
 
-		if (locale.length > 3) {
-			locale = locale.substring(0, locale.lastIndexOf('_'));
+		if (language.length > 3) {
+			language = language.substring(0, language.lastIndexOf('_'));
 		}
 
 		/*
@@ -192,7 +192,7 @@ const L10n = {
 		 * which is subject to the new BSD license (http://framework.zend.com/license/new-bsd).
 		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
 		 */
-		switch (locale) {
+		switch (language) {
 			case 'az':
 			case 'bo':
 			case 'dz':
