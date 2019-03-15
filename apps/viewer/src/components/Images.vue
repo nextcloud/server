@@ -59,8 +59,7 @@ export default {
 			dragging: false,
 			shiftX: 0,
 			shiftY: 0,
-			zoomRatio: 1,
-			loaded: false
+			zoomRatio: 1
 		}
 	},
 	computed: {
@@ -102,7 +101,6 @@ export default {
 	methods: {
 		// Updates the dimensions of the modal
 		updateImgSize() {
-			this.loaded = true
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
 			// displaying tiny images makes no sense,

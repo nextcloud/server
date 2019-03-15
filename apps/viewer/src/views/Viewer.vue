@@ -24,7 +24,7 @@
 	<modal
 		v-if="currentFile.modal"
 		id="viewer-content"
-		:class="{'icon-loading': loading}"
+		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
 		:view="currentFile.modal"
 		:actions="actions"
 		:enable-slideshow="true"
@@ -64,7 +64,7 @@
 			:active="true"
 			:can-swipe.sync="canSwipe"
 			class="file-view"
-			@loaded="doneLoading"
+			:loaded.sync="currentFile.loaded"
 			@error="currentFailed" />
 		<error
 			v-else
@@ -125,7 +125,6 @@ export default {
 
 		canSwipe: true,
 		failed: false,
-		loading: true,
 
 		root: generateRemoteUrl(`dav/files/${OC.getCurrentUser().uid}`)
 	}),
@@ -186,7 +185,6 @@ export default {
 		 * @param {Object} fileInfo the opened file info
 		 */
 		async openFile(fileName, fileInfo) {
-			this.loading = true
 			this.failed = false
 
 			// prevent scrolling while opened
@@ -216,7 +214,8 @@ export default {
 					hasPreview: fileInfo.hasPreview,
 					id: fileInfo.id,
 					name: fileInfo.name,
-					modal: this.components[mime]
+					modal: this.components[mime],
+					loaded: false
 				}
 			}
 
@@ -243,7 +242,8 @@ export default {
 					name,
 					hasPreview,
 					modal,
-					failed: false
+					failed: false,
+					loaded: false
 				}
 			}
 			this.updatePreviousNext()
@@ -405,7 +405,6 @@ export default {
 		 * Open previous available file
 		 */
 		previous() {
-			this.loading = true
 			this.failed = false
 
 			this.currentIndex--
@@ -420,7 +419,6 @@ export default {
 		 * Open next available file
 		 */
 		next() {
-			this.loading = true
 			this.failed = false
 
 			this.currentIndex++
@@ -440,18 +438,10 @@ export default {
 
 		currentFailed() {
 			this.currentFile.failed = true
-			this.loading = false
 		},
 
 		nextFailed() {
 			this.nextFile.failed = true
-		},
-
-		/**
-		 * Component finished loading the data
-		 */
-		doneLoading() {
-			this.loading = false
 		},
 
 		/**

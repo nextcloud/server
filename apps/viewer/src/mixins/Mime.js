@@ -41,13 +41,18 @@ export default {
 		canSwipe: {
 			type: Boolean,
 			default: true
+		},
+		loaded: {
+			type: Boolean,
+			default: false
 		}
 	},
 
 	data() {
 		return {
 			height: null,
-			width: null
+			width: null,
+			isLoaded: false
 		}
 	},
 
@@ -55,7 +60,10 @@ export default {
 		active: function(val, old) {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
-				this.doneLoading()
+				// just in case the file was preloaded, let's warn the viewer
+				if (this.isLoaded) {
+					this.doneLoading()
+				}
 			}
 		}
 	},
@@ -69,7 +77,10 @@ export default {
 
 	methods: {
 		doneLoading(event) {
-			this.$emit('loaded', event)
+			// send the current state
+			this.$emit('update:loaded', true)
+			// save the current state
+			this.isLoaded = true
 		},
 		updateHeightWidth(contentHeight, contentWidth) {
 			const modalContainer = this.$parent.$el.querySelector('.modal-wrapper')
