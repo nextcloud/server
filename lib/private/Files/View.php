@@ -1374,7 +1374,6 @@ class View {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
 			if (!$data instanceof ICacheEntry) {
-				\OC::$server->getLogger()->debug('No cache entry found for ' . $path . ' (storage: ' . $storage->getId() . ', internalPath: ' . $internalPath . ')');
 				return false;
 			}
 
