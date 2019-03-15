@@ -179,7 +179,7 @@ const L10n = {
 			language = 'xbr';
 		}
 
-		if (typeof language === 'undefined') {
+		if (typeof language === 'undefined' || language === '') {
 			return (1 == number) ? 0 : 1;
 		}
 
