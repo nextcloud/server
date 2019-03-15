@@ -71,10 +71,14 @@ export default {
 	},
 	asyncComputed: {
 		data() {
-			if (this.mime !== 'image/svg+xml') {
+			switch (this.mime) {
+			case 'image/svg+xml':
+				return this.getBase64FromImage()
+			case 'image/gif':
+				return this.davPath
+			default:
 				return this.path
 			}
-			return this.getBase64FromImage()
 		}
 	},
 	watch: {

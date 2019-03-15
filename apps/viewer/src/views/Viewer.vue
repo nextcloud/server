@@ -45,6 +45,7 @@
 			:key="getPath(previousFile)"
 			:mime="previousFile.mime"
 			:path="getPath(previousFile)"
+			:dav-path="previousFile.path"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<error
@@ -59,6 +60,7 @@
 			:key="getPath(currentFile)"
 			:mime="currentFile.mime"
 			:path="getPath(currentFile)"
+			:dav-path="currentFile.path"
 			:active="true"
 			:can-swipe.sync="canSwipe"
 			class="file-view"
@@ -76,6 +78,7 @@
 			:key="getPath(nextFile)"
 			:mime="nextFile.mime"
 			:path="getPath(nextFile)"
+			:dav-path="nextFile.path"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<error

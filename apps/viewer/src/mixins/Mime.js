@@ -30,6 +30,10 @@ export default {
 			type: String,
 			required: true
 		},
+		davPath: {
+			type: String,
+			required: true
+		},
 		mime: {
 			type: String,
 			required: true
