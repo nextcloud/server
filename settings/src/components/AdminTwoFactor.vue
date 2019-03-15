@@ -11,52 +11,54 @@
 			<input type="checkbox"
 				   id="two-factor-enforced"
 				   class="checkbox"
-				   v-model="state.enforced"
-				   v-on:change="saveChanges">
+				   v-model="enforced">
 			<label for="two-factor-enforced">{{ t('settings', 'Enforce two-factor authentication') }}</label>
 		</p>
-		<h3>{{ t('settings', 'Limit to groups') }}</h3>
-		{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
-		<p>
-			{{ t('settings', 'Two-factor authentication is enforced for all	members of the following groups.') }}
-		</p>
-		<p>
-			<Multiselect v-model="state.enforcedGroups"
-						 :options="groups"
-						 :placeholder="t('settings', 'Enforced groups')"
-						 :disabled="loading"
-						 :multiple="true"
-						 :searchable="true"
-						 @search-change="searchGroup"
-						 :loading="loadingGroups"
-						 :show-no-options="false"
-						 :close-on-select="false">
-			</Multiselect>
-		</p>
-		<p>
-			{{ t('settings', 'Two-factor authentication is not enforced for	members of the following groups.') }}
-		</p>
-		<p>
-			<Multiselect v-model="state.excludedGroups"
-						 :options="groups"
-						 :placeholder="t('settings', 'Excluded groups')"
-						 :disabled="loading"
-						 :multiple="true"
-						 :searchable="true"
-						 @search-change="searchGroup"
-						 :loading="loadingGroups"
-						 :show-no-options="false"
-						 :close-on-select="false">
-			</Multiselect>
-		</p>
-		<p>
-			<em>
-				<!-- this text is also found in the documentation. update it there as well if it ever changes -->
-				{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
-			</em>
-		</p>
+		<template v-if="enforced">
+			<h3>{{ t('settings', 'Limit to groups') }}</h3>
+			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
+			<p>
+				{{ t('settings', 'Two-factor authentication is enforced for all	members of the following groups.') }}
+			</p>
+			<p>
+				<Multiselect v-model="enforcedGroups"
+							 :options="groups"
+							 :placeholder="t('settings', 'Enforced groups')"
+							 :disabled="loading"
+							 :multiple="true"
+							 :searchable="true"
+							 @search-change="searchGroup"
+							 :loading="loadingGroups"
+							 :show-no-options="false"
+							 :close-on-select="false">
+				</Multiselect>
+			</p>
+			<p>
+				{{ t('settings', 'Two-factor authentication is not enforced for	members of the following groups.') }}
+			</p>
+			<p>
+				<Multiselect v-model="excludedGroups"
+							 :options="groups"
+							 :placeholder="t('settings', 'Excluded groups')"
+							 :disabled="loading"
+							 :multiple="true"
+							 :searchable="true"
+							 @search-change="searchGroup"
+							 :loading="loadingGroups"
+							 :show-no-options="false"
+							 :close-on-select="false">
+				</Multiselect>
+			</p>
+			<p>
+				<em>
+					<!-- this text is also found in the documentation. update it there as well if it ever changes -->
+					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
+				</em>
+			</p>
+		</template>
 		<p>
 			<button class="button primary"
+					v-if="dirty"
 					v-on:click="saveChanges"
 					:disabled="loading">
 				{{ t('settings', 'Save changes') }}
@@ -67,6 +69,7 @@
 
 <script>
 	import Axios from 'nextcloud-axios'
+	import { mapState } from 'vuex'
 	import {Multiselect} from 'nextcloud-vue'
 	import _ from 'lodash'
 
@@ -78,23 +81,45 @@
 		data () {
 			return {
 				loading: false,
+				dirty: false,
 				groups: [],
 				loadingGroups: false,
 			}
 		},
 		computed: {
-			state: function() {
-				return  {
-					enforced: this.$store.state.enforced,
-					enforcedGroups: this.$store.state.enforcedGroups,
-					excludedGroups: this.$store.state.excludedGroups,
+			enforced: {
+				get: function () {
+					return this.$store.state.enforced
+				},
+				set: function (val) {
+					this.dirty = true
+					this.$store.commit('setEnforced', val)
 				}
-			}
+			},
+			enforcedGroups: {
+				get: function () {
+					return this.$store.state.enforcedGroups
+				},
+				set: function (val) {
+					this.dirty = true
+					this.$store.commit('setEnforcedGroups', val)
+				}
+			},
+			excludedGroups: {
+				get: function () {
+					return this.$store.state.excludedGroups
+				},
+				set: function (val) {
+					this.dirty = true
+					this.$store.commit('setExcludedGroups', val)
+				}
+			},
 		},
 		mounted () {
 			// Groups are loaded dynamically, but the assigned ones *should*
 			// be valid groups, so let's add them as initial state
-			this.groups = _.sortedUniq(_.uniq(this.state.enforcedGroups.concat(this.state.excludedGroups)))
+			console.log(this.enforcedGroups)
+			this.groups = _.sortedUniq(_.uniq(this.enforcedGroups.concat(this.excludedGroups)))
 
 			// Populate the groups with a first set so the dropdown is not empty
 			// when opening the page the first time
@@ -114,16 +139,19 @@
 			saveChanges () {
 				this.loading = true
 
-				const oldState = this.state
-
-				Axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), this.state)
+				const data = {
+					enforced: this.enforced,
+					enforcedGroups: this.enforcedGroups,
+					excludedGroups: this.excludedGroups,
+				}
+				Axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), data)
 					.then(resp => resp.data)
-					.then(state => this.state = state)
+					.then(state => {
+						this.state = state
+						this.dirty = false
+					})
 					.catch(err => {
 						console.error('could not save changes', err)
-
-						// Restore
-						this.state = oldState
 					})
 					.then(() => this.loading = false)
 			}
