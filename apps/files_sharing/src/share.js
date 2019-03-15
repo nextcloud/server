@@ -178,7 +178,8 @@
 				permissions: OC.PERMISSION_ALL,
 				iconClass: function(fileName, context) {
 					var shareType = parseInt(context.$file.data('share-types'), 10)
-					if (shareType === OC.Share.SHARE_TYPE_EMAIL) {
+					if (shareType === OC.Share.SHARE_TYPE_EMAIL
+						|| shareType === OC.Share.SHARE_TYPE_LINK) {
 						return 'icon-public'
 					}
 					return 'icon-shared'

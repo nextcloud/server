@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * This file is licensed under the Affero General Public License version 3
@@ -149,7 +149,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(true);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-public.svg');
 		});
-		it('shows owner name when owner is available', function() {
+		it('shows owner name when owner is available but no icons', function() {
 			var $action, $tr;
 			fileList.setFiles([{
 				id: 1,
@@ -167,7 +167,7 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
-			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-shared')).toEqual(false);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
 		});
@@ -389,7 +389,7 @@ describe('OCA.Sharing.Util tests', function() {
 			});
 
 			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
-			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-shared')).toEqual(false);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 		it('keep share text after unsharing reshare', function() {
@@ -422,7 +422,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipient-data')).not.toBeDefined();
 
 			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
-			expect($action.find('.icon').hasClass('icon-shared')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-shared')).toEqual(false);
 			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 	});
