@@ -47,7 +47,7 @@ OCA.Trashbin.App = {
 					},
 					{
 						name: 'delete',
-						displayName: t('files', 'Delete'),
+						displayName: t('files_trashbin', 'Delete permanently'),
 						iconClass: 'icon-delete',
 					}
 				],
@@ -95,7 +95,7 @@ OCA.Trashbin.App = {
 
 		fileActions.registerAction({
 			name: 'Delete',
-			displayName: t('files', 'Delete'),
+			displayName: t('files_trashbin', 'Delete permanently'),
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-delete',
