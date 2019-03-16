@@ -223,7 +223,7 @@
     "Please ask your server administrator to restart the web server." : "Pregúntelle ao administrador do servidor polo reinicio do servidor web..",
     "PostgreSQL >= 9 required" : "Requírese PostgreSQL >= 9",
     "Please upgrade your database version" : "Anove a versión da súa base de datos",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Cambie os permisos a 0770 para que o directorio non poida seren listado por outros usuarios.",
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Cambie os permisos a 0770 para que o directorio non poida ser listado por outros usuarios.",
     "Your data directory is readable by other users" : "O se directorio de datos é lexíbel por outros usuarios",
     "Your data directory must be an absolute path" : "O seu directorio de datos debe ser unha ruta absoluta",
     "Check the value of \"datadirectory\" in your configuration" : "Comprobe o valor de «datadirectory» na configuración",

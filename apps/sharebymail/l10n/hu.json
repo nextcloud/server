@@ -18,6 +18,7 @@
     "Failed to send share by email" : "Nem sikerült elküldeni a megosztó e-mailt",
     "Click the button below to open it." : "Kattints a lenti gombra a megnyitásához",
     "Open »%s«" : "»%s« megnyitása",
+    "%1$s via %2$s" : "%1$s-tól%2$s-ig",
     "Password to access »%s«" : "Jelszó »%s« eléréséhez",
     "It is protected with the following password:" : "A következő jelszóval védve: ",
     "This is the password:" : "Ez a jelszó: ",

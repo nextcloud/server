@@ -89,6 +89,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Afegeix al teu NextCloud",
     "Share API is disabled" : "L'API compartida està desactivada",
     "File sharing" : "Compartir arxius",
+    "Rename collection" : "Canvia el nom de la col·lecció",
     "Share" : "Comparteix",
     "Sharing" : "Compartir",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
