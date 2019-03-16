@@ -193,7 +193,7 @@ export default {
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 			const path = `${this.root}${relativePath}`
 
-			const mime = fileInfo.$file.data('mime')
+			let mime = fileInfo.$file.data('mime')
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
@@ -207,6 +207,7 @@ export default {
 
 			fileInfo = this.fileList[this.currentIndex]
 			if (this.components[mime]) {
+				mime = this.getAliasIfAny(mime)
 				this.currentFile = {
 					relativePath,
 					path,
@@ -232,7 +233,7 @@ export default {
 			const id = fileInfo.id
 			const name = fileInfo.name
 			const hasPreview = fileInfo.hasPreview
-			const mime = fileInfo.mimetype
+			const mime = this.getAliasIfAny(fileInfo.mimetype)
 			const modal = this.components[mime]
 			if (modal) {
 				this.currentFile = {
@@ -261,7 +262,7 @@ export default {
 				const id = prev.id
 				const name = prev.name
 				const hasPreview = prev.hasPreview
-				const mime = prev.mimetype
+				const mime = this.getAliasIfAny(prev.mimetype)
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -285,7 +286,7 @@ export default {
 				const id = next.id
 				const name = next.name
 				const hasPreview = next.hasPreview
-				const mime = next.mimetype
+				const mime = this.getAliasIfAny(next.mimetype)
 				const modal = this.components[mime]
 
 				if (modal) {
@@ -487,6 +488,18 @@ export default {
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
 			}
+		},
+
+		/**
+		 * Return the alias if exists
+		 *
+		 * @param {String} mime the mime type
+		 * @returns {String} the mime type or the mime alias
+		 */
+		getAliasIfAny(mime) {
+			return this.mimesAliases[mime]
+				? this.mimesAliases[mime]
+				: mime
 		}
 	}
 }
