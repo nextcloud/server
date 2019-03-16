@@ -1,7 +1,8 @@
+<?php
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2018 Thomas Citharel <tcit@tcit.fr>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,26 +20,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict";
 
-$('#caldavSendInvitations').change(function() {
-	var val = $(this)[0].checked;
+namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
-	OCP.AppConfig.setValue('dav', 'sendInvitations', val ? 'yes' : 'no');
-});
+class ProviderNotAvailableException extends \Exception {
 
-$('#caldavGenerateBirthdayCalendar').change(function() {
-	var val = $(this)[0].checked;
-
-	if (val) {
-		$.post(OC.generateUrl('/apps/dav/enableBirthdayCalendar'));
-	} else {
-		$.post(OC.generateUrl('/apps/dav/disableBirthdayCalendar'));
+	/**
+	 * ProviderNotAvailableException constructor.
+	 *
+	 * @since 16.0.0
+	 *
+	 * @param string $type ReminderType
+	 */
+	public function __construct(string $type) {
+		parent::__construct("No notification provider for type $type available");
 	}
-});
 
-$('#caldavSendRemindersNotifications').change(function() {
-	var val = $(this)[0].checked;
-
-	OCP.AppConfig.setValue('dav', 'sendEventReminders', val ? 'yes' : 'no');
-});
+}

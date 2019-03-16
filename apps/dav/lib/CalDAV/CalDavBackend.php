@@ -1135,7 +1135,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function updateCalendarObject($calendarId, $objectUri, $calendarData, $calendarType=self::CALENDAR_TYPE_CALENDAR) {
 		$extraData = $this->getDenormalizedData($calendarData);
-
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
 				->set('calendardata', $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB))
