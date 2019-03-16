@@ -2950,6 +2950,7 @@
 			var removeFunction = function(fileName) {
 				var $tr = self.findFileEl(fileName);
 				self.showFileBusyState($tr, true);
+				self.removeFromQuickaccess(dir + fileName);
 				return self.filesClient.remove(dir + '/' + fileName)
 					.done(function() {
 						if (OC.joinPaths(self.getCurrentDirectory(), '/') === OC.joinPaths(dir, '/')) {
@@ -2977,6 +2978,34 @@
 					self.updateStorageStatistics();
 					self.updateStorageQuotas();
 				});
+		},
+
+		/**
+		 * Remove Item from Quickaccesslist
+		 *
+		 * @param {String} appfolder folder to be removed
+		 */
+		removeFromQuickaccess: function(appfolder){
+
+			var quickAccessList = 'sublist-favorites';
+			var listULElements = document.getElementById(quickAccessList);
+			if (!listULElements) {
+				return;
+			}
+
+			var apppath=appfolder;
+			if(appfolder.startsWith("//")){
+				apppath=appfolder.substring(1, appfolder.length);
+			}
+
+			$(listULElements).find('[data-dir="' + apppath + '"]').remove();
+
+			if (listULElements.childElementCount === 0) {
+				var collapsibleButton = $(listULElements).parent().find('button.collapse');
+				collapsibleButton.hide();
+				$("#button-collapse-parent-favorites").removeClass('collapsible');
+			}
+
 		},
 
 		/**
