@@ -2981,7 +2981,7 @@
 		},
 
 		/**
-		 * Remove Item from Quickaccesslist
+		 * Remove Item from Quickaccesslist, recursively remove all folders lying beneath the appfolder
 		 *
 		 * @param {String} appfolder folder to be removed
 		 */
@@ -2999,6 +2999,13 @@
 			}
 
 			$(listULElements).find('[data-dir="' + apppath + '"]').remove();
+
+
+			$(listULElements).children().each(function(i) {
+				if($(this).attr('data-dir').match(appfolder+"/[\\s\\S]*")){
+					$(this).remove();
+				}
+			});
 
 			if (listULElements.childElementCount === 0) {
 				var collapsibleButton = $(listULElements).parent().find('button.collapse');
