@@ -403,7 +403,7 @@ OC.L10N.register(
     "Share with other people by entering a user or group or an email address." : "Compartir con outras persoas inserindo un usuario, grupo ou un enderezo de correo.",
     "The specified document has not been found on the server." : "Non se atopou no servidor o documento indicado.",
     "You can click here to return to %s." : "Pode premer aquí para volver a %s.",
-    "SQLite will be used as database." : "Utilizarase SQLite como base de datos",
+    "SQLite will be used as database." : "Empregarase SQLite como base de datos",
     "For larger installations we recommend to choose a different database backend." : "Para instalacións grandes, recomendámoslle que empregue unha infraestrutura de base de datos diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Concretamente, se emprega o cliente de escritorio para sincronización, desaconséllase o uso de SQLite.",
     "Wrong password." : "Contrasinal incorrecto.",

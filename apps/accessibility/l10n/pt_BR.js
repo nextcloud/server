@@ -9,6 +9,7 @@ OC.L10N.register(
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "O OpenDyslexic é um tipo de letra/fonte grátis concebido para atenuar alguns dos erros comuns de leitura causados pela dislexia.",
     "Accessibility" : "Acessibilidade",
     "Accessibility options for nextcloud" : "Opções de acessibilidade para nextcloud",
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Fornece várias opções de acessibilidade para facilitar o uso do Nextcloud",
     "Web Content Accessibility Guidelines" : "Diretrizes de Acessibilidade ao Conteúdo da Web",
     "our issue tracker" : "nosso rastreador de problemas",
     "our design team" : "nossa equipe de design",

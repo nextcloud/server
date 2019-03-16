@@ -365,7 +365,7 @@ OC.L10N.register(
     "%1$s will be updated to version %2$s" : "%1$s wird auf Version %2$s aktualisiert",
     "These apps will be updated:" : "Diese Apps werden aktualisiert:",
     "These incompatible apps will be disabled:" : "Diese inkompatiblen Apps werden deaktiviert:",
-    "The theme %s has been disabled." : "Das Thema %s wurde deaktiviert.",
+    "The theme %s has been disabled." : "Das Theme %s wurde deaktiviert.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Bitte stelle vor dem Fortsetzen sicher, dass die Datenbank, der Konfigurationsordner und der Datenordner gesichert wurden.",
     "Start update" : "Aktualisierung starten",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen kannst Du stattdessen den folgenden Befehl in deinem Installationsverzeichnis ausführen:",
