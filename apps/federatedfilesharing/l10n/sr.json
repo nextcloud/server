@@ -43,6 +43,7 @@
     "Search global and public address book for users" : "Тражи кориснике и у глобалним и јавним именицима",
     "Allow users to publish their data to a global and public address book" : "Дозволи корисницима да објаве своје податке у јавне и глобалне именике",
     "Federated Cloud" : "Здружени облак",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд сервер или неки други Open Cloud Mesh (OCM) компатибилни сервер и сервисе! Само унесите ИД из њиховог Здруженог Облака у дијалог за дељење. Тај ИД изгледа нешто попут person@cloud.example.com",
     "Your Federated Cloud ID:" : "ИД вашег здруженог облака:",
     "Share it so your friends can share files with you:" : "Поделите да би Ваши пријатељи могли да деле са Вама:",
     "Add to your website" : "Додај на свој веб сајт",

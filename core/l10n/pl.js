@@ -422,7 +422,7 @@ OC.L10N.register(
     "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "Zainstalowana wersja {name} jest starsza niż {version}. Ze względów stabilności i wydajności zalecamy aktualizację do nowszej wersji {name}.",
     "Copy URL" : "Kopiuj URL",
     "Enable" : "Włącz",
-    "{sharee} (conversation)" : "{sharee} (konwersacja)",
+    "{sharee} (conversation)" : "{sharee} (rozmowa)",
     "Please log in before granting %s access to your %s account." : "Zaloguj się, aby udzielić %s dostępu do swojego konta %s.",
     "Further information how to configure this can be found in the %sdocumentation%s." : "Więcej informacji o konfiguracji znajdziesz w %sdokumentacji%s."
 },

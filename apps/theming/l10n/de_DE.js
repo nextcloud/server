@@ -51,7 +51,7 @@ OC.L10N.register(
     "The uploaded file was only partially uploaded" : "Die Datei konnte nur teilweise übertragen werden",
     "Failed to write file to disk." : "Fehler beim Schreiben der Datei auf die Festplatte.",
     "A PHP extension stopped the file upload." : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt.",
-    "You are already using a custom theme" : "Sie benutzen bereits ein eigenes Thema",
+    "You are already using a custom theme" : "Sie benutzen bereits ein eigenes Theme",
     "Web address https://…" : "Internetadresse https://…"
 },
 "nplurals=2; plural=(n != 1);");

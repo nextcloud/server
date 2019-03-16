@@ -420,7 +420,7 @@
     "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "Zainstalowana wersja {name} jest starsza niż {version}. Ze względów stabilności i wydajności zalecamy aktualizację do nowszej wersji {name}.",
     "Copy URL" : "Kopiuj URL",
     "Enable" : "Włącz",
-    "{sharee} (conversation)" : "{sharee} (konwersacja)",
+    "{sharee} (conversation)" : "{sharee} (rozmowa)",
     "Please log in before granting %s access to your %s account." : "Zaloguj się, aby udzielić %s dostępu do swojego konta %s.",
     "Further information how to configure this can be found in the %sdocumentation%s." : "Więcej informacji o konfiguracji znajdziesz w %sdokumentacji%s."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
