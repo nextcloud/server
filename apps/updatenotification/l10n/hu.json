@@ -8,6 +8,7 @@
     "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
     "Update for {app} to version %s is available." : "{app} %s verzió frissítése elérhető",
     "Update notification" : "Frissítési értesítés",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Az általad futtatott verziót már nem karban tartott. Kérlek frissítsd egy támogatott verzióra amint lehetséges.",
     "Apps missing updates" : "Alkalmazások frissítés nélkül",
     "View in store" : "Nézze meg a boltban",
     "Apps with available updates" : "Alkalmazások frissítéssel",
@@ -34,6 +35,7 @@
     "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Checked on %s" : "Ellenőrizve: %s",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra."
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra.",
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Béta</strong>, egy előzetes verzió kizárólag az új funkciók tesztelésére, nem élő környezetbe."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

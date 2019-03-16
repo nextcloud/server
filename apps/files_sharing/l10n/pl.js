@@ -5,7 +5,7 @@ OC.L10N.register(
     "Shared with you" : "Współdzielony z Tobą",
     "Shared by link" : "Współdzielony linkiem",
     "Deleted shares" : "Usunięte udostępnienie",
-    "Shares" : "Udostępnianie",
+    "Shares" : "Współdzielone",
     "Nothing shared with you yet" : "Nie masz jeszcze nic udostępnionego",
     "Files and folders others share with you will show up here" : "Tutaj wyświetlą się udostępnione przez innych pliki i foldery",
     "Nothing shared yet" : "Jeszcze nic nie udostępniono",
