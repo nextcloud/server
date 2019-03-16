@@ -36,7 +36,7 @@
 		@mouseleave="hideControls"
 		@loadedmetadata="updateVideoSize">
 
-		<source :src="path" :type="mime">
+		<source :src="davPath" :type="mime">
 
 		{{ t('viewer', 'Your browser does not support the video tag.') }}
 	</video>
