@@ -1,6 +1,9 @@
 <?php
 /**
  * Copyright (c) 2014-2015 Lukas Reschke <lukas@owncloud.com>
+ *
+ * @author Arne Hamann <github@arne.email>
+ *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -8,14 +11,20 @@
 
 namespace Test\Mail;
 
+
 use OC\Mail\EMailTemplate;
 use OC\Mail\Mailer;
+use OC\Mail\Message;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\Mail\Events\BeforeMessageSent;
+use OCP\Mail\IMessage;
 use Test\TestCase;
+use Swift_SwiftException;
 
 class MailerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
@@ -30,6 +39,9 @@ class MailerTest extends TestCase {
 	private $l10n;
 	/** @var Mailer */
 	private $mailer;
+	/** @var IEventDispatcher */
+	private $dispatcher;
+
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,12 +51,14 @@ class MailerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->mailer = new Mailer(
 			$this->config,
 			$this->logger,
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n
+			$this->l10n,
+			$this->dispatcher
 		);
 	}
 
@@ -115,6 +129,21 @@ class MailerTest extends TestCase {
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertInstanceOf(\Swift_Mailer::class, $mailer);
 		$this->assertInstanceOf(\Swift_SendmailTransport::class, $mailer->getTransport());
+	}
+
+	public function testEvents() {
+		$message = $this->createMock(Message::class);
+
+		$event = new BeforeMessageSent($message);
+		$this->dispatcher->expects($this->at(0))
+			->method('dispatchTyped')
+			->with($this->equalTo($event));
+
+		# We do not care at this point about errors in Swiftmailer
+		try {
+			$this->mailer->send($message);
+		} catch (Swift_SwiftException $e) {
+		}
 	}
 
 	public function testCreateMessage() {
