@@ -25,6 +25,7 @@
 namespace Test\Log;
 use OC\Log\Errorlog;
 use OC\Log\File;
+use OC\Log\Graylog;
 use OC\Log\LogFactory;
 use OC\Log\Syslog;
 use OC\Log\Systemdlog;
@@ -155,5 +156,18 @@ class LogFactoryTest extends TestCase {
 
 		$log = $this->factory->get('systemd');
 		$this->assertInstanceOf(Systemdlog::class, $log);
+	}
+
+	/**
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function testGraylogLog() {
+		$this->c->expects($this->once())
+			->method('resolve')
+			->with(Graylog::class)
+			->willReturn($this->createMock(Graylog::class));
+
+		$log = $this->factory->get('graylog');
+		$this->assertInstanceOf(Graylog::class, $log);
 	}
 }

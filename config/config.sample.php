@@ -743,6 +743,8 @@ $CONFIG = array(
  * ``systemd``: the logs are sent to the Systemd journal. This requires a system
  * that runs Systemd and the Systemd journal. The PHP extension ``systemd``
  * must be installed and active.
+ * ``graylog``: the logs are sent to a Graylog server. This requires a running
+ * Graylog service reachable by your Nextcloud instance.
  *
  * Defaults to ``file``
  */
@@ -780,6 +782,22 @@ $CONFIG = array(
  * The default value is ``Nextcloud``.
  */
 'syslog_tag' => 'Nextcloud',
+
+/**
+ * Your graylog host server name, for example ``localhost``, ``hostname``,
+ * ``hostname.example.com``, or the IP address. To specify a port use
+ * ``hostname:####``
+ * Only effective when ``log_type`` set to ``graylog``
+ */
+'graylog_host' => '',
+
+/**
+ * The protocol used for sending logs to the graylog server.
+ * Can be ``udp`` or ``tcp``.
+ *
+ * The default value is ``udp``.
+ */
+'graylog_method' => 'udp',
 
 /**
  * Log condition for log level increase based on conditions. Once one of these

@@ -53,6 +53,8 @@ class LogFactory implements ILogFactory {
 				return $this->c->resolve(Syslog::class);
 			case 'systemd':
 				return $this->c->resolve(Systemdlog::class);
+			case 'graylog':
+				return $this->c->resolve(Graylog::class);
 			case 'file':
 				return $this->buildLogFile();
 
