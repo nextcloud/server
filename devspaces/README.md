@@ -87,7 +87,7 @@ devspaces/docker-cli.sh <command>
 
 
 ### Dockerfile
- Dockefile is created on top of `ubuntu:18.04` image.
+ Dockefile is created on top of `php:7.2.12-apache` image.
 
 ### Requirements
  - The project should be cloned from https://github.com/trilogy-group/nextcloud-server
