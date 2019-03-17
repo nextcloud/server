@@ -1,5 +1,5 @@
 --- # devspaces.yml
-name: nextcloud
+name: nextcloud8
 description:  Development environment for NextCloud
 
 # If you want to use a different Dockerfile for your DevSpace, provide the path
@@ -11,6 +11,7 @@ docker-file: docker/Dockerfile
 # include here. They are relative to this devspaces.yml file.
 docker-build-includes: |
   **/*
+  
 
 ports:
   - protocol: http # can be udp|tcp|http
