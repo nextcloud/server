@@ -95,7 +95,7 @@ class ContactsStore implements IContactsStore {
 		$sharedUsers = $this->getSharedUsers()->fetchAll();
 
 
-		// Matching who shared something
+		// Matching who shared with
 		for ($i = 0; $i < count($sharedUsers); $i++) {
 			for ($j = 0; $j < count($allContacts); $j++) {
 				if ($sharedUsers[$i]['share_with'] == $allContacts[$j]['UID']) {
