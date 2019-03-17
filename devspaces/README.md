@@ -99,7 +99,7 @@ devspaces/docker-cli.sh <command>
 2. Open a terminal session to that folder
 3. Run `./docker-cli.sh deploy`
 4. Run `./docker-cli.sh exec`
-5. At this point you must be inside the docker container. You can continue building the product from `7. Run runtime dependencies`
+5. At this point you must be inside the docker container. You can continue building the product from `7. Run the application`
 6. When you finish working with the container, type `exit`
 7. Run `./docker-cli.sh stop` to stop running service.
 8. Run `./docker-cli.sh start` to start stopped container (should be used only after `stop` command).
