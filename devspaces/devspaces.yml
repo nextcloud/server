@@ -1,5 +1,5 @@
 --- # devspaces.yml
-name: nextcloud8
+name: nextcloud
 description:  Development environment for NextCloud
 
 # If you want to use a different Dockerfile for your DevSpace, provide the path
