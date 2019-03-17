@@ -24,7 +24,7 @@ Use `devspaces --help` to know about updated commands.
 ### Start Devspaces 
 
 1.  Create DevSpaces.
-
+Copy `000-default.conf` and `apache2.conf` files to repo-root/devspaces folder and then run:
 ```bash
 devspaces create
 ```
