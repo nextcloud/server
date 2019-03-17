@@ -11,7 +11,7 @@
     "The given slogan is too long" : "输入的标语过长",
     "The given color is invalid" : "提供的颜色无效",
     "The file was uploaded" : "文件已上传",
-    "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传的文件超过了php.ini中指定的upload_max_filesize指令配置",
+    "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传文件超过php.ini中upload_max_filesize 设定参数",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "上传的文件超过了 HTML 表单中指定的 MAX_FILE_SIZE 指令",
     "The file was only partially uploaded" : "文件仅部分上传",
     "No file was uploaded" : "没有上传文件",
