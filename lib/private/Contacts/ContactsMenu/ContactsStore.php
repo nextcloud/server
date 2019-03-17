@@ -76,15 +76,53 @@ class ContactsStore implements IContactsStore {
 			'EMAIL'
 		]);
 
-		$entries = array_map(function(array $contact) {
+		// If search input text is not empty, search in database
+		if ($filter != null) {
+			$entries = array_map(function (array $contact) {
+				return $this->contactArrayToEntry($contact);
+			}, $allContacts);
+
+			return $this->filterContacts(
+				$user,
+				$entries,
+				$filter
+			);
+
+		}
+
+		// If search input text is empty, get shared users
+		$sharedContacts = [];
+		$sharedUsers = $this->getSharedUsers()->fetchAll();
+
+
+		// Matching who shared something
+		for ($i = 0; $i < count($sharedUsers); $i++) {
+			for ($j = 0; $j < count($allContacts); $j++) {
+				if ($sharedUsers[$i]['share_with'] == $allContacts[$j]['UID']) {
+					$sharedContacts[] = $allContacts[$j];
+					break;
+				}
+			}
+		}
+
+		$entries = array_map(function (array $contact) {
 			return $this->contactArrayToEntry($contact);
-		}, $allContacts);
+		}, $sharedContacts);
+
 		return $this->filterContacts(
 			$user,
 			$entries,
 			$filter
 		);
 	}
+
+	private function getSharedUsers() {
+		$conn = \OC::$server->getDatabaseConnection();
+		$sharedUsers = $conn->executeQuery('SELECT DISTINCT * FROM oc_share');
+
+		return $sharedUsers;
+	}
+
 
 	/**
 	 * Filters the contacts. Applies 3 filters:
@@ -118,7 +156,7 @@ class ContactsStore implements IContactsStore {
 		if ($excludedGroups) {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
-			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups :  [];
+			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups : [];
 
 			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
 				// a group of the current user is excluded -> filter all local users
@@ -128,28 +166,28 @@ class ContactsStore implements IContactsStore {
 
 		$selfUID = $self->getUID();
 
-		return array_values(array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
+		return array_values(array_filter($entries, function (IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
 			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
 				return false;
 			}
 
 			// Prevent enumerating local users
-			if($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
+			if ($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
 				$filterUser = true;
 
 				$mailAddresses = $entry->getEMailAddresses();
-				foreach($mailAddresses as $mailAddress) {
-					if($mailAddress === $filter) {
+				foreach ($mailAddresses as $mailAddress) {
+					if ($mailAddress === $filter) {
 						$filterUser = false;
 						break;
 					}
 				}
 
-				if($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
+				if ($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
 					$filterUser = false;
 				}
 
-				if($filterUser) {
+				if ($filterUser) {
 					return false;
 				}
 			}
@@ -157,7 +195,7 @@ class ContactsStore implements IContactsStore {
 			if ($ownGroupsOnly && $entry->getProperty('isLocalSystemBook') === true) {
 				$uid = $this->userManager->get($entry->getProperty('UID'));
 
-				if ($uid === NULL) {
+				if ($uid === null) {
 					return false;
 				}
 
@@ -179,7 +217,7 @@ class ContactsStore implements IContactsStore {
 	 * @return IEntry|null
 	 */
 	public function findOne(IUser $user, $shareType, $shareWith) {
-		switch($shareType) {
+		switch ($shareType) {
 			case 0:
 			case 6:
 				$filter = ['UID'];
@@ -193,7 +231,7 @@ class ContactsStore implements IContactsStore {
 
 		$userId = $user->getUID();
 		$allContacts = $this->contactsManager->search($shareWith, $filter);
-		$contacts = array_filter($allContacts, function($contact) use ($userId) {
+		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			return $contact['UID'] !== $userId;
 		});
 		$match = null;
@@ -206,7 +244,7 @@ class ContactsStore implements IContactsStore {
 				}
 			}
 			if ($shareType === 0 || $shareType === 6) {
-				$isLocal = $contact['isLocalSystemBook'] ?? false;
+				$isLocal = $contact['isLocalSystemBook'] ?: false;
 				if ($contact['UID'] === $shareWith && $isLocal === true) {
 					$match = $contact;
 					break;
