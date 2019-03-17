@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: nextcloud
+    ports:
+          - "8080:8080"
+          - "80:80"
+    volumes:
+      - ..:/var/www/html/:Z
+    tty: true
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+          - "3306:3306"
+          - "3396:3396"
+    environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: nextcloud
+          MYSQL_USER: nextcloud
+          MYSQL_PASSWORD: 111
+
