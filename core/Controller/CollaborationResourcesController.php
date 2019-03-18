@@ -166,7 +166,7 @@ class CollaborationResourcesController extends OCSController {
 		try {
 			$resource = $this->manager->getResourceForUser($resourceType, $resourceId, $this->userSession->getUser());
 		} catch (ResourceException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			$resource = $this->manager->createResource($resourceType, $resourceId);
 		}
 
 		if (!$resource->canAccess($this->userSession->getUser())) {
