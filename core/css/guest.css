@@ -534,15 +534,20 @@ form #selectDbType label {
 	color:#888;
 	cursor:pointer;
 	border: 1px solid #ddd;
-}
-form #selectDbType label span {
-	cursor: pointer;
 	padding: 10px 17px;
 }
 form #selectDbType label.ui-state-hover,
 form #selectDbType label.ui-state-active {
+	font-weight: normal;
 	color:#000;
-	background-color:#e8e8e8; }
+	background-color:#e8e8e8;
+}
+form #selectDbType .ui-visual-focus {
+	box-shadow: none;
+}
+form #selectDbType label span {
+	display: none;
+}
 
 /* Nicely grouping input field sets */
 .grouptop,

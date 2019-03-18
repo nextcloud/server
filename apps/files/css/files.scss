@@ -334,6 +334,12 @@ table td.filename .thumbnail {
 	position: absolute;
 	z-index: 4;
 }
+
+// Show slight border around previews for images, txt, etc.
+table tr[data-has-preview='true'] .thumbnail {
+	border: 1px solid var(--color-border);
+}
+
 table td.filename input.filename {
 	width: 70%;
 	margin-left: 48px;

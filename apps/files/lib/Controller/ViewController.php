@@ -32,6 +32,7 @@ use OCA\Files\Activity\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
@@ -132,6 +133,18 @@ class ViewController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 *
+	 * @param string $fileid
+	 * @return TemplateResponse|RedirectResponse
+	 */
+	public function showFile(string $fileid = null): Response {
+		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
+		return $this->redirectToFile($fileid);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
@@ -140,7 +153,7 @@ class ViewController extends Controller {
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		if ($fileid !== null) {
 			try {
-				return $this->showFile($fileid);
+				return $this->redirectToFile($fileid);
 			} catch (NotFoundException $e) {
 				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 			}
@@ -285,7 +298,7 @@ class ViewController extends Controller {
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function showFile($fileId) {
+	private function redirectToFile($fileId) {
 		$uid        = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$files      = $baseFolder->getById($fileId);

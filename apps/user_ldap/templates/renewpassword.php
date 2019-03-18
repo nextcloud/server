@@ -1,8 +1,5 @@
 <?php /** @var $l OC_L10N */ ?>
 <?php
-script('core', [
-	'jquery-showpassword',
-]);
 script('user_ldap', [
 	'renewPassword',
 ]);

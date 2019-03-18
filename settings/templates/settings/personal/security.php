@@ -28,7 +28,6 @@ script('settings', [
 
 if($_['passwordChangeSupported']) {
 	script('settings', 'security_password');
-	script('jquery-showpassword');
 }
 
 ?>

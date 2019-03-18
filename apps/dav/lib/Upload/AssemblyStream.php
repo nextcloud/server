@@ -83,12 +83,46 @@ class AssemblyStream implements \Icewind\Streams\File {
 	}
 
 	/**
-	 * @param string $offset
+	 * @param int $offset
 	 * @param int $whence
 	 * @return bool
 	 */
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		return false;
+		if ($whence === SEEK_CUR) {
+			$offset = $this->stream_tell() + $offset;
+		} else if ($whence === SEEK_END) {
+			$offset = $this->size + $offset;
+		}
+
+		if ($offset > $this->size) {
+			return false;
+		}
+
+		$nodeIndex = 0;
+		$nodeStart = 0;
+		while (true) {
+			if (!isset($this->nodes[$nodeIndex + 1])) {
+				break;
+			}
+			$node = $this->nodes[$nodeIndex];
+			if ($nodeStart + $node->getSize() > $offset) {
+				break;
+			}
+			$nodeIndex++;
+			$nodeStart += $node->getSize();
+		}
+
+		$stream = $this->getStream($this->nodes[$nodeIndex]);
+		$nodeOffset = $offset - $nodeStart;
+		if(fseek($stream, $nodeOffset) === -1) {
+			return false;
+		}
+		$this->currentNode = $nodeIndex;
+		$this->currentNodeRead = $nodeOffset;
+		$this->currentStream = $stream;
+		$this->pos = $offset;
+
+		return true;
 	}
 
 	/**
@@ -210,7 +244,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws \Exception
+	 * @throws \BadMethodCallException
 	 */
 	protected function loadContext($name) {
 		$context = stream_context_get_options($this->context);

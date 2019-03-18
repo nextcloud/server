@@ -85,8 +85,8 @@ class PreviewController extends Controller {
 	 */
 	public function getPreview(
 		int $fileId,
-		int $x = 44,
-		int $y = 44
+		int $x = 128,
+		int $y = 128
 	) {
 
 		if ($x === 0 || $y === 0) {

@@ -193,6 +193,7 @@
     "Could not create user" : "无法创建用户",
     "User disabled" : "用户已禁用",
     "Login canceled by app" : "已通过应用取消登录",
+    "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "应用 \"%1$s\" 无法安装，因为不能满足以下依赖： %2$s",
     "a safe home for all your data" : "给您所有数据一个安全的家",
     "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
     "Can't read file" : "无法读取文件",
@@ -229,6 +230,10 @@
     "Your data directory is invalid" : "您的数据目录无效",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "请确定在根目录下有一个名为\".ocdata\"的文件。",
     "Action \"%s\" not supported or implemented." : "操作 \"%s\" 不支持或未实现。",
+    "Authentication failed, wrong token or provider ID given" : "认证失败，提供了错误的token或提供者ID",
+    "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "缺少参数来完成请求。缺少的参数为：\"%s\"",
+    "ID \"%1$s\" already used by cloud federation provider \"%2$s\"" : "ID \"%1$s\" 已被云联合提供商 \"%2$s\" 使用",
+    "Cloud Federation Provider with ID: \"%s\" does not exist." : "ID为 \"%s\" 的云联合提供商不存在。",
     "Could not obtain lock type %d on \"%s\"." : "无法在 \"%s\" 上获取锁类型 %d。",
     "Storage unauthorized. %s" : "存储认证失败。%s",
     "Storage incomplete configuration. %s" : "存储未完成配置。%s",
@@ -257,6 +262,7 @@
     "%s via %s" : "%s 通过 %s",
     "No app name specified" : "没有指定的 App 名称",
     "App '%s' could not be installed!" : "应用 '%s' 无法被安装！",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "应用程序 \"%s\" 无法被安装，因为为满足下列依赖关系：%s"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "应用程序 \"%s\" 无法被安装，因为为满足下列依赖关系：%s",
+    "ID \"%s\" already used by cloud federation provider \"%s\"" : "ID \"%s\" 已被云联合提供商 \"%s\" 使用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

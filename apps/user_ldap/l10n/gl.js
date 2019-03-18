@@ -51,7 +51,7 @@ OC.L10N.register(
     "An unspecified error occurred. Please check log and settings." : "Produciuse un erro non especificado. Comprobe o rexistro e os axustes.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "O filtro de busca é incorrecto, probabelmente por mor de erros de sintaxe como un número impar de chaves de apertura/peche. Revíseo.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Produciuse un erro de conexión no LDAP / AD, comprobe a máquina o porto e as credenciais.",
-    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Non se atopou o «%u ID» do marcador de posición. Vai seren substituído co nome de acceso cando se consulta LDAP / AD.",
+    "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Non se atopou o «%u ID» do marcador de posición. Vai ser substituído co nome de acceso cando se consulta LDAP / AD.",
     "Please provide a login name to test against" : "Forneza o nome de acceso para facer a proba",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "A caixa de grupo está desactivada, o servidor LDAP / AD non admite «memberOf».",
     "Password change rejected. Hint: " : "Contrasinal rexeitado. Consello:",
