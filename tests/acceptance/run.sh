@@ -147,7 +147,18 @@ function prepareDocker() {
 	# "docker cp" does not take them into account (the extracted files are set
 	# to root).
 	echo "Copying local Git working directory of Nextcloud to the container"
-	tar --create --file="$NEXTCLOUD_LOCAL_TAR" --exclude=".git" --exclude="./build" --exclude="./config/config.php" --exclude="./data" --exclude="./data-autotest" --exclude="./tests" --exclude="./apps-extra" --exclude="apps-writable" --directory=../../ .
+	tar --create --file="$NEXTCLOUD_LOCAL_TAR" \
+		--exclude=".git" \
+		--exclude="./build" \
+		--exclude="./config/config.php" \
+		--exclude="./data" \
+		--exclude="./data-autotest" \
+		--exclude="./tests" \
+		--exclude="./apps-extra" \
+		--exclude="./apps-writable" \
+		--exclude="node_modules" \
+		--directory=../../ \
+		.
 	tar --append --file="$NEXTCLOUD_LOCAL_TAR" --directory=../../ tests/acceptance/
 
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
