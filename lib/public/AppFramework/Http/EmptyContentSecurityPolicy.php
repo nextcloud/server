@@ -468,7 +468,11 @@ class EmptyContentSecurityPolicy {
 		}
 
 		if(!empty($this->allowedFrameDomains)) {
-			$policy .= 'frame-src ' . implode(' ', $this->allowedFrameDomains);
+			$policy .= 'frame-src ';
+			if(is_string($this->useJsNonce)) {
+				$policy .= '\'nonce-' . base64_encode($this->useJsNonce) . '\' ';
+			}
+			$policy .= implode(' ', $this->allowedFrameDomains);
 			$policy .= ';';
 		}
 
