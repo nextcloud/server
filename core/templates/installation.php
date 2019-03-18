@@ -1,6 +1,5 @@
 <?php
 script('core', [
-	'jquery-showpassword',
 	'installation'
 ]);
 ?>
