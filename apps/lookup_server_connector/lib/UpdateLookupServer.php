@@ -46,6 +46,8 @@ class UpdateLookupServer {
 	private $jobList;
 	/** @var string URL point to lookup server */
 	private $lookupServer;
+	/** @var bool  */
+	private $lookupServerEnabled;
 
 	/**
 	 * @param AccountManager $accountManager
@@ -68,6 +70,8 @@ class UpdateLookupServer {
 			return;
 		}
 
+		$this->lookupServerEnabled = $config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes';
+
 		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if(!empty($this->lookupServer)) {
 			$this->lookupServer = rtrim($this->lookupServer, '/');
@@ -79,7 +83,8 @@ class UpdateLookupServer {
 	 * @param IUser $user
 	 */
 	public function userUpdated(IUser $user) {
-		if(empty($this->lookupServer)) {
+
+		if (!$this->shouldUpdateLookupServer()) {
 			return;
 		}
 
@@ -150,4 +155,17 @@ class UpdateLookupServer {
 			);
 		}
 	}
+
+	/**
+	 * check if we should update the lookup server, we only do it if
+	 *
+	 * * we have a valid URL
+	 * * the lookup server update was enabled by the admin
+	 *
+	 * @return bool
+	 */
+	private function shouldUpdateLookupServer() {
+		return $this->lookupServerEnabled || !empty($this->lookupServer);
+	}
+
 }
