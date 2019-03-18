@@ -94,6 +94,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @param string $itemText
+	 * @return Locator
+	 */
+	private static function settingsPanelEntryFor($itemText) {
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[normalize-space() = '$itemText']")->
+		describedAs($itemText . " entry in Settings panel");
+	}
+
+	/**
 	 * @return array 
 	 */
 	public function menuItems() {
@@ -185,6 +194,15 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheItemSettingsPanelIsShown($itemText) {
 		PHPUnit_Framework_Assert::assertTrue(
 			$this->actor->find(self::settingsPanelFor($itemText), 10)->isVisible()
+		);
+	}
+
+	/**
+	 * @Then I see that the :itemText entry in the settings panel is shown
+	 */
+	public function iSeeThatTheItemEntryInTheSettingsPanelIsShown($itemText) {
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::settingsPanelEntryFor($itemText), 10)->isVisible()
 		);
 	}
 

@@ -30,8 +30,10 @@ script('files', 'jquery.fileupload');
 
 <div id="app-navigation">
 	<ul>
-		<li class="app-navigation-caption"><?php p($l->t('Personal')); ?></li>
+		<?php if(!empty($_['forms']['admin'])) { ?>
+			<li class="app-navigation-caption"><?php p($l->t('Personal')); ?></li>
 		<?php
+		}
 		foreach($_['forms']['personal'] as $form) {
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
