@@ -30,6 +30,7 @@ use OC\Core\Command\Base;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\INotifyHandler;
 use OCP\Files\Notify\IRenameChange;
@@ -48,8 +49,6 @@ class Notify extends Base {
 	private $globalService;
 	/** @var IDBConnection */
 	private $connection;
-	/** @var \OCP\DB\QueryBuilder\IQueryBuilder */
-	private $updateQuery;
 	/** @var ILogger */
 	private $logger;
 
@@ -58,7 +57,6 @@ class Notify extends Base {
 		$this->globalService = $globalService;
 		$this->connection = $connection;
 		$this->logger = $logger;
-		$this->updateQuery = $this->getUpdateQuery($this->connection);
 	}
 
 	protected function configure() {
@@ -162,13 +160,22 @@ class Notify extends Base {
 		}
 
 		try {
-			$this->updateQuery->execute([$parent, $mountId]);
+			$storageIds = $this->getStorageIds($mountId);
 		} catch (DriverException $ex) {
-			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while trying to mark folder as outdated', 'level' => ILogger::WARN]);
+			$this->logger->logException($ex, ['message' => 'Error while trying to find correct storage ids.', 'level' => ILogger::WARN]);
 			$this->connection = $this->reconnectToDatabase($this->connection, $output);
 			$output->writeln('<info>Needed to reconnect to the database</info>');
-			$this->updateQuery = $this->getUpdateQuery($this->connection);
-			$this->updateQuery->execute([$parent, $mountId]);
+			$storageIds = $this->getStorageIds($mountId);
+		}
+		if (count($storageIds) === 0) {
+			throw new StorageNotAvailableException('No storages found by mount ID ' . $mountId);
+		}
+		$storageIds = array_map('intval', $storageIds);
+
+		$result = $this->updateParent($storageIds, $parent);
+		if ($result === 0) {
+			//TODO: Find existing parent further up the tree in the database and register that folder instead.
+			$this->logger->info('Failed updating parent for "' . $path . '" while trying to register change. It may not exist in the filecache.');
 		}
 	}
 
@@ -199,15 +206,33 @@ class Notify extends Base {
 	}
 
 	/**
-	 * @return \Doctrine\DBAL\Statement
+	 * @param int $mountId
+	 * @return array
 	*/
-	private function getUpdateQuery(IDBConnection $connection) {
-		// the query builder doesn't really like subqueries with parameters
-		return $connection->prepare(
-			'UPDATE *PREFIX*filecache SET size = -1
-			WHERE `path` = ?
-			AND `storage` IN (SELECT storage_id FROM *PREFIX*mounts WHERE mount_id = ?)'
-		);
+	private function getStorageIds($mountId) {
+		$qb = $this->connection->getQueryBuilder();
+		return $qb
+			->select('storage_id')
+			->from('mounts')
+			->where($qb->expr()->eq('mount_id', $qb->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+			->execute()
+			->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
+	/**
+	 * @param array $storageIds
+	 * @param string $parent
+	 * @return int
+	*/
+	private function updateParent($storageIds, $parent) {
+		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
+		$qb = $this->connection->getQueryBuilder();
+		return $qb
+			->update('filecache')
+			->set('size', $qb->createNamedParameter(-1, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->in('storage', $qb->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY, ':storage_ids')))
+			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
+			->execute();
 	}
 
 	/**
