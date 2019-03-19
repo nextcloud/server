@@ -42,22 +42,10 @@ interface IResource {
 	public function getId(): string;
 
 	/**
-	 * @return string
+	 * @return array
 	 * @since 16.0.0
 	 */
-	public function getName(): string;
-
-	/**
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getIconClass(): string;
-
-	/**
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getLink(): string;
+	public function getRichObject(): array;
 
 	/**
 	 * Can a user/guest access the resource

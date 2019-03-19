@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
@@ -27,24 +28,29 @@ use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUser;
 
 class ResourceProvider implements IProvider {
 
-	const RESOURCE_TYPE = 'files';
+	public const RESOURCE_TYPE = 'file';
 
 	/** @var IRootFolder */
 	protected $rootFolder;
-
+	/** @var IPreview */
+	private $preview;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	/** @var array */
 	protected $nodes = [];
 
-	public function __construct(IRootFolder $rootFolder, IURLGenerator $urlGenerator) {
+	public function __construct(IRootFolder $rootFolder,
+								IPreview $preview,
+								IURLGenerator $urlGenerator) {
 		$this->rootFolder = $rootFolder;
+		$this->preview = $preview;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -61,21 +67,34 @@ class ResourceProvider implements IProvider {
 	}
 
 	/**
-	 * Get the display name of a resource
-	 *
 	 * @param IResource $resource
-	 * @return string
-	 * @since 15.0.0
+	 * @return array
+	 * @since 16.0.0
 	 */
-	public function getName(IResource $resource): string {
+	public function getResourceRichObject(IResource $resource): array {
 		if (isset($this->nodes[(int) $resource->getId()])) {
-			return $this->nodes[(int) $resource->getId()]->getPath();
+			$node = $this->nodes[(int) $resource->getId()]->getPath();
+		} else {
+			$node = $this->getNode($resource);
 		}
-		$node = $this->getNode($resource);
-		if ($node) {
-			return $node->getName();
+
+		if ($node instanceof Node) {
+			$link = $this->urlGenerator->linkToRouteAbsolute(
+				'files.viewcontroller.showFile',
+				['fileid' => $resource->getId()]
+			);
+			return [
+				'type' => 'file',
+				'id' => $resource->getId(),
+				'name' => $node->getName(),
+				'path' => $node->getInternalPath(),
+				'link' => $link,
+				'mimetype' => $node->getMimetype(),
+				'preview-available' => $this->preview->isAvailable($node),
+			];
 		}
-		return '';
+
+		throw new ResourceException('File not found');
 	}
 
 	/**
@@ -84,7 +103,7 @@ class ResourceProvider implements IProvider {
 	 * @param IResource $resource
 	 * @param IUser $user
 	 * @return bool
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function canAccessResource(IResource $resource, IUser $user = null): bool {
 		if (!$user instanceof IUser) {
@@ -103,38 +122,12 @@ class ResourceProvider implements IProvider {
 	}
 
 	/**
-	 * Get the icon class of a resource
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 * @since 15.0.0
-	 */
-	public function getIconClass(IResource $resource): string {
-		$node = $this->getNode($resource);
-		if ($node && $node->getMimetype() === 'httpd/unix-directory') {
-			return 'icon-files-dark';
-		}
-		return 'icon-filetype-file';
-	}
-
-	/**
 	 * Get the resource type of the provider
 	 *
 	 * @return string
-	 * @since 15.0.0
+	 * @since 16.0.0
 	 */
 	public function getType(): string {
 		return self::RESOURCE_TYPE;
-	}
-
-	/**
-	 * Get the link to a resource
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 * @since 15.0.0
-	 */
-	public function getLink(IResource $resource): string {
-		return $this->urlGenerator->linkToRoute('files.viewcontroller.showFile', ['fileid' => $resource->getId()]);
 	}
 }

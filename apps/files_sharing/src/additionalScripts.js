@@ -8,22 +8,6 @@ import './sharebreadcrumbview'
 import './style/sharetabview.scss'
 import './style/sharebreadcrumb.scss'
 
-window.OCP.Collaboration.registerType('files', {
-	action: () => {
-		return new Promise((resolve, reject) => {
-			OC.dialogs.filepicker('Link to a file', function (f) {
-				const client = OC.Files.getClient();
-				client.getFileInfo(f).then((status, fileInfo) => {
-					resolve(fileInfo.id);
-				}, () => {
-					reject();
-				});
-			}, false);
-		});
-	},
-	/** used in "Link to a {typeString}" */
-	typeString: t('files_sharing', 'file'),
-	typeIconClass: 'icon-files-dark'
-});
+import './collaborationresourceshandler.js'
 
 window.OCA.Sharing = OCA.Sharing;

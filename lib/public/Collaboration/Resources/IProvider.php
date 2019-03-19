@@ -38,31 +38,13 @@ interface IProvider {
 	public function getType(): string;
 
 	/**
-	 * Get the display name of a resource
+	 * Get the rich object data of a resource
 	 *
 	 * @param IResource $resource
-	 * @return string
+	 * @return array
 	 * @since 16.0.0
 	 */
-	public function getName(IResource $resource): string;
-
-	/**
-	 * Get the icon class of a resource
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getIconClass(IResource $resource): string;
-
-	/**
-	 * Get the link to a resource
-	 *
-	 * @param IResource $resource
-	 * @return string
-	 * @since 16.0.0
-	 */
-	public function getLink(IResource $resource): string;
+	public function getResourceRichObject(IResource $resource): array;
 
 	/**
 	 * Can a user/guest access the collection
