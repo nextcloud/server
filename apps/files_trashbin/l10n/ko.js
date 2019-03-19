@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "삭제된 파일",
     "restored" : "복원됨",
     "Restore" : "복원",
-    "Delete" : "삭제",
     "Delete permanently" : "영구히 삭제",
     "This operation is forbidden" : "이 작업이 금지됨",
     "This directory is unavailable, please check the logs or contact the administrator" : "디렉터리를 사용할 수 없습니다. 로그를 확인하거나 관리자에게 연락하십시오",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "모두 선택",
     "Name" : "이름",
     "Deleted" : "삭제됨",
+    "Delete" : "삭제",
     "Couldn't delete %s permanently" : "%s을(를) 영구적으로 삭제할 수 없습니다",
     "Couldn't restore %s" : "%s을(를) 복원할 수 없습니다",
     "Error" : "오류"

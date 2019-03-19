@@ -5,9 +5,8 @@ OC.L10N.register(
     "restored" : "visszaállítva",
     "This application enables users to restore files that were deleted from the system." : "Ez az alkalmazás lehetővé teszi a felhasználók számára, hogy visszaállítson rendszerből már törölt fájlokat.",
     "Restore" : "Visszaállítás",
-    "Delete" : "Törlés",
-    "Error while restoring file from trashbin" : "Hiba a fájl kukából történő visszaállítása során",
     "Delete permanently" : "Végleges törlés",
+    "Error while restoring file from trashbin" : "Hiba a fájl kukából történő visszaállítása során",
     "Error while removing file from trashbin" : "Hiba a fájl kukából történő eltávolítása során",
     "Error while restoring files from trashbin" : "Hiba a fájlok kukából történő visszaállítása során",
     "Error while emptying trashbin" : "Hiba a kuka ürítése során",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Name" : "Név",
     "Actions" : "Műveletek",
     "Deleted" : "Törölve",
+    "Delete" : "Törlés",
     "Couldn't delete %s permanently" : "Nem sikerült %s végleges törlése",
     "Couldn't restore %s" : "Nem sikerült %s visszaállítása",
     "Error" : "Hiba"

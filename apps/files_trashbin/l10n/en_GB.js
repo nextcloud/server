@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Deleted files",
     "restored" : "restored",
     "Restore" : "Restore",
-    "Delete" : "Delete",
     "Delete permanently" : "Delete permanently",
     "This operation is forbidden" : "This operation is forbidden",
     "This directory is unavailable, please check the logs or contact the administrator" : "This directory is unavailable, please check the logs or contact the administrator",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Select all",
     "Name" : "Name",
     "Deleted" : "Deleted",
+    "Delete" : "Delete",
     "Couldn't delete %s permanently" : "Couldn't delete %s permanently",
     "Couldn't restore %s" : "Couldn't restore %s",
     "Error" : "Error"

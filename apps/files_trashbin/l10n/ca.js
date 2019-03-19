@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Fitxers esborrats",
     "restored" : "restaurat",
     "Restore" : "Recupera",
-    "Delete" : "Esborra",
     "Delete permanently" : "Esborra permanentment",
     "This operation is forbidden" : "Aquesta operació està prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Comproveu els registres o contacteu amb l'administrador.",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "Name" : "Nom",
     "Actions" : "Accions",
     "Deleted" : "Eliminat",
+    "Delete" : "Esborra",
     "Couldn't delete %s permanently" : "No s'ha pogut esborrar permanentment %s",
     "Couldn't restore %s" : "No s'ha pogut restaurar %s",
     "Error" : "Error"

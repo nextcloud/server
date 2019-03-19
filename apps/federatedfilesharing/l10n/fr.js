@@ -45,6 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
     "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public",
     "Federated Cloud" : "Cloud Fédéré",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son identifiant sur une instance fédérée dans la boîte de dialogue de partage. Cela prend la forme de utilisateur@cloud.exemple.com.",
     "Your Federated Cloud ID:" : "Votre identifiant de Cloud Fédéré :",
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
     "Add to your website" : "Ajouter à votre site web",

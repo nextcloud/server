@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Διεγραμμένα αρχεία",
     "restored" : "επαναφέρθηκαν",
     "Restore" : "Επαναφορά",
-    "Delete" : "Διαγραφή",
     "Delete permanently" : "Μόνιμη διαγραφή",
     "This operation is forbidden" : "Αυτή η ενέργεια δεν επιτρέπεται",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ο κατάλογος δεν είναι διαθέσιμος, παρακαλώ ελέγξτε τα αρχεία καταγραφής ή επικοινωνήστε με το διαχειριστή",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "Name" : "Όνομα",
     "Actions" : "Ενέργειες",
     "Deleted" : "Διαγραμμένα",
+    "Delete" : "Διαγραφή",
     "Couldn't delete %s permanently" : "Αδύνατη η μόνιμη διαγραφή του %s",
     "Couldn't restore %s" : "Αδυναμία επαναφοράς %s",
     "Error" : "Σφάλμα"

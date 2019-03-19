@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Geskrapte lêers",
     "restored" : "herstel",
     "Restore" : "Herstel",
-    "Delete" : "Skrap",
     "Delete permanently" : "Skrap permanent",
     "This operation is forbidden" : "Hierdie operasie is verbode",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hierdie gids is onbeskikbaar, gaan die logs na of kontak die administrateur",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Kies alle",
     "Name" : "Naam",
     "Deleted" : "Geskrap",
+    "Delete" : "Skrap",
     "Couldn't delete %s permanently" : "Kon nie %s permanent skrap nie",
     "Couldn't restore %s" : "Kon nie %s herstel nie",
     "Error" : "Fout"

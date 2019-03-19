@@ -9,7 +9,7 @@
     "{actor} updated calendar {calendar}" : "{actor} hat den Kalender {calendar} aktualisiert",
     "You updated calendar {calendar}" : "Du hast den Kalender {calendar} aktualisiert",
     "You shared calendar {calendar} as public link" : "Du hast den Kalender {calendar}  als öffentlichen Link geteilt",
-    "You removed public link for calendar {calendar}" : "Sie haben den öffentlichen Link für Kalender {calendar} entfernt",
+    "You removed public link for calendar {calendar}" : "Du hast den öffentlichen Link für Kalender {calendar} entfernt",
     "{actor} shared calendar {calendar} with you" : "{actor} hat den Kalender {calendar} mit Dir geteilt",
     "You shared calendar {calendar} with {user}" : "Du hast den Kalender {calendar} mit {user} geteilt",
     "{actor} shared calendar {calendar} with {user}" : "{actor} hat den Kalender {calendar} mit {user} geteilt",
