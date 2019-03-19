@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Fișiere șterse",
     "restored" : "restaurat",
     "Restore" : "Restaurare",
-    "Delete" : "Șterge",
     "Delete permanently" : "Șterge permanent",
     "This operation is forbidden" : "Operațiunea este interzisă",
     "This directory is unavailable, please check the logs or contact the administrator" : "Acest director nu este disponibil, te rugăm verifică logurile sau contactează un administrator",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Selectează tot",
     "Name" : "Nume",
     "Deleted" : "A fost șters.",
+    "Delete" : "Șterge",
     "Couldn't delete %s permanently" : "Nu pot șterge %s permanent.",
     "Couldn't restore %s" : "Nu se poate recupera %s",
     "Error" : "Eroare"

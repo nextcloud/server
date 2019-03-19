@@ -4,9 +4,8 @@ OC.L10N.register(
     "Deleted files" : "Ištrinti failai",
     "restored" : "atkurta",
     "Restore" : "Atkurti",
-    "Delete" : "Ištrinti",
-    "Error while restoring file from trashbin" : "Klaida atkuriant failą iš šiukšlinės",
     "Delete permanently" : "Ištrinti negrįžtamai",
+    "Error while restoring file from trashbin" : "Klaida atkuriant failą iš šiukšlinės",
     "Error while removing file from trashbin" : "Klaida šalinant failą iš šiukšlinės",
     "Error while restoring files from trashbin" : "Klaida atkuriant failus iš šiukšlinės",
     "Error while emptying trashbin" : "Klaida išvalant šiukšlinę",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Name" : "Pavadinimas",
     "Actions" : "Veiksmai",
     "Deleted" : "Ištrinta",
+    "Delete" : "Ištrinti",
     "Couldn't delete %s permanently" : "Nepavyko negrįžtamai ištrinti %s",
     "Couldn't restore %s" : "Nepavyko atkurti %s",
     "Error" : "Klaida"

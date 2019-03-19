@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Изтрити файлове",
     "restored" : "възстановено",
     "Restore" : "Възстановяне",
-    "Delete" : "Изтрий",
     "Delete permanently" : "Изтрий завинаги",
     "This operation is forbidden" : "Операцията е забранена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Моля проверете журнала или се свържете с администратор",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Избери всички",
     "Name" : "Име",
     "Deleted" : "Изтрито",
+    "Delete" : "Изтрий",
     "Couldn't delete %s permanently" : "Неуспешно безвъзвратно изтриване на %s.",
     "Couldn't restore %s" : "Неуспешно възстановяване на %s",
     "Error" : "Грешка"

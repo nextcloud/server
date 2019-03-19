@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Silinmiş fayllar",
     "restored" : "geriqaytarılıb",
     "Restore" : "Geri qaytar",
-    "Delete" : "Sil",
     "Delete permanently" : "Həmişəlik sil",
     "This operation is forbidden" : "Bu əməliyyat qadağandır",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu qovluq tapılmir. Xahiş olunur jurnalları yoxlayın ya da inzibatçı ilə əlaqə saxlayın",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Hamısıı seç",
     "Name" : "Ad",
     "Deleted" : "Silinib",
+    "Delete" : "Sil",
     "Couldn't delete %s permanently" : "Həmişəlik silmək olmaz %s-i",
     "Couldn't restore %s" : "Geri qaytarila bilmədi  %s",
     "Error" : "Səhv"

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "حذف الملفات",
     "restored" : "تمت الاستعادة",
     "Restore" : "استعيد",
-    "Delete" : "إلغاء",
     "Delete permanently" : "حذف بشكل دائم",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
     "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر, الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "تحديد الكل ",
     "Name" : "اسم",
     "Deleted" : "تم الحذف",
+    "Delete" : "إلغاء",
     "Couldn't delete %s permanently" : "تعذّر حذف%s بشكل دائم",
     "Couldn't restore %s" : "تعذّر استرجاع %s ",
     "Error" : "خطأ"

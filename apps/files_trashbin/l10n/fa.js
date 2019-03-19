@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "فایل های حذف شده",
     "restored" : "بازیابی شد",
     "Restore" : "بازیابی",
-    "Delete" : "حذف",
     "Delete permanently" : "حذف قطعی",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
     "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "انتخاب همه",
     "Name" : "نام",
     "Deleted" : "حذف شده",
+    "Delete" : "حذف",
     "Couldn't delete %s permanently" : "%s را نمی توان برای همیشه حذف کرد",
     "Couldn't restore %s" : "%s را نمی توان بازگرداند",
     "Error" : "خطا"

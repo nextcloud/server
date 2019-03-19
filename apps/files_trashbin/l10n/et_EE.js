@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Kustutatud failid",
     "restored" : "taastatud",
     "Restore" : "Taasta",
-    "Delete" : "Kustuta",
     "Delete permanently" : "Kustuta jäädavalt",
     "This operation is forbidden" : "See toiming on keelatud",
     "This directory is unavailable, please check the logs or contact the administrator" : "See kaust pole saadaval. Palun kontrolli logifaile või võta ühendust administraatoriga",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Vali kõik",
     "Name" : "Nimi",
     "Deleted" : "Kustutatud",
+    "Delete" : "Kustuta",
     "Couldn't delete %s permanently" : "%s jäädavalt kustutamine ebaõnnestus",
     "Couldn't restore %s" : "%s ei saa taastada",
     "Error" : "Viga"
