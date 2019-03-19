@@ -131,7 +131,7 @@
 						</div>
 						<div id="expandDisplayName" class="icon-settings-white"></div>
 					</div>
-					<nav id="expanddiv" style="display:none;"
+					<nav class="settings-menu" id="expanddiv" style="display:none;"
 						aria-label="<?php p($l->t('Settings menu'));?>">
 					<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>

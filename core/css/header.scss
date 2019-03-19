@@ -112,7 +112,8 @@
 		}
 
 		/* Use by the apps menu and the settings right menu */
-		ul {
+		#apps > ul,
+		&.settings-menu > ul {
 			li {
 				a {
 					display: inline-flex;
