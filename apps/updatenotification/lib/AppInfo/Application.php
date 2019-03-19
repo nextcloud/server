@@ -44,17 +44,17 @@ class Application extends App {
 			return;
 		}
 
+		// Always register the notifier, so background jobs (without a user) can send push notifications
+		$this->registerNotifier();
+
 		$user = $server->getUserSession()->getUser();
 		if (!$user instanceof IUser) {
 			// Nothing to do for guests
 			return;
 		}
 
-		if ($server->getAppManager()->isEnabledForUser('notifications')) {
-			// Notifications app is available, so we register.
-			// Since notifications also work for non-admins we don't check this here.
-			$this->registerNotifier();
-		} else if ($server->getGroupManager()->isAdmin($user->getUID())) {
+		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
+			$server->getGroupManager()->isAdmin($user->getUID())) {
 			try {
 				$updateChecker = $this->getContainer()->query(UpdateChecker::class);
 			} catch (QueryException $e) {
