@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Izbrisane datoteke",
     "restored" : "obnovljeno",
     "Restore" : "Obnovi",
-    "Delete" : "Izbriši",
     "Delete permanently" : "Trajno izbriši",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",
     "This directory is unavailable, please check the logs or contact the administrator" : "Mapa ni na voljo. Preverite dnevnik in stopite v stik s skrbnikom sistema.",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Actions" : "Dejanja",
     "Deleted" : "Izbrisano",
+    "Delete" : "Izbriši",
     "Couldn't delete %s permanently" : "Datoteke %s ni mogoče trajno izbrisati.",
     "Couldn't restore %s" : "Datoteke %s ni mogoče obnoviti.",
     "Error" : "Napaka"

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Zmazané súbory",
     "restored" : "obnovené",
     "Restore" : "Obnoviť",
-    "Delete" : "Zmazať",
     "Delete permanently" : "Zmazať  natrvalo",
     "This operation is forbidden" : "Táto operácia je zakázaná",
     "This directory is unavailable, please check the logs or contact the administrator" : "Priečinok je nedostupný, skontrolujte prosím logy, alebo kontaktujte správcu",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Vybrať všetko",
     "Name" : "Názov",
     "Deleted" : "Zmazané",
+    "Delete" : "Zmazať",
     "Couldn't delete %s permanently" : "Nemožno zmazať %s navždy",
     "Couldn't restore %s" : "Nemožno obnoviť %s",
     "Error" : "Chyba"

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "წაშლილი ფაილები",
     "restored" : "აღდგენილია",
     "Restore" : "აღდგენა",
-    "Delete" : "წაშლა",
     "Delete permanently" : "სამუდამოდ წაშლა",
     "This operation is forbidden" : "ოპერაცია აკრძალულია",
     "This directory is unavailable, please check the logs or contact the administrator" : "დირექტორია ხელმიუწვდომელია, გთხოვთ დაათვალიეროთ მოქმედებათა ისტორია ან დაუკავშირდეთ ადმინისტრატორს",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "ყველას მონიშვნა",
     "Name" : "სახელი",
     "Deleted" : "წაშლილი",
+    "Delete" : "წაშლა",
     "Couldn't delete %s permanently" : "%s-ის სრულად წაშლა ვერ მოხერხდა",
     "Couldn't restore %s" : "%s-ის აღდგენა ვერ მოხერხდა",
     "Error" : "შეცდომა"

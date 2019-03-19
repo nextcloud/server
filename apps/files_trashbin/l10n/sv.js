@@ -4,9 +4,8 @@ OC.L10N.register(
     "Deleted files" : "Raderade filer",
     "restored" : "återställd",
     "Restore" : "Återskapa",
-    "Delete" : "Radera",
-    "Error while restoring file from trashbin" : "Det gick inte att återställa filen från papperskorgen",
     "Delete permanently" : "Radera permanent",
+    "Error while restoring file from trashbin" : "Det gick inte att återställa filen från papperskorgen",
     "Error while removing file from trashbin" : "Fel vid borttagning av fil från papperskorgen",
     "Error while restoring files from trashbin" : "Det gick inte att återställa filerna från papperskorgen",
     "Error while emptying trashbin" : "Fel vid tömning av papperskorgen",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Name" : "Namn",
     "Actions" : "Åtgärder",
     "Deleted" : "Raderad",
+    "Delete" : "Radera",
     "Couldn't delete %s permanently" : "Kunde inte radera %s permanent",
     "Couldn't restore %s" : "Kunde inte återställa %s",
     "Error" : "Fel"

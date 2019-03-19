@@ -5,9 +5,8 @@ OC.L10N.register(
     "restored" : "endurheimt",
     "This application enables users to restore files that were deleted from the system." : "Þetta forrit gerir notendum kleift að endurheimta skrár sem eytt hefur verið af kerfinu.",
     "Restore" : "Endurheimta",
-    "Delete" : "Eyða",
-    "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
     "Delete permanently" : "Eyða varanlega",
+    "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
     "Error while removing file from trashbin" : "Villa við að fjarlægja skrá úr ruslafötunni",
     "Error while restoring files from trashbin" : "Villa við að endurheimta skrár úr ruslafötunni",
     "Error while emptying trashbin" : "Villa við að tæma ruslafötuna",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Name" : "Heiti",
     "Actions" : "Aðgerðir",
     "Deleted" : "Eytt",
+    "Delete" : "Eyða",
     "Couldn't delete %s permanently" : "Ekki tókst að eyða %s varanlega",
     "Couldn't restore %s" : "Gat ekki endurheimt %s",
     "Error" : "Villa"

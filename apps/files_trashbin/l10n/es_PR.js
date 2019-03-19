@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Archivos borrados",
     "restored" : "restaurado",
     "Restore" : "Restaurar",
-    "Delete" : "Borrar",
     "Delete permanently" : "Borrar permanentemente",
     "This operation is forbidden" : "Esta opración está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio no está disponible, por favor verifica las bitácoras o contacta al administrador",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Seleccionar todo",
     "Name" : "Nombre",
     "Deleted" : "Borrado",
+    "Delete" : "Borrar",
     "Couldn't delete %s permanently" : "No fue posible eliminar %s permanentemente",
     "Couldn't restore %s" : "No fue posible restaurar %s",
     "Error" : "Error"

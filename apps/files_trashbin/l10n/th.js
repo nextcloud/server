@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "ไฟล์ที่ถูกลบ",
     "restored" : "การเรียกคืน",
     "Restore" : "คืนค่า",
-    "Delete" : "ลบ",
     "Delete permanently" : "ลบแบบถาวร",
     "This operation is forbidden" : "การดำเนินการนี้ถูกห้าม",
     "This directory is unavailable, please check the logs or contact the administrator" : "ไม่สามารถใช้งานไดเรกทอรีนี้โปรดตรวจสอบบันทึกหรือติดต่อผู้ดูแลระบบ",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "เลือกทั้งหมด",
     "Name" : "ชื่อ",
     "Deleted" : "ลบแล้ว",
+    "Delete" : "ลบ",
     "Couldn't delete %s permanently" : "ไม่สามารถลบ %s แบบถาวร",
     "Couldn't restore %s" : "ไม่สามารถกู้คืน %s",
     "Error" : "ข้อผิดพลาด"

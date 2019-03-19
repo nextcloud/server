@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Dzēstās datnes",
     "restored" : "atjaunots",
     "Restore" : "Atjaunot",
-    "Delete" : "Dzēst",
     "Delete permanently" : "Dzēst pavisam",
     "This operation is forbidden" : "Šī darbība ir aizliegta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis direktorijs nav pieejams, lūdzu pārbaudiet žurnālus vai sazinieties ar administratoru",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Atzīmēt visu",
     "Name" : "Nosaukums",
     "Deleted" : "Dzēsts",
+    "Delete" : "Dzēst",
     "Couldn't delete %s permanently" : "Nevarēja pilnībā izdzēst %s",
     "Couldn't restore %s" : "Nevarēja atjaunot %s",
     "Error" : "Kļūda"

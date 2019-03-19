@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Slettede filer",
     "restored" : "Gendannet",
     "Restore" : "Gendan",
-    "Delete" : "Slet",
     "Delete permanently" : "Slet permanent",
     "This operation is forbidden" : "Denne operation er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig, tjek venligst loggene eller kontakt administratoren",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Vælg alle",
     "Name" : "Navn",
     "Deleted" : "Slettet",
+    "Delete" : "Slet",
     "Couldn't delete %s permanently" : "Kunne ikke slette %s permanent",
     "Couldn't restore %s" : "Kunne ikke gendanne %s",
     "Error" : "Fejl"

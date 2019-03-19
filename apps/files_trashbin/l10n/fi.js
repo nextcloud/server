@@ -5,9 +5,8 @@ OC.L10N.register(
     "restored" : "palautettu",
     "This application enables users to restore files that were deleted from the system." : "Tämä sovellus mahdollistaa käyttäjien palauttaa järjestelmästä poistamiaan tiedostoja.",
     "Restore" : "Palauta",
-    "Delete" : "Poista",
-    "Error while restoring file from trashbin" : "Virhe palauttaessa tiedostoa roskakorista",
     "Delete permanently" : "Poista pysyvästi",
+    "Error while restoring file from trashbin" : "Virhe palauttaessa tiedostoa roskakorista",
     "Error while removing file from trashbin" : "Virhe poistaessa tiedostoa roskakorista",
     "Error while restoring files from trashbin" : "Virhe palauttaessa tiedostoja roskakorista",
     "Error while emptying trashbin" : "Virhe tyhjentäessä roskakoria",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Actions" : "Toiminnot",
     "Deleted" : "Poistettu",
+    "Delete" : "Poista",
     "Couldn't delete %s permanently" : "Kohdetta %s ei voitu poistaa pysyvästi",
     "Couldn't restore %s" : "Kohteen %s palautus epäonnistui",
     "Error" : "Virhe"
