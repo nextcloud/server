@@ -133,6 +133,7 @@ OC.L10N.register(
     "Username" : "Brukernavn",
     "Password" : "Passord",
     "Done" : "Ferdig",
+    "Show QR code for mobile apps" : "Vis QR-kode for mobilapper",
     "Copied!" : "Kopiert!",
     "Copy" : "Kopier",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Offisielle apper utvikles av og innenfor miljøet, de byr på sentral funksjonalitet og er klare for bruk i produksjon.",

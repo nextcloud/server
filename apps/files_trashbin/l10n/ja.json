@@ -3,9 +3,8 @@
     "restored" : "復元済",
     "This application enables users to restore files that were deleted from the system." : "このアプリケーションを使用すると、ユーザーはシステムから削除されたファイルを復元できます。",
     "Restore" : "復元",
-    "Delete" : "削除",
-    "Error while restoring file from trashbin" : "ごみ箱からファイルを復元中にエラーが発生しました",
     "Delete permanently" : "完全に削除する",
+    "Error while restoring file from trashbin" : "ごみ箱からファイルを復元中にエラーが発生しました",
     "Error while removing file from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました",
     "Error while restoring files from trashbin" : "ごみ箱からファイルを復元する際のエラー",
     "Error while emptying trashbin" : "ごみ箱を空にする際にエラーが発生",
@@ -19,6 +18,7 @@
     "Name" : "名前",
     "Actions" : "アクション",
     "Deleted" : "削除日時",
+    "Delete" : "削除",
     "Couldn't delete %s permanently" : "%s を完全に削除できませんでした",
     "Couldn't restore %s" : "%s を復元できませんでした",
     "Error" : "エラー"

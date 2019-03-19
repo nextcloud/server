@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Berkas yang dihapus",
     "restored" : "dipulihkan",
     "Restore" : "Pulihkan",
-    "Delete" : "Hapus",
     "Delete permanently" : "Hapus secara permanen",
     "This operation is forbidden" : "Operasi ini dilarang",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktori ini tidak tersedia, silakan periksa log atau hubungi kontak",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Pilih Semua",
     "Name" : "Nama",
     "Deleted" : "Dihapus",
+    "Delete" : "Hapus",
     "Couldn't delete %s permanently" : "Tidak dapat menghapus permanen %s",
     "Couldn't restore %s" : "Tidak dapat memulihkan %s",
     "Error" : "Galat"

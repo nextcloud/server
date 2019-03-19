@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Slettede filer",
     "restored" : "gjenopprettet",
     "Restore" : "Gjenopprett",
-    "Delete" : "Slett",
     "Delete permanently" : "Slett permanent",
     "This operation is forbidden" : "Operasjonen er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "Name" : "Navn",
     "Actions" : "Handlinger",
     "Deleted" : "Slettet",
+    "Delete" : "Slett",
     "Couldn't delete %s permanently" : "Kunne ikke slette %s fullstendig",
     "Couldn't restore %s" : "Kunne ikke gjenopprette %s",
     "Error" : "Feil"

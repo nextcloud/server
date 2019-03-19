@@ -2,7 +2,6 @@
     "Deleted files" : "קבצים שנמחקו",
     "restored" : "שוחזר",
     "Restore" : "שחזור",
-    "Delete" : "מחיקה",
     "Delete permanently" : "מחיקה לצמיתות",
     "This operation is forbidden" : "פעולה זו אסורה",
     "This directory is unavailable, please check the logs or contact the administrator" : "תיקייה זו לא קיימת, יש לבדוק את הלוגים או ליצור קשר עם המנהל",
@@ -13,6 +12,7 @@
     "Name" : "שם",
     "Actions" : "פעולולת",
     "Deleted" : "נמחק",
+    "Delete" : "מחיקה",
     "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
     "Couldn't restore %s" : "לא ניתן לשחזר את %s",
     "Error" : "שגיאה"

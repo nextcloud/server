@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "Ficheros desaniciaos",
     "restored" : "restauróse",
     "Restore" : "Restaurar",
-    "Delete" : "Desaniciar",
     "Delete permanently" : "Desaniciar dafechu",
     "This operation is forbidden" : "Esta operación ta prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esti direutoriu nun ta disponible, por favor comprueba'l rexistru o contauta col alministrador",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Esbillar too",
     "Name" : "Nome",
     "Deleted" : "Desanicióse",
+    "Delete" : "Desaniciar",
     "Couldn't delete %s permanently" : "Nun pudo desaniciase dafechu %s",
     "Couldn't restore %s" : "Nun pudo restaurase %s",
     "Error" : "Fallu"

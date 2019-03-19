@@ -4,7 +4,6 @@ OC.L10N.register(
     "Deleted files" : "File đã bị xóa",
     "restored" : "khôi phục",
     "Restore" : "Khôi phục",
-    "Delete" : "Xóa",
     "Delete permanently" : "Xóa vĩnh vễn",
     "This operation is forbidden" : "Thao tác bị cấm",
     "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "Select all" : "Chọn tất cả",
     "Name" : "Tên",
     "Deleted" : "Đã xóa",
+    "Delete" : "Xóa",
     "Couldn't delete %s permanently" : "Không thể xóa %s vĩnh viễn",
     "Couldn't restore %s" : "Không thể khôi phục %s",
     "Error" : "Lỗi"
