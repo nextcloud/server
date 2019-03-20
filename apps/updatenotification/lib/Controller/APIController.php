@@ -90,7 +90,7 @@ class APIController extends OCSController {
 			]);
 		}
 
-		$this->appFetcher->setVersion($newVersion, 'future-apps.json');
+		$this->appFetcher->setVersion($newVersion, 'future-apps.json', false);
 
 		// Apps available on the app store for that version
 		$availableApps = array_map(function(array $app) {

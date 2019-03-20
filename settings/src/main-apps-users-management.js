@@ -21,10 +21,14 @@
  */
 
 import Vue from 'vue';
+import VTooltip from 'v-tooltip';
 import { sync } from 'vuex-router-sync';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
+
+Vue.use(VTooltip);
 
 sync(store, router);
 

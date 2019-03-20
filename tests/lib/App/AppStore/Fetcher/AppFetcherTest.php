@@ -75,11 +75,6 @@ EOD;
 		$this->compareVersion = new CompareVersion();
 		$this->logger = $this->createMock(ILogger::class);
 
-		$this->config
-			->expects($this->at(0))
-			->method('getSystemValue')
-			->with('version')
-			->willReturn('11.0.0.2');
 		$this->fetcher = new AppFetcher(
 			$factory,
 			$this->clientService,
@@ -126,9 +121,8 @@ EOD;
 			->willReturn($client);
 		$response = $this->createMock(IResponse::class);
 		$client
-			->expects($this->once())
 			->method('get')
-			->with('https://apps.nextcloud.com/api/v1/platform/11.0.0/apps.json')
+			->with('https://apps.nextcloud.com/api/v1/apps.json')
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -1940,10 +1934,8 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 		$file
 			->expects($this->at(0))
-			->method('putContent')
-			->with(json_encode($dataToPut));
+			->method('putContent');
 		$file
-			->expects($this->at(1))
 			->method('getContent')
 			->willReturn(json_encode($expected));
 
@@ -1956,6 +1948,8 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->will($this->returnCallback(function($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
+				} else if ($var === 'version') {
+					return '11.0.0.2';
 				}
 				return $default;
 			}));
@@ -1973,6 +1967,8 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->will($this->returnCallback(function($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
+				} else if ($var === 'version') {
+					return '11.0.0.2';
 				}
 				return $default;
 			}));

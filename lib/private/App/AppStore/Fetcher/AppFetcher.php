@@ -40,6 +40,9 @@ class AppFetcher extends Fetcher {
 	/** @var CompareVersion */
 	private $compareVersion;
 
+	/** @var bool */
+	private $ignoreMaxVersion;
+
 	/**
 	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
@@ -65,6 +68,7 @@ class AppFetcher extends Fetcher {
 		$this->fileName = 'apps.json';
 		$this->setEndpoint();
 		$this->compareVersion = $compareVersion;
+		$this->ignoreMaxVersion = true;
 	}
 
 	/**
@@ -97,13 +101,18 @@ class AppFetcher extends Fetcher {
 						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
 						$maxFulfilled = $max !== '' &&
 							$this->compareVersion->isCompatible($ncVersion, $max, '<=');
-						if ($minFulfilled && $maxFulfilled) {
+						if ($minFulfilled && ($this->ignoreMaxVersion || $maxFulfilled)) {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
 						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
 					}
 				}
+			}
+
+			if (empty($releases)) {
+				// Remove apps that don't have a matching release
+				continue;
 			}
 
 			// Get the highest version
@@ -113,19 +122,14 @@ class AppFetcher extends Fetcher {
 			}
 			usort($versions, 'version_compare');
 			$versions = array_reverse($versions);
-			$compatible = false;
 			if(isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
 					if ((string)$release['version'] === (string)$highestVersion) {
-						$compatible = true;
 						$response['data'][$dataKey]['releases'] = [$release];
 						break;
 					}
 				}
-			}
-			if(!$compatible) {
-				unset($response['data'][$dataKey]);
 			}
 		}
 
@@ -134,22 +138,18 @@ class AppFetcher extends Fetcher {
 	}
 
 	private function setEndpoint() {
-		$versionArray = explode('.', $this->getVersion());
-		$this->endpointUrl = sprintf(
-			'https://apps.nextcloud.com/api/v1/platform/%d.%d.%d/apps.json',
-			$versionArray[0],
-			$versionArray[1],
-			$versionArray[2]
-		);
+		$this->endpointUrl = 'https://apps.nextcloud.com/api/v1/apps.json';
 	}
 
 	/**
 	 * @param string $version
 	 * @param string $fileName
+	 * @param bool $ignoreMaxVersion
 	 */
-	public function setVersion(string $version, string $fileName = 'apps.json') {
+	public function setVersion(string $version, string $fileName = 'apps.json', bool $ignoreMaxVersion = true) {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
+		$this->ignoreMaxVersion = $ignoreMaxVersion;
 		$this->setEndpoint();
 	}
 }

@@ -274,13 +274,17 @@ class AppSettingsController extends Controller {
 				$appData['licence'] = $appData['license'];
 			}
 
+			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
+
 			// analyse dependencies
-			$missing = $dependencyAnalyzer->analyze($appData);
+			$missing = $dependencyAnalyzer->analyze($appData, $ignoreMax);
 			$appData['canInstall'] = empty($missing);
 			$appData['missingDependencies'] = $missing;
 
 			$appData['missingMinOwnCloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['min-version']);
 			$appData['missingMaxOwnCloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['max-version']);
+			$appData['isCompatible'] = $dependencyAnalyzer->isMarkedCompatible($appData);
 
 			return $appData;
 		}, $apps);
@@ -315,6 +319,9 @@ class AppSettingsController extends Controller {
 				}
 			}
 
+			if (!isset($app['releases'][0]['rawPlatformVersionSpec'])) {
+				continue;
+			}
 			$nextCloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
 			$nextCloudVersionDependencies = [];
 			if($nextCloudVersion->getMinimumVersion() !== '') {
@@ -542,6 +549,18 @@ class AppSettingsController extends Controller {
 			return 0;
 		}
 		return ($a < $b) ? -1 : 1;
+	}
+
+	public function force(string $appId): JSONResponse {
+		$appId = OC_App::cleanAppId($appId);
+
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		if (!in_array($appId, $ignoreMaxApps, true)) {
+			$ignoreMaxApps[] = $appId;
+			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
+		}
+
+		return new JSONResponse();
 	}
 
 }
