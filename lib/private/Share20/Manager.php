@@ -493,7 +493,7 @@ class Manager implements IManager {
 				//It is a new share so just continue
 			}
 
-            if ($existingShare->getSharedWith() === $share->getSharedWith() && ($existingShare->getShareType() === $share->getShareType())) {
+			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
 				throw new \Exception('Path is already shared with this group');
 			}
 		}
