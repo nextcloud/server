@@ -40,6 +40,9 @@ class AppFetcher extends Fetcher {
 	/** @var CompareVersion */
 	private $compareVersion;
 
+	/** @var bool */
+	private $ignoreMaxVersion;
+
 	/**
 	 * @param Factory $appDataFactory
 	 * @param IClientService $clientService
@@ -65,6 +68,7 @@ class AppFetcher extends Fetcher {
 		$this->fileName = 'apps.json';
 		$this->setEndpoint();
 		$this->compareVersion = $compareVersion;
+		$this->ignoreMaxVersion = true;
 	}
 
 	/**
@@ -93,8 +97,11 @@ class AppFetcher extends Fetcher {
 						$version = $versionParser->getVersion($release['rawPlatformVersionSpec']);
 						$ncVersion = $this->getVersion();
 						$min = $version->getMinimumVersion();
+						$max = $version->getMaximumVersion();
 						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
-						if ($minFulfilled) {
+						$maxFulfilled = $max !== '' &&
+							$this->compareVersion->isCompatible($ncVersion, $max, '<=');
+						if ($minFulfilled && ($this->ignoreMaxVersion || $maxFulfilled)) {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
@@ -137,10 +144,12 @@ class AppFetcher extends Fetcher {
 	/**
 	 * @param string $version
 	 * @param string $fileName
+	 * @param bool $ignoreMaxVersion
 	 */
-	public function setVersion(string $version, string $fileName = 'apps.json') {
+	public function setVersion(string $version, string $fileName = 'apps.json', bool $ignoreMaxVersion = true) {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
+		$this->ignoreMaxVersion = $ignoreMaxVersion;
 		$this->setEndpoint();
 	}
 }
