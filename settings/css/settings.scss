@@ -2,9 +2,6 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-@import "server-info";
-@import "where-is-your-data";
-
 input {
 	&#openid, &#webdav {
 		width: 20em;
@@ -101,7 +98,6 @@ input {
 
 #personal-settings-avatar-container {
 	display: inline-grid;
-  	grid-row: span 3;
 	grid-template-columns: 1fr;
 	grid-template-rows: 2fr 1fr;
 	vertical-align: top;
@@ -182,15 +178,6 @@ select {
 		grid-template-columns: 1fr;
 		#personal-settings-avatar-container {
 			grid-template-rows: 1fr;
-
-			// swap "Where is my data" and "Detail"
-			*:nth-child(2) {
-				order: 3;
-			}
-
-			*:nth-child(3) {
-				order: 2;
-			}
 		}
 		.personal-settings-container {
 			grid-template-columns: 1fr 1fr;
