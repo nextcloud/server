@@ -18,6 +18,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tobias Perschon <tobias@perschon.at>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -131,12 +132,12 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$members = $this->_groupMembers($groupDN);
 
 		if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'zimbramailforwardingaddress'
-            && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid' ){
+			&& strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid' ) {
 
-		    $members = array_keys($members);
-		    // DNs are returned as keys; todo: this is probably only the case if
-            // nested groups are used and group member attributes are DNs - needs fixing
-        }
+			$members = array_keys($members);
+			// DNs are returned as keys; todo: this is probably only the case if
+			// nested groups are used and group member attributes are DNs - needs fixing
+		}
 
 		if(!is_array($members) || count($members) === 0) {
 			$this->access->connection->writeToCache($cacheKey, false);
@@ -144,37 +145,37 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 
 		//extra work if we don't get back user DNs
-        switch(strtolower($this->access->connection->ldapGroupMemberAssocAttr)){
-            case "memberuid":
-            case "zimbramailforwardingaddress":
-                $dns = array();
-                $filterParts = array();
-                $bytes = 0;
-                foreach($members as $mid) {
-                    if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress'){
-                        $parts = explode("@", $mid); //making sure we get only the uid
-                        $mid = $parts[0];
-                    }
-                    $filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
-                    $filterParts[] = $filter;
-                    $bytes += strlen($filter);
-                    if($bytes >= 9000000) {
-                        // AD has a default input buffer of 10 MB, we do not want
-                        // to take even the chance to exceed it
-                        $filter = $this->access->combineFilterWithOr($filterParts);
-                        $bytes = 0;
-                        $filterParts = array();
-                        $users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
-                        $dns = array_merge($dns, $users);
-                    }
-                }
-                if(count($filterParts) > 0) {
-                    $filter = $this->access->combineFilterWithOr($filterParts);
-                    $users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
-                    $dns = array_merge($dns, $users);
-                }
-                $members = $dns;
-                break;
+		switch(strtolower($this->access->connection->ldapGroupMemberAssocAttr)) {
+			case 'memberuid':
+			case 'zimbramailforwardingaddress':
+				$dns = array();
+				$filterParts = array();
+				$bytes = 0;
+				foreach($members as $mid) {
+					if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress') {
+						$parts = explode('@', $mid); //making sure we get only the uid
+						$mid = $parts[0];
+					}
+					$filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
+					$filterParts[] = $filter;
+					$bytes += strlen($filter);
+					if($bytes >= 9000000) {
+						// AD has a default input buffer of 10 MB, we do not want
+						// to take even the chance to exceed it
+						$filter = $this->access->combineFilterWithOr($filterParts);
+						$bytes = 0;
+						$filterParts = array();
+						$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+						$dns = array_merge($dns, $users);
+					}
+				}
+				if(count($filterParts) > 0) {
+					$filter = $this->access->combineFilterWithOr($filterParts);
+					$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+					$dns = array_merge($dns, $users);
+				}
+				$members = $dns;
+				break;
 		}
 
 		$isInGroup = in_array($userDN, $members);
@@ -720,9 +721,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		// memberof doesn't support memberuid, so skip it here.
 		if((int)$this->access->connection->hasMemberOfFilterSupport === 1
 			&& (int)$this->access->connection->useMemberOfToDetectMembership === 1
-		    && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
-            && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'zimbramailforwardingaddress'
-		    ) {
+			&& strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
+			&& strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'zimbramailforwardingaddress') {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
 			if (is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
@@ -746,27 +746,27 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
-        switch (strtolower($this->access->connection->ldapGroupMemberAssocAttr)){
-            case "uniquemember":
-            case "member":
-                $uid = $userDN;
-                break;
+		switch (strtolower($this->access->connection->ldapGroupMemberAssocAttr)) {
+			case 'uniquemember':
+			case 'member':
+				$uid = $userDN;
+				break;
 
-            case "memberuid":
-            case "zimbramailforwardingaddress":
-            $result = $this->access->readAttribute($userDN, 'uid');
-                if ($result === false) {
-                    \OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
-                        $this->access->connection->ldapHost, ILogger::DEBUG);
-                }
-                $uid = $result[0];
-                break;
+			case 'memberuid':
+			case 'zimbramailforwardingaddress':
+			$result = $this->access->readAttribute($userDN, 'uid');
+				if ($result === false) {
+					\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
+						$this->access->connection->ldapHost, ILogger::DEBUG);
+				}
+				$uid = $result[0];
+				break;
 
-            default:
-                // just in case
-                $uid = $userDN;
-                break;
-        }
+			default:
+				// just in case
+				$uid = $userDN;
+				break;
+		}
 
 		if(isset($this->cachedGroupsByMember[$uid])) {
 			$groups = array_merge($groups, $this->cachedGroupsByMember[$uid]);
@@ -807,9 +807,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$seen[$dn] = true;
 		$filter = $this->access->connection->ldapGroupMemberAssocAttr.'='.$dn;
 
-        if (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === "zimbramailforwardingaddress")
-            //in this case the member entries are email addresses
-            $filter .= '@*';
+		if (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress')
+			//in this case the member entries are email addresses
+			$filter .= '@*';
 
 		$groups = $this->access->fetchListOfGroups($filter,
 			[$this->access->connection->ldapGroupDisplayName, 'dn']);
@@ -880,41 +880,41 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$groupUsers = array();
 		$attrs = $this->access->userManager->getAttributes(true);
 		foreach($members as $member) {
-		    switch (strtolower($this->access->connection->ldapGroupMemberAssocAttr)){
-                case "zimbramailforwardingaddress":
-                    //we get email addresses and need to convert them to uids
-                    $parts = explode("@", $member);
-                    $member = $parts[0];
-                    //no break needed because we just needed to remove the email part and now we have uids
-                case "memberuid":
-                    //we got uids, need to get their DNs to 'translate' them to user names
-                    $filter = $this->access->combineFilterWithAnd(array(
-                        str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
-                        $this->access->getFilterPartForUserSearch($search)
-                    ));
-                    $ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
-                    if(count($ldap_users) < 1) {
-                        continue;
-                    }
-                    $groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
-                    break;
+			switch (strtolower($this->access->connection->ldapGroupMemberAssocAttr)) {
+				case 'zimbramailforwardingaddress':
+					//we get email addresses and need to convert them to uids
+					$parts = explode('@', $member);
+					$member = $parts[0];
+					//no break needed because we just needed to remove the email part and now we have uids
+				case 'memberuid':
+					//we got uids, need to get their DNs to 'translate' them to user names
+					$filter = $this->access->combineFilterWithAnd(array(
+						str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
+						$this->access->getFilterPartForUserSearch($search)
+					));
+					$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
+					if(count($ldap_users) < 1) {
+						continue;
+					}
+					$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
+					break;
 
 
-                default:
-                    //we got DNs, check if we need to filter by search or we can give back all of them
-                    if ($search !== '') {
-                        if(!$this->access->readAttribute($member,
-                            $this->access->connection->ldapUserDisplayName,
-                            $this->access->getFilterPartForUserSearch($search))) {
-                            continue;
-                        }
-                    }
-                    // dn2username will also check if the users belong to the allowed base
-                    if($ocname = $this->access->dn2username($member)) {
-                        $groupUsers[] = $ocname;
-                    }
-                    break;
-            }
+				default:
+					//we got DNs, check if we need to filter by search or we can give back all of them
+					if ($search !== '') {
+						if(!$this->access->readAttribute($member,
+							$this->access->connection->ldapUserDisplayName,
+							$this->access->getFilterPartForUserSearch($search))) {
+							continue;
+						}
+					}
+					// dn2username will also check if the users belong to the allowed base
+					if($ocname = $this->access->dn2username($member)) {
+						$groupUsers[] = $ocname;
+					}
+					break;
+			}
 		}
 
 		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers, $posixGroupUsers));
@@ -970,7 +970,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$search = $this->access->escapeFilterPart($search, true);
 		$isMemberUid =
 			(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid' ||
-             strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress');
+			strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress');
 
 		//we need to apply the search filter
 		//alternatives that need to be checked:
@@ -983,11 +983,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$groupUsers = array();
 		foreach($members as $member) {
 			if($isMemberUid) {
-			    if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress'){
-                    //we get email addresses and need to convert them to uids
-                    $parts = explode("@", $member);
-                    $member = $parts[0];
-                }
+				if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'zimbramailforwardingaddress') {
+					//we get email addresses and need to convert them to uids
+					$parts = explode('@', $member);
+					$member = $parts[0];
+				}
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd(array(
 					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
@@ -1176,7 +1176,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			if ($dn = $this->groupPluginManager->createGroup($gid)) {
 				//updates group mapping
 				$this->access->dn2ocname($dn, $gid, false);
-				$this->access->connection->writeToCache("groupExists".$gid, true);
+				$this->access->connection->writeToCache('groupExists'.$gid, true);
 			}
 			return $dn != null;
 		}
@@ -1194,7 +1194,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
 				#delete group in nextcloud internal db
 				$this->access->getGroupMapper()->unmap($gid);
-				$this->access->connection->writeToCache("groupExists".$gid, false);
+				$this->access->connection->writeToCache('groupExists'.$gid, false);
 			}
 			return $ret;
 		}
