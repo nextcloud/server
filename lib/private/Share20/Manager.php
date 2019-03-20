@@ -1408,7 +1408,13 @@ class Manager implements IManager {
 	 * @return array
 	 */
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
-		$owner = $path->getOwner()->getUID();
+		$owner = $path->getOwner();
+
+		if ($owner === null) {
+			return [];
+		}
+
+		$owner = $owner->getUID();
 
 		if ($currentAccess) {
 			$al = ['users' => [], 'remote' => [], 'public' => false];
