@@ -103,6 +103,11 @@ class AppFetcher extends Fetcher {
 				}
 			}
 
+			if (empty($releases)) {
+				// Remove apps that don't have a matching release
+				continue;
+			}
+
 			// Get the highest version
 			$versions = [];
 			foreach($releases as $release) {
