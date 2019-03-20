@@ -1,5 +1,5 @@
 --- # devspaces.yml
-name: nextcloud
+name: nextcloud231
 description:  Development environment for NextCloud
 
 # If you want to use a different Dockerfile for your DevSpace, provide the path
@@ -10,7 +10,8 @@ docker-file: docker/Dockerfile
 # application binaries that your Dockerfile references, list the glob paths to
 # include here. They are relative to this devspaces.yml file.
 docker-build-includes: |
-  **/*
+   ./docker/artifacts/*
+   **/*
   
 
 ports:
