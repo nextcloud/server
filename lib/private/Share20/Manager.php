@@ -438,7 +438,7 @@ class Manager implements IManager {
 			}
 
 			// Identical share already existst
-            if ($existingShare->getSharedWith() === $share->getSharedWith() && ($existingShare->getShareType() === $share->getShareType())) {
+			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
 				throw new \Exception('Path is already shared with this user');
 			}
 
