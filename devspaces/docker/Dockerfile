@@ -11,8 +11,9 @@ RUN apt-get update && apt-get install -y libxml2-dev libpng-dev software-propert
     docker-php-ext-install ctype dom gd iconv posix simplexml xmlwriter zip pdo_mysql && \
     apt-get clean && \
     mkdir /data && \
-    chown -R www-data /data
+    chown -R www-data /data && \
+    chmod -R 777 /data
 
 WORKDIR /data
 
-CMD [tail -f /dev/null]
+CMD tail -f /dev/null

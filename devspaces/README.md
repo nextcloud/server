@@ -61,6 +61,11 @@ devspaces exec nextcloud
 ```
 
 7. Run the application
+Make sure /data folder has proper permissions by running:
+```bash
+chmod -R 777 /data
+```
+and then
 ```bash
 service apache2 start
 ```
