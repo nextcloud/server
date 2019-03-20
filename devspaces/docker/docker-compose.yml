@@ -10,7 +10,7 @@ services:
           - "8080:8080"
           - "80:80"
     volumes:
-      - ..:/var/www/html/:Z
+      - ../..:/var/www/html/:Z
     tty: true
 
   mysql:
