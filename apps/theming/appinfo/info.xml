@@ -23,5 +23,6 @@
 
 	<settings>
 		<admin>OCA\Theming\Settings\Admin</admin>
+		<admin-section>OCA\Theming\Settings\Section</admin-section>
 	</settings>
 </info>
