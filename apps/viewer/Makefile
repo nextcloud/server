@@ -45,8 +45,8 @@ stylelint-fix:
 
 # Cleaning
 clean:
-	rm -f js/vueexample.js
-	rm -f js/vueexample.js.map
+	rm -f js/viewer.js
+	rm -f js/viewer.js.map
 
 clean-dev:
 	rm -rf node_modules

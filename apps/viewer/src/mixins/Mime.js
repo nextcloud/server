@@ -97,13 +97,14 @@ export default {
 		 * @param {Integer} contentWidth your element width
 		 */
 		updateHeightWidth(contentHeight, contentWidth) {
-			const modalContainer = this.$parent.$el.querySelector('.modal-wrapper')
-			if (modalContainer) {
-				const wrapperMaxHeight = window.getComputedStyle(modalContainer.children[0]).maxHeight.replace('%', '')
-				const wrapperMaxWidth = window.getComputedStyle(modalContainer.children[0]).maxWidth.replace('%', '')
+			const modalWrapper = this.$parent.$el.querySelector('.modal-wrapper')
+			if (modalWrapper) {
+				const modalContainer = modalWrapper.querySelector('.modal-container')
+				const wrapperMaxHeight = window.getComputedStyle(modalContainer).maxHeight.replace('%', '')
+				const wrapperMaxWidth = window.getComputedStyle(modalContainer).maxWidth.replace('%', '')
 
-				const parentHeight = Math.round(modalContainer.clientHeight * Number(wrapperMaxHeight) / 100) - 50 // minus header
-				const parentWidth = Math.round(modalContainer.clientWidth * Number(wrapperMaxWidth) / 100)
+				const parentHeight = Math.round(modalWrapper.clientHeight * Number(wrapperMaxHeight) / 100) - 50 // minus header
+				const parentWidth = Math.round(modalWrapper.clientWidth * Number(wrapperMaxWidth) / 100)
 
 				const heightRatio = parentHeight / contentHeight
 				const widthRatio = parentWidth / contentWidth

@@ -28,6 +28,7 @@
 		:view="currentFile.modal"
 		:actions="actions"
 		:enable-slideshow="true"
+		:spread-navigation="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
 		:title="currentFileName"
