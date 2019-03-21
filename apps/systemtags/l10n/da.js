@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "Her er ingen filer",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Size" : "Størrelse",
-    "Modified" : "Ændret",
-    "Create and edit collaborative tags. These tags affect all users." : "Tilføj og rediger kollaborative tags. Disse tags berøre alle brugere."
+    "Modified" : "Ændret"
 },
 "nplurals=2; plural=(n != 1);");

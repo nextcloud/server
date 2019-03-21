@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "The mountpoint name contains invalid characters." : "Il nome del punto di mount contiene caratteri non validi.",
-    "Not allowed to create a federated share with the owner." : "Non è consentito creare una condivisione federata con il proprietario.",
-    "Invalid or untrusted SSL certificate" : "Certificato SSL non valido o non attendibile",
-    "Could not authenticate to remote share, password might be wrong" : "Impossibile autenticarsi sulla condivisione remota, la password potrebbe essere errata",
-    "Storage not valid" : "Archiviazione non valida",
-    "Federated share added" : "Condivisione federata aggiunta",
-    "Couldn't add remote share" : "Impossibile aggiungere la condivisione remota",
     "Sharing %s failed, because this item is already shared with %s" : "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %s non è riuscita, impossibile trovare %s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Puoi condividere con chiunque utilizzi Nextcloud, ownCloud o Pydio! Ti basta inserire il loro ID di cloud federata nella finestra di condivisione. Assomiglia a persona@cloud.esempio.com "
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %s non è riuscita, impossibile trovare %s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato."
 },
 "nplurals=2; plural=(n != 1);");

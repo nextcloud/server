@@ -50,7 +50,6 @@
     "No files in here" : "여기에 파일 없음",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Size" : "크기",
-    "Modified" : "수정됨",
-    "Create and edit collaborative tags. These tags affect all users." : "협업 태그를 만들고 수정합니다. 이 태그는 모든 사용자에게 영향을 줍니다."
+    "Modified" : "수정됨"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

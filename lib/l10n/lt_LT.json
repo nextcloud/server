@@ -190,11 +190,6 @@
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
     "Library %s with a version higher than %s is required - available version %s." : "Bibliotekos %s versija turi būti aukštesnė nei %s - turima versija %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Bibliotekos %s versija turi būti žemesnė nei %s - turima versija %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Šifravimas",
-    "Tips & tricks" : "Patarimai ir gudrybės",
-    "Sync clients" : "Sinchronizavimo klientas",
     "Sharing %s failed, because the user %s does not exist" : "%s bendrinimas nepavyko, nes naudotojas %s neegzistuoja",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "%s bendrinimas nepavyko, nes naudotojas %s nėra tos pačios grupės, kaip %s, narys.",
     "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
@@ -207,8 +202,6 @@
     "%s shared »%s« with you" : "%s pasidalino »%s« su jumis",
     "%s shared »%s« with you." : "%s pasidalino »%s« su Jumis.",
     "%s via %s" : "%s per %s",
-    "No app name specified" : "Nenurodytas programėlės pavadinimas",
-    "App '%s' could not be installed!" : "Nepavyko įdiegti \"%s\" programėlės!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" negali būti įdiegta, nes nėra įvykdytos: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Włącz hasło odzyskiwania:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
     "Enabled" : "Włączone",
-    "Disabled" : "Wyłączone",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musisz przenieść swoje klucze szyfrowania ze starego sposobu szyfrowania (Nextcloud <= 8,0) na nowy. Proszę uruchomić 'occ encryption:migrate' lub skontaktować się z administratorem"
+    "Disabled" : "Wyłączone"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

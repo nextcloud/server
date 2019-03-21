@@ -136,9 +136,6 @@ OC.L10N.register(
     "Uploading files…" : "Caricamento file in corso...",
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Condivisione di %s non riuscita poiché il motore non consente condivisioni del tipo %s",
-    "This share is password-protected" : "Questa condivisione è protetta da password",
-    "The password is wrong. Try again." : "La password è errata. Prova ancora.",
-    "Password" : "Password"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Condivisione di %s non riuscita poiché il motore non consente condivisioni del tipo %s"
 },
 "nplurals=2; plural=(n != 1);");

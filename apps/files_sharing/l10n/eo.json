@@ -134,9 +134,6 @@
     "Uploading files…" : "Alŝutante dosierojn...",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Kunhavigo de %s malsukcesis, ĉar la servilo ne permesas kunhavon de tipo %s",
-    "This share is password-protected" : "Ĉi tiu kunhavigo estas protektata per pasvorto",
-    "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
-    "Password" : "Pasvorto"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Kunhavigo de %s malsukcesis, ĉar la servilo ne permesas kunhavon de tipo %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

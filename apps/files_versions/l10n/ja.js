@@ -10,7 +10,6 @@ OC.L10N.register(
     "No other versions available" : "利用可能なバージョンはありません",
     "Could not revert: %s" : "元に戻せませんでした: %s",
     "No earlier versions available" : "以前のバージョンは利用できません",
-    "More versions …" : "他のバージョン …",
-    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user’s directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user doesn’t run out of Quota because of versions.\nIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user’s currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "このアプリケーションは、変更された古いバージョンのファイルを自動的に維持します。 有効にすると、隠れバージョンフォルダーはすべてのユーザーのディレクトリにプロビジョニングされ、古いファイルバージョンを格納するために使用されます。 ユーザーはいつでもWebインターフェイスから古いバージョンに戻すことができ、置き換えられたファイルはバージョンになります。 バージョンのためにクォータが足りなくなっていないことを保証するために、バージョンフォルダーを自動的に管理します。バージョンの有効期限に加えて、バージョンアプリは、ユーザーが現在利用可能な空き容量の50％以上利用しないように維持します。 保存されたバージョンがこの制限を超えた場合、アプリはこの制限を満たすまで、最も古いバージョンを最初に削除します。 詳細は、バージョンのドキュメントを参照してください。"
+    "More versions …" : "他のバージョン …"
 },
 "nplurals=1; plural=0;");

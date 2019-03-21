@@ -111,8 +111,6 @@ OC.L10N.register(
     "Advanced settings" : "Configuraciones avanzadas",
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algunos de los puntos de montaje externos configurados no se encuentran conectados. Favor de hacer click en los renglon(es) en rojo para más información",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no se encuentra instalado. El montaje de %s no es posible. Favor de solicitar a su administrador su instalación.  ",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no se encuentra instalado. El montaje de %s no es posible. Favor de solicitar a su administrador su instalación.  "
 },
 "nplurals=2; plural=(n != 1);");

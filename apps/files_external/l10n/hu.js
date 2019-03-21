@@ -124,10 +124,7 @@ OC.L10N.register(
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Are you sure you want to delete this external storage" : "Biztosan törlöd ezt a külső tárolót",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Néhány beállított külső csatolási pont nincs kapcsolatban. További információkért kattints a piros sor(ok)ra.",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s nincs telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
-    "Allow users to mount the following external storage" : "A felhasználók számára engedélyezett külső tárolók csatolása:"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "%s nincs telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse."
 },
 "nplurals=2; plural=(n != 1);");

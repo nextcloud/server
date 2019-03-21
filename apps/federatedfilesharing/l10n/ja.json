@@ -48,15 +48,7 @@
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "The mountpoint name contains invalid characters." : "マウントポイント名 に不正な文字列が含まれています。",
-    "Not allowed to create a federated share with the owner." : "その所有者でクラウド共有を作成することはできません",
-    "Invalid or untrusted SSL certificate" : "無効または信頼できないSSL証明書",
-    "Could not authenticate to remote share, password might be wrong" : "リモート共有が認証できませんでした，パスワードが間違っているかもしれません",
-    "Storage not valid" : "ストレージが無効です",
-    "Federated share added" : "クラウド共有が追加されました",
-    "Couldn't add remote share" : "リモート共有を追加できませんでした",
     "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud 、 ownCloud 、 Pydio を使う人とは誰とでも共有できます。クラウド共有IDを共有ダイアログに入力するだけです。例：person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

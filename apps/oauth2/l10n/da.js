@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Klient ID",
     "Secret" : "Hemmelighed",
     "Add client" : "Tilføj klient",
-    "Add" : "Tilføj",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 tillader eksterne services at forespørge adgang til din %s."
+    "Add" : "Tilføj"
 },
 "nplurals=2; plural=(n != 1);");

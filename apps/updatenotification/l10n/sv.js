@@ -28,10 +28,8 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Se till att din config.php inte ställer in <samp>appstoreenabled</samp> till falsk.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
-    "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt",
-    "A new version is available: %s" : "En ny version är tillgänglig: %s",
-    "Checked on %s" : "Senast kontrollerad %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid uppdatera till en nyare version / experimentell kanal. Men du kan aldrig nedgradera till en mer stabil kanal.",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen."
+    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen.",
+    "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt"
 },
 "nplurals=2; plural=(n != 1);");

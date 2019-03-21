@@ -106,9 +106,6 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploading files…" : "Uploading files…",
     "Uploaded files:" : "Uploaded files:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sharing %s failed because the back end does not allow shares from type %s",
-    "This share is password-protected" : "This share is password-protected",
-    "The password is wrong. Try again." : "The password is wrong. Try again.",
-    "Password" : "Password"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Sharing %s failed because the back end does not allow shares from type %s"
 },
 "nplurals=2; plural=(n != 1);");

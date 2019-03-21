@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçenek etkinleştirildiğinde, parolayı unutursanız şifrelenmiş dosyalarınıza yeniden erişim izni elde edebilirsiniz",
     "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Eski şifreleme anahtarlarınızın eski şifrelemeden (ownCloud <= 8.0) yenisine aktarılması gerekiyor. Lütfen 'occ encryption:migrate' komutunu çalıştırın ya da sistem yöneticiniz ile görüşün"
+    "Disabled" : "Devre Dışı"
 },
 "nplurals=2; plural=(n > 1);");

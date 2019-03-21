@@ -32,15 +32,7 @@
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "HTML Code:" : "HTML kodas:",
-    "The mountpoint name contains invalid characters." : "Prijungimo taškas turi netinkamų naudoti simbolių.",
-    "Not allowed to create a federated share with the owner." : "Negalima sukurti federacinį viešinį su savininku.",
-    "Invalid or untrusted SSL certificate" : "Neteisingas arba nepatikimas SSL liudijimas",
-    "Could not authenticate to remote share, password might be wrong" : "Neįmanoma pradėti dalintis kitame serveryje. Gal jūsų slaptažodis blogas?",
-    "Storage not valid" : "Saugykla netinkama naudotis",
-    "Federated share added" : "Pridėtas federacinis viešinys",
-    "Couldn't add remote share" : "Nepavyko peržiūrėti kitame serveryje pasidalintų duomenų",
     "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Galite bendrinti su bet kuo, kas naudojasi Nextcloud, ownCloud ar Pydio! Tiesiog, į bendrinimo dialogą įveskite jų federacinės debesijos ID. Jis turėtų būti panašus į štai tokį: asmuo@debesija.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

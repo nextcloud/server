@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Engar skrár hér",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Size" : "Stærð",
-    "Modified" : "Breytt",
-    "Create and edit collaborative tags. These tags affect all users." : "Búðu til og breyttu merkjum fyrir samstarfsupplýsingar. Þessi merki hafa áhrif á alla notendur."
+    "Modified" : "Breytt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

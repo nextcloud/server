@@ -79,7 +79,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "A »%s« találkozó vele: %s lemondásra került.",
     "The meeting »%s« with %s was updated." : "A »%s«  találkozó  vele: %s módosult.",
     "%s invited you to »%s«" : "%s meghívott ide: »%s«",
-    "CalDAV server" : "CalDAV szerver",
     "Please make sure to properly set up the email settings above." : "Győződj meg róla, hogy a fenti e-mail beállítások helyesek."
 },
 "nplurals=2; plural=(n != 1);");

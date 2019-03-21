@@ -11,7 +11,6 @@ OC.L10N.register(
     "Client Identifier" : "クライアントID",
     "Secret" : "シークレットキー",
     "Add client" : "クライアントの追加",
-    "Add" : "追加",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0により %s へのアクセス要求を外部サービスに許可します。"
+    "Add" : "追加"
 },
 "nplurals=1; plural=0;");

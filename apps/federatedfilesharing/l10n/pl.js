@@ -37,7 +37,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Zezwól na federacyjne udostępnianie plików na serwerach",
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
     "Open documentation" : "Otwórz dokumentację",
-    "Adjust how people can share between servers." : "Dostosuj ustawienia współdzielenia między serwerami.",
+    "Adjust how people can share between servers." : "Dostosuj ustawienia, w jaki sposób można udostępniać serwery.",
     "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
     "Allow users on this server to send shares to groups on other servers" : "Zezwalaj użytkownikom na tym serwerze na udostępnianie dla grup na innych serwerach",
@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
     "HTML Code:" : "Kod HTML:",
-    "The mountpoint name contains invalid characters." : "Nazwa zamontowanego zasobu zawiera niedozwolone znaki.",
-    "Not allowed to create a federated share with the owner." : "Nie można tworzyć ze sobą współdzielenia federacyjnego.",
-    "Invalid or untrusted SSL certificate" : "Niewłaściwy lub niezaufany certyfikat SSL",
-    "Could not authenticate to remote share, password might be wrong" : "Nie można uwierzytelnić w zdalnym udostępnieniu, hasło może być nieprawidłowe",
-    "Storage not valid" : "Magazyn nie jest prawidłowy",
-    "Federated share added" : "Dodano współdzielenie federacyjne",
-    "Couldn't add remote share" : "Nie można dodać zdalnego współdzielenia",
     "Sharing %s failed, because this item is already shared with %s" : "Udostępnianie %s nie powiodło się, ponieważ ten element jest już udostępniony w %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Udostępnianie %s nie powiodło się, nie można znaleźć %s, być może serwer jest obecnie nieosiągalny lub używa certyfikatu z podpisem własnym.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz współdzielić z każdym, kto używa Nextcloud, ownCloud lub Pydio. Wystarczy, że wpiszesz ID Chmury Federacyjnej w oknie udostępniania, według przykładu: osoba@chmura.przykładowa.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Udostępnianie %s nie powiodło się, nie można znaleźć %s, być może serwer jest obecnie nieosiągalny lub używa certyfikatu z podpisem własnym."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

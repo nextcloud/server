@@ -126,7 +126,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Taldeentzako UUID atributuak:",
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
-    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
-    " entries available within the provided Base DN" : "sarrera eskuragarri emandako Oinarrizko DNarekin"
+    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa"
 },
 "nplurals=2; plural=(n != 1);");

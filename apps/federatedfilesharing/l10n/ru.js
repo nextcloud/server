@@ -50,15 +50,7 @@ OC.L10N.register(
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
-    "The mountpoint name contains invalid characters." : "Имя точки монтирования содержит недопустимые символы.",
-    "Not allowed to create a federated share with the owner." : "Не допускается создание федеративного общего ресурса с владельцем.",
-    "Invalid or untrusted SSL certificate" : "Недействительный или недоверенный сертификат SSL",
-    "Could not authenticate to remote share, password might be wrong" : "Не удалось провести проверку подлинности для доступа к удалённому хранилищу, возможно неправильно указан пароль",
-    "Storage not valid" : "Хранилище недоступно",
-    "Federated share added" : "Добавлен общий федеративный ресурс",
-    "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
     "Sharing %s failed, because this item is already shared with %s" : "Не удалось предоставить доступ к «%s» , пользователю%s доступ уже предоставлен",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можно поделиться с любым пользователем Nextcloud, ownCloud или Pydio! Просто введите его идентификатор  федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com»."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось поделиться «%s», не удалось найти %s, возможно, сервер недоступен или использует самоподписанный сертификат."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

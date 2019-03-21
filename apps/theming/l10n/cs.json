@@ -21,9 +21,9 @@
     "No file uploaded" : "Nenahrán žádný soubor",
     "Unsupported image type" : "Nepodporovaný typ obrázku",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používáte svůj vlastní motiv vzhledu. Nastavení aplikace pro změnu motivu vzhledu tím mohou být přepsána.",
+    "Theming" : "Motivy",
     "Legal notice" : "Právní upozornění",
     "Privacy policy" : "Zásady soukromí",
-    "Theming" : "Motivy",
     "Adjust the Nextcloud theme" : "Upravit motiv vzhledu Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motivy umožňují jednoduché přizpůsobení vzhledu vaší instance a podporovaných klientů. Tato přizpůsobení uvidí všichni uživatelé.",
     "Name" : "Název",
@@ -44,12 +44,6 @@
     "Upload new header logo" : "Nahrát nové logo do hlavičky",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Nahrát novou ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
-    "There is no error, the file uploaded with success" : "Nenastala žádná chyba, soubor byl úspěšně nahrán",
-    "The uploaded file was only partially uploaded" : "Soubor byl nahrán pouze částečně",
-    "Failed to write file to disk." : "Zápis na disk se nezdařil.",
-    "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru.",
-    "You are already using a custom theme" : "Již používáte vlastní motiv",
-    "Web address https://…" : "Webová adresa https://"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

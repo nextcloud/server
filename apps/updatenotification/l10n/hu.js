@@ -34,10 +34,8 @@ OC.L10N.register(
     "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás felfrissítve a legújabb verzióra.",
     "View changelog" : "Változásnapló megjelenítése",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
-    "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést",
-    "A new version is available: %s" : "Új verzió érhető el: %s",
-    "Checked on %s" : "Ellenőrizve: %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Béta</strong>, egy előzetes verzió kizárólag az új funkciók tesztelésére, nem élő környezetbe."
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Béta</strong>, egy előzetes verzió kizárólag az új funkciók tesztelésére, nem élő környezetbe.",
+    "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést"
 },
 "nplurals=2; plural=(n != 1);");

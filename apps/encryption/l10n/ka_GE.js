@@ -58,7 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "აამოქმედეთ პაროლის აღდგენა:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
-    "Disabled" : "არაა მოქმედი",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "საჭიროა შიფრაციის ძველი გასაღებების მიგრაცია (ownCloud <= 8.0) ახალებზე. გთხოვთ გაუშვათ 'occ encryption:migrate' ან დაუკავშირდეთ ადმინისტრატორს"
+    "Disabled" : "არაა მოქმედი"
 },
 "nplurals=2; plural=(n!=1);");

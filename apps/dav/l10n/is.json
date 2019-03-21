@@ -77,7 +77,6 @@
     "The meeting »%s« with %s was canceled." : "Hætt var við fundinn »%s« með %s.",
     "The meeting »%s« with %s was updated." : "Fundurinn »%s« með %s var uppfærður.",
     "%s invited you to »%s«" : "%s bauð þér að taka þátt í »%s«",
-    "CalDAV server" : "CalDAV-þjónn",
     "Please make sure to properly set up the email settings above." : "Gakktu úr skugga um að tölvupóststillingarnar hér fyrir ofan séu réttar."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

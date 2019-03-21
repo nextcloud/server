@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
-    "Not allowed to create a federated share with the owner." : "Das Erstellen einer Federated Cloud Freigabe mit dem Benutzer ist nicht erlaubt.",
-    "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der externen Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
-    "Storage not valid" : "Speicher ungültig",
-    "Federated share added" : "Federated-Share hinzugefügt ",
-    "Couldn't add remote share" : "Externe Freigabe konnte nicht hinzu gefügt werden",
     "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit allen Leuten teilen, welche Nextcloud, ownCloud oder Pydio nutzen! Geben Sie einfach deren Federated Cloud ID in den Teilen-Dialog ein. Diese sieht wie folgt aus person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat."
 },
 "nplurals=2; plural=(n != 1);");

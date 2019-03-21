@@ -134,9 +134,6 @@
     "Uploading files…" : "Subiendo archivos...",
     "Uploaded files:" : "Archivos subidos:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Compartir %s ha fallado porque el backend no admite recursos compartidos del tipo %s",
-    "This share is password-protected" : "Este recurso compartido está protegido por contraseña",
-    "The password is wrong. Try again." : "La contraseña no es correcta. Inténtelo de nuevo.",
-    "Password" : "Contraseña"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Compartir %s ha fallado porque el backend no admite recursos compartidos del tipo %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -74,7 +74,6 @@
     "Basic settings" : "Temel Ayarlar",
     "Sharing" : "Paylaşım",
     "Security" : "Güvenlik",
-    "Theming" : "Tema uygulama",
     "Groupware" : "Grup çalışması",
     "Additional settings" : "Ek ayarlar",
     "Personal info" : "Kişisel Bilgiler",
@@ -242,11 +241,6 @@
     "Storage connection timeout. %s" : "Depolama bağlantısı zaman aşımı. %s",
     "Library %s with a version higher than %s is required - available version %s." : "%s kitaplığının %s sonrası bir sürümü gerekli. Geçerli sürüm: %s.",
     "Library %s with a version lower than %s is required - available version %s." : "%s kitaplığının %s öncesi bir sürümü gerekli. Geçerli sürüm: %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Şifreleme",
-    "Tips & tricks" : "İpucu ve kolaylıklar",
-    "Sync clients" : "Eşitleme istemcileri",
     "Sharing %s failed, because the user %s does not exist" : "%s paylaşılamadı. %s kullanıcısı bulunamadı",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "%s paylaşılamadı. %s kullanıcısı %s ögesinin üyesi olduğu grupların herhangi birinin üyesi değil",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılamadı. Bu öge %s ile zaten paylaşılmış",
@@ -260,8 +254,6 @@
     "%s shared »%s« with you" : "%s sizinle »%s« ögesini paylaştı",
     "%s shared »%s« with you." : "%s sizinle »%s« ögesini paylaştı.",
     "%s via %s" : "%s, %s aracılığıyla",
-    "No app name specified" : "Uygulama adı belirtilmemiş",
-    "App '%s' could not be installed!" : "'%s' uygulaması kurulamadı!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "\"%s\" uygulaması, şu gereklilikler sağlanmadığı için kurulamıyor: %s",
     "ID \"%s\" already used by cloud federation provider \"%s\"" : "\"%s\" kodu zaten \"%s\" birleşmiş hizmet sağlayıcısı tarafından kullanılıyor"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

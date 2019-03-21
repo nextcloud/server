@@ -55,7 +55,6 @@
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus archivos encriptados en caso de perder la contraseña",
     "Enabled" : "Habilitado",
-    "Disabled" : "Deshabilitado",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Usted necesita migrar sus llaves de la encripción anterior (ownCloud <=8.0) a la nueva. Favor de ejecutar 'occ encryption:migrate' o contacte a su adminstrador"
+    "Disabled" : "Deshabilitado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

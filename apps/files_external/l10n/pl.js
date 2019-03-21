@@ -129,10 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
-    "Are you sure you want to delete this external storage" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Niektóre skonfigurowane zewnętrzne punkty montowania są nie podłączone. Proszę kliknąć na czerwony rząd (y), aby uzyskać więcej informacji",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nie jest zainstalowane. Zamontowanie %s jest niemożliwe. Proszę poprosić swojego administratora systemu, żeby dokonał instalacji.",
-    "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nie jest zainstalowane. Zamontowanie %s jest niemożliwe. Proszę poprosić swojego administratora systemu, żeby dokonał instalacji."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

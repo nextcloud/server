@@ -77,7 +77,6 @@
     "The meeting »%s« with %s was canceled." : "Stretnutie »%s« s %s bolo zrušené.",
     "The meeting »%s« with %s was updated." : "Stretnutie »%s« s %s bolo aktualizované.",
     "%s invited you to »%s«" : "%s vám poslal pozvánku na »%s«",
-    "CalDAV server" : "Server CalDAV",
     "Please make sure to properly set up the email settings above." : "Uistite sa, že máte správne nastavené vyššie uvedené nastavenia e-mailu."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

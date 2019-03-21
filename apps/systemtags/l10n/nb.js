@@ -53,7 +53,6 @@ OC.L10N.register(
     "No files in here" : "Ingen filer her",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Size" : "Størrelse",
-    "Modified" : "Endret",
-    "Create and edit collaborative tags. These tags affect all users." : "Opprett og rediger samarbeidsmerkelapper. Disse har innvirkning på alle brukere."
+    "Modified" : "Endret"
 },
 "nplurals=2; plural=(n != 1);");

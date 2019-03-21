@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "启用密码恢复：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许您在密码丢失后取回您的加密文件",
     "Enabled" : "启用",
-    "Disabled" : "禁用",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要从旧版本（ownCloud <= 8.0）迁移您的加密密钥。请运行 'occ encryption:migrate' 或联系您的管理员"
+    "Disabled" : "禁用"
 },
 "nplurals=1; plural=0;");

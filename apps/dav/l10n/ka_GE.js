@@ -63,7 +63,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "შეხვედრა »%s« %s-სთან გაუქმდა.",
     "The meeting »%s« with %s was updated." : "შეხვედრა »%s« %s-სთან განახლდა.",
     "%s invited you to »%s«" : "%s-მ დაგპატიჟათ რომ »%s«",
-    "CalDAV server" : "CalDAV სერვერი",
     "Please make sure to properly set up the email settings above." : "გთხოვთ დაამოწმოთ, რომ სწორად აყენებთ ზემოთ მოცემულ ელ-ფოსტის პარამეტრებს."
 },
 "nplurals=2; plural=(n!=1);");
