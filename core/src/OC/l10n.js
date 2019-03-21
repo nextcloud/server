@@ -37,7 +37,7 @@ const L10n = {
 	 */
 	load: function(appName, callback) {
 		// already available ?
-		if (hasAppTranslations(appName) || OC.getLocale() === 'en') {
+		if (hasAppTranslations(appName) || OC.getLanguage() === 'en') {
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
 			promise.then(callback);
@@ -46,7 +46,7 @@ const L10n = {
 		}
 
 		var self = this;
-		var url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json');
+		var url = OC.filePath(appName, 'l10n', OC.getLanguage() + '.json');
 
 		// load JSON translation bundle per AJAX
 		return $.get(url)

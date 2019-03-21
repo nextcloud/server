@@ -111,7 +111,7 @@ describe('OC.L10N tests', function() {
 	});
 	describe('async loading of translations', function() {
 		it('loads bundle for given app and calls callback', function() {
-			var localeStub = sinon.stub(OC, 'getLocale').returns('zh_CN');
+			var localeStub = sinon.stub(OC, 'getLanguage').returns('zh_CN');
 			var callbackStub = sinon.stub();
 			var promiseStub = sinon.stub();
 			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
