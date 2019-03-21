@@ -17,8 +17,8 @@
     "A PHP extension stopped the file upload" : "Ένα πρόσθετο PHP διέκοψε την μεταφόρτωση του αρχείου",
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας",
-    "Legal notice" : "Νομική ειδοποίηση",
     "Theming" : "Προσαρμογή θέματος",
+    "Legal notice" : "Νομική ειδοποίηση",
     "Adjust the Nextcloud theme" : "Προσαρμόστε το θέμα του Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Αυτή θα είναι ορατή για όλους τους χρήστες.",
     "Name" : "Όνομα",
@@ -33,12 +33,6 @@
     "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Advanced options" : "Επιλογές για προχωρημένους",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
-    "There is no error, the file uploaded with success" : "Δεν υπάρχει σφάλμα, το αρχείο μεταφορτώθηκε με επιτυχία",
-    "The uploaded file was only partially uploaded" : "Το μεταφορτωμένο αρχείο μεταφορτώθηκε εν μέρει",
-    "Failed to write file to disk." : "Αποτυχία εγγραφής αρχείου στο δίσκο.",
-    "A PHP extension stopped the file upload." : "Μία επέκταση PHP διέκοψε τη μεταφόρτωση του αρχείου.",
-    "You are already using a custom theme" : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα",
-    "Web address https://…" : "Διεύθυνση ιστοσελίδας https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "文件没有上传",
     "Unsupported image type" : "不支持图片格式",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "你已经在使用一个自定义的主题。主题应用的设置可能会被其覆盖。",
+    "Theming" : "主题",
     "Legal notice" : "法律声明",
     "Privacy policy" : "隐私政策",
-    "Theming" : "主题",
     "Adjust the Nextcloud theme" : "调整 Nextcloud 主题",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主题使得方便地定制您的实例的外观和体验成为可能。所有用户都可以使用。",
     "Name" : "名字",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "上传新的顶栏图标",
     "Favicon" : "Favicon",
     "Upload new favicon" : "上传新图标",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，根据上传的 logo 和颜色自动生成收藏图标。",
-    "There is no error, the file uploaded with success" : "没有错误，文件已上传成功",
-    "The uploaded file was only partially uploaded" : "上传的文件只有部分已上传",
-    "Failed to write file to disk." : "文件写入磁盘失败。",
-    "A PHP extension stopped the file upload." : "PHP扩展停止了文件上传。",
-    "You are already using a custom theme" : "您已经在使用自定义主题",
-    "Web address https://…" : "网址 https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，根据上传的 logo 和颜色自动生成收藏图标。"
 },
 "nplurals=1; plural=0;");

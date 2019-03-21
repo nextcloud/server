@@ -96,9 +96,6 @@
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
     "Uploaded files:" : "Įkelti failai:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s dalinimasis nepavyko, nes sistema nepalaiko šio duomenų tipo: %s",
-    "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
-    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
-    "Password" : "Slaptažodis"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "%s dalinimasis nepavyko, nes sistema nepalaiko šio duomenų tipo: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

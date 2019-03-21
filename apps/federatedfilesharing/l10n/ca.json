@@ -41,15 +41,7 @@
     "Add to your website" : "Afegeix a la teva pàgina web",
     "Share with me via Nextcloud" : "Comparteix amb mi a través de Nextcloud",
     "HTML Code:" : "Codi HTML:",
-    "The mountpoint name contains invalid characters." : "El nom del punt de muntatge conté caràcters no vàlids.",
-    "Not allowed to create a federated share with the owner." : "No es permet crear una compartida federada amb el propietari.",
-    "Invalid or untrusted SSL certificate" : "El certificat SSL és invàlid o no és fiable",
-    "Could not authenticate to remote share, password might be wrong" : "No s'ha pogut autenticar per compartir de manera remota, la contrasenya podria estar equivocada",
-    "Storage not valid" : "Emmagatzematge no vàlid",
-    "Federated share added" : "S'ha afegit una part federada",
-    "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Sharing %s failed, because this item is already shared with %s" : "Ha fallat en compartir %s, perquè l'element ja està compartit amb %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "S'ha produït un error en compartir%s, no s'ha pogut trobar%s, potser el servidor no estigui disponible o s'utilitzi un certificat autofirmat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir amb qualsevol persona que usi Nextcloud, ownCloud o Pydio! Només s'ha de posar el seu identificador de núvol federat a la finestra de compartir. És semblant a algu@cloud.web.cat"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "S'ha produït un error en compartir%s, no s'ha pogut trobar%s, potser el servidor no estigui disponible o s'utilitzi un certificat autofirmat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

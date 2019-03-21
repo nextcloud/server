@@ -71,9 +71,6 @@ OC.L10N.register(
     "Upload files to %s" : "Upload filer til %s",
     "Select or drop files" : "Vælg eller slip filer",
     "Uploading files…" : "Uploader filer ...",
-    "Uploaded files:" : "Uploadede filer:",
-    "This share is password-protected" : "Delingen er beskyttet af kodeord",
-    "The password is wrong. Try again." : "Kodeordet er forkert. Prøv igen.",
-    "Password" : "Kodeord"
+    "Uploaded files:" : "Uploadede filer:"
 },
 "nplurals=2; plural=(n != 1);");

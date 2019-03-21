@@ -34,7 +34,7 @@ OC.L10N.register(
     "Choose target folder" : "Wybierz katalog docelowy",
     "Open" : "Otwórz",
     "Disconnect storage" : "Odłącz magazyn",
-    "Unshare" : "Zatrzymaj współdzielenie",
+    "Unshare" : "Zatrzymaj udostępnianie",
     "Could not load info for file \"{file}\"" : "Nie można załadować informacji o pliku \"{file}\"",
     "Files" : "Pliki",
     "Details" : "Szczegóły",

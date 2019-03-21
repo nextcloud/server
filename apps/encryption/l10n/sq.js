@@ -58,7 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Lypset të kaloni kyçet tuaj të fshehtëzimeve nga versioni i vjetër i fshehtëzimeve (ownCloud <= 8.0) te i riu. Ju lutemi, ekzekutoni run 'occ encryption:migrate' ose lidhuni me përgjegjësin tuaj"
+    "Disabled" : "E çaktivizuar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -70,7 +70,6 @@
     "Basic settings" : "Generella inställningar",
     "Sharing" : "Delning",
     "Security" : "Säkerhet",
-    "Theming" : "Teman",
     "Groupware" : "Grupprogram",
     "Additional settings" : "Övriga inställningar",
     "Personal info" : "Personlig information",
@@ -238,11 +237,6 @@
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
     "Library %s with a version higher than %s is required - available version %s." : "Bibliotek %s med version högre än %s krävs - tillgänglig version %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Bibliotek %s med version lägre än %s krävs - tillgänglig version %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Kryptering",
-    "Tips & tricks" : "Tips & tricks",
-    "Sync clients" : "Synkklienter",
     "Sharing %s failed, because the user %s does not exist" : "Delning %s misslyckades därför att användaren %s inte existerar",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Delning %s misslyckades därför att användaren %s inte är medlem i någon av de grupper som %s är medlem i",
     "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
@@ -256,8 +250,6 @@
     "%s shared »%s« with you" : "%s delade »%s« med dig",
     "%s shared »%s« with you." : "%s delade »%s« med dig.",
     "%s via %s" : "%s via %s",
-    "No app name specified" : "Inget appnamn angivet",
-    "App '%s' could not be installed!" : "Appen '%s' kunde inte installeras!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Applikationen \"%s\" kan ej installeras eftersom följande kriterier inte är uppfyllda: %s",
     "ID \"%s\" already used by cloud federation provider \"%s\"" : "ID \"%s\" används redan av moln - federationsleverantör \"%s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

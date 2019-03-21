@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Přidat klienta",
     "Add" : "Přidat",
     "Show client secret" : "Zobrazit klientské tajemství",
-    "Delete" : "Smazat",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 umožňuje cizím službám žádat přístup k %s."
+    "Delete" : "Smazat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

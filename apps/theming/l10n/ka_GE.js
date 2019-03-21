@@ -27,12 +27,6 @@ OC.L10N.register(
     "Login image" : "ლოგინის სურათი",
     "Upload new login background" : "ლოგინის ახალი ფონის ატვირთვა",
     "Remove background image" : "ფონური სურათის მოშორება",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად.",
-    "There is no error, the file uploaded with success" : "ეს არაა შეცდომა, ფაილი წარმატებით აიტვირთა",
-    "The uploaded file was only partially uploaded" : "ფაილი აიტვირთა მხოლოდ ნაწილობრივ",
-    "Failed to write file to disk." : "ფაილი დისკზე ვერ ჩაიწერა.",
-    "A PHP extension stopped the file upload." : "PHP გაფართოებამ შეაჩერა ფაილის ატვირთვა.",
-    "You are already using a custom theme" : "თქვენ პერზონალიზირებულ ვიზუალურ თემას უკვე იყენებთ",
-    "Web address https://…" : "ვებ მისამართ https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად."
 },
 "nplurals=2; plural=(n!=1);");

@@ -85,7 +85,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "与%s的会议 »%s« 已取消。",
     "The meeting »%s« with %s was updated." : "与%s的会议 »%s« 已更新。",
     "%s invited you to »%s«" : "%s 邀请您加入 »%s«",
-    "CalDAV server" : "日历服务",
     "Please make sure to properly set up the email settings above." : "请确保正确设置上面的电子邮件设置。"
 },
 "nplurals=1; plural=0;");

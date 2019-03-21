@@ -142,7 +142,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID per Grups:",
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP",
-    " entries available within the provided Base DN" : "les entrades disponibles a la Base DN proporcionada"
+    "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP"
 },
 "nplurals=2; plural=(n != 1);");

@@ -136,9 +136,6 @@ OC.L10N.register(
     "Uploading files…" : "Отпремам фајлове…",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Дељење %s није успело зато што позадина не дозвољава дељење које је типа %s",
-    "This share is password-protected" : "Дељење је заштићено лозинком",
-    "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
-    "Password" : "Лозинка"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Дељење %s није успело зато што позадина не дозвољава дељење које је типа %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

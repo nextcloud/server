@@ -144,7 +144,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribuut gruppidele:",
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
-    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
-    " entries available within the provided Base DN" : "kirjet saadaval ette enatud BaasDN-is."
+    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus"
 },
 "nplurals=2; plural=(n != 1);");

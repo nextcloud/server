@@ -22,9 +22,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "არჩეული განახლების არხი მოძველებული სერვერის შესახებ საჭიროებს გამოყოფილ შეტყობინებებს.",
     "The selected update channel does not support updates of the server." : "არჩეული განახლების არხი არ უჭერს მხარს სერვერის განახლებას.",
     "Checked on {lastCheckedDate}" : "შემოწმდა {lastCheckedDate}-ზე",
-    "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში",
-    "A new version is available: %s" : "ხელმისაწვდომია ახალი ვერსია: %s",
-    "Checked on %s" : "შემოწმდა %s-ზე",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება."
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება.",
+    "Could not start updater, please try the manual update" : "განმანახმებლის გაშვება ვერ მოხერხდა, გთხოვთ სცადოთ განახლება მექანიკურ რეჯიმში"
 },
 "nplurals=2; plural=(n!=1);");

@@ -54,7 +54,6 @@ OC.L10N.register(
     "No files in here" : "无文件",
     "No entries found in this folder" : "此文件夹中无项目",
     "Size" : "大小",
-    "Modified" : "修改日期",
-    "Create and edit collaborative tags. These tags affect all users." : "创建并编辑协同标签。这些标签影响全部用户。"
+    "Modified" : "修改日期"
 },
 "nplurals=1; plural=0;");

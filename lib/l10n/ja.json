@@ -216,11 +216,6 @@
     "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
     "Library %s with a version higher than %s is required - available version %s." : "%s ライブラリーは、%s よりも新しいバージョンが必要です。利用可能なバージョンは、 %s です。",
     "Library %s with a version lower than %s is required - available version %s." : "%s ライブラリーは、%s よりも古いバージョンが必要です。利用可能なバージョンは、 %s です。",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "暗号化",
-    "Tips & tricks" : "ヒントとコツ",
-    "Sync clients" : "同期クライアント",
     "Sharing %s failed, because the user %s does not exist" : "%s を共有できませんでした。ユーザー %s が存在しません。",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "%s を共有できませんでした。ユーザー %s はどのグループにも属していません。%s は、次のグループのメンバーです",
     "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
@@ -234,8 +229,6 @@
     "%s shared »%s« with you" : "%sが あなたと »%s«を共有しました",
     "%s shared »%s« with you." : "%sが あなたと »%s«を共有しました",
     "%s via %s" : "%s に %s から",
-    "No app name specified" : "アプリ名が指定されていません",
-    "App '%s' could not be installed!" : "アプリ名 %s はインストールできませんでした",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "次の依存関係が満たされないため、\"%s\" アプリをインストールできません：%s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

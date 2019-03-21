@@ -136,9 +136,6 @@ OC.L10N.register(
     "Uploading files…" : "Nahrávání souborů…",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s",
-    "This share is password-protected" : "Toto sdílení je chráněno heslem",
-    "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
-    "Password" : "Heslo"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

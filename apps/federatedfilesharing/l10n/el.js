@@ -40,15 +40,7 @@ OC.L10N.register(
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
-    "The mountpoint name contains invalid characters." : "Το σημείο προσάρτησης περιέχει μη έγκυρους χαρακτήρες.",
-    "Not allowed to create a federated share with the owner." : "Δεν επιτρέπεται η δημιουργία federated διαμοιρασμού με τον ιδιοκτήτη",
-    "Invalid or untrusted SSL certificate" : "Μη έγκυρο ή μη έμπιστο πιστοποιητικό SSL",
-    "Could not authenticate to remote share, password might be wrong" : "Αδυναμία πιστοποίησης απομακρυσμένου κοινόχρηστου, το συνθηματικό μπορεί να είναι εσφαλμένο",
-    "Storage not valid" : "Μη έγκυρος αποθηκευτικός χώρος",
-    "Federated share added" : "O Federated διαμοιρασμός προστέθηκε",
-    "Couldn't add remote share" : "Αδυναμία προσθήκης απομακρυσμένου κοινόχρηστου φακέλου",
     "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud, ownCloud η Pydio! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα."
 },
 "nplurals=2; plural=(n != 1);");

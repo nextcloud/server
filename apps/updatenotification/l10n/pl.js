@@ -37,9 +37,7 @@ OC.L10N.register(
     "Production" : "Produkcyjna",
     "Beta" : "Beta",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>aplikacja nie ma aktualizacji dla tej wersji","<strong>%n</strong>aplikacje nie mają aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają aktualizacji dla tej wersji"],
-    "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie",
-    "A new version is available: %s" : "Dostępna jest nowa wersja: %s",
-    "Checked on %s" : "Sprawdzono: %s",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału."
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Zawsze możesz zaktualizować do nowszej wersji z eksperymentalnego kanału. Ale nigdy nie możesz powrócić do wersji ze stabilnego kanału.",
+    "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

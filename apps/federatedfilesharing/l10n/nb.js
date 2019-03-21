@@ -43,15 +43,7 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "The mountpoint name contains invalid characters." : "Navnet på oppkoblingspunktet inneholder ugyldige tegn.",
-    "Not allowed to create a federated share with the owner." : "Ikke tillatt å opprette en sammenknyttet ressurs med eieren.",
-    "Invalid or untrusted SSL certificate" : "Ugyldig eller ikke-klarert SSL-sertifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Kunne ikke autentisere mot ekstern ressurs, passordet var kanskje feil.",
-    "Storage not valid" : "Lagringsplass ikke gyldig",
-    "Federated share added" : "Sammenknyttet ressurs lagt til",
-    "Couldn't add remote share" : "Kunne ikke legge til ekstern ressurs",
     "Sharing %s failed, because this item is already shared with %s" : "Deling av %s mislyktes, fordi dette elementet allerede er delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje serveren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker Nextcloud, ownCloud eller Pydio! Bare putt deres sammenknyttede sky-ID i delingsdialogvinduet. Det ser ut som person.sky.eksempel.no"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling av %s mislyktes, kunne ikke finne %s, kanskje serveren for øyeblikket er utilgjengelig eller bruker selv-signert sertifikat."
 },
 "nplurals=2; plural=(n != 1);");

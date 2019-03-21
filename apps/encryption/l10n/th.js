@@ -51,7 +51,6 @@ OC.L10N.register(
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณได้รับการเข้าถึงไฟล์ที่มีการเข้ารหัสของคุณในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดการใช้งาน",
-    "Disabled" : "ปิดการใช้งาน",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "คุณจำเป็นต้องย้ายรหัสการเข้ารหัสลับของคุณจากการเข้ารหัสเก่า (ownCloud ที่มีเวอร์ชันต่ำกว่าหรือเท่ากับ 8.0) ไปเวอร์ชันใหม่ โปรดเรียกใช้ 'occ encryption:migrate' หรือติดต่อผู้ดูแลระบบ"
+    "Disabled" : "ปิดการใช้งาน"
 },
 "nplurals=1; plural=0;");

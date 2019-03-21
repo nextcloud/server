@@ -21,9 +21,9 @@
     "No file uploaded" : "Ниједан фајл није отпремљен",
     "Unsupported image type" : "Неподржани тип слике",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Већ користите прилагођену тему. Подешавања ове апликације ће можда бити пребрисана тиме.",
+    "Theming" : "Теме",
     "Legal notice" : "Правно обавештење",
     "Privacy policy" : "Политика приватност",
-    "Theming" : "Теме",
     "Adjust the Nextcloud theme" : "Прилагоди Некстклауд тему",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Теме Вам омогућавају да лако измените изглед Ваше инстанце и подржаних клијената. Ово ће бити видљиво свим корисницима.",
     "Name" : "Име",
@@ -44,12 +44,6 @@
     "Upload new header logo" : "Отпремите нови лого заглавља",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Отпремите нову favicon иконицу",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
-    "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
-    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен",
-    "Failed to write file to disk." : "Не могу да пишем фајл на диск",
-    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла.",
-    "You are already using a custom theme" : "Већ користите прилагођену тему",
-    "Web address https://…" : "Веб адреса https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -74,7 +74,6 @@
     "Basic settings" : "Paramètres de base",
     "Sharing" : "Partage",
     "Security" : "Sécurité",
-    "Theming" : "Personnaliser l'apparence",
     "Groupware" : "Travail collaboratif",
     "Additional settings" : "Paramètres supplémentaires",
     "Personal info" : "Informations personnelles",
@@ -242,11 +241,6 @@
     "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s",
     "Library %s with a version higher than %s is required - available version %s." : "La librairie %s doit être au moins à la version %s. Version disponible : %s.",
     "Library %s with a version lower than %s is required - available version %s." : "La librairie %s doit avoir une version antérieure à %s. Version disponible : %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Chiffrement",
-    "Tips & tricks" : "Trucs et astuces",
-    "Sync clients" : "Clients de synchronisation",
     "Sharing %s failed, because the user %s does not exist" : "Le partage de %s a échoué car l'utilisateur %s n'existe pas",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Le partage de %s a échoué car l'utilisateur %s n'est membre d'aucun groupe auquel %s appartient",
     "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet objet est déjà partagé avec %s",
@@ -260,8 +254,6 @@
     "%s shared »%s« with you" : "%s a partagé «%s» avec vous",
     "%s shared »%s« with you." : "%s a partagé «%s» avec vous.",
     "%s via %s" : "%s via %s",
-    "No app name specified" : "Aucun nom d'application spécifié",
-    "App '%s' could not be installed!" : "L'application \"%s\" ne peut pas être installée !",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "L'application \"%s\" ne peut pas être installée à cause des dépendances suivantes non satisfaites : %s",
     "ID \"%s\" already used by cloud federation provider \"%s\"" : "L'identifiant \"%s\" est déjà utilisé par le fournisseur de cloud \"%s\""
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

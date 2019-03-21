@@ -79,7 +79,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "会議 »%s« %sがキャンセルされました。",
     "The meeting »%s« with %s was updated." : "会議 »%s« %sが更新されました。",
     "%s invited you to »%s«" : "%s があなたを »%s« に招待しました",
-    "CalDAV server" : "CalDAVサーバー",
     "Please make sure to properly set up the email settings above." : "上記のメール設定を正しく設定してください。"
 },
 "nplurals=1; plural=0;");

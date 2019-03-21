@@ -59,7 +59,6 @@
     "Save" : "Įrašyti",
     "Calendar server" : "Kalendoriaus serveris",
     "%s via %s" : "%s per %s",
-    "%s invited you to »%s«" : "%s pakvietė jus į »%s«",
-    "CalDAV server" : "CalDAV serveris"
+    "%s invited you to »%s«" : "%s pakvietė jus į »%s«"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

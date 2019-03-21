@@ -43,15 +43,7 @@
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
-    "The mountpoint name contains invalid characters." : "A csatolási pont neve érvénytelen karaktereket tartalmaz ",
-    "Not allowed to create a federated share with the owner." : "A tulajdonossal nem lehet egyesített megosztást létrehozni.",
-    "Invalid or untrusted SSL certificate" : "Érvénytelen vagy nem megbízható az SSL tanúsítvány",
-    "Could not authenticate to remote share, password might be wrong" : "Nem sikerült az azonosítás a távoli megosztáshoz. Lehet, hogy rossz a jelszó.",
-    "Storage not valid" : "A tároló nem érvényes",
-    "Federated share added" : "Egyesített megosztás hozzáadva",
-    "Couldn't add remote share" : "Távoli megosztás nem adható hozzá",
     "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bárkivel megoszthatsz aki Nextcloud-ot, ownCloud-ot vagy Pydio-t használ! Csak add meg az egységesített megosztási azonosítójukat a megosztási ablakban. Valahogy így néz ki: person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

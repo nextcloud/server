@@ -129,10 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "Are you sure you want to delete this external storage" : "Действительно удалить это внешнее хранилище?",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации нажмите на красную строку(и)",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору.",
-    "Allow users to mount the following external storage" : "Разрешить использование следующих служб хранения данных:"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

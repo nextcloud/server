@@ -26,12 +26,6 @@ OC.L10N.register(
     "Login image" : "로그인 그림",
     "Upload new login background" : "새 로그인 배경 업로드",
     "Remove background image" : "배경 그림 삭제",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
-    "There is no error, the file uploaded with success" : "오류 없음, 파일 업로드 성공",
-    "The uploaded file was only partially uploaded" : "파일이 일부분만 업로드됨",
-    "Failed to write file to disk." : "디스크에 파일을 기록할 수 없습니다.",
-    "A PHP extension stopped the file upload." : "PHP 확장 기능에서 파일 업로드를 차단했습니다.",
-    "You are already using a custom theme" : "이미 사용자 정의 테마 사용 중",
-    "Web address https://…" : "웹 주소 https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
 },
 "nplurals=1; plural=0;");
