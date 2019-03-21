@@ -544,6 +544,9 @@ a.action > img {
 		opacity: .3;
 		&.action-share {
 			padding: 17px 14px;
+			> span:not(.icon) {
+				display: none;
+			}
 			.avatar {
 				display: inline-block;
 				vertical-align: middle;
@@ -932,6 +935,18 @@ table.dragshadow td.size {
 							&.action-comment ~ .action-share {
 								display: none;
 							}
+						}
+					}
+				}
+
+				.fileActionsMenu {
+					// force show the sharing entry in the dropdown menu
+					.action-share-container.hidden {
+						display: block !important;
+						// avatar in shared by user dropdown menu
+						.action-share img {
+							padding: 6px;
+							border-radius: 50%;
 						}
 					}
 				}
