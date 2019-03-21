@@ -198,6 +198,8 @@ export default {
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
+				? this.mimeGroups[group]
+				: [mime]
 
 			// retrieve, sort and store file List
 			const fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
@@ -331,19 +333,25 @@ export default {
 
 			// checking valid handler id
 			if (!handler.id || handler.id.trim() === '' || typeof handler.id !== 'string') {
-				console.error(`The following handler doesn't have proper id`, handler)
+				console.error(`The following handler doesn't have a valid id`, handler)
 				return
 			}
 
-			// checking valid handler mime data
-			if (!handler.mimes || !Array.isArray(handler.mimes)) {
-				console.error(`The following handler doesn't have proper mime data`, handler)
+			// checking if no valid mimes data and no mimes Aliases
+			if (!(handler.mimes && Array.isArray(handler.mimes)) && !handler.mimesAliases) {
+				console.error(`The following handler doesn't have a valid mime array`, handler)
 				return
+			}
+
+			if (handler.mimesAliases && typeof handler.mimesAliases !== 'object') {
+				console.error(`The following handler doesn't have a valid mimesAliases object`, handler)
+				return
+
 			}
 
 			// checking valid handler component data AND no alias (we can register alias without component)
 			if ((!handler.component || typeof handler.component !== 'object') && !handler.mimesAliases) {
-				console.error(`The following handler doesn't have proper component`, handler)
+				console.error(`The following handler doesn't have a valid component`, handler)
 				return
 			}
 
@@ -372,20 +380,24 @@ export default {
 				this.registeredHandlers.push(handler.id)
 			}
 
-			handler.mimes.forEach(mime => {
-				// checking valid mime
-				if (this.components[mime]) {
-					console.error(`The following mime is already registered`, mime, handler)
-					return
-				}
+			// parsing mimes registration
+			if (handler.mimes) {
+				handler.mimes.forEach(mime => {
+					// checking valid mime
+					if (this.components[mime]) {
+						console.error(`The following mime is already registered`, mime, handler)
+						return
+					}
 
-				register({ mime, handler })
+					register({ mime, handler })
 
-				// register mime's component
-				this.components[mime] = handler.component
-				Vue.component(handler.component.name, handler.component)
-			})
+					// register mime's component
+					this.components[mime] = handler.component
+					Vue.component(handler.component.name, handler.component)
+				})
+			}
 
+			// parsing aliases registration
 			if (handler.mimesAliases) {
 				Object.keys(handler.mimesAliases).forEach(mime => {
 					// checking valid mime
