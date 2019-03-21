@@ -287,6 +287,16 @@ class Principal implements BackendInterface {
 					}, []);
 					break;
 
+				case '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set':
+					// If you add support for more search properties that qualify as a user-address,
+					// please also add them to the array below
+					$results[] = $this->searchUserPrincipals([
+						// In theory this should also search for principal:principals/users/...
+						// but that's used internally only anyway and i don't know of any client querying that
+						'{http://sabredav.org/ns}email-address' => $value,
+					], 'anyof');
+					break;
+
 				default:
 					$results[] = [];
 					break;

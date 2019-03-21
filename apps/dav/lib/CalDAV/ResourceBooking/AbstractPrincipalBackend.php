@@ -244,6 +244,14 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					$stmt->closeCursor();
 					break;
 
+				case '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set':
+					// If you add support for more search properties that qualify as a user-address,
+					// please also add them to the array below
+					$results[] = $this->searchPrincipals($this->principalPrefix, [
+						'{http://sabredav.org/ns}email-address' => $value,
+					], 'anyof');
+					break;
+
 				default:
 					$results[] = [];
 					break;
