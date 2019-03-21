@@ -120,6 +120,20 @@ interface IDBConnection {
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null);
 
+
+	/**
+	 *
+	 * Insert a row if the row does not exist. Eventual conflicts during insert will be ignored.
+	 *
+	 * Implementation is not fully finished and should not be used!
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $values data that should be inserted into the table  (column name => value)
+	 * @return int number of inserted rows
+	 * @since 16.0.0
+	 */
+	public function insertIgnoreConflict(string $table,array $values) : int;
+
 	/**
 	 * Insert or update a row value
 	 *

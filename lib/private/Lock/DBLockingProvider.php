@@ -131,20 +131,13 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @param int $lock
 	 * @return int number of inserted rows
 	 */
-
 	protected function initLockField(string $path, int $lock = 0): int {
 		$expire = $this->getExpireTime();
-
-		try {
-			$builder = $this->connection->getQueryBuilder();
-			return $builder->insert('file_locks')
-				->setValue('key', $builder->createNamedParameter($path))
-				->setValue('lock', $builder->createNamedParameter($lock))
-				->setValue('ttl', $builder->createNamedParameter($expire))
-				->execute();
-		} catch(UniqueConstraintViolationException $e) {
-			return 0;
-		}
+		return $this->connection->insertIgnoreConflict('file_locks', [
+			'key' => $path,
+			'lock' => $lock,
+			'ttl' => $expire
+		]);
 	}
 
 	/**
