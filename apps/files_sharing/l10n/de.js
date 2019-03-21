@@ -136,9 +136,6 @@ OC.L10N.register(
     "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$szu.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt.",
-    "This share is password-protected" : "Freigabe ist passwortgeschützt",
-    "The password is wrong. Try again." : "Das Passwort ist falsch. Versuche es erneut.",
-    "Password" : "Passwort"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt."
 },
 "nplurals=2; plural=(n != 1);");

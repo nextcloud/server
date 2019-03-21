@@ -74,7 +74,6 @@
     "Basic settings" : "Configurações básicas",
     "Sharing" : "Compartilhamento",
     "Security" : "Segurança",
-    "Theming" : "Tema",
     "Groupware" : "Groupware",
     "Additional settings" : "Configurações adicionais",
     "Personal info" : "Informação pessoal",
@@ -242,11 +241,6 @@
     "Storage connection timeout. %s" : "Esgotado o tempo de conexão ao armazenamento. %s",
     "Library %s with a version higher than %s is required - available version %s." : "É requerida uma biblioteca %s com uma versão maior que %s - versão disponível %s.",
     "Library %s with a version lower than %s is required - available version %s." : "É requerida uma biblioteca %s com uma versão menor que %s - versão disponível %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Criptografia",
-    "Tips & tricks" : "Dicas & truques",
-    "Sync clients" : "Clientes de sincronização",
     "Sharing %s failed, because the user %s does not exist" : "O compartilhamento %s falhou pois o usuário %s não existe",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "O compartilhamento %s falhou pois o usuário %s não é membro de nenhum grupo que o usuário %s pertença",
     "Sharing %s failed, because this item is already shared with %s" : "O compartilhamento %s falhou pois este ítem já está compartilhado com %s",
@@ -260,8 +254,6 @@
     "%s shared »%s« with you" : "%s compartilhou »%s« com você",
     "%s shared »%s« with you." : "%s compartilhou »%s« com você.",
     "%s via %s" : "%s via %s",
-    "No app name specified" : "Nenhum nome de aplicativo especificado",
-    "App '%s' could not be installed!" : "Aplicativo '%s' não pôde ser instalado!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "O aplicativo \"%s\" não pode ser instalado pois as seguintes dependências não foram cumpridas: %s",
     "ID \"%s\" already used by cloud federation provider \"%s\"" : "ID \"%s\" já é usada pelo provedor de nuvem federada \"%s\""
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

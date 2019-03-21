@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "No hi ha arxius",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
     "Size" : "Mida",
-    "Modified" : "Modificat",
-    "Create and edit collaborative tags. These tags affect all users." : "Creeu i editeu etiquetes col·laboratives. Aquestes etiquetes afecten a tots els usuaris."
+    "Modified" : "Modificat"
 },
 "nplurals=2; plural=(n != 1);");

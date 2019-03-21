@@ -49,15 +49,7 @@
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
-    "The mountpoint name contains invalid characters." : "挂载点的名称包含无效字符。",
-    "Not allowed to create a federated share with the owner." : "不允许与所有者创建联合共享。",
-    "Invalid or untrusted SSL certificate" : "无效或是不被信任的 SSL 证书",
-    "Could not authenticate to remote share, password might be wrong" : "无法验证远程共享，可能是密码错误",
-    "Storage not valid" : "存储不可用",
-    "Federated share added" : "共享协作已添加",
-    "Couldn't add remote share" : "无法添加远程共享",
     "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以与任何使用 Nextcloud，ownCloud 或 Pydio 的人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

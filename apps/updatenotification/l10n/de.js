@@ -42,12 +42,10 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Für <strong>%n</strong> App steht keine Aktualisierung für diese Version zur Verfügung","Für <strong>%n</strong> Apps stehen keine Aktualisierungen für diese Version zur Verfügung"],
-    "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuche ein manuelles Update",
-    "A new version is available: %s" : "Eine neue Version ist verfügbar: %s",
-    "Checked on %s" : "Geprüft am %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Es kann immer auf eine neuere Version / experimentellen Kanal aktualisiert werden. Allerdings kann kein Downgrade auf einen stabileren Kanal durchgeführt werden.",
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>Produktion</strong> bietet immer die neuesten Patch-Stände an, jedoch nicht sofort die nächste Hauptversion. Diese Aktualisierung erfolgt normalerweise nach der zweiten kleineren Aktualisierung (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabil</strong> ist die aktuellste stabile Version. Die stabile Version ist für den normalen Gebrauch gedacht und wird jeweils auf die aktuelle Hauptversion aktualisiert.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> bietet eine Vorabversion an und dient zum Testen von neuen Funktionen. Nicht für den Einsatz in Produktivumgebungen geeignet."
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> bietet eine Vorabversion an und dient zum Testen von neuen Funktionen. Nicht für den Einsatz in Produktivumgebungen geeignet.",
+    "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuche ein manuelles Update"
 },
 "nplurals=2; plural=(n != 1);");

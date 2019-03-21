@@ -44,15 +44,7 @@ OC.L10N.register(
     "Add to your website" : "Agregar a tu sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "The mountpoint name contains invalid characters." : "El nombre del punto de montaje contiene caracteres inválidos.",
-    "Not allowed to create a federated share with the owner." : "No está permitido crear un elemento compartido federado con el dueño. ",
-    "Invalid or untrusted SSL certificate" : "Certificado SSL inválido o no de confianza",
-    "Could not authenticate to remote share, password might be wrong" : "No fue posible autenticarse ante el elemento compartido remoto, la contraseña puede estar incorrecta",
-    "Storage not valid" : "Almacenamiento inválido",
-    "Federated share added" : "Elemento compartido Federado agregado",
-    "Couldn't add remote share" : "No fue posible agregar el elemento compartido remoto",
     "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puedes compartir con cualquiera que use NextCloud, ownCloud o Pydio! Solo ingresa tu ID de Nube Federada en ventana de diálogo de compartir. Se ve algo así como person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado."
 },
 "nplurals=2; plural=(n != 1);");

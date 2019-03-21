@@ -132,9 +132,6 @@ OC.L10N.register(
     "Uploading files…" : "Файлы передаются на сервер…",
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Не удалось предоставить общий доступ к  «%s», поскольку механизм удалённого обмена не разрешает публикации типа %s",
-    "This share is password-protected" : "Общий ресурс защищён паролем",
-    "The password is wrong. Try again." : "Неверный пароль. Попробуйте ещё раз.",
-    "Password" : "Пароль"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Не удалось предоставить общий доступ к  «%s», поскольку механизм удалённого обмена не разрешает публикации типа %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

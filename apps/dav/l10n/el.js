@@ -65,7 +65,6 @@ OC.L10N.register(
     "%s via %s" : "%s μέσω %s",
     "The meeting »%s« with %s was canceled." : "Το meeting »%s« με τον/την %s ακυρώθηκε.",
     "The meeting »%s« with %s was updated." : "Το meeting » %s « με τον/την %s ενημερώθηκε.",
-    "CalDAV server" : "Διακομιστής CalDAV",
     "Please make sure to properly set up the email settings above." : "Παρακαλούμε σιγουρευθείτε οτι θα ενημερώσετε τις ρυθμίσεις email, παραπάνω."
 },
 "nplurals=2; plural=(n != 1);");

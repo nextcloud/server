@@ -79,7 +79,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Tapaaminen »%s« henkilön %s kanssa peruttiin.",
     "The meeting »%s« with %s was updated." : "Tapaaminen »%s« henkilön %s kanssa päivitettiin.",
     "%s invited you to »%s«" : "%s kutsui sinut »%s«",
-    "CalDAV server" : "CalDAV-palvelin",
     "Please make sure to properly set up the email settings above." : "Varmista, että määrität sähköpostiasetukset oikein yläpuolelle. "
 },
 "nplurals=2; plural=(n != 1);");

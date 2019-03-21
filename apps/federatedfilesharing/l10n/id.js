@@ -37,12 +37,6 @@ OC.L10N.register(
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
-    "The mountpoint name contains invalid characters." : "Nama mount point berisi karakter yang tidak sah.",
-    "Not allowed to create a federated share with the owner." : "Tidak diizinkan membuat pembagian terfederasi dengan pemilik.",
-    "Invalid or untrusted SSL certificate" : "Sertifikat SSL tidak sah atau tidak terpercaya",
-    "Could not authenticate to remote share, password might be wrong" : "Tidak dapat mengautentikasi berbagi remote, kata sandi mungkin salah",
-    "Storage not valid" : "Penyimpanan tidak sah",
-    "Couldn't add remote share" : "Tidak dapat menambahkan berbagi remote",
     "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Berbagi %s gagal, tidak menemukan %s, mungkin peladen saat ini tidak dapat dicapai atau menggunakan sertifikat self-signed."
 },

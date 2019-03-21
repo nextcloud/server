@@ -129,10 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Напредне поставке",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
-    "Are you sure you want to delete this external storage" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Неке од конфигурисаних спољашњих тачака монтирања нису повезане. Кликните на црвени ред(ове) за више информација",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ није инсталиран. Монтирање %s није могуће. Затражите од вашег администратора система да га инсталира.",
-    "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ није инсталиран. Монтирање %s није могуће. Затражите од вашег администратора система да га инсталира."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

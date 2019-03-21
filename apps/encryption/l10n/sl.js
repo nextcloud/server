@@ -51,7 +51,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili.",
     "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Preseliti je treba šifrirne ključe iz starega sistema (ownCloud <= 8.0) na novega. Zaženite ukaz 'occ encryption:migrate' ali pa stopite v stik s skrbnikom sistema."
+    "Disabled" : "Onemogočeno"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

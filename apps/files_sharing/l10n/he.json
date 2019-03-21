@@ -95,9 +95,6 @@
     "Select or drop files" : "בחירה או השלכה של קבצים",
     "Uploading files…" : "קבצים מועלים…",
     "Uploaded files:" : "קבצים שהועלו:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "שיתוף %s נכשל כיוון שהצד האחרוי ינו מאפשר שיתוף מסוג %s",
-    "This share is password-protected" : "שיתוף זה מוגן סיסמא",
-    "The password is wrong. Try again." : "הסיסמא שגויה. יש לנסות שנית.",
-    "Password" : "סיסמא"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "שיתוף %s נכשל כיוון שהצד האחרוי ינו מאפשר שיתוף מסוג %s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

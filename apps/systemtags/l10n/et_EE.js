@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "Siin ei ole faile",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Size" : "Suurus",
-    "Modified" : "Muudetud",
-    "Create and edit collaborative tags. These tags affect all users." : "Loo ja muuda koostöö silte. Need sildid kohalduvad kõigile kasutajatele."
+    "Modified" : "Muudetud"
 },
 "nplurals=2; plural=(n != 1);");

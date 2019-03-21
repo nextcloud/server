@@ -58,7 +58,6 @@
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Du skal overflytte dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen. Kør venligst \"occ encryption:migrate\" eller kontakt din administrator."
+    "Disabled" : "Deaktiveret"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

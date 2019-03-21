@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Bezeroaren Identifikadorea",
     "Secret" : "Sekretua",
     "Add client" : "Bezeroa gehitu",
-    "Add" : "Gehitu",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 -k kanpo zerbitzuek %s atzitzea baimentzen dute."
+    "Add" : "Gehitu"
 },
 "nplurals=2; plural=(n != 1);");

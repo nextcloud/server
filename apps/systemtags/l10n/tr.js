@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Burada herhangi bir dosya yok",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Size" : "Boyut",
-    "Modified" : "Değiştirilme",
-    "Create and edit collaborative tags. These tags affect all users." : "İşbirliği etiketlerini oluşturun ve düzenleyin. Bu etiketler tüm kullanıcıları etkiler."
+    "Modified" : "Değiştirilme"
 },
 "nplurals=2; plural=(n > 1);");

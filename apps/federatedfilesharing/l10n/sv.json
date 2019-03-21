@@ -41,15 +41,7 @@
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "The mountpoint name contains invalid characters." : "Monteringspunktens namn innehåller ogiltiga tecken.",
-    "Not allowed to create a federated share with the owner." : "Ej tillåtet att skapa en federerad delning med ägaren",
-    "Invalid or untrusted SSL certificate" : "Ogiltigt eller ej betrott SSL-certifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Kunde inte autentisera mot externa servern, lösenordet kan vara fel",
-    "Storage not valid" : "Lagring ogiltig",
-    "Federated share added" : "Federerad delning tillagd",
-    "Couldn't add remote share" : "Kunde inte lägga till extern delning",
     "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dela med vem som helst som använder Nextcloud, ownCloud eller Pydio! Ange bara deras federerade moln-ID i dela-dialogen. Exempelvis person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

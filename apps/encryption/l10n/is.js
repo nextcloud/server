@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Þú verður að yfirfæra dulritunarlyklana þína úr gömlu dulrituninni (ownCloud <= 8.0) yfir í þá nýju. Keyrðu 'occ encryption:migrate' eða hafðu samband við kerfisstjórann þinn"
+    "Disabled" : "Óvirkt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

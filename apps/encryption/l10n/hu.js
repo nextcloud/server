@@ -59,7 +59,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított fájlok tartalmát visszanyerjük abban az esetben, ha elfelejted a jelszavat",
     "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Át kell telepíteni a titkosítási kulcsaidat a rég titkosításról (ownCloud <= 8.0) az újra. Kérlek futtasd az 'occ encryption:migrate' parancsot, vagy lépj kapcsolatba a rendszergazdával."
+    "Disabled" : "Kikapcsolva"
 },
 "nplurals=2; plural=(n != 1);");

@@ -216,11 +216,6 @@
     "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
     "Library %s with a version higher than %s is required - available version %s." : "ספריה %s בגרסה גבוהה מ- %s נדרשת - גרסה זמינה %s.",
     "Library %s with a version lower than %s is required - available version %s." : "ספריה %s בגרסה נמוכה מ- %s נדרשת - גרסה זמינה %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "הצפנה",
-    "Tips & tricks" : "טיפים וטריקים",
-    "Sync clients" : "סנכרון לקוחות",
     "Sharing %s failed, because the user %s does not exist" : "השיתוף %s נכשל, כיוון שהמשתמש %s אינו קיים",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "השיתוף %s נכשל, כיוון שהמשתמש %s אינו חבר בקבוצות ש- %s חבר ב-",
     "Sharing %s failed, because this item is already shared with %s" : "שיתוף %s נכשל, כיוון שפריט זה כבר משותף עם %s",
@@ -233,8 +228,6 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "השיתוף %s נכשל, כיוון שבצד אחורי לשיתוף עבור %s לא ניתן היה לאתר את מקורו",
     "%s shared »%s« with you" : "%s שיתף/שיתפה איתך את »%s«",
     "%s via %s" : "%s על בסיס %s",
-    "No app name specified" : "לא צוין שם יישומון",
-    "App '%s' could not be installed!" : "לא ניתן להתקין את היישומון ‚%s’!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "היישום \"%s\" לא ניתן להתקנה כיוון שיחסי התלות הבאים אינם מתקיימים: %s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

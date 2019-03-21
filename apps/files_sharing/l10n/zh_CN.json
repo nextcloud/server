@@ -134,9 +134,6 @@
     "Uploading files…" : "上传文件... ",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型",
-    "This share is password-protected" : "这是一个密码保护的共享",
-    "The password is wrong. Try again." : "用户名或密码错误！请重试。",
-    "Password" : "密码"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

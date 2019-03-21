@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "The mountpoint name contains invalid characters." : "Nomo de la surmetingo enhavas nevalidajn signojn.",
-    "Not allowed to create a federated share with the owner." : "Vi ne rajtas krei federan kunhavon kun la posedanto.",
-    "Invalid or untrusted SSL certificate" : "SSL-atestilo ne validas aŭ ne fidindas",
-    "Could not authenticate to remote share, password might be wrong" : "Aŭtentiga eraro al fora kunhavo: la pasvorto eble malĝustas.",
-    "Storage not valid" : "Konservejo ne validas",
-    "Federated share added" : "Federa kunhavo aldonita",
-    "Couldn't add remote share" : "Ne povis aldoni federan kunhavon",
     "Sharing %s failed, because this item is already shared with %s" : "Kunhavigo de %s malsukcesis, ĉar la ero jam kunhaviĝis kun %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de %s malsukcesis, ne eblis trovi %s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vi povas kunhavigi kun iu, kiu uzas Nextcloud, ownCloud aŭ Pydio! Entajpu simple lian aŭ ŝian federnuban identigilon en la kunhaviga dialogo. Federnuba identigilo similas al persono@nubo.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de %s malsukcesis, ne eblis trovi %s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon."
 },
 "nplurals=2; plural=(n != 1);");

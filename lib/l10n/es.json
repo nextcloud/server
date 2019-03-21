@@ -74,7 +74,6 @@
     "Basic settings" : "Ajustes básicos",
     "Sharing" : "Compartir",
     "Security" : "Seguridad",
-    "Theming" : "Temas",
     "Groupware" : "Groupware",
     "Additional settings" : "Configuración adicional",
     "Personal info" : "Información personal",
@@ -242,11 +241,6 @@
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
     "Library %s with a version higher than %s is required - available version %s." : "Biblioteca %s con una versión superior que %s la requerida - versión disponible %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Biblioteca %s con una versión inferior que %s la requerida - versión disponible %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Cifrado",
-    "Tips & tricks" : "Sugerencias y trucos",
-    "Sync clients" : "Clientes de sincronización",
     "Sharing %s failed, because the user %s does not exist" : "Se ha fallado al compartir %s, ya que el usuario %s no existe",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Se ha fallado al compartir %s, ya que el usuario %s no es miembro de ningún grupo del que %s sea miembro",
     "Sharing %s failed, because this item is already shared with %s" : "Fallo al compartir %s, ya que este elemento ya está compartido con %s",
@@ -260,8 +254,6 @@
     "%s shared »%s« with you" : "%s ha compartido »%s« contigo",
     "%s shared »%s« with you." : "%s ha compartido »%s« contigo",
     "%s via %s" : "%s vía %s",
-    "No app name specified" : "No se ha especificado ningún nombre de app",
-    "App '%s' could not be installed!" : "¡No se ha podido instalar la app '%s'!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "La app \"%s\" no puede instalarse porque las siguientes dependencias no están cumplimentadas: %s",
     "ID \"%s\" already used by cloud federation provider \"%s\"" : "La ID \"%s\" ya es usada por el proveedor de federación en la nube \"%s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

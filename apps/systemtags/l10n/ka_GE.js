@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "აქ ფაილები არაა",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
     "Size" : "ზომა",
-    "Modified" : "შეცვლილია",
-    "Create and edit collaborative tags. These tags affect all users." : "შეგიძლიათ შექმნათ და შეცვალოთ თანამშრომლობის ტეგები. ეს ტეგები ეხება ყველა მომხმარებელს."
+    "Modified" : "შეცვლილია"
 },
 "nplurals=2; plural=(n!=1);");

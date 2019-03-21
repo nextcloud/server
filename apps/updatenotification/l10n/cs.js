@@ -42,12 +42,10 @@ OC.L10N.register(
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"],
-    "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci",
-    "A new version is available: %s" : "Je dostupná nová verze: %s",
-    "Checked on %s" : "Zkontrolováno %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy můžete aktualizovat na novější verzi / experimentální kanál. Poté ale nelze nikdy provést downgrade zpět na nižší stabilní kanál.",
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produkční</strong> vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> je nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení."
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení.",
+    "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

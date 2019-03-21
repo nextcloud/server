@@ -42,15 +42,7 @@ OC.L10N.register(
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
     "HTML Code:" : "Kod HTML:",
-    "The mountpoint name contains invalid characters." : "Emri mountpoint përmban karaktere të pavlefshme.",
-    "Not allowed to create a federated share with the owner." : "Nuk lejohet te krijoni një shpërndarje të federuar me zotëruesin",
-    "Invalid or untrusted SSL certificate" : "Çertifikatë SSL e pavlefshme ose e dyshimtë",
-    "Could not authenticate to remote share, password might be wrong" : "Nuk mund të vërtetohej në pjesën e largët, fjalëkalimi mund të jetë i gabuar",
-    "Storage not valid" : "memorja nuk është e vlefshme",
-    "Federated share added" : "Ndarje e federuar u shtua",
-    "Couldn't add remote share" : "Nuk mund të shtohet ndarja në largësi",
     "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ju mund të ndani me këdo që përdor Nextcloud, ownCloud ose Pydio! Vetëm vendosni ID e tyre të Federated Cloud në dialogun e shpërndarjeve. Duket si person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar"
 },
 "nplurals=2; plural=(n != 1);");

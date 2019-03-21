@@ -134,9 +134,6 @@
     "Uploading files…" : "Dosyalar yükleniyor...",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı",
-    "This share is password-protected" : "Bu paylaşım parola korumalı",
-    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
-    "Password" : "Parola"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

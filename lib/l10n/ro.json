@@ -126,8 +126,6 @@
     "PHP modules have been installed, but they are still listed as missing?" : "Modulele PHP au fost instalate, dar apar ca lipsind?",
     "PostgreSQL >= 9 required" : "Este necesară versiunea 9 sau mai mare a PostgreSQL",
     "Please upgrade your database version" : "Actualizați baza de date la o versiune mai nouă",
-    "Encryption" : "Încriptare",
-    "Tips & tricks" : "Sfaturi & trucuri",
     "Sharing %s failed, because the user %s does not exist" : "Partajarea %s a eșuat deoarece utilizatorul %s nu există",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Partajarea %s a eșuat deoarece utilizatorul %s nu face parte din niciunul din grupurile din care %s face parte",
     "Sharing %s failed, because this item is already shared with %s" : "Partajarea %s a eșuat deoarece acest element este deja partajat cu %s",

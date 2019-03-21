@@ -27,8 +27,6 @@ OC.L10N.register(
     "Upload new logo" : "上傳新的 Logo",
     "Login image" : "登入圖片",
     "Upload new login background" : "上傳新的登入頁背景",
-    "Remove background image" : "移除背景圖片",
-    "You are already using a custom theme" : "您正在使用自訂主題",
-    "Web address https://…" : "網址 https://…"
+    "Remove background image" : "移除背景圖片"
 },
 "nplurals=1; plural=0;");

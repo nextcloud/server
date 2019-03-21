@@ -17,6 +17,7 @@ OC.L10N.register(
     "matches" : "תואם",
     "does not match" : "אינו תואם",
     "Example: {placeholder}" : "דוגמה: {placeholder}",
+    "File name" : "שם קובץ",
     "File size (upload)" : "גודל קובץ (העלאה)",
     "less" : "פחות",
     "less or equals" : "פחות או שווה",
@@ -63,6 +64,7 @@ OC.L10N.register(
     "Operation #%s does not exist" : "פעולה מס׳ %s לא קיימת",
     "Operation %s does not exist" : "הפעולה %s לא קיימת",
     "Operation %s is invalid" : "הפעולה %s שגויה",
+    "Tag management" : "ניהול תגיות",
     "Open documentation" : "פתיחת תיעוד",
     "Loading…" : "בטעינה…"
 },
