@@ -69,8 +69,6 @@ class CheckSetupController extends Controller {
 	private $config;
 	/** @var IClientService */
 	private $clientService;
-	/** @var \OC_Util */
-	private $util;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IL10N */
@@ -97,7 +95,6 @@ class CheckSetupController extends Controller {
 								IConfig $config,
 								IClientService $clientService,
 								IURLGenerator $urlGenerator,
-								\OC_Util $util,
 								IL10N $l10n,
 								Checker $checker,
 								ILogger $logger,
@@ -110,7 +107,6 @@ class CheckSetupController extends Controller {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
-		$this->util = $util;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->checker = $checker;
