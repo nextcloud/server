@@ -36,7 +36,7 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
-	/*
+	/**
 	 * @suppress SqlInjectionChecker
 	 */
 	public function insertIgnoreConflict(string $table,array $values) : int {
