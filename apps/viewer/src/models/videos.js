@@ -30,7 +30,6 @@ export default {
 		'video/ogg',
 		'video/webm',
 		'video/mp4',
-		'video/x-matroska',
 		'video/x-m4v',
 		'video/x-flv',
 		'video/quicktime'

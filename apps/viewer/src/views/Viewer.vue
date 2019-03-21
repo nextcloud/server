@@ -206,9 +206,13 @@ export default {
 			// store current position
 			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
 
+			// get saved fileInfo
 			fileInfo = this.fileList[this.currentIndex]
+
+			// override mimetype if existing alias
+			mime = this.getAliasIfAny(mime)
+
 			if (this.components[mime]) {
-				mime = this.getAliasIfAny(mime)
 				this.currentFile = {
 					relativePath,
 					path,
@@ -219,9 +223,10 @@ export default {
 					modal: this.components[mime],
 					loaded: false
 				}
+				this.updatePreviousNext()
+			} else {
+				console.error(`The following file could not be displayed because to view matches its mime type`, fileName, fileInfo)
 			}
-
-			this.updatePreviousNext()
 		},
 
 		/**
@@ -336,19 +341,13 @@ export default {
 				return
 			}
 
-			// checking valid handler component data
-			if (!handler.component || typeof handler.component !== 'object') {
+			// checking valid handler component data AND no alias (we can register alias without component)
+			if ((!handler.component || typeof handler.component !== 'object') && !handler.mimesAliases) {
 				console.error(`The following handler doesn't have proper component`, handler)
 				return
 			}
 
-			handler.mimes.forEach(mime => {
-				// checking valid mime
-				if (this.components[mime]) {
-					console.error(`The following mime is already registered`, mime, handler)
-					return
-				}
-
+			const register = ({ mime, handler }) => {
 				// unregistered handler, let's go!
 				OCA.Files.fileActions.registerAction({
 					name: 'view',
@@ -369,19 +368,37 @@ export default {
 					this.mimeGroups[handler.group].push(mime)
 				}
 
-				if (handler.mimesAliases) {
-					Object.keys(handler.mimesAliases).forEach(mime => {
-						this.mimesAliases[mime] = handler.mimesAliases[mime]
-					})
-				}
-
 				// set the handler as registered
 				this.registeredHandlers.push(handler.id)
+			}
+
+			handler.mimes.forEach(mime => {
+				// checking valid mime
+				if (this.components[mime]) {
+					console.error(`The following mime is already registered`, mime, handler)
+					return
+				}
+
+				register({ mime, handler })
 
 				// register mime's component
 				this.components[mime] = handler.component
 				Vue.component(handler.component.name, handler.component)
 			})
+
+			if (handler.mimesAliases) {
+				Object.keys(handler.mimesAliases).forEach(mime => {
+					// checking valid mime
+					if (this.components[mime]) {
+						console.error(`The following mime is already registered`, mime, handler)
+						return
+					}
+
+					register({ mime, handler })
+
+					this.mimesAliases[mime] = handler.mimesAliases[mime]
+				})
+			}
 		},
 
 		getPath(fileInfo) {
