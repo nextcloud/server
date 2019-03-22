@@ -391,6 +391,10 @@ class Installer {
 		foreach($this->apps as $app) {
 			if($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);
+
+				if (!isset($app['releases'][0]['version'])) {
+					return false;
+				}
 				$newestVersion = $app['releases'][0]['version'];
 				if ($currentVersion !== '0' && version_compare($newestVersion, $currentVersion, '>')) {
 					return $newestVersion;
