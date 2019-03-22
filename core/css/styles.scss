@@ -769,10 +769,10 @@ code {
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
 			background-size: 16px 16px;
-			max-height: 36px;
-			width: 36px;
+			width: 34px;
+			height: 34px;
 			margin: 0px;
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		a {
@@ -784,7 +784,7 @@ code {
 		.menu {
 			top:100%;
 			margin:10px;
-			margin-left: 0px;
+			margin-left: 1px;
 			form {
 				display:flex;
 				margin:10px;
