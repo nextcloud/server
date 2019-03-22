@@ -57,7 +57,8 @@
 		_context: null,
 
 		events: {
-			'click a.action': '_onClickAction'
+			'click a.action': '_onSelectScope',
+			'keydown a.action': '_onSelectScopeKeyboard'
 		},
 
 		/**
@@ -65,7 +66,7 @@
 		 *
 		 * @param {Object} event event object
 		 */
-		_onClickAction: function(event) {
+		_onSelectScope: function(event) {
 			var $target = $(event.currentTarget);
 			if (!$target.hasClass('menuitem')) {
 				$target = $target.closest('.menuitem');
@@ -74,6 +75,14 @@
 			this.trigger('select:scope', $target.data('action'));
 
 			OC.hideMenus();
+		},
+
+		_onSelectScopeKeyboard: function(event) {
+			if (event.keyCode === 13 || event.keyCode === 32) {
+				// Enter and space can be used to select a scope
+				event.preventDefault();
+				this._onSelectScope(event);
+			}
 		},
 
 		/**
