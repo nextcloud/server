@@ -411,7 +411,7 @@ class Manager implements IManager {
 				'user_id' => $query->createNamedParameter($userId),
 				'resource_id' => $query->createNamedParameter($resource->getId()),
 				'resource_type' => $query->createNamedParameter($resource->getType()),
-				'access' => $query->createNamedParameter($access),
+				'access' => $query->createNamedParameter($access, IQueryBuilder::PARAM_BOOL),
 			]);
 		try {
 			$query->execute();
