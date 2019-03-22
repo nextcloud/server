@@ -100,5 +100,19 @@ interface IContainer {
 	 * @param string $target the target that should be resolved instead
 	 * @since 8.2.0
 	 */
+	
 	public function registerAlias($alias, $target);
+	
+	/**
+	 * Extend a registered service in the container using a closure expecting two parameters, first one is the existing 
+	 * service, second one the container itself. The service should have been registered initially with share parameter 
+	 * set to true.
+	 *
+	 * @param string $name
+	 * @param \Closure $closure
+	 * @return void
+	 * @throws QueryException if the existing service is already instantiated
+	 * @since 17.0.0
+	 */
+	public function extendService($name, Closure $closure);
 }

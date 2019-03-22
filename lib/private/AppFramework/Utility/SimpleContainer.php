@@ -152,6 +152,23 @@ class SimpleContainer extends Container implements IContainer {
 			$this[$name] = parent::factory($closure);
 		}
 	}
+	
+	
+	/**
+	 * Extend a registered service in the container using a closure expecting two parameters, first one is the existing 
+	 * service, second one the container itself. The service should have been registered initially with share parameter 
+	 * set to true.
+	 *
+	 * @param string $name
+	 * @param \Closure $closure
+	 * @return void
+	 * @throws QueryException if the existing service is already instantiated
+	 * @since 17.0.0
+	 */
+	public function extendService($name, Closure $closure) {
+		$name = $this->sanitizeName($name);
+		$this->extend($name, $closure);
+	}
 
 	/**
 	 * Shortcut for returning a service from a service under a different key,
