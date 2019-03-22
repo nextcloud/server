@@ -825,6 +825,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				}
 				return $this->getGroupsByMember($dn, $seen);
 			};
+
+			if (empty($dn))
+			    $dn = "";
+
 			$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups);
 		}
 		$visibleGroups = $this->access->groupsMatchFilter(array_keys($allGroups));
