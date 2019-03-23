@@ -47,10 +47,7 @@ class BackgroundRepair extends TimedJob {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	/**
-	 * @param EventDispatcherInterface $dispatcher
-	 */
-	public function setDispatcher(EventDispatcherInterface $dispatcher): void {
+	public function __construct(EventDispatcherInterface $dispatcher) {
 		$this->dispatcher = $dispatcher;
 	}
 
