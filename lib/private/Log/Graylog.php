@@ -36,11 +36,9 @@ class Graylog implements IWriter {
 	private $protocol;
 
 	protected static $LEVELS = [
-		1 => LOG_ALERT,
 		ILogger::FATAL => LOG_CRIT,
 		ILogger::ERROR => LOG_ERR,
 		ILogger::WARN => LOG_WARNING,
-		5 => LOG_NOTICE,
 		ILogger::INFO => LOG_INFO,
 		ILogger::DEBUG => LOG_DEBUG
 	];
@@ -49,7 +47,7 @@ class Graylog implements IWriter {
 		$this->host = gethostname();
 		$this->protocol = $config->getSystemValue('graylog_method', 'udp');
 		$address = $config->getSystemValue('graylog_host', '');
-		if(false !== strpos($address, ':')) {
+		if (false !== strpos($address, ':')) {
 			$this->target = explode(':', $address)[0];
 			$this->port = intval(explode(':', $address)[1]);
 		} else {
@@ -60,44 +58,45 @@ class Graylog implements IWriter {
 
 	/**
 	 * sena a message to the Graylog server
+	 *
 	 * @param string $app
 	 * @param string $message
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
 		$chunks = [];
+		$msg = '{"version":"' . self::$VERSION . '","host":"' .
+			$this->host . '","short_message":"' .
+			str_replace("\n", '\\n', '{' . $app . '} ' . $message) .
+			'","level":"' . self::$LEVELS[$level] . '","timestamp":' .
+			time() . '}';
 		switch ($this->protocol) {
 			case 'udp':
-				$msg = '{"version":"'.self::$VERSION.'","host":"'.
-					$this->host.'","short_message":"'.
-					str_replace("\n", '\\n', '{'.$app.'} '.$message).
-					'","level":"'.self::$LEVELS[$level].'","timestamp":'.
-					time().'}';
-				$chunks = str_split($msg, strlen($msg)/8000);
+				$chunks = str_split($msg, 8000);
 				break;
 			case 'tcp':
-				$chunks[0] = '{"version":"'.self::$VERSION.'","host":"'.
-					$this->host.'","short_message":"'.
-					str_replace("\n", '\\n', '{'.$app.'} '.$message).
-					'","level":"'.self::$LEVELS[$level].'","timestamp":'.
-					time().'}';
+				$chunks[0] = $msg;
 				break;
 		}
 		$count = count($chunks);
-		$fp = fsockopen(
-			$this->protocol.'://'.$this->target,
-			$this->port,
-			$timeout = 5
+		$errno = 0;
+		$errstr = '';
+		$fp = stream_socket_client(
+			$this->protocol . '://' . $this->target . ':' . $this->port,
+			$errno,
+			$errstr,
+			5
 		);
 		switch ($count > 1) {
 			case true:
 				$id = random_bytes(8);
 				for ($i = 0; $i < $count; $i++) {
-					fwrite($fp, "\x1e\x0f".$id.$i.$count.$chunks[$i]."\0");
+					fwrite($fp, pack('n', 0x1e0f) . $id . $i . $count .
+						$chunks[$i] . pack('x'));
 				}
 				break;
 			case false:
-				fwrite($fp, $chunks[0].chr(0));
+				fwrite($fp, $chunks[0]);
 				break;
 		}
 		fclose($fp);
