@@ -56,7 +56,8 @@ class Manage extends Command implements CompletionAwareInterface {
 				'backend',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'set the logging backend [file, syslog, errorlog, systemd]'
+				'set the logging backend [file, syslog, errorlog, systemd,
+				graylog]'
 			)
 			->addOption(
 				'level',
