@@ -95,6 +95,13 @@ class ManageTest extends TestCase {
 	}
 
 	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testIsBackendGraylogSet() {
+		self::invokePrivate($this->command, 'isBackendGraylogSet', ['file']);
+	}
+
+	/**
 	 * @expectedException \Exception
 	 */
 	public function testValidateTimezone() {
