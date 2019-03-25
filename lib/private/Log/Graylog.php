@@ -45,7 +45,7 @@ class Graylog implements IWriter {
 
 	public function __construct(IConfig $config) {
 		$this->host = gethostname();
-		$this->protocol = $config->getSystemValue('graylog_method', 'udp');
+		$this->protocol = $config->getSystemValue('graylog_proto', 'udp');
 		$address = $config->getSystemValue('graylog_host', '');
 		if (false !== strpos($address, ':')) {
 			$this->target = explode(':', $address)[0];
@@ -72,27 +72,30 @@ class Graylog implements IWriter {
 			time() . '}';
 		switch ($this->protocol) {
 			case 'udp':
-				$chunks = str_split($msg, 8000);
+				$chunks = str_split($msg, 1024);
 				break;
 			case 'tcp':
 				$chunks[0] = $msg;
 				break;
 		}
 		$count = count($chunks);
-		$errno = 0;
-		$errstr = '';
+		$errNo = 0;
+		$errStr = '';
 		$fp = stream_socket_client(
 			$this->protocol . '://' . $this->target . ':' . $this->port,
-			$errno,
-			$errstr,
+			$errNo,
+			$errStr,
 			5
 		);
+		if(false === $fp) {
+			return;
+		}
 		switch ($count > 1) {
 			case true:
 				$id = random_bytes(8);
 				for ($i = 0; $i < $count; $i++) {
-					fwrite($fp, pack('n', 0x1e0f) . $id . $i . $count .
-						$chunks[$i] . pack('x'));
+					fwrite($fp, pack('n', 0x1e0f) . $id . pack('CC', $i, $count)
+						. $chunks[$i]);
 				}
 				break;
 			case false:

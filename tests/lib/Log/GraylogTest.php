@@ -30,9 +30,9 @@ use Test\TestCase;
 class GraylogTest extends TestCase {
 
 	/** @var string */
-	private $graylog_method_restore;
+	private $protocol_restore;
 	/** @var string */
-	private $graylog_host_restore;
+	private $target_restore;
 	/** @var  SystemConfig */
 	private $config;
 	/** @var string */
@@ -45,15 +45,15 @@ class GraylogTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->config = \OC::$server->getSystemConfig();
-		$this->graylog_method_restore = $this->config->getValue('graylog_method');
-		$this->graylog_host_restore = $this->config->getValue('graylog_host');
+		$this->protocol_restore = $this->config->getValue('graylog_proto');
+		$this->target_restore = $this->config->getValue('graylog_host');
 		$this->buf = '';
 		$this->from = '';
 		$this->port = 0;
 	}
 
 	public function testUnchunkedUdp() {
-		$this->config->setValue('graylog_method', 'udp');
+		$this->config->setValue('graylog_proto', 'udp');
 		$this->config->setValue('graylog_host', '127.0.0.1:5140');
 
 		// Create a mock server to send a test message to
@@ -61,18 +61,22 @@ class GraylogTest extends TestCase {
 		socket_bind($s, '127.0.0.1', 5140);
 		socket_set_nonblock($s);
 
+		$id = 'GraylogTest';
+		$msg = 'UDP Graylog test < 1kb';
 		$graylog = new Graylog(\OC::$server->getConfig());
-		$graylog->write('GraylogTest', 'UDP Graylog test < 8kb', 1);
+		$graylog->write('GraylogTest', $msg, 1);
 
-		socket_recvfrom($s, $this->buf, 8000, 0, $this->from, $this->port);
+		socket_recvfrom($s, $this->buf, 1025, 0, $this->from, $this->port);
 		socket_close($s);
 
-		// The resulting GELF message has to be 130 characters long
-		$this->assertEquals(130, strlen($this->buf));
+		// The resulting GELF message has a length of 81 + length of host name +
+		// length of app name + length of log message + 3 formatting characters.
+		$expected = 81 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
+		$this->assertEquals($expected, strlen($this->buf));
 	}
 
 	public function testChunkedUdp() {
-		$this->config->setValue('graylog_method', 'udp');
+		$this->config->setValue('graylog_proto', 'udp');
 		$this->config->setValue('graylog_host', '127.0.0.1:5140');
 
 		// Create a mock server to send a test message to
@@ -80,31 +84,60 @@ class GraylogTest extends TestCase {
 		socket_bind($s, '127.0.0.1', 5140);
 		socket_set_nonblock($s);
 
-		$graylog = new Graylog(\OC::$server->getConfig());
-		$msg = "Very log message filled with garbage to execeed 8kb limit. ";
-		for($i = 0; $i < 8000; $i++) {
-		  $msg .= "A";
+		$id = 'GraylogTest';
+		$msg = "Very log message filled with garbage to exceed 1kb limit. ";
+		for($i = 0; $i < 1024; $i++) {
+			$msg .= "A";
 		}
-		$graylog->write('GraylogTest', $msg, 3);
+		$graylog = new Graylog(\OC::$server->getConfig());
+		$graylog->write($id, $msg, 3);
 
-		socket_recvfrom($s, $this->buf, 8000, 0, $this->from, $this->port);
+		socket_recvfrom($s, $this->buf, 1034, 0, $this->from, $this->port);
 		socket_close($s);
 
-		// The first response should start with 0x1E 0x0F, has sequence 0
-		// at position 10 and total count 2 at position 11
+		// The chunked GELF message must start start with 0x1E 0x0F, followed
+		// by 8 byte message id, 1 byte current sequence and 1 byte total chunk
+		// count. In this test the total chunk count is 2 and we examine the
+		// first chunk (zero-indexed).
 		$this->assertEquals(0x1e0f, unpack('n', $this->buf)[1]);
-		$this->assertEquals(0, intval(substr($this->buf, 10, 1)));
-		$this->assertEquals(2, intval(substr($this->buf, 11, 1)));
+		$this->assertEquals(0, unpack('C', substr($this->buf, 10, 1))[1]);
+		$this->assertEquals(2, unpack('C', substr($this->buf, 11, 1))[1]);
+	}
+
+	public function testTcp() {
+		$this->config->setValue('graylog_proto', 'tcp');
+		$this->config->setValue('graylog_host', '127.0.0.1:5140');
+
+		// Create a mock server to send a test message to
+		$s = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+		socket_bind($s, '127.0.0.1', 5140);
+		socket_listen($s);
+		socket_set_nonblock($s);
+
+		$id = 'GraylogTest';
+		$msg = 'TCP Graylog test < 1kb';
+		$graylog = new Graylog(\OC::$server->getConfig());
+		$graylog->write($id, $msg, 3);
+
+		$c = socket_accept($s);
+		$this->buf = socket_read($c, 1025);
+		socket_close($c);
+		socket_close($s);
+
+		// The resulting GELF message has a length of 81 + length of host name +
+		// length of app name + length of log message + 3 formatting characters.
+		$expected = 81 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
+		$this->assertEquals($expected, strlen($this->buf));
 	}
 
 	protected function tearDown() {
-		if (isset($this->graylog_method_restore)) {
-			$this->config->setValue('graylog_method', $this->graylog_method_restore);
+		if (isset($this->protocol_restore)) {
+			$this->config->setValue('graylog_proto', $this->protocol_restore);
 		} else {
-			$this->config->deleteValue('graylog_method');
+			$this->config->deleteValue('graylog_proto');
 		}
-		if (isset($this->graylog_host_restore)) {
-			$this->config->setValue('graylog_host', $this->graylog_host_restore);
+		if (isset($this->target_restore)) {
+			$this->config->setValue('graylog_host', $this->target_restore);
 		} else {
 			$this->config->deleteValue('graylog_host');
 		}

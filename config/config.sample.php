@@ -786,7 +786,7 @@ $CONFIG = array(
 /**
  * Your graylog host server name, for example ``localhost``, ``hostname``,
  * ``hostname.example.com``, or the IP address. To specify a port use
- * ``hostname:####``
+ * ``hostname:####``. The default port is 5410
  * Only effective when ``log_type`` set to ``graylog``
  */
 'graylog_host' => '',
@@ -797,7 +797,7 @@ $CONFIG = array(
  *
  * The default value is ``udp``.
  */
-'graylog_method' => 'udp',
+'graylog_proto' => 'udp',
 
 /**
  * Log condition for log level increase based on conditions. Once one of these
