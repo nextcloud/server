@@ -235,7 +235,10 @@ var OCdialogs = {
 				dialog_name: dialogName,
 				title: title,
 				emptytext: emptyText,
-				newtext: newText
+				newtext: newText,
+				nameCol: t('core', 'Name'),
+				sizeCol: t('core', 'Size'),
+				modifiedCol: t('core', 'Modified')
 			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter);
 
 			if (modal === undefined) {
