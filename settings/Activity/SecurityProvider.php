@@ -61,6 +61,9 @@ class SecurityProvider implements IProvider {
 				$event->setParsedSubject($l->t('You successfully logged in using two-factor authentication (%1$s)', [
 							$params['provider'],
 					]));
+				$event->setRichSubject(htmlspecialchars($l->t('You successfully logged in using two-factor authentication (%1$s)', [
+							'provider' => $params['provider'],
+					])), []);
 				if ($this->activityManager->getRequirePNG()) {
 					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
 				} else {
