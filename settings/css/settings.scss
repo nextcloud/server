@@ -300,6 +300,11 @@ select {
 	position: relative;
 	cursor: pointer;
 	margin-left: 10px;
+	&:focus {
+		.icon-federation-menu {
+			opacity: 0.7;
+		}
+	}
 	.icon-federation-menu {
 		padding-left: 16px;
 		background-size: 16px;
