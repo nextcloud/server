@@ -46,7 +46,7 @@
     "nextcloud-vue": "^0.8.0",
     "nextcloud-vue-collections": "^0.2.0",
     "snap.js": "^2.0.9",
-    "strengthify": "git+https://github.com/MorrisJobke/strengthify.git",
+    "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "underscore": "^1.9.1",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.6.8",
