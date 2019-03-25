@@ -71,6 +71,18 @@ class Manage extends Command implements CompletionAwareInterface {
 				InputOption::VALUE_REQUIRED,
 				'set the logging timezone'
 			)
+			->addOption(
+				'host',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'set the log server host:port if backend is graylog'
+			)
+			->addOption(
+				'protocol',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'set the log server protocol if backend is graylog'
+			)
 		;
 	}
 
@@ -100,6 +112,20 @@ class Manage extends Command implements CompletionAwareInterface {
 			$toBeSet['logtimezone'] = $timezone;
 		}
 
+		if ($host = $input->getOption('host')) {
+			array_key_exists('log_type', $toBeSet) ?
+				$this->isBackendGraylogSet($toBeSet['log_type']) :
+				$this->isBackendGraylogSet();
+			$toBeSet['graylog_host'] = $host;
+		}
+
+		if ($protocol = $input->getOption('protocol')) {
+			array_key_exists('log_type', $toBeSet) ?
+				$this->isBackendGraylogSet($toBeSet['log_type']) :
+				$this->isBackendGraylogSet();
+			$toBeSet['graylog_proto'] = $protocol;
+		}
+
 		// set config
 		foreach ($toBeSet as $option => $value) {
 			$this->config->setSystemValue($option, $value);
@@ -108,6 +134,13 @@ class Manage extends Command implements CompletionAwareInterface {
 		// display configuration
 		$backend = $this->config->getSystemValue('log_type', self::DEFAULT_BACKEND);
 		$output->writeln('Enabled logging backend: '.$backend);
+
+		if ('graylog' === $backend) {
+			$host = $this->config->getSystemValue('graylog_host');
+			$output->writeln('Log server: '.$host);
+			$protocol = $this->config->getSystemValue('graylog_proto', 'udp');
+			$output->writeln('Connection protocol: '.$protocol);
+		}
 
 		$levelNum = $this->config->getSystemValue('loglevel', self::DEFAULT_LOG_LEVEL);
 		$level = $this->convertLevelNumber($levelNum);
@@ -124,6 +157,17 @@ class Manage extends Command implements CompletionAwareInterface {
 	protected function validateBackend($backend) {
 		if (!class_exists('OC\\Log\\'.ucfirst($backend))) {
 			throw new \InvalidArgumentException('Invalid backend');
+		}
+	}
+
+	/**
+	 * @param string $new
+	 * @throws \InvalidArgumentException
+	 */
+	protected function isBackendGraylogSet($new=null) {
+		$old = $this->config->getSystemValue('log_type', self::DEFAULT_BACKEND);
+		if ((null === $new && $old != 'graylog') || 'graylog' != $new) {
+			throw new \InvalidArgumentException('Graylog not set as backend');
 		}
 	}
 
@@ -188,6 +232,8 @@ class Manage extends Command implements CompletionAwareInterface {
 			return ['debug', 'info', 'warning', 'error'];
 		} else if ($optionName === 'timezone') {
 			return \DateTimeZone::listIdentifiers();
+		} else if ($optionName === 'protocol') {
+			return ['udp', 'tcp'];
 		}
 		return [];
 	}
