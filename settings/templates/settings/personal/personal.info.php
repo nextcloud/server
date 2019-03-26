@@ -346,21 +346,21 @@ script('settings', [
 					</h3>
 					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
 						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($_['activelocale']['name']);?>
+							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
 						<optgroup label="––––––––––"></optgroup>
 						<?php foreach($_['localesForLanguage'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
-								<?php p($locale['name']);?>
+								<?php p($l->t($locale['name']));?>
 							</option>
 						<?php endforeach;?>
 						<optgroup label="––––––––––"></optgroup>
 						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($_['activelocale']['name']);?>
+							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
 						<?php foreach($_['locales'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
-								<?php p($locale['name']);?>
+								<?php p($l->t($locale['name']));?>
 							</option>
 						<?php endforeach;?>
 					</select>
