@@ -5,7 +5,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ya da config.php dosyasının salt okunur olarak kalmasını istiyorsanız içindeki \"config_is_read_only\" seçeneğini true olarak ayarlayın.",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Bu sorun genellikle, web sunucusuna config klasörüne yazma izni verilerek çözülebilir. %s bölümüne bakın",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ya da config.php dosyasının salt okunur olarak kalmasını istiyorsanız içindeki \"config_is_read_only\" seçeneğini true olarak ayarlayın. %s bölümüne bakabilirsiniz",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "%1$s uygulamasının dosyaları doğru şekilde değiştirilmedi. Sunucu ile uyumlu dosyaların yüklü olduğundan emin olun.",
     "Sample configuration detected" : "Örnek yapılandırma algılandı",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Örnek yapılandırmanın kopyalanmış olabileceği tespit edildi. Bu durum kurulumunuzu bozabilir ve desteklenmez. Lütfen config.php dosyasında değişiklik yapmadan önce belgeleri okuyun",
     "%1$s and %2$s" : "%1$s ve %2$s",

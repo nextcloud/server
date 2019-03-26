@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "This can usually be fixed by giving the webserver write access to the config directory",
     "See %s" : "See %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "This can usually be fixed by giving the webserver write access to the config directory. See %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.",
     "Sample configuration detected" : "Sample configuration detected",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php",
     "%1$s and %2$s" : "%1$s and %2$s",

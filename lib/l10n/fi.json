@@ -2,7 +2,6 @@
     "Cannot write into \"config\" directory!" : "Hakemistoon \"config\" kirjoittaminen ei onnistu!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tämän voi yleensä korjata antamalla http-palvelimelle kirjoitusoikeuden asetushakemistoon",
     "See %s" : "Katso %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Sovelluksen %$1s tiedostoja ei vaihdettu oikein. Varmista että sen versio on yhteensopiva palvelimen kanssa.",
     "Sample configuration detected" : "Esimerkkimääritykset havaittu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "On havaittu, että esimerkkimäärityksen on kopioitu. Se voi rikkoa asennuksesi, eikä sitä tueta. Lue ohjeet ennen kuin muutat config.php tiedostoa.",
     "%1$s and %2$s" : "%1$s ja %2$s",

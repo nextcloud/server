@@ -75,7 +75,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Dein Anwesenheits-Status wurde aktualisiert.",
     "Calendar server" : "Kalender-Server",
-    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installiere außerdem die {calendarappstoreopen}Kalender-App{linkclose}, oder {calendardocopen}verbinde deinen Desktop & Mobilgerät zur Synchronisierung ↗{linkclose}.",
+    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installiere außerdem die {calendarappstoreopen}Kalender-App{linkclose}, oder {calendardocopen}verbinde Deinen Desktop & Mobilgerät zur Synchronisierung ↗{linkclose}.",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Bitte stelle sicher, dass Du {emailopen}den E-Mail Server{linkclose} ordnungsgemäß einrichtest.",
     "Automatically generate a birthday calendar" : "Automatisch einen Kalender für Geburtstage erstellen",
