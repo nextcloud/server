@@ -57,7 +57,7 @@ class Graylog implements IWriter {
 	}
 
 	/**
-	 * sena a message to the Graylog server
+	 * send a message to the Graylog server
 	 *
 	 * @param string $app
 	 * @param string $message
@@ -65,11 +65,13 @@ class Graylog implements IWriter {
 	 */
 	public function write(string $app, $message, int $level) {
 		$chunks = [];
-		$msg = '{"version":"' . self::$VERSION . '","host":"' .
-			$this->host . '","short_message":"' .
-			str_replace("\n", '\\n', '{' . $app . '} ' . $message) .
-			'","level":"' . self::$LEVELS[$level] . '","timestamp":' .
-			time() . '}';
+		$msg = json_encode([
+			'version' => self::$VERSION,
+			'host' => $this->host,
+			'short_message' => '{'.$app.'} '.$message,
+			'level' => self::$LEVELS[$level],
+			'timestamp' => time()
+		]);
 		switch ($this->protocol) {
 			case 'udp':
 				$chunks = str_split($msg, 1024);

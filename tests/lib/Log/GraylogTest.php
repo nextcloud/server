@@ -69,9 +69,9 @@ class GraylogTest extends TestCase {
 		socket_recvfrom($s, $this->buf, 1025, 0, $this->from, $this->port);
 		socket_close($s);
 
-		// The resulting GELF message has a length of 81 + length of host name +
+		// The resulting GELF message has a length of 79 + length of host name +
 		// length of app name + length of log message + 3 formatting characters.
-		$expected = 81 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
+		$expected = 79 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
 		$this->assertEquals($expected, strlen($this->buf));
 	}
 
@@ -124,9 +124,9 @@ class GraylogTest extends TestCase {
 		socket_close($c);
 		socket_close($s);
 
-		// The resulting GELF message has a length of 81 + length of host name +
+		// The resulting GELF message has a length of 79 + length of host name +
 		// length of app name + length of log message + 3 formatting characters.
-		$expected = 81 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
+		$expected = 79 + strlen(gethostname()) + strlen($msg) + strlen($id) + 3;
 		$this->assertEquals($expected, strlen($this->buf));
 	}
 
