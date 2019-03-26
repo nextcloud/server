@@ -952,6 +952,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Log\\Errorlog' => __DIR__ . '/../../..' . '/lib/private/Log/Errorlog.php',
         'OC\\Log\\ExceptionSerializer' => __DIR__ . '/../../..' . '/lib/private/Log/ExceptionSerializer.php',
         'OC\\Log\\File' => __DIR__ . '/../../..' . '/lib/private/Log/File.php',
+        'OC\\Log\\Graylog' => __DIR__ . '/../../..' . '/lib/private/Log/Graylog.php',
         'OC\\Log\\LogFactory' => __DIR__ . '/../../..' . '/lib/private/Log/LogFactory.php',
         'OC\\Log\\Rotate' => __DIR__ . '/../../..' . '/lib/private/Log/Rotate.php',
         'OC\\Log\\Syslog' => __DIR__ . '/../../..' . '/lib/private/Log/Syslog.php',
