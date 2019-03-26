@@ -47,7 +47,7 @@ OC.L10N.register(
     "Invisible" : "Невидим",
     "Delete" : "Изтриване",
     "Reset" : "Нулирай",
-    "No files in here" : "Тук няма файлове",
+    "No files in here" : "Няма файлове",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
     "Size" : "Размер",
     "Modified" : "Променен на"

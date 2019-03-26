@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Αυτό μπορεί συνήθως να διορθωθεί παρέχοντας δικαιώματα εγγραφής για το φάκελο config στο διακομιστή δικτύου",
     "See %s" : "Δείτε %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας στον διακομιστή γραπτή πρόσβαση στον κατάλογο εκχώρησης. Βλέπε%s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Τα αρχεία της εφαρμογής% $ 1s δεν αντικαταστάθηκαν σωστά. Βεβαιωθείτε ότι πρόκειται για μια έκδοση που είναι συμβατή με το διακομιστή.",
     "Sample configuration detected" : "Ανιχνεύθηκε δείγμα εγκατάστασης",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Έχει ανιχνευθεί ότι το δείγμα εγκατάστασης έχει αντιγραφεί. Αυτό μπορεί να σπάσει την εγκατάστασή σας και δεν υποστηρίζεται. Παρακαλώ διαβάστε την τεκμηρίωση πριν εκτελέσετε αλλαγές στο config.php",
     "%1$s and %2$s" : "%1$s και %2$s",

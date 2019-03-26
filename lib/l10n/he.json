@@ -5,7 +5,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "או, אם עדיף לך לשמור על config.php לקריאה בלבד, ניתן להגדיר את האפשרות „config_is_read_only” לערך true.",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "בדרך כלל ניתן לתקן זאת על ידי הענקת גישה לשרת לכתוב לתיקיית ההגדרות. נא לעיין ב־%s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "או, אם עדיף לך לשמור על config.php לקריאה בלבד, ניתן להגדיר את האפשרות „config_is_read_only” לערך true. נא לעיין ב־%s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "הקבצים של היישומון %$1s לא הוחלפו כראוי. נא לוודא שגרסה זו תואמת לזו של השרת.",
     "Sample configuration detected" : "התגלתה דוגמת תצורה",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "התגלה שדוגמת התצורה הועתקה. דבר זה עלול לשבור את ההתקנה ולא נתמך.יש לקרוא את מסמכי התיעוד לפני שמבצעים שינויים ב- config.php",
     "Education Edition" : "מהדורה חינוכית",
