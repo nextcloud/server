@@ -22,7 +22,7 @@ OC.L10N.register(
     "Read only" : "Schreibgeschützt",
     "Delete" : "Löschen",
     "Admin defined" : "Vom Administrator festgelegt",
-    "Are you sure you want to delete this external storage?" : "Möchtest du wirklich diesen externen Speicher löschen?",
+    "Are you sure you want to delete this external storage?" : "Möchtest Du wirklich diesen externen Speicher löschen?",
     "Delete storage?" : "Speicher löschen?",
     "Saved" : "Gespeichert",
     "Saving..." : "Speichere…",

@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dette kan vanligvis ordnes ved å gi webserveren skrivetilgang til config-mappen",
     "See %s" : "Se %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dette kan vanligvis ordnes ved å gi webserveren skrivetilgang til config-mappen. Se %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Filene i appen %$1s ble ikke erstattet skikkelig. Sjekk at versjonen er kompatibel med serveren.",
     "Sample configuration detected" : "Eksempeloppsett oppdaget",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Det ble oppdaget at eksempeloppsettet er blitt kopiert. Dette kan ødelegge installasjonen din og støttes ikke. Les dokumentasjonen før du gjør endringer i config.php",
     "%1$s and %2$s" : "%1$s og %2$s",

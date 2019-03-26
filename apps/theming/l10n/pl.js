@@ -27,7 +27,7 @@ OC.L10N.register(
     "Legal notice" : "Nota prawna",
     "Privacy policy" : "Polityka prywatności",
     "Adjust the Nextcloud theme" : "Dostosuj motyw Nextcloud",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motywy umożliwiają na łatwą personalizację wyglądu instancji i wspieranych klientów. Ustawiony wygląd będzie widoczny dla wszystkich użytkowników.",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming umożliwia na łatwą personalizację wyglądu instancji i wspieranych klientów. Ustawiony wygląd będzie widoczny dla wszystkich użytkowników.",
     "Name" : "Nazwa",
     "Reset to default" : "Przywróć domyślne",
     "Web link" : "Link",

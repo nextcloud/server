@@ -4,7 +4,7 @@ OC.L10N.register(
     "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar.",
     "Update notifications" : "Actualizar as notificacións",
     "Channel updated" : "Canle actualizada",
-    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende vai %d días para comprobar se hai novas actualizacións.",
+    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende hai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Revise os ficheiros de rexistro de Nextcloud e do servidor na busca de erros.",
     "Update to %1$s is available." : "Está dispoñíbel  unha actualización para %1$s.",
     "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s.",

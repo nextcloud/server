@@ -107,7 +107,7 @@ OC.L10N.register(
     "Set expiration date" : "Sett utløpsdato",
     "Expiration" : "Utløpsdato",
     "Expiration date" : "Utløpsdato",
-    "Note to recipient" : "Note til mottaker",
+    "Note to recipient" : "Melding til mottaker",
     "Unshare" : "Opphev deling",
     "Delete share link" : "Slett lenke til deling",
     "Add another link" : "Legg til en lenke til",

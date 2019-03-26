@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Esto generalmente se soluciona dándole al servidor web acceso para escribir en el directorio config. ",
     "See %s" : "Ver %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Por lo general esto se puede resolver al darle al servidor web acceso de escritura al directorio config. Favor de ver %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Los archivos de la aplicación %$1s no fueron correctamente remplazados. Favor de asegurarse de que la versión sea compatible con el servidor.",
     "Sample configuration detected" : "Se ha detectado la configuración de muestra",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que la configuración de muestra ha sido copiada. Esto puede descomponer su instalacón y no está soportado. Favor de leer la documentación antes de hacer cambios en el archivo config.php",
     "%1$s and %2$s" : "%1$s y %2$s",

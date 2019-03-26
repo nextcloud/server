@@ -5,7 +5,6 @@
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Aŭ, se vi preferas lasi la dosieron config.php nurlega, metu la opcion „config_is_read_only“ al vera („true“) ene de ĝi.",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Igi la agordodosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Aŭ, se vi preferas lasi la dosieron config.php nurlega, metu la opcion „config_is_read_only“ al vera („true“) ene de ĝi. Vidu %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "La dosieroj de la aplikaĵo %$1s ne estis bone anstataŭigitaj. Certigu, ke tiu aplikaĵa versio kongruas kun la servilo.",
     "Sample configuration detected" : "Ekzempla agordo trovita",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Ekzempla agordo estis kopiita en via sistemo. Tio povas paneigi vian instalaĵon, kaj ne estas subtenata. Bv. legi la dokumentaron antaŭ ol fari ŝanĝojn en config.php",
     "%1$s and %2$s" : "%1$s kaj %2$s",
