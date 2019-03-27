@@ -74,3 +74,15 @@ $color-border-dark: lighten($color-main-background, 14%);
 		filter: invert(100%);
 	}
 }
+
+input[type=checkbox] {
+	&.checkbox {
+		&:checked + label:before {
+			background-image: url('../../../core/img/actions/checkbox-mark-dark.svg');
+		}
+
+		&:indeterminate + label:before {
+			background-image: url('../../../core/img/actions/checkbox-mixed-dark.svg');
+		}
+	}
+}

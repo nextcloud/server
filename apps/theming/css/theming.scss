@@ -84,10 +84,6 @@ $invert: luma($color-primary) > 0.6;
 			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
 	}
-	/* Always give primary button a border for light primary colors */
-	.primary {
-		border-color: $color-border !important;
-	}
 } @else {
 	#appmenu:not(.inverted) svg {
 		filter: none;
@@ -201,6 +197,29 @@ input.primary,
 	#body-login {
 		background-color: $color-primary;
 	}
+}
+
+/** Handle primary buttons for bright colors */
+@if (luma($color-primary) > 0.8) {
+	select,
+	button, .button,
+	input:not([type='range']),
+	textarea,
+	div[contenteditable=true],
+	.pager li a {
+		&.primary:not(:disabled) {
+			background-color: var(--color-background-dark);
+			color: var(--color-main-text);
+			border-color: var(--color-text-lighter);
+
+			&:hover, &:focus, &:active {
+				background-color: var(--color-background-darker);
+				color: var(--color-main-text);
+				border-color: var(--color-text);
+			}
+		}
+	}
+
 }
 
 @if ($color-primary == #ffffff) {
