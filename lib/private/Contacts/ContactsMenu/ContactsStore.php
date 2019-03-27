@@ -27,6 +27,7 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
@@ -36,6 +37,9 @@ use OCP\IUserManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 
 class ContactsStore implements IContactsStore {
+
+	/** @var \OCP\IDBConnection */
+	private $conn;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -63,6 +67,7 @@ class ContactsStore implements IContactsStore {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->conn = \OC::$server->getDatabaseConnection();
 	}
 
 	/**
@@ -92,13 +97,20 @@ class ContactsStore implements IContactsStore {
 
 		// If search input text is empty, get shared users
 		$sharedContacts = [];
-		$sharedUsers = $this->getSharedUsers()->fetchAll();
+		$queryBuilder = new QueryBuilder($this->conn,
+			\OC::$server->getSystemConfig(),
+			\OC::$server->getLogger());
+
+		$sharedContactsQuery = $queryBuilder->selectDistinct("share_with")
+			->from("*PREFIX*share")
+			->execute()
+			->fetchAll();
 
 
 		// Matching who shared with
-		for ($i = 0; $i < count($sharedUsers); $i++) {
+		for ($i = 0; $i < count($sharedContactsQuery); $i++) {
 			for ($j = 0; $j < count($allContacts); $j++) {
-				if ($sharedUsers[$i]['share_with'] == $allContacts[$j]['UID']) {
+				if ($sharedContactsQuery[$i]['share_with'] == $allContacts[$j]['UID']) {
 					$sharedContacts[] = $allContacts[$j];
 					break;
 				}
@@ -114,13 +126,6 @@ class ContactsStore implements IContactsStore {
 			$entries,
 			$filter
 		);
-	}
-
-	private function getSharedUsers() {
-		$conn = \OC::$server->getDatabaseConnection();
-		$sharedUsers = $conn->executeQuery('SELECT DISTINCT * FROM oc_share');
-
-		return $sharedUsers;
 	}
 
 
