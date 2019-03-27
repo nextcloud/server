@@ -182,7 +182,7 @@ class ContactsStore implements IContactsStore {
 
 				$mailAddresses = $entry->getEMailAddresses();
 				foreach($mailAddresses as $mailAddress) {
-					if ($mailAddress === $filter) {
+					if($mailAddress === $filter) {
 						$filterUser = false;
 						break;
 					}
