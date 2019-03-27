@@ -119,16 +119,16 @@ class Application extends App {
 				if ($schema->hasTable('cards')) {
 					$table = $schema->getTable('cards');
 
-					if (!$table->hasIndex('addressbookid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'addressbookid');
+					if (!$table->hasIndex('cards_abid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'cards_abid');
 					}
 				}
 
 				if ($schema->hasTable('cards_properties')) {
 					$table = $schema->getTable('cards_properties');
 
-					if (!$table->hasIndex('addressbookid')) {
-						$subject->addHintForMissingSubject($table->getName(), 'addressbookid');
+					if (!$table->hasIndex('cards_prop_abid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'cards_prop_abid');
 					}
 				}
 			}

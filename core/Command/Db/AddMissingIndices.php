@@ -186,8 +186,8 @@ class AddMissingIndices extends Command {
 		$output->writeln('<info>Check indices of the cards table.</info>');
 		if ($schema->hasTable('cards')) {
 			$table = $schema->getTable('cards');
-			if (!$table->hasIndex('addressbookid')) {
-				$output->writeln('<info>Adding addressbookid index to the cards table, this can take some time...</info>');
+			if (!$table->hasIndex('cards_abid')) {
+				$output->writeln('<info>Adding cards_abid index to the cards table, this can take some time...</info>');
 
 				foreach ($table->getIndexes() as $index) {
 					if ($index->getColumns() === ['addressbookid']) {
@@ -195,7 +195,7 @@ class AddMissingIndices extends Command {
 					}
 				}
 
-				$table->addIndex(['addressbookid'], 'addressbookid');
+				$table->addIndex(['addressbookid'], 'cards_abid');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>cards table updated successfully.</info>');
@@ -205,8 +205,8 @@ class AddMissingIndices extends Command {
 		$output->writeln('<info>Check indices of the cards_properties table.</info>');
 		if ($schema->hasTable('cards_properties')) {
 			$table = $schema->getTable('cards_properties');
-			if (!$table->hasIndex('addressbookid')) {
-				$output->writeln('<info>Adding addressbookid index to the cards_properties table, this can take some time...</info>');
+			if (!$table->hasIndex('cards_prop_abid')) {
+				$output->writeln('<info>Adding cards_prop_abid index to the cards_properties table, this can take some time...</info>');
 
 				foreach ($table->getIndexes() as $index) {
 					if ($index->getColumns() === ['addressbookid']) {
@@ -214,7 +214,7 @@ class AddMissingIndices extends Command {
 					}
 				}
 
-				$table->addIndex(['addressbookid'], 'addressbookid');
+				$table->addIndex(['addressbookid'], 'cards_prop_abid');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>cards_properties table updated successfully.</info>');
