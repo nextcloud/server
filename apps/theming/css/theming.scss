@@ -84,10 +84,6 @@ $invert: luma($color-primary) > 0.6;
 			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
 		}
 	}
-	/* Always give primary button a border for light primary colors */
-	.primary {
-		border-color: $color-border !important;
-	}
 } @else {
 	#appmenu:not(.inverted) svg {
 		filter: none;
@@ -214,11 +210,12 @@ input.primary,
 		&.primary:not(:disabled) {
 			background-color: var(--color-background-dark);
 			color: var(--color-main-text);
-			border: 1px solid var(--color-background-darker);
+			border-color: var(--color-text-lighter);
 
 			&:hover, &:focus, &:active {
 				background-color: var(--color-background-darker);
 				color: var(--color-main-text);
+				border-color: var(--color-text);
 			}
 		}
 	}
