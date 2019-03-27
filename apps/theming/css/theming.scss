@@ -203,6 +203,28 @@ input.primary,
 	}
 }
 
+/** Handle primary buttons for bright colors */
+@if (luma($color-primary) > 0.8) {
+	select,
+	button, .button,
+	input:not([type='range']),
+	textarea,
+	div[contenteditable=true],
+	.pager li a {
+		&.primary:not(:disabled) {
+			background-color: var(--color-background-dark);
+			color: var(--color-main-text);
+			border: 1px solid var(--color-background-darker);
+
+			&:hover, &:focus, &:active {
+				background-color: var(--color-background-darker);
+				color: var(--color-main-text);
+			}
+		}
+	}
+
+}
+
 @if ($color-primary == #ffffff) {
 	/* show grey border below header */
 	#body-user #header,
