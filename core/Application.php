@@ -93,6 +93,44 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'twofactor_providers_uid');
 					}
 				}
+
+				if ($schema->hasTable('login_flow_v2')) {
+					$table = $schema->getTable('login_flow_v2');
+
+					if (!$table->hasIndex('poll_token')) {
+						$subject->addHintForMissingSubject($table->getName(), 'poll_token');
+					}
+					if (!$table->hasIndex('login_token')) {
+						$subject->addHintForMissingSubject($table->getName(), 'login_token');
+					}
+					if (!$table->hasIndex('timestamp')) {
+						$subject->addHintForMissingSubject($table->getName(), 'timestamp');
+					}
+				}
+
+				if ($schema->hasTable('whats_new')) {
+					$table = $schema->getTable('whats_new');
+
+					if (!$table->hasIndex('version')) {
+						$subject->addHintForMissingSubject($table->getName(), 'version');
+					}
+				}
+
+				if ($schema->hasTable('cards')) {
+					$table = $schema->getTable('cards');
+
+					if (!$table->hasIndex('addressbookid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'addressbookid');
+					}
+				}
+
+				if ($schema->hasTable('cards_properties')) {
+					$table = $schema->getTable('cards_properties');
+
+					if (!$table->hasIndex('addressbookid')) {
+						$subject->addHintForMissingSubject($table->getName(), 'addressbookid');
+					}
+				}
 			}
 		);
 	}
