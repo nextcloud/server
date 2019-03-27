@@ -68,7 +68,8 @@ $invert: luma($color-primary) > 0.6;
 		a,
 		label,
 		p,
-		#alternative-logins legend {
+		#alternative-logins legend,
+		.lost-password-container #lost-password {
 			color: $color-primary-text;
 		}
 		input[type='checkbox'].checkbox--white + label:before {
@@ -175,8 +176,26 @@ input.primary,
 }
 
 @if ($invert) {
-	#body-login #submit-wrapper .icon-confirm-white {
-		background-image: url('../../../core/img/actions/confirm.svg');
+	#body-login {
+		.body-login-container {
+			background-color: $color-main-background;
+		}
+		#submit-wrapper .icon-confirm-white {
+			background-image: url('../../../core/img/actions/confirm.svg');
+		}
+		.body-login-container {
+			h2 {
+				color: $color-main-text;
+			}
+			.icon-search.icon-white {
+				// CSS variable is not used here since it is on the public page layout,
+				// where the dark theme doesn't apply at the moment
+				background-image: url('../../../core/img/actions/search.svg');
+			}
+		}
+	}
+	#body-public #header .icon-more-white {
+		background-image: var(--icon-more-000);
 	}
 }
 
