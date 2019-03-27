@@ -303,4 +303,3 @@ class ContactsStore implements IContactsStore {
 		return $entry;
 	}
 }
-
