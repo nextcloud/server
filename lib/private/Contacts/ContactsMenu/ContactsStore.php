@@ -128,7 +128,6 @@ class ContactsStore implements IContactsStore {
 		);
 	}
 
-
 	/**
 	 * Filters the contacts. Applies 3 filters:
 	 *  1. filter the current user
