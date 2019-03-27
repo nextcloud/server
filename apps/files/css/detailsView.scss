@@ -72,12 +72,13 @@
 }
 
 #app-sidebar .thumbnail {
-	width: 75px;
-	height: 75px;
+	width: 100%;
+	min-height: 75px;
 	display: inline-block;
 	float: left;
 	margin-right: 10px;
-	background-size: 75px;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 #app-sidebar .ellipsis {

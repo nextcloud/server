@@ -60,7 +60,6 @@
 			var isImage = model.isImage();
 			var maxImageWidth = $thumbnailContainer.parent().width() + 50;  // 50px for negative margins
 			var maxImageHeight = maxImageWidth / (16 / 9);
-			var smallPreviewSize = 75;
 
 			var isLandscape = function (img) {
 				return img.width > (img.height * 1.2);
@@ -71,15 +70,11 @@
 			};
 
 			var getTargetHeight = function (img) {
-				if (isImage) {
-					var targetHeight = img.height / window.devicePixelRatio;
-					if (targetHeight <= smallPreviewSize) {
-						targetHeight = smallPreviewSize;
-					}
-					return targetHeight;
-				} else {
-					return smallPreviewSize;
+				var targetHeight = img.height / window.devicePixelRatio;
+				if (targetHeight <= maxImageHeight) {
+					targetHeight = maxImageHeight;
 				}
+				return targetHeight;
 			};
 
 			var getTargetRatio = function (img) {
@@ -96,10 +91,10 @@
 				path: model.getFullPath(),
 				mime: model.get('mimetype'),
 				etag: model.get('etag'),
-				y: isImage ? maxImageHeight : smallPreviewSize,
-				x: isImage ? maxImageWidth : smallPreviewSize,
-				a: isImage ? 1 : null,
-				mode: isImage ? 'cover' : null,
+				y: maxImageHeight,
+				x: maxImageWidth,
+				a: 1,
+				mode: 'cover',
 				callback: function (previewUrl, img) {
 					$thumbnailDiv.previewImg = previewUrl;
 
@@ -109,16 +104,14 @@
 					}
 					$thumbnailDiv.removeClass('icon-loading icon-32');
 					var targetHeight = getTargetHeight(img);
-					if (isImage && targetHeight > smallPreviewSize) {
-						$thumbnailContainer.addClass((isLandscape(img) && !isSmall(img)) ? 'landscape' : 'portrait');
-						$thumbnailContainer.addClass('large');
-					}
+					$thumbnailContainer.addClass((isLandscape(img) && !isSmall(img)) ? 'landscape' : 'portrait');
+					$thumbnailContainer.addClass('large');
 
 					// only set background when we have an actual preview
 					// when we don't have a preview we show the mime icon in the error handler
 					$thumbnailDiv.css({
 						'background-image': 'url("' + previewUrl + '")',
-						height: (targetHeight > smallPreviewSize) ? 'auto' : targetHeight,
+						height: (targetHeight > maxImageHeight) ? 'auto' : targetHeight,
 						'max-height': isSmall(img) ? targetHeight : null
 					});
 
