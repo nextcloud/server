@@ -359,6 +359,7 @@ OC.L10N.register(
     "Locale" : "Gebietsschema",
     "Current password" : "Aktuelles Passwort",
     "Change password" : "Passwort ändern",
-    "Use a second factor besides your password to increase security for your account." : "Verwenden Sie neben Ihrem Passwort einen zweiten Faktor, um die Sicherheit für Ihr Konto zu erhöhen."
+    "Use a second factor besides your password to increase security for your account." : "Verwenden Sie neben Ihrem Passwort einen zweiten Faktor, um die Sicherheit für Ihr Konto zu erhöhen.",
+    "Not supported!" : "Nicht unterstützt!"
 },
 "nplurals=2; plural=(n != 1);");

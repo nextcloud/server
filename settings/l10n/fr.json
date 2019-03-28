@@ -359,6 +359,15 @@
     "Locale" : "Paramètres régionaux",
     "Current password" : "Mot de passe actuel",
     "Change password" : "Changer de mot de passe",
-    "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte."
+    "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
+    "Disconnect" : "Se déconnecter",
+    "iPhone iOS" : "iOS iPhone",
+    "iPad iOS" : "iOS iPad",
+    "iOS Client" : "Client iOS",
+    "Android Client" : "Client Android",
+    "Not supported!" : "Non supporté !",
+    "Press Ctrl-C to copy." : "Appuyez sur Ctrl + C pour copier.",
+    "Default quota :" : "Quota par défaut :",
+    "Follow us on Google+" : "Nous suivre sur Google+"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

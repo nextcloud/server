@@ -48,6 +48,11 @@
     "Select a profile picture" : "Избор на снимка за профила",
     "Week starts on {fdow}" : "Първи ден от седмицата е {fdow}",
     "Groups" : "Групи",
+    "Afrikaans" : "африкаанс (бурски)",
+    "Armenian" : "арменски",
+    "English" : "английски",
+    "Hungarian" : "унгарски",
+    "Japanese" : "японски",
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Ползването на двустепенното удостоверяване може да бъде наложено на всички\tпотребители или определени групи. Ако потребител не е настроил втората стъпка - няма да може да се впише.",
     "Limit to groups" : "Ограничен достъп",
     "Device settings" : "Настройки за устройството",
@@ -215,6 +220,15 @@
     "Help translate" : "Помогнете с превода",
     "Current password" : "Текуща парола",
     "Change password" : "Промени паролата",
-    "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си."
+    "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
+    "iOS Client" : "iOS клиент",
+    "Android Client" : "Android клиент",
+    "Not supported!" : "Не се поддържа!",
+    "Press ⌘-C to copy." : "За копиране натиснете ⌘-C.",
+    "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C.",
+    "Follow us on Google+" : "Следвайте ни в Google+",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Ползвате <strong>%s</strong> от <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
