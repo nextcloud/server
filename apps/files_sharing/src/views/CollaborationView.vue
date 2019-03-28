@@ -27,13 +27,6 @@
 <script>
 	import { CollectionList } from 'nextcloud-vue-collections'
 
-	/**
-	 * Those translations will be used by the vue component but they should be shipped with the server
-	 * t('files_sharing', 'Add to a collection')
-	 * t('files_sharing', 'Details')
-	 * t('files_sharing', 'Rename collection')
-	 */
-
 	export default {
 		name: 'CollaborationView',
 		computed: {
