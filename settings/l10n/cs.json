@@ -357,6 +357,20 @@
     "Locale" : "Místní a jazyková nastavení",
     "Current password" : "stávající heslo",
     "Change password" : "Změnit heslo",
-    "Use a second factor besides your password to increase security for your account." : "Pro zlepšení zabezpečení vašeho účtu použijte vedle hesla také druhý faktor."
+    "Use a second factor besides your password to increase security for your account." : "Pro zlepšení zabezpečení vašeho účtu použijte vedle hesla také druhý faktor.",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL používá zastaralou %s verzi (%s). Aktualizujte  svůj operační systém, jinak funkce jako %s nemusí spolehlivě pracovat.",
+    "Disconnect" : "Odpojit",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
+    "iOS Client" : "iOS klient",
+    "Android Client" : "Android klient",
+    "Not supported!" : "Nepodporováno!",
+    "Press ⌘-C to copy." : "Zkopírujete stisknutím ⌘-C.",
+    "Press Ctrl-C to copy." : "Zkopírujete stisknutím Ctrl-C.",
+    "Error while loading browser sessions and device tokens" : "Chyba při načítání sezení prohlížeče a tokenů přístroje",
+    "Default quota :" : "Výchozí kvóta",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Důkladně si přečtěte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">průvodce instalací ↗</a>a zkontrolujte, že v <a href=\"%s\">záznamu událostí</a> nejsou žádné chyby ani varování.",
+    "Follow us on Google+" : "Následujte nás na Google+",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Používáte <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

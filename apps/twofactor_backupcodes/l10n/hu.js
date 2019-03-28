@@ -2,7 +2,6 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "An error occurred while generating your backup codes" : "Hiba történt a biztonsági kódok generálása közben",
-    "Nextcloud backup codes" : "Nextcloud biztonsági kódok",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ezek a biztonsági kódjaid. Kérlek mentsd el vagy nyomtasd ki őket úgy hogy később is meglegyenek.",
     "Save backup codes" : "Biztonsági kódok mentése",
     "Print backup codes" : "Biztonsági kódok nyomtatása",
@@ -17,6 +16,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Kétfaktoros azonosítás biztonsági kódok szolgáltatója",
     "Submit" : "Küldés",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "A biztonsági kódok elkészültek. Felhasználva: {{used}}, ennyiből: {{total}}.",
+    "Nextcloud backup codes" : "Nextcloud biztonsági kódok",
     "activated" : "Aktivált",
     "updated" : "frissítve"
 },
