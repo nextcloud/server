@@ -2,7 +2,6 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "An error occurred while generating your backup codes" : "產生備用碼時發生錯誤。",
-    "Nextcloud backup codes" : "Nextcloud 備用碼",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下是您的備用碼，由於備用碼不會再次顯示，請儲存 並/或 列印。",
     "Save backup codes" : "儲存備用碼",
     "Print backup codes" : "列印備用碼",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "設定啟用兩階段驗證時，可輸入其中一個您已儲存的備用碼。",
     "Submit" : "送出",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "備用碼已經建立。{{total}}組中有{{used}}組備用碼已被使用過",
+    "Nextcloud backup codes" : "Nextcloud 備用碼",
     "activated" : "已啟用",
     "updated" : "已更新",
     "mounted" : "已掛載",

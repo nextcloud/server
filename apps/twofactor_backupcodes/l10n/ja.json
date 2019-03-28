@@ -1,6 +1,5 @@
 { "translations": {
     "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
-    "Nextcloud backup codes" : "Nextcloud バックアップコード",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下はあなたのバックアップコードです。 後からこのコードを見ることはできないので、保存するか印刷しておいてください",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",
@@ -19,6 +18,7 @@
     "Use one of the backup codes you saved when setting up two-factor authentication." : "二要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
     "Submit" : "了解",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "バックアップコードが生成されました。 {{total}} 個のうち {{used}} 個のコードが使用されています。",
+    "Nextcloud backup codes" : "Nextcloud バックアップコード",
     "activated" : "活性化されました",
     "updated" : "アップデートされました",
     "mounted" : "マウントされました",

@@ -24,7 +24,7 @@ OC.L10N.register(
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Has rebut {share} com un recompte remot de {user} (en nom de {nom})",
     "You received \"%3$s\" as a remote share from %1$s" : "Has rebut \"/%3$s\" com una compartició remota de %1$s",
     "You received {share} as a remote share from {user}" : "Has rebut {share} com a recompte remot de {user}",
-    "Accept" : "Acceptar",
+    "Accept" : "Accepta",
     "Decline" : "Denegar",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartiu amb mi a través de la meva #Nextcloud Federated Cloud Id, vegeu%s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartiu amb mi a través de la meva #Nextcloud Federated Cloud ID",
