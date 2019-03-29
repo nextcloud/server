@@ -138,11 +138,15 @@ class Manager implements IManager {
 					$query->expr()->eq('a.user_id', $query->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			)
-			->where($query->expr()->iLike('c.name', $query->createNamedParameter($filter, IQueryBuilder::PARAM_STR)))
-			->andWhere($query->expr()->eq('a.access', $query->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->eq('a.access', $query->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
 			->orderBy('c.id')
 			->setMaxResults($limit)
 			->setFirstResult($start);
+
+		if ($filter !== '') {
+			$query->where($query->expr()->iLike('c.name', $query->createNamedParameter('%' . $this->connection->escapeLikeParameter($filter) . '%')));
+		}
+
 		$result = $query->execute();
 		$collections = [];
 
@@ -158,7 +162,7 @@ class Manager implements IManager {
 		$result->closeCursor();
 
 		if (empty($collections) && $foundResults === $limit) {
-			$this->searchCollections($user, $filter, $limit, $start + $limit);
+			return $this->searchCollections($user, $filter, $limit, $start + $limit);
 		}
 
 		return $collections;

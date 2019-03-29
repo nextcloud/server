@@ -32,6 +32,17 @@
  **/
 let types = {};
 
+/**
+ * Those translations will be used by the vue component but they should be shipped with the server
+ * t('core', 'Add to a collection')
+ * t('core', 'Show details')
+ * t('core', 'Hide details')
+ * t('core', 'Rename collection')
+ * t('core', 'Failed to rename collection')
+ * t('core', 'Failed to create collection')
+ * t('core', 'Failed to add resource to collection')
+ */
+
 export default {
 	/**
 	 *
@@ -51,7 +62,7 @@ export default {
 		return types[type].typeIconClass || '';
 	},
 	getLabel(type) {
-		return t('files_sharing', 'Link to a {label}', { label: types[type].typeString || type }, 1)
+		return t('core', 'Link to a {label}', { label: types[type].typeString || type }, 1)
 	},
 	getLink(type, id) {
 		/* TODO: Allow action to be executed instead of href as well */
