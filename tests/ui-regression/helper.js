@@ -140,11 +140,11 @@ module.exports = {
 		const waitForJSbase = this.pageBase.waitForFunction('typeof window.$ !== undefined');
 		const waitForJScompare = this.pageCompare.waitForFunction('typeof window.$ !== undefined');
 		await Promise.all([waitForJSbase, waitForJScompare]);
-		await this.pageBase.evaluate(function() {
+		await this.pageBase.evaluate(async function() {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});
-		await this.pageCompare.evaluate(function() {
+		await this.pageCompare.evaluate(async function() {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});
@@ -158,11 +158,11 @@ module.exports = {
 			failed = err;
 		}
 		await this.awaitNetworkIdle(3);
-		await this.pageBase.evaluate(function() {
+		await this.pageBase.evaluate(async function() {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});
-		await this.pageCompare.evaluate(function() {
+		await this.pageCompare.evaluate(async function() {
 			$('.live-relative-timestamp').removeClass('live-relative-timestamp').text('5 minutes ago');
 			$(':focus').blur();
 		});

@@ -775,7 +775,7 @@ services:
       matrix:
        ENABLE_REDIS: true
   ui-regression-php:
-    image: nextcloudci/server:server-1
+    image: nextcloudci/server:server-3
     commands:
       - . /etc/apache2/envvars
       - rm -fr /var/www/html
@@ -786,7 +786,7 @@ services:
       matrix:
         TESTS: ui-regression
   ui-regression-php-master:
-    image: nextcloudci/server:server-1
+    image: nextcloudci/server:server-3
     commands:
       - . /etc/apache2/envvars
       - rm -fr /var/www/html/config/config.php /var/www/html/data/*
