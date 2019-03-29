@@ -100,6 +100,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dalintis",
     "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą",
+    "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",
     "OpenStack Object Storage" : "Objektų saugykla \"OpenStack\"",
     "Service name" : "Paslaugos vardas",
     "Request timeout (seconds)" : "Prisijungimo laikas (sekundėmis)",
