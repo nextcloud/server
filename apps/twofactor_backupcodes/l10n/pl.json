@@ -1,6 +1,7 @@
 { "translations": {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
+    "{name} backup codes" : "Kody kopii zapasowej {name}",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "To są kody zapasowe. Proszę je zapisać i/lub wydrukować, ponieważ później nie będzie można ich ponownie odczytać",
     "Save backup codes" : "Zapisz kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",

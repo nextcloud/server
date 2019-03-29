@@ -14,7 +14,7 @@ OC.L10N.register(
     "Home" : "Pagrindinis",
     "Close" : "Užverti",
     "Could not create folder \"{dir}\"" : "Nepavyko sukurti aplanko \"{dir}\"",
-    "Upload cancelled." : "Įkėlimo atsisakyta.",
+    "Upload cancelled." : "Įkėlimas atšauktas.",
     "Processing files …" : "Apdorojami failai …",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nepavyksta įkelti {filename}, nes tai yra katalogas arba šio failo dydis yra 0 baitų",
