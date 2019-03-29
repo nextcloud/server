@@ -51,15 +51,15 @@ describe('public', function () {
 		return helper.takeAndCompare(this, 'index.php/apps/files', async function (page) {
 			const element = await page.$('[data-file="welcome.txt"] .action-share');
 			await element.click('[data-file="welcome.txt"] .action-share');
-			await page.waitForSelector('input.linkCheckbox');
-			const linkCheckbox = await page.$('.linkShareView label');
+			await page.waitForSelector('[data-share-id=new-share] a.new-share.icon-add');
+			const createNewLinkButton = await page.$('[data-share-id=new-share] a.new-share.icon-add');
 			await Promise.all([
-				linkCheckbox.click(),
-				page.waitForSelector('.linkText')
+				createNewLinkButton.click(),
+				page.waitForSelector('.shareWithList .clipboard-button')
 			]);
 			await helper.delay(500);
-			const text = await page.waitForSelector('.linkText');
-			const link = await (await text.getProperty('value')).jsonValue();
+			const text = await page.waitForSelector('.shareWithList .clipboard-button')
+			const link = await (await text.getProperty('data-clipboard-text')).jsonValue();
 			shareLink[page.url()] = link;
 			return await helper.delay(500);
 		}, {
