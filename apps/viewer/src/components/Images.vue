@@ -29,8 +29,8 @@
 		}"
 		:src="data"
 		:style="{
-			height: zoomHeight + 'px',
-			width: zoomWidth + 'px',
+			height: minHeight,
+			width: minWidth,
 			marginTop: shiftY + 'px',
 			marginLeft: shiftX + 'px'
 		}"
@@ -68,6 +68,19 @@ export default {
 		},
 		zoomWidth() {
 			return Math.round(this.width * this.zoomRatio)
+		},
+
+		// prevent images smaller than 100px
+		minHeight() {
+			return this.zoomWidth < 100
+				? null
+				: this.zoomHeight + 'px'
+		},
+		// prevent images smaller than 100px
+		minWidth() {
+			return this.zoomHeight < 100
+				? null
+				: this.zoomWidth + 'px'
 		}
 	},
 	asyncComputed: {
@@ -103,11 +116,10 @@ export default {
 		updateImgSize() {
 			const naturalHeight = this.$el.naturalHeight
 			const naturalWidth = this.$el.naturalWidth
-			// displaying tiny images makes no sense,
-			// let's try to an least dispay them at 100x100
+
 			this.updateHeightWidth(
-				Math.max(naturalHeight, 100),
-				Math.max(naturalWidth, 100)
+				naturalHeight,
+				naturalWidth
 			)
 
 			this.doneLoading()
