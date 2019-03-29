@@ -5,7 +5,7 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
     "Remote share" : "Kitame serveryje pasidalinti duomenys",
     "Remote share password" : "Kitame serveryje pasidalintų duomenų slaptažodis",
-    "Cancel" : "Atsisakyti",
+    "Cancel" : "Atšaukti",
     "Add remote share" : "Pridėti nuotolinį viešinį",
     "Copy" : "Kopijuoti",
     "Copied!" : "Nukopijuota!",

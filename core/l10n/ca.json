@@ -179,7 +179,7 @@
     "Name" : "Nom",
     "Size" : "Mida",
     "{newName} already exists" : "{newName} ja existeix",
-    "Choose" : "Escull",
+    "Choose" : "Tria",
     "Move" : "Mou",
     "Error loading file picker template: {error}" : "Error en carregar la plantilla de càrrega de fitxers: {error}",
     "OK" : "D'acord",
@@ -337,7 +337,7 @@
     "Connect to your account" : "Connectar al teu compte",
     "Please log in before granting %1$s access to your %2$s account." : "Si us plau connectar abans de concedir %1$s accés al compte %2$s.",
     "App token" : "Testimoni d'aplicació",
-    "Grant access" : "Concedeix accés",
+    "Grant access" : "Concedeix l'accés",
     "Alternative log in using app token" : "Entrada alternativa fent servir testimoni d’app",
     "Account access" : "Compte d'accés",
     "You are about to grant %1$s access to your %2$s account." : "Esteu a punt de concedir %1$s accés al compte %2$s.",
@@ -400,7 +400,7 @@
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguretat millorada està habilitada per al vostre compte. Si us plau autentica’t amb un segon factor.",
     "Further information how to configure this can be found in the %sdocumentation%s." : "Més informació de com configurar això es pot trobar a la %sdocumentation%s.",
     "%s will be updated to version %s" : "%s s'actualitzarà a la versió %s",
-    "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
+    "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s torni a estar disponible.",
     "Thank you for your patience." : "Gràcies per la paciència."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
