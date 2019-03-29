@@ -44,7 +44,6 @@
 import mime from 'Mixins/Mime'
 import axios from 'axios'
 import Vue from 'vue'
-import debounce from 'debounce'
 import AsyncComputed from 'vue-async-computed'
 
 Vue.use(AsyncComputed)
@@ -104,24 +103,16 @@ export default {
 		}
 	},
 	mounted() {
-		// update image size on window resize
-		window.addEventListener('resize', debounce(() => {
-			this.updateImgSize()
-		}, 100))
 		// end the dragging if your mouse go out of the content
 		window.addEventListener('mouseout', this.dragEnd)
 	},
 	methods: {
 		// Updates the dimensions of the modal
 		updateImgSize() {
-			const naturalHeight = this.$el.naturalHeight
-			const naturalWidth = this.$el.naturalWidth
+			this.naturalHeight = this.$el.naturalHeight
+			this.naturalWidth = this.$el.naturalWidth
 
-			this.updateHeightWidth(
-				naturalHeight,
-				naturalWidth
-			)
-
+			this.updateHeightWidth()
 			this.doneLoading()
 		},
 

@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import debounce from 'debounce'
 import mime from 'Mixins/Mime'
 
 export default {
@@ -68,17 +67,12 @@ export default {
 			}
 		}
 	},
-	mounted() {
-		window.addEventListener('resize', debounce(() => {
-			this.updateVideoSize()
-		}, 100))
-	},
 	methods: {
 		// Updates the dimensions of the modal
 		updateVideoSize() {
-			const videoHeight = this.$el.videoHeight
-			const videoWidth = this.$el.videoWidth
-			this.updateHeightWidth(videoHeight, videoWidth)
+			this.naturalHeight = this.$el.videoHeight
+			this.naturalWidth = this.$el.videoWidth
+			this.updateHeightWidth()
 		},
 
 		// Show/hide video controls
