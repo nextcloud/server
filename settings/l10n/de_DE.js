@@ -103,6 +103,8 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Group list is empty" : "Gruppenliste ist leer",
     "Unable to retrieve the group list" : "Gruppenliste konnte nicht abgerufen werden",
+    "Danish (Denmark)" : "Dänisch (Dänemark)",
+    "Danish" : "Dänisch",
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Zwei-Faktor-Authentifizierung kann für alle\tBenutzer und Gruppen erzwungen werden. Wenn kein Anbieter für Zwei-Faktor-Authentifizierung für Sie eingerichtet ist, so können Sie sich nicht am System anmelden.",
     "Enforce two-factor authentication" : "Zwei-Faktor-Authentifizierung erzwingen",
     "Limit to groups" : "Auf Gruppen beschränken",
