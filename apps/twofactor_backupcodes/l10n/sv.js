@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ett fel uppstod vid skapandet av nya återställningsnycklar",
+    "{name} backup codes" : "{name} återställningsnycklar",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Detta är dina återställningsnycklar. Vänligen spara och/eller skriv ut dem eftersom du inte kommer kunna se dessa nycklar igen.",
     "Save backup codes" : "Spara återställningsnycklar",
     "Print backup codes" : "Skriv ut återställningsnycklar",
@@ -24,6 +25,7 @@ OC.L10N.register(
     "updated" : "uppdaterad",
     "mounted" : "monterad",
     "deactivated" : "inaktiverad",
-    "created" : "skapad"
+    "created" : "skapad",
+    "destroyed" : "förstörd"
 },
 "nplurals=2; plural=(n != 1);");
