@@ -334,8 +334,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				// sub folders
 				if (is_array($result['CommonPrefixes'])) {
 					foreach ($result['CommonPrefixes'] as $prefix) {
-						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
-						$this->directoryCache[trim($prefix['Prefix'], '/')] = true;
+						$directoryName = trim($prefix['Prefix'], '/');
+						$files[] = substr($directoryName, strlen($path));
+						$this->directoryCache[$directoryName] = true;
 					}
 				}
 				if (is_array($result['Contents'])) {
