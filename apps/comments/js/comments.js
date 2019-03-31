@@ -1,2 +1,3439 @@
-!function(t){var e={};function n(o){if(e[o])return e[o].exports;var i=e[o]={i:o,l:!1,exports:{}};return t[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=t,n.c=e,n.d=function(t,e,o){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:o})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)n.d(o,i,function(e){return t[e]}.bind(null,i));return o},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="/js/",n(n.s=3)}([function(t,e){t.exports=jQuery},function(t,e,n){"use strict";t.exports=function(t){var e=[];return e.toString=function(){return this.map(function(e){var n=function(t,e){var n=t[1]||"",o=t[3];if(!o)return n;if(e&&"function"==typeof btoa){var i=(r=o,"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(r))))+" */"),a=o.sources.map(function(t){return"/*# sourceURL="+o.sourceRoot+t+" */"});return[n].concat(a).concat([i]).join("\n")}var r;return[n].join("\n")}(e,t);return e[2]?"@media "+e[2]+"{"+n+"}":n}).join("")},e.i=function(t,n){"string"==typeof t&&(t=[[null,t,""]]);for(var o={},i=0;i<this.length;i++){var a=this[i][0];null!=a&&(o[a]=!0)}for(i=0;i<t.length;i++){var r=t[i];null!=r[0]&&o[r[0]]||(n&&!r[2]?r[2]=n:n&&(r[2]="("+r[2]+") and ("+n+")"),e.push(r))}},e}},function(t,e,n){var o,i,a={},r=(o=function(){return window&&document&&document.all&&!window.atob},function(){return void 0===i&&(i=o.apply(this,arguments)),i}),s=function(t){var e={};return function(t,n){if("function"==typeof t)return t();if(void 0===e[t]){var o=function(t,e){return e?e.querySelector(t):document.querySelector(t)}.call(this,t,n);if(window.HTMLIFrameElement&&o instanceof window.HTMLIFrameElement)try{o=o.contentDocument.head}catch(t){o=null}e[t]=o}return e[t]}}(),l=null,c=0,u=[],m=n(18);function h(t,e){for(var n=0;n<t.length;n++){var o=t[n],i=a[o.id];if(i){i.refs++;for(var r=0;r<i.parts.length;r++)i.parts[r](o.parts[r]);for(;r<o.parts.length;r++)i.parts.push(y(o.parts[r],e))}else{var s=[];for(r=0;r<o.parts.length;r++)s.push(y(o.parts[r],e));a[o.id]={id:o.id,refs:1,parts:s}}}}function d(t,e){for(var n=[],o={},i=0;i<t.length;i++){var a=t[i],r=e.base?a[0]+e.base:a[0],s={css:a[1],media:a[2],sourceMap:a[3]};o[r]?o[r].parts.push(s):n.push(o[r]={id:r,parts:[s]})}return n}function p(t,e){var n=s(t.insertInto);if(!n)throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");var o=u[u.length-1];if("top"===t.insertAt)o?o.nextSibling?n.insertBefore(e,o.nextSibling):n.appendChild(e):n.insertBefore(e,n.firstChild),u.push(e);else if("bottom"===t.insertAt)n.appendChild(e);else{if("object"!=typeof t.insertAt||!t.insertAt.before)throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");var i=s(t.insertAt.before,n);n.insertBefore(e,i)}}function f(t){if(null===t.parentNode)return!1;t.parentNode.removeChild(t);var e=u.indexOf(t);e>=0&&u.splice(e,1)}function g(t){var e=document.createElement("style");if(void 0===t.attrs.type&&(t.attrs.type="text/css"),void 0===t.attrs.nonce){var o=function(){0;return n.nc}();o&&(t.attrs.nonce=o)}return v(e,t.attrs),p(t,e),e}function v(t,e){Object.keys(e).forEach(function(n){t.setAttribute(n,e[n])})}function y(t,e){var n,o,i,a;if(e.transform&&t.css){if(!(a="function"==typeof e.transform?e.transform(t.css):e.transform.default(t.css)))return function(){};t.css=a}if(e.singleton){var r=c++;n=l||(l=g(e)),o=b.bind(null,n,r,!1),i=b.bind(null,n,r,!0)}else t.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(n=function(t){var e=document.createElement("link");return void 0===t.attrs.type&&(t.attrs.type="text/css"),t.attrs.rel="stylesheet",v(e,t.attrs),p(t,e),e}(e),o=function(t,e,n){var o=n.css,i=n.sourceMap,a=void 0===e.convertToAbsoluteUrls&&i;(e.convertToAbsoluteUrls||a)&&(o=m(o));i&&(o+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(i))))+" */");var r=new Blob([o],{type:"text/css"}),s=t.href;t.href=URL.createObjectURL(r),s&&URL.revokeObjectURL(s)}.bind(null,n,e),i=function(){f(n),n.href&&URL.revokeObjectURL(n.href)}):(n=g(e),o=function(t,e){var n=e.css,o=e.media;o&&t.setAttribute("media",o);if(t.styleSheet)t.styleSheet.cssText=n;else{for(;t.firstChild;)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(n))}}.bind(null,n),i=function(){f(n)});return o(t),function(e){if(e){if(e.css===t.css&&e.media===t.media&&e.sourceMap===t.sourceMap)return;o(t=e)}else i()}}t.exports=function(t,e){if("undefined"!=typeof DEBUG&&DEBUG&&"object"!=typeof document)throw new Error("The style-loader cannot be used in a non-browser environment");(e=e||{}).attrs="object"==typeof e.attrs?e.attrs:{},e.singleton||"boolean"==typeof e.singleton||(e.singleton=r()),e.insertInto||(e.insertInto="head"),e.insertAt||(e.insertAt="bottom");var n=d(t,e);return h(n,e),function(t){for(var o=[],i=0;i<n.length;i++){var r=n[i];(s=a[r.id]).refs--,o.push(s)}t&&h(d(t,e),e);for(i=0;i<o.length;i++){var s;if(0===(s=o[i]).refs){for(var l=0;l<s.parts.length;l++)s.parts[l]();delete a[s.id]}}}};var w,C=(w=[],function(t,e){return w[t]=e,w.filter(Boolean).join("\n")});function b(t,e,n,o){var i=n?"":o.css;if(t.styleSheet)t.styleSheet.cssText=C(e,i);else{var a=document.createTextNode(i),r=t.childNodes;r[e]&&t.removeChild(r[e]),r.length?t.insertBefore(a,r[e]):t.appendChild(a)}}},function(t,e,n){"use strict";n.r(e);n(4),n(5),n(6),n(7),n(8),n(9),n(10),n(11),n(12),n(13),n(14),n(15),n(16),n(19);window.OCA.Comments=OCA.Comments},function(t,e){OCA.Comments||(OCA.Comments={})},function(t,e){function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}var o,i;o=Handlebars.template,(i=OCA.Comments.Templates=OCA.Comments.Templates||{}).comment=o({1:function(t,e,n,o,i){return" unread"},3:function(t,e,n,o,i){return" collapsed"},5:function(t,e,n,o,i){return" currentUser"},7:function(t,e,n,o,i){var a;return'data-username="'+t.escapeExpression("function"==typeof(a=null!=(a=n.actorId||(null!=e?e.actorId:e))?a:n.helperMissing)?a.call(null!=e?e:t.nullContext||{},{name:"actorId",hash:{},data:i}):a)+'"'},9:function(t,e,n,o,i){return'\t\t\t<a href="#" class="action more icon icon-more has-tooltip"></a>\n\t\t\t<div class="deleteLoading icon-loading-small hidden"></div>\n'},11:function(t,e,n,o,i){return'\t\t<div class="message-overlay"></div>\n'},compiler:[7,">= 4.0.0"],main:function(t,e,o,i,a){var r,s,l=null!=e?e:t.nullContext||{},c=o.helperMissing,u="function",m=t.escapeExpression;return'<li class="comment'+(null!=(r=o.if.call(l,null!=e?e.isUnread:e,{name:"if",hash:{},fn:t.program(1,a,0),inverse:t.noop,data:a}))?r:"")+(null!=(r=o.if.call(l,null!=e?e.isLong:e,{name:"if",hash:{},fn:t.program(3,a,0),inverse:t.noop,data:a}))?r:"")+'" data-id="'+m(n(s=null!=(s=o.id||(null!=e?e.id:e))?s:c)===u?s.call(l,{name:"id",hash:{},data:a}):s)+'">\n\t<div class="authorRow">\n\t\t<div class="avatar'+(null!=(r=o.if.call(l,null!=e?e.isUserAuthor:e,{name:"if",hash:{},fn:t.program(5,a,0),inverse:t.noop,data:a}))?r:"")+'" '+(null!=(r=o.if.call(l,null!=e?e.actorId:e,{name:"if",hash:{},fn:t.program(7,a,0),inverse:t.noop,data:a}))?r:"")+'> </div>\n\t\t<div class="author'+(null!=(r=o.if.call(l,null!=e?e.isUserAuthor:e,{name:"if",hash:{},fn:t.program(5,a,0),inverse:t.noop,data:a}))?r:"")+'">'+m(n(s=null!=(s=o.actorDisplayName||(null!=e?e.actorDisplayName:e))?s:c)===u?s.call(l,{name:"actorDisplayName",hash:{},data:a}):s)+"</div>\n"+(null!=(r=o.if.call(l,null!=e?e.isUserAuthor:e,{name:"if",hash:{},fn:t.program(9,a,0),inverse:t.noop,data:a}))?r:"")+'\t\t<div class="date has-tooltip live-relative-timestamp" data-timestamp="'+m(n(s=null!=(s=o.timestamp||(null!=e?e.timestamp:e))?s:c)===u?s.call(l,{name:"timestamp",hash:{},data:a}):s)+'" title="'+m(n(s=null!=(s=o.altDate||(null!=e?e.altDate:e))?s:c)===u?s.call(l,{name:"altDate",hash:{},data:a}):s)+'">'+m(n(s=null!=(s=o.date||(null!=e?e.date:e))?s:c)===u?s.call(l,{name:"date",hash:{},data:a}):s)+'</div>\n\t</div>\n\t<div class="message">'+(null!=(r=n(s=null!=(s=o.formattedMessage||(null!=e?e.formattedMessage:e))?s:c)===u?s.call(l,{name:"formattedMessage",hash:{},data:a}):s)?r:"")+"</div>\n"+(null!=(r=o.if.call(l,null!=e?e.isLong:e,{name:"if",hash:{},fn:t.program(11,a,0),inverse:t.noop,data:a}))?r:"")+"</li>\n"},useData:!0}),i.commentsmodifymenu=o({1:function(t,e,o,i,a){var r,s,l=null!=e?e:t.nullContext||{},c=o.helperMissing,u=t.escapeExpression;return'\t\t<li>\n\t\t\t<a href="#" class="menuitem action '+u("function"===n(s=null!=(s=o.name||(null!=e?e.name:e))?s:c)?s.call(l,{name:"name",hash:{},data:a}):s)+' permanent" data-action="'+u("function"===n(s=null!=(s=o.name||(null!=e?e.name:e))?s:c)?s.call(l,{name:"name",hash:{},data:a}):s)+'">\n'+(null!=(r=o.if.call(l,null!=e?e.iconClass:e,{name:"if",hash:{},fn:t.program(2,a,0),inverse:t.program(4,a,0),data:a}))?r:"")+"\t\t\t\t<span>"+u("function"===n(s=null!=(s=o.displayName||(null!=e?e.displayName:e))?s:c)?s.call(l,{name:"displayName",hash:{},data:a}):s)+"</span>\n\t\t\t</a>\n\t\t</li>\n"},2:function(t,e,n,o,i){var a;return'\t\t\t\t\t<span class="icon '+t.escapeExpression("function"==typeof(a=null!=(a=n.iconClass||(null!=e?e.iconClass:e))?a:n.helperMissing)?a.call(null!=e?e:t.nullContext||{},{name:"iconClass",hash:{},data:i}):a)+'"></span>\n'},4:function(t,e,n,o,i){return'\t\t\t\t\t<span class="no-icon"></span>\n'},compiler:[7,">= 4.0.0"],main:function(t,e,n,o,i){var a;return"<ul>\n"+(null!=(a=n.each.call(null!=e?e:t.nullContext||{},null!=e?e.items:e,{name:"each",hash:{},fn:t.program(1,i,0),inverse:t.noop,data:i}))?a:"")+"</ul>\n"},useData:!0}),i.edit_comment=o({1:function(t,e,n,o,i){var a;return'\t\t\t<div class="action-container">\n\t\t\t\t<a href="#" class="action cancel icon icon-close has-tooltip" title="'+t.escapeExpression("function"==typeof(a=null!=(a=n.cancelText||(null!=e?e.cancelText:e))?a:n.helperMissing)?a.call(null!=e?e:t.nullContext||{},{name:"cancelText",hash:{},data:i}):a)+'"></a>\n\t\t\t</div>\n'},compiler:[7,">= 4.0.0"],main:function(t,e,o,i,a){var r,s,l=null!=e?e:t.nullContext||{},c=o.helperMissing,u="function",m=t.escapeExpression;return"<"+m(n(s=null!=(s=o.tag||(null!=e?e.tag:e))?s:c)===u?s.call(l,{name:"tag",hash:{},data:a}):s)+' class="newCommentRow comment" data-id="'+m(n(s=null!=(s=o.id||(null!=e?e.id:e))?s:c)===u?s.call(l,{name:"id",hash:{},data:a}):s)+'">\n\t<div class="authorRow">\n\t\t<div class="avatar currentUser" data-username="'+m(n(s=null!=(s=o.actorId||(null!=e?e.actorId:e))?s:c)===u?s.call(l,{name:"actorId",hash:{},data:a}):s)+'"></div>\n\t\t<div class="author currentUser">'+m(n(s=null!=(s=o.actorDisplayName||(null!=e?e.actorDisplayName:e))?s:c)===u?s.call(l,{name:"actorDisplayName",hash:{},data:a}):s)+"</div>\n"+(null!=(r=o.if.call(l,null!=e?e.isEditMode:e,{name:"if",hash:{},fn:t.program(1,a,0),inverse:t.noop,data:a}))?r:"")+'\t</div>\n\t<form class="newCommentForm">\n\t\t<div contentEditable="true" class="message" data-placeholder="'+m(n(s=null!=(s=o.newMessagePlaceholder||(null!=e?e.newMessagePlaceholder:e))?s:c)===u?s.call(l,{name:"newMessagePlaceholder",hash:{},data:a}):s)+'">'+m(n(s=null!=(s=o.message||(null!=e?e.message:e))?s:c)===u?s.call(l,{name:"message",hash:{},data:a}):s)+'</div>\n\t\t<input class="submit icon-confirm has-tooltip" type="submit" value="" title="'+m(n(s=null!=(s=o.submitText||(null!=e?e.submitText:e))?s:c)===u?s.call(l,{name:"submitText",hash:{},data:a}):s)+'"/>\n\t\t<div class="submitLoading icon-loading-small hidden"></div>\n\t</form>\n</'+m(n(s=null!=(s=o.tag||(null!=e?e.tag:e))?s:c)===u?s.call(l,{name:"tag",hash:{},data:a}):s)+">\n"},useData:!0}),i.filesplugin=o({compiler:[7,">= 4.0.0"],main:function(t,e,o,i,a){var r,s=null!=e?e:t.nullContext||{},l=o.helperMissing,c=t.escapeExpression;return'<a class="action action-comment permanent" title="'+c("function"===n(r=null!=(r=o.countMessage||(null!=e?e.countMessage:e))?r:l)?r.call(s,{name:"countMessage",hash:{},data:a}):r)+'" href="#">\n\t<img class="svg" src="'+c("function"===n(r=null!=(r=o.iconUrl||(null!=e?e.iconUrl:e))?r:l)?r.call(s,{name:"iconUrl",hash:{},data:a}):r)+'"/>\n</a>\n'},useData:!0}),i.view=o({compiler:[7,">= 4.0.0"],main:function(t,e,o,i,a){var r,s=null!=e?e:t.nullContext||{},l=o.helperMissing,c=t.escapeExpression;return'<ul class="comments">\n</ul>\n<div class="emptycontent hidden"><div class="icon-comment"></div>\n\t<p>'+c("function"===n(r=null!=(r=o.emptyResultLabel||(null!=e?e.emptyResultLabel:e))?r:l)?r.call(s,{name:"emptyResultLabel",hash:{},data:a}):r)+'</p></div>\n<input type="button" class="showMore hidden" value="'+c("function"===n(r=null!=(r=o.moreLabel||(null!=e?e.moreLabel:e))?r:l)?r.call(s,{name:"moreLabel",hash:{},data:a}):r)+'" name="show-more" id="show-more" />\n<div class="loading hidden" style="height: 50px"></div>\n'},useData:!0})},function(t,e){!function(t,e){_.extend(t.Files.Client,{PROPERTY_FILEID:"{"+t.Files.Client.NS_OWNCLOUD+"}id",PROPERTY_MESSAGE:"{"+t.Files.Client.NS_OWNCLOUD+"}message",PROPERTY_ACTORTYPE:"{"+t.Files.Client.NS_OWNCLOUD+"}actorType",PROPERTY_ACTORID:"{"+t.Files.Client.NS_OWNCLOUD+"}actorId",PROPERTY_ISUNREAD:"{"+t.Files.Client.NS_OWNCLOUD+"}isUnread",PROPERTY_OBJECTID:"{"+t.Files.Client.NS_OWNCLOUD+"}objectId",PROPERTY_OBJECTTYPE:"{"+t.Files.Client.NS_OWNCLOUD+"}objectType",PROPERTY_ACTORDISPLAYNAME:"{"+t.Files.Client.NS_OWNCLOUD+"}actorDisplayName",PROPERTY_CREATIONDATETIME:"{"+t.Files.Client.NS_OWNCLOUD+"}creationDateTime",PROPERTY_MENTIONS:"{"+t.Files.Client.NS_OWNCLOUD+"}mentions"});var n=t.Backbone.Model.extend({sync:t.Backbone.davSync,defaults:{actorType:"users",objectType:"files"},davProperties:{id:t.Files.Client.PROPERTY_FILEID,message:t.Files.Client.PROPERTY_MESSAGE,actorType:t.Files.Client.PROPERTY_ACTORTYPE,actorId:t.Files.Client.PROPERTY_ACTORID,actorDisplayName:t.Files.Client.PROPERTY_ACTORDISPLAYNAME,creationDateTime:t.Files.Client.PROPERTY_CREATIONDATETIME,objectType:t.Files.Client.PROPERTY_OBJECTTYPE,objectId:t.Files.Client.PROPERTY_OBJECTID,isUnread:t.Files.Client.PROPERTY_ISUNREAD,mentions:t.Files.Client.PROPERTY_MENTIONS},parse:function(t){return{id:t.id,message:t.message,actorType:t.actorType,actorId:t.actorId,actorDisplayName:t.actorDisplayName,creationDateTime:t.creationDateTime,objectType:t.objectType,objectId:t.objectId,isUnread:"true"===t.isUnread,mentions:this._parseMentions(t.mentions)}},_parseMentions:function(t){if(_.isUndefined(t))return{};var e={};for(var n in t){var o=t[n];if(!_.isUndefined(o.localName)&&"mention"===o.localName){e[n]={};for(var i=o.firstChild;i;i=i.nextSibling)!_.isUndefined(i.localName)&&i.localName.startsWith("mention")&&(e[n][i.localName]=i.textContent)}}return e}});e.Comments.CommentModel=n}(OC,OCA)},function(t,e){!function(t,e){var n=t.Backbone.Collection.extend({sync:t.Backbone.davSync,model:e.Comments.CommentModel,_objectType:"files",_objectId:null,_endReached:!1,_limit:20,initialize:function(t,e){(e=e||{}).objectType&&(this._objectType=e.objectType),e.objectId&&(this._objectId=e.objectId)},url:function(){return t.linkToRemote("dav")+"/comments/"+encodeURIComponent(this._objectType)+"/"+encodeURIComponent(this._objectId)+"/"},setObjectId:function(t){this._objectId=t},hasMoreResults:function(){return!this._endReached},reset:function(){return this._endReached=!1,this._summaryModel=null,t.Backbone.Collection.prototype.reset.apply(this,arguments)},fetchNext:function(t){var e=this;if(!this.hasMoreResults())return null;var o='<?xml version="1.0" encoding="utf-8" ?>\n<oc:filter-comments xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n    <oc:limit>'+(this._limit+1)+"</oc:limit>\n    <oc:offset>"+this.length+"</oc:offset>\n</oc:filter-comments>\n",i=(t=t||{}).success;return t=_.extend({remove:!1,parse:!0,data:o,davProperties:n.prototype.model.prototype.davProperties,success:function(n){if(n.length<=e._limit?e._endReached=!0:n=_.initial(n),!e.set(n,t))return!1;i&&i.apply(null,arguments),e.trigger("sync","REPORT",e,t)}},t),this.sync("REPORT",this,t)},getSummaryModel:function(){return this._summaryModel||(this._summaryModel=new e.Comments.CommentSummaryModel({id:this._objectId,objectType:this._objectType})),this._summaryModel},updateReadMarker:function(t,e){return e=e||{},this.getSummaryModel().save({readMarker:(t||new Date).toUTCString()},e)}});e.Comments.CommentCollection=n}(OC,OCA)},function(t,e){!function(t,e){_.extend(t.Files.Client,{PROPERTY_READMARKER:"{"+t.Files.Client.NS_OWNCLOUD+"}readMarker"});var n=t.Backbone.Model.extend({sync:t.Backbone.davSync,_objectType:"files",_objectId:null,davProperties:{readMarker:t.Files.Client.PROPERTY_READMARKER},initialize:function(t,e){(e=e||{}).objectType&&(this._objectType=e.objectType)},url:function(){return t.linkToRemote("dav")+"/comments/"+encodeURIComponent(this._objectType)+"/"+encodeURIComponent(this.id)+"/"}});e.Comments.CommentSummaryModel=n}(OC,OCA)},function(e,n){!function(e,n){var o=n.Files.DetailTabView.extend({id:"commentsTabView",className:"tab commentsTabView",_autoCompleteData:void 0,_commentsModifyMenu:void 0,events:{"submit .newCommentForm":"_onSubmitComment","click .showMore":"_onClickShowMore","click .cancel":"_onClickCloseComment","click .comment":"_onClickComment","keyup div.message":"_onTextChange","change div.message":"_onTextChange","input div.message":"_onTextChange","paste div.message":"_onPaste"},_commentMaxLength:1e3,initialize:function(){n.Files.DetailTabView.prototype.initialize.apply(this,arguments),this.collection=new n.Comments.CommentCollection,this.collection.on("request",this._onRequest,this),this.collection.on("sync",this._onEndRequest,this),this.collection.on("add",this._onAddModel,this),this.collection.on("change:message",this._onChangeModel,this),this._commentMaxThreshold=.9*this._commentMaxLength,_.bindAll(this,"_onTypeComment","_initAutoComplete","_onAutoComplete")},template:function(t){var o=e.getCurrentUser();return n.Comments.Templates.view(_.extend({actorId:o.uid,actorDisplayName:o.displayName},t))},editCommentTemplate:function(o){var i=e.getCurrentUser();return n.Comments.Templates.edit_comment(_.extend({actorId:i.uid,actorDisplayName:i.displayName,newMessagePlaceholder:t("comments","New comment …"),submitText:t("comments","Post"),cancelText:t("comments","Cancel"),tag:"li"},o))},commentTemplate:function(o){return"deleted_users"===(o=_.extend({editTooltip:t("comments","Edit comment"),isUserAuthor:e.getCurrentUser().uid===o.actorId,isLong:this._isLong(o.message)},o)).actorType&&(o.actorId=null,o.actorDisplayName=t("comments","[Deleted user]")),n.Comments.Templates.comment(o)},getLabel:function(){return t("comments","Comments")},getIcon:function(){return"icon-comment"},setFileInfo:function(t){t?(this.model=t,this.render(),this._initAutoComplete($("#commentsTabView").find(".newCommentForm .message")),this.collection.setObjectId(this.model.id),this.collection.reset([],{silent:!0}),this.nextPage()):(this.model=null,this.render(),this.collection.reset())},render:function(){this.$el.html(this.template({emptyResultLabel:t("comments","No comments yet, start the conversation!"),moreLabel:t("comments","More comments …")})),this.$el.find(".comments").before(this.editCommentTemplate({tag:"div"})),this.$el.find(".has-tooltip").tooltip(),this.$container=this.$el.find("ul.comments"),this.$el.find(".avatar").avatar(e.getCurrentUser().uid,32),this.delegateEvents(),this.$el.find(".message").on("keydown input change",this._onTypeComment),autosize(this.$el.find(".newCommentRow .message")),this.$el.find(".newCommentForm .message").focus()},_initAutoComplete:function(t){var n=this,o=10;_.isUndefined(e.appConfig.comments)||(o=e.appConfig.comments.maxAutoCompleteResults),t.atwho({at:"@",limit:o,callbacks:{remoteFilter:n._onAutoComplete,highlighter:function(t){var e=$(t);return e.find(".avatar").avatar(void 0,32),e},sorter:function(t,e){return e}},displayTpl:function(t){return'<li><span class="avatar-name-wrapper"><span class="avatar" data-username="'+escapeHTML(t.id)+'" data-user="'+escapeHTML(t.id)+'" data-user-display-name="'+escapeHTML(t.label)+'"></span><strong>'+escapeHTML(t.label)+"</strong></span></li>"},insertTpl:function(t){return'<span class="avatar-name-wrapper"><span class="avatar" data-username="'+escapeHTML(t.id)+'" data-user="'+escapeHTML(t.id)+'" data-user-display-name="'+escapeHTML(t.label)+'"></span><strong>'+escapeHTML(t.label)+"</strong></span>"},searchKey:"label"}),t.on("inserted.atwho",function(t,e){n._postRenderItem($(t.target).find('span[data-username="'+e.find("[data-username]").data("username")+'"]').parent(),!0)})},_onAutoComplete:function(t,n){var o=this;_.isUndefined(this._autoCompleteRequestTimer)||clearTimeout(this._autoCompleteRequestTimer),this._autoCompleteRequestTimer=_.delay(function(){_.isUndefined(this._autoCompleteRequestCall)||this._autoCompleteRequestCall.abort(),this._autoCompleteRequestCall=$.ajax({url:e.linkToOCS("core",2)+"autocomplete/get",data:{search:t,itemType:"files",itemId:o.model.get("id"),sorter:"commenters|share-recipients",limit:e.appConfig.comments.maxAutoCompleteResults},beforeSend:function(t){t.setRequestHeader("Accept","application/json")},success:function(t){n(t.ocs.data)}})},400)},_formatItem:function(t){var n=new Date(t.get("creationDateTime")).getTime();return _.extend({timestamp:n,date:e.Util.relativeModifiedDate(n),altDate:e.Util.formatDate(n),formattedMessage:this._formatMessage(t.get("message"),t.get("mentions"))},t.attributes)},_toggleLoading:function(t){this._loading=t,this.$el.find(".loading").toggleClass("hidden",!t)},_onRequest:function(t){"REPORT"===t&&(this._toggleLoading(!0),this.$el.find(".showMore").addClass("hidden"))},_onEndRequest:function(t){var e=this.model;(this._toggleLoading(!1),this.$el.find(".emptycontent").toggleClass("hidden",!!this.collection.length),this.$el.find(".showMore").toggleClass("hidden",!this.collection.hasMoreResults()),"REPORT"===t)&&(this.collection.findWhere({isUnread:!0})&&this.collection.updateReadMarker(null,{success:function(){e.set("commentsUnread",0)}}),this.$el.find(".newCommentForm .message").focus())},_onAddModel:function(t,e,n){var o=$(this.commentTemplate(this._formatItem(t)));!_.isUndefined(n.at)&&e.length>1?this.$container.find("li").eq(n.at).before(o):this.$container.append(o),this._postRenderItem(o),$("#commentsTabView").find(".newCommentForm div.message").text("").prop("contenteditable",!0);var i=t.get("mentions"),a=this;t.fetch({success:function(t){if(!_.isEqual(i,t.get("mentions"))){var e=$(a.commentTemplate(a._formatItem(t)));o.html(e.html()),a._postRenderItem(o)}}})},_onChangeModel:function(t){if(t.get("message").trim()!==t.previous("message").trim()){var e=this.$container.find('.comment[data-id="'+t.id+'"] form').closest(".comment"),n=e.data("commentEl");if(!_.isUndefined(n)){var o=this;t.fetch({success:function(t){n.removeClass("hidden"),e.remove();var i=n.find(".message");i.html(o._formatMessage(t.get("message"),t.get("mentions"))).find(".avatar").each(function(){$(this).avatar()}),o._postRenderItem(i)}})}}},_postRenderItem:function(t,e){t.find(".has-tooltip").tooltip();var o=t.find(".message .avatar");$(t.context).hasClass("message")&&(o=t.find(".avatar")),o.each(function(){var t=$(this);t.avatar(t.attr("data-username"),16)}),t.find(".authorRow .avatar").each(function(){var t=$(this);t.avatar(t.attr("data-username"),32)});var i=t.find(".avatar").data("username");i!==oc_current_user&&t.find(".authorRow .avatar, .authorRow .author").contactsMenu(i,0,t.find(".authorRow"));var a=t.find(".message");if(0===a.length&&(a=t),!e){var r=this,s=new n.Comments.CommentsModifyMenu;t.find(".authorRow").append(s.$el),t.find(".more").on("click",_.bind(s.show,s)),r.listenTo(s,"select:menu-item-clicked",function(t,e){"edit"===e?r._onClickEditComment(t):"delete"===e&&r._onClickDeleteComment(t)})}this._postRenderMessage(a,e)},_postRenderMessage:function(t,n){n||t.find(".avatar-name-wrapper").each(function(){var t=$(this),n=t.find(".avatar").data("user");n!==e.getCurrentUser().uid&&t.contactsMenu(n,0,t)})},_formatMessage:function(t,e,n){for(var o in t=escapeHTML(t).replace(/\n/g,"<br/>"),e){if(!e.hasOwnProperty(o))return;var i="@"+e[o].mentionId;-1!==e[o].mentionId.indexOf(" ")&&(i=_.escape('@"'+e[o].mentionId+'"')),i=i.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");var a=new RegExp("(^|\\s)("+i+")\\b","g");-1!==e[o].mentionId.indexOf(" ")&&(a=new RegExp("(^|\\s)("+i+")","g"));var r=this._composeHTMLMention(e[o].mentionId,e[o].mentionDisplayName);t=t.replace(a,function(t,e){return e+r})}return!0!==n&&(t=OCP.Comments.plainToRich(t)),t},_composeHTMLMention:function(t,n){var o='<span class="avatar" data-username="'+_.escape(t)+'" data-user="'+_.escape(t)+'" data-user-display-name="'+_.escape(n)+'"></span>';return'<span class="atwho-inserted" contenteditable="false"><span class="avatar-name-wrapper'+(t===e.getCurrentUser().uid?" currentUser":"")+'">'+o+"<strong>"+_.escape(n)+"</strong></span></span>"},nextPage:function(){!this._loading&&this.collection.hasMoreResults()&&this.collection.fetchNext()},_onClickEditComment:function(e){e.preventDefault();var n=$(e.target).closest(".comment"),o=n.data("id"),i=this.collection.get(o),a=$(this.editCommentTemplate(_.extend({isEditMode:!0,submitText:t("comments","Save")},i.attributes)));n.addClass("hidden").removeClass("collapsed"),n.after(a),a.data("commentEl",n),a.find(".message").on("keydown input change",this._onTypeComment),a.find(".avatar:first").replaceWith(n.find(".avatar:first").clone()),a.find(".has-tooltip").tooltip();var r=a.find(".message");r.html(this._formatMessage(i.get("message"),i.get("mentions"),!0)).find(".avatar").each(function(){$(this).avatar()});return this._postRenderItem(r,!0),autosize(a.find(".message")),this._initAutoComplete(a.find(".message")),!1},_onTypeComment:function(e){var n=$(e.target),o=n.text().length,i=n.data("submitButtonEl");i||(i=n.closest("form").find(".submit"),n.data("submitButtonEl",i)),n.tooltip("hide"),o>this._commentMaxThreshold&&(n.attr("data-original-title",t("comments","Allowed characters {count} of {max}",{count:o,max:this._commentMaxLength})),n.tooltip({trigger:"manual"}),n.tooltip("show"),n.addClass("error"));var a=o>this._commentMaxLength;n.toggleClass("error",a),i.prop("disabled",a),13!==e.keyCode||e.shiftKey||n.atwho("isSelecting")||(i.click(),e.preventDefault())},_onClickComment:function(t){var e=$(t.target);e.is(".comment")||(e=e.closest(".comment")),e.removeClass("collapsed")},_onClickCloseComment:function(t){t.preventDefault();var e=$(t.target).closest(".comment");return e.data("commentEl").removeClass("hidden"),e.remove(),!1},_onClickDeleteComment:function(n){n.preventDefault();var o=$(n.target).closest(".comment"),i=o.data("id"),a=o.find(".deleteLoading"),r=o.find(".more");return o.addClass("disabled"),a.removeClass("hidden"),r.addClass("hidden"),o.data("commentEl",o),this.collection.get(i).destroy({success:function(){o.data("commentEl").remove(),o.remove()},error:function(){a.addClass("hidden"),r.removeClass("hidden"),o.removeClass("disabled"),e.Notification.showTemporary(t("comments","Error occurred while retrieving comment with ID {id}",{id:i}))}}),!1},_onClickShowMore:function(t){t.preventDefault(),this.nextPage()},_onSubmitSuccess:function(t,e){var n=e.find(".submit"),o=e.find(".submitLoading");n.removeClass("hidden"),o.addClass("hidden")},_commentBodyHTML2Plain:function(t){var e,n=t.clone();n.find(".avatar-name-wrapper").each(function(){var t=$(this),e=t.parent(),n=t.find(".avatar").data("username");-1!==n.indexOf(" ")?e.html('@"'+n+'"'):e.html("@"+n)}),n.html(OCP.Comments.richToPlain(n.html()));var o=n.html();do{o=(e=o).replace("<br>","\n")}while(e!==o);return n.html(o),n.text()},_onSubmitComment:function(t){var n=this,o=$(t.target),i=o.closest(".comment").data("id"),a=e.getCurrentUser(),r=o.find(".submit"),s=o.find(".submitLoading"),l=o.find(".message"),c=l.text().trim();if(t.preventDefault(),c.length&&!(c.length>this._commentMaxLength)){if(l.prop("contenteditable",!1),r.addClass("hidden"),s.removeClass("hidden"),c=this._commentBodyHTML2Plain(l),i)this.collection.get(i).save({message:c},{success:function(t){if(n._onSubmitSuccess(t,o),t.get("message").trim()===t.previous("message").trim()){var e=o.closest(".comment");e.data("commentEl").removeClass("hidden"),e.remove()}},error:function(){n._onSubmitError(o,i)}});else this.collection.create({actorId:a.uid,actorDisplayName:a.displayName,actorType:"users",verb:"comment",message:c,creationDateTime:(new Date).toUTCString()},{at:0,wait:!0,success:function(t){n._onSubmitSuccess(t,o)},error:function(){n._onSubmitError(o,void 0)}});return!1}},_onSubmitError:function(n,o){n.find(".submit").removeClass("hidden"),n.find(".submitLoading").addClass("hidden"),n.find(".message").prop("contenteditable",!0),_.isUndefined(o)?e.Notification.show(t("comments","Error occurred while posting comment"),{type:"error"}):e.Notification.show(t("comments","Error occurred while updating comment with id {id}",{id:o}),{type:"error"})},_onTextChange:function(){var t=$("#commentsTabView").find(".newCommentForm div.message");t.text().trim().length||t.empty()},_onPaste:function(t){t.preventDefault();var e=t.originalEvent.clipboardData.getData("text/plain");document.execCommand("insertText",!1,e)},_isLong:function(t){return t.length>250||(t.match(/\n/g)||[]).length>1}});n.Comments.CommentsTabView=o}(OC,OCA)},function(e,n){var o;OC,OCA,o=OC.Backbone.View.extend({tagName:"div",className:"commentsModifyMenu popovermenu bubble menu",_scopes:[{name:"edit",displayName:t("comments","Edit comment"),iconClass:"icon-rename"},{name:"delete",displayName:t("comments","Delete comment"),iconClass:"icon-delete"}],initialize:function(){},events:{"click a.action":"_onClickAction"},_onClickAction:function(t){var e=$(t.currentTarget);e.hasClass("menuitem")||(e=e.closest(".menuitem")),OC.hideMenus(),this.trigger("select:menu-item-clicked",t,e.data("action"))},render:function(){this.$el.html(OCA.Comments.Templates.commentsmodifymenu({items:this._scopes}))},show:function(t){for(var e in this._context=t,this._scopes)this._scopes[e].active=!1;var n=$(t.target),o=n.offset(),i=n.closest(".authorRow").offset(),a={top:o.top-i.top+48,left:"",right:""};a.left=o.left-i.left,a.left>200?(a.left="",a.right=this.$el.closest(".comment").find(".date").width(),this.$el.removeClass("menu-left").addClass("menu-right")):this.$el.removeClass("menu-right").addClass("menu-left"),this.$el.css(a),this.render(),this.$el.removeClass("hidden"),OC.showMenu(null,this.$el)}}),OCA.Comments=OCA.Comments||{},OCA.Comments.CommentsModifyMenu=o},function(e,o){_.extend(OC.Files.Client,{PROPERTY_COMMENTS_UNREAD:"{"+OC.Files.Client.NS_OWNCLOUD+"}comments-unread"}),OCA.Comments=_.extend({},OCA.Comments),OCA.Comments||(OCA.Comments={}),OCA.Comments.FilesPlugin={ignoreLists:["files_trashbin","files.public"],_formatCommentCount:function(t){return OCA.Comments.Templates.filesplugin({count:t,countMessage:n("comments","%n unread comment","%n unread comments",t),iconUrl:OC.imagePath("core","actions/comment")})},attach:function(e){var n=this;if(!(this.ignoreLists.indexOf(e.id)>=0)){e.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));var o=e._getWebdavProperties;e._getWebdavProperties=function(){var t=o.apply(this,arguments);return t.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD),t},e.filesClient.addFileInfoParser(function(t){var e={},n=t.propStat[0].properties[OC.Files.Client.PROPERTY_COMMENTS_UNREAD];return _.isUndefined(n)||""===n||(e.commentsUnread=parseInt(n,10)),e}),e.$el.addClass("has-comments");var i=e._createRow;e._createRow=function(t){var e=i.apply(this,arguments);return t.commentsUnread&&e.attr("data-comments-unread",t.commentsUnread),e},e.fileActions.registerAction({name:"Comment",displayName:t("comments","Comment"),mime:"all",permissions:OC.PERMISSION_READ,type:OCA.Files.FileActions.TYPE_INLINE,render:function(t,e,o){var i=o.$file.data("comments-unread");if(i){var a=$(n._formatCommentCount(i));return o.$file.find("a.name>span.fileactions").append(a),a}return""},actionHandler:function(t,e){e.$file.find(".action-comment").tooltip("hide"),e.fileList.showDetailsView(t,"commentsTabView")}});var a=e.elementToFile;e.elementToFile=function(t){var e=a.apply(this,arguments),n=t.data("comments-unread");return n&&(e.commentsUnread=n),e}}}},OC.Plugins.register("OCA.Files.FileList",OCA.Comments.FilesPlugin)},function(t,e){OCA.Comments.ActivityTabViewPlugin={prepareModelForDisplay:function(t,e,n){if("comments"===t.get("app")&&"comments"===t.get("type")&&"ActivityTabView"===n&&(e.addClass("comment"),t.get("message")&&this._isLong(t.get("message")))){e.addClass("collapsed");var o=$("<div>").addClass("message-overlay");e.find(".activitymessage").after(o),e.on("click",this._onClickCollapsedComment)}},_onClickCollapsedComment:function(t){var e=$(t.target);e.is(".comment")||(e=e.closest(".comment")),e.removeClass("collapsed")},_isLong:function(t){return t.length>250||(t.match(/\n/g)||[]).length>1}},OC.Plugins.register("OCA.Activity.RenderingPlugins",OCA.Comments.ActivityTabViewPlugin)},function(t,e){!function(t,e,n){"use strict";var o=function(){this.initialize()};o.prototype={fileList:null,initialize:function(){var o=this;this.fileAppLoaded=function(){return!!e.Files&&!!e.Files.App},this.renderCommentResult=function(e,o){var i;(i=n(".nofilterresults")).hasClass("hidden")||i.addClass("hidden"),this.updateLegacyMimetype(o);var a=n("<div>").addClass("path").text(o.path),r=n("<div>");r.addClass("avatar").css("display","inline-block").css("vertical-align","middle").css("margin","0 5px 2px 3px"),o.authorName?r.avatar(o.authorId,21,void 0,!1,void 0,o.authorName):r.avatar(o.authorId,21),e.find("td.info div.name").after(a).text(o.comment).prepend(n("<span>").addClass("path").css("margin-right","5px").text(o.authorName)).prepend(r),e.find("td.result a").attr("href",o.link),e.find("td.icon").css("background-image","url("+t.imagePath("core","actions/comment")+")").css("opacity",".4");var s=t.dirname(o.path);return s===o.path&&(s="/"),e.find("td.info a").attr("href",t.generateUrl("/apps/files/?dir={dir}&scrollto={scrollto}",{dir:s,scrollto:o.fileName})),e},this.handleCommentClick=function(e,n,i){return!o.fileAppLoaded()||"files"!==o.fileList.id||(o.fileList.changeDirectory(t.dirname(n.path)),o.fileList.scrollTo(n.name),!1)},this.updateLegacyMimetype=function(t){!t.mime&&t.mime_type&&(t.mime=t.mime_type)},this.setFileList=function(t){this.fileList=t},t.Plugins.register("OCA.Search.Core",this)},attach:function(t){t.setRenderer("comment",this.renderCommentResult.bind(this)),t.setHandler("comment",this.handleCommentClick.bind(this))}},e.Search.comment=new o}(OC,OCA,$)},function(t,e,n){var o,i,a;a=this,o=[n(0)],void 0===(i=function(t){return a.returnExportsGlobal=function(t){"use strict";var e,n,o,i,a,r,s,l;e=function(){function e(t){this.$inputor=t,this.domInputor=this.$inputor[0]}return e.prototype.setPos=function(){return this.domInputor},e.prototype.getIEPosition=function(){return this.getPosition()},e.prototype.getPosition=function(){var t,e;return e=this.getOffset(),t=this.$inputor.offset(),e.left-=t.left,e.top-=t.top,e},e.prototype.getOldIEPos=function(){var t,e;return e=r.selection.createRange(),(t=r.body.createTextRange()).moveToElementText(this.domInputor),t.setEndPoint("EndToEnd",e),t.text.length},e.prototype.getPos=function(){var t,e,n;return(n=this.range())?((t=n.cloneRange()).selectNodeContents(this.domInputor),t.setEnd(n.endContainer,n.endOffset),e=t.toString().length,t.detach(),e):r.selection?this.getOldIEPos():void 0},e.prototype.getOldIEOffset=function(){var t,e;return(t=r.selection.createRange().duplicate()).moveStart("character",-1),{height:(e=t.getBoundingClientRect()).bottom-e.top,left:e.left,top:e.top}},e.prototype.getOffset=function(){var e,n,o,i,a;return s.getSelection&&(o=this.range())?(o.endOffset-1>0&&o.endContainer===!this.domInputor&&((e=o.cloneRange()).setStart(o.endContainer,o.endOffset-1),e.setEnd(o.endContainer,o.endOffset),i=e.getBoundingClientRect(),n={height:i.height,left:i.left+i.width,top:i.top},e.detach()),n&&0!==(null!=n?n.height:void 0)||(e=o.cloneRange(),a=t(r.createTextNode("|")),e.insertNode(a[0]),e.selectNode(a[0]),i=e.getBoundingClientRect(),n={height:i.height,left:i.left,top:i.top},a.remove(),e.detach())):r.selection&&(n=this.getOldIEOffset()),n&&(n.top+=t(s).scrollTop(),n.left+=t(s).scrollLeft()),n},e.prototype.range=function(){var t;if(s.getSelection)return(t=s.getSelection()).rangeCount>0?t.getRangeAt(0):null},e}(),n=function(){function e(t){this.$inputor=t,this.domInputor=this.$inputor[0]}return e.prototype.getIEPos=function(){var t,e,n,o,i,a,s;return e=this.domInputor,a=r.selection.createRange(),i=0,a&&a.parentElement()===e&&(o=e.value.replace(/\r\n/g,"\n"),n=o.length,(s=e.createTextRange()).moveToBookmark(a.getBookmark()),(t=e.createTextRange()).collapse(!1),i=s.compareEndPoints("StartToEnd",t)>-1?n:-s.moveStart("character",-n)),i},e.prototype.getPos=function(){return r.selection?this.getIEPos():this.domInputor.selectionStart},e.prototype.setPos=function(t){var e,n;return e=this.domInputor,r.selection?((n=e.createTextRange()).move("character",t),n.select()):e.setSelectionRange&&e.setSelectionRange(t,t),e},e.prototype.getIEOffset=function(t){var e,n,o,i;return n=this.domInputor.createTextRange(),t||(t=this.getPos()),n.move("character",t),o=n.boundingLeft,i=n.boundingTop,e=n.boundingHeight,{left:o,top:i,height:e}},e.prototype.getOffset=function(e){var n,o,i;return n=this.$inputor,r.selection?((o=this.getIEOffset(e)).top+=t(s).scrollTop()+n.scrollTop(),o.left+=t(s).scrollLeft()+n.scrollLeft(),o):(o=n.offset(),i=this.getPosition(e),o={left:o.left+i.left-n.scrollLeft(),top:o.top+i.top-n.scrollTop(),height:i.height})},e.prototype.getPosition=function(t){var e,n,i,a,r;return e=this.$inputor,i=function(t){return t=t.replace(/<|>|`|"|&/g,"?").replace(/\r\n|\r|\n/g,"<br/>"),/firefox/i.test(navigator.userAgent)&&(t=t.replace(/\s/g,"&nbsp;")),t},void 0===t&&(t=this.getPos()),r=e.val().slice(0,t),n=e.val().slice(t),a="<span style='position: relative; display: inline;'>"+i(r)+"</span>",a+="<span id='caret' style='position: relative; display: inline;'>|</span>",a+="<span style='position: relative; display: inline;'>"+i(n)+"</span>",new o(e).create(a).rect()},e.prototype.getIEPosition=function(t){var e,n,o,i,a;return o=this.getIEOffset(t),n=this.$inputor.offset(),i=o.left-n.left,a=o.top-n.top,e=o.height,{left:i,top:a,height:e}},e}(),o=function(){function e(t){this.$inputor=t}return e.prototype.css_attr=["borderBottomWidth","borderLeftWidth","borderRightWidth","borderTopStyle","borderRightStyle","borderBottomStyle","borderLeftStyle","borderTopWidth","boxSizing","fontFamily","fontSize","fontWeight","height","letterSpacing","lineHeight","marginBottom","marginLeft","marginRight","marginTop","outlineWidth","overflow","overflowX","overflowY","paddingBottom","paddingLeft","paddingRight","paddingTop","textAlign","textOverflow","textTransform","whiteSpace","wordBreak","wordWrap"],e.prototype.mirrorCss=function(){var e,n=this;return e={position:"absolute",left:-9999,top:0,zIndex:-2e4},"TEXTAREA"===this.$inputor.prop("tagName")&&this.css_attr.push("width"),t.each(this.css_attr,function(t,o){return e[o]=n.$inputor.css(o)}),e},e.prototype.create=function(e){return this.$mirror=t("<div></div>"),this.$mirror.css(this.mirrorCss()),this.$mirror.html(e),this.$inputor.after(this.$mirror),this},e.prototype.rect=function(){var t,e,n;return t=this.$mirror.find("#caret"),e=t.position(),n={left:e.left,top:e.top,height:t.height()},this.$mirror.remove(),n},e}(),i={contentEditable:function(t){return!(!t[0].contentEditable||"true"!==t[0].contentEditable)}},a={pos:function(t){return t||0===t?this.setPos(t):this.getPos()},position:function(t){return r.selection?this.getIEPosition(t):this.getPosition(t)},offset:function(t){return this.getOffset(t)}},r=null,s=null,l=function(t){var e;return(e=null!=t?t.iframe:void 0)?(s=e.contentWindow,r=e.contentDocument||s.document):(s=window,r=document)},t.fn.caret=function(o,r,s){var c;return a[o]?(t.isPlainObject(r)?(l(r),r=void 0):l(s),c=i.contentEditable(this)?new e(this):new n(this),a[o].apply(c,[r])):t.error("Method "+o+" does not exist on jQuery.caret")},t.fn.caret.EditableCaret=e,t.fn.caret.InputCaret=n,t.fn.caret.Utils=i,t.fn.caret.apis=a}(t)}.apply(e,o))||(t.exports=i)},function(t,e,n){var o,i;function a(t){return(a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}o=[n(0)],void 0===(i=function(t){return function(t){var e,n,o;n={ESC:27,TAB:9,ENTER:13,CTRL:17,A:65,P:80,N:78,LEFT:37,UP:38,RIGHT:39,DOWN:40,BACKSPACE:8,SPACE:32},e={beforeSave:function(t){return i.arrayToDefaultHash(t)},matcher:function(t,e,n,o){var i,a,r,s;return t=t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&"),n&&(t="(?:^|\\s)"+t),i=decodeURI("%C3%80"),a=decodeURI("%C3%BF"),s=new RegExp(t+"([A-Za-z"+i+"-"+a+"0-9_"+(o?" ":"")+"'.+-]*)$|"+t+"([^\\x00-\\xff]*)$","gi"),(r=s.exec(e))?r[2]||r[1]:null},filter:function(t,e,n){var o,i,a,r;for(o=[],i=0,r=e.length;r>i;i++)a=e[i],~new String(a[n]).toLowerCase().indexOf(t.toLowerCase())&&o.push(a);return o},remoteFilter:null,sorter:function(t,e,n){var o,i,a,r;if(!t)return e;for(o=[],i=0,r=e.length;r>i;i++)(a=e[i]).atwho_order=new String(a[n]).toLowerCase().indexOf(t.toLowerCase()),a.atwho_order>-1&&o.push(a);return o.sort(function(t,e){return t.atwho_order-e.atwho_order})},tplEval:function(t,e){var n;n=t;try{return"string"!=typeof t&&(n=t(e)),n.replace(/\$\{([^\}]*)\}/g,function(t,n,o){return e[n]})}catch(t){return""}},highlighter:function(t,e){var n;return e?(n=new RegExp(">\\s*([^<]*?)("+e.replace("+","\\+")+")([^<]*)\\s*<","ig"),t.replace(n,function(t,e,n,o){return"> "+e+"<strong>"+n+"</strong>"+o+" <"})):t},beforeInsert:function(t,e,n){return t},beforeReposition:function(t){return t},afterMatchFailed:function(t,e){}},o=function(){function e(e){this.currentFlag=null,this.controllers={},this.aliasMaps={},this.$inputor=t(e),this.setupRootElement(),this.listen()}return e.prototype.createContainer=function(e){var n;return null!=(n=this.$el)&&n.remove(),t(e.body).append(this.$el=t("<div class='atwho-container'></div>"))},e.prototype.setupRootElement=function(e,n){var o,i;if(null==n&&(n=!1),e)this.window=e.contentWindow,this.document=e.contentDocument||this.window.document,this.iframe=e;else{this.document=this.$inputor[0].ownerDocument,this.window=this.document.defaultView||this.document.parentWindow;try{this.iframe=this.window.frameElement}catch(i){if(o=i,this.iframe=null,t.fn.atwho.debug)throw new Error("iframe auto-discovery is failed.\nPlease use `setIframe` to set the target iframe manually.\n"+o)}}return this.createContainer((this.iframeAsRoot=n)?this.document:document)},e.prototype.controller=function(t){var e,n,o,i;if(this.aliasMaps[t])n=this.controllers[this.aliasMaps[t]];else for(o in i=this.controllers)if(e=i[o],o===t){n=e;break}return n||this.controllers[this.currentFlag]},e.prototype.setContextFor=function(t){return this.currentFlag=t,this},e.prototype.reg=function(t,e){var n,o;return o=(n=this.controllers)[t]||(n[t]=this.$inputor.is("[contentEditable]")?new u(this,t):new s(this,t)),e.alias&&(this.aliasMaps[e.alias]=t),o.init(e),this},e.prototype.listen=function(){return this.$inputor.on("compositionstart",(t=this,function(e){var n;return null!=(n=t.controller())&&n.view.hide(),t.isComposing=!0,null})).on("compositionend",function(t){return function(e){return t.isComposing=!1,setTimeout(function(e){return t.dispatch(e)}),null}}(this)).on("keyup.atwhoInner",function(t){return function(e){return t.onKeyup(e)}}(this)).on("keydown.atwhoInner",function(t){return function(e){return t.onKeydown(e)}}(this)).on("blur.atwhoInner",function(t){return function(e){var n;return(n=t.controller())?(n.expectedQueryCBId=null,n.view.hide(e,n.getOpt("displayTimeout"))):void 0}}(this)).on("click.atwhoInner",function(t){return function(e){return t.dispatch(e)}}(this)).on("scroll.atwhoInner",function(t){return function(){var e;return e=t.$inputor.scrollTop(),function(n){var o,i;return o=n.target.scrollTop,e!==o&&null!=(i=t.controller())&&i.view.hide(n),e=o,!0}}}(this)());var t},e.prototype.shutdown=function(){var t,e;for(t in e=this.controllers)e[t].destroy(),delete this.controllers[t];return this.$inputor.off(".atwhoInner"),this.$el.remove()},e.prototype.dispatch=function(t){var e,n,o,i;for(e in o=this.controllers,i=[],o)n=o[e],i.push(n.lookUp(t));return i},e.prototype.onKeyup=function(e){var o;switch(e.keyCode){case n.ESC:e.preventDefault(),null!=(o=this.controller())&&o.view.hide();break;case n.DOWN:case n.UP:case n.CTRL:case n.ENTER:t.noop();break;case n.P:case n.N:e.ctrlKey||this.dispatch(e);break;default:this.dispatch(e)}},e.prototype.onKeydown=function(e){var o,i;if((i=null!=(o=this.controller())?o.view:void 0)&&i.visible())switch(e.keyCode){case n.ESC:e.preventDefault(),i.hide(e);break;case n.UP:e.preventDefault(),i.prev();break;case n.DOWN:e.preventDefault(),i.next();break;case n.P:if(!e.ctrlKey)return;e.preventDefault(),i.prev();break;case n.N:if(!e.ctrlKey)return;e.preventDefault(),i.next();break;case n.TAB:case n.ENTER:case n.SPACE:if(!i.visible())return;if(!this.controller().getOpt("spaceSelectsMatch")&&e.keyCode===n.SPACE)return;if(!this.controller().getOpt("tabSelectsMatch")&&e.keyCode===n.TAB)return;i.highlighted()?(e.preventDefault(),i.choose(e)):i.hide(e);break;default:t.noop()}},e}();var i,r=[].slice;i=function(){function n(e,n){this.app=e,this.at=n,this.$inputor=this.app.$inputor,this.id=this.$inputor[0].id||this.uid(),this.expectedQueryCBId=null,this.setting=null,this.query=null,this.pos=0,this.range=null,0===(this.$el=t("#atwho-ground-"+this.id,this.app.$el)).length&&this.app.$el.append(this.$el=t("<div id='atwho-ground-"+this.id+"'></div>")),this.model=new m(this),this.view=new h(this)}return n.prototype.uid=function(){return(Math.random().toString(16)+"000000000").substr(2,8)+(new Date).getTime()},n.prototype.init=function(e){return this.setting=t.extend({},this.setting||t.fn.atwho.default,e),this.view.init(),this.model.reload(this.setting.data)},n.prototype.destroy=function(){return this.trigger("beforeDestroy"),this.model.destroy(),this.view.destroy(),this.$el.remove()},n.prototype.callDefault=function(){var n,o,i,a;a=arguments[0],n=2<=arguments.length?r.call(arguments,1):[];try{return e[a].apply(this,n)}catch(i){return o=i,t.error(o+" Or maybe At.js doesn't have function "+a)}},n.prototype.trigger=function(t,e){var n,o;return null==e&&(e=[]),e.push(this),n=this.getOpt("alias"),o=n?t+"-"+n+".atwho":t+".atwho",this.$inputor.trigger(o,e)},n.prototype.callbacks=function(t){return this.getOpt("callbacks")[t]||e[t]},n.prototype.getOpt=function(t,e){try{return this.setting[t]}catch(t){return null}},n.prototype.insertContentFor=function(e){var n,o;return o=this.getOpt("insertTpl"),n=t.extend({},e.data("item-data"),{"atwho-at":this.at}),this.callbacks("tplEval").call(this,o,n,"onInsert")},n.prototype.renderView=function(t){var e;return e=this.getOpt("searchKey"),t=this.callbacks("sorter").call(this,this.query.text,t.slice(0,1001),e),this.view.render(t.slice(0,this.getOpt("limit")))},n.arrayToDefaultHash=function(e){var n,o,i,a;if(!t.isArray(e))return e;for(a=[],n=0,i=e.length;i>n;n++)o=e[n],t.isPlainObject(o)?a.push(o):a.push({name:o});return a},n.prototype.lookUp=function(t){var e,n;if((!t||"click"!==t.type||this.getOpt("lookUpOnClick"))&&(!this.getOpt("suspendOnComposing")||!this.app.isComposing))return(e=this.catchQuery(t))?(this.app.setContextFor(this.at),(n=this.getOpt("delay"))?this._delayLookUp(e,n):this._lookUp(e),e):(this.expectedQueryCBId=null,e)},n.prototype._delayLookUp=function(t,e){var n,o;return n=Date.now?Date.now():(new Date).getTime(),this.previousCallTime||(this.previousCallTime=n),(o=e-(n-this.previousCallTime))>0&&e>o?(this.previousCallTime=n,this._stopDelayedCall(),this.delayedCallTimeout=setTimeout(function(e){return function(){return e.previousCallTime=0,e.delayedCallTimeout=null,e._lookUp(t)}}(this),e)):(this._stopDelayedCall(),this.previousCallTime!==n&&(this.previousCallTime=0),this._lookUp(t))},n.prototype._stopDelayedCall=function(){return this.delayedCallTimeout?(clearTimeout(this.delayedCallTimeout),this.delayedCallTimeout=null):void 0},n.prototype._generateQueryCBId=function(){return{}},n.prototype._lookUp=function(e){var n;return n=function(t,e){return t===this.expectedQueryCBId?e&&e.length>0?this.renderView(this.constructor.arrayToDefaultHash(e)):this.view.hide():void 0},this.expectedQueryCBId=this._generateQueryCBId(),this.model.query(e.text,t.proxy(n,this,this.expectedQueryCBId))},n}();var s,l=function(t,e){function n(){this.constructor=t}for(var o in e)c.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},c={}.hasOwnProperty;s=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return l(n,e),n.prototype.catchQuery=function(){var t,e,n,o,i,a,r;return e=this.$inputor.val(),t=this.$inputor.caret("pos",{iframe:this.app.iframe}),r=e.slice(0,t),i=this.callbacks("matcher").call(this,this.at,r,this.getOpt("startWithSpace"),this.getOpt("acceptSpaceBar")),(o="string"==typeof i)&&i.length<this.getOpt("minLen",0)?void 0:(o&&i.length<=this.getOpt("maxLen",20)?(a=t-i.length,n=a+i.length,this.pos=a,i={text:i,headPos:a,endPos:n},this.trigger("matched",[this.at,i.text])):(i=null,this.view.hide()),this.query=i)},n.prototype.rect=function(){var e,n,o;if(e=this.$inputor.caret("offset",this.pos-1,{iframe:this.app.iframe}))return this.app.iframe&&!this.app.iframeAsRoot&&(n=t(this.app.iframe).offset(),e.left+=n.left,e.top+=n.top),o=this.app.document.selection?0:2,{left:e.left,top:e.top,bottom:e.top+e.height+o}},n.prototype.insert=function(t,e){var n,o,i,a,r;return n=this.$inputor,o=n.val(),i=o.slice(0,Math.max(this.query.headPos-this.at.length,0)),a=""===(a=this.getOpt("suffix"))?a:a||" ",r=""+i+(t+=a)+o.slice(this.query.endPos||0),n.val(r),n.caret("pos",i.length+t.length,{iframe:this.app.iframe}),n.is(":focus")||n.focus(),n.change()},n}(i);var u,m,h,d,l=function(t,e){function n(){this.constructor=t}for(var o in e)c.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},c={}.hasOwnProperty;u=function(e){function o(){return o.__super__.constructor.apply(this,arguments)}return l(o,e),o.prototype._getRange=function(){var t;return(t=this.app.window.getSelection()).rangeCount>0?t.getRangeAt(0):void 0},o.prototype._setRange=function(e,n,o){return null==o&&(o=this._getRange()),o&&n?(n=t(n)[0],"after"===e?(o.setEndAfter(n),o.setStartAfter(n)):(o.setEndBefore(n),o.setStartBefore(n)),o.collapse(!1),this._clearRange(o)):void 0},o.prototype._clearRange=function(t){var e;return null==t&&(t=this._getRange()),e=this.app.window.getSelection(),null==this.ctrl_a_pressed?(e.removeAllRanges(),e.addRange(t)):void 0},o.prototype._movingEvent=function(t){var e;return"click"===t.type||(e=t.which)===n.RIGHT||e===n.LEFT||e===n.UP||e===n.DOWN},o.prototype._unwrap=function(e){var n;return e=t(e).unwrap().get(0),(n=e.nextSibling)&&n.nodeValue&&(e.nodeValue+=n.nodeValue,t(n).remove()),e},o.prototype.catchQuery=function(e){var o,i,a,r,s,l,c,u,m,h,d,p;if((p=this._getRange())&&p.collapsed){if(e.which===n.ENTER)return(i=t(p.startContainer).closest(".atwho-query")).contents().unwrap(),i.is(":empty")&&i.remove(),(i=t(".atwho-query",this.app.document)).text(i.text()).contents().last().unwrap(),void this._clearRange();if(/firefox/i.test(navigator.userAgent)){if(t(p.startContainer).is(this.$inputor))return void this._clearRange();e.which===n.BACKSPACE&&p.startContainer.nodeType===document.ELEMENT_NODE&&(m=p.startOffset-1)>=0?((a=p.cloneRange()).setStart(p.startContainer,m),t(a.cloneContents()).contents().last().is(".atwho-inserted")&&(s=t(p.startContainer).contents().get(m),this._setRange("after",t(s).contents().last()))):e.which===n.LEFT&&p.startContainer.nodeType===document.TEXT_NODE&&(o=t(p.startContainer.previousSibling)).is(".atwho-inserted")&&0===p.startOffset&&this._setRange("after",o.contents().last())}if(t(p.startContainer).closest(".atwho-inserted").addClass("atwho-query").siblings().removeClass("atwho-query"),(i=t(".atwho-query",this.app.document)).length>0&&i.is(":empty")&&0===i.text().length&&i.remove(),this._movingEvent(e)||i.removeClass("atwho-inserted"),i.length>0)switch(e.which){case n.LEFT:return this._setRange("before",i.get(0),p),void i.removeClass("atwho-query");case n.RIGHT:return this._setRange("after",i.get(0).nextSibling,p),void i.removeClass("atwho-query")}if(i.length>0&&(d=i.attr("data-atwho-at-query"))&&(i.empty().html(d).attr("data-atwho-at-query",null),this._setRange("after",i.get(0),p)),(a=p.cloneRange()).setStart(p.startContainer,0),u=this.callbacks("matcher").call(this,this.at,a.toString(),this.getOpt("startWithSpace"),this.getOpt("acceptSpaceBar")),l="string"==typeof u,0===i.length&&l&&(r=p.startOffset-this.at.length-u.length)>=0&&(p.setStart(p.startContainer,r),i=t("<span/>",this.app.document).attr(this.getOpt("editableAtwhoQueryAttrs")).addClass("atwho-query"),p.surroundContents(i.get(0)),(c=i.contents().last().get(0))&&(/firefox/i.test(navigator.userAgent)?(p.setStart(c,c.length),p.setEnd(c,c.length),this._clearRange(p)):this._setRange("after",c,p))),!(l&&u.length<this.getOpt("minLen",0)))return l&&u.length<=this.getOpt("maxLen",20)?(h={text:u,el:i},this.trigger("matched",[this.at,h.text]),this.query=h):(this.view.hide(),this.query={el:i},i.text().indexOf(this.at)>=0&&(this._movingEvent(e)&&i.hasClass("atwho-inserted")?i.removeClass("atwho-query"):!1!==this.callbacks("afterMatchFailed").call(this,this.at,i)&&this._setRange("after",this._unwrap(i.text(i.text()).contents().first()))),null)}},o.prototype.rect=function(){var e,n;return(n=this.query.el.offset())&&this.query.el[0].getClientRects().length?(this.app.iframe&&!this.app.iframeAsRoot&&(e=t(this.app.iframe).offset(),n.left+=e.left-this.$inputor.scrollLeft(),n.top+=e.top-this.$inputor.scrollTop()),n.bottom=n.top+this.query.el.height(),n):void 0},o.prototype.insert=function(t,e){var n,o,i,a,r;return this.$inputor.is(":focus")||this.$inputor.focus(),(o=this.getOpt("functionOverrides")).insert?o.insert.call(this,t,e):(a=""===(a=this.getOpt("suffix"))?a:a||" ",n=e.data("item-data"),this.query.el.removeClass("atwho-query").addClass("atwho-inserted").html(t).attr("data-atwho-at-query",""+n["atwho-at"]+this.query.text).attr("contenteditable","false"),(i=this._getRange())&&(this.query.el.length&&i.setEndAfter(this.query.el[0]),i.collapse(!1),i.insertNode(r=this.app.document.createTextNode(""+a)),this._setRange("after",r,i)),this.$inputor.is(":focus")||this.$inputor.focus(),this.$inputor.change())},o}(i),m=function(){function e(t){this.context=t,this.at=this.context.at,this.storage=this.context.$inputor}return e.prototype.destroy=function(){return this.storage.data(this.at,null)},e.prototype.saved=function(){return this.fetch()>0},e.prototype.query=function(t,e){var n,o,i;return o=this.fetch(),i=this.context.getOpt("searchKey"),o=this.context.callbacks("filter").call(this.context,t,o,i)||[],n=this.context.callbacks("remoteFilter"),o.length>0||!n&&0===o.length?e(o):n.call(this.context,t,e)},e.prototype.fetch=function(){return this.storage.data(this.at)||[]},e.prototype.save=function(t){return this.storage.data(this.at,this.context.callbacks("beforeSave").call(this.context,t||[]))},e.prototype.load=function(t){return!this.saved()&&t?this._load(t):void 0},e.prototype.reload=function(t){return this._load(t)},e.prototype._load=function(e){return"string"==typeof e?t.ajax(e,{dataType:"json"}).done(function(t){return function(e){return t.save(e)}}(this)):this.save(e)},e}(),h=function(){function e(e){this.context=e,this.$el=t("<div class='atwho-view'><ul class='atwho-view-ul'></ul></div>"),this.$elUl=this.$el.children(),this.timeoutID=null,this.context.$el.append(this.$el),this.bindEvent()}return e.prototype.init=function(){var t,e;return e=this.context.getOpt("alias")||this.context.at.charCodeAt(0),(t=this.context.getOpt("headerTpl"))&&1===this.$el.children().length&&this.$el.prepend(t),this.$el.attr({id:"at-view-"+e})},e.prototype.destroy=function(){return this.$el.remove()},e.prototype.bindEvent=function(){var e,n,o;return e=this.$el.find("ul"),n=0,o=0,e.on("mousemove.atwho-view","li",function(i){var a;if((n!==i.clientX||o!==i.clientY)&&(n=i.clientX,o=i.clientY,!(a=t(i.currentTarget)).hasClass("cur")))return e.find(".cur").removeClass("cur"),a.addClass("cur")}).on("click.atwho-view","li",function(n){return function(o){return e.find(".cur").removeClass("cur"),t(o.currentTarget).addClass("cur"),n.choose(o),o.preventDefault()}}(this))},e.prototype.visible=function(){return t.expr.filters.visible(this.$el[0])},e.prototype.highlighted=function(){return this.$el.find(".cur").length>0},e.prototype.choose=function(t){var e,n;return(e=this.$el.find(".cur")).length&&(n=this.context.insertContentFor(e),this.context._stopDelayedCall(),this.context.insert(this.context.callbacks("beforeInsert").call(this.context,n,e,t),e),this.context.trigger("inserted",[e,t]),this.hide(t)),this.context.getOpt("hideWithoutSuffix")?this.stopShowing=!0:void 0},e.prototype.reposition=function(e){var n,o,i,a;return n=this.context.app.iframeAsRoot?this.context.app.window:window,e.bottom+this.$el.height()-t(n).scrollTop()>t(n).height()&&(e.bottom=e.top-this.$el.height()),e.left>(i=t(n).width()-this.$el.width()-5)&&(e.left=i),o={left:e.left,top:e.bottom},null!=(a=this.context.callbacks("beforeReposition"))&&a.call(this.context,o),this.$el.offset(o),this.context.trigger("reposition",[o])},e.prototype.next=function(){var t,e,n,o;return t=this.$el.find(".cur").removeClass("cur"),(e=t.next()).length||(e=this.$el.find("li:first")),e.addClass("cur"),n=e[0],o=n.offsetTop+n.offsetHeight+(n.nextSibling?n.nextSibling.offsetHeight:0),this.scrollTop(Math.max(0,o-this.$el.height()))},e.prototype.prev=function(){var t,e,n,o;return t=this.$el.find(".cur").removeClass("cur"),(n=t.prev()).length||(n=this.$el.find("li:last")),n.addClass("cur"),o=n[0],e=o.offsetTop+o.offsetHeight+(o.nextSibling?o.nextSibling.offsetHeight:0),this.scrollTop(Math.max(0,e-this.$el.height()))},e.prototype.scrollTop=function(t){var e;return(e=this.context.getOpt("scrollDuration"))?this.$elUl.animate({scrollTop:t},e):this.$elUl.scrollTop(t)},e.prototype.show=function(){var t;return this.stopShowing?void(this.stopShowing=!1):(this.visible()||(this.$el.show(),this.$el.scrollTop(0),this.context.trigger("shown")),(t=this.context.rect())?this.reposition(t):void 0)},e.prototype.hide=function(t,e){var n;if(this.visible())return isNaN(e)?(this.$el.hide(),this.context.trigger("hidden",[t])):(n=function(t){return function(){return t.hide()}}(this),clearTimeout(this.timeoutID),this.timeoutID=setTimeout(n,e))},e.prototype.render=function(e){var n,o,i,a,r,s,l;if(t.isArray(e)&&e.length>0){for(this.$el.find("ul").empty(),o=this.$el.find("ul"),l=this.context.getOpt("displayTpl"),i=0,r=e.length;r>i;i++)a=e[i],a=t.extend({},a,{"atwho-at":this.context.at}),s=this.context.callbacks("tplEval").call(this.context,l,a,"onDisplay"),(n=t(this.context.callbacks("highlighter").call(this.context,s,this.context.query.text))).data("item-data",a),o.append(n);return this.show(),this.context.getOpt("highlightFirst")?o.find("li:first").addClass("cur"):void 0}this.hide()},e}(),d={load:function(t,e){var n;return(n=this.controller(t))?n.model.load(e):void 0},isSelecting:function(){var t;return!!(null!=(t=this.controller())?t.view.visible():void 0)},hide:function(){var t;return null!=(t=this.controller())?t.view.hide():void 0},reposition:function(){var t;return(t=this.controller())?t.view.reposition(t.rect()):void 0},setIframe:function(t,e){return this.setupRootElement(t,e),null},run:function(){return this.dispatch()},destroy:function(){return this.shutdown(),this.$inputor.data("atwho",null)}},t.fn.atwho=function(e){var n,i;return n=arguments,i=null,this.filter('textarea, input, [contenteditable=""], [contenteditable=true]').each(function(){var r,s;return(s=(r=t(this)).data("atwho"))||r.data("atwho",s=new o(this)),"object"!=a(e)&&e?d[e]&&s?i=d[e].apply(s,Array.prototype.slice.call(n,1)):t.error("Method "+e+" does not exist on jQuery.atwho"):s.reg(e.at,e)}),null!=i?i:this},t.fn.atwho.default={at:void 0,alias:void 0,data:null,displayTpl:"<li>${name}</li>",insertTpl:"${atwho-at}${name}",headerTpl:null,callbacks:e,functionOverrides:{},searchKey:"name",suffix:void 0,hideWithoutSuffix:!1,startWithSpace:!0,acceptSpaceBar:!1,highlightFirst:!0,limit:5,maxLen:20,minLen:0,displayTimeout:300,delay:null,spaceSelectsMatch:!1,tabSelectsMatch:!0,editableAtwhoQueryAttrs:{},scrollDuration:150,suspendOnComposing:!0,lookUpOnClick:!0},t.fn.atwho.debug=!1}(t)}.apply(e,o))||(t.exports=i)},function(t,e,n){var o=n(17);"string"==typeof o&&(o=[[t.i,o,""]]);var i={hmr:!0,transform:void 0,insertInto:void 0};n(2)(o,i);o.locals&&(t.exports=o.locals)},function(t,e,n){(t.exports=n(1)(!1)).push([t.i,"/**\n * based upon apps/comments/js/vendor/At.js/dist/css/jquery.atwho.css,\n * only changed colors and font-weight\n */\n.atwho-view {\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: none;\n  margin-top: 18px;\n  background: var(--color-main-background);\n  color: var(--color-main-text);\n  border: 1px solid var(--color-border);\n  border-radius: var(--border-radius);\n  box-shadow: 0 0 5px var(--color-box-shadow);\n  min-width: 120px;\n  z-index: 11110 !important; }\n\n.atwho-view .atwho-header {\n  padding: 5px;\n  margin: 5px;\n  cursor: pointer;\n  border-bottom: solid 1px var(--color-border);\n  color: var(--color-main-text);\n  font-size: 11px;\n  font-weight: bold; }\n\n.atwho-view .atwho-header .small {\n  color: var(--color-main-text);\n  float: right;\n  padding-top: 2px;\n  margin-right: -5px;\n  font-size: 12px;\n  font-weight: normal; }\n\n.atwho-view .atwho-header:hover {\n  cursor: default; }\n\n.atwho-view .cur {\n  background: var(--color-primary);\n  color: var(--color-primary-text); }\n\n.atwho-view .cur small {\n  color: var(--color-primary-text); }\n\n.atwho-view strong {\n  color: var(--color-main-text);\n  font-weight: normal; }\n\n.atwho-view .cur strong {\n  color: var(--color-primary-text);\n  font-weight: normal; }\n\n.atwho-view ul {\n  /* width: 100px; */\n  list-style: none;\n  padding: 0;\n  margin: auto;\n  max-height: 200px;\n  overflow-y: auto; }\n\n.atwho-view ul li {\n  display: block;\n  padding: 5px 10px;\n  border-bottom: 1px solid var(--color-border);\n  cursor: pointer; }\n\n.atwho-view small {\n  font-size: smaller;\n  color: var(--color-main-text);\n  font-weight: normal; }\n",""])},function(t,e){t.exports=function(t){var e="undefined"!=typeof window&&window.location;if(!e)throw new Error("fixUrls requires window.location");if(!t||"string"!=typeof t)return t;var n=e.protocol+"//"+e.host,o=n+e.pathname.replace(/\/[^\/]*$/,"/");return t.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi,function(t,e){var i,a=e.trim().replace(/^"(.*)"$/,function(t,e){return e}).replace(/^'(.*)'$/,function(t,e){return e});return/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(a)?t:(i=0===a.indexOf("//")?a:0===a.indexOf("/")?n+a:o+a.replace(/^\.\//,""),"url("+JSON.stringify(i)+")")})}},function(t,e,n){var o=n(20);"string"==typeof o&&(o=[[t.i,o,""]]);var i={hmr:!0,transform:void 0,insertInto:void 0};n(2)(o,i);o.locals&&(t.exports=o.locals)},function(t,e,n){(t.exports=n(1)(!1)).push([t.i,"/*\n * Copyright (c) 2016\n *\n * This file is licensed under the Affero General Public License version 3\n * or later.\n *\n * See the COPYING-README file.\n *\n */\n#commentsTabView .emptycontent {\n  margin-top: 0; }\n\n#commentsTabView .newCommentForm {\n  margin-left: 36px;\n  position: relative; }\n\n#commentsTabView .newCommentForm .message {\n  width: 100%;\n  padding: 10px;\n  min-height: 44px;\n  margin: 0;\n  /* Prevent the text from overlapping with the submit button. */\n  padding-right: 30px; }\n\n#commentsTabView .newCommentForm .submit,\n#commentsTabView .newCommentForm .submitLoading {\n  width: 44px;\n  height: 44px;\n  margin: 0;\n  padding: 13px;\n  background-color: transparent;\n  border: none;\n  opacity: .3;\n  position: absolute;\n  bottom: 0;\n  right: 0; }\n\n#commentsTabView .deleteLoading {\n  padding: 14px;\n  vertical-align: middle; }\n\n#commentsTabView .newCommentForm .submit:not(:disabled):hover,\n#commentsTabView .newCommentForm .submit:not(:disabled):focus {\n  opacity: 1; }\n\n#commentsTabView .newCommentForm div.message {\n  resize: none; }\n\n#commentsTabView .newCommentForm div.message:empty:before {\n  content: attr(data-placeholder);\n  color: grey; }\n\n#commentsTabView .comment {\n  position: relative;\n  /** padding bottom is little more so that the top and bottom gap look uniform **/\n  padding: 10px 0 15px; }\n\n#commentsTabView .comments .comment {\n  border-top: 1px solid var(--color-border); }\n\n#commentsTabView .comment .avatar,\n.atwho-view-ul * .avatar {\n  width: 32px;\n  height: 32px;\n  line-height: 32px;\n  margin-right: 5px; }\n\n#commentsTabView .comment .message .avatar,\n.atwho-view-ul * .avatar {\n  display: inline-block; }\n\n#activityTabView li.comment.collapsed .activitymessage,\n#commentsTabView .comment.collapsed .message {\n  white-space: pre-wrap; }\n\n#activityTabView li.comment.collapsed .activitymessage,\n#commentsTabView .comment.collapsed .message {\n  max-height: 70px;\n  overflow: hidden; }\n\n#activityTabView li.comment .message-overlay,\n#commentsTabView .comment .message-overlay {\n  display: none; }\n\n#activityTabView li.comment.collapsed .message-overlay,\n#commentsTabView .comment.collapsed .message-overlay {\n  display: block;\n  position: absolute;\n  z-index: 2;\n  height: 50px;\n  pointer-events: none;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: -moz-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -webkit-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -o-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -ms-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background-repeat: no-repeat; }\n\n#commentsTabView .hidden {\n  display: none !important; }\n\n/** set min-height as 44px to ensure that it fits the button sizes. **/\n#commentsTabView .comment .authorRow {\n  min-height: 44px; }\n\n#commentsTabView .comment .authorRow .tooltip {\n  /** because of the padding on the element, the tooltip appear too far up,\n\t adding this brings them closer to the element**/\n  margin-top: 5px; }\n\n.atwho-view-ul * .avatar-name-wrapper,\n#commentsTabView .comment .authorRow {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  width: 100%; }\n\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser),\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar,\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar img,\n#commentsTabView .comment .authorRow .avatar:not(.currentUser),\n#commentsTabView .comment .authorRow .author:not(.currentUser) {\n  cursor: pointer; }\n\n.atwho-view-ul .avatar-name-wrapper,\n.atwho-view-ul .avatar-name-wrapper .avatar,\n.atwho-view-ul .avatar-name-wrapper .avatar img {\n  cursor: pointer; }\n\n#commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper,\n#commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper {\n  /* Make the wrapper the positioning context of its child contacts\n\t\t * menu. */\n  position: relative;\n  display: inline;\n  vertical-align: top;\n  background-color: var(--color-background-dark);\n  border-radius: 50vh;\n  padding: 1px 7px 1px 1px;\n  /* Ensure that the avatar and the user name will be kept together. */\n  white-space: nowrap; }\n  #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper .avatar,\n  #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper .avatar {\n    height: 16px;\n    width: 16px;\n    vertical-align: middle;\n    padding: 1px;\n    margin-top: -3px;\n    margin-left: 0;\n    margin-right: 2px; }\n    #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper .avatar img,\n    #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper .avatar img {\n      vertical-align: top; }\n  #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper strong,\n  #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper strong {\n    /* Ensure that the user name is shown in bold, as different browsers\n\t\t\t * use different font weights for strong elements. */\n    font-weight: bold; }\n\n#commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper.currentUser,\n#commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper.currentUser {\n  background-color: var(--color-primary);\n  color: var(--color-primary-text); }\n\n.atwho-view-ul * .avatar-name-wrapper {\n  white-space: nowrap; }\n\n#commentsTabView .comment .author,\n#commentsTabView .comment .date {\n  opacity: .5; }\n\n#commentsTabView .comment .author {\n  max-width: 210px;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap; }\n\n#commentsTabView .comment .date {\n  margin-left: auto;\n  /** this is to fix the tooltip being too close due to the margin-top applied\n\t to bring the tooltip closer for the action icons **/\n  padding: 10px 0px; }\n\n#commentsTabView .comments > li:not(.newCommentRow) .message {\n  padding-left: 40px;\n  word-wrap: break-word;\n  overflow-wrap: break-word; }\n\n#commentsTabView .comment .action {\n  opacity: 0.3;\n  padding: 14px;\n  display: block; }\n\n#commentsTabView .comment .action:hover,\n#commentsTabView .comment .action:focus {\n  opacity: 1; }\n\n#commentsTabView .newCommentRow .action-container {\n  margin-left: auto; }\n\n#commentsTabView .comment.disabled .message {\n  opacity: 0.3; }\n\n#commentsTabView .comment.disabled .action {\n  display: none; }\n\n#commentsTabView .message.error {\n  color: #e9322d;\n  border-color: #e9322d;\n  box-shadow: 0 0 6px #f8b9b7; }\n\n.app-files .action-comment {\n  padding: 16px 14px; }\n\n#commentsTabView .comment .message .contactsmenu-popover {\n  left: -6px;\n  top: 24px; }\n",""])}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/js/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./apps/comments/src/comments.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./apps/comments/src/activitytabviewplugin.js":
+/*!****************************************************!*\
+  !*** ./apps/comments/src/activitytabviewplugin.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * @author Joas Schilling <coding@schilljs.com>
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ */
+(function () {
+  OCA.Comments.ActivityTabViewPlugin = {
+    /**
+     * Prepare activity for display
+     *
+     * @param {OCA.Activity.ActivityModel} model for this activity
+     * @param {jQuery} $el jQuery handle for this activity
+     * @param {string} view The view that displayes this activity
+     */
+    prepareModelForDisplay: function prepareModelForDisplay(model, $el, view) {
+      if (model.get('app') !== 'comments' || model.get('type') !== 'comments') {
+        return;
+      }
+
+      if (view === 'ActivityTabView') {
+        $el.addClass('comment');
+
+        if (model.get('message') && this._isLong(model.get('message'))) {
+          $el.addClass('collapsed');
+          var $overlay = $('<div>').addClass('message-overlay');
+          $el.find('.activitymessage').after($overlay);
+          $el.on('click', this._onClickCollapsedComment);
+        }
+      }
+    },
+
+    /*
+     * Copy of CommentsTabView._onClickComment()
+     */
+    _onClickCollapsedComment: function _onClickCollapsedComment(ev) {
+      var $row = $(ev.target);
+
+      if (!$row.is('.comment')) {
+        $row = $row.closest('.comment');
+      }
+
+      $row.removeClass('collapsed');
+    },
+
+    /*
+     * Copy of CommentsTabView._isLong()
+     */
+    _isLong: function _isLong(message) {
+      return message.length > 250 || (message.match(/\n/g) || []).length > 1;
+    }
+  };
+})();
+
+OC.Plugins.register('OCA.Activity.RenderingPlugins', OCA.Comments.ActivityTabViewPlugin);
+
+/***/ }),
+
+/***/ "./apps/comments/src/app.js":
+/*!**********************************!*\
+  !*** ./apps/comments/src/app.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function () {
+  if (!OCA.Comments) {
+    /**
+     * @namespace
+     */
+    OCA.Comments = {};
+  }
+})();
+
+/***/ }),
+
+/***/ "./apps/comments/src/commentcollection.js":
+/*!************************************************!*\
+  !*** ./apps/comments/src/commentcollection.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function (OC, OCA) {
+  /**
+   * @class OCA.Comments.CommentCollection
+   * @classdesc
+   *
+   * Collection of comments assigned to a file
+   *
+   */
+  var CommentCollection = OC.Backbone.Collection.extend(
+  /** @lends OCA.Comments.CommentCollection.prototype */
+  {
+    sync: OC.Backbone.davSync,
+    model: OCA.Comments.CommentModel,
+
+    /**
+     * Object type
+     *
+     * @type string
+     */
+    _objectType: 'files',
+
+    /**
+     * Object id
+     *
+     * @type string
+     */
+    _objectId: null,
+
+    /**
+     * True if there are no more page results left to fetch
+     *
+     * @type bool
+     */
+    _endReached: false,
+
+    /**
+     * Number of comments to fetch per page
+     *
+     * @type int
+     */
+    _limit: 20,
+
+    /**
+     * Initializes the collection
+     *
+     * @param {string} [options.objectType] object type
+     * @param {string} [options.objectId] object id
+     */
+    initialize: function initialize(models, options) {
+      options = options || {};
+
+      if (options.objectType) {
+        this._objectType = options.objectType;
+      }
+
+      if (options.objectId) {
+        this._objectId = options.objectId;
+      }
+    },
+    url: function url() {
+      return OC.linkToRemote('dav') + '/comments/' + encodeURIComponent(this._objectType) + '/' + encodeURIComponent(this._objectId) + '/';
+    },
+    setObjectId: function setObjectId(objectId) {
+      this._objectId = objectId;
+    },
+    hasMoreResults: function hasMoreResults() {
+      return !this._endReached;
+    },
+    reset: function reset() {
+      this._endReached = false;
+      this._summaryModel = null;
+      return OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+    },
+
+    /**
+     * Fetch the next set of results
+     */
+    fetchNext: function fetchNext(options) {
+      var self = this;
+
+      if (!this.hasMoreResults()) {
+        return null;
+      }
+
+      var body = '<?xml version="1.0" encoding="utf-8" ?>\n' + '<oc:filter-comments xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n' + // load one more so we know there is more
+      '    <oc:limit>' + (this._limit + 1) + '</oc:limit>\n' + '    <oc:offset>' + this.length + '</oc:offset>\n' + '</oc:filter-comments>\n';
+      options = options || {};
+      var _success = options.success;
+      options = _.extend({
+        remove: false,
+        parse: true,
+        data: body,
+        davProperties: CommentCollection.prototype.model.prototype.davProperties,
+        success: function success(resp) {
+          if (resp.length <= self._limit) {
+            // no new entries, end reached
+            self._endReached = true;
+          } else {
+            // remove last entry, for next page load
+            resp = _.initial(resp);
+          }
+
+          if (!self.set(resp, options)) {
+            return false;
+          }
+
+          if (_success) {
+            _success.apply(null, arguments);
+          }
+
+          self.trigger('sync', 'REPORT', self, options);
+        }
+      }, options);
+      return this.sync('REPORT', this, options);
+    },
+
+    /**
+     * Returns the matching summary model
+     *
+     * @return {OCA.Comments.CommentSummaryModel} summary model
+     */
+    getSummaryModel: function getSummaryModel() {
+      if (!this._summaryModel) {
+        this._summaryModel = new OCA.Comments.CommentSummaryModel({
+          id: this._objectId,
+          objectType: this._objectType
+        });
+      }
+
+      return this._summaryModel;
+    },
+
+    /**
+     * Updates the read marker for this comment thread
+     *
+     * @param {Date} [date] optional date, defaults to now
+     * @param {Object} [options] backbone options
+     */
+    updateReadMarker: function updateReadMarker(date, options) {
+      options = options || {};
+      return this.getSummaryModel().save({
+        readMarker: (date || new Date()).toUTCString()
+      }, options);
+    }
+  });
+  OCA.Comments.CommentCollection = CommentCollection;
+})(OC, OCA);
+
+/***/ }),
+
+/***/ "./apps/comments/src/commentmodel.js":
+/*!*******************************************!*\
+  !*** ./apps/comments/src/commentmodel.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function (OC, OCA) {
+  _.extend(OC.Files.Client, {
+    PROPERTY_FILEID: '{' + OC.Files.Client.NS_OWNCLOUD + '}id',
+    PROPERTY_MESSAGE: '{' + OC.Files.Client.NS_OWNCLOUD + '}message',
+    PROPERTY_ACTORTYPE: '{' + OC.Files.Client.NS_OWNCLOUD + '}actorType',
+    PROPERTY_ACTORID: '{' + OC.Files.Client.NS_OWNCLOUD + '}actorId',
+    PROPERTY_ISUNREAD: '{' + OC.Files.Client.NS_OWNCLOUD + '}isUnread',
+    PROPERTY_OBJECTID: '{' + OC.Files.Client.NS_OWNCLOUD + '}objectId',
+    PROPERTY_OBJECTTYPE: '{' + OC.Files.Client.NS_OWNCLOUD + '}objectType',
+    PROPERTY_ACTORDISPLAYNAME: '{' + OC.Files.Client.NS_OWNCLOUD + '}actorDisplayName',
+    PROPERTY_CREATIONDATETIME: '{' + OC.Files.Client.NS_OWNCLOUD + '}creationDateTime',
+    PROPERTY_MENTIONS: '{' + OC.Files.Client.NS_OWNCLOUD + '}mentions'
+  });
+  /**
+   * @class OCA.Comments.CommentModel
+   * @classdesc
+   *
+   * Comment
+   *
+   */
+
+
+  var CommentModel = OC.Backbone.Model.extend(
+  /** @lends OCA.Comments.CommentModel.prototype */
+  {
+    sync: OC.Backbone.davSync,
+    defaults: {
+      actorType: 'users',
+      objectType: 'files'
+    },
+    davProperties: {
+      'id': OC.Files.Client.PROPERTY_FILEID,
+      'message': OC.Files.Client.PROPERTY_MESSAGE,
+      'actorType': OC.Files.Client.PROPERTY_ACTORTYPE,
+      'actorId': OC.Files.Client.PROPERTY_ACTORID,
+      'actorDisplayName': OC.Files.Client.PROPERTY_ACTORDISPLAYNAME,
+      'creationDateTime': OC.Files.Client.PROPERTY_CREATIONDATETIME,
+      'objectType': OC.Files.Client.PROPERTY_OBJECTTYPE,
+      'objectId': OC.Files.Client.PROPERTY_OBJECTID,
+      'isUnread': OC.Files.Client.PROPERTY_ISUNREAD,
+      'mentions': OC.Files.Client.PROPERTY_MENTIONS
+    },
+    parse: function parse(data) {
+      return {
+        id: data.id,
+        message: data.message,
+        actorType: data.actorType,
+        actorId: data.actorId,
+        actorDisplayName: data.actorDisplayName,
+        creationDateTime: data.creationDateTime,
+        objectType: data.objectType,
+        objectId: data.objectId,
+        isUnread: data.isUnread === 'true',
+        mentions: this._parseMentions(data.mentions)
+      };
+    },
+    _parseMentions: function _parseMentions(mentions) {
+      if (_.isUndefined(mentions)) {
+        return {};
+      }
+
+      var result = {};
+
+      for (var i in mentions) {
+        var mention = mentions[i];
+
+        if (_.isUndefined(mention.localName) || mention.localName !== 'mention') {
+          continue;
+        }
+
+        result[i] = {};
+
+        for (var child = mention.firstChild; child; child = child.nextSibling) {
+          if (_.isUndefined(child.localName) || !child.localName.startsWith('mention')) {
+            continue;
+          }
+
+          result[i][child.localName] = child.textContent;
+        }
+      }
+
+      return result;
+    }
+  });
+  OCA.Comments.CommentModel = CommentModel;
+})(OC, OCA);
+
+/***/ }),
+
+/***/ "./apps/comments/src/comments.js":
+/*!***************************************!*\
+  !*** ./apps/comments/src/comments.js ***!
+  \***************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./apps/comments/src/app.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates */ "./apps/comments/src/templates.js");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_templates__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _commentmodel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commentmodel */ "./apps/comments/src/commentmodel.js");
+/* harmony import */ var _commentmodel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_commentmodel__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _commentcollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./commentcollection */ "./apps/comments/src/commentcollection.js");
+/* harmony import */ var _commentcollection__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_commentcollection__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _commentsummarymodel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./commentsummarymodel */ "./apps/comments/src/commentsummarymodel.js");
+/* harmony import */ var _commentsummarymodel__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_commentsummarymodel__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _commentstabview__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./commentstabview */ "./apps/comments/src/commentstabview.js");
+/* harmony import */ var _commentstabview__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_commentstabview__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _commentsmodifymenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./commentsmodifymenu */ "./apps/comments/src/commentsmodifymenu.js");
+/* harmony import */ var _commentsmodifymenu__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_commentsmodifymenu__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _filesplugin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./filesplugin */ "./apps/comments/src/filesplugin.js");
+/* harmony import */ var _filesplugin__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_filesplugin__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _activitytabviewplugin__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./activitytabviewplugin */ "./apps/comments/src/activitytabviewplugin.js");
+/* harmony import */ var _activitytabviewplugin__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_activitytabviewplugin__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./search */ "./apps/comments/src/search.js");
+/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_search__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _vendor_Caret_js_dist_jquery_caret_min__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./vendor/Caret.js/dist/jquery.caret.min */ "./apps/comments/src/vendor/Caret.js/dist/jquery.caret.min.js");
+/* harmony import */ var _vendor_Caret_js_dist_jquery_caret_min__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_vendor_Caret_js_dist_jquery_caret_min__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _vendor_At_js_dist_js_jquery_atwho_min__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./vendor/At.js/dist/js/jquery.atwho.min */ "./apps/comments/src/vendor/At.js/dist/js/jquery.atwho.min.js");
+/* harmony import */ var _vendor_At_js_dist_js_jquery_atwho_min__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_vendor_At_js_dist_js_jquery_atwho_min__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _style_autocomplete_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./style/autocomplete.scss */ "./apps/comments/src/style/autocomplete.scss");
+/* harmony import */ var _style_autocomplete_scss__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_style_autocomplete_scss__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _style_comments_scss__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./style/comments.scss */ "./apps/comments/src/style/comments.scss");
+/* harmony import */ var _style_comments_scss__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_style_comments_scss__WEBPACK_IMPORTED_MODULE_13__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+window.OCA.Comments = OCA.Comments;
+
+/***/ }),
+
+/***/ "./apps/comments/src/commentsmodifymenu.js":
+/*!*************************************************!*\
+  !*** ./apps/comments/src/commentsmodifymenu.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2018
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global Handlebars */
+(function () {
+  /**
+   * Construct a new CommentsModifyMenuinstance
+   * @constructs CommentsModifyMenu
+   * @memberof OC.Comments
+   * @private
+   */
+  var CommentsModifyMenu = OC.Backbone.View.extend({
+    tagName: 'div',
+    className: 'commentsModifyMenu popovermenu bubble menu',
+    _scopes: [{
+      name: 'edit',
+      displayName: t('comments', 'Edit comment'),
+      iconClass: 'icon-rename'
+    }, {
+      name: 'delete',
+      displayName: t('comments', 'Delete comment'),
+      iconClass: 'icon-delete'
+    }],
+    initialize: function initialize() {},
+    events: {
+      'click a.action': '_onClickAction'
+    },
+
+    /**
+     * Event handler whenever an action has been clicked within the menu
+     *
+     * @param {Object} event event object
+     */
+    _onClickAction: function _onClickAction(event) {
+      var $target = $(event.currentTarget);
+
+      if (!$target.hasClass('menuitem')) {
+        $target = $target.closest('.menuitem');
+      }
+
+      OC.hideMenus();
+      this.trigger('select:menu-item-clicked', event, $target.data('action'));
+    },
+
+    /**
+     * Renders the menu with the currently set items
+     */
+    render: function render() {
+      this.$el.html(OCA.Comments.Templates['commentsmodifymenu']({
+        items: this._scopes
+      }));
+    },
+
+    /**
+     * Displays the menu
+     */
+    show: function show(context) {
+      this._context = context;
+
+      for (var i in this._scopes) {
+        this._scopes[i].active = false;
+      }
+
+      var $el = $(context.target);
+      var offsetIcon = $el.offset();
+      var offsetContainer = $el.closest('.authorRow').offset(); // adding some extra top offset to push the menu below the button.
+
+      var position = {
+        top: offsetIcon.top - offsetContainer.top + 48,
+        left: '',
+        right: ''
+      };
+      position.left = offsetIcon.left - offsetContainer.left;
+
+      if (position.left > 200) {
+        // we need to position the menu to the right.
+        position.left = '';
+        position.right = this.$el.closest('.comment').find('.date').width();
+        this.$el.removeClass('menu-left').addClass('menu-right');
+      } else {
+        this.$el.removeClass('menu-right').addClass('menu-left');
+      }
+
+      this.$el.css(position);
+      this.render();
+      this.$el.removeClass('hidden');
+      OC.showMenu(null, this.$el);
+    }
+  });
+  OCA.Comments = OCA.Comments || {};
+  OCA.Comments.CommentsModifyMenu = CommentsModifyMenu;
+})(OC, OCA);
+
+/***/ }),
+
+/***/ "./apps/comments/src/commentstabview.js":
+/*!**********************************************!*\
+  !*** ./apps/comments/src/commentstabview.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global Handlebars, escapeHTML */
+(function (OC, OCA) {
+  /**
+   * @memberof OCA.Comments
+   */
+  var CommentsTabView = OCA.Files.DetailTabView.extend(
+  /** @lends OCA.Comments.CommentsTabView.prototype */
+  {
+    id: 'commentsTabView',
+    className: 'tab commentsTabView',
+    _autoCompleteData: undefined,
+    _commentsModifyMenu: undefined,
+    events: {
+      'submit .newCommentForm': '_onSubmitComment',
+      'click .showMore': '_onClickShowMore',
+      'click .cancel': '_onClickCloseComment',
+      'click .comment': '_onClickComment',
+      'keyup div.message': '_onTextChange',
+      'change div.message': '_onTextChange',
+      'input div.message': '_onTextChange',
+      'paste div.message': '_onPaste'
+    },
+    _commentMaxLength: 1000,
+    initialize: function initialize() {
+      OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
+      this.collection = new OCA.Comments.CommentCollection();
+      this.collection.on('request', this._onRequest, this);
+      this.collection.on('sync', this._onEndRequest, this);
+      this.collection.on('add', this._onAddModel, this);
+      this.collection.on('change:message', this._onChangeModel, this);
+      this._commentMaxThreshold = this._commentMaxLength * 0.9; // TODO: error handling
+
+      _.bindAll(this, '_onTypeComment', '_initAutoComplete', '_onAutoComplete');
+    },
+    template: function template(params) {
+      var currentUser = OC.getCurrentUser();
+      return OCA.Comments.Templates['view'](_.extend({
+        actorId: currentUser.uid,
+        actorDisplayName: currentUser.displayName
+      }, params));
+    },
+    editCommentTemplate: function editCommentTemplate(params) {
+      var currentUser = OC.getCurrentUser();
+      return OCA.Comments.Templates['edit_comment'](_.extend({
+        actorId: currentUser.uid,
+        actorDisplayName: currentUser.displayName,
+        newMessagePlaceholder: t('comments', 'New comment …'),
+        submitText: t('comments', 'Post'),
+        cancelText: t('comments', 'Cancel'),
+        tag: 'li'
+      }, params));
+    },
+    commentTemplate: function commentTemplate(params) {
+      params = _.extend({
+        editTooltip: t('comments', 'Edit comment'),
+        isUserAuthor: OC.getCurrentUser().uid === params.actorId,
+        isLong: this._isLong(params.message)
+      }, params);
+
+      if (params.actorType === 'deleted_users') {
+        // makes the avatar a X
+        params.actorId = null;
+        params.actorDisplayName = t('comments', '[Deleted user]');
+      }
+
+      return OCA.Comments.Templates['comment'](params);
+    },
+    getLabel: function getLabel() {
+      return t('comments', 'Comments');
+    },
+    getIcon: function getIcon() {
+      return 'icon-comment';
+    },
+    setFileInfo: function setFileInfo(fileInfo) {
+      if (fileInfo) {
+        this.model = fileInfo;
+        this.render();
+
+        this._initAutoComplete($('#commentsTabView').find('.newCommentForm .message'));
+
+        this.collection.setObjectId(this.model.id); // reset to first page
+
+        this.collection.reset([], {
+          silent: true
+        });
+        this.nextPage();
+      } else {
+        this.model = null;
+        this.render();
+        this.collection.reset();
+      }
+    },
+    render: function render() {
+      this.$el.html(this.template({
+        emptyResultLabel: t('comments', 'No comments yet, start the conversation!'),
+        moreLabel: t('comments', 'More comments …')
+      }));
+      this.$el.find('.comments').before(this.editCommentTemplate({
+        tag: 'div'
+      }));
+      this.$el.find('.has-tooltip').tooltip();
+      this.$container = this.$el.find('ul.comments');
+      this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 32);
+      this.delegateEvents();
+      this.$el.find('.message').on('keydown input change', this._onTypeComment);
+      autosize(this.$el.find('.newCommentRow .message'));
+      this.$el.find('.newCommentForm .message').focus();
+    },
+    _initAutoComplete: function _initAutoComplete($target) {
+      var s = this;
+      var limit = 10;
+
+      if (!_.isUndefined(OC.appConfig.comments)) {
+        limit = OC.appConfig.comments.maxAutoCompleteResults;
+      }
+
+      $target.atwho({
+        at: '@',
+        limit: limit,
+        callbacks: {
+          remoteFilter: s._onAutoComplete,
+          highlighter: function highlighter(li) {
+            // misuse the highlighter callback to instead of
+            // highlighting loads the avatars.
+            var $li = $(li);
+            $li.find('.avatar').avatar(undefined, 32);
+            return $li;
+          },
+          sorter: function sorter(q, items) {
+            return items;
+          }
+        },
+        displayTpl: function displayTpl(item) {
+          return '<li>' + '<span class="avatar-name-wrapper">' + '<span class="avatar" ' + 'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+          'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+          'data-user-display-name="' + escapeHTML(item.label) + '">' + '</span>' + '<strong>' + escapeHTML(item.label) + '</strong>' + '</span></li>';
+        },
+        insertTpl: function insertTpl(item) {
+          return '' + '<span class="avatar-name-wrapper">' + '<span class="avatar" ' + 'data-username="' + escapeHTML(item.id) + '" ' + // for avatars
+          'data-user="' + escapeHTML(item.id) + '" ' + // for contactsmenu
+          'data-user-display-name="' + escapeHTML(item.label) + '">' + '</span>' + '<strong>' + escapeHTML(item.label) + '</strong>' + '</span>';
+        },
+        searchKey: "label"
+      });
+      $target.on('inserted.atwho', function (je, $el) {
+        var editionMode = true;
+
+        s._postRenderItem( // we need to pass the parent of the inserted element
+        // passing the whole comments form would re-apply and request
+        // avatars from the server
+        $(je.target).find('span[data-username="' + $el.find('[data-username]').data('username') + '"]').parent(), editionMode);
+      });
+    },
+    _onAutoComplete: function _onAutoComplete(query, callback) {
+      var s = this;
+
+      if (!_.isUndefined(this._autoCompleteRequestTimer)) {
+        clearTimeout(this._autoCompleteRequestTimer);
+      }
+
+      this._autoCompleteRequestTimer = _.delay(function () {
+        if (!_.isUndefined(this._autoCompleteRequestCall)) {
+          this._autoCompleteRequestCall.abort();
+        }
+
+        this._autoCompleteRequestCall = $.ajax({
+          url: OC.linkToOCS('core', 2) + 'autocomplete/get',
+          data: {
+            search: query,
+            itemType: 'files',
+            itemId: s.model.get('id'),
+            sorter: 'commenters|share-recipients',
+            limit: OC.appConfig.comments.maxAutoCompleteResults
+          },
+          beforeSend: function beforeSend(request) {
+            request.setRequestHeader('Accept', 'application/json');
+          },
+          success: function success(result) {
+            callback(result.ocs.data);
+          }
+        });
+      }, 400);
+    },
+    _formatItem: function _formatItem(commentModel) {
+      var timestamp = new Date(commentModel.get('creationDateTime')).getTime();
+
+      var data = _.extend({
+        timestamp: timestamp,
+        date: OC.Util.relativeModifiedDate(timestamp),
+        altDate: OC.Util.formatDate(timestamp),
+        formattedMessage: this._formatMessage(commentModel.get('message'), commentModel.get('mentions'))
+      }, commentModel.attributes);
+
+      return data;
+    },
+    _toggleLoading: function _toggleLoading(state) {
+      this._loading = state;
+      this.$el.find('.loading').toggleClass('hidden', !state);
+    },
+    _onRequest: function _onRequest(type) {
+      if (type === 'REPORT') {
+        this._toggleLoading(true);
+
+        this.$el.find('.showMore').addClass('hidden');
+      }
+    },
+    _onEndRequest: function _onEndRequest(type) {
+      var fileInfoModel = this.model;
+
+      this._toggleLoading(false);
+
+      this.$el.find('.emptycontent').toggleClass('hidden', !!this.collection.length);
+      this.$el.find('.showMore').toggleClass('hidden', !this.collection.hasMoreResults());
+
+      if (type !== 'REPORT') {
+        return;
+      } // find first unread comment
+
+
+      var firstUnreadComment = this.collection.findWhere({
+        isUnread: true
+      });
+
+      if (firstUnreadComment) {
+        // update read marker
+        this.collection.updateReadMarker(null, {
+          success: function success() {
+            fileInfoModel.set('commentsUnread', 0);
+          }
+        });
+      }
+
+      this.$el.find('.newCommentForm .message').focus();
+    },
+
+    /**
+     * takes care of post-rendering after a new comment was added to the
+     * collection
+     *
+     * @param model
+     * @param collection
+     * @param options
+     * @private
+     */
+    _onAddModel: function _onAddModel(model, collection, options) {
+      // we need to render it immediately, to ensure that the right
+      // order of comments is kept on opening comments tab
+      var $comment = $(this.commentTemplate(this._formatItem(model)));
+
+      if (!_.isUndefined(options.at) && collection.length > 1) {
+        this.$container.find('li').eq(options.at).before($comment);
+      } else {
+        this.$container.append($comment);
+      }
+
+      this._postRenderItem($comment);
+
+      $('#commentsTabView').find('.newCommentForm div.message').text('').prop('contenteditable', true); // we need to update the model, because it consists of client data
+      // only, but the server might add meta data, e.g. about mentions
+
+      var oldMentions = model.get('mentions');
+      var self = this;
+      model.fetch({
+        success: function success(model) {
+          if (_.isEqual(oldMentions, model.get('mentions'))) {
+            // don't attempt to render if unnecessary, avoids flickering
+            return;
+          }
+
+          var $updated = $(self.commentTemplate(self._formatItem(model)));
+          $comment.html($updated.html());
+
+          self._postRenderItem($comment);
+        }
+      });
+    },
+
+    /**
+     * takes care of post-rendering after a new comment was edited
+     *
+     * @param model
+     * @private
+     */
+    _onChangeModel: function _onChangeModel(model) {
+      if (model.get('message').trim() === model.previous('message').trim()) {
+        return;
+      }
+
+      var $form = this.$container.find('.comment[data-id="' + model.id + '"] form');
+      var $row = $form.closest('.comment');
+      var $target = $row.data('commentEl');
+
+      if (_.isUndefined($target)) {
+        // ignore noise – this is only set after editing a comment and hitting post
+        return;
+      }
+
+      var self = this; // we need to update the model, because it consists of client data
+      // only, but the server might add meta data, e.g. about mentions
+
+      model.fetch({
+        success: function success(model) {
+          $target.removeClass('hidden');
+          $row.remove();
+          var $message = $target.find('.message');
+          $message.html(self._formatMessage(model.get('message'), model.get('mentions'))).find('.avatar').each(function () {
+            $(this).avatar();
+          });
+
+          self._postRenderItem($message);
+        }
+      });
+    },
+    _postRenderItem: function _postRenderItem($el, editionMode) {
+      $el.find('.has-tooltip').tooltip();
+      var inlineAvatars = $el.find('.message .avatar');
+
+      if ($($el.context).hasClass('message')) {
+        inlineAvatars = $el.find('.avatar');
+      }
+
+      inlineAvatars.each(function () {
+        var $this = $(this);
+        $this.avatar($this.attr('data-username'), 16);
+      });
+      $el.find('.authorRow .avatar').each(function () {
+        var $this = $(this);
+        $this.avatar($this.attr('data-username'), 32);
+      });
+      var username = $el.find('.avatar').data('username');
+
+      if (username !== oc_current_user) {
+        $el.find('.authorRow .avatar, .authorRow .author').contactsMenu(username, 0, $el.find('.authorRow'));
+      }
+
+      var $message = $el.find('.message');
+
+      if ($message.length === 0) {
+        // it is the case when writing a comment and mentioning a person
+        $message = $el;
+      }
+
+      if (!editionMode) {
+        var self = this; // add the dropdown menu to display the edit and delete option
+
+        var modifyCommentMenu = new OCA.Comments.CommentsModifyMenu();
+        $el.find('.authorRow').append(modifyCommentMenu.$el);
+        $el.find('.more').on('click', _.bind(modifyCommentMenu.show, modifyCommentMenu));
+        self.listenTo(modifyCommentMenu, 'select:menu-item-clicked', function (ev, action) {
+          if (action === 'edit') {
+            self._onClickEditComment(ev);
+          } else if (action === 'delete') {
+            self._onClickDeleteComment(ev);
+          }
+        });
+      }
+
+      this._postRenderMessage($message, editionMode);
+    },
+    _postRenderMessage: function _postRenderMessage($el, editionMode) {
+      if (editionMode) {
+        return;
+      }
+
+      $el.find('.avatar-name-wrapper').each(function () {
+        var $this = $(this);
+        var $avatar = $this.find('.avatar');
+        var user = $avatar.data('user');
+
+        if (user !== OC.getCurrentUser().uid) {
+          $this.contactsMenu(user, 0, $this);
+        }
+      });
+    },
+
+    /**
+     * Convert a message to be displayed in HTML,
+     * converts newlines to <br> tags.
+     */
+    _formatMessage: function _formatMessage(message, mentions, editMode) {
+      message = escapeHTML(message).replace(/\n/g, '<br/>');
+
+      for (var i in mentions) {
+        if (!mentions.hasOwnProperty(i)) {
+          return;
+        }
+
+        var mention = '@' + mentions[i].mentionId;
+
+        if (mentions[i].mentionId.indexOf(' ') !== -1) {
+          mention = _.escape('@"' + mentions[i].mentionId + '"');
+        } // escape possible regex characters in the name
+
+
+        mention = mention.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var regex = new RegExp("(^|\\s)(" + mention + ")\\b", 'g');
+
+        if (mentions[i].mentionId.indexOf(' ') !== -1) {
+          regex = new RegExp("(^|\\s)(" + mention + ")", 'g');
+        }
+
+        var displayName = this._composeHTMLMention(mentions[i].mentionId, mentions[i].mentionDisplayName); // replace every mention either at the start of the input or after a whitespace
+        // followed by a non-word character.
+
+
+        message = message.replace(regex, function (match, p1) {
+          // to  get number of whitespaces (0 vs 1) right
+          return p1 + displayName;
+        });
+      }
+
+      if (editMode !== true) {
+        message = OCP.Comments.plainToRich(message);
+      }
+
+      return message;
+    },
+    _composeHTMLMention: function _composeHTMLMention(uid, displayName) {
+      var avatar = '' + '<span class="avatar" ' + 'data-username="' + _.escape(uid) + '" ' + 'data-user="' + _.escape(uid) + '" ' + 'data-user-display-name="' + _.escape(displayName) + '">' + '</span>';
+      var isCurrentUser = uid === OC.getCurrentUser().uid;
+      return '' + '<span class="atwho-inserted" contenteditable="false">' + '<span class="avatar-name-wrapper' + (isCurrentUser ? ' currentUser' : '') + '">' + avatar + '<strong>' + _.escape(displayName) + '</strong>' + '</span>' + '</span>';
+    },
+    nextPage: function nextPage() {
+      if (this._loading || !this.collection.hasMoreResults()) {
+        return;
+      }
+
+      this.collection.fetchNext();
+    },
+    _onClickEditComment: function _onClickEditComment(ev) {
+      ev.preventDefault();
+      var $comment = $(ev.target).closest('.comment');
+      var commentId = $comment.data('id');
+      var commentToEdit = this.collection.get(commentId);
+      var $formRow = $(this.editCommentTemplate(_.extend({
+        isEditMode: true,
+        submitText: t('comments', 'Save')
+      }, commentToEdit.attributes)));
+      $comment.addClass('hidden').removeClass('collapsed'); // spawn form
+
+      $comment.after($formRow);
+      $formRow.data('commentEl', $comment);
+      $formRow.find('.message').on('keydown input change', this._onTypeComment); // copy avatar element from original to avoid flickering
+
+      $formRow.find('.avatar:first').replaceWith($comment.find('.avatar:first').clone());
+      $formRow.find('.has-tooltip').tooltip();
+      var $message = $formRow.find('.message');
+      $message.html(this._formatMessage(commentToEdit.get('message'), commentToEdit.get('mentions'), true)).find('.avatar').each(function () {
+        $(this).avatar();
+      });
+      var editionMode = true;
+
+      this._postRenderItem($message, editionMode); // Enable autosize
+
+
+      autosize($formRow.find('.message')); // enable autocomplete
+
+      this._initAutoComplete($formRow.find('.message'));
+
+      return false;
+    },
+    _onTypeComment: function _onTypeComment(ev) {
+      var $field = $(ev.target);
+      var len = $field.text().length;
+      var $submitButton = $field.data('submitButtonEl');
+
+      if (!$submitButton) {
+        $submitButton = $field.closest('form').find('.submit');
+        $field.data('submitButtonEl', $submitButton);
+      }
+
+      $field.tooltip('hide');
+
+      if (len > this._commentMaxThreshold) {
+        $field.attr('data-original-title', t('comments', 'Allowed characters {count} of {max}', {
+          count: len,
+          max: this._commentMaxLength
+        }));
+        $field.tooltip({
+          trigger: 'manual'
+        });
+        $field.tooltip('show');
+        $field.addClass('error');
+      }
+
+      var limitExceeded = len > this._commentMaxLength;
+      $field.toggleClass('error', limitExceeded);
+      $submitButton.prop('disabled', limitExceeded); // Submits form with Enter, but Shift+Enter is a new line. If the
+      // autocomplete popover is being shown Enter does not submit the
+      // form either; it will be handled by At.js which will add the
+      // currently selected item to the message.
+
+      if (ev.keyCode === 13 && !ev.shiftKey && !$field.atwho('isSelecting')) {
+        $submitButton.click();
+        ev.preventDefault();
+      }
+    },
+    _onClickComment: function _onClickComment(ev) {
+      var $row = $(ev.target);
+
+      if (!$row.is('.comment')) {
+        $row = $row.closest('.comment');
+      }
+
+      $row.removeClass('collapsed');
+    },
+    _onClickCloseComment: function _onClickCloseComment(ev) {
+      ev.preventDefault();
+      var $row = $(ev.target).closest('.comment');
+      $row.data('commentEl').removeClass('hidden');
+      $row.remove();
+      return false;
+    },
+    _onClickDeleteComment: function _onClickDeleteComment(ev) {
+      ev.preventDefault();
+      var $comment = $(ev.target).closest('.comment');
+      var commentId = $comment.data('id');
+      var $loading = $comment.find('.deleteLoading');
+      var $moreIcon = $comment.find('.more');
+      $comment.addClass('disabled');
+      $loading.removeClass('hidden');
+      $moreIcon.addClass('hidden');
+      $comment.data('commentEl', $comment);
+      this.collection.get(commentId).destroy({
+        success: function success() {
+          $comment.data('commentEl').remove();
+          $comment.remove();
+        },
+        error: function error() {
+          $loading.addClass('hidden');
+          $moreIcon.removeClass('hidden');
+          $comment.removeClass('disabled');
+          OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with ID {id}', {
+            id: commentId
+          }));
+        }
+      });
+      return false;
+    },
+    _onClickShowMore: function _onClickShowMore(ev) {
+      ev.preventDefault();
+      this.nextPage();
+    },
+
+    /**
+     * takes care of updating comment element states after submit (either new
+     * comment or edit).
+     *
+     * @param {OC.Backbone.Model} model
+     * @param {jQuery} $form
+     * @private
+     */
+    _onSubmitSuccess: function _onSubmitSuccess(model, $form) {
+      var $submit = $form.find('.submit');
+      var $loading = $form.find('.submitLoading');
+      $submit.removeClass('hidden');
+      $loading.addClass('hidden');
+    },
+    _commentBodyHTML2Plain: function _commentBodyHTML2Plain($el) {
+      var $comment = $el.clone();
+      $comment.find('.avatar-name-wrapper').each(function () {
+        var $this = $(this),
+            $inserted = $this.parent(),
+            userId = $this.find('.avatar').data('username');
+
+        if (userId.indexOf(' ') !== -1) {
+          $inserted.html('@"' + userId + '"');
+        } else {
+          $inserted.html('@' + userId);
+        }
+      });
+      $comment.html(OCP.Comments.richToPlain($comment.html()));
+      var oldHtml;
+      var html = $comment.html();
+
+      do {
+        // replace works one by one
+        oldHtml = html;
+        html = oldHtml.replace("<br>", "\n"); // preserve line breaks
+      } while (oldHtml !== html);
+
+      $comment.html(html);
+      return $comment.text();
+    },
+    _onSubmitComment: function _onSubmitComment(e) {
+      var self = this;
+      var $form = $(e.target);
+      var commentId = $form.closest('.comment').data('id');
+      var currentUser = OC.getCurrentUser();
+      var $submit = $form.find('.submit');
+      var $loading = $form.find('.submitLoading');
+      var $commentField = $form.find('.message');
+      var message = $commentField.text().trim();
+      e.preventDefault();
+
+      if (!message.length || message.length > this._commentMaxLength) {
+        return;
+      }
+
+      $commentField.prop('contenteditable', false);
+      $submit.addClass('hidden');
+      $loading.removeClass('hidden');
+      message = this._commentBodyHTML2Plain($commentField);
+
+      if (commentId) {
+        // edit mode
+        var comment = this.collection.get(commentId);
+        comment.save({
+          message: message
+        }, {
+          success: function success(model) {
+            self._onSubmitSuccess(model, $form);
+
+            if (model.get('message').trim() === model.previous('message').trim()) {
+              // model change event doesn't trigger, manually remove the row.
+              var $row = $form.closest('.comment');
+              $row.data('commentEl').removeClass('hidden');
+              $row.remove();
+            }
+          },
+          error: function error() {
+            self._onSubmitError($form, commentId);
+          }
+        });
+      } else {
+        this.collection.create({
+          actorId: currentUser.uid,
+          actorDisplayName: currentUser.displayName,
+          actorType: 'users',
+          verb: 'comment',
+          message: message,
+          creationDateTime: new Date().toUTCString()
+        }, {
+          at: 0,
+          // wait for real creation before adding
+          wait: true,
+          success: function success(model) {
+            self._onSubmitSuccess(model, $form);
+          },
+          error: function error() {
+            self._onSubmitError($form, undefined);
+          }
+        });
+      }
+
+      return false;
+    },
+
+    /**
+     * takes care of updating the UI after an error on submit (either new
+     * comment or edit).
+     *
+     * @param {jQuery} $form
+     * @param {string|undefined} commentId
+     * @private
+     */
+    _onSubmitError: function _onSubmitError($form, commentId) {
+      $form.find('.submit').removeClass('hidden');
+      $form.find('.submitLoading').addClass('hidden');
+      $form.find('.message').prop('contenteditable', true);
+
+      if (!_.isUndefined(commentId)) {
+        OC.Notification.show(t('comments', 'Error occurred while updating comment with id {id}', {
+          id: commentId
+        }), {
+          type: 'error'
+        });
+      } else {
+        OC.Notification.show(t('comments', 'Error occurred while posting comment'), {
+          type: 'error'
+        });
+      }
+    },
+
+    /**
+     * ensures the contenteditable div is really empty, when user removed
+     * all input, so that the placeholder will be shown again
+     *
+     * @private
+     */
+    _onTextChange: function _onTextChange() {
+      var $message = $('#commentsTabView').find('.newCommentForm div.message');
+
+      if (!$message.text().trim().length) {
+        $message.empty();
+      }
+    },
+
+    /**
+     * Limit pasting to plain text
+     *
+     * @param e
+     * @private
+     */
+    _onPaste: function _onPaste(e) {
+      e.preventDefault();
+      var text = e.originalEvent.clipboardData.getData("text/plain");
+      document.execCommand('insertText', false, text);
+    },
+
+    /**
+     * Returns whether the given message is long and needs
+     * collapsing
+     */
+    _isLong: function _isLong(message) {
+      return message.length > 250 || (message.match(/\n/g) || []).length > 1;
+    }
+  });
+  OCA.Comments.CommentsTabView = CommentsTabView;
+})(OC, OCA);
+
+/***/ }),
+
+/***/ "./apps/comments/src/commentsummarymodel.js":
+/*!**************************************************!*\
+  !*** ./apps/comments/src/commentsummarymodel.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function (OC, OCA) {
+  _.extend(OC.Files.Client, {
+    PROPERTY_READMARKER: '{' + OC.Files.Client.NS_OWNCLOUD + '}readMarker'
+  });
+  /**
+   * @class OCA.Comments.CommentSummaryModel
+   * @classdesc
+   *
+   * Model containing summary information related to comments
+   * like the read marker.
+   *
+   */
+
+
+  var CommentSummaryModel = OC.Backbone.Model.extend(
+  /** @lends OCA.Comments.CommentSummaryModel.prototype */
+  {
+    sync: OC.Backbone.davSync,
+
+    /**
+     * Object type
+     *
+     * @type string
+     */
+    _objectType: 'files',
+
+    /**
+     * Object id
+     *
+     * @type string
+     */
+    _objectId: null,
+    davProperties: {
+      'readMarker': OC.Files.Client.PROPERTY_READMARKER
+    },
+
+    /**
+     * Initializes the summary model
+     *
+     * @param {string} [options.objectType] object type
+     * @param {string} [options.objectId] object id
+     */
+    initialize: function initialize(attrs, options) {
+      options = options || {};
+
+      if (options.objectType) {
+        this._objectType = options.objectType;
+      }
+    },
+    url: function url() {
+      return OC.linkToRemote('dav') + '/comments/' + encodeURIComponent(this._objectType) + '/' + encodeURIComponent(this.id) + '/';
+    }
+  });
+  OCA.Comments.CommentSummaryModel = CommentSummaryModel;
+})(OC, OCA);
+
+/***/ }),
+
+/***/ "./apps/comments/src/filesplugin.js":
+/*!******************************************!*\
+  !*** ./apps/comments/src/filesplugin.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global Handlebars */
+(function () {
+  _.extend(OC.Files.Client, {
+    PROPERTY_COMMENTS_UNREAD: '{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread'
+  });
+
+  OCA.Comments = _.extend({}, OCA.Comments);
+
+  if (!OCA.Comments) {
+    /**
+     * @namespace
+     */
+    OCA.Comments = {};
+  }
+  /**
+   * @namespace
+   */
+
+
+  OCA.Comments.FilesPlugin = {
+    ignoreLists: ['files_trashbin', 'files.public'],
+    _formatCommentCount: function _formatCommentCount(count) {
+      return OCA.Comments.Templates['filesplugin']({
+        count: count,
+        countMessage: n('comments', '%n unread comment', '%n unread comments', count),
+        iconUrl: OC.imagePath('core', 'actions/comment')
+      });
+    },
+    attach: function attach(fileList) {
+      var self = this;
+
+      if (this.ignoreLists.indexOf(fileList.id) >= 0) {
+        return;
+      }
+
+      fileList.registerTabView(new OCA.Comments.CommentsTabView('commentsTabView'));
+      var oldGetWebdavProperties = fileList._getWebdavProperties;
+
+      fileList._getWebdavProperties = function () {
+        var props = oldGetWebdavProperties.apply(this, arguments);
+        props.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD);
+        return props;
+      };
+
+      fileList.filesClient.addFileInfoParser(function (response) {
+        var data = {};
+        var props = response.propStat[0].properties;
+        var commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD];
+
+        if (!_.isUndefined(commentsUnread) && commentsUnread !== '') {
+          data.commentsUnread = parseInt(commentsUnread, 10);
+        }
+
+        return data;
+      });
+      fileList.$el.addClass('has-comments');
+      var oldCreateRow = fileList._createRow;
+
+      fileList._createRow = function (fileData) {
+        var $tr = oldCreateRow.apply(this, arguments);
+
+        if (fileData.commentsUnread) {
+          $tr.attr('data-comments-unread', fileData.commentsUnread);
+        }
+
+        return $tr;
+      }; // register "comment" action for reading comments
+
+
+      fileList.fileActions.registerAction({
+        name: 'Comment',
+        displayName: t('comments', 'Comment'),
+        mime: 'all',
+        permissions: OC.PERMISSION_READ,
+        type: OCA.Files.FileActions.TYPE_INLINE,
+        render: function render(actionSpec, isDefault, context) {
+          var $file = context.$file;
+          var unreadComments = $file.data('comments-unread');
+
+          if (unreadComments) {
+            var $actionLink = $(self._formatCommentCount(unreadComments));
+            context.$file.find('a.name>span.fileactions').append($actionLink);
+            return $actionLink;
+          }
+
+          return '';
+        },
+        actionHandler: function actionHandler(fileName, context) {
+          context.$file.find('.action-comment').tooltip('hide'); // open sidebar in comments section
+
+          context.fileList.showDetailsView(fileName, 'commentsTabView');
+        }
+      }); // add attribute to "elementToFile"
+
+      var oldElementToFile = fileList.elementToFile;
+
+      fileList.elementToFile = function ($el) {
+        var fileInfo = oldElementToFile.apply(this, arguments);
+        var commentsUnread = $el.data('comments-unread');
+
+        if (commentsUnread) {
+          fileInfo.commentsUnread = commentsUnread;
+        }
+
+        return fileInfo;
+      };
+    }
+  };
+})();
+
+OC.Plugins.register('OCA.Files.FileList', OCA.Comments.FilesPlugin);
+
+/***/ }),
+
+/***/ "./apps/comments/src/search.js":
+/*!*************************************!*\
+  !*** ./apps/comments/src/search.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function (OC, OCA, $) {
+  "use strict";
+  /**
+   * Construct a new FileActions instance
+   * @constructs Files
+   */
+
+  var Comment = function Comment() {
+    this.initialize();
+  };
+
+  Comment.prototype = {
+    fileList: null,
+
+    /**
+     * Initialize the file search
+     */
+    initialize: function initialize() {
+      var self = this;
+
+      this.fileAppLoaded = function () {
+        return !!OCA.Files && !!OCA.Files.App;
+      };
+
+      function inFileList($row, result) {
+        return false;
+
+        if (!self.fileAppLoaded()) {
+          return false;
+        }
+
+        var dir = self.fileList.getCurrentDirectory().replace(/\/+$/, '');
+        var resultDir = OC.dirname(result.path);
+        return dir === resultDir && self.fileList.inList(result.name);
+      }
+
+      function hideNoFilterResults() {
+        var $nofilterresults = $('.nofilterresults');
+
+        if (!$nofilterresults.hasClass('hidden')) {
+          $nofilterresults.addClass('hidden');
+        }
+      }
+      /**
+       *
+       * @param {jQuery} $row
+       * @param {Object} result
+       * @param {int} result.id
+       * @param {string} result.comment
+       * @param {string} result.authorId
+       * @param {string} result.authorName
+       * @param {string} result.link
+       * @param {string} result.fileName
+       * @param {string} result.path
+       * @returns {*}
+       */
+
+
+      this.renderCommentResult = function ($row, result) {
+        if (inFileList($row, result)) {
+          return null;
+        }
+
+        hideNoFilterResults();
+        /*render preview icon, show path beneath filename,
+         show size and last modified date on the right */
+
+        this.updateLegacyMimetype(result);
+        var $pathDiv = $('<div>').addClass('path').text(result.path);
+        var $avatar = $('<div>');
+        $avatar.addClass('avatar').css('display', 'inline-block').css('vertical-align', 'middle').css('margin', '0 5px 2px 3px');
+
+        if (result.authorName) {
+          $avatar.avatar(result.authorId, 21, undefined, false, undefined, result.authorName);
+        } else {
+          $avatar.avatar(result.authorId, 21);
+        }
+
+        $row.find('td.info div.name').after($pathDiv).text(result.comment).prepend($('<span>').addClass('path').css('margin-right', '5px').text(result.authorName)).prepend($avatar);
+        $row.find('td.result a').attr('href', result.link);
+        $row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'actions/comment') + ')').css('opacity', '.4');
+        var dir = OC.dirname(result.path); // "result.path" does not include a leading "/", so "OC.dirname"
+        // returns the path itself for files or folders in the root.
+
+        if (dir === result.path) {
+          dir = '/';
+        }
+
+        $row.find('td.info a').attr('href', OC.generateUrl('/apps/files/?dir={dir}&scrollto={scrollto}', {
+          dir: dir,
+          scrollto: result.fileName
+        }));
+        return $row;
+      };
+
+      this.handleCommentClick = function ($row, result, event) {
+        if (self.fileAppLoaded() && self.fileList.id === 'files') {
+          self.fileList.changeDirectory(OC.dirname(result.path));
+          self.fileList.scrollTo(result.name);
+          return false;
+        } else {
+          return true;
+        }
+      };
+
+      this.updateLegacyMimetype = function (result) {
+        // backward compatibility:
+        if (!result.mime && result.mime_type) {
+          result.mime = result.mime_type;
+        }
+      };
+
+      this.setFileList = function (fileList) {
+        this.fileList = fileList;
+      };
+
+      OC.Plugins.register('OCA.Search.Core', this);
+    },
+    attach: function attach(search) {
+      search.setRenderer('comment', this.renderCommentResult.bind(this));
+      search.setHandler('comment', this.handleCommentClick.bind(this));
+    }
+  };
+  OCA.Search.comment = new Comment();
+})(OC, OCA, $);
+
+/***/ }),
+
+/***/ "./apps/comments/src/style/autocomplete.scss":
+/*!***************************************************!*\
+  !*** ./apps/comments/src/style/autocomplete.scss ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/lib/loader.js!./autocomplete.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/autocomplete.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./apps/comments/src/style/comments.scss":
+/*!***********************************************!*\
+  !*** ./apps/comments/src/style/comments.scss ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/lib/loader.js!./comments.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/comments.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./apps/comments/src/templates.js":
+/*!****************************************!*\
+  !*** ./apps/comments/src/templates.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+(function () {
+  var template = Handlebars.template,
+      templates = OCA.Comments.Templates = OCA.Comments.Templates || {};
+  templates['comment'] = template({
+    "1": function _(container, depth0, helpers, partials, data) {
+      return " unread";
+    },
+    "3": function _(container, depth0, helpers, partials, data) {
+      return " collapsed";
+    },
+    "5": function _(container, depth0, helpers, partials, data) {
+      return " currentUser";
+    },
+    "7": function _(container, depth0, helpers, partials, data) {
+      var helper;
+      return "data-username=\"" + container.escapeExpression((helper = (helper = helpers.actorId || (depth0 != null ? depth0.actorId : depth0)) != null ? helper : helpers.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "actorId",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"";
+    },
+    "9": function _(container, depth0, helpers, partials, data) {
+      return "			<a href=\"#\" class=\"action more icon icon-more has-tooltip\"></a>\n			<div class=\"deleteLoading icon-loading-small hidden\"></div>\n";
+    },
+    "11": function _(container, depth0, helpers, partials, data) {
+      return "		<div class=\"message-overlay\"></div>\n";
+    },
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var stack1,
+          helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "<li class=\"comment" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isUnread : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(1, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isLong : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(3, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "\" data-id=\"" + alias4((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "id",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">\n	<div class=\"authorRow\">\n		<div class=\"avatar" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isUserAuthor : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(5, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "\" " + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.actorId : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(7, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "> </div>\n		<div class=\"author" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isUserAuthor : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(5, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "\">" + alias4((helper = (helper = helpers.actorDisplayName || (depth0 != null ? depth0.actorDisplayName : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "actorDisplayName",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</div>\n" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isUserAuthor : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(9, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "		<div class=\"date has-tooltip live-relative-timestamp\" data-timestamp=\"" + alias4((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "timestamp",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" title=\"" + alias4((helper = (helper = helpers.altDate || (depth0 != null ? depth0.altDate : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "altDate",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">" + alias4((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "date",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</div>\n	</div>\n	<div class=\"message\">" + ((stack1 = (helper = (helper = helpers.formattedMessage || (depth0 != null ? depth0.formattedMessage : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "formattedMessage",
+        "hash": {},
+        "data": data
+      }) : helper)) != null ? stack1 : "") + "</div>\n" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isLong : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(11, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "</li>\n";
+    },
+    "useData": true
+  });
+  templates['commentsmodifymenu'] = template({
+    "1": function _(container, depth0, helpers, partials, data) {
+      var stack1,
+          helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "		<li>\n			<a href=\"#\" class=\"menuitem action " + alias4((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "name",
+        "hash": {},
+        "data": data
+      }) : helper)) + " permanent\" data-action=\"" + alias4((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "name",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">\n" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.iconClass : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(2, data, 0),
+        "inverse": container.program(4, data, 0),
+        "data": data
+      })) != null ? stack1 : "") + "				<span>" + alias4((helper = (helper = helpers.displayName || (depth0 != null ? depth0.displayName : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "displayName",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</span>\n			</a>\n		</li>\n";
+    },
+    "2": function _(container, depth0, helpers, partials, data) {
+      var helper;
+      return "					<span class=\"icon " + container.escapeExpression((helper = (helper = helpers.iconClass || (depth0 != null ? depth0.iconClass : depth0)) != null ? helper : helpers.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "iconClass",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"></span>\n";
+    },
+    "4": function _(container, depth0, helpers, partials, data) {
+      return "					<span class=\"no-icon\"></span>\n";
+    },
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var stack1;
+      return "<ul>\n" + ((stack1 = helpers.each.call(depth0 != null ? depth0 : container.nullContext || {}, depth0 != null ? depth0.items : depth0, {
+        "name": "each",
+        "hash": {},
+        "fn": container.program(1, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "</ul>\n";
+    },
+    "useData": true
+  });
+  templates['edit_comment'] = template({
+    "1": function _(container, depth0, helpers, partials, data) {
+      var helper;
+      return "			<div class=\"action-container\">\n				<a href=\"#\" class=\"action cancel icon icon-close has-tooltip\" title=\"" + container.escapeExpression((helper = (helper = helpers.cancelText || (depth0 != null ? depth0.cancelText : depth0)) != null ? helper : helpers.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "cancelText",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"></a>\n			</div>\n";
+    },
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var stack1,
+          helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "<" + alias4((helper = (helper = helpers.tag || (depth0 != null ? depth0.tag : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "tag",
+        "hash": {},
+        "data": data
+      }) : helper)) + " class=\"newCommentRow comment\" data-id=\"" + alias4((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "id",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">\n	<div class=\"authorRow\">\n		<div class=\"avatar currentUser\" data-username=\"" + alias4((helper = (helper = helpers.actorId || (depth0 != null ? depth0.actorId : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "actorId",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"></div>\n		<div class=\"author currentUser\">" + alias4((helper = (helper = helpers.actorDisplayName || (depth0 != null ? depth0.actorDisplayName : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "actorDisplayName",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</div>\n" + ((stack1 = helpers["if"].call(alias1, depth0 != null ? depth0.isEditMode : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(1, data, 0),
+        "inverse": container.noop,
+        "data": data
+      })) != null ? stack1 : "") + "	</div>\n	<form class=\"newCommentForm\">\n		<div contentEditable=\"true\" class=\"message\" data-placeholder=\"" + alias4((helper = (helper = helpers.newMessagePlaceholder || (depth0 != null ? depth0.newMessagePlaceholder : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "newMessagePlaceholder",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">" + alias4((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "message",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</div>\n		<input class=\"submit icon-confirm has-tooltip\" type=\"submit\" value=\"\" title=\"" + alias4((helper = (helper = helpers.submitText || (depth0 != null ? depth0.submitText : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "submitText",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"/>\n		<div class=\"submitLoading icon-loading-small hidden\"></div>\n	</form>\n</" + alias4((helper = (helper = helpers.tag || (depth0 != null ? depth0.tag : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "tag",
+        "hash": {},
+        "data": data
+      }) : helper)) + ">\n";
+    },
+    "useData": true
+  });
+  templates['filesplugin'] = template({
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "<a class=\"action action-comment permanent\" title=\"" + alias4((helper = (helper = helpers.countMessage || (depth0 != null ? depth0.countMessage : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "countMessage",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" href=\"#\">\n	<img class=\"svg\" src=\"" + alias4((helper = (helper = helpers.iconUrl || (depth0 != null ? depth0.iconUrl : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "iconUrl",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"/>\n</a>\n";
+    },
+    "useData": true
+  });
+  templates['view'] = template({
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "<ul class=\"comments\">\n</ul>\n<div class=\"emptycontent hidden\"><div class=\"icon-comment\"></div>\n	<p>" + alias4((helper = (helper = helpers.emptyResultLabel || (depth0 != null ? depth0.emptyResultLabel : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "emptyResultLabel",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</p></div>\n<input type=\"button\" class=\"showMore hidden\" value=\"" + alias4((helper = (helper = helpers.moreLabel || (depth0 != null ? depth0.moreLabel : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "moreLabel",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" name=\"show-more\" id=\"show-more\" />\n<div class=\"loading hidden\" style=\"height: 50px\"></div>\n";
+    },
+    "useData": true
+  });
+})();
+
+/***/ }),
+
+/***/ "./apps/comments/src/vendor/At.js/dist/js/jquery.atwho.min.js":
+/*!********************************************************************!*\
+  !*** ./apps/comments/src/vendor/At.js/dist/js/jquery.atwho.min.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+!function (t, e) {
+   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "jquery")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (t) {
+    return e(t);
+  }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+}(this, function (t) {
+  var e, i;
+  i = {
+    ESC: 27,
+    TAB: 9,
+    ENTER: 13,
+    CTRL: 17,
+    A: 65,
+    P: 80,
+    N: 78,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    BACKSPACE: 8,
+    SPACE: 32
+  }, e = {
+    beforeSave: function beforeSave(t) {
+      return r.arrayToDefaultHash(t);
+    },
+    matcher: function matcher(t, e, i, n) {
+      var r, o, s, a, h;
+      return t = t.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), i && (t = "(?:^|\\s)" + t), r = decodeURI("%C3%80"), o = decodeURI("%C3%BF"), h = n ? " " : "", a = new RegExp(t + "([A-Za-z" + r + "-" + o + "0-9_" + h + "'.+-]*)$|" + t + "([^\\x00-\\xff]*)$", "gi"), s = a.exec(e), s ? s[2] || s[1] : null;
+    },
+    filter: function filter(t, e, i) {
+      var n, r, o, s;
+
+      for (n = [], r = 0, s = e.length; s > r; r++) {
+        o = e[r], ~new String(o[i]).toLowerCase().indexOf(t.toLowerCase()) && n.push(o);
+      }
+
+      return n;
+    },
+    remoteFilter: null,
+    sorter: function sorter(t, e, i) {
+      var n, r, o, s;
+      if (!t) return e;
+
+      for (n = [], r = 0, s = e.length; s > r; r++) {
+        o = e[r], o.atwho_order = new String(o[i]).toLowerCase().indexOf(t.toLowerCase()), o.atwho_order > -1 && n.push(o);
+      }
+
+      return n.sort(function (t, e) {
+        return t.atwho_order - e.atwho_order;
+      });
+    },
+    tplEval: function tplEval(t, e) {
+      var i, n, r;
+      r = t;
+
+      try {
+        return "string" != typeof t && (r = t(e)), r.replace(/\$\{([^\}]*)\}/g, function (t, i, n) {
+          return e[i];
+        });
+      } catch (n) {
+        return i = n, "";
+      }
+    },
+    highlighter: function highlighter(t, e) {
+      var i;
+      return e ? (i = new RegExp(">\\s*([^<]*?)(" + e.replace("+", "\\+") + ")([^<]*)\\s*<", "ig"), t.replace(i, function (t, e, i, n) {
+        return "> " + e + "<strong>" + i + "</strong>" + n + " <";
+      })) : t;
+    },
+    beforeInsert: function beforeInsert(t, e, i) {
+      return t;
+    },
+    beforeReposition: function beforeReposition(t) {
+      return t;
+    },
+    afterMatchFailed: function afterMatchFailed(t, e) {}
+  };
+  var n;
+
+  n = function () {
+    function e(e) {
+      this.currentFlag = null, this.controllers = {}, this.aliasMaps = {}, this.$inputor = t(e), this.setupRootElement(), this.listen();
+    }
+
+    return e.prototype.createContainer = function (e) {
+      var i;
+      return null != (i = this.$el) && i.remove(), t(e.body).append(this.$el = t("<div class='atwho-container'></div>"));
+    }, e.prototype.setupRootElement = function (e, i) {
+      var n, r;
+      if (null == i && (i = !1), e) this.window = e.contentWindow, this.document = e.contentDocument || this.window.document, this.iframe = e;else {
+        this.document = this.$inputor[0].ownerDocument, this.window = this.document.defaultView || this.document.parentWindow;
+
+        try {
+          this.iframe = this.window.frameElement;
+        } catch (r) {
+          if (n = r, this.iframe = null, t.fn.atwho.debug) throw new Error("iframe auto-discovery is failed.\nPlease use `setIframe` to set the target iframe manually.\n" + n);
+        }
+      }
+      return this.createContainer((this.iframeAsRoot = i) ? this.document : document);
+    }, e.prototype.controller = function (t) {
+      var e, i, n, r;
+      if (this.aliasMaps[t]) i = this.controllers[this.aliasMaps[t]];else {
+        r = this.controllers;
+
+        for (n in r) {
+          if (e = r[n], n === t) {
+            i = e;
+            break;
+          }
+        }
+      }
+      return i ? i : this.controllers[this.currentFlag];
+    }, e.prototype.setContextFor = function (t) {
+      return this.currentFlag = t, this;
+    }, e.prototype.reg = function (t, e) {
+      var i, n;
+      return n = (i = this.controllers)[t] || (i[t] = this.$inputor.is("[contentEditable]") ? new l(this, t) : new s(this, t)), e.alias && (this.aliasMaps[e.alias] = t), n.init(e), this;
+    }, e.prototype.listen = function () {
+      return this.$inputor.on("compositionstart", function (t) {
+        return function (e) {
+          var i;
+          return null != (i = t.controller()) && i.view.hide(), t.isComposing = !0, null;
+        };
+      }(this)).on("compositionend", function (t) {
+        return function (e) {
+          return t.isComposing = !1, setTimeout(function (e) {
+            return t.dispatch(e);
+          }), null;
+        };
+      }(this)).on("keyup.atwhoInner", function (t) {
+        return function (e) {
+          return t.onKeyup(e);
+        };
+      }(this)).on("keydown.atwhoInner", function (t) {
+        return function (e) {
+          return t.onKeydown(e);
+        };
+      }(this)).on("blur.atwhoInner", function (t) {
+        return function (e) {
+          var i;
+          return (i = t.controller()) ? (i.expectedQueryCBId = null, i.view.hide(e, i.getOpt("displayTimeout"))) : void 0;
+        };
+      }(this)).on("click.atwhoInner", function (t) {
+        return function (e) {
+          return t.dispatch(e);
+        };
+      }(this)).on("scroll.atwhoInner", function (t) {
+        return function () {
+          var e;
+          return e = t.$inputor.scrollTop(), function (i) {
+            var n, r;
+            return n = i.target.scrollTop, e !== n && null != (r = t.controller()) && r.view.hide(i), e = n, !0;
+          };
+        };
+      }(this)());
+    }, e.prototype.shutdown = function () {
+      var t, e, i;
+      i = this.controllers;
+
+      for (t in i) {
+        e = i[t], e.destroy(), delete this.controllers[t];
+      }
+
+      return this.$inputor.off(".atwhoInner"), this.$el.remove();
+    }, e.prototype.dispatch = function (t) {
+      var e, i, n, r;
+      n = this.controllers, r = [];
+
+      for (e in n) {
+        i = n[e], r.push(i.lookUp(t));
+      }
+
+      return r;
+    }, e.prototype.onKeyup = function (e) {
+      var n;
+
+      switch (e.keyCode) {
+        case i.ESC:
+          e.preventDefault(), null != (n = this.controller()) && n.view.hide();
+          break;
+
+        case i.DOWN:
+        case i.UP:
+        case i.CTRL:
+        case i.ENTER:
+          t.noop();
+          break;
+
+        case i.P:
+        case i.N:
+          e.ctrlKey || this.dispatch(e);
+          break;
+
+        default:
+          this.dispatch(e);
+      }
+    }, e.prototype.onKeydown = function (e) {
+      var n, r;
+      if (r = null != (n = this.controller()) ? n.view : void 0, r && r.visible()) switch (e.keyCode) {
+        case i.ESC:
+          e.preventDefault(), r.hide(e);
+          break;
+
+        case i.UP:
+          e.preventDefault(), r.prev();
+          break;
+
+        case i.DOWN:
+          e.preventDefault(), r.next();
+          break;
+
+        case i.P:
+          if (!e.ctrlKey) return;
+          e.preventDefault(), r.prev();
+          break;
+
+        case i.N:
+          if (!e.ctrlKey) return;
+          e.preventDefault(), r.next();
+          break;
+
+        case i.TAB:
+        case i.ENTER:
+        case i.SPACE:
+          if (!r.visible()) return;
+          if (!this.controller().getOpt("spaceSelectsMatch") && e.keyCode === i.SPACE) return;
+          if (!this.controller().getOpt("tabSelectsMatch") && e.keyCode === i.TAB) return;
+          r.highlighted() ? (e.preventDefault(), r.choose(e)) : r.hide(e);
+          break;
+
+        default:
+          t.noop();
+      }
+    }, e;
+  }();
+
+  var r,
+      o = [].slice;
+
+  r = function () {
+    function i(e, i) {
+      this.app = e, this.at = i, this.$inputor = this.app.$inputor, this.id = this.$inputor[0].id || this.uid(), this.expectedQueryCBId = null, this.setting = null, this.query = null, this.pos = 0, this.range = null, 0 === (this.$el = t("#atwho-ground-" + this.id, this.app.$el)).length && this.app.$el.append(this.$el = t("<div id='atwho-ground-" + this.id + "'></div>")), this.model = new u(this), this.view = new c(this);
+    }
+
+    return i.prototype.uid = function () {
+      return (Math.random().toString(16) + "000000000").substr(2, 8) + new Date().getTime();
+    }, i.prototype.init = function (e) {
+      return this.setting = t.extend({}, this.setting || t.fn.atwho["default"], e), this.view.init(), this.model.reload(this.setting.data);
+    }, i.prototype.destroy = function () {
+      return this.trigger("beforeDestroy"), this.model.destroy(), this.view.destroy(), this.$el.remove();
+    }, i.prototype.callDefault = function () {
+      var i, n, r, s;
+      s = arguments[0], i = 2 <= arguments.length ? o.call(arguments, 1) : [];
+
+      try {
+        return e[s].apply(this, i);
+      } catch (r) {
+        return n = r, t.error(n + " Or maybe At.js doesn't have function " + s);
+      }
+    }, i.prototype.trigger = function (t, e) {
+      var i, n;
+      return null == e && (e = []), e.push(this), i = this.getOpt("alias"), n = i ? t + "-" + i + ".atwho" : t + ".atwho", this.$inputor.trigger(n, e);
+    }, i.prototype.callbacks = function (t) {
+      return this.getOpt("callbacks")[t] || e[t];
+    }, i.prototype.getOpt = function (t, e) {
+      var i, n;
+
+      try {
+        return this.setting[t];
+      } catch (n) {
+        return i = n, null;
+      }
+    }, i.prototype.insertContentFor = function (e) {
+      var i, n;
+      return n = this.getOpt("insertTpl"), i = t.extend({}, e.data("item-data"), {
+        "atwho-at": this.at
+      }), this.callbacks("tplEval").call(this, n, i, "onInsert");
+    }, i.prototype.renderView = function (t) {
+      var e;
+      return e = this.getOpt("searchKey"), t = this.callbacks("sorter").call(this, this.query.text, t.slice(0, 1001), e), this.view.render(t.slice(0, this.getOpt("limit")));
+    }, i.arrayToDefaultHash = function (e) {
+      var i, n, r, o;
+      if (!t.isArray(e)) return e;
+
+      for (o = [], i = 0, r = e.length; r > i; i++) {
+        n = e[i], t.isPlainObject(n) ? o.push(n) : o.push({
+          name: n
+        });
+      }
+
+      return o;
+    }, i.prototype.lookUp = function (t) {
+      var e, i;
+      if ((!t || "click" !== t.type || this.getOpt("lookUpOnClick")) && (!this.getOpt("suspendOnComposing") || !this.app.isComposing)) return (e = this.catchQuery(t)) ? (this.app.setContextFor(this.at), (i = this.getOpt("delay")) ? this._delayLookUp(e, i) : this._lookUp(e), e) : (this.expectedQueryCBId = null, e);
+    }, i.prototype._delayLookUp = function (t, e) {
+      var i, n;
+      return i = Date.now ? Date.now() : new Date().getTime(), this.previousCallTime || (this.previousCallTime = i), n = e - (i - this.previousCallTime), n > 0 && e > n ? (this.previousCallTime = i, this._stopDelayedCall(), this.delayedCallTimeout = setTimeout(function (e) {
+        return function () {
+          return e.previousCallTime = 0, e.delayedCallTimeout = null, e._lookUp(t);
+        };
+      }(this), e)) : (this._stopDelayedCall(), this.previousCallTime !== i && (this.previousCallTime = 0), this._lookUp(t));
+    }, i.prototype._stopDelayedCall = function () {
+      return this.delayedCallTimeout ? (clearTimeout(this.delayedCallTimeout), this.delayedCallTimeout = null) : void 0;
+    }, i.prototype._generateQueryCBId = function () {
+      return {};
+    }, i.prototype._lookUp = function (e) {
+      var i;
+      return i = function i(t, e) {
+        return t === this.expectedQueryCBId ? e && e.length > 0 ? this.renderView(this.constructor.arrayToDefaultHash(e)) : this.view.hide() : void 0;
+      }, this.expectedQueryCBId = this._generateQueryCBId(), this.model.query(e.text, t.proxy(i, this, this.expectedQueryCBId));
+    }, i;
+  }();
+
+  var s,
+      a = function a(t, e) {
+    function i() {
+      this.constructor = t;
+    }
+
+    for (var n in e) {
+      h.call(e, n) && (t[n] = e[n]);
+    }
+
+    return i.prototype = e.prototype, t.prototype = new i(), t.__super__ = e.prototype, t;
+  },
+      h = {}.hasOwnProperty;
+
+  s = function (e) {
+    function i() {
+      return i.__super__.constructor.apply(this, arguments);
+    }
+
+    return a(i, e), i.prototype.catchQuery = function () {
+      var t, e, i, n, r, o, s;
+      return e = this.$inputor.val(), t = this.$inputor.caret("pos", {
+        iframe: this.app.iframe
+      }), s = e.slice(0, t), r = this.callbacks("matcher").call(this, this.at, s, this.getOpt("startWithSpace"), this.getOpt("acceptSpaceBar")), n = "string" == typeof r, n && r.length < this.getOpt("minLen", 0) ? void 0 : (n && r.length <= this.getOpt("maxLen", 20) ? (o = t - r.length, i = o + r.length, this.pos = o, r = {
+        text: r,
+        headPos: o,
+        endPos: i
+      }, this.trigger("matched", [this.at, r.text])) : (r = null, this.view.hide()), this.query = r);
+    }, i.prototype.rect = function () {
+      var e, i, n;
+      if (e = this.$inputor.caret("offset", this.pos - 1, {
+        iframe: this.app.iframe
+      })) return this.app.iframe && !this.app.iframeAsRoot && (i = t(this.app.iframe).offset(), e.left += i.left, e.top += i.top), n = this.app.document.selection ? 0 : 2, {
+        left: e.left,
+        top: e.top,
+        bottom: e.top + e.height + n
+      };
+    }, i.prototype.insert = function (t, e) {
+      var i, n, r, o, s;
+      return i = this.$inputor, n = i.val(), r = n.slice(0, Math.max(this.query.headPos - this.at.length, 0)), o = "" === (o = this.getOpt("suffix")) ? o : o || " ", t += o, s = "" + r + t + n.slice(this.query.endPos || 0), i.val(s), i.caret("pos", r.length + t.length, {
+        iframe: this.app.iframe
+      }), i.is(":focus") || i.focus(), i.change();
+    }, i;
+  }(r);
+
+  var l,
+      a = function a(t, e) {
+    function i() {
+      this.constructor = t;
+    }
+
+    for (var n in e) {
+      h.call(e, n) && (t[n] = e[n]);
+    }
+
+    return i.prototype = e.prototype, t.prototype = new i(), t.__super__ = e.prototype, t;
+  },
+      h = {}.hasOwnProperty;
+
+  l = function (e) {
+    function n() {
+      return n.__super__.constructor.apply(this, arguments);
+    }
+
+    return a(n, e), n.prototype._getRange = function () {
+      var t;
+      return t = this.app.window.getSelection(), t.rangeCount > 0 ? t.getRangeAt(0) : void 0;
+    }, n.prototype._setRange = function (e, i, n) {
+      return null == n && (n = this._getRange()), n && i ? (i = t(i)[0], "after" === e ? (n.setEndAfter(i), n.setStartAfter(i)) : (n.setEndBefore(i), n.setStartBefore(i)), n.collapse(!1), this._clearRange(n)) : void 0;
+    }, n.prototype._clearRange = function (t) {
+      var e;
+      return null == t && (t = this._getRange()), e = this.app.window.getSelection(), null == this.ctrl_a_pressed ? (e.removeAllRanges(), e.addRange(t)) : void 0;
+    }, n.prototype._movingEvent = function (t) {
+      var e;
+      return "click" === t.type || (e = t.which) === i.RIGHT || e === i.LEFT || e === i.UP || e === i.DOWN;
+    }, n.prototype._unwrap = function (e) {
+      var i;
+      return e = t(e).unwrap().get(0), (i = e.nextSibling) && i.nodeValue && (e.nodeValue += i.nodeValue, t(i).remove()), e;
+    }, n.prototype.catchQuery = function (e) {
+      var n, r, o, s, a, h, l, u, c, p, f, d;
+
+      if ((d = this._getRange()) && d.collapsed) {
+        if (e.which === i.ENTER) return (r = t(d.startContainer).closest(".atwho-query")).contents().unwrap(), r.is(":empty") && r.remove(), (r = t(".atwho-query", this.app.document)).text(r.text()).contents().last().unwrap(), void this._clearRange();
+
+        if (/firefox/i.test(navigator.userAgent)) {
+          if (t(d.startContainer).is(this.$inputor)) return void this._clearRange();
+          e.which === i.BACKSPACE && d.startContainer.nodeType === document.ELEMENT_NODE && (c = d.startOffset - 1) >= 0 ? (o = d.cloneRange(), o.setStart(d.startContainer, c), t(o.cloneContents()).contents().last().is(".atwho-inserted") && (a = t(d.startContainer).contents().get(c), this._setRange("after", t(a).contents().last()))) : e.which === i.LEFT && d.startContainer.nodeType === document.TEXT_NODE && (n = t(d.startContainer.previousSibling), n.is(".atwho-inserted") && 0 === d.startOffset && this._setRange("after", n.contents().last()));
+        }
+
+        if (t(d.startContainer).closest(".atwho-inserted").addClass("atwho-query").siblings().removeClass("atwho-query"), (r = t(".atwho-query", this.app.document)).length > 0 && r.is(":empty") && 0 === r.text().length && r.remove(), this._movingEvent(e) || r.removeClass("atwho-inserted"), r.length > 0) switch (e.which) {
+          case i.LEFT:
+            return this._setRange("before", r.get(0), d), void r.removeClass("atwho-query");
+
+          case i.RIGHT:
+            return this._setRange("after", r.get(0).nextSibling, d), void r.removeClass("atwho-query");
+        }
+        if (r.length > 0 && (f = r.attr("data-atwho-at-query")) && (r.empty().html(f).attr("data-atwho-at-query", null), this._setRange("after", r.get(0), d)), o = d.cloneRange(), o.setStart(d.startContainer, 0), u = this.callbacks("matcher").call(this, this.at, o.toString(), this.getOpt("startWithSpace"), this.getOpt("acceptSpaceBar")), h = "string" == typeof u, 0 === r.length && h && (s = d.startOffset - this.at.length - u.length) >= 0 && (d.setStart(d.startContainer, s), r = t("<span/>", this.app.document).attr(this.getOpt("editableAtwhoQueryAttrs")).addClass("atwho-query"), d.surroundContents(r.get(0)), l = r.contents().last().get(0), l && (/firefox/i.test(navigator.userAgent) ? (d.setStart(l, l.length), d.setEnd(l, l.length), this._clearRange(d)) : this._setRange("after", l, d))), !(h && u.length < this.getOpt("minLen", 0))) return h && u.length <= this.getOpt("maxLen", 20) ? (p = {
+          text: u,
+          el: r
+        }, this.trigger("matched", [this.at, p.text]), this.query = p) : (this.view.hide(), this.query = {
+          el: r
+        }, r.text().indexOf(this.at) >= 0 && (this._movingEvent(e) && r.hasClass("atwho-inserted") ? r.removeClass("atwho-query") : !1 !== this.callbacks("afterMatchFailed").call(this, this.at, r) && this._setRange("after", this._unwrap(r.text(r.text()).contents().first()))), null);
+      }
+    }, n.prototype.rect = function () {
+      var e, i, n;
+      return n = this.query.el.offset(), n && this.query.el[0].getClientRects().length ? (this.app.iframe && !this.app.iframeAsRoot && (i = (e = t(this.app.iframe)).offset(), n.left += i.left - this.$inputor.scrollLeft(), n.top += i.top - this.$inputor.scrollTop()), n.bottom = n.top + this.query.el.height(), n) : void 0;
+    }, n.prototype.insert = function (t, e) {
+      var i, n, r, o, s;
+      return this.$inputor.is(":focus") || this.$inputor.focus(), n = this.getOpt("functionOverrides"), n.insert ? n.insert.call(this, t, e) : (o = "" === (o = this.getOpt("suffix")) ? o : o || " ", i = e.data("item-data"), this.query.el.removeClass("atwho-query").addClass("atwho-inserted").html(t).attr("data-atwho-at-query", "" + i["atwho-at"] + this.query.text).attr("contenteditable", "false"), (r = this._getRange()) && (this.query.el.length && r.setEndAfter(this.query.el[0]), r.collapse(!1), r.insertNode(s = this.app.document.createTextNode("" + o)), this._setRange("after", s, r)), this.$inputor.is(":focus") || this.$inputor.focus(), this.$inputor.change());
+    }, n;
+  }(r);
+
+  var u;
+
+  u = function () {
+    function e(t) {
+      this.context = t, this.at = this.context.at, this.storage = this.context.$inputor;
+    }
+
+    return e.prototype.destroy = function () {
+      return this.storage.data(this.at, null);
+    }, e.prototype.saved = function () {
+      return this.fetch() > 0;
+    }, e.prototype.query = function (t, e) {
+      var i, n, r;
+      return n = this.fetch(), r = this.context.getOpt("searchKey"), n = this.context.callbacks("filter").call(this.context, t, n, r) || [], i = this.context.callbacks("remoteFilter"), n.length > 0 || !i && 0 === n.length ? e(n) : i.call(this.context, t, e);
+    }, e.prototype.fetch = function () {
+      return this.storage.data(this.at) || [];
+    }, e.prototype.save = function (t) {
+      return this.storage.data(this.at, this.context.callbacks("beforeSave").call(this.context, t || []));
+    }, e.prototype.load = function (t) {
+      return !this.saved() && t ? this._load(t) : void 0;
+    }, e.prototype.reload = function (t) {
+      return this._load(t);
+    }, e.prototype._load = function (e) {
+      return "string" == typeof e ? t.ajax(e, {
+        dataType: "json"
+      }).done(function (t) {
+        return function (e) {
+          return t.save(e);
+        };
+      }(this)) : this.save(e);
+    }, e;
+  }();
+
+  var c;
+
+  c = function () {
+    function e(e) {
+      this.context = e, this.$el = t("<div class='atwho-view'><ul class='atwho-view-ul'></ul></div>"), this.$elUl = this.$el.children(), this.timeoutID = null, this.context.$el.append(this.$el), this.bindEvent();
+    }
+
+    return e.prototype.init = function () {
+      var t, e;
+      return e = this.context.getOpt("alias") || this.context.at.charCodeAt(0), t = this.context.getOpt("headerTpl"), t && 1 === this.$el.children().length && this.$el.prepend(t), this.$el.attr({
+        id: "at-view-" + e
+      });
+    }, e.prototype.destroy = function () {
+      return this.$el.remove();
+    }, e.prototype.bindEvent = function () {
+      var e, i, n;
+      return e = this.$el.find("ul"), i = 0, n = 0, e.on("mousemove.atwho-view", "li", function (r) {
+        return function (r) {
+          var o;
+          if ((i !== r.clientX || n !== r.clientY) && (i = r.clientX, n = r.clientY, o = t(r.currentTarget), !o.hasClass("cur"))) return e.find(".cur").removeClass("cur"), o.addClass("cur");
+        };
+      }(this)).on("click.atwho-view", "li", function (i) {
+        return function (n) {
+          return e.find(".cur").removeClass("cur"), t(n.currentTarget).addClass("cur"), i.choose(n), n.preventDefault();
+        };
+      }(this));
+    }, e.prototype.visible = function () {
+      return t.expr.filters.visible(this.$el[0]);
+    }, e.prototype.highlighted = function () {
+      return this.$el.find(".cur").length > 0;
+    }, e.prototype.choose = function (t) {
+      var e, i;
+      return (e = this.$el.find(".cur")).length && (i = this.context.insertContentFor(e), this.context._stopDelayedCall(), this.context.insert(this.context.callbacks("beforeInsert").call(this.context, i, e, t), e), this.context.trigger("inserted", [e, t]), this.hide(t)), this.context.getOpt("hideWithoutSuffix") ? this.stopShowing = !0 : void 0;
+    }, e.prototype.reposition = function (e) {
+      var i, n, r, o;
+      return i = this.context.app.iframeAsRoot ? this.context.app.window : window, e.bottom + this.$el.height() - t(i).scrollTop() > t(i).height() && (e.bottom = e.top - this.$el.height()), e.left > (r = t(i).width() - this.$el.width() - 5) && (e.left = r), n = {
+        left: e.left,
+        top: e.bottom
+      }, null != (o = this.context.callbacks("beforeReposition")) && o.call(this.context, n), this.$el.offset(n), this.context.trigger("reposition", [n]);
+    }, e.prototype.next = function () {
+      var t, e, i, n;
+      return t = this.$el.find(".cur").removeClass("cur"), e = t.next(), e.length || (e = this.$el.find("li:first")), e.addClass("cur"), i = e[0], n = i.offsetTop + i.offsetHeight + (i.nextSibling ? i.nextSibling.offsetHeight : 0), this.scrollTop(Math.max(0, n - this.$el.height()));
+    }, e.prototype.prev = function () {
+      var t, e, i, n;
+      return t = this.$el.find(".cur").removeClass("cur"), i = t.prev(), i.length || (i = this.$el.find("li:last")), i.addClass("cur"), n = i[0], e = n.offsetTop + n.offsetHeight + (n.nextSibling ? n.nextSibling.offsetHeight : 0), this.scrollTop(Math.max(0, e - this.$el.height()));
+    }, e.prototype.scrollTop = function (t) {
+      var e;
+      return e = this.context.getOpt("scrollDuration"), e ? this.$elUl.animate({
+        scrollTop: t
+      }, e) : this.$elUl.scrollTop(t);
+    }, e.prototype.show = function () {
+      var t;
+      return this.stopShowing ? void (this.stopShowing = !1) : (this.visible() || (this.$el.show(), this.$el.scrollTop(0), this.context.trigger("shown")), (t = this.context.rect()) ? this.reposition(t) : void 0);
+    }, e.prototype.hide = function (t, e) {
+      var i;
+      if (this.visible()) return isNaN(e) ? (this.$el.hide(), this.context.trigger("hidden", [t])) : (i = function (t) {
+        return function () {
+          return t.hide();
+        };
+      }(this), clearTimeout(this.timeoutID), this.timeoutID = setTimeout(i, e));
+    }, e.prototype.render = function (e) {
+      var i, n, r, o, s, a, h;
+      if (!(t.isArray(e) && e.length > 0)) return void this.hide();
+
+      for (this.$el.find("ul").empty(), n = this.$el.find("ul"), h = this.context.getOpt("displayTpl"), r = 0, s = e.length; s > r; r++) {
+        o = e[r], o = t.extend({}, o, {
+          "atwho-at": this.context.at
+        }), a = this.context.callbacks("tplEval").call(this.context, h, o, "onDisplay"), i = t(this.context.callbacks("highlighter").call(this.context, a, this.context.query.text)), i.data("item-data", o), n.append(i);
+      }
+
+      return this.show(), this.context.getOpt("highlightFirst") ? n.find("li:first").addClass("cur") : void 0;
+    }, e;
+  }();
+
+  var p;
+  p = {
+    load: function load(t, e) {
+      var i;
+      return (i = this.controller(t)) ? i.model.load(e) : void 0;
+    },
+    isSelecting: function isSelecting() {
+      var t;
+      return !!(null != (t = this.controller()) ? t.view.visible() : void 0);
+    },
+    hide: function hide() {
+      var t;
+      return null != (t = this.controller()) ? t.view.hide() : void 0;
+    },
+    reposition: function reposition() {
+      var t;
+      return (t = this.controller()) ? t.view.reposition(t.rect()) : void 0;
+    },
+    setIframe: function setIframe(t, e) {
+      return this.setupRootElement(t, e), null;
+    },
+    run: function run() {
+      return this.dispatch();
+    },
+    destroy: function destroy() {
+      return this.shutdown(), this.$inputor.data("atwho", null);
+    }
+  }, t.fn.atwho = function (e) {
+    var i, r;
+    return i = arguments, r = null, this.filter('textarea, input, [contenteditable=""], [contenteditable=true]').each(function () {
+      var o, s;
+      return (s = (o = t(this)).data("atwho")) || o.data("atwho", s = new n(this)), "object" != _typeof(e) && e ? p[e] && s ? r = p[e].apply(s, Array.prototype.slice.call(i, 1)) : t.error("Method " + e + " does not exist on jQuery.atwho") : s.reg(e.at, e);
+    }), null != r ? r : this;
+  }, t.fn.atwho["default"] = {
+    at: void 0,
+    alias: void 0,
+    data: null,
+    displayTpl: "<li>${name}</li>",
+    insertTpl: "${atwho-at}${name}",
+    headerTpl: null,
+    callbacks: e,
+    functionOverrides: {},
+    searchKey: "name",
+    suffix: void 0,
+    hideWithoutSuffix: !1,
+    startWithSpace: !0,
+    acceptSpaceBar: !1,
+    highlightFirst: !0,
+    limit: 5,
+    maxLen: 20,
+    minLen: 0,
+    displayTimeout: 300,
+    delay: null,
+    spaceSelectsMatch: !1,
+    tabSelectsMatch: !0,
+    editableAtwhoQueryAttrs: {},
+    scrollDuration: 150,
+    suspendOnComposing: !0,
+    lookUpOnClick: !0
+  }, t.fn.atwho.debug = !1;
+});
+
+/***/ }),
+
+/***/ "./apps/comments/src/vendor/Caret.js/dist/jquery.caret.min.js":
+/*!********************************************************************!*\
+  !*** ./apps/comments/src/vendor/Caret.js/dist/jquery.caret.min.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/*! jquery.caret 2015-02-01 */
+!function (a, b) {
+   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "jquery")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (c) {
+    return a.returnExportsGlobal = b(c);
+  }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+}(this, function (a) {
+  "use strict";
+
+  var b, c, d, e, f, g, h, i, j, k, l;
+  k = "caret", b = function () {
+    function b(a) {
+      this.$inputor = a, this.domInputor = this.$inputor[0];
+    }
+
+    return b.prototype.setPos = function () {
+      return this.domInputor;
+    }, b.prototype.getIEPosition = function () {
+      return this.getPosition();
+    }, b.prototype.getPosition = function () {
+      var a, b;
+      return b = this.getOffset(), a = this.$inputor.offset(), b.left -= a.left, b.top -= a.top, b;
+    }, b.prototype.getOldIEPos = function () {
+      var a, b;
+      return b = h.selection.createRange(), a = h.body.createTextRange(), a.moveToElementText(this.domInputor), a.setEndPoint("EndToEnd", b), a.text.length;
+    }, b.prototype.getPos = function () {
+      var a, b, c;
+      return (c = this.range()) ? (a = c.cloneRange(), a.selectNodeContents(this.domInputor), a.setEnd(c.endContainer, c.endOffset), b = a.toString().length, a.detach(), b) : h.selection ? this.getOldIEPos() : void 0;
+    }, b.prototype.getOldIEOffset = function () {
+      var a, b;
+      return a = h.selection.createRange().duplicate(), a.moveStart("character", -1), b = a.getBoundingClientRect(), {
+        height: b.bottom - b.top,
+        left: b.left,
+        top: b.top
+      };
+    }, b.prototype.getOffset = function () {
+      var b, c, d, e, f;
+      return j.getSelection && (d = this.range()) ? (d.endOffset - 1 > 0 && d.endContainer === !this.domInputor && (b = d.cloneRange(), b.setStart(d.endContainer, d.endOffset - 1), b.setEnd(d.endContainer, d.endOffset), e = b.getBoundingClientRect(), c = {
+        height: e.height,
+        left: e.left + e.width,
+        top: e.top
+      }, b.detach()), c && 0 !== (null != c ? c.height : void 0) || (b = d.cloneRange(), f = a(h.createTextNode("|")), b.insertNode(f[0]), b.selectNode(f[0]), e = b.getBoundingClientRect(), c = {
+        height: e.height,
+        left: e.left,
+        top: e.top
+      }, f.remove(), b.detach())) : h.selection && (c = this.getOldIEOffset()), c && (c.top += a(j).scrollTop(), c.left += a(j).scrollLeft()), c;
+    }, b.prototype.range = function () {
+      var a;
+      if (j.getSelection) return a = j.getSelection(), a.rangeCount > 0 ? a.getRangeAt(0) : null;
+    }, b;
+  }(), c = function () {
+    function b(a) {
+      this.$inputor = a, this.domInputor = this.$inputor[0];
+    }
+
+    return b.prototype.getIEPos = function () {
+      var a, b, c, d, e, f, g;
+      return b = this.domInputor, f = h.selection.createRange(), e = 0, f && f.parentElement() === b && (d = b.value.replace(/\r\n/g, "\n"), c = d.length, g = b.createTextRange(), g.moveToBookmark(f.getBookmark()), a = b.createTextRange(), a.collapse(!1), e = g.compareEndPoints("StartToEnd", a) > -1 ? c : -g.moveStart("character", -c)), e;
+    }, b.prototype.getPos = function () {
+      return h.selection ? this.getIEPos() : this.domInputor.selectionStart;
+    }, b.prototype.setPos = function (a) {
+      var b, c;
+      return b = this.domInputor, h.selection ? (c = b.createTextRange(), c.move("character", a), c.select()) : b.setSelectionRange && b.setSelectionRange(a, a), b;
+    }, b.prototype.getIEOffset = function (a) {
+      var b, c, d, e;
+      return c = this.domInputor.createTextRange(), a || (a = this.getPos()), c.move("character", a), d = c.boundingLeft, e = c.boundingTop, b = c.boundingHeight, {
+        left: d,
+        top: e,
+        height: b
+      };
+    }, b.prototype.getOffset = function (b) {
+      var c, d, e;
+      return c = this.$inputor, h.selection ? (d = this.getIEOffset(b), d.top += a(j).scrollTop() + c.scrollTop(), d.left += a(j).scrollLeft() + c.scrollLeft(), d) : (d = c.offset(), e = this.getPosition(b), d = {
+        left: d.left + e.left - c.scrollLeft(),
+        top: d.top + e.top - c.scrollTop(),
+        height: e.height
+      });
+    }, b.prototype.getPosition = function (a) {
+      var b, c, e, f, g, h, i;
+      return b = this.$inputor, f = function f(a) {
+        return a = a.replace(/<|>|`|"|&/g, "?").replace(/\r\n|\r|\n/g, "<br/>"), /firefox/i.test(navigator.userAgent) && (a = a.replace(/\s/g, "&nbsp;")), a;
+      }, void 0 === a && (a = this.getPos()), i = b.val().slice(0, a), e = b.val().slice(a), g = "<span style='position: relative; display: inline;'>" + f(i) + "</span>", g += "<span id='caret' style='position: relative; display: inline;'>|</span>", g += "<span style='position: relative; display: inline;'>" + f(e) + "</span>", h = new d(b), c = h.create(g).rect();
+    }, b.prototype.getIEPosition = function (a) {
+      var b, c, d, e, f;
+      return d = this.getIEOffset(a), c = this.$inputor.offset(), e = d.left - c.left, f = d.top - c.top, b = d.height, {
+        left: e,
+        top: f,
+        height: b
+      };
+    }, b;
+  }(), d = function () {
+    function b(a) {
+      this.$inputor = a;
+    }
+
+    return b.prototype.css_attr = ["borderBottomWidth", "borderLeftWidth", "borderRightWidth", "borderTopStyle", "borderRightStyle", "borderBottomStyle", "borderLeftStyle", "borderTopWidth", "boxSizing", "fontFamily", "fontSize", "fontWeight", "height", "letterSpacing", "lineHeight", "marginBottom", "marginLeft", "marginRight", "marginTop", "outlineWidth", "overflow", "overflowX", "overflowY", "paddingBottom", "paddingLeft", "paddingRight", "paddingTop", "textAlign", "textOverflow", "textTransform", "whiteSpace", "wordBreak", "wordWrap"], b.prototype.mirrorCss = function () {
+      var b,
+          c = this;
+      return b = {
+        position: "absolute",
+        left: -9999,
+        top: 0,
+        zIndex: -2e4
+      }, "TEXTAREA" === this.$inputor.prop("tagName") && this.css_attr.push("width"), a.each(this.css_attr, function (a, d) {
+        return b[d] = c.$inputor.css(d);
+      }), b;
+    }, b.prototype.create = function (b) {
+      return this.$mirror = a("<div></div>"), this.$mirror.css(this.mirrorCss()), this.$mirror.html(b), this.$inputor.after(this.$mirror), this;
+    }, b.prototype.rect = function () {
+      var a, b, c;
+      return a = this.$mirror.find("#caret"), b = a.position(), c = {
+        left: b.left,
+        top: b.top,
+        height: a.height()
+      }, this.$mirror.remove(), c;
+    }, b;
+  }(), e = {
+    contentEditable: function contentEditable(a) {
+      return !(!a[0].contentEditable || "true" !== a[0].contentEditable);
+    }
+  }, g = {
+    pos: function pos(a) {
+      return a || 0 === a ? this.setPos(a) : this.getPos();
+    },
+    position: function position(a) {
+      return h.selection ? this.getIEPosition(a) : this.getPosition(a);
+    },
+    offset: function offset(a) {
+      var b;
+      return b = this.getOffset(a);
+    }
+  }, h = null, j = null, i = null, l = function l(a) {
+    var b;
+    return (b = null != a ? a.iframe : void 0) ? (i = b, j = b.contentWindow, h = b.contentDocument || j.document) : (i = void 0, j = window, h = document);
+  }, f = function f(a) {
+    var b;
+    h = a[0].ownerDocument, j = h.defaultView || h.parentWindow;
+
+    try {
+      return i = j.frameElement;
+    } catch (c) {
+      b = c;
+    }
+  }, a.fn.caret = function (d, f, h) {
+    var i;
+    return g[d] ? (a.isPlainObject(f) ? (l(f), f = void 0) : l(h), i = e.contentEditable(this) ? new b(this) : new c(this), g[d].apply(i, [f])) : a.error("Method " + d + " does not exist on jQuery.caret");
+  }, a.fn.caret.EditableCaret = b, a.fn.caret.InputCaret = c, a.fn.caret.Utils = e, a.fn.caret.apis = g;
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/autocomplete.scss":
+/*!**********************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/autocomplete.scss ***!
+  \**********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, "/**\n * based upon apps/comments/js/vendor/At.js/dist/css/jquery.atwho.css,\n * only changed colors and font-weight\n */\n.atwho-view {\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: none;\n  margin-top: 18px;\n  background: var(--color-main-background);\n  color: var(--color-main-text);\n  border: 1px solid var(--color-border);\n  border-radius: var(--border-radius);\n  box-shadow: 0 0 5px var(--color-box-shadow);\n  min-width: 120px;\n  z-index: 11110 !important; }\n\n.atwho-view .atwho-header {\n  padding: 5px;\n  margin: 5px;\n  cursor: pointer;\n  border-bottom: solid 1px var(--color-border);\n  color: var(--color-main-text);\n  font-size: 11px;\n  font-weight: bold; }\n\n.atwho-view .atwho-header .small {\n  color: var(--color-main-text);\n  float: right;\n  padding-top: 2px;\n  margin-right: -5px;\n  font-size: 12px;\n  font-weight: normal; }\n\n.atwho-view .atwho-header:hover {\n  cursor: default; }\n\n.atwho-view .cur {\n  background: var(--color-primary);\n  color: var(--color-primary-text); }\n\n.atwho-view .cur small {\n  color: var(--color-primary-text); }\n\n.atwho-view strong {\n  color: var(--color-main-text);\n  font-weight: normal; }\n\n.atwho-view .cur strong {\n  color: var(--color-primary-text);\n  font-weight: normal; }\n\n.atwho-view ul {\n  /* width: 100px; */\n  list-style: none;\n  padding: 0;\n  margin: auto;\n  max-height: 200px;\n  overflow-y: auto; }\n\n.atwho-view ul li {\n  display: block;\n  padding: 5px 10px;\n  border-bottom: 1px solid var(--color-border);\n  cursor: pointer; }\n\n.atwho-view small {\n  font-size: smaller;\n  color: var(--color-main-text);\n  font-weight: normal; }\n", ""]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/comments.scss":
+/*!******************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/lib/loader.js!./apps/comments/src/style/comments.scss ***!
+  \******************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, "/*\n * Copyright (c) 2016\n *\n * This file is licensed under the Affero General Public License version 3\n * or later.\n *\n * See the COPYING-README file.\n *\n */\n#commentsTabView .emptycontent {\n  margin-top: 0; }\n\n#commentsTabView .newCommentForm {\n  margin-left: 36px;\n  position: relative; }\n\n#commentsTabView .newCommentForm .message {\n  width: 100%;\n  padding: 10px;\n  min-height: 44px;\n  margin: 0;\n  /* Prevent the text from overlapping with the submit button. */\n  padding-right: 30px; }\n\n#commentsTabView .newCommentForm .submit,\n#commentsTabView .newCommentForm .submitLoading {\n  width: 44px;\n  height: 44px;\n  margin: 0;\n  padding: 13px;\n  background-color: transparent;\n  border: none;\n  opacity: .3;\n  position: absolute;\n  bottom: 0;\n  right: 0; }\n\n#commentsTabView .deleteLoading {\n  padding: 14px;\n  vertical-align: middle; }\n\n#commentsTabView .newCommentForm .submit:not(:disabled):hover,\n#commentsTabView .newCommentForm .submit:not(:disabled):focus {\n  opacity: 1; }\n\n#commentsTabView .newCommentForm div.message {\n  resize: none; }\n\n#commentsTabView .newCommentForm div.message:empty:before {\n  content: attr(data-placeholder);\n  color: grey; }\n\n#commentsTabView .comment {\n  position: relative;\n  /** padding bottom is little more so that the top and bottom gap look uniform **/\n  padding: 10px 0 15px; }\n\n#commentsTabView .comments .comment {\n  border-top: 1px solid var(--color-border); }\n\n#commentsTabView .comment .avatar,\n.atwho-view-ul * .avatar {\n  width: 32px;\n  height: 32px;\n  line-height: 32px;\n  margin-right: 5px; }\n\n#commentsTabView .comment .message .avatar,\n.atwho-view-ul * .avatar {\n  display: inline-block; }\n\n#activityTabView li.comment.collapsed .activitymessage,\n#commentsTabView .comment.collapsed .message {\n  white-space: pre-wrap; }\n\n#activityTabView li.comment.collapsed .activitymessage,\n#commentsTabView .comment.collapsed .message {\n  max-height: 70px;\n  overflow: hidden; }\n\n#activityTabView li.comment .message-overlay,\n#commentsTabView .comment .message-overlay {\n  display: none; }\n\n#activityTabView li.comment.collapsed .message-overlay,\n#commentsTabView .comment.collapsed .message-overlay {\n  display: block;\n  position: absolute;\n  z-index: 2;\n  height: 50px;\n  pointer-events: none;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: -moz-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -webkit-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -o-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: -ms-linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background: linear-gradient(rgba(var(--color-main-background), 0), var(--color-main-background));\n  background-repeat: no-repeat; }\n\n#commentsTabView .hidden {\n  display: none !important; }\n\n/** set min-height as 44px to ensure that it fits the button sizes. **/\n#commentsTabView .comment .authorRow {\n  min-height: 44px; }\n\n#commentsTabView .comment .authorRow .tooltip {\n  /** because of the padding on the element, the tooltip appear too far up,\n\t adding this brings them closer to the element**/\n  margin-top: 5px; }\n\n.atwho-view-ul * .avatar-name-wrapper,\n#commentsTabView .comment .authorRow {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  width: 100%; }\n\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser),\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar,\n#commentsTabView .comment:not(.newCommentRow) .message .avatar-name-wrapper:not(.currentUser) .avatar img,\n#commentsTabView .comment .authorRow .avatar:not(.currentUser),\n#commentsTabView .comment .authorRow .author:not(.currentUser) {\n  cursor: pointer; }\n\n.atwho-view-ul .avatar-name-wrapper,\n.atwho-view-ul .avatar-name-wrapper .avatar,\n.atwho-view-ul .avatar-name-wrapper .avatar img {\n  cursor: pointer; }\n\n#commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper,\n#commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper {\n  /* Make the wrapper the positioning context of its child contacts\n\t\t * menu. */\n  position: relative;\n  display: inline;\n  vertical-align: top;\n  background-color: var(--color-background-dark);\n  border-radius: 50vh;\n  padding: 1px 7px 1px 1px;\n  /* Ensure that the avatar and the user name will be kept together. */\n  white-space: nowrap; }\n  #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper .avatar,\n  #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper .avatar {\n    height: 16px;\n    width: 16px;\n    vertical-align: middle;\n    padding: 1px;\n    margin-top: -3px;\n    margin-left: 0;\n    margin-right: 2px; }\n    #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper .avatar img,\n    #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper .avatar img {\n      vertical-align: top; }\n  #commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper strong,\n  #commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper strong {\n    /* Ensure that the user name is shown in bold, as different browsers\n\t\t\t * use different font weights for strong elements. */\n    font-weight: bold; }\n\n#commentsTabView .comments li .message .atwho-inserted .avatar-name-wrapper.currentUser,\n#commentsTabView .newCommentForm .atwho-inserted .avatar-name-wrapper.currentUser {\n  background-color: var(--color-primary);\n  color: var(--color-primary-text); }\n\n.atwho-view-ul * .avatar-name-wrapper {\n  white-space: nowrap; }\n\n#commentsTabView .comment .author,\n#commentsTabView .comment .date {\n  opacity: .5; }\n\n#commentsTabView .comment .author {\n  max-width: 210px;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap; }\n\n#commentsTabView .comment .date {\n  margin-left: auto;\n  /** this is to fix the tooltip being too close due to the margin-top applied\n\t to bring the tooltip closer for the action icons **/\n  padding: 10px 0px; }\n\n#commentsTabView .comments > li:not(.newCommentRow) .message {\n  padding-left: 40px;\n  word-wrap: break-word;\n  overflow-wrap: break-word; }\n\n#commentsTabView .comment .action {\n  opacity: 0.3;\n  padding: 14px;\n  display: block; }\n\n#commentsTabView .comment .action:hover,\n#commentsTabView .comment .action:focus {\n  opacity: 1; }\n\n#commentsTabView .newCommentRow .action-container {\n  margin-left: auto; }\n\n#commentsTabView .comment.disabled .message {\n  opacity: 0.3; }\n\n#commentsTabView .comment.disabled .action {\n  display: none; }\n\n#commentsTabView .message.error {\n  color: #e9322d;\n  border-color: #e9322d;\n  box-shadow: 0 0 6px #f8b9b7; }\n\n.app-files .action-comment {\n  padding: 16px 14px; }\n\n#commentsTabView .comment .message .contactsmenu-popover {\n  left: -6px;\n  top: 24px; }\n", ""]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
+
+      if (item[2]) {
+        return '@media ' + item[2] + '{' + content + '}';
+      } else {
+        return content;
+      }
+    }).join('');
+  }; // import a list of modules into the list
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (i = 0; i < modules.length; i++) {
+      var item = modules[i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = '(' + item[2] + ') and (' + mediaQuery + ')';
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+  var content = item[1] || '';
+  var cssMapping = item[3];
+
+  if (!cssMapping) {
+    return content;
+  }
+
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
+
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
+function toComment(sourceMap) {
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+  return '/*# ' + data + ' */';
+}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/*!****************************************************!*\
+  !*** ./node_modules/style-loader/lib/addStyles.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(/*! ./urls */ "./node_modules/style-loader/lib/urls.js");
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertAt.before, target);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function getNonce() {
+	if (false) {}
+
+	return __webpack_require__.nc;
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = typeof options.transform === 'function'
+		 ? options.transform(obj.css) 
+		 : options.transform.default(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/*!***********************************************!*\
+  !*** ./node_modules/style-loader/lib/urls.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = jQuery;
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=comments.js.map

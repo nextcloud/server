@@ -1,2 +1,1322 @@
-!function(e){var t={};function n(i){if(t[i])return t[i].exports;var r=t[i]={i:i,l:!1,exports:{}};return e[i].call(r.exports,r,r.exports,n),r.l=!0,r.exports}n.m=e,n.c=t,n.d=function(e,t,i){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:i})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)n.d(i,r,function(t){return e[t]}.bind(null,r));return i},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="/js/",n(n.s=0)}([function(e,t,n){"use strict";n.r(t);n(1),n(2),n(3),n(4),n(5),n(6);window.OCA.Versions=OCA.Versions},function(e,t){var n;n=OC.Backbone.Model.extend({sync:OC.Backbone.davSync,davProperties:{size:"{DAV:}getcontentlength",mimetype:"{DAV:}getcontenttype",timestamp:"{DAV:}getlastmodified"},revert:function(e){e=e?_.clone(e):{};var t=this;return this.get("client").move("/versions/"+this.get("fileId")+"/"+this.get("id"),"/restore/target",!0).done(function(){e.success&&e.success.call(e.context,t,{},e),t.trigger("revert",t,e)}).fail(function(){e.error&&e.error.call(e.context,t,{},e),t.trigger("error",t,{},e)})},getFullPath:function(){return this.get("fullPath")},getPreviewUrl:function(){var e=OC.generateUrl("/apps/files_versions/preview"),t={file:this.get("fullPath"),version:this.get("timestamp")};return e+"?"+OC.buildQueryString(t)},getDownloadUrl:function(){return OC.linkToRemoteBase("dav")+"/versions/"+this.get("user")+"/versions/"+this.get("fileId")+"/"+this.get("id")}}),OCA.Versions=OCA.Versions||{},OCA.Versions.VersionModel=n},function(e,t){function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var i,r;i=Handlebars.template,(r=OCA.Versions.Templates=OCA.Versions.Templates||{}).item=i({1:function(e,t,i,r,o){var s,l=null!=t?t:e.nullContext||{},a=i.helperMissing,c=e.escapeExpression;return'\t\t\t\t<div class="version-details">\n\t\t\t\t\t<span class="size has-tooltip" title="'+c("function"===n(s=null!=(s=i.altSize||(null!=t?t.altSize:t))?s:a)?s.call(l,{name:"altSize",hash:{},data:o}):s)+'">'+c("function"===n(s=null!=(s=i.humanReadableSize||(null!=t?t.humanReadableSize:t))?s:a)?s.call(l,{name:"humanReadableSize",hash:{},data:o}):s)+"</span>\n\t\t\t\t</div>\n"},3:function(e,t,i,r,o){var s,l=null!=t?t:e.nullContext||{},a=i.helperMissing,c=e.escapeExpression;return'\t\t\t<a href="#" class="revertVersion" title="'+c("function"===n(s=null!=(s=i.revertLabel||(null!=t?t.revertLabel:t))?s:a)?s.call(l,{name:"revertLabel",hash:{},data:o}):s)+'"><img src="'+c("function"===n(s=null!=(s=i.revertIconUrl||(null!=t?t.revertIconUrl:t))?s:a)?s.call(l,{name:"revertIconUrl",hash:{},data:o}):s)+'" /></a>\n'},compiler:[7,">= 4.0.0"],main:function(e,t,i,r,o){var s,l,a,c=null!=t?t:e.nullContext||{},u=i.helperMissing,f="function",d=e.escapeExpression,p=i.blockHelperMissing,h='<li data-revision="'+d(n(l=null!=(l=i.timestamp||(null!=t?t.timestamp:t))?l:u)===f?l.call(c,{name:"timestamp",hash:{},data:o}):l)+'">\n\t<div>\n\t\t<div class="preview-container">\n\t\t\t<img class="preview" src="'+d(n(l=null!=(l=i.previewUrl||(null!=t?t.previewUrl:t))?l:u)===f?l.call(c,{name:"previewUrl",hash:{},data:o}):l)+'" width="44" height="44"/>\n\t\t</div>\n\t\t<div class="version-container">\n\t\t\t<div>\n\t\t\t\t<a href="'+d(n(l=null!=(l=i.downloadUrl||(null!=t?t.downloadUrl:t))?l:u)===f?l.call(c,{name:"downloadUrl",hash:{},data:o}):l)+'" class="downloadVersion" download="'+d(n(l=null!=(l=i.downloadName||(null!=t?t.downloadName:t))?l:u)===f?l.call(c,{name:"downloadName",hash:{},data:o}):l)+'"><img src="'+d(n(l=null!=(l=i.downloadIconUrl||(null!=t?t.downloadIconUrl:t))?l:u)===f?l.call(c,{name:"downloadIconUrl",hash:{},data:o}):l)+'" />\n\t\t\t\t\t<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="'+d(n(l=null!=(l=i.millisecondsTimestamp||(null!=t?t.millisecondsTimestamp:t))?l:u)===f?l.call(c,{name:"millisecondsTimestamp",hash:{},data:o}):l)+'" title="'+d(n(l=null!=(l=i.formattedTimestamp||(null!=t?t.formattedTimestamp:t))?l:u)===f?l.call(c,{name:"formattedTimestamp",hash:{},data:o}):l)+'">'+d(n(l=null!=(l=i.relativeTimestamp||(null!=t?t.relativeTimestamp:t))?l:u)===f?l.call(c,{name:"relativeTimestamp",hash:{},data:o}):l)+"</span>\n\t\t\t\t</a>\n\t\t\t</div>\n";return l=null!=(l=i.hasDetails||(null!=t?t.hasDetails:t))?l:u,a={name:"hasDetails",hash:{},fn:e.program(1,o,0),inverse:e.noop,data:o},s=n(l)===f?l.call(c,a):l,i.hasDetails||(s=p.call(t,s,a)),null!=s&&(h+=s),h+="\t\t</div>\n",l=null!=(l=i.canRevert||(null!=t?t.canRevert:t))?l:u,a={name:"canRevert",hash:{},fn:e.program(3,o,0),inverse:e.noop,data:o},s=n(l)===f?l.call(c,a):l,i.canRevert||(s=p.call(t,s,a)),null!=s&&(h+=s),h+"\t</div>\n</li>\n"},useData:!0}),r.template=i({compiler:[7,">= 4.0.0"],main:function(e,t,i,r,o){var s,l=null!=t?t:e.nullContext||{},a=i.helperMissing,c=e.escapeExpression;return'<ul class="versions"></ul>\n<div class="clear-float"></div>\n<div class="empty hidden">\n\t<div class="emptycontent">\n\t\t<div class="icon-history"></div>\n\t\t<p>'+c("function"===n(s=null!=(s=i.emptyResultLabel||(null!=t?t.emptyResultLabel:t))?s:a)?s.call(l,{name:"emptyResultLabel",hash:{},data:o}):s)+'</p>\n\t</div>\n</div>\n<input type="button" class="showMoreVersions hidden" value="'+c("function"===n(s=null!=(s=i.moreVersionsLabel||(null!=t?t.moreVersionsLabel:t))?s:a)?s.call(l,{name:"moreVersionsLabel",hash:{},data:o}):s)+'" name="show-more-versions" id="show-more-versions" />\n<div class="loading hidden" style="height: 50px"></div>\n'},useData:!0})},function(e,t){var n;n=OC.Backbone.Collection.extend({model:OCA.Versions.VersionModel,sync:OC.Backbone.davSync,_fileInfo:null,_currentUser:null,_client:null,setFileInfo:function(e){this._fileInfo=e},getFileInfo:function(){return this._fileInfo},setCurrentUser:function(e){this._currentUser=e},getCurrentUser:function(){return this._currentUser||OC.getCurrentUser().uid},setClient:function(e){this._client=e},getClient:function(){return this._client||new OC.Files.Client({host:OC.getHost(),root:OC.linkToRemoteBase("dav")+"/versions/"+this.getCurrentUser(),useHTTPS:"https"===OC.getProtocol()})},url:function(){return OC.linkToRemoteBase("dav")+"/versions/"+this.getCurrentUser()+"/versions/"+this._fileInfo.get("id")},parse:function(e){var t=this._fileInfo.getFullPath(),n=this._fileInfo.get("id"),i=this._fileInfo.get("name"),r=this.getCurrentUser(),o=this.getClient();return _.map(e,function(e){return e.fullPath=t,e.fileId=n,e.name=i,e.timestamp=parseInt(moment(new Date(e.timestamp)).format("X"),10),e.id=parseInt(OC.basename(e.href),10),e.size=parseInt(e.size,10),e.user=r,e.client=o,e})}}),OCA.Versions=OCA.Versions||{},OCA.Versions.VersionCollection=n},function(e,i){var r;r=OCA.Files.DetailTabView.extend({id:"versionsTabView",className:"tab versionsTabView",_template:null,$versionsContainer:null,events:{"click .revertVersion":"_onClickRevertVersion"},initialize:function(){OCA.Files.DetailTabView.prototype.initialize.apply(this,arguments),this.collection=new OCA.Versions.VersionCollection,this.collection.on("request",this._onRequest,this),this.collection.on("sync",this._onEndRequest,this),this.collection.on("update",this._onUpdate,this),this.collection.on("error",this._onError,this),this.collection.on("add",this._onAddModel,this)},getLabel:function(){return t("files_versions","Versions")},getIcon:function(){return"icon-history"},nextPage:function(){this._loading||this.collection.getFileInfo()&&this.collection.getFileInfo().isDirectory()||this.collection.fetch()},_onClickRevertVersion:function(e){var n,i=this,r=$(e.target),o=this.collection.getFileInfo();r.is("li")||(r=r.closest("li")),e.preventDefault(),n=r.attr("data-revision");var s=this.collection.get(n);s.revert({success:function(){i.$versionsContainer.empty(),i.collection.setFileInfo(o),i.collection.reset([],{silent:!0}),i.collection.fetch(),i.$el.find(".versions").removeClass("hidden"),o.trigger("busy",o,!1),o.set({size:s.get("size"),mtime:1e3*s.get("timestamp"),etag:s.get("id")+s.get("timestamp")})},error:function(){o.trigger("busy",o,!1),i.$el.find(".versions").removeClass("hidden"),i._toggleLoading(!1),OC.Notification.show(t("files_version","Failed to revert {file} to revision {timestamp}.",{file:s.getFullPath(),timestamp:OC.Util.formatDate(1e3*s.get("timestamp"))}),{type:"error"})}}),this._toggleLoading(!0),o.trigger("busy",o,!0)},_toggleLoading:function(e){this._loading=e,this.$el.find(".loading").toggleClass("hidden",!e)},_onRequest:function(){this._toggleLoading(!0)},_onEndRequest:function(){this._toggleLoading(!1),this.$el.find(".empty").toggleClass("hidden",!!this.collection.length)},_onAddModel:function(e){var t=$(this.itemTemplate(this._formatItem(e)));this.$versionsContainer.append(t),t.find(".has-tooltip").tooltip()},template:function(e){return OCA.Versions.Templates.template(e)},itemTemplate:function(e){return OCA.Versions.Templates.item(e)},setFileInfo:function(e){e?(this.render(),this.collection.setFileInfo(e),this.collection.reset([],{silent:!0}),this.nextPage()):(this.render(),this.collection.reset())},_formatItem:function(e){var i=1e3*e.get("timestamp"),r=e.has("size")?e.get("size"):0,o=OC.MimeType.getIconUrl(e.get("mimetype")),s=new Image;return s.onload=function(){$("li[data-revision="+e.get("timestamp")+"] .preview").attr("src",e.getPreviewUrl())},s.src=e.getPreviewUrl(),_.extend({versionId:e.get("id"),formattedTimestamp:OC.Util.formatDate(i),relativeTimestamp:OC.Util.relativeModifiedDate(i),millisecondsTimestamp:i,humanReadableSize:OC.Util.humanFileSize(r,!0),altSize:n("files","%n byte","%n bytes",r),hasDetails:e.has("size"),downloadUrl:e.getDownloadUrl(),downloadIconUrl:OC.imagePath("core","actions/download"),downloadName:e.get("name"),revertIconUrl:OC.imagePath("core","actions/history"),previewUrl:o,revertLabel:t("files_versions","Restore"),canRevert:0!=(this.collection.getFileInfo().get("permissions")&OC.PERMISSION_UPDATE)},e.attributes)},render:function(){this.$el.html(this.template({emptyResultLabel:t("files_versions","No other versions available")})),this.$el.find(".has-tooltip").tooltip(),this.$versionsContainer=this.$el.find("ul.versions"),this.delegateEvents()},canDisplay:function(e){return!!e&&!e.isDirectory()}}),OCA.Versions=OCA.Versions||{},OCA.Versions.VersionsTabView=r},function(e,t){OCA.Versions=OCA.Versions||{},OCA.Versions.Util={attach:function(e){"trashbin"!==e.id&&"files.public"!==e.id&&e.registerTabView(new OCA.Versions.VersionsTabView("versionsTabView",{order:-10}))}},OC.Plugins.register("OCA.Files.FileList",OCA.Versions.Util)},function(e,t,n){var i=n(7);"string"==typeof i&&(i=[[e.i,i,""]]);var r={hmr:!0,transform:void 0,insertInto:void 0};n(9)(i,r);i.locals&&(e.exports=i.locals)},function(e,t,n){(e.exports=n(8)(!1)).push([e.i,".versionsTabView .clear-float {\n\tclear: both;\n}\n\n.versionsTabView li {\n\twidth: 100%;\n\tcursor: default;\n\theight: 56px;\n\tfloat: left;\n\tborder-bottom: 1px solid rgba(100,100,100,.1);\n}\n.versionsTabView li:last-child {\n\tborder-bottom: none;\n}\n\n.versionsTabView a,\n.versionsTabView div > span {\n\tvertical-align: middle;\n\topacity: .5;\n}\n\n.versionsTabView li a{\n\tpadding: 15px 10px 11px;\n}\n\n.versionsTabView a:hover,\n.versionsTabView a:focus {\n\topacity: 1;\n}\n\n.versionsTabView .preview-container {\n\tdisplay: inline-block;\n  vertical-align: top;\n}\n\n.versionsTabView img {\n\tcursor: pointer;\n\tpadding-right: 4px;\n}\n\n.versionsTabView img.preview {\n\tcursor: default;\n}\n\n.versionsTabView .version-container {\n\tdisplay: inline-block;\n}\n\n.versionsTabView .versiondate {\n\tmin-width: 100px;\n\tvertical-align: super;\n}\n\n.versionsTabView .version-details {\n\ttext-align: left;\n}\n\n.versionsTabView .version-details > span {\n\tpadding: 0 10px;\n}\n\n.versionsTabView .revertVersion {\n\tcursor: pointer;\n\tfloat: right;\n\tmargin-right: -10px;\n}\n",""])},function(e,t,n){"use strict";e.exports=function(e){var t=[];return t.toString=function(){return this.map(function(t){var n=function(e,t){var n=e[1]||"",i=e[3];if(!i)return n;if(t&&"function"==typeof btoa){var r=(s=i,"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(s))))+" */"),o=i.sources.map(function(e){return"/*# sourceURL="+i.sourceRoot+e+" */"});return[n].concat(o).concat([r]).join("\n")}var s;return[n].join("\n")}(t,e);return t[2]?"@media "+t[2]+"{"+n+"}":n}).join("")},t.i=function(e,n){"string"==typeof e&&(e=[[null,e,""]]);for(var i={},r=0;r<this.length;r++){var o=this[r][0];null!=o&&(i[o]=!0)}for(r=0;r<e.length;r++){var s=e[r];null!=s[0]&&i[s[0]]||(n&&!s[2]?s[2]=n:n&&(s[2]="("+s[2]+") and ("+n+")"),t.push(s))}},t}},function(e,t,n){var i,r,o={},s=(i=function(){return window&&document&&document.all&&!window.atob},function(){return void 0===r&&(r=i.apply(this,arguments)),r}),l=function(e){var t={};return function(e,n){if("function"==typeof e)return e();if(void 0===t[e]){var i=function(e,t){return t?t.querySelector(e):document.querySelector(e)}.call(this,e,n);if(window.HTMLIFrameElement&&i instanceof window.HTMLIFrameElement)try{i=i.contentDocument.head}catch(e){i=null}t[e]=i}return t[e]}}(),a=null,c=0,u=[],f=n(10);function d(e,t){for(var n=0;n<e.length;n++){var i=e[n],r=o[i.id];if(r){r.refs++;for(var s=0;s<r.parts.length;s++)r.parts[s](i.parts[s]);for(;s<i.parts.length;s++)r.parts.push(b(i.parts[s],t))}else{var l=[];for(s=0;s<i.parts.length;s++)l.push(b(i.parts[s],t));o[i.id]={id:i.id,refs:1,parts:l}}}}function p(e,t){for(var n=[],i={},r=0;r<e.length;r++){var o=e[r],s=t.base?o[0]+t.base:o[0],l={css:o[1],media:o[2],sourceMap:o[3]};i[s]?i[s].parts.push(l):n.push(i[s]={id:s,parts:[l]})}return n}function h(e,t){var n=l(e.insertInto);if(!n)throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");var i=u[u.length-1];if("top"===e.insertAt)i?i.nextSibling?n.insertBefore(t,i.nextSibling):n.appendChild(t):n.insertBefore(t,n.firstChild),u.push(t);else if("bottom"===e.insertAt)n.appendChild(t);else{if("object"!=typeof e.insertAt||!e.insertAt.before)throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");var r=l(e.insertAt.before,n);n.insertBefore(t,r)}}function m(e){if(null===e.parentNode)return!1;e.parentNode.removeChild(e);var t=u.indexOf(e);t>=0&&u.splice(t,1)}function v(e){var t=document.createElement("style");if(void 0===e.attrs.type&&(e.attrs.type="text/css"),void 0===e.attrs.nonce){var i=function(){0;return n.nc}();i&&(e.attrs.nonce=i)}return g(t,e.attrs),h(e,t),t}function g(e,t){Object.keys(t).forEach(function(n){e.setAttribute(n,t[n])})}function b(e,t){var n,i,r,o;if(t.transform&&e.css){if(!(o="function"==typeof t.transform?t.transform(e.css):t.transform.default(e.css)))return function(){};e.css=o}if(t.singleton){var s=c++;n=a||(a=v(t)),i=C.bind(null,n,s,!1),r=C.bind(null,n,s,!0)}else e.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(n=function(e){var t=document.createElement("link");return void 0===e.attrs.type&&(e.attrs.type="text/css"),e.attrs.rel="stylesheet",g(t,e.attrs),h(e,t),t}(t),i=function(e,t,n){var i=n.css,r=n.sourceMap,o=void 0===t.convertToAbsoluteUrls&&r;(t.convertToAbsoluteUrls||o)&&(i=f(i));r&&(i+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(r))))+" */");var s=new Blob([i],{type:"text/css"}),l=e.href;e.href=URL.createObjectURL(s),l&&URL.revokeObjectURL(l)}.bind(null,n,t),r=function(){m(n),n.href&&URL.revokeObjectURL(n.href)}):(n=v(t),i=function(e,t){var n=t.css,i=t.media;i&&e.setAttribute("media",i);if(e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}.bind(null,n),r=function(){m(n)});return i(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap)return;i(e=t)}else r()}}e.exports=function(e,t){if("undefined"!=typeof DEBUG&&DEBUG&&"object"!=typeof document)throw new Error("The style-loader cannot be used in a non-browser environment");(t=t||{}).attrs="object"==typeof t.attrs?t.attrs:{},t.singleton||"boolean"==typeof t.singleton||(t.singleton=s()),t.insertInto||(t.insertInto="head"),t.insertAt||(t.insertAt="bottom");var n=p(e,t);return d(n,t),function(e){for(var i=[],r=0;r<n.length;r++){var s=n[r];(l=o[s.id]).refs--,i.push(l)}e&&d(p(e,t),t);for(r=0;r<i.length;r++){var l;if(0===(l=i[r]).refs){for(var a=0;a<l.parts.length;a++)l.parts[a]();delete o[l.id]}}}};var y,w=(y=[],function(e,t){return y[e]=t,y.filter(Boolean).join("\n")});function C(e,t,n,i){var r=n?"":i.css;if(e.styleSheet)e.styleSheet.cssText=w(t,r);else{var o=document.createTextNode(r),s=e.childNodes;s[t]&&e.removeChild(s[t]),s.length?e.insertBefore(o,s[t]):e.appendChild(o)}}},function(e,t){e.exports=function(e){var t="undefined"!=typeof window&&window.location;if(!t)throw new Error("fixUrls requires window.location");if(!e||"string"!=typeof e)return e;var n=t.protocol+"//"+t.host,i=n+t.pathname.replace(/\/[^\/]*$/,"/");return e.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi,function(e,t){var r,o=t.trim().replace(/^"(.*)"$/,function(e,t){return t}).replace(/^'(.*)'$/,function(e,t){return t});return/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(o)?e:(r=0===o.indexOf("//")?o:0===o.indexOf("/")?n+o:i+o.replace(/^\.\//,""),"url("+JSON.stringify(r)+")")})}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/js/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./apps/files_versions/src/files_versions.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./apps/files_versions/src/css/versions.css":
+/*!**************************************************!*\
+  !*** ./apps/files_versions/src/css/versions.css ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js!./versions.css */ "./node_modules/css-loader/dist/cjs.js!./apps/files_versions/src/css/versions.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/files_versions.js":
+/*!***************************************************!*\
+  !*** ./apps/files_versions/src/files_versions.js ***!
+  \***************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _versionmodel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./versionmodel */ "./apps/files_versions/src/versionmodel.js");
+/* harmony import */ var _versionmodel__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_versionmodel__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates */ "./apps/files_versions/src/templates.js");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_templates__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _versioncollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./versioncollection */ "./apps/files_versions/src/versioncollection.js");
+/* harmony import */ var _versioncollection__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_versioncollection__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _versionstabview__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./versionstabview */ "./apps/files_versions/src/versionstabview.js");
+/* harmony import */ var _versionstabview__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_versionstabview__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _filesplugin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filesplugin */ "./apps/files_versions/src/filesplugin.js");
+/* harmony import */ var _filesplugin__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_filesplugin__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _css_versions_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./css/versions.css */ "./apps/files_versions/src/css/versions.css");
+/* harmony import */ var _css_versions_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_css_versions_css__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+window.OCA.Versions = OCA.Versions;
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/filesplugin.js":
+/*!************************************************!*\
+  !*** ./apps/files_versions/src/filesplugin.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2015
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function () {
+  OCA.Versions = OCA.Versions || {};
+  /**
+   * @namespace
+   */
+
+  OCA.Versions.Util = {
+    /**
+     * Initialize the versions plugin.
+     *
+     * @param {OCA.Files.FileList} fileList file list to be extended
+     */
+    attach: function attach(fileList) {
+      if (fileList.id === 'trashbin' || fileList.id === 'files.public') {
+        return;
+      }
+
+      fileList.registerTabView(new OCA.Versions.VersionsTabView('versionsTabView', {
+        order: -10
+      }));
+    }
+  };
+})();
+
+OC.Plugins.register('OCA.Files.FileList', OCA.Versions.Util);
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/templates.js":
+/*!**********************************************!*\
+  !*** ./apps/files_versions/src/templates.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+(function () {
+  var template = Handlebars.template,
+      templates = OCA.Versions.Templates = OCA.Versions.Templates || {};
+  templates['item'] = template({
+    "1": function _(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "				<div class=\"version-details\">\n					<span class=\"size has-tooltip\" title=\"" + alias4((helper = (helper = helpers.altSize || (depth0 != null ? depth0.altSize : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "altSize",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">" + alias4((helper = (helper = helpers.humanReadableSize || (depth0 != null ? depth0.humanReadableSize : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "humanReadableSize",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</span>\n				</div>\n";
+    },
+    "3": function _(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "			<a href=\"#\" class=\"revertVersion\" title=\"" + alias4((helper = (helper = helpers.revertLabel || (depth0 != null ? depth0.revertLabel : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "revertLabel",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"><img src=\"" + alias4((helper = (helper = helpers.revertIconUrl || (depth0 != null ? depth0.revertIconUrl : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "revertIconUrl",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" /></a>\n";
+    },
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var stack1,
+          helper,
+          options,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression,
+          alias5 = helpers.blockHelperMissing,
+          buffer = "<li data-revision=\"" + alias4((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "timestamp",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">\n	<div>\n		<div class=\"preview-container\">\n			<img class=\"preview\" src=\"" + alias4((helper = (helper = helpers.previewUrl || (depth0 != null ? depth0.previewUrl : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "previewUrl",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" width=\"44\" height=\"44\"/>\n		</div>\n		<div class=\"version-container\">\n			<div>\n				<a href=\"" + alias4((helper = (helper = helpers.downloadUrl || (depth0 != null ? depth0.downloadUrl : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "downloadUrl",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" class=\"downloadVersion\" download=\"" + alias4((helper = (helper = helpers.downloadName || (depth0 != null ? depth0.downloadName : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "downloadName",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\"><img src=\"" + alias4((helper = (helper = helpers.downloadIconUrl || (depth0 != null ? depth0.downloadIconUrl : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "downloadIconUrl",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" />\n					<span class=\"versiondate has-tooltip live-relative-timestamp\" data-timestamp=\"" + alias4((helper = (helper = helpers.millisecondsTimestamp || (depth0 != null ? depth0.millisecondsTimestamp : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "millisecondsTimestamp",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" title=\"" + alias4((helper = (helper = helpers.formattedTimestamp || (depth0 != null ? depth0.formattedTimestamp : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "formattedTimestamp",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\">" + alias4((helper = (helper = helpers.relativeTimestamp || (depth0 != null ? depth0.relativeTimestamp : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "relativeTimestamp",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</span>\n				</a>\n			</div>\n";
+      stack1 = (helper = (helper = helpers.hasDetails || (depth0 != null ? depth0.hasDetails : depth0)) != null ? helper : alias2, options = {
+        "name": "hasDetails",
+        "hash": {},
+        "fn": container.program(1, data, 0),
+        "inverse": container.noop,
+        "data": data
+      }, _typeof(helper) === alias3 ? helper.call(alias1, options) : helper);
+
+      if (!helpers.hasDetails) {
+        stack1 = alias5.call(depth0, stack1, options);
+      }
+
+      if (stack1 != null) {
+        buffer += stack1;
+      }
+
+      buffer += "		</div>\n";
+      stack1 = (helper = (helper = helpers.canRevert || (depth0 != null ? depth0.canRevert : depth0)) != null ? helper : alias2, options = {
+        "name": "canRevert",
+        "hash": {},
+        "fn": container.program(3, data, 0),
+        "inverse": container.noop,
+        "data": data
+      }, _typeof(helper) === alias3 ? helper.call(alias1, options) : helper);
+
+      if (!helpers.canRevert) {
+        stack1 = alias5.call(depth0, stack1, options);
+      }
+
+      if (stack1 != null) {
+        buffer += stack1;
+      }
+
+      return buffer + "	</div>\n</li>\n";
+    },
+    "useData": true
+  });
+  templates['template'] = template({
+    "compiler": [7, ">= 4.0.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = helpers.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression;
+      return "<ul class=\"versions\"></ul>\n<div class=\"clear-float\"></div>\n<div class=\"empty hidden\">\n	<div class=\"emptycontent\">\n		<div class=\"icon-history\"></div>\n		<p>" + alias4((helper = (helper = helpers.emptyResultLabel || (depth0 != null ? depth0.emptyResultLabel : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "emptyResultLabel",
+        "hash": {},
+        "data": data
+      }) : helper)) + "</p>\n	</div>\n</div>\n<input type=\"button\" class=\"showMoreVersions hidden\" value=\"" + alias4((helper = (helper = helpers.moreVersionsLabel || (depth0 != null ? depth0.moreVersionsLabel : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "moreVersionsLabel",
+        "hash": {},
+        "data": data
+      }) : helper)) + "\" name=\"show-more-versions\" id=\"show-more-versions\" />\n<div class=\"loading hidden\" style=\"height: 50px\"></div>\n";
+    },
+    "useData": true
+  });
+})();
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/versioncollection.js":
+/*!******************************************************!*\
+  !*** ./apps/files_versions/src/versioncollection.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2015
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function () {
+  /**
+   * @memberof OCA.Versions
+   */
+  var VersionCollection = OC.Backbone.Collection.extend({
+    model: OCA.Versions.VersionModel,
+    sync: OC.Backbone.davSync,
+
+    /**
+     * @var OCA.Files.FileInfoModel
+     */
+    _fileInfo: null,
+    _currentUser: null,
+    _client: null,
+    setFileInfo: function setFileInfo(fileInfo) {
+      this._fileInfo = fileInfo;
+    },
+    getFileInfo: function getFileInfo() {
+      return this._fileInfo;
+    },
+    setCurrentUser: function setCurrentUser(user) {
+      this._currentUser = user;
+    },
+    getCurrentUser: function getCurrentUser() {
+      return this._currentUser || OC.getCurrentUser().uid;
+    },
+    setClient: function setClient(client) {
+      this._client = client;
+    },
+    getClient: function getClient() {
+      return this._client || new OC.Files.Client({
+        host: OC.getHost(),
+        root: OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser(),
+        useHTTPS: OC.getProtocol() === 'https'
+      });
+    },
+    url: function url() {
+      return OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id');
+    },
+    parse: function parse(result) {
+      var fullPath = this._fileInfo.getFullPath();
+
+      var fileId = this._fileInfo.get('id');
+
+      var name = this._fileInfo.get('name');
+
+      var user = this.getCurrentUser();
+      var client = this.getClient();
+      return _.map(result, function (version) {
+        version.fullPath = fullPath;
+        version.fileId = fileId;
+        version.name = name;
+        version.timestamp = parseInt(moment(new Date(version.timestamp)).format('X'), 10);
+        version.id = parseInt(OC.basename(version.href), 10);
+        version.size = parseInt(version.size, 10);
+        version.user = user;
+        version.client = client;
+        return version;
+      });
+    }
+  });
+  OCA.Versions = OCA.Versions || {};
+  OCA.Versions.VersionCollection = VersionCollection;
+})();
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/versionmodel.js":
+/*!*************************************************!*\
+  !*** ./apps/files_versions/src/versionmodel.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2015
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global moment */
+(function () {
+  /**
+   * @memberof OCA.Versions
+   */
+  var VersionModel = OC.Backbone.Model.extend({
+    sync: OC.Backbone.davSync,
+    davProperties: {
+      'size': '{DAV:}getcontentlength',
+      'mimetype': '{DAV:}getcontenttype',
+      'timestamp': '{DAV:}getlastmodified'
+    },
+
+    /**
+     * Restores the original file to this revision
+     */
+    revert: function revert(options) {
+      options = options ? _.clone(options) : {};
+      var model = this;
+      var client = this.get('client');
+      return client.move('/versions/' + this.get('fileId') + '/' + this.get('id'), '/restore/target', true).done(function () {
+        if (options.success) {
+          options.success.call(options.context, model, {}, options);
+        }
+
+        model.trigger('revert', model, options);
+      }).fail(function () {
+        if (options.error) {
+          options.error.call(options.context, model, {}, options);
+        }
+
+        model.trigger('error', model, {}, options);
+      });
+    },
+    getFullPath: function getFullPath() {
+      return this.get('fullPath');
+    },
+    getPreviewUrl: function getPreviewUrl() {
+      var url = OC.generateUrl('/apps/files_versions/preview');
+      var params = {
+        file: this.get('fullPath'),
+        version: this.get('timestamp')
+      };
+      return url + '?' + OC.buildQueryString(params);
+    },
+    getDownloadUrl: function getDownloadUrl() {
+      return OC.linkToRemoteBase('dav') + '/versions/' + this.get('user') + '/versions/' + this.get('fileId') + '/' + this.get('id');
+    }
+  });
+  OCA.Versions = OCA.Versions || {};
+  OCA.Versions.VersionModel = VersionModel;
+})();
+
+/***/ }),
+
+/***/ "./apps/files_versions/src/versionstabview.js":
+/*!****************************************************!*\
+  !*** ./apps/files_versions/src/versionstabview.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+ * Copyright (c) 2015
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+(function () {
+  /**
+   * @memberof OCA.Versions
+   */
+  var VersionsTabView = OCA.Files.DetailTabView.extend(
+  /** @lends OCA.Versions.VersionsTabView.prototype */
+  {
+    id: 'versionsTabView',
+    className: 'tab versionsTabView',
+    _template: null,
+    $versionsContainer: null,
+    events: {
+      'click .revertVersion': '_onClickRevertVersion'
+    },
+    initialize: function initialize() {
+      OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
+      this.collection = new OCA.Versions.VersionCollection();
+      this.collection.on('request', this._onRequest, this);
+      this.collection.on('sync', this._onEndRequest, this);
+      this.collection.on('update', this._onUpdate, this);
+      this.collection.on('error', this._onError, this);
+      this.collection.on('add', this._onAddModel, this);
+    },
+    getLabel: function getLabel() {
+      return t('files_versions', 'Versions');
+    },
+    getIcon: function getIcon() {
+      return 'icon-history';
+    },
+    nextPage: function nextPage() {
+      if (this._loading) {
+        return;
+      }
+
+      if (this.collection.getFileInfo() && this.collection.getFileInfo().isDirectory()) {
+        return;
+      }
+
+      this.collection.fetch();
+    },
+    _onClickRevertVersion: function _onClickRevertVersion(ev) {
+      var self = this;
+      var $target = $(ev.target);
+      var fileInfoModel = this.collection.getFileInfo();
+      var revision;
+
+      if (!$target.is('li')) {
+        $target = $target.closest('li');
+      }
+
+      ev.preventDefault();
+      revision = $target.attr('data-revision');
+      var versionModel = this.collection.get(revision);
+      versionModel.revert({
+        success: function success() {
+          // reset and re-fetch the updated collection
+          self.$versionsContainer.empty();
+          self.collection.setFileInfo(fileInfoModel);
+          self.collection.reset([], {
+            silent: true
+          });
+          self.collection.fetch();
+          self.$el.find('.versions').removeClass('hidden'); // update original model
+
+          fileInfoModel.trigger('busy', fileInfoModel, false);
+          fileInfoModel.set({
+            size: versionModel.get('size'),
+            mtime: versionModel.get('timestamp') * 1000,
+            // temp dummy, until we can do a PROPFIND
+            etag: versionModel.get('id') + versionModel.get('timestamp')
+          });
+        },
+        error: function error() {
+          fileInfoModel.trigger('busy', fileInfoModel, false);
+          self.$el.find('.versions').removeClass('hidden');
+
+          self._toggleLoading(false);
+
+          OC.Notification.show(t('files_version', 'Failed to revert {file} to revision {timestamp}.', {
+            file: versionModel.getFullPath(),
+            timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000)
+          }), {
+            type: 'error'
+          });
+        }
+      }); // spinner
+
+      this._toggleLoading(true);
+
+      fileInfoModel.trigger('busy', fileInfoModel, true);
+    },
+    _toggleLoading: function _toggleLoading(state) {
+      this._loading = state;
+      this.$el.find('.loading').toggleClass('hidden', !state);
+    },
+    _onRequest: function _onRequest() {
+      this._toggleLoading(true);
+    },
+    _onEndRequest: function _onEndRequest() {
+      this._toggleLoading(false);
+
+      this.$el.find('.empty').toggleClass('hidden', !!this.collection.length);
+    },
+    _onAddModel: function _onAddModel(model) {
+      var $el = $(this.itemTemplate(this._formatItem(model)));
+      this.$versionsContainer.append($el);
+      $el.find('.has-tooltip').tooltip();
+    },
+    template: function template(data) {
+      return OCA.Versions.Templates['template'](data);
+    },
+    itemTemplate: function itemTemplate(data) {
+      return OCA.Versions.Templates['item'](data);
+    },
+    setFileInfo: function setFileInfo(fileInfo) {
+      if (fileInfo) {
+        this.render();
+        this.collection.setFileInfo(fileInfo);
+        this.collection.reset([], {
+          silent: true
+        });
+        this.nextPage();
+      } else {
+        this.render();
+        this.collection.reset();
+      }
+    },
+    _formatItem: function _formatItem(version) {
+      var timestamp = version.get('timestamp') * 1000;
+      var size = version.has('size') ? version.get('size') : 0;
+      var preview = OC.MimeType.getIconUrl(version.get('mimetype'));
+      var img = new Image();
+
+      img.onload = function () {
+        $('li[data-revision=' + version.get('timestamp') + '] .preview').attr('src', version.getPreviewUrl());
+      };
+
+      img.src = version.getPreviewUrl();
+      return _.extend({
+        versionId: version.get('id'),
+        formattedTimestamp: OC.Util.formatDate(timestamp),
+        relativeTimestamp: OC.Util.relativeModifiedDate(timestamp),
+        millisecondsTimestamp: timestamp,
+        humanReadableSize: OC.Util.humanFileSize(size, true),
+        altSize: n('files', '%n byte', '%n bytes', size),
+        hasDetails: version.has('size'),
+        downloadUrl: version.getDownloadUrl(),
+        downloadIconUrl: OC.imagePath('core', 'actions/download'),
+        downloadName: version.get('name'),
+        revertIconUrl: OC.imagePath('core', 'actions/history'),
+        previewUrl: preview,
+        revertLabel: t('files_versions', 'Restore'),
+        canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
+      }, version.attributes);
+    },
+
+    /**
+     * Renders this details view
+     */
+    render: function render() {
+      this.$el.html(this.template({
+        emptyResultLabel: t('files_versions', 'No other versions available')
+      }));
+      this.$el.find('.has-tooltip').tooltip();
+      this.$versionsContainer = this.$el.find('ul.versions');
+      this.delegateEvents();
+    },
+
+    /**
+     * Returns true for files, false for folders.
+     *
+     * @return {bool} true for files, false for folders
+     */
+    canDisplay: function canDisplay(fileInfo) {
+      if (!fileInfo) {
+        return false;
+      }
+
+      return !fileInfo.isDirectory();
+    }
+  });
+  OCA.Versions = OCA.Versions || {};
+  OCA.Versions.VersionsTabView = VersionsTabView;
+})();
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./apps/files_versions/src/css/versions.css":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./apps/files_versions/src/css/versions.css ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".versionsTabView .clear-float {\n\tclear: both;\n}\n\n.versionsTabView li {\n\twidth: 100%;\n\tcursor: default;\n\theight: 56px;\n\tfloat: left;\n\tborder-bottom: 1px solid rgba(100,100,100,.1);\n}\n.versionsTabView li:last-child {\n\tborder-bottom: none;\n}\n\n.versionsTabView a,\n.versionsTabView div > span {\n\tvertical-align: middle;\n\topacity: .5;\n}\n\n.versionsTabView li a{\n\tpadding: 15px 10px 11px;\n}\n\n.versionsTabView a:hover,\n.versionsTabView a:focus {\n\topacity: 1;\n}\n\n.versionsTabView .preview-container {\n\tdisplay: inline-block;\n  vertical-align: top;\n}\n\n.versionsTabView img {\n\tcursor: pointer;\n\tpadding-right: 4px;\n}\n\n.versionsTabView img.preview {\n\tcursor: default;\n}\n\n.versionsTabView .version-container {\n\tdisplay: inline-block;\n}\n\n.versionsTabView .versiondate {\n\tmin-width: 100px;\n\tvertical-align: super;\n}\n\n.versionsTabView .version-details {\n\ttext-align: left;\n}\n\n.versionsTabView .version-details > span {\n\tpadding: 0 10px;\n}\n\n.versionsTabView .revertVersion {\n\tcursor: pointer;\n\tfloat: right;\n\tmargin-right: -10px;\n}\n", ""]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
+
+      if (item[2]) {
+        return '@media ' + item[2] + '{' + content + '}';
+      } else {
+        return content;
+      }
+    }).join('');
+  }; // import a list of modules into the list
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (i = 0; i < modules.length; i++) {
+      var item = modules[i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = '(' + item[2] + ') and (' + mediaQuery + ')';
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+  var content = item[1] || '';
+  var cssMapping = item[3];
+
+  if (!cssMapping) {
+    return content;
+  }
+
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
+
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
+function toComment(sourceMap) {
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+  return '/*# ' + data + ' */';
+}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/*!****************************************************!*\
+  !*** ./node_modules/style-loader/lib/addStyles.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(/*! ./urls */ "./node_modules/style-loader/lib/urls.js");
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertAt.before, target);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function getNonce() {
+	if (false) {}
+
+	return __webpack_require__.nc;
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = typeof options.transform === 'function'
+		 ? options.transform(obj.css) 
+		 : options.transform.default(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/*!***********************************************!*\
+  !*** ./node_modules/style-loader/lib/urls.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=files_versions.js.map

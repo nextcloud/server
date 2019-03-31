@@ -27,6 +27,7 @@ import users from './users';
 import apps from './apps';
 import settings from './settings';
 import oc from './oc';
+import security from './admin-security';
 
 Vue.use(Vuex)
 
@@ -49,7 +50,8 @@ export default new Vuex.Store({
 		users,
 		apps,
 		settings,
-		oc
+		oc,
+		security
 	},
 	strict: debug,
 

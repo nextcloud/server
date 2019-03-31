@@ -160,13 +160,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/**
- * Those translations will be used by the vue component but they should be shipped with the server
- * t('files_sharing', 'Add to a collection')
- * t('files_sharing', 'Details')
- * t('files_sharing', 'Rename collection')
- */
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'CollaborationView',
   computed: {
@@ -209,7 +202,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.fileId
     ? _c("collection-list", {
-        attrs: { type: "files", id: _vm.fileId, name: _vm.filename }
+        attrs: { type: "file", id: _vm.fileId, name: _vm.filename }
       })
     : _vm._e()
 }

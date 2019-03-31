@@ -84,6 +84,7 @@ $application->registerRoutes($this, [
 		['name' => 'ChangePassword#changeUserPassword', 'url' => '/settings/users/changepassword', 'verb' => 'POST'],
 		['name' => 'TwoFactorSettings#index', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'GET'],
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT'],
+		['name' => 'TwoFactorSettings#getEnabledProvidersForUser', 'url' => '/settings/api/users/{uid}/twoFactorProviders', 'verb' => 'GET'],
 	]
 ]);
 

@@ -10,11 +10,11 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _userList_userRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./userList/userRow */ "./settings/src/components/userList/userRow.vue");
-/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nextcloud-vue */ "./settings/node_modules/nextcloud-vue/dist/ncvuecomponents.js");
 /* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-infinite-loading */ "./settings/node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./settings/node_modules/vue/dist/vue.runtime.esm.js");
 //
 //
 //
@@ -405,6 +405,8 @@ __webpack_require__.r(__webpack_exports__);
         language: this.newUser.language.code
       }).then(function () {
         _this.resetForm();
+
+        _this.$refs.newusername.focus();
       }).catch(function (error) {
         _this.loading.all = false;
 
@@ -473,11 +475,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./settings/node_modules/vue-click-outside/index.js");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
-/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
-/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./settings/node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-tooltip */ "./settings/node_modules/v-tooltip/dist/v-tooltip.esm.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! nextcloud-vue */ "./settings/node_modules/nextcloud-vue/dist/ncvuecomponents.js");
 /* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -1125,13 +1127,13 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(v_tooltip__WEBPACK_IMPORTED_MODU
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-vue */ "./settings/node_modules/nextcloud-vue/dist/ncvuecomponents.js");
 /* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_userList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/userList */ "./settings/src/components/userList.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
-/* harmony import */ var vue_localstorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-localstorage */ "./node_modules/vue-localstorage/dist/vue-local-storage.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./settings/node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vue_localstorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-localstorage */ "./settings/node_modules/vue-localstorage/dist/vue-local-storage.js");
 /* harmony import */ var vue_localstorage__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_localstorage__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-multiselect */ "./settings/node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _store_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/api */ "./settings/src/store/api.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1609,10 +1611,10 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vue_localstorage__WEBPACK_IMPORT
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList.vue?vue&type=template&id=1347754e&":
-/*!***********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/components/userList.vue?vue&type=template&id=1347754e& ***!
-  \***********************************************************************************************************************************************************************************************************/
+/***/ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList.vue?vue&type=template&id=1347754e&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./settings/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/components/userList.vue?vue&type=template&id=1347754e& ***!
+  \********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2096,10 +2098,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./settings/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59& ***!
+  \****************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2624,10 +2626,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe&":
-/*!***************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe& ***!
-  \***************************************************************************************************************************************************************************************************/
+/***/ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./settings/node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe& ***!
+  \************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2639,265 +2641,256 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("AppContent", {
-    attrs: {
-      "app-name": "settings",
-      "navigation-class": { "icon-loading": _vm.loadingAddGroup }
+  return _c(
+    "AppContent",
+    {
+      attrs: {
+        "app-name": "settings",
+        "navigation-class": { "icon-loading": _vm.loadingAddGroup }
+      }
     },
-    scopedSlots: _vm._u([
-      {
-        key: "navigation",
-        fn: function() {
-          return [
-            _c("AppNavigationNew", {
-              attrs: {
-                "button-id": "new-user-button",
-                text: _vm.t("settings", "New user"),
-                "button-class": "icon-add"
+    [
+      [
+        _c("AppNavigationNew", {
+          attrs: {
+            "button-id": "new-user-button",
+            text: _vm.t("settings", "New user"),
+            "button-class": "icon-add"
+          },
+          on: { click: _vm.toggleNewUserMenu }
+        }),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { attrs: { id: "usergrouplist" } },
+          _vm._l(_vm.menu, function(item) {
+            return _c("AppNavigationItem", {
+              key: item.key,
+              attrs: { item: item }
+            })
+          }),
+          1
+        ),
+        _vm._v(" "),
+        _c("AppNavigationSettings", [
+          _c(
+            "div",
+            [
+              _c("p", [_vm._v(_vm._s(_vm.t("settings", "Default quota:")))]),
+              _vm._v(" "),
+              _c("multiselect", {
+                staticClass: "multiselect-vue",
+                attrs: {
+                  value: _vm.defaultQuota,
+                  options: _vm.quotaOptions,
+                  "tag-placeholder": "create",
+                  placeholder: _vm.t("settings", "Select default quota"),
+                  label: "label",
+                  "track-by": "id",
+                  allowEmpty: false,
+                  taggable: true
+                },
+                on: { tag: _vm.validateQuota, input: _vm.setDefaultQuota }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.showLanguages,
+                  expression: "showLanguages"
+                }
+              ],
+              staticClass: "checkbox",
+              attrs: { type: "checkbox", id: "showLanguages" },
+              domProps: {
+                checked: Array.isArray(_vm.showLanguages)
+                  ? _vm._i(_vm.showLanguages, null) > -1
+                  : _vm.showLanguages
               },
-              on: { click: _vm.toggleNewUserMenu }
+              on: {
+                change: function($event) {
+                  var $$a = _vm.showLanguages,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.showLanguages = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.showLanguages = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.showLanguages = $$c
+                  }
+                }
+              }
             }),
             _vm._v(" "),
-            _c(
-              "ul",
-              { attrs: { id: "usergrouplist" } },
-              _vm._l(_vm.menu, function(item) {
-                return _c("AppNavigationItem", {
-                  key: item.key,
-                  attrs: { item: item }
-                })
-              }),
-              1
-            ),
-            _vm._v(" "),
-            _c("AppNavigationSettings", [
-              _c(
-                "div",
-                [
-                  _c("p", [
-                    _vm._v(_vm._s(_vm.t("settings", "Default quota:")))
-                  ]),
-                  _vm._v(" "),
-                  _c("multiselect", {
-                    staticClass: "multiselect-vue",
-                    attrs: {
-                      value: _vm.defaultQuota,
-                      options: _vm.quotaOptions,
-                      "tag-placeholder": "create",
-                      placeholder: _vm.t("settings", "Select default quota"),
-                      label: "label",
-                      "track-by": "id",
-                      allowEmpty: false,
-                      taggable: true
-                    },
-                    on: { tag: _vm.validateQuota, input: _vm.setDefaultQuota }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showLanguages,
-                      expression: "showLanguages"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showLanguages" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showLanguages)
-                      ? _vm._i(_vm.showLanguages, null) > -1
-                      : _vm.showLanguages
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showLanguages,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showLanguages = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.showLanguages = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.showLanguages = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "showLanguages" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showLastLogin,
-                      expression: "showLastLogin"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showLastLogin" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showLastLogin)
-                      ? _vm._i(_vm.showLastLogin, null) > -1
-                      : _vm.showLastLogin
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showLastLogin,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showLastLogin = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.showLastLogin = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.showLastLogin = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "showLastLogin" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show last login")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showUserBackend,
-                      expression: "showUserBackend"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showUserBackend" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showUserBackend)
-                      ? _vm._i(_vm.showUserBackend, null) > -1
-                      : _vm.showUserBackend
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showUserBackend,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showUserBackend = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.showUserBackend = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.showUserBackend = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "showUserBackend" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showStoragePath,
-                      expression: "showStoragePath"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showStoragePath" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showStoragePath)
-                      ? _vm._i(_vm.showStoragePath, null) > -1
-                      : _vm.showStoragePath
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showStoragePath,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showStoragePath = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.showStoragePath = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.showStoragePath = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "showStoragePath" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
-                ])
-              ])
+            _c("label", { attrs: { for: "showLanguages" } }, [
+              _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
             ])
-          ]
-        },
-        proxy: true
-      },
-      {
-        key: "content",
-        fn: function() {
-          return [
-            _c("user-list", {
-              attrs: {
-                users: _vm.users,
-                showConfig: _vm.showConfig,
-                selectedGroup: _vm.selectedGroup,
-                externalActions: _vm.externalActions
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.showLastLogin,
+                  expression: "showLastLogin"
+                }
+              ],
+              staticClass: "checkbox",
+              attrs: { type: "checkbox", id: "showLastLogin" },
+              domProps: {
+                checked: Array.isArray(_vm.showLastLogin)
+                  ? _vm._i(_vm.showLastLogin, null) > -1
+                  : _vm.showLastLogin
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.showLastLogin,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.showLastLogin = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.showLastLogin = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.showLastLogin = $$c
+                  }
+                }
               }
-            })
-          ]
-        },
-        proxy: true
-      }
-    ])
-  })
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "showLastLogin" } }, [
+              _vm._v(_vm._s(_vm.t("settings", "Show last login")))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.showUserBackend,
+                  expression: "showUserBackend"
+                }
+              ],
+              staticClass: "checkbox",
+              attrs: { type: "checkbox", id: "showUserBackend" },
+              domProps: {
+                checked: Array.isArray(_vm.showUserBackend)
+                  ? _vm._i(_vm.showUserBackend, null) > -1
+                  : _vm.showUserBackend
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.showUserBackend,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.showUserBackend = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.showUserBackend = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.showUserBackend = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "showUserBackend" } }, [
+              _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.showStoragePath,
+                  expression: "showStoragePath"
+                }
+              ],
+              staticClass: "checkbox",
+              attrs: { type: "checkbox", id: "showStoragePath" },
+              domProps: {
+                checked: Array.isArray(_vm.showStoragePath)
+                  ? _vm._i(_vm.showStoragePath, null) > -1
+                  : _vm.showStoragePath
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.showStoragePath,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.showStoragePath = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.showStoragePath = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.showStoragePath = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "showStoragePath" } }, [
+              _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
+            ])
+          ])
+        ])
+      ],
+      _vm._v(" "),
+      [
+        _c("user-list", {
+          attrs: {
+            users: _vm.users,
+            showConfig: _vm.showConfig,
+            selectedGroup: _vm.selectedGroup,
+            externalActions: _vm.externalActions
+          }
+        })
+      ]
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2966,7 +2959,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userList_vue_vue_type_template_id_1347754e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./userList.vue?vue&type=template&id=1347754e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList.vue?vue&type=template&id=1347754e&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userList_vue_vue_type_template_id_1347754e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./userList.vue?vue&type=template&id=1347754e& */ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList.vue?vue&type=template&id=1347754e&");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userList_vue_vue_type_template_id_1347754e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userList_vue_vue_type_template_id_1347754e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -3035,7 +3028,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userRow_vue_vue_type_template_id_5a5e6f59___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./userRow.vue?vue&type=template&id=5a5e6f59& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userRow_vue_vue_type_template_id_5a5e6f59___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./userRow.vue?vue&type=template&id=5a5e6f59& */ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/components/userList/userRow.vue?vue&type=template&id=5a5e6f59&");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userRow_vue_vue_type_template_id_5a5e6f59___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userRow_vue_vue_type_template_id_5a5e6f59___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -3104,7 +3097,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_1c24c2fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Users.vue?vue&type=template&id=1c24c2fe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_1c24c2fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Users.vue?vue&type=template&id=1c24c2fe& */ "./settings/node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./settings/src/views/Users.vue?vue&type=template&id=1c24c2fe&");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_1c24c2fe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_template_id_1c24c2fe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
