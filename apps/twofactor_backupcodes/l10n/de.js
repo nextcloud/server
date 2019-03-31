@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ein Fehler ist bei der Erstellung Deiner Backup-Codes aufgetreten",
+    "{name} backup codes" : "{name} Backup-Codes",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dies sind Deine Backup-Codes.  Bitte speichere und/oder drucke  diese aus, da diese Codes später nicht mehr gelesen werden können",
     "Save backup codes" : "Backup-Codes speichern",
     "Print backup codes" : "Backup-Codes drucken",
