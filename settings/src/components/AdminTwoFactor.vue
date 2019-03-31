@@ -15,6 +15,12 @@
 			<label for="two-factor-enforced">{{ t('settings', 'Enforce two-factor authentication') }}</label>
 		</p>
 		<template v-if="enforced">
+			<p id="two-factor-warning-global" v-if="noProviderGlobally">
+				{{ t('settings', 'No Two-Factor authentication provider enabled on this server. Are you sure that you want to enforce Two-Factor authentication?') }}
+			</p>
+			<p id="two-factor-warning-admin" v-if="noProviderAdmin">
+				{{ t('settings', 'No Two-Factor authentication provider enabled for your account. Are you sure that you want to enforce Two-Factor authentication?') }}
+			</p>
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
 			<p>
@@ -78,6 +84,10 @@
 		components: {
 			Multiselect
 		},
+		beforeMount(){
+			this.$store.dispatch('getAllApps');
+			this.$store.dispatch('getEnabledProvidersCurrentUser');
+		},
 		data () {
 			return {
 				loading: false,
@@ -89,7 +99,7 @@
 		computed: {
 			enforced: {
 				get: function () {
-					return this.$store.state.enforced
+					return this.$store.state.security.enforced
 				},
 				set: function (val) {
 					this.dirty = true
@@ -98,7 +108,7 @@
 			},
 			enforcedGroups: {
 				get: function () {
-					return this.$store.state.enforcedGroups
+					return this.$store.state.security.enforcedGroups
 				},
 				set: function (val) {
 					this.dirty = true
@@ -107,11 +117,25 @@
 			},
 			excludedGroups: {
 				get: function () {
-					return this.$store.state.excludedGroups
+					return this.$store.state.security.excludedGroups
 				},
 				set: function (val) {
 					this.dirty = true
 					this.$store.commit('setExcludedGroups', val)
+				}
+			},
+			noProviderGlobally: {
+				get: function () {
+					var providers = this.$store.getters.getAllApps.filter( function(app) {
+						return ('two-factor-providers' in app && 'provider' in app['two-factor-providers'] && app['active'] === true);
+					});
+					return (providers.length === 0);
+				}
+			},
+			noProviderAdmin: {
+				get: function () {
+					var providers = this.$store.getters.getEnabledProvidersCurrentUser;
+					return (providers.length === 0);
 				}
 			},
 		},
