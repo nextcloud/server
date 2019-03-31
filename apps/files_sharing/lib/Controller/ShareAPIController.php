@@ -649,7 +649,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			try {
-				$format = $this->formatShare($share, $folder);
+				$format = $this->formatShare($share);
 
 				$known[] = $share->getId();
 				$formatted[] = $format;
