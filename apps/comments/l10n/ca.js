@@ -10,8 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s ha comentat a %2$s",
     "{author} commented on {file}" : "{author} ha comentat a {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentaris</strong> per fitxers",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat anomenats a \"{file}\" en un comentari d'un usuari que ja no existeix",
-    "{user} mentioned you in a comment on “{file}”" : "{user} us ha anomenat en un comentari de “{file}”",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja no existeix",
+    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”",
     "Files app plugin to add comments to files" : "Connexió de l’aplicació de fitxers per afegir comentaris als fitxers",
     "Edit comment" : "Edita comentari",
     "Delete comment" : "Suprimeix comentari",
@@ -19,7 +19,7 @@ OC.L10N.register(
     "Post" : "Publica",
     "Cancel" : "Cancel·la",
     "[Deleted user]" : "[Usuari suprimit]",
-    "No comments yet, start the conversation!" : "Encara no hi ha comentaris. Comenceu la conversa!",
+    "No comments yet, start the conversation!" : "Encara no hi ha comentaris. Enceteu la conversa!",
     "More comments …" : "Més comentaris...",
     "Save" : "Desa",
     "Allowed characters {count} of {max}" : "{count} caràcters permesos de {max}",
@@ -28,7 +28,7 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Hi ha hagut un error en publicar el comentari",
     "_%n unread comment_::_%n unread comments_" : ["%n comentari no llegit","%n comentaris no llegits"],
     "Comment" : "Comentari",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Hau estat anomenats a \"%s\" en un comentari d'un usuari que ja no existeix",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha anomenat en un comentari a “%2$s”"
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Hau estat esmentats a \"%s\" en un comentari d'un usuari que ja no existeix",
+    "%1$s mentioned you in a comment on “%2$s”" : "%1$s us ha esmentat en un comentari a “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");
