@@ -1063,10 +1063,25 @@ var OCdialogs = {
 					simpleSize = t('files', 'Pending');
 					sizeColor = 80;
 				}
+
+				// split the filename in half if the size is bigger than 20 char
+				// for ellipsis
+				if (entry.name.length >= 10) {
+					// leave maximum 10 letters
+					var split = Math.min(Math.floor(entry.name.length / 2), 10)
+					var filename1 = entry.name.substr(0, entry.name.length - split)
+					var filename2 = entry.name.substr(entry.name.length - split)
+				} else {
+					var filename1 = entry.name
+					var filename2 = ''
+				}
+
 				var $row = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
+					filename1: filename1,
+					filename2: filename2,
 					date: OC.Util.relativeModifiedDate(entry.mtime),
 					size: simpleSize,
 					sizeColor: sizeColor,

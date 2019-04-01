@@ -874,6 +874,16 @@ code {
 			padding-left: 51px;
 			background-position: 7px 7px;
 			cursor: pointer;
+			// avoid taking full width
+			max-width: 0;
+			.filename-parts {
+				display: flex;
+				&__first {
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+			}
 		}
 		.filesize, .date {
 			width: 80px;
@@ -917,6 +927,9 @@ code {
 							background-size: contain;
 							line-height: $name-height;
 							max-width: none;
+							.filename-parts {
+								justify-content: center;
+							}
 						}
 						&.filesize {
 							line-height: $name-height / 3;
