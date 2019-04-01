@@ -264,6 +264,9 @@ var OCdialogs = {
 			}
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add');
+			if (type === self.FILEPICKER_TYPE_CHOOSE) {
+				newButton.hide();
+			}
 			newButton.on('focus', function() {
 				self.$filePicker.ocdialog('setEnterCallback', function() {
 					event.stopImmediatePropagation();
