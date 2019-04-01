@@ -64,6 +64,7 @@
 			:dav-path="currentFile.path"
 			:active="true"
 			:can-swipe.sync="canSwipe"
+			:sidebar-shown="showSidebar"
 			class="file-view"
 			:loaded.sync="currentFile.loaded"
 			@error="currentFailed" />
