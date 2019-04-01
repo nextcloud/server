@@ -376,8 +376,8 @@ table {
 	}
 }
 
-.hide-hidden-files #fileList tr.hidden-file,
-.hide-hidden-files #fileList tr.hidden-file.dragging {
+.hide-hidden-files #filestable #fileList tr.hidden-file,
+.hide-hidden-files #filestable #fileList tr.hidden-file.dragging {
 	display: none;
 }
 
@@ -974,6 +974,10 @@ table.dragshadow td.size {
 				}
 			}
 		}
+	}
+
+	tr.hidden-file td.filename .name .nametext .extension {
+		display: block;
 	}
 
 	/* Center align the footer file number & size summary */
