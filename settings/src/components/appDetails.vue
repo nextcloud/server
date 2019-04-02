@@ -69,17 +69,6 @@
 			</div>
 		</div>
 
-		<p class="documentation">
-			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">{{ t('settings', 'View in store')}} ↗</a>
-
-			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
-			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
-
-			<a class="appslink" v-if="app.documentation && app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation && app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation && app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
-		</p>
-
 		<ul class="app-dependencies">
 			<li v-if="app.missingMinOwnCloudVersion">{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}</li>
 			<li v-if="app.missingMaxOwnCloudVersion">{{ t('settings', 'This app has no maximum Nextcloud version assigned. This will be an error in the future.') }}</li>
@@ -90,6 +79,17 @@
 				</ul>
 			</li>
 		</ul>
+
+		<p class="documentation">
+			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">{{ t('settings', 'View in store')}} ↗</a>
+
+			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
+			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
+
+			<a class="appslink" v-if="app.documentation && app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
+		</p>
 
 		<div class="app-description" v-html="renderMarkdown"></div>
 	</div>
