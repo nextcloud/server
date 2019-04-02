@@ -62,7 +62,7 @@
 								 :placeholder="t('settings', 'Limit app usage to groups')"
 								 label="name" track-by="id" class="multiselect-vue"
 								 :multiple="true" :close-on-select="false"
-								 @search-change="asyncFindGroup">
+								 :tag-width="60" @search-change="asyncFindGroup">
 						<span slot="noResult">{{t('settings', 'No results')}}</span>
 					</multiselect>
 				</div>
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
+import { Multiselect } from 'nextcloud-vue';
 import marked from 'marked';
 import dompurify from 'dompurify'
 

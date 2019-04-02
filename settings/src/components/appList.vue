@@ -73,7 +73,6 @@
 
 <script>
 import appItem from './appList/appItem';
-import Multiselect from 'vue-multiselect';
 import prefix from './prefixMixin';
 
 export default {
@@ -81,7 +80,6 @@ export default {
 	mixins: [prefix],
 	props: ['category', 'app', 'search'],
 	components: {
-		Multiselect,
 		appItem
 	},
 	computed: {

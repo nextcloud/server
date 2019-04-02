@@ -61,7 +61,6 @@
 </template>
 
 <script>
-	import Multiselect from 'vue-multiselect';
 	import AppScore from './appScore';
 	import AppManagement from '../appManagement';
 	import SvgFilterMixin from '../svgFilterMixin';
@@ -83,7 +82,6 @@
 			}
 		},
 		components: {
-			Multiselect,
 			AppScore,
 		},
 		data() {
