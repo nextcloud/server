@@ -190,9 +190,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch(NotOnLDAP $e) {
-			if($this->ocConfig->getSystemValue('loglevel', ILogger::WARN) === ILogger::DEBUG) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
-			}
+			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap', 'level' => ILogger::DEBUG]);
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
