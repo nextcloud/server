@@ -920,19 +920,8 @@ table.dragshadow td.size {
 							align-items: center;
 							justify-content: center;
 
-							&.action.action-share.permanent {
-								display: none;
-							}
-
-							/* In "Deleted files", do not show "Restore" text next to icon as there is no space */
-							&.action-restore.permanent span {
-								&:not(.icon) {
-									display: none;
-								}
-							}
-
-							/* If there is a comment, show it instead of the share icon */
-							&.action-comment ~ .action-share {
+							// hide all actions in grid view that are not the menu
+							&:not(.action-menu) {
 								display: none;
 							}
 						}
@@ -948,6 +937,14 @@ table.dragshadow td.size {
 							padding: 6px;
 							border-radius: 50%;
 						}
+					}
+					// force show the sharing entry in the dropdown menu
+					.action-restore-container.hidden {
+						display: block !important;
+					}
+					// force show the sharing entry in the dropdown menu
+					.action-comment-container.hidden {
+						display: block !important;
 					}
 				}
 
