@@ -31,7 +31,9 @@
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "eslint --ext .js,.vue src --fix",
     "stylelint": "stylelint src",
-    "stylelint:fix": "stylelint src --fix"
+    "stylelint:fix": "stylelint src --fix",
+    "cypress": "cypress run",
+    "cypress:gui": "cypress open"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -56,6 +58,10 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
+    "cypress": "^3.2.0",
+    "cypress-file-upload": "^3.0.7",
+    "cypress-image-snapshot": "^3.0.1",
+    "cypress-testing-library": "^2.3.6",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.11.1",
