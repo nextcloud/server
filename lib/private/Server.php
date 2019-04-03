@@ -47,6 +47,7 @@
 
 namespace OC;
 
+use OCP\AppFramework\Http\IOutput;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
@@ -56,6 +57,7 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\AppFramework\Http\Output;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
@@ -161,6 +163,7 @@ use OCP\Share\IShareHelper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\IUserSession;
 
 /**
  * Class Server
@@ -183,6 +186,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
+
+		$this->registerService('UserId', function ($c) {
+			return $c->query(IUserSession::class)->getSession()->get('user_id');
+		});
+		$this->registerAlias('userId', 'UserId');
 
 		$this->registerService(\OCP\IServerContainer::class, function (IServerContainer $c) {
 			return $c;
@@ -996,29 +1004,15 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(EventDispatcherInterface::class, EventDispatcher::class);
 
 		$this->registerService('CryptoWrapper', function (Server $c) {
-			// FIXME: Instantiiated here due to cyclic dependency
-			$request = new Request(
-				[
-					'get' => $_GET,
-					'post' => $_POST,
-					'files' => $_FILES,
-					'server' => $_SERVER,
-					'env' => $_ENV,
-					'cookies' => $_COOKIE,
-					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
-						? $_SERVER['REQUEST_METHOD']
-						: null,
-				],
-				$c->getSecureRandom(),
-				$c->getConfig()
-			);
-
 			return new CryptoWrapper(
 				$c->getConfig(),
 				$c->getCrypto(),
 				$c->getSecureRandom(),
-				$request
+				$c->getRequest()
 			);
+		});
+		$this->registerService(IOutput::class, function(Server $c) {
+			return new Output($c->getWebRoot());
 		});
 		$this->registerService('CsrfTokenManager', function (Server $c) {
 			$tokenGenerator = new CsrfTokenGenerator($c->getSecureRandom());

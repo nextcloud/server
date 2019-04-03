@@ -43,6 +43,11 @@ use OCP\AppFramework\Http\Response;
  */
 abstract class Middleware {
 
+	protected $context;
+
+	public function setContext(HttpContext $context) {
+		$this->context = $context;
+	}
 
 	/**
 	 * This is being run in normal order before the controller is being
