@@ -48,7 +48,9 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForFile($fileName) {
-		return Locator::forThe()->xpath("//*[@id = 'picker-filestable']//*[contains(concat(' ', normalize-space(@class), ' '), ' filename ') and normalize-space() = '$fileName']/ancestor::tr")->
+		// File names in the file picker are split in two span elements, so
+		// their texts need to be concatenated to get the full file name.
+		return Locator::forThe()->xpath("//*[@id = 'picker-filestable']//*[contains(concat(' ', normalize-space(@class), ' '), ' filename-parts ') and concat(span[1], span[2]) = '$fileName']/ancestor::tr")->
 				descendantOf(self::fileListContainer())->
 				describedAs("Row for file $fileName in the file picker dialog");
 	}
