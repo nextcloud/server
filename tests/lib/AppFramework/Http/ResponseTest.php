@@ -59,7 +59,7 @@ class ResponseTest extends \Test\TestCase {
 
 		$this->childResponse->setHeaders($expected);
 		$headers = $this->childResponse->getHeaders();
-		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self'";
+		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self'";
 
 		$this->assertEquals($expected, $headers);
 	}
@@ -86,7 +86,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testGetCspEmpty() {
-		$this->assertNull($this->childResponse->getContentSecurityPolicy());
+		$this->assertEquals(new Http\EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
 	}
 
 	public function testAddHeaderValueNullDeletesIt(){

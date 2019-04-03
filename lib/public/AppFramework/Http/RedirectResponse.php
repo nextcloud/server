@@ -43,6 +43,8 @@ class RedirectResponse extends Response {
 	 * @since 7.0.0
 	 */
 	public function __construct($redirectURL) {
+		parent::__construct();
+
 		$this->redirectURL = $redirectURL;
 		$this->setStatus(Http::STATUS_SEE_OTHER);
 		$this->addHeader('Location', $redirectURL);

@@ -44,6 +44,8 @@ class ZipResponse extends Response implements ICallbackResponse {
 	 * @since 15.0.0
 	 */
 	public function __construct(IRequest $request, string $name = 'output') {
+		parent::__construct();
+
 		$this->name = $name;
 		$this->request = $request;
 	}
