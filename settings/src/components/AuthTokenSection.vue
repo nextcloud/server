@@ -26,13 +26,15 @@
 		<AuthTokenList :tokens="tokens"
 					   @toggleScope="toggleTokenScope"
 					   @rename="rename"
-					   @delete="deleteToken"/>
+					   @delete="deleteToken"
+					   @wipe="wipeToken" />
 		<AuthTokenSetupDialogue :add="addNewToken" />
 	</div>
 </template>
 
 <script>
 	import Axios from 'nextcloud-axios';
+	import confirmPassword from 'nextcloud-password-confirmation';
 
 	import AuthTokenList from './AuthTokenList';
 	import AuthTokenSetupDialogue from './AuthTokenSetupDialogue';
@@ -131,6 +133,23 @@
 
 						// Restore
 						this.tokens.push(token);
+					})
+			},
+			wipeToken(token) {
+				console.debug('wiping app token', token);
+
+				confirmPassword()
+					.then(() => Axios.post(this.baseUrl + '/wipe/' + token.id))
+					.then(tap(() => {
+						console.debug('app token marked for wipe')
+
+						// Update the type
+						// TODO: refactor the server-side code to return the updated token
+						token.type = 2;
+					}))
+					.catch(err => {
+						console.error.bind('could not wipe app token', err);
+						OC.Notification.showTemporary(t('core', 'Error while wiping the device with the token'));
 					})
 			}
 		}

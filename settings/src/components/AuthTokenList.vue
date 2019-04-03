@@ -35,7 +35,8 @@
 				   :token="token"
 				   @toggleScope="toggleScope"
 				   @rename="rename"
-				   @delete="onDelete"/>
+				   @delete="onDelete"
+				   @wipe="onWipe" />
 		</tbody>
 	</table>
 </template>
@@ -75,6 +76,10 @@
 			onDelete (token) {
 				// Just pass it on
 				this.$emit('delete', token);
+			},
+			onWipe(token) {
+				// Just pass it on
+				this.$emit('wipe', token);
 			}
 		}
 	}
