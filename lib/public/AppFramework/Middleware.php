@@ -45,6 +45,11 @@ abstract class Middleware {
 
 	protected $context;
 
+	/**
+	 * This method is called before processing request
+	 * @param HttpContext $context the context of the currently processed request
+	 * @since 17.0.0
+	 */
 	public function setContext(HttpContext $context) {
 		$this->context = $context;
 	}

@@ -19,6 +19,10 @@ namespace OCP\AppFramework;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
+/**
+ * Class representing context available in middlewares during request processing
+ * @since 17.0.0
+ */
 class HttpContext {
 	/** @var IRequest */
 	public $request;
