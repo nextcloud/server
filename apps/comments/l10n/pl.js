@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Wystąpił błąd podczas aktualizowania komentarza o ID {id}",
     "Error occurred while posting comment" : "Wystąpił błąd podczas publikowania komentarza",
     "_%n unread comment_::_%n unread comments_" : ["%n nieprzeczytany komentarz","%n nieprzeczytane komentarze","%n nieprzeczytanych komentarzy","%n nieprzeczytanych komentarzy"],
+    "_1 new comment_::_{unread} new comments_" : ["{unread} nowy komentarz","{unread} nowe komentarze","{unread} nowych komentarzy","{unread} nowe komentarze"],
     "Comment" : "Komentarz",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Wspomniano o Tobie w komentarzu w \"%s\" przez użytkownika, który został usunięty",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s wspomniał o Tobie w komentarzu “%2$s”"
