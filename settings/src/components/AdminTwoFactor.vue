@@ -15,10 +15,10 @@
 			<label for="two-factor-enforced">{{ t('settings', 'Enforce two-factor authentication') }}</label>
 		</p>
 		<template v-if="enforced">
-			<p id="two-factor-warning-global" v-if="noProviderGlobally">
+			<p id="two-factor-warning-global" class="warning" v-if="noProviderGlobally">
 				{{ t('settings', 'No Two-Factor authentication provider enabled on this server. Are you sure that you want to enforce Two-Factor authentication?') }}
 			</p>
-			<p id="two-factor-warning-admin" v-if="noProviderAdmin">
+			<p id="two-factor-warning-admin" class="warning" v-if="noProviderAdmin">
 				{{ t('settings', 'No Two-Factor authentication provider enabled for your account. Are you sure that you want to enforce Two-Factor authentication?') }}
 			</p>
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
