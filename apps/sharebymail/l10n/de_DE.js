@@ -31,7 +31,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Ihnen geteilt.",
     "Click the button below to open it." : "Klicken Sie zum Öffnen auf die untere Schaltfläche",
     "Open »%s«" : "Öffne »%s«",
-    "%1$s via %2$s" : "%1$s über%2$s",
+    "%1$s via %2$s" : "%1$s über %2$s",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s hat »%2$s« mit Ihnen geteilt.\nSie sollten bereits eine weitere E-Mail mit einem Link für den Zugriff erhalten haben.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s hat »%2$s« mit Ihnen geteilt. Sie sollten bereits eine weitere E-Mail mit einem Link für den Zugriff erhalten haben.",
     "Password to access »%1$s« shared to you by %2$s" : "Das Passwort zum Zugriff auf %1$s wurde durch %2$s mit Ihnen geteilt.",
