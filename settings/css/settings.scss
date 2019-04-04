@@ -435,6 +435,11 @@ table.nostyle {
 		height: 16px;
 		vertical-align: sub;
 	}
+
+	.warning {
+		margin-top: 24px;
+		background-color: var(--color-warning);
+	}
 }
 
 .social-button {
