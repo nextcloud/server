@@ -25,6 +25,7 @@
     "Error occurred while updating comment with id {id}" : "{id} kodlu yorum güncellenirken sorun çıktı",
     "Error occurred while posting comment" : "Yorum gönderilirken sorun çıktı",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],
+    "_1 new comment_::_{unread} new comments_" : ["1 yeni yorum","{unread} yeni yorum"],
     "Comment" : "Yorum",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "\"%s\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s, “%2$s” hakkındaki bir yorumda sizden bahsetti"
