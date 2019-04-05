@@ -14,6 +14,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Arne Hamann <github@arne.email>
  *
  * @license AGPL-3.0
  *
@@ -33,6 +34,16 @@
 
 namespace OCA\DAV\CardDAV;
 
+/*
+ * Hooks available in scope OCA\DAV\CardDAV
+ *  - preCreateCard($addressBookId, $cardUri, $cardData)
+ * 	- postCreateCard($addressBookId, $cardUri, $cardData)
+ *  - preUpdateCard($addressBookId, $cardUri, $cardData)
+ *  - postUpdateCard($addressBookId, $cardUri, $cardData)
+ * 	- preDeleteCard($addressBookId, $cardUri)
+ *  - postDeleteCard($addressBookId, $cardUri)
+ */
+
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
@@ -41,6 +52,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OC\Hooks\PublicEmitter;
 use PDO;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -51,7 +63,7 @@ use Sabre\VObject\Reader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class CardDavBackend implements BackendInterface, SyncSupport {
+class CardDavBackend extends PublicEmitter implements BackendInterface, SyncSupport {
 
 	const PERSONAL_ADDRESSBOOK_URI = 'contacts';
 	const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
@@ -610,6 +622,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return string
 	 */
 	function createCard($addressBookId, $cardUri, $cardData) {
+		$this->emit("OCA\DAV\CardDAV", "preCreateCard", [$addressBookId, $cardUri, $cardData]);
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
 
@@ -647,7 +660,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'addressBookId' => $addressBookId,
 				'cardUri' => $cardUri,
 				'cardData' => $cardData]));
-
+		$this->emit("OCA\DAV\CardDAV", "postCreateCard", [$addressBookId, $cardUri, $cardData]);
 		return '"' . $etag . '"';
 	}
 
@@ -678,6 +691,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function updateCard($addressBookId, $cardUri, $cardData) {
 
+		$this->emit("OCA\DAV\CardDAV", "preUpdateCard", [$addressBookId, $cardUri, $cardData]);
+
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
@@ -700,6 +715,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'cardUri' => $cardUri,
 				'cardData' => $cardData]));
 
+		$this->emit("OCA\DAV\CardDAV", "postUpdateCard", [$addressBookId, $cardUri, $cardData]);
+
 		return '"' . $etag . '"';
 	}
 
@@ -711,6 +728,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return bool
 	 */
 	function deleteCard($addressBookId, $cardUri) {
+		$this->emit("OCA\DAV\CardDAV", "preDeleteCard", [$addressBookId, $cardUri]);
 		try {
 			$cardId = $this->getCardId($addressBookId, $cardUri);
 		} catch (\InvalidArgumentException $e) {
@@ -733,9 +751,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			if ($cardId !== null) {
 				$this->purgeProperties($addressBookId, $cardId);
 			}
+			$this->emit("OCA\DAV\CardDAV", "postDeleteCard", [$addressBookId, $cardUri]);
 			return true;
 		}
-
 		return false;
 	}
 

@@ -253,6 +253,45 @@ class CardDavBackendTest extends TestCase {
 		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, $this->vcardTest0);
 		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, $this->vcardTest0);
 
+		//Register preCreateCard and postCreateCard Hooks
+		$test = $this;
+		$count = 0;
+
+		$backend->listen('OCA\DAV\CardDAV', 'preCreateCard', function ($bId, $u, $d) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$test->assertEquals($d, $this->vcardTest0);
+			$count++;
+		});
+		$backend->listen('OCA\DAV\CardDAV', 'postCreateCard', function ($bId, $u, $d) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$test->assertEquals($d, $this->vcardTest0);
+			$count++;
+		});
+		$backend->listen('OCA\DAV\CardDAV', 'preUpdateCard', function ($bId, $u, $d) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$test->assertEquals($d, $this->vcardTest0);
+			$count++;
+		});
+		$backend->listen('OCA\DAV\CardDAV', 'postUpdateCard', function ($bId, $u, $d) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$test->assertEquals($d, $this->vcardTest0);
+			$count++;
+		});
+		$backend->listen('OCA\DAV\CardDAV', 'preDeleteCard', function ($bId, $u) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$count++;
+		});
+		$backend->listen('OCA\DAV\CardDAV', 'postDeleteCard', function ($bId, $u) use ($bookId, $uri, $test, &$count) {
+			$test->assertEquals($bookId, $bId);
+			$test->assertEquals($uri, $u);
+			$count++;
+		});
+
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
@@ -262,8 +301,11 @@ class CardDavBackendTest extends TestCase {
 					$e->getArgument('cardData') === $this->vcardTest0;
 			}));
 
+
+
 		// create a card
 		$backend->createCard($bookId, $uri, $this->vcardTest0);
+		$this->assertEquals(2,$count);
 
 		// get all the cards
 		$cards = $backend->getCards($bookId);
@@ -293,6 +335,7 @@ class CardDavBackendTest extends TestCase {
 		$backend->updateCard($bookId, $uri, $this->vcardTest0);
 		$card = $backend->getCard($bookId, $uri);
 		$this->assertEquals($this->vcardTest0, $card['carddata']);
+		$this->assertEquals(4, $count);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
@@ -307,6 +350,7 @@ class CardDavBackendTest extends TestCase {
 		$backend->deleteCard($bookId, $uri);
 		$cards = $backend->getCards($bookId);
 		$this->assertEquals(0, count($cards));
+		$this->assertEquals(6, $count);
 	}
 
 	public function testMultiCard() {
