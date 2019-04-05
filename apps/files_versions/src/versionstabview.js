@@ -8,6 +8,9 @@
  *
  */
 
+import ItemTemplate from './templates/item.handlebars';
+import Template from './templates/template.handlebars';
+
 (function() {
 	/**
 	 * @memberof OCA.Versions
@@ -128,11 +131,11 @@
 		},
 
 		template: function(data) {
-			return OCA.Versions.Templates['template'](data);
+			return Template(data);
 		},
 
 		itemTemplate: function(data) {
-			return OCA.Versions.Templates['item'](data);
+			return ItemTemplate(data);
 		},
 
 		setFileInfo: function(fileInfo) {
