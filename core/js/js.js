@@ -1617,7 +1617,9 @@ function initCore() {
 	setTimeout(resizeMenu, 0);
 
 	// just add snapper for logged in users
-	if($('#app-navigation').length && !$('html').hasClass('lte9')) {
+	// and if the app doesn't handle the nav slider itself
+	if($('#app-navigation').length && !$('html').hasClass('lte9')
+	    && !$('#app-content').hasClass('no-snapper')) {
 
 		// App sidebar on mobile
 		var snapper = new Snap({
