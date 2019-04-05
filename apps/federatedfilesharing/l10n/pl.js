@@ -37,7 +37,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Zezwól na federacyjne udostępnianie plików na serwerach",
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
     "Open documentation" : "Otwórz dokumentację",
-    "Adjust how people can share between servers." : "Dostosuj ustawienia, w jaki sposób można udostępniać serwery.",
+    "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery.",
     "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
     "Allow users on this server to send shares to groups on other servers" : "Zezwalaj użytkownikom na tym serwerze na udostępnianie dla grup na innych serwerach",
