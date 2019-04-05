@@ -36,6 +36,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -87,6 +88,12 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
+		if ($controller instanceof ALoginSetupController
+			&& $this->userSession->getUser() !== null
+			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
+			return;
+		}
+
 		if ($controller instanceof LoginController && $methodName === 'logout') {
 			// Don't block the logout page, to allow canceling the 2FA
 			return;
@@ -94,7 +101,6 @@ class TwoFactorMiddleware extends Middleware {
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
-
 
 			if ($this->session->exists('app_password') || $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
 				$this->checkTwoFactor($controller, $methodName, $user);
