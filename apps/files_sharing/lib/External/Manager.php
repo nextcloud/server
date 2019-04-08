@@ -522,7 +522,7 @@ class Manager {
 
 		$share = $getShare->fetch();
 		$getShare->closeCursor();
-		if ($result && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+		if ($result && $share !== false && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
 			try {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 			} catch (\Exception $e) {
