@@ -64,7 +64,7 @@ export default {
 		return types[type].typeIconClass || '';
 	},
 	getLabel(type) {
-		return t('core', 'Link to a {label}', { label: types[type].typeString || type }, 1)
+		return escapeHTML(types[type].typeString || type)
 	},
 	getLink(type, id) {
 		/* TODO: Allow action to be executed instead of href as well */

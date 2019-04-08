@@ -14,7 +14,6 @@ window.OCP.Collaboration.registerType('file', {
 			}, false);
 		});
 	},
-	/** used in "Link to a {typeString}" */
-	typeString: t('files_sharing', 'file'),
+	typeString: t('files_sharing', 'Link to a file'),
 	typeIconClass: 'icon-files-dark'
 });
