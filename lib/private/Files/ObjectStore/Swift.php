@@ -79,7 +79,7 @@ class Swift implements IObjectStore {
 		$handle = $stream;
 
 		$meta = stream_get_meta_data($stream);
-		if (!(isset($meta['seekable']) && $meta['seekable'] === true)) {
+		if (isset($meta['seekable']) && $meta['seekable'] === true) {
 			$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 			file_put_contents($tmpFile, $stream);
 			$handle = fopen($tmpFile, 'rb');
