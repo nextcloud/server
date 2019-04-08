@@ -354,6 +354,14 @@
     "Locale" : "Taal",
     "Current password" : "Huidig wachtwoord",
     "Change password" : "Wijzig wachtwoord",
-    "Use a second factor besides your password to increase security for your account." : "Gebruik een tweede faktor naast je paswoord om de zekerheid van je account te verhogen. "
+    "Use a second factor besides your password to increase security for your account." : "Gebruik een tweede faktor naast je paswoord om de zekerheid van je account te verhogen. ",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
+    "iOS Client" : "iOS apparaat",
+    "Android Client" : "Android apparaat",
+    "Not supported!" : "Niet ondersteund!",
+    "Error while loading browser sessions and device tokens" : "Fout bij het laden van de browsersessie en apparaattokens",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Controleer a.u.b. de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installatiegidsen</a>, en controleer de <a href=\"%s\">log</a> op fouten en waarschuwingen.",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Je gebruikt <strong>%s</strong> van <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
