@@ -37,6 +37,26 @@ Feature: app-files-sharing-link
     And I open the Share menu
     And I see that the Share menu is shown
 
+  Scenario: open a subfolder in a public shared folder
+    Given I act as John
+    And I am logged in
+    And I create a new folder named "Shared folder with subfolders"
+    And I enter in the folder named "Shared folder with subfolders"
+    And I create a new folder named "Subfolder"
+    And I enter in the folder named "Subfolder"
+    And I create a new folder named "Subsubfolder"
+    And I see that the file list contains a file named "Subsubfolder"
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I share the link for "Shared folder with subfolders"
+    And I write down the shared link
+    When I act as Jane
+    And I visit the shared link I wrote down
+    And I see that the current page is the shared link I wrote down
+    Then I see that the file list contains a file named "Subfolder"
+    And I enter in the folder named "Subfolder"
+    And I see that the file list contains a file named "Subsubfolder"
+
   Scenario: creation is not possible by default in a public shared folder
     Given I act as John
     And I am logged in
