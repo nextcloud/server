@@ -60,7 +60,7 @@ steps:
   image: nextcloudci/php7.0:php7.0-19
   commands:
     - ./autotest-checkers.sh
-  secrets: [ github_token ]
+  secrets: [ GITHUB_TOKEN ]
 
 trigger:
   branch:
