@@ -99,9 +99,14 @@ class SimpleFile implements ISimpleFile  {
 	 *
 	 * @param string|resource $data
 	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
 	public function putContent($data) {
-		$this->file->putContent($data);
+		try {
+			return $this->file->putContent($data);
+		} catch (NotFoundException $e) {
+			$this->checkFile();
+		}
 	}
 
 	/**
@@ -119,7 +124,11 @@ class SimpleFile implements ISimpleFile  {
 
 		while ($cur->stat() === false) {
 			$parent = $cur->getParent();
-			$cur->delete();
+			try {
+				$cur->delete();
+			} catch (NotFoundException $e) {
+				// Just continue then
+			}
 			$cur = $parent;
 		}
 

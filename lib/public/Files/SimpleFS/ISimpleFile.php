@@ -80,6 +80,7 @@ interface ISimpleFile {
 	 *
 	 * @param string|resource $data
 	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 * @since 11.0.0
 	 */
 	public function putContent($data);
