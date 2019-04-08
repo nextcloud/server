@@ -123,6 +123,8 @@ OC.L10N.register(
     "Estonian" : "אסטונית",
     "Filipino (Philippines)" : "פיליפינו (הפיליפינים)",
     "Filipino" : "פיליפינו",
+    "Finnish (Finland)" : "פינית (פינלנד)",
+    "Finnish" : "פינית",
     "Limit to groups" : "הגבלה לקבוצות",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
