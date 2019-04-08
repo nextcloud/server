@@ -83,14 +83,17 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
+		$allowPreReleases = $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
+		$allowNightly = $this->getChannel() === 'daily';
+
 		foreach($response['data'] as $dataKey => $app) {
 			$releases = [];
 
 			// Filter all compatible releases
 			foreach($app['releases'] as $release) {
-				// Exclude all nightly and pre-releases
-				if($release['isNightly'] === false
-					&& strpos($release['version'], '-') === false) {
+				// Exclude all nightly and pre-releases if required
+				if (($allowNightly || $release['isNightly'] === false)
+					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();
