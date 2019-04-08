@@ -16,12 +16,6 @@ handlebars -n OC.Share.Templates core/js/share -f core/js/sharetemplates.js
 # Files app
 handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
 
-# Comments app
-handlebars -n OCA.Comments.Templates apps/comments/js/templates -f apps/comments/js/templates.js
-
-# Versions app
-handlebars -n OCA.Versions.Templates apps/files_versions/js/templates -f apps/files_versions/js/templates.js
-
 # Workflowengine
 handlebars -n OCA.WorkflowEngine.Templates apps/workflowengine/js/templates -f apps/workflowengine/js/templates.js
 
