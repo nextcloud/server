@@ -661,7 +661,7 @@
 
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
-				if (OCA.Files.App.getActiveView() !== 'files') {
+				if (OCA.Files.App && OCA.Files.App.getActiveView() !== 'files') {
 					OCA.Files.App.setActiveView('files');
 					OCA.Files.App.fileList.changeDirectory(OC.joinPaths(dir, filename), true, true);
 				} else {
