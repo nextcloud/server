@@ -9,6 +9,7 @@ OC.L10N.register(
     "Accessibility" : "アクセシビリティ",
     "Accessibility options for nextcloud" : "nextcloudのアクセシビリティオプション",
     "Web Content Accessibility Guidelines" : "Webコンテンツ アクセシビリティガイドライン",
-    "our design team" : "デザインチーム"
+    "our design team" : "デザインチーム",
+    "Enable" : "有効にする"
 },
 "nplurals=1; plural=0;");
