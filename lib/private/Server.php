@@ -1257,6 +1257,11 @@ class Server extends ServerContainer implements IServerContainer {
 			$oldValue = $e->getArgument('oldValue');
 			$value = $e->getArgument('value');
 
+			// We only change the avatar on display name changes
+			if ($feature !== 'displayName') {
+				return;
+			}
+
 			try {
 				$avatar = $manager->getAvatar($user->getUID());
 				$avatar->userChanged($feature, $oldValue, $value);

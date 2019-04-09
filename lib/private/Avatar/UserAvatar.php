@@ -312,11 +312,6 @@ class UserAvatar extends Avatar {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function userChanged($feature, $oldValue, $newValue) {
-		// We only change the avatar on display name changes
-		if ($feature !== 'displayName') {
-			return;
-		}
-
 		// If the avatar is not generated (so an uploaded image) we skip this
 		if (!$this->folder->fileExists('generated')) {
 			return;
