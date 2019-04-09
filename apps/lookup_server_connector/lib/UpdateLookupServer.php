@@ -165,7 +165,7 @@ class UpdateLookupServer {
 	 * @return bool
 	 */
 	private function shouldUpdateLookupServer() {
-		return $this->lookupServerEnabled || !empty($this->lookupServer);
+		return $this->lookupServerEnabled && !empty($this->lookupServer);
 	}
 
 }
