@@ -700,7 +700,7 @@ OC.L10N.register(
     "Test email settings" : "E-Mail-Einstellungen testen",
     "Send email" : "E-Mail senden",
     "Security & setup warnings" : "Sicherheits- & Einrichtungswarnungen",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Für die Sicherheit und Geschwindigkeit Deiner Installation ist es von großer Bedeutung, dass sie richtig konfiguriert ist. Um Ihnen hierbei zu helfen werden einige automatische Tests durchgeführt. Weitere Informationen finden Sie im Tipps & Tricks- Abschnitt und in der Dokumentation.",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Für die Sicherheit und Geschwindigkeit Ihrer Installation ist es von großer Bedeutung, dass sie richtig konfiguriert ist. Um Ihnen hierbei zu helfen werden einige automatische Tests durchgeführt. Weitere Informationen finden Sie im Tipps & Tricks- Abschnitt und in der Dokumentation.",
     "All checks passed." : "Alle Überprüfungen bestanden.",
     "There are some errors regarding your setup." : "Es gibt einige Fehler bei Ihrer Systemkonfiguration.",
     "There are some warnings regarding your setup." : "Es gibt einige Warnungen bei Ihrer Systemkonfiguration.",

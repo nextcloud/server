@@ -2,7 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Ihr Client ist nicht berechtigt, eine Verbindung herzustellen. Bitte informieren Sie den Administrator Ihres Clients.",
-    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Die Weiterleitungs-URL muss eine vollständige URL sein. Beispiel: https://deinedomain.com/pfad",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Die Weiterleitungs-URL muss eine vollständige URL sein. Beispiel: https://ihredomain.com/pfad",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Ermöglicht OAuth2 komplatible Authentifizierung durch andere Web-Anwendungen.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Die OAuth2-App ermöglicht es Administratoren den eingebauten Authenztifizierungsablauf dahingehend zu konfigurieren, das auch ein OAuth2 komplatible Authentifizierung von anderen Web-Anwendungen aus möglich ist. ",
