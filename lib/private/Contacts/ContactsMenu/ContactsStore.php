@@ -101,6 +101,8 @@ class ContactsStore implements IContactsStore {
 			\OC::$server->getSystemConfig(),
 			\OC::$server->getLogger());
 
+
+		// Getting shared users
 		$sharedContactsQuery = $queryBuilder->selectDistinct("share_with")
 			->from("*PREFIX*share")
 			->execute()
