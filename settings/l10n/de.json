@@ -609,7 +609,7 @@
     "Enable" : "Aktivieren",
     "Enable untested app" : "Ungetestete App aktivieren",
     "The app will be downloaded from the app store" : "Die App wird aus dem App-Store heruntergeladen",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Diese App ist als nicht-kompatibel mit Ihrer Nextcloud-Version markiert. Wenn Du fortfährst, so kannst Du die App installieren. Bitte beachte, dass die App nicht wie erwartet funktionieren könnte.",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Diese App ist als nicht-kompatibel mit Deiner Nextcloud-Version markiert. Wenn Du fortfährst, so kannst Du die App installieren. Bitte beachte, dass die App nicht wie erwartet funktionieren könnte.",
     "You do not have permissions to see the details of this user" : "Du hast keine Berechtigung, um auf die Details dieses Benutzers zu sehen",
     "The backend does not support changing the display name" : "Das Backend unterstützt keine Änderung des Anzeigenamens",
     "New password" : "Neues Passwort",
