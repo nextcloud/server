@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -36,5 +37,5 @@ interface INotifier {
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 9.0.0
 	 */
-	public function prepare(INotification $notification, $languageCode);
+	public function prepare(INotification $notification, string $languageCode): INotification;
 }

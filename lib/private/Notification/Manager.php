@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -56,11 +57,6 @@ class Manager implements IManager {
 	/** @var bool */
 	protected $preparingPushNotification;
 
-	/**
-	 * Manager constructor.
-	 *
-	 * @param IValidator $validator
-	 */
 	public function __construct(IValidator $validator) {
 		$this->validator = $validator;
 		$this->apps = [];
@@ -179,7 +175,7 @@ class Manager implements IManager {
 	 * @param bool $preparingPushNotification
 	 * @since 14.0.0
 	 */
-	public function setPreparingPushNotification($preparingPushNotification) {
+	public function setPreparingPushNotification(bool $preparingPushNotification): void {
 		$this->preparingPushNotification = $preparingPushNotification;
 	}
 
@@ -196,7 +192,7 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException When the notification is not valid
 	 * @since 8.2.0
 	 */
-	public function notify(INotification $notification) {
+	public function notify(INotification $notification): void {
 		if (!$notification->isValid()) {
 			throw new \InvalidArgumentException('The given notification is invalid');
 		}
@@ -218,7 +214,7 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 8.2.0
 	 */
-	public function prepare(INotification $notification, $languageCode): INotification {
+	public function prepare(INotification $notification, string $languageCode): INotification {
 		$notifiers = $this->getNotifiers();
 
 		foreach ($notifiers as $notifier) {
@@ -243,7 +239,7 @@ class Manager implements IManager {
 	/**
 	 * @param INotification $notification
 	 */
-	public function markProcessed(INotification $notification) {
+	public function markProcessed(INotification $notification): void {
 		$apps = $this->getApps();
 
 		foreach ($apps as $app) {

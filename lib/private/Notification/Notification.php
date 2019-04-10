@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -99,11 +99,6 @@ class Notification implements INotification {
 	/** @var bool */
 	protected $hasPrimaryParsedAction;
 
-	/**
-	 * Constructor
-	 *
-	 * @param IValidator $richValidator
-	 */
 	public function __construct(IValidator $richValidator) {
 		$this->richValidator = $richValidator;
 		$this->app = '';
@@ -134,8 +129,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
-	public function setApp(string $app) {
-		if (trim($app) === '' || isset($app[32])) {
+	public function setApp(string $app): INotification {
+		if ($app === '' || isset($app[32])) {
 			throw new \InvalidArgumentException('The given app name is invalid');
 		}
 		$this->app = $app;
@@ -146,7 +141,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getApp() {
+	public function getApp(): string {
 		return $this->app;
 	}
 
@@ -156,8 +151,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the user id is invalid
 	 * @since 8.2.0
 	 */
-	public function setUser(string $user) {
-		if (trim($user) === '' || isset($user[64])) {
+	public function setUser(string $user): INotification {
+		if ($user === '' || isset($user[64])) {
 			throw new \InvalidArgumentException('The given user id is invalid');
 		}
 		$this->user = $user;
@@ -168,7 +163,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getUser() {
+	public function getUser(): string {
 		return $this->user;
 	}
 
@@ -178,7 +173,7 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the $dateTime is invalid
 	 * @since 9.0.0
 	 */
-	public function setDateTime(\DateTime $dateTime) {
+	public function setDateTime(\DateTime $dateTime): INotification {
 		if ($dateTime->getTimestamp() === 0) {
 			throw new \InvalidArgumentException('The given date time is invalid');
 		}
@@ -190,7 +185,7 @@ class Notification implements INotification {
 	 * @return \DateTime
 	 * @since 9.0.0
 	 */
-	public function getDateTime() {
+	public function getDateTime(): \DateTime {
 		return $this->dateTime;
 	}
 
@@ -201,13 +196,13 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the object type or id is invalid
 	 * @since 8.2.0 - 9.0.0: Type of $id changed to string
 	 */
-	public function setObject(string $type, $id) {
-		if (trim($type) === '' || isset($type[64])) {
+	public function setObject(string $type, string $id): INotification {
+		if ($type === '' || isset($type[64])) {
 			throw new \InvalidArgumentException('The given object type is invalid');
 		}
 		$this->objectType = $type;
 
-		if (!is_int($id) && (!is_string($id) || $id === '' || isset($id[64]))) {
+		if ($id === '' || isset($id[64])) {
 			throw new \InvalidArgumentException('The given object id is invalid');
 		}
 		$this->objectId = (string) $id;
@@ -218,7 +213,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getObjectType() {
+	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
@@ -226,7 +221,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0 - 9.0.0: Return type changed to string
 	 */
-	public function getObjectId() {
+	public function getObjectId(): string {
 		return $this->objectId;
 	}
 
@@ -237,8 +232,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setSubject(string $subject, array $parameters = []) {
-		if (trim($subject) === '' || isset($subject[64])) {
+	public function setSubject(string $subject, array $parameters = []): INotification {
+		if ($subject === '' || isset($subject[64])) {
 			throw new \InvalidArgumentException('The given subject is invalid');
 		}
 
@@ -252,15 +247,15 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getSubject() {
+	public function getSubject(): string {
 		return $this->subject;
 	}
 
 	/**
-	 * @return string[]
+	 * @return array
 	 * @since 8.2.0
 	 */
-	public function getSubjectParameters() {
+	public function getSubjectParameters(): array {
 		return $this->subjectParameters;
 	}
 
@@ -270,8 +265,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 8.2.0
 	 */
-	public function setParsedSubject(string $subject) {
-		if (trim($subject) === '') {
+	public function setParsedSubject(string $subject): INotification {
+		if ($subject === '') {
 			throw new \InvalidArgumentException('The given parsed subject is invalid');
 		}
 		$this->subjectParsed = $subject;
@@ -282,7 +277,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getParsedSubject() {
+	public function getParsedSubject(): string {
 		return $this->subjectParsed;
 	}
 
@@ -293,8 +288,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichSubject(string $subject, array $parameters = []) {
-		if (trim($subject) === '') {
+	public function setRichSubject(string $subject, array $parameters = []): INotification {
+		if ($subject === '') {
 			throw new \InvalidArgumentException('The given parsed subject is invalid');
 		}
 
@@ -308,7 +303,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichSubject() {
+	public function getRichSubject(): string {
 		return $this->subjectRich;
 	}
 
@@ -316,7 +311,7 @@ class Notification implements INotification {
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichSubjectParameters() {
+	public function getRichSubjectParameters(): array {
 		return $this->subjectRichParameters;
 	}
 
@@ -327,8 +322,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 8.2.0
 	 */
-	public function setMessage(string $message, array $parameters = []) {
-		if (trim($message) === '' || isset($message[64])) {
+	public function setMessage(string $message, array $parameters = []): INotification {
+		if ($message === '' || isset($message[64])) {
 			throw new \InvalidArgumentException('The given message is invalid');
 		}
 
@@ -342,15 +337,15 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getMessage() {
+	public function getMessage(): string {
 		return $this->message;
 	}
 
 	/**
-	 * @return string[]
+	 * @return array
 	 * @since 8.2.0
 	 */
-	public function getMessageParameters() {
+	public function getMessageParameters(): array {
 		return $this->messageParameters;
 	}
 
@@ -360,8 +355,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 8.2.0
 	 */
-	public function setParsedMessage(string $message) {
-		if (trim($message) === '') {
+	public function setParsedMessage(string $message): INotification {
+		if ($message === '') {
 			throw new \InvalidArgumentException('The given parsed message is invalid');
 		}
 		$this->messageParsed = $message;
@@ -372,7 +367,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getParsedMessage() {
+	public function getParsedMessage(): string {
 		return $this->messageParsed;
 	}
 
@@ -383,8 +378,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichMessage(string $message, array $parameters = []) {
-		if (trim($message) === '') {
+	public function setRichMessage(string $message, array $parameters = []): INotification {
+		if ($message === '') {
 			throw new \InvalidArgumentException('The given parsed message is invalid');
 		}
 
@@ -398,7 +393,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichMessage() {
+	public function getRichMessage(): string {
 		return $this->messageRich;
 	}
 
@@ -406,7 +401,7 @@ class Notification implements INotification {
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichMessageParameters() {
+	public function getRichMessageParameters(): array {
 		return $this->messageRichParameters;
 	}
 
@@ -416,8 +411,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink(string $link) {
-		if (trim($link) === '' || isset($link[4000])) {
+	public function setLink(string $link): INotification {
+		if ($link === '' || isset($link[4000])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
 		$this->link = $link;
@@ -428,7 +423,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getLink() {
+	public function getLink(): string {
 		return $this->link;
 	}
 
@@ -438,8 +433,8 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the icon is invalid
 	 * @since 11.0.0
 	 */
-	public function setIcon(string $icon) {
-		if (trim($icon) === '' || isset($icon[4000])) {
+	public function setIcon(string $icon): INotification {
+		if ($icon === '' || isset($icon[4000])) {
 			throw new \InvalidArgumentException('The given icon is invalid');
 		}
 		$this->icon = $icon;
@@ -450,7 +445,7 @@ class Notification implements INotification {
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->icon;
 	}
 
@@ -458,7 +453,7 @@ class Notification implements INotification {
 	 * @return IAction
 	 * @since 8.2.0
 	 */
-	public function createAction() {
+	public function createAction(): IAction {
 		return new Action();
 	}
 
@@ -468,7 +463,7 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 8.2.0
 	 */
-	public function addAction(IAction $action) {
+	public function addAction(IAction $action): INotification {
 		if (!$action->isValid()) {
 			throw new \InvalidArgumentException('The given action is invalid');
 		}
@@ -489,7 +484,7 @@ class Notification implements INotification {
 	 * @return IAction[]
 	 * @since 8.2.0
 	 */
-	public function getActions() {
+	public function getActions(): array {
 		return $this->actions;
 	}
 
@@ -499,7 +494,7 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 8.2.0
 	 */
-	public function addParsedAction(IAction $action) {
+	public function addParsedAction(IAction $action): INotification {
 		if (!$action->isValidParsed()) {
 			throw new \InvalidArgumentException('The given parsed action is invalid');
 		}
@@ -524,7 +519,7 @@ class Notification implements INotification {
 	 * @return IAction[]
 	 * @since 8.2.0
 	 */
-	public function getParsedActions() {
+	public function getParsedActions(): array {
 		return $this->actionsParsed;
 	}
 
@@ -532,7 +527,7 @@ class Notification implements INotification {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function isValid() {
+	public function isValid(): bool {
 		return
 			$this->isValidCommon()
 			&&
@@ -544,7 +539,7 @@ class Notification implements INotification {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function isValidParsed() {
+	public function isValidParsed(): bool {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {
 				$this->richValidator->validate($this->getRichSubject(), $this->getRichSubjectParameters());
@@ -568,10 +563,7 @@ class Notification implements INotification {
 		;
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function isValidCommon() {
+	protected function isValidCommon(): bool {
 		return
 			$this->getApp() !== ''
 			&&

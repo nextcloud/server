@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -49,29 +50,29 @@ interface IManager extends IApp, INotifier {
 	 * @return array App ID => App Name
 	 * @since 9.0.0
 	 */
-	public function listNotifiers();
+	public function listNotifiers(): array;
 
 	/**
 	 * @return INotification
 	 * @since 9.0.0
 	 */
-	public function createNotification();
+	public function createNotification(): INotification;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function hasNotifiers();
+	public function hasNotifiers(): bool;
 
 	/**
 	 * @param bool $preparingPushNotification
 	 * @since 14.0.0
 	 */
-	public function setPreparingPushNotification($preparingPushNotification);
+	public function setPreparingPushNotification(bool $preparingPushNotification): void;
 
 	/**
 	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function isPreparingPushNotification();
+	public function isPreparingPushNotification(): bool;
 }
