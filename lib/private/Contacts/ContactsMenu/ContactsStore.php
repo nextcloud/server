@@ -99,10 +99,7 @@ class ContactsStore implements IContactsStore {
 
 		// If search input text is empty, get shared users
 		$sharedContacts = [];
-		$queryBuilder = new QueryBuilder($this->conn,
-			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger());
-
+		$queryBuilder = $this->conn->getQueryBuilder();
 
 		// Getting shared users
 		$sharedContactsQuery = $queryBuilder->selectDistinct("share_with")
