@@ -408,7 +408,7 @@ OC.L10N.register(
     "Details" : "Detalls",
     "You are a member of the following groups:" : "Sou membre dels grups següents:",
     "You are using <strong>%s</strong>" : "Esteu utilitzant <strong>%s</strong>",
-    "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Esteu utilitzant <strong>%1$s</strong> del <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
+    "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Esteu utilitzant <strong>%1$s</strong> de <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Full name" : "Nom complet",
     "No display name set" : "No s'ha establert cap nom para mostrar",
     "Your email address" : "Correu electrònic",
