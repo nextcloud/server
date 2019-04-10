@@ -118,7 +118,6 @@
 		mounted () {
 			// Groups are loaded dynamically, but the assigned ones *should*
 			// be valid groups, so let's add them as initial state
-			console.log(this.enforcedGroups)
 			this.groups = _.sortedUniq(_.uniq(this.enforcedGroups.concat(this.excludedGroups)))
 
 			// Populate the groups with a first set so the dropdown is not empty
