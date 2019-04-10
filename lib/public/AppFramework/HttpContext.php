@@ -26,4 +26,13 @@ use OCP\IRequest;
 class HttpContext {
 	/** @var IRequest */
 	public $request;
+
+	/**
+	 * Construct HttpCOntext based in IRequest
+	 * @param IRequest $request
+	 * @since 17.0.0
+	 */
+	public function __construct(IRequest $request = null) {
+		$this->request = $request;
+	}
 }
