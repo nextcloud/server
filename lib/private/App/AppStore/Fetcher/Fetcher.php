@@ -57,6 +57,8 @@ abstract class Fetcher {
 	protected $endpointUrl;
 	/** @var string */
 	protected $version;
+	/** @var string */
+	protected $channel;
 
 	/**
 	 * @param Factory $appDataFactory
@@ -196,5 +198,24 @@ abstract class Fetcher {
 	 */
 	public function setVersion(string $version) {
 		$this->version = $version;
+	}
+
+	/**
+	 * Get the currently Nextcloud update channel
+	 * @return string
+	 */
+	protected function getChannel() {
+		if ($this->channel === null) {
+			$this->channel = \OC_Util::getChannel();
+		}
+		return $this->channel;
+	}
+
+	/**
+	 * Set the current Nextcloud update channel
+	 * @param string $channel
+	 */
+	public function setChannel(string $channel) {
+		$this->channel = $channel;
 	}
 }
