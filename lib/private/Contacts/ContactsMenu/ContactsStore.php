@@ -28,6 +28,7 @@
 namespace OC\Contacts\ContactsMenu;
 
 use OC\DB\QueryBuilder\QueryBuilder;
+use OCP\IDBConnection;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
