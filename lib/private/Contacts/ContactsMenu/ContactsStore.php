@@ -58,16 +58,18 @@ class ContactsStore implements IContactsStore {
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
+	 * @param IDBConnection $connection
 	 */
 	public function __construct(IManager $contactsManager,
 								IConfig $config,
 								IUserManager $userManager,
-								IGroupManager $groupManager) {
+								IGroupManager $groupManager,
+				   				IDBConnection $connection) {
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
-		$this->conn = \OC::$server->getDatabaseConnection();
+		$this->conn = $connection;
 	}
 
 	/**
