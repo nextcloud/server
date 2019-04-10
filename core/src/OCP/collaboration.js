@@ -34,13 +34,15 @@ let types = {};
 
 /**
  * Those translations will be used by the vue component but they should be shipped with the server
- * t('core', 'Add to a collection')
+ * t('core', 'Add to a project')
  * t('core', 'Show details')
  * t('core', 'Hide details')
- * t('core', 'Rename collection')
- * t('core', 'Failed to rename collection')
- * t('core', 'Failed to create collection')
- * t('core', 'Failed to add resource to collection')
+ * t('core', 'Rename project')
+ * t('core', 'Failed to rename the project')
+ * t('core', 'Failed to create a project')
+ * t('core', 'Failed to add the item to the project')
+ * t('core', 'Connect items to a project to make them easier to find')
+ * t('core', 'Type to search for existing projects')
  */
 
 export default {
@@ -62,7 +64,7 @@ export default {
 		return types[type].typeIconClass || '';
 	},
 	getLabel(type) {
-		return t('core', 'Link to a {label}', { label: types[type].typeString || type }, 1)
+		return escapeHTML(types[type].typeString || type)
 	},
 	getLink(type, id) {
 		/* TODO: Allow action to be executed instead of href as well */
