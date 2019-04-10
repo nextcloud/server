@@ -164,7 +164,6 @@ class ShareController extends AuthPublicShareController {
 			$csp = new ContentSecurityPolicy();
 			$csp->addAllowedConnectDomain('*');
 			$csp->addAllowedMediaDomain('blob:');
-			$csp->allowEvalScript(true);
 			$response->setContentSecurityPolicy($csp);
 		}
 
@@ -185,7 +184,6 @@ class ShareController extends AuthPublicShareController {
 			$csp = new ContentSecurityPolicy();
 			$csp->addAllowedConnectDomain('*');
 			$csp->addAllowedMediaDomain('blob:');
-			$csp->allowEvalScript(true);
 			$response->setContentSecurityPolicy($csp);
 		}
 
