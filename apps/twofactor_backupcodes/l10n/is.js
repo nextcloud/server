@@ -1,7 +1,9 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "An error occurred while generating your backup codes" : "Villa kom upp við að búa til öryggisafritunarkóðana þína",
+    "{name} backup codes" : "{name} öryggisafritunarkóðar",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Þetta eru öryggisafritunarkóðarnir þínir. Vistaðu þá og/eða prentaðu þá út, því þú munt ekki geta lesið þá aftur síðar í ferlinu",
     "Save backup codes" : "Vista öryggisafritunarkóða",
     "Print backup codes" : "Prenta öryggisafritunarkóða",
