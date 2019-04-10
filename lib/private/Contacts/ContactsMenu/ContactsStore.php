@@ -82,7 +82,7 @@ class ContactsStore implements IContactsStore {
 		]);
 
 		// If search input text is not empty, search in database
-		if ($filter != null) {
+		if ($filter !== null) {
 			$entries = array_map(function (array $contact) {
 				return $this->contactArrayToEntry($contact);
 			}, $allContacts);
