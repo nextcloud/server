@@ -145,9 +145,8 @@ class User implements IUser {
 				$this->triggerChange('displayName', $displayName);
 			}
 			return $result !== false;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -365,7 +364,8 @@ class User implements IUser {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
 		if ($oldStatus !== $this->enabled) {
-			$this->triggerChange('enabled', $enabled);
+			// TODO: First change the value, then trigger the event as done for all other properties.
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 		}
 	}
@@ -409,7 +409,7 @@ class User implements IUser {
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		if($quota !== $oldQuota) {
-			$this->triggerChange('quota', $quota);
+			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 	}
 
