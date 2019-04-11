@@ -64,7 +64,6 @@ OC.L10N.register(
     "Password" : "암호",
     "Failed to authenticate, try again" : "인증할 수 없습니다. 다시 시도하십시오.",
     "seconds ago" : "초 지남",
-    "Link to a {label}" : "{label}에 연결",
     "New in" : "새로운 것",
     "View changelog" : "변경 기록 확인",
     "Could not load your contacts" : "연락처를 불러올 수 없음",

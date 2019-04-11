@@ -90,7 +90,6 @@ OC.L10N.register(
     "Share API is disabled" : "שיתוף API מנוטרל",
     "File sharing" : "שיתוף קבצים",
     "Link to a file" : "קישור לקובץ",
-    "file" : "קובץ",
     "Shared" : "משותף",
     "Share" : "שיתוף",
     "Sharing" : "שיתוף",

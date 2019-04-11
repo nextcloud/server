@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} removed you from group {group}" : "{actor} 將你從 {group} 群組中移除",
     "{actor} changed your password" : "{actor} 變更了您的密碼",
     "You changed your password" : "您已變更您的密碼",
     "Your password was reset by an administrator" : "您的密碼已被管理員重設",

@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Lykilorð",
     "Failed to authenticate, try again" : "Tókst ekki að auðkenna, prófaðu aftur",
     "seconds ago" : "sekúndum síðan",
-    "Link to a {label}" : "Tengja við {label}",
     "New in" : "Nýtt í",
     "View changelog" : "Skoða breytingaannál",
     "Could not load your contacts" : "Gat ekki hlaðið inn tengiliðalistanum þínum",

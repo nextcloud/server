@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "密码",
     "Failed to authenticate, try again" : "授权失败，请重试",
     "seconds ago" : "几秒前",
-    "Link to a {label}" : "链接到 {label}",
     "New in" : "新品",
     "View changelog" : "查看更新记录",
     "Could not load your contacts" : "无法加载您的联系人",

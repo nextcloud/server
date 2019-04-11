@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Лозинка",
     "Failed to authenticate, try again" : "Неуспешна провера идентитета, покушајте поново",
     "seconds ago" : "пре пар секунди",
-    "Link to a {label}" : "Веза на {label}",
     "New in" : "Ново у",
     "View changelog" : "Погледајте дневник измена",
     "Could not load your contacts" : "Не могу да учитам Ваше контакте",

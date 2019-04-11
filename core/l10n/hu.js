@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Jelszó",
     "Failed to authenticate, try again" : "A hitelesítés sikertelen, próbálja újra",
     "seconds ago" : "pár másodperce",
-    "Link to a {label}" : "Hivatkozás ehhez: {label}",
     "New in" : "Új itt",
     "View changelog" : "Változásnapló megtekintése",
     "Could not load your contacts" : "Nem lehet betölteni a névjegyeit",

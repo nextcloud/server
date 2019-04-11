@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
     "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd",
     "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],
+    "_1 new comment_::_{unread} new comments_" : ["1 ný athugasemd","{unread} nýjar athugasemdir"],
     "Comment" : "Athugasemd",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Minnst var á þig í “%s”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s minntist á þig í athugasemd við “%2$s”"
