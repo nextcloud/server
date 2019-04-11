@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "ססמה",
     "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב",
     "seconds ago" : "שניות",
-    "Link to a {label}" : "קישור אל {label}",
     "New in" : "חדש ב־",
     "View changelog" : "הצגת יומן שינויים",
     "Could not load your contacts" : "לא ניתן לטעון את אנשי הקשר שלך",

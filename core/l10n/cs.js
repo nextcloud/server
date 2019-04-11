@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Heslo",
     "Failed to authenticate, try again" : "Ověření se nezdařilo, zkuste to znovu",
     "seconds ago" : "před několika sekundami",
-    "Link to a {label}" : "Odkaz na {label}",
     "New in" : "Nové v",
     "View changelog" : "Zobrazit souhrn změn",
     "Could not load your contacts" : "Nedaří se načíst vaše kontakty",

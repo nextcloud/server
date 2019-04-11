@@ -97,6 +97,7 @@ OC.L10N.register(
     "Quota Field" : "Gagnasvið fyrir kvóta",
     "Quota Default" : "Sjálfgefinn kvóti",
     "Email Field" : "Gagnasvið fyrir netfang",
-    "Internal Username" : "Innra notandanafn"
+    "Internal Username" : "Innra notandanafn",
+    "UUID Attribute for Groups:" : "UUID-eigindi fyrir hópa:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

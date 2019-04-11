@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Wachtwoord",
     "Failed to authenticate, try again" : "Authenticatie mislukt, probeer opnieuw",
     "seconds ago" : "seconden geleden",
-    "Link to a {label}" : "Link naar een {label}",
     "New in" : "Nieuw in",
     "View changelog" : "Bekijk wijzigingsoverzicht",
     "Could not load your contacts" : "Kon je contacten niet laden",

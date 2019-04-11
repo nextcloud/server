@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Parola",
     "Failed to authenticate, try again" : "Kimlik doğrulanamadı, yeniden deneyin",
     "seconds ago" : "saniyeler önce",
-    "Link to a {label}" : "Bir {label} ile bağla",
     "New in" : "Şuraya ekle",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "Could not load your contacts" : "Kişileriniz yüklenemedi",

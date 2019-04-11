@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "Failed to authenticate, try again" : "Autenticación fallida, vuelva a intentarlo",
     "seconds ago" : "hace segundos",
-    "Link to a {label}" : "Enlace a una {label}",
     "New in" : "Nuevo en",
     "View changelog" : "Ver registro de cambios",
     "Could not load your contacts" : "No se han podido cargar los contactos",
