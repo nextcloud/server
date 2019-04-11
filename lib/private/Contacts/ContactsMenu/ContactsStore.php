@@ -89,6 +89,7 @@ class ContactsStore implements IContactsStore {
 			$entries = array_map(function (array $contact) {
 				return $this->contactArrayToEntry($contact);
 			}, $allContacts);
+ 
 
 			return $this->filterContacts(
 				$user,
@@ -102,8 +103,9 @@ class ContactsStore implements IContactsStore {
 		$sharedContacts = [];
 		$queryBuilder = $this->conn->getQueryBuilder();
 
-		// Getting shared users
-		$sharedContactsQuery = $queryBuilder->selectDistinct("share_with")
+		// Getting shared users and limit to 25 entries
+		$sharedContactsQuery = $queryBuilder->setMaxResults(25)
+			->selectDistinct("share_with")
 			->from("*PREFIX*share")
 			->execute()
 			->fetchAll();
