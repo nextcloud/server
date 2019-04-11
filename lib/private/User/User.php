@@ -145,9 +145,8 @@ class User implements IUser {
 				$this->triggerChange('displayName', $displayName);
 			}
 			return $result !== false;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -159,12 +158,12 @@ class User implements IUser {
 	 */
 	public function setEMailAddress($mailAddress) {
 		$oldMailAddress = $this->getEMailAddress();
-		if($mailAddress === '') {
-			$this->config->deleteUserValue($this->uid, 'settings', 'email');
-		} else {
-			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
-		}
 		if($oldMailAddress !== $mailAddress) {
+			if($mailAddress === '') {
+				$this->config->deleteUserValue($this->uid, 'settings', 'email');
+			} else {
+				$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+			}
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -365,7 +364,8 @@ class User implements IUser {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
 		if ($oldStatus !== $this->enabled) {
-			$this->triggerChange('enabled', $enabled);
+			// TODO: First change the value, then trigger the event as done for all other properties.
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 		}
 	}
@@ -407,9 +407,9 @@ class User implements IUser {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
-		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		if($quota !== $oldQuota) {
-			$this->triggerChange('quota', $quota);
+			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
+			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 	}
 
