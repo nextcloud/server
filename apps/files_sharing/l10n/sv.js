@@ -111,7 +111,6 @@ OC.L10N.register(
     "Share API is disabled" : "Delning av API är inaktiverad",
     "File sharing" : "Fildelning",
     "Link to a file" : "Länka till en fil",
-    "file" : "fil",
     "Shared" : "Delad",
     "Share" : "Dela",
     "Sharing" : "Delning",

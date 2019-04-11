@@ -107,7 +107,6 @@ OC.L10N.register(
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "File sharing" : "Failų pasidalinimas",
     "Link to a file" : "Nuoroda į failą",
-    "file" : "failas",
     "Shared" : "Pasidalinta",
     "Share" : "Dalintis",
     "Sharing" : "Bendrinimas",

@@ -63,7 +63,6 @@
     "Password" : "Adgangskode",
     "Failed to authenticate, try again" : "Kunne ikke godkendes, prøv igen",
     "seconds ago" : "sekunder siden",
-    "Link to a {label}" : "Link til en {label}",
     "New in" : "Ny i",
     "View changelog" : "Se ændringslog",
     "Could not load your contacts" : "Kunne ikke indlæse kontakter.",

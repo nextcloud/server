@@ -105,7 +105,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
-    "file" : "fil",
     "Share" : "Del",
     "Sharing" : "Deling",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",

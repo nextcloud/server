@@ -7,6 +7,7 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} がメールアドレスを変更しました",
     "You changed your email address" : "メールアドレスを変更しました",
     "Your email address was changed by an administrator" : "管理者がメールアドレスを変更しました",
+    "You renamed app password \"{token}\" to \"{newToken}\"" : "アプリのパスワードを{token} から {newToken} に変更しました。",
     "Security" : "セキュリティ",
     "You successfully logged in using two-factor authentication (%1$s)" : "二要素認証を使用して正常にログインしました (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "二要素認証を使用したログイン試行に失敗しました (%1$s)",

@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Contrasenya",
     "Failed to authenticate, try again" : "Error d'autenticació, torneu-ho a intentar",
     "seconds ago" : "fa uns segons",
-    "Link to a {label}" : "Enllaç a {label}",
     "New in" : "Nou a",
     "View changelog" : "Mostra el registre de canvis",
     "Could not load your contacts" : "No s'han pogut carregar els vostres contactes",

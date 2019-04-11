@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Lösenord",
     "Failed to authenticate, try again" : "Misslyckades att autentisera, försök igen",
     "seconds ago" : "sekunder sedan",
-    "Link to a {label}" : "Länk till en {label}",
     "New in" : "Ny i",
     "View changelog" : "Visa ändringslogg",
     "Could not load your contacts" : "Kunde inte ladda dina kontakter",

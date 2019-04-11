@@ -65,7 +65,6 @@ OC.L10N.register(
     "Password" : "Pasvorto",
     "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree",
     "seconds ago" : "sekundoj antaŭe",
-    "Link to a {label}" : "Ligilo al {label}",
     "New in" : "Nova en",
     "View changelog" : "Vidi ŝanĝoprotokolon",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
