@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
-    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
+    "{name} backup codes" : "Códigos de respaldo {name}",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estos son sus códigos de respaldo. Por favor guardelos y/o imprimalos ya que no podrá obtenerlos de nuevo.",
     "Save backup codes" : "Guardar códigos de respaldo",
     "Print backup codes" : "Imprimir códigos de respaldo",
@@ -22,6 +22,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno de los códigos de respaldo que guardaste cuando activaste la verificación en dos pasos.",
     "Submit" : "Enviar",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Se han generado los códigos de respaldo. Estás usando {{used}} de {{total}}.",
+    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "activated" : "activado",
     "updated" : "actualizado",
     "mounted" : "montado",

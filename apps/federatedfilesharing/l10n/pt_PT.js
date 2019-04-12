@@ -44,15 +44,7 @@ OC.L10N.register(
     "Add to your website" : "Adicione ao seu site da Web",
     "Share with me via Nextcloud" : "Partilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "The mountpoint name contains invalid characters." : "O ponto de montagem (mountpoint) contem caracteres inválidos.",
-    "Not allowed to create a federated share with the owner." : "Não é permitido criar partilha federada com o proprietário. ",
-    "Invalid or untrusted SSL certificate" : "Certificado SSL inválido ou não confiável",
-    "Could not authenticate to remote share, password might be wrong" : "Não foi possível a autenticação na partilha remota, a palavra passe talvez esteja incorrecta",
-    "Storage not valid" : "Armazenamento inválido",
-    "Federated share added" : "Partilha federada adicionada",
-    "Couldn't add remote share" : "Não foi possível adicionar partilha remota",
     "Sharing %s failed, because this item is already shared with %s" : "A partilha %s falhou, porque este item já está a ser partilhado com %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. ",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode partilhar com qualquer pessoa que use Nextcloud, ownCloud ou Pydio! Basta inserir Cloud ID federado no diálogo de partilha. Deve ser idêntico a pessoa@cloud.exemplo.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Partilha %s falhou, não foi possível encontrar %s, o servidor pode estar actualmente inatingível ou usa um certificado auto-assinado. "
 },
 "nplurals=2; plural=(n != 1);");

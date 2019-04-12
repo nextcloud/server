@@ -113,8 +113,11 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 		it('does not render default actions', function() {
 			expect(menu.$el.find('a[data-action=Testdefault]').length).toEqual(0);
 		});
-		it('does not render inline actions', function() {
-			expect(menu.$el.find('a[data-action=Testinline]').length).toEqual(0);
+		it('render inline actions', function() {
+			expect(menu.$el.find('a[data-action=Testinline]').length).toEqual(1);
+		});
+		it('render inline actions but it is hidden', function() {
+			expect(menu.$el.find('a[data-action=Testinline]').parent().hasClass('hidden')).toEqual(true);
 		});
 		it('only renders actions relevant to the mime type', function() {
 			fileActions.registerAction({

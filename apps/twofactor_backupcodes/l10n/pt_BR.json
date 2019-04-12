@@ -1,7 +1,7 @@
 { "translations": {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ocorreu um erro ao gerar os códigos de backup",
-    "Nextcloud backup codes" : "Códigos de backup do Nextcloud",
+    "{name} backup codes" : "Códigos de backup {name}",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes são os seus códigos de backup. Salve e/ou imprima-os, pois não será possível ler os códigos novamente mais tarde",
     "Save backup codes" : "Salvar códigos de backup",
     "Print backup codes" : "Imprimir códigos de backup",
@@ -20,6 +20,7 @@
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use um dos códigos de backup que você salvou ao configurar a autenticação de dois fatores.",
     "Submit" : "Enviar",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Códigos de backup foram gerados. {{used}} de {{total}} códigos foram usados.",
+    "Nextcloud backup codes" : "Códigos de backup do Nextcloud",
     "activated" : "ativado",
     "updated" : "atualizado",
     "mounted" : "montado",

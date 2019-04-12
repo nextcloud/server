@@ -42,15 +42,7 @@ OC.L10N.register(
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
     "HTML Code:" : "HTML kodea:",
-    "The mountpoint name contains invalid characters." : "Muntatze puntuaren izenak baliogabeko karaktereak ditu.",
-    "Not allowed to create a federated share with the owner." : "Ez dago baimenik jabearekin federatutako partekatzea sortzeko.",
-    "Invalid or untrusted SSL certificate" : "SSL ziurtagiri baliogabea edo fidagaitza",
-    "Could not authenticate to remote share, password might be wrong" : "Ezin da urruneko partekatzearekin kautotu, pasahitza gaizki egon daiteke",
-    "Storage not valid" : "Biltegi baliogabea",
-    "Federated share added" : "Federatutako partekatzea gehituta",
-    "Couldn't add remote share" : "Ezin izan da urruneko partekatzea gehitu",
     "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud edo Pydio erabiltzen duen edonorrekin parteka dezakezu! Beraien Federatutako Hodei ID-a idatzi partekatzeen laukian. Honen itxura dute: pertsona@hodei.adibide.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du."
 },
 "nplurals=2; plural=(n != 1);");

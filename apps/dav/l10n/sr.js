@@ -85,7 +85,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Састанак „%s“ са  %s је отказан.",
     "The meeting »%s« with %s was updated." : "Састанак „%s“ са %s је ажуриран.",
     "%s invited you to »%s«" : "%s Вас је позвао на „%s“",
-    "CalDAV server" : "CalDAV сервер",
     "Please make sure to properly set up the email settings above." : "Пазите да правилно подесите поставке е-поште изнад."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

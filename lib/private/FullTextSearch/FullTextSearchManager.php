@@ -85,6 +85,21 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		$this->searchService = $searchService;
 	}
 
+	/**
+	 * @since 16.0.0
+	 *
+	 * @return bool
+	 */
+	public function isAvailable(): bool {
+		if ($this->indexService === null ||
+			$this->providerService === null ||
+			$this->searchService === null) {
+			return false;
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * @return IProviderService

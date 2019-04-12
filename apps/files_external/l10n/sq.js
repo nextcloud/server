@@ -113,8 +113,6 @@ OC.L10N.register(
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Disa nga pikat e jashtme të formësuara të montimit s’janë të lidhura. Ju lutemi, klikoni në shigjetën(at) e kuqe për më tepër të dhëna",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nuk është instaluar.Montimi i %s nuk është i mundur.Ju lutem kërkojini administratorit të sistemit tuaj ta instalojë.",
-    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nuk është instaluar.Montimi i %s nuk është i mundur.Ju lutem kërkojini administratorit të sistemit tuaj ta instalojë."
 },
 "nplurals=2; plural=(n != 1);");

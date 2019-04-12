@@ -14,7 +14,7 @@
     "Server to server sharing is not enabled on this server" : "Das Server-zu-Server-Teilen ist auf diesem Server nicht aktiviert",
     "Couldn't establish a federated share." : "Federated-Share konnte nicht aufgebaut werden",
     "Couldn't establish a federated share, maybe the password was wrong." : "Federated-Share konnte nicht aufgebaut werden, da eventuell das Passwort falsch ist.",
-    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage zum Federated-Share war erfolgreich. Du erhälst eine Einladung. Bitte prüfe deine Benachrichtigungen. ",
+    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage zum Federated-Share war erfolgreich. Du erhälst eine Einladung. Bitte prüfe Deine Benachrichtigungen. ",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federated-Share konnte nicht aufgebaut werden, da der Zielserver eine zu alte Version verwendet (Nextcloud <=9).",
     "It is not allowed to send federated group shares from this server." : "Das Erstellen einer Federated Cloud Freigabe ist von diesem Server aus nicht erlaubt.",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Objekt schon mit %2$s geteilt wird",
@@ -46,18 +46,10 @@
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kannst mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Gebe einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teile es, so dass Deine Freunde Dateien mit Dir teilen können:",
-    "Add to your website" : "Zu deiner Webseite hinzufügen",
+    "Add to your website" : "Zu Deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
-    "Not allowed to create a federated share with the owner." : "Das Erstellen einer Federated Cloud Freigabe mit dem Benutzer ist nicht erlaubt.",
-    "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der externen Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
-    "Storage not valid" : "Speicher ungültig",
-    "Federated share added" : "Federated-Share hinzugefügt ",
-    "Couldn't add remote share" : "Externe Freigabe konnte nicht hinzugefügt werden",
     "Sharing %s failed, because this item is already shared with %s" : "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kannst mit allen Leuten teilen, welche Nextcloud, ownCloud oder Pydio nutzen! Gebe  einfach deren Federated Cloud ID in den Teilen-Dialog ein. Diese sieht wie folgt aus person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

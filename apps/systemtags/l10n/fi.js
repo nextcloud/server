@@ -53,7 +53,6 @@ OC.L10N.register(
     "No files in here" : "Täällä ei ole tiedostoja",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Size" : "Koko",
-    "Modified" : "Muokattu",
-    "Create and edit collaborative tags. These tags affect all users." : "Luo ja muokkaa yhteisiä tunnisteita. Nämä tunnisteet vaikuttavat kaikkiin käyttäjiin."
+    "Modified" : "Muokattu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "S’ka kartela këtu",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Size" : "Madhësi",
-    "Modified" : "Ndryshuar më",
-    "Create and edit collaborative tags. These tags affect all users." : "Krijo dhe ndrysho etiketa bashkëpunuese. Këto etiketa ndikojnë tek të gjithë përdoruesit."
+    "Modified" : "Ndryshuar më"
 },
 "nplurals=2; plural=(n != 1);");

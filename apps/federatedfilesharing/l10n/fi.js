@@ -48,15 +48,7 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "The mountpoint name contains invalid characters." : "Liitospisteen nimi sisältää virheellisiä merkkejä.",
-    "Not allowed to create a federated share with the owner." : "Omistajan kanssa ei ole sallittua luoda federoitua jakoa.",
-    "Invalid or untrusted SSL certificate" : "Virheellinen tai ei-luotettu SSL-varmenne",
-    "Could not authenticate to remote share, password might be wrong" : "Tunnistautuminen etäjakoa kohtaan epäonnistui. Salasana saattaa olla väärä",
-    "Storage not valid" : "Tallennustila ei ole kelvollinen",
-    "Federated share added" : "Federoitu jako lisätty",
-    "Couldn't add remote share" : "Etäjaon liittäminen epäonnistui",
     "Sharing %s failed, because this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjälle %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloudia, ownCloudia tai Pydiota! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.esimerkki.fi"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Palvelin ei ehkä ole juuri nyt tavoitettavissa tai käyttää itse allekirjoitettua sertifikaattia."
 },
 "nplurals=2; plural=(n != 1);");

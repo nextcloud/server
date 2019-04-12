@@ -69,7 +69,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "\"%s\" 행사(%s 님이 진행함)가 취소되었습니다.",
     "The meeting »%s« with %s was updated." : "\"%s\" 행사(%s 님이 진행함)가 업데이트되었습니다.",
     "%s invited you to »%s«" : "%s 님이 \"%s\"에 초대함",
-    "CalDAV server" : "CalDAV 서버",
     "Please make sure to properly set up the email settings above." : "이메일 설정이 올바른지 확인하십시오."
 },
 "nplurals=1; plural=0;");

@@ -16,7 +16,6 @@
     "Shares will show up here" : "Shares worden hier getoond",
     "Restore share" : "Herstel share",
     "Something happened. Unable to restore the share." : "Er is iets gebeurd. Kan de share niet herstellen.",
-    "file" : "bestand",
     "Move or copy" : "Verplaatsen of kopiëren",
     "Download" : "Downloaden",
     "Delete" : "Verwijderen",
@@ -110,9 +109,8 @@
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "File sharing" : "Bestand delen",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Met deze applicatie kunnen gebruikers bestanden delen binnen Nextcloud. Indien ingeschakeld, kan de beheerder kiezen welke groepen bestanden kunnen delen. De betreffende gebruikers kunnen vervolgens bestanden en mappen delen met andere gebruikers en groepen binnen Nextcloud. Als de beheerder de functie voor het delen van koppelingen inschakelt, kan ook een externe koppeling worden gebruikt om bestanden te delen met andere gebruikers buiten Nextcloud. Beheerders kunnen ook wachtwoorden en vervaldatums afdwingen en delen van server-naar-server mogelijk maken via koppelingslinks en evenals delen vanaf mobiele apparaten.\nAls je de functie uitschakelt, worden gedeelde bestanden en mappen op de server verwijderd voor alle ontvangers van shares, en ook voor de synchronisatieclients en mobiele apps. Meer informatie is beschikbaar in de Nextcloud-documentatie.",
-    "Add to a collection" : "Toevoegen aan een verzameling",
-    "Details" : "Details",
-    "Rename collection" : "Hernoem verzameling",
+    "Link to a file" : "Link naar een bestand",
+    "Shared" : "Gedeeld",
     "Share" : "Deel",
     "Sharing" : "Delen",
     "No entries found in this folder" : "Niets gevonden in deze map",
@@ -134,9 +132,6 @@
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Delen van %s mislukte omdat de backend het delen van type %s niet ondersteunt",
-    "This share is password-protected" : "Deze gedeelde folder is met een wachtwoord beveiligd",
-    "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
-    "Password" : "Wachtwoord"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Delen van %s mislukte omdat de backend het delen van type %s niet ondersteunt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

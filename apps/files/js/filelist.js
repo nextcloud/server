@@ -1532,15 +1532,37 @@
 			td.append(linkElem);
 			tr.append(td);
 
+			try {
+				var maxContrastHex = window.getComputedStyle(document.documentElement)
+					.getPropertyValue('--color-text-maxcontrast')
+				var maxContrast = parseInt(maxContrastHex.substring(1, 3), 16)
+			} catch(error) {
+				var maxContrast = OCA.Accessibility
+					&& OCA.Accessibility.theme === 'themedark'
+						? '130'
+						: '118'
+			}
+
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
 				simpleSize = humanFileSize(parseInt(fileData.size, 10), true);
 				// rgb(118, 118, 118) / #767676
 				// min. color contrast for normal text on white background according to WCAG AA
-				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)),2));
+				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)), 2));
+
+				// ensure that the brightest color is still readable
+				// min. color contrast for normal text on white background according to WCAG AA
+				if (sizeColor >= maxContrast) {
+					sizeColor = maxContrast;
+				}
 
 				if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
 					sizeColor = Math.abs(sizeColor);
+					// ensure that the dimmest color is still readable
+					// min. color contrast for normal text on black background according to WCAG AA
+					if (sizeColor < maxContrast) {
+						sizeColor = maxContrast;
+					}
 				}
 			} else {
 				simpleSize = t('files', 'Pending');
@@ -1555,22 +1577,23 @@
 			// date column (1000 milliseconds to seconds, 60 seconds, 60 minutes, 24 hours)
 			// difference in days multiplied by 5 - brightest shade for files older than 32 days (160/5)
 			var modifiedColor = Math.round(((new Date()).getTime() - mtime )/1000/60/60/24*5 );
+
 			// ensure that the brightest color is still readable
-			// rgb(118, 118, 118) / #767676
 			// min. color contrast for normal text on white background according to WCAG AA
-			if (modifiedColor >= '118') {
-				modifiedColor = 118;
+			if (modifiedColor >= maxContrast) {
+				modifiedColor = maxContrast;
 			}
+
 			if (OCA.Accessibility && OCA.Accessibility.theme === 'themedark') {
 				modifiedColor = Math.abs(modifiedColor);
 
 				// ensure that the dimmest color is still readable
-				// rgb(130, 130, 130) / #828282
 				// min. color contrast for normal text on black background according to WCAG AA
-				if (modifiedColor < 130) {
-					modifiedColor = 130;
+				if (modifiedColor < maxContrast) {
+					modifiedColor = maxContrast;
 				}
 			}
+
 			var formatted;
 			var text;
 			if (mtime > 0) {

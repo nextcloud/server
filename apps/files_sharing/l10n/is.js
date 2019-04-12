@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "Sameignir munu birtast hér",
     "Restore share" : "Endurheimta sameign",
     "Something happened. Unable to restore the share." : "Eitthvað skrýtið gerðist. Gat ekki endurheimt sameignina.",
-    "file" : "skrá",
     "Move or copy" : "Færa eða afrita",
     "Download" : "Sækja",
     "Delete" : "Eyða",
@@ -112,9 +111,8 @@ OC.L10N.register(
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "File sharing" : "Skráadeiling",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Þetta forrit gerir notendum kleift að deila skrám innan Nextcloud. Ef þetta er virkt getur stjórnandi valið hvaða hópar geti deilt skrám. Viðkomandi notendur geta þá deilt skrám og möppum með öðrum notendum og hópum innan Nextcloud. Að auki, ef stjórnandinn virkjar eiginleikan til að deila með tenglum, er hægt að nota ytri tengil til að deila skrám með öðrum notendum utan Nextcloud. Stjórnendur geta líka krafist notkunar lykilorða, gildistíma og virkjað þjónn-í-þjón deilingu með deilitenglum, rétt eins og deilingu með snjalltækjum.\nSé slökkt á þessum eiginleika, eru deildar skrár og möppur fjarlægðar af þjóninum fyrir alla notendur þessara sameigna, og einnig úr samstillingaforritum og snjalltækjum. Ítarlegri upplýsingar um þetta má finna í hjálparskjölum Nextcloud.",
-    "Add to a collection" : "Bæta í safn",
-    "Details" : "Nánar",
-    "Rename collection" : "Endurnefna safn",
+    "Link to a file" : "Tengill í skrá",
+    "Shared" : "Deilt",
     "Share" : "Deila",
     "Sharing" : "Deiling",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
@@ -136,9 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "Sendi inn skrár…",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deiling %s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %s",
-    "This share is password-protected" : "Þessi sameign er varin með lykilorði",
-    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
-    "Password" : "Lykilorð"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Deiling %s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

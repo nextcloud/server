@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
     "Size" : "Velikost",
-    "Modified" : "Upraveno",
-    "Create and edit collaborative tags. These tags affect all users." : "Vytvářejte a upravujte značky pro spolupráci. Tyto značky ovlivní všechny uživatele."
+    "Modified" : "Upraveno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

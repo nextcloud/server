@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use Test\TestCase;
 
@@ -45,11 +46,16 @@ class SharingTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+
+		$l10Factory = $this->createMock(IFactory::class);
+		$l10Factory->method('get')
+			->willReturn($this->l10n);
+
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
 
 		$this->admin = new Sharing(
 			$this->config,
-			$this->l10n,
+			$l10Factory,
 			$this->shareManager
 		);
 	}

@@ -2,7 +2,6 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "An error occurred while generating your backup codes" : "An error occurred while generating your backup codes",
-    "Nextcloud backup codes" : "Nextcloud backup codes",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later",
     "Save backup codes" : "Save backup codes",
     "Print backup codes" : "Print backup codes",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
     "Submit" : "Submit",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes have been generated. {{used}} of {{total}} codes have been used.",
+    "Nextcloud backup codes" : "Nextcloud backup codes",
     "activated" : "activated",
     "updated" : "updated",
     "mounted" : "mounted",

@@ -15,7 +15,7 @@
 					</ul>
 					<a :href="downloadUrl"
 					   class="button primary"
-					   download="Nextcloud-backup-codes.txt">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
+					   :download="downloadFilename">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
 					<button class="button"
 							v-on:click="printCodes">{{ t('twofactor_backupcodes', 'Print backup codes') }}</button>
 				</template>
@@ -52,6 +52,10 @@
 					return prev + code + '\r\n';
 				}, ''));
 			},
+			downloadFilename: function() {
+				const name = OC.theme.name || 'Nextcloud';
+				return name + '-backup-codes.txt';
+			},
 			enabled: function() {
 				return this.$store.state.enabled
 			},
@@ -63,6 +67,9 @@
 			},
 			codes: function() {
 				return this.$store.state.codes
+			},
+			name: function() {
+				return OC.theme.name || 'Nextcloud'
 			}
 		},
 		methods: {

@@ -42,15 +42,28 @@
 			},
 			enableButtonText() {
 				if (this.app.needsDownload) {
-					return t('settings','Download and enable');
+					return t('settings', 'Download and enable');
 				}
-				return t('settings','Enable');
+				return t('settings', 'Enable');
+			},
+			forceEnableButtonText() {
+				if (this.app.needsDownload) {
+					return t('settings', 'Enable untested app');
+				}
+				return t('settings', 'Enable untested app');
 			},
 			enableButtonTooltip() {
 				if (this.app.needsDownload) {
 					return t('settings','The app will be downloaded from the app store');
 				}
 				return false;
+			},
+			forceEnableButtonTooltip() {
+				const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.');
+				if (this.app.needsDownload) {
+					return base + ' ' + t('settings','The app will be downloaded from the app store');
+				}
+				return base;
 			}
 		},
 		methods: {
@@ -89,6 +102,11 @@
 					currentGroups.splice(index, 1);
 				}
 				this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups});
+			},
+			forceEnable(appId) {
+				this.$store.dispatch('forceEnableApp', { appId: appId, groups: [] })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
+					.catch((error) => { OC.Notification.show(error)});
 			},
 			enable(appId) {
 				this.$store.dispatch('enableApp', { appId: appId, groups: [] })

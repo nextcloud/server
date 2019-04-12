@@ -222,6 +222,13 @@ class GroupPrincipalBackend implements BackendInterface {
 					}, []);
 					break;
 
+				case '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set':
+					// If you add support for more search properties that qualify as a user-address,
+					// please also add them to the array below
+					$results[] = $this->searchPrincipals(self::PRINCIPAL_PREFIX, [
+					], 'anyof');
+					break;
+
 				default:
 					$results[] = [];
 					break;

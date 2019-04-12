@@ -92,9 +92,9 @@ class Version16000Date20190212081545 extends SimpleMigrationStep {
 			'length' => 1024,
 		]);
 		$table->setPrimaryKey(['id']);
-		$table->addUniqueIndex(['poll_token']);
-		$table->addUniqueIndex(['login_token']);
-		$table->addIndex(['timestamp']);
+		$table->addUniqueIndex(['poll_token'], 'poll_token');
+		$table->addUniqueIndex(['login_token'], 'login_token');
+		$table->addIndex(['timestamp'], 'timestamp');
 
 		return $schema;
 	}

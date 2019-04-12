@@ -44,15 +44,7 @@
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "The mountpoint name contains invalid characters." : "Meno prípojného bodu obsahuje neplatné znaky.",
-    "Not allowed to create a federated share with the owner." : "Nie je povolené vytvárať združené zdieľanie s vlastníkom.",
-    "Invalid or untrusted SSL certificate" : "Neplatný alebo nedôveryhodný certifikát SSL",
-    "Could not authenticate to remote share, password might be wrong" : "Nie je možné overiť vo vzdialenom úložisku, heslo môže byť nesprávne",
-    "Storage not valid" : "Neplatné úložisko",
-    "Federated share added" : "Združené sprístupnenie pridané",
-    "Couldn't add remote share" : "Nedá sa pridať vzdialené sprístupnenie",
     "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Môžete zdieľať s kýmkoľvek kto používa Nextcloud, ownCloud alebo Pydio! Len zadajte ich združené Cloud ID v dialógu pre zdieľanie. Vyzerá podobne ako person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

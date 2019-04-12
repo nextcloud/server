@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Nincs fájl feltöltve",
     "Unsupported image type" : "Nem támogatott képtípus",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Már egyéni témát használ. Lehet, hogy a témázó alkalmazás beállításai felülírták.",
+    "Theming" : "Témázás",
     "Legal notice" : "Jogi nyilatkozat",
     "Privacy policy" : "Adatvédelmi irányelvek",
-    "Theming" : "Témázás",
     "Adjust the Nextcloud theme" : "A Nextcloud téma módosítása",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "A témák lehetővé teszik, hogy könnyedén személyre szabja a példány és a támogatott kliensek megjelenését. Ez minden felhasználó számára látható lesz.",
     "Name" : "Név",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Fejléc logó feltöltése",
     "Favicon" : "Kedvencek ikon",
     "Upload new favicon" : "Kedvencek ikon feltöltése",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
-    "There is no error, the file uploaded with success" : "Nincs hiba, a feltöltés sikeres",
-    "The uploaded file was only partially uploaded" : "A fájl csak részben került feltöltésre",
-    "Failed to write file to disk." : "A lemezre írás sikertelen.",
-    "A PHP extension stopped the file upload." : "Egy PHP kiterjesztés megakadályozta a feltöltést.",
-    "You are already using a custom theme" : "Már egyedi témát használ",
-    "Web address https://…" : "Webcím https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján."
 },
 "nplurals=2; plural=(n != 1);");

@@ -32,9 +32,7 @@ OC.L10N.register(
     "View changelog" : "変更履歴を確認する",
     "Beta" : "ベータ",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"],
-    "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください",
-    "A new version is available: %s" : "新しいバージョンが利用可能: %s",
-    "Checked on %s" : "%s に確認",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。"
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。",
+    "Could not start updater, please try the manual update" : "アップデータを起動できませんでした。手動アップデートをお試しください"
 },
 "nplurals=1; plural=0;");

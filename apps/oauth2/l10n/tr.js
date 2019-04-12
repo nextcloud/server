@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "İstemci Ekle",
     "Add" : "Ekle",
     "Show client secret" : "İstemci parolasını görüntüle",
-    "Delete" : "Sil",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 dış hizmetlerin %s için erişim isteğinde bulunmasını sağlar."
+    "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

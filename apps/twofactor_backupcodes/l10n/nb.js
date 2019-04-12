@@ -2,7 +2,6 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi-kodene",
-    "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dette er sikkerhetskopi-kodene. Lagre og/eller skriv dem ut siden du ikke vil kunne se kodene her igjen senere.",
     "Save backup codes" : "Lagre sikkerhetskopi-kodene",
     "Print backup codes" : "Skriv ut sikkerhetskopi-koder",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av backup kodene du lagret når du opprettet to-faktor autentisering.",
     "Submit" : "Send",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Sikkerhetskopi-koder har blitt opprettet. {{used}} av {{total}} koder i bruk.",
+    "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
     "activated" : "aktivert",
     "updated" : "oppdatert",
     "mounted" : "tilkoblet",

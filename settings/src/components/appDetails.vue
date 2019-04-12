@@ -50,7 +50,8 @@
 				<input v-if="app.update" class="update primary" type="button" :value="t('settings', 'Update to {version}', {version: app.update})" v-on:click="update(app.id)" :disabled="installing || loading(app.id)"/>
 				<input v-if="app.canUnInstall" class="uninstall" type="button" :value="t('settings', 'Remove')" v-on:click="remove(app.id)" :disabled="installing || loading(app.id)"/>
 				<input v-if="app.active" class="enable" type="button" :value="t('settings','Disable')" v-on:click="disable(app.id)" :disabled="installing || loading(app.id)" />
-				<input v-if="!app.active" class="enable primary" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall || installing || loading(app.id)" />
+				<input v-if="!app.active && (app.canInstall || app.isCompatible)" class="enable primary" type="button" :value="enableButtonText" v-on:click="enable(app.id)" v-tooltip.auto="enableButtonTooltip" :disabled="!app.canInstall || installing || loading(app.id)" />
+				<input v-else-if="!app.active" class="enable force" type="button" :value="forceEnableButtonText" v-on:click="forceEnable(app.id)" v-tooltip.auto="forceEnableButtonTooltip" :disabled="installing || loading(app.id)" />
 			</div>
 			<div class="app-groups">
 				<div class="groups-enable" v-if="app.active && canLimitToGroups(app)">
@@ -61,23 +62,12 @@
 								 :placeholder="t('settings', 'Limit app usage to groups')"
 								 label="name" track-by="id" class="multiselect-vue"
 								 :multiple="true" :close-on-select="false"
-								 @search-change="asyncFindGroup">
+								 :tag-width="60" @search-change="asyncFindGroup">
 						<span slot="noResult">{{t('settings', 'No results')}}</span>
 					</multiselect>
 				</div>
 			</div>
 		</div>
-
-		<p class="documentation">
-			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">{{ t('settings', 'View in store')}} ↗</a>
-
-			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
-			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
-
-			<a class="appslink" v-if="app.documentation && app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation && app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
-			<a class="appslink" v-if="app.documentation && app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
-		</p>
 
 		<ul class="app-dependencies">
 			<li v-if="app.missingMinOwnCloudVersion">{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}</li>
@@ -90,12 +80,23 @@
 			</li>
 		</ul>
 
+		<p class="documentation">
+			<a class="appslink" :href="appstoreUrl" v-if="!app.internal" target="_blank" rel="noreferrer noopener">{{ t('settings', 'View in store')}} ↗</a>
+
+			<a class="appslink" v-if="app.website" :href="app.website" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Visit website') }} ↗</a>
+			<a class="appslink" v-if="app.bugs" :href="app.bugs" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Report a bug') }} ↗</a>
+
+			<a class="appslink" v-if="app.documentation && app.documentation.user" :href="app.documentation.user" target="_blank" rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.admin" :href="app.documentation.admin" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Admin documentation') }} ↗</a>
+			<a class="appslink" v-if="app.documentation && app.documentation.developer" :href="app.documentation.developer" target="_blank" rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
+		</p>
+
 		<div class="app-description" v-html="renderMarkdown"></div>
 	</div>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
+import { Multiselect } from 'nextcloud-vue';
 import marked from 'marked';
 import dompurify from 'dompurify'
 
@@ -226,3 +227,17 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	.force {
+		background: var(--color-main-background);
+		border-color: var(--color-error);
+		color: var(--color-error);
+	}
+	.force:hover,
+	.force:active {
+		background: var(--color-error);
+		border-color: var(--color-error) !important;
+		color: var(--color-main-background);
+	}
+</style>

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
-    "Nextcloud backup codes" : "Nextcloud yedek kodları",
+    "{name} backup codes" : "{name} yedek kodları",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Yedek kodlarınızı burada görebilirsiniz. Kodları daha sonra göremeyeceğiniz için bu kodları kaydedin ya da yazdırın",
     "Save backup codes" : "Yedek kodları kaydet",
     "Print backup codes" : "Yedek kodları yazdır",
@@ -22,6 +22,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "İki aşamalı kimlik doğrulamasını ayarlarken yedek kodlarından birini kullanın.",
     "Submit" : "Gönder",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor.",
+    "Nextcloud backup codes" : "Nextcloud yedek kodları",
     "activated" : "etkinleştirildi",
     "updated" : "güncellendi",
     "mounted" : "bağlandı",

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Десила се грешка приликом генерисања резервних кодова",
-    "Nextcloud backup codes" : "Некстклауд резервни кодови",
+    "{name} backup codes" : "{name} резервни кодови",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ово су Ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи да их прочитате.",
     "Save backup codes" : "Сачувај резервне кодове",
     "Print backup codes" : "Одштампај резервне кодове",
@@ -22,6 +22,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористите један од резервних кодова које сте сачували када се подешавали двофакторску проверу идентитета.",
     "Submit" : "Пошаљи",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Резервни кодови су изгенерисани. {{used}} од {{total}} кодова је искоришћено.",
+    "Nextcloud backup codes" : "Некстклауд резервни кодови",
     "activated" : "активирано",
     "updated" : "ажурирано",
     "mounted" : "монтирано",

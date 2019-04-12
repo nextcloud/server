@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Keine Dateien vorhanden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Size" : "Größe",
-    "Modified" : "Geändert",
-    "Create and edit collaborative tags. These tags affect all users." : "Erstellen und bearbeiten Sie kollaborative Tags. Diese Tags betreffen alle Benutzer."
+    "Modified" : "Geändert"
 },
 "nplurals=2; plural=(n != 1);");

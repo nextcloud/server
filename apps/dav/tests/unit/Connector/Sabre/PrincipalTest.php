@@ -391,6 +391,32 @@ class PrincipalTest extends TestCase {
 		];
 	}
 
+	public function testSearchPrincipalByCalendarUserAddressSet() {
+		$this->shareManager->expects($this->exactly(2))
+			->method('shareAPIEnabled')
+			->will($this->returnValue(true));
+
+		$this->shareManager->expects($this->exactly(2))
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+
+		$this->userManager->expects($this->at(0))
+			->method('getByEmail')
+			->with('user@example.com')
+			->will($this->returnValue([$user2, $user3]));
+
+		$this->assertEquals([
+				'principals/users/user2',
+				'principals/users/user3',
+			], $this->connector->searchPrincipals('principals/users',
+			['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => 'user@example.com']));
+	}
+
 	public function testFindByUriSharingApiDisabled() {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')

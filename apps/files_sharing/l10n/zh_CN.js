@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "共享将在这里显示",
     "Restore share" : "恢复共享",
     "Something happened. Unable to restore the share." : "发生了问题。无法恢复该共享。",
-    "file" : "文件",
     "Move or copy" : "移动或复制",
     "Download" : "下载",
     "Delete" : "删除",
@@ -112,9 +111,8 @@ OC.L10N.register(
     "Share API is disabled" : "共享 API 已被禁用",
     "File sharing" : "文件共享",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "这个应用程序允许用户在 Nextcloud 内部共享文件。如果启用，管理员能够选择哪个组可以共享文件。然后，可用的用户能够共享文件和文件夹给 Nextcloud 中的其他用户和组。另外，如果管理员启用了共享链接功能，能够使用外部链接将文件共享给 Nextcloud 之外的其他用户。管理员也可以强制设置密码，过期日期，并且可以通过共享链接启用服务器到服务器的共享，以及从移动设备共享。\n关闭该功能将删除服务器上所有共享接收者以用同步客户端和移动应用上的共享文件和文件夹。更多信息可查阅 Nextcloud 文档。",
-    "Add to a collection" : "添加到专辑",
-    "Details" : "详情",
-    "Rename collection" : "重命名专辑",
+    "Link to a file" : "文件链接",
+    "Shared" : "已共享",
     "Share" : "共享",
     "Sharing" : "共享",
     "No entries found in this folder" : "此文件夹中无项目",
@@ -136,9 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "上传文件... ",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型",
-    "This share is password-protected" : "这是一个密码保护的共享",
-    "The password is wrong. Try again." : "用户名或密码错误！请重试。",
-    "Password" : "密码"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型"
 },
 "nplurals=1; plural=0;");

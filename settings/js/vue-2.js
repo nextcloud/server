@@ -405,6 +405,8 @@ __webpack_require__.r(__webpack_exports__);
         language: this.newUser.language.code
       }).then(function () {
         _this.resetForm();
+
+        _this.$refs.newusername.focus();
       }).catch(function (error) {
         _this.loading.all = false;
 
@@ -1136,8 +1138,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/api */ "./settings/src/store/api.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-//
-//
 //
 //
 //
@@ -2639,265 +2639,273 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("AppContent", {
-    attrs: {
-      "app-name": "settings",
-      "navigation-class": { "icon-loading": _vm.loadingAddGroup }
-    },
-    scopedSlots: _vm._u([
-      {
-        key: "navigation",
-        fn: function() {
-          return [
-            _c("AppNavigationNew", {
-              attrs: {
-                "button-id": "new-user-button",
-                text: _vm.t("settings", "New user"),
-                "button-class": "icon-add"
-              },
-              on: { click: _vm.toggleNewUserMenu }
-            }),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { attrs: { id: "usergrouplist" } },
-              _vm._l(_vm.menu, function(item) {
-                return _c("AppNavigationItem", {
-                  key: item.key,
-                  attrs: { item: item }
-                })
+  return _c(
+    "AppContent",
+    {
+      attrs: {
+        "app-name": "settings",
+        "navigation-class": { "icon-loading": _vm.loadingAddGroup }
+      },
+      scopedSlots: _vm._u([
+        {
+          key: "navigation",
+          fn: function() {
+            return [
+              _c("AppNavigationNew", {
+                attrs: {
+                  "button-id": "new-user-button",
+                  text: _vm.t("settings", "New user"),
+                  "button-class": "icon-add"
+                },
+                on: { click: _vm.toggleNewUserMenu }
               }),
-              1
-            ),
-            _vm._v(" "),
-            _c("AppNavigationSettings", [
+              _vm._v(" "),
               _c(
-                "div",
-                [
-                  _c("p", [
-                    _vm._v(_vm._s(_vm.t("settings", "Default quota:")))
-                  ]),
-                  _vm._v(" "),
-                  _c("multiselect", {
-                    staticClass: "multiselect-vue",
-                    attrs: {
-                      value: _vm.defaultQuota,
-                      options: _vm.quotaOptions,
-                      "tag-placeholder": "create",
-                      placeholder: _vm.t("settings", "Select default quota"),
-                      label: "label",
-                      "track-by": "id",
-                      allowEmpty: false,
-                      taggable: true
-                    },
-                    on: { tag: _vm.validateQuota, input: _vm.setDefaultQuota }
+                "ul",
+                { attrs: { id: "usergrouplist" } },
+                _vm._l(_vm.menu, function(item) {
+                  return _c("AppNavigationItem", {
+                    key: item.key,
+                    attrs: { item: item }
                   })
-                ],
+                }),
                 1
               ),
               _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showLanguages,
-                      expression: "showLanguages"
-                    }
+              _c("AppNavigationSettings", [
+                _c(
+                  "div",
+                  [
+                    _c("p", [
+                      _vm._v(_vm._s(_vm.t("settings", "Default quota:")))
+                    ]),
+                    _vm._v(" "),
+                    _c("multiselect", {
+                      staticClass: "multiselect-vue",
+                      attrs: {
+                        value: _vm.defaultQuota,
+                        options: _vm.quotaOptions,
+                        "tag-placeholder": "create",
+                        placeholder: _vm.t("settings", "Select default quota"),
+                        label: "label",
+                        "track-by": "id",
+                        allowEmpty: false,
+                        taggable: true
+                      },
+                      on: { tag: _vm.validateQuota, input: _vm.setDefaultQuota }
+                    })
                   ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showLanguages" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showLanguages)
-                      ? _vm._i(_vm.showLanguages, null) > -1
-                      : _vm.showLanguages
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showLanguages,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showLanguages = $$a.concat([$$v]))
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.showLanguages,
+                        expression: "showLanguages"
+                      }
+                    ],
+                    staticClass: "checkbox",
+                    attrs: { type: "checkbox", id: "showLanguages" },
+                    domProps: {
+                      checked: Array.isArray(_vm.showLanguages)
+                        ? _vm._i(_vm.showLanguages, null) > -1
+                        : _vm.showLanguages
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.showLanguages,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.showLanguages = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.showLanguages = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
                         } else {
-                          $$i > -1 &&
-                            (_vm.showLanguages = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
+                          _vm.showLanguages = $$c
                         }
-                      } else {
-                        _vm.showLanguages = $$c
                       }
                     }
-                  }
-                }),
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "showLanguages" } }, [
+                    _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "showLanguages" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showLastLogin,
-                      expression: "showLastLogin"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showLastLogin" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showLastLogin)
-                      ? _vm._i(_vm.showLastLogin, null) > -1
-                      : _vm.showLastLogin
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showLastLogin,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showLastLogin = $$a.concat([$$v]))
+                _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.showLastLogin,
+                        expression: "showLastLogin"
+                      }
+                    ],
+                    staticClass: "checkbox",
+                    attrs: { type: "checkbox", id: "showLastLogin" },
+                    domProps: {
+                      checked: Array.isArray(_vm.showLastLogin)
+                        ? _vm._i(_vm.showLastLogin, null) > -1
+                        : _vm.showLastLogin
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.showLastLogin,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.showLastLogin = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.showLastLogin = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
                         } else {
-                          $$i > -1 &&
-                            (_vm.showLastLogin = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
+                          _vm.showLastLogin = $$c
                         }
-                      } else {
-                        _vm.showLastLogin = $$c
                       }
                     }
-                  }
-                }),
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "showLastLogin" } }, [
+                    _vm._v(_vm._s(_vm.t("settings", "Show last login")))
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "showLastLogin" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show last login")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showUserBackend,
-                      expression: "showUserBackend"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showUserBackend" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showUserBackend)
-                      ? _vm._i(_vm.showUserBackend, null) > -1
-                      : _vm.showUserBackend
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showUserBackend,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showUserBackend = $$a.concat([$$v]))
+                _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.showUserBackend,
+                        expression: "showUserBackend"
+                      }
+                    ],
+                    staticClass: "checkbox",
+                    attrs: { type: "checkbox", id: "showUserBackend" },
+                    domProps: {
+                      checked: Array.isArray(_vm.showUserBackend)
+                        ? _vm._i(_vm.showUserBackend, null) > -1
+                        : _vm.showUserBackend
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.showUserBackend,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.showUserBackend = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.showUserBackend = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
                         } else {
-                          $$i > -1 &&
-                            (_vm.showUserBackend = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
+                          _vm.showUserBackend = $$c
                         }
-                      } else {
-                        _vm.showUserBackend = $$c
                       }
                     }
-                  }
-                }),
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "showUserBackend" } }, [
+                    _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "showUserBackend" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.showStoragePath,
-                      expression: "showStoragePath"
-                    }
-                  ],
-                  staticClass: "checkbox",
-                  attrs: { type: "checkbox", id: "showStoragePath" },
-                  domProps: {
-                    checked: Array.isArray(_vm.showStoragePath)
-                      ? _vm._i(_vm.showStoragePath, null) > -1
-                      : _vm.showStoragePath
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.showStoragePath,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.showStoragePath = $$a.concat([$$v]))
+                _c("div", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.showStoragePath,
+                        expression: "showStoragePath"
+                      }
+                    ],
+                    staticClass: "checkbox",
+                    attrs: { type: "checkbox", id: "showStoragePath" },
+                    domProps: {
+                      checked: Array.isArray(_vm.showStoragePath)
+                        ? _vm._i(_vm.showStoragePath, null) > -1
+                        : _vm.showStoragePath
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.showStoragePath,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.showStoragePath = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.showStoragePath = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
                         } else {
-                          $$i > -1 &&
-                            (_vm.showStoragePath = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
+                          _vm.showStoragePath = $$c
                         }
-                      } else {
-                        _vm.showStoragePath = $$c
                       }
                     }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "showStoragePath" } }, [
-                  _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "showStoragePath" } }, [
+                    _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
+                  ])
                 ])
               ])
-            ])
-          ]
+            ]
+          },
+          proxy: true
+        }
+      ])
+    },
+    [
+      _vm._v(" "),
+      _c("user-list", {
+        attrs: {
+          users: _vm.users,
+          showConfig: _vm.showConfig,
+          selectedGroup: _vm.selectedGroup,
+          externalActions: _vm.externalActions
         },
-        proxy: true
-      },
-      {
-        key: "content",
-        fn: function() {
-          return [
-            _c("user-list", {
-              attrs: {
-                users: _vm.users,
-                showConfig: _vm.showConfig,
-                selectedGroup: _vm.selectedGroup,
-                externalActions: _vm.externalActions
-              }
-            })
-          ]
-        },
-        proxy: true
-      }
-    ])
-  })
+        scopedSlots: _vm._u([
+          {
+            key: "content",
+            fn: function() {
+              return undefined
+            },
+            proxy: true
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

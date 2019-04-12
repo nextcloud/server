@@ -85,7 +85,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "La kunsido „%s“ kun %s estis nuligita.",
     "The meeting »%s« with %s was updated." : "La kunsido „%s“ kun %s estis ĝisdatigita.",
     "%s invited you to »%s«" : "%s invitis vin al „%s“",
-    "CalDAV server" : "CalDAV-servilo",
     "Please make sure to properly set up the email settings above." : "Bv. kontroli, ĉu la supraj retpoŝtaj agordoj estas bone agorditaj."
 },
 "nplurals=2; plural=(n != 1);");

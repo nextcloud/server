@@ -29,7 +29,7 @@
 	 */
 	OCA.Comments.FilesPlugin = {
 		ignoreLists: [
-			'files_trashbin',
+			'trashbin',
 			'files.public'
 		],
 
@@ -79,8 +79,18 @@
 			// register "comment" action for reading comments
 			fileList.fileActions.registerAction({
 				name: 'Comment',
-				displayName: t('comments', 'Comment'),
+				displayName: function(context) {
+					if (context && context.$file) {
+						var unread = parseInt(context.$file.data('comments-unread'), 10)
+						if (unread >= 0) {
+							return n('comments', '1 new comment', '{unread} new comments', unread, { unread: unread })
+						}
+					}
+					return t('comments', 'Comment')
+				},
 				mime: 'all',
+				order: -140,
+				iconClass: 'icon-comment',
 				permissions: OC.PERMISSION_READ,
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				render: function(actionSpec, isDefault, context) {

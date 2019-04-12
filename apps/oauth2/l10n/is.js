@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Bæta við biðlara",
     "Add" : "Bæta við",
     "Show client secret" : "Sýna leynilykil biðlara",
-    "Delete" : "Eyða",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 gerir utanaðkomandi þjónustum kleift að biðja um aðgang að %s."
+    "Delete" : "Eyða"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

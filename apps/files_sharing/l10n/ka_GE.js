@@ -106,9 +106,6 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "გაზიარება %s არ მოხერხდა, რადგანაც ბექენდი არ იღებს გაზიარებებს ტიპით %s",
-    "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან",
-    "Password" : "პაროლი"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "გაზიარება %s არ მოხერხდა, რადგანაც ბექენდი არ იღებს გაზიარებებს ტიპით %s"
 },
 "nplurals=2; plural=(n!=1);");

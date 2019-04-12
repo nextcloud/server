@@ -1,7 +1,6 @@
 { "translations": {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Произошла ошибка при создании резервных кодов",
-    "Nextcloud backup codes" : "Резервные коды Nextcloud",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Это ваши резервные коды доступа. Пожалуйста, сохраните и/или распечатайте их, так как вы не сможете увидеть эти коды снова.",
     "Save backup codes" : "Сохранить резервные коды",
     "Print backup codes" : "Распечатать резервные коды",
@@ -20,6 +19,7 @@
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Использовать для двухфакторной аутентификации один из ранее выпущенных резервных кодов.",
     "Submit" : "Отправить",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Использовано {{used}} из {{total}} ранее выпущенных резервных кодов.",
+    "Nextcloud backup codes" : "Резервные коды Nextcloud",
     "activated" : "activated",
     "updated" : "updated",
     "mounted" : "mounted",

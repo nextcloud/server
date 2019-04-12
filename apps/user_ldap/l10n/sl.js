@@ -135,7 +135,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID za skupine:",
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
-    " entries available within the provided Base DN" : "vnosi, ki so na voljo znotraj razpoložljivega osnovnega enoznačnega imena (Base DN)"
+    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

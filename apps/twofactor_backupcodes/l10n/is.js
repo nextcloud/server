@@ -1,8 +1,9 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "_" : "_",
     "An error occurred while generating your backup codes" : "Villa kom upp við að búa til öryggisafritunarkóðana þína",
-    "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
+    "{name} backup codes" : "{name} öryggisafritunarkóðar",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Þetta eru öryggisafritunarkóðarnir þínir. Vistaðu þá og/eða prentaðu þá út, því þú munt ekki geta lesið þá aftur síðar í ferlinu",
     "Save backup codes" : "Vista öryggisafritunarkóða",
     "Print backup codes" : "Prenta öryggisafritunarkóða",
@@ -21,6 +22,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Notaðu einn af öryggisafritunarkóðunum sem þú vistaðir þegar þú settir upp tveggja-þátta auðkenningu.",
     "Submit" : "Senda inn",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Öryggisafritunarkóðar hafa verið útbúnir. {{used}} af {{total}} kóðum hafa verið notaðir.",
+    "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
     "activated" : "virkjað",
     "updated" : "uppfært",
     "mounted" : "tengt í skráakerfi",

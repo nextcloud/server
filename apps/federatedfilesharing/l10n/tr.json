@@ -49,15 +49,7 @@
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML Kodu:",
-    "The mountpoint name contains invalid characters." : "Bağlama noktası adında geçersiz karakterler var.",
-    "Not allowed to create a federated share with the owner." : "Sahip ile birleşmiş bir paylaşım oluşturmanıza izin verilmiyor.",
-    "Invalid or untrusted SSL certificate" : "Geçersiz ya da güvenilmez SSL sertifikası",
-    "Could not authenticate to remote share, password might be wrong" : "Uzak paylaşım kimliği doğrulanamadı. Parola yanlış olabilir",
-    "Storage not valid" : "Depolama geçersiz",
-    "Federated share added" : "Birleşmiş paylaşım eklendi",
-    "Couldn't add remote share" : "Uzak paylaşım eklenemedi",
     "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud ya da Pydio kullanıcıları ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi Birleşmiş Bulut kodunu yazmanız yeterlidir."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

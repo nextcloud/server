@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Додај клијента",
     "Add" : "Додај",
     "Show client secret" : "Прикажи клијентску лозинку",
-    "Delete" : "Обриши",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 дозвољава спољним сервисима да захтевају приступ на %s."
+    "Delete" : "Обриши"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -15,6 +15,7 @@
     "matches" : "תואם",
     "does not match" : "אינו תואם",
     "Example: {placeholder}" : "דוגמה: {placeholder}",
+    "File name" : "שם קובץ",
     "File size (upload)" : "גודל קובץ (העלאה)",
     "less" : "פחות",
     "less or equals" : "פחות או שווה",
@@ -61,6 +62,7 @@
     "Operation #%s does not exist" : "פעולה מס׳ %s לא קיימת",
     "Operation %s does not exist" : "הפעולה %s לא קיימת",
     "Operation %s is invalid" : "הפעולה %s שגויה",
+    "Tag management" : "ניהול תגיות",
     "Open documentation" : "פתיחת תיעוד",
     "Loading…" : "בטעינה…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

@@ -93,7 +93,7 @@ OC.L10N.register(
     "Copy current configuration into new directory binding" : "Aktuelle Konfiguration in eine neues Verzeichnis-Bind kopieren",
     "Delete the current configuration" : "Aktuelle Konfiguration löschen",
     "Host" : "Host",
-    "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Du kannst das Protokoll auslassen, es sei denn, du benötigst SSL. In diesem Fall beginne mit ldaps://",
+    "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Du kannst das Protokoll auslassen, es sei denn, Du benötigst SSL. In diesem Fall mit ldaps:// beginnen.",
     "Port" : "Port",
     "Detect Port" : "Port ermitteln",
     "User DN" : "Benutzer-DN",
@@ -108,7 +108,7 @@ OC.L10N.register(
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Verhindert automatische LDAP-Anfragen. Besser geeignet für größere Installationen, benötigt aber erweiterte LDAP-Kenntnisse.",
     "Manually enter LDAP filters (recommended for large directories)" : "LDAP-Filter manuell eingeben (empfohlen für große Verzeichnisse)",
     "Listing and searching for users is constrained by these criteria:" : "Auflistung und Suche nach Nutzern ist eingeschränkt durch folgende Kriterien:",
-    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Die häufigsten Objektklassen für Benutzer sind organizationalPerson, person, user und inetOrgPerson. Wenn du nicht sicher bist, welche Objektklasse du wählen sollst, frage bitte deinen Verzeichnis-Admin.",
+    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Die häufigsten Objektklassen für Benutzer sind organizationalPerson, person, user und inetOrgPerson. Wenn Du nicht sicher bist, welche Objektklasse Du wählen sollst, frage bitte Deinen Verzeichnis-Admin.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Der Filter gibt an, welche LDAP-Benutzer Zugriff auf die %s-Instanz haben sollen.",
     "Verify settings and count users" : "Einstellungen überprüfen und Benutzer zählen",
     "Saving" : "Speichern",
@@ -128,7 +128,7 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Expert" : "Experte",
     "Advanced" : "Fortgeschritten",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktiere deinen Systemadministrator und bitte ihn um die Installation des Moduls.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktiere Deinen Systemadministrator und bitte ihn um die Installation des Moduls.",
     "Connection Settings" : "Verbindungseinstellungen",
     "Configuration Active" : "Konfiguration aktiv",
     "When unchecked, this configuration will be skipped." : "Konfiguration wird übersprungen wenn deaktiviert",
@@ -188,8 +188,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Die Benutzernamen werden genutzt, um Metadaten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung (mappen) von Benutzernamen zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit dem LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen durch gefunden. Der interne Benutzername, wird in überall verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste zurück. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Lösche niemals die Zuordnungen in einer produktiven Umgebung. Lösche die Zuordnungen nur in einer Test- oder Experimentierumgebung.",
     "Clear Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung löschen",
-    "Clear Groupname-LDAP Group Mapping" : "LDAP-Gruppennamenzuordnung löschen",
-    " entries available within the provided Base DN" : "Einträge in der Vorgesehenen Base DN verfügbar",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Die Benutzernamen werden genutzt, um (Meta-)Daten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung (mappen) von Benutzernamen zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit dem LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen durch gefunden. Der interne Benutzername, wird in überall verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste zurück. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Lösche niemals die Zuordnungen in einer produktiven Umgebung. Lösche die Zuordnungen nur in einer Test- oder Experimentierumgebung."
+    "Clear Groupname-LDAP Group Mapping" : "LDAP-Gruppennamenzuordnung löschen"
 },
 "nplurals=2; plural=(n != 1);");

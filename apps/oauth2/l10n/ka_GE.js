@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "კლიენტის იდენტიფიკატორი",
     "Secret" : "საიდუმლო",
     "Add client" : "კლიენტის დამატება",
-    "Add" : "დამატება",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 გარე სერვისებს ანიჭებს %s-ზე წვდომის მოთხოვნის უფლებას."
+    "Add" : "დამატება"
 },
 "nplurals=2; plural=(n!=1);");

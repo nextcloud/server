@@ -25,9 +25,10 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Uusi versio on saatavilla: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
     "View changelog" : "Näytä muutosloki",
-    "Could not start updater, please try the manual update" : "Ei voitu aloittaa päivitystä, kokeile päivittämistä manuaalisesti",
-    "A new version is available: %s" : "Uusi versio on saatavilla: %s",
-    "Checked on %s" : "Tarkistettu %s",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Voit aina päivittää uudempaan versioon tai kokeellisen jakelukanavan versioon. Et voi kuitenkaan palata aiempaan, vakaan julkaisukanavan versioon."
+    "Stable" : "Vakaa",
+    "Production" : "Tuotanto",
+    "Beta" : "Beta",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Voit aina päivittää uudempaan versioon tai kokeellisen jakelukanavan versioon. Et voi kuitenkaan palata aiempaan, vakaan julkaisukanavan versioon.",
+    "Could not start updater, please try the manual update" : "Ei voitu aloittaa päivitystä, kokeile päivittämistä manuaalisesti"
 },
 "nplurals=2; plural=(n != 1);");

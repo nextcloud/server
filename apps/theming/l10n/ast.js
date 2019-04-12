@@ -24,9 +24,6 @@ OC.L10N.register(
     "Upload new logo" : "Xubir logu nuevu",
     "Login image" : "Imaxe d'aniciu de sesión",
     "Upload new login background" : "Xubir fondu nuevu d'aniciu de sesión",
-    "Remove background image" : "Desaniciar imaxe de fondu",
-    "Failed to write file to disk." : "Fallu al escribir el ficheru nel discu",
-    "You are already using a custom theme" : "Yá tas usando un tema personalizáu",
-    "Web address https://…" : "Direición web https://…"
+    "Remove background image" : "Desaniciar imaxe de fondu"
 },
 "nplurals=2; plural=(n != 1);");

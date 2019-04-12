@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Při pokusu o vytvoření záložních kódů nastala chyba.",
-    "Nextcloud backup codes" : "Nextcloud záložní kódy",
+    "{name} backup codes" : "{name} záložní kódy",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Zde jsou vaše záložní kódy. Kódy si uložte a/nebo vytiskněte, protože už je nebude možné zobrazit znovu.",
     "Save backup codes" : "Uložit záložní kódy",
     "Print backup codes" : "Vytisknout záložní kódy",
@@ -21,6 +21,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Použijte jeden ze svých záložních kódů které jste si uložili při nastavování dvoufázového ověřování.",
     "Submit" : "Odeslat",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Záložní kódy byly vytvořeny. {{used}} z {{total}} kódů bylo využito.",
+    "Nextcloud backup codes" : "Nextcloud záložní kódy",
     "activated" : "aktivováno",
     "updated" : "aktualizováno",
     "mounted" : "připojeno (mount)",

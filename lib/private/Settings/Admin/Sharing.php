@@ -31,6 +31,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Share\IManager;
 use OCP\Util;
@@ -48,9 +49,9 @@ class Sharing implements ISettings {
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, IL10N $l, IManager $shareManager) {
+	public function __construct(IConfig $config, IFactory $l, IManager $shareManager) {
 		$this->config = $config;
-		$this->l = $l;
+		$this->l = $l->get('lib');
 		$this->shareManager = $shareManager;
 	}
 

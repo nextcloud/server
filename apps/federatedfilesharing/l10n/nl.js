@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
     "HTML Code:" : "HTML Code:",
-    "The mountpoint name contains invalid characters." : "De naam van het mountpoint bevat ongeldige karakters.",
-    "Not allowed to create a federated share with the owner." : "Het is niet toegestaan om met de eigenaar een gefedereerde share te maken.",
-    "Invalid or untrusted SSL certificate" : "Ongeldig of onvertrouwd SSL-certificaat",
-    "Could not authenticate to remote share, password might be wrong" : "Kon niet authenticeren bij externe share, misschien verkeerd wachtwoord",
-    "Storage not valid" : "Opslag ongeldig",
-    "Federated share added" : "Gefedereerd share is toegevoegd",
-    "Couldn't add remote share" : "Kon geen externe share toevoegen",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of Pydio gebruikt! Gebruik simpelweg hun gefedereerde Cloud ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat."
 },
 "nplurals=2; plural=(n != 1);");

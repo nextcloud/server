@@ -129,10 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
-    "Are you sure you want to delete this external storage" : "Quer realmente excluir este armazenamento externo",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alguns dos pontos de montagem externos configurados não estão conectados. Clique na(s) linha(s) vermelha(s) para mais informações",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. A montagem de %s não foi possível. Por favor, solicite a instalação ao administrador do sistema.",
-    "Allow users to mount the following external storage" : "Permitir que usuários montem o seguinte armazenamento externo"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. A montagem de %s não foi possível. Por favor, solicite a instalação ao administrador do sistema."
 },
 "nplurals=2; plural=(n > 1);");

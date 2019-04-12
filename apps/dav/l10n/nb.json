@@ -64,7 +64,6 @@
     "The meeting »%s« with %s was canceled." : "Møtet \"%s\" med %s ble kansellert.",
     "The meeting »%s« with %s was updated." : "Møtet med \"%s\" med %s ble oppdatert.",
     "%s invited you to »%s«" : "%s inviterte deg til \"%s\"",
-    "CalDAV server" : "DalDAV-server",
     "Please make sure to properly set up the email settings above." : "Sett opp e-postinnstillingene ovenfor på riktig måte."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

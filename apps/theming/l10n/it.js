@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Nessun file caricato",
     "Unsupported image type" : "Tipo di immagine non supportato",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Stai già utilizzando un tema personalizzato. Le impostazioni dell'applicazione dei temi potrebbero essere sovrascritte.",
+    "Theming" : "Tema",
     "Legal notice" : "Avviso legale",
     "Privacy policy" : "Criterio di riservatezza",
-    "Theming" : "Tema",
     "Adjust the Nextcloud theme" : "Modifica il tema di Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "La gestione dei temi rende semplice la personalizzazione dell'aspetto della tua istanza e dei client supportati. Ciò sarà visibile a tutti gli utenti.",
     "Name" : "Nome",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Carica nuovo logo dell'intestazione",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Carica nuova favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemacick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore.",
-    "There is no error, the file uploaded with success" : "Non ci sono errori, il file è stato caricato correttamente",
-    "The uploaded file was only partially uploaded" : "Il file è stato caricato solo parzialmente",
-    "Failed to write file to disk." : "Scrittura su disco non riuscita",
-    "A PHP extension stopped the file upload." : "Un'estensione PHP ha fermato il caricamento del file.",
-    "You are already using a custom theme" : "Stai già usando un tema personalizzato",
-    "Web address https://…" : "Indirizzo web https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemacick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
 },
 "nplurals=2; plural=(n != 1);");

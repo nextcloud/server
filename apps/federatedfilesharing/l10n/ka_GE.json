@@ -41,15 +41,7 @@
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "The mountpoint name contains invalid characters." : "დამონტაჟების წერტილის სახელი შეიცავს არასწორ სიმბოლოებს.",
-    "Not allowed to create a federated share with the owner." : "მფლობელთან ფედერალური გაზიარების შექმნა არაა ნებადართული.",
-    "Invalid or untrusted SSL certificate" : "არასწორი ან არასანდო SSL სერტიფიკატი",
-    "Could not authenticate to remote share, password might be wrong" : "დისტანციურ გაზიარებასთან აუტენტიფიკაცია არ მოხერხდა, შესაძლოა პაროლი იყოს არასწორი",
-    "Storage not valid" : "საცავი არაა სწორი",
-    "Federated share added" : "ფედერალური გაზიარება დაემატა",
-    "Couldn't add remote share" : "ფედერალური გაზიარება ვერ დაემატა",
     "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "შეგიძლიათ გაუზიაროთ ნებისმიერ ადამიანს ვინც იყენებს Nextcloud-ს, ownCloud-ს ან Pydio!-ს უბრალოდ მოათავსეთ მათი ფედერალური ქლაუდ ID-ები გაზიარების დიალოგში. ის გამოიყურება როგოც person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

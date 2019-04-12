@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "Delningar visas här",
     "Restore share" : "Återställ delning",
     "Something happened. Unable to restore the share." : "Ett fel uppstod. Kan inte återställa delningen.",
-    "file" : "fil",
     "Move or copy" : "Flytta eller kopiera",
     "Download" : "Ladda ned",
     "Delete" : "Radera",
@@ -111,9 +110,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lägg till i molnet",
     "Share API is disabled" : "Delning av API är inaktiverad",
     "File sharing" : "Fildelning",
-    "Add to a collection" : "Lägg till i en samling",
-    "Details" : "Detaljer",
-    "Rename collection" : "Byt namn på samling",
+    "Link to a file" : "Länka till en fil",
+    "Shared" : "Delad",
     "Share" : "Dela",
     "Sharing" : "Delning",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
@@ -135,9 +133,6 @@ OC.L10N.register(
     "Uploading files…" : "Laddar upp filer...",
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Delningen av %s misslyckades. Ej tillåtet med delning av %s",
-    "This share is password-protected" : "Den här delningen är lösenordsskyddad",
-    "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
-    "Password" : "Lösenord"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Delningen av %s misslyckades. Ej tillåtet med delning av %s"
 },
 "nplurals=2; plural=(n != 1);");

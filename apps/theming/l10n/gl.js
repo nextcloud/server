@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Non se enviou ningún ficheiro",
     "Unsupported image type" : "Tipo de imaxe non admitido",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Está a empregar un tema personalizado. Os axustes do aplicativo de temas poden ser sobrescritos por el.",
+    "Theming" : "Temas",
     "Legal notice" : "Aviso legal",
     "Privacy policy" : "Política de privacidade",
-    "Theming" : "Temas",
     "Adjust the Nextcloud theme" : "Axustar o tema do Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Os temas fan posíbel personalizar facilmente a aparencia da súa instancia e os clientes compatíbeis. Isto será visíbel para todos os usuarios.",
     "Name" : "Nome",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Enviar un novo logotipo da cabeceira",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Enviar un novo favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensión de PHP Imagemagick con compatibilidade con imaxes SVG para xerar automáticamente faviconos baseados no logotipo e cor enviados.",
-    "There is no error, the file uploaded with success" : "Non houbo erros, o ficheiro enviouse correctamente",
-    "The uploaded file was only partially uploaded" : "O ficheiro so foi parcialmente enviado",
-    "Failed to write file to disk." : "Produciuse un erro ao escribir o ficheiro no disco",
-    "A PHP extension stopped the file upload." : "Unha extensión PHP detivo o envío de ficheiros.",
-    "You are already using a custom theme" : "Vostede xa usa un tema personalizado",
-    "Web address https://…" : "Enderezo web https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensión de PHP Imagemagick con compatibilidade con imaxes SVG para xerar automáticamente faviconos baseados no logotipo e cor enviados."
 },
 "nplurals=2; plural=(n != 1);");

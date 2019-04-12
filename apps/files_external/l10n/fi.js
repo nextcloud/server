@@ -126,10 +126,7 @@ OC.L10N.register(
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Are you sure you want to delete this external storage" : "Haluatko varmasti poistaa tämän erillisen tallennustilan",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Jotkin määritetyt erilliset liitospisteet eivät ole yhdistettynä. Napsauta punaisia rivejä saadaksesi lisätietoja",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde."
 },
 "nplurals=2; plural=(n != 1);");

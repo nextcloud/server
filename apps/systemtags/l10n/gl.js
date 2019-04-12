@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Aquí non hai ficheiros",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Size" : "Tamaño",
-    "Modified" : "Modificado",
-    "Create and edit collaborative tags. These tags affect all users." : "Crea e edita etiquetas colaborativas. Estas etiquetas afectan a todos os usuarios."
+    "Modified" : "Modificado"
 },
 "nplurals=2; plural=(n != 1);");

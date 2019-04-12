@@ -13,7 +13,6 @@
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar",
     "Show client secret" : "Mostra senha do cliente",
-    "Delete" : "Excluir",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 permite que serviços externos solicitem acesso a %s."
+    "Delete" : "Excluir"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

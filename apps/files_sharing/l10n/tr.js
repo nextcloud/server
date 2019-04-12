@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "Paylaşımlar burada görüntülenir",
     "Restore share" : "Paylaşımı geri yükle",
     "Something happened. Unable to restore the share." : "Bir sorun çıktı. Paylaşım geri yüklenemedi.",
-    "file" : "dosya",
     "Move or copy" : "Taşı ya da kopyala",
     "Download" : "İndir",
     "Delete" : "Sil",
@@ -112,9 +111,8 @@ OC.L10N.register(
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "File sharing" : "Dosya paylaşımı",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Bu uygulama kullanıcıların Nextcloud üzerinde dosya paylaşabilmesini sağlar. Etkinleştirildiğinde, yöneticiler dosya paylaşabilecek grupları belirleyebilir. Seçilmiş gruplardaki kullanıcılar Nextcloud üzerindeki diğer kullanıcı ve gruplar ile dosya ve klasör paylaşabilir. Ek olarak, yönetici bağlantı paylaşımı özelliğini etkinleştirmiş ise, Nextcloud üzerinde olmayan kullanıcılar ile dosya paylaşımı bağlantıları kullanılabilir. Yöneticiler ayrıca parola ve son kullanma tarihi kullanımını zorunlu kılmanın yanında, paylaşım bağlantıları ile sunucudan sunucuya paylaşım ve mobil aygıtlar ile paylaşım gibi özellikleri etkinleştirebilir.\nBu özellik devre dışı bırakıldığında, sunucu, eşitleme istemcileri ve mobil uygulamalar üzerinden alıcılar ile paylaşılmış dosya ve klasörler kaldırılır. Ayrıntılı bilgi almak için Nextcloud belgelerine bakabilirsiniz.",
-    "Add to a collection" : "Derlemeye ekle",
-    "Details" : "Ayrıntılar",
-    "Rename collection" : "Derlemeyi yeniden adlandır",
+    "Link to a file" : "Bir dosya ile bağla",
+    "Shared" : "Paylaşılan",
     "Share" : "Paylaş",
     "Sharing" : "Paylaşım",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
@@ -136,9 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "Dosyalar yükleniyor...",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı",
-    "This share is password-protected" : "Bu paylaşım parola korumalı",
-    "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
-    "Password" : "Parola"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı"
 },
 "nplurals=2; plural=(n > 1);");

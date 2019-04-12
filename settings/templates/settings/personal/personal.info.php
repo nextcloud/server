@@ -40,7 +40,7 @@ script('settings', [
 			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 				<h3>
 					<label><?php p($l->t('Profile picture')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -95,11 +95,6 @@ script('settings', [
 				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
 			</div>
 		</div>
-		<?php
-			if ($_['show_where_is_your_data_section']) {
-				include __DIR__ . '/partials/where-is-your-data.php';
-			}
-		?>
 	</div>
 
 	<div class="personal-settings-container">
@@ -107,7 +102,7 @@ script('settings', [
 			<form id="displaynameform" class="section">
 				<h3>
 					<label for="displayname"><?php p($l->t('Full name')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -131,7 +126,7 @@ script('settings', [
 			<form id="emailform" class="section">
 				<h3>
 					<label for="email"><?php p($l->t('Email')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -174,7 +169,7 @@ script('settings', [
 			<form id="phoneform" class="section">
 				<h3>
 					<label for="phone"><?php p($l->t('Phone number')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -196,7 +191,7 @@ script('settings', [
 			<form id="addressform" class="section">
 				<h3>
 					<label for="address"><?php p($l->t('Address')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -218,7 +213,7 @@ script('settings', [
 			<form id="websiteform" class="section">
 				<h3>
 					<label for="website"><?php p($l->t('Website')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -267,7 +262,7 @@ script('settings', [
 			<form id="twitterform" class="section">
 				<h3>
 					<label for="twitter"><?php p($l->t('Twitter')); ?></label>
-					<div class="federation-menu">
+					<div class="federation-menu" tabindex="0">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
 						</span>
@@ -351,21 +346,21 @@ script('settings', [
 					</h3>
 					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
 						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($_['activelocale']['name']);?>
+							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
 						<optgroup label="––––––––––"></optgroup>
 						<?php foreach($_['localesForLanguage'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
-								<?php p($locale['name']);?>
+								<?php p($l->t($locale['name']));?>
 							</option>
 						<?php endforeach;?>
 						<optgroup label="––––––––––"></optgroup>
 						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($_['activelocale']['name']);?>
+							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
 						<?php foreach($_['locales'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
-								<?php p($locale['name']);?>
+								<?php p($l->t($locale['name']));?>
 							</option>
 						<?php endforeach;?>
 					</select>
@@ -380,4 +375,9 @@ script('settings', [
 		</div>
 		<span class="msg"></span>
 	</div>
+
+	<div id="personal-settings-group-container">
+
+	</div>
+
 </div>

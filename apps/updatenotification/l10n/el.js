@@ -24,9 +24,7 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Το συγκεκριμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις διακομιστή.",
     "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
     "View changelog" : "Εμφάνιση αλλαγών",
-    "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση",
-    "A new version is available: %s" : "Μία νέα έκδοση είναι διαθέσιμη: %s",
-    "Checked on %s" : "Ελέγχθηκε στις %s",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι."
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι.",
+    "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση"
 },
 "nplurals=2; plural=(n != 1);");

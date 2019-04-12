@@ -58,7 +58,6 @@
     "Enable password recovery:" : "Ŝalti restaŭron de pasvorto:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ŝalti tiun opcion ebligas al vi rehavi aliron al viaj ĉifritaj dosierojn okaze de pasvorta perdo.",
     "Enabled" : "Ŝaltita",
-    "Disabled" : "Malŝaltita",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vi devas transigi viajn ĉifroŝlosilojn el antaŭa versio (ownCloud ⩽ 8.0) al nova. Bv. ruli komandlinie „occ encryption:migrate“ aŭ kontakti vian administranton."
+    "Disabled" : "Malŝaltita"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

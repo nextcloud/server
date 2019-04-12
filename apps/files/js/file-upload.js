@@ -34,12 +34,11 @@
 OC.FileUpload = function(uploader, data) {
 	this.uploader = uploader;
 	this.data = data;
-	var path = '';
+	var basePath = '';
 	if (this.uploader.fileList) {
-		path = OC.joinPaths(this.uploader.fileList.getCurrentDirectory(), this.getFile().name);
-	} else {
-		path = this.getFile().name;
+		basePath = this.uploader.fileList.getCurrentDirectory();
 	}
+	var path = OC.joinPaths(basePath, this.getFile().relativePath || '', this.getFile().name);
 	this.id = 'web-file-upload-' + md5(path) + '-' + (new Date()).getTime();
 };
 OC.FileUpload.CONFLICT_MODE_DETECT = 0;

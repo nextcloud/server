@@ -125,10 +125,7 @@ OC.L10N.register(
     "Add storage" : "저장소 추가",
     "Advanced settings" : "고급 설정",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Are you sure you want to delete this external storage" : "이 외부 저장소를 삭제하시겠습니까",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "일부 외부 마운트 지점을 연결할 수 없습니다. 빨간색으로 표시된 줄을 눌러서 더 많은 정보를 확인하십시오",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
-    "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오."
 },
 "nplurals=1; plural=0;");

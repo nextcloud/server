@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Inga filer här inne",
     "No entries found in this folder" : "Ingenting hittades i denna mapp",
     "Size" : "Storlek",
-    "Modified" : "Modifierad",
-    "Create and edit collaborative tags. These tags affect all users." : "Skapa och redigera samverkanstaggar. Dessa taggar påverkar alla användare."
+    "Modified" : "Modifierad"
 },
 "nplurals=2; plural=(n != 1);");

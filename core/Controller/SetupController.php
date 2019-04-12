@@ -62,6 +62,11 @@ class SetupController {
 			$post['dbpass'] = $post['dbpassword'];
 		}
 
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			$this->displaySetupForbidden();
+			return;
+		}
+
 		if(isset($post['install']) AND $post['install']=='true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
@@ -77,6 +82,10 @@ class SetupController {
 			$options = array_merge($opts, $post);
 			$this->display($options);
 		}
+	}
+
+	private function displaySetupForbidden() {
+		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
 	public function display($post) {
@@ -101,6 +110,13 @@ class SetupController {
 			unlink($this->autoConfigFile);
 		}
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+
+		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			if (!unlink(\OC::$configDir.'/CAN_INSTALL')) {
+				\OC_Template::printGuestPage('', 'installation_incomplete');
+			}
+		}
+
 		\OC_Util::redirectToDefaultPage();
 	}
 

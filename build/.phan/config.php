@@ -128,7 +128,7 @@ return [
 
 	// The number of processes to fork off during the analysis
 	// phase.
-	'processes' => 10,
+	'processes' => 5,
 
 	// Backwards Compatibility Checking. This is slow
 	// and expensive, but you should consider running

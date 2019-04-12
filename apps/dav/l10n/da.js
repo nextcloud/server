@@ -67,7 +67,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Mødet »%s« med %s blev annulleret.",
     "The meeting »%s« with %s was updated." : "Mødet »%s« med %s blev opdateret.",
     "%s invited you to »%s«" : "%s inviterede dig til »%s«",
-    "CalDAV server" : "CalDAV server",
     "Please make sure to properly set up the email settings above." : "Vær venligst sikker på at indstille email indstillingerne ovenover ordenligt."
 },
 "nplurals=2; plural=(n != 1);");

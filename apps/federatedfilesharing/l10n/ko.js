@@ -42,15 +42,7 @@ OC.L10N.register(
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
-    "The mountpoint name contains invalid characters." : "마운트 지점 이름에 잘못된 글자가 포함되어 있습니다.",
-    "Not allowed to create a federated share with the owner." : "소유자와 연합 공유를 만들 수 없음",
-    "Invalid or untrusted SSL certificate" : "유효하지 않거나 신뢰할 수없는 SSL 인증서",
-    "Could not authenticate to remote share, password might be wrong" : "원격 공유에 인증할 수 없습니다. 암호가 잘못되었을 수도 있습니다",
-    "Storage not valid" : "유효하지 않은 저장소",
-    "Federated share added" : "연합 공유를 추가함",
-    "Couldn't add remote share" : "원격 공유를 추가할 수 없음",
     "Sharing %s failed, because this item is already shared with %s" : "%s을(를) 공유할 수 없습니다. 이미 %s 님과 공유되어 있습니다",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud, ownCloud, Pydio를 사용하는 누구나와 공유할 수 있습니다! 공유 대화 상자에서 연합 클라우드 ID를 입력하십시오. person@cloud.example.com 형식입니다"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다."
 },
 "nplurals=1; plural=0;");

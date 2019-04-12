@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Size" : "Μέγεθος",
-    "Modified" : "Τροποποιήθηκε",
-    "Create and edit collaborative tags. These tags affect all users." : "Δημιουργήστε και διορθώστε συνεργατικές ετικέτες. Αυτές οι ετικέτες επηρεάζουν όλους τους χρήστες."
+    "Modified" : "Τροποποιήθηκε"
 },
 "nplurals=2; plural=(n != 1);");

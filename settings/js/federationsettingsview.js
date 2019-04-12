@@ -70,6 +70,16 @@
 				});
 				$icon.append(scopeMenu.$el);
 				$icon.on('click', _.bind(scopeMenu.show, scopeMenu));
+				$icon.on('keydown', function(e) {
+					if (e.keyCode === 32) {
+						// Open the menu when the user presses the space bar
+						e.preventDefault();
+						scopeMenu.show(e);
+					} else if (e.keyCode === 27) {
+						// Close the menu again if opened
+						OC.hideMenus();
+					}
+				}.bind(this));
 
 				// Restore initial state
 				self._setFieldScopeIcon(field, self._config.get(field + 'Scope'));

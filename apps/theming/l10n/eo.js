@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Neniu dosiero alŝutiĝis",
     "Unsupported image type" : "Nesubtenata bildotipo",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vi jam uzas propran etoson. Agordoj de la aplikaĵo „Etosoj“ povus esti anstataŭigitaj de ĝi.",
+    "Theming" : "Etosoj",
     "Legal notice" : "Leĝa regularo",
     "Privacy policy" : "Privateca regularo",
-    "Theming" : "Etosoj",
     "Adjust the Nextcloud theme" : "Modifi la Nextcloud-etoson",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Etosoj ebligas facilan ŝanĝon en la fasado de via servilo kaj de subtenataj klientoj. Tion vidos ĉiuj uzantoj.",
     "Name" : "Nomo",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Alŝuti novan paĝokapan emblemon",
     "Favicon" : "Retpaĝsimbolo",
     "Upload new favicon" : "Alŝuti novan retpaĝsimbolon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro.",
-    "There is no error, the file uploaded with success" : "Ne estas eraro, la dosiero alŝutiĝis sukcese.",
-    "The uploaded file was only partially uploaded" : "La dosiero alŝutiĝis nur parte",
-    "Failed to write file to disk." : "Ne povis skribi dosieron al disko",
-    "A PHP extension stopped the file upload." : "PHP-modulo haltigis la dosieralŝuton.",
-    "You are already using a custom theme" : "Vi jam uziĝas propran etoson",
-    "Web address https://…" : "TTT-adreso https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro."
 },
 "nplurals=2; plural=(n != 1);");

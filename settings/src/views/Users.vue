@@ -56,9 +56,7 @@
 				</div>
 			</AppNavigationSettings>
 		</template>
-		<template #content>
-			<user-list :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
-		</template>
+		<user-list #content :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
 	</AppContent>
 </template>
 

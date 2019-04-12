@@ -45,8 +45,6 @@ class Admin implements ISettings {
 	private $groupManager;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var IUserSession */
-	private $session;
 	/** @var IFactory */
 	private $l10nFactory;
 
@@ -55,14 +53,12 @@ class Admin implements ISettings {
 		UpdateChecker $updateChecker,
 		IGroupManager $groupManager,
 		IDateTimeFormatter $dateTimeFormatter,
-		IUserSession $session,
 		IFactory $l10nFactory
 	) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;
 		$this->groupManager = $groupManager;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->session = $session;
 		$this->l10nFactory = $l10nFactory;
 	}
 

@@ -39,8 +39,6 @@ use OCP\Util;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userSession;
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 	/** @var Admin */
@@ -61,11 +59,10 @@ class AdminTest extends TestCase {
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$this->admin = new Admin(
-			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->userSession, $this->l10nFactory
+			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory
 		);
 	}
 

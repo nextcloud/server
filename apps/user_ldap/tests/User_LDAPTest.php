@@ -1422,7 +1422,7 @@ class User_LDAPTest extends TestCase {
 			->with('uid','password')
 			->willReturn('result');
 
-		$this->assertEquals($this->backend->createUser('uid', 'password'),'result');
+		$this->assertEquals($this->backend->createUser('uid', 'password'),true);
 	}
 
 	public function testCreateUserFailing() {

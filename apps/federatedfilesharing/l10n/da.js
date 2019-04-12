@@ -43,15 +43,7 @@ OC.L10N.register(
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
     "HTML Code:" : "HTMLkode:",
-    "The mountpoint name contains invalid characters." : "Monteringspunktets navn indeholder ugyldige tegn.",
-    "Not allowed to create a federated share with the owner." : "Det er ikke tilladt at danne et datafællesskab med ejeren.",
-    "Invalid or untrusted SSL certificate" : "Ugyldigt eller upålideligt SSL-certifikat",
-    "Could not authenticate to remote share, password might be wrong" : "Kunne ikke godkende fjerndelingen - kodeordet er muilgvis forkert",
-    "Storage not valid" : "Lagerplads er ikke gyldig",
-    "Federated share added" : "Datafællesskabsdeling tilføjet",
-    "Couldn't add remote share" : "Kunne ikke tliføje den ekstern deling",
     "Sharing %s failed, because this item is already shared with %s" : "Der skete en fejl ved deling af %s, objektet er allerede delt med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med hvem som helst som bruger Nextcloud, ownCloud eller Pydio! Bare put deres Federated Cloud ID i delingsdialogen. Det ser sådan her ud person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket eller bruger et selv underskrevet certifikat."
 },
 "nplurals=2; plural=(n != 1);");

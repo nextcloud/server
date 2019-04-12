@@ -125,9 +125,6 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at serveren ikke tillater deling av filtypen %s",
-    "This share is password-protected" : "Denne delingen er passordbeskyttet",
-    "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
-    "Password" : "Passord"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at serveren ikke tillater deling av filtypen %s"
 },
 "nplurals=2; plural=(n != 1);");

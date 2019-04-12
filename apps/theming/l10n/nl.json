@@ -21,9 +21,9 @@
     "No file uploaded" : "Geen bestand geüpload",
     "Unsupported image type" : "Afbeeldingstype wordt niet ondersteund",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Je gebruikt al een aangepast thema. Theming app opties kunnen daardoor worden overschreven.",
+    "Theming" : "Uiterlijk",
     "Legal notice" : "Juridische bepalingen",
     "Privacy policy" : "Privacybeleid",
-    "Theming" : "Uiterlijk",
     "Adjust the Nextcloud theme" : "Nextcloud thema bijstellen",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Thematiseren maakt het mogelijk om uiterlijk en gevoel van je systeem en ondersteunde clients aan te passen. Dit wordt zichtbaar voor alle gebruikers.",
     "Name" : "Naam",
@@ -44,12 +44,6 @@
     "Upload new header logo" : "Upload een nieuwe top afbeelding",
     "Favicon" : "Favorietenpictogram",
     "Upload new favicon" : "Upload een nieuwe favorietenpictogram",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
-    "There is no error, the file uploaded with success" : "Er trad geen fout op, het bestand is succesvol geüpload",
-    "The uploaded file was only partially uploaded" : "Het bestand is slechts gedeeltelijk geüpload",
-    "Failed to write file to disk." : "Schrijven van het bestand naar schijf mislukte.",
-    "A PHP extension stopped the file upload." : "Een PHP extensie heeft de upload gestopt.",
-    "You are already using a custom theme" : "Je gebruikt al een maatwerkthema",
-    "Web address https://…" : "Webadres https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

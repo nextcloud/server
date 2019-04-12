@@ -14,7 +14,6 @@ OC.L10N.register(
     "Add client" : "Ügyfél hozzáadás",
     "Add" : "Hozzáadás",
     "Show client secret" : "Kliens titkosítási kulcs mutatása",
-    "Delete" : "Törlés",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 megengedi külső szolgáltatásoknak, hogy hozzáférést kérjenek ehhez: %s."
+    "Delete" : "Törlés"
 },
 "nplurals=2; plural=(n != 1);");

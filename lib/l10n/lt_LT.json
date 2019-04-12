@@ -3,7 +3,6 @@
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tai, dažniausiai, gali būti ištaisyta suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo",
     "See %s" : "Žiūrėkite %s",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Tai, dažniausiai, gali būti pataisyta, suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo. Žiūrėkite %s",
-    "The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server." : "Programėlės %$1s failai buvo pakeisti neteisingai. Įsitikinkite, kad versija yra suderinama su serveriu.",
     "Sample configuration detected" : "Aptiktas konfigūracijos pavyzdys",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Pastebėta, kad nukopijuota pavyzdinė konfigūracija. Tai gali pažeisti jūsų diegimą ir yra nepalaikoma. Prieš atliekant pakeitimus config.php faile, prašome perskaityti dokumentaciją.",
     "%1$s and %2$s" : "%1$s ir %2$s",
@@ -82,6 +81,7 @@
     "You need to provide a password to create a public link, only protected links are allowed" : "Viešoms nuorodoms būtinas slaptažodis, leidžiamos tik apsaugotos nuorodos.",
     "Sharing %s failed, because sharing with links is not allowed" : "Bendrinimas %s nepavyko, kadangi bendrinimas su nuorodomis yra neleidžiamas.",
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
+    "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Negalima nustatyti galiojimo pabaigos datos. Bendrinimas negali pasibaigti vėliau nei %s po jo pasidalinimo",
     "Cannot set expiration date. Expiration date is in the past" : "Nepavyko nustatyti galiojimo datos. Galiojimo data yra praėjęs laikas.",
     "Sharing failed, because the user %s is the original sharer" : "Bendrinimas nepavyko, nes naudotojas %s yra bendrintojas.",
     "Sharing %s failed, because resharing is not allowed" : "%s bendrinimas nepavyko, nes perskirstymas yra neleidžiamas.",
@@ -190,11 +190,6 @@
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
     "Library %s with a version higher than %s is required - available version %s." : "Bibliotekos %s versija turi būti aukštesnė nei %s - turima versija %s.",
     "Library %s with a version lower than %s is required - available version %s." : "Bibliotekos %s versija turi būti žemesnė nei %s - turima versija %s.",
-    "APCu" : "APCu",
-    "Redis" : "Redis",
-    "Encryption" : "Šifravimas",
-    "Tips & tricks" : "Patarimai ir gudrybės",
-    "Sync clients" : "Sinchronizavimo klientas",
     "Sharing %s failed, because the user %s does not exist" : "%s bendrinimas nepavyko, nes naudotojas %s neegzistuoja",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "%s bendrinimas nepavyko, nes naudotojas %s nėra tos pačios grupės, kaip %s, narys.",
     "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
@@ -207,8 +202,6 @@
     "%s shared »%s« with you" : "%s pasidalino »%s« su jumis",
     "%s shared »%s« with you." : "%s pasidalino »%s« su Jumis.",
     "%s via %s" : "%s per %s",
-    "No app name specified" : "Nenurodytas programėlės pavadinimas",
-    "App '%s' could not be installed!" : "Nepavyko įdiegti \"%s\" programėlės!",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" negali būti įdiegta, nes nėra įvykdytos: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

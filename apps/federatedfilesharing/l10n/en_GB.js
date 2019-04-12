@@ -44,15 +44,7 @@ OC.L10N.register(
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
-    "The mountpoint name contains invalid characters." : "The mountpoint name contains invalid characters.",
-    "Not allowed to create a federated share with the owner." : "Not allowed to create a federated share with the owner.",
-    "Invalid or untrusted SSL certificate" : "Invalid or untrusted SSL certificate",
-    "Could not authenticate to remote share, password might be wrong" : "Could not authenticate to remote share, password might be wrong",
-    "Storage not valid" : "Storage not valid",
-    "Federated share added" : "Federated share added",
-    "Couldn't add remote share" : "Couldn't add remote share",
     "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate."
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,7 +55,6 @@ OC.L10N.register(
     "No files in here" : "ファイルがありません",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Size" : "サイズ",
-    "Modified" : "更新日時",
-    "Create and edit collaborative tags. These tags affect all users." : "コラボタグの作成と編集をします。このタグはすべてのユーザーに影響します。"
+    "Modified" : "更新日時"
 },
 "nplurals=1; plural=0;");

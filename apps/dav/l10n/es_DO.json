@@ -61,7 +61,6 @@
     "The meeting »%s« with %s was canceled." : "La cita »%s« con %s fue cancelada.",
     "The meeting »%s« with %s was updated." : "La reunión »%s« con %s ha sido actualizada.",
     "%s invited you to »%s«" : "%s te ha invitado a »%s«",
-    "CalDAV server" : "Servidor CalDAV",
     "Please make sure to properly set up the email settings above." : "Por favor asegurarte de establecer correctamente las configuraciones de correo anteriores. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

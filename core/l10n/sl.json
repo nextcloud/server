@@ -247,13 +247,11 @@
     "Upgrade via web on my own risk" : "Posodobi preko spleta na moje tveganje",
     "This %s instance is currently in maintenance mode, which may take a while." : "Strežnik %s je trenutno v načinu vzdrževanja, kar lahko zadrži izvajanje postopka.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
-    "Repair warning: " : "Opozorilo popravila:",
-    "Repair error: " : "Napaka popravila:",
     "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Med preverjanjem celovitosti kode je prišlo do napak. Več podrobnosti …</a>",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Povezava za ponastavitev gesla je bila poslana na naveden elektronski naslov. V kolikor sporočila ne dobite v kratkem, preverite tudi mapo neželene pošte.<br> Če sporočila ni niti v tej mapi, stopite v stik s skrbnikom.",
-    "Error setting expiration date" : "Napaka nastavljanja datuma preteka",
-    "The public link will expire no later than {days} days after it is created" : "Javna povezava bo potekla {days} dni po ustvarjanju.",
+    "Copy URL" : "Kopiraj naslov URL",
+    "Enable" : "Omogoči",
     "{sharee} (group)" : "{sharee} (skupina)",
     "{sharee} (remote)" : "{sharee} (oddaljeno)",
     "{sharee} (email)" : "{sharee} (email)",
@@ -263,16 +261,10 @@
     "For larger installations we recommend to choose a different database backend." : "Za večje namestitve je priporočljivo uporabiti drug ozadnji program zbirke podatkov.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Uporaba SQLite ni priporočljiva iz varnostnih razlogov, še posebej če se sistem krajevno usklajuje z namizjem prek odjemalca.",
     "Wrong password." : "Napačno geslo!",
-    "Stay logged in" : "Ohrani prijavo",
-    "Back to log in" : "Nazaj na prijavo",
-    "Alternative Logins" : "Druge prijavne možnosti",
     "Redirecting …" : "Presumerjam...",
     "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Na tvojem računu je vključena napredna varnost. Prosim, prijavi se z drugim korakom.",
-    "Add \"%s\" as trusted domain" : "Dodaj \"%s\" kot varno domeno",
     "%s will be updated to version %s" : "%s bo posodobljen na različico %s.",
     "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena, ko bo %s spet na voljo.",
-    "Thank you for your patience." : "Hvala za potrpežljivost!",
-    "Copy URL" : "Kopiraj naslov URL",
-    "Enable" : "Omogoči"
+    "Thank you for your patience." : "Hvala za potrpežljivost!"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

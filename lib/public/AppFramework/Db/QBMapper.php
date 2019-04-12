@@ -114,7 +114,8 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
-			$qb->setValue($column, $qb->createNamedParameter($value));
+			$type = $this->getParameterTypeForProperty($entity, $property);
+			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
 		$qb->execute();
@@ -181,15 +182,46 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
-			$qb->set($column, $qb->createNamedParameter($value));
+			$type = $this->getParameterTypeForProperty($entity, $property);
+			$qb->set($column, $qb->createNamedParameter($value, $type));
 		}
 
 		$qb->where(
-			$qb->expr()->eq('id', $qb->createNamedParameter($id))
+			$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
 		);
 		$qb->execute();
 
 		return $entity;
+	}
+
+	/**
+	 * Returns the type parameter for the QueryBuilder for a specific property
+	 * of the $entity
+	 *
+	 * @param Entity $entity   The entity to get the types from
+	 * @param string $property The property of $entity to get the type for
+	 * @return int
+	 * @since 16.0.0
+	 */
+	protected function getParameterTypeForProperty(Entity $entity, string $property): int {
+		$types = $entity->getFieldTypes();
+
+		if(!isset($types[ $property ])) {
+			return IQueryBuilder::PARAM_STR;
+		}
+
+		switch($types[ $property ]) {
+			case 'int':
+			case 'integer':
+				return IQueryBuilder::PARAM_INT;
+			case 'string':
+				return IQueryBuilder::PARAM_STR;
+			case 'bool':
+			case 'boolean':
+				return IQueryBuilder::PARAM_BOOL;
+		}
+
+		return IQueryBuilder::PARAM_STR;
 	}
 
 	/**

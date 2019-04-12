@@ -116,10 +116,7 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "Are you sure you want to delete this external storage" : "Er du sikker på at du vil slette denne eksterne lager?",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Nogle af de konfigureret eksterne mount points er ikke forbundet. Klik venligst på de(n) røde række(r) for mere information",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det.",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ikke installeret. Monteringen af %s er ikke mulig. Anmod din systemadministrator om at installere det."
 },
 "nplurals=2; plural=(n != 1);");

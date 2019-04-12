@@ -388,7 +388,7 @@ class OC {
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = \OC::$server->getL10N('core');
-			$hint = $l->t('The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
+			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OC\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
 

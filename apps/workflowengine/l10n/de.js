@@ -69,9 +69,9 @@ OC.L10N.register(
     "Check %s is invalid" : "Die Prüfung %s ist ungültig",
     "Check #%s does not exist" : "Die Prüfung #%s existiert nicht",
     "Tag management" : "Schlagwortverwaltung",
-    "Files workflow engine" : "Datei-Workflow-Engine",
+    "Files workflow engine" : "Datei-Arbeitsablauf-Engine",
     "Open documentation" : "Dokumentation öffnen",
     "Loading…" : "Laden…",
-    "Workflow" : "Workflow"
+    "Workflow" : "Arbeitsablauf"
 },
 "nplurals=2; plural=(n != 1);");

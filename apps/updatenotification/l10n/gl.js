@@ -4,7 +4,7 @@ OC.L10N.register(
     "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar.",
     "Update notifications" : "Actualizar as notificacións",
     "Channel updated" : "Canle actualizada",
-    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende vai %d días para comprobar se hai novas actualizacións.",
+    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende hai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Revise os ficheiros de rexistro de Nextcloud e do servidor na busca de erros.",
     "Update to %1$s is available." : "Está dispoñíbel  unha actualización para %1$s.",
     "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s.",
@@ -42,12 +42,10 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  aplicación non ten unha actualización dispoñíbel para esta versión","<strong>%n</strong> aplicativos non teñen unha actualización dispoñíbel para esta versión"],
-    "Could not start updater, please try the manual update" : "Non foi posíbel iniciar o actualizador, tente a actualización manualmente",
-    "A new version is available: %s" : "Hai dispoñíbel unha versión: %s",
-    "Checked on %s" : "Revisado o %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Sempre poderá actualizar á versión más recente ou á canle experimental, mais nunca poderá volver a unha canle máis estábel.",
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>production</strong> fornecerá sempre o último nivel de parches, mais non se actualizará á seguinte versión maior de inmediato. Esa actualización xeralmente acontece coa segunda publicación menor (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> é a versión estábel máis recente. É axeitada para uso en produción e actualizarase sempre á última versión maior.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> é unha versión preliminar só para probar funcionalidades novas, non para contornos de produción."
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> é unha versión preliminar só para probar funcionalidades novas, non para contornos de produción.",
+    "Could not start updater, please try the manual update" : "Non foi posíbel iniciar o actualizador, tente a actualización manualmente"
 },
 "nplurals=2; plural=(n != 1);");

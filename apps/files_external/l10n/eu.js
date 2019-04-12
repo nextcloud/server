@@ -67,8 +67,6 @@ OC.L10N.register(
     "Configuration" : "Konfigurazioa",
     "Available for" : "Hauentzat eskuragarri",
     "Add storage" : "Gehitu biltegiratzea",
-    "Advanced settings" : "Ezarpen aurreratuak",
-    "OpenStack" : "OpenStack",
-    "Allow users to mount the following external storage" : "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen"
+    "Advanced settings" : "Ezarpen aurreratuak"
 },
 "nplurals=2; plural=(n != 1);");

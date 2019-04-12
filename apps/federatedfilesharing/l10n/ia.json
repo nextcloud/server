@@ -35,12 +35,6 @@
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "The mountpoint name contains invalid characters." : "Le nomine pro le puncto de montage contine characteres non valide.",
-    "Not allowed to create a federated share with the owner." : "Il non es permittite crear le Compartir Federate con le proprietario.",
-    "Invalid or untrusted SSL certificate" : "Certificato SSL non valide o non fiduciari",
-    "Could not authenticate to remote share, password might be wrong" : "Impossibile authenticar al Compartir Remote, le contrasigno debe esser incorrecte",
-    "Storage not valid" : "Immagazinage non valide",
-    "Couldn't add remote share" : "Impossibile adder le Compartir Remote",
     "Sharing %s failed, because this item is already shared with %s" : "Compartir %s falleva, proque iste elemento ja es compartite con %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartir %s falleva, il es impossibile trovar %s: possibilemente le servitor es actualmente non accessibile o usa un certificato auto-signate."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

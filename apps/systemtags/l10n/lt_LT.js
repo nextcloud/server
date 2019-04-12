@@ -45,6 +45,7 @@ OC.L10N.register(
     "Create a new tag" : "Sukurti naują žymę",
     "Name" : "Pavadinimas",
     "Public" : "Vieša",
+    "Restricted" : "Apribota",
     "Invisible" : "Nematoma",
     "Delete" : "Ištrinti",
     "Reset" : "Atstatyti",

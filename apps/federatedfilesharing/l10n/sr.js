@@ -51,15 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
-    "The mountpoint name contains invalid characters." : "Име тачке монтирања садржи неисправне карактере.",
-    "Not allowed to create a federated share with the owner." : "Није дозвољено да направите здружено дељење са власником.",
-    "Invalid or untrusted SSL certificate" : "Неисправан или SSL сертификат без поверења",
-    "Could not authenticate to remote share, password might be wrong" : "Удаљено дељење не може да провери Ваш идентитет, можда лозинка није исправна",
-    "Storage not valid" : "Складиште није исправно",
-    "Federated share added" : "Здружено дељење додато",
-    "Couldn't add remote share" : "Не могу да додам удаљено дељење",
     "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд, Оунклауд или Пидио. Само унесите њихов ИД Здруженог Облака у дијалог за дељење. ИД изгледа нешто попут person@cloud.example.com"
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

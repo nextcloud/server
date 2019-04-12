@@ -75,7 +75,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Dein Anwesenheits-Status wurde aktualisiert.",
     "Calendar server" : "Kalender-Server",
-    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installiere außerdem die {calendarappstoreopen}Kalender-App{linkclose}, oder {calendardocopen}verbinde deinen Desktop & Mobilgerät zur Synchronisierung ↗{linkclose}.",
+    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installiere außerdem die {calendarappstoreopen}Kalender-App{linkclose}, oder {calendardocopen}verbinde Deinen Desktop & Mobilgerät zur Synchronisierung ↗{linkclose}.",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Bitte stelle sicher, dass Du {emailopen}den E-Mail Server{linkclose} ordnungsgemäß einrichtest.",
     "Automatically generate a birthday calendar" : "Automatisch einen Kalender für Geburtstage erstellen",
@@ -85,7 +85,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Der Termin »%s« mit %s wurde abgesagt.",
     "The meeting »%s« with %s was updated." : "Der Termin  »%s« mit  %s wurde aktualisiert.",
     "%s invited you to »%s«" : "%s hat Dich zu »%s« eingeladen",
-    "CalDAV server" : "CalDAV-Server",
     "Please make sure to properly set up the email settings above." : "Bitte sicherstellen, dass die E-Mail Einstellungen oben korrekt angegeben sind."
 },
 "nplurals=2; plural=(n != 1);");

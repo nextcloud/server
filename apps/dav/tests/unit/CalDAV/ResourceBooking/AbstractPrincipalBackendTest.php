@@ -519,6 +519,125 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 		];
 	}
 
+	public function testSearchPrincipalsByCalendarUserAddressSet() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->exactly(2))
+			->method('getUser')
+			->with()
+			->will($this->returnValue($user));
+		$this->groupManager->expects($this->exactly(2))
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->returnValue(['group1', 'group2']));
+
+		$queryBuilder1 = $this->createMock(IQueryBuilder::class);
+		$stmt1 = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
+		$expr1 = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+
+		$this->dbConnection->expects($this->at(0))
+			->method('getQueryBuilder')
+			->with()
+			->will($this->returnValue($queryBuilder1));
+		$this->dbConnection->expects($this->at(1))
+			->method('escapeLikeParameter')
+			->with('foo')
+			->will($this->returnValue('escapedFoo'));
+
+		$queryBuilder1->method('expr')
+			->will($this->returnValue($expr1));
+
+		$expr1->method('iLike')
+			->will($this->returnValueMap([
+				['email', 'createNamedParameter-1', null, 'ILIKE_CLAUSE_1'],
+			]));
+
+		$queryBuilder1->method('expr')
+			->will($this->returnValue($expr1));
+
+		$queryBuilder1->method('createNamedParameter')
+			->will($this->returnValueMap([
+				['%escapedFoo%', \PDO::PARAM_STR, null, 'createNamedParameter-1'],
+			]));
+
+		$queryBuilder1->expects($this->at(0))
+			->method('select')
+			->with(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
+			->will($this->returnValue($queryBuilder1));
+		$queryBuilder1->expects($this->at(1))
+			->method('from')
+			->with($this->expectedDbTable)
+			->will($this->returnValue($queryBuilder1));
+		$queryBuilder1->expects($this->at(4))
+			->method('where')
+			->with('ILIKE_CLAUSE_1')
+			->will($this->returnValue($queryBuilder1));
+		$queryBuilder1->expects($this->at(5))
+			->method('execute')
+			->with()
+			->will($this->returnValue($stmt1));
+
+		$stmt1->expects($this->at(0))
+			->method('fetch')
+			->with(\PDO::FETCH_ASSOC)
+			->will($this->returnValue([
+				'id' => 0,
+				'backend_id' => 'db',
+				'resource_id' => '1',
+				'email' => '1',
+				'displayname' => 'Resource 1',
+				'group_restrictions' => null,
+			]));
+		$stmt1->expects($this->at(1))
+			->method('fetch')
+			->with(\PDO::FETCH_ASSOC)
+			->will($this->returnValue([
+				'id' => 1,
+				'backend_id' => 'db',
+				'resource_id' => '2',
+				'email' => '2',
+				'displayname' => 'Resource 2',
+				'group_restrictions' => '',
+			]));
+		$stmt1->expects($this->at(2))
+			->method('fetch')
+			->with(\PDO::FETCH_ASSOC)
+			->will($this->returnValue([
+				'id' => 2,
+				'backend_id' => 'db',
+				'resource_id' => '3',
+				'email' => '3',
+				'displayname' => 'Resource 3',
+				'group_restrictions' => '["group3"]',
+			]));
+		$stmt1->expects($this->at(3))
+			->method('fetch')
+			->with(\PDO::FETCH_ASSOC)
+			->will($this->returnValue([
+				'id' => 99,
+				'backend_id' => 'db',
+				'resource_id' => '99',
+				'email' => '99',
+				'displayname' => 'Resource 99',
+				'group_restrictions' => '["group1", "group2"]',
+			]));
+		$stmt1->expects($this->at(4))
+			->method('fetch')
+			->with(\PDO::FETCH_ASSOC)
+			->will($this->returnValue(null));
+
+		$actual = $this->principalBackend->searchPrincipals($this->principalPrefix, [
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => 'foo',
+		]);
+
+		$this->assertEquals(
+			str_replace('%prefix%', $this->principalPrefix, [
+				'%prefix%/db-1',
+				'%prefix%/db-2',
+				'%prefix%/db-99',
+			]),
+			$actual);
+	}
+
 	public function testSearchPrincipalsEmptySearchProperties() {
 		$this->userSession->expects($this->never())
 			->method('getUser');

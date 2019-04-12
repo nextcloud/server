@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "Les partages seront affichés ici",
     "Restore share" : "Restaurer le partage",
     "Something happened. Unable to restore the share." : "Quelque chose s'est passé. Impossible de restaurer le partage.",
-    "file" : "fichier",
     "Move or copy" : "Déplacer ou copier",
     "Download" : "Télécharger",
     "Delete" : "Supprimer",
@@ -112,9 +111,8 @@ OC.L10N.register(
     "Share API is disabled" : "l'API de partage est désactivée",
     "File sharing" : "Partage de fichier",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Cette application permet aux utilisateurs de partager des fichiers dans Nextcloud. Si cette option est activée, l'administrateur peut choisir quels groupes peuvent partager des fichiers. Les utilisateurs concernés peuvent ensuite partager des fichiers et des dossiers avec d'autres utilisateurs et groupes au sein de Nextcloud. De plus, si l'administrateur active la fonction de lien de partage, un lien externe peut être utilisé pour partager des fichiers avec d'autres utilisateurs en dehors de Nextcloud. Les administrateurs peuvent également faire respecter les mots de passe, les dates d'expiration et permettre le partage de serveur à serveur via des liens de partage, aussi bien que le partage à partir d'appareils mobiles.\nDésactiver cette fonction supprime les fichiers et dossiers partagés sur le serveur pour tous les destinataires de partage, ainsi que sur les clients de synchronisation et les applications mobiles. Plus d'informations sont disponibles dans la documentation Nextcloud.",
-    "Add to a collection" : "Ajouter à une collection",
-    "Details" : "Propriétés",
-    "Rename collection" : "Renommer la collection",
+    "Link to a file" : "Lier à un fichier",
+    "Shared" : "Partagé",
     "Share" : "Partager",
     "Sharing" : "Partage",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
@@ -136,9 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "Téléversement des fichiers...",
     "Uploaded files:" : "Fichiers téléversés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Le partage %s a échoué parce que l'infrastructure n'autorise pas les partages du type %s",
-    "This share is password-protected" : "Ce partage est protégé par un mot de passe",
-    "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
-    "Password" : "Mot de passe"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Le partage %s a échoué parce que l'infrastructure n'autorise pas les partages du type %s"
 },
 "nplurals=2; plural=(n > 1);");

@@ -77,12 +77,11 @@ class BackgroundRepairTest extends TestCase {
 		$this->logger = $this->getMockBuilder(ILogger::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->job = $this->getMockBuilder(BackgroundRepair::class)
+			->setConstructorArgs([$this->dispatcher])
 			->setMethods(['loadApp'])
 			->getMock();
-
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->job->setDispatcher($this->dispatcher);
 	}
 
 	public function testNoArguments() {

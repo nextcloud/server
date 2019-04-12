@@ -192,7 +192,6 @@ class Manager implements IManager {
 			1 => [new Section('server', $this->l->t('Basic settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
 			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
-			30 => [new Section('theming', $this->l->t('Theming'), 0, $this->url->imagePath('settings', 'theming-dark.svg'))],
 			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts.svg'))],
 			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
 		];
@@ -236,10 +235,6 @@ class Manager implements IManager {
 		if ($section === 'security') {
 			/** @var ISettings $form */
 			$form = $this->container->query(Admin\Security::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'theming') {
-			$form = $this->container->query(Theming\ServerInfo::class);
 			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'sharing') {

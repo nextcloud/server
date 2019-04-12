@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
-    "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
+    "{name} backup codes" : "Kody kopii zapasowej {name}",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "To są kody zapasowe. Proszę je zapisać i/lub wydrukować, ponieważ później nie będzie można ich ponownie odczytać",
     "Save backup codes" : "Zapisz kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
@@ -21,6 +21,7 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
     "Submit" : "Prześlij",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Kody zapasowe zostały wygenerowane. {{used}} z {{total}} kodów zostało wykorzystanych.",
+    "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
     "activated" : "aktowowane",
     "updated" : "zaktualizowane",
     "mounted" : "zamontowane",

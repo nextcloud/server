@@ -162,7 +162,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 				if ($node->class instanceof Name) {
 					$this->checkBlackList($node->class->toString(), CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED, $node);
 				}
-				if ($node->class instanceof Node\Expr\Variable) {
+				if ($node->class instanceof Node\Expr\Variable || $node->class instanceof Node\Expr\PropertyFetch) {
 					/**
 					 * TODO: find a way to detect something like this:
 					 *       $c = "OC_API";

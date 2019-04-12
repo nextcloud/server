@@ -190,9 +190,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch(NotOnLDAP $e) {
-			if($this->ocConfig->getSystemValue('loglevel', ILogger::WARN) === ILogger::DEBUG) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
-			}
+			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap', 'level' => ILogger::DEBUG]);
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
@@ -615,11 +613,20 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * create new user
 	 * @param string $username username of the new user
 	 * @param string $password password of the new user
-	 * @return bool was the user created?
+	 * @throws \UnexpectedValueException
+	 * @return bool
 	 */
 	public function createUser($username, $password) {
 		if ($this->userPluginManager->implementsActions(Backend::CREATE_USER)) {
-			return $this->userPluginManager->createUser($username, $password);
+			if ($dn = $this->userPluginManager->createUser($username, $password)) {
+				if (is_string($dn)) {
+					//updates user mapping
+					$this->access->dn2ocname($dn, $username, true);
+				} else {
+					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+				}
+			}
+			return (bool) $dn;
 		}
 		return false;
 	}

@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Aucun fichier téléversé",
     "Unsupported image type" : "Ce type d'image n'est pas pris en charge",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
+    "Theming" : "Personnaliser l'apparence",
     "Legal notice" : "Notice légale",
     "Privacy policy" : "Politique de confidentialité",
-    "Theming" : "Personnaliser l'apparence",
     "Adjust the Nextcloud theme" : "Modifier le thème Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Cette extension permet de personnaliser facilement l'apparence de votre instance et des clients supportés. La personnalisation de l'apparence sera visible par tous les utilisateurs.",
     "Name" : "Nom",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Téléverser un nouveau logo d'en-tête",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Téléverser un nouveau favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur.",
-    "There is no error, the file uploaded with success" : "Aucune erreur, le fichier a été téléversé avec succès",
-    "The uploaded file was only partially uploaded" : "Le fichier n'a été que partiellement téléversé",
-    "Failed to write file to disk." : "Erreur d'écriture du fichier sur le disque.",
-    "A PHP extension stopped the file upload." : "Une extension PHP a arrêté le téléversement du fichier.",
-    "You are already using a custom theme" : "Vous utilisez déjà un thème personnalisé",
-    "Web address https://…" : "Adresse du serveur https://…"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur."
 },
 "nplurals=2; plural=(n > 1);");

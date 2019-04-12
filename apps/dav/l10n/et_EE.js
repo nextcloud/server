@@ -56,7 +56,6 @@ OC.L10N.register(
     "The meeting »%s« with %s was canceled." : "Koosolek »%s« osaleja(te)ga %s tühistati.",
     "The meeting »%s« with %s was updated." : "Koosolek »%s« osaleja(te)ga %s uuendati.",
     "%s invited you to »%s«" : "%s kutsus sind »%s«",
-    "CalDAV server" : "CalDAV server",
     "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud."
 },
 "nplurals=2; plural=(n != 1);");

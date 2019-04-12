@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Identificador del veceru",
     "Secret" : "Secretu",
     "Add client" : "Amestar veceru",
-    "Add" : "Amestar",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 permite a los servicios esternos solicitar accesu a %s."
+    "Add" : "Amestar"
 },
 "nplurals=2; plural=(n != 1);");

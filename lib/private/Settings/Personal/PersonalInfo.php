@@ -26,7 +26,6 @@
 namespace OC\Settings\Personal;
 
 use OC\Accounts\AccountManager;
-use OC\Settings\Theming\ServerInfo;
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -39,7 +38,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
-use OCP\Encryption\IManager as EncryptionManager;
 
 class PersonalInfo implements ISettings {
 
@@ -57,18 +55,14 @@ class PersonalInfo implements ISettings {
 	private $l10nFactory;
 	/** @var IL10N */
 	private $l;
-	/** @var EncryptionManager */
-	private $encryptionManager;
 
 	/**
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param AccountManager $accountManager
-	 * @param IAppManager $appManager
 	 * @param IFactory $l10nFactory
 	 * @param IL10N $l
-	 * @param EncryptionManager $encryptionManager
 	 */
 	public function __construct(
 		IConfig $config,
@@ -77,8 +71,7 @@ class PersonalInfo implements ISettings {
 		AccountManager $accountManager,
 		IAppManager $appManager,
 		IFactory $l10nFactory,
-		IL10N $l,
-		EncryptionManager $encryptionManager
+		IL10N $l
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -87,7 +80,6 @@ class PersonalInfo implements ISettings {
 		$this->appManager = $appManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
-		$this->encryptionManager = $encryptionManager;
 	}
 
 	/**
@@ -143,38 +135,10 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $userData[AccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[AccountManager::PROPERTY_TWITTER]['verified'],
 			'groups' => $this->getGroups($user),
-		] + $this->getWhereIsYourDataParams() + $messageParameters + $languageParameters + $localeParameters;
+		] + $messageParameters + $languageParameters + $localeParameters;
+
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
-	}
-
-	/**
-	 * Returns the "where is your data" template params.
-	 *
-	 * @return array
-	 */
-	private function getWhereIsYourDataParams(): array {
-
-		$adminContactConfigId = $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_ADMIN_CONTACT);
-		$adminContact = $this->userManager->get($adminContactConfigId);
-
-		$params = [
-			'dataLocation' => $this->config->getSystemValue(ServerInfo::SETTING_LOCATION),
-			'provider' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER),
-			'providerLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_WEBSITE),
-			'providerPrivacyLink' => $this->config->getSystemValue(ServerInfo::SETTING_PROVIDER_PRIVACY_LINK),
-			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
-			'adminName' => $adminContact !== null ? $adminContact->getDisplayName() : '',
-			'adminMail' => $adminContact !== null ? $adminContact->getEMailAddress() : ''
-		];
-
-		$params['show_where_is_your_data_section'] = empty($params['dataLocation']) === false
-			|| empty($params['provider']) === false
-			|| $params['encryptionEnabled'] === true
-			|| empty($params['adminName']) === false;
-
-		return $params;
-
 	}
 
 	/**
@@ -238,7 +202,7 @@ class PersonalInfo implements ISettings {
 		$userLang = $languages['commonlanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));
+			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));		
 			$userLang = $languages['languages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name

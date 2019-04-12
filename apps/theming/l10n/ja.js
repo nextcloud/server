@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "ファイルがアップロードされていません",
     "Unsupported image type" : "サポートされていない画像形式です",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "あなたはすでにカスタムテーマを使用しています。 テーマ設定の設定が上書きされる可能性があります。",
+    "Theming" : "テーマ",
     "Legal notice" : "法的通知",
     "Privacy policy" : "プライバシーポリシー",
-    "Theming" : "テーマ",
     "Adjust the Nextcloud theme" : "Nextcloudテーマを調整する",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "テーマでは、あなたのインスタンスとサポートされたクライアントのルック＆フィールを簡単に変更できます。この変更はすべてのユーザーが対象となります。",
     "Name" : "名前",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "新しいヘッダーロゴをアップロード",
     "Favicon" : "Favicon",
     "Upload new favicon" : "新しいfaviconをアップロード",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。",
-    "There is no error, the file uploaded with success" : "ファイルはエラーなくアップロードされました",
-    "The uploaded file was only partially uploaded" : "アップロードファイルは一部分だけアップロードされました",
-    "Failed to write file to disk." : "ファイルをディスクに書き込めませんでした",
-    "A PHP extension stopped the file upload." : "PHP拡張でファイルのアップロードが停止されています",
-    "You are already using a custom theme" : "すでにカスタムテーマを利用しています",
-    "Web address https://…" : "Webアドレス https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。"
 },
 "nplurals=1; plural=0;");

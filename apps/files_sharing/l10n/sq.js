@@ -105,9 +105,6 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
     "Uploaded files:" : "Skedarët e ngarkuar:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s",
-    "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
-    "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
-    "Password" : "Fjalëkalim"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -37,7 +37,6 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OC_Util;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
@@ -62,8 +61,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $clientService;
 	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var OC_Util */
-	private $util;
 	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var ILogger */
@@ -99,8 +96,6 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
-		$this->util = $this->getMockBuilder('\OC_Util')
-			->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)
@@ -130,7 +125,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->config,
 				$this->clientService,
 				$this->urlGenerator,
-				$this->util,
 				$this->l10n,
 				$this->checker,
 				$this->logger,
@@ -590,7 +584,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->config,
 				$this->clientService,
 				$this->urlGenerator,
-				$this->util,
 				$this->l10n,
 				$this->checker,
 				$this->logger,
@@ -624,7 +617,6 @@ class CheckSetupControllerTest extends TestCase {
 				$this->config,
 				$this->clientService,
 				$this->urlGenerator,
-				$this->util,
 				$this->l10n,
 				$this->checker,
 				$this->logger,
@@ -1393,7 +1385,6 @@ Array
 				$this->config,
 				$this->clientService,
 				$this->urlGenerator,
-				$this->util,
 				$this->l10n,
 				$this->checker,
 				$this->logger,
@@ -1442,7 +1433,6 @@ Array
 			$this->config,
 			$this->clientService,
 			$this->urlGenerator,
-			$this->util,
 			$this->l10n,
 			$this->checker,
 			$this->logger,

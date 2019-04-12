@@ -89,7 +89,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Afegeix al teu NextCloud",
     "Share API is disabled" : "L'API compartida està desactivada",
     "File sharing" : "Compartir arxius",
-    "Rename collection" : "Canvia el nom de la col·lecció",
     "Share" : "Comparteix",
     "Sharing" : "Compartir",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
@@ -107,9 +106,6 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "Pujant arxius...",
     "Uploaded files:" : "Arxius pujats:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "S'ha produït un error en compartir %s perquè la part posterior no permet que les accions del tipus%s",
-    "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
-    "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",
-    "Password" : "Contrasenya"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "S'ha produït un error en compartir %s perquè la part posterior no permet que les accions del tipus%s"
 },
 "nplurals=2; plural=(n != 1);");

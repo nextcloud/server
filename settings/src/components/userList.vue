@@ -357,6 +357,7 @@ export default {
 			})
 			.then(() => {
 				this.resetForm()
+				this.$refs.newusername.focus();
 			})
 			.catch((error) => {
 				this.loading.all = false;

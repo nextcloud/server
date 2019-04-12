@@ -239,7 +239,11 @@ class OC_Mount_Config {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
-		foreach ($options as &$option) {
+		foreach ($options as $key => &$option) {
+			if($key === 'password') {
+				// no replacements in passwords
+				continue;
+			}
 			$option = self::substitutePlaceholdersInConfig($option);
 			if(!self::arePlaceholdersSubstituted($option)) {
 				\OC::$server->getLogger()->error(

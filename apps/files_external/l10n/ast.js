@@ -71,8 +71,6 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
-    "Advanced settings" : "Axustes avanzaos",
-    "OpenStack" : "OpenStack",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu"
+    "Advanced settings" : "Axustes avanzaos"
 },
 "nplurals=2; plural=(n != 1);");

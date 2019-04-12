@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Aggiungi client",
     "Add" : "Aggiungi",
     "Show client secret" : "Mostra segreto del client",
-    "Delete" : "Elimina",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 consente a servizi esterni di richiedere accesso al tuo %s."
+    "Delete" : "Elimina"
 },
 "nplurals=2; plural=(n != 1);");

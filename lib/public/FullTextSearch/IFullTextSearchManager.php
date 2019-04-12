@@ -78,6 +78,16 @@ interface IFullTextSearchManager {
 	 */
 	public function registerSearchService(ISearchService $searchService);
 
+	/**
+	 * returns true is Full Text Search is available (app is present and Service
+	 * are registered)
+	 *
+	 * @since 16.0.0
+	 *
+	 * @return bool
+	 */
+	public function isAvailable(): bool;
+
 
 	/**
 	 * Add the Javascript API in the navigation page of an app.

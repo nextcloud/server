@@ -39,12 +39,10 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"],
-    "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление",
-    "A new version is available: %s" : "Налична е нова версия: %s",
-    "Checked on %s" : "Проверено на %s",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Винаги може да актуализирате до по-нова версия / експериментален канал. Но не можете да се върнете до по-стабилен канал.",
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>производствена</strong> осигурява последните пачове, но не се актуализира, веднага, до последната главна версия. Актуализацията става на втората малка версия (х.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>стабилна</strong> е последната стабилна версия. Подходяща е за ежедневно ползване и се актуализации до последната главна версия.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>бета</strong> е за тестване на нови функционалности. Не е подходяща за ползване в производствена среда."
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>бета</strong> е за тестване на нови функционалности. Не е подходяща за ползване в производствена среда.",
+    "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление"
 },
 "nplurals=2; plural=(n != 1);");

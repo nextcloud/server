@@ -23,9 +23,9 @@ OC.L10N.register(
     "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
     "Unsupported image type" : "Görsel türü desteklenmiyor",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
+    "Theming" : "Tema",
     "Legal notice" : "Yasal bildirim",
     "Privacy policy" : "Kişisel gizliliğin korunması ilkesi",
-    "Theming" : "Tema",
     "Adjust the Nextcloud theme" : "Nextcloud temasını ayarla",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
@@ -46,12 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "There is no error, the file uploaded with success" : "Herhangi bir sorun yok, dosya yüklendi",
-    "The uploaded file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklenebildi",
-    "Failed to write file to disk." : "Dosya diske yazılamadı.",
-    "A PHP extension stopped the file upload." : "Bir PHP eklentisi dosyanın yüklenmesini engelledi.",
-    "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
-    "Web address https://…" : "Web adresi https://..."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
 },
 "nplurals=2; plural=(n > 1);");

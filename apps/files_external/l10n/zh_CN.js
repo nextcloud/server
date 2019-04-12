@@ -129,10 +129,7 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
-    "Are you sure you want to delete this external storage" : "是否要删除该外部存储",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "一些外部挂载点没有连接。请检查标红的行以获取更多信息",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装 \"%s\"。无法挂载 %s。请联系您的系统管理员安装。",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装 \"%s\"。无法挂载 %s。请联系您的系统管理员安装。"
 },
 "nplurals=1; plural=0;");

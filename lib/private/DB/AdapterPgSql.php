@@ -35,4 +35,17 @@ class AdapterPgSql extends Adapter {
 		$statement = str_ireplace( 'UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement );
 		return $statement;
 	}
+
+	/**
+	 * @suppress SqlInjectionChecker
+	 */
+	public function insertIgnoreConflict(string $table,array $values) : int {
+		$builder = $this->conn->getQueryBuilder();
+		$builder->insert($table);
+		foreach($values as $key => $value) {
+			$builder->setValue($key, $builder->createNamedParameter($value));
+		}
+		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
+		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
+	}
 }

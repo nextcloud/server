@@ -130,9 +130,6 @@
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sprístupnenie %s zlyhalo, backend nepodporuje typ sprístupnenia %s",
-    "This share is password-protected" : "Táto položka je chránené heslom",
-    "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
-    "Password" : "Heslo"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Sprístupnenie %s zlyhalo, backend nepodporuje typ sprístupnenia %s"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

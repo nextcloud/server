@@ -52,7 +52,6 @@ OC.L10N.register(
     "No files in here" : "Không có tệp ở đây",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi",
-    "Create and edit collaborative tags. These tags affect all users." : "Tạo và hiệu chỉnh các thẻ cộng tác. Những thẻ này ảnh hưởng tới toàn bộ người dùng."
+    "Modified" : "Thay đổi"
 },
 "nplurals=1; plural=0;");

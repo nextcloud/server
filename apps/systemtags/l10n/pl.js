@@ -52,7 +52,7 @@ OC.L10N.register(
     "No files found for the selected tags" : "Nie znaleziono plików dla wybranych etykiet",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Wspólne tagowanie jest dostępne dla wszystkich użytkowników. Ograniczone etykiety są widoczne dla użytkowników, ale nie mogą być przez nich przypisywane. Etykiety niewidoczne są przeznaczone do użytku wewnętrznego, ponieważ użytkownicy nie mogą ich zobaczyć ani przypisać.",
     "Select tag …" : "Wybierz etykietę…",
-    "Create a new tag" : "Utwórz nowy znacznik ",
+    "Create a new tag" : "Utwórz nową etykietę",
     "Name" : "Nazwa",
     "Public" : "Publiczne",
     "Restricted" : "Ograniczone",
@@ -62,7 +62,6 @@ OC.L10N.register(
     "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym folderze",
     "Size" : "Rozmiar",
-    "Modified" : "Modyfikacja",
-    "Create and edit collaborative tags. These tags affect all users." : "Utwórz i edytuj etykiety współpracy. Te etykiety dotyczą wszystkich użytkowników."
+    "Modified" : "Modyfikacja"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

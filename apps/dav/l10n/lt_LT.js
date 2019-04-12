@@ -42,7 +42,9 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo pakeista",
     "Contact birthdays" : "Adresatų gimtadieniai",
     "%1$s via %2$s" : "%1$s per %2$s",
+    "Invitation canceled" : "Kvietimas atšauktas",
     "Hello %s," : "Sveiki, %s,",
+    "The meeting »%1$s« with %2$s was canceled." : "Susikimas „%1$s“ su  %2$s atšauktas.",
     "Invitation updated" : "Pakvietimas atnaujintas",
     "%1$s invited you to »%2$s«" : "%1$s jus pakvietė į »%2$s«",
     "When:" : "Kada:",
@@ -61,7 +63,7 @@ OC.L10N.register(
     "Save" : "Įrašyti",
     "Calendar server" : "Kalendoriaus serveris",
     "%s via %s" : "%s per %s",
-    "%s invited you to »%s«" : "%s pakvietė jus į »%s«",
-    "CalDAV server" : "CalDAV serveris"
+    "The meeting »%s« with %s was canceled." : "Susikimas „%s“ su  %s atšauktas.",
+    "%s invited you to »%s«" : "%s pakvietė jus į »%s«"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

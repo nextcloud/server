@@ -18,7 +18,6 @@ OC.L10N.register(
     "Shares will show up here" : "Sdílení se zobrazí zde",
     "Restore share" : "Obnovit sdílení",
     "Something happened. Unable to restore the share." : "Něco se stalo. Sdílení se nedaří obnovit.",
-    "file" : "soubor",
     "Move or copy" : "Přesunout nebo zkopírovat",
     "Download" : "Stáhnout",
     "Delete" : "Smazat",
@@ -112,9 +111,8 @@ OC.L10N.register(
     "Share API is disabled" : "Sdílení API je zakázané",
     "File sharing" : "Sdílení souborů",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Tato aplikace uživatelům umožňuje sdílet soubory v rámci Nextcloud. Pokud je zapnutá, správce může zvolit které skupiny mohou sdílet soubory. Pověření uživatelé pak mohou sdílet soubory a složky s ostatními uživateli a skupinami v rámci Nextcloud. Krom toho, pokud správce zapne funkci odkazu sdílení, je možné sdílet soubory i s uživateli mimo Nextcloud a to pomocí externího odkazu. Správci také mohou vynutit používání hesel, datumů expirace a zapnout sdílení server-server pomocí sdílecích odkazů. Stejně tak sdílení z mobilních zařízení.\nVypnutí této funkce odebere sdílené soubory a složky na server pro všechny příjemce sdílení a také na synchronizačních klientech a mobilních aplikacích. Více informací je k dispozici v dokumentaci k Nextcloud.",
-    "Add to a collection" : "Přidat do sady",
-    "Details" : "Podrobnosti",
-    "Rename collection" : "Přejmenovat sadu",
+    "Link to a file" : "Odkaz na soubor",
+    "Shared" : "Sdíleno",
     "Share" : "Sdílet",
     "Sharing" : "Sdílení",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
@@ -136,9 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "Nahrávání souborů…",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s",
-    "This share is password-protected" : "Toto sdílení je chráněno heslem",
-    "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
-    "Password" : "Heslo"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

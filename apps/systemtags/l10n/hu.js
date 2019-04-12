@@ -53,7 +53,6 @@ OC.L10N.register(
     "No files in here" : "Itt nincsenek fájlok",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Size" : "Méret",
-    "Modified" : "Módosítva",
-    "Create and edit collaborative tags. These tags affect all users." : "Kollaboratív címke létrehozása és szerkesztése. Ezek minden felhasználóra érvényesülnek."
+    "Modified" : "Módosítva"
 },
 "nplurals=2; plural=(n != 1);");

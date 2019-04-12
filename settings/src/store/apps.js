@@ -213,6 +213,32 @@ const actions = {
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
 	},
+	forceEnableApp(context, { appId, groups }) {
+		let apps;
+		if (Array.isArray(appId)) {
+			apps = appId;
+		} else {
+			apps = [appId];
+		}
+		return api.requireAdmin().then(() => {
+			context.commit('startLoading', apps);
+			context.commit('startLoading', 'install');
+			return api.post(OC.generateUrl(`settings/apps/force`), {appId})
+				.then((response) => {
+					// TODO: find a cleaner solution
+					location.reload();
+				})
+				.catch((error) => {
+					context.commit('stopLoading', apps);
+					context.commit('stopLoading', 'install');
+					context.commit('setError', {
+						appId: apps,
+						error: error.response.data.data.message
+					});
+					context.commit('APPS_API_FAILURE', { appId, error});
+				})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+	},
 	disableApp(context, { appId }) {
 		let apps;
 		if (Array.isArray(appId)) {

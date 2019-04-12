@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use Exception;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
@@ -30,6 +31,7 @@ use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -37,20 +39,23 @@ class CollaborationResourcesController extends OCSController {
 
 	/** @var IManager */
 	private $manager;
-
 	/** @var IUserSession */
 	private $userSession;
+	/** @var ILogger */
+	private $logger;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		IManager $manager,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
 		$this->manager = $manager;
 		$this->userSession = $userSession;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -81,7 +86,7 @@ class CollaborationResourcesController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new DataResponse($this->prepareCollection($collection));
+		return $this->respondCollection($collection);
 	}
 
 	/**
@@ -97,7 +102,7 @@ class CollaborationResourcesController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new DataResponse(array_map([$this, 'prepareCollection'], $collections));
+		return new DataResponse($this->prepareCollections($collections));
 	}
 
 	/**
@@ -126,7 +131,7 @@ class CollaborationResourcesController extends OCSController {
 		} catch (ResourceException $e) {
 		}
 
-		return new DataResponse($this->prepareCollection($collection));
+		return $this->respondCollection($collection);
 	}
 
 	/**
@@ -152,7 +157,7 @@ class CollaborationResourcesController extends OCSController {
 
 		$collection->removeResource($resource);
 
-		return new DataResponse($this->prepareCollection($collection));
+		return $this->respondCollection($collection);
 	}
 
 	/**
@@ -173,7 +178,7 @@ class CollaborationResourcesController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new DataResponse(array_map([$this, 'prepareCollection'], $resource->getCollections()));
+		return new DataResponse($this->prepareCollections($resource->getCollections()));
 	}
 
 	/**
@@ -202,7 +207,7 @@ class CollaborationResourcesController extends OCSController {
 		$collection = $this->manager->newCollection($name);
 		$collection->addResource($resource);
 
-		return new DataResponse($this->prepareCollection($collection));
+		return $this->respondCollection($collection);
 	}
 
 	/**
@@ -221,24 +226,65 @@ class CollaborationResourcesController extends OCSController {
 
 		$collection->setName($collectionName);
 
-		return new DataResponse($this->prepareCollection($collection));
+		return $this->respondCollection($collection);
+	}
+
+	protected function respondCollection(ICollection $collection): DataResponse {
+		try {
+			return new DataResponse($this->prepareCollection($collection));
+		} catch (CollectionException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (Exception $e) {
+			$this->logger->logException($e);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	protected function prepareCollections(array $collections): array {
+		$result = [];
+
+		foreach ($collections as $collection) {
+			try {
+				$result[] = $this->prepareCollection($collection);
+			} catch (CollectionException $e) {
+			} catch (Exception $e) {
+				$this->logger->logException($e);
+			}
+		}
+
+		return $result;
 	}
 
 	protected function prepareCollection(ICollection $collection): array {
 		if (!$collection->canAccess($this->userSession->getUser())) {
-			return null;
+			throw new CollectionException('Can not access collection');
 		}
 
 		return [
 			'id' => $collection->getId(),
 			'name' => $collection->getName(),
-			'resources' => array_values(array_filter(array_map([$this, 'prepareResources'], $collection->getResources()))),
+			'resources' => $this->prepareResources($collection->getResources()),
 		];
 	}
 
-	protected function prepareResources(IResource $resource): ?array {
+	protected function prepareResources(array $resources): ?array {
+		$result = [];
+
+		foreach ($resources as $resource) {
+			try {
+				$result[] = $this->prepareResource($resource);
+			} catch (ResourceException $e) {
+			} catch (Exception $e) {
+				$this->logger->logException($e);
+			}
+		}
+
+		return $result;
+	}
+
+	protected function prepareResource(IResource $resource): array {
 		if (!$resource->canAccess($this->userSession->getUser())) {
-			return null;
+			throw new ResourceException('Can not access resource');
 		}
 
 		return $resource->getRichObject();
