@@ -1,22 +1,19 @@
-clone:
-  git:
-    image: plugins/git
-    depth: 1
+kind: pipeline
+name: vue-build
 
-pipeline:
-  vue-build:
+steps:
+  - name: vue-build
     image: nextcloudci/node:node-4
     commands:
       - npm ci
       - npm run build
       - git status
       - bash -c "[[ ! \"`git status --porcelain js/`\" ]] || ( echo 'Uncommited changes in vue build' && exit 1 )"
-    when:
-      matrix:
-        TESTS: vue-build
 
-matrix:
-  include:
-    - TESTS: vue-build
-
-branches: [ master, stable* ]
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
