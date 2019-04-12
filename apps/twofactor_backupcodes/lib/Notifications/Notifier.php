@@ -42,7 +42,27 @@ class Notifier implements INotifier {
 		$this->url = $url;
 	}
 
-	public function prepare(INotification $notification, $languageCode) {
+	/**
+	 * Identifier of the notifier, only use [a-z0-9_]
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getID(): string {
+		return 'twofactor_backupcodes';
+	}
+
+	/**
+	 * Human readable name describing the notifier
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getName(): string {
+		return $this->factory->get('twofactor_backupcodes')->t('Second-factor backup codes');
+	}
+
+	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'twofactor_backupcodes') {
 			// Not my app => throw
 			throw new \InvalidArgumentException();
@@ -67,5 +87,4 @@ class Notifier implements INotifier {
 				throw new \InvalidArgumentException();
 		}
 	}
-
 }
