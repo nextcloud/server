@@ -55,6 +55,8 @@ OC.L10N.register(
     "Decline" : "Atmesti",
     "More options …" : "Daugiau parinkčių …",
     "Contacts" : "Adresatai",
+    "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
+    "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
     "WebDAV" : "WebDAV",
     "Technical details" : "Techninė informacija",
     "Remote Address: %s" : "Nuotolinis adresas: %s",

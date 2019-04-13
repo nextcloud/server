@@ -757,7 +757,7 @@ OC.L10N.register(
     "Default share permissions" : "Permissões padrão de compartilhamento",
     "Personal" : "Pessoal",
     "Administration" : "Administração",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela {communityopen}comunidade Nextcloud{linkclose}. O {githubopen}código fonte{linkclose} é licenciado sob a {licenseopen}AGPL{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela {communityopen}comunidade Nextcloud{linkclose}. O {githubopen}código-fonte{linkclose} é licenciado sob a {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Curta nossa página no Facebook",
     "Follow us on Twitter" : "Siga-nos no Twitter",
     "Follow us on Mastodon" : "Siga-nos no Mastodon",
