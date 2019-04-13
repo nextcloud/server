@@ -1,4 +1,13 @@
 { "translations": {
+    "{actor} added you to group {group}" : "{actor} добавил(а) вас в группу {group}",
+    "You added {user} to group {group}" : "Вы добавили {user} в группу {group}",
+    "{actor} added {user} to group {group}" : "{actor} добавил(а) {user} в группу {group}",
+    "An administrator added you to group {group}" : "Администратор добавил вас в группу {group}",
+    "An administrator added {user} to group {group}" : "Администратор добавил {user} в группу {group}",
+    "{actor} removed you from group {group}" : "{actor} удалил(а) вас из группы {group}",
+    "You removed {user} from group {group}" : "Вы удалили {user} из группы {group}",
+    "{actor} removed {user} from group {group}" : "{actor} удалил(а) {user} из группы {group}",
+    "An administrator removed you from group {group}" : "Администратор удалил вас из группы {group}",
     "{actor} changed your password" : "{actor} сменил(а) ваш пароль",
     "You changed your password" : "Вы изменили свой пароль",
     "Your password was reset by an administrator" : "Ваш пароль был сброшен администратором",
@@ -339,6 +348,15 @@
     "Locale" : "Региональные стандарты",
     "Current password" : "Текущий пароль",
     "Change password" : "Сменить пароль",
-    "Use a second factor besides your password to increase security for your account." : "Чтобы повысить безопасность своей учётной записи, помимо пароля используйте второй фактор проверки подлинности."
+    "Use a second factor besides your password to increase security for your account." : "Чтобы повысить безопасность своей учётной записи, помимо пароля используйте второй фактор проверки подлинности.",
+    "Disconnect" : "Отключить",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
+    "iOS Client" : "клиент для iOS",
+    "Android Client" : "клиент для Android",
+    "Not supported!" : "Не поддерживается!",
+    "Press ⌘-C to copy." : "Нажмите ⌘-C для копирования. ",
+    "Press Ctrl-C to copy." : "Нажмите Ctrl-C для копирования.",
+    "Error while loading browser sessions and device tokens" : "Ошибка при загрузке сеансов работы браузера и токенов устройств"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

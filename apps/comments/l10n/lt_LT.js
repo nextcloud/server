@@ -23,7 +23,8 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "Leidžiama simbolių {count} iš {max}",
     "Error occurred while updating comment with id {id}" : "Klaida bandant pataisyti komentarą pagal identifikavimo numerį {id}",
     "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida",
-    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytų komentarų"],
+    "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytas komentaras"],
+    "_1 new comment_::_{unread} new comments_" : ["1 neskaitytas komentaras","{unread} neskaityti komentarai","{unread} neskaitytų komentarų","{unread} neskaitytas komentaras"],
     "Comment" : "Komentaras",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s jus paminėjo komentare \"%2$s\""
 },
