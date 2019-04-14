@@ -10,6 +10,7 @@
 # @author Joas Schilling
 # @author Lukas Reschke
 # @author Jörn Friedrich Dreyer
+# @author Biagio Carrella
 # @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 #
 
@@ -371,6 +372,9 @@ function execute_tests {
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-azure" ]; then
 		GROUP='--group PRIMARY-azure'
+	fi
+	if [ "$TEST_SELECTION" == "PRIMARY-b2" ]; then
+		GROUP='--group PRIMARY-b2'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-swift" ]; then
 		GROUP='--group PRIMARY-swift'
