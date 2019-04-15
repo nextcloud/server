@@ -48,7 +48,7 @@
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "underscore": "^1.9.1",
-    "v-tooltip": "^2.0.0-rc.33",
+    "v-tooltip": "^2.0.1",
     "vue": "^2.6.8",
     "vue-click-outside": "^1.0.7",
     "vue-clipboard2": "^0.3.0",
