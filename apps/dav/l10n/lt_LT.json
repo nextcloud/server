@@ -8,6 +8,8 @@
     "You deleted calendar {calendar}" : "Jūs ištrynėte kalendorių {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} atnaujino kalendorių {calendar}",
     "You updated calendar {calendar}" : "Jūs atnaujinote kalendorių {calendar}",
+    "You shared calendar {calendar} as public link" : "Jūs pradėjote bendrinti kalendorių {calendar} kaip viešąją nuorodą",
+    "You removed public link for calendar {calendar}" : "Jūs pašalinote viešąją nuorodą kalendoriui {calendar}",
     "{actor} shared calendar {calendar} with you" : "{actor} pradėjo bendrinti su jumis kalendorių {calendar}",
     "You shared calendar {calendar} with {user}" : "Jūs pradėjote bendrinti kalendorių {calendar} su {user}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} pradėjo bendrinti kalendorių {calendar} su {user}",
