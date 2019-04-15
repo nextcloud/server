@@ -45,7 +45,7 @@ interface ISecureRandom {
 	const CHAR_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 	const CHAR_DIGITS = '0123456789';
-	const CHAR_SYMBOLS = '!\"#$%&\\\'()* +,-./:;<=>?@[\]^_`{|}~';
+	const CHAR_SYMBOLS = '!\"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~';
 
 	/**
 	 * Characters that can be used for <code>generate($length, $characters)</code>, to
