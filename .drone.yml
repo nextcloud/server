@@ -1996,7 +1996,7 @@ steps:
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
-    - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
+    - TEST_SELECTION=PRIMARY-s3 ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
@@ -2027,7 +2027,7 @@ steps:
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
-    - TEST_SELECTION=PRIMARY-${OBJECT_STORE} ./autotest.sh sqlite
+    - TEST_SELECTION=PRIMARY-azure ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
