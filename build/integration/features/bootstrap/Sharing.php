@@ -42,6 +42,9 @@ trait Sharing {
 	/** @var SimpleXMLElement */
 	private $lastShareData = null;
 
+	/** @var SimpleXMLElement[] */
+	private $storedShareData = [];
+
 	/** @var int */
 	private $savedShareId = null;
 
@@ -83,6 +86,20 @@ trait Sharing {
 		}
 
 		$this->lastShareData = simplexml_load_string($this->response->getBody());
+	}
+
+	/**
+	 * @When /^save the last share data as "([^"]*)"$/
+	 */
+	public function saveLastShareData($name) {
+		$this->storedShareData[$name] = $this->lastShareData;
+	}
+
+	/**
+	 * @When /^restore the last share data from "([^"]*)"$/
+	 */
+	public function restoreLastShareData($name) {
+		 $this->lastShareData = $this->storedShareData[$name];
 	}
 
 	/**
