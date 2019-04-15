@@ -49,6 +49,7 @@ use OC\Repair\NC15\SetVcardDatabaseUID;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
+use OC\Repair\RemoveLinkShares;
 use OC\Repair\RemoveRootShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
@@ -56,6 +57,8 @@ use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use OCP\AppFramework\Utility\ITimeFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair implements IOutput {
@@ -147,7 +150,8 @@ class Repair implements IOutput {
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger())
+			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getLogger()),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
 		];
 	}
 
