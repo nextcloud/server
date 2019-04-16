@@ -86,7 +86,7 @@ class RemoveLinkShares implements IRepairStep {
 	 *
 	 * @param int $id
 	 */
-	private function deleteShare(int $id) {
+	private function deleteShare(int $id): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
@@ -162,7 +162,7 @@ class RemoveLinkShares implements IRepairStep {
 	 *
 	 * @param array $data
 	 */
-	private function processShare(array $data) {
+	private function processShare(array $data): void {
 		$id = $data['id'];
 
 		$this->addToNotify($data['uid_owner']);
@@ -176,7 +176,7 @@ class RemoveLinkShares implements IRepairStep {
 	 *
 	 * @param string $uid
 	 */
-	private function addToNotify(string $uid) {
+	private function addToNotify(string $uid): void {
 		if (!isset($this->userToNotify[$uid])) {
 			$this->userToNotify[$uid] = true;
 		}
@@ -185,14 +185,14 @@ class RemoveLinkShares implements IRepairStep {
 	/**
 	 * Send all notifications
 	 */
-	private function sendNotification() {
+	private function sendNotification(): void {
 		$time = $this->timeFactory->getDateTime();
 
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('core')
 			->setDateTime($time)
 			->setObject('repair', 'exposing_links')
-			->setSubject('repair_exposing_links', []);
+			->setSubject('repair_exposing_links');
 
 		$users = array_keys($this->userToNotify);
 		foreach ($users as $user) {
@@ -201,7 +201,7 @@ class RemoveLinkShares implements IRepairStep {
 		}
 	}
 
-	private function repair(IOutput $output) {
+	private function repair(IOutput $output): void {
 		$total = $this->getTotal();
 		$output->startProgress($total);
 
@@ -224,7 +224,7 @@ class RemoveLinkShares implements IRepairStep {
 		$this->sendNotification();
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$output->info('Removing potentially over exposing link shares');
 			$this->repair($output);
