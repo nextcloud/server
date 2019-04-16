@@ -49,6 +49,8 @@ class DataDisplayResponse extends Response {
 	 */
 	public function __construct($data='', $statusCode=Http::STATUS_OK,
 	                            $headers=[]) {
+		parent::__construct();
+
 		$this->data = $data;
 		$this->setStatus($statusCode);
 		$this->setHeaders(array_merge($this->getHeaders(), $headers));

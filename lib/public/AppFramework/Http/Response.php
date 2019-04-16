@@ -90,6 +90,15 @@ class Response {
 	private $throttleMetadata = [];
 
 	/**
+	 * Response constructor.
+	 *
+	 * @since 17.0.0
+	 */
+	public function __construct() {
+		$this->setContentSecurityPolicy(new EmptyContentSecurityPolicy());
+	}
+
+	/**
 	 * Caches the response
 	 * @param int $cacheSeconds the amount of seconds that should be cached
 	 * if 0 then caching will be disabled

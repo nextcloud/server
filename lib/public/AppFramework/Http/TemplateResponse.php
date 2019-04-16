@@ -75,10 +75,14 @@ class TemplateResponse extends Response {
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
 	                            $renderAs='user') {
+		parent::__construct();
+
 		$this->templateName = $templateName;
 		$this->appName = $appName;
 		$this->params = $params;
 		$this->renderAs = $renderAs;
+
+		$this->setContentSecurityPolicy(new ContentSecurityPolicy());
 	}
 
 

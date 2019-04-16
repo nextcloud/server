@@ -35,6 +35,8 @@ class NotFoundResponse extends Response {
 	 * @since 8.1.0
 	 */
 	public function __construct() {
+		parent::__construct();
+
 		$this->setStatus(404);
 	}
 
