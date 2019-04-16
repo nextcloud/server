@@ -73,6 +73,12 @@
 	}
 	.popovermenu {
 		.linkPassMenu {
+			input.error {
+				border-color: var(--color-error) !important;
+				&[type="submit"] {
+					border-left: none;
+				}
+			}
 			.share-pass-submit {
 				width: auto !important;
 			}
