@@ -1170,6 +1170,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return string
 	 */
 	public function getTableName($table) {
+		if ($table instanceof IQueryFunction) {
+			return (string) $table;
+		}
+
 		$table = $this->prefixTableName($table);
 		return $this->helper->quoteColumnName($table);
 	}
