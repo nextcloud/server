@@ -49,11 +49,6 @@ class ClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('proxy', null)
 			->willReturn(null);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
 		$this->assertNull(self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
@@ -269,7 +264,7 @@ class ClientTest extends \Test\TestCase {
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(1))
 			->method('getSystemValue')
 			->with('installed', false)
 			->willReturn(false);
