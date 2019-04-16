@@ -352,6 +352,7 @@
 			}
 			var $input = $li.find('.linkPassText');
 			$input.removeClass('error');
+			$input.parent().find('input').removeClass('error');
 			var password = $input.val();
 
 			if ($li.find('.linkPassText').attr('placeholder') === PASSWORD_PLACEHOLDER_MESSAGE_OPTIONAL) {
@@ -380,6 +381,9 @@
 					$loading.removeClass('inlineblock').addClass('hidden');
 				},
 				error: function(model, msg) {
+					// Add visual feedback to both the input and the submit button
+					$input.parent().find('input').addClass('error');
+
 					// destroy old tooltips
 					var $container = $input.parent();
 					$container.tooltip('destroy');
