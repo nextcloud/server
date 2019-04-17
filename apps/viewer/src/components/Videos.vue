@@ -31,6 +31,7 @@
 			width: width + 'px'
 		}"
 		@click.prevent="playPause"
+		@dblclick.prevent="toggleFullScreen"
 		@canplay="doneLoading"
 		@mouseenter="showControls"
 		@mouseleave="hideControls"

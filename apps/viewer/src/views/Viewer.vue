@@ -65,6 +65,7 @@
 			:active="true"
 			:can-swipe.sync="canSwipe"
 			:sidebar-shown="showSidebar"
+			:is-full-screen="isFullscreen"
 			class="file-view"
 			:loaded.sync="currentFile.loaded"
 			@error="currentFailed" />

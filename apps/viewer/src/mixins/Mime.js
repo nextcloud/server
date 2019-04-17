@@ -50,6 +50,10 @@ export default {
 		sidebarShown: {
 			type: Boolean,
 			default: false
+		},
+		isFullScreen: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -155,6 +159,17 @@ export default {
 		 */
 		disableSwipe() {
 			this.$emit('update:canSwipe', false)
+		},
+
+		/**
+		 * Toggle the fullscreen on the current visible element
+		 */
+		toggleFullScreen() {
+			if (this.isFullScreen) {
+				document.exitFullscreen()
+			} else {
+				this.$el.requestFullscreen()
+			}
 		}
 	}
 }
