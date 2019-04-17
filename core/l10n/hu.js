@@ -312,6 +312,7 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Az alkalmazás megfelelő működéséhez JavaScript szükséges. Kérjük, {linkstart}engedélyezze a JavaScript-et{linkend} és frissítse a lapot.",
     "Get your own free account" : "Szerezd meg a saját ingyenes fiókodat",
     "Skip to main content" : "A fő tartalom átugrása",
+    "Skip to navigation of app" : "Ugrás az alkalmazás navigációjához",
     "More apps" : "További alkalmazások",
     "More" : "További",
     "More apps menu" : "További alkalmazás menü",
