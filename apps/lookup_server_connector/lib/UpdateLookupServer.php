@@ -106,19 +106,18 @@ class UpdateLookupServer {
 		$dataArray = ['federationId' => $user->getCloudId()];
 
 		if (!empty($publicData)) {
-			$dataArray['name'] = isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '';
-			$dataArray['email'] = isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '';
-			$dataArray['address'] = isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '';
-			$dataArray['website'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '';
-			$dataArray['twitter'] = isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '';
-			$dataArray['phone'] = isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '';
-			$dataArray['twitter_signature'] = isset($publicData[AccountManager::PROPERTY_TWITTER]['signature']) ? $publicData[AccountManager::PROPERTY_TWITTER]['signature'] : '';
-			$dataArray['website_signature'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]['signature']) ? $publicData[AccountManager::PROPERTY_WEBSITE]['signature'] : '';
-			$dataArray['verificationStatus'] =
-				[
-					AccountManager::PROPERTY_WEBSITE => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['verified'] : '',
-					AccountManager::PROPERTY_TWITTER => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['verified'] : '',
-				];
+			$dataArray['name'] = $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] ?? '';
+			$dataArray['email'] = $publicData[AccountManager::PROPERTY_EMAIL]['value'] ?? '';
+			$dataArray['address'] = $publicData[AccountManager::PROPERTY_ADDRESS]['value'] ?? '';
+			$dataArray['website'] = $publicData[AccountManager::PROPERTY_WEBSITE]['value'] ?? '';
+			$dataArray['twitter'] = $publicData[AccountManager::PROPERTY_TWITTER]['value'] ?? '';
+			$dataArray['phone'] = $publicData[AccountManager::PROPERTY_PHONE]['value'] ?? '';
+			$dataArray['twitter_signature'] = $publicData[AccountManager::PROPERTY_TWITTER]['signature'] ?? '';
+			$dataArray['website_signature'] = $publicData[AccountManager::PROPERTY_WEBSITE]['signature'] ?? '';
+			$dataArray['verificationStatus'] = [
+				AccountManager::PROPERTY_WEBSITE => $publicData[AccountManager::PROPERTY_WEBSITE]['verified'] ?? '',
+				AccountManager::PROPERTY_TWITTER => $publicData[AccountManager::PROPERTY_TWITTER]['verified'] ?? '',
+			];
 		}
 
 		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
