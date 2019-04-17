@@ -64,7 +64,7 @@ class ContactsStore implements IContactsStore {
 								IConfig $config,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
-				   				IDBConnection $connection) {
+								IDBConnection $connection) {
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -88,7 +88,7 @@ class ContactsStore implements IContactsStore {
 			$entries = array_map(function (array $contact) {
 				return $this->contactArrayToEntry($contact);
 			}, $allContacts);
- 
+
 
 			return $this->filterContacts(
 				$user,
