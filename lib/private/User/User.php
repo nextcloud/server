@@ -33,6 +33,7 @@ namespace OC\User;
 
 use OC\Accounts\AccountManager;
 use OC\Files\Cache\Storage;
+use OC\Files\Storage\Local;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\IAvatarManager;
@@ -203,6 +204,7 @@ class User implements IUser {
 		}
 		// get the home now because it won't return it after user deletion
 		$homePath = $this->getHome();
+		$userRoot = \OC::$server->getUserFolder($this->getUID());
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
 
@@ -220,6 +222,11 @@ class User implements IUser {
 			}
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
+
+			// Delete all files
+			if (!$userRoot->getStorage()->instanceOfStorage(Local::class)) {
+				$userRoot->delete();
+			}
 
 			// Delete user files in /data/
 			if ($homePath !== false) {
