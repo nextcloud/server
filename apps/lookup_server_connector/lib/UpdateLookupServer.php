@@ -38,8 +38,6 @@ use OCP\IUser;
 class UpdateLookupServer {
 	/** @var AccountManager */
 	private $accountManager;
-	/** @var IClientService */
-	private $clientService;
 	/** @var Signer */
 	private $signer;
 	/** @var IJobList */
@@ -51,18 +49,15 @@ class UpdateLookupServer {
 
 	/**
 	 * @param AccountManager $accountManager
-	 * @param IClientService $clientService
 	 * @param Signer $signer
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
 	public function __construct(AccountManager $accountManager,
-								IClientService $clientService,
 								Signer $signer,
 								IJobList $jobList,
 								IConfig $config) {
 		$this->accountManager = $accountManager;
-		$this->clientService = $clientService;
 		$this->signer = $signer;
 		$this->jobList = $jobList;
 
@@ -82,7 +77,7 @@ class UpdateLookupServer {
 	/**
 	 * @param IUser $user
 	 */
-	public function userUpdated(IUser $user) {
+	public function userUpdated(IUser $user): void {
 
 		if (!$this->shouldUpdateLookupServer()) {
 			return;
@@ -106,7 +101,7 @@ class UpdateLookupServer {
 	 * @param IUser $user
 	 * @param array $publicData
 	 */
-	protected function sendToLookupServer(IUser $user, array $publicData) {
+	protected function sendToLookupServer(IUser $user, array $publicData): void {
 
 		$dataArray = ['federationId' => $user->getCloudId()];
 
@@ -127,33 +122,12 @@ class UpdateLookupServer {
 		}
 
 		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
-		$httpClient = $this->clientService->newClient();
-		try {
-			if (empty($publicData)) {
-				$httpClient->delete($this->lookupServer,
-					[
-						'body' => json_encode($dataArray),
-						'timeout' => 10,
-						'connect_timeout' => 3,
-					]
-				);
-			} else {
-				$httpClient->post($this->lookupServer,
-					[
-						'body' => json_encode($dataArray),
-						'timeout' => 10,
-						'connect_timeout' => 3,
-					]
-				);
-			}
-		} catch (\Exception $e) {
-			$this->jobList->add(RetryJob::class,
-				[
-					'dataArray' => $dataArray,
-					'retryNo' => 0,
-				]
-			);
-		}
+		$this->jobList->add(RetryJob::class,
+			[
+				'dataArray' => $dataArray,
+				'retryNo' => 0,
+			]
+		);
 	}
 
 	/**
@@ -164,7 +138,7 @@ class UpdateLookupServer {
 	 *
 	 * @return bool
 	 */
-	private function shouldUpdateLookupServer() {
+	private function shouldUpdateLookupServer(): bool {
 		return $this->lookupServerEnabled && !empty($this->lookupServer);
 	}
 
