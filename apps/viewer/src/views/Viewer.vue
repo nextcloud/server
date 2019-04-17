@@ -93,6 +93,7 @@
 import Vue from 'vue'
 
 import Modal from 'nextcloud-vue/dist/Components/Modal'
+import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
 import { generateRemoteUrl, generateUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
@@ -105,6 +106,8 @@ export default {
 		Modal,
 		Error
 	},
+
+	mixins: [isMobile],
 
 	data: () => ({
 		handlers: OCA.Viewer.availableHandlers,
@@ -121,8 +124,8 @@ export default {
 
 		fileList: [],
 
-		isMobile: window.outerWidth < 768,
 		isFullscreen: window.innerWidth === screen.width,
+		isLoaded: false,
 
 		showSidebar: false,
 		sidebarWidth: 0,
@@ -161,8 +164,13 @@ export default {
 
 	watch: {
 		// make sure any late external app can register handlers
-		handlers: function() {
-			this.registerHandler(this.handlers[this.handlers.length - 1])
+		handlers: function(x, y) {
+			// make sure the viewer is done registering handlers
+			// so we only register handlers added AFTER the init
+			// of the viewer
+			if (this.isLoaded) {
+				this.registerHandler(this.handlers[this.handlers.length - 1])
+			}
 		}
 	},
 
@@ -172,6 +180,7 @@ export default {
 			this.handlers.forEach(handler => {
 				this.registerHandler(handler)
 			})
+			this.isLoaded = true
 		})
 
 		window.addEventListener('resize', this.onResize)
@@ -431,6 +440,7 @@ export default {
 			this.currentModal = null
 			this.fileList = []
 			this.hideAppsSidebar()
+
 			// restore default
 			document.body.style.overflow = null
 		},
@@ -515,7 +525,6 @@ export default {
 
 		onResize(event) {
 			// Update mobile & fullscreen mode
-			this.isMobile = window.outerWidth < 768
 			this.isFullscreen = window.innerWidth === screen.width
 
 			// update sidebar width
