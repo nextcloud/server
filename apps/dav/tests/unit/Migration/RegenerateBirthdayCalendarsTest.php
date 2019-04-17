@@ -76,7 +76,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->with('Adding background jobs to regenerate birthday calendar');
 
 		$this->userManager->expects($this->once())
-			->method('callForAllUsers')
+			->method('callForSeenUsers')
 			->will($this->returnCallback(function($closure) {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->will($this->returnValue('uid1'));
@@ -128,7 +128,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->with('Repair step already executed');
 
 		$this->userManager->expects($this->never())
-			->method('callForAllUsers');
+			->method('callForSeenUsers');
 
 		$this->migration->run($output);
 	}
