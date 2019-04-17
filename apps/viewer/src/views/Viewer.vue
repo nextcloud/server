@@ -33,7 +33,7 @@
 		:has-next="hasNext"
 		:title="currentFileName"
 		:enable-swipe="canSwipe"
-		:size="isMobile ? 'full' : 'large'"
+		:size="isMobile || isFullscreen ? 'full' : 'large'"
 		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"
@@ -122,6 +122,8 @@ export default {
 		fileList: [],
 
 		isMobile: window.outerWidth < 768,
+		isFullscreen: window.innerWidth === screen.width,
+
 		showSidebar: false,
 		sidebarWidth: 0,
 
@@ -512,8 +514,10 @@ export default {
 		},
 
 		onResize(event) {
-			// Update mobile mode
+			// Update mobile & fullscreen mode
 			this.isMobile = window.outerWidth < 768
+			this.isFullscreen = window.innerWidth === screen.width
+
 			// update sidebar width
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
