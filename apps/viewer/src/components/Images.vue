@@ -36,8 +36,8 @@
 		}"
 		@load="updateImgSize"
 		@wheel="updateZoom"
-		@dblclick="onDblclick"
-		@mousedown="dragStart">
+		@dblclick.prevent="onDblclick"
+		@mousedown.prevent="dragStart">
 </template>
 
 <script>
@@ -99,12 +99,13 @@ export default {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
 				this.resetZoom()
+				// end the dragging if your mouse go out of the content
+				window.addEventListener('mouseout', this.dragEnd)
+			// the item is not displayed
+			} else if (val === false) {
+				window.removeEventListener('mouseout', this.dragEnd)
 			}
 		}
-	},
-	mounted() {
-		// end the dragging if your mouse go out of the content
-		window.addEventListener('mouseout', this.dragEnd)
 	},
 	methods: {
 		// Updates the dimensions of the modal
@@ -177,7 +178,6 @@ export default {
 		 * @param {Event} event the event
 		 */
 		dragStart(event) {
-			event.preventDefault()
 			const { pageX, pageY } = event
 
 			this.dragX = pageX

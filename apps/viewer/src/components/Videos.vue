@@ -30,7 +30,7 @@
 			height: height + 'px',
 			width: width + 'px'
 		}"
-		@click="playPause"
+		@click.prevent="playPause"
 		@canplay="doneLoading"
 		@mouseenter="showControls"
 		@mouseleave="hideControls"

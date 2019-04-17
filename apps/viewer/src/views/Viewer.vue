@@ -21,7 +21,7 @@
  -->
 
 <template>
-	<modal
+	<Modal
 		v-if="currentFile.modal"
 		id="viewer-content"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
@@ -49,7 +49,7 @@
 			:dav-path="previousFile.path"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
-		<error
+		<Error
 			v-else
 			class="hidden-visually" />
 
@@ -68,7 +68,7 @@
 			class="file-view"
 			:loaded.sync="currentFile.loaded"
 			@error="currentFailed" />
-		<error
+		<Error
 			v-else
 			:name="currentFileName" />
 
@@ -83,21 +83,21 @@
 			:dav-path="nextFile.path"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
-		<error
+		<Error
 			v-else
 			class="hidden-visually" />
-	</modal>
+	</Modal>
 </template>
 
 <script>
 import Vue from 'vue'
 
-import Modal from 'nextcloud-vue/dist/Components/Modal'
 import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
 import { generateRemoteUrl, generateUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
 import FileList from 'Services/FileList'
+import Modal from 'nextcloud-vue/dist/Components/Modal'
 
 export default {
 	name: 'Viewer',
