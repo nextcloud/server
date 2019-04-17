@@ -89,3 +89,4 @@ OC.L10N.register(
     "Please make sure to properly set up the email settings above." : "Assicurati di configurare correttamente le impostazioni di posta sopra."
 },
 "nplurals=2; plural=(n != 1);");
+
