@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IDBConnection;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 
 class ContactsStore implements IContactsStore {
