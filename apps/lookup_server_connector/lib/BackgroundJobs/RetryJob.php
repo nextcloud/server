@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,43 +24,55 @@
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
 
+use OC\Security\IdentityProof\Signer;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\Job;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class RetryJob extends Job {
 	/** @var IClientService */
 	private $clientService;
-	/** @var IJobList */
-	private $jobList;
 	/** @var string */
 	private $lookupServer;
-	/** @var int how much time should be between two, will be increased for each retry */
-	private $interval = 100;
 	/** @var IConfig */
 	private $config;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IAccountManager */
+	private $accountManager;
+	/** @var Signer */
+	private $signer;
+	/** @var int */
+	protected $retries = 0;
+	/** @var bool */
+	protected $retainJob = false;
 
 	/**
 	 * @param ITimeFactory $time
 	 * @param IClientService $clientService
-	 * @param IJobList $jobList
 	 * @param IConfig $config
+	 * @param IUserManager $userManager
+	 * @param IAccountManager $accountManager
+	 * @param Signer $signer
 	 */
 	public function __construct(ITimeFactory $time,
 								IClientService $clientService,
-								IJobList $jobList,
-								IConfig $config) {
+								IConfig $config,
+								IUserManager $userManager,
+								IAccountManager $accountManager,
+								Signer $signer) {
 		parent::__construct($time);
 		$this->clientService = $clientService;
-		$this->jobList = $jobList;
 		$this->config = $config;
-
-		if ($config->getSystemValue('has_internet_connection', true) === false) {
-			return;
-		}
+		$this->userManager = $userManager;
+		$this->accountManager = $accountManager;
+		$this->signer = $signer;
 
 		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if (!empty($this->lookupServer)) {
@@ -74,24 +88,66 @@ class RetryJob extends Job {
 	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null): void {
-		if ($this->shouldRun($this->argument)) {
-			parent::execute($jobList, $logger);
+		if (!isset($this->argument['userId'])) {
+			// Old background job without user id, just drop it.
 			$jobList->remove($this, $this->argument);
-		}
-	}
-
-	protected function run($argument): void {
-		if ($this->killBackgroundJob((int)$argument['retryNo'])) {
 			return;
 		}
 
+		$this->retries = (int) $this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', 0);
+
+		if ($this->shouldRemoveBackgroundJob()) {
+			$jobList->remove($this, $this->argument);
+			return;
+		}
+
+		if ($this->shouldRun()) {
+			parent::execute($jobList, $logger);
+			if (!$this->retainJob) {
+				$jobList->remove($this, $this->argument);
+			}
+		}
+	}
+
+	/**
+	 * Check if we should kill the background job:
+	 *
+	 * - internet connection is disabled
+	 * - no valid lookup server URL given
+	 * - lookup server was disabled by the admin
+	 * - max retries are reached (set to 5)
+	 *
+	 * @return bool
+	 */
+	protected function shouldRemoveBackgroundJob(): bool {
+		return $this->config->getSystemValueBool('has_internet_connection', true) === false ||
+			$this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === '' ||
+			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
+			$this->retries >= 5;
+	}
+
+	protected function shouldRun(): bool {
+		$delay = 100 * 6 ** $this->retries;
+		return ($this->time->getTime() - $this->lastRun) > $delay;
+	}
+
+	protected function run($argument): void {
+		$user = $this->userManager->get($this->argument['userId']);
+		if (!$user instanceof IUser) {
+			// User does not exist anymore
+			return;
+		}
+
+		$data = $this->getUserAccountData($user);
+		$signedData = $this->signer->sign('lookupserver', $data, $user);
 		$client = $this->clientService->newClient();
 
 		try {
-			if (count($argument['dataArray']) === 1) {
+			if (count($data) === 1) {
+				// No public data, just the federation Id
 				$client->delete($this->lookupServer,
 					[
-						'body' => json_encode($argument['dataArray']),
+						'body' => json_encode($signedData),
 						'timeout' => 10,
 						'connect_timeout' => 3,
 					]
@@ -99,52 +155,58 @@ class RetryJob extends Job {
 			} else {
 				$client->post($this->lookupServer,
 					[
-						'body' => json_encode($argument['dataArray']),
+						'body' => json_encode($signedData),
 						'timeout' => 10,
 						'connect_timeout' => 3,
 					]
 				);
 			}
-		} catch (\Exception $e) {
-			$this->jobList->add(self::class,
-				[
-					'dataArray' => $argument['dataArray'],
-					'retryNo' => $argument['retryNo'] + 1,
-					'lastRun' => $this->time->getTime(),
-				]
+
+			// Reset retry counter
+			$this->config->deleteUserValue(
+				$user->getUID(),
+				'lookup_server_connector',
+				'update_retries'
 			);
 
+		} catch (\Exception $e) {
+			// An error occurred, retry later
+			$this->retainJob = true;
+			$this->config->setUserValue(
+				$user->getUID(),
+				'lookup_server_connector',
+				'update_retries',
+				$this->retries + 1
+			);
 		}
 	}
 
-	/**
-	 * test if it is time for the next run
-	 *
-	 * @param array $argument
-	 * @return bool
-	 */
-	protected function shouldRun(array $argument): bool {
-		$retryNo = (int)$argument['retryNo'];
-		$delay = $this->interval * 6 ** $retryNo;
-		return !isset($argument['lastRun']) || (($this->time->getTime() - $argument['lastRun']) > $delay);
-	}
+	protected function getUserAccountData(IUser $user): array {
+		$account = $this->accountManager->getAccount($user);
 
-	/**
-	 * check if we should kill the background job
-	 *
-	 * The lookup server should no longer be contacted if:
-	 *
-	 * - max retries are reached (set to 5)
-	 * - lookup server was disabled by the admin
-	 * - no valid lookup server URL given
-	 *
-	 * @param int $retryCount
-	 * @return bool
-	 */
-	protected function killBackgroundJob(int $retryCount): bool {
-		$maxTriesReached = $retryCount >= 5;
-		$lookupServerDisabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes';
+		$publicData = [];
+		foreach ($account->getProperties() as $property) {
+			if ($property->getScope() === IAccountManager::VISIBILITY_PUBLIC) {
+				$publicData[$property->getName()] = $property->getValue();
+			}
+		}
 
-		return $maxTriesReached || $lookupServerDisabled || empty($this->lookupServer);
+		$data = ['federationId' => $user->getCloudId()];
+		if (!empty($publicData)) {
+			$data['name'] = $publicData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] ?? '';
+			$data['email'] = $publicData[IAccountManager::PROPERTY_EMAIL]['value'] ?? '';
+			$data['address'] = $publicData[IAccountManager::PROPERTY_ADDRESS]['value'] ?? '';
+			$data['website'] = $publicData[IAccountManager::PROPERTY_WEBSITE]['value'] ?? '';
+			$data['twitter'] = $publicData[IAccountManager::PROPERTY_TWITTER]['value'] ?? '';
+			$data['phone'] = $publicData[IAccountManager::PROPERTY_PHONE]['value'] ?? '';
+			$data['twitter_signature'] = $publicData[IAccountManager::PROPERTY_TWITTER]['signature'] ?? '';
+			$data['website_signature'] = $publicData[IAccountManager::PROPERTY_WEBSITE]['signature'] ?? '';
+			$data['verificationStatus'] = [
+				IAccountManager::PROPERTY_WEBSITE => $publicData[IAccountManager::PROPERTY_WEBSITE]['verified'] ?? '',
+				IAccountManager::PROPERTY_TWITTER => $publicData[IAccountManager::PROPERTY_TWITTER]['verified'] ?? '',
+			];
+		}
+
+		return $data;
 	}
 }
