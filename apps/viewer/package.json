@@ -58,7 +58,7 @@
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-node": "^8.0.1",
