@@ -85,13 +85,23 @@ class RetryJob extends Job {
 		$client = $this->clientService->newClient();
 
 		try {
-			$client->post($this->lookupServer,
-				[
-					'body' => json_encode($argument['dataArray']),
-					'timeout' => 10,
-					'connect_timeout' => 3,
-				]
-			);
+			if (count($argument['dataArray']) === 1) {
+				$client->delete($this->lookupServer,
+					[
+						'body' => json_encode($argument['dataArray']),
+						'timeout' => 10,
+						'connect_timeout' => 3,
+					]
+				);
+			} else {
+				$client->post($this->lookupServer,
+					[
+						'body' => json_encode($argument['dataArray']),
+						'timeout' => 10,
+						'connect_timeout' => 3,
+					]
+				);
+			}
 		} catch (\Exception $e) {
 			$this->jobList->add(RetryJob::class,
 				[
