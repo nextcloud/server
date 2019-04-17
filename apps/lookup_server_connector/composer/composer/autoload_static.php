@@ -21,6 +21,7 @@ class ComposerStaticInitLookupServerConnector
     );
 
     public static $classMap = array (
+        'OCA\\LookupServerConnector\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\LookupServerConnector\\BackgroundJobs\\RetryJob' => __DIR__ . '/..' . '/../lib/BackgroundJobs/RetryJob.php',
         'OCA\\LookupServerConnector\\UpdateLookupServer' => __DIR__ . '/..' . '/../lib/UpdateLookupServer.php',
     );
