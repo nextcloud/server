@@ -25,10 +25,10 @@ import Videos from 'Models/videos'
 
 export default class Viewer {
 
-	#mimetypes;
+	#handlers;
 
 	constructor() {
-		this.#mimetypes = []
+		this.#handlers = []
 
 		// ! built-in handlers
 		this.registerHandler(Images)
@@ -38,11 +38,11 @@ export default class Viewer {
 	}
 
 	get availableHandlers() {
-		return this.#mimetypes
+		return this.#handlers
 	}
 
-	registerHandler(mimetype) {
-		this.#mimetypes.push(mimetype)
+	registerHandler(handler) {
+		this.#handlers.push(handler)
 	}
 
 }
