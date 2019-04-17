@@ -22,8 +22,8 @@
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
 
-use OC\BackgroundJob\Job;
-use OC\BackgroundJob\JobList;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\Job;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -42,13 +42,16 @@ class RetryJob extends Job {
 	private $config;
 
 	/**
+	 * @param ITimeFactory $time
 	 * @param IClientService $clientService
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IClientService $clientService,
+	public function __construct(ITimeFactory $time,
+								IClientService $clientService,
 								IJobList $jobList,
 								IConfig $config) {
+		parent::__construct($time);
 		$this->clientService = $clientService;
 		$this->jobList = $jobList;
 		$this->config = $config;
@@ -67,17 +70,17 @@ class RetryJob extends Job {
 	/**
 	 * run the job, then remove it from the jobList
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute($jobList, ILogger $logger = null): void {
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
 		}
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		if ($this->killBackgroundJob((int)$argument['retryNo'])) {
 			return;
 		}
@@ -103,11 +106,11 @@ class RetryJob extends Job {
 				);
 			}
 		} catch (\Exception $e) {
-			$this->jobList->add(RetryJob::class,
+			$this->jobList->add(self::class,
 				[
 					'dataArray' => $argument['dataArray'],
 					'retryNo' => $argument['retryNo'] + 1,
-					'lastRun' => time(),
+					'lastRun' => $this->time->getTime(),
 				]
 			);
 
@@ -120,10 +123,10 @@ class RetryJob extends Job {
 	 * @param array $argument
 	 * @return bool
 	 */
-	protected function shouldRun($argument) {
+	protected function shouldRun(array $argument): bool {
 		$retryNo = (int)$argument['retryNo'];
 		$delay = $this->interval * 6 ** $retryNo;
-		return !isset($argument['lastRun']) || ((time() - $argument['lastRun']) > $delay);
+		return !isset($argument['lastRun']) || (($this->time->getTime() - $argument['lastRun']) > $delay);
 	}
 
 	/**
@@ -138,7 +141,7 @@ class RetryJob extends Job {
 	 * @param int $retryCount
 	 * @return bool
 	 */
-	protected function killBackgroundJob($retryCount) {
+	protected function killBackgroundJob(int $retryCount): bool {
 		$maxTriesReached = $retryCount >= 5;
 		$lookupServerDisabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes';
 
