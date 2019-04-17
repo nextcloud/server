@@ -393,3 +393,35 @@ Feature: sharing
     When User "user1" moved file "/textfile0.txt" to "/shared/shared_file.txt"
     Then as "user1" the file "/shared/shared_file.txt" exists
     And as "user0" the file "/shared/shared_file.txt" exists
+
+  Scenario: Link shares inside of group shares keep their original data when the root share is updated
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    And folder "/share" of user "user0" is shared with group "group1"
+    And user "user0" created a folder "/share/subfolder"
+    And As an "user1"
+    And save the last share data as "original"
+    And as "user1" creating a share with
+      | path | /share/subfolder |
+      | shareType | 3 |
+      | permissions | 31 |
+    And save the last share data as "link"
+    And As an "user0"
+    And restore the last share data from "original"
+    When Updating last share with
+      | permissions | 23 |
+      | expireDate | +3 days |
+    And restore the last share data from "link"
+    And Getting info of last share
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | permissions | 23 |
+      | file_target | /subfolder |
+      | expireDate  |            |
