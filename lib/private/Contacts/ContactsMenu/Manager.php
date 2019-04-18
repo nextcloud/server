@@ -26,6 +26,7 @@ namespace OC\Contacts\ContactsMenu;
 
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\IConfig;
 use OCP\IUser;
 
 class Manager {
@@ -39,15 +40,19 @@ class Manager {
 	/** @var IAppManager */
 	private $appManager;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * @param ContactsStore $store
 	 * @param ActionProviderStore $actionProviderStore
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager) {
+	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager, IConfig $config) {
 		$this->store = $store;
 		$this->actionProviderStore = $actionProviderStore;
 		$this->appManager = $appManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -56,11 +61,16 @@ class Manager {
 	 * @return array
 	 */
 	public function getEntries(IUser $user, $filter) {
-		$entries = $this->store->getContacts($user, $filter);
+		$maxAutocompleteResults = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', 25);
+		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
+		$topEntries = [];
+		if (strlen($filter) >= $minSearchStringLength) {
+			$entries = $this->store->getContacts($user, $filter);
 
-		$sortedEntries = $this->sortEntries($entries);
-		$topEntries = array_slice($sortedEntries, 0, 25);
-		$this->processEntries($topEntries, $user);
+			$sortedEntries = $this->sortEntries($entries);
+			$topEntries = array_slice($sortedEntries, 0, $maxAutocompleteResults);
+			$this->processEntries($topEntries, $user);
+		}
 
 		$contactsEnabled = $this->appManager->isEnabledForUser('contacts', $user);
 		return [
