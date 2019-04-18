@@ -25,13 +25,11 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+use GuzzleHttp\RequestOptions;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
 use OCP\IConfig;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Class Client
@@ -45,9 +43,6 @@ class Client implements IClient {
 	private $config;
 	/** @var ICertificateManager */
 	private $certificateManager;
-	private $configured = false;
-	/** @var HandlerStack */
-	private $stack;
 
 	/**
 	 * @param IConfig $config
@@ -57,74 +52,62 @@ class Client implements IClient {
 	public function __construct(
 		IConfig $config,
 		ICertificateManager $certificateManager,
-		GuzzleClient $client,
-		HandlerStack $stack
+		GuzzleClient $client
 	) {
 		$this->config = $config;
 		$this->client = $client;
-		$this->stack = $stack;
 		$this->certificateManager = $certificateManager;
 	}
 
-	/**
-	 * Sets the default options to the client
-	 */
-	private function setDefaultOptions() {
-		if ($this->configured) {
-			return;
-		}
-		$this->configured = true;
-
-		$this->stack->push(Middleware::mapRequest(function (RequestInterface $request) {
-			return $request
-				->withHeader('User-Agent', 'Nextcloud Server Crawler');
-		}));
-	}
-
-	private function getRequestOptions() {
-		$options = [
-			'verify' => $this->getCertBundle(),
+	private function buildRequestOptions(array $options): array {
+		$defaults = [
+			RequestOptions::PROXY => $this->getProxyUri(),
+			RequestOptions::VERIFY => $this->getCertBundle(),
 		];
-		$proxyUri = $this->getProxyUri();
-		if ($proxyUri !== '') {
-			$options['proxy'] = $proxyUri;
+
+		$options = array_merge($defaults, $options);
+
+		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
+			$options[RequestOptions::HEADERS]['User-Agent'] = 'Nextcloud Server Crawler';
 		}
+
 		return $options;
 	}
 
-	private function getCertBundle() {
+	private function getCertBundle(): string {
 		if ($this->certificateManager->listCertificates() !== []) {
 			return $this->certificateManager->getAbsoluteBundlePath();
-		} else {
-			// If the instance is not yet setup we need to use the static path as
-			// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
-			// a view
-			if ($this->config->getSystemValue('installed', false)) {
-				return $this->certificateManager->getAbsoluteBundlePath(null);
-			} else {
-				return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-			}
 		}
+
+		// If the instance is not yet setup we need to use the static path as
+		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
+		// a view
+		if ($this->config->getSystemValue('installed', false)) {
+			return $this->certificateManager->getAbsoluteBundlePath(null);
+		}
+
+		return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 	}
 
 	/**
 	 * Get the proxy URI
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	private function getProxyUri(): string {
+	private function getProxyUri(): ?string {
 		$proxyHost = $this->config->getSystemValue('proxy', null);
+
+		if ($proxyHost === null) {
+			return null;
+		}
+
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
-		$proxyUri = '';
 
-		if ($proxyUserPwd !== null) {
-			$proxyUri .= $proxyUserPwd . '@';
-		}
-		if ($proxyHost !== null) {
-			$proxyUri .= $proxyHost;
+		if ($proxyUserPwd === null) {
+			return $proxyHost;
 		}
 
-		return $proxyUri;
+		return $proxyUserPwd . '@' . $proxyHost;
 	}
 
 	/**
@@ -157,8 +140,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function get(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
-		$response = $this->client->request('get', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
 	}
@@ -188,8 +170,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function head(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
-		$response = $this->client->request('head', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
@@ -223,12 +204,11 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function post(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
 		if (isset($options['body']) && is_array($options['body'])) {
 			$options['form_params'] = $options['body'];
 			unset($options['body']);
 		}
-		$response = $this->client->request('post', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('post', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
@@ -262,8 +242,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function put(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
-		$response = $this->client->request('put', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
@@ -297,11 +276,9 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function delete(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
-		$response = $this->client->request('delete', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
-
 
 	/**
 	 * Sends a options request
@@ -333,8 +310,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function options(string $uri, array $options = []): IResponse {
-		$this->setDefaultOptions();
-		$response = $this->client->request('options', $uri, array_merge($this->getRequestOptions(), $options));
+		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 }
