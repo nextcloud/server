@@ -96,6 +96,7 @@ class Repair extends Command {
 			if (!is_array($info)) {
 				continue;
 			}
+			\OC_App::loadApp($app);
 			$steps = $info['repair-steps']['post-migration'];
 			foreach ($steps as $step) {
 				try {
