@@ -134,20 +134,6 @@ class ShareTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @param boolean|string $token
-	 * @return array
-	 */
-	protected function getShareByValidToken($token) {
-		$row = \OCP\Share::getShareByToken($token);
-		$this->assertInternalType(
-			'array',
-			$row,
-			"Failed asserting that a share for token $token exists."
-		);
-		return $row;
-	}
-
 	public function testGetItemSharedWithUser() {
 		\OC_User::setUserId($this->user1->getUID());
 
