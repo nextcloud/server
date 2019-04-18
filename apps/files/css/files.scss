@@ -263,6 +263,7 @@ table th.column-last, table td.column-last {
 
 /* Multiselect bar */
 table.multiselect thead {
+	position: -webkit-sticky; // Safari support
 	position: sticky;
 	top: 94px;
 	z-index: 55;
