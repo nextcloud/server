@@ -40,6 +40,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Skupina je onemogočena, ker na strežniku ni omogočena podpora atributu memberOf.",
     "Please login with the new password" : "Prijavite se z novim geslom",
     "Your password will expire tomorrow." : "Vaše geslo bo poteklo naslednji dan",
+    "Your password will expire today." : "Geslo vam poteče danes!",
     "_%s group found_::_%s groups found_" : ["%s najdena skupina","%s najdeni skupini","%s najdene skupine","%s najdenih skupin"],
     "_%s user found_::_%s users found_" : ["%s najden uporabnik","%s najdena uporabnika","%s najdeni uporabniki","%s najdenih uporabnikov"],
     "Could not find the desired feature" : "Želene zmožnosti ni mogoče najti",
