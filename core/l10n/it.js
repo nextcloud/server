@@ -28,6 +28,8 @@ OC.L10N.register(
     "Reset your password" : "Ripristina la password",
     "Couldn't send reset email. Please contact your administrator." : "Impossibile inviare l'email di reimpostazione. Contatta il tuo amministratore.",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossibile inviare l'email di reimpostazione. Assicurati che il nome utente sia corretto.",
+    "Some of your link shares have been removed" : "Alcune delle tue condivisioni tramite collegamento sono state rimosse",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "A causa di un bug di sicurezza abbiamo rimosso alcune delle tue condivisioni tramite collegamento. Vedi il collegamento per ulteriori informazioni.",
     "Preparing update" : "Preparazione dell'aggiornamento",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Fase di riparazione:",

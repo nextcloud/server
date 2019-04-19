@@ -173,6 +173,7 @@ OC.L10N.register(
     "No files in here" : "沒有任何檔案",
     "New folder" : "新資料夾",
     "No more subfolders in here" : "這裡沒有其他子資料夾了",
+    "Size" : "大小",
     "{newName} already exists" : "{newName} 已經存在",
     "Choose" : "選擇",
     "Move" : "移動",

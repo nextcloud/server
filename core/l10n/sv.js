@@ -28,6 +28,8 @@ OC.L10N.register(
     "Reset your password" : "Åsterställ ditt lösenord",
     "Couldn't send reset email. Please contact your administrator." : "Kunde inte skicka återställningsmejl. Vänligen kontakta din administratör.",
     "Couldn't send reset email. Please make sure your username is correct." : "Kunde inte skicka återställningsmejl. Vänligen kontrollera att ditt användarnamn är korrekt.",
+    "Some of your link shares have been removed" : "Några av dina delade länkar har tagits bort",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "På grund av en säkerhetsbugg var vi tvungna att ta bort några av dina delade länkar. Se länken för mer information.",
     "Preparing update" : "Förbereder uppdatering",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparationssteg: ",

@@ -28,6 +28,8 @@ OC.L10N.register(
     "Reset your password" : "Restarigi vian pasvorton ",
     "Couldn't send reset email. Please contact your administrator." : "Ne eblas sendi retpoŝton pri restarigo. Bonvolu kontakti vian administranton.",
     "Couldn't send reset email. Please make sure your username is correct." : "Ne eblis sendi la retmesaĝon por restarigi pasvorton. Bonvolu kontroli, ĉu via uzantnomo ĝustas.",
+    "Some of your link shares have been removed" : "Kelkaj el viaj kunhavigaj ligiloj estis forigitaj",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Pro sekuriga problemo, ni forigu kelkajn el viaj kunhavigaj ligiloj. Bv. vidi la ligilon por plia informo.",
     "Preparing update" : "Preparante la ĝisdatigon",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Ripara stadio:",

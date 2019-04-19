@@ -270,6 +270,7 @@
     "Finishing …" : "Užbaigiama …",
     "Need help?" : "Reikia pagalbos?",
     "See the documentation" : "Žiūrėkite dokumentaciją",
+    "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Nepavyko iš konfigūracijos aplanko pašalinti failo CAN_INSTALL. Pašalinkite šį failą rankiniu būdu.",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Sistemos veikimui reikalingas JavaScript palaikymas. Prašome {linkstart}įjungti JavaScript palaikymą{linkend} ir atnaujinti puslapį.",
     "Get your own free account" : "Gaukite paskyrą nemokamai",
     "Skip to main content" : "Pereiti į pagrindinį turinį",
