@@ -412,13 +412,11 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		// Load files we need
+		\OCP\Util::addScript('files', 'merged-index');
 		\OCP\Util::addScript('files', 'file-upload');
 		\OCP\Util::addStyle('files_sharing', 'publicView');
 		\OCP\Util::addScript('files_sharing', 'public');
 		\OCP\Util::addScript('files_sharing', 'templates');
-		\OCP\Util::addScript('files', 'fileactions');
-		\OCP\Util::addScript('files', 'fileactionsmenu');
-		\OCP\Util::addScript('files', 'jquery.fileupload');
 		\OCP\Util::addScript('files_sharing', 'files_drop');
 
 		if (isset($shareTmpl['folder'])) {
