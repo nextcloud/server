@@ -26,6 +26,8 @@
     "Reset your password" : "Redefinir sua senha",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar o e-mail de redefinição. Por favor, contate o administrador.",
     "Couldn't send reset email. Please make sure your username is correct." : "Não foi possível enviar o e-mail de redefinição. Verifique se o seu nome de usuário está correto.",
+    "Some of your link shares have been removed" : "Alguns dos seus compartilhamentos de links foram removidos",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Devido a um bug de segurança, tivemos que remover alguns dos seus compartilhamentos de links. Por favor, veja o link para mais informações.",
     "Preparing update" : "Preparando a atualização",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Etapa do reparo:",
