@@ -90,8 +90,6 @@ class B2 implements IObjectStore
                         'BucketType' => Bucket::TYPE_PRIVATE,
                         'KeepLastVersionOnly' => true
                     ]);
-
-                    $buckets = $this->client->listBuckets(true);
                 }
 
             }
