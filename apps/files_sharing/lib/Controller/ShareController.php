@@ -412,26 +412,30 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		// Load files we need
-		\OCP\Util::addScript('files', 'merged-index');
-		\OCP\Util::addScript('files', 'file-upload');
-		\OCP\Util::addStyle('files_sharing', 'publicView');
-		\OCP\Util::addScript('files_sharing', 'public');
-		\OCP\Util::addScript('files_sharing', 'templates');
-		\OCP\Util::addScript('files_sharing', 'files_drop');
 
 		if (isset($shareTmpl['folder'])) {
 			// JS required for folders
+
 			\OCP\Util::addStyle('files', 'merged');
-			\OCP\Util::addScript('files', 'filesummary');
-			\OCP\Util::addScript('files', 'templates');
-			\OCP\Util::addScript('files', 'breadcrumb');
-			\OCP\Util::addScript('files', 'fileinfomodel');
-			\OCP\Util::addScript('files', 'newfilemenu');
-			\OCP\Util::addScript('files', 'files');
-			\OCP\Util::addScript('files', 'filemultiselectmenu');
-			\OCP\Util::addScript('files', 'filelist');
-			\OCP\Util::addScript('files', 'keyboardshortcuts');
-			\OCP\Util::addScript('files', 'operationprogressbar');
+			\OCP\Util::addStyle('files_sharing', 'publicView');
+
+			\OCP\Util::addScript('files', 'merged-index');
+			\OCP\Util::addScript('files_sharing', 'public');
+			\OCP\Util::addScript('files_sharing', 'templates');
+			\OCP\Util::addScript('files_sharing', 'files_drop');
+		}
+		else{
+			// JS required for single files
+
+			\OCP\Util::addStyle('files_sharing', 'publicView');
+
+			\OCP\Util::addScript('files_sharing', 'public');
+			\OCP\Util::addScript('files_sharing', 'templates');
+			\OCP\Util::addScript('files_sharing', 'files_drop');
+			\OCP\Util::addScript('files', 'file-upload');
+			\OCP\Util::addScript('files', 'fileactions');
+			\OCP\Util::addScript('files', 'fileactionsmenu');
+			\OCP\Util::addScript('files', 'jquery.fileupload');
 		}
 
 		// OpenGraph Support: http://ogp.me/
