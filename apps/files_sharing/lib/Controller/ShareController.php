@@ -412,12 +412,13 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		// Load files we need
+		
+		\OCP\Util::addStyle('files_sharing', 'publicView');
 
 		if (isset($shareTmpl['folder'])) {
 			// JS required for folders
 
 			\OCP\Util::addStyle('files', 'merged');
-			\OCP\Util::addStyle('files_sharing', 'publicView');
 
 			\OCP\Util::addScript('files', 'merged-index');
 			\OCP\Util::addScript('files_sharing', 'public');
@@ -426,8 +427,6 @@ class ShareController extends AuthPublicShareController {
 		}
 		else{
 			// JS required for single files
-
-			\OCP\Util::addStyle('files_sharing', 'publicView');
 
 			\OCP\Util::addScript('files_sharing', 'public');
 			\OCP\Util::addScript('files_sharing', 'templates');
