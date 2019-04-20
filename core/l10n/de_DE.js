@@ -29,7 +29,7 @@ OC.L10N.register(
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktieren Sie Ihren Administrator.",
     "Couldn't send reset email. Please make sure your username is correct." : "E-Mail zum Zurücksetzen kann nicht versendet werden. Bitte stellen Sie sicher, dass Ihr Benutzername richtig ist.",
     "Some of your link shares have been removed" : "Einige der geteilten Freigaben wurden entfernt",
-    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Aufgrund eines Sicherheitsfehlers mussten einige der geteilten Freigaben entfernt werden.  Weitere Informationen im Link.",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Aufgrund eines Sicherheitsfehlers mussten einige Link-Freigaben entfernt werden. Für weitere Informationen siehe Link.",
     "Preparing update" : "Update vorbereiten",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparaturschritt:",
