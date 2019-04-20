@@ -82,6 +82,7 @@ OC.L10N.register(
     "group" : "مجموعة",
     "remote" : "عن بعد",
     "email" : "البريد الإلكتروني",
+    "conversation" : "محادثة",
     "shared by {sharer}" : "شارَكه {sharer}",
     "Can reshare" : "يمكنه إعادة المشاركة",
     "Can edit" : "يمكنه التغيير",

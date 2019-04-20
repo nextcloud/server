@@ -26,6 +26,8 @@
     "Reset your password" : "Restabelecer o seu contrasinal",
     "Couldn't send reset email. Please contact your administrator." : "Non foi posíbel enviar o correo do restabelecemento. Póñase en contacto co administrador.",
     "Couldn't send reset email. Please make sure your username is correct." : "Non foi posíbel enviar o correo do restabelecemento. Asegúrese de que o nome de usuario é o correcto.",
+    "Some of your link shares have been removed" : "Elimináronse algunhas das súas ligazóns de compartición",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Por mor dun erro de seguridade tivemos que eliminar algunhas das súas ligazóns de compartición. Vexa a ligazón para obter máis información.",
     "Preparing update" : "Preparando a actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Paso do arranxo:",

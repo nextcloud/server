@@ -84,7 +84,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Copia l'enllaç directe (només funciona pels usuaris que tenen accés a aquest fitxer/carpeta)",
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
-    "Favorited" : "Afegit a favorits",
+    "Favorited" : "S'ha afegit a preferits",
     "Favorite" : "Preferits",
     "You can only favorite a single file or folder at a time" : "Només podeu afegir a preferits un únic fitxer o carpeta alhora",
     "New folder" : "Crea una carpeta",
