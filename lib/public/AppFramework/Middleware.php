@@ -42,7 +42,7 @@ use OCP\AppFramework\Http\Response;
  * @since 6.0.0
  */
 abstract class Middleware {
-
+/** @var HttpContext */
 	protected $context;
 
 	/**
