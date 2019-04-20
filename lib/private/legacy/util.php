@@ -315,7 +315,7 @@ class OC_Util {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === null) {
 			$user = '';
-		} else if ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
+		} else if ($user === '' && \OC::$server->getUserSession()->isLoggedIn()) {
 			$user = OC_User::getUser();
 		}
 		return $user;
