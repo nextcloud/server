@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2019 Biagio Carrella <biagio@biagiocarrella.it>
  *
@@ -21,8 +22,8 @@
 
 namespace OC\Files\ObjectStore;
 
-use obregonco\B2\Client;
 use obregonco\B2\Bucket;
+use obregonco\B2\Client;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class B2 implements IObjectStore
@@ -39,14 +40,15 @@ class B2 implements IObjectStore
     private $client = null;
     /** @var bool  */
     private $autoCreate = false;
-    /** @var Bucket|null */
-    private $bucket = null;
+    /** @var string */
+    private $cacheParentDir;
 
     /**
      * @param array $parameters
      */
     public function __construct($parameters)
     {
+        $this->config = $config;
         $this->bucketName = $parameters['bucket_name'];
         $this->accountId = $parameters['account_id'];
         $this->keyId = $parameters['key_id'];
@@ -54,6 +56,9 @@ class B2 implements IObjectStore
         if (isset($parameters['autocreate'])) {
             $this->autoCreate = $parameters['autocreate'];
         }
+        if (isset($parameters['cache_parent_dir'])) {
+            $this->cacheParentDir = $parameters['cache_parent_dir'];
+        }        
     }
 
     /**
@@ -61,16 +66,14 @@ class B2 implements IObjectStore
      */
     private function getClient()
     {
-        if (!$this->client) {
-            $this->client = new Client($this->accountId, 
-            [
-                'keyId' => $this->keyId, // optional if you want to use master key (account Id)
+        if ($this->client === null) {
+            $this->client = new Client($this->accountId, [
+                'keyId' => $this->keyId,
                 'applicationKey' => $this->applicationKey,
-                'version' => 2, // By default will use version 1
-            ],
-            [
-                'largeFileLimit' => (4*1024*1024*1024), // Lower limit for using large files upload support. Default: 3GB
-                'cacheParentDir' => \OC::$server->getConfig()->getSystemValue('datadirectory'),
+                'version' => 2,
+            ], [
+                'largeFileLimit' => (4 * 1024 * 1024 * 1024),
+                'cacheParentDir' => $this->cacheParentDir,
             ]
             );
 
@@ -85,13 +88,14 @@ class B2 implements IObjectStore
                 }
 
                 if (!$bucketExists) {
-                    $this->bucket = $this->client->createBucket([
+                    $this->client->createBucket([
                         'BucketName' => $this->bucketName,
                         'BucketType' => Bucket::TYPE_PRIVATE,
-                        'KeepLastVersionOnly' => true
+                        'KeepLastVersionOnly' => true,
                     ]);
-
-                    $buckets = $this->client->listBuckets(true);
+                    
+                    //call listBuckets to invalidate buckets cache
+                    $this->client->listBuckets(true);
                 }
 
             }
@@ -118,12 +122,7 @@ class B2 implements IObjectStore
             'BucketName' => $this->bucketName,
             'FileName' => $urn,
         ]);
-
-        $stream = fopen('php://temp','r+');
-        fwrite($stream, $fileContent);
-        rewind($stream);
-
-        return $stream;
+        return $fileContent;
     }
 
     /**
@@ -133,10 +132,10 @@ class B2 implements IObjectStore
      */
     public function writeObject($urn, $stream)
     {
-        $file = $this->getClient()->upload([
+        $this->getClient()->upload([
             'BucketName' => $this->bucketName,
             'FileName' => $urn,
-            'Body' => stream_get_contents($stream)
+            'Body' => stream_get_contents($stream),
         ]);
     }
 
@@ -147,12 +146,17 @@ class B2 implements IObjectStore
      */
     public function deleteObject($urn)
     {
-        $fileDelete = $this->client->deleteFile([
+        $this->client->deleteFile([
             'BucketName' => $this->bucketName,
             'FileName' => $urn,
         ]);
     }
 
+    /**
+     * @param string $urn the unified resource name used to identify the object
+     * @return bool Check if an object exists in the object store 
+     * @throws \Exception when something goes wrong, message will be logged
+     */    
     public function objectExists($urn)
     {
         return $this->getClient()->fileExists([
