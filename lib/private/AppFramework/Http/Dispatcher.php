@@ -89,9 +89,7 @@ class Dispatcher {
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
 
-			$context = new HttpContext();
-			$context->request = $request;
-			$this->middlewareDispatcher->setContext($context);
+			$this->middlewareDispatcher->setContext(new HttpContext($request));
 			$this->middlewareDispatcher->beforeController($controller,
 				$methodName);
 			$response = $this->executeController($controller, $methodName, $request);
