@@ -159,7 +159,7 @@ OC.L10N.register(
     "Shared by link" : "Delad via länk",
     "Deleted shares" : "Raderade delningar",
     "Text file" : "Textfil",
-    "New text file.txt" : "nytextfil.txt",
+    "New text file.txt" : "Ny textfil.txt",
     "Target folder" : "Målmapp",
     "File handling" : "Filhantering",
     "Maximum upload size" : "Största storlek att ladda upp",
