@@ -154,6 +154,8 @@ class PostgreSQL extends AbstractDatabase {
 			// create the user
 			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
+			$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . $this->dbName . ' TO '.addslashes($this->dbUser));
+			$query->execute();
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user');
 			$this->logger->logException($e);
