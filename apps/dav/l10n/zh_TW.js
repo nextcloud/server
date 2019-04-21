@@ -37,6 +37,7 @@ OC.L10N.register(
     "Accept" : "接受",
     "Decline" : "拒絕",
     "More options …" : "更多選項 ...",
+    "More options at %s" : "%s有更多選項",
     "Contacts" : "聯絡人",
     "WebDAV" : "WebDAV",
     "Technical details" : "技術細節",
