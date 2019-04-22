@@ -155,7 +155,7 @@ class PostgreSQL extends AbstractDatabase {
 			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
 			if ($this->databaseExists($connection)) {
-				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . $this->dbName . ' TO '.addslashes($this->dbUser));
+				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO '.addslashes($this->dbUser));
 				$query->execute();
 			}
 		} catch (DatabaseException $e) {
