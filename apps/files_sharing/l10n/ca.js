@@ -134,6 +134,6 @@ OC.L10N.register(
     "Uploading files…" : "S'estan carregant fitxers...",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "S'ha produït un error en compartir %s perquè la part posterior no permet que les accions del tipus%s"
+    "Sharing %s failed because the back end does not allow shares from type %s" : "No s'ha pogut compartir %s perquè l'aplicació de fons no permet comparticions del tipus%s"
 },
 "nplurals=2; plural=(n != 1);");
