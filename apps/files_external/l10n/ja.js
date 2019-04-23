@@ -62,7 +62,7 @@ OC.L10N.register(
     "App secret" : "アプリシークレット",
     "OAuth2" : "OAuth2",
     "Client ID" : "クライアントID",
-    "Client secret" : "クライアント秘密キー",
+    "Client secret" : "クライアント秘密鍵",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "テナント名",
     "Identity endpoint URL" : "認証エンドポイントURL",
