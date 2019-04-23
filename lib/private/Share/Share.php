@@ -257,49 +257,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Based on the given token the share information will be returned - password protected shares will be verified
-	 * @param string $token
-	 * @param bool $checkPasswordProtection
-	 * @return array|boolean false will be returned in case the token is unknown or unauthorized
-	 */
-	public static function getShareByToken($token, $checkPasswordProtection = true) {
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
-		$result = $query->execute(array($token));
-		if ($result === false) {
-			\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage() . ', token=' . $token, ILogger::ERROR);
-		}
-		$row = $result->fetchRow();
-		if ($row === false) {
-			return false;
-		}
-		if (is_array($row) and self::expireItem($row)) {
-			return false;
-		}
-
-		// password protected shares need to be authenticated
-		if ($checkPasswordProtection && !\OC\Share\Share::checkPasswordProtectedShare($row)) {
-			return false;
-		}
-
-		return $row;
-	}
-
-	/**
-	 * Get the shared items of item type owned by the current user
-	 * @param string $itemType
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters
-	 * @param int $limit Number of items to return (optional) Returns all by default
-	 * @param boolean $includeCollections
-	 * @return mixed Return depends on format
-	 */
-	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
-										  $limit = -1, $includeCollections = false) {
-		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format,
-			$parameters, $limit, $includeCollections);
-	}
-
-	/**
 	 * Get the shared item of item type owned by the current user
 	 * @param string $itemType
 	 * @param string $itemSource
@@ -418,29 +375,6 @@ class Share extends Constants {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * sent status if users got informed by mail about share
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string $recipient with whom was the file shared
-	 * @param boolean $status
-	 */
-	public static function setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status) {
-		$status = $status ? 1 : 0;
-
-		$query = \OC_DB::prepare(
-			'UPDATE `*PREFIX*share`
-					SET `mail_send` = ?
-					WHERE `item_type` = ? AND `item_source` = ? AND `share_type` = ? AND `share_with` = ?');
-
-		$result = $query->execute(array($status, $itemType, $itemSource, $shareType, $recipient));
-
-		if($result === false) {
-			\OCP\Util::writeLog('OCP\Share', 'Couldn\'t set send mail status', ILogger::ERROR);
-		}
 	}
 
 	/**
@@ -1614,14 +1548,6 @@ class Share extends Constants {
 		$status = json_decode($result['result'], true);
 
 		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function isDefaultExpireDateEnabled() {
-		$defaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		return $defaultExpireDateEnabled === 'yes';
 	}
 
 	/**
