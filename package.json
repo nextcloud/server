@@ -55,7 +55,7 @@
     "vue-infinite-loading": "^2.4.3",
     "vue-localstorage": "^0.6.2",
     "vue-multiselect": "^2.1.4",
-    "vue-router": "^3.0.4",
+    "vue-router": "^3.0.6",
     "vuex": "^3.1.0",
     "vuex-router-sync": "^5.0.0"
   },
