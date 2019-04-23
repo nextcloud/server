@@ -592,7 +592,7 @@ kbd {
 
 /**
  * !Important. We are defining the minimum requirement we want for flex
- * Just before the mobile breakpoint we have $breakpoint-mobile (768px) - $navigation-width
+ * Just before the mobile breakpoint we have $breakpoint-mobile (1024px) - $navigation-width
  * -> 468px. In that case we want 200px for the list and 268px for the content
  */
 $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
