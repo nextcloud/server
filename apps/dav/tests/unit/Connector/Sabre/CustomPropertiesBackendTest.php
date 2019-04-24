@@ -226,10 +226,6 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->method('getPath')
 			->will($this->returnValue('/dummypath/test.txt'));
 
-		$rootNode->expects($this->once())
-			->method('getChildren')
-			->will($this->returnValue(array($nodeSub)));
-
 		$this->tree->expects($this->at(0))
 			->method('getNodeForPath')
 			->with('/dummypath')
