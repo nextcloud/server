@@ -42,11 +42,12 @@
 		<component
 			:is="previousFile.modal"
 			v-if="!previousFile.failed"
-			ref="previous-content"
 			:key="getPath(previousFile)"
+			ref="previous-content"
+			:dav-path="previousFile.path"
+			:file-id="previousFile.id"
 			:mime="previousFile.mime"
 			:path="getPath(previousFile)"
-			:dav-path="previousFile.path"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<Error
@@ -57,17 +58,18 @@
 		<component
 			:is="currentFile.modal"
 			v-if="!currentFile.failed"
-			ref="content"
 			:key="getPath(currentFile)"
-			:mime="currentFile.mime"
-			:path="getPath(currentFile)"
-			:dav-path="currentFile.path"
+			ref="content"
 			:active="true"
 			:can-swipe.sync="canSwipe"
-			:sidebar-shown="showSidebar"
+			:dav-path="currentFile.path"
+			:file-id="currentFile.id"
 			:is-full-screen="isFullscreen"
-			class="file-view"
 			:loaded.sync="currentFile.loaded"
+			:mime="currentFile.mime"
+			:path="getPath(currentFile)"
+			:sidebar-shown="showSidebar"
+			class="file-view"
 			@error="currentFailed" />
 		<Error
 			v-else
@@ -77,11 +79,12 @@
 		<component
 			:is="nextFile.modal"
 			v-if="!nextFile.failed"
-			ref="next-content"
 			:key="getPath(nextFile)"
+			ref="next-content"
+			:dav-path="nextFile.path"
+			:file-id="nextFile.id"
 			:mime="nextFile.mime"
 			:path="getPath(nextFile)"
-			:dav-path="nextFile.path"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<Error

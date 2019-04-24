@@ -31,6 +31,10 @@ export default {
 			type: String,
 			required: true
 		},
+		fileId: {
+			type: Number,
+			default: null
+		},
 		davPath: {
 			type: String,
 			required: true
