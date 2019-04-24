@@ -574,7 +574,7 @@ Raw output
 	protected function hasRecommendedPHPModules(): array {
 		$recommendedPHPModules = [];
 
-		if (!function_exists('grapheme_strlen')) {
+		if (!extension_loaded('intl')) {
 			$recommendedPHPModules[] = 'intl';
 		}
 
