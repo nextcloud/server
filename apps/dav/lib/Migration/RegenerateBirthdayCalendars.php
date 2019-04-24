@@ -72,7 +72,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 		}
 
 		$output->info('Adding background jobs to regenerate birthday calendar');
-		$this->userManager->callForAllUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function(IUser $user) {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
 				'userId' => $user->getUID(),
 				'purgeBeforeGenerating' => true
