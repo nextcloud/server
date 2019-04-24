@@ -27,7 +27,7 @@
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
 		:view="currentFile.modal"
 		:actions="actions"
-		:enable-slideshow="true"
+		:enable-slideshow="hasPrevious || hasNext"
 		:spread-navigation="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
@@ -214,8 +214,13 @@ export default {
 				? this.mimeGroups[group]
 				: [mime]
 
+			// if no group, only fetch the file info
+			const infoPath = group
+				? fileInfo.dir
+				: relativePath
+
 			// retrieve, sort and store file List
-			const fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir, mimes)
+			const fileList = await FileList(OC.getCurrentUser().uid, infoPath, mimes)
 			this.fileList = fileList.sort(OCA.Files.App.fileList._sortComparator)
 
 			// store current position
