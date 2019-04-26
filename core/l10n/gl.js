@@ -72,7 +72,7 @@ OC.L10N.register(
     "Could not load your contacts" : "Non foi posíbel cargar os seus contactos",
     "Search contacts …" : "Buscar contactos …",
     "No contacts found" : "Non se atoparon contactos",
-    "Show all contacts …" : "Amosar todos os contactos …",
+    "Show all contacts …" : "Amosar todos os contactos…",
     "Loading your contacts …" : "Cargando os seus contactos …",
     "Looking for {term} …" : "Buscando {term} …",
     "No action available" : "Non hai accións dispoñíbeis",
