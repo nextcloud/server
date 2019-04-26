@@ -178,7 +178,7 @@
     "Application is not enabled" : "O aplicativo non está activado",
     "Authentication error" : "Produciuse un erro de autenticación",
     "Token expired. Please reload page." : "Marca caducada. Recargue a páxina.",
-    "No database drivers (sqlite, mysql, or postgresql) installed." : "Non hay controladores de base de datos (sqlite, mysql, ou postgresql) instalados.",
+    "No database drivers (sqlite, mysql, or postgresql) installed." : "Non hai controladores de base de datos (sqlite, mysql, ou postgresql) instalados.",
     "Cannot write into \"config\" directory" : "Non é posíbel escribir no directorio «config»",
     "Cannot write into \"apps\" directory" : "Non é posíbel escribir no directorio «apps»",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Polo xeral, isto pódese solucionar dándolle ao servidor web acceso de escritura  ao directorio dos aplicativos ou desactivando a tenda de aplicativos no ficheiro de configuración. Vexa %s",

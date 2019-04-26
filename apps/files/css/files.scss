@@ -262,11 +262,8 @@ table th.column-last, table td.column-last {
 }
 
 /* Multiselect bar */
-#filestable.multiselect {
-	top: 51px;
-}
 table.multiselect thead {
-	position: fixed;
+	@include position('sticky');
 	top: 94px;
 	z-index: 55;
 	-moz-box-sizing: border-box;
@@ -275,7 +272,7 @@ table.multiselect thead {
 }
 
 table.multiselect thead th {
-	background-color: var(--color-main-background);
+	background-color: var(--color-main-background-translucent);
 	font-weight: bold;
 	border-bottom: 0;
 }
@@ -783,7 +780,7 @@ table.dragshadow td.size {
 		tr {
 			display: block;
 			border-bottom: 1px solid var(--color-border);
-			background-color: var(--color-main-background);
+			background-color: var(--color-main-background-translucent);
 			th {
 				width: auto;
 				border: none;

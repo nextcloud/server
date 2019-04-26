@@ -98,7 +98,7 @@ OC.L10N.register(
     "Please specify a valid circle" : "Veuillez entrer un cercle valide",
     "Sharing %s failed because the back end does not support room shares" : "Le partage %s a échoué parce que l'arrière-plan ne prend pas en charge les partages.",
     "Unknown share type" : "Type de partage inconnu",
-    "Not a directory" : "N'est pas un répertoire",
+    "Not a directory" : "N'est pas un dossier",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
     "Can't change permissions for public share links" : "Impossible de changer les permissions pour les liens de partage public",

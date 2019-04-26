@@ -28,6 +28,8 @@ OC.L10N.register(
     "Reset your password" : "Ресетуј лозинку",
     "Couldn't send reset email. Please contact your administrator." : "Не могу да пошаљем поруку за ресетовање. Контактирајте администратора.",
     "Couldn't send reset email. Please make sure your username is correct." : "Не могу да пошаљем поруку за ресетовање. Проверите да ли је корисничко име исправно.",
+    "Some of your link shares have been removed" : "Неке од Ваших веза дељења су уклоњене",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Уклонили смо неке од Ваших веза дељења због безбедоносног пропуста. Погледајте везу да добијете више информација.",
     "Preparing update" : "Припремам ажурирање",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Корак поправке:",

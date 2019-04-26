@@ -78,7 +78,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 			->with('dav', 'generateBirthdayCalendar', 'yes');
 
 		$this->userManager->expects($this->once())
-			->method('callForAllUsers')
+			->method('callForSeenUsers')
 			->will($this->returnCallback(function($closure) {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->will($this->returnValue('uid1'));
