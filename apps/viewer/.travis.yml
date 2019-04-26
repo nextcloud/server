@@ -1,9 +1,12 @@
 language: node_js
+dist: xenial
+sudo: false
+node_js:
+  - 11
 cache:
+  npm: true
   directories:
   - node_modules
-node_js:
-- node
 script:
-- npm run lint
-- npm run build
+  - npm run build
+  - npm run lint
