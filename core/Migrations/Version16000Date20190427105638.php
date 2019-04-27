@@ -57,6 +57,7 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
@@ -66,7 +67,7 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 			$table = $schema->getTable('collres_accesscache');
 
 			$table->changeColumn('access', [
-				'type' => Type::BOOLEAN,
+				'type' => Type::getType(Type::BOOLEAN),
 				'notnull' => true,
 				'default' => false,
 			]);
