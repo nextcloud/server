@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "При обновлении комментария с id {id} произошла ошибка",
     "Error occurred while posting comment" : "При сохранении комментария произошла ошибка",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"],
+    "_1 new comment_::_{unread} new comments_" : ["1 новый комментарий","{unread} новых комментариев","{unread} новых комментариев","{unread} новых комментариев"],
     "Comment" : "Комментарий",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Вы были упомянуты в комментарии к файлу «%s» пользователем, учётная запись которого была удалена",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s упомянул вас в комментарии к \"%2$s\""
