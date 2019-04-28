@@ -712,6 +712,7 @@ return array(
     'OC\\Core\\Migrations\\Version16000Date20190207141427' => $baseDir . '/core/Migrations/Version16000Date20190207141427.php',
     'OC\\Core\\Migrations\\Version16000Date20190212081545' => $baseDir . '/core/Migrations/Version16000Date20190212081545.php',
     'OC\\Core\\Migrations\\Version16000Date20190427105638' => $baseDir . '/core/Migrations/Version16000Date20190427105638.php',
+    'OC\\Core\\Migrations\\Version16000Date20190428150708' => $baseDir . '/core/Migrations/Version16000Date20190428150708.php',
     'OC\\Core\\Notification\\RemoveLinkSharesNotifier' => $baseDir . '/core/Notification/RemoveLinkSharesNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
