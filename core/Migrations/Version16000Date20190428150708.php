@@ -23,20 +23,15 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
+use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
-use OCP\IDBConnection;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-
-class Version16000Date20190427105638 extends SimpleMigrationStep {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
-	}
+/**
+ * Auto-generated migration step: Please modify to your needs!
+ */
+class Version16000Date20190428150708 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -44,10 +39,6 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-		$this->connection
-			->getQueryBuilder()
-			->delete('collres_accesscache')
-			->execute();
 	}
 
 	/**
@@ -56,7 +47,6 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
-	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
@@ -64,7 +54,10 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('collres_accesscache')) {
 			$table = $schema->getTable('collres_accesscache');
-			$table->dropColumn('access');
+			$table->addColumn('access', Type::BOOLEAN, [
+				'notnull' => true,
+				'default' => false
+			]);
 		}
 
 		return $schema;
