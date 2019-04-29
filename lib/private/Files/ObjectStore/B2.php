@@ -146,7 +146,7 @@ class B2 implements IObjectStore
      */
     public function deleteObject($urn)
     {
-        $this->client->deleteFile([
+        $this->getClient()->deleteFile([
             'BucketName' => $this->bucketName,
             'FileName' => $urn,
         ]);
