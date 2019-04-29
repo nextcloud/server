@@ -33,7 +33,15 @@ export default {
 		},
 		fileId: {
 			type: Number,
-			default: null
+			required: true
+		},
+		fileList: {
+			type: Array,
+			default: []
+		},
+		fileName: {
+			type: String,
+			required: true
 		},
 		davPath: {
 			type: String,
@@ -68,6 +76,15 @@ export default {
 			naturalHeight: null,
 			naturalWidth: null,
 			isLoaded: false
+		}
+	},
+
+	computed: {
+		name() {
+			return this.fileName.split('.')[0]
+		},
+		ext() {
+			return this.fileName.split('.')[1]
 		}
 	},
 

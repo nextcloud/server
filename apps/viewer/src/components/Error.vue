@@ -23,7 +23,9 @@
 <template>
 	<div id="emptycontent">
 		<div class="icon-error" />
-		<h2>{{ t('viewer', 'Error loading {name}', { name }) }}</h2>
+		<h2>
+			<slot>{{ t('viewer', 'Error loading {name}', { name }) }}</slot>
+		</h2>
 	</div>
 </template>
 
@@ -42,6 +44,8 @@ export default {
 
 <style scoped>
 #emptycontent {
-	margin: 10% 5%;
+	margin: 0;
+	padding: 10% 5%;
+	background-color: var(--color-main-background);
 }
 </style>

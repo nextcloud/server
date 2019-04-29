@@ -41,17 +41,18 @@
 </template>
 
 <script>
-import mime from 'Mixins/Mime'
 import axios from 'axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
+
+import Mime from 'Mixins/Mime'
 
 Vue.use(AsyncComputed)
 
 export default {
 	name: 'Images',
 	mixins: [
-		mime
+		Mime
 	],
 	data() {
 		return {

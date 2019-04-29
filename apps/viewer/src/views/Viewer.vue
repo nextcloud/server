@@ -42,12 +42,14 @@
 		<component
 			:is="previousFile.modal"
 			v-if="!previousFile.failed"
-			:key="getPath(previousFile)"
+			:key="getPreviewIfAny(previousFile)"
 			ref="previous-content"
 			:dav-path="previousFile.path"
 			:file-id="previousFile.id"
+			:file-list="fileList"
+			:file-name="previousFile.name"
 			:mime="previousFile.mime"
-			:path="getPath(previousFile)"
+			:path="getPreviewIfAny(previousFile)"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<Error
@@ -58,16 +60,18 @@
 		<component
 			:is="currentFile.modal"
 			v-if="!currentFile.failed"
-			:key="getPath(currentFile)"
+			:key="getPreviewIfAny(currentFile)"
 			ref="content"
 			:active="true"
 			:can-swipe.sync="canSwipe"
 			:dav-path="currentFile.path"
 			:file-id="currentFile.id"
+			:file-list="fileList"
+			:file-name="currentFile.name"
 			:is-full-screen="isFullscreen"
 			:loaded.sync="currentFile.loaded"
 			:mime="currentFile.mime"
-			:path="getPath(currentFile)"
+			:path="getPreviewIfAny(currentFile)"
 			:sidebar-shown="showSidebar"
 			class="file-view"
 			@error="currentFailed" />
@@ -79,12 +83,14 @@
 		<component
 			:is="nextFile.modal"
 			v-if="!nextFile.failed"
-			:key="getPath(nextFile)"
+			:key="getPreviewIfAny(nextFile)"
 			ref="next-content"
 			:dav-path="nextFile.path"
 			:file-id="nextFile.id"
+			:file-list="fileList"
+			:file-name="nextFile.name"
 			:mime="nextFile.mime"
-			:path="getPath(nextFile)"
+			:path="getPreviewIfAny(nextFile)"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<Error
@@ -97,9 +103,10 @@
 import Vue from 'vue'
 
 import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
-import { generateRemoteUrl, generateUrl } from 'nextcloud-server/dist/router'
+import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
+import PreviewUrl from 'Mixins/PreviewUrl'
 import FileList from 'Services/FileList'
 import Modal from 'nextcloud-vue/dist/Components/Modal'
 
@@ -111,7 +118,7 @@ export default {
 		Error
 	},
 
-	mixins: [isMobile],
+	mixins: [isMobile, PreviewUrl],
 
 	data: () => ({
 		handlers: OCA.Viewer.availableHandlers,
@@ -432,13 +439,6 @@ export default {
 					this.mimesAliases[mime] = handler.mimesAliases[mime]
 				})
 			}
-		},
-
-		getPath(fileInfo) {
-			if (fileInfo.hasPreview) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${window.outerWidth}&y=${window.outerHeight}&a=true`)
-			}
-			return fileInfo.path
 		},
 
 		/**
