@@ -93,7 +93,7 @@ window.oc_appswebroots = {
 	"files": window.oc_webroot + '/apps/files/',
 	"files_sharing": window.oc_webroot + '/apps/files_sharing/'
 };
-window.oc_config = {
+OC.config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',

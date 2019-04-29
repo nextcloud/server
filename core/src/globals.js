@@ -34,7 +34,10 @@ const deprecate = (func, funcName) => {
 	return newFunc
 }
 
-const setDeprecatedProp = (global, val, msg) =>
+const setDeprecatedProp = (global, val, msg) => {
+	if (window[global] !== undefined) {
+		delete window[global]
+	}
 	Object.defineProperty(window, global, {
 		get: () => {
 			if (msg) {
@@ -45,6 +48,7 @@ const setDeprecatedProp = (global, val, msg) =>
 			return val
 		}
 	})
+}
 
 import _ from 'underscore'
 import $ from 'jquery'
@@ -103,7 +107,8 @@ window['md5'] = md5
 window['moment'] = moment
 
 window['OC'] = OC
-setDeprecatedProp('OCDialogs', OC.dialogs, 'use OC.dialogs')
+setDeprecatedProp('oc_config', OC.config, 'use OC.config instead')
+setDeprecatedProp('OCDialogs', OC.dialogs, 'use OC.dialogs instead')
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML')

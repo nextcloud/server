@@ -231,7 +231,7 @@ class JSConfigHelper {
 				(string)$this->l->t('Dec.')
 			]),
 			"firstDay" => json_encode($this->l->l('firstday', null)) ,
-			"oc_config" => json_encode([
+			"_oc_config" => json_encode([
 				'session_lifetime'	=> min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 				'session_keepalive'	=> $this->config->getSystemValue('session_keepalive', true),
 				'version'			=> implode('.', \OCP\Util::getVersion()),
