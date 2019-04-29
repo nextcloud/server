@@ -22,36 +22,35 @@
 
 <template>
 	<video
-		v-if="path && canPlay"
+		v-if="path"
 		:autoplay="active"
 		:controls="visibleControls"
 		:poster="livePhotoPath"
 		:preload="true"
+		:src="davPath"
 		:style="{
 			height: height + 'px',
 			width: width + 'px'
 		}"
-		@canplay="doneLoading"
+		@ended="donePlaying"
 		@click.prevent="playPause"
 		@dblclick.prevent="toggleFullScreen"
-		@ended="donePlaying"
-		@loadedmetadata="updateVideoSize"
+		@canplay="doneLoading"
 		@mouseenter="showControls"
-		@mouseleave="hideControls">
+		@mouseleave="hideControls"
+		@loadedmetadata="updateVideoSize">
 
-		<source :src="davPath" :type="mime">
+		<!-- Omitting `type` on purpose because most of the
+			browsers auto detect the appropriate codec.
+			Having it set force the browser to comply to
+			the provided mime instead of detecting a potential
+			compatibility. -->
 
 		{{ t('viewer', 'Your browser does not support the video tag.') }}
 	</video>
-
-	<!-- Browser cannot play this file -->
-	<Error v-else>
-		{{ t('viewer', 'This video is not playable in your browser') }}
-	</Error>
 </template>
 
 <script>
-import Error from 'Components/Error'
 import Mime from 'Mixins/Mime'
 import PreviewUrl from 'Mixins/PreviewUrl'
 
@@ -60,15 +59,10 @@ const liveExt = ['jpg', 'jpeg', 'png']
 export default {
 	name: 'Videos',
 
-	components: {
-		Error
-	},
-
 	mixins: [Mime, PreviewUrl],
 
 	data() {
 		return {
-			canPlay: true,
 			visibleControls: false
 		}
 	},
@@ -77,12 +71,13 @@ export default {
 		livePhoto() {
 			return this.fileList.find(file => {
 				// if same filename and extension is allowed
-				return file.name.startsWith(this.name)
-					&& liveExt.indexOf(file.name.split('.')[1] > -1)
+				return file.href !== this.davPath
+					&& file.name.startsWith(this.name)
+					&& liveExt.indexOf(file.name.split('.')[1]) > -1
 			})
 		},
 		livePhotoPath() {
-			return this.getPreviewIfAny(this.livePhoto)
+			return this.livePhoto && this.getPreviewIfAny(this.livePhoto)
 		}
 	},
 
@@ -90,23 +85,13 @@ export default {
 		active: function(val, old) {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
-				// if we cannot play the file, we announce we're done loading
-				this.canPlayCheck()
-				if (this.canPlay) {
-					this.$el.play()
-				}
+				this.$el.play()
 
 			// the item was playing before and is now hidden
 			} else if (val === false && old === true) {
-				if (this.canPlay) {
-					this.$el.pause()
-				}
+				this.$el.pause()
 			}
 		}
-	},
-
-	mounted() {
-		this.canPlayCheck()
 	},
 
 	methods: {
@@ -138,16 +123,6 @@ export default {
 			// reset and show poster after play
 			this.$el.autoplay = false
 			this.$el.load()
-		},
-
-		canPlayCheck() {
-			if (this.$el.canPlayType
-				&& this.$el.canPlayType(this.mime) !== '') {
-				this.canPlay = true
-			} else {
-				this.canPlay = false
-				this.doneLoading()
-			}
 		}
 	}
 }
