@@ -1,34 +1,39 @@
-/**
- * ownCloud
+/* global alert */
+
+/*
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Bartek Przybylski, Christopher Schäpers, Thomas Tanghus
- * @copyright 2012 Bartek Przybylski bartek@alefzero.eu
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
+ * @license GNU AGPL version 3 or any later version
  *
- * This library is distributed in the hope that it will be useful,
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global alert */
+import _ from 'underscore'
+import $ from 'jquery'
+
+import OC from './index'
+import OCA from '../OCA/index'
 
 /**
  * this class to ease the usage of jquery dialogs
- * @lends OC.dialogs
  */
-var OCdialogs = {
+const Dialogs = {
 	// dialog button types
-	YES_NO_BUTTONS:		70,
-	OK_BUTTONS:		71,
+	YES_NO_BUTTONS: 70,
+	OK_BUTTONS: 71,
 
 	FILEPICKER_TYPE_CHOOSE: 1,
 	FILEPICKER_TYPE_MOVE: 2,
@@ -38,64 +43,64 @@ var OCdialogs = {
 	// used to name each dialog
 	dialogsCounter: 0,
 	/**
-	* displays alert dialog
-	* @param text content of dialog
-	* @param title dialog title
-	* @param callback which will be triggered when user presses OK
-	* @param modal make the dialog modal
-	*/
-	alert:function(text, title, callback, modal) {
+	 * displays alert dialog
+	 * @param text content of dialog
+	 * @param title dialog title
+	 * @param callback which will be triggered when user presses OK
+	 * @param modal make the dialog modal
+	 */
+	alert: function (text, title, callback, modal) {
 		this.message(
 			text,
 			title,
 			'alert',
-			OCdialogs.OK_BUTTON,
+			Dialogs.OK_BUTTON,
 			callback,
 			modal
 		);
 	},
 	/**
-	* displays info dialog
-	* @param text content of dialog
-	* @param title dialog title
-	* @param callback which will be triggered when user presses OK
-	* @param modal make the dialog modal
-	*/
-	info:function(text, title, callback, modal) {
-		this.message(text, title, 'info', OCdialogs.OK_BUTTON, callback, modal);
+	 * displays info dialog
+	 * @param text content of dialog
+	 * @param title dialog title
+	 * @param callback which will be triggered when user presses OK
+	 * @param modal make the dialog modal
+	 */
+	info: function (text, title, callback, modal) {
+		this.message(text, title, 'info', Dialogs.OK_BUTTON, callback, modal);
 	},
 	/**
-	* displays confirmation dialog
-	* @param text content of dialog
-	* @param title dialog title
-	* @param callback which will be triggered when user presses YES or NO
-	*        (true or false would be passed to callback respectively)
-	* @param modal make the dialog modal
-	*/
-	confirm:function(text, title, callback, modal) {
+	 * displays confirmation dialog
+	 * @param text content of dialog
+	 * @param title dialog title
+	 * @param callback which will be triggered when user presses YES or NO
+	 *        (true or false would be passed to callback respectively)
+	 * @param modal make the dialog modal
+	 */
+	confirm: function (text, title, callback, modal) {
 		return this.message(
 			text,
 			title,
 			'notice',
-			OCdialogs.YES_NO_BUTTONS,
+			Dialogs.YES_NO_BUTTONS,
 			callback,
 			modal
 		);
 	},
 	/**
-	* displays confirmation dialog
-	* @param text content of dialog
-	* @param title dialog title
-	* @param callback which will be triggered when user presses YES or NO
-	*        (true or false would be passed to callback respectively)
-	* @param modal make the dialog modal
-	*/
-	confirmHtml:function(text, title, callback, modal) {
+	 * displays confirmation dialog
+	 * @param text content of dialog
+	 * @param title dialog title
+	 * @param callback which will be triggered when user presses YES or NO
+	 *        (true or false would be passed to callback respectively)
+	 * @param modal make the dialog modal
+	 */
+	confirmHtml: function (text, title, callback, modal) {
 		return this.message(
 			text,
 			title,
 			'notice',
-			OCdialogs.YES_NO_BUTTONS,
+			Dialogs.YES_NO_BUTTONS,
 			callback,
 			modal,
 			true
@@ -113,13 +118,13 @@ var OCdialogs = {
 	 */
 	prompt: function (text, title, callback, modal, name, password) {
 		return $.when(this._getMessageTemplate()).then(function ($tmpl) {
-			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
+			var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
 				dialog_name: dialogName,
-				title      : title,
-				message    : text,
-				type       : 'notice'
+				title: title,
+				message: text,
+				type: 'notice'
 			});
 			var input = $('<input/>');
 			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input').attr('placeholder', name);
@@ -139,30 +144,30 @@ var OCdialogs = {
 			}
 
 			var buttonlist = [{
-					text : t('core', 'No'),
-					click: function () {
-						if (callback !== undefined) {
-							callback(false, input.val());
-						}
-						$(dialogId).ocdialog('close');
+				text: t('core', 'No'),
+				click: function () {
+					if (callback !== undefined) {
+						callback(false, input.val());
 					}
-				}, {
-					text         : t('core', 'Yes'),
-					click        : function () {
-						if (callback !== undefined) {
-							callback(true, input.val());
-						}
-						$(dialogId).ocdialog('close');
-					},
-					defaultButton: true
+					$(dialogId).ocdialog('close');
 				}
+			}, {
+				text: t('core', 'Yes'),
+				click: function () {
+					if (callback !== undefined) {
+						callback(true, input.val());
+					}
+					$(dialogId).ocdialog('close');
+				},
+				defaultButton: true
+			}
 			];
 
 			$(dialogId).ocdialog({
 				closeOnEscape: true,
-				modal        : modal,
-				buttons      : buttonlist,
-				close        : function() {
+				modal: modal,
+				buttons: buttonlist,
+				close: function () {
 					// callback is already fired if Yes/No is clicked directly
 					if (callback !== undefined) {
 						callback(false, input.val());
@@ -170,7 +175,7 @@ var OCdialogs = {
 				}
 			});
 			input.focus();
-			OCdialogs.dialogsCounter++;
+			Dialogs.dialogsCounter++;
 		});
 	},
 	/**
@@ -190,8 +195,8 @@ var OCdialogs = {
 	 * @param modal make the dialog modal
 	 * @param type Type of file picker : Choose, copy, move, copy and move
 	 * @param path path to the folder that the the file can be picket from
-	*/
-	filepicker:function(title, callback, multiselect, mimetypeFilter, modal, type, path) {
+	 */
+	filepicker: function (title, callback, multiselect, mimetypeFilter, modal, type, path) {
 		var self = this;
 
 		this.filepicker.sortField = 'name';
@@ -212,22 +217,22 @@ var OCdialogs = {
 		}
 
 		this.filepicker.loading = true;
-		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList)? OCA.Sharing.PublicApp.fileList.filesClient: OC.Files.getClient();
+		this.filepicker.filesClient = (OCA.Sharing && OCA.Sharing.PublicApp && OCA.Sharing.PublicApp.fileList) ? OCA.Sharing.PublicApp.fileList.filesClient : OC.Files.getClient();
 
 		this.filelist = null;
 		path = path || '';
 
-		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
+		$.when(this._getFilePickerTemplate()).then(function ($tmpl) {
 			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
-			if(self.$filePicker) {
+			if (self.$filePicker) {
 				self.$filePicker.ocdialog('close');
 			}
 
 			if (mimetypeFilter === undefined || mimetypeFilter === null) {
 				mimetypeFilter = [];
 			}
-			if (typeof(mimetypeFilter) === "string") {
+			if (typeof (mimetypeFilter) === "string") {
 				mimetypeFilter = [mimetypeFilter];
 			}
 
@@ -267,20 +272,20 @@ var OCdialogs = {
 			if (type === self.FILEPICKER_TYPE_CHOOSE) {
 				newButton.hide();
 			}
-			newButton.on('focus', function() {
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+			newButton.on('focus', function () {
+				self.$filePicker.ocdialog('setEnterCallback', function () {
 					event.stopImmediatePropagation();
 					event.preventDefault();
 					newButton.click();
 				});
 			});
-			newButton.on('blur', function() {
+			newButton.on('blur', function () {
 				self.$filePicker.ocdialog('unsetEnterCallback');
 			});
 
-			OC.registerMenu(newButton,self.$filePicker.find('.menu'),function () {
+			OC.registerMenu(newButton, self.$filePicker.find('.menu'), function () {
 				$input.focus();
-				self.$filePicker.ocdialog('setEnterCallback', function() {
+				self.$filePicker.ocdialog('setEnterCallback', function () {
 					event.stopImmediatePropagation();
 					event.preventDefault();
 					self.$form.submit();
@@ -295,7 +300,7 @@ var OCdialogs = {
 			var $form = self.$filePicker.find('.filenameform');
 			var $input = $form.find('input[type=\'text\']');
 			var $submit = $form.find('input[type=\'submit\']');
-			$submit.on('click',function(event) {
+			$submit.on('click', function (event) {
 				event.stopImmediatePropagation();
 				event.preventDefault();
 				$form.submit();
@@ -306,7 +311,9 @@ var OCdialogs = {
 				try {
 					if (!Files.isFileNameValid(filename)) {
 						// Files.isFileNameValid(filename) throws an exception itself
-					} else if (self.filelist.find(function(file){return file.name === this;},filename)) {
+					} else if (self.filelist.find(function (file) {
+						return file.name === this;
+					}, filename)) {
 						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
 							escape: false
 						});
@@ -315,7 +322,11 @@ var OCdialogs = {
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual', 'container': '.newFolderMenu'});
+					$input.tooltip({
+						placement: 'right',
+						trigger: 'manual',
+						'container': '.newFolderMenu'
+					});
 					$input.tooltip('fixTitle');
 					$input.tooltip('show');
 					$input.addClass('error');
@@ -323,14 +334,14 @@ var OCdialogs = {
 				return false;
 			};
 
-			$form.on('submit', function(event) {
+			$form.on('submit', function (event) {
 				event.stopPropagation();
 				event.preventDefault();
 
-				if (checkInput()) { 
+				if (checkInput()) {
 					var newname = $input.val();
 					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
-						self._fillFilePicker(self.$filePicker.data('path') + newname );
+						self._fillFilePicker(self.$filePicker.data('path') + newname);
 					});
 					OC.hideMenus();
 					self.$filePicker.ocdialog('unsetEnterCallback');
@@ -338,7 +349,7 @@ var OCdialogs = {
 					$input.val(newText);
 				}
 			});
-			$input.keypress(function(event) {
+			$input.keypress(function (event) {
 				if (event.keyCode === 13 || event.which === 13) {
 					event.stopImmediatePropagation();
 					event.preventDefault();
@@ -346,7 +357,7 @@ var OCdialogs = {
 				}
 			});
 
-			self.$filePicker.ready(function() {
+			self.$filePicker.ready(function () {
 				self.$fileListHeader = self.$filePicker.find('.filelist thead tr');
 				self.$filelist = self.$filePicker.find('.filelist tbody');
 				self.$filelistContainer = self.$filePicker.find('.filelist-container');
@@ -354,10 +365,10 @@ var OCdialogs = {
 				self.$dirTree.on('click', 'div:not(:last-child)', self, function (event) {
 					self._handleTreeListSelect(event, type);
 				});
-				self.$filelist.on('click', 'tr', function(event) {
+				self.$filelist.on('click', 'tr', function (event) {
 					self._handlePickerClick(event, $(this), type);
 				});
-				self.$fileListHeader.on('click', 'a', function(event) {
+				self.$fileListHeader.on('click', 'a', function (event) {
 					var dir = self.$filePicker.data('path');
 					self.filepicker.sortField = $(event.currentTarget).data('sort');
 					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -367,12 +378,12 @@ var OCdialogs = {
 			});
 
 			// build buttons
-			var functionToCall = function(returnType) {
+			var functionToCall = function (returnType) {
 				if (callback !== undefined) {
 					var datapath;
 					if (multiselect === true) {
 						datapath = [];
-						self.$filelist.find('tr.filepicker_element_selected').each(function(index, element) {
+						self.$filelist.find('tr.filepicker_element_selected').each(function (index, element) {
 							datapath.push(self.$filePicker.data('path') + '/' + $(element).data('entryname'));
 						});
 					} else {
@@ -388,33 +399,33 @@ var OCdialogs = {
 			};
 
 			var chooseCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_CHOOSE);
+				functionToCall(Dialogs.FILEPICKER_TYPE_CHOOSE);
 			};
 
 			var copyCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_COPY);
+				functionToCall(Dialogs.FILEPICKER_TYPE_COPY);
 			};
 
 			var moveCallback = function () {
-				functionToCall(OCdialogs.FILEPICKER_TYPE_MOVE);
+				functionToCall(Dialogs.FILEPICKER_TYPE_MOVE);
 			};
 
 			var buttonlist = [];
-			if (type === OCdialogs.FILEPICKER_TYPE_CHOOSE) {
+			if (type === Dialogs.FILEPICKER_TYPE_CHOOSE) {
 				buttonlist.push({
 					text: t('core', 'Choose'),
 					click: chooseCallback,
 					defaultButton: true
 				});
 			} else {
-				if (type === OCdialogs.FILEPICKER_TYPE_COPY || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+				if (type === Dialogs.FILEPICKER_TYPE_COPY || type === Dialogs.FILEPICKER_TYPE_COPY_MOVE) {
 					buttonlist.push({
 						text: t('core', 'Copy'),
 						click: copyCallback,
 						defaultButton: false
 					});
 				}
-				if (type === OCdialogs.FILEPICKER_TYPE_MOVE || type === OCdialogs.FILEPICKER_TYPE_COPY_MOVE) {
+				if (type === Dialogs.FILEPICKER_TYPE_MOVE || type === Dialogs.FILEPICKER_TYPE_COPY_MOVE) {
 					buttonlist.push({
 						text: t('core', 'Move'),
 						click: moveCallback,
@@ -433,10 +444,11 @@ var OCdialogs = {
 				style: {
 					buttons: 'aside',
 				},
-				close: function() {
+				close: function () {
 					try {
 						$(this).ocdialog('destroy').remove();
-					} catch(e) {}
+					} catch (e) {
+					}
 					self.$filePicker = null;
 				}
 			});
@@ -451,22 +463,22 @@ var OCdialogs = {
 				buttonEnableDisable.prop("disabled", true);
 			}
 		})
-		.fail(function(status, error) {
-			// If the method is called while navigating away
-			// from the page, it is probably not needed ;)
-			self.filepicker.loading = false;
-			if(status !== 0) {
-				alert(t('core', 'Error loading file picker template: {error}', {error: error}));
-			}
-		});
+			.fail(function (status, error) {
+				// If the method is called while navigating away
+				// from the page, it is probably not needed ;)
+				self.filepicker.loading = false;
+				if (status !== 0) {
+					alert(t('core', 'Error loading file picker template: {error}', {error: error}));
+				}
+			});
 	},
 	/**
 	 * Displays raw dialog
 	 * You better use a wrapper instead ...
-	*/
-	message:function(content, title, dialogType, buttons, callback, modal, allowHtml) {
-		return $.when(this._getMessageTemplate()).then(function($tmpl) {
-			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
+	 */
+	message: function (content, title, dialogType, buttons, callback, modal, allowHtml) {
+		return $.when(this._getMessageTemplate()).then(function ($tmpl) {
+			var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
 				dialog_name: dialogName,
@@ -480,40 +492,40 @@ var OCdialogs = {
 			$('body').append($dlg);
 			var buttonlist = [];
 			switch (buttons) {
-			case OCdialogs.YES_NO_BUTTONS:
-				buttonlist = [{
-					text: t('core', 'No'),
-					click: function(){
-						if (callback !== undefined) {
-							callback(false);
+				case Dialogs.YES_NO_BUTTONS:
+					buttonlist = [{
+						text: t('core', 'No'),
+						click: function () {
+							if (callback !== undefined) {
+								callback(false);
+							}
+							$(dialogId).ocdialog('close');
 						}
-						$(dialogId).ocdialog('close');
-					}
-				},
-				{
-					text: t('core', 'Yes'),
-					click: function(){
-						if (callback !== undefined) {
-							callback(true);
-						}
-						$(dialogId).ocdialog('close');
 					},
-					defaultButton: true
-				}];
-				break;
-			case OCdialogs.OK_BUTTON:
-				var functionToCall = function() {
-					$(dialogId).ocdialog('close');
-					if(callback !== undefined) {
-						callback();
-					}
-				};
-				buttonlist[0] = {
-					text: t('core', 'OK'),
-					click: functionToCall,
-					defaultButton: true
-				};
-				break;
+						{
+							text: t('core', 'Yes'),
+							click: function () {
+								if (callback !== undefined) {
+									callback(true);
+								}
+								$(dialogId).ocdialog('close');
+							},
+							defaultButton: true
+						}];
+					break;
+				case Dialogs.OK_BUTTON:
+					var functionToCall = function () {
+						$(dialogId).ocdialog('close');
+						if (callback !== undefined) {
+							callback();
+						}
+					};
+					buttonlist[0] = {
+						text: t('core', 'OK'),
+						click: functionToCall,
+						defaultButton: true
+					};
+					break;
 			}
 
 			$(dialogId).ocdialog({
@@ -521,17 +533,17 @@ var OCdialogs = {
 				modal: modal,
 				buttons: buttonlist
 			});
-			OCdialogs.dialogsCounter++;
+			Dialogs.dialogsCounter++;
 		})
-		.fail(function(status, error) {
-			// If the method is called while navigating away from
-			// the page, we still want to deliver the message.
-			if(status === 0) {
-				alert(title + ': ' + content);
-			} else {
-				alert(t('core', 'Error loading message template: {error}', {error: error}));
-			}
-		});
+			.fail(function (status, error) {
+				// If the method is called while navigating away from
+				// the page, we still want to deliver the message.
+				if (status === 0) {
+					alert(title + ': ' + content);
+				} else {
+					alert(t('core', 'Error loading message template: {error}', {error: error}));
+				}
+			});
 	},
 	_fileexistsshown: false,
 	/**
@@ -541,12 +553,12 @@ var OCdialogs = {
 	 * @param {object} replacement file with name, size and mtime
 	 * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
 	 * @return {Promise} jquery promise that resolves after the dialog template was loaded
-	*/
-	fileexists:function(data, original, replacement, controller) {
+	 */
+	fileexists: function (data, original, replacement, controller) {
 		var self = this;
 		var dialogDeferred = new $.Deferred();
 
-		var getCroppedPreview = function(file) {
+		var getCroppedPreview = function (file) {
 			var deferred = new $.Deferred();
 			// Only process image files.
 			var type = file.type && file.type.split('/').shift();
@@ -570,12 +582,12 @@ var OCdialogs = {
 			return deferred;
 		};
 
-		var crop = function(img) {
+		var crop = function (img) {
 			var canvas = document.createElement('canvas'),
-					targetSize = 96,
-					width = img.width,
-					height = img.height,
-					x, y, size;
+				targetSize = 96,
+				width = img.width,
+				height = img.height,
+				x, y, size;
 
 			// Calculate the width and height, constraining the proportions
 			if (width > height) {
@@ -671,13 +683,13 @@ var OCdialogs = {
 			canvas.getContext("2d").putImageData(img2, 0, 0);
 		};
 
-		var addConflict = function($conflicts, original, replacement) {
+		var addConflict = function ($conflicts, original, replacement) {
 
 			var $conflict = $conflicts.find('.template').clone().removeClass('template').addClass('conflict');
 			var $originalDiv = $conflict.find('.original');
 			var $replacementDiv = $conflict.find('.replacement');
 
-			$conflict.data('data',data);
+			$conflict.data('data', data);
 
 			$conflict.find('.filename').text(original.name);
 			$originalDiv.find('.size').text(humanFileSize(original.size));
@@ -687,30 +699,30 @@ var OCdialogs = {
 				$replacementDiv.find('.size').text(humanFileSize(replacement.size));
 				$replacementDiv.find('.mtime').text(formatDate(replacement.lastModifiedDate));
 			}
-			var path = original.directory + '/' +original.name;
+			var path = original.directory + '/' + original.name;
 			var urlSpec = {
-				file:		path,
-				x:		96,
-				y:		96,
-				c:		original.etag,
-				forceIcon:	0
+				file: path,
+				x: 96,
+				y: 96,
+				c: original.etag,
+				forceIcon: 0
 			};
 			var previewpath = Files.generatePreviewUrl(urlSpec);
 			// Escaping single quotes
 			previewpath = previewpath.replace(/'/g, "%27");
-			$originalDiv.find('.icon').css({"background-image":   "url('" + previewpath + "')"});
+			$originalDiv.find('.icon').css({"background-image": "url('" + previewpath + "')"});
 			getCroppedPreview(replacement).then(
-				function(path){
-					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
-				}, function(){
+				function (path) {
+					$replacementDiv.find('.icon').css('background-image', 'url(' + path + ')');
+				}, function () {
 					path = OC.MimeType.getIconUrl(replacement.type);
-					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
+					$replacementDiv.find('.icon').css('background-image', 'url(' + path + ')');
 				}
 			);
 			// connect checkboxes with labels
 			var checkboxId = $conflicts.find('.conflict').length;
-			$originalDiv.find('input:checkbox').attr('id', 'checkbox_original_'+checkboxId);
-			$replacementDiv.find('input:checkbox').attr('id', 'checkbox_replacement_'+checkboxId);
+			$originalDiv.find('input:checkbox').attr('id', 'checkbox_original_' + checkboxId);
+			$replacementDiv.find('input:checkbox').attr('id', 'checkbox_replacement_' + checkboxId);
 
 			$conflicts.append($conflict);
 
@@ -741,10 +753,10 @@ var OCdialogs = {
 				$originalDiv
 					.addClass('readonly')
 					.find('input[type="checkbox"]')
-						.prop('checked', true)
-						.prop('disabled', true);
+					.prop('checked', true)
+					.prop('disabled', true);
 				$originalDiv.find('.message')
-					.text(t('core','read-only'));
+					.text(t('core', 'read-only'));
 			}
 		};
 		//var selection = controller.getSelection(data.originalFiles);
@@ -756,16 +768,16 @@ var OCdialogs = {
 		if (this._fileexistsshown) {
 			// add conflict
 
-			var $conflicts = $(dialogId+ ' .conflicts');
+			var $conflicts = $(dialogId + ' .conflicts');
 			addConflict($conflicts, original, replacement);
 
-			var count = $(dialogId+ ' .conflict').length;
+			var count = $(dialogId + ' .conflict').length;
 			var title = n('core',
-							'{count} file conflict',
-							'{count} file conflicts',
-							count,
-							{count:count}
-						);
+				'{count} file conflict',
+				'{count} file conflicts',
+				count,
+				{count: count}
+			);
 			$(dialogId).parent().children('.oc-dialog-title').text(title);
 
 			//recalculate dimensions
@@ -774,18 +786,18 @@ var OCdialogs = {
 		} else {
 			//create dialog
 			this._fileexistsshown = true;
-			$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-				var title = t('core','One file conflict');
+			$.when(this._getFileExistsTemplate()).then(function ($tmpl) {
+				var title = t('core', 'One file conflict');
 				var $dlg = $tmpl.octemplate({
 					dialog_name: dialogName,
 					title: title,
 					type: 'fileexists',
 
-					allnewfiles: t('core','New Files'),
-					allexistingfiles: t('core','Already existing files'),
+					allnewfiles: t('core', 'New Files'),
+					allexistingfiles: t('core', 'Already existing files'),
 
-					why: t('core','Which files do you want to keep?'),
-					what: t('core','If you select both versions, the copied file will have a number added to its name.')
+					why: t('core', 'Which files do you want to keep?'),
+					what: t('core', 'If you select both versions, the copied file will have a number added to its name.')
 				});
 				$('body').append($dlg);
 
@@ -795,20 +807,20 @@ var OCdialogs = {
 				}
 
 				var buttonlist = [{
-						text: t('core', 'Cancel'),
-						classes: 'cancel',
-						click: function(){
-							if ( typeof controller.onCancel !== 'undefined') {
-								controller.onCancel(data);
-							}
-							$(dialogId).ocdialog('close');
+					text: t('core', 'Cancel'),
+					classes: 'cancel',
+					click: function () {
+						if (typeof controller.onCancel !== 'undefined') {
+							controller.onCancel(data);
 						}
-					},
+						$(dialogId).ocdialog('close');
+					}
+				},
 					{
 						text: t('core', 'Continue'),
 						classes: 'continue',
-						click: function(){
-							if ( typeof controller.onContinue !== 'undefined') {
+						click: function () {
+							if (typeof controller.onContinue !== 'undefined') {
 								controller.onContinue($(dialogId + ' .conflict'));
 							}
 							$(dialogId).ocdialog('close');
@@ -821,64 +833,64 @@ var OCdialogs = {
 					modal: true,
 					buttons: buttonlist,
 					closeButton: null,
-					close: function() {
-							self._fileexistsshown = false;
-							$(this).ocdialog('destroy').remove();
-						}
+					close: function () {
+						self._fileexistsshown = false;
+						$(this).ocdialog('destroy').remove();
+					}
 				});
 
-				$(dialogId).css('height','auto');
+				$(dialogId).css('height', 'auto');
 
 				var $primaryButton = $dlg.closest('.oc-dialog').find('button.continue');
 				$primaryButton.prop('disabled', true);
 
-				function updatePrimaryButton() {
+				function updatePrimaryButton () {
 					var checkedCount = $dlg.find('.conflicts .checkbox:checked').length;
 					$primaryButton.prop('disabled', checkedCount === 0);
 				}
 
 				//add checkbox toggling actions
-				$(dialogId).find('.allnewfiles').on('click', function() {
+				$(dialogId).find('.allnewfiles').on('click', function () {
 					var $checkboxes = $(dialogId).find('.conflict .replacement input[type="checkbox"]');
 					$checkboxes.prop('checked', $(this).prop('checked'));
 				});
-				$(dialogId).find('.allexistingfiles').on('click', function() {
+				$(dialogId).find('.allexistingfiles').on('click', function () {
 					var $checkboxes = $(dialogId).find('.conflict .original:not(.readonly) input[type="checkbox"]');
 					$checkboxes.prop('checked', $(this).prop('checked'));
 				});
-				$(dialogId).find('.conflicts').on('click', '.replacement,.original:not(.readonly)', function() {
+				$(dialogId).find('.conflicts').on('click', '.replacement,.original:not(.readonly)', function () {
 					var $checkbox = $(this).find('input[type="checkbox"]');
 					$checkbox.prop('checked', !$checkbox.prop('checked'));
 				});
-				$(dialogId).find('.conflicts').on('click', '.replacement input[type="checkbox"],.original:not(.readonly) input[type="checkbox"]', function() {
+				$(dialogId).find('.conflicts').on('click', '.replacement input[type="checkbox"],.original:not(.readonly) input[type="checkbox"]', function () {
 					var $checkbox = $(this);
 					$checkbox.prop('checked', !$checkbox.prop('checked'));
 				});
 
 				//update counters
-				$(dialogId).on('click', '.replacement,.allnewfiles', function() {
+				$(dialogId).on('click', '.replacement,.allnewfiles', function () {
 					var count = $(dialogId).find('.conflict .replacement input[type="checkbox"]:checked').length;
-					if (count === $(dialogId+ ' .conflict').length) {
+					if (count === $(dialogId + ' .conflict').length) {
 						$(dialogId).find('.allnewfiles').prop('checked', true);
-						$(dialogId).find('.allnewfiles + .count').text(t('core','(all selected)'));
+						$(dialogId).find('.allnewfiles + .count').text(t('core', '(all selected)'));
 					} else if (count > 0) {
 						$(dialogId).find('.allnewfiles').prop('checked', false);
-						$(dialogId).find('.allnewfiles + .count').text(t('core','({count} selected)',{count:count}));
+						$(dialogId).find('.allnewfiles + .count').text(t('core', '({count} selected)', {count: count}));
 					} else {
 						$(dialogId).find('.allnewfiles').prop('checked', false);
 						$(dialogId).find('.allnewfiles + .count').text('');
 					}
 					updatePrimaryButton();
 				});
-				$(dialogId).on('click', '.original,.allexistingfiles', function(){
+				$(dialogId).on('click', '.original,.allexistingfiles', function () {
 					var count = $(dialogId).find('.conflict .original input[type="checkbox"]:checked').length;
-					if (count === $(dialogId+ ' .conflict').length) {
+					if (count === $(dialogId + ' .conflict').length) {
 						$(dialogId).find('.allexistingfiles').prop('checked', true);
-						$(dialogId).find('.allexistingfiles + .count').text(t('core','(all selected)'));
+						$(dialogId).find('.allexistingfiles + .count').text(t('core', '(all selected)'));
 					} else if (count > 0) {
 						$(dialogId).find('.allexistingfiles').prop('checked', false);
 						$(dialogId).find('.allexistingfiles + .count')
-							.text(t('core','({count} selected)',{count:count}));
+							.text(t('core', '({count} selected)', {count: count}));
 					} else {
 						$(dialogId).find('.allexistingfiles').prop('checked', false);
 						$(dialogId).find('.allexistingfiles + .count').text('');
@@ -888,18 +900,18 @@ var OCdialogs = {
 
 				dialogDeferred.resolve();
 			})
-			.fail(function() {
-				dialogDeferred.reject();
-				alert(t('core', 'Error loading file exists template'));
-			});
+				.fail(function () {
+					dialogDeferred.reject();
+					alert(t('core', 'Error loading file exists template'));
+				});
 		}
 		//}
 		return dialogDeferred.promise();
 	},
 	// get the gridview setting and set the input accordingly
-	_getGridSettings: function() {
+	_getGridSettings: function () {
 		var self = this;
-		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function(response) {
+		$.get(OC.generateUrl('/apps/files/api/v1/showgridview'), function (response) {
 			self.$showGridView.get(0).checked = response.gridview;
 			self.$showGridView.next('#picker-view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
@@ -907,7 +919,7 @@ var OCdialogs = {
 			$('.list-container').toggleClass('view-grid', response.gridview);
 		});
 	},
-	_onGridviewChange: function() {
+	_onGridviewChange: function () {
 		var show = this.$showGridView.is(':checked');
 		// only save state if user is logged in
 		if (OC.currentUser) {
@@ -920,34 +932,34 @@ var OCdialogs = {
 			.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 		$('.list-container').toggleClass('view-grid', show);
 	},
-	_getFilePickerTemplate: function() {
+	_getFilePickerTemplate: function () {
 		var defer = $.Deferred();
-		if(!this.$filePickerTemplate) {
+		if (!this.$filePickerTemplate) {
 			var self = this;
-			$.get(OC.filePath('core', 'templates', 'filepicker.html'), function(tmpl) {
+			$.get(OC.filePath('core', 'templates', 'filepicker.html'), function (tmpl) {
 				self.$filePickerTemplate = $(tmpl);
 				self.$listTmpl = self.$filePickerTemplate.find('.filelist tbody tr:first-child').detach();
 				defer.resolve(self.$filePickerTemplate);
 			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				defer.reject(jqXHR.status, errorThrown);
-			});
+				.fail(function (jqXHR, textStatus, errorThrown) {
+					defer.reject(jqXHR.status, errorThrown);
+				});
 		} else {
 			defer.resolve(this.$filePickerTemplate);
 		}
 		return defer.promise();
 	},
-	_getMessageTemplate: function() {
+	_getMessageTemplate: function () {
 		var defer = $.Deferred();
-		if(!this.$messageTemplate) {
+		if (!this.$messageTemplate) {
 			var self = this;
-			$.get(OC.filePath('core', 'templates', 'message.html'), function(tmpl) {
+			$.get(OC.filePath('core', 'templates', 'message.html'), function (tmpl) {
 				self.$messageTemplate = $(tmpl);
 				defer.resolve(self.$messageTemplate);
 			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				defer.reject(jqXHR.status, errorThrown);
-			});
+				.fail(function (jqXHR, textStatus, errorThrown) {
+					defer.reject(jqXHR.status, errorThrown);
+				});
 		} else {
 			defer.resolve(this.$messageTemplate);
 		}
@@ -961,16 +973,16 @@ var OCdialogs = {
 				self.$fileexistsTemplate = $(tmpl);
 				defer.resolve(self.$fileexistsTemplate);
 			})
-			.fail(function () {
-				defer.reject();
-			});
+				.fail(function () {
+					defer.reject();
+				});
 		} else {
 			defer.resolve(this.$fileexistsTemplate);
 		}
 		return defer.promise();
 	},
-	_getFileList: function(dir, mimeType) { //this is only used by the spreedme app atm
-		if (typeof(mimeType) === "string") {
+	_getFileList: function (dir, mimeType) { //this is only used by the spreedme app atm
+		if (typeof (mimeType) === "string") {
 			mimeType = [mimeType];
 		}
 
@@ -985,15 +997,15 @@ var OCdialogs = {
 
 	/**
 	 * fills the filepicker with files
-	*/
-	_fillFilePicker:function(dir) {
+	 */
+	_fillFilePicker: function (dir) {
 		var self = this;
 		this.$filelist.empty();
 		this.$filePicker.find('.emptycontent').hide();
 		this.$filelistContainer.addClass('icon-loading');
 		this.$filePicker.data('path', dir);
 		var filter = this.$filePicker.data('mimetype');
-		if (typeof(filter) === "string") {
+		if (typeof (filter) === "string") {
 			filter = [filter];
 		}
 		self.$fileListHeader.find('.sort-indicator').addClass('hidden').removeClass('icon-triangle-n').removeClass('icon-triangle-s');
@@ -1003,7 +1015,7 @@ var OCdialogs = {
 		} else {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s');
 		}
-		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
+		self.filepicker.filesClient.getFolderContents(dir).then(function (status, files) {
 			self.filelist = files;
 			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 				files = files.filter(function (file) {
@@ -1012,7 +1024,7 @@ var OCdialogs = {
 			}
 
 			var Comparators = {
-				name: function(fileInfo1, fileInfo2) {
+				name: function (fileInfo1, fileInfo2) {
 					if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
 						return -1;
 					}
@@ -1021,16 +1033,16 @@ var OCdialogs = {
 					}
 					return OC.Util.naturalSortCompare(fileInfo1.name, fileInfo2.name);
 				},
-				size: function(fileInfo1, fileInfo2) {
+				size: function (fileInfo1, fileInfo2) {
 					return fileInfo1.size - fileInfo2.size;
 				},
-				mtime: function(fileInfo1, fileInfo2) {
+				mtime: function (fileInfo1, fileInfo2) {
 					return fileInfo1.mtime - fileInfo2.mtime;
 				}
 			};
 			var comparator = Comparators[self.filepicker.sortField] || Comparators.name;
-			files = files.sort(function(file1, file2) {
-				var isFavorite = function(fileInfo) {
+			files = files.sort(function (file1, file2) {
+				var isFavorite = function (fileInfo) {
 					return fileInfo.tags && fileInfo.tags.indexOf(OC.TAG_FAVORITE) >= 0;
 				};
 
@@ -1053,10 +1065,10 @@ var OCdialogs = {
 				self.$fileListHeader.show();
 			}
 
-			$.each(files, function(idx, entry) {
+			$.each(files, function (idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype);
 				var simpleSize, sizeColor;
-				if (typeof(entry.size) !== 'undefined' && entry.size >= 0) {
+				if (typeof (entry.size) !== 'undefined' && entry.size >= 0) {
 					simpleSize = humanFileSize(parseInt(entry.size, 10), true);
 					sizeColor = Math.round(160 - Math.pow((entry.size / (1024 * 1024)), 2));
 				} else {
@@ -1095,7 +1107,7 @@ var OCdialogs = {
 					};
 					var img = new Image();
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-					img.onload = function() {
+					img.onload = function () {
 						if (img.width > 5) {
 							$row.find('td.filename').attr('style', 'background-image:url(' + previewUrl + ')');
 						}
@@ -1110,18 +1122,18 @@ var OCdialogs = {
 	},
 	/**
 	 * fills the tree list with directories
-	*/
-	_fillSlug: function() {
+	 */
+	_fillSlug: function () {
 		this.$dirTree.empty();
 		var self = this;
 		var dir;
 		var path = this.$filePicker.data('path');
 		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb');
-		if(path) {
+		if (path) {
 			var paths = path.split('/');
-			$.each(paths, function(index, dir) {
+			$.each(paths, function (index, dir) {
 				dir = paths.pop();
-				if(dir === '') {
+				if (dir === '') {
 					return false;
 				}
 				self.$dirTree.prepend($template.octemplate({
@@ -1137,8 +1149,8 @@ var OCdialogs = {
 	},
 	/**
 	 * handle selection made in the tree list
-	*/
-	_handleTreeListSelect:function(event, type) {
+	 */
+	_handleTreeListSelect: function (event, type) {
 		var self = event.data;
 		var dir = $(event.target).closest('.crumb').data('dir');
 		self._fillFilePicker(dir);
@@ -1153,8 +1165,8 @@ var OCdialogs = {
 	},
 	/**
 	 * handle clicks made in the filepicker
-	*/
-	_handlePickerClick:function(event, $element, type) {
+	 */
+	_handlePickerClick: function (event, $element, type) {
 		var getOcDialog = this.$filePicker.closest('.oc-dialog');
 		var buttonEnableDisable = getOcDialog.find('.primary');
 		if ($element.data('type') === 'file') {
@@ -1163,7 +1175,7 @@ var OCdialogs = {
 			}
 			$element.toggleClass('filepicker_element_selected');
 			buttonEnableDisable.prop("disabled", false);
-		} else if ( $element.data('type') === 'dir' ) {
+		} else if ($element.data('type') === 'dir') {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 			this._changeButtonsText(type, $element.data('entryname'));
 			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
@@ -1180,7 +1192,7 @@ var OCdialogs = {
 	 * @param dir on which to change buttons text
 	 * @private
 	 */
-	_changeButtonsText: function(type, dir) {
+	_changeButtonsText: function (type, dir) {
 		var copyText = dir === '' ? t('core', 'Copy') : t('core', 'Copy to {folder}', {folder: dir});
 		var moveText = dir === '' ? t('core', 'Move') : t('core', 'Move to {folder}', {folder: dir});
 		var buttons = $('.oc-dialog-buttonrow button');
@@ -1199,4 +1211,6 @@ var OCdialogs = {
 				break;
 		}
 	}
-};
+}
+
+export default Dialogs
