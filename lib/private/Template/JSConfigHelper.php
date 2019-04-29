@@ -166,7 +166,7 @@ class JSConfigHelper {
 		$capabilities = $this->capabilitiesManager->getCapabilities();
 
 		$array = [
-			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			"_oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
 			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
