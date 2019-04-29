@@ -207,21 +207,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	 * Redirect to the target URL, can also be used for downloads.
-	 * @param {string} targetURL URL to redirect to
-	 */
-	redirect: function(targetURL) {
-		window.location = targetURL;
-	},
-
-	/**
-	 * Reloads the current page
-	 */
-	reload: function() {
-		window.location.reload();
-	},
-
-	/**
 	 * Protocol that is used to access this Nextcloud instance
 	 * @return {string} Used protocol
 	 */
