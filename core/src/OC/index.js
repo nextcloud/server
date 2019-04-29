@@ -26,6 +26,7 @@ import Config from './config'
 import ContactsMenu from './contactsmenu'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
+import {get, set} from './get_set'
 import {isUserAdmin} from './admin'
 import L10N from './l10n'
 import {
@@ -67,6 +68,8 @@ export default {
 	Util,
 	debug,
 	generateUrl,
+	get: get(window),
+	set: set(window),
 	getRootPath,
 	filePath,
 	redirect,
