@@ -1339,6 +1339,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	opacity: .7;
 }
 
+.strengthMeterClass {
+    position: relative;
+    height: 4px;
+    background: #ddd;
+    margin: 0% !important;
+    border-radius: 3px;
+}
+
 
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
