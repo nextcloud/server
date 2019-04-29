@@ -28,18 +28,7 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-/**
- * Auto-generated migration step: Please modify to your needs!
- */
 class Version16000Date20190428150708 extends SimpleMigrationStep {
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 */
-	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
-	}
 
 	/**
 	 * @param IOutput $output
@@ -61,13 +50,5 @@ class Version16000Date20190428150708 extends SimpleMigrationStep {
 		}
 
 		return $schema;
-	}
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 */
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 	}
 }
