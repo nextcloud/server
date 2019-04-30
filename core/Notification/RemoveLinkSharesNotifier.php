@@ -36,7 +36,27 @@ class RemoveLinkSharesNotifier implements INotifier {
 		$this->l10nFactory = $factory;
 	}
 
-	public function prepare(INotification $notification, $languageCode): INotification {
+	/**
+	 * Identifier of the notifier, only use [a-z0-9_]
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getID(): string {
+		return 'core';
+	}
+
+	/**
+	 * Human readable name describing the notifier
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getName(): string {
+		return $this->l10nFactory->get('core')->t('Nextcloud Server');
+	}
+
+	public function prepare(INotification $notification, string $languageCode): INotification {
 		if($notification->getApp() !== 'core') {
 			throw new \InvalidArgumentException();
 		}
@@ -51,5 +71,4 @@ class RemoveLinkSharesNotifier implements INotifier {
 
 		throw new \InvalidArgumentException('Invalid subject');
 	}
-
 }
