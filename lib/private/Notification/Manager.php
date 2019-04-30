@@ -43,21 +43,13 @@ class Manager implements IManager {
 
 	/** @var IApp[] */
 	protected $apps;
-
-	/** @var INotifier[] */
-	protected $notifiers;
-
-	/** @var array[] */
-	protected $notifiersInfo;
-
 	/** @var string[] */
 	protected $appClasses;
 
+	/** @var INotifier[] */
+	protected $notifiers;
 	/** @var string[] */
 	protected $notifierClasses;
-
-	/** @var \Closure[] */
-	protected $notifiersInfoClosures;
 
 	/** @var bool */
 	protected $preparingPushNotification;
@@ -167,7 +159,7 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function hasNotifiers(): bool {
-		return !empty($this->notifiersClosures);
+		return !empty($this->notifiers) || !empty($this->notifierClasses);
 	}
 
 	/**
