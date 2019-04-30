@@ -23,6 +23,7 @@ import Apps from './apps'
 import AppConfig from './appconfig'
 import Backbone from './backbone'
 import ContactsMenu from './contactsmenu'
+import Dialogs from './dialogs'
 import EventSource from './eventsource'
 import L10N from './l10n'
 import msg from './msg'
@@ -39,6 +40,7 @@ export default {
 	AppConfig,
 	Backbone,
 	ContactsMenu,
+	dialogs: Dialogs,
 	EventSource,
 	L10N,
 	msg,

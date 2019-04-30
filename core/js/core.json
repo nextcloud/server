@@ -2,7 +2,6 @@
 	"libraries": [
 	],
 	"modules": [
-		"oc-dialogs.js",
 		"js.js",
 		"share.js",
 		"sharetemplates.js",
