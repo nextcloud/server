@@ -42,17 +42,7 @@ if(count($configPrefixes) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$ocConfig = \OC::$server->getConfig();
 	$notificationManager = \OC::$server->getNotificationManager();
-	$notificationManager->registerNotifier(function() {
-		return new \OCA\User_LDAP\Notification\Notifier(
-			\OC::$server->getL10NFactory()
-		);
-	}, function() {
-		$l = \OC::$server->getL10N('user_ldap');
-		return [
-			'id' => 'user_ldap',
-			'name' => $l->t('LDAP user and group backend'),
-		];
-	});
+	$notificationManager->registerNotifier(\OCA\User_LDAP\Notification\Notifier::class);
 	$userSession = \OC::$server->getUserSession();
 
 	$userPluginManager = \OC::$server->query('LDAPUserPluginManager');

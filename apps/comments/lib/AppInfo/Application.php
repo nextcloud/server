@@ -76,15 +76,7 @@ class Application extends App {
 	}
 
 	protected function registerNotifier() {
-		$this->getContainer()->getServer()->getNotificationManager()->registerNotifier(
-			function() {
-				return $this->getContainer()->query(Notifier::class);
-			},
-			function () {
-				$l = $this->getContainer()->getServer()->getL10NFactory()->get('comments');
-				return ['id' => 'comments', 'name' => $l->t('Comments')];
-			}
-		);
+		$this->getContainer()->getServer()->getNotificationManager()->registerNotifier(Notifier::class);
 	}
 
 	protected function registerCommentsEventHandler() {
