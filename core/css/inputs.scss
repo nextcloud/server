@@ -309,8 +309,10 @@ select,
 }
 
 /* Radio & Checkboxes */
+$checkbox-radio-size: 14px;
 $color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
 $color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+$color-checkbox-radio-white: #fff;
 
 input {
 	&[type='checkbox'],
@@ -333,12 +335,11 @@ input {
 			+ label:before {
 				content: '';
 				display: inline-block;
-				height: 12px;
-				width: 12px;
+				height: $checkbox-radio-size;
+				width: $checkbox-radio-size;
 				vertical-align: middle;
 				border-radius: 50%;
-				margin: 3px;
-				margin-top: 1px;
+				margin: 0 6px 3px 3px;
 				border: 1px solid $color-checkbox-radio-border;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
@@ -367,14 +368,14 @@ input {
 				margin-left: 18px;
 			}
 			& + label ~ em:last-of-type {
-				margin-bottom: 12px;
+				margin-bottom: $checkbox-radio-size;
 			}
 		}
 		&.checkbox {
 			+ label:before {
 				border-radius: 1px;
-				height: 10px;
-				width: 10px;
+				height: $checkbox-radio-size;
+				width: $checkbox-radio-size;
 				box-shadow: none !important;
 				background-position: center;
 			}
@@ -387,7 +388,6 @@ input {
 		}
 
 		/* We do not use the nc-darken function as this is not supposed to be changed */
-		$color-checkbox-radio-white: #fff;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
