@@ -76,6 +76,14 @@ class ExceptionSerializer {
 
 		// files_external: UserStoragesController
 		'update',
+
+		// Setup
+		'install',
+
+		// SetupController
+		'run',
+		'display',
+		'loadAutoConfig',
 	];
 
 	private function filterTrace(array $trace) {
