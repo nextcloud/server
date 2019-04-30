@@ -547,7 +547,7 @@ class MigrationService {
 				if (!$isUsingDefaultName && \strlen($indexName) > 30) {
 					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
 				}
-				if ($isUsingDefaultName && \strlen($table->getName()) > 26) {
+				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength > 23) {
 					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
 				}
 			}
