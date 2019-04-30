@@ -28,6 +28,7 @@
 
 namespace OC\Core;
 
+use OC\Core\Notification\RemoveLinkSharesNotifier;
 use OC\DB\MissingIndexInformation;
 use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
@@ -53,6 +54,18 @@ class Application extends App {
 
 		$server = $container->getServer();
 		$eventDispatcher = $server->getEventDispatcher();
+
+		$notificationManager = $server->getNotificationManager();
+		$notificationManager->registerNotifier(function() use ($server) {
+			return new RemoveLinkSharesNotifier(
+				$server->getL10NFactory()
+			);
+		},  function() use ($server) {
+			return [
+				'id' => 'core',
+				'name' => 'core',
+			];
+		});
 
 		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
 			function(GenericEvent $event) use ($container) {

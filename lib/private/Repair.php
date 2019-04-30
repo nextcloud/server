@@ -42,6 +42,7 @@ use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
+use OC\Repair\RemoveLinkShares;
 use OC\Repair\RemoveRootShares;
 use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\SqliteAutoincrement;
@@ -50,6 +51,7 @@ use OC\Repair\RepairInvalidShares;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -139,6 +141,7 @@ class Repair implements IOutput{
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
 		];
 	}
 
