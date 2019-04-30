@@ -167,16 +167,19 @@ class PhotoCache {
 	}
 
 	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 * @return ISimpleFolder
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
-	private function getFolder($addressBookId, $cardUri) {
+	private function getFolder(int $addressBookId, string $cardUri, bool $createIfNotExists = true): ISimpleFolder {
 		$hash = md5($addressBookId . ' ' . $cardUri);
 		try {
 			return $this->appData->getFolder($hash);
 		} catch (NotFoundException $e) {
-			return $this->appData->newFolder($hash);
+			if($createIfNotExists) {
+				return $this->appData->newFolder($hash);
+			} else {
+				throw $e;
+			}
 		}
 	}
 
@@ -271,9 +274,14 @@ class PhotoCache {
 	/**
 	 * @param int $addressBookId
 	 * @param string $cardUri
+	 * @throws NotPermittedException
 	 */
 	public function delete($addressBookId, $cardUri) {
-		$folder = $this->getFolder($addressBookId, $cardUri);
-		$folder->delete();
+		try {
+			$folder = $this->getFolder($addressBookId, $cardUri, false);
+			$folder->delete();
+		} catch (NotFoundException $e) {
+			// that's OK, nothing to do
+		}
 	}
 }
