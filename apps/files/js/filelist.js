@@ -897,7 +897,16 @@
 		 * Event handler for when selecting/deselecting all files
 		 */
 		_onClickSelectAll: function(e) {
-			var checked = $(e.target).prop('checked');
+			var hiddenFiles = this.$fileList.find('tr.hidden');
+			var checked = e.target.checked;
+
+			if (hiddenFiles.length > 0) {
+				// set indeterminate alongside checked
+				e.target.indeterminate = checked;
+			} else {
+				e.target.indeterminate = false
+			}
+
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
@@ -907,7 +916,7 @@
 					// a search will automatically hide the unwanted rows
 					// let's only select the matches
 					var fileData = this.files[i];
-					var fileRow = this.$fileList.find('[data-id=' + fileData.id + ']');
+					var fileRow = this.$fileList.find('tr[data-id=' + fileData.id + ']');
 					// do not select already selected ones
 					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
 						this._selectedFiles[fileData.id] = fileData;
@@ -917,7 +926,6 @@
 			} else {
 				// if we have some hidden row, then we're in a search
 				// Let's only deselect the visible ones
-				var hiddenFiles = this.$fileList.find('tr.hidden');
 				if (hiddenFiles.length > 0) {
 					var visibleFiles = this.$fileList.find('tr:not(.hidden)');
 					var self = this;
@@ -3260,11 +3268,15 @@
 		},
 
 		/**
-		 * Returns whether all files are selected
-		 * @return true if all files are selected, false otherwise
+		 * Are all files selected?
+		 * 
+		 * @returns {Boolean} all files are selected
 		 */
 		isAllSelected: function() {
-			return this.$el.find('.select-all').prop('checked');
+			var checkbox = this.$el.find('.select-all')
+			var checked = checkbox.prop('checked')
+			var indeterminate = checkbox.prop('indeterminate')
+			return checked && !indeterminate;
 		},
 
 		/**
