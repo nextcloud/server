@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "Произошла ошибка при создании резервных кодов",
+    "{name} backup codes" : "Резервные коды {name}",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Это ваши резервные коды доступа. Пожалуйста, сохраните и/или распечатайте их, так как вы не сможете увидеть эти коды снова.",
     "Save backup codes" : "Сохранить резервные коды",
     "Print backup codes" : "Распечатать резервные коды",
