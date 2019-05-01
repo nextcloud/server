@@ -72,8 +72,10 @@ class RedisFactory {
 			}
 			if (isset($config['port'])) {
 				$port = $config['port'];
-			} else {
+			} else if ($host[0] !== '/') {
 				$port = 6379;
+			} else {
+				$port = null;
 			}
 			if (isset($config['timeout'])) {
 				$timeout = $config['timeout'];
