@@ -68,6 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Проверка %s не существует",
     "Check %s is invalid" : "Проверка %s неверна",
     "Check #%s does not exist" : "Проверка #%s не существует",
+    "Tag management" : "Управление метками",
     "Files workflow engine" : "Механизм обработки файлов",
     "Open documentation" : "Открыть документацию",
     "Loading…" : "Загрузка…",
