@@ -397,6 +397,43 @@ trigger:
 
 ---
 kind: pipeline
+name: mariadb10.0-php7.1
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: mariadb10.0-php7.1
+  image: nextcloudci/php7.1:php7.1-16
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+
+services:
+- name: cache
+  image: redis
+- name: mariadb
+  image: mariadb:10.0
+  environment:
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: oc_autotest
+    MYSQL_PASSWORD: owncloud
+    MYSQL_DATABASE: oc_autotest
+  tmpfs:
+    - /var/lib/mysql
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+
+
+---
+kind: pipeline
 name: mysql-php7.1
 
 steps:
