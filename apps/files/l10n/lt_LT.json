@@ -14,7 +14,7 @@
     "Could not create folder \"{dir}\"" : "Nepavyko sukurti aplanko \"{dir}\"",
     "This will stop your current uploads." : "Tai sustabdys vykstančius įkėlimus",
     "Upload cancelled." : "Įkėlimas atšauktas.",
-    "Processing files …" : "Apdorojama...",
+    "Processing files …" : "Apdorojami failai …",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nepavyksta įkelti {filename}, nes tai yra katalogas arba šio failo dydis yra 0 baitų",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nepakanka laisvos vietos. Jūs bandote įkelti {size1} dydžio bylą, bet liko tik  {size2} vietos",
