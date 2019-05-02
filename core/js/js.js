@@ -6,8 +6,6 @@ var oc_webroot;
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
-window.oc_config = window.oc_config || {};
-
 if (typeof oc_webroot === "undefined") {
 	oc_webroot = location.pathname;
 	var pos = oc_webroot.indexOf('/index.php/');
@@ -61,7 +59,6 @@ Object.assign(window.OC, {
 	 * @deprecated use {@link OC.getCurrentUser} instead
 	 */
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	config: window.oc_config,
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
