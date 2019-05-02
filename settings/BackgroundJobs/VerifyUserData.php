@@ -198,7 +198,7 @@ class VerifyUserData extends Job {
 		$lookupServerData = $this->queryLookupServer($cloudId);
 
 		// for some reasons we couldn't read any data from the lookup server, try again later
-		if (empty($lookupServerData)) {
+		if (empty($lookupServerData) || empty($lookupServerData[$dataType])) {
 			return false;
 		}
 
