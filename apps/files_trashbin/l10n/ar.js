@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Deleted files" : "حذف الملفات",
+    "Deleted files" : "الملفات المحذوفة",
     "restored" : "تمت الاستعادة",
     "Restore" : "استعيد",
     "Delete permanently" : "حذف بشكل دائم",
