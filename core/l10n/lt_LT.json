@@ -318,7 +318,7 @@
     "%1$s will be updated to version %2$s" : "%1$s bus atnaujinta į versiją %2$s",
     "These apps will be updated:" : "Bus atnaujintos šios programėlės:",
     "These incompatible apps will be disabled:" : "Bus išjungtos šios nesuderinamos programėlės:",
-    "The theme %s has been disabled." : "Tema %s buvo išjungta.",
+    "The theme %s has been disabled." : "Apipavidalinimas %s buvo išjungtas.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Prie pradedant, užtikrinkite, kad duomenų bazė, konfigūracijos aplankas ir duomenų aplankas turi atsarginę kopiją.",
     "Start update" : "Pradėti atnaujinimą",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Norėdami sutaupyti laiko, galite paleisti šią komandą diegimo aplanke:",
