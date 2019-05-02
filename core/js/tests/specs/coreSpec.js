@@ -373,7 +373,7 @@ describe('Core base tests', function() {
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
-			oldConfig = window.oc_config;
+			oldConfig = OC.config;
 			routeStub = sinon.stub(OC, 'generateUrl').returns('/csrftoken');
 			counter = 0;
 
@@ -388,14 +388,14 @@ describe('Core base tests', function() {
 		afterEach(function() {
 			clock.restore();
 			/* jshint camelcase: false */
-			window.oc_config = oldConfig;
+			OC.config = oldConfig;
 			routeStub.restore();
 			$(document).off('ajaxError');
 			$(document).off('ajaxComplete');
 		});
 		it('sends heartbeat half the session lifetime when heartbeat enabled', function() {
 			/* jshint camelcase: false */
-			window.oc_config = {
+			OC.config = {
 				session_keepalive: true,
 				session_lifetime: 300
 			};
@@ -422,7 +422,7 @@ describe('Core base tests', function() {
 		});
 		it('does not send heartbeat when heartbeat disabled', function() {
 			/* jshint camelcase: false */
-			window.oc_config = {
+			OC.config = {
 				session_keepalive: false,
 				session_lifetime: 300
 			};
@@ -439,7 +439,7 @@ describe('Core base tests', function() {
 		it('limits the heartbeat between one minute and one day', function() {
 			/* jshint camelcase: false */
 			var setIntervalStub = sinon.stub(window, 'setInterval');
-			window.oc_config = {
+			OC.config = {
 				session_keepalive: true,
 				session_lifetime: 5
 			};
@@ -447,7 +447,7 @@ describe('Core base tests', function() {
 			expect(setIntervalStub.getCall(0).args[1]).toEqual(60 * 1000);
 			setIntervalStub.reset();
 
-			window.oc_config = {
+			OC.config = {
 				session_keepalive: true,
 				session_lifetime: 48 * 3600
 			};
