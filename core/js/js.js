@@ -141,7 +141,7 @@ Object.assign(window.OC, {
 
 		}
 
-		if(oc_config.modRewriteWorking == true) {
+		if(OC.config.modRewriteWorking == true) {
 			return OC.getRootPath() + _build(url, params);
 		}
 
@@ -203,7 +203,7 @@ Object.assign(window.OC, {
 	 * @param {string} file to check
 	 */
 	fileIsBlacklisted: function(file) {
-		return !!(file.match(oc_config.blacklist_files_regex));
+		return !!(file.match(OC.config.blacklist_files_regex));
 	},
 
 	/**
@@ -935,8 +935,8 @@ function initCore() {
 	function initSessionHeartBeat() {
 		// interval in seconds
 		var interval = NaN;
-		if (oc_config.session_lifetime) {
-			interval = Math.floor(oc_config.session_lifetime / 2);
+		if (OC.config.session_lifetime) {
+			interval = Math.floor(OC.config.session_lifetime / 2);
 		}
 		interval = isNaN(interval)? 900: interval;
 
@@ -957,8 +957,8 @@ function initCore() {
 	}
 
 	// session heartbeat (defaults to enabled)
-	if (typeof(oc_config.session_keepalive) === 'undefined' ||
-		!!oc_config.session_keepalive) {
+	if (typeof(OC.config.session_keepalive) === 'undefined' ||
+		!!OC.config.session_keepalive) {
 
 		initSessionHeartBeat();
 	}

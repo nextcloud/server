@@ -361,8 +361,8 @@
 						}
 						var moreResultsAvailable =
 							(
-								oc_config['sharing.maxAutocompleteResults'] > 0
-								&& Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+								OC.config['sharing.maxAutocompleteResults'] > 0
+								&& Math.min(perPage, OC.config['sharing.maxAutocompleteResults'])
 									<= Math.max(
 										users.length + exactUsers.length,
 										groups.length + exactGroups.length,
@@ -624,8 +624,8 @@
 						}
 						var moreResultsAvailable =
 							(
-								oc_config['sharing.maxAutocompleteResults'] > 0
-								&& Math.min(perPage, oc_config['sharing.maxAutocompleteResults'])
+								OC.config['sharing.maxAutocompleteResults'] > 0
+								&& Math.min(perPage, OC.config['sharing.maxAutocompleteResults'])
 								<= Math.max(
 									users.length + exactUsers.length,
 									groups.length + exactGroups.length,
@@ -690,7 +690,7 @@
 				$loading = this.$el.find('.shareWithLoading'),
 				$confirm = this.$el.find('.shareWithConfirm');
 
-			var count = oc_config['sharing.minSearchStringLength'];
+			var count = OC.config['sharing.minSearchStringLength'];
 			if (search.term.trim().length < count) {
 				var title = n('core',
 					'At least {count} character is needed for autocompletion',
@@ -719,7 +719,7 @@
 			$shareWithField.removeClass('error')
 				.tooltip('hide');
 
-			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
+			var perPage = parseInt(OC.config['sharing.maxAutocompleteResults'], 10) || 200;
 			this._getSuggestions(
 				search.term.trim(),
 				perPage,
@@ -972,7 +972,7 @@
 				$shareWithField.focus();
 			};
 
-			var perPage = parseInt(oc_config['sharing.maxAutocompleteResults'], 10) || 200;
+			var perPage = parseInt(OC.config['sharing.maxAutocompleteResults'], 10) || 200;
 			this._getSuggestions(
 				$shareWithField.val(),
 				perPage,
