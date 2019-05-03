@@ -8,6 +8,7 @@ module.exports = {
 	},
 	globals: {
 		$: true,
+		appVersion: true,
 		t: true,
 		n: true,
 		OC: true,

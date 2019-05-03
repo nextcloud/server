@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 
@@ -42,7 +43,10 @@ module.exports = {
 	},
 	plugins: [
 		new VueLoaderPlugin(),
-		new StyleLintPlugin()
+		new StyleLintPlugin(),
+		new webpack.DefinePlugin({
+			appVersion: JSON.stringify(require('./package.json').version)
+		})
 	],
 	resolve: {
 		alias: {

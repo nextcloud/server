@@ -47,6 +47,7 @@ __webpack_public_path__ = generateFilePath('viewer', '', 'js/')
 // Init Viewer Service
 if (window.OCA) {
 	Object.assign(window.OCA, { Viewer: new ViewerService() })
+	OCA.Viewer.version = appVersion
 }
 
 // Create document root
