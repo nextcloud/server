@@ -180,16 +180,16 @@ export default {
 
 		/**
 		 * Validate quota string to make sure it's a valid human file size
-		 * 
+		 *
 		 * @param {string} quota Quota in readable format '5 GB'
 		 * @returns {Promise|boolean}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			let validQuota = OC.Util.computerFileSize(quota);
-			if (validQuota === 0) {
+			if (validQuota === null) {
 				return this.setDefaultQuota('none');
-			} else if (validQuota !== null) {
+			} else {
 				// unify format output
 				return this.setDefaultQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)));
 			}
@@ -295,7 +295,7 @@ export default {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota;
 				}
-				if (OC.Util.computerFileSize(this.settings.defaultQuota) > 0) {
+				if (this.settings.defaultQuota !== this.unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return {id:this.settings.defaultQuota, label:this.settings.defaultQuota};
 				}
