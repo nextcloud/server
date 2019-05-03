@@ -196,7 +196,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @internal
 	 * @param string $loginName
 	 * @param string $password
-	 * @return mixed the User object on success, false otherwise
+	 * @return IUser|false the User object on success, false otherwise
 	 */
 	public function checkPasswordNoLogging($loginName, $password) {
 		$loginName = str_replace("\0", '', $loginName);
