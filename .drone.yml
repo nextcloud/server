@@ -572,7 +572,43 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql-php7.1
+name: mysql8.0-php7.1
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: mysql-php7.1
+  image: nextcloudci/php7.1:php7.1-16
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+
+services:
+- name: cache
+  image: redis
+- name: mysql
+  image: mysql:8.0
+  command: [ "--default-authentication-plugin=mysql_native_password" ]
+  environment:
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: oc_autotest
+    MYSQL_PASSWORD: owncloud
+    MYSQL_DATABASE: oc_autotest
+  tmpfs:
+    - /var/lib/mysql
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: mysql5.7-php7.1
 
 steps:
 - name: submodules
@@ -607,7 +643,7 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql-php7.2
+name: mysql5.7-php7.2
 
 steps:
 - name: submodules
@@ -640,7 +676,7 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql-php7.3
+name: mysql5.7-php7.3
 
 steps:
 - name: submodules
