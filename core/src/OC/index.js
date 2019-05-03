@@ -26,6 +26,7 @@ import Config from './config'
 import ContactsMenu from './contactsmenu'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
+import {isUserAdmin} from './admin'
 import L10N from './l10n'
 import {
 	generateUrl,
@@ -52,6 +53,7 @@ export default {
 	config: Config,
 	dialogs: Dialogs,
 	EventSource,
+	isUserAdmin,
 	L10N,
 	msg,
 	Notification,
