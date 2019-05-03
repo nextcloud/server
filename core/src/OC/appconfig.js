@@ -18,9 +18,9 @@
  *
  */
 
-import OCP from '../OCP/index';
-
 import {getValue, setValue, getApps, getKeys, deleteKey} from '../OCP/appconfig'
+
+export const appConfig = window.oc_appconfig || {}
 
 /**
  * @namespace

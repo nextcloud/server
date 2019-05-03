@@ -19,7 +19,8 @@
 *
 */
 
-/* global oc_appconfig */
+/* global OC */
+
 describe('OC.Share.ShareItemModel', function() {
 	var fetchSharesStub, fetchReshareStub;
 	var fetchSharesDeferred, fetchReshareDeferred;
@@ -492,7 +493,7 @@ describe('OC.Share.ShareItemModel', function() {
 	
 	describe('share permissions', function() {
 		beforeEach(function() {
-			oc_appconfig.core.resharingAllowed = true;
+			OC.appConfig.core.resharingAllowed = true;
 		});
 
 		/**

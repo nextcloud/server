@@ -55,7 +55,6 @@ Object.assign(window.OC, {
 	 * @deprecated use {@link OC.getCurrentUser} instead
 	 */
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
 	requestToken: oc_requesttoken,

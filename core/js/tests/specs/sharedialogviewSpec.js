@@ -19,7 +19,7 @@
 *
 */
 
-/* global oc_appconfig, sinon */
+/* global sinon, OC */
 describe('OC.Share.ShareDialogView', function() {
 	var $container;
 	var oldConfig;
@@ -44,8 +44,8 @@ describe('OC.Share.ShareDialogView', function() {
 		oldConfig = OC.config;
 		OC.config['sharing.maxAutocompleteResults'] = 0;
 		/* jshint camelcase:false */
-		oldAppConfig = _.extend({}, oc_appconfig.core);
-		oc_appconfig.core.enforcePasswordForPublicLink = false;
+		oldAppConfig = _.extend({}, OC.appConfig.core);
+		OC.appConfig.core.enforcePasswordForPublicLink = false;
 
 		fetchStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'fetch');
 		saveLinkShareStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'saveLinkShare');
@@ -113,7 +113,7 @@ describe('OC.Share.ShareDialogView', function() {
 		OC.currentUser = oldCurrentUser;
 		OC.config = oldConfig;
 		/* jshint camelcase:false */
-		oc_appconfig.core = oldAppConfig;
+		OC.appConfig.core = oldAppConfig;
 
 		dialog.remove();
 		fetchStub.restore();

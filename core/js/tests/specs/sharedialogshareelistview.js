@@ -19,7 +19,6 @@
  *
  */
 
-/* global oc_appconfig */
 describe('OC.Share.ShareDialogShareeListView', function () {
 
 	var oldCurrentUser;
@@ -31,8 +30,8 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 
 	beforeEach(function () {
 		/* jshint camelcase:false */
-		oldAppConfig = _.extend({}, oc_appconfig.core);
-		oc_appconfig.core.enforcePasswordForPublicLink = false;
+		oldAppConfig = _.extend({}, OC.appConfig.core);
+		OC.appConfig.core.enforcePasswordForPublicLink = false;
 
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
@@ -84,7 +83,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 	afterEach(function () {
 		OC.currentUser = oldCurrentUser;
 		/* jshint camelcase:false */
-		oc_appconfig.core = oldAppConfig;
+		OC.appConfig.core = oldAppConfig;
 		listView.remove();
 		updateShareStub.restore();
 	});

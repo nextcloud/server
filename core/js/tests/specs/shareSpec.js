@@ -19,7 +19,6 @@
 *
 */
 
-/* global oc_appconfig */
 describe('OC.Share tests', function() {
 	describe('markFileAsShared', function() {
 		var $file;

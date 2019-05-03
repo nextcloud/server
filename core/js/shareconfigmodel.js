@@ -8,7 +8,7 @@
  *
  */
 
-/* global moment, oc_appconfig */
+/* global moment, OC */
 
 (function() {
 	if (!OC.Share) {
@@ -21,16 +21,16 @@
 	var ShareConfigModel = OC.Backbone.Model.extend({
 		defaults: {
 			publicUploadEnabled: false,
-			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink,
-			enableLinkPasswordByDefault: oc_appconfig.core.enableLinkPasswordByDefault,
-			isDefaultExpireDateEnforced: oc_appconfig.core.defaultExpireDateEnforced === true,
-			isDefaultExpireDateEnabled: oc_appconfig.core.defaultExpireDateEnabled === true,
-			isRemoteShareAllowed: oc_appconfig.core.remoteShareAllowed,
-			isMailShareAllowed: oc_appconfig.shareByMailEnabled !== undefined,
-			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
-			isResharingAllowed: oc_appconfig.core.resharingAllowed,
-			isPasswordForMailSharesRequired: (oc_appconfig.shareByMail === undefined) ? false : oc_appconfig.shareByMail.enforcePasswordProtection,
-			allowGroupSharing: oc_appconfig.core.allowGroupSharing
+			enforcePasswordForPublicLink: OC.appConfig.core.enforcePasswordForPublicLink,
+			enableLinkPasswordByDefault: OC.appConfig.core.enableLinkPasswordByDefault,
+			isDefaultExpireDateEnforced: OC.appConfig.core.defaultExpireDateEnforced === true,
+			isDefaultExpireDateEnabled: OC.appConfig.core.defaultExpireDateEnabled === true,
+			isRemoteShareAllowed: OC.appConfig.core.remoteShareAllowed,
+			isMailShareAllowed: OC.appConfig.shareByMailEnabled !== undefined,
+			defaultExpireDate: OC.appConfig.core.defaultExpireDate,
+			isResharingAllowed: OC.appConfig.core.resharingAllowed,
+			isPasswordForMailSharesRequired: (OC.appConfig.shareByMail === undefined) ? false : OC.appConfig.shareByMail.enforcePasswordProtection,
+			allowGroupSharing: OC.appConfig.core.allowGroupSharing
 		},
 
 		/**
@@ -52,7 +52,7 @@
 		 * @returns {string}
 		 */
 		getFederatedShareDocLink: function() {
-			return oc_appconfig.core.federatedCloudShareDoc;
+			return OC.appConfig.core.federatedCloudShareDoc;
 		},
 
 		getDefaultExpirationDateString: function () {
