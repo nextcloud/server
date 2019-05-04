@@ -49,6 +49,7 @@ OC.L10N.register(
     "Good password" : "كلمة السر جيدة",
     "Strong password" : "كلمة السر قوية",
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
+    "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Groups" : "مجموعات",
     "Arabic (Algeria)" : "العربية (الجزائر)",
     "Arabic (Morocco)" : "العربية (المغرب)",
