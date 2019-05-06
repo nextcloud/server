@@ -20,7 +20,7 @@
  */
 
 import Apps from './apps'
-import AppConfig from './appconfig'
+import {AppConfig, appConfig} from './appconfig'
 import Backbone from './backbone'
 import Config from './config'
 import ContactsMenu from './contactsmenu'
@@ -49,6 +49,7 @@ import {redirect, reload} from './navigation'
 export default {
 	Apps,
 	AppConfig,
+	appConfig,
 	Backbone,
 	ContactsMenu,
 	config: Config,

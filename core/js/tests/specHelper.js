@@ -97,7 +97,7 @@ OC.config = {
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',
 };
-window.oc_appconfig = {
+OC.appConfig = {
 	core: {}
 };
 window.oc_defaults = {
