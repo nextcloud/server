@@ -170,7 +170,7 @@ class JSConfigHelper {
 			"_oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
 			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
-			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
+			"_oc_webroot" => "\"".\OC::$WEBROOT."\"",
 			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,

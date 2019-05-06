@@ -243,7 +243,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			configModel.isShareWithLinkAllowed.returns(true);
 
 			// "Enable" Talk
-			window.oc_appswebroots['spreed'] = window.oc_webroot + '/apps/files/';
+			window.oc_appswebroots['spreed'] = OC.getRootPath() + '/apps/files/';
 
 			shareModel.set({
 				linkShares: [{

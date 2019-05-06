@@ -20,6 +20,7 @@
  */
 
 import _ from 'underscore'
+
 import OC from './index'
 
 /**
@@ -35,7 +36,7 @@ export const linkTo = (app, file) => filePath(app, '', file)
  * @param {string} service id
  * @return {string} the url
  */
-export const linkToRemoteBase = service => OC.getRootPath() + '/remote.php/' + service
+export const linkToRemoteBase = service => getRootPath() + '/remote.php/' + service
 
 /**
  * @brief Creates an absolute url for remote use
@@ -52,7 +53,7 @@ export const linkToRemote = service => window.location.protocol + '//' + window.
  */
 export const linkToOCS = (service, version) => {
 	version = (version !== 2) ? 1 : 2
-	return window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/ocs/v' + version + '.php/' + service + '/'
+	return window.location.protocol + '//' + window.location.host + getRootPath() + '/ocs/v' + version + '.php/' + service + '/'
 }
 
 /**
@@ -90,10 +91,10 @@ export const generateUrl = (url, params, options) => {
 	}
 
 	if (oc_config.modRewriteWorking === true) {
-		return OC.getRootPath() + _build(url, params);
+		return getRootPath() + _build(url, params);
 	}
 
-	return OC.getRootPath() + '/index.php' + _build(url, params);
+	return getRootPath() + '/index.php' + _build(url, params);
 }
 
 /**
@@ -105,7 +106,7 @@ export const generateUrl = (url, params, options) => {
  */
 export const filePath = (app, type, file) => {
 	const isCore = OC.coreApps.indexOf(app) !== -1
-	let link = OC.getRootPath()
+	let link = getRootPath()
 	if (file.substring(file.length - 3) === 'php' && !isCore) {
 		link += '/index.php/apps/' + app;
 		if (file !== 'index.php') {
@@ -144,3 +145,14 @@ export const filePath = (app, type, file) => {
 	}
 	return link
 }
+
+/**
+ * Returns the web root path where this Nextcloud instance
+ * is accessible, with a leading slash.
+ * For example "/nextcloud".
+ *
+ * @return {string} web root path
+ *
+ * @since 8.2
+ */
+export const getRootPath = () => OC.webroot

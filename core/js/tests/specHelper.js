@@ -86,11 +86,11 @@ window.firstDay = 0;
 // setup dummy webroots
 /* jshint camelcase: false */
 window.oc_debug = true;
-// FIXME: oc_webroot is supposed to be only the path!!!
-window.oc_webroot = location.href + '/';
+// FIXME: OC.webroot is supposed to be only the path!!!
+OC.webroot = location.href + '/';
 window.oc_appswebroots = {
-	"files": window.oc_webroot + '/apps/files/',
-	"files_sharing": window.oc_webroot + '/apps/files_sharing/'
+	"files": window.webroot + '/apps/files/',
+	"files_sharing": window.webroot + '/apps/files_sharing/'
 };
 OC.config = {
 	session_lifetime: 600 * 1000,

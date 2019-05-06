@@ -1,17 +1,5 @@
-var oc_webroot;
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
-
-if (typeof oc_webroot === "undefined") {
-	oc_webroot = location.pathname;
-	var pos = oc_webroot.indexOf('/index.php/');
-	if (pos !== -1) {
-		oc_webroot = oc_webroot.substr(0, pos);
-	}
-	else {
-		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
-	}
-}
 
 /** @namespace OCP */
 var OCP = Object.assign({}, window.OCP);
@@ -29,17 +17,6 @@ Object.assign(window.OC, {
 	PERMISSION_ALL:31,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 	/* jshint camelcase: false */
-	/**
-	 * Relative path to Nextcloud root.
-	 * For example: "/nextcloud"
-	 *
-	 * @type string
-	 *
-	 * @deprecated since 8.2, use OC.getRootPath() instead
-	 * @see OC#getRootPath
-	 */
-	webroot:oc_webroot,
-
 	/**
 	 * Capabilities
 	 *
@@ -114,20 +91,6 @@ Object.assign(window.OC, {
 	getPort: function() {
 		return window.location.port;
 	},
-
-	/**
-	 * Returns the web root path where this Nextcloud instance
-	 * is accessible, with a leading slash.
-	 * For example "/nextcloud".
-	 *
-	 * @return {string} web root path
-	 *
-	 * @since 8.2
-	 */
-	getRootPath: function() {
-		return OC.webroot;
-	},
-
 
 	/**
 	 * Returns the capabilities
