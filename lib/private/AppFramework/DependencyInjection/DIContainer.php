@@ -299,6 +299,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return boolean|null
 	 */
 	public function registerMiddleWare($middleWare) {
+		if (in_array($middleWare, $this->middleWares, true) !== false) {
+			return false;
+		}
 		$this->middleWares[] = $middleWare;
 	}
 
