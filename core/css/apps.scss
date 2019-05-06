@@ -358,6 +358,10 @@ kbd {
 			height: 44px;
 			margin: 0;
 			z-index: 110;
+
+			/* Needed for IE11; otherwise the button appears to the right of the
+			 * link. */
+			left: 0;
 		}
 		&:before {
 			position: absolute;
