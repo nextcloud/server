@@ -89,6 +89,7 @@ $application->registerRoutes($this, [
 		['name' => 'requesthandlercontroller#addShare', 'url' => '/ocm/shares', 'verb' => 'POST', 'app' => 'cloud_federation_api'],
 		['name' => 'requesthandlercontroller#receiveNotification', 'url' => '/ocm/notifications', 'verb' => 'POST', 'app' => 'cloud_federation_api'],
 		['name' => 'pagecontroller#showCall', 'url' => '/call/{token}', 'verb' => 'GET', 'app' => 'spreed'],
+		['name' => 'pagecontroller#authenticatePassword', 'url' => '/call/{token}', 'verb' => 'POST', 'app' => 'spreed'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
