@@ -25,6 +25,8 @@ import appswebroots from './appswebroots'
 import Backbone from './backbone'
 import Config from './config'
 import {
+	coreApps,
+	menuSpeed,
 	PERMISSION_ALL,
 	PERMISSION_CREATE,
 	PERMISSION_DELETE,
@@ -64,6 +66,8 @@ export default {
 	/*
 	 * Constants
 	 */
+	coreApps,
+	menuSpeed,
 	PERMISSION_ALL,
 	PERMISSION_CREATE,
 	PERMISSION_DELETE,
