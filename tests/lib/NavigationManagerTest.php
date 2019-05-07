@@ -217,14 +217,12 @@ class NavigationManagerTest extends TestCase {
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
 		});
-		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function () {
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+			if ($route === 'core.login.logout') {
+				return 'https://example.com/logout';
+			}
 			return '/apps/test/';
 		});
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRouteAbsolute')
-			->with('core.login.logout')
-			->willReturn('https://example.com/logout');
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
