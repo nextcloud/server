@@ -24,6 +24,16 @@ import {AppConfig, appConfig} from './appconfig'
 import appswebroots from './appswebroots'
 import Backbone from './backbone'
 import Config from './config'
+import {
+	PERMISSION_ALL,
+	PERMISSION_CREATE,
+	PERMISSION_DELETE,
+	PERMISSION_NONE,
+	PERMISSION_READ,
+	PERMISSION_SHARE,
+	PERMISSION_UPDATE,
+	TAG_FAVORITE,
+} from './constants'
 import ContactsMenu from './contactsmenu'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
@@ -51,6 +61,18 @@ import webroot from './webroot'
 
 /** @namespace OC */
 export default {
+	/*
+	 * Constants
+	 */
+	PERMISSION_ALL,
+	PERMISSION_CREATE,
+	PERMISSION_DELETE,
+	PERMISSION_NONE,
+	PERMISSION_READ,
+	PERMISSION_SHARE,
+	PERMISSION_UPDATE,
+	TAG_FAVORITE,
+
 	Apps,
 	AppConfig,
 	appConfig,
