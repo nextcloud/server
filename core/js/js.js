@@ -698,7 +698,8 @@ function initCore() {
 	}
 
 	// css variables fallback for IE
-	if (msie > 0 || trident > 0) {
+	if (msie > 0 || trident > 0 || edge > 0) {
+		console.info('Legacy browser detected, applying css vars polyfill')
 		cssVars({
 			watch: true,
 			//  set edge < 16 as incompatible
