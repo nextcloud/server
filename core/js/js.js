@@ -915,7 +915,10 @@ function initCore() {
 	// css variables fallback for IE
 	if (msie > 0 || trident > 0) {
 		cssVars({
-			watch: true
+			watch: true,
+			//  set edge < 16 as incompatible
+			onlyLegacy: !(/Edge\/([0-9]{2})\./i.test(navigator.userAgent)
+				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16)
 		});
 	}
 
