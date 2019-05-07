@@ -388,6 +388,8 @@ OC.L10N.register(
     "Norwegian Bokmål" : "Bokmål",
     "Norwegian Nynorsk (Norway)" : "Nynorsk (Noruega)",
     "Norwegian Nynorsk" : "Nynorsk",
+    "Nyankole (Uganda)" : "Nyankole (Uganda)",
+    "Nyankole" : "Nyankole",
     "Oriya (India)" : "Oriya (Índia)",
     "Oriya" : "Oriya",
     "Oromo (Ethiopia)" : "Oromo (Etiòpia)",
@@ -605,6 +607,7 @@ OC.L10N.register(
     "Enable all" : "Permetre tots",
     "Download and enable" : "Baixa i activa",
     "Enable" : "Activa",
+    "Enable untested app" : "Activa aplicacions no provades",
     "The app will be downloaded from the app store" : "L'app es descarregarà des de la botiga d'apps",
     "You do not have permissions to see the details of this user" : "No teniu els permisos necessaris per veure els detalls d'aquest usuari",
     "The backend does not support changing the display name" : "El backend no dóna suport a canviar el nom visualitzat",
@@ -787,8 +790,15 @@ OC.L10N.register(
     "Current password" : "Contrasenya actual",
     "Change password" : "Canvia la contrasenya",
     "Disconnect" : "Desconnecta",
+    "iPhone iOS" : "iPhone iOS",
+    "iPad iOS" : "iPad iOS",
     "iOS Client" : "Client per a iOS",
     "Android Client" : "Client per a Android",
-    "Follow us on Google+" : "Seguiu-nos a Google+"
+    "Not supported!" : "No suportat!",
+    "Press ⌘-C to copy." : "Prem ⌘-C per copiar.",
+    "Press Ctrl-C to copy." : "Prem Ctrl-C per copiar.",
+    "Default quota :" : "Quota per defecte:",
+    "Follow us on Google+" : "Seguiu-nos a Google+",
+    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Estàs fent servir <strong>%s</strong> de <strong>%s</strong> (<strong>%s %%</strong>)"
 },
 "nplurals=2; plural=(n != 1);");

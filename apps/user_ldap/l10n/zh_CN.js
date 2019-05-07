@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "清除映射失败。",
+    "Failed to clear the mappings." : "无法清除映射。",
     "Failed to delete the server configuration" : "未能删除服务器配置",
     "Invalid configuration: Anonymous binding is not allowed." : "配置无效：不允许匿名绑定。",
     "Valid configuration, connection established!" : "配置有效，连接成功！",
