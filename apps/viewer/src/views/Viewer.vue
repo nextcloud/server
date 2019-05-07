@@ -31,7 +31,7 @@
 		:spread-navigation="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
-		:title="currentFileName"
+		:title="currentFile.name"
 		:enable-swipe="canSwipe"
 		:size="isMobile || isFullscreen ? 'full' : 'large'"
 		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
@@ -41,7 +41,7 @@
 		<!-- PREVIOUS -->
 		<component
 			:is="previousFile.modal"
-			v-if="!previousFile.failed"
+			v-if="previousFile && !previousFile.failed"
 			:key="getPreviewIfAny(previousFile)"
 			ref="previous-content"
 			:dav-path="previousFile.path"
@@ -53,8 +53,9 @@
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<Error
-			v-else
-			class="hidden-visually" />
+			v-else-if="previousFile"
+			class="hidden-visually"
+			:name="previousFile.name" />
 
 		<!-- CURRENT -->
 		<component
@@ -77,12 +78,12 @@
 			@error="currentFailed" />
 		<Error
 			v-else
-			:name="currentFileName" />
+			:name="currentFile.name" />
 
 		<!-- NEXT -->
 		<component
 			:is="nextFile.modal"
-			v-if="!nextFile.failed"
+			v-if="nextFile && !nextFile.failed"
 			:key="getPreviewIfAny(nextFile)"
 			ref="next-content"
 			:dav-path="nextFile.path"
@@ -94,7 +95,7 @@
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<Error
-			v-else
+			v-else-if="nextFile"
 			class="hidden-visually" />
 	</Modal>
 </template>
@@ -107,6 +108,7 @@ import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
 import PreviewUrl from 'Mixins/PreviewUrl'
+import File from 'Models/file'
 import FileList from 'Services/FileList'
 import Modal from 'nextcloud-vue/dist/Components/Modal'
 
@@ -153,12 +155,6 @@ export default {
 		},
 		hasNext() {
 			return this.fileList.length > 1
-		},
-		currentFileName() {
-			if (this.currentFile) {
-				return this.currentFile.name
-			}
-			return ''
 		},
 		actions() {
 			return OCA.Sharing
@@ -209,13 +205,10 @@ export default {
 		 * @param {Object} fileInfo the opened file info
 		 */
 		async openFile(fileName, fileInfo) {
-			this.failed = false
-
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
 
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
-			const path = `${this.root}${relativePath}`
 
 			let mime = fileInfo.$file.data('mime')
 
@@ -243,19 +236,11 @@ export default {
 			mime = this.getAliasIfAny(mime)
 
 			if (this.components[mime]) {
-				this.currentFile = {
-					relativePath,
-					path,
-					mime,
-					hasPreview: fileInfo.hasPreview,
-					id: fileInfo.id,
-					name: fileInfo.name,
-					modal: this.components[mime],
-					loaded: false
-				}
+				this.currentFile = new File(fileInfo, mime, this.components[mime])
 				this.updatePreviousNext()
 			} else {
-				console.error(`The following file could not be displayed because to view matches its mime type`, fileName, fileInfo)
+				console.error(`The following file could not be displayed`, fileName, fileInfo)
+				this.currentFile.failed = true
 			}
 		},
 
@@ -265,24 +250,9 @@ export default {
 		 * @param {Object} fileInfo the opened file info
 		 */
 		openFileFromList(fileInfo) {
-			const path = fileInfo.href
-			const id = fileInfo.id
-			const name = fileInfo.name
-			const hasPreview = fileInfo.hasPreview
+			// override mimetype if existing alias
 			const mime = this.getAliasIfAny(fileInfo.mimetype)
-			const modal = this.components[mime]
-			if (modal) {
-				this.currentFile = {
-					path,
-					mime,
-					id,
-					name,
-					hasPreview,
-					modal,
-					failed: false,
-					loaded: false
-				}
-			}
+			this.currentFile = new File(fileInfo, mime, this.components[mime])
 			this.updatePreviousNext()
 		},
 
@@ -294,51 +264,23 @@ export default {
 			const next = this.fileList[this.currentIndex + 1]
 
 			if (prev) {
-				const path = prev.href
-				const id = prev.id
-				const name = prev.name
-				const hasPreview = prev.hasPreview
 				const mime = this.getAliasIfAny(prev.mimetype)
-				const modal = this.components[mime]
-
-				if (modal) {
-					this.previousFile = {
-						path,
-						mime,
-						id,
-						name,
-						hasPreview,
-						modal,
-						failed: false
-					}
+				if (this.components[mime]) {
+					this.previousFile = new File(prev, mime, this.components[mime])
 				}
-			// RESET
 			} else {
-				this.previousFile = {}
+				// RESET
+				this.previousFile = null
 			}
 
 			if (next) {
-				const path = next.href
-				const id = next.id
-				const name = next.name
-				const hasPreview = next.hasPreview
 				const mime = this.getAliasIfAny(next.mimetype)
-				const modal = this.components[mime]
-
-				if (modal) {
-					this.nextFile = {
-						path,
-						mime,
-						id,
-						name,
-						hasPreview,
-						modal,
-						failed: false
-					}
+				if (this.components[mime]) {
+					this.nextFile = new File(next, mime, this.components[mime])
 				}
-			// RESET
 			} else {
-				this.nextFile = {}
+				// RESET
+				this.nextFile = null
 			}
 
 		},
@@ -458,8 +400,6 @@ export default {
 		 * Open previous available file
 		 */
 		previous() {
-			this.failed = false
-
 			this.currentIndex--
 			if (this.currentIndex < 0) {
 				this.currentIndex = this.fileList.length - 1
@@ -472,8 +412,6 @@ export default {
 		 * Open next available file
 		 */
 		next() {
-			this.failed = false
-
 			this.currentIndex++
 			if (this.currentIndex > this.fileList.length - 1) {
 				this.currentIndex = 0
