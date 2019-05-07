@@ -212,7 +212,7 @@ export default {
 			}
 			if (!this.settings.isAdmin) {
 				// we don't want subadmins to edit themselves
-				return this.users.filter(user => user.enabled !== false && user.id !== oc_current_user);
+				return this.users.filter(user => user.enabled !== false && user.id !== OC.getCurrentUser().uid);
 			}
 			return this.users.filter(user => user.enabled !== false);
 		},

@@ -98,7 +98,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'file'
 			}]);
 			listView.render();
@@ -113,7 +113,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'file'
 			}]);
 			listView.render();
@@ -128,7 +128,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');
@@ -144,7 +144,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user _.@-\'',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');
@@ -160,7 +160,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');
@@ -176,7 +176,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user _.@-\'',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');
@@ -193,7 +193,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 			}]);
 			shareModel.set('itemType', 'folder');
 			listView.render();
@@ -210,7 +210,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');
@@ -228,7 +228,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 				share_type: OC.Share.SHARE_TYPE_USER,
 				share_with: 'user1',
 				share_with_displayname: 'User One',
-				uid_owner: oc_current_user,
+				uid_owner: OC.getCurrentUser().uid,
 				itemType: 'folder'
 			}]);
 			shareModel.set('itemType', 'folder');

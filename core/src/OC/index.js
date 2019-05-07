@@ -37,6 +37,7 @@ import {
 	TAG_FAVORITE,
 } from './constants'
 import ContactsMenu from './contactsmenu'
+import {currentUser, getCurrentUser} from './currentuser'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
 import {get, set} from './get_set'
@@ -90,8 +91,22 @@ export default {
 	Backbone,
 	ContactsMenu,
 	config: Config,
+	/**
+	 * Currently logged in user or null if none
+	 *
+	 * @type String
+	 * @deprecated use {@link OC.getCurrentUser} instead
+	 */
+	currentUser,
 	dialogs: Dialogs,
 	EventSource,
+	/**
+	 * Returns the currently logged in user or null if there is no logged in
+	 * user (public page mode)
+	 *
+	 * @since 9.0.0
+	 */
+	getCurrentUser,
 	isUserAdmin,
 	L10N,
 

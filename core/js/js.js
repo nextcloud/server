@@ -1,4 +1,3 @@
-var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
 /** @namespace OCP */
@@ -16,13 +15,6 @@ Object.assign(window.OC, {
 	 */
 	_capabilities: window.oc_capabilities || null,
 
-	/**
-	 * Currently logged in user or null if none
-	 *
-	 * @type String
-	 * @deprecated use {@link OC.getCurrentUser} instead
-	 */
-	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	theme: window.oc_defaults || {},
 	requestToken: oc_requesttoken,
 
@@ -90,23 +82,6 @@ Object.assign(window.OC, {
 	 */
 	getCapabilities: function() {
 		return OC._capabilities;
-	},
-
-	/**
-	 * Returns the currently logged in user or null if there is no logged in
-	 * user (public page mode)
-	 *
-	 * @return {OC.CurrentUser} user spec
-	 * @since 9.0.0
-	 */
-	getCurrentUser: function() {
-		if (_.isUndefined(this._currentUserDisplayName)) {
-			this._currentUserDisplayName = document.getElementsByTagName('head')[0].getAttribute('data-user-displayname');
-		}
-		return {
-			uid: this.currentUser,
-			displayName: this._currentUserDisplayName
-		};
 	},
 
 	/**
