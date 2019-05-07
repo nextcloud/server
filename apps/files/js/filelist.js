@@ -652,8 +652,6 @@
 			});
 
 			this.breadcrumb._resize();
-
-			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
 		},
 
 		/**

@@ -55,9 +55,26 @@
 	position: relative;
 	width: 100%;
 	min-width: 250px;
+	display: flex;
+	flex-direction: column;
 	// hide table if emptycontent is not hidden
 	#emptycontent:not(.hidden) ~ & {
 		display: none;
+	}
+}
+
+@media only screen and (min-width: $breakpoint-mobile + 1) {
+	#filestable {
+		// floating header
+		thead {
+			position: -webkit-sticky;
+			position: sticky;
+			// header + breadcrumbs
+			top: $header-height + 44px;
+			z-index: 1000;
+			display: block;
+			background-color: var(--color-main-background-translucent);
+		}
 	}
 }
 
