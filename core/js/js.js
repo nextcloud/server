@@ -24,7 +24,6 @@ Object.assign(window.OC, {
 	 */
 	_capabilities: window.oc_capabilities || null,
 
-	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	/**
 	 * Currently logged in user or null if none
 	 *

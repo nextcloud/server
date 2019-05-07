@@ -164,7 +164,7 @@
 				isFileSharedByMail: shareType === OC.Share.SHARE_TYPE_EMAIL && !this.model.isFolder(),
 				isPasswordSet: hasPassword && !sendPasswordByTalk,
 				isPasswordByTalkSet: hasPassword && sendPasswordByTalk,
-				isTalkEnabled: oc_appswebroots['spreed'] !== undefined,
+				isTalkEnabled: OC.appswebroots['spreed'] !== undefined,
 				secureDropMode: !this.model.hasReadPermission(shareIndex),
 				hasExpireDate: this.model.getExpireDate(shareIndex) !== null,
 				shareNote: shareNote,

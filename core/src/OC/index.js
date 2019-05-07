@@ -21,6 +21,7 @@
 
 import Apps from './apps'
 import {AppConfig, appConfig} from './appconfig'
+import appswebroots from './appswebroots'
 import Backbone from './backbone'
 import Config from './config'
 import ContactsMenu from './contactsmenu'
@@ -53,6 +54,7 @@ export default {
 	Apps,
 	AppConfig,
 	appConfig,
+	appswebroots,
 	Backbone,
 	ContactsMenu,
 	config: Config,

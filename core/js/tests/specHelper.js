@@ -88,7 +88,7 @@ window.firstDay = 0;
 window.oc_debug = true;
 // FIXME: OC.webroot is supposed to be only the path!!!
 OC.webroot = location.href + '/';
-window.oc_appswebroots = {
+OC.appswebroots = {
 	"files": window.webroot + '/apps/files/',
 	"files_sharing": window.webroot + '/apps/files_sharing/'
 };

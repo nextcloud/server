@@ -171,7 +171,7 @@ class JSConfigHelper {
 			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
 			"_oc_webroot" => "\"".\OC::$WEBROOT."\"",
-			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			"_oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),

@@ -878,7 +878,7 @@
 				expireDate = moment(share.expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
 			}
 
-			var isTalkEnabled = oc_appswebroots['spreed'] !== undefined;
+			var isTalkEnabled = OC.appswebroots['spreed'] !== undefined;
 			var sendPasswordByTalk = share.sendPasswordByTalk;
 
 			var hideDownload = share.hideDownload;
