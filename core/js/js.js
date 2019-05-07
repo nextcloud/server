@@ -1362,8 +1362,13 @@ function initCore() {
 	}
 
 	// css variables fallback for IE
-	if (msie > 0 || trident > 0) {
-		cssVars();
+	if (msie > 0 || trident > 0 || edge > 0) {
+		console.debug('Legacy browser detected, applying css vars polyfill')
+		cssVars({
+			//  set edge < 16 as incompatible
+			onlyLegacy: !(/Edge\/([0-9]{2})\./i.test(navigator.userAgent)
+			&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16)
+		});
 	}
 
 	$(window).on('unload.main', function() {
