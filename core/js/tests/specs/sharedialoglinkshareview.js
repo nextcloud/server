@@ -243,7 +243,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 			configModel.isShareWithLinkAllowed.returns(true);
 
 			// "Enable" Talk
-			window.oc_appswebroots['spreed'] = OC.getRootPath() + '/apps/files/';
+			OC.appswebroots['spreed'] = OC.getRootPath() + '/apps/files/';
 
 			shareModel.set({
 				linkShares: [{
@@ -284,7 +284,7 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 
 		it('is not shown if there is a password set but Talk is not enabled', function() {
 			// "Disable" Talk
-			delete window.oc_appswebroots['spreed'];
+			delete OC.appswebroots['spreed'];
 
 			view.render();
 

@@ -152,7 +152,7 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', $('#downloadURL').val());
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
-			if (oc_appswebroots['files_texteditor'] !== undefined) {
+			if (OC.appswebroots['files_texteditor'] !== undefined) {
 				// the text editor handles the previewing
 				return;
 			}
