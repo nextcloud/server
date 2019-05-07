@@ -232,7 +232,7 @@ class Cache implements ICache {
 	 */
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
-			$this->update($id, $data, $file);
+			$this->update($id, $data);
 			return $id;
 		} else {
 			return $this->insert($file, $data);
