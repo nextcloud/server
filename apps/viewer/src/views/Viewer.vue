@@ -26,7 +26,6 @@
 		id="viewer-content"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
 		:view="currentFile.modal"
-		:actions="actions"
 		:enable-slideshow="hasPrevious || hasNext"
 		:spread-navigation="true"
 		:has-previous="hasPrevious"
@@ -38,6 +37,16 @@
 		@close="close"
 		@previous="previous"
 		@next="next">
+		<!-- ACTIONS -->
+		<template #actions>
+			<ActionButton
+				v-if="OCA.Sharing"
+				icon="icon-share-white-forced"
+				@click="showSharingSidebar">
+				{{ t('viewer', 'Share') }}
+			</ActionButton>
+		</template>
+
 		<!-- PREVIOUS -->
 		<component
 			:is="previousFile.modal"
@@ -104,6 +113,7 @@
 import Vue from 'vue'
 
 import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
+import isFullScreen from 'nextcloud-vue/dist/Mixins/isFullScreen'
 import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
@@ -111,16 +121,18 @@ import PreviewUrl from 'Mixins/PreviewUrl'
 import File from 'Models/file'
 import FileList from 'Services/FileList'
 import Modal from 'nextcloud-vue/dist/Components/Modal'
+import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
 
 export default {
 	name: 'Viewer',
 
 	components: {
+		ActionButton,
 		Modal,
 		Error
 	},
 
-	mixins: [isMobile, PreviewUrl],
+	mixins: [isMobile, isFullScreen, PreviewUrl],
 
 	data: () => ({
 		handlers: OCA.Viewer.availableHandlers,
@@ -137,7 +149,6 @@ export default {
 
 		fileList: [],
 
-		isFullscreen: window.innerWidth === screen.width,
 		isLoaded: false,
 
 		showSidebar: false,
@@ -155,17 +166,6 @@ export default {
 		},
 		hasNext() {
 			return this.fileList.length > 1
-		},
-		actions() {
-			return OCA.Sharing
-				? [
-					{
-						text: t('viewer', 'Share'),
-						icon: 'icon-share-white-forced',
-						action: this.showSharingSidebar
-					}
-				]
-				: []
 		}
 	},
 
@@ -441,7 +441,7 @@ export default {
 
 		showSharingSidebar() {
 			// Open the sidebar sharing tab
-			OCA.Files.App.fileList.showDetailsView(this.currentFileName, 'shareTabView')
+			OCA.Files.App.fileList.showDetailsView(this.currentFile.name, 'shareTabView')
 			this.showAppsSidebar()
 		},
 
@@ -471,9 +471,6 @@ export default {
 		},
 
 		onResize(event) {
-			// Update mobile & fullscreen mode
-			this.isFullscreen = window.innerWidth === screen.width
-
 			// update sidebar width
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
