@@ -67,6 +67,7 @@
 	#filestable {
 		// floating header
 		thead {
+			position: -webkit-sticky;
 			position: sticky;
 			// header + breadcrumbs
 			top: $header-height + 44px;
