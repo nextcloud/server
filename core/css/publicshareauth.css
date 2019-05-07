@@ -26,3 +26,8 @@ input[type='submit'].icon-confirm {
 	height: 45px;
 	background-color: transparent !important;
 }
+
+.warning > .warning {
+	/* Do not use a top margin for warning messages in the warning container. */
+	margin-top: 0;
+}
