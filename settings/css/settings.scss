@@ -1336,6 +1336,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
 	$grid-row-height: 46px;
+	$grid-col-min-width: 120px;
 	#app-content.user-list-grid {
 		display: grid;
 		grid-auto-columns: 1fr;
@@ -1351,7 +1352,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			align-items: center;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
-			grid-template-columns: 44px minmax(150px, 1fr) repeat(auto-fit, minmax(120px, 1fr));
+			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
 			&.disabled {
 				opacity: .5;
@@ -1362,14 +1363,18 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.displayName,
 			.password,
 			.mailAddress,
-			.groups,
-			.subadmins,
-			.quota,
 			.languages,
 			.storageLocation,
 			.userBackend,
 			.lastLogin {
-				min-width: 120px;
+				min-width: $grid-col-min-width;
+			}
+			.groups,
+			.subadmins,
+			.quota {
+				.multiselect {
+					min-width: $grid-col-min-width;
+				}
 			}
 			.obfuscated {
 				width: 400px;
