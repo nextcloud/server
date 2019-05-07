@@ -24,9 +24,7 @@ Object.assign(window.OC, {
 	 */
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	theme: window.oc_defaults || {},
-	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
 	requestToken: oc_requesttoken,
-	menuSpeed: 50,
 
 	/**
 	 * Check if a user file is allowed to be handled.

@@ -22,6 +22,7 @@
 import _ from 'underscore'
 
 import OC from './index'
+import {coreApps} from './constants'
 
 /**
  * Get an absolute url to a file in an app
@@ -105,7 +106,7 @@ export const generateUrl = (url, params, options) => {
  * @return {string} Absolute URL for a file in an app
  */
 export const filePath = (app, type, file) => {
-	const isCore = OC.coreApps.indexOf(app) !== -1
+	const isCore = coreApps.indexOf(app) !== -1
 	let link = getRootPath()
 	if (file.substring(file.length - 3) === 'php' && !isCore) {
 		link += '/index.php/apps/' + app;
