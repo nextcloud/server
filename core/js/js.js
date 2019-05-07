@@ -8,14 +8,6 @@ var OCP = Object.assign({}, window.OCP);
  * @namespace OC
  */
 Object.assign(window.OC, {
-	PERMISSION_NONE:0,
-	PERMISSION_CREATE:4,
-	PERMISSION_READ:1,
-	PERMISSION_UPDATE:2,
-	PERMISSION_DELETE:8,
-	PERMISSION_SHARE:16,
-	PERMISSION_ALL:31,
-	TAG_FAVORITE: '_$!<Favorite>!$_',
 	/* jshint camelcase: false */
 	/**
 	 * Capabilities
