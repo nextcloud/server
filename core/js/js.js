@@ -1113,41 +1113,4 @@ if (window.history.pushState) {
 else {
 	$(window).on('hashchange', _.bind(OC.Util.History._onPopState, OC.Util.History));
 }
-
-/**
- * Get a variable by name
- * @param {string} name
- * @return {*}
  */
-OC.get=function(name) {
-	var namespaces = name.split(".");
-	var tail = namespaces.pop();
-	var context=window;
-
-	for(var i = 0; i < namespaces.length; i++) {
-		context = context[namespaces[i]];
-		if(!context){
-			return false;
-		}
-	}
-	return context[tail];
-};
-
-/**
- * Set a variable by name
- * @param {string} name
- * @param {*} value
- */
-OC.set=function(name, value) {
-	var namespaces = name.split(".");
-	var tail = namespaces.pop();
-	var context=window;
-
-	for(var i = 0; i < namespaces.length; i++) {
-		if(!context[namespaces[i]]){
-			context[namespaces[i]]={};
-		}
-		context = context[namespaces[i]];
-	}
-	context[tail]=value;
-};
