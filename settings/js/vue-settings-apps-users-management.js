@@ -108,5 +108,5 @@ o.a.use(Gt.a);var te={API_FAILURE:function(e,n){try{var r=n.error.response.data.
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-o.a.use(i.a),Object(a.sync)(ee,Vt),r.nc=btoa(OC.requestToken),r.p=OC.linkTo("settings","js/"),o.a.prototype.t=t,o.a.prototype.OC=OC,o.a.prototype.OCA=OCA,o.a.prototype.oc_userconfig=oc_userconfig,o.a.prototype.oc_current_user=oc_current_user;var ne=new o.a({router:Vt,store:ee,render:function(t){return t(c)}}).$mount("#content")}]);
+o.a.use(i.a),Object(a.sync)(ee,Vt),r.nc=btoa(OC.requestToken),r.p=OC.linkTo("settings","js/"),o.a.prototype.t=t,o.a.prototype.OC=OC,o.a.prototype.OCA=OCA,o.a.prototype.oc_userconfig=oc_userconfig;var ne=new o.a({router:Vt,store:ee,render:function(t){return t(c)}}).$mount("#content")}]);
 //# sourceMappingURL=vue-settings-apps-users-management.js.map

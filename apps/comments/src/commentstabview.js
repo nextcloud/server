@@ -354,7 +354,7 @@
 			});
 
 			var username = $el.find('.avatar').data('username');
-			if (username !== oc_current_user) {
+			if (username !== OC.getCurrentUser().uid) {
 				$el.find('.authorRow .avatar, .authorRow .author').contactsMenu(
 					username, 0, $el.find('.authorRow'));
 			}

@@ -119,7 +119,7 @@
 				shareWith = 'circle-' + shareIndex;
 			}
 
-			if (sharedBy !== oc_current_user) {
+			if (sharedBy !== OC.getCurrentUser().uid) {
 				var empty = shareWithTitle === '';
 				if (!empty) {
 					shareWithTitle += ' (';
@@ -154,8 +154,8 @@
 				shareId: this.model.get('shares')[shareIndex].id,
 				modSeed: shareWithAvatar || (shareType !== OC.Share.SHARE_TYPE_USER && shareType !== OC.Share.SHARE_TYPE_CIRCLE && shareType !== OC.Share.SHARE_TYPE_ROOM),
 				owner: fileOwnerUid,
-				isShareWithCurrentUser: (shareType === OC.Share.SHARE_TYPE_USER && shareWith === oc_current_user),
-				canUpdateShareSettings: (sharedBy === oc_current_user || fileOwnerUid === oc_current_user),
+				isShareWithCurrentUser: (shareType === OC.Share.SHARE_TYPE_USER && shareWith === OC.getCurrentUser().uid),
+				canUpdateShareSettings: (sharedBy === OC.getCurrentUser().uid || fileOwnerUid === OC.getCurrentUser().uid),
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE,
 				isRemoteGroupShare: shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				isNoteAvailable: shareType !== OC.Share.SHARE_TYPE_REMOTE && shareType !== OC.Share.SHARE_TYPE_REMOTE_GROUP,
