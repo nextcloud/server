@@ -100,8 +100,8 @@ class ExceptionSerializer {
 	private function filterTrace(array $trace) {
 		$sensitiveValues = [];
 		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
-			$className = $traceLine['class'];
-			if (isset(self::methodsWithSensitiveParametersByClass[$className])
+			$className = $traceLine['class'] ?? '';
+			if ($className && isset(self::methodsWithSensitiveParametersByClass[$className])
 				&& in_array($traceLine['function'], self::methodsWithSensitiveParametersByClass[$className], true)) {
 				return $this->editTrace($sensitiveValues, $traceLine);
 			}
