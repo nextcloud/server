@@ -21,7 +21,9 @@
 
 namespace OC\Log;
 
+use OC\Core\Controller\SetupController;
 use OC\HintException;
+use OC\Setup;
 
 class ExceptionSerializer {
 	const methodsWithSensitiveParameters = [
@@ -78,14 +80,34 @@ class ExceptionSerializer {
 		'update',
 	];
 
+	const methodsWithSensitiveParametersByClass = [
+		SetupController::class => [
+			'run',
+			'display',
+			'loadAutoConfig',
+		],
+		Setup::class => [
+			'install'
+		]
+	];
+
+	private function editTrace(array &$sensitiveValues, array $traceLine): array {
+		$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
+		$traceLine['args'] = ['*** sensitive parameters replaced ***'];
+		return $traceLine;
+	}
+
 	private function filterTrace(array $trace) {
 		$sensitiveValues = [];
 		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
+			$className = $traceLine['class'] ?? '';
+			if ($className && isset(self::methodsWithSensitiveParametersByClass[$className])
+				&& in_array($traceLine['function'], self::methodsWithSensitiveParametersByClass[$className], true)) {
+				return $this->editTrace($sensitiveValues, $traceLine);
+			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
 				if (strpos($traceLine['function'], $sensitiveMethod) !== false) {
-					$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
-					$traceLine['args'] = ['*** sensitive parameters replaced ***'];
-					return $traceLine;
+					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
 			return $traceLine;
