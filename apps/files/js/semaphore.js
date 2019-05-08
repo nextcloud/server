@@ -32,6 +32,10 @@
 		};
 	};
 
+	// needed on public share page to properly register this
+	if (!OCA.Files) {
+		OCA.Files = {};
+	}
 	OCA.Files.Semaphore = Semaphore;
 
 })();
