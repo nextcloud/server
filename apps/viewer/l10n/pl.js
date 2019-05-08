@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Pokaż najnowsze zdjęcia i filmy z wakacji. Pokaż swoją najnowszą przygodę bezpośrednio z Nextcloud. Wybierz najlepszy GIF ze swojej kolekcji. I to wszystko dzięki bezpośredniemu podglądowi ulubionych plików i wielu innych!",
     "Error loading {name}" : "Błąd podczas ładowania {name}",
     "Your browser does not support the video tag." : "Twoja przeglądarka nie obsługuje etykiety wideo.",
-    "This video is not playable in your browser" : "To wideo nie jest odtwarzane w przeglądarce",
     "Share" : "Udostępnij",
     "View" : "Podgląd"
 },

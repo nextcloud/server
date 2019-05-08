@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Вы можете показать свои последние праздничные фотографии и видео, прямо как в фильмах! Вы можете показать свой последний роман прямо из вашего Nextcloud! Вы можете выбрать лучший GIF из вашей коллекции благодаря непосредственному предварительному просмотру ваших избранных файлов и многое другое!",
     "Error loading {name}" : "Ошибка при загрузке {name}",
     "Your browser does not support the video tag." : "Ваш браузер не поддерживает метку видео.",
-    "This video is not playable in your browser" : "Воспроизведение этого видео не поддерживается вашим браузером",
     "Share" : "Общий доступ",
     "View" : "Просмотр"
 },

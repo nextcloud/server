@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sık kullanılanlara eklediğiniz dosyaları doğrudan ön izleme özelliği ile, Nextcloud alanınızdan son tatil fotoğraflarınız, beğendiğiniz film sahneleri, en son romanınız veya en iyi  GIF görselleri koleksiyonunuz gibi çeşitli içerikleri paylaşabilirsiniz!",
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
     "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor.",
-    "This video is not playable in your browser" : "Bu görüntü tarayıcınız üzerinde oynatılamıyor",
     "Share" : "Paylaş",
     "View" : "Görüntüle"
 },
