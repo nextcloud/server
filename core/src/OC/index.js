@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {addScript, addStyle} from './legacy-loader'
 import Apps from './apps'
 import {AppConfig, appConfig} from './appconfig'
 import appswebroots from './appswebroots'
@@ -84,6 +85,8 @@ export default {
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
 
+	addScript,
+	addStyle,
 	Apps,
 	AppConfig,
 	appConfig,
