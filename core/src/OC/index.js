@@ -40,6 +40,12 @@ import ContactsMenu from './contactsmenu'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
 import {get, set} from './get_set'
+import {
+	hideMenus,
+	registerMenu,
+	showMenu,
+	unregisterMenu,
+} from './menu'
 import {isUserAdmin} from './admin'
 import L10N from './l10n'
 import {
@@ -88,6 +94,15 @@ export default {
 	EventSource,
 	isUserAdmin,
 	L10N,
+
+	/*
+	 * Legacy menu helpers
+	 */
+	hideMenus,
+	registerMenu,
+	showMenu,
+	unregisterMenu,
+
 	msg,
 	Notification,
 	PasswordConfirmation,
