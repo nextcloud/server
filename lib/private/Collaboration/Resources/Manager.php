@@ -431,7 +431,7 @@ class Manager implements IManager {
 			->values([
 				'user_id' => $query->createNamedParameter($userId),
 				'collection_id' => $query->createNamedParameter($collection->getId()),
-				'access' => $query->createNamedParameter($access),
+				'access' => $query->createNamedParameter($access, IQueryBuilder::PARAM_BOOL),
 			]);
 		try {
 			$query->execute();
