@@ -767,8 +767,8 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 
-		$('#uploadprogressbar .label .mobile').text(t('core', '…'));
-		$('#uploadprogressbar .label .desktop').text(t('core', 'Processing files …'));
+		$('#uploadprogressbar .label .mobile').text(t('files', '…'));
+		$('#uploadprogressbar .label .desktop').text(t('files', 'Processing files …'));
 
 		// Nothing is being uploaded at this point, and the pending operations
 		// can not be cancelled, so the cancel button should be hidden.
