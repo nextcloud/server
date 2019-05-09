@@ -26,7 +26,7 @@ You want to learn more about how you can use Nextcloud to access, share and prot
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
-Enterprise? Public Sector or Education user? You may want to have a look into the [**Enterprise Support Subscription**](https://nextcloud.com/enterprise/) provided by the Nextcloud GmbH.
+Enterprise? Public Sector or Education user? You may want to have a look into the [**Enterprise Subscription**](https://nextcloud.com/enterprise/) provided by Nextcloud GmbH.
 
 ## Get in touch 💬
 
