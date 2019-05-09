@@ -16,3 +16,5 @@ yarn-error.log*
 
 build/
 coverage/
+
+cypress/screenshots

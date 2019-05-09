@@ -26,7 +26,7 @@ export default {
 	methods: {
 		getPreviewIfAny(fileInfo) {
 			if (fileInfo.hasPreview) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${window.outerWidth}&y=${window.outerHeight}&a=true`)
+				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
 			return fileInfo.path
 		}

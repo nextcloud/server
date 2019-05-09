@@ -83,7 +83,7 @@
 			:mime="currentFile.mime"
 			:path="getPreviewIfAny(currentFile)"
 			:sidebar-shown="showSidebar"
-			class="file-view"
+			class="file-view active"
 			@error="currentFailed" />
 		<Error
 			v-else
@@ -171,7 +171,7 @@ export default {
 
 	watch: {
 		// make sure any late external app can register handlers
-		handlers: function(x, y) {
+		handlers: function() {
 			// make sure the viewer is done registering handlers
 			// so we only register handlers added AFTER the init
 			// of the viewer

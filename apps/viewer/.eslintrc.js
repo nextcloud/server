@@ -14,6 +14,8 @@ module.exports = {
 		OC: true,
 		OCA: true,
 		Vue: true,
+		Cypress: true,
+		cy: true
 	},
 	parserOptions: {
 		parser: 'babel-eslint',
