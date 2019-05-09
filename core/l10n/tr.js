@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (uyumsuz)",
     "Following apps have been disabled: %s" : "Aşağıdaki uygulamalar devre dışı bırakıldı: %s",
     "Already up to date" : "Zaten güncel",
+    ": " : ": ",
     "No" : "Hayır",
     "Yes" : "Evet",
     "No files in here" : "Burada herhangi bir dosya yok",
