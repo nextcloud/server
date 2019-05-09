@@ -225,3 +225,9 @@
 	border: 1px solid var(--color-primary-text);
 }
 
+
+/* DRAGGABLE */
+.ui-draggable-handle,
+.ui-selectable {
+	touch-action: pan-y;
+}
