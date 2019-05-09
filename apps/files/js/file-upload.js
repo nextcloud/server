@@ -790,7 +790,7 @@ OC.Uploader.prototype = _.extend({
 			return;
 		}
 
-		this._setProgressBarText(t('core', 'Processing files …'), t('core', '…'));
+		this._setProgressBarText(t('files', 'Processing files …'), t('files', '…'));
 
 		// Nothing is being uploaded at this point, and the pending operations
 		// can not be cancelled, so the cancel button should be hidden.
