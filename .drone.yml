@@ -157,9 +157,6 @@ trigger:
     - pull_request
     - push
 
-node:
-  memory: high
-
 ---
 kind: pipeline
 name: litmus-v1
