@@ -172,6 +172,7 @@
     "Disabled users" : "Onemogočeni uporabniki",
     "Everyone" : "Vsi",
     "Add group" : "Dodaj skupino",
+    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Program je omogočen, vendar zahteva posodobitev. Po nekaj sekundah boste preusmerjeni na stran za posodobitev.",
     "SSL Root Certificates" : "Korenska potrdila SSL",
     "Common Name" : "Splošno ime",
     "Valid until" : "Veljavno do",

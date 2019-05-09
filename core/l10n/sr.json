@@ -57,6 +57,7 @@
     "%s (incompatible)" : "%s (некомпатибилан)",
     "Following apps have been disabled: %s" : "Следеће апликације су онемогућене: %s",
     "Already up to date" : "Већ има последњу верзију",
+    ": " : ": ",
     "No" : "Не",
     "Yes" : "Да",
     "No files in here" : "Овде нема фајлова",
