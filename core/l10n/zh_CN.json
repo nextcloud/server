@@ -57,6 +57,7 @@
     "%s (incompatible)" : "%s （不兼容）",
     "Following apps have been disabled: %s" : "下列应用已经被禁用：%s",
     "Already up to date" : "已经是最新",
+    ": " : "：",
     "No" : "否",
     "Yes" : "是",
     "No files in here" : "未找到文件",

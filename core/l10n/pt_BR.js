@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatível)",
     "Following apps have been disabled: %s" : "Os seguintes aplicativos foram desabilitados: %s",
     "Already up to date" : "Já está atualizado",
+    ": " : ": ",
     "No" : "Não",
     "Yes" : "Sim",
     "No files in here" : "Nenhum arquivos aqui",
