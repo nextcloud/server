@@ -320,7 +320,7 @@
 								{
 									docLink: data.phpOpcacheDocumentation,
 								}
-							) + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							) + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
