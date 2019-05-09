@@ -411,10 +411,6 @@ Raw output
 			return false;
 		}
 
-		if(!$iniWrapper->getBool('opcache.enable_cli')) {
-			return false;
-		}
-
 		if($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
 			return false;
 		}
