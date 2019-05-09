@@ -71,7 +71,8 @@
 			position: sticky;
 			// header + breadcrumbs
 			top: $header-height + 44px;
-			z-index: 1000;
+			// under breadcrumbs, over file list
+			z-index: 55;
 			display: block;
 			background-color: var(--color-main-background-translucent);
 		}
