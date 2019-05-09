@@ -17,5 +17,7 @@
 /apps/twofactor_backupcodes/js/*.js.map binary
 /apps/updatenotification/js/updatenotification.js binary
 /apps/updatenotification/js/updatenotification.js.map binary
+/apps/workflowengine/js/*.js binary
+/apps/workflowengine/js/*.js.map binary
 
 /settings/js/vue* binary
