@@ -419,6 +419,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Share_Backend_Collection' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_Collection.php',
         'OCP\\Share_Backend_File_Dependent' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_File_Dependent.php',
         'OCP\\Support\\CrashReport\\ICollectBreadcrumbs' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/ICollectBreadcrumbs.php',
+        'OCP\\Support\\CrashReport\\IMessageReporter' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IMessageReporter.php',
         'OCP\\Support\\CrashReport\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IRegistry.php',
         'OCP\\Support\\CrashReport\\IReporter' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IReporter.php',
         'OCP\\SystemTag\\ISystemTag' => __DIR__ . '/../../..' . '/lib/public/SystemTag/ISystemTag.php',

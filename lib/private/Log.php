@@ -35,6 +35,7 @@ declare(strict_types=1);
 
 namespace OC;
 
+use function array_merge;
 use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
@@ -42,7 +43,6 @@ use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
-use OCP\Util;
 
 /**
  * logging utilities
@@ -216,11 +216,22 @@ class Log implements ILogger {
 
 		if ($level >= $minLevel) {
 			$this->writeLog($app, $message, $level);
+
+			if ($this->crashReporters !== null) {
+				$messageContext = array_merge(
+					$context,
+					[
+						'level' => $level
+					]
+				);
+				$this->crashReporters->delegateMessage($message, $messageContext);
+			}
+		} else {
+			if ($this->crashReporters !== null) {
+				$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
+			}
 		}
 
-		if (!is_null($this->crashReporters)) {
-			$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
-		}
 	}
 
 	private function getLogLevel($context) {
