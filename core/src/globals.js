@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import appswebroots from "./OC/appswebroots";
+import {initCore} from './init'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
@@ -115,6 +115,7 @@ window['md5'] = md5
 window['moment'] = moment
 
 window['OC'] = OC
+setDeprecatedProp('initCore', initCore, 'this is an internal function')
 setDeprecatedProp('oc_appswebroots', OC.appswebroots, 'use OC.appswebroots instead')
 setDeprecatedProp('oc_config', OC.config, 'use OC.config instead')
 setDeprecatedProp('oc_current_user', OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
