@@ -21,6 +21,12 @@
 
 import appswebroots from "./OC/appswebroots";
 
+const warnIfNotTesting = function() {
+	if (window.TESTING === undefined) {
+		console.warn.apply(console, arguments)
+	}
+}
+
 /**
  *
  * @param {Function} func the library to deprecate
@@ -29,7 +35,7 @@ import appswebroots from "./OC/appswebroots";
 const deprecate = (func, funcName) => {
 	const oldFunc = func
 	const newFunc = function() {
-		console.warn(`The ${funcName} library is deprecated! It will be removed in nextcloud 19.`)
+		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud 19.`)
 		return oldFunc.apply(this, arguments)
 	}
 	Object.assign(newFunc, oldFunc)
@@ -43,9 +49,9 @@ const setDeprecatedProp = (global, val, msg) => {
 	Object.defineProperty(window, global, {
 		get: () => {
 			if (msg) {
-				console.warn(`${global} is deprecated: ${msg}`)
+				warnIfNotTesting(`${global} is deprecated: ${msg}`)
 			} else {
-				console.warn(`${global} is deprecated`)
+				warnIfNotTesting(`${global} is deprecated`)
 			}
 			return val
 		}
