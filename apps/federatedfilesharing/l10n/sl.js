@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "Federated sharing" : "Souporaba v zveznem oblaku",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ali želite dodati oddaljeni delež {ime} od {lastnika}@{daljinsko}?",
+    "Remote share" : "Oddaljeno mesto za souporabo",
     "Cancel" : "Prekliči",
+    "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
     "Copy" : "Kopiraj",
     "Copied!" : "Kopirano!",
     "Not supported!" : "Ni podprto!",
@@ -13,6 +15,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Ni mogoče vzpostaviti zveznega mesta za souporabo.",
     "Not allowed to create a federated share with the same user" : "Ni dovoljeno ustvariti souporabe zveznega oblaka z istim uporabnikom",
     "File is already shared with %s" : "Datoteka je že v souporabi pri %s",
+    "Could not find share" : "Ni mogoče najti mape v souporabi",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #Nextcloud ID zveznega oblaka, več na %s",
