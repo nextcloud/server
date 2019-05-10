@@ -1,5 +1,4 @@
 import './admin'
-import './templates'
 import './filemimetypeplugin'
 import './filenameplugin'
 import './filesizeplugin'

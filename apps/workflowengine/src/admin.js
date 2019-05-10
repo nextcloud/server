@@ -18,6 +18,9 @@
  *
  */
 
+import OperationTemplate from './templates/operation.handlebars';
+import OperationsTemplate from './templates/operations.handlebars';
+
 (function() {
 	Handlebars.registerHelper('selectItem', function(currentValue, itemValue) {
 		if (currentValue === itemValue) {
@@ -134,7 +137,7 @@
 			saving: false,
 			groups: [],
 			template: function(vars) {
-				return OCA.WorkflowEngine.Templates['operation'](_.extend(
+				return OperationTemplate(_.extend(
 					{
 						shortRuleDescTXT: t('workflowengine', 'Short rule description'),
 						addRuleTXT: t('workflowengine', 'Add rule'),
@@ -357,7 +360,7 @@
 				'click .button-add-operation': 'add'
 			},
 			template: function(vars) {
-				return OCA.WorkflowEngine.Templates['operations'](_.extend(
+				return OperationsTemplate(_.extend(
 					{
 						addRuleGroupTXT: t('workflowengine', 'Add rule group')
 					},
