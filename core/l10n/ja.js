@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (非互換)",
     "Following apps have been disabled: %s" : "次のアプリが無効にされています: %s",
     "Already up to date" : "すべて更新済",
+    ": " : ": ",
     "No" : "いいえ",
     "Yes" : "はい",
     "No files in here" : "ここにはファイルがありません",
