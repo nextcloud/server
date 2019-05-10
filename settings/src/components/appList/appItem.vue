@@ -42,6 +42,9 @@
 		</div>
 
 		<div class="app-level">
+			<span class="supported icon-checkmark-color" v-if="app.level === 300"
+				  v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')">
+				{{ t('settings', 'Supported') }}</span>
 			<span class="official icon-checkmark" v-if="app.level === 200"
 				  v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')">
 				{{ t('settings', 'Official') }}</span>
