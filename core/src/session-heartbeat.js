@@ -23,6 +23,7 @@ import $ from 'jquery'
 
 import {generateUrl} from './OC/routing'
 import OC from './OC'
+import {setToken as setRequestToken} from './OC/requesttoken'
 
 /**
  * session heartbeat (defaults to enabled)
@@ -65,10 +66,7 @@ export const initSessionHeartBeat = () => {
 
 	setInterval(() => {
 		$.ajax(generateUrl('/csrftoken'))
-			.then(resp => {
-				oc_requesttoken = resp.token
-				OC.requestToken = resp.token
-			})
+			.then(resp => setRequestToken(resp.token))
 			.fail(e => {
 				console.error('session heartbeat failed', e)
 			})

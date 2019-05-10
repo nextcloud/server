@@ -13,7 +13,6 @@
 		"sharedialogresharerinfoview.js",
 		"sharedialogshareelistview.js",
 		"public/publicpage.js",
-		"oc-requesttoken.js",
 		"setupchecks.js",
 		"../search/js/search.js",
 		"mimetype.js",
