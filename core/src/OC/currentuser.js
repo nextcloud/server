@@ -22,7 +22,7 @@
 const rawUid = document
 	.getElementsByTagName('head')[0]
 	.getAttribute('data-user')
-const displayname = document
+const displayName = document
 	.getElementsByTagName('head')[0]
 	.getAttribute('data-user-displayname')
 
@@ -31,6 +31,6 @@ export const currentUser = rawUid !== undefined ? rawUid : false
 export const getCurrentUser = () => {
 	return {
 		uid: currentUser,
-		displayname,
+		displayName,
 	}
 }
