@@ -71,6 +71,7 @@ class OC_App {
 	static private $altLogin = [];
 	static private $alreadyRegistered = [];
 	static public $autoDisabledApps = [];
+	const supportedApp = 300;
 	const officialApp = 200;
 
 	/**
@@ -704,6 +705,9 @@ class OC_App {
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
+		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
+		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
@@ -739,6 +743,10 @@ class OC_App {
 				} else {
 					$info['internal'] = false;
 					$info['removable'] = true;
+				}
+
+				if (in_array($app, $supportedApps)) {
+					$info['level'] = self::supportedApp;
 				}
 
 				$appPath = self::getAppPath($app);
