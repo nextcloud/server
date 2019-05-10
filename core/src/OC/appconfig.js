@@ -26,7 +26,7 @@ export const appConfig = window.oc_appconfig || {}
  * @namespace
  * @deprecated 16.0.0 Use OCP.AppConfig instead
  */
-const AppConfig = {
+export const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getValue() instead
 	 */
@@ -69,5 +69,3 @@ const AppConfig = {
 	}
 
 };
-
-export default AppConfig;

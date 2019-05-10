@@ -368,13 +368,11 @@ describe('Core base tests', function() {
 	describe('Session heartbeat', function() {
 		var clock,
 			oldConfig,
-			routeStub,
 			counter;
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			oldConfig = OC.config;
-			routeStub = sinon.stub(OC, 'generateUrl').returns('/csrftoken');
 			counter = 0;
 
 			fakeServer.autoRespond = true;
@@ -389,7 +387,6 @@ describe('Core base tests', function() {
 			clock.restore();
 			/* jshint camelcase: false */
 			OC.config = oldConfig;
-			routeStub.restore();
 			$(document).off('ajaxError');
 			$(document).off('ajaxComplete');
 		});
@@ -400,7 +397,6 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(routeStub.calledWith('/csrftoken')).toEqual(true);
 
 			expect(counter).toEqual(0);
 
@@ -427,7 +423,6 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(routeStub.notCalled).toEqual(true);
 
 			expect(counter).toEqual(0);
 
