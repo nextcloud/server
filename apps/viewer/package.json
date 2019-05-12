@@ -61,7 +61,7 @@
     "cypress": "^3.2.0",
     "cypress-file-upload": "^3.0.7",
     "cypress-image-snapshot": "^3.0.1",
-    "cypress-testing-library": "^2.3.6",
+    "cypress-testing-library": "^3.0.1",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.11.1",
