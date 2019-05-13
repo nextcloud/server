@@ -32,6 +32,8 @@
 
 import $ from 'jquery'
 
+import {getToken} from './requesttoken'
+
 /**
  * Create a new event source
  * @param {string} src
@@ -51,7 +53,7 @@ const OCEventSource = function (src, data) {
 			dataStr += name + '=' + encodeURIComponent(data[name]) + '&';
 		}
 	}
-	dataStr += 'requesttoken=' + encodeURIComponent(oc_requesttoken);
+	dataStr += 'requesttoken=' + encodeURIComponent(getToken());
 	if (!this.useFallBack && typeof EventSource !== 'undefined') {
 		joinChar = '&';
 		if (src.indexOf('?') === -1) {

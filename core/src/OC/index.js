@@ -43,6 +43,10 @@ import Dialogs from './dialogs'
 import EventSource from './eventsource'
 import {get, set} from './get_set'
 import {
+	getToken as getRequestToken,
+	subscribe as subscribeToRequestTokenChange,
+} from './requesttoken'
+import {
 	hideMenus,
 	registerMenu,
 	showMenu,
@@ -135,6 +139,7 @@ export default {
 	filePath,
 	redirect,
 	reload,
+	requestToken: getRequestToken(),
 	linkTo,
 	linkToOCS,
 	linkToRemote,
@@ -150,3 +155,6 @@ export default {
 	 */
 	webroot,
 }
+
+// Keep the request token prop in sync
+subscribeToRequestTokenChange(token => OC.requestToken = token)

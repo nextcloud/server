@@ -1,5 +1,3 @@
-var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
-
 /** @namespace OCP */
 var OCP = Object.assign({}, window.OCP);
 
@@ -16,7 +14,6 @@ Object.assign(window.OC, {
 	_capabilities: window.oc_capabilities || null,
 
 	theme: window.oc_defaults || {},
-	requestToken: oc_requesttoken,
 
 	/**
 	 * Check if a user file is allowed to be handled.

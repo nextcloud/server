@@ -42,7 +42,7 @@ const deprecate = (func, funcName) => {
 	return newFunc
 }
 
-const setDeprecatedProp = (global, val, msg) => {
+const setDeprecatedProp = (global, cb, msg) => {
 	if (window[global] !== undefined) {
 		delete window[global]
 	}
@@ -53,7 +53,8 @@ const setDeprecatedProp = (global, val, msg) => {
 			} else {
 				warnIfNotTesting(`${global} is deprecated`)
 			}
-			return val
+
+			return cb()
 		}
 	})
 }
@@ -93,6 +94,7 @@ import OCP from './OCP/index'
 import OCA from './OCA/index'
 import escapeHTML from './Util/escapeHTML'
 import formatDate from './Util/format-date'
+import {getToken as getRequestToken} from './OC/requesttoken'
 import getURLParameter from './Util/get-url-parameter'
 import humanFileSize from './Util/human-file-size'
 import relative_modified_date from './Util/relative-modified-date'
@@ -115,14 +117,15 @@ window['md5'] = md5
 window['moment'] = moment
 
 window['OC'] = OC
-setDeprecatedProp('initCore', initCore, 'this is an internal function')
-setDeprecatedProp('oc_appswebroots', OC.appswebroots, 'use OC.appswebroots instead')
-setDeprecatedProp('oc_config', OC.config, 'use OC.config instead')
-setDeprecatedProp('oc_current_user', OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
-setDeprecatedProp('oc_debug', OC.debug, 'use OC.debug instead')
-setDeprecatedProp('oc_isadmin', OC.isUserAdmin(), 'use OC.isUserAdmin() instead')
-setDeprecatedProp('oc_webroot', OC.webroot, 'use OC.getRootPath() instead')
-setDeprecatedProp('OCDialogs', OC.dialogs, 'use OC.dialogs instead')
+setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
+setDeprecatedProp('oc_appswebroots', ()  => OC.appswebroots, 'use OC.appswebroots instead')
+setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead')
+setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
+setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead')
+setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead')
+setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead')
+setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead')
+setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead')
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML')

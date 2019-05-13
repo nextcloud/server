@@ -77,7 +77,7 @@ function showAvatarCropper () {
 	$cropper.children('.inner-container').prepend($cropperImage);
 
 	$cropperImage.attr('src',
-		OC.generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(oc_requesttoken) + '#' + Math.floor(Math.random() * 1000));
+		OC.generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(OC.requestToken) + '#' + Math.floor(Math.random() * 1000));
 
 	$cropperImage.load(function () {
 		var img = $cropperImage.get()[0];
