@@ -119,6 +119,7 @@ window['moment'] = moment
 window['OC'] = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
 setDeprecatedProp('oc_appswebroots', ()  => OC.appswebroots, 'use OC.appswebroots instead')
+setDeprecatedProp('oc_capabilities', OC.getCapabilities, 'use OC.getCapabilities instead')
 setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead')
 setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
 setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead')

@@ -6,12 +6,6 @@ var OCP = Object.assign({}, window.OCP);
  */
 Object.assign(window.OC, {
 	/* jshint camelcase: false */
-	/**
-	 * Capabilities
-	 *
-	 * @type array
-	 */
-	_capabilities: window.oc_capabilities || null,
 
 	theme: window.oc_defaults || {},
 
@@ -68,17 +62,6 @@ Object.assign(window.OC, {
 	 */
 	getPort: function() {
 		return window.location.port;
-	},
-
-	/**
-	 * Returns the capabilities
-	 *
-	 * @return {array} capabilities
-	 *
-	 * @since 14.0
-	 */
-	getCapabilities: function() {
-		return OC._capabilities;
 	},
 
 	/**
