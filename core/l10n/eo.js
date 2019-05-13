@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nekongrua)",
     "Following apps have been disabled: %s" : "Jenaj aplikaĵoj estis malŝaltataj: %s",
     "Already up to date" : "Jam aktuala",
+    ": " : ": ",
     "No" : "Ne",
     "Yes" : "Jes",
     "No files in here" : "Neniu dosiero ĉi tie",
