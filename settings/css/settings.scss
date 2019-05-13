@@ -682,10 +682,16 @@ span.version {
 		white-space: nowrap;
 	}
 	.official {
-		border-color: #37ce02;
 		background-position: left center;
 		background-position: 5px center;
 		padding-left: 25px;
+	}
+	.supported {
+		border-color: var(--color-success);
+		background-position: left center;
+		background-position: 5px center;
+		padding-left: 25px;
+		color: var(--color-success) ;
 	}
 }
 
@@ -742,6 +748,7 @@ span.version {
 	.app-level {
 		clear: right;
 		width: 100%;
+		.supported,
 		.official {
 			vertical-align: top;
 		}
