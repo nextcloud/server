@@ -221,34 +221,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	 * Returns the user's locale as a BCP 47 compliant language tag
-	 *
-	 * @return {String} locale string
-	 */
-	getCanonicalLocale: function() {
-		var locale = this.getLocale();
-		return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale;
-	},
-
-	/**
-	 * Returns the user's locale
-	 *
-	 * @return {String} locale string
-	 */
-	getLocale: function() {
-		return $('html').data('locale');
-	},
-
-	/**
-	 * Returns the user's language
-	 *
-	 * @returns {String} language string
-	 */
-	getLanguage: function () {
-		return $('html').prop('lang');
-	},
-
-	/**
 	 * Warn users that the connection to the server was lost temporarily
 	 *
 	 * This function is throttled to prevent stacked notfications.

@@ -62,6 +62,11 @@ import {
 import {isUserAdmin} from './admin'
 import L10N from './l10n'
 import {
+	getCanonicalLocale,
+	getLanguage,
+	getLocale,
+} from './l10n'
+import {
 	filePath,
 	generateUrl,
 	getRootPath,
@@ -141,6 +146,13 @@ export default {
 	dirname,
 	isSamePath,
 	joinPaths,
+
+	/**
+	 * L10n
+	 */
+	getCanonicalLocale,
+	getLocale,
+	getLanguage,
 
 	msg,
 	Notification,

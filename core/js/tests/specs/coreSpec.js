@@ -274,25 +274,25 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('getCanonicalLocale', function() {
-		var localeStub;
+		var oldLocale;
 
 		beforeEach(function() {
-			localeStub = sinon.stub(OC, 'getLocale');
+			oldLocale = $('html').data('locale')
 		});
 		afterEach(function() {
-			localeStub.restore();
+			$('html').data('locale', oldLocale)
 		});
 
 		it("Returns primary locales as is", function() {
-			localeStub.returns('de');
+			$('html').data('locale', 'de')
 			expect(OC.getCanonicalLocale()).toEqual('de');
-			localeStub.returns('zu');
+			$('html').data('locale', 'zu')
 			expect(OC.getCanonicalLocale()).toEqual('zu');
 		});
 		it("Returns extended locales with hyphens", function() {
-			localeStub.returns('az_Cyrl_AZ');
+			$('html').data('locale', 'az_Cyrl_AZ')
 			expect(OC.getCanonicalLocale()).toEqual('az-Cyrl-AZ');
-			localeStub.returns('de_DE');
+			$('html').data('locale', 'de_DE')
 			expect(OC.getCanonicalLocale()).toEqual('de-DE');
 		});
 	});
