@@ -51,6 +51,12 @@ import EventSource from './eventsource'
 import {get, set} from './get_set'
 import {getCapabilities} from './capabilities'
 import {
+	getHost,
+	getHostName,
+	getPort,
+	getProtocol,
+} from './host'
+import {
 	getToken as getRequestToken,
 	subscribe as subscribeToRequestTokenChange,
 } from './requesttoken'
@@ -156,6 +162,14 @@ export default {
 	dirname,
 	isSamePath,
 	joinPaths,
+
+	/**
+	 * Host (url) helpers
+	 */
+	getHost,
+	getHostName,
+	getPort,
+	getProtocol,
 
 	/**
 	 * L10n
