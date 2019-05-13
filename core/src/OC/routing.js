@@ -99,6 +99,24 @@ export const generateUrl = (url, params, options) => {
 }
 
 /**
+ * get the absolute path to an image file
+ * if no extension is given for the image, it will automatically decide
+ * between .png and .svg based on what the browser supports
+ *
+ * @param {string} app the app id to which the image belongs
+ * @param {string} file the name of the image file
+ * @return {string}
+ */
+export const imagePath = (app, file) => {
+	if (file.indexOf('.') === -1) {
+		//if no extension is given, use svg
+		return filePath(app, 'img', file + '.svg')
+	}
+
+	return filePath(app, 'img', file)
+}
+
+/**
  * Get the absolute url for a file in an app
  * @param {string} app the id of the app
  * @param {string} type the type of the file to link to (e.g. css,img,ajax.template)
