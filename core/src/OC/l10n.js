@@ -329,6 +329,30 @@ const L10n = {
 
 export default L10n;
 
+/**
+ * Returns the user's locale as a BCP 47 compliant language tag
+ *
+ * @return {String} locale string
+ */
+export const getCanonicalLocale = () => {
+	const locale = getLocale()
+	return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale
+}
+
+/**
+ * Returns the user's locale
+ *
+ * @return {String} locale string
+ */
+export const getLocale = () => $('html').data('locale')
+
+/**
+ * Returns the user's language
+ *
+ * @returns {String} language string
+ */
+export const getLanguage = () => $('html').prop('lang')
+
 Handlebars.registerHelper('t', function(app, text) {
 	return L10n.translate(app, text);
 });
