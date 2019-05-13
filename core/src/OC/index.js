@@ -24,6 +24,13 @@ import Apps from './apps'
 import {AppConfig, appConfig} from './appconfig'
 import appswebroots from './appswebroots'
 import Backbone from './backbone'
+import {
+	basename,
+	dirname,
+	encodePath,
+	isSamePath,
+	joinPaths,
+} from './path'
 import Config from './config'
 import {
 	coreApps,
@@ -55,9 +62,10 @@ import {
 import {isUserAdmin} from './admin'
 import L10N from './l10n'
 import {
+	filePath,
 	generateUrl,
 	getRootPath,
-	filePath,
+	imagePath,
 	linkTo,
 	linkToOCS,
 	linkToRemote,
@@ -125,6 +133,15 @@ export default {
 	showMenu,
 	unregisterMenu,
 
+	/*
+	 * Path helpers
+	 */
+	basename,
+	encodePath,
+	dirname,
+	isSamePath,
+	joinPaths,
+
 	msg,
 	Notification,
 	PasswordConfirmation,
@@ -132,11 +149,12 @@ export default {
 	search,
 	Util,
 	debug,
+	filePath,
 	generateUrl,
 	get: get(window),
 	set: set(window),
 	getRootPath,
-	filePath,
+	imagePath,
 	redirect,
 	reload,
 	requestToken: getRequestToken(),
