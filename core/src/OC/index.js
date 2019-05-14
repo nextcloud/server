@@ -22,6 +22,7 @@
 import {addScript, addStyle} from './legacy-loader'
 import Apps from './apps'
 import {AppConfig, appConfig} from './appconfig'
+import {appSettings} from './appsettings'
 import appswebroots from './appswebroots'
 import Backbone from './backbone'
 import {
@@ -129,6 +130,7 @@ export default {
 	Apps,
 	AppConfig,
 	appConfig,
+	appSettings,
 	appswebroots,
 	Backbone,
 	ContactsMenu,
