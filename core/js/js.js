@@ -18,50 +18,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	 * Protocol that is used to access this Nextcloud instance
-	 * @return {string} Used protocol
-	 */
-	getProtocol: function() {
-		return window.location.protocol.split(':')[0];
-	},
-
-	/**
-	 * Returns the host used to access this Nextcloud instance
-	 * Host is sometimes the same as the hostname but now always.
-	 *
-	 * Examples:
-	 * http://example.com => example.com
-	 * https://example.com => example.com
-	 * http://example.com:8080 => example.com:8080
-	 *
-	 * @return {string} host
-	 *
-	 * @since 8.2
-	 */
-	getHost: function() {
-		return window.location.host;
-	},
-
-	/**
-	 * Returns the hostname used to access this Nextcloud instance
-	 * The hostname is always stripped of the port
-	 *
-	 * @return {string} hostname
-	 * @since 9.0
-	 */
-	getHostName: function() {
-		return window.location.hostname;
-	},
-
-	/**
-	 * Returns the port number used to access this Nextcloud instance
-	 *
-	 * @return {int} port number
-	 *
-	 * @since 8.2
-	 */
-	getPort: function() {
-		return window.location.port;
 	},
 
 	/**
