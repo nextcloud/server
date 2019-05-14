@@ -139,7 +139,7 @@
 				throw t('files', 'File name cannot be empty.');
 			} else if (trimmedName.indexOf('/') !== -1) {
 				throw t('files', '"/" is not allowed inside a file name.');
-			} else if (OC.fileIsBlacklisted(trimmedName)) {
+			} else if (!!(trimmedName.match(OC.config.blacklist_files_regex))) {
 				throw t('files', '"{name}" is not an allowed filetype', {name: name});
 			}
 

@@ -10,14 +10,6 @@ Object.assign(window.OC, {
 	theme: window.oc_defaults || {},
 
 	/**
-	 * Check if a user file is allowed to be handled.
-	 * @param {string} file to check
-	 */
-	fileIsBlacklisted: function(file) {
-		return !!(file.match(OC.config.blacklist_files_regex));
-	},
-
-	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
 	 * @return {Object.<string, string>} map containing key/values matching the URL parameters
