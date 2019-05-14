@@ -109,6 +109,16 @@ export default {
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
 
+	/*
+	 * Deprecated helpers to be removed
+	 */
+	/**
+	 * Check if a user file is allowed to be handled.
+	 * @param {string} file to check
+	 * @deprecated 17.0.0
+	 */
+	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
+
 	addScript,
 	addStyle,
 	Apps,
