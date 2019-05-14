@@ -1,6 +1,3 @@
-/** @namespace OCP */
-var OCP = Object.assign({}, window.OCP);
-
 /**
  * @namespace OC
  */
