@@ -257,7 +257,7 @@ class JSConfigHelper {
 					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing()
 				]
 			]),
-			"oc_defaults" => json_encode([
+			"_theme" => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'title' => $this->defaults->getTitle(),

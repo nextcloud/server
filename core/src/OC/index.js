@@ -88,6 +88,7 @@ import Notification from './notification'
 import PasswordConfirmation from './password-confirmation'
 import Plugins from './plugins'
 import search from './search'
+import {theme} from './theme'
 import Util from './util'
 import {debug} from './debug'
 import {redirect, reload} from './navigation'
@@ -202,6 +203,7 @@ export default {
 	PasswordConfirmation,
 	Plugins,
 	search,
+	theme,
 	Util,
 	debug,
 	filePath,

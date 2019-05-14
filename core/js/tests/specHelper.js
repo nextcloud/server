@@ -100,7 +100,7 @@ OC.config = {
 OC.appConfig = {
 	core: {}
 };
-window.oc_defaults = {
+OC.theme = {
 	docPlaceholderUrl: 'https://docs.example.org/PLACEHOLDER'
 };
 window.oc_capabilities = {
