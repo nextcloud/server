@@ -18,20 +18,6 @@ Object.assign(window.OC, {
 	},
 
 	/**
-	},
-
-	/**
-	 * Loads translations for the given app asynchronously.
-	 *
-	 * @param {String} app app name
-	 * @param {Function} callback callback to call after loading
-	 * @return {Promise}
-	 */
-	addTranslations: function(app, callback) {
-		return OC.L10N.load(app, callback);
-	},
-
-	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
 	 * @return {Object.<string, string>} map containing key/values matching the URL parameters
