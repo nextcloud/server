@@ -22,22 +22,6 @@ import OperationTemplate from './templates/operation.handlebars';
 import OperationsTemplate from './templates/operations.handlebars';
 
 (function() {
-	Handlebars.registerHelper('selectItem', function(currentValue, itemValue) {
-		if (currentValue === itemValue) {
-			return 'selected="selected"';
-		}
-
-		return "";
-	});
-
-	Handlebars.registerHelper('getOperators', function(classname) {
-		var check = OCA.WorkflowEngine.getCheckByClass(classname);
-		if (!_.isUndefined(check)) {
-			return check['operators'];
-		}
-		return [];
-	});
-
 	OCA.WorkflowEngine = _.extend(OCA.WorkflowEngine || {}, {
 		availablePlugins: [],
 		availableChecks: [],
