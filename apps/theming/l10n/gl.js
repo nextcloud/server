@@ -29,7 +29,7 @@ OC.L10N.register(
     "Adjust the Nextcloud theme" : "Axustar o tema do Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Os temas fan posíbel personalizar facilmente a aparencia da súa instancia e os clientes compatíbeis. Isto será visíbel para todos os usuarios.",
     "Name" : "Nome",
-    "Reset to default" : "Restabelecer a predeterminados",
+    "Reset to default" : "Restabelecer os valores predeterminados",
     "Web link" : "Ligazón web",
     "https://…" : "https://…",
     "Slogan" : "Lema",
