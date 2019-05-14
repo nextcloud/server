@@ -8,12 +8,14 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 - Images
 - Videos
 
-## 🎛 How to setup the development app
-1. ☁ Clone this into your `apps` folder of your Nextcloud
-2. 👩‍💻 In a terminal, run the command `make dev-setup` to install the dependencies
-3. 🏗 Then to build the Javascript whenever you make changes, run `make build-js`
-4. ✅ Enable the app through the app management of your Nextcloud
-5. 🎉 Partytime!
+## 🏗 Development setup
+1. ☁ Clone this app into the `apps` folder of your Nextcloud: `git clone https://github.com/nextcloud/viewer.git`
+2. 👩‍💻 In the folder of the app, run the command `make` to install dependencies and build the Javascript.
+3. ✅ Enable the app through the app management of your Nextcloud
+4. 🎉 Partytime!
+
+### 🧙 Advanced development stuff
+To build the Javascript whenever you make changes, instead of the full `make` you can also run `make build-js`.
 
 ## 🔍 Add you own file view
 If you want to make your app compatible with this app, you can use the `OCA.Viewer` methods
