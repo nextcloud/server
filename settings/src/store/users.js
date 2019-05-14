@@ -279,9 +279,9 @@ const actions = {
 	
 
 	getPasswordPolicyMinLength(context) {
-		if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', oc_capabilities.password_policy.minLength);
-			return oc_capabilities.password_policy.minLength;
+		if(OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength);
+			return OC.getCapabilities().password_policy.minLength;
 		}
 		return false;
 	},

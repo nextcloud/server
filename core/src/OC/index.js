@@ -49,6 +49,7 @@ import {currentUser, getCurrentUser} from './currentuser'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
 import {get, set} from './get_set'
+import {getCapabilities} from './capabilities'
 import {
 	getToken as getRequestToken,
 	subscribe as subscribeToRequestTokenChange,
@@ -129,6 +130,15 @@ export default {
 	getCurrentUser,
 	isUserAdmin,
 	L10N,
+
+	/**
+	 * Capabilities
+	 *
+	 * @type {Array}
+	 * @deprecated 17.0.0 use OC.getCapabilities() instead
+	 */
+	_capabilities: getCapabilities(),
+	getCapabilities,
 
 	/*
 	 * Legacy menu helpers

@@ -598,8 +598,8 @@
 
 			var minPasswordLength = 4
 			// password policy?
-			if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
-				minPasswordLength = oc_capabilities.password_policy.minLength;
+			if(OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
+				minPasswordLength = OC.getCapabilities().password_policy.minLength;
 			}
 
 			var popoverBase = {
