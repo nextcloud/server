@@ -7,8 +7,6 @@ var OCP = Object.assign({}, window.OCP);
 Object.assign(window.OC, {
 	/* jshint camelcase: false */
 
-	theme: window.oc_defaults || {},
-
 	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz

@@ -248,14 +248,14 @@ $(document).ready(function(){
 		// run setup checks then gather error messages
 		$.when(
 			OC.SetupChecks.checkWebDAV(),
-			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!OC.appConfig.core.public_webfinger, [200, 501]),
-			OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocm-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocs-provider/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!OC.appConfig.core.public_webfinger, [200, 501]),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocm-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
+			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocs-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkSetup(),
 			OC.SetupChecks.checkGeneric(),
-			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), oc_defaults.docPlaceholderUrl),
+			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), OC.theme.docPlaceholderUrl),
 			OC.SetupChecks.checkDataProtected()
 		).then(function (check1, check2, check3, check4, check5, check6, check7, check8, check9, check10) {
 			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10);

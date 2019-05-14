@@ -50,7 +50,7 @@
 		 * Check whether the .well-known URLs works.
 		 *
 		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
 		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
 		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
 		 * @return $.Deferred object resolved with an array of error messages
@@ -96,7 +96,7 @@
 		 * Check whether the .well-known URLs works.
 		 *
 		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
 		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
 		 *
 		 * @return $.Deferred object resolved with an array of error messages
@@ -135,7 +135,7 @@
 		 * Check whether the WOFF2 URLs works.
 		 *
 		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
 		checkWOFF2Loading: function(url, placeholderUrl) {
@@ -179,7 +179,7 @@
 									'core',
 									'Please check the <a target="_blank" rel="noreferrer noopener" href="{docLink}">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.',
 									{
-										docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
+										docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
 									}
 								),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -205,7 +205,7 @@
 					}
 					if(!data.hasWorkingFileLocking) {
 						messages.push({
-							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
+							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -379,7 +379,7 @@
 								'core',
 								'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
 								{
-									docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion'),
+									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion'),
 								}
 							) + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
@@ -444,7 +444,7 @@
 								'core',
 								'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
 								{
-									docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
+									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
 								}
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -612,7 +612,7 @@
 			var messages = [];
 
 			if (xhr.status === 200) {
-				var tipsUrl = oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-security');
+				var tipsUrl = OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-security');
 				if(OC.getProtocol() === 'https') {
 					// Extract the value of 'Strict-Transport-Security'
 					var transportSecurityValidity = xhr.getResponseHeader('Strict-Transport-Security');

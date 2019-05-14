@@ -123,6 +123,7 @@ setDeprecatedProp('oc_capabilities', OC.getCapabilities, 'use OC.getCapabilities
 setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead')
 setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
 setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead')
+setDeprecatedProp('oc_defaults', () => OC.theme, 'use OC.theme instead')
 setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead')
 setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead')
 setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead')
