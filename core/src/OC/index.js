@@ -31,6 +31,10 @@ import {
 	isSamePath,
 	joinPaths,
 } from './path'
+import {
+	build as buildQueryString,
+	parse as parseQueryString,
+} from './query-string'
 import Config from './config'
 import {
 	coreApps,
@@ -197,6 +201,12 @@ export default {
 	 * @deprecated 17.0.0 use OC.L10N.load instead
 	 */
 	addTranslations: L10N.load,
+
+	/**
+	 * Query string helpers
+	 */
+	buildQueryString,
+	parseQueryString,
 
 	msg,
 	Notification,
