@@ -136,7 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "上传 （最大 %s）",
     "File Management" : "文件管理",
     "%s of %s used" : "%s 已使用 (共 %s)",
-    "%1$s%% of %2$s used" : "%1$s %2$s 中 %% 已使用",
+    "%1$s%% of %2$s used" : "%2$s 中%1$s %% 已使用",
     "%s used" : "%s 已使用",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
