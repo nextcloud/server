@@ -582,6 +582,8 @@
     "Copied!" : "Copiado!",
     "Copy" : "Copiar",
     "Could not copy app password. Please copy it manually." : "Non foi posíbel copiar o contrasinal da app. Cópieo manualmente.",
+    "This app is supported via your current Nextcloud subscription." : "Este aplicativo é compatíbel cos súa subscrición actual a Nextcloud.",
+    "Supported" : "Compatíbel",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Os aplicativo oficiais están desenvolvidos por e dentro da comunidade. Ofrecen unha funcionalidade central e están preparadas para o seu uso en produción.",
     "Official" : "Oficial",
     "by" : "por",
