@@ -2,7 +2,6 @@
 	"libraries": [
 	],
 	"modules": [
-		"js.js",
 		"share.js",
 		"sharetemplates.js",
 		"sharesocialmanager.js",
