@@ -15,6 +15,7 @@
     "Couldn't establish a federated share." : "Egy egyesített megosztás nem hozható létre.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Egy egyesített megosztás nem hozható létre, lehet hogy nem megfelelő a jelszó.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Egyesített megosztási kérés elküldve, kapni fogsz egy meghívót. Ellenőrizd az értesítéseidet.",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nem lehetséges az összevont megosztás, úgy tűnik az összevonandó szerver túl régi. (Nextcloud <=9).",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet létrehozni egyesített megosztást",
     "File is already shared with %s" : "Fájl már megosztva vele: %s",
     "Could not find share" : "A megosztás nem található",

@@ -22,6 +22,16 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uzu unu el viaj rezervkodoj, kiujn vi konservis dum agordo de dufaza aŭtentigo.",
     "Submit" : "Sendi",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Rezervkodoj generiĝis. {{used}} kodoj el {{total}} uziĝis.",
-    "Nextcloud backup codes" : "Rezervkodoj por Nextcloud"
+    "Nextcloud backup codes" : "Rezervkodoj por Nextcloud",
+    "activated" : "ŝaltita",
+    "updated" : "ĝisdatigita",
+    "mounted" : "muntita",
+    "deactivated" : "malŝaltita",
+    "beforeCreate" : "beforeCreate",
+    "created" : "kreita",
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "detruita",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Deleted files" : "حذف الملفات",
+    "Deleted files" : "الملفات المحذوفة",
     "restored" : "تمت الاستعادة",
     "Restore" : "استعيد",
     "Delete permanently" : "حذف بشكل دائم",
@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Select all" : "تحديد الكل ",
     "Name" : "اسم",
+    "Actions" : "الإجراءات",
     "Deleted" : "تم الحذف",
     "Delete" : "إلغاء",
     "Couldn't delete %s permanently" : "تعذّر حذف%s بشكل دائم",

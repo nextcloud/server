@@ -250,6 +250,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Twitter handle @…" : "Twitter 用戶名 @...",
     "Help translate" : "幫助翻譯",
+    "Locale" : "所在地",
     "Current password" : "目前密碼",
     "Change password" : "變更密碼"
 },

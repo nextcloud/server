@@ -25,6 +25,7 @@
     "Error occurred while updating comment with id {id}" : "Eraro dum ĝisdatigo de komento kun identigilo {id}",
     "Error occurred while posting comment" : "Eraro dum sendo de komento",
     "_%n unread comment_::_%n unread comments_" : ["%n nelegataj komentoj","%n nelegataj komentoj"],
+    "_1 new comment_::_{unread} new comments_" : ["1 nova komento","{unread} novaj komentoj"],
     "Comment" : "Komento",
     "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Vi estis menciita en „%s“, en komento de uzanto, kiu ekde tiam estis forigita",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s menciis vin en komento pri „%2$s“"
