@@ -464,6 +464,8 @@
     "Copied!" : "Kopiita!",
     "Copy" : "Kopii",
     "Could not copy app password. Please copy it manually." : "Ne eblis kopii la aplikaĵan pasvorton. Bv. kopii ĝin permane.",
+    "This app is supported via your current Nextcloud subscription." : "Tiu aplikaĵo estas subtenita per via nuna Nextcloud-abono.",
+    "Supported" : "Subtenite",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialaj aplikaĵoj estas programataj de kaj ene de la komunumo. Ili alportas kernajn trajtojn kaj ili povas tuj uziĝi.",
     "Official" : "Oficiala",
     "by" : "de",

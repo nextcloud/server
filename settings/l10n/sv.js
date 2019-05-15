@@ -150,6 +150,8 @@ OC.L10N.register(
     "Copied!" : "Kopierad!",
     "Copy" : "Kopiera",
     "Could not copy app password. Please copy it manually." : "Det gick inte att kopiera app-lösenordet. Kopiera det manuellt.",
+    "This app is supported via your current Nextcloud subscription." : "Den här appen stöds via din nuvarande Nextcloud-prenumeration.",
+    "Supported" : "Stöds",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Officiella appar är utvecklade av och inom gemenskapen. De erbjuder central funktionalitet och är redo för att användas i produktion.",
     "Official" : "Officiell",
     "by" : "av",
