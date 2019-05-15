@@ -2,7 +2,7 @@
 
 printenv
 
-if [[ -n ${DRONE_COMMIT_REFSPEC} &&  ! ${DRONE_COMMIT_REFSPEC} =~ version(\/noid)?\/([0-9.]+) ]]; then
+if [[ -n ${DRONE_SOURCE_BRANCH} &&  ! ${DRONE_SOURCE_BRANCH} =~ version(\/noid)?\/([0-9.]+) ]]; then
     echo "Skip CA bundle check"
     exit 0
 fi
