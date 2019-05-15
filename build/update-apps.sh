@@ -11,4 +11,4 @@
 # - removes branches merged into master
 # - … could even do the build steps if they are consistent for the apps (like `make`)
 
-find apps* -maxdepth 2 -name .git -exec sh -c 'cd {}/../ && printf "\n\033[1m${PWD##*/}\033[0m\n" && git checkout master && git pull --quiet -p && git --no-pager log -3 --pretty=format:"%h %Cblue%ar%x09%an %Creset%s" && printf "\n" && git branch --merged master | grep -v "master$" | xargs --no-run-if-empty git branch -d && git fetch --prune --quiet && cd ..' \;
+find apps* -maxdepth 2 -name .git -exec sh -c 'cd {}/../ && printf "\n\033[1m${PWD##*/}\033[0m\n" && git checkout master && git pull --quiet -p && git --no-pager log -3 --pretty=format:"%h %Cblue%ar%x09%an %Creset%s" && printf "\n" && git branch --merged master | grep -v "master$" | xargs --no-run-if-empty git branch -d && cd ..' \;
