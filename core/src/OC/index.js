@@ -20,6 +20,11 @@
  */
 
 import {addScript, addStyle} from './legacy-loader'
+import {
+	ajaxConnectionLostHandler,
+	processAjaxError,
+	registerXHRForErrorProcessing,
+} from './xhr-error'
 import Apps from './apps'
 import {AppConfig, appConfig} from './appconfig'
 import {appSettings} from './appsettings'
@@ -153,6 +158,14 @@ export default {
 	getCurrentUser,
 	isUserAdmin,
 	L10N,
+
+	/**
+	 * Ajax error handlers
+	 * @todo remove from here and keep internally -> requires new tests
+	 */
+	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
+	_processAjaxError: processAjaxError,
+	registerXHRForErrorProcessing,
 
 	/**
 	 * Capabilities
