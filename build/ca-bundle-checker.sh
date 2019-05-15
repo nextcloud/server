@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-echo
-if [[ -n ${DRONE_COMMIT_REFSPEC} &&  ! ${DRONE_COMMIT_REFSPEC} =~ version\/noid\/.+ ]]; then
+printenv
+
+if [[ -n ${DRONE_COMMIT_REFSPEC} &&  ! ${DRONE_COMMIT_REFSPEC} =~ version(\/noid)?\/([0-9.]+) ]]; then
     echo "Skip CA bundle check"
     exit 0
 fi
