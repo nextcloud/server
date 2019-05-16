@@ -186,7 +186,7 @@ class RemoveLinkShares implements IRepairStep {
 	 * Send all notifications
 	 */
 	private function sendNotification() {
-		$time = $this->timeFactory->getDateTime();
+		$time = new \DateTime();
 
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('core')
