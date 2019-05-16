@@ -773,7 +773,7 @@ class UsersController extends AUserData {
 
 			if (count($userSubAdminGroups) <= 1) {
 				// Subadmin must not be able to remove a user from all their subadmin groups.
-				throw new OCSException('Cannot remove user from this group as this is the only remaining group you are a SubAdmin of', 105);
+				throw new OCSException('Not viable to remove user from the last group you are SubAdmin of', 105);
 			}
 		}
 

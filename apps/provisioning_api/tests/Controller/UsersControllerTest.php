@@ -2516,7 +2516,7 @@ class UsersControllerTest extends TestCase {
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 105
-	 * @expectedExceptionMessage Cannot remove user from this group as this is the only remaining group you are a SubAdmin of
+	 * @expectedExceptionMessage Not viable to remove user from the last group you are SubAdmin of
 	 */
 	public function testRemoveFromGroupAsSubAdminFromLastSubAdminGroup() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
