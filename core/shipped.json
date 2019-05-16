@@ -25,7 +25,9 @@
     "notifications",
     "oauth2",
     "password_policy",
+    "privacy",
     "provisioning_api",
+    "recommendations",
     "serverinfo",
     "sharebymail",
     "support",
@@ -35,6 +37,7 @@
     "twofactor_backupcodes",
     "updatenotification",
     "user_ldap",
+    "viewer",
     "workflowengine"
   ],
   "alwaysEnabled": [
