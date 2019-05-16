@@ -87,7 +87,7 @@ abstract class BaseResponse extends Response   {
 	 * @return string
 	 */
 	protected function renderResult(array $meta): string {
-		$status = $this->getStatus();
+		$status = $this->getHttpStatus();
 		if ($status === Http::STATUS_NO_CONTENT ||
 			$status === Http::STATUS_NOT_MODIFIED ||
 			($status >= 100 && $status <= 199)) {
@@ -143,6 +143,10 @@ abstract class BaseResponse extends Response   {
 	}
 
 	public function getOCSStatus() {
+		return parent::getStatus();
+	}
+
+	protected function getHttpStatus() {
 		return parent::getStatus();
 	}
 }
