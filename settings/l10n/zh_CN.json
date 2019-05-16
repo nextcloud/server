@@ -582,6 +582,8 @@
     "Copied!" : "已复制！",
     "Copy" : "复制",
     "Could not copy app password. Please copy it manually." : "无法复制应用密码。请手动复制。",
+    "This app is supported via your current Nextcloud subscription." : "根据您的Nextcloud订阅，此应用受到支持。",
+    "Supported" : "受支持",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方应用由社区和内部开发。其可以提供核心功能并保证生产用途。",
     "Official" : "官方",
     "by" : "由",
