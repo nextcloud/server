@@ -1,6 +1,16 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} added you to group {group}" : "{actor} te ha añadido al grupo {group}",
+    "You added {user} to group {group}" : "Tú has añadido a {user} al grupo {group}",
+    "{actor} added {user} to group {group}" : "{actor} ha añadido a {user} al grupo {group}",
+    "An administrator added you to group {group}" : "Un administrador te ha añadido al grupo {group}",
+    "An administrator added {user} to group {group}" : "Un administrador ha añadido a {user} al grupo {group}",
+    "{actor} removed you from group {group}" : "{actor} te ha eliminado del grupo {group}",
+    "You removed {user} from group {group}" : "Tú has eliminado a {user} del grupo {group}",
+    "{actor} removed {user} from group {group}" : "{actor} ha eliminado a {user} del grupo {group}",
+    "An administrator removed you from group {group}" : "Un administrador te ha eliminado del grupo {group}",
+    "An administrator removed {user} from group {group}" : "Un administrador ha eliminado a {user} del grupo {group}",
     "{actor} changed your password" : "{actor} ha cambiado tu contraseña",
     "You changed your password" : "Cambiaste tu contraseña",
     "Your password was reset by an administrator" : "Tu contraseña ha sido restablecida por un adminsitrador",
