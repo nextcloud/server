@@ -24,9 +24,11 @@ declare(strict_types=1);
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\AppPasswordController;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
@@ -187,5 +189,60 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
+	public function testDeleteAppPasswordNoAppPassword() {
+		$this->session->method('exists')
+			->with('app_password')
+			->willReturn(false);
 
+		$this->expectException(OCSForbiddenException::class);
+
+		$this->controller->deleteAppPassword();
+	}
+
+	public function testDeleteAppPasswordFails() {
+		$this->session->method('exists')
+			->with('app_password')
+			->willReturn(true);
+		$this->session->method('get')
+			->with('app_password')
+			->willReturn('myAppPassword');
+
+		$this->tokenProvider->method('getToken')
+			->with('myAppPassword')
+			->willThrowException(new InvalidTokenException());
+
+		$this->expectException(OCSForbiddenException::class);
+
+		$this->controller->deleteAppPassword();
+	}
+
+	public function testDeleteAppPasswordSuccess() {
+		$this->session->method('exists')
+			->with('app_password')
+			->willReturn(true);
+		$this->session->method('get')
+			->with('app_password')
+			->willReturn('myAppPassword');
+
+		$token = $this->createMock(IToken::class);
+		$this->tokenProvider->method('getToken')
+			->with('myAppPassword')
+			->willReturn($token);
+
+		$token->method('getUID')
+			->willReturn('myUID');
+		$token->method('getId')
+			->willReturn(42);
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with(
+				'myUID',
+				42
+			);
+
+		$result = $this->controller->deleteAppPassword();
+
+		$this->assertEquals(new DataResponse(), $result);
+	}
 }
