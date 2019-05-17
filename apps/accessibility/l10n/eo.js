@@ -13,6 +13,6 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "gvidnormoj pri alirebleco de la TTT-enhavo",
     "our issue tracker" : "problem-spuradilo",
     "our design team" : "nian teamon de fasonistoj",
-    "Enable" : "Ŝalti"
+    "Enable" : "Ŝalti la opcion"
 },
 "nplurals=2; plural=(n != 1);");
