@@ -42,6 +42,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
+use OCP\IConfig;
 
 class Security implements ISettings {
 
@@ -69,6 +70,10 @@ class Security implements ISettings {
 	 * @var string|null
 	 */
 	private $uid;
+	/**
+	 *@var IConfig
+	 */
+	private $config;
 
 	public function __construct(IUserManager $userManager,
 								TwoFactorManager $providerManager,
@@ -76,6 +81,7 @@ class Security implements ISettings {
 								ProviderLoader $providerLoader,
 								IUserSession $userSession,
 								ISession $session,
+								IConfig $config,
 								IInitialStateService $initialStateService,
 								?string $UserId) {
 		$this->userManager = $userManager;
@@ -86,6 +92,7 @@ class Security implements ISettings {
 		$this->session = $session;
 		$this->initialStateService = $initialStateService;
 		$this->uid = $UserId;
+		$this->config = $config;
 	}
 
 	/**
@@ -108,6 +115,7 @@ class Security implements ISettings {
 		return new TemplateResponse('settings', 'settings/personal/security', [
 			'passwordChangeSupported' => $passwordChangeSupported,
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
+			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
 	}
 
