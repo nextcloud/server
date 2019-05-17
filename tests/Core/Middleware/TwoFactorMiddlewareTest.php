@@ -28,20 +28,35 @@ use OC\AppFramework\Http\Request;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
 
+	/** @var Manager|MockObject */
 	private $twoFactorManager;
+
+	/** @var IUserSession|MockObject */
 	private $userSession;
+
+	/** @var ISession|MockObject */
 	private $session;
+
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
+
+	/** @var IControllerMethodReflector|MockObject */
 	private $reflector;
+
+	/** @var IRequest|MockObject */
 	private $request;
 
 	/** @var TwoFactorMiddleware */
@@ -100,6 +115,25 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->method('isLoggedIn');
 
 		$this->middleware->beforeController($this->controller, 'create');
+	}
+
+	public function testBeforeSetupController() {
+		$user = $this->createMock(IUser::class);
+		$controller = $this->createMock(ALoginSetupController::class);
+		$this->reflector->expects($this->once())
+			->method('hasAnnotation')
+			->with('PublicPage')
+			->willReturn(false);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$this->twoFactorManager->expects($this->once())
+			->method('needsSecondFactor')
+			->willReturn(true);
+		$this->userSession->expects($this->never())
+			->method('isLoggedIn');
+
+		$this->middleware->beforeController($controller, 'create');
 	}
 
 	public function testBeforeControllerNoTwoFactorCheckNeeded() {

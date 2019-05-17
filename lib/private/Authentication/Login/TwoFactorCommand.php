@@ -28,6 +28,7 @@ namespace OC\Authentication\Login;
 use function array_pop;
 use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
 
@@ -36,12 +37,17 @@ class TwoFactorCommand extends ALoginCommand {
 	/** @var Manager */
 	private $twoFactorManager;
 
+	/** @var MandatoryTwoFactor */
+	private $mandatoryTwoFactor;
+
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	public function __construct(Manager $twoFactorManager,
+								MandatoryTwoFactor $mandatoryTwoFactor,
 								IURLGenerator $urlGenerator) {
 		$this->twoFactorManager = $twoFactorManager;
+		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -52,9 +58,18 @@ class TwoFactorCommand extends ALoginCommand {
 
 		$this->twoFactorManager->prepareTwoFactorLogin($loginData->getUser(), $loginData->isRememberLogin());
 
-		$providers = $this->twoFactorManager->getProviderSet($loginData->getUser())->getPrimaryProviders();
-		if (count($providers) === 1) {
-			// Single provider, hence we can redirect to that provider's challenge page directly
+		$providerSet = $this->twoFactorManager->getProviderSet($loginData->getUser());
+		$loginProviders = $this->twoFactorManager->getLoginSetupProviders($loginData->getUser());
+		$providers = $providerSet->getPrimaryProviders();
+		if (empty($providers)
+			&& !$providerSet->isProviderMissing()
+			&& !empty($loginProviders)
+			&& $this->mandatoryTwoFactor->isEnforcedFor($loginData->getUser())) {
+			// No providers set up, but 2FA is enforced and setup providers are available
+			$url = 'core.TwoFactorChallenge.setupProviders';
+			$urlParams = [];
+		} else if (!$providerSet->isProviderMissing() && count($providers) === 1) {
+			// Single provider (and no missing ones), hence we can redirect to that provider's challenge page directly
 			/* @var $provider IProvider */
 			$provider = array_pop($providers);
 			$url = 'core.TwoFactorChallenge.showChallenge';
