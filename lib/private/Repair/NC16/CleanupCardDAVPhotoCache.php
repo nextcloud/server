@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use RuntimeException;
 
 /**
  * Class CleanupCardDAVPhotoCache
@@ -63,7 +64,7 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	private function repair(IOutput $output): void {
 		try {
 			$folders = $this->appData->getDirectoryListing();
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException|RuntimeException $e) {
 			return;
 		}
 
