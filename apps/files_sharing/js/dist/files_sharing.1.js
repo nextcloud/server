@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var nextcloud_vue_collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-vue-collections */ "./node_modules/nextcloud-vue-collections/dist/nextcloud-vue-collections.js");
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'nextcloud-vue-collections'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 //
 //
 //
@@ -179,7 +179,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    CollectionList: nextcloud_vue_collections__WEBPACK_IMPORTED_MODULE_0__["CollectionList"]
+    CollectionList: !(function webpackMissingModule() { var e = new Error("Cannot find module 'nextcloud-vue-collections'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
   }
 });
 

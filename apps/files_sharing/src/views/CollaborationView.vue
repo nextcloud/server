@@ -25,26 +25,26 @@
 </template>
 
 <script>
-	import { CollectionList } from 'nextcloud-vue-collections'
+import { CollectionList } from 'nextcloud-vue-collections'
 
-	export default {
-		name: 'CollaborationView',
-		computed: {
-			fileId() {
-				if (this.$root.model && this.$root.model.id) {
-					return '' + this.$root.model.id;
-				}
-				return null;
-			},
-			filename() {
-				if (this.$root.model && this.$root.model.name) {
-					return '' + this.$root.model.name;
-				}
-				return '';
+export default {
+	name: 'CollaborationView',
+	computed: {
+		fileId() {
+			if (this.$root.model && this.$root.model.id) {
+				return '' + this.$root.model.id;
 			}
+			return null;
 		},
-		components: {
-			CollectionList
+		filename() {
+			if (this.$root.model && this.$root.model.name) {
+				return '' + this.$root.model.name;
+			}
+			return '';
 		}
+	},
+	components: {
+		CollectionList
 	}
+}
 </script>

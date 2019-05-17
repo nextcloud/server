@@ -21,8 +21,8 @@
   -->
 
 <template>
-	<AppContent app-name="settings" :navigation-class="{ 'icon-loading': loadingAddGroup }">
-		<template #navigation>
+	<Content app-name="settings" :navigation-class="{ 'icon-loading': loadingAddGroup }">
+		<AppNavigation>
 			<AppNavigationNew button-id="new-user-button" :text="t('settings','New user')" button-class="icon-add" @click="toggleNewUserMenu" />
 			<ul id="usergrouplist">
 				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
@@ -30,12 +30,12 @@
 			<AppNavigationSettings>
 				<div>
 					<p>{{t('settings', 'Default quota:')}}</p>
-					<multiselect :value="defaultQuota" :options="quotaOptions"
+					<Multiselect :value="defaultQuota" :options="quotaOptions"
 								 tag-placeholder="create" :placeholder="t('settings', 'Select default quota')"
-								 label="label" track-by="id" class="multiselect-vue"
+								 label="label" track-by="id"
 								 :allowEmpty="false" :taggable="true"
 								 @tag="validateQuota" @input="setDefaultQuota">
-					</multiselect>
+					</Multiselect>
 
 				</div>
 				<div>
@@ -55,22 +55,27 @@
 					<label for="showStoragePath">{{t('settings', 'Show storage path')}}</label>
 				</div>
 			</AppNavigationSettings>
-		</template>
-		<user-list #content :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
-	</AppContent>
+		</AppNavigation>
+		<AppContent>
+			<UserList #content :users="users" :showConfig="showConfig" :selectedGroup="selectedGroup" :externalActions="externalActions" />
+		</AppContent>
+	</Content>
 </template>
 
 <script>
+import Vue from 'vue';
+import VueLocalStorage from 'vue-localstorage'
 import {
 	AppContent,
+	AppNavigation,
 	AppNavigationItem,
 	AppNavigationNew,
 	AppNavigationSettings,
+	AppSidebar,
+	Content,
+	Multiselect
 } from 'nextcloud-vue';
-import userList from '../components/userList';
-import Vue from 'vue';
-import VueLocalStorage from 'vue-localstorage'
-import Multiselect from 'vue-multiselect';
+import UserList from '../components/userList';
 import api from '../store/api';
 
 Vue.use(VueLocalStorage)
@@ -80,10 +85,13 @@ export default {
 	props: ['selectedGroup'],
 	components: {
 		AppContent,
+		AppNavigation,
 		AppNavigationItem,
 		AppNavigationNew,
 		AppNavigationSettings,
-		userList,
+		AppSidebar,
+		Content,
+		UserList,
 		Multiselect,
 	},
 	beforeMount() {
