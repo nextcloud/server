@@ -456,7 +456,7 @@ class Configuration {
 			'ldap_quota_def'                    => '',
 			'ldap_quota_attr'                   => '',
 			'ldap_email_attr'                   => '',
-			'ldap_group_member_assoc_attribute' => 'uniqueMember',
+			'ldap_group_member_assoc_attribute' => '',
 			'ldap_cache_ttl'                    => 600,
 			'ldap_uuid_user_attribute'          => 'auto',
 			'ldap_uuid_group_attribute'         => 'auto',
