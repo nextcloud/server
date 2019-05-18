@@ -137,7 +137,7 @@ OC.L10N.register(
     "Unable to toggle this option" : "Non é posíbel alternar esta opción",
     "Resharing is not allowed" : "Non se permite volver compartir",
     "Link" : "Ligazón",
-    "Hide download" : "Agachar a descarga",
+    "Hide download" : "Agochar a descarga",
     "Password protection enforced" : "Protección con contrasinal obrigado",
     "Password protect" : "Protexido con contrasinal",
     "Allow editing" : "Permitir a edición",
