@@ -584,6 +584,8 @@ OC.L10N.register(
     "Copied!" : "S'ha copiat!",
     "Copy" : "Copia",
     "Could not copy app password. Please copy it manually." : "No s’ha pogut copiar la contrasenya de l’aplicació. Copieu-la manualment.",
+    "This app is supported via your current Nextcloud subscription." : "Aquesta aplicació és compatible amb la vostra actual subscripció a Nextcloud.",
+    "Supported" : "Compatible",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicacions oficials són desenvolupades per i dins de la comunitat. Ofereixen funcionalitats centrals i estan preparades per ser emprades en producció.",
     "Official" : "Oficial",
     "by" : "per",
