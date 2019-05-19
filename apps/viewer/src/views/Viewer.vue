@@ -113,7 +113,7 @@
 import Vue from 'vue'
 
 import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
-import isFullScreen from 'nextcloud-vue/dist/Mixins/isFullScreen'
+import isFullscreen from 'nextcloud-vue/dist/Mixins/isFullscreen'
 import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 import Error from 'Components/Error'
@@ -132,7 +132,7 @@ export default {
 		Error
 	},
 
-	mixins: [isMobile, isFullScreen, PreviewUrl],
+	mixins: [isMobile, isFullscreen, PreviewUrl],
 
 	data: () => ({
 		handlers: OCA.Viewer.availableHandlers,
