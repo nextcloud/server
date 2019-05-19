@@ -57,6 +57,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nesuderinama programinė įranga)",
     "Following apps have been disabled: %s" : "Šie įskiepiai buvo išjungti: %s",
     "Already up to date" : "Naudojama naujausia versija",
+    ": " : ": ",
     "Dismiss" : "Atmesti",
     "Connection to server lost" : "Ryšys su serveriu nutrūko",
     "No" : "Ne",
