@@ -80,7 +80,7 @@ OC.L10N.register(
     "read-only" : "somente leitura",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de arquivo","{count} arquivo conflita"],
     "One file conflict" : "Conflito em um arquivo",
-    "New Files" : "Novos Arquivos",
+    "New Files" : "Novos arquivos",
     "Already existing files" : "Arquivos já existentes",
     "Which files do you want to keep?" : "Quais arquivos você quer manter?",
     "If you select both versions, the copied file will have a number added to its name." : "Se você selecionar ambas as versões, o arquivo copiado terá um número adicionado ao seu nome.",
