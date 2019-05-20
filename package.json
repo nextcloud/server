@@ -63,7 +63,7 @@
     "@babel/core": "^7.4.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.4",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.0.6",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "css-loader": "^2.1.1",
     "exports-loader": "^0.7.0",
