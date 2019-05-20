@@ -91,7 +91,7 @@ export const generateUrl = (url, params, options) => {
 
 	}
 
-	if (oc_config.modRewriteWorking === true) {
+	if (OC.config.modRewriteWorking === true) {
 		return getRootPath() + _build(url, params);
 	}
 
