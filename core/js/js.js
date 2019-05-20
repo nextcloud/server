@@ -1315,7 +1315,6 @@ function initCore() {
 
 $(document).ready(initCore);
 
-/**
 // fallback to hashchange when no history support
 if (window.history.pushState) {
 	window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History);
