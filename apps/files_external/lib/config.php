@@ -292,7 +292,7 @@ class OC_Mount_Config {
 				}
 			}
 		} else if (is_string($option)) {
-			if (strpos($option, '$') !== false) {
+			if (strpos(rtrim($option, '$'), '$') !== false) {
 				$result = false;
 			}
 		}
