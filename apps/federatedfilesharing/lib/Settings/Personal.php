@@ -80,6 +80,9 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
+		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+			return null;
+		}
 		return 'sharing';
 	}
 
