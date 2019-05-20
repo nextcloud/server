@@ -171,6 +171,10 @@ class Manager implements IManager {
 				continue;
 			}
 
+			if ($setting->getSection() === null) {
+				continue;
+			}
+
 			if (!isset($this->settings[$settingsType][$setting->getSection()])) {
 				$this->settings[$settingsType][$setting->getSection()] = [];
 			}
