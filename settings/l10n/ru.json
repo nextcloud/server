@@ -147,6 +147,9 @@
     "Show QR code for mobile apps" : "Показать QR-код для мобильных приложений",
     "Copied!" : "Скопировано!",
     "Copy" : "Копировать",
+    "Could not copy app password. Please copy it manually." : "Не удалось скопировать пароль приложения. Пожалуйста, скопируйте его вручную.",
+    "This app is supported via your current Nextcloud subscription." : "Это приложение поддерживается через вашу текущую подписку Nextcloud.",
+    "Supported" : "Поддерживается",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Официальные приложения разработаны вместе с сообществом. Они предлагают базовую функциональность и готовы для использования.",
     "Official" : "Официальное",
     "by" : "автор",
@@ -292,6 +295,7 @@
     "Last job execution ran %s. Something seems wrong." : "Последнее задание было выполнено %s. Похоже, что-то не в порядке.",
     "Background job didn’t run yet!" : "Фоновые задания ещё не выполнялись!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Для оптимальной производительности важно правильно настроить выполнение задач в фоновом режиме. Для крупных развёртываний рекомендуется использовать параметр «Cron». Обратитесь к документации для получения дополнительной информации.",
+    "Pick background job setting" : "Выбрать параметр выполнения фоновых задач",
     "Execute one task with each page loaded" : "Выполнять одно задание с каждой загруженной страницей",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php зарегистрирован в службе webcron и будет вызываться каждые 15 минут по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Использовать системный cron для вызова файла cron.php каждые 15 минут.",
@@ -366,6 +370,7 @@
     "Press Ctrl-C to copy." : "Нажмите Ctrl-C для копирования.",
     "Error while loading browser sessions and device tokens" : "Ошибка при загрузке сеансов работы браузера и токенов устройств",
     "Default quota :" : "Квота по умолчанию :",
+    "Follow us on Google+" : "Следите за нашими новостями в Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Вы используете <strong>%s</strong> из <strong>%s</strong> (<strong>%s%%</strong>)"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
