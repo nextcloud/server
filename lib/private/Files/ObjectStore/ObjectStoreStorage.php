@@ -476,4 +476,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		return $size;
 	}
+
+	public function getObjectStore(): IObjectStore {
+		return $this->objectStore;
+	}
 }
