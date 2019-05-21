@@ -25,12 +25,24 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 /**
  * @since 15.0.0
  */
 interface IVersionBackend {
+	/**
+	 * Whether or not this version backend should be used for a storage
+	 *
+	 * If false is returned then the next applicable backend will be used
+	 *
+	 * @param IStorage $storage
+	 * @return bool
+	 * @since 17.0.0
+	 */
+	public function useBackendForStorage(IStorage $storage): bool;
+
 	/**
 	 * Get all versions for a file
 	 *
