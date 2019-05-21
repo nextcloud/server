@@ -29,7 +29,7 @@ OC.L10N.register(
     "Please check the credentials, they seem to be wrong." : "Пожалуйста проверьте учетный данные, возможно они не верны.",
     "Please specify the port, it could not be auto-detected." : "Пожалуйста укажите порт, он не может быть определен автоматически.",
     "Base DN could not be auto-detected, please revise credentials, host and port." : "База поиска не может быть определена автоматически, пожалуйста перепроверьте учетные данные, адрес и порт.",
-    "Could not detect Base DN, please enter it manually." : "Не возможно обнаружить Base DN, пожалуйста задайте в ручную.",
+    "Could not detect Base DN, please enter it manually." : "Невозможно обнаружить Base DN, пожалуйста, задайте вручную.",
     "{nthServer}. Server" : "Сервер {nthServer}.",
     "No object found in the given Base DN. Please revise." : "Не найдено объектов в Base DN. Пожалуйста перепроверьте.",
     "More than 1,000 directory entries available." : "В каталоге доступно более 1,000 записей.",
