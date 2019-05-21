@@ -28,6 +28,7 @@
 
 namespace OC\Core;
 
+use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\RemoveLinkSharesNotifier;
 use OC\DB\MissingIndexInformation;
 use OC\DB\SchemaWrapper;
@@ -60,10 +61,18 @@ class Application extends App {
 			return new RemoveLinkSharesNotifier(
 				$server->getL10NFactory()
 			);
-		},  function() use ($server) {
+		}, function() {
 			return [
 				'id' => 'core',
 				'name' => 'core',
+			];
+		});
+		$notificationManager->registerNotifier(function() use ($server) {
+			return $server->query(AuthenticationNotifier::class);
+		}, function() {
+			return [
+				'id' => 'auth',
+				'name' => 'authentication notifier',
 			];
 		});
 

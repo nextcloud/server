@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -76,6 +79,28 @@ class SecurityProvider implements IProvider {
 					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
 				} else {
 					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.svg')));
+				}
+				break;
+			case 'remote_wipe_start':
+				$params = $event->getSubjectParameters();
+				$event->setParsedSubject($l->t('Remote wipe was started on %1$s', [
+					$params['name'],
+				]));
+				if ($this->activityManager->getRequirePNG()) {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/delete.png')));
+				} else {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/delete.svg')));
+				}
+				break;
+			case 'remote_wipe_finish':
+				$params = $event->getSubjectParameters();
+				$event->setParsedSubject($l->t('Remote wipe has finished on %1$s', [
+					$params['name'],
+				]));
+				if ($this->activityManager->getRequirePNG()) {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/delete.png')));
+				} else {
+					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/delete.svg')));
 				}
 				break;
 			default:

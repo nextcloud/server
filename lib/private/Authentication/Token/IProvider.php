@@ -29,6 +29,7 @@ namespace OC\Authentication\Token;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
 
 interface IProvider {
 
@@ -59,6 +60,7 @@ interface IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
+	 * @throws WipeTokenException
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken;
@@ -69,6 +71,7 @@ interface IProvider {
 	 * @param int $tokenId
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
+	 * @throws WipeTokenException
 	 * @return IToken
 	 */
 	public function getTokenById(int $tokenId): IToken;

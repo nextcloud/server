@@ -81,6 +81,8 @@ $application->registerRoutes($this, [
 		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
 		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
+		['name' => 'Wipe#checkWipe', 'url' => '/core/wipe/check', 'verb' => 'POST'],
+		['name' => 'Wipe#wipeDone', 'url' => '/core/wipe/success', 'verb' => 'POST'],
 
 		// Legacy routes that need to be globally available while they are handled by an app
 		['name' => 'viewcontroller#showFile', 'url' => '/f/{fileid}', 'verb' => 'GET', 'app' => 'files'],

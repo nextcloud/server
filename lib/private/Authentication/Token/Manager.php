@@ -26,6 +26,7 @@ namespace OC\Authentication\Token;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
 
 class Manager implements IProvider {
 
@@ -113,6 +114,8 @@ class Manager implements IProvider {
 	public function getToken(string $tokenId): IToken {
 		try {
 			return $this->publicKeyTokenProvider->getToken($tokenId);
+		} catch (WipeTokenException $e) {
+			throw $e;
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch(InvalidTokenException $e) {
@@ -142,6 +145,8 @@ class Manager implements IProvider {
 		try {
 			return $this->publicKeyTokenProvider->getTokenById($tokenId);
 		} catch (ExpiredTokenException $e) {
+			throw $e;
+		} catch (WipeTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
 			return $this->defaultTokenProvider->getTokenById($tokenId);
