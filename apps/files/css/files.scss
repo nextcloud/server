@@ -770,6 +770,14 @@ table.dragshadow td.size {
 	border-radius: 0;
 	background-color: transparent;
 	z-index:1;
+	
+	> a[href='#'] {
+		// if no link is set, no mouse feedback
+		box-shadow: none !important;
+		&, * {
+			cursor: default !important;
+		}
+	}
 
 	.quota-container {
 		height: 5px;
