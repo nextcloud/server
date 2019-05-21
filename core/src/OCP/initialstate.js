@@ -27,14 +27,16 @@
 export function loadState (app, key) {
 	const elem = document.querySelector(`#initial-state-${app}-${key}`);
 	if (elem === null) {
-		console.error('Could not find initial state of ' + app);
-		throw new Error('Could not find initial state of ' + app);
+		const msg = `Could not find initial state ${key} of ${app}`
+		console.debug(msg);
+		throw new Error(msg);
 	}
 
 	try {
 		return JSON.parse(atob(elem.value));
 	} catch (e) {
-		console.error('Could not parse initial state of ' + app);
-		throw new Error('Could not parse initial state of ' + app);
+		const msg = `Could not parse initial state ${key} of ${app}`
+		console.debug(msg);
+		throw new Error(msg);
 	}
 }

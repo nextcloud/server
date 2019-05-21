@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = [
 	{
@@ -16,11 +17,11 @@ module.exports = [
 			rules: [
 				{
 					test: /\.css$/,
-					use: ['style-loader', 'css-loader']
+					use: ['vue-style-loader', 'style-loader', 'css-loader']
 				},
 				{
 					test: /\.scss$/,
-					use: ['style-loader', 'css-loader', 'sass-loader']
+					use: ['vue-style-loader', 'style-loader', 'css-loader', 'sass-loader']
 				},
 				{
 					test: /davclient/,
@@ -30,6 +31,10 @@ module.exports = [
 					test: /\.js$/,
 					loader: 'babel-loader',
 					exclude: /node_modules/
+				},
+				{
+					test: /\.vue$/,
+					loader: 'vue-loader'
 				},
 				{
 					test: /\.(png|jpg|gif)$/,
@@ -53,7 +58,8 @@ module.exports = [
 				'_': "underscore",
 				$: "jquery",
 				jQuery: "jquery"
-			})
+			}),
+			new VueLoaderPlugin(),
 		],
 		resolve: {
 			alias: {

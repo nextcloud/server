@@ -151,7 +151,8 @@ form #datadirField legend {
 						   absolutely positioned descendant icons */
 }
 
-#submit-wrapper .submit-icon {
+#submit-wrapper .submit-icon,
+#reset-password-wrapper .submit-icon {
 	position: absolute;
 	top: 22px;
 	right: 24px;
@@ -172,10 +173,6 @@ form #datadirField legend {
 	padding: 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-#reset-password-wrapper .submit-icon {
-	display: none;
 }
 
 #submit-wrapper .icon-loading-small {
