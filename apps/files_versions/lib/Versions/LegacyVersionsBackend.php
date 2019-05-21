@@ -29,6 +29,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -41,6 +42,10 @@ class LegacyVersionsBackend implements IVersionBackend {
 	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
+	}
+
+	public function useBackendForStorage(IStorage $storage): bool {
+		return true;
 	}
 
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
