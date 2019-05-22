@@ -1094,7 +1094,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SettingsManager', function (Server $c) {
 			$manager = new \OC\Settings\Manager(
 				$c->getLogger(),
-				$c->getL10N('lib'),
+				$c->getL10NFactory(),
 				$c->getURLGenerator(),
 				$c
 			);
