@@ -34,6 +34,7 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
@@ -46,6 +47,9 @@ class Manager implements IManager {
 	/** @var IL10N */
 	private $l;
 
+	/** @var IFactory */
+	private $l10nFactory;
+
 	/** @var IURLGenerator */
 	private $url;
 
@@ -54,12 +58,12 @@ class Manager implements IManager {
 
 	public function __construct(
 		ILogger $log,
-		IL10N $l10n,
+		IFactory $l10nFactory,
 		IURLGenerator $url,
 		IServerContainer $container
 	) {
 		$this->log = $log;
-		$this->l = $l10n;
+		$this->l10nFactory = $l10nFactory;
 		$this->url = $url;
 		$this->container = $container;
 	}
@@ -190,6 +194,10 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getAdminSections(): array {
+		if ($this->l === null) {
+			$this->l = $this->l10nFactory->get('lib');
+		}
+
 		// built-in sections
 		$sections = [
 			0 => [new Section('overview', $this->l->t('Overview'), 0, $this->url->imagePath('settings', 'admin.svg'))],
@@ -301,6 +309,10 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getPersonalSections(): array {
+		if ($this->l === null) {
+			$this->l = $this->l10nFactory->get('lib');
+		}
+
 		$sections = [
 			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
 			5 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('settings', 'password.svg'))],
