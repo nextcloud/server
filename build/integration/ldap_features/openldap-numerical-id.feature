@@ -35,6 +35,7 @@ Scenario: Test LDAP group retrieval with numeric group ids and nesting
   Given modify LDAP configuration
     | ldapBaseGroups                | ou=NumericGroups,dc=nextcloud,dc=ci |
     | ldapGroupFilter               | (objectclass=groupOfNames) |
+    | ldapGroupMemberAssocAttr      | member |
     | ldapNestedGroups              | 1 |
     | useMemberOfToDetectMembership | 1 |
   And As an "admin"
