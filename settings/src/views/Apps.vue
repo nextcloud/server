@@ -21,25 +21,31 @@
   -->
 
 <template>
-	<AppContent app-name="settings" :class="{ 'with-app-sidebar': currentApp}"
+	<Content app-name="settings" :class="{ 'with-app-sidebar': currentApp}"
 	:content-class="{ 'icon-loading': loadingList }" :navigation-class="{ 'icon-loading': loading }">
-		<template #navigation>
+		<AppNavigation>
 			<ul id="appscategories">
 				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
 			</ul>
-		</template>
-		<template #content class="app-settings-content" :class="{ 'icon-loading': loadingList }">
-			<app-list :category="category" :app="currentApp" :search="searchQuery"></app-list>
-		</template>
-		<template #sidebar v-if="id && currentApp" >
-			<app-details :category="category" :app="currentApp"></app-details>
-		</template>
-	</AppContent>
+		</AppNavigation>
+		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
+			<AppList :category="category" :app="currentApp" :search="searchQuery" />
+		</AppContent>
+		<AppSidebar v-if="id && currentApp" >
+			<AppDetails :category="category" :app="currentApp" />
+		</AppSidebar>
+	</Content>
 </template>
 
 <script>
-import { AppContent, AppNavigationItem } from 'nextcloud-vue';
-import appList from '../components/appList';
+import { 
+	AppContent,
+	AppNavigation,
+	AppNavigationItem,
+	AppSidebar,
+	Content
+} from 'nextcloud-vue';
+import AppList from '../components/appList';
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
 import AppDetails from '../components/appDetails';
@@ -60,9 +66,12 @@ export default {
 	},
 	components: {
 		AppContent,
-		AppDetails,
-		appList,
+		AppNavigation,
 		AppNavigationItem,
+		AppSidebar,
+		Content,
+		AppDetails,
+		AppList
 	},
 	methods: {
 		setSearch(query) {

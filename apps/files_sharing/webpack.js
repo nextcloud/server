@@ -31,28 +31,12 @@ module.exports = {
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
-				exclude: /node_modules/,
-				options: {
-					plugins: ['@babel/plugin-syntax-dynamic-import', 'transform-es2015-arrow-functions']
-				}
-			},
-			{
-				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'file-loader',
-				options: {
-					name: '[name].[ext]?[hash]'
-				}
+				exclude: /node_modules/
 			}
 		]
 	},
 	plugins: [new VueLoaderPlugin()],
 	resolve: {
-		alias: {
-			vue$: 'vue/dist/vue.runtime.esm.js',
-		},
-		extensions: ['*', '.js', '.vue', '.json'],
-		modules: [
-			path.join(__dirname, '../../node_modules')
-		]
+		extensions: ['*', '.js', '.vue', '.json']
 	},
 };

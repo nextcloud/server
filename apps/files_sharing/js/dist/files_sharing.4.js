@@ -1,4 +1,4 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{14:function(e,o,i){"use strict";i.r(o);var n=i(17),l=i(25),r=i(26),s=i.n(r),a=i(27),u={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(32).a}},c=i(58),d=Object(c.a)(u,function(){var t=this.$createElement,e=this._self._c||t;return this.fileId?e("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()},[],!1,null,null,null).exports;i.d(o,"Vue",function(){return n.a}),i.d(o,"View",function(){return d}),
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{14:function(e,o,i){"use strict";i.r(o);var n=i(17),l=i(19),r=i(26),u=i(29),d=i.n(u),a=i(30),s={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(33).a}},c=i(59),f=Object(c.a)(s,function(){var e=this.$createElement,t=this._self._c||e;return this.fileId?t("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()},[],!1,null,null,null).exports;i.d(o,"Vue",function(){return n.default}),i.d(o,"View",function(){return f}),
 /*
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -20,5 +20,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-n.a.prototype.t=t,n.a.component("PopoverMenu",l.PopoverMenu),n.a.directive("ClickOutside",s.a),n.a.directive("Tooltip",a.a)}}]);
+n.default.prototype.t=t,n.default.component("PopoverMenu",r.PopoverMenu),n.default.directive("ClickOutside",d.a),n.default.directive("Tooltip",a.a),n.default.use(l.a)}}]);
 //# sourceMappingURL=files_sharing.4.js.map

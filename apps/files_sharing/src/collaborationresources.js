@@ -21,15 +21,16 @@
  */
 
 import Vue from 'vue';
+import Vuex from 'vuex';
 import { PopoverMenu } from 'nextcloud-vue';
 import ClickOutside from 'vue-click-outside';
 import { VTooltip } from 'v-tooltip';
 
 Vue.prototype.t = t;
-
 Vue.component('PopoverMenu', PopoverMenu);
 Vue.directive('ClickOutside', ClickOutside);
 Vue.directive('Tooltip', VTooltip);
+Vue.use(Vuex);
 
 import View from './views/CollaborationView';
 
