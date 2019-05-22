@@ -75,7 +75,7 @@ const Toast = {
 			callback: options.callback,
 			close: options.close,
 			gravity: 'top',
-			selector: 'content',
+			selector: !window.TESTING ? 'content' : 'testArea',
 			positionLeft: false,
 			backgroundColor: '',
 			className: 'toast ' + classes

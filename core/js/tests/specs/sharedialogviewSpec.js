@@ -957,7 +957,7 @@ describe('OC.Share.ShareDialogView', function() {
 		var showTemporaryNotificationStub;
 
 		beforeEach(function() {
-			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'show');
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'showTemporary');
 		});
 
 		afterEach(function() {
