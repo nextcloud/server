@@ -1160,15 +1160,19 @@ $CONFIG = array(
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster
+ *
+ * Authentication works with phpredis version 4.2.1+. See
+ * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
  */
 'redis.cluster' => [
 	'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
 		'localhost:7000',
-		'localhost:7001'
+		'localhost:7001',
 	],
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
-	'failover_mode' => \RedisCluster::FAILOVER_ERROR
+	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
+	'password' => '', // Optional, if not defined no password will be used.
 ],
 
 
