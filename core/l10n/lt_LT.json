@@ -207,6 +207,7 @@
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Jūsų svetainės serveris nėra sukonfiguruotas atpažinti \"{url}\". Daugiau informacijos rasite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijoje</a>.",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "Paskutinis foninis užduočių vykdymas buvo paleistas {relativeTime}. Atrodo, kad kažkas nutiko.",
     "Check the background job settings" : "Peržiūrėkite fone veikiančių užduočių nustatymus",
+    "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Jūsų PHP neturi FreeType palaikymo, kas savo ruožtu sąlygoja profilio paveikslėlių ir nustatymų sąsajos neteisingą atvaizdavimą.",
     "The PHP memory limit is below the recommended value of 512MB." : "PHP atminties riba yra žemiau rekomenduojamos 512MB reikšmės.",
     "Error occurred while checking server setup" : "Tikrinant serverio sąranką, įvyko klaida",
     "unknown text" : "nežinomas tekstas",
