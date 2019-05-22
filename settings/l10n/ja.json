@@ -582,6 +582,8 @@
     "Copied!" : "コピーしました！",
     "Copy" : "コピー",
     "Could not copy app password. Please copy it manually." : "アプリのパスワードをコピーできませんでした。 手動でコピーしてください。",
+    "This app is supported via your current Nextcloud subscription." : "このアプリは、現行のNextcloudサブスクリプションでサポートされています。",
+    "Supported" : "サポート",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "公式アプリは Nextcloud コミュニティにより開発されています。公式アプリは Nextcloud の中心的な機能を提供し、製品として可能です。",
     "Official" : "公式",
     "by" : "by",
