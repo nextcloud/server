@@ -31,10 +31,6 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
-use Sabre\HTTP\RequestInterface;
-use Sabre\HTTP\ResponseInterface;
-use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Reader;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
@@ -138,68 +134,5 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 				return new LocalHref($result[0]['href']);
 			});
 		}
-	}
-
-	/**
-	 * This method is triggered whenever there was a calendar object gets
-	 * created or updated.
-	 *
-	 * Basically just a copy of parent::calendarObjectChange, with the change
-	 * from:
-	 * $addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
-	 * to:
-	 * $addresses = $this->getAddressesForPrincipal($calendarNode->getPrincipalURI());
-	 *
-	 * @param RequestInterface $request HTTP request
-	 * @param ResponseInterface $response HTTP Response
-	 * @param VCalendar $vCal Parsed iCalendar object
-	 * @param mixed $calendarPath Path to calendar collection
-	 * @param mixed $modified The iCalendar object has been touched.
-	 * @param mixed $isNew Whether this was a new item or we're updating one
-	 * @return void
-	 */
-	function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
-
-		if (!$this->scheduleReply($this->server->httpRequest)) {
-			return;
-		}
-
-		$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
-
-		$addresses = $this->getAddressesForPrincipal(
-			$calendarNode->getPrincipalURI()
-		);
-
-		if (!$isNew) {
-			$node = $this->server->tree->getNodeForPath($request->getPath());
-			$oldObj = Reader::read($node->get());
-		} else {
-			$oldObj = null;
-		}
-
-		$this->processICalendarChange($oldObj, $vCal, $addresses, [], $modified);
-
-		if ($oldObj) {
-			// Destroy circular references so PHP will GC the object.
-			$oldObj->destroy();
-		}
-
-	}
-
-	/**
-	 * This method checks the 'Schedule-Reply' header
-	 * and returns false if it's 'F', otherwise true.
-	 *
-	 * Copied from Sabre/DAV's Schedule plugin, because it's
-	 * private for whatever reason
-	 *
-	 * @param RequestInterface $request
-	 * @return bool
-	 */
-	private function scheduleReply(RequestInterface $request) {
-
-		$scheduleReply = $request->getHeader('Schedule-Reply');
-		return $scheduleReply !== 'F';
-
 	}
 }
