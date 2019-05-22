@@ -941,6 +941,7 @@ return array(
     'OC\\L10N\\L10NString' => $baseDir . '/lib/private/L10N/L10NString.php',
     'OC\\L10N\\LanguageIterator' => $baseDir . '/lib/private/L10N/LanguageIterator.php',
     'OC\\L10N\\LanguageNotFoundException' => $baseDir . '/lib/private/L10N/LanguageNotFoundException.php',
+    'OC\\L10N\\LazyL10N' => $baseDir . '/lib/private/L10N/LazyL10N.php',
     'OC\\LargeFileHelper' => $baseDir . '/lib/private/LargeFileHelper.php',
     'OC\\Lock\\AbstractLockingProvider' => $baseDir . '/lib/private/Lock/AbstractLockingProvider.php',
     'OC\\Lock\\DBLockingProvider' => $baseDir . '/lib/private/Lock/DBLockingProvider.php',
