@@ -26,8 +26,11 @@ namespace OC\Settings\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Group\ISubAdmin;
+use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
@@ -38,11 +41,17 @@ class PersonalSettingsController extends Controller {
 		$appName,
 		IRequest $request,
 		INavigationManager $navigationManager,
-		ISettingsManager $settingsManager
+		ISettingsManager $settingsManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		ISubAdmin $subAdmin
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
 		$this->settingsManager = $settingsManager;
+		$this->userSession = $userSession;
+		$this->subAdmin = $subAdmin;
+		$this->groupManager = $groupManager;
 	}
 
 	/**

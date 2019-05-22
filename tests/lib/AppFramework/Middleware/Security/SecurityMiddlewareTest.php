@@ -96,12 +96,12 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->middleware = $this->getMiddleware(true, true);
+		$this->middleware = $this->getMiddleware(true, true, false);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
 
-	private function getMiddleware(bool $isLoggedIn, bool $isAdminUser, bool $isAppEnabledForUser = true): SecurityMiddleware {
+	private function getMiddleware(bool $isLoggedIn, bool $isAdminUser, bool $isSubAdmin, bool $isAppEnabledForUser = true): SecurityMiddleware {
 
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appManager->expects($this->any())
@@ -117,6 +117,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'files',
 			$isLoggedIn,
 			$isAdminUser,
+			$isSubAdmin,
 			$this->contentSecurityPolicyManager,
 			$this->csrfTokenManager,
 			$this->cspNonceManager,
@@ -153,7 +154,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isLoggedIn = true;
 		}
 
-		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
+		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser, false);
 
 		try {
 			$this->reader->reflect(__CLASS__, $method);
@@ -216,11 +217,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		);
 		$this->ajaxExceptionStatus(
 			__FUNCTION__,
-			'isSubAdminUser',
-			0
-		);
-		$this->ajaxExceptionStatus(
-			__FUNCTION__,
 			'passesCSRFCheck',
 			0
 		);
@@ -236,7 +232,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
 
-		$sec = $this->getMiddleware(false, false);
+		$sec = $this->getMiddleware(false, false, false);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$sec->beforeController($this->controller, __FUNCTION__);
@@ -257,7 +253,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isAdminUser = false;
 		}
 
-		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
+		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser, false);
 
 		if($shouldFail) {
 			$this->expectException(SecurityException::class);
@@ -452,6 +448,41 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->securityCheck(__FUNCTION__, 'isAdminUser');
 	}
 
+	/**
+	 * @NoCSRFRequired
+	 * @SubAdminRequired
+	 */
+	public function testIsNotSubAdminCheck(){
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$sec = $this->getMiddleware(true, false, false);
+
+		$this->expectException(SecurityException::class);
+		$sec->beforeController($this, __METHOD__);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @SubAdminRequired
+	 */
+	public function testIsSubAdminCheck(){
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$sec = $this->getMiddleware(true, false, true);
+
+		$sec->beforeController($this, __METHOD__);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @SubAdminRequired
+	 */
+	public function testIsSubAdminAndAdminCheck(){
+		$this->reader->reflect(__CLASS__,__FUNCTION__);
+		$sec = $this->getMiddleware(true, true, true);
+
+		$sec->beforeController($this, __METHOD__);
+		$this->addToAssertionCount(1);
+	}
 
 	/**
 	 * @NoCSRFRequired
@@ -479,7 +510,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->createMock(ISecureRandom::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->middleware = $this->getMiddleware(false, false);
+		$this->middleware = $this->getMiddleware(false, false, false);
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
@@ -514,7 +545,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 
-		$this->middleware = $this->getMiddleware(false, false);
+		$this->middleware = $this->getMiddleware(false, false, false);
 		$response = $this->middleware->afterException(
 			$this->controller,
 			'test',
@@ -559,7 +590,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->createMock(ISecureRandom::class),
 			$this->createMock(IConfig::class)
 		);
-		$this->middleware = $this->getMiddleware(false, false);
+		$this->middleware = $this->getMiddleware(false, false, false);
 		$this->logger
 			->expects($this->once())
 			->method('logException');
@@ -684,7 +715,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testRestrictedAppLoggedInPublicPage() {
-		$middleware = $this->getMiddleware(true, false);
+		$middleware = $this->getMiddleware(true, false, false);
 		$this->reader->reflect(__CLASS__,__FUNCTION__);
 
 		$this->appManager->method('getAppPath')
@@ -705,7 +736,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testRestrictedAppNotLoggedInPublicPage() {
-		$middleware = $this->getMiddleware(false, false);
+		$middleware = $this->getMiddleware(false, false, false);
 		$this->reader->reflect(__CLASS__,__FUNCTION__);
 
 		$this->appManager->method('getAppPath')
@@ -725,7 +756,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testRestrictedAppLoggedIn() {
-		$middleware = $this->getMiddleware(true, false, false);
+		$middleware = $this->getMiddleware(true, false, false, false);
 		$this->reader->reflect(__CLASS__,__FUNCTION__);
 
 		$this->appManager->method('getAppPath')

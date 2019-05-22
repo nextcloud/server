@@ -56,6 +56,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\GlobalScale\IConfig;
+use OCP\Group\ISubAdmin;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
@@ -218,6 +219,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c['AppName'],
 				$server->getUserSession()->isLoggedIn(),
 				$server->getGroupManager()->isAdmin($this->getUserId()),
+				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getContentSecurityPolicyManager(),
 				$server->getCsrfTokenManager(),
 				$server->getContentSecurityPolicyNonceManager(),

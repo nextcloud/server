@@ -82,6 +82,8 @@ class SecurityMiddleware extends Middleware {
 	private $isLoggedIn;
 	/** @var bool */
 	private $isAdminUser;
+	/** @var bool */
+	private $isSubAdmin;
 	/** @var ContentSecurityPolicyManager */
 	private $contentSecurityPolicyManager;
 	/** @var CsrfTokenManager */
@@ -101,6 +103,7 @@ class SecurityMiddleware extends Middleware {
 								string $appName,
 								bool $isLoggedIn,
 								bool $isAdminUser,
+								bool $isSubAdmin,
 								ContentSecurityPolicyManager $contentSecurityPolicyManager,
 								CsrfTokenManager $csrfTokenManager,
 								ContentSecurityPolicyNonceManager $cspNonceManager,
@@ -115,6 +118,7 @@ class SecurityMiddleware extends Middleware {
 		$this->logger = $logger;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
+		$this->isSubAdmin = $isSubAdmin;
 		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->cspNonceManager = $cspNonceManager;
@@ -143,7 +147,14 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired') && !$this->isAdminUser) {
+			if($this->reflector->hasAnnotation('SubAdminRequired')
+				&& !$this->isSubAdmin
+				&& !$this->isAdminUser) {
+				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
+			}
+			if(!$this->reflector->hasAnnotation('SubAdminRequired')
+				&& !$this->reflector->hasAnnotation('NoAdminRequired')
+				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
