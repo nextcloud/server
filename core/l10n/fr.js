@@ -156,7 +156,7 @@ OC.L10N.register(
     "Add another link" : "Ajouter un autre lien",
     "Password protection for links is mandatory" : "Il est obligatoire de protéger les liens par mot de passe",
     "Share to {name}" : "Partager avec {name}",
-    "Share link" : "Partager par lien public",
+    "Share link" : "Partager un lien",
     "New share link" : "Nouveau lien de partage",
     "Created on {time}" : "Créé le {time}",
     "Password protect by Talk" : "Mot de passe protégé par Talk",
