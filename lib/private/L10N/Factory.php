@@ -108,37 +108,40 @@ class Factory implements IFactory {
 	 * @return \OCP\IL10N
 	 */
 	public function get($app, $lang = null, $locale = null) {
-		$app = \OC_App::cleanAppId($app);
-		if ($lang !== null) {
-			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
-		}
+		return new LazyL10N(function() use ($app, $lang, $locale) {
 
-		$forceLang = $this->config->getSystemValue('force_language', false);
-		if (is_string($forceLang)) {
-			$lang = $forceLang;
-		}
+			$app = \OC_App::cleanAppId($app);
+			if ($lang !== null) {
+				$lang = str_replace(array('\0', '/', '\\', '..'), '', (string)$lang);
+			}
 
-		$forceLocale = $this->config->getSystemValue('force_locale', false);
-		if (is_string($forceLocale)) {
-			$locale = $forceLocale;
-		}
+			$forceLang = $this->config->getSystemValue('force_language', false);
+			if (is_string($forceLang)) {
+				$lang = $forceLang;
+			}
 
-		if ($lang === null || !$this->languageExists($app, $lang)) {
-			$lang = $this->findLanguage($app);
-		}
+			$forceLocale = $this->config->getSystemValue('force_locale', false);
+			if (is_string($forceLocale)) {
+				$locale = $forceLocale;
+			}
 
-		if ($locale === null || !$this->localeExists($locale)) {
-			$locale = $this->findLocale($lang);
-		}
+			if ($lang === null || !$this->languageExists($app, $lang)) {
+				$lang = $this->findLanguage($app);
+			}
 
-		if (!isset($this->instances[$lang][$app])) {
-			$this->instances[$lang][$app] = new L10N(
-				$this, $app, $lang, $locale,
-				$this->getL10nFilesForApp($app, $lang)
-			);
-		}
+			if ($locale === null || !$this->localeExists($locale)) {
+				$locale = $this->findLocale($lang);
+			}
 
-		return $this->instances[$lang][$app];
+			if (!isset($this->instances[$lang][$app])) {
+				$this->instances[$lang][$app] = new L10N(
+					$this, $app, $lang, $locale,
+					$this->getL10nFilesForApp($app, $lang)
+				);
+			}
+
+			return $this->instances[$lang][$app];
+		});
 	}
 
 	/**
