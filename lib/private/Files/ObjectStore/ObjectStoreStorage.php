@@ -223,7 +223,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 * @param int $fileId the fileid
 	 * @return null|string the unified resource name used to identify the object
 	 */
-	protected function getURN($fileId) {
+	public function getURN($fileId) {
 		if (is_numeric($fileId)) {
 			return $this->objectPrefix . $fileId;
 		}
