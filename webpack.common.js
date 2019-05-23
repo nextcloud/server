@@ -81,7 +81,10 @@ module.exports = []
 				{
 					test: /\.js$/,
 					loader: 'babel-loader',
-					exclude: /node_modules/
+					// automatically detect necessary packages to
+					// transpile in the node_modules folder
+					exclude: /node_modules(?!(\/|\\)(p-finally|p-limit|p-locate|p-queue|p-timeout|p-try)(\/|\\))/
+
 				},
 				{
 					test: /\.(png|jpg|gif)$/,
