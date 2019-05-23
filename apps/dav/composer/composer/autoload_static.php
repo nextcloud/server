@@ -30,6 +30,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\BackgroundJob\\CleanupInvitationTokenJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupInvitationTokenJob.php',
         'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
         'OCA\\DAV\\BackgroundJob\\RefreshWebcalJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RefreshWebcalJob.php',
+        'OCA\\DAV\\BackgroundJob\\RegisterRegenerateBirthdayCalendars' => __DIR__ . '/..' . '/../lib/BackgroundJob/RegisterRegenerateBirthdayCalendars.php',
         'OCA\\DAV\\BackgroundJob\\UpdateCalendarResourcesRoomsBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/UpdateCalendarResourcesRoomsBackgroundJob.php',
         'OCA\\DAV\\BackgroundJob\\UploadCleanup' => __DIR__ . '/..' . '/../lib/BackgroundJob/UploadCleanup.php',
         'OCA\\DAV\\CalDAV\\Activity\\Backend' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Backend.php',
