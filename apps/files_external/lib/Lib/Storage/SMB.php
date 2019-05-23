@@ -82,6 +82,9 @@ class SMB extends Common implements INotifyStorage {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var bool */
+	protected $showHidden;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -109,6 +112,8 @@ class SMB extends Common implements INotifyStorage {
 		$this->root = $params['root'] ?? '/';
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
+
+		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
 
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
@@ -184,10 +189,13 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return array_filter($files, function (IFileInfo $file) {
 				try {
-					if ($file->isHidden()) {
+					// the isHidden check is done before checking the config boolean to ensure that the metadata is always fetch
+					// so we trigger the below exceptions where applicable
+					$hide = $file->isHidden() && !$this->showHidden;
+					if ($hide) {
 						$this->logger->debug('hiding hidden file ' . $file->getName());
 					}
-					return !$file->isHidden();
+					return !$hide;
 				} catch (ForbiddenException $e) {
 					$this->logger->logException($e, ['level' => ILogger::DEBUG, 'message' => 'Hiding forbidden entry ' . $file->getName()]);
 					return false;
@@ -526,7 +534,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isReadable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden();
+			return $this->showHidden || !$info->isHidden();
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
@@ -539,7 +547,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
+			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $this->is_dir($path));
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
@@ -550,7 +558,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isDeletable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden() && !$info->isReadOnly();
+			return ($this->showHidden || !$info->isHidden()) && !$info->isReadOnly();
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
