@@ -631,7 +631,7 @@ nav[role='navigation'] {
 			width: 155px;
 			cursor: text;
 			background-color: transparent !important;
-			border: 1px solid var(--color-border) !important;
+			border: 1px solid var(--color-primary-text) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;
@@ -655,6 +655,9 @@ nav[role='navigation'] {
 		&::-webkit-search-cancel-button {
 			-webkit-appearance: none;
 		}
+	}
+	.icon-search-force-white {
+		@include icon-color('search', 'actions', '#fffffe', 1, true);
 	}
 }
 
