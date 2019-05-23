@@ -104,7 +104,7 @@
 				actionHandler: function(fileName, context) {
 					context.$file.find('.action-comment').tooltip('hide')
 					// open sidebar in comments section
-					context.fileList.showDetailsView(fileName, 'commentsTabView')
+					context.fileList.showDetailsView(fileName, 'comments')
 				}
 			})
 

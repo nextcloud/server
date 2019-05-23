@@ -704,6 +704,12 @@
 					}
 					context.fileList.do_delete(fileName, context.dir);
 					$('.tipsy').remove();
+
+					// close sidebar on delete
+					const path = context.dir + '/' + fileName
+					if (OCA.Files.Sidebar && OCA.Files.Sidebar.file === path) {
+						OCA.Files.Sidebar.file = undefined
+					}
 				}
 			});
 

@@ -195,7 +195,7 @@
 					// do not open sidebar if permission is set and equal to 0
 					var permissions = parseInt(context.$file.data('share-permissions'), 10)
 					if (isNaN(permissions) || permissions > 0) {
-						fileList.showDetailsView(fileName, 'shareTabView')
+						fileList.showDetailsView(fileName, 'sharing')
 					}
 				},
 				render: function(actionSpec, isDefault, context) {
@@ -209,37 +209,37 @@
 				}
 			})
 
-			var shareTab = new OCA.Sharing.ShareTabView('shareTabView', { order: -20 })
-			// detect changes and change the matching list entry
-			shareTab.on('sharesChanged', function(shareModel) {
-				var fileInfoModel = shareModel.fileInfoModel
-				var $tr = fileList.findFileEl(fileInfoModel.get('name'))
+			var shareTab = new OCA.Sharing.ShareTabView('sharing', {order: -20})
+			// // detect changes and change the matching list entry
+			// shareTab.on('sharesChanged', function(shareModel) {
+			// 	var fileInfoModel = shareModel.fileInfoModel
+			// 	var $tr = fileList.findFileEl(fileInfoModel.get('name'))
 
-				// We count email shares as link share
-				var hasLinkShares = shareModel.hasLinkShares()
-				shareModel.get('shares').forEach(function(share) {
-					if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
-						hasLinkShares = true
-					}
-				})
+			// 	// We count email shares as link share
+			// 	var hasLinkShares = shareModel.hasLinkShares();
+			// 	shareModel.get('shares').forEach(function (share) {
+			// 		if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
+			// 			hasLinkShares = true;
+			// 		}
+			// 	})
 
-				OCA.Sharing.Util._updateFileListDataAttributes(fileList, $tr, shareModel)
-				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShares)) {
-					// remove icon, if applicable
-					OC.Share.markFileAsShared($tr, false, false)
-				}
+			// 	OCA.Sharing.Util._updateFileListDataAttributes(fileList, $tr, shareModel);
+			// 	if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShares)) {
+			// 		// remove icon, if applicable
+			// 		OC.Share.markFileAsShared($tr, false, false)
+			// 	}
 
-				// FIXME: this is too convoluted. We need to get rid of the above updates
-				// and only ever update the model and let the events take care of rerendering
-				fileInfoModel.set({
-					shareTypes: shareModel.getShareTypes(),
-					// in case markFileAsShared decided to change the icon,
-					// we need to modify the model
-					// (FIXME: yes, this is hacky)
-					icon: $tr.attr('data-icon')
-				})
-			})
-			fileList.registerTabView(shareTab)
+			// 	// FIXME: this is too convoluted. We need to get rid of the above updates
+			// 	// and only ever update the model and let the events take care of rerendering
+			// 	fileInfoModel.set({
+			// 		shareTypes: shareModel.getShareTypes(),
+			// 		// in case markFileAsShared decided to change the icon,
+			// 		// we need to modify the model
+			// 		// (FIXME: yes, this is hacky)
+			// 		icon: $tr.attr('data-icon')
+			// 	})
+			// })
+			// fileList.registerTabView(shareTab)
 
 			var breadCrumbSharingDetailView = new OCA.Sharing.ShareBreadCrumbView({ shareTab: shareTab })
 			fileList.registerBreadCrumbDetailView(breadCrumbSharingDetailView)
