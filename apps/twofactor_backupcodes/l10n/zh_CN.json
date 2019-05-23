@@ -17,7 +17,7 @@
     "Use backup code" : "使用备用码",
     "Two factor backup codes" : "两步验证备用码",
     "A two-factor auth backup codes provider" : "一个两步验证备用码提供者",
-    "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置双因素认证时使用您保存的其中一个备用码",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置两步验证时使用您保存的其中一个备用码",
     "Submit" : "提交",
     "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "备用码已经生成。已经使用了 {{used}} (共 {{total}}) 个备用码。",
     "Nextcloud backup codes" : "Nextcloud 备用码",
