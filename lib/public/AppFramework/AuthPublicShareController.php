@@ -185,6 +185,20 @@ abstract class AuthPublicShareController extends PublicShareController {
 				$route = $params['_route'];
 				unset($params['_route']);
 			}
+
+			// If the token doesn't match the rest of the arguments can't be trusted either
+			if (isset($params['token']) && $params['token'] !== $this->getToken()) {
+				$params = [
+					'token' => $this->getToken(),
+				];
+			}
+
+			// We need a token
+			if (!isset($params['token'])) {
+				$params = [
+					'token' => $this->getToken(),
+				];
+			}
 		}
 
 		return new RedirectResponse($this->urlGenerator->linkToRoute($route, $params));
