@@ -18,3 +18,4 @@ build/
 coverage/
 
 cypress/screenshots
+cypress/snapshots
