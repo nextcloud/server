@@ -95,7 +95,7 @@
 					dirInfo: self._dirInfo
 				});
 			});
-			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView');
+			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'sharing');
 		}
 	});
 

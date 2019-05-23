@@ -80,8 +80,9 @@
 }
 
 /* fit app list view heights */
-.app-files #app-content>.viewcontainer {
+.app-files #app-content > .viewcontainer {
 	min-height: 0%;
+	width: 100%;
 }
 
 .app-files #app-content {

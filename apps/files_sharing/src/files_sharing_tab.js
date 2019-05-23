@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,21 +20,9 @@
  *
  */
 
-import Vue from 'vue';
-import Vuex from 'vuex';
-import { PopoverMenu } from 'nextcloud-vue';
-import ClickOutside from 'vue-click-outside';
-import { VTooltip } from 'v-tooltip';
 
-Vue.prototype.t = t;
-Vue.component('PopoverMenu', PopoverMenu);
-Vue.directive('ClickOutside', ClickOutside);
-Vue.directive('Tooltip', VTooltip);
-Vue.use(Vuex);
+import SharingTab from './views/SharingTab'
 
-import View from './views/CollaborationView';
-
-export {
-	Vue,
-	View
-};
+window.addEventListener('DOMContentLoaded', () => {
+	OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab('sharing', SharingTab))
+})

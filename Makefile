@@ -23,15 +23,16 @@ clean-dev:
 clean:
 	rm -rf apps/accessibility/js/
 	rm -rf apps/comments/js/
+	rm -rf apps/files/js/dist/
 	rm -rf apps/files_sharing/js/dist/
 	rm -rf apps/files_trashbin/js/
 	rm -rf apps/files_versions/js/
 	rm -rf apps/oauth2/js/
 	rm -rf apps/systemtags/js/systemtags.js
-	rm -rf apps/systemtags/js/systemtags.map
+	rm -rf apps/systemtags/js/systemtags.js.map
 	rm -rf apps/twofactor_backupcodes/js
 	rm -rf apps/updatenotification/js/updatenotification.js
-	rm -rf apps/updatenotification/js/updatenotification.map
+	rm -rf apps/updatenotification/js/updatenotification.js.map
 	rm -rf apps/workflowengine/js/
 	rm -rf core/js/dist
 	rm -rf settings/js/vue-*

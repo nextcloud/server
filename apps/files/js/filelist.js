@@ -483,7 +483,7 @@
 					order: -50,
 					iconClass: 'icon-details',
 					permissions: OC.PERMISSION_NONE,
-					actionHandler: function(fileName, context) {
+					actionHandler: (fileName, context) => {
 						self._updateDetailsView(fileName);
 					}
 				});
@@ -562,11 +562,11 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
+			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
-				this._detailsView.selectTab(tabId);
+				OCA.Files.Sidebar.activeTab = tabId;
 			}
-			OC.Apps.showAppSidebar(this._detailsView.$el);
 		},
 
 		/**
@@ -576,47 +576,52 @@
 		 * @param {boolean} [show=true] whether to open the sidebar if it was closed
 		 */
 		_updateDetailsView: function(fileName, show) {
-			if (!this._detailsView) {
-				return;
-			}
+			// if (!this._detailsView) {
+			// 	return;
+			// }
 
 			// show defaults to true
-			show = _.isUndefined(show) || !!show;
-			var oldFileInfo = this._detailsView.getFileInfo();
-			if (oldFileInfo) {
-				// TODO: use more efficient way, maybe track the highlight
-				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.get('id')).removeClass('highlighted');
-				oldFileInfo.off('change', this._onSelectedModelChanged, this);
-			}
+			// show = _.isUndefined(show) || !!show;
+			// var oldFileInfo = this._detailsView.getFileInfo();
+			// if (oldFileInfo) {
+			// 	// TODO: use more efficient way, maybe track the highlight
+			// 	this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.get('id')).removeClass('highlighted');
+			// 	oldFileInfo.off('change', this._onSelectedModelChanged, this);
+			// }
 
 			if (!fileName) {
-				this._detailsView.setFileInfo(null);
-				if (this._currentFileModel) {
-					this._currentFileModel.off();
-				}
-				this._currentFileModel = null;
-				OC.Apps.hideAppSidebar(this._detailsView.$el);
+				// this._detailsView.setFileInfo(null);
+				// if (this._currentFileModel) {
+				// 	this._currentFileModel.off();
+				// }
+				// this._currentFileModel = null;
+				OCA.Files.Sidebar.file = null
 				return;
 			}
+			
+			// open sidebar and set file
+			const dir = `${this.dirInfo.path}/${this.dirInfo.name}`
+			const path = `${dir}/${fileName}`
+			OCA.Files.Sidebar.file = path.replace('//', '/')
 
-			if (show && this._detailsView.$el.hasClass('disappear')) {
-				OC.Apps.showAppSidebar(this._detailsView.$el);
-			}
+			// if (show && this._detailsView.$el.hasClass('disappear')) {
+			// 	OC.Apps.showAppSidebar(this._detailsView.$el);
+			// }
 
-			if (fileName instanceof OCA.Files.FileInfoModel) {
-				var model = fileName;
-			} else {
-				var $tr = this.findFileEl(fileName);
-				var model = this.getModelForFile($tr);
-				$tr.addClass('highlighted');
-			}
+			// if (fileName instanceof OCA.Files.FileInfoModel) {
+			// 	var model = fileName;
+			// } else {
+			// 	var $tr = this.findFileEl(fileName);
+			// 	var model = this.getModelForFile($tr);
+			// 	$tr.addClass('highlighted');
+			// }
 
-			this._currentFileModel = model;
+			// this._currentFileModel = model;
 
-			this._replaceDetailsViewElementIfNeeded();
+			// this._replaceDetailsViewElementIfNeeded();
 
-			this._detailsView.setFileInfo(model);
-			this._detailsView.$el.scrollTop(0);
+			// this._detailsView.setFileInfo(model);
+			// this._detailsView.$el.scrollTop(0);
 		},
 
 		/**
@@ -1355,6 +1360,13 @@
 					return OC.MimeType.getIconUrl('dir-external');
 				} else if (fileInfo.mountType !== undefined && fileInfo.mountType !== '') {
 					return OC.MimeType.getIconUrl('dir-' + fileInfo.mountType);
+				} else if (fileInfo.shareTypes && (
+					fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) > -1
+					|| fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_EMAIL) > -1)
+				) {
+					return OC.MimeType.getIconUrl('dir-public')
+				} else if (fileInfo.shareTypes && fileInfo.shareTypes.length > 0) {
+					return OC.MimeType.getIconUrl('dir-shared')
 				}
 				return OC.MimeType.getIconUrl('dir');
 			}
@@ -3601,8 +3613,10 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			if (this._detailsView) {
-				this._detailsView.addTabView(tabView);
+			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			const name = tabView.getLabel()
+			if (name) {
+				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab(name, tabView, true))
 			}
 		},
 
@@ -3610,8 +3624,9 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			if (this._detailsView) {
-				this._detailsView.addDetailView(detailView);
+			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			if (detailView.el) {
+				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}
 		},
 
