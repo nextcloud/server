@@ -157,7 +157,15 @@ class App {
 		 * https://tools.ietf.org/html/rfc7230#section-3.3
 		 * https://tools.ietf.org/html/rfc7230#section-3.3.2
 		 */
-		if ($httpHeaders !== Http::STATUS_NO_CONTENT && $httpHeaders !== Http::STATUS_NOT_MODIFIED) {
+		$emptyResponse = false;
+		if (preg_match('/^HTTP\/\d\.\d (\d{3}) .*$/', $httpHeaders, $matches)) {
+			$status = (int)$matches[1];
+			if ($status === Http::STATUS_NO_CONTENT || $status === Http::STATUS_NOT_MODIFIED) {
+				$emptyResponse = true;
+			}
+		}
+
+		if (!$emptyResponse) {
 			if ($response instanceof ICallbackResponse) {
 				$response->callback($io);
 			} else if (!is_null($output)) {
