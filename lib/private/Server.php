@@ -1029,10 +1029,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(SessionStorage::class, function (Server $c) {
 			return new SessionStorage($c->getSession());
 		});
-		$this->registerService(\OCP\Security\IContentSecurityPolicyManager::class, function (Server $c) {
-			return new ContentSecurityPolicyManager();
-		});
-		$this->registerAlias('ContentSecurityPolicyManager', \OCP\Security\IContentSecurityPolicyManager::class);
+		$this->registerAlias(\OCP\Security\IContentSecurityPolicyManager::class, \OC\Security\CSP\ContentSecurityPolicyManager::class);
+		$this->registerAlias('ContentSecurityPolicyManager', \OC\Security\CSP\ContentSecurityPolicyManager::class);
 
 		$this->registerService('ContentSecurityPolicyNonceManager', function (Server $c) {
 			return new ContentSecurityPolicyNonceManager(

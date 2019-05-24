@@ -534,6 +534,7 @@ interface IServerContainer extends IContainer {
 	/**
 	 * @return IContentSecurityPolicyManager
 	 * @since 9.0.0
+	 * @deprecated 17.0.0 Use the AddContentSecurityPolicyEvent
 	 */
 	public function getContentSecurityPolicyManager();
 
