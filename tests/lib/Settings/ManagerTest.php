@@ -23,6 +23,7 @@
 
 namespace Tests\Settings;
 
+use function get_class;
 use OC\Settings\Admin\Sharing;
 use OC\Settings\Manager;
 use OC\Settings\Mapper;
@@ -34,6 +35,8 @@ use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Settings\ISettings;
+use OCP\Settings\ISubAdminSettings;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -201,6 +204,35 @@ class ManagerTest extends TestCase {
 			->willReturn($section);
 
 		$settings = $this->manager->getAdminSettings('sharing');
+
+		$this->assertEquals([
+			13 => [$section]
+		], $settings);
+	}
+
+	public function testGetAdminSettingsAsSubAdmin() {
+		$section = $this->createMock(Sharing::class);
+		$this->container->expects($this->once())
+			->method('query')
+			->with(Sharing::class)
+			->willReturn($section);
+
+		$settings = $this->manager->getAdminSettings('sharing', true);
+
+		$this->assertEquals([], $settings);
+	}
+
+	public function testGetSubAdminSettingsAsSubAdmin() {
+		$section = $this->createMock(ISubAdminSettings::class);
+		$section->expects($this->once())
+			->method('getPriority')
+			->willReturn(13);
+		$this->container->expects($this->once())
+			->method('query')
+			->with(Sharing::class)
+			->willReturn($section);
+
+		$settings = $this->manager->getAdminSettings('sharing', true);
 
 		$this->assertEquals([
 			13 => [$section]

@@ -25,9 +25,14 @@ namespace Tests\Settings\Controller;
 use OC\Settings\Personal\ServerDevNotice;
 use OC\Settings\Controller\AdminSettingsController;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Group\ISubAdmin;
+use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Settings\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -38,29 +43,42 @@ use Test\TestCase;
  * @package Tests\Settings\Controller
  */
 class AdminSettingsControllerTest extends TestCase {
+
 	/** @var AdminSettingsController */
 	private $adminSettingsController;
-	/** @var IRequest */
+	/** @var IRequest|MockObject */
 	private $request;
-	/** @var INavigationManager */
+	/** @var INavigationManager|MockObject */
 	private $navigationManager;
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	private $settingsManager;
+	/** @var IUserSession|MockObject */
+	private $userSession;
+	/** @var IGroupManager|MockObject */
+	private $groupManager;
+	/** @var ISubAdmin|MockObject */
+	private $subAdmin;
 	/** @var string */
 	private $adminUid = 'lololo';
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->navigationManager = $this->getMockBuilder(INavigationManager::class)->getMock();
-		$this->settingsManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->settingsManager = $this->createMock(IManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->subAdmin = $this->createMock(ISubAdmin::class);
 
 		$this->adminSettingsController = new AdminSettingsController(
 			'settings',
 			$this->request,
 			$this->navigationManager,
-			$this->settingsManager
+			$this->settingsManager,
+			$this->userSession,
+			$this->groupManager,
+			$this->subAdmin
 		);
 
 		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'olo');
@@ -75,6 +93,19 @@ class AdminSettingsControllerTest extends TestCase {
 	}
 
 	public function testIndex() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$user->method('getUID')->willReturn('user123');
+		$this->groupManager
+			->method('isAdmin')
+			->with('user123')
+			->willReturn(true);
+		$this->subAdmin
+			->method('isSubAdmin')
+			->with($user)
+			->willReturn(false);
 		$this->settingsManager
 			->expects($this->once())
 			->method('getAdminSections')
@@ -89,7 +120,9 @@ class AdminSettingsControllerTest extends TestCase {
 			->with('test')
 			->willReturn([5 => new ServerDevNotice()]);
 
+		$idx = $this->adminSettingsController->index('test');
+
 		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
-		$this->assertEquals($expected, $this->adminSettingsController->index('test'));
+		$this->assertEquals($expected, $idx);
 	}
 }
