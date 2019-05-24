@@ -4,7 +4,7 @@ OC.L10N.register(
     "High contrast theme" : "高对比度主题",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "便于您浏览的高对比度主题。图像质量会下降但清晰度会提升。",
     "Dark theme (beta)" : "暗色主题（beta）",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的暗色主题。它仍在开发中，所以请报告您可能遇到的问题。",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的暗色主题。它仍在开发中，所以请报告您可能发现的问题。",
     "Dyslexia font" : "阅读障碍字体",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic是一款免费的字样/字体，这款字体的设计目的是缓解由阅读障碍引起的一些常见阅读错误。",
     "Accessibility" : "易用性",
