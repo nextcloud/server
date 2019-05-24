@@ -104,6 +104,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
+    "Link to a file" : "Linkki tiedostoon",
+    "Shared" : "Jaettu",
     "Share" : "Jaa",
     "Sharing" : "Jakaminen",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
