@@ -409,7 +409,7 @@
 	}
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 	#updatenotification {
 		margin-top: -25px;
 		margin-bottom: 200px;
@@ -482,7 +482,7 @@
 		}
 	}
 </style>
-<style lang="sass">
+<style lang="scss">
 	/* override needed to make menu wider */
 	#updatenotification .popovermenu {
 		p {
