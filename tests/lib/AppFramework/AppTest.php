@@ -90,7 +90,7 @@ class AppTest extends \Test\TestCase {
 
 
 	public function testControllerNameAndMethodAreBeingPassed(){
-		$return = array(null, array(), array(), null, new Response());
+		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -130,7 +130,7 @@ class AppTest extends \Test\TestCase {
 
 
 	public function testOutputIsPrinted(){
-		$return = [Http::STATUS_OK, [], [], $this->output, new Response()];
+		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -144,16 +144,15 @@ class AppTest extends \Test\TestCase {
 
 	public function dataNoOutput() {
 		return [
-			[Http::STATUS_NO_CONTENT],
-			[Http::STATUS_NOT_MODIFIED],
+			['HTTP/2.0 204 No content'],
+			['HTTP/2.0 304 Not modified'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataNoOutput
-	 * @param int $statusCode
 	 */
-	public function testNoOutput($statusCode) {
+	public function testNoOutput(string $statusCode) {
 		$return = [$statusCode, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -173,7 +172,7 @@ class AppTest extends \Test\TestCase {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
 			->getMock();
 
-		$return = [null, [], [], $this->output, $mock];
+		$return = ['HTTP/2.0 200 OK', [], [], $this->output, $mock];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -188,7 +187,7 @@ class AppTest extends \Test\TestCase {
 		$this->container['AppName'] = 'core';
 		$this->container['OC\Core\Controller\Foo'] = $this->controller;
 
-		$return = array(null, array(), array(), null, new Response());
+		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -205,7 +204,7 @@ class AppTest extends \Test\TestCase {
 		$this->container['AppName'] = 'settings';
 		$this->container['OC\Settings\Controller\Foo'] = $this->controller;
 
-		$return = array(null, array(), array(), null, new Response());
+		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
@@ -222,7 +221,7 @@ class AppTest extends \Test\TestCase {
 		$this->container['AppName'] = 'bar';
 		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
 
-		$return = array(null, array(), array(), null, new Response());
+		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
