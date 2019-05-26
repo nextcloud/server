@@ -137,7 +137,7 @@
     "%1$s%% of %2$s used" : "%1$s%% de %2$s utilisés",
     "%s used" : "%s utilisé",
     "Settings" : "Paramètres",
-    "Show hidden files" : "Afficher les fichiers cachés",
+    "Show hidden files" : "Afficher les fichiers masqués",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
