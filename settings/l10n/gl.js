@@ -74,7 +74,7 @@ OC.L10N.register(
     "Set your password" : "Estabeleza o seu contrasinal",
     "Go to %s" : "Ira a %s",
     "Install Client" : "Instalar o cliente",
-    "Logged in user must be a subadmin" : "O usuario registrado debe ser un subadministrador",
+    "Logged in user must be a subadmin" : "O usuario rexistrado debe ser un subadministrador",
     "Migration in progress. Please wait until the migration is finished" : "A migración está en proceso. Agarde a que remate.",
     "Migration started …" : "Iniciada a migración ...",
     "Not saved" : "Sen gardar",

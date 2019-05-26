@@ -103,6 +103,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "Gizli oturum açma anahtarı ile SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Paylaş",
+    "Show hidden files" : "Gizli dosyaları görüntüle",
     "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Username as share" : "Paylaşım olarak kullanıcı adı",
     "OpenStack Object Storage" : "OpenStack Nesne Depolama",

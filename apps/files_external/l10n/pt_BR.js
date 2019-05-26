@@ -103,6 +103,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP com login de chave secreta",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartilhar",
+    "Show hidden files" : "Mostrar arquivos ocultos",
     "SMB / CIFS using OC login" : "SMB / CIFS usando OC login",
     "Username as share" : "Nome de usuário como compartilhamento",
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
