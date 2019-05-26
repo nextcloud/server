@@ -101,6 +101,7 @@
     "SFTP with secret key login" : "SFTP con accesso a chiave segreta",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Condividi",
+    "Show hidden files" : "Mostra i file nascosti",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Username as share" : "Nome utente come condivisione",
     "OpenStack Object Storage" : "OpenStack Object Storage",

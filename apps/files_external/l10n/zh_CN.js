@@ -103,6 +103,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "包含 secret key 的 SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共享",
+    "Show hidden files" : "显示隐藏文件",
     "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
     "Username as share" : "以用户名作为共享名",
     "OpenStack Object Storage" : "OpenStack 对象存储",
