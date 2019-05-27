@@ -32,7 +32,7 @@ steps:
   commands:
     - git submodule update --init
 - name: vue-build-settings
-  image: node
+  image: node:lts
   commands:
     - ./build/vue-builds.sh ./settings/js/settings-vue.js
     - ./build/vue-builds.sh ./apps/updatenotification/js/updatenotification.js
