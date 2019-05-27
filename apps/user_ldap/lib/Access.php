@@ -712,6 +712,8 @@ class Access extends LDAPUtility {
 					$sndName = isset($ldapObject[$sndAttribute][0])
 						? $ldapObject[$sndAttribute][0] : '';
 					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
+				} else if($nameByLDAP !== null) {
+					$this->cacheGroupDisplayName($ncName, $nameByLDAP);
 				}
 			}
 		}
@@ -763,6 +765,11 @@ class Access extends LDAPUtility {
 		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
 		$cacheKeyTrunk = 'getDisplayName';
 		$this->connection->writeToCache($cacheKeyTrunk.$ocName, $displayName);
+	}
+
+	public function cacheGroupDisplayName(string $ncName, string $displayName): void {
+		$cacheKey = 'group_getDisplayName' . $ncName;
+		$this->connection->writeToCache($cacheKey, $displayName);
 	}
 
 	/**

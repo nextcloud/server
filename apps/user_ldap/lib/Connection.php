@@ -65,6 +65,7 @@ use OCP\ILogger;
  * @property bool|string ldapNestedGroups
  * @property string[] ldapBaseGroups
  * @property string ldapGroupFilter
+ * @property string ldapGroupDisplayName
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;

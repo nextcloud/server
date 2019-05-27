@@ -42,10 +42,11 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\GroupInterface;
 use OCP\ILogger;
 
-class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP {
+class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
 
 	/**
@@ -1221,4 +1222,29 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		return $connection->getConnectionResource();
 	}
 
+	/**
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function getDisplayName(string $gid): string {
+		if ($this->groupPluginManager instanceof IGetDisplayNameBackend) {
+			return $this->groupPluginManager->getDisplayName($gid);
+		}
+
+		$cacheKey = 'group_getDisplayName' . $gid;
+		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
+			return $displayName;
+		}
+
+		$displayName = $this->access->readAttribute(
+			$this->access->groupname2dn($gid),
+			$this->access->connection->ldapGroupDisplayName);
+
+		if ($displayName && (count($displayName) > 0)) {
+			$displayName = $displayName[0];
+			$this->access->connection->writeToCache($cacheKey, $displayName);
+			return $displayName;
+		}
+
+		return '';
+	}
 }
