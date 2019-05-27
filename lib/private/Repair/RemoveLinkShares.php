@@ -201,8 +201,7 @@ class RemoveLinkShares implements IRepairStep {
 		}
 	}
 
-	private function repair(IOutput $output): void {
-		$total = $this->getTotal();
+	private function repair(IOutput $output, int $total): void {
 		$output->startProgress($total);
 
 		$shareCursor = $this->getShares();
@@ -225,12 +224,13 @@ class RemoveLinkShares implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
-		if ($this->shouldRun()) {
-			$output->info('Removing potentially over exposing link shares');
-			$this->repair($output);
-			$output->info('Removed potentially over exposing link shares');
-		} else {
+		if ($this->shouldRun() === false || ($total = $this->getTotal()) === 0) {
 			$output->info('No need to remove link shares.');
+			return;
 		}
+
+		$output->info('Removing potentially over exposing link shares');
+		$this->repair($output, $total);
+		$output->info('Removed potentially over exposing link shares');
 	}
 }
