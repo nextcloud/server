@@ -295,8 +295,8 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show 
-	 * @param bool $key the key of the folder
+	 * @param int $show
+	 * @param string $key the key of the folder
 	 *
 	 * @return Response
 	 */
