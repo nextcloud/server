@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Select all" : "Vybrať všetko",
     "Name" : "Názov",
+    "Actions" : "Akcie",
     "Deleted" : "Zmazané",
     "Delete" : "Zmazať",
     "Couldn't delete %s permanently" : "Nemožno zmazať %s navždy",
