@@ -7,7 +7,6 @@
 	"_comment5": "./occ maintenance:mimetype:update-js",
 	"_comment6": "Otherwise your update won't propagate through the system.",
 
-
 	"application/coreldraw": "image",
 	"application/epub+zip": "text",
 	"application/font-sfnt": "image",
@@ -100,6 +99,7 @@
 	"text/x-ldif": "text/code",
 	"text/x-python": "text/code",
 	"text/x-shellscript": "text/code",
-	"web": "text/code"
+	"web": "text/code",
+	"application/internet-shortcut": "link"
 }
 
