@@ -3350,6 +3350,7 @@
 					&& !self.$el.is(dropTarget) // dropped on list directly
 					&& !self.$el.has(dropTarget).length // dropped inside list
 					&& !dropTarget.is(self.$container) // dropped on main container
+					&& !self.$el.parent().is(dropTarget) // drop on the parent container (#app-content) since the main container might not have the full height
 					) {
 					e.preventDefault();
 					return false;
