@@ -181,14 +181,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
 			$this->root->emit('\OC\Files', 'preCreate', array($nonExisting));
-			$this->view->touch($fullPath);
+			if (!$this->view->touch($fullPath)) {
+				throw new NotPermittedException('Could not create path');
+			}
 			$node = new File($this->root, $this->view, $fullPath);
 			$this->root->emit('\OC\Files', 'postWrite', array($node));
 			$this->root->emit('\OC\Files', 'postCreate', array($node));
 			return $node;
-		} else {
-			throw new NotPermittedException('No create permission for path');
 		}
+		throw new NotPermittedException('No create permission for path');
 	}
 
 	/**
