@@ -361,22 +361,6 @@ class Util {
 	}
 
 	/**
-	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * @since 4.5.0
-	 * @deprecated 9.0.0 Use annotations based on the app framework.
-	 */
-	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
-			exit();
-		}
-
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
-			exit();
-		}
-	}
-
-	/**
 	 * Used to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
