@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,16 +24,16 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCA\TwoFactorBackupCodes\Listener;
 
 use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\BackgroundJob\IJobList;
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-class ProviderDisabled implements IListener {
+class ProviderDisabled implements IEventListener {
 
 	/** @var IRegistry */
 	private $registry;
@@ -45,7 +47,7 @@ class ProviderDisabled implements IListener {
 		$this->jobList = $jobList;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if (!($event instanceof RegistryEvent)) {
 			return;
 		}

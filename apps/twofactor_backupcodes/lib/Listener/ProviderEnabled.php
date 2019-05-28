@@ -28,9 +28,10 @@ use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\BackgroundJob\IJobList;
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-class ProviderEnabled implements IListener {
+class ProviderEnabled implements IEventListener {
 
 	/** @var IRegistry */
 	private $registry;
@@ -44,7 +45,7 @@ class ProviderEnabled implements IListener {
 		$this->jobList = $jobList;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if (!($event instanceof RegistryEvent)) {
 			return;
 		}

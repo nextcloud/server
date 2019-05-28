@@ -26,11 +26,11 @@ use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
@@ -44,7 +44,7 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
-	/** @var EventDispatcherInterface|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|PHPUnit_Framework_MockObject_MockObject */
 	private $eventDispatcher;
 
 	/** @var BackupCodeStorage */
@@ -56,7 +56,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper = $this->createMock(BackupCodeMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->hasher = $this->createMock(IHasher::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->eventDispatcher);
 	}

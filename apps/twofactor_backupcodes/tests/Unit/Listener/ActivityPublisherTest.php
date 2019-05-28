@@ -28,15 +28,15 @@ use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\Event;
 use OCP\ILogger;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\EventDispatcher\Event;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ActivityPublisherTest extends TestCase {
 
-	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	private $activityManager;
 
 	/** @var ILogger */

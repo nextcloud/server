@@ -29,18 +29,16 @@ use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
 use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
-use OCA\TwoFactorBackupCodes\Listener\IListener;
 use OCA\TwoFactorBackupCodes\Listener\ProviderDisabled;
 use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
 use OCP\AppFramework\App;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\Notification\IManager;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 	public function __construct() {
@@ -62,32 +60,14 @@ class Application extends App {
 		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
 
 		$container = $this->getContainer();
-		/** @var EventDispatcherInterface $eventDispatcher */
-		$eventDispatcher = $container->query(EventDispatcherInterface::class);
-		$eventDispatcher->addListener(CodesGenerated::class, function (CodesGenerated $event) use ($container) {
-			/** @var IListener[] $listeners */
-			$listeners = [
-				$container->query(ActivityPublisher::class),
-				$container->query(RegistryUpdater::class),
-				$container->query(ClearNotifications::class),
-			];
 
-			foreach ($listeners as $listener) {
-				$listener->handle($event);
-			}
-		});
-
-		$eventDispatcher->addListener(IRegistry::EVENT_PROVIDER_ENABLED, function(RegistryEvent $event) use ($container) {
-			/** @var IListener $listener */
-			$listener = $container->query(ProviderEnabled::class);
-			$listener->handle($event);
-		});
-
-		$eventDispatcher->addListener(IRegistry::EVENT_PROVIDER_DISABLED, function(RegistryEvent $event) use ($container) {
-			/** @var IListener $listener */
-			$listener = $container->query(ProviderDisabled::class);
-			$listener->handle($event);
-		});
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $container->query(IEventDispatcher::class);
+		$eventDispatcher->addServiceListener(CodesGenerated::class, ActivityPublisher::class);
+		$eventDispatcher->addServiceListener(CodesGenerated::class, RegistryUpdater::class);
+		$eventDispatcher->addServiceListener(CodesGenerated::class, ClearNotifications::class);
+		$eventDispatcher->addServiceListener(IRegistry::EVENT_PROVIDER_ENABLED, ProviderEnabled::class);
+		$eventDispatcher->addServiceListener(IRegistry::EVENT_PROVIDER_DISABLED, ProviderDisabled::class);
 	}
 
 	public function registerNotification() {

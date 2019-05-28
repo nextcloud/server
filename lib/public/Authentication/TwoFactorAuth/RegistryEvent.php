@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace OCP\Authentication\TwoFactorAuth;
 
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * @since 15.0.0
@@ -42,6 +42,7 @@ class RegistryEvent extends Event {
 	 * @since 15.0.0
 	 */
 	public function __construct(IProvider $provider, IUser $user) {
+		parent::__construct();
 		$this->provider = $provider;
 		$this->user = $user;
 	}

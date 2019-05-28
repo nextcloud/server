@@ -128,7 +128,6 @@ use OCA\Theming\ThemingDefaults;
 
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Dashboard\IDashboardManager;
@@ -158,7 +157,6 @@ use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share\IShareHelper;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -989,11 +987,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger()
 			);
 		});
-		$this->registerService(EventDispatcher::class, function () {
-			return new EventDispatcher();
-		});
-		$this->registerAlias('EventDispatcher', EventDispatcher::class);
-		$this->registerAlias(EventDispatcherInterface::class, EventDispatcher::class);
+		$this->registerAlias(\OCP\EventDispatcher\IEventDispatcher::class, \OC\EventDispatcher\EventDispatcher::class);
+		$this->registerAlias('EventDispatcher', \OC\EventDispatcher\SymfonyAdapter::class);
+		$this->registerAlias(EventDispatcherInterface::class, \OC\EventDispatcher\SymfonyAdapter::class);
 
 		$this->registerService('CryptoWrapper', function (Server $c) {
 			// FIXME: Instantiiated here due to cyclic dependency
@@ -1858,7 +1854,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getEventDispatcher() {
-		return $this->query('EventDispatcher');
+		return $this->query(\OC\EventDispatcher\SymfonyAdapter::class);
 	}
 
 	/**

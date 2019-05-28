@@ -38,7 +38,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Storage extends Wrapper {
 	/** @var IMountPoint */
@@ -50,7 +50,7 @@ class Storage extends Wrapper {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
 	/** @var IRootFolder */
@@ -66,7 +66,7 @@ class Storage extends Wrapper {
 	 * @param ITrashManager $trashManager
 	 * @param IUserManager|null $userManager
 	 * @param ILogger|null $logger
-	 * @param EventDispatcher|null $eventDispatcher
+	 * @param EventDispatcherInterface|null $eventDispatcher
 	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
@@ -74,7 +74,7 @@ class Storage extends Wrapper {
 		ITrashManager $trashManager = null,
 		IUserManager $userManager = null,
 		ILogger $logger = null,
-		EventDispatcher $eventDispatcher = null,
+		EventDispatcherInterface $eventDispatcher = null,
 		IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];

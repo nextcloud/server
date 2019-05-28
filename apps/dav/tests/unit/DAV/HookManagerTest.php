@@ -36,19 +36,19 @@ use OCA\DAV\HookManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var  EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject  */
 	private $eventDispatcher;
 
 	public function setUp() {
 		parent::setUp();
-		$this->eventDispatcher = $this->getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
