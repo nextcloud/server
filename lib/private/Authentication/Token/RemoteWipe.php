@@ -26,39 +26,34 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use BadMethodCallException;
+use OC\Authentication\Events\RemoteWipeFinished;
+use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
+use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\Notification\IManager as INotificationManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RemoteWipe {
 
 	/** @var IProvider */
 	private $tokenProvider;
 
-	/** @var IActivityManager */
-	private $activityManager;
-
-	/** @var INotificationManager */
-	private $notificationManager;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	/** @var ILogger */
 	private $logger;
 
 	public function __construct(IProvider $tokenProvider,
-								IActivityManager $activityManager,
-								INotificationManager $notificationManager,
-								ITimeFactory $timeFactory,
+								IEventDispatcher $eventDispatcher,
 								ILogger $logger) {
 		$this->tokenProvider = $tokenProvider;
-		$this->activityManager = $activityManager;
-		$this->notificationManager = $notificationManager;
-		$this->timeFactory = $timeFactory;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
 	}
 
@@ -83,8 +78,8 @@ class RemoteWipe {
 		$dbToken = $e->getToken();
 
 		$this->logger->info("user " . $dbToken->getUID() . " started a remote wipe");
-		$this->sendNotification('remote_wipe_start', $e->getToken());
-		$this->publishActivity('remote_wipe_start', $e->getToken());
+
+		$this->eventDispatcher->dispatch(RemoteWipeStarted::class, new RemoteWipeStarted($dbToken));
 
 		return true;
 	}
@@ -111,39 +106,9 @@ class RemoteWipe {
 		$this->tokenProvider->invalidateToken($token);
 
 		$this->logger->info("user " . $dbToken->getUID() . " finished a remote wipe");
-		$this->sendNotification('remote_wipe_finish', $e->getToken());
-		$this->publishActivity('remote_wipe_finish', $e->getToken());
+		$this->eventDispatcher->dispatch(RemoteWipeFinished::class, new RemoteWipeFinished($dbToken));
 
 		return true;
-	}
-
-	private function publishActivity(string $event, IToken $token): void {
-		$activity = $this->activityManager->generateEvent();
-		$activity->setApp('core')
-			->setType('security')
-			->setAuthor($token->getUID())
-			->setAffectedUser($token->getUID())
-			->setSubject($event, [
-				'name' => $token->getName(),
-			]);
-		try {
-			$this->activityManager->publish($activity);
-		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity', ['app' => 'core']);
-			$this->logger->logException($e, ['app' => 'core']);
-		}
-	}
-
-	private function sendNotification(string $event, IToken $token): void {
-		$notification = $this->notificationManager->createNotification();
-		$notification->setApp('auth')
-			->setUser($token->getUID())
-			->setDateTime($this->timeFactory->getDateTime())
-			->setObject('token', $token->getId())
-			->setSubject($event, [
-				'name' => $token->getName(),
-			]);
-		$this->notificationManager->notify($notification);
 	}
 
 }
