@@ -49,6 +49,7 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\User;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\EmptyFileNameException;
@@ -1715,6 +1716,13 @@ class View {
 		// reverse the array so we start with the storage this view is in
 		// which is the most likely to contain the file we're looking for
 		$mounts = array_reverse($mounts);
+
+		// put non shared mounts in front of the shared mount
+		// this prevent unneeded recursion into shares
+		usort($mounts, function(IMountPoint $a, IMountPoint $b) {
+			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
+		});
+
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount\MountPoint $mount
