@@ -95,16 +95,6 @@ class App {
 	}
 
 	/**
-	 * Check if the app is enabled, redirects to home if not
-	 * @param string $app
-	 * @return void
-	 * @since 4.0.0
-	 * @deprecated 9.0.0 ownCloud core will handle disabled apps and redirects to valid URLs
-	*/
-	public static function checkAppEnabled( $app ) {
-	}
-
-	/**
 	 * Get the last version of the app from appinfo/info.xml
 	 * @param string $app
 	 * @return string
