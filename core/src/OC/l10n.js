@@ -12,7 +12,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 import Handlebars from 'handlebars'
 
-import OC from './index'
+import { filePath } from './routing'
 
 /**
  * L10N namespace with localization functions.
@@ -42,7 +42,7 @@ const L10n = {
 	 */
 	load: function(appName, callback) {
 		// already available ?
-		if (this._bundles[appName] || OC.getLocale() === 'en') {
+		if (this._bundles[appName] || getLocale() === 'en') {
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
 			promise.then(callback);
@@ -51,7 +51,7 @@ const L10n = {
 		}
 
 		var self = this;
-		var url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json');
+		var url = filePath(appName, 'l10n', getLocale() + '.json');
 
 		// load JSON translation bundle per AJAX
 		return $.get(url)
@@ -173,7 +173,7 @@ const L10n = {
 	 * @private
 	 */
 	_getPlural: function(number) {
-		var language = OC.getLanguage();
+		var language = getLanguage();
 		if ('pt_BR' === language) {
 			// temporary set a locale for brazilian
 			language = 'xbr';
