@@ -31,6 +31,7 @@ use OC\Authentication\TwoFactorAuth\Manager as TwoFactorManager;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OC\Settings\Personal\Security;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\ISession;
 use OCP\IUser;
@@ -59,6 +60,9 @@ class SecurityTest extends TestCase {
 	/** @var ISession|MockObject */
 	private $session;
 
+	/** @var IConfig|MockObject */
+	private $config;
+
 	/** @var IInitialStateService|MockObject */
 	private $initialStateService;
 
@@ -76,6 +80,7 @@ class SecurityTest extends TestCase {
 		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
 		$this->providerLoader = $this->createMock(ProviderLoader::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->uid = 'test123';
@@ -87,6 +92,7 @@ class SecurityTest extends TestCase {
 			$this->providerLoader,
 			$this->userSession,
 			$this->session,
+			$this->config,
 			$this->initialStateService,
 			$this->uid
 		);
@@ -152,6 +158,15 @@ class SecurityTest extends TestCase {
 			->method('getProviders')
 			->with($user)
 			->willReturn([]);
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->uid,
+				'accessibility',
+				'theme',
+				false
+			)
+			->willReturn(false);
 
 		$form = $this->section->getForm();
 
@@ -160,6 +175,7 @@ class SecurityTest extends TestCase {
 			'twoFactorProviderData' => [
 				'providers' => [],
 			],
+			'themedark' => false,
 		]);
 		$this->assertEquals($expected, $form);
 	}
