@@ -27,6 +27,7 @@
     "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
     "Server version %s or higher is required." : "Se necesita la versión %s o superior del servidor.",
     "Server version %s or lower is required." : "Se necesita la versión %s o inferior del servidor.  ",
+    "Logged in user must be an admin or sub admin" : "El usuario activo debe ser un administrador o subadministrador",
     "Logged in user must be an admin" : "El usuario registrado debe ser un administrador",
     "Remote wipe started" : "Barrido remoto comenzado.",
     "A remote wipe was started on device %s" : "Se ha iniciado un barrido remoto en el dispositivo %s.",

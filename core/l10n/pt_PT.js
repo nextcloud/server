@@ -124,7 +124,7 @@ OC.L10N.register(
     "Unable to toggle this option" : "Impossível comutar esta opção",
     "Resharing is not allowed" : "Não é permitido voltar a partilhar",
     "Link" : "Hiperligação",
-    "Hide download" : "Esconder descarregar",
+    "Hide download" : "Ocultar transferência",
     "Password protection enforced" : "Imposta protecção por palavra-passe",
     "Password protect" : "Proteger com senha",
     "Allow editing" : "Permitir edição",

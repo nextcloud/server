@@ -121,6 +121,7 @@ OC.L10N.register(
     "Developer documentation" : "Documentação de Programador",
     "No apps found for your version" : "Nenhuma aplicação encontrada para a sua versão",
     "Enable all" : "Ativar todas",
+    "Download and enable" : "Transferir e ativar",
     "Enable" : "Ativar",
     "The app will be downloaded from the app store" : "A aplicação será transferida da loja de aplicações",
     "New password" : "Nova palavra-passe",
