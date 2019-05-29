@@ -622,23 +622,8 @@
 							}
 							previousUuid = grouped[i].uuid;
 						}
-						var moreResultsAvailable =
-							(
-								OC.config['sharing.maxAutocompleteResults'] > 0
-								&& Math.min(perPage, OC.config['sharing.maxAutocompleteResults'])
-								<= Math.max(
-									users.length + exactUsers.length,
-									groups.length + exactGroups.length,
-									remoteGroups.length + exactRemoteGroups.length,
-									remotes.length + exactRemotes.length,
-									emails.length + exactEmails.length,
-									circles.length + exactCircles.length,
-									rooms.length + exactRooms.length,
-									lookup.length
-								)
-							);
 
-						deferred.resolve(result, exactMatches, moreResultsAvailable);
+						deferred.resolve(result, exactMatches, false);
 					} else {
 						deferred.reject(result.ocs.meta.message);
 					}
