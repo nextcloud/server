@@ -238,6 +238,9 @@ class IconsCacher {
 		}
 	}
 
+	/**
+	 * Add the icons cache css into the header
+	 */
 	public function injectCss() {
 		$mtime = $this->timeFactory->getTime();
 		$file = $this->getCachedList();
