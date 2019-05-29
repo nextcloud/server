@@ -374,7 +374,6 @@ return array(
     'OCP\\Security\\ICrypto' => $baseDir . '/lib/public/Security/ICrypto.php',
     'OCP\\Security\\IHasher' => $baseDir . '/lib/public/Security/IHasher.php',
     'OCP\\Security\\ISecureRandom' => $baseDir . '/lib/public/Security/ISecureRandom.php',
-    'OCP\\Security\\StringUtils' => $baseDir . '/lib/public/Security/StringUtils.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
     'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
