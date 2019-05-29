@@ -29,6 +29,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -60,6 +61,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 	protected $groupManager;
 	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
 	protected $dispatcher;
+	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	protected $db;
 
 	/** @var ISecureRandom */
 	private $random;
@@ -97,10 +100,10 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(ILogger::class);
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher);
+		$this->backend = new CalDavBackend($this->db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher);
 
 		$this->cleanUpBackend();
 	}

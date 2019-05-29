@@ -445,7 +445,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $this->userDisplayNames[$uid];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -1768,7 +1768,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt->execute([ $calendarId ]);
 		$currentToken = $stmt->fetchColumn(0);
 
-		if (is_null($currentToken)) {
+		if ($currentToken === false) {
 			return null;
 		}
 
@@ -1780,6 +1780,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		];
 
 		if ($syncToken) {
+			// Did the sync token expire?
+			$expireCheckQuery = $this->db->getQueryBuilder();
+			$syncTokenId = $expireCheckQuery->select(['id'])
+				->from('calendarchanges')
+				->where($expireCheckQuery->expr()->eq('synctoken', $expireCheckQuery->createNamedParameter($syncToken)))
+				->execute()
+				->fetchColumn(0);
+
+			if ($syncTokenId === false) {
+				return null;
+			}
 
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*calendarchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `calendarid` = ? AND `calendartype` = ? ORDER BY `synctoken`";
 			if ($limit>0) {

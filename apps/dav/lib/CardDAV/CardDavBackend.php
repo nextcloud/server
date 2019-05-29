@@ -801,7 +801,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$stmt->execute([ $addressBookId ]);
 		$currentToken = $stmt->fetchColumn(0);
 
-		if (is_null($currentToken)) return null;
+		if ($currentToken === false) {
+			return null;
+		}
 
 		$result = [
 			'syncToken' => $currentToken,
@@ -811,6 +813,17 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		];
 
 		if ($syncToken) {
+			// Did the sync token expire?
+			$expireCheckQuery = $this->db->getQueryBuilder();
+			$syncTokenId = $expireCheckQuery->select(['id'])
+				->from('addressbookchanges')
+				->where($expireCheckQuery->expr()->eq('synctoken', $expireCheckQuery->createNamedParameter($syncToken)))
+				->execute()
+				->fetchColumn(0);
+
+			if ($syncTokenId === false) {
+				return null;
+			}
 
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
 			if ($limit>0) {

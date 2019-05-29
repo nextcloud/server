@@ -496,6 +496,14 @@ EOD;
 		// look for changes
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
 		$this->assertEquals($event, $changes['added'][0]);
+
+		$query = $this->db->getQueryBuilder();
+		$query->delete('calendarchanges')
+			->where($query->expr()->eq('synctoken', $query->createNamedParameter($syncToken)))
+			->execute();
+
+		$changes2 = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
+		$this->assertNull($changes2);
 	}
 
 	public function testPublications() {

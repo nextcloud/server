@@ -395,7 +395,7 @@ class CardDavBackendTest extends TestCase {
 		// create a card
 		$uri0 = $this->getUniqueID('card');
 		$this->backend->createCard($bookId, $uri0, $this->vcardTest0);
-		
+
 		// create another card with same uid
 		$uri1 = $this->getUniqueID('card');
 		$this->expectException(BadRequest::class);
@@ -481,6 +481,14 @@ class CardDavBackendTest extends TestCase {
 		// look for changes
 		$changes = $this->backend->getChangesForAddressBook($bookId, $syncToken, 1);
 		$this->assertEquals($uri0, $changes['added'][0]);
+
+		$query = $this->db->getQueryBuilder();
+		$query->delete('addressbookchanges')
+			->where($query->expr()->eq('synctoken', $query->createNamedParameter($syncToken)))
+			->execute();
+
+		$changes2 = $this->backend->getChangesForAddressBook($bookId, $syncToken, 1);
+		$this->assertNull($changes2);
 	}
 
 	public function testSharing() {
