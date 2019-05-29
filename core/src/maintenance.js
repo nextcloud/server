@@ -21,9 +21,9 @@
 
 import Axios from 'nextcloud-axios'
 
-import OC from './OC/index'
+import {getRootPath} from 'OC/routing'
 
-const url = `${OC.getRootPath()}/status.php`
+const url = `${getRootPath()}/status.php`
 
 const check = () => {
 	console.info('checking the Nextcloud maintenance status')

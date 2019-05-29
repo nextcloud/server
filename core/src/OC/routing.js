@@ -21,7 +21,10 @@
 
 import _ from 'underscore'
 
-import OC from './index'
+import config from './config'
+import appswebroots from './appswebroots'
+import webroot from './webroot'
+
 import {coreApps} from './constants'
 
 /**
@@ -91,7 +94,7 @@ export const generateUrl = (url, params, options) => {
 
 	}
 
-	if (OC.config.modRewriteWorking === true) {
+	if (config.modRewriteWorking === true) {
 		return getRootPath() + _build(url, params);
 	}
 
@@ -136,7 +139,7 @@ export const filePath = (app, type, file) => {
 			link += file
 		}
 	} else if (file.substring(file.length - 3) !== 'php' && !isCore) {
-		link = OC.appswebroots[app];
+		link = appswebroots[app];
 		if (type) {
 			link += '/' + type + '/'
 		}
@@ -174,4 +177,4 @@ export const filePath = (app, type, file) => {
  *
  * @since 8.2
  */
-export const getRootPath = () => OC.webroot
+export const getRootPath = () => webroot
