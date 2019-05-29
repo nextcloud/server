@@ -1,9 +1,10 @@
 { "translations": {
     "Viewer" : "Visualizador",
-    "Simple file viewer with slideshow for media" : "Um vizualidador de ficheiros com a capacidade de mostrar ficheiros de media em formato diaporama",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mostra as suas fotos e videos mais recentes como se estivesse no cinema, mostra um excerto da sua mais recente história diretamente da sua area nextcloud, escolhe o melhor GIF da sua coleção graças à pré-visualização dos seus ficheiros favoritos e muito mais!",
-    "Your browser does not support the video tag." : "O seu navegador não suporta o marcador no vídeo.",
-    "Share" : "Partilha",
-    "View" : "Visualização"
+    "Simple file viewer with slideshow for media" : "Um visualizador de ficheiros com diaporamas para multimédia",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mostra as suas fotografias e os vídeos das suas últimas férias como nos cinemas, mostra um excerto do seu romance mais recente diretamente do seu nextcloud, escolhe o melhor GIF da sua coleção devido à pré-visualização direta dos seus ficheiros favoritos e muito mais!",
+    "Error loading {name}" : "Erro ao carregar {name}",
+    "Your browser does not support the video tag." : "O seu navegador não suporta a etiqueta de vídeo.",
+    "Share" : "Partilhar",
+    "View" : "Ver"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
