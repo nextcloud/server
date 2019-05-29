@@ -235,10 +235,10 @@ class Checker {
 		$signature = $privateKey->sign(json_encode($hashes));
 
 		return [
-			'hashes' => $hashes,
-			'signature' => base64_encode($signature),
-			'certificate' => $certificate->saveX509($certificate->currentCert),
-		];
+				'hashes' => $hashes,
+				'signature' => base64_encode($signature),
+				'certificate' => $certificate->saveX509($certificate->currentCert),
+			];
 	}
 
 	/**
@@ -259,8 +259,8 @@ class Checker {
 			$iterator = $this->getFolderIterator($path);
 			$hashes = $this->generateHashes($iterator, $path);
 			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
-			$this->fileAccessHelper->file_put_contents(
-				$appInfoDir . '/signature.json',
+				$this->fileAccessHelper->file_put_contents(
+					$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e){
@@ -342,7 +342,7 @@ class Checker {
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
-				sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
+					sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
 			);
 		}
 
@@ -499,16 +499,16 @@ class Checker {
 				$path = $this->appLocator->getAppPath($appId);
 			}
 			$result = $this->verify(
-				$path . '/appinfo/signature.json',
-				$path,
-				$appId
+					$path . '/appinfo/signature.json',
+					$path,
+					$appId
 			);
 		} catch (\Exception $e) {
 			$result = [
-				'EXCEPTION' => [
-					'class' => \get_class($e),
-					'message' => $e->getMessage(),
-				],
+					'EXCEPTION' => [
+							'class' => \get_class($e),
+							'message' => $e->getMessage(),
+					],
 			];
 		}
 		$this->storeResults($appId, $result);
@@ -549,16 +549,16 @@ class Checker {
 	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
-				$this->environmentHelper->getServerRoot() . '/core/signature.json',
-				$this->environmentHelper->getServerRoot(),
-				'core'
+					$this->environmentHelper->getServerRoot() . '/core/signature.json',
+					$this->environmentHelper->getServerRoot(),
+					'core'
 			);
 		} catch (\Exception $e) {
 			$result = [
-				'EXCEPTION' => [
-					'class' => \get_class($e),
-					'message' => $e->getMessage(),
-				],
+					'EXCEPTION' => [
+							'class' => \get_class($e),
+							'message' => $e->getMessage(),
+					],
 			];
 		}
 		$this->storeResults('core', $result);
