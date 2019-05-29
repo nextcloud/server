@@ -25,7 +25,6 @@
 namespace OCA\FederatedFileSharing\Settings;
 
 
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IUserSession;
@@ -33,8 +32,6 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
 	/** @var IUserSession */
 	private $userSession;
 	/** @var IL10N */
@@ -43,12 +40,10 @@ class Personal implements ISettings {
 	private $defaults;
 
 	public function __construct(
-		FederatedShareProvider $federatedShareProvider, #
 		IUserSession $userSession,
 		IL10N $l,
 		\OC_Defaults $defaults
 	) {
-		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;
 		$this->l = $l;
 		$this->defaults = $defaults;
@@ -63,7 +58,6 @@ class Personal implements ISettings {
 		$url = 'https://nextcloud.com/sharing#' . $cloudID;
 
 		$parameters = [
-			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
 			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
 			'logoPath' => $this->defaults->getLogo(),

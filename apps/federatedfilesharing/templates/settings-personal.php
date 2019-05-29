@@ -5,7 +5,6 @@ script('federatedfilesharing', 'settings-personal');
 style('federatedfilesharing', 'settings-personal');
 ?>
 
-<?php if ($_['outgoingServer2serverShareEnabled']): ?>
 	<div id="fileSharingSettings" class="section">
 		<h2 data-anchor-name="federated-cloud"><?php p($l->t('Federated Cloud')); ?></h2>
 		<a target="_blank" rel="noreferrer noopener" class="icon-info svg"
@@ -58,4 +57,4 @@ style('federatedfilesharing', 'settings-personal');
 		</div>
 
 	</div>
-<?php endif; ?>
+
