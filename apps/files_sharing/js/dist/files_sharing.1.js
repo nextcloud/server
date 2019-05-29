@@ -12,13 +12,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return vue__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
-/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
-/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
-/* harmony import */ var _views_CollaborationView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/CollaborationView */ "./apps/files_sharing/src/views/CollaborationView.vue");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "View", function() { return _views_CollaborationView__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! nextcloud-vue */ "./node_modules/nextcloud-vue/dist/ncvuecomponents.js");
+/* harmony import */ var nextcloud_vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(nextcloud_vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
+/* harmony import */ var _views_CollaborationView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/CollaborationView */ "./apps/files_sharing/src/views/CollaborationView.vue");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "View", function() { return _views_CollaborationView__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
 /*
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
@@ -45,10 +46,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.t = t;
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('PopoverMenu', nextcloud_vue__WEBPACK_IMPORTED_MODULE_1__["PopoverMenu"]);
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].directive('ClickOutside', vue_click_outside__WEBPACK_IMPORTED_MODULE_2___default.a);
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].directive('Tooltip', v_tooltip__WEBPACK_IMPORTED_MODULE_3__["VTooltip"]);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('PopoverMenu', nextcloud_vue__WEBPACK_IMPORTED_MODULE_2__["PopoverMenu"]);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].directive('ClickOutside', vue_click_outside__WEBPACK_IMPORTED_MODULE_3___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].directive('Tooltip', v_tooltip__WEBPACK_IMPORTED_MODULE_4__["VTooltip"]);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 
@@ -100,8 +103,8 @@ component.options.__file = "apps/files_sharing/src/views/CollaborationView.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CollaborationView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CollaborationView.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CollaborationView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_CollaborationView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib!../../../../node_modules/vue-loader/lib??vue-loader-options!./CollaborationView.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js?!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_CollaborationView_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -123,16 +126,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js?!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./apps/files_sharing/src/views/CollaborationView.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'nextcloud-vue-collections'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var nextcloud_vue_collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nextcloud-vue-collections */ "./node_modules/nextcloud-vue-collections/dist/nextcloud-vue-collections.js");
 //
 //
 //
@@ -179,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    CollectionList: !(function webpackMissingModule() { var e = new Error("Cannot find module 'nextcloud-vue-collections'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    CollectionList: nextcloud_vue_collections__WEBPACK_IMPORTED_MODULE_0__["CollectionList"]
   }
 });
 

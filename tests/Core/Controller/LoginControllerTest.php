@@ -24,18 +24,15 @@ namespace Tests\Core\Controller;
 use OC\Authentication\Login\Chain as LoginChain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
@@ -83,6 +80,9 @@ class LoginControllerTest extends TestCase {
 	/** @var LoginChain|MockObject */
 	private $chain;
 
+	/** @var IInitialStateService|MockObject */
+	private $initialStateService;
+
 	public function setUp() {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -96,6 +96,7 @@ class LoginControllerTest extends TestCase {
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->chain = $this->createMock(LoginChain::class);
+		$this->initialStateService = $this->createMock(IInitialStateService::class);
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
@@ -116,7 +117,8 @@ class LoginControllerTest extends TestCase {
 			$this->logger,
 			$this->defaults,
 			$this->throttler,
-			$this->chain
+			$this->chain,
+			$this->initialStateService
 		);
 	}
 
@@ -201,24 +203,32 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
+		$this->initialStateService->expects($this->at(0))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginMessages',
+				[
+					'MessageArray1',
+					'MessageArray2',
+				]
+			);
+		$this->initialStateService->expects($this->at(1))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginErrors',
+				[
+					'ErrorArray1',
+					'ErrorArray2',
+				]
+			);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
 			'login',
 			[
-				'ErrorArray1' => true,
-				'ErrorArray2' => true,
-				'messages' => [
-					'MessageArray1',
-					'MessageArray2',
-				],
-				'loginName' => '',
-				'user_autofocus' => true,
-				'canResetPassword' => true,
 				'alt_login' => [],
-				'resetPasswordLink' => null,
-				'throttle_delay' => 1000,
-				'login_form_autocomplete' => 'off',
 			],
 			'guest'
 		);
@@ -230,20 +240,19 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
+		$this->initialStateService->expects($this->at(2))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginRedirectUrl',
+				'login/flow'
+			);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
 			'login',
 			[
-				'messages' => [],
-				'redirect_url' => 'login/flow',
-				'loginName' => '',
-				'user_autofocus' => true,
-				'canResetPassword' => true,
 				'alt_login' => [],
-				'resetPasswordLink' => null,
-				'throttle_delay' => 1000,
-				'login_form_autocomplete' => 'off',
 			],
 			'guest'
 		);
@@ -292,19 +301,26 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
+		$this->initialStateService->expects($this->at(0))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginUsername',
+				'LdapUser'
+			);
+		$this->initialStateService->expects($this->at(4))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginCanResetPassword',
+				$expectedResult
+			);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
 			'login',
 			[
-				'messages' => [],
-				'loginName' => 'LdapUser',
-				'user_autofocus' => false,
-				'canResetPassword' => $expectedResult,
 				'alt_login' => [],
-				'resetPasswordLink' => false,
-				'throttle_delay' => 1000,
-				'login_form_autocomplete' => 'on',
 			],
 			'guest'
 		);
@@ -332,19 +348,33 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
+		$this->initialStateService->expects($this->at(1))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginAutocomplete',
+				true
+			);
+		$this->initialStateService->expects($this->at(3))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginResetPasswordLink',
+				false
+			);
+		$this->initialStateService->expects($this->at(4))
+			->method('provideInitialState')
+			->with(
+				'core',
+				'loginCanResetPassword',
+				false
+			);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
 			'login',
 			[
-				'messages' => [],
-				'loginName' => '0',
-				'user_autofocus' => false,
-				'canResetPassword' => false,
 				'alt_login' => [],
-				'resetPasswordLink' => false,
-				'throttle_delay' => 1000,
-				'login_form_autocomplete' => 'on',
 			],
 			'guest'
 		);
