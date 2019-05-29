@@ -24,6 +24,7 @@
 namespace OCA\FederatedFileSharing\Settings;
 
 
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
@@ -33,10 +34,13 @@ class PersonalSection implements IIconSection {
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l;
+	/** @var FederatedShareProvider */
+	private $federatedShareProvider;
 
-	public function __construct(IURLGenerator $urlGenerator, IL10N $l) {
+	public function __construct(IURLGenerator $urlGenerator, IL10N $l, FederatedShareProvider $federatedShareProvider) {
 		$this->urlGenerator = $urlGenerator;
 		$this->l = $l;
+		$this->federatedShareProvider = $federatedShareProvider;
 	}
 
 	/**
@@ -58,7 +62,14 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getID() {
-		return 'sharing';
+		if (
+			$this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
+			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()
+		) {
+			return 'sharing';
+		}
+
+		return '';
 	}
 
 	/**
