@@ -30,7 +30,7 @@ class GenerateMimetypeFileBuilder
 	 * @param $aliases
 	 * @return string
 	 */
-	public function generateFile($aliases): string {
+	public function generateFile(array $aliases): string {
 		// Remove comments
 		$keys = array_filter(array_keys($aliases), function($k) {
 			return $k[0] === '_';
