@@ -85,6 +85,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Não é possível alterar as permissões para as hiperligações de partilha pública",
     "Cannot increase permissions" : "Não é possível incrementar as permissões",
     "shared by %s" : "partilhado por %s",
+    "Download all files" : "Transferir todos os ficheiros",
     "Direct link" : "Hiperligação direta",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Share API is disabled" : "A partilha de API está desativada",
