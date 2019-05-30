@@ -35,6 +35,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         ),
     );
 
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/../../..' . '/lib/private/legacy',
+    );
+
     public static $classMap = array (
         'OCP\\API' => __DIR__ . '/../../..' . '/lib/public/API.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
@@ -1223,6 +1227,22 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\User\\NoUserException' => __DIR__ . '/../../..' . '/lib/private/User/NoUserException.php',
         'OC\\User\\Session' => __DIR__ . '/../../..' . '/lib/private/User/Session.php',
         'OC\\User\\User' => __DIR__ . '/../../..' . '/lib/private/User/User.php',
+        'OC_API' => __DIR__ . '/../../..' . '/lib/private/legacy/api.php',
+        'OC_App' => __DIR__ . '/../../..' . '/lib/private/legacy/app.php',
+        'OC_DB' => __DIR__ . '/../../..' . '/lib/private/legacy/db.php',
+        'OC_DB_StatementWrapper' => __DIR__ . '/../../..' . '/lib/private/legacy/db/statementwrapper.php',
+        'OC_Defaults' => __DIR__ . '/../../..' . '/lib/private/legacy/defaults.php',
+        'OC_EventSource' => __DIR__ . '/../../..' . '/lib/private/legacy/eventsource.php',
+        'OC_FileChunking' => __DIR__ . '/../../..' . '/lib/private/legacy/filechunking.php',
+        'OC_Files' => __DIR__ . '/../../..' . '/lib/private/legacy/files.php',
+        'OC_Helper' => __DIR__ . '/../../..' . '/lib/private/legacy/helper.php',
+        'OC_Hook' => __DIR__ . '/../../..' . '/lib/private/legacy/hook.php',
+        'OC_Image' => __DIR__ . '/../../..' . '/lib/private/legacy/image.php',
+        'OC_JSON' => __DIR__ . '/../../..' . '/lib/private/legacy/json.php',
+        'OC_Response' => __DIR__ . '/../../..' . '/lib/private/legacy/response.php',
+        'OC_Template' => __DIR__ . '/../../..' . '/lib/private/legacy/template.php',
+        'OC_User' => __DIR__ . '/../../..' . '/lib/private/legacy/user.php',
+        'OC_Util' => __DIR__ . '/../../..' . '/lib/private/legacy/util.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -1230,6 +1250,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$fallbackDirsPsr0;
             $loader->classMap = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$classMap;
 
         }, null, ClassLoader::class);

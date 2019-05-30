@@ -4,6 +4,9 @@
         "optimize-autoloader": true
     },
     "autoload" : {
+        "psr-0": {
+            "": "lib/private/legacy"
+        },
         "psr-4": {
             "OC\\": "lib/private",
             "OC\\Core\\": "core/",
