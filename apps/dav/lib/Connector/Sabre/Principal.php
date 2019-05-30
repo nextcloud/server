@@ -91,7 +91,7 @@ class Principal implements BackendInterface {
 								IUserSession $userSession,
 								IConfig $config,
 								IAppManager $appManager,
-								$principalPrefix = 'principals/users/') {
+								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
