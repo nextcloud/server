@@ -195,7 +195,7 @@ thead {
 
 // hide the download entry on the menu
 // on public share when NOT on mobile
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: $mobile_breakpoint + 1) {
 	#body-public {
 		.header-right {
 			#header-actions-menu {

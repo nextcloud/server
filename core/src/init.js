@@ -30,6 +30,9 @@ import {setUp as setUpMainMenu} from './components/MainMenu'
 import {setUp as setUpUserMenu} from './components/UserMenu'
 import PasswordConfirmation from './OC/password-confirmation'
 
+// keep in sync with core/css/variables.scss
+const breakpoint_mobile_width = 1024;
+
 const resizeMenu = () => {
 	const appList = $('#appmenu li')
 	const rightHeaderWidth = $('.header-right').outerWidth()
@@ -37,7 +40,7 @@ const resizeMenu = () => {
 	const usePercentualAppMenuLimit = 0.33
 	const minAppsDesktop = 8
 	let availableWidth = headerWidth - $('#nextcloud').outerWidth() - (rightHeaderWidth > 210 ? rightHeaderWidth : 210)
-	const isMobile = $(window).width() < 768
+	const isMobile = $(window).width() < breakpoint_mobile_width
 	if (!isMobile) {
 		availableWidth = availableWidth * usePercentualAppMenuLimit
 	}
@@ -279,7 +282,7 @@ export const initCore = () => {
 		}
 
 		const toggleSnapperOnSize = () => {
-			if ($(window).width() > 768) {
+			if ($(window).width() > breakpoint_mobile_width) {
 				snapper.close()
 				snapper.disable()
 
