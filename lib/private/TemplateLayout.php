@@ -128,6 +128,14 @@ class TemplateLayout extends \OC_Template {
 			$userDisplayName = \OC_User::getDisplayName();
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
+		} else if ($renderAs === 'guestStandAlone') {
+			parent::__construct('core', 'layout.guest', '', true, false);
+			\OC_Util::addStyle('guest');
+			$this->assign('bodyid', 'body-login');
+
+			$userDisplayName = \OC_User::getDisplayName();
+			$this->assign('user_displayname', $userDisplayName);
+			$this->assign('user_uid', \OC_User::getUser());
 		} else if ($renderAs === 'public') {
 			parent::__construct('core', 'layout.public');
 			$this->assign( 'appid', $appId );

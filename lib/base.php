@@ -291,7 +291,7 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			$template = new OC_Template('', 'update.user', 'guest');
+			$template = new OC_Template('', 'update.user', 'guestStandAlone', true, false);
 			OC_Util::addScript('dist/maintenance');
 			OC_Util::addStyle('core', 'guest');
 			$template->printPage();

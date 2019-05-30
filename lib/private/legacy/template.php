@@ -71,9 +71,9 @@ class OC_Template extends \OC\Template\Base {
 	 *                         "admin".
 	 * @param bool $registerCall = true
 	 */
-	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
+	public function __construct( $app, $name, $renderAs = "", $registerCall = true, $injectDefaults = true) {
 		// Read the selected theme from the config file
-		self::initTemplateEngine($renderAs);
+		self::initTemplateEngine($renderAs, $injectDefaults);
 
 		$theme = OC_Util::getTheme();
 
@@ -97,8 +97,8 @@ class OC_Template extends \OC\Template\Base {
 	/**
 	 * @param string $renderAs
 	 */
-	public static function initTemplateEngine($renderAs) {
-		if (self::$initTemplateEngineFirstRun){
+	public static function initTemplateEngine($rendoerAs, $injectDefaults = true) {
+		if ($injectDefaults && self::$initTemplateEngineFirstRun){
 
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
