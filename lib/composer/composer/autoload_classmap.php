@@ -665,6 +665,7 @@ return array(
     'OC\\Core\\Command\\Log\\Manage' => $baseDir . '/core/Command/Log/Manage.php',
     'OC\\Core\\Command\\Maintenance\\DataFingerprint' => $baseDir . '/core/Command/Maintenance/DataFingerprint.php',
     'OC\\Core\\Command\\Maintenance\\Install' => $baseDir . '/core/Command/Maintenance/Install.php',
+    'OC\\Core\\Command\\Maintenance\\Mimetype\\GenerateMimetypeFileBuilder' => $baseDir . '/core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php',
     'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateDB' => $baseDir . '/core/Command/Maintenance/Mimetype/UpdateDB.php',
     'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateJS' => $baseDir . '/core/Command/Maintenance/Mimetype/UpdateJS.php',
     'OC\\Core\\Command\\Maintenance\\Mode' => $baseDir . '/core/Command/Maintenance/Mode.php',

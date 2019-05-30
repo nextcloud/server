@@ -695,6 +695,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Log\\Manage' => __DIR__ . '/../../..' . '/core/Command/Log/Manage.php',
         'OC\\Core\\Command\\Maintenance\\DataFingerprint' => __DIR__ . '/../../..' . '/core/Command/Maintenance/DataFingerprint.php',
         'OC\\Core\\Command\\Maintenance\\Install' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Install.php',
+        'OC\\Core\\Command\\Maintenance\\Mimetype\\GenerateMimetypeFileBuilder' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php',
         'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateDB' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mimetype/UpdateDB.php',
         'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateJS' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mimetype/UpdateJS.php',
         'OC\\Core\\Command\\Maintenance\\Mode' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mode.php',
