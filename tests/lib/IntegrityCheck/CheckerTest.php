@@ -32,6 +32,7 @@ use OC\IntegrityCheck\Helpers\AppLocator;
 use OCP\IConfig;
 use OCP\ICacheFactory;
 use OCP\App\IAppManager;
+use OCP\Files\IMimeTypeDetector;
 
 class CheckerTest extends TestCase {
 	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */
@@ -48,6 +49,8 @@ class CheckerTest extends TestCase {
 	private $cacheFactory;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
+	/** @var IMimeTypeDetector|\PHPUnit_Framework_MockObject_MockObject */
+	private $mimeTypeDetector;
 
 	public function setUp() {
 		parent::setUp();
@@ -57,6 +60,7 @@ class CheckerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 
 		$this->config->method('getAppValue')
 			->will($this->returnArgument(2));
@@ -74,7 +78,8 @@ class CheckerTest extends TestCase {
 			$this->config,
 			$this->cacheFactory,
 			$this->appManager,
-			\OC::$server->getTempManager()
+			\OC::$server->getTempManager(),
+			$this->mimeTypeDetector
 		);
 	}
 
@@ -1014,7 +1019,8 @@ class CheckerTest extends TestCase {
 				$this->config,
 				$this->cacheFactory,
 				$this->appManager,
-				\OC::$server->getTempManager()
+				\OC::$server->getTempManager(),
+				$this->mimeTypeDetector,
 			])
 			->setMethods([
 				'verifyCoreSignature',
