@@ -80,12 +80,12 @@ class PluginManagerTest extends TestCase {
 
 		$server->method('query')
 			->will($this->returnValueMap([
-				['\OCA\DAV\ADavApp\PluginOne', 'dummyplugin1'],
-				['\OCA\DAV\ADavApp\PluginTwo', 'dummyplugin2'],
-				['\OCA\DAV\ADavApp\CollectionOne', 'dummycollection1'],
-				['\OCA\DAV\ADavApp\CollectionTwo', 'dummycollection2'],
-				['\OCA\DAV\ADavApp2\PluginOne', 'dummy2plugin1'],
-				['\OCA\DAV\ADavApp2\CollectionOne', 'dummy2collection1'],
+				['\OCA\DAV\ADavApp\PluginOne', true, 'dummyplugin1'],
+				['\OCA\DAV\ADavApp\PluginTwo', true, 'dummyplugin2'],
+				['\OCA\DAV\ADavApp\CollectionOne', true, 'dummycollection1'],
+				['\OCA\DAV\ADavApp\CollectionTwo', true, 'dummycollection2'],
+				['\OCA\DAV\ADavApp2\PluginOne', true, 'dummy2plugin1'],
+				['\OCA\DAV\ADavApp2\CollectionOne', true, 'dummy2collection1'],
 			]));
 
 		$expectedPlugins = [

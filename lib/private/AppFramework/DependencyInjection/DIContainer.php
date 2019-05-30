@@ -374,17 +374,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	/**
-	 * @param string $name
-	 * @return mixed
-	 * @throws QueryException if the query could not be resolved
-	 */
-	public function query($name) {
+	public function query(string $name, bool $autoload = true) {
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
 			try {
-				return $this->getServer()->query($name);
+				return $this->getServer()->query($name, $autoload);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
