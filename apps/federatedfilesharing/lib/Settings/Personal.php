@@ -63,7 +63,6 @@ class Personal implements ISettings {
 		$url = 'https://nextcloud.com/sharing#' . $cloudID;
 
 		$parameters = [
-			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
 			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
 			'logoPath' => $this->defaults->getLogo(),
@@ -80,10 +79,11 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
-		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
-			return null;
+		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
+			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
+			return 'sharing';
 		}
-		return 'sharing';
+		return null;
 	}
 
 	/**
