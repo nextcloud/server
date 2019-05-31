@@ -45,7 +45,7 @@
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.11.3",
     "nextcloud-vue-collections": "^0.5.2",
-    "query-string": "^5.1.1",
+    "query-string": "^6.5.0",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "underscore": "^1.9.1",
