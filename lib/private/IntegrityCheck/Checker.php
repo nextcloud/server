@@ -200,7 +200,7 @@ class Checker {
 					continue;
 				}
 			}
-			if($filename === $this->environmentHelper->getServerRoot().'/core/js/mimetypelist.js') {
+			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
 				$oldMimetypeList = new GenerateMimetypeFileBuilder();
 				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
 				if($newFile === file_get_contents($filename)) {
