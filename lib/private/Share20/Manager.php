@@ -1430,6 +1430,9 @@ class Manager implements IManager {
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
 			$nodes = $userFolder->getById($path->getId());
 			$path = array_shift($nodes);
+			if ($path->getOwner() === null) {
+				return [];
+			}
 			$owner = $path->getOwner()->getUID();
 		}
 
