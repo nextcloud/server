@@ -13,6 +13,12 @@ import $ from 'jquery'
 import Handlebars from 'handlebars'
 
 import OC from './index'
+import {
+	getAppTranslations,
+	hasAppTranslations,
+	registerAppTranslations,
+	unregisterAppTranslations
+} from './l10n-registry'
 
 /**
  * L10N namespace with localization functions.
@@ -20,17 +26,6 @@ import OC from './index'
  * @namespace OC.L10n
  */
 const L10n = {
-	/**
-	 * String bundles with app name as key.
-	 * @type {Object.<String,String>}
-	 */
-	_bundles: {},
-
-	/**
-	 * Plural functions, key is app name and value is function.
-	 * @type {Object.<String,Function>}
-	 */
-	_pluralFunctions: {},
 
 	/**
 	 * Load an app's translation bundle if not loaded already.
@@ -42,7 +37,7 @@ const L10n = {
 	 */
 	load: function(appName, callback) {
 		// already available ?
-		if (this._bundles[appName] || OC.getLocale() === 'en') {
+		if (hasAppTranslations(appName) || OC.getLocale() === 'en') {
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
 			promise.then(callback);
@@ -69,20 +64,15 @@ const L10n = {
 	 *
 	 * @param {String} appName name of the app
 	 * @param {Object<String,String>} bundle
-	 * @param {Function|String} [pluralForm] optional plural function or plural string
 	 */
 	register: function(appName, bundle, pluralForm) {
-		var self = this;
-		if (_.isUndefined(this._bundles[appName])) {
-			this._bundles[appName] = bundle || {};
-
-			// generate plural function based on form
-			this._pluralFunctions[appName] = this._getPlural;
-		} else {
-			// Theme overwriting the default language
-			_.extend(self._bundles[appName], bundle);
-		}
+		registerAppTranslations(appName, bundle, this._getPlural)
 	},
+
+	/**
+	 * @private do not use this
+	 */
+	_unregister: unregisterAppTranslations,
 
 	/**
 	 * Translate a string
@@ -121,8 +111,8 @@ const L10n = {
 			);
 		};
 		var translation = text;
-		var bundle = this._bundles[app] || {};
-		var value = bundle[text];
+		var bundle = getAppTranslations(app);
+		var value = bundle.translations[text];
 		if( typeof(value) !== 'undefined' ){
 			translation = value;
 		}
@@ -146,21 +136,20 @@ const L10n = {
 	 * @return {string} Translated string
 	 */
 	translatePlural: function(app, textSingular, textPlural, count, vars, options) {
-		var identifier = '_' + textSingular + '_::_' + textPlural + '_';
-		var bundle = this._bundles[app] || {};
-		var value = bundle[identifier];
+		const identifier = '_' + textSingular + '_::_' + textPlural + '_';
+		const bundle = getAppTranslations(app);
+		const value = bundle.translations[identifier];
 		if( typeof(value) !== 'undefined' ){
 			var translation = value;
 			if ($.isArray(translation)) {
-				var plural = this._pluralFunctions[app](count);
+				var plural = bundle.pluralFunction(count);
 				return this.translate(app, translation[plural], vars, count, options);
 			}
 		}
 
-		if(count === 1) {
+		if (count === 1) {
 			return this.translate(app, textSingular, vars, count, options);
-		}
-		else{
+		} else {
 			return this.translate(app, textPlural, vars, count, options);
 		}
 	},
