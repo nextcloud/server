@@ -25,7 +25,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
 	/** @var string  */
