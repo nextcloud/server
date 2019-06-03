@@ -26,8 +26,9 @@ use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 class LDAPContext implements Context {
-	use BasicStructure;
-	use CommandLine;
+	use AppConfiguration,
+		CommandLine,
+		Sharing; // Pulls in BasicStructure
 
 	protected $configID;
 
@@ -203,5 +204,9 @@ class LDAPContext implements Context {
 	public function disableLDAPConfiguration() {
 		$configKey = $this->configID . 'ldap_configuration_active';
 		$this->invokingTheCommand('config:app:set user_ldap ' . $configKey . ' --value="0"');
+	}
+
+	protected function resetAppConfigs() {
+		// not implemented
 	}
 }
