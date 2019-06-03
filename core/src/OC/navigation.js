@@ -22,10 +22,12 @@
 /**
  * Redirect to the target URL, can also be used for downloads.
  * @param {string} targetURL URL to redirect to
+ * @deprecated 17.0.0 use window.location directly
  */
 export const redirect = targetURL => window.location = targetURL
 
 /**
  * Reloads the current page
+ * @deprecated 17.0.0 use window.location.reload directly
  */
 export const reload = () => window.location.reload()
