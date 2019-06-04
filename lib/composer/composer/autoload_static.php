@@ -389,6 +389,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\PreConditionNotMetException' => __DIR__ . '/../../..' . '/lib/public/PreConditionNotMetException.php',
         'OCP\\Preview\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Preview/IProvider.php',
         'OCP\\Preview\\IProviderV2' => __DIR__ . '/../../..' . '/lib/public/Preview/IProviderV2.php',
+        'OCP\\Preview\\IVersionedPreviewFile' => __DIR__ . '/../../..' . '/lib/public/Preview/IVersionedPreviewFile.php',
         'OCP\\Remote\\Api\\IApiCollection' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/IApiCollection.php',
         'OCP\\Remote\\Api\\IApiFactory' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/IApiFactory.php',
         'OCP\\Remote\\Api\\ICapabilitiesApi' => __DIR__ . '/../../..' . '/lib/public/Remote/Api/ICapabilitiesApi.php',
