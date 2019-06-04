@@ -11,7 +11,7 @@
     "build": "webpack --progress --hide-modules --config webpack.prod.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.1.5",
     "v-tooltip": "^2.0.0-rc.33",
