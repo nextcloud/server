@@ -25,7 +25,7 @@ class MarkDown extends TXT {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/text\/(x-)?markdown/';
 	}
 

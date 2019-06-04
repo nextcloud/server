@@ -26,36 +26,40 @@
  */
 namespace OC\Preview;
 
-class TXT extends Provider {
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\IImage;
+
+class TXT extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/text\/plain/';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file) {
+	public function isAvailable(FileInfo $file): bool {
 		return $file->getSize() > 0;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$content = $fileview->fopen($path, 'r');
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$content = $file->fopen('r');
 
 		if ($content === false) {
-			return false;
+			return null;
 		}
 
 		$content = stream_get_contents($content,3000);
 
 		//don't create previews of empty text files
 		if(trim($content) === '') {
-			return false;
+			return null;
 		}
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
@@ -95,6 +99,6 @@ class TXT extends Provider {
 		$imageObject = new \OC_Image();
 		$imageObject->setResource($image);
 
-		return $imageObject->valid() ? $imageObject : false;
+		return $imageObject->valid() ? $imageObject : null;
 	}
 }
