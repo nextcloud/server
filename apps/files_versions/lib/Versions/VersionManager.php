@@ -98,7 +98,7 @@ class VersionManager implements IVersionManager {
 		return $backend->read($version);
 	}
 
-	public function getVersionFile(IUser $user, FileInfo $sourceFile, int $revision): File {
+	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		return $backend->getVersionFile($user, $sourceFile, $revision);
 	}

@@ -46,10 +46,10 @@ interface IVersion {
 	/**
 	 * Get the id of the revision for the file
 	 *
-	 * @return int
+	 * @return int|string
 	 * @since 15.0.0
 	 */
-	public function getRevisionId(): int;
+	public function getRevisionId();
 
 	/**
 	 * Get the timestamp this version was created
