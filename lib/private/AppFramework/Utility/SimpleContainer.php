@@ -65,7 +65,8 @@ class SimpleContainer extends Container implements IContainer {
 				}
 
 				try {
-					$parameters[] = $this->query($resolveName);
+					$builtIn = $parameter->hasType() && $parameter->getType()->isBuiltin();
+					$parameters[] = $this->query($resolveName, !$builtIn);
 				} catch (QueryException $e) {
 					// Service not found, use the default value when available
 					if ($parameter->isDefaultValueAvailable()) {
@@ -105,23 +106,18 @@ class SimpleContainer extends Container implements IContainer {
 		}
 	}
 
-
-	/**
-	 * @param string $name name of the service to query for
-	 * @return mixed registered service for the given $name
-	 * @throws QueryException if the query could not be resolved
-	 */
-	public function query($name) {
+	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
 		if ($this->offsetExists($name)) {
 			return $this->offsetGet($name);
-		} else {
+		} else if ($autoload) {
 			$object = $this->resolve($name);
 			$this->registerService($name, function () use ($object) {
 				return $object;
 			});
 			return $object;
 		}
+		throw new QueryException('Could not resolve ' . $name . '!');
 	}
 
 	/**

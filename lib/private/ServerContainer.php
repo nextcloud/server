@@ -113,12 +113,7 @@ class ServerContainer extends SimpleContainer {
 		throw new QueryException();
 	}
 
-	/**
-	 * @param string $name name of the service to query for
-	 * @return mixed registered service for the given $name
-	 * @throws QueryException if the query could not be resolved
-	 */
-	public function query($name) {
+	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
 
 		if (isset($this[$name])) {
@@ -147,6 +142,6 @@ class ServerContainer extends SimpleContainer {
 			}
 		}
 
-		return parent::query($name);
+		return parent::query($name, $autoload);
 	}
 }

@@ -192,7 +192,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 								ISecureRandom $random,
 								ILogger $logger,
 								EventDispatcherInterface $dispatcher,
-								$legacyEndpoint = false) {
+								bool $legacyEndpoint = false) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
