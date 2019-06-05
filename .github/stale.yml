@@ -1,0 +1,31 @@
+# We wait 2 months to check
+daysUntilStale: 60
+
+# If no answer after two weeks, we close
+daysUntilClose: 14
+
+# Only issues or pull requests that requires info from the op and are not triaged
+onlyLabels:
+  - "needs info"
+  - "0. Needs triage"
+
+# If security or already triaged, ignore
+exemptLabels:
+  - "1. to develop"
+  - "2. developing"
+  - "3. to review"
+  - "4. to release"
+  - security
+
+# Label to use when marking as stale
+staleLabel: stale
+
+# Comment to post when marking as stale. Set to `false` to disable
+markComment: >
+  This issue has been automatically marked as stale because it has not had
+  recent activity and it seems to be missing some essential informations.
+  It will be closed if no further activity occurs. Thank you
+  for your contributions.
+
+# Limit the number of actions per hour, from 1-30. Default is 30
+limitPerRun: 30
