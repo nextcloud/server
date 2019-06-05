@@ -4,12 +4,11 @@ daysUntilStale: 60
 # If no answer after two weeks, we close
 daysUntilClose: 14
 
-# Only issues or pull requests that requires info from the op and are not triaged
+# Only issues that requires info from the op
 onlyLabels:
   - "needs info"
-  - "0. Needs triage"
 
-# If security or already triaged, ignore
+# Only if issues that are not triaged
 exemptLabels:
   - "1. to develop"
   - "2. developing"
