@@ -2038,7 +2038,7 @@
 			this.breadcrumb.setDirectoryInfo(this.dirInfo);
 
 			if (this.dirInfo.permissions) {
-				this.setDirectoryPermissions(this.dirInfo.permissions);
+				this._updateDirectoryPermissions();
 			}
 
 			result.sort(this._sortComparator);
@@ -2189,11 +2189,8 @@
 			img.src = previewURL;
 		},
 
-		/**
-		 * @deprecated
-		 */
-		setDirectoryPermissions: function(permissions) {
-			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
+		_updateDirectoryPermissions: function() {
+			var isCreatable = (this.dirInfo.permissions & OC.PERMISSION_CREATE) !== 0 && this.$el.find('#free_space').val() !== '0';
 			this.$el.find('#permissions').val(permissions);
 			this.$el.find('.creatable').toggleClass('hidden', !isCreatable);
 			this.$el.find('.notCreatable').toggleClass('hidden', isCreatable);

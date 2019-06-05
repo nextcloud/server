@@ -75,6 +75,7 @@
 				$('#owner').val(response.data.owner);
 				$('#ownerDisplayName').val(response.data.ownerDisplayName);
 				Files.displayStorageWarnings();
+				OCA.Files.App.fileList._updateDirectoryPermissions();
 			}
 			if (response[0] === undefined) {
 				return;
