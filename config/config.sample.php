@@ -55,6 +55,14 @@ $CONFIG = array(
 'passwordsalt' => '',
 
 /**
+  * The adminitsrator email provides a place to personalize a support email to 
+  * display in all messages errors
+  *
+  * 'administrator_email' => 'support@nextcloud.com',
+ */
+'administrator_email' => 'your administrator email',
+
+/**
  * Your list of trusted domains that users can log into. Specifying trusted
  * domains prevents host header poisoning. Do not remove this, as it performs
  * necessary security checks.

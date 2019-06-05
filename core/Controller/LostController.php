@@ -32,8 +32,10 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\HintException;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -47,6 +49,8 @@ use \OCP\IL10N;
 use \OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\ISession;
+use OCP\Util;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -73,6 +77,8 @@ class LostController extends Controller {
 	protected $encryptionManager;
 	/** @var IConfig */
 	protected $config;
+	/** @var ISession */
+	protected $session;
 	/** @var ISecureRandom */
 	protected $secureRandom;
 	/** @var IMailer */
@@ -85,6 +91,9 @@ class LostController extends Controller {
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
+
 
 	/**
 	 * @param string $appName
@@ -94,6 +103,7 @@ class LostController extends Controller {
 	 * @param Defaults $defaults
 	 * @param IL10N $l10n
 	 * @param IConfig $config
+ 	 * @param ISession $session
 	 * @param ISecureRandom $secureRandom
 	 * @param string $defaultMailAddress
 	 * @param IManager $encryptionManager
@@ -108,6 +118,7 @@ class LostController extends Controller {
 								Defaults $defaults,
 								IL10N $l10n,
 								IConfig $config,
+								ISession $session,								
 								ISecureRandom $secureRandom,
 								$defaultMailAddress,
 								IManager $encryptionManager,
@@ -115,7 +126,8 @@ class LostController extends Controller {
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
 								ILogger $logger,
-								Manager $twoFactorManager) {
+								Manager $twoFactorManager,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -125,11 +137,13 @@ class LostController extends Controller {
 		$this->from = $defaultMailAddress;
 		$this->encryptionManager = $encryptionManager;
 		$this->config = $config;
+		$this->session = $session;
 		$this->mailer = $mailer;
 		$this->timeFactory = $timeFactory;
 		$this->crypto = $crypto;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -169,6 +183,95 @@ class LostController extends Controller {
 				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
 			),
 			'guest'
+		);
+	}
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
+	 * @UseSession
+	 *
+	 * @param string $userId
+	 *
+	 * @return TemplateResponse
+	 */
+	public function showPasswordEmailForm($userId) : Http\Response {
+		return $this->showNewPasswordForm($userId);
+	}		
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
+	 * @UseSession
+	 *
+	 * @param string $user
+	 *
+	 * @return TemplateResponse
+	 */
+	public function showNewPasswordForm($user = null) : Http\Response {
+
+		$parameters = [];
+		$renewPasswordMessages = $this->session->get('loginMessages');
+		$errors = [];
+		$messages = [];
+
+		if (is_array($renewPasswordMessages)) {
+			list($errors, $messages) = $renewPasswordMessages;
+		}
+		$this->session->remove('loginMessages');
+		foreach ($errors as $value) {
+			$parameters[$value] = true;
+		}
+		$parameters['messages'] = $messages;
+
+		$parameters['resetPasswordLink'] = $this->config
+		->getSystemValue('lost_password_link', '');
+
+		// disable the form if setting 'password reset' is disabled
+		if ($parameters['resetPasswordLink'] !== '') {
+			return new TemplateResponse('core', 'error', [
+					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
+				],
+				'guest'
+			);
+		}
+		
+		$userObj = null;
+		if ($user !== null && $user !== '') {
+			try {
+				$userObj = $this->findUserByIdOrMail($user);
+				$parameters['displayName'] = $userObj->getDisplayName();
+				$parameters['loginName'] = $userObj->getEMailAddress();
+				//the timestamp of the user's last login or 0 if the user did never
+				$parameters['last_login'] = $userObj->getLastLogin();
+				$parameters['user_autofocus'] = false;
+			} catch(\InvalidArgumentException $exception){
+				// $user parameter is unknown or desactivated				
+				$parameters['messages'][] =  $user . ' :' . $this->l10n->t('unknown text');
+				$parameters['loginName'] = null;
+				$parameters['displayName'] = null;
+				$parameters['last_login'] = null;
+				$parameters['user_autofocus'] = true;
+			}
+		}
+		
+		$parameters = $this->setPasswordResetParameters($userObj, $parameters);
+		$parameters['administrator_email'] = $this->config->getSystemValue('administrator_email');
+		$parameters['login_form_autocomplete'] = 'on';
+		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
+
+		// OpenGraph Support: http://ogp.me/
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => Util::sanitizeHTML($this->defaults->getSlogan())]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $this->urlGenerator->getAbsoluteURL('/')]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png'))]);
+
+		return new TemplateResponse(
+			$this->appName, 'lostpassword/newpassword', $parameters, 'guest'
 		);
 	}
 
@@ -229,9 +332,10 @@ class LostController extends Controller {
 	 * @AnonRateThrottle(limit=10, period=300)
 	 *
 	 * @param string $user
+	 * @param string $action optional
 	 * @return JSONResponse
 	 */
-	public function email($user){
+	public function email($user,$action=null){
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
@@ -244,7 +348,7 @@ class LostController extends Controller {
 
 		// FIXME: use HTTP error codes
 		try {
-			$this->sendEmail($user);
+			$this->sendEmail($user,$action);
 		} catch (\Exception $e) {
 			// Ignore the error since we do not want to leak this info
 			$this->logger->logException($e, [
@@ -309,9 +413,10 @@ class LostController extends Controller {
 
 	/**
 	 * @param string $input
+	 * @param string $action
 	 * @throws \Exception
 	 */
-	protected function sendEmail($input) {
+	protected function sendEmail($input,$action=null) {
 		$user = $this->findUserByIdOrMail($input);
 		$email = $user->getEMailAddress();
 
@@ -341,22 +446,44 @@ class LostController extends Controller {
 			'link' => $link,
 		]);
 
-		$emailTemplate->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
-		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l10n->t('Password reset'));
+		if((empty($action)) || ($action == 'RESET')) {
+			$emailTemplate->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
+			$emailTemplate->addHeader();
+			$emailTemplate->addHeading($this->l10n->t('Password reset'));
 
-		$emailTemplate->addBodyText(
-			htmlspecialchars($this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
-			$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
-		);
+			$emailTemplate->addBodyText(
+				htmlspecialchars($this->l10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
+				$this->l10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
+			);
 
-		$emailTemplate->addBodyButton(
-			htmlspecialchars($this->l10n->t('Reset your password')),
-			$link,
-			false
-		);
-		$emailTemplate->addFooter();
+			$emailTemplate->addBodyButton(
+				htmlspecialchars($this->l10n->t('Reset your password')),
+				$link,
+				false
+			);
+		} else if($action == 'NEW'){
+			$emailTemplate->setSubject($this->l10n->t('%s activate and choose a password', [$this->defaults->getName()]));
+			$emailTemplate->addHeader();
+			$emailTemplate->addHeading($this->l10n->t('Activate and choose a password'));
 
+			$emailTemplate->addBodyText(
+				htmlspecialchars($this->l10n->t('Click the following button to activate and choose a new password. If you have not requested the new password, then ignore this email.')),
+				$this->l10n->t('Click the following link to activate and choose a new password. If you have not requested the new password, then ignore this email.')
+			);
+
+			$emailTemplate->addBodyButton(
+				htmlspecialchars($this->l10n->t('Activate and choose your new password')),
+				$link,
+				false
+			);
+
+		} else {
+			throw new \Exception($this->l10n->t(
+				'Couldn\'t send reset email. Please contact your administrator.'
+			));
+		}
+
+			$emailTemplate->addFooter();
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$email => $user->getUID()]);
@@ -394,9 +521,37 @@ class LostController extends Controller {
 		});
 
 		if (\count($users) === 1) {
-			return $users[0];
+			return $users[1];
 		}
 
 		throw $userNotFound;
+	}
+
+	/**
+	 * Sets the password reset params.
+	 *
+	 * Users may not change their passwords if:
+	 * - The account is disabled
+	 * - The backend doesn't support password resets
+	 * - The password reset function is disabled
+	 *
+	 * @param IUser $userObj
+	 * @param array $parameters
+	 * @return array
+	 */
+	protected function setPasswordResetParameters(
+		$userObj = null, array $parameters): array {
+
+		if ($parameters['resetPasswordLink'] === 'disabled') {
+			$parameters['canResetPassword'] = false;
+		} else if (!$parameters['resetPasswordLink'] && $userObj !== null) {
+			$parameters['canResetPassword'] = $userObj->canChangePassword();
+		} else if ($userObj !== null && $userObj->isEnabled() === false) {
+			$parameters['canResetPassword'] = false;
+		} else {
+			$parameters['canResetPassword'] = true;
+		}
+
+		return $parameters;
 	}
 }
