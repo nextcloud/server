@@ -146,35 +146,23 @@ class Server {
 
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
-			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
-			}
-
-			$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
-			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
-
-			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
-				\OC::$server->getConfig(),
-				\OC::$server->getURLGenerator()
-			));
+			$this->setupCalendarPlugins($request, $authBackend);
+			$this->loadAppsPlugins($dispatcher, $event, $root);
+			return;
 		}
 
 		// addressbook plugins
 		if ($this->requestIsForSubtree(['addressbooks', 'principals'])) {
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
-			$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
-			$this->server->addPlugin(new VCFExportPlugin());
-			$this->server->addPlugin(new MultiGetExportPlugin());
-			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OC::$server->getAppDataDir('dav-photocache'),
-				\OC::$server->getLogger())
-			));
+			$this->setupAddressbookPlugins($authBackend);
+			$this->loadAppsPlugins($dispatcher, $event, $root);
+			return;
+		}
+
+		// provisioning plugins
+		if ($this->requestIsForSubtree(['provisioning'])) {
+			$this->setupProvisioningPlugins();
+			$this->loadAppsPlugins();
+			return;
 		}
 
 		// system tags plugins
@@ -193,9 +181,6 @@ class Server {
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new ChunkingPlugin());
 
-		// allow setup of additional plugins
-		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
-
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($request->isUserAgent([
@@ -212,6 +197,8 @@ class Server {
 
 		$lazySearchBackend = new LazySearchBackend();
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
+
+		$this->loadAppsPlugins($dispatcher, $event, $root);
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod', function () use ($root, $lazySearchBackend) {
@@ -261,7 +248,6 @@ class Server {
 					\OC::$server->getCommentsManager(),
 					$userSession
 				));
-				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
 				if ($view !== null) {
 					$this->server->addPlugin(new FilesReportPlugin(
 						$this->server->tree,
@@ -282,32 +268,7 @@ class Server {
 						$view
 					));
 				}
-				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
-					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
-				));
-				$this->server->addPlugin(new AppleProvisioningPlugin(
-					\OC::$server->getUserSession(),
-					\OC::$server->getURLGenerator(),
-					\OC::$server->getThemingDefaults(),
-					\OC::$server->getRequest(),
-					\OC::$server->getL10N('dav'),
-					function() {
-						return UUIDUtil::getUUID();
-					}
-				));
-			}
 
-			// register plugins from apps
-			$pluginManager = new PluginManager(
-				\OC::$server,
-				\OC::$server->getAppManager()
-			);
-			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
-				$this->server->addPlugin($appPlugin);
-			}
-			foreach ($pluginManager->getAppCollections() as $appCollection) {
-				$root->addChild($appCollection);
 			}
 		});
 	}
@@ -316,6 +277,10 @@ class Server {
 		$this->server->exec();
 	}
 
+	/**
+	 * @param String[] $subTrees
+	 * @return bool
+	 */
 	private function requestIsForSubtree(array $subTrees): bool {
 		foreach ($subTrees as $subTree) {
 			$subTree = trim($subTree, ' /');
@@ -325,4 +290,114 @@ class Server {
 		}
 		return false;
 	}
+
+	/**
+	 * @param IRequest $request
+	 * @param Auth $authBackend
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	private function setupCalendarPlugins(IRequest $request, Auth $authBackend) {
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
+		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
+		if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+			$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+		}
+
+		$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
+		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+
+		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
+		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+			\OC::$server->getConfig(),
+			\OC::$server->getURLGenerator()
+		));
+
+		// wait with registering these until auth is handled and the filesystem is setup
+		$this->server->on('beforeMethod', function () {
+			$this->server->addPlugin(
+				new \Sabre\DAV\PropertyStorage\Plugin(
+					new CustomPropertiesBackend(
+						$this->server->tree,
+						\OC::$server->getDatabaseConnection(),
+						\OC::$server->getUserSession()->getUser()
+					)
+				)
+			);
+
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
+				\OC::$server->getConfig(),
+				\OC::$server->query(BirthdayService::class)
+			));
+		});
+	}
+
+	/**
+	 * @param Auth $authBackend
+	 */
+	private function setupAddressbookPlugins(Auth $authBackend) {
+		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
+		$this->server->addPlugin(new VCFExportPlugin());
+		$this->server->addPlugin(new MultiGetExportPlugin());
+		$this->server->addPlugin(new HasPhotoPlugin());
+		$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
+				\OC::$server->getAppDataDir('dav-photocache'),
+				\OC::$server->getLogger())
+		));
+
+		// wait with registering these until auth is handled and the filesystem is setup
+		$this->server->on('beforeMethod', function () {
+			$this->server->addPlugin(
+				new \Sabre\DAV\PropertyStorage\Plugin(
+					new CustomPropertiesBackend(
+						$this->server->tree,
+						\OC::$server->getDatabaseConnection(),
+						\OC::$server->getUserSession()->getUser()
+					)
+				)
+			);
+		});
+	}
+
+	private function setupProvisioningPlugins() {
+		// wait with registering these until auth is handled and the filesystem is setup
+		$this->server->on('beforeMethod', function () {
+			$this->server->addPlugin(new AppleProvisioningPlugin(
+				\OC::$server->getUserSession(),
+				\OC::$server->getURLGenerator(),
+				\OC::$server->getThemingDefaults(),
+				\OC::$server->getRequest(),
+				\OC::$server->getL10N('dav'),
+				function () {
+					return UUIDUtil::getUUID();
+				}
+			));
+		});
+	}
+
+	/**
+	 * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+	 * @param SabrePluginEvent $event
+	 * @param RootCollection $root
+	 */
+	private function loadAppsPlugins(\Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher, SabrePluginEvent $event, RootCollection $root) {
+		// allow setup of additional plugins
+		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+
+		// register plugins from apps
+		$pluginManager = new PluginManager(
+			\OC::$server,
+			\OC::$server->getAppManager()
+		);
+		foreach ($pluginManager->getAppPlugins() as $appPlugin) {
+			$this->server->addPlugin($appPlugin);
+		}
+		foreach ($pluginManager->getAppCollections() as $appCollection) {
+			$root->addChild($appCollection);
+		}
+	}
+
 }
