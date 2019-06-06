@@ -295,7 +295,7 @@ class File extends Node implements IFile {
 			}
 
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
+			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
