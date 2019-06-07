@@ -571,7 +571,7 @@ describe('Core base tests', function() {
 			// fore show more apps icon since otherwise it would be hidden since no icons are available
 			clock.tick(1 * 1000);
 			$('#more-apps').show();
-			
+
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
 			clock.tick(1 * 1000);
@@ -900,75 +900,74 @@ describe('Core base tests', function() {
 		var hideSpy;
 		var clock;
 
+		var getInnerText = function($node) {
+			return $node.contents().filter(function(){
+				return this.nodeType === 3;
+			})[0].nodeValue;
+		}
+
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
-			showSpy = sinon.spy(OC.Notification, 'show');
-			showHtmlSpy = sinon.spy(OC.Notification, 'showHtml');
+			showSpy = sinon.spy(OCP.Toast, 'message');
 			hideSpy = sinon.spy(OC.Notification, 'hide');
 
-			$('#testArea').append('<div id="notification"></div>');
+			$('#testArea').append('<div id="content"></div>');
 		});
 		afterEach(function() {
 			showSpy.restore();
-			showHtmlSpy.restore();
 			hideSpy.restore();
 			// jump past animations
 			clock.tick(10000);
 			clock.restore();
+			$('#testArea .toastify').remove();
 		});
 		describe('showTemporary', function() {
 			it('shows a plain text notification with default timeout', function() {
-				var $row = OC.Notification.showTemporary('My notification test');
+				OC.Notification.showTemporary('My notification test');
 
 				expect(showSpy.calledOnce).toEqual(true);
 				expect(showSpy.firstCall.args[0]).toEqual('My notification test');
-				expect(showSpy.firstCall.args[1]).toEqual({isHTML: false, timeout: 7});
+				//expect(showSpy.firstCall.args[1]).toEqual({isHTML: false, timeout: 7});
 
+				var $row = $('#testArea .toastify');
 				expect($row).toBeDefined();
-				expect($row.text()).toEqual('My notification test');
+				expect(getInnerText($row)).toEqual('My notification test');
 			});
 			it('shows a HTML notification with default timeout', function() {
-				var $row = OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
+				OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
 
-				expect(showSpy.notCalled).toEqual(true);
-				expect(showHtmlSpy.calledOnce).toEqual(true);
-				expect(showHtmlSpy.firstCall.args[0]).toEqual('<a>My notification test</a>');
-				expect(showHtmlSpy.firstCall.args[1]).toEqual({isHTML: true, timeout: 7});
+				expect(showSpy.calledOnce).toEqual(true);
+				expect(showSpy.firstCall.args[0]).toEqual('<a>My notification test</a>');
+				expect(showSpy.firstCall.args[1].isHTML).toEqual(true)
 
+				var $row = $('#testArea .toastify');
 				expect($row).toBeDefined();
-				expect($row.text()).toEqual('My notification test');
+				expect(getInnerText($row)).toEqual('<a>My notification test</a>');
 			});
 			it('hides itself after 7 seconds', function() {
-				var $row = OC.Notification.showTemporary('');
+				OC.Notification.showTemporary('');
+
+				var $row = $('#testArea .toastify');
+				expect($row).toBeDefined();
 
 				// travel in time +7000 milliseconds
-				clock.tick(7000);
+				clock.tick(7500);
 
-				expect(hideSpy.calledOnce).toEqual(true);
-				expect(hideSpy.firstCall.args[0]).toEqual($row);
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
 			});
 		});
 		describe('show', function() {
 			it('hides itself after a given time', function() {
-				OC.Notification.show('', { timeout: 10 });
+				OC.Notification.showTemporary('', {timeout: 10});
 
-				// travel in time +9 seconds
-				clock.tick(9000);
+				var $row = $('#testArea .toastify');
+				expect($row).toBeDefined();
 
-				expect(hideSpy.notCalled).toEqual(true);
+				clock.tick(11500);
 
-				// travel in time +1 seconds
-				clock.tick(1000);
-
-				expect(hideSpy.calledOnce).toEqual(true);
-			});
-			it('does not hide itself after a given time if a timeout of 0 is defined', function() {
-				OC.Notification.show('', { timeout: 0 });
-
-				// travel in time +1000 seconds
-				clock.tick(1000000);
-
-				expect(hideSpy.notCalled).toEqual(true);
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
 			});
 			it('does not hide itself if no timeout given to show', function() {
 				OC.Notification.show('');
@@ -984,92 +983,34 @@ describe('Core base tests', function() {
 			var $row2 = OC.Notification.showTemporary('Two', {timeout: 2});
 			var $row3 = OC.Notification.showTemporary('Three');
 
-			var $el = $('#notification');
-			var $rows = $el.find('.row');
+			var $el = $('#testArea');
+			var $rows = $el.find('.toastify');
 			expect($rows.length).toEqual(3);
 
-			expect($rows.eq(0).is($row1)).toEqual(true);
+			expect($rows.eq(0).is($row3)).toEqual(true);
 			expect($rows.eq(1).is($row2)).toEqual(true);
-			expect($rows.eq(2).is($row3)).toEqual(true);
+			expect($rows.eq(2).is($row1)).toEqual(true);
 
 			clock.tick(3000);
 
-			$rows = $el.find('.row');
+			$rows = $el.find('.toastify');
 			expect($rows.length).toEqual(2);
 
-			expect($rows.eq(0).is($row1)).toEqual(true);
-			expect($rows.eq(1).is($row3)).toEqual(true);
-		});
-		it('shows close button for error types', function() {
-			var $row = OC.Notification.showTemporary('One');
-			var $rowError = OC.Notification.showTemporary('Two', {type: 'error'});
-			expect($row.find('.close').length).toEqual(0);
-			expect($rowError.find('.close').length).toEqual(1);
-
-			// after clicking, row is gone
-			$rowError.find('.close').click();
-
-			var $rows = $('#notification').find('.row');
-			expect($rows.length).toEqual(1);
-			expect($rows.eq(0).is($row)).toEqual(true);
-		});
-		it('fades out the last notification but not the other ones', function() {
-			var fadeOutStub = sinon.stub($.fn, 'fadeOut');
-			var $row1 = OC.Notification.show('One', {type: 'error'});
-			var $row2 = OC.Notification.show('Two', {type: 'error'});
-			OC.Notification.showTemporary('Three', {timeout: 2});
-
-			var $el = $('#notification');
-			var $rows = $el.find('.row');
-			expect($rows.length).toEqual(3);
-
-			clock.tick(3000);
-
-			$rows = $el.find('.row');
-			expect($rows.length).toEqual(2);
-
-			$row1.find('.close').click();
-			clock.tick(1000);
-
-			expect(fadeOutStub.notCalled).toEqual(true);
-
-			$row2.find('.close').click();
-			clock.tick(1000);
-			expect(fadeOutStub.calledOnce).toEqual(true);
-
-			expect($el.is(':empty')).toEqual(false);
-			fadeOutStub.yield();
-			expect($el.is(':empty')).toEqual(true);
-
-			fadeOutStub.restore();
-		});
-		it('hides the first notification when calling hide without arguments', function() {
-			OC.Notification.show('One');
-			var $row2 = OC.Notification.show('Two');
-			spyOn(console, 'warn');
-
-			var $el = $('#notification');
-			var $rows = $el.find('.row');
-			expect($rows.length).toEqual(2);
-
-			OC.Notification.hide();
-
-			expect(console.warn).toHaveBeenCalled();
-			$rows = $el.find('.row');
-			expect($rows.length).toEqual(1);
-			expect($rows.eq(0).is($row2)).toEqual(true);
+			expect($rows.eq(0).is($row3)).toEqual(true);
+			expect($rows.eq(1).is($row1)).toEqual(true);
 		});
 		it('hides the given notification when calling hide with argument', function() {
 			var $row1 = OC.Notification.show('One');
 			var $row2 = OC.Notification.show('Two');
 
-			var $el = $('#notification');
-			var $rows = $el.find('.row');
+			var $el = $('#testArea');
+			var $rows = $el.find('.toastify');
 			expect($rows.length).toEqual(2);
 
 			OC.Notification.hide($row2);
+			clock.tick(3000);
 
-			$rows = $el.find('.row');
+			$rows = $el.find('.toastify');
 			expect($rows.length).toEqual(1);
 			expect($rows.eq(0).is($row1)).toEqual(true);
 		});
