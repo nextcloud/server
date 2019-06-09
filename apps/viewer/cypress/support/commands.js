@@ -20,7 +20,6 @@
  *
  */
 
-import 'cypress-testing-library/add-commands'
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 import axios from 'axios'
 
