@@ -36,7 +36,7 @@
     "cypress:gui": "cypress open"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "debounce": "^1.2.0",
     "nextcloud-server": "^0.15.9",
     "nextcloud-vue": "^0.11.4",
