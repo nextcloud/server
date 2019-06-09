@@ -41,7 +41,7 @@
     "nextcloud-server": "^0.15.9",
     "nextcloud-vue": "^0.11.4",
     "vue": "^2.6.10",
-    "vue-async-computed": "^3.6.1"
+    "vue-async-computed": "^3.7.0"
   },
   "browserslist": [
     "last 2 versions",
