@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -133,7 +134,7 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 8.2.0
 	 */
-	public function setApp($app) {
+	public function setApp(string $app) {
 		if (!is_string($app) || $app === '' || isset($app[32])) {
 			throw new \InvalidArgumentException('The given app name is invalid');
 		}
@@ -155,7 +156,7 @@ class Notification implements INotification {
 	 * @throws \InvalidArgumentException if the user id is invalid
 	 * @since 8.2.0
 	 */
-	public function setUser($user) {
+	public function setUser(string $user) {
 		if (!is_string($user) || $user === '' || isset($user[64])) {
 			throw new \InvalidArgumentException('The given user id is invalid');
 		}
