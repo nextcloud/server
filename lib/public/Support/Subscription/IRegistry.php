@@ -54,4 +54,11 @@ interface IRegistry {
 	 * @since 17.0.0
 	 */
 	public function delegateHasValidSubscription(): bool;
+
+	/**
+	 * Indicates if the subscription has extended support
+	 *
+	 * @since 17.0.0
+	 */
+	public function delegateHasExtendedSupport(): bool;
 }

@@ -42,14 +42,16 @@ try {
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
 	$defaults = new \OCP\Defaults();
-	$values=array(
+	$values = [
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
 		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=> '',
-		'productname'=>$defaults->getName());
+		'productname'=>$defaults->getName(),
+		'extendedSupport' => \OCP\Util::hasExtendedSupport()
+	];
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
