@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
@@ -43,6 +44,7 @@ class NotificationTest extends TestCase {
 	protected function dataValidString($maxLength) {
 		$dataSets = [
 			['test1'],
+			['1564'],
 			[str_repeat('a', 1)],
 		];
 		if ($maxLength !== false) {
@@ -53,18 +55,22 @@ class NotificationTest extends TestCase {
 
 	protected function dataInvalidString($maxLength) {
 		$dataSets = [
-			[true],
-			[false],
-			[0],
-			[1],
-			[''],
-			[[]],
+			['']
 		];
 		if ($maxLength !== false) {
 			$dataSets[] = [str_repeat('a', $maxLength + 1)];
-			$dataSets[] = [[str_repeat('a', $maxLength + 1)]];
 		}
 		return $dataSets;
+	}
+
+	protected function dataInvalidStringType() {
+		return [
+			[true],
+			[false],
+			[16412],
+			[[]],
+			[null],
+		];
 	}
 
 	protected function dataInvalidInt() {
@@ -98,6 +104,10 @@ class NotificationTest extends TestCase {
 		return $this->dataInvalidString(32);
 	}
 
+	public function dataSetAppInvalidType() {
+		return $this->dataInvalidStringType();
+	}
+
 	/**
 	 * @dataProvider dataSetAppInvalid
 	 * @param mixed $app
@@ -107,6 +117,17 @@ class NotificationTest extends TestCase {
 	public function testSetAppInvalid($app) {
 		$this->notification->setApp($app);
 	}
+
+	/**
+	 * @dataProvider dataSetAppInvalidType
+	 * @param mixed $app
+	 *
+	 * @expectedException \TypeError
+	 */
+	public function testSetAppInvalidType($app) {
+		$this->notification->setApp($app);
+	}
+
 
 	public function dataSetUser() {
 		return $this->dataValidString(64);
@@ -126,6 +147,10 @@ class NotificationTest extends TestCase {
 		return $this->dataInvalidString(64);
 	}
 
+	public function dataSetUserInvalidType() {
+		return $this->dataInvalidStringType();
+	}
+
 	/**
 	 * @dataProvider dataSetUserInvalid
 	 * @param mixed $user
@@ -133,6 +158,16 @@ class NotificationTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetUserInvalid($user) {
+		$this->notification->setUser($user);
+	}
+
+	/**
+	 * @dataProvider dataSetUserInvalidType
+	 * @param mixed $user
+	 *
+	 * @expectedException \TypeError
+	 */
+	public function testSetUserInvalidType($user) {
 		$this->notification->setUser($user);
 	}
 
