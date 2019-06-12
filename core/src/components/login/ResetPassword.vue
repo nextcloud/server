@@ -49,7 +49,7 @@
 		</div>
 		<p v-if="message === 'send-success'"
 		   class="update">
-			{{ t('core', 'We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.') }}
+			{{ t('core', 'A password reset message has been sent to the e-mail address for this account. If you do not receive it, check your spam/junk folders then ask your local administrator for help.') }}
 			<br>
 			{{ t('core', 'If it is not there ask your local administrator.') }}
 		</p>
