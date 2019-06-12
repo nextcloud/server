@@ -28,7 +28,7 @@
 					   @rename="rename"
 					   @delete="deleteToken"
 					   @wipe="wipeToken" />
-		<AuthTokenSetupDialogue :add="addNewToken" />
+		<AuthTokenSetupDialogue v-if="canCreateToken" :add="addNewToken" />
 	</div>
 </template>
 
@@ -63,7 +63,7 @@
 		props: {
 			tokens: {
 				type: Array,
-				requried: true,
+				required: true,
 			},
 		},
 		components: {

@@ -44,6 +44,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
@@ -54,6 +55,9 @@ class AuthSettingsController extends Controller {
 
 	/** @var ISession */
 	private $session;
+
+	/** IUserSession */
+	private  $userSession;
 
 	/** @var string */
 	private $uid;
@@ -77,6 +81,7 @@ class AuthSettingsController extends Controller {
 	 * @param ISession $session
 	 * @param ISecureRandom $random
 	 * @param string|null $userId
+	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param RemoteWipe $remoteWipe
 	 * @param ILogger $logger
@@ -87,12 +92,14 @@ class AuthSettingsController extends Controller {
 								ISession $session,
 								ISecureRandom $random,
 								?string $userId,
+								IUserSession $userSession,
 								IManager $activityManager,
 								RemoteWipe $remoteWipe,
 								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
+		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->random = $random;
 		$this->activityManager = $activityManager;
@@ -112,6 +119,10 @@ class AuthSettingsController extends Controller {
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
+			return $this->getServiceNotAvailableResponse();
+		}
+		if ($this->userSession->getImpersonatingUserID() !== null)
+		{
 			return $this->getServiceNotAvailableResponse();
 		}
 
