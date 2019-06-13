@@ -317,18 +317,18 @@ class Encryption extends Wrapper {
 	}
 	
 	/**
-	* stream_read wrapper to read complete requested block
-	*/
-	private function stream_read_block($blockSize) {
+	 * stream_read wrapper to read complete requested block
+	 */
+	private function stream_read_block(int $blockSize): string {
 		$remaining = $blockSize;
-		$data = "";
+		$data = '';
 
 		do {
 			$chunk = parent::stream_read($remaining);
 			$chunk_len = strlen($chunk);
 			$data .= $chunk;
 			$remaining -= $chunk_len;
-		} while ( ($remaining > 0) && ($chunk_len > 0) );
+		} while (($remaining > 0) && ($chunk_len > 0));
 
 		return $data;
 	}
