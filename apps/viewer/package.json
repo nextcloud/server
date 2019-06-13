@@ -38,7 +38,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "debounce": "^1.2.0",
-    "nextcloud-server": "^0.15.9",
+    "nextcloud-server": "^0.15.10",
     "nextcloud-vue": "^0.11.4",
     "vue": "^2.6.10",
     "vue-async-computed": "^3.7.0"
