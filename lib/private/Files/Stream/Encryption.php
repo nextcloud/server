@@ -317,7 +317,13 @@ class Encryption extends Wrapper {
 	}
 	
 	/**
-	 * stream_read wrapper to read complete requested block
+	 * Name:		stream_read_block
+	 * Description:	This function is a wrapper for function stream_read.
+	 *				It calls stream read until the requested $blockSize was received or no remaining data is present.
+	 *				This is required as stream_read only returns smaller chunks of data when the stream fetches from a remote storage over the internet
+	 *				and it does not care about the given $blockSize.
+	 * Inputs:		int $blockSize. Length of requested data block in bytes
+	 * Returns:		string. data fetched from stream.
 	 */
 	private function stream_read_block(int $blockSize): string {
 		$remaining = $blockSize;
