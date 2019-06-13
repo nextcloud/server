@@ -113,7 +113,7 @@ class LegacyVersionsBackend implements IVersionBackend {
 		return $file->fopen('r');
 	}
 
-	public function getVersionFile(IUser $user, FileInfo $sourceFile, int $revision): File {
+	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$versionFolder = $this->getVersionFolder($user);
 		/** @var File $file */

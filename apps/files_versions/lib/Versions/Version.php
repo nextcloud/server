@@ -29,7 +29,7 @@ class Version implements IVersion {
 	/** @var int */
 	private $timestamp;
 
-	/** @var int */
+	/** @var int|string */
 	private $revisionId;
 
 	/** @var string */
@@ -55,7 +55,7 @@ class Version implements IVersion {
 
 	public function __construct(
 		int $timestamp,
-		int $revisionId,
+		$revisionId,
 		string $name,
 		int $size,
 		string $mimetype,
@@ -83,7 +83,7 @@ class Version implements IVersion {
 		return $this->sourceFileInfo;
 	}
 
-	public function getRevisionId(): int {
+	public function getRevisionId() {
 		return $this->revisionId;
 	}
 
