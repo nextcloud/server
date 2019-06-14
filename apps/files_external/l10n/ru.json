@@ -102,7 +102,7 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Общий ресурс",
     "Show hidden files" : "Показать скрытые файлы",
-    "SMB / CIFS using OC login" : "SMB / CIFS с ипользованием логина OC",
+    "SMB / CIFS using OC login" : "SMB / CIFS с использованием логина OC",
     "Username as share" : "Имя пользователя в качестве имени общего ресурса",
     "OpenStack Object Storage" : "Хранилище объектов OpenStack",
     "Service name" : "Название сервиса",

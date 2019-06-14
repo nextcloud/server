@@ -22,7 +22,7 @@ OC.L10N.register(
     "Downloaded by {email}" : "Descargado por {email}",
     "{file} downloaded via public link" : "{file} descargado mediante una liga pública",
     "{email} downloaded {file}" : "{email} descargó {file}",
-    "Shared with group {group}" : "Compartido con el gupo {group}",
+    "Shared with group {group}" : "Compartido con el grupo {group}",
     "Removed share for group {group}" : "Se eliminó el elemento compartido del grupo {group}",
     "{actor} shared with group {group}" : "{actor} compartió con el grupo {group}",
     "{actor} removed share for group {group}" : "{actor} eliminó el elemento compartido del grupo {group}",

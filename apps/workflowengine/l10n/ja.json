@@ -66,6 +66,7 @@
     "Check %s does not exist" : "チェック %s は存在しません",
     "Check %s is invalid" : "チェック %s は無効です",
     "Check #%s does not exist" : "チェック #%s は存在しません",
+    "Tag management" : "タグ管理",
     "Files workflow engine" : "ファイルワークフローエンジン",
     "Open documentation" : "ドキュメントを開く",
     "Loading…" : "読み込み中...",
