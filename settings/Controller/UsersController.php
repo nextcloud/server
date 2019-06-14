@@ -246,6 +246,8 @@ class UsersController extends Controller {
 		// Settings
 		$serverData['defaultQuota'] = $defaultQuota;
 		$serverData['canChangePassword'] = $canChangePassword;
+		$serverData['newUserGenerateUserID'] = $this->config->getAppValue('settings', 'newUser.generateUserID', '0') === '1';
+		$serverData['newUserRequireEmail'] = $this->config->getAppValue('settings', 'newUser.requireEmail', '0') === '1';
 
 		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
 	}

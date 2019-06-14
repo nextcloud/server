@@ -237,7 +237,7 @@ class UsersController extends AUserData {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
-		if(empty($userid) && (bool)$this->config->getAppValue('settings', 'newUser.generateUserID', false)) {
+		if(empty($userid) && $this->config->getAppValue('settings', 'newUser.generateUserID', '0') === '1') {
 			$userid = $this->createNewUserId();
 		}
 
@@ -293,7 +293,7 @@ class UsersController extends AUserData {
 			$generatePasswordResetToken = true;
 		}
 
-		if ($email === '' && (bool)$this->config->getAppValue('settings', 'newUser.requireEmail', false)) {
+		if ($email === '' && $this->config->getAppValue('settings', 'newUser.requireEmail', '0') === '1') {
 			throw new OCSException('Required email address was not provided', 110);
 		}
 

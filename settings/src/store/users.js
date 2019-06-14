@@ -429,7 +429,7 @@ const actions = {
 	addUser({commit, dispatch}, { userid, password, displayName, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
 			return api.post(OC.linkToOCS(`cloud/users`, 2), { userid, password, displayName, email, groups, subadmin, quota, language })
-				.then((response) => dispatch('addUserData', userid))
+				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.UserID))
 				.catch((error) => {throw error;});
 		}).catch((error) => {
 			commit('API_FAILURE', { userid, error });
