@@ -46,7 +46,6 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -197,6 +196,21 @@ class UsersController extends AUserData {
 	}
 
 	/**
+	 * @throws OCSException
+	 */
+	private function createNewUserId(): string {
+		$attempts = 0;
+		do {
+			$uidCandidate = $this->secureRandom->generate(10, ISecureRandom::CHAR_HUMAN_READABLE);
+			if (!$this->userManager->userExists($uidCandidate)) {
+				return $uidCandidate;
+			}
+			$attempts++;
+		} while ($attempts < 10);
+		throw new OCSException('Could not create non-existing user id', 111);
+	}
+
+	/**
 	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
@@ -222,6 +236,10 @@ class UsersController extends AUserData {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
+
+		if(empty($userid) && (bool)$this->config->getAppValue('settings', 'newUser.generateUserID', false)) {
+			$userid = $this->createNewUserId();
+		}
 
 		if ($this->userManager->userExists($userid)) {
 			$this->logger->error('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
@@ -275,6 +293,10 @@ class UsersController extends AUserData {
 			$generatePasswordResetToken = true;
 		}
 
+		if ($email === '' && (bool)$this->config->getAppValue('settings', 'newUser.requireEmail', false)) {
+			throw new OCSException('Required email address was not provided', 110);
+		}
+
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
 			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
@@ -315,7 +337,7 @@ class UsersController extends AUserData {
 				}
 			}
 
-			return new DataResponse();
+			return new DataResponse(['UserID' => $userid]);
 
 		} catch (HintException $e ) {
 			$this->logger->logException($e, [
