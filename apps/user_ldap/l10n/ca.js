@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Ha fallat en eliminar els mapatges",
+    "Failed to clear the mappings." : "No s’han pogut netejar les assignacions.",
     "Failed to delete the server configuration" : "Ha fallat en eliminar la configuració del servidor",
     "Invalid configuration: Anonymous binding is not allowed." : "Configuració no vàlida: no es permet l'enllaç anònim.",
     "Valid configuration, connection established!" : "Configuració vàlida, connexió establerta!",
