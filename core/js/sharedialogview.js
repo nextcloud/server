@@ -1053,12 +1053,6 @@
 			this._toggleLoading(false);
 			if (!this._loadingOnce) {
 				this._loadingOnce = true;
-				// the first time, focus on the share field after the spinner disappeared
-				if (!OC.Util.isIE()) {
-					_.defer(function () {
-						self.$('.shareWithField').focus();
-					});
-				}
 			}
 		},
 
