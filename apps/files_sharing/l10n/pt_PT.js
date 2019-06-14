@@ -59,7 +59,7 @@ OC.L10N.register(
     "{actor} shared {file} with {user}" : "{actor} partilhou {file} com {user}",
     "{actor} removed {user} from {file}" : "{actor} removeu {user} de {file}",
     "{actor} shared {file} with you" : "{actor} partilhou {file} consigo",
-    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Um ficheiro ou pasta partilhado por e-mail ou hiperligação publica foi  transferido</strong>",
+    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Um ficheiro ou pasta partilhado por e-mail ou hiperligação publica foi <strong>transferido</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Um ficheiro ou pasta foi partilhado a partir de <strong>outro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Foi <strong>partilhado</strong> um ficheiro ou uma pasta",
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",

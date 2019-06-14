@@ -39,7 +39,7 @@ OC.L10N.register(
     "Files" : "ファイル",
     "Details" : "詳細",
     "Select" : "選択",
-    "Pending" : "中断",
+    "Pending" : "保留中",
     "Unable to determine date" : "更新日不明",
     "This operation is forbidden" : "この操作は禁止されています",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",

@@ -6,9 +6,9 @@
     "Log out" : "Meld af",
     "Users" : "Gebruikers",
     "Unknown user" : "Onbekende gebruiker",
+    "Security" : "Sekuriteit",
     "Create" : "Skep",
     "Delete" : "Skrap",
-    "Share" : "Deel",
-    "Security" : "Sekuriteit"
+    "Share" : "Deel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
