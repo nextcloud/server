@@ -125,6 +125,7 @@ class NotificationsTest extends TestCase {
 
 		$file = $this->createMock(Node::class);
 		$folder = $this->createMock(Folder::class);
+		$user = $this->createMock(IUser::class);
 
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
@@ -136,7 +137,11 @@ class NotificationsTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
@@ -163,9 +168,15 @@ class NotificationsTest extends TestCase {
 		$this->rootFolder->expects($this->never())
 			->method('getUserFolder');
 
+		$user = $this->createMock(IUser::class);
+
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$this->notificationManager->expects($this->never())
 			->method('createNotification');
@@ -197,9 +208,15 @@ class NotificationsTest extends TestCase {
 			->method('getById')
 			->willReturn([]);
 
+		$user = $this->createMock(IUser::class);
+
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
