@@ -11,7 +11,7 @@ OC.L10N.register(
     "Regenerate backup codes" : "Ponownie generuj kody zapasowe",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeśli generujesz kody zapasowe ponownie, automatycznie unieważniasz stare kody.",
     "Generate backup codes" : "Generowanie kodów zapasowych",
-    "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuetapowego swojego konta",
+    "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuskładnikowego swojego konta",
     "Second-factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Włączyłeś uwierzytelnianie dwuskładnikowe, ale jeszcze nie wygenerowałeś kodów zapasowych. Pamiętaj, aby to zrobić na wypadek utraty dostępu do drugiego składnika.",
     "Backup code" : "Kody zapasowe",

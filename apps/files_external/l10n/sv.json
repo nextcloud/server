@@ -101,6 +101,7 @@
     "SFTP with secret key login" : "SFTP-inloggning med hemlig nyckel",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dela",
+    "Show hidden files" : "Visa gömda filer",
     "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",

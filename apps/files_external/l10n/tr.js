@@ -14,7 +14,7 @@ OC.L10N.register(
     "(group)" : "(grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD şifrelemesiyle uyumlu (yavaş)",
     "Enable encryption" : "Şifreleme kullanılsın",
-    "Enable previews" : "Önizlemeler kullanılsın",
+    "Enable previews" : "Ön izlemeler kullanılsın",
     "Enable sharing" : "Paylaşım kullanılsın",
     "Check for changes" : "Değişiklikleri denetle",
     "Never" : "Asla",
