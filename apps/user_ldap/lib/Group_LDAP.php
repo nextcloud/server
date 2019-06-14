@@ -110,7 +110,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$members = $this->access->connection->getFromCache($cacheKeyMembers);
 		if(!is_null($members)) {
 			$this->cachedGroupMembers[$gid] = $members;
-			$isInGroup = in_array($userDN, $members);
+			$isInGroup = in_array($userDN, $members, true);
 			$this->access->connection->writeToCache($cacheKey, $isInGroup);
 			return $isInGroup;
 		}

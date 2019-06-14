@@ -622,8 +622,26 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if ($this->userPluginManager->implementsActions(Backend::CREATE_USER)) {
 			if ($dn = $this->userPluginManager->createUser($username, $password)) {
 				if (is_string($dn)) {
-					//updates user mapping
-					$this->access->dn2ocname($dn, $username, true);
+					// the NC user creation work flow requires a know user id up front
+					$uuid = $this->access->getUUID($dn, true);
+					if(is_string($uuid)) {
+						$this->access->mapAndAnnounceIfApplicable(
+							$this->access->getUserMapper(),
+							$dn,
+							$username,
+							$uuid,
+							true
+						);
+						$this->access->cacheUserExists($username);
+					} else {
+						\OC::$server->getLogger()->warning(
+							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
+							[
+								'app' => 'user_ldap',
+								'userid' => $username,
+							]
+						);
+					}
 				} else {
 					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
 				}

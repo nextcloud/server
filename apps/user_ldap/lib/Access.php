@@ -635,7 +635,7 @@ class Access extends LDAPUtility {
 		return false;
 	}
 
-	protected function mapAndAnnounceIfApplicable(
+	public function mapAndAnnounceIfApplicable(
 		AbstractMapping $mapper,
 		string $fdn,
 		string $name,
