@@ -13,6 +13,10 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Règles pour l'accessibilité des contenus Web",
     "our issue tracker" : "notre outil de suivi des problèmes",
     "our design team" : "notre équipe de conception",
-    "Enable" : "Activer"
+    "Enable" : "Activer",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic est une police de caractères libre conçue pour atténuer certains problèmes de lecture causés par la dyslexie. La police a été créée par Alberto Gonzalez sous licence open-source.",
+    "Themes" : "Thèmes",
+    "Fonts" : "Polices de caractères",
+    "enabled" : "activé"
 },
 "nplurals=2; plural=(n > 1);");
