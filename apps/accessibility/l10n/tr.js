@@ -13,6 +13,11 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Web İçeriği Engelli Desteği Rehberleri",
     "our issue tracker" : "sorun kayıt sistemimiz",
     "our design team" : "geliştirme ekibimiz",
-    "Enable" : "Etkinleştir"
+    "Enable" : "Etkinleştir",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic, disleksi nedeniyle sık karşılaşılan sorunları aşmak için geliştirilmiş ücretsiz bir yazı türüdür. Bu yazı türü Abelardo Gonzalez tarafından oluşturulmuş ve açık kaynak lisansı ile yayınlanmıştır.",
+    "Provides multiple accessibilities options to ease your use of nextcloud" : "Engellilerin Nextcloud kullanmasına yardımcı olan çeşitli engelli desteği seçenekleri sunar",
+    "Themes" : "Temalar",
+    "Fonts" : "Yazı Türleri",
+    "enabled" : "etkin"
 },
 "nplurals=2; plural=(n > 1);");

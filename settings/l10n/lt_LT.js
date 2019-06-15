@@ -51,7 +51,7 @@ OC.L10N.register(
     "Welcome aboard %s" : "%s, sveikiname prisijungus",
     "Welcome to your %s account, you can add, protect, and share your data." : "Turėdami %s paskyrą duomenis galite pridėti, apsaugoti ir jais pasidalinti.",
     "Your username is: %s" : "Jūsų naudotojo vardas yra: %s",
-    "Install Client" : "Įdiegti klientą",
+    "Install Client" : "Įdiegti kliento programą",
     "Delete" : "Ištrinti",
     "Unlimited" : "Neribotai",
     "Migration in progress. Please wait until the migration is finished" : "Vyksta perkėlimas. Palaukite, kol perkėlimas bus užbaigtas",
