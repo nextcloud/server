@@ -13,6 +13,11 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Saityno turinio prieinamumo gairės",
     "our issue tracker" : "mūsų klaidų sekiklis",
     "our design team" : "mūsų dizaino komanda",
-    "Enable" : "Įjungti"
+    "Enable" : "Įjungti",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic yra laisvas šriftas, sukurtas sumažinti kai kurias dažniausias disleksijos sukeltas skaitymo klaidas. Šriftą sukūrė Abelardo Gonzalez, kuris šriftą išleido per atvirojo kodo licenciją.",
+    "Provides multiple accessibilities options to ease your use of nextcloud" : "Pateikia kelias prieinamumo parinktis, skirtas palengvinti jūsų naudojimąsi Nextcloud",
+    "Themes" : "Apipavidalinimai",
+    "Fonts" : "Šriftai",
+    "enabled" : "įjungta"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
