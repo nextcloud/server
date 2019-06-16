@@ -1,5 +1,5 @@
-# We wait 2 months to check
-daysUntilStale: 60
+# We wait 1 months to check
+daysUntilStale: 30
 
 # If no answer after two weeks, we close
 daysUntilClose: 14
