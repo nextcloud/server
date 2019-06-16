@@ -11,6 +11,11 @@
     "Web Content Accessibility Guidelines" : "Richtlijnen voor Toegankelijkheid van Webcontent (WCAG)",
     "our issue tracker" : "onze issue tracker",
     "our design team" : "ons ontwerpteam",
-    "Enable" : "Inschakelen"
+    "Enable" : "Inschakelen",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic is een gratis en open source lettertype dat is ontwikkeld om de meest voorkomende leesfouten te voorkomen die worden veroorzaakt door dyslexie. Dit lettertype is gemaakt door Abelardo Gonzalez.",
+    "Provides multiple accessibilities options to ease your use of nextcloud" : "Biedt verschillende opties om de toegankelijkheid van Nextcloud te verbeteren",
+    "Themes" : "Stijlen",
+    "Fonts" : "Lettertypen",
+    "enabled" : "ingeschakeld"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
