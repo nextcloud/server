@@ -27,6 +27,7 @@
     "Following platforms are supported: %s" : "Подржане су следеће платформе: %s",
     "Server version %s or higher is required." : "Потребна је верзија сервера %s или виша.",
     "Server version %s or lower is required." : "Потребна је верзија сервера %s или нижа.",
+    "Logged in user must be an admin or sub admin" : "Пријављени корисник мора бити администратор или подадминистратор",
     "Logged in user must be an admin" : "Пријављени корисник мора бити администратор",
     "Unknown filetype" : "Непознат тип фајла",
     "Invalid image" : "Неисправна слика",
