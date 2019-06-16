@@ -56,9 +56,9 @@ class OC_Image implements \OCP\IImage {
 	/** @var finfo */
 	private $fileInfo;
 	/** @var \OCP\ILogger */
-	private $logger;
+	protected $logger;
 	/** @var \OCP\IConfig */
-	private $config;
+	protected $config;
 	/** @var array */
 	private $exif;
 

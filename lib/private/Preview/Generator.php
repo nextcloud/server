@@ -96,7 +96,6 @@ class Generator {
 			throw new NotFoundException('Cannot read file');
 		}
 
-
 		$this->eventDispatcher->dispatch(
 			IPreview::EVENT,
 			new GenericEvent($file,[
