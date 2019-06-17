@@ -101,6 +101,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP protokolas su prisijungimu",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dalintis",
+    "Show hidden files" : "Rodyti paslėptus failus",
     "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą",
     "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",
     "OpenStack Object Storage" : "Objektų saugykla \"OpenStack\"",
