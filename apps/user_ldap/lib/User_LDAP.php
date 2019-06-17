@@ -506,7 +506,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 */
 	public function setDisplayName($uid, $displayName) {
 		if ($this->userPluginManager->implementsActions(Backend::SET_DISPLAYNAME)) {
-			return $this->userPluginManager->setDisplayName($uid, $displayName);
+			$this->userPluginManager->setDisplayName($uid, $displayName);
+			$this->access->cacheUserDisplayName($uid, $displayName);
+			return $displayName;
 		}
 		return false;
 	}
