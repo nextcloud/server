@@ -33,17 +33,16 @@
 		:title="currentFile.name"
 		:enable-swipe="canSwipe"
 		:size="isMobile || isFullscreen ? 'full' : 'large'"
-		:style="{width: showSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
+		:style="{width: shownSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"
 		@next="next">
 		<!-- ACTIONS -->
 		<template #actions>
 			<ActionButton
-				v-if="OCA.Sharing"
-				icon="icon-share-white-forced"
-				@click="showSharingSidebar">
-				{{ t('viewer', 'Share') }}
+				icon="icon-menu-sidebar-white-forced"
+				@click="showSidebar">
+				{{ t('viewer', 'Open sidebar') }}
 			</ActionButton>
 		</template>
 
@@ -82,7 +81,7 @@
 			:loaded.sync="currentFile.loaded"
 			:mime="currentFile.mime"
 			:path="getPreviewIfAny(currentFile)"
-			:sidebar-shown="showSidebar"
+			:sidebar-shown="shownSidebar"
 			class="file-view active"
 			@error="currentFailed" />
 		<Error
@@ -151,7 +150,7 @@ export default {
 
 		isLoaded: false,
 
-		showSidebar: false,
+		shownSidebar: false,
 		sidebarWidth: 0,
 
 		canSwipe: true,
@@ -439,14 +438,14 @@ export default {
 		 * Show the sharing sidebar
 		 */
 
-		showSharingSidebar() {
+		showSidebar() {
 			// Open the sidebar sharing tab
-			OCA.Files.App.fileList.showDetailsView(this.currentFile.name, 'shareTabView')
+			OCA.Files.App.fileList.showDetailsView(this.currentFile.name)
 			this.showAppsSidebar()
 		},
 
 		showAppsSidebar() {
-			this.showSidebar = true
+			this.shownSidebar = true
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
 				sidebar.classList.add('app-sidebar--full')
@@ -463,7 +462,7 @@ export default {
 		},
 
 		hideAppsSidebar() {
-			this.showSidebar = false
+			this.shownSidebar = false
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
 				sidebar.classList.remove('app-sidebar--full')
@@ -516,8 +515,8 @@ export default {
 }
 
 // force white icon
-.icon-share-white-forced {
-	background-image: url('~Assets/share-white.svg');
+.icon-menu-sidebar-white-forced {
+	background-image: url('~Assets/menu-sidebar-white.svg');
 }
 
 .file-view {

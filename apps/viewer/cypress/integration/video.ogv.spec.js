@@ -63,7 +63,7 @@ describe('Open video.ogv in viewer', function() {
 
 	it('See the share and menu icons and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'video.ogv')
-		cy.get('#viewer-content .modal-header button.icon-share-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
