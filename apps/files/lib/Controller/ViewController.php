@@ -31,6 +31,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\Activity\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -138,7 +139,11 @@ class ViewController extends Controller {
 	 */
 	public function showFile(string $fileid = null): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
-		return $this->redirectToFile($fileid);
+		try {
+			return $this->redirectToFile($fileid);
+		} catch (NotFoundException $e) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
+		}
 	}
 
 	/**
