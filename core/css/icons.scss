@@ -121,7 +121,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
  * .icon-close (black icon)
  * .icon-close-white (white icon)
  * .icon-close.icon-white (white icon)
- * 
+ *
  * Some class definitions are kept as before, since they don't follow the pattern
  * or have some additional styling like drop shadows
  */
@@ -215,6 +215,7 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 @include icon-black-white('logout', 'actions', 1, true);
 @include icon-black-white('mail', 'actions', 1, true);
 @include icon-black-white('menu', 'actions', 1, true);
+@include icon-black-white('menu-sidebar', 'actions', 1, true);
 @include icon-black-white('more', 'actions', 1, true);
 @include icon-black-white('password', 'actions', 1, true);
 @include icon-black-white('pause', 'actions', 1, true);
