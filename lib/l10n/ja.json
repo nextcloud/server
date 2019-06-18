@@ -175,7 +175,7 @@
     "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload の値は \"0\" であるべきですが、\"%s\" に設定されています",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "この問題を修正するには、php.ini ファイルの <code>mbstring.func_overload</code> を <code>0</code> に設定してください。",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 バージョン 2.7.0 が最低必要です。現在 %s がインストールされています。",
-    "To fix this issue update your libxml2 version and restart your web server." : "この問題を解決するには、libxml2 を更新して、ウェブサーバーを再起動してください。",
+    "To fix this issue update your libxml2 version and restart your web server." : "この問題を解決するには、libxml2 を更新して、Webサーバーを再起動してください。",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHPでインラインドキュメントブロックを取り除く設定になっています。これによりコアアプリで利用できないものがいくつかあります。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "これは、Zend OPcacheやeAccelerator 等のキャッシュ/アクセラレーターが原因かもしれません。",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP モジュールはインストールされていますが、まだ一覧に表示されていますか？",
