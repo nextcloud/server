@@ -260,6 +260,11 @@ class ImageManager {
 			$supportedFormats[] = 'image/svg';
 		}
 
+		if ($key === 'favicon') {
+			$supportedFormats[] = 'image/x-icon';
+			$supportedFormats[] = 'image/vnd.microsoft.icon';
+		}
+
 		return $supportedFormats;
 	}
 
