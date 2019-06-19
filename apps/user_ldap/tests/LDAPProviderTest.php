@@ -26,6 +26,8 @@
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Manager;
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\IGroupLDAP;
 use OCP\IConfig;
 use OCP\IServerContainer;
@@ -337,24 +339,49 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 	
 	public function testGetLDAPBaseUsers() {
+		$bases = [
+			'ou=users,ou=foobar,dc=example,dc=org',
+			'ou=users,ou=barfoo,dc=example,dc=org',
+		];
+		$dn = 'uid=malik,' . $bases[1];
+
+		$connection = $this->createMock(Connection::class);
+		$connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) use ($bases) {
+				switch($key) {
+					case 'ldapBaseUsers':
+						return $bases;
+				}
+				return null;
+			});
+
+		$access = $this->createMock(Access::class);
+		$access->expects($this->any())
+			->method('getConnection')
+			->willReturn($connection);
+		$access->expects($this->exactly(2))
+			->method('isDNPartOfBase')
+			->willReturnOnConsecutiveCalls(false, true);
+		$access->expects($this->atLeastOnce())
+			->method('username2dn')
+			->willReturn($dn);
+
 		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
 			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->atLeastOnce())
             ->method('userExists')
             ->willReturn(true);
-		$userBackend->expects($this->at(3))
-            ->method('getConfiguration')
-            ->willReturn(array('ldap_base_users'=>'ou=users,dc=example,dc=org'));
 		$userBackend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
-		
+			->method('getLDAPAccess')
+			->willReturn($access);
+
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 			
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertEquals('ou=users,dc=example,dc=org', $ldapProvider->getLDAPBaseUsers('existing_user'));
+		$this->assertEquals($bases[1], $ldapProvider->getLDAPBaseUsers('existing_user'));
 	}
 	
 	/**
@@ -375,24 +402,42 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 	
 	public function testGetLDAPBaseGroups() {
+		$bases = [
+			'ou=groupd,ou=foobar,dc=example,dc=org',
+			'ou=groups,ou=barfoo,dc=example,dc=org',
+		];
+
+		$connection = $this->createMock(Connection::class);
+		$connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) use ($bases) {
+				switch($key) {
+					case 'ldapBaseGroups':
+						return $bases;
+				}
+				return null;
+			});
+
+		$access = $this->createMock(Access::class);
+		$access->expects($this->any())
+			->method('getConnection')
+			->willReturn($connection);
+
 		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
 			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->any())
             ->method('userExists')
             ->willReturn(true);
-		$userBackend->expects($this->at(3))
-            ->method('getConfiguration')
-            ->willReturn(array('ldap_base_groups'=>'ou=groups,dc=example,dc=org'));
 		$userBackend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
-		
+			->method('getLDAPAccess')
+			->willReturn($access);
+
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 			
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertEquals('ou=groups,dc=example,dc=org', $ldapProvider->getLDAPBaseGroups('existing_user'));
+		$this->assertEquals($bases[0], $ldapProvider->getLDAPBaseGroups('existing_user'));
 	}
 	
 	/**
