@@ -182,8 +182,25 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	public function getLDAPBaseUsers($uid) {
 		if(!$this->userBackend->userExists($uid)){
 			throw new \Exception('User id not found in LDAP');
-		}	
-		return $this->userBackend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_users'];
+		}
+		$access = $this->userBackend->getLDAPAccess($uid);
+		$bases = $access->getConnection()->ldapBaseUsers;
+		$dn = $this->getUserDN($uid);
+		foreach ($bases as $base) {
+			if($access->isDNPartOfBase($dn, [$base])) {
+				return $base;
+			}
+		}
+		// should not occur, because the user does not qualify to use NC in this case
+		$this->logger->info(
+			'No matching user base found for user {dn}, available: {bases}.',
+			[
+				'app' => 'user_ldap',
+				'dn' => $dn,
+				'bases' => $bases,
+			]
+		);
+		return array_shift($bases);
 	}
 	
 	/**
@@ -196,7 +213,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		if(!$this->userBackend->userExists($uid)){
 			throw new \Exception('User id not found in LDAP');
 		}
-		return $this->userBackend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_groups'];
+		$bases = $this->userBackend->getLDAPAccess($uid)->getConnection()->ldapBaseGroups;
+		return array_shift($bases);
 	}
 	
 	/**
