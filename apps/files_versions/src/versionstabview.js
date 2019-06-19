@@ -156,7 +156,7 @@ import Template from './templates/template.handlebars';
 			var preview = OC.MimeType.getIconUrl(version.get('mimetype'));
 			var img = new Image();
 			img.onload = function () {
-				$('li[data-revision=' + version.get('timestamp') + '] .preview').attr('src', version.getPreviewUrl());
+				$('li[data-revision=' + version.get('id') + '] .preview').attr('src', version.getPreviewUrl());
 			};
 			img.src = version.getPreviewUrl();
 
