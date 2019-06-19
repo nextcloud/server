@@ -1391,16 +1391,38 @@ class User_LDAPTest extends TestCase {
 	}
 
 	public function testSetDisplayNameWithPlugin() {
+		$newDisplayName = 'J. Baker';
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::SET_DISPLAYNAME)
 			->willReturn(true);
 		$this->pluginManager->expects($this->once())
 			->method('setDisplayName')
-			->with('uid','displayName')
-			->willReturn('result');
+			->with('uid', $newDisplayName)
+			->willReturn($newDisplayName);
+		$this->access->expects($this->once())
+			->method('cacheUserDisplayName');
 
-		$this->assertEquals($this->backend->setDisplayName('uid', 'displayName'),'result');
+		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
+	}
+
+	/**
+	 * @expectedException \OC\HintException
+	 */
+	public function testSetDisplayNameErrorWithPlugin() {
+		$newDisplayName = 'J. Baker';
+		$this->pluginManager->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::SET_DISPLAYNAME)
+			->willReturn(true);
+		$this->pluginManager->expects($this->once())
+			->method('setDisplayName')
+			->with('uid', $newDisplayName)
+			->willThrowException(new HintException('something happned'));
+		$this->access->expects($this->never())
+			->method('cacheUserDisplayName');
+
+		$this->backend->setDisplayName('uid', $newDisplayName);
 	}
 
 	public function testSetDisplayNameFailing() {
@@ -1408,6 +1430,8 @@ class User_LDAPTest extends TestCase {
 			->method('implementsActions')
 			->with(Backend::SET_DISPLAYNAME)
 			->willReturn(false);
+		$this->access->expects($this->never())
+			->method('cacheUserDisplayName');
 
 		$this->assertFalse($this->backend->setDisplayName('uid', 'displayName'));
 	}
