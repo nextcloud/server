@@ -97,6 +97,7 @@ class OCSControllerTest extends TestCase {
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
+			'extendedSupport' => false
 		);
 
 		$capabilities = [
@@ -128,6 +129,7 @@ class OCSControllerTest extends TestCase {
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
+			'extendedSupport' => false
 		);
 
 		$capabilities = [

@@ -34,4 +34,11 @@ interface ISubscription {
 	 * @since 17.0.0
 	 */
 	public function hasValidSubscription(): bool;
+
+	/**
+	 * Indicates if the subscription has extended support
+	 *
+	 * @since 17.0.0
+	 */
+	public function hasExtendedSupport(): bool;
 }

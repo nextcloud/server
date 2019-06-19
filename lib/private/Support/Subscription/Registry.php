@@ -72,4 +72,16 @@ class Registry implements IRegistry {
 		}
 		return false;
 	}
+
+	/**
+	 * Indicates if the subscription has extended support
+	 *
+	 * @since 17.0.0
+	 */
+	public function delegateHasExtendedSupport(): bool {
+		if ($this->subscription instanceof ISubscription && method_exists($this->subscription, 'hasExtendedSupport')) {
+			return $this->subscription->hasExtendedSupport();
+		}
+		return false;
+	}
 }

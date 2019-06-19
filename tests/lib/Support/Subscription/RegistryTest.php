@@ -74,6 +74,18 @@ class RegistryTest extends TestCase {
 		$this->assertSame(true, $this->registry->delegateHasValidSubscription());
 	}
 
+	public function testDelegateHasExtendedSupport() {
+		/* @var ISubscription|\PHPUnit_Framework_MockObject_MockObject $subscription */
+		$subscription = $this->createMock(ISubscription::class);
+		$subscription->expects($this->once())
+			->method('hasExtendedSupport')
+			->willReturn(true);
+		$this->registry->register($subscription);
+
+		$this->assertSame(true, $this->registry->delegateHasExtendedSupport());
+	}
+
+
 	public function testDelegateGetSupportedApps() {
 		/* @var ISupportedApps|\PHPUnit_Framework_MockObject_MockObject $subscription */
 		$subscription = $this->createMock(ISupportedApps::class);
