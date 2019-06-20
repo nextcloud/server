@@ -111,6 +111,7 @@ class SvgController extends Controller {
 	 *
 	 * @param string $path
 	 * @param string $color
+	 * @param string $fileName
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
