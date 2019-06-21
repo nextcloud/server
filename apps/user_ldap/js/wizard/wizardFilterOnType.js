@@ -21,7 +21,6 @@ OCA = OCA || {};
 		init: function($select, $textInput) {
 			this.$select = $select;
 			this.$textInput = $textInput;
-			this.updateOptions();
 			this.lastSearch = '';
 
 			var fity = this;
@@ -36,22 +35,6 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * the options will be read in again. Should be called after a
-		 * configuration switch.
-		 */
-		updateOptions: function() {
-			var options = [];
-			this.$select.find('option').each(function() {
-				options.push({
-						value: $(this).val(),
-						normalized: $(this).val().toLowerCase()
-					}
-				);
-			});
-			this._options = options;
-		},
-
-		/**
 		 * the actual search or filter method
 		 *
 		 * @param {FilterOnType} fity
@@ -62,10 +45,12 @@ OCA = OCA || {};
 				return;
 			}
 			fity.lastSearch = filterVal;
-			fity.$select.empty();
-			$.each(fity._options, function() {
-				if(!filterVal || this.normalized.indexOf(filterVal) > -1) {
-					fity.$select.append($('<option>').val(this.value).text(this.value));
+
+			fity.$select.find('option').each(function() {
+				if(!filterVal || $(this).val().toLowerCase().indexOf(filterVal) > -1) {
+					$(this).removeAttr('hidden')
+				} else {
+					$(this).attr('hidden', 'hidden');
 				}
 			});
 			delete(fity.runID);
