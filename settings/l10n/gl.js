@@ -579,6 +579,8 @@ OC.L10N.register(
     "Last activity" : "Última actividade",
     "Devices & sessions" : "Dispositivos e sesións",
     "Web, desktop and mobile clients currently logged in to your account." : "Clientes web, móbiles e de escritorio actualmente conectados á súa conta.",
+    "Do you really want to wipe your data from this device?" : "Confirma que quere limpar os seus datos deste dispositivo?",
+    "Confirm wipe" : "Confirmar a limpeza",
     "Error while creating device token" : "Produciuse un erro mentres creaba unha marca de dispositivo",
     "Error while updating device token scope" : "Produciuse un erro ao actualizar o ámbito da marca do dispositivo",
     "Error while updating device token name" : "Produciuse un erro ao actualizar o nome da marca do dispositivo",
