@@ -70,6 +70,9 @@ use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Entities\Helper\EntitiesHelper;
+use OC\Entities\EntitiesManager;
+use OC\Entities\Helper\EntitiesMigrationHelper;
 use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
@@ -126,6 +129,7 @@ use OC\Dashboard\DashboardManager;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 
+use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -133,7 +137,9 @@ use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Dashboard\IDashboardManager;
 use OCP\Defaults;
-use OCA\Theming\Util;
+use OCP\Entities\Helper\IEntitiesHelper;
+use OCP\Entities\Helper\IEntitiesMigrationHelper;
+use OCP\Entities\IEntitiesManager;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
@@ -1204,6 +1210,10 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
+		$this->registerAlias(IEntitiesManager::class, EntitiesManager::class);
+		$this->registerAlias(IEntitiesHelper::class, EntitiesHelper::class);
+		$this->registerAlias(IEntitiesMigrationHelper::class, EntitiesMigrationHelper::class);
+
 		$this->connectDispatcher();
 	}
 
@@ -2064,4 +2074,29 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getStorageFactory() {
 		return $this->query(IStorageFactory::class);
 	}
+
+	/**
+	 * @return IEntitiesManager
+	 * @throws QueryException
+	 */
+	public function getEntitiesManager() {
+		return $this->query(IEntitiesManager::class);
+	}
+
+	/**
+	 * @return IEntitiesHelper
+	 * @throws QueryException
+	 */
+	public function getEntitiesHelper() {
+		return $this->query(IEntitiesHelper::class);
+	}
+
+	/**
+	 * @return IEntitiesMigrationHelper
+	 * @throws QueryException
+	 */
+	public function getEntitiesMigrationHelper() {
+		return $this->query(IEntitiesMigrationHelper::class);
+	}
+
 }

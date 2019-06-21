@@ -36,6 +36,10 @@
  *
  */
 
+
+use OCP\AppFramework\QueryException;
+
+
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
@@ -166,6 +170,20 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(null), \OC::$server->getL10N('core')));
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager(null)));
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager(null)));
+
+	try {
+		$application->add(new OC\Entities\Command\Create(OC::$server->getEntitiesManager(), OC::$server->getEntitiesHelper()));
+		$application->add(new OC\Entities\Command\Delete(OC::$server->getEntitiesManager(), OC::$server->getEntitiesHelper()));
+		$application->add(new OC\Entities\Command\Details(OC::$server->getEntitiesManager()));
+		$application->add(new OC\Entities\Command\Install(OC::$server->getEntitiesHelper()));
+		$application->add(new OC\Entities\Command\Migration(OC::$server->getEntitiesManager(), OC::$server->getEntitiesMigrationHelper()));
+		$application->add(new OC\Entities\Command\Modify(OC::$server->getEntitiesManager(), OC::$server->getEntitiesHelper()));
+		$application->add(new OC\Entities\Command\Search(OC::$server->getEntitiesHelper(), OC::$server->getEntitiesManager()));
+		$application->add(new OC\Entities\Command\Session(OC::$server->getEntitiesManager(), OC::$server->getEntitiesHelper()));
+	} catch (QueryException $e) {
+		OC::$server->getLogger()->log(3, 'QueryException while loading Entities/Commands: ' . $e->getMessage());
+	}
+
 } else {
 	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getSystemConfig()));
 }
