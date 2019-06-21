@@ -357,7 +357,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 			$this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData()
 		));
 	}
@@ -417,7 +417,7 @@ class UsersControllerTest extends TestCase {
 			->with('NewUser', 'display', 'DisplayNameOfTheNewUser');
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 			$api->addUser('NewUser', 'PasswordOfTheNewUser', 'DisplayNameOfTheNewUser')->getData()
 		));
 	}
@@ -467,7 +467,7 @@ class UsersControllerTest extends TestCase {
 			->willReturnCallback(function() { return (string)rand(1000000000, 9999999999); });
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 			$this->api->addUser('', 'PasswordOfTheNewUser')->getData()
 		));
 	}
@@ -556,7 +556,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 			$this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData()
 		));
 	}
@@ -617,7 +617,7 @@ class UsersControllerTest extends TestCase {
 			);
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 				$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData()
 		));
 	}
@@ -838,7 +838,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(key_exists(
-			'UserID',
+			'id',
 			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData()
 		));
 	}
