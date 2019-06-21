@@ -577,6 +577,8 @@
     "Last activity" : "Ultima attività",
     "Devices & sessions" : "Dispositivi e sessioni",
     "Web, desktop and mobile clients currently logged in to your account." : "Client web, desktop e mobile attualmente connessi al tuo account.",
+    "Do you really want to wipe your data from this device?" : "Vuoi davvero eliminare tutti i dati da questo dispositivo?",
+    "Confirm wipe" : "Conferma eliminazione",
     "Error while creating device token" : "Errore durante la creazione del token di dispositivo",
     "Error while updating device token scope" : "Errore durante l'aggiornamento del campo del token del dispositivo",
     "Error while updating device token name" : "Errore durante l'aggiornamento del nome del token del dispositivo",
