@@ -70,7 +70,7 @@ class TXT extends Provider {
 
 		$fontFile  = __DIR__;
 		$fontFile .= '/../../../core';
-		$fontFile .= '/fonts/Nunito-Regular.ttf';
+		$fontFile .= '/fonts/NotoSans-Regular.ttf';
 
 		$canUseTTF = function_exists('imagettftext');
 

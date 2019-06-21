@@ -145,7 +145,7 @@ describe('OC.SetupChecks tests', function() {
 
 	describe('checkWOFF2Loading', function() {
 		it('should fail with another response status code than the expected one', function(done) {
-			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
 
 			suite.server.requests[0].respond(302);
 
@@ -159,7 +159,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with the expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
 
 			suite.server.requests[0].respond(200);
 
