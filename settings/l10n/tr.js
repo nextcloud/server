@@ -579,6 +579,8 @@ OC.L10N.register(
     "Last activity" : "Son işlem",
     "Devices & sessions" : "Aygıt ve oturumlar",
     "Web, desktop and mobile clients currently logged in to your account." : "Şu anda hesabınıza oturum açmış web, masaüstü ve mobil istemciler.",
+    "Do you really want to wipe your data from this device?" : "Bu aygıt üzerindeki verilerinizi silmek istediğinize emin misiniz?",
+    "Confirm wipe" : "Silmeyi onayla",
     "Error while creating device token" : "Aygıt kodu oluşturulurken sorun çıktı",
     "Error while updating device token scope" : "Aygıt kodu aralığı güncellenirken sorun çıktı",
     "Error while updating device token name" : "Aygıt kodu adı güncellenirken sorun çıktı",

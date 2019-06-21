@@ -77,6 +77,7 @@ OC.L10N.register(
     "Logged in user must be a subadmin" : "L’usuari que ha iniciat la sessió ha de ser un subadministrador",
     "Delete" : "Suprimeix",
     "Unlimited" : "Il·limitat",
+    "Verifying" : "S'està verificant",
     "Verifying …" : "S'està verificant...",
     "Verify" : "Verifica",
     "Migration in progress. Please wait until the migration is finished" : "Migració en procés. Si us plau, espereu fins que finalitzi la migració",
