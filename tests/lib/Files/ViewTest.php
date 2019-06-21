@@ -1962,6 +1962,9 @@ class ViewTest extends \Test\TestCase {
 		$operationArgs,
 		$path
 	) {
+		if ($operation === 'touch') {
+			$this->markTestSkipped("touch handles storage exceptions internally");
+		}
 		$view = new View('/' . $this->user . '/files/');
 
 		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
