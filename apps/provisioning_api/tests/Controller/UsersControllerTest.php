@@ -428,7 +428,7 @@ class UsersControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnCallback(function($appid, $key, $default) {
 				if($key === 'newUser.generateUserID') {
-					return true;
+					return 'yes';
 				}
 				return null;
 			});
@@ -483,7 +483,7 @@ class UsersControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnCallback(function($appid, $key, $default) {
 				if($key === 'newUser.generateUserID') {
-					return '1';
+					return 'yes';
 				}
 				return null;
 			});
@@ -526,7 +526,7 @@ class UsersControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnCallback(function($appid, $key, $default) {
 				if($key === 'newUser.requireEmail') {
-					return '1';
+					return 'yes';
 				}
 				return null;
 			});
