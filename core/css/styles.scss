@@ -159,6 +159,14 @@ body {
 	border-radius: var(--border-radius);
 }
 
+/* SELECTION */
+
+::selection {
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-text);
+}
+
+
 /* CONTENT ------------------------------------------------------------------ */
 
 #controls {
