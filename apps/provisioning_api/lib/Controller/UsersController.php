@@ -337,7 +337,7 @@ class UsersController extends AUserData {
 				}
 			}
 
-			return new DataResponse(['UserID' => $userid]);
+			return new DataResponse(['id' => $userid]);
 
 		} catch (HintException $e ) {
 			$this->logger->logException($e, [
