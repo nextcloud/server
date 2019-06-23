@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Viewer" : "Visor",
     "Error loading {name}" : "Error carregant {name}",
-    "Share" : "Comparteix",
-    "View" : "Mostra"
+    "View" : "Mostra",
+    "Share" : "Comparteix"
 },
 "nplurals=2; plural=(n != 1);");

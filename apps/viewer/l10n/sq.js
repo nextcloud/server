@@ -1,7 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
-    "Share" : "Ndaj",
-    "View" : "Shiko"
+    "View" : "Shiko",
+    "Share" : "Ndaj"
 },
 "nplurals=2; plural=(n != 1);");

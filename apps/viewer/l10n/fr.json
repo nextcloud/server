@@ -4,7 +4,7 @@
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Affichez vos dernières photos et vidéos de vacances comme dans les films, visionnez votre dernier roman directement depuis Nextcloud, choisissez le meilleur GIF de votre collection grâce à la prévisualisation directe de vos fichiers favoris et bien plus encore !",
     "Error loading {name}" : "Erreur lors du chargement de {name}",
     "Your browser does not support the video tag." : "Votre navigateur ne supporte ce type de vidéo.",
-    "Share" : "Partager",
-    "View" : "Afficher"
+    "View" : "Afficher",
+    "Share" : "Partager"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

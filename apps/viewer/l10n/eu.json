@@ -1,7 +1,7 @@
 { "translations": {
     "Viewer" : "Ikuslea",
     "Your browser does not support the video tag." : "Zure nabigatzaileak ez du euskarririk video etiketarentzat",
-    "Share" : "Elkarbanatu",
-    "View" : "Ikusi"
+    "View" : "Ikusi",
+    "Share" : "Elkarbanatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
