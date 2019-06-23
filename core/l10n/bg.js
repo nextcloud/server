@@ -146,6 +146,7 @@ OC.L10N.register(
     "An internal error occurred." : "Възникна вътрешно сървърна грешка.",
     "Please try again or contact your administrator." : "Опитайте отново или се свържете с администраотра.",
     "Username or email" : "Потребител или имейл",
+    "Username or\temail" : "Потребител или имейл",
     "Log in" : "Вписване",
     "Logging in …" : "Вписване ...",
     "Wrong username or password." : "Грешен потребител или парола",
