@@ -113,6 +113,9 @@
 		/* Use by the apps menu and the settings right menu */
 		#apps > ul,
 		&.settings-menu > ul {
+			max-height: calc(100vh - #{$header-height});
+			overflow: scroll;
+
 			li {
 				a {
 					display: inline-flex;
