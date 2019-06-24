@@ -11,6 +11,9 @@
     "Web Content Accessibility Guidelines" : "Verkkosisällön saavutettavuusohjeet",
     "our issue tracker" : "virheidenseurantajärjestelmämme",
     "our design team" : "suunnitteluryhmämme",
-    "Enable" : "Ota käyttöön"
+    "Enable" : "Ota käyttöön",
+    "Themes" : "Teemat",
+    "Fonts" : "Fontit",
+    "enabled" : "käytössä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
