@@ -433,6 +433,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Support\\Subscription\\Exception\\AlreadyRegisteredException' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/Exception/AlreadyRegisteredException.php',
         'OCP\\Support\\Subscription\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/IRegistry.php',
         'OCP\\Support\\Subscription\\ISubscription' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISubscription.php',
+        'OCP\\Support\\Subscription\\ISubscriptionExtendedSupport' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISubscriptionExtendedSupport.php',
         'OCP\\Support\\Subscription\\ISupportedApps' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISupportedApps.php',
         'OCP\\SystemTag\\ISystemTag' => __DIR__ . '/../../..' . '/lib/public/SystemTag/ISystemTag.php',
         'OCP\\SystemTag\\ISystemTagManager' => __DIR__ . '/../../..' . '/lib/public/SystemTag/ISystemTagManager.php',

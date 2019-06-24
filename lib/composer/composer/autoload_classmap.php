@@ -399,6 +399,7 @@ return array(
     'OCP\\Support\\Subscription\\Exception\\AlreadyRegisteredException' => $baseDir . '/lib/public/Support/Subscription/Exception/AlreadyRegisteredException.php',
     'OCP\\Support\\Subscription\\IRegistry' => $baseDir . '/lib/public/Support/Subscription/IRegistry.php',
     'OCP\\Support\\Subscription\\ISubscription' => $baseDir . '/lib/public/Support/Subscription/ISubscription.php',
+    'OCP\\Support\\Subscription\\ISubscriptionExtendedSupport' => $baseDir . '/lib/public/Support/Subscription/ISubscriptionExtendedSupport.php',
     'OCP\\Support\\Subscription\\ISupportedApps' => $baseDir . '/lib/public/Support/Subscription/ISupportedApps.php',
     'OCP\\SystemTag\\ISystemTag' => $baseDir . '/lib/public/SystemTag/ISystemTag.php',
     'OCP\\SystemTag\\ISystemTagManager' => $baseDir . '/lib/public/SystemTag/ISystemTagManager.php',

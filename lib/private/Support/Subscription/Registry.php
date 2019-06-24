@@ -26,6 +26,7 @@ namespace OC\Support\Subscription;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
+use OCP\Support\Subscription\ISubscriptionExtendedSupport;
 use OCP\Support\Subscription\ISupportedApps;
 
 class Registry implements IRegistry {
@@ -79,7 +80,7 @@ class Registry implements IRegistry {
 	 * @since 17.0.0
 	 */
 	public function delegateHasExtendedSupport(): bool {
-		if ($this->subscription instanceof ISubscription && method_exists($this->subscription, 'hasExtendedSupport')) {
+		if ($this->subscription instanceof ISubscriptionExtendedSupport) {
 			return $this->subscription->hasExtendedSupport();
 		}
 		return false;

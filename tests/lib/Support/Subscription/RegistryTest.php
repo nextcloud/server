@@ -24,6 +24,7 @@ namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
 use OCP\Support\Subscription\ISubscription;
+use OCP\Support\Subscription\ISubscriptionExtendedSupport;
 use OCP\Support\Subscription\ISupportedApps;
 use Test\TestCase;
 
@@ -76,7 +77,7 @@ class RegistryTest extends TestCase {
 
 	public function testDelegateHasExtendedSupport() {
 		/* @var ISubscription|\PHPUnit_Framework_MockObject_MockObject $subscription */
-		$subscription = $this->createMock(ISubscription::class);
+		$subscription = $this->createMock(ISubscriptionExtendedSupport::class);
 		$subscription->expects($this->once())
 			->method('hasExtendedSupport')
 			->willReturn(true);

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,13 +26,12 @@ namespace OCP\Support\Subscription;
 /**
  * @since 17.0.0
  */
-interface ISubscription {
+interface ISubscriptionExtendedSupport {
 
 	/**
-	 * Indicates if a valid subscription is available
+	 * Indicates if the subscription has extended support
 	 *
 	 * @since 17.0.0
 	 */
-	public function hasValidSubscription(): bool;
-
+	public function hasExtendedSupport(): bool;
 }
