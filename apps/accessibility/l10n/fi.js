@@ -13,6 +13,9 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Verkkosisällön saavutettavuusohjeet",
     "our issue tracker" : "virheidenseurantajärjestelmämme",
     "our design team" : "suunnitteluryhmämme",
-    "Enable" : "Ota käyttöön"
+    "Enable" : "Ota käyttöön",
+    "Themes" : "Teemat",
+    "Fonts" : "Fontit",
+    "enabled" : "käytössä"
 },
 "nplurals=2; plural=(n != 1);");
