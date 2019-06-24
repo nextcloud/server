@@ -17,9 +17,9 @@
 			</li>
 		<?php else: ?>
 			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
-				title="<?php p($_['usage_relative'] . '%, '); p($l->t('%s of %s used', [$_['usage'], $_['total_space']])); ?>">
+				title="<?php p($l->t('%s (%s%%) of %s used', [$_['usage'], $_['usage_relative'], $_['total_space']])); ?>">
 				<a href="#" class="icon-quota svg">
-					<p id="quotatext"><?php p($l->t('%1$s%% of %2$s used', [round($_['usage_relative'], 1), $_['total_space']])); ?></p>
+					<p id="quotatext"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
 					<div class="quota-container">
 						<progress value="<?php p($_['usage_relative']); ?>" max="100" class="<?= ($_['usage_relative'] > 80) ? 'warn' : '' ?>"></progress>
 					</div>
