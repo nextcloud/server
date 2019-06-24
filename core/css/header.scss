@@ -114,7 +114,7 @@
 		#apps > ul,
 		&.settings-menu > ul {
 			max-height: calc(100vh - #{$header-height});
-			overflow: scroll;
+			overflow-y: scroll;
 
 			li {
 				a {
