@@ -525,7 +525,7 @@ export default {
 }
 
 #app-sidebar.app-sidebar--full {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	height: 100%;
 	z-index: 15000;
