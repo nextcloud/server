@@ -38,7 +38,8 @@
 		@canplay="doneLoading"
 		@mouseenter="showControls"
 		@mouseleave="hideControls"
-		@loadedmetadata="updateVideoSize">
+		@loadedmetadata="onLoadedMetadata"
+		@volumechange="saveVolume">
 
 		<!-- Omitting `type` on purpose because most of the
 			browsers auto detect the appropriate codec.
@@ -123,6 +124,46 @@ export default {
 			// reset and show poster after play
 			this.$el.autoplay = false
 			this.$el.load()
+		},
+
+		// Save video player's volume and mute status
+		saveVolume() {
+			let videoVolume = {
+				volume: this.$el.volume,
+				muted: this.$el.muted
+			}
+			// try to store volume settings in localStorage for persistent storage
+			try {
+				localStorage.viewerVideoVolume = JSON.stringify(videoVolume)
+			} catch (e) {
+				// if localStorage is not available, use the root component as fallback
+				this.$root.$data.videoVolume = videoVolume
+			}
+		},
+
+		// Restore video player's volume and mute status
+		restoreVolume() {
+			let videoVolume
+			try {
+				// try to load volume settings from localStorage
+				if (localStorage.viewerVideoVolume) {
+					videoVolume = JSON.parse(localStorage.viewerVideoVolume)
+				}
+			} catch (e) {
+				// if localStorage is not available, try to load from the root component
+				if (this.videoVolume) {
+					videoVolume = this.$root.$data.videoVolume
+				}
+			}
+			if (videoVolume) {
+				this.$el.volume = videoVolume.volume
+				this.$el.muted = videoVolume.muted
+			}
+		},
+
+		onLoadedMetadata() {
+			this.updateVideoSize()
+			this.restoreVolume()
 		}
 	}
 }
