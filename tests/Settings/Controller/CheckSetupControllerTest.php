@@ -180,7 +180,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertFalse(
 			self::invokePrivate(
 				$this->checkSetupController,
-				'isInternetConnectionWorking'
+				'hasInternetConnectivityProblems'
 			)
 		);
 	}
@@ -206,10 +206,10 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue($client));
 
 
-		$this->assertTrue(
+		$this->assertFalse(
 			self::invokePrivate(
 				$this->checkSetupController,
-				'isInternetConnectionWorking'
+				'hasInternetConnectivityProblems'
 			)
 		);
 	}
@@ -235,10 +235,10 @@ class CheckSetupControllerTest extends TestCase {
 			->method('newClient')
 			->will($this->returnValue($client));
 
-		$this->assertFalse(
+		$this->assertTrue(
 			self::invokePrivate(
 				$this->checkSetupController,
-				'isInternetConnectionWorking'
+				'hasInternetConnectivityProblems'
 			)
 		);
 	}
@@ -540,7 +540,7 @@ class CheckSetupControllerTest extends TestCase {
 					'backgroundJobsUrl' => 'https://example.org',
 				],
 				'cronErrors' => [],
-				'serverHasInternetConnection' => false,
+				'serverHasInternetConnectionProblems' => true,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://docs.example.org/server/go.php?to=admin-performance',
 				'isRandomnessSecure' => self::invokePrivate($this->checkSetupController, 'isRandomnessSecure'),
