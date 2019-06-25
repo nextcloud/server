@@ -34,6 +34,7 @@ return array(
     'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => $baseDir . '/../lib/DeleteOrphanedSharesJob.php',
     'OCA\\Files_Sharing\\Exceptions\\BrokenPath' => $baseDir . '/../lib/Exceptions/BrokenPath.php',
     'OCA\\Files_Sharing\\Exceptions\\S2SException' => $baseDir . '/../lib/Exceptions/S2SException.php',
+    'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => $baseDir . '/../lib/Exceptions/SharingRightsException.php',
     'OCA\\Files_Sharing\\ExpireSharesJob' => $baseDir . '/../lib/ExpireSharesJob.php',
     'OCA\\Files_Sharing\\External\\Cache' => $baseDir . '/../lib/External/Cache.php',
     'OCA\\Files_Sharing\\External\\Manager' => $baseDir . '/../lib/External/Manager.php',
