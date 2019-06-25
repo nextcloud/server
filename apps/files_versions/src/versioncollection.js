@@ -68,7 +68,7 @@
 				version.fileId = fileId;
 				version.name = name;
 				version.timestamp = parseInt(moment(new Date(version.timestamp)).format('X'), 10);
-				version.id = parseInt(OC.basename(version.href), 10);
+				version.id = OC.basename(version.href);
 				version.size = parseInt(version.size, 10);
 				version.user = user;
 				version.client = client;
