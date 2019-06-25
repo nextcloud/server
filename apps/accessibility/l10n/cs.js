@@ -13,6 +13,9 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Doporučení pro přístupnost webového obsahu",
     "our issue tracker" : "náš systém evidence hlášení chyb",
     "our design team" : "náš tým designérů",
-    "Enable" : "Zapnout"
+    "Enable" : "Zapnout",
+    "Themes" : "Motivy vzhledu",
+    "Fonts" : "Písma",
+    "enabled" : "zapnuto"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
