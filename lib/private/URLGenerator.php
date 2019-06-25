@@ -203,7 +203,7 @@ class URLGenerator implements IURLGenerator {
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
 			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
-		} elseif($themingEnabled && $themingImagePath) {
+		} elseif($themingEnabled && $themingImagePath && file_exists(\OC::$SERVERROOT . $themingImagePath)) {
 			$path = $themingImagePath;
 		} elseif ($appPath && file_exists($appPath . "/img/$image")) {
 			$path =  \OC_App::getAppWebPath($app) . "/img/$image";
