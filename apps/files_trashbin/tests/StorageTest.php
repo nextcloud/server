@@ -40,7 +40,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Storage
@@ -543,8 +543,7 @@ class StorageTest extends \Test\TestCase {
 		$userManager->expects($this->any())
 			->method('userExists')->willReturn($userExists);
 		$logger = $this->getMockBuilder(ILogger::class)->getMock();
-		$eventDispatcher = $this->getMockBuilder(EventDispatcher::class)
-			->disableOriginalConstructor()->getMock();
+		$eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
 		$trashManager = $this->createMock(ITrashManager::class);

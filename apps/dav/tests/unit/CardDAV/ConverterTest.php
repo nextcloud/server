@@ -32,7 +32,6 @@ use OCP\IDBConnection;
 use OCP\IImage;
 use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Test\TestCase;
 
 class ConverterTest extends  TestCase {
@@ -40,19 +39,10 @@ class ConverterTest extends  TestCase {
 	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
 	private $accountManager;
 
-	/** @var  EventDispatcher | PHPUnit_Framework_MockObject_MockObject */
-	private $eventDispatcher;
-
-	/** @var  IDBConnection | PHPUnit_Framework_MockObject_MockObject */
-	private $databaseConnection;
-
 	public function setUp() {
 		parent::setUp();
-		$this->databaseConnection = $this->getMockBuilder(IDBConnection::class)->getMock();
-		$this->eventDispatcher = $this->getMockBuilder(EventDispatcher::class)
-			->disableOriginalConstructor()->getMock();
-		$this->accountManager = $this->getMockBuilder(AccountManager::class)
-			->disableOriginalConstructor()->getMock();
+
+		$this->accountManager = $this->createMock(AccountManager::class);
 	}
 
 	public function getAccountManager(IUser $user) {

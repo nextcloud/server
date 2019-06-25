@@ -62,7 +62,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
 use OCP\Share;
@@ -96,7 +96,7 @@ class Manager implements IManager {
 	private $rootFolder;
 	/** @var CappedMemoryCache */
 	private $sharingDisabledForUsersCache;
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 	/** @var LegacyHooks */
 	private $legacyHooks;
@@ -122,7 +122,7 @@ class Manager implements IManager {
 	 * @param IProviderFactory $factory
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
-	 * @param EventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param IMailer $mailer
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
@@ -139,7 +139,7 @@ class Manager implements IManager {
 			IProviderFactory $factory,
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
-			EventDispatcher $eventDispatcher,
+			EventDispatcherInterface $eventDispatcher,
 			IMailer $mailer,
 			IURLGenerator $urlGenerator,
 			\OC_Defaults $defaults

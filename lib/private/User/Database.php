@@ -67,7 +67,7 @@ use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -84,7 +84,7 @@ class Database extends ABackend
 	/** @var CappedMemoryCache */
 	private $cache;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
 	/** @var IDBConnection */
@@ -96,7 +96,7 @@ class Database extends ABackend
 	/**
 	 * \OC\User\Database constructor.
 	 *
-	 * @param EventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param string $table
 	 */
 	public function __construct($eventDispatcher = null, $table = 'users') {

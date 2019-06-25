@@ -23,7 +23,6 @@ namespace Test\Share20;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
 use OC\Share20\DefaultShareProvider;
-use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -52,7 +51,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -89,7 +88,7 @@ class ManagerTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
 	protected $rootFolder;
-	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject */
 	protected $eventDispatcher;
 	/** @var  IMailer|\PHPUnit_Framework_MockObject_MockObject */
 	protected $mailer;
@@ -108,7 +107,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcher::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);

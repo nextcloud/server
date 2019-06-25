@@ -29,8 +29,8 @@ use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\Event;
 use Test\TestCase;
 
 class ProviderEnabledTest extends TestCase {

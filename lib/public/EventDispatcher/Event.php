@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,29 +21,20 @@ declare(strict_types=1);
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-namespace OCA\TwoFactorBackupCodes\Event;
+namespace OCP\EventDispatcher;
 
-use OCP\EventDispatcher\Event;
-use OCP\IUser;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
-class CodesGenerated extends Event {
-
-	/** @var IUser */
-	private $user;
-
-	public function __construct(IUser $user) {
-		parent::__construct();
-		$this->user = $user;
-	}
-
-	/**
-	 * @return IUser
-	 */
-	public function getUser(): IUser {
-		return $this->user;
-	}
+/**
+ * Base event class for the event dispatcher service
+ *
+ * Typically this class isn't instantiated directly but sub classed for specific
+ * event types
+ *
+ * @since 17.0.0
+ */
+class Event extends GenericEvent {
 
 }
