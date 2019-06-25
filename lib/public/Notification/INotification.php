@@ -1,5 +1,4 @@
 <?php
-declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -37,7 +36,7 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 9.0.0
 	 */
-	public function setApp(string $app);
+	public function setApp($app);
 
 	/**
 	 * @return string
@@ -51,7 +50,7 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the user id is invalid
 	 * @since 9.0.0
 	 */
-	public function setUser(string $user);
+	public function setUser($user);
 
 	/**
 	 * @return string
