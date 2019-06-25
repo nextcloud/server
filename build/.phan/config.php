@@ -49,8 +49,10 @@ return [
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
 		'3rdparty',
+		'apps/accessibility/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
+		'apps/cloud_federation_api/composer',
 		'apps/comments/composer',
 		'apps/comments/tests',
 		'apps/dav/composer',
