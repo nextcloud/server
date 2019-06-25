@@ -339,13 +339,20 @@ class UsersController extends AUserData {
 
 			return new DataResponse(['id' => $userid]);
 
-		} catch (HintException $e ) {
+		} catch (HintException $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with hint exception.',
 				'level' => ILogger::WARN,
 				'app' => 'ocs_api',
 			]);
 			throw new OCSException($e->getHint(), 107);
+		} catch (OCSException $e) {
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with ocs exeption.',
+				'level' => ILogger::ERROR,
+				'app' => 'ocs_api',
+			]);
+			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with exception.',
