@@ -717,6 +717,7 @@ class OC {
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
+		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
@@ -846,6 +847,30 @@ class OC {
 	private static function registerAccountHooks() {
 		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->getLogger());
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
+	}
+
+	private static function registerAppRestrictionsHooks() {
+		$groupManager = self::$server->query(\OCP\IGroupManager::class);
+		$groupManager->listen ('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+			$appManager = self::$server->getAppManager();
+			$apps = $appManager->getEnabledAppsForGroup($group);
+			foreach ($apps as $appId) {
+				$restrictions = $appManager->getAppRestriction($appId);
+				if (empty($restrictions)) {
+					continue;
+				}
+				$key = array_search($group->getGID(), $restrictions);
+				unset($restrictions[$key]);
+				$restrictions = array_values($restrictions);
+				if (empty($restrictions)) {
+					$appManager->disableApp($appId);
+				}
+				else{
+					$appManager->enableAppForGroups($appId, $restrictions);
+				}
+
+			}
+		});
 	}
 
 	private static function registerResourceCollectionHooks() {

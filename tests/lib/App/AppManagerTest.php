@@ -504,4 +504,40 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals('test1', $apps[0]['id']);
 		$this->assertEquals('test3', $apps[1]['id']);
 	}
+
+	public function testGetEnabledAppsForGroup() {
+		$group = $this->createMock(IGroup::class);
+		$group->expects($this->any())
+			->method('getGID')
+			->will($this->returnValue('foo'));
+
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
+		$enabled = [
+			'cloud_federation_api',
+			'dav',
+			'federatedfilesharing',
+			'files',
+			'lookup_server_connector',
+			'oauth2',
+			'provisioning_api',
+			'test1',
+			'test3',
+			'twofactor_backupcodes',
+			'workflowengine',
+		];
+		$this->assertEquals($enabled, $this->manager->getEnabledAppsForGroup($group));
+	}
+
+	public function testGetAppRestriction() {
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+
+		$this->assertEquals([], $this->manager->getAppRestriction('test1'));
+		$this->assertEquals([], $this->manager->getAppRestriction('test2'));
+		$this->assertEquals(['foo'], $this->manager->getAppRestriction('test3'));
+	}
 }
