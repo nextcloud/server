@@ -23,14 +23,16 @@ declare(strict_types=1);
 
 namespace OC\Preview;
 
+use OCP\IImage;
 use OCP\ILogger;
+use OCP\Files\File;
 
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension
  *
  * @package OC\Preview
  */
-class HEIC extends Provider {
+class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,11 +50,8 @@ class HEIC extends Provider {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$tmpPath = $fileview->toTmpFile($path);
-		if (!$tmpPath) {
-			return false;
-		}
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$tmpPath = $this->getLocalFile($file);
 
 		// Creates \Imagick object from the heic file
 		try {
@@ -60,20 +59,20 @@ class HEIC extends Provider {
 			$bp->setFormat('jpg');
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
-				'message' => 'File: ' . $fileview->getAbsolutePath($path) . ' Imagick says:',
+				'message' => 'File: ' . $file->getPath() . ' Imagick says:',
 				'level' => ILogger::ERROR,
 				'app' => 'core',
 			]);
-			return false;
+			return null;
 		}
 
-		unlink($tmpPath);
+		$this->cleanTmpFiles();
 
 		//new bitmap image object
 		$image = new \OC_Image();
 		$image->loadFromData($bp);
 		//check if image object is valid
-		return $image->valid() ? $image : false;
+		return $image->valid() ? $image : null;
 	}
 
 	/**

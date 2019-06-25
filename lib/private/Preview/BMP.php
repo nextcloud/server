@@ -26,7 +26,7 @@ class BMP extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/image\/bmp/';
 	}
 }

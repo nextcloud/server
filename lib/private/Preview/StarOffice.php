@@ -26,7 +26,7 @@ class StarOffice extends Office {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/application\/vnd.sun.xml.*/';
 	}
 }

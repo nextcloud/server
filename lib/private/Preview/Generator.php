@@ -35,6 +35,8 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use OCP\Preview\IProviderV2;
+use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -178,9 +180,9 @@ class Generator {
 				continue;
 			}
 
-			foreach ($providers as $provider) {
-				$provider = $this->helper->getProvider($provider);
-				if (!($provider instanceof IProvider)) {
+			foreach ($providers as $providerClosure) {
+				$provider = $this->helper->getProvider($providerClosure);
+				if (!($provider instanceof IProviderV2)) {
 					continue;
 				}
 

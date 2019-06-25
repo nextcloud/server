@@ -97,7 +97,7 @@ class PreviewManager implements IPreview {
 	 * In order to improve lazy loading a closure can be registered which will be
 	 * called in case preview providers are actually requested
 	 *
-	 * $callable has to return an instance of \OCP\Preview\IProvider
+	 * $callable has to return an instance of \OCP\Preview\IProvider or \OCP\Preview\IProviderV2
 	 *
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param \Closure $callable
