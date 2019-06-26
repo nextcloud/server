@@ -349,7 +349,7 @@ class ThemingDefaults extends \OC_Defaults {
 			} catch (AppPathNotFoundException $e) {}
 			return $this->urlGenerator->linkToRoute('theming.Theming.getManifest') . '?v=' . $cacheBusterValue;
 		}
-		if (strpos($image, 'filetypes/') === 0) {
+		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image )) {
 			return $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 		return false;
