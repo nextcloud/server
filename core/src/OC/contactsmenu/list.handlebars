@@ -5,4 +5,8 @@
 </div>
 {{/unless}}
 <div id="contactsmenu-contacts"></div>
-{{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">{{showAllContactsText}}</a></div>{{/if}}
+{{#if contactsAppEnabled}}
+<div class="footer"><a href="{{contactsAppURL}}">{{showAllContactsText}}</a></div>
+{{else if canInstallApp}}
+<div class="footer"><a href="{{contactsAppMgmtURL}}">{{contactsAppMgmtText}}</a></div>
+{{/if}}
