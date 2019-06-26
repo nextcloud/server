@@ -441,6 +441,7 @@ table td.selection {
 /* File checkboxes */
 #fileList tr td.selection>.selectCheckBox + label:before {
 	opacity: 0.3;
+	margin-right: 0;
 }
 
 /* Show checkbox with full opacity when hovering, checked, or selected */
