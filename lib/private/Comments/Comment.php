@@ -188,17 +188,18 @@ class Comment implements IComment {
 	 * sets the message of the comment and returns itself
 	 *
 	 * @param string $message
+	 * @param int $maxLength
 	 * @return IComment
 	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
-	public function setMessage($message) {
+	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH) {
 		if(!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$message = trim($message);
-		if(mb_strlen($message, 'UTF-8') > IComment::MAX_MESSAGE_LENGTH) {
-			throw new MessageTooLongException('Comment message must not exceed ' . IComment::MAX_MESSAGE_LENGTH . ' characters');
+		if ($maxLength && mb_strlen($message, 'UTF-8') > $maxLength) {
+			throw new MessageTooLongException('Comment message must not exceed ' . $maxLength. ' characters');
 		}
 		$this->data['message'] = $message;
 		return $this;
