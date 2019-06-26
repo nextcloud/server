@@ -92,7 +92,7 @@ class SvgController extends Controller {
 		// e.g /var/www/html/custom_apps/contacts
 		// or outside root /var/www/apps/files
 		$appRootPath = $this->appManager->getAppPath($app);
-		
+
 		if (!$appRootPath) {
 			return new NotFoundResponse();
 		}
@@ -106,6 +106,7 @@ class SvgController extends Controller {
 	 *
 	 * @param string $path
 	 * @param string $color
+	 * @param string $fileName
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
@@ -117,6 +118,11 @@ class SvgController extends Controller {
 
 		if (is_null($svg)) {
 			return new NotFoundResponse();
+		}
+
+		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
+			// Prevent not-sane colors from being written into the SVG
+			$color = '000';
 		}
 
 		// add fill (fill is not present on black elements)
