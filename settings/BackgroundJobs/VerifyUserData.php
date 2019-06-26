@@ -60,6 +60,9 @@ class VerifyUserData extends Job {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var string */
 	private $lookupServerUrl;
 
@@ -83,6 +86,7 @@ class VerifyUserData extends Job {
 		$this->httpClientService = $clientService;
 		$this->logger = $logger;
 
+		$this->config = $config;
 		$lookupServerUrl = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		$this->lookupServerUrl = rtrim($lookupServerUrl, '/');
 	}
@@ -182,6 +186,11 @@ class VerifyUserData extends Job {
 	 * @return bool true if we could check the verification code, otherwise false
 	 */
 	protected function verifyViaLookupServer(array $argument, $dataType) {
+		if(empty($this->lookupServerUrl) ||
+			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
+			$this->config->getSystemValue('has_internet_connection', true) === false) {
+			return false;
+		}
 
 		$user = $this->userManager->get($argument['uid']);
 
