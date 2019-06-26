@@ -384,18 +384,21 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	*/
 	public function deleteUser($uid) {
 		if ($this->userPluginManager->canDeleteUser()) {
-			return $this->userPluginManager->deleteUser($uid);
+			$status = $this->userPluginManager->deleteUser($uid);
+			if($status === false) {
+				return false;
+			}
 		}
 
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
 		if((int)$marked === 0) {
 			\OC::$server->getLogger()->notice(
 				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				array('app' => 'user_ldap'));
+				['app' => 'user_ldap']);
 			return false;
 		}
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
-			array('app' => 'user_ldap'));
+			['app' => 'user_ldap']);
 
 		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
 		$this->access->userManager->invalidate($uid);
