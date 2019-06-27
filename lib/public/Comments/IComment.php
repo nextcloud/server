@@ -127,11 +127,12 @@ interface IComment {
 	 * MessageTooLongException shall be thrown.
 	 *
 	 * @param string $message
+	 * @param int $maxLength
 	 * @return IComment
 	 * @throws MessageTooLongException
-	 * @since 9.0.0
+	 * @since 9.0.0 - $maxLength added in 16.0.2
 	 */
-	public function setMessage($message);
+	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH);
 
 	/**
 	 * returns an array containing mentions that are included in the comment
