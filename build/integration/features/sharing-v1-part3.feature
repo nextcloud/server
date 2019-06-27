@@ -339,16 +339,39 @@ Feature: sharing
 
   Scenario: do not allow to increase link share permissions on reshare
     Given As an "admin"
-    And user "admin" created a folder "/TMP"
     And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
     And creating a share with
       | path | TMP |
       | shareType | 0 |
-      | shareWith | user0 |
+      | shareWith | user1 |
       | permissions | 17  |
-    When As an "user0"
+    When As an "user1"
     And creating a share with
       | path | TMP |
+      | shareType | 3 |
+    And Updating last share with
+      | publicUpload | true |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: do not allow to increase link share permissions on sub reshare
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/TMP"
+    And user "user0" created a folder "/TMP/SUB"
+    And As an "user0"
+    And creating a share with
+      | path | TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17  |
+    When As an "user1"
+    And creating a share with
+      | path | TMP/SUB |
       | shareType | 3 |
     And Updating last share with
       | publicUpload | true |
