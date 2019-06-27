@@ -207,26 +207,33 @@ export default {
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
 
-			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
-
-			let mime = fileInfo.mimetype
-
-			const group = this.mimeGroups[mime]
-			const mimes = this.mimeGroups[group]
-				? this.mimeGroups[group]
-				: [mime]
-
-			// if no group, only fetch the file info
-			const infoPath = group
-				? fileInfo.dir
-				: relativePath
-
 			// retrieve, sort and store file List
-			const fileList = await FileList(OC.getCurrentUser().uid, infoPath, mimes)
-			this.fileList = fileList.sort(OCA.Files.App.fileList._sortComparator)
+			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
+			let fileList = await FileList(OC.getCurrentUser().uid, relativePath)
 
-			// store current position
-			this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
+			let mime = fileList.find(file => file.name === fileName).mimetype
+
+			// check if part of a group, if so retrieve full files list
+			const group = this.mimeGroups[mime]
+			if (group) {
+				const mimes = this.mimeGroups[group]
+					? this.mimeGroups[group]
+					: [mime]
+
+				// retrieve folder list
+				fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir)
+
+				// filter out the unwanted mimes
+				fileList = fileList.filter(file => file.mimetype && mimes.indexOf(file.mimetype) !== -1)
+
+				// sort like the files list
+				this.fileList = fileList.sort(OCA.Files.App.fileList._sortComparator)
+
+				// store current position
+				this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
+			} else {
+				this.currentIndex = 0
+			}
 
 			// get saved fileInfo
 			fileInfo = this.fileList[this.currentIndex]
