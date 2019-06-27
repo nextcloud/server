@@ -209,7 +209,7 @@ export default {
 
 			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
 
-			let mime = fileInfo.$file.data('mime')
+			let mime = fileInfo.mimetype
 
 			const group = this.mimeGroups[mime]
 			const mimes = this.mimeGroups[group]
