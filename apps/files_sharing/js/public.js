@@ -136,9 +136,11 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var imgcontainer = $('<a href="' + $('#previewURL').val()
-			+ '" target="_blank"><img class="publicpreview" alt=""></a>');
-		var img = imgcontainer.find('.publicpreview');
+		var imgcontainer = $('<img class="publicpreview" alt="">');
+		if (hideDownload === 'false') {
+			imgcontainer = $('<a href="' + $('#previewURL').val() + '" target="_blank"></a>').append(imgcontainer);
+		}
+		var img = imgcontainer.hasClass('publicpreview')? imgcontainer: imgcontainer.find('.publicpreview');
 		img.css({
 			'max-width': previewWidth,
 			'max-height': previewHeight
@@ -175,7 +177,10 @@ OCA.Sharing.PublicApp = {
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
 			img.attr('src', mimetypeIcon);
 			img.attr('width', 128);
-			imgcontainer.appendTo('#imgframe');
+			// "#imgframe" is either empty or it contains an audio preview that
+			// the icon should appear before, so the container should be
+			// prepended to the frame.
+			imgcontainer.prependTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
