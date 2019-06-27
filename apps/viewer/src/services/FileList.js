@@ -27,9 +27,9 @@ import { generateRemoteUrl } from 'nextcloud-server/dist/router'
  *
  * @param {String} user the current user
  * @param {String} path the path relative to the user root
- * @param {Array} mimes the list of mimes to search
+ * @returns {Array} the file list
  */
-export default async function(user, path, mimes) {
+export default async function(user, path) {
 	const response = await axios({
 		method: 'PROPFIND',
 		url: generateRemoteUrl(`dav/files/${user}${path}`),
@@ -72,5 +72,4 @@ export default async function(user, path, mimes) {
 			fileInfo.href = file.href
 			return fileInfo
 		})
-		.filter(file => file.mimetype && mimes.indexOf(file.mimetype) !== -1)
 }
