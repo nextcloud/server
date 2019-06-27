@@ -31,6 +31,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -1573,6 +1574,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$node = $this->getMockBuilder(Folder::class)->getMock();
+		$node->method('getId')
+			->willReturn(42);
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -1607,6 +1610,21 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$node]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$node->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, '', null, 'false', '', '', '', 'false');
 
@@ -1618,6 +1636,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -1645,6 +1665,21 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, 'password', null, 'true', '2000-01-01', 'note', 'label', 'true');
 
@@ -1659,6 +1694,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -1678,6 +1715,21 @@ class ShareAPIControllerTest extends TestCase {
 				$share->getExpirationDate() === null;
 			})
 		)->will($this->returnArgument(0));
+
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
 
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, $permissions, $password, null, $publicUpload, $expireDate);
@@ -1949,6 +2001,9 @@ class ShareAPIControllerTest extends TestCase {
 		$date->setTime(0,0,0);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')
+			->willReturn(42);
+
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -1982,6 +2037,27 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$node]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$node->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$node->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, null, 'false', null, null, null, null, null);
 
@@ -1993,6 +2069,9 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')
+			->willReturn(42);
+
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -2027,6 +2106,21 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$node]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$node->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, null, null, null, '2010-12-23', null, null, null);
 
@@ -2040,6 +2134,8 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -2072,6 +2168,21 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('getSharedWith')
 			->willReturn([]);
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, null, null, null, 'true', null, null, null, null);
 
@@ -2085,6 +2196,8 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -2116,6 +2229,21 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, 7, null, null, null, null, null, null, null);
 
@@ -2129,6 +2257,8 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -2158,6 +2288,21 @@ class ShareAPIControllerTest extends TestCase {
 			})
 		)->will($this->returnArgument(0));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new DataResponse([]);
@@ -2171,6 +2316,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$file = $this->getMockBuilder(File::class)->getMock();
+		$file->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -2189,6 +2336,21 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$file]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$file->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$expected = new DataResponse([]);
 		$result = $ocs->updateShare(42, 31, null, null, null, null);
 
@@ -2200,6 +2362,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share
@@ -2239,6 +2403,21 @@ class ShareAPIControllerTest extends TestCase {
 				['currentUser', \OCP\Share::SHARE_TYPE_ROOM, $share->getNode(), -1, 0, []]
 			]));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$this->shareManager->expects($this->never())->method('updateShare');
 
 		try {
@@ -2253,6 +2432,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share
@@ -2285,6 +2466,21 @@ class ShareAPIControllerTest extends TestCase {
 				['currentUser', \OCP\Share::SHARE_TYPE_ROOM, $share->getNode(), -1, 0, []]
 			]));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$this->shareManager->expects($this->never())->method('updateShare');
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
@@ -2300,6 +2496,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share
@@ -2341,6 +2539,21 @@ class ShareAPIControllerTest extends TestCase {
 				}
 			));
 
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
+
 		$this->shareManager->expects($this->any())
 			->method('getSharedWith')
 			->will($this->returnValueMap([
@@ -2363,6 +2576,8 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share
@@ -2399,6 +2614,21 @@ class ShareAPIControllerTest extends TestCase {
 			->method('updateShare')
 			->with($share)
 			->willReturn($share);
+
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$folder->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mountPoint->method('getStorageRootId')
+			->willReturn(42);
 
 		$result = $ocs->updateShare(42, 31);
 		$this->assertInstanceOf(DataResponse::class, $result);
