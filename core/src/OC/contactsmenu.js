@@ -300,7 +300,8 @@ const ContactsMenuView = View.extend({
 		return this.templates.list(
 			_.extend({
 				noContactsFoundText: t('core', 'No contacts found'),
-				showAllContactsText: t('core', 'Show all contacts …')
+				showAllContactsText: t('core', 'Show all contacts …'),
+				contactsAppMgmtText: t('core', 'Install the Contacts app')
 			}, data)
 		);
 	},
@@ -353,7 +354,9 @@ const ContactsMenuView = View.extend({
 			contacts: viewData.contacts,
 			searchTerm: searchTerm,
 			contactsAppEnabled: viewData.contactsAppEnabled,
-			contactsAppURL: OC.generateUrl('/apps/contacts')
+			contactsAppURL: OC.generateUrl('/apps/contacts'),
+			canInstallApp: OC.isUserAdmin(),
+			contactsAppMgmtURL: OC.generateUrl('/settings/apps/social/contacts')
 		}));
 		this.$('#contactsmenu-contacts').html(list.$el);
 	},
