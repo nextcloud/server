@@ -39,6 +39,7 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\IStorage;
@@ -231,6 +232,18 @@ class Local extends \OC\Files\Storage\Common {
 
 	}
 
+	private function treeContainsBlacklistedFile(string $path): bool {
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		foreach ($iterator as $file) {
+			/** @var \SplFileInfo $file */
+			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function rename($path1, $path2) {
 		$srcParent = dirname($path1);
 		$dstParent = dirname($path2);
@@ -266,6 +279,10 @@ class Local extends \OC\Files\Storage\Common {
 					$result &= $this->rmdir($path1);
 				}
 				return $result;
+			}
+
+			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
+				throw new ForbiddenException('Invalid path', false);
 			}
 		}
 
@@ -362,6 +379,10 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
+		if (Filesystem::isFileBlacklisted($path)) {
+			throw new ForbiddenException('Invalid path', false);
+		}
+
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
 		if ($this->allowSymlinks || $currentPath === '') {
