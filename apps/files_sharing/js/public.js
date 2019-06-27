@@ -177,7 +177,10 @@ OCA.Sharing.PublicApp = {
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
 			img.attr('src', mimetypeIcon);
 			img.attr('width', 128);
-			imgcontainer.appendTo('#imgframe');
+			// "#imgframe" is either empty or it contains an audio preview that
+			// the icon should appear before, so the container should be
+			// prepended to the frame.
+			imgcontainer.prependTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
