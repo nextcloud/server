@@ -22,7 +22,6 @@
 
 <template>
 	<div id="app-details-view" style="padding: 20px;">
-		<a class="close icon-close" href="#" v-on:click="hideAppDetails"><span class="hidden-visually">Close</span></a>
 		<h2>
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
@@ -125,14 +124,6 @@ export default {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true;
 		}
-	},
-	methods: {
-		hideAppDetails() {
-			this.$router.push({
-				name: 'apps-category',
-				params: {category: this.category}
-			});
-		},
 	},
 	computed: {
 		appstoreUrl() {

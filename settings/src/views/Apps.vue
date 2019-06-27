@@ -31,7 +31,7 @@
 		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
 			<AppList :category="category" :app="currentApp" :search="searchQuery" />
 		</AppContent>
-		<AppSidebar v-if="id && currentApp" >
+		<AppSidebar v-if="id && currentApp" @close="hideAppDetails">
 			<AppDetails :category="category" :app="currentApp" />
 		</AppSidebar>
 	</Content>
@@ -79,6 +79,12 @@ export default {
 		},
 		resetSearch() {
 			this.setSearch('');
+		},
+		hideAppDetails() {
+			this.$router.push({
+				name: 'apps-category',
+				params: {category: this.category}
+			})
 		}
 	},
 	beforeMount() {
