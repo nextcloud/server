@@ -67,7 +67,9 @@
 			if(title) {
 				$('#uploadprogressbar').attr('original-title', title);
 			}
-			$('#uploadprogresswrapper .stop').show();
+			if(textDesktop || textMobile) {
+				$('#uploadprogresswrapper .stop').show();
+			}
 		},
 
 		_onClickCancel: function (event) {
