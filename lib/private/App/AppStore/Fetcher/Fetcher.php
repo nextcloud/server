@@ -95,7 +95,7 @@ abstract class Fetcher {
 		}
 
 		$options = [
-			'timeout' => 10,
+			'timeout' => 30,
 		];
 
 		if ($ETag !== '') {
