@@ -204,6 +204,11 @@ export default {
 		 * @param {Object} fileInfo the opened file info
 		 */
 		async openFile(fileName, fileInfo) {
+			// do not open the same file again
+			if (fileName === this.currentFile.name) {
+				return
+			}
+
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
 
