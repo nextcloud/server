@@ -690,7 +690,7 @@ OC.L10N.register(
     "Administrator documentation" : "Documentação do administrador",
     "Documentation" : "Documentação",
     "Forum" : "Fórum",
-    "None" : "Nada",
+    "None" : "Nenhuma",
     "Login" : "Login",
     "Plain" : "Plano",
     "NT LAN Manager" : "Gerenciador NT LAN",
