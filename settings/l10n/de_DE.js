@@ -631,7 +631,7 @@ OC.L10N.register(
     "The backend does not support changing the display name" : "Das Backend unterstützt keine Änderung des Anzeigenamens",
     "New password" : "Neues Passwort",
     "Add user in group" : "Nutzer zur Gruppe hinzufügen",
-    "Set user as admin for" : "Nutzer als Administrator setzen für",
+    "Set user as admin for" : "Benutzer als Administrator setzen für",
     "Select user quota" : "Speicherkontigent wählen",
     "No language set" : "Keine Sprache eingestellt.",
     "Never" : "Niemals",
