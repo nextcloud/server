@@ -239,6 +239,7 @@ OC.L10N.register(
     "Search contacts …" : "Kişi arama...",
     "No contacts found" : "Herhangi bir kişi bulunamadı",
     "Show all contacts …" : "Tüm kişileri görüntüle...",
+    "Install the Contacts app" : "Kişiler uygulamasını kur",
     "Loading your contacts …" : "Kişileriniz yükleniyor...",
     "Looking for {term} …" : "{term} ifadesi aranıyor...",
     "No" : "Hayır",
