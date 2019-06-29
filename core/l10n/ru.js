@@ -239,6 +239,7 @@ OC.L10N.register(
     "Search contacts …" : "Искать контакты…",
     "No contacts found" : "Контактов не найдено",
     "Show all contacts …" : "Показать все контакты…",
+    "Install the Contacts app" : "Установить приложение Contacts",
     "Loading your contacts …" : "Загрузка контактов…",
     "Looking for {term} …" : "Поиск {term}…",
     "No" : "Нет",
