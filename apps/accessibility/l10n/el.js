@@ -13,6 +13,9 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Οδηγίες προσβασιμότητας περιεχομένου ιστού",
     "our issue tracker" : "ο ανιχνευτής ζητημάτων μας",
     "our design team" : "η ομάδα σχεδιασμού μας",
-    "Enable" : "Ενεργοποίηση"
+    "Enable" : "Ενεργοποίηση",
+    "Themes" : "Θέματα",
+    "Fonts" : "Γραμματοσειρές",
+    "enabled" : "ενεργοποιημένο"
 },
 "nplurals=2; plural=(n != 1);");
