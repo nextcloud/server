@@ -40,7 +40,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s 给您共享了 »%2$s« 并希望添加：",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 给您共享了 »%2$s« 并希望添加",
     "»%s« added a note to a file shared with you" : "»%s« 在与您共享的文件中添加了备注",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您刚刚与 %2$s 分享了 »%1$s«。此共享已发送给收件人。根据管理员定义的安全策略 %3$s，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
+    "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您刚刚与 %2$s 分享了 »%1$s«。此共享已发送给收件人。根据管理员定义的安全策略 %3$s，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
     "Password to access »%1$s« shared by you with %2$s" : "用于访问您给 %2$s 共享的 »%1$s« 的密码",
     "This is the password:" : "这是密码：",
     "You can choose a different password at any time in the share dialog." : "您可以随时在共享对话框中选择不同的密码。",
@@ -58,7 +58,7 @@ OC.L10N.register(
     "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s与您共享了%s。访问链接已另外以邮件方式发送到您的邮箱。",
     "Password to access »%s« shared to you by %s" : "使用密码访问 »%s«，由 %s 共享给您",
     "It is protected with the following password: %s" : "已被已下密码保护：%s",
-    "You just shared »%s« with %s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您与 %s 共享 »%s« 已发送给收件人。由于 %s 管理员定义的安全策略，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
+    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您与 %s 共享 »%s« 已发送给收件人。由于 %s 管理员定义的安全策略，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
     "Password to access »%s« shared with %s" : "使用密码访问 »%s« ，由 %s 共享",
     "This is the password: %s" : "这是密码：%s",
     "Password to access »%1$s« shared with %2$s" : "用于访问与 %2$s 共享的 »%1$s« 的密码"
