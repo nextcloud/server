@@ -51,6 +51,6 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetPriority() {
-		$this->assertSame(0, $this->admin->getPriority());
+		$this->assertSame(100, $this->admin->getPriority());
 	}
 }
