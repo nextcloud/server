@@ -98,6 +98,15 @@ class Manager implements ICommentsManager {
 		return $data;
 	}
 
+
+	/**
+	 * @param array $data
+	 * @return IComment
+	 */
+	public function getCommentFromData(array $data): IComment {
+		return new Comment($this->normalizeDatabaseData($data));
+	}
+
 	/**
 	 * prepares a comment for an insert or update operation after making sure
 	 * all necessary fields have a value assigned.
@@ -253,7 +262,8 @@ class Manager implements ICommentsManager {
 			throw new NotFoundException();
 		}
 
-		$comment = new Comment($this->normalizeDatabaseData($data));
+
+		$comment = $this->getCommentFromData($data);
 		$this->cache($comment);
 		return $comment;
 	}
@@ -308,7 +318,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$tree['replies'][] = [
 				'comment' => $comment,
@@ -367,7 +377,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
@@ -455,7 +465,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
@@ -485,7 +495,7 @@ class Manager implements ICommentsManager {
 		$result->closeCursor();
 
 		if ($row) {
-			$comment = new Comment($this->normalizeDatabaseData($row));
+			$comment = $this->getCommentFromData($row);
 			$this->cache($comment);
 			return $comment;
 		}
@@ -532,7 +542,7 @@ class Manager implements ICommentsManager {
 		$comments = [];
 		$result = $query->execute();
 		while ($data = $result->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
