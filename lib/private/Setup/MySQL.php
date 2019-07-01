@@ -79,7 +79,7 @@ class MySQL extends AbstractDatabase {
 
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
-			$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
+			$query="GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [
