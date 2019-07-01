@@ -11,13 +11,13 @@
 
   <IfModule mod_env.c>
     # Add security and privacy related headers
-    Header set Referrer-Policy "no-referrer"
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Download-Options "noopen"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set X-Permitted-Cross-Domain-Policies "none"
-    Header set X-Robots-Tag "none"
-    Header set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "no-referrer"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Download-Options "noopen"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+    Header always set X-Robots-Tag "none"
+    Header always set X-XSS-Protection "1; mode=block"
     SetEnv modHeadersAvailable true
   </IfModule>
 
