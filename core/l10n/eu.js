@@ -85,6 +85,7 @@ OC.L10N.register(
     "Share link" : "Partekatu esteka",
     "Could not unshare" : "Ezin izan da despartekatu",
     "Shared with you and the group {group} by {owner}" : "{owner}-k zu eta {group} taldearekin partekatuta",
+    "Shared with you and {circle} by {owner}" : " {owner}-(e)k zurekin eta {circle}-(r)ekin partekatua",
     "Shared with you by {owner}" : "{owner}-k zurekin partekatuta",
     "Choose a password for the mail share" : "Hautatu pasahitz bat posta partekatzeko",
     "group" : "taldea",
