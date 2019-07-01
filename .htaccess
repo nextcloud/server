@@ -17,6 +17,7 @@
     Header set X-Download-Options "noopen"
     Header set X-Permitted-Cross-Domain-Policies "none"
     Header set Referrer-Policy "no-referrer"
+    Header set X-Frame-Options "SAMEORIGIN"
     SetEnv modHeadersAvailable true
   </IfModule>
 

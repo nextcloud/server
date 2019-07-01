@@ -94,7 +94,6 @@ class OC_Response {
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
 		header('Content-Security-Policy:' . $policy);
-		header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
@@ -105,6 +104,7 @@ class OC_Response {
 			header('X-Download-Options: noopen'); // https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
 			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
+			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 		}
 	}
 
