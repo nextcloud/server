@@ -9,26 +9,23 @@
 		}
 		?>
 
-		<li id="quota"
-			class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?><?php
-			if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			?>has-tooltip" title="<?php p($_['usage_relative'] . '%, ');
-			p($l->t('%s of %s used', [$_['usage'], $_['total_space']]));
-		} ?>">
-			<a href="#" class="icon-quota svg">
-				<p id="quotatext"><?php
-					if ($_['quota'] !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						p($l->t('%1$s%% of %2$s used', [round($_['usage_relative'], 1), $_['total_space']]));
-					} else {
-						p($l->t('%s used', [$_['usage']]));
-					} ?></p>
-				<div class="quota-container">
-					<progress value="<?php p($_['usage_relative']); ?>"
-							  max="100"
-						<?php if ($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
-				</div>
-			</a>
-		</li>
+		<?php if($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
+			<li id="quota" class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>">
+				<a href="#" class="icon-quota svg">
+					<p><?php p($l->t('%s used', [$_['usage']])); ?></p>
+				</a>
+			</li>
+		<?php else: ?>
+			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
+				title="<?php p($l->t('%s%% of %s used', [$_['usage_relative'], $_['total_space']])); ?>">
+				<a href="#" class="icon-quota svg">
+					<p id="quotatext"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
+					<div class="quota-container">
+						<progress value="<?php p($_['usage_relative']); ?>" max="100" class="<?= ($_['usage_relative'] > 80) ? 'warn' : '' ?>"></progress>
+					</div>
+				</a>
+			</li>
+		<?php endif; ?>
 	</ul>
 	<div id="app-settings">
 		<div id="app-settings-header">
