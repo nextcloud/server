@@ -48,7 +48,7 @@
     "query-string": "^5.1.1",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
-    "toastify-js": "^1.5.0",
+    "toastify-js": "^1.6.1",
     "underscore": "^1.9.1",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
