@@ -89,7 +89,7 @@ class OC_Response {
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
 			. 'font-src \'self\' data:; '
-			. 'media-src *; ' 
+			. 'media-src *; '
 			. 'connect-src *; '
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
