@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2019, ownCloud, Inc.
  *
+ * @author Olivier Paroz <github@oparoz.com>
  * @author Ignacio Nunez <nachoparker@ownyourbits.com>
  *
  * @license AGPL-3.0
