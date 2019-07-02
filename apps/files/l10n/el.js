@@ -122,9 +122,8 @@ OC.L10N.register(
     "Unlimited" : "Απεριόριστο",
     "Upload (max. %s)" : "Διαμοιρασμός (max. %s)",
     "File Management" : "Διαχείριση αρχείων",
-    "%s of %s used" : "%s από %s σε χρήση",
-    "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση",
     "%s used" : "%sσε χρήση",
+    "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
     "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "WebDAV" : "WebDAV",
@@ -154,7 +153,8 @@ OC.L10N.register(
     "Save" : "Αποθήκευση",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
+    "%s of %s used" : "%s από %s σε χρήση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
-    "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s"
+    "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση"
 },
 "nplurals=2; plural=(n != 1);");

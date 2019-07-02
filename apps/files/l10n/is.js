@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Ótakmarkað",
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "File Management" : "Skráastjórnun",
-    "%s of %s used" : "%s af %s notað",
-    "%1$s%% of %2$s used" : "%1$s%% af %2$s notað",
     "%s used" : "%s notað",
+    "%1$s of %2$s used" : "%1$s af %2$s notað",
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Vista",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Með PHP-FPM getur það tekið 5 mínútur fyrir breytingar að verða virkar.",
     "Missing permissions to edit from here." : "Vantar heimildir til að breyta einhverju héðan.",
+    "%s of %s used" : "%s af %s notað",
     "Cancel upload" : "Hætta við innsendingu",
-    "%1$s of %2$s used" : "%1$s af %2$s notað"
+    "%1$s%% of %2$s used" : "%1$s%% af %2$s notað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

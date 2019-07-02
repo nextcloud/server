@@ -27,7 +27,11 @@ OC.L10N.register(
     "updated" : "actualitzat",
     "mounted" : "muntat",
     "deactivated" : "desactivat",
+    "beforeCreate" : "beforeCreate",
     "created" : "creat",
-    "destroyed" : "destruït"
+    "beforeUpdate" : "beforeUpdate",
+    "beforeDestroy" : "beforeDestroy",
+    "destroyed" : "destruït",
+    "beforeMount" : "beforeMount"
 },
 "nplurals=2; plural=(n != 1);");

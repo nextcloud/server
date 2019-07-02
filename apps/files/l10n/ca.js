@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Il·limitat",
     "Upload (max. %s)" : "Càrrega (màx. %s)",
     "File Management" : "Gestió de fitxers",
-    "%s of %s used" : "Utilitzats %s de %s",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat",
     "%s used" : "%s utilitzat",
+    "%1$s of %2$s used" : "%1$s de %2$s utilitzat",
     "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Desa",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Amb PHP-FPM pot trigar 5 minuts a aplicar els canvis.",
     "Missing permissions to edit from here." : "Falta els permisos per editar des d'aquí.",
+    "%s of %s used" : "Utilitzats %s de %s",
     "Cancel upload" : "Cancel·la la càrrega",
-    "%1$s of %2$s used" : "%1$s de %2$s utilitzat"
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat"
 },
 "nplurals=2; plural=(n != 1);");

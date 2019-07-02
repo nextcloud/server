@@ -111,8 +111,8 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "<strong>Възстановяване</strong>на файл или папка",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Качи (макс. %s)",
-    "%s of %s used" : "%s от %s използвани",
     "%s used" : "%s използвани",
+    "%1$s of %2$s used" : "%1$s от %2$s използвани",
     "Settings" : "Настройки",
     "Show hidden files" : "Показвай и скрити файлове",
     "WebDAV" : "WebDAV",
@@ -142,7 +142,7 @@ OC.L10N.register(
     "Save" : "Запиши",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ако ползвате PHP-FPM прилагането на промени може да отнеме 5 минути.",
     "Missing permissions to edit from here." : "Липсва разрешение за редакция от тук.",
-    "Cancel upload" : "Откажи качването",
-    "%1$s of %2$s used" : "%1$s от %2$s използвани"
+    "%s of %s used" : "%s от %s използвани",
+    "Cancel upload" : "Откажи качването"
 },
 "nplurals=2; plural=(n != 1);");

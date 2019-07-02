@@ -38,7 +38,6 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą",
     "»%s« added a note to a file shared with you" : "„%s“ parašė pastabą su jumis pasidalintam failui",
-    "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ką tik pasidalinote „%1$s“ su %2$s.  Dalinimosi nuoroda buvo išsiųsta adresatui.  Pagal saugumo taisykles, kurias nustatė %3$s administratorius, kiekvienas dalinimasis turi būti apsaugotas slaptažodžiu ir negalima slaptažodžio tiesiogiai perduoti gavėjui. Slaptažodį perduoti gavėjui turite neautomatiniu būdu.",
     "Password to access »%1$s« shared by you with %2$s" : "Pasidalinote slaptažodžiu, reikalingu atverti „%1$s“ su %2$s",
     "This is the password:" : "Štai yra slaptažodis:",
     "You can choose a different password at any time in the share dialog." : "Dalinimosi dialoge bet kuriuo metu galite pasirinkti kitą slaptažodį.",
@@ -59,6 +58,7 @@
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ką tik pasidalinote „%s“ su %s.  Dalinimosi nuoroda buvo išsiųsta adresatui.  Pagal saugumo taisykles, kurias nustatė %s administratorius, kiekvienas dalinimasis turi būti apsaugotas slaptažodžiu ir negalima slaptažodžio tiesiogiai perduoti gavėjui. Slaptažodį perduoti gavėjui turite neautomatiniu būdu.",
     "Password to access »%s« shared with %s" : "Slaptažodis prieigai prie „%s“ pasidalintas su %s",
     "This is the password: %s" : "Štai yra slaptažodis: %s",
+    "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ką tik pasidalinote „%1$s“ su %2$s.  Dalinimosi nuoroda buvo išsiųsta adresatui.  Pagal saugumo taisykles, kurias nustatė %3$s administratorius, kiekvienas dalinimasis turi būti apsaugotas slaptažodžiu ir negalima slaptažodžio tiesiogiai perduoti gavėjui. Slaptažodį perduoti gavėjui turite neautomatiniu būdu.",
     "Password to access »%1$s« shared with %2$s" : "Slaptažodis prieigai prie „%1$s“ pasidalintas su %2$s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

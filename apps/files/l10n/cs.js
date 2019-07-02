@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Neomezeně",
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "File Management" : "Správa souboru",
-    "%s of %s used" : "%s z %s použito",
-    "%1$s%% of %2$s used" : "použito %1$s%% z %2$s",
     "%s used" : "%s použito",
+    "%1$s of %2$s used" : "%1$s z %2$s použito",
     "Settings" : "Nastavení",
     "Show hidden files" : "Zobrazit skryté soubory",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Uložit",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Při použití PHP-FPM může změna nastavení trvat až 5 minut od uložení.",
     "Missing permissions to edit from here." : "Pro úpravy v aktuálním náhledu chybí oprávnění.",
+    "%s of %s used" : "%s z %s použito",
     "Cancel upload" : "Zrušit nahrávání",
-    "%1$s of %2$s used" : "%1$s z %2$s použito"
+    "%1$s%% of %2$s used" : "použito %1$s%% z %2$s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

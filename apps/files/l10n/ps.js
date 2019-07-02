@@ -116,9 +116,8 @@ OC.L10N.register(
     "Unlimited" : "نامحدود",
     "Upload (max. %s)" : "پورته کول (%s نهايي)",
     "File Management" : "فایلونه ترتیبول",
-    "%s of %s used" : "د %sبرخې %sکارول شوې",
-    "%1$s%% of %2$s used" : "د %2$sبرخې %1$s%%کارول شوې",
     "%s used" : "%sکارول شوې",
+    "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
     "Settings" : "سمونې",
     "Show hidden files" : "پټ فایلونه ليدل",
     "Toggle grid view" : "په جدولي شکل ليدل",
@@ -142,7 +141,8 @@ OC.L10N.register(
     "File handling" : "فایلونه سمبالول",
     "Maximum upload size" : "د پورته کولو تر ټولو زیاته اندازه",
     "Save" : "ساتل",
+    "%s of %s used" : "د %sبرخې %sکارول شوې",
     "Cancel upload" : "پرېښودل",
-    "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې"
+    "%1$s%% of %2$s used" : "د %2$sبرخې %1$s%%کارول شوې"
 },
 "nplurals=2; plural=(n != 1);");

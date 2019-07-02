@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Необмежено",
     "Upload (max. %s)" : "Вивантаження (макс. %s)",
     "File Management" : "Управління файлами",
-    "%s of %s used" : "%s з %s використано",
-    "%1$s%% of %2$s used" : "використано %1$s%% з %2$s",
     "%s used" : "%s використано",
+    "%1$s of %2$s used" : "використано %1$s з %2$s",
     "Settings" : "Налаштування",
     "Show hidden files" : "Показати приховані файли",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Зберегти",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "З PHP-FPM прийняття змін може тривати до 5 хвилин.",
     "Missing permissions to edit from here." : "Недостатньо прав для редагування звідси.",
+    "%s of %s used" : "%s з %s використано",
     "Cancel upload" : "Скасувати завантаження",
-    "%1$s of %2$s used" : "використано %1$s з %2$s"
+    "%1$s%% of %2$s used" : "використано %1$s%% з %2$s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
