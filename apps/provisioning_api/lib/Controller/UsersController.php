@@ -328,12 +328,13 @@ class UsersController extends AUserData {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
 				} catch (\Exception $e) {
+					// Mail could be failing hard or just be plain not configured
+					// Logging error as it is the hardest of the two
 					$this->logger->logException($e, [
-						'message' => "Can't send new user mail to $email",
+						'message' => "Unable to send the invitation mail to $email",
 						'level' => ILogger::ERROR,
 						'app' => 'ocs_api',
 					]);
-					throw new OCSException('Unable to send the invitation mail', 109);
 				}
 			}
 
