@@ -47,6 +47,8 @@ steps:
       - git --no-pager log -1
       - npm ci
       - npm run build
+      - npm i -g @bahmutov/print-env
+      - print-env DRONE
 
   # wait on server to be ready
   - name: wait-on-server
@@ -85,7 +87,7 @@ steps:
       LOGIN: login
     commands:
       - cd /drone/src
-      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER
 
   - name: testing 2
     image: cypress/browsers:chrome69
@@ -113,7 +115,7 @@ steps:
       LOGIN: login
     commands:
       - cd /drone/src
-      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER
 
   - name: testing 3
     image: cypress/browsers:chrome69
@@ -141,7 +143,7 @@ steps:
       LOGIN: login
     commands:
       - cd /drone/src
-      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER
 
   - name: testing 4
     image: cypress/browsers:chrome69
@@ -169,7 +171,7 @@ steps:
       LOGIN: login
     commands:
       - cd /drone/src
-      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER
 
 volumes:
   - name: cache
