@@ -10,7 +10,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s %2$s-en iruzkin du",
     "{author} commented on {file}" : "{author}-(e)k {file}-en iruzkin du",
     "<strong>Comments</strong> for files" : "Fitxategientzako <strong>iruzkinak",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : " “{file}” fitxategian ezabatu izan den erabiltzaile batek aipatu zaitu",
     "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”",
+    "Files app plugin to add comments to files" : "Fitxategiei iruzkinak gehitzeko fitxategien aplikazioaren plugina",
     "Edit comment" : "Iruzkina editatu",
     "Delete comment" : "Ezabatu iruzkina",
     "New comment …" : "Iruzkin berria...",
@@ -25,7 +27,9 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Akats bat gertatu da {id} id duen iruzkina aldatzerakoan",
     "Error occurred while posting comment" : "Akats bat gertatu da iruzkina bidaltzerakoan",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"],
+    "_1 new comment_::_{unread} new comments_" : ["Iruzkin berri 1","{unread} iruzkin berri"],
     "Comment" : "Iruzkina",
+    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "“%s” iruzkinean dagoeneko ezabatuta dagoen erabiltzaile batek aipatu zaitu.",
     "%1$s mentioned you in a comment on “%2$s”" : "%1$s-(e)k aipatu zaitu iruzkinean “%2$s”"
 },
 "nplurals=2; plural=(n != 1);");

@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Mugarik gabe",
     "Upload (max. %s)" : "Kargatu (max. %s)",
     "File Management" : "Fitxategi-kudeaketa",
-    "%s of %s used" : "%s / %s(e)tik erabilita",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s(e)tik erabilita",
     "%s used" : "%s erabilita",
+    "%1$s of %2$s used" : "%1$s / %2$s(e)tik erabilita",
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Gorde",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPMrekin 5 minutu pasa daitezke aldaketak aplikatu arte.",
     "Missing permissions to edit from here." : "Hemen editatzeko baimenik ez duzu.",
+    "%s of %s used" : "%s / %s(e)tik erabilita",
     "Cancel upload" : "Karga bertan behera utzita",
-    "%1$s of %2$s used" : "%1$s / %2$s(e)tik erabilita"
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s(e)tik erabilita"
 },
 "nplurals=2; plural=(n != 1);");

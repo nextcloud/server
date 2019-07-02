@@ -40,7 +40,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s さんが »%2$s« にノートを追加しました。",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s さんが »%2$s« にノートを追加しました。",
     "»%s« added a note to a file shared with you" : "»%s« あなたと共有しているファイルにノートを追加しました。 ",
-    "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$sを%2$sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%3$sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
     "Password to access »%1$s« shared by you with %2$s" : "»%1$s«に共有アクセスのパスワードが %2$s から共有されました",
     "This is the password:" : "パスワード: ",
     "You can choose a different password at any time in the share dialog." : "共有ダイアログからいつでも違うパスワードに変更できます。",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%sを%sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
     "Password to access »%s« shared with %s" : "»%s« にアクセスするパスワードが %s から共有されました",
     "This is the password: %s" : "パスワード: %s",
+    "You just shared »%1$s« with %2$s. The share was already send to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$sを%2$sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%3$sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
     "Password to access »%1$s« shared with %2$s" : "»%1$s«に共有アクセスのパスワードが %2$s から共有されました"
 },
 "nplurals=1; plural=0;");
