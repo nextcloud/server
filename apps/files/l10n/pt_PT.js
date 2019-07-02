@@ -118,7 +118,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Um ficheiro ou pasta foram <strong>restaurados</strong>",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (máx. %s)",
-    "%s of %s used" : "%s de %s utilizado",
     "%s used" : "%s utilizado",
     "Settings" : "Configurações",
     "Show hidden files" : "Mostrar ficheiros ocultos",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com o PHP-FPM poderá demorar 5 minutos até que as alterações sejam aplicadas.",
     "Missing permissions to edit from here." : "Faltam permissões para editar a partir daqui.",
+    "%s of %s used" : "%s de %s utilizado",
     "Cancel upload" : "Cancelar envio"
 },
 "nplurals=2; plural=(n != 1);");

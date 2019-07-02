@@ -121,7 +121,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Datoteka ali mapa je bila <strong>obnovljena</strong>",
     "Unlimited" : "Neomejeno",
     "Upload (max. %s)" : "Pošiljanje (omejitev %s)",
-    "%s of %s used" : "%s od %s uporabljeno",
     "%s used" : "%s uporabljeno",
     "Settings" : "Nastavitve",
     "Show hidden files" : "Pokaži skrite datoteke",
@@ -151,6 +150,7 @@ OC.L10N.register(
     "Save" : "Shrani",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Uveljavljanje sprememb prek PHP-FPM lahko traja tudi 5  minut.",
     "Missing permissions to edit from here." : "Ni ustreznih dovoljenj za urejanje na tej ravni.",
+    "%s of %s used" : "%s od %s uporabljeno",
     "Cancel upload" : "Prekliči pošiljanje"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

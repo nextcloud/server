@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "ללא הגבלה",
     "Upload (max. %s)" : "העלאה (מקסימום %s)",
     "File Management" : "ניהול קבצים",
-    "%s of %s used" : "%s מתוך %s בשימוש",
-    "%1$s%% of %2$s used" : "%1$s%% מתוך %2$s בשימוש",
     "%s used" : "%s בשימוש",
+    "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
     "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "שמירה",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "בשימוש ב- PHP-FPM זה יכול להמשך 5 דקות לשינויים לחול.",
     "Missing permissions to edit from here." : "חסרות הרשאות לעריכה מכאן.",
+    "%s of %s used" : "%s מתוך %s בשימוש",
     "Cancel upload" : "ביטול העלאה",
-    "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש"
+    "%1$s%% of %2$s used" : "%1$s%% מתוך %2$s בשימוש"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -103,7 +103,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Një skedar ose dosje është <strong> rikthyer </strong>",
     "Unlimited" : "E palimituar",
     "Upload (max. %s)" : "Ngarkim (max. %s)",
-    "%s of %s used" : "%s nga %s është përdorur",
     "%s used" : "%s të përdorura",
     "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Me PHP-FPM mund të duhen 5 minuta që ndryshimet të hyjnë në fuqi.",
     "Missing permissions to edit from here." : "Mungojnë lejet për përpunim që nga këtu.",
+    "%s of %s used" : "%s nga %s është përdorur",
     "Cancel upload" : "Anulo ngarkimin"
 },
 "nplurals=2; plural=(n != 1);");
