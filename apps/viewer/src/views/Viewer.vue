@@ -245,6 +245,9 @@ export default {
 
 			// override mimetype if existing alias
 			mime = this.getAliasIfAny(mime)
+			if (!this.components[mime]) {
+				mime = mime.split('/')[0]
+			}
 
 			if (this.components[mime]) {
 				this.currentFile = new File(fileInfo, mime, this.components[mime])
