@@ -48,7 +48,7 @@
 			<span class="official icon-checkmark" v-if="app.level === 200"
 				  v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')">
 				{{ t('settings', 'Official') }}</span>
-			<app-score v-if="!listView" :score="app.score"></app-score>
+			<app-score v-if="hasRating && !listView" :score="app.score"></app-score>
 		</div>
 
 		<div class="actions">
@@ -97,7 +97,9 @@
 			this.isSelected = (this.app.id === this.$route.params.id);
 		},
 		computed: {
-
+			hasRating() {
+				return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5;
+			},
 		},
 		watchers: {
 
