@@ -141,7 +141,7 @@ class ViewControllerTest extends TestCase {
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('usage_relative', 123);
-		$nav->assign('usage', '123 B');
+		$nav->assign('usage', '100 KB');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
 		//$nav->assign('webdavurl', '');
