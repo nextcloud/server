@@ -454,9 +454,11 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the internal Nextcloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
+	 *
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with the name to use in Nextcloud, false on DN outside of search DN
+	 * @throws \Exception
 	 */
 	public function dn2groupname($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -511,9 +513,11 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the internal Nextcloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
+	 *
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in Nextcloud
+	 * @throws \Exception
 	 */
 	public function dn2username($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -654,10 +658,12 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gives back the user names as they are used ownClod internally
+	 *
 	 * @param array $ldapUsers as returned by fetchList()
 	 * @return array an array with the user names to use in Nextcloud
 	 *
 	 * gives back the user names as they are used ownClod internally
+	 * @throws \Exception
 	 */
 	public function nextcloudUserNames($ldapUsers) {
 		return $this->ldap2NextcloudNames($ldapUsers, true);
@@ -665,10 +671,12 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gives back the group names as they are used ownClod internally
+	 *
 	 * @param array $ldapGroups as returned by fetchList()
 	 * @return array an array with the group names to use in Nextcloud
 	 *
 	 * gives back the group names as they are used ownClod internally
+	 * @throws \Exception
 	 */
 	public function nextcloudGroupNames($ldapGroups) {
 		return $this->ldap2NextcloudNames($ldapGroups, false);
@@ -753,9 +761,11 @@ class Access extends LDAPUtility {
 
 	/**
 	 * caches the user display name
+	 *
 	 * @param string $ocName the internal Nextcloud username
 	 * @param string $displayName the display name
 	 * @param string $displayName2 the second display name
+	 * @throws \Exception
 	 */
 	public function cacheUserDisplayName($ocName, $displayName, $displayName2 = '') {
 		$user = $this->userManager->get($ocName);
@@ -885,6 +895,7 @@ class Access extends LDAPUtility {
 	 * @param int $offset
 	 * @param bool $forceApplyAttributes
 	 * @return array
+	 * @throws \Exception
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null, $forceApplyAttributes = false) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
@@ -973,6 +984,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * executes an LDAP search, optimized for Users
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -980,6 +992,7 @@ class Access extends LDAPUtility {
 	 * @return array with the search result
 	 *
 	 * Executes an LDAP search
+	 * @throws ServerNotAvailableException
 	 */
 	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
 		$result = [];
@@ -995,6 +1008,7 @@ class Access extends LDAPUtility {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return false|int
+	 * @throws ServerNotAvailableException
 	 */
 	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
 		$result = false;
@@ -1007,6 +1021,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * executes an LDAP search, optimized for Groups
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -1014,6 +1029,7 @@ class Access extends LDAPUtility {
 	 * @return array with the search result
 	 *
 	 * Executes an LDAP search
+	 * @throws ServerNotAvailableException
 	 */
 	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
 		$result = [];
@@ -1025,11 +1041,13 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the number of available groups
+	 *
 	 * @param string $filter the LDAP search filter
 	 * @param string[] $attr optional
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function countGroups($filter, $attr = array('dn'), $limit = null, $offset = null) {
 		$result = false;
@@ -1046,6 +1064,7 @@ class Access extends LDAPUtility {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function countObjects($limit = null, $offset = null) {
 		$result = false;
@@ -1149,6 +1168,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * processes an LDAP paged search operation
+	 *
 	 * @param array $sr the array containing the LDAP search resources
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
@@ -1159,6 +1179,7 @@ class Access extends LDAPUtility {
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
 	 * @return bool cookie validity, true if we have more pages, false otherwise.
+	 * @throws ServerNotAvailableException
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		$cookie = null;
@@ -1251,6 +1272,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @param array $searchResults
 	 * @return int
+	 * @throws ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($searchResults) {
 		$counter = 0;
@@ -1656,6 +1678,7 @@ class Access extends LDAPUtility {
 	 * @param bool $force the detection should be run, even if it is not set to auto
 	 * @param array|null $ldapRecord
 	 * @return bool true on success, false otherwise
+	 * @throws ServerNotAvailableException
 	 */
 	private function detectUuidAttribute($dn, $isUser = true, $force = false, array $ldapRecord = null) {
 		if($isUser) {
@@ -1711,6 +1734,7 @@ class Access extends LDAPUtility {
 	 * @param bool $isUser
 	 * @param null $ldapRecord
 	 * @return bool|string
+	 * @throws ServerNotAvailableException
 	 */
 	public function getUUID($dn, $isUser = true, $ldapRecord = null) {
 		if($isUser) {
@@ -1816,8 +1840,10 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gets a SID of the domain of the given dn
+	 *
 	 * @param string $dn
 	 * @return string|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function getSID($dn) {
 		$domainDN = $this->getDomainDNFromDN($dn);
@@ -1986,12 +2012,14 @@ class Access extends LDAPUtility {
 
 	/**
 	 * Prepares a paged search, if possible
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
 	 * @return bool|true
+	 * @throws ServerNotAvailableException
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;

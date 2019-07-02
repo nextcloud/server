@@ -48,6 +48,7 @@ class CleanupFileLocks extends TimedJob {
 	 * Makes the background job do its work
 	 *
 	 * @param array $argument unused argument
+	 * @throws \Exception
 	 */
 	public function run($argument) {
 		$lockingProvider = \OC::$server->getLockingProvider();

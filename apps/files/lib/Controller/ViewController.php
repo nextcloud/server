@@ -136,6 +136,7 @@ class ViewController extends Controller {
 	 *
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
+	 * @throws NotFoundException
 	 */
 	public function showFile(string $fileid = null): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
@@ -153,7 +154,9 @@ class ViewController extends Controller {
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
+	 * @param bool $fileNotFound
 	 * @return TemplateResponse|RedirectResponse
+	 * @throws NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		if ($fileid !== null) {
