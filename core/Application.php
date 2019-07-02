@@ -31,6 +31,7 @@ namespace OC\Core;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
+use OC\Authentication\Listeners\RemoteWipeEmailListener;
 use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\RemoveLinkSharesNotifier;
@@ -64,19 +65,19 @@ class Application extends App {
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
-		$notificationManager->registerNotifier(function() use ($server) {
+		$notificationManager->registerNotifier(function () use ($server) {
 			return new RemoveLinkSharesNotifier(
 				$server->getL10NFactory()
 			);
-		}, function() {
+		}, function () {
 			return [
 				'id' => 'core',
 				'name' => 'core',
 			];
 		});
-		$notificationManager->registerNotifier(function() use ($server) {
+		$notificationManager->registerNotifier(function () use ($server) {
 			return $server->query(AuthenticationNotifier::class);
-		}, function() {
+		}, function () {
 			return [
 				'id' => 'auth',
 				'name' => 'authentication notifier',
@@ -84,7 +85,7 @@ class Application extends App {
 		});
 
 		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
-			function(GenericEvent $event) use ($container) {
+			function (GenericEvent $event) use ($container) {
 				/** @var MissingIndexInformation $subject */
 				$subject = $event->getSubject();
 
@@ -165,7 +166,10 @@ class Application extends App {
 
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
+		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeActivityListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeNotificationsListener::class);
+		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeEmailListener::class);
 	}
+
 }

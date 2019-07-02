@@ -522,6 +522,7 @@ return array(
     'OC\\Authentication\\Exceptions\\UserAlreadyLoggedInException' => $baseDir . '/lib/private/Authentication/Exceptions/UserAlreadyLoggedInException.php',
     'OC\\Authentication\\Exceptions\\WipeTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/WipeTokenException.php',
     'OC\\Authentication\\Listeners\\RemoteWipeActivityListener' => $baseDir . '/lib/private/Authentication/Listeners/RemoteWipeActivityListener.php',
+    'OC\\Authentication\\Listeners\\RemoteWipeEmailListener' => $baseDir . '/lib/private/Authentication/Listeners/RemoteWipeEmailListener.php',
     'OC\\Authentication\\Listeners\\RemoteWipeNotificationsListener' => $baseDir . '/lib/private/Authentication/Listeners/RemoteWipeNotificationsListener.php',
     'OC\\Authentication\\LoginCredentials\\Credentials' => $baseDir . '/lib/private/Authentication/LoginCredentials/Credentials.php',
     'OC\\Authentication\\LoginCredentials\\Store' => $baseDir . '/lib/private/Authentication/LoginCredentials/Store.php',
