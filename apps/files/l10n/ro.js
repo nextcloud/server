@@ -107,9 +107,8 @@ OC.L10N.register(
     "A file or folder has been <strong>deleted</strong>" : "Un fișier sau director a fost <strong>șters</strong>",
     "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>",
     "Upload (max. %s)" : "Încarcă (max. %s)",
-    "%s of %s used" : "%s din %s folosiți",
-    "%1$s%% of %2$s used" : "%1$s%% din %2$s utilizat",
     "%s used" : "%s folosiți",
+    "%1$s of %2$s used" : "%1$s din %2$s utilizat",
     "Settings" : "Setări",
     "Show hidden files" : "Arată fișierele ascunse",
     "WebDAV" : "WebDAV",
@@ -136,7 +135,8 @@ OC.L10N.register(
     "Save" : "Salvează",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Cu PHP-FPM poate dura 5 minute pentru a aplica schimbările..",
     "Missing permissions to edit from here." : "Nu ai permisiuni pentru a edita aici.",
+    "%s of %s used" : "%s din %s folosiți",
     "Cancel upload" : "Anulează încărcarea",
-    "%1$s of %2$s used" : "%1$s din %2$s utilizat"
+    "%1$s%% of %2$s used" : "%1$s%% din %2$s utilizat"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

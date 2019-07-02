@@ -118,7 +118,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "파일이나 폴더가 <strong>복원됨</strong>",
     "Unlimited" : "무제한",
     "Upload (max. %s)" : "업로드(최대 %s)",
-    "%s of %s used" : "%s/%s 사용함",
     "%s used" : "%s 사용함",
     "Settings" : "설정",
     "Show hidden files" : "숨김 파일 보이기",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Save" : "저장",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM을 사용 중이면 변경 사항이 적용되는 데 최대 5분 정도 걸릴 수 있습니다.",
     "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
+    "%s of %s used" : "%s/%s 사용함",
     "Cancel upload" : "업로드 취소"
 },
 "nplurals=1; plural=0;");
