@@ -269,11 +269,13 @@ class Manager implements IManager {
 
 		// And you can't share your rootfolder
 		if ($this->userManager->userExists($share->getSharedBy())) {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getSharedBy())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			$userFolderPath = $userFolder->getPath();
 		} else {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			$userFolderPath = $userFolder->getPath();
 		}
-		if ($sharedPath === $share->getNode()->getPath()) {
+		if ($userFolderPath === $share->getNode()->getPath()) {
 			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
@@ -297,6 +299,23 @@ class Manager implements IManager {
 		$mount = $share->getNode()->getMountPoint();
 		if (!($mount instanceof MoveableMount)) {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		} else if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+			$userMountPointId = $mount->getStorageRootId();
+			$userMountPoints = $userFolder->getById($userMountPointId);
+			$userMountPoint = array_shift($userMountPoints);
+
+			/* Check if this is an incoming share */
+			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
+
+			/** @var \OCP\Share\IShare[] $incomingShares */
+			if (!empty($incomingShares)) {
+				$permissions = 0;
+				foreach ($incomingShares as $incomingShare) {
+					$permissions |= $incomingShare->getPermissions();
+				}
+			}
 		}
 
 		// Check that we do not share with more permissions than we have
