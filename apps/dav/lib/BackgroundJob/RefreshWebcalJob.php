@@ -225,14 +225,25 @@ class RefreshWebcalJob extends Job {
 		}
 
 		if ($allowLocalAccess !== 'yes') {
-			$host = parse_url($url, PHP_URL_HOST);
+			$host = strtolower(parse_url($url, PHP_URL_HOST));
 			// remove brackets from IPv6 addresses
 			if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 				$host = substr($host, 1, -1);
 			}
 
-			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost' ||
-				preg_match('/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/', $host)) {
+			// Disallow localhost and local network
+			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
+				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
+				return null;
+			}
+
+			// Disallow hostname only
+			if (substr_count($host, '.') === 0) {
+				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
+				return null;
+			}
+
+			if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
 				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
 				return null;
 			}
