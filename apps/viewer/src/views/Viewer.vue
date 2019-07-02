@@ -238,6 +238,7 @@ export default {
 				this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
 			} else {
 				this.currentIndex = 0
+				this.fileList = fileList
 			}
 
 			// get saved fileInfo
