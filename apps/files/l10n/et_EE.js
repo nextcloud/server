@@ -118,7 +118,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Fail või kaust on <strong>taastatud</strong>",
     "Unlimited" : "Piiramatult",
     "Upload (max. %s)" : "Üleslaadimine (max. %s)",
-    "%s of %s used" : "Kasutatud %s/%s",
     "%s used" : "Kasutatud %s",
     "Settings" : "Seaded",
     "Show hidden files" : "Näita peidetud faile",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
     "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
+    "%s of %s used" : "Kasutatud %s/%s",
     "Cancel upload" : "Tühista üleslaadimine"
 },
 "nplurals=2; plural=(n != 1);");

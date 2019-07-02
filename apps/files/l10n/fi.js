@@ -127,9 +127,8 @@ OC.L10N.register(
     "Unlimited" : "Rajoittamaton",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "File Management" : "Tiedostohallinta",
-    "%s of %s used" : "%s / %s käytetty",
-    "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty",
     "%s used" : "%s käytetty",
+    "%1$s of %2$s used" : "%1$s/%2$s käytetty",
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "WebDAV" : "WebDAV",
@@ -159,7 +158,8 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
     "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
+    "%s of %s used" : "%s / %s käytetty",
     "Cancel upload" : "Perus lähetys",
-    "%1$s of %2$s used" : "%1$s/%2$s käytetty"
+    "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty"
 },
 "nplurals=2; plural=(n != 1);");

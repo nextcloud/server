@@ -125,7 +125,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "ფაილი ან დირექტორია <strong>აღდგენილ იქნა</strong>",
     "Unlimited" : "ულიმიტო",
     "Upload (max. %s)" : "ატვირთვა (მაქს. %s)",
-    "%s of %s used" : "%s სულ %s-დან მოხმარებულია",
     "%s used" : "%s მოხმარებულია",
     "Settings" : "პარამეტრები",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Save" : "შენახვა",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ით ცვლილებების შენახვამ შეიძლება გასტანოს 5 წუთი.",
     "Missing permissions to edit from here." : "არასაკმარისი უფლებები აქედან შეცვლისათვის.",
+    "%s of %s used" : "%s სულ %s-დან მოხმარებულია",
     "Cancel upload" : "ატვირთვის შეჩერება"
 },
 "nplurals=2; plural=(n!=1);");

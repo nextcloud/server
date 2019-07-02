@@ -133,9 +133,8 @@
     "Unlimited" : "無限制",
     "Upload (max. %s)" : "上傳（至多 %s）",
     "File Management" : "檔案管理",
-    "%s of %s used" : "在 %s 中使用了%s ",
-    "%1$s%% of %2$s used" : "在%2$s使用了%1$s%%",
     "%s used" : "%s已使用",
+    "%1$s of %2$s used" : "在  %2$s中使用了%1$s ",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
     "WebDAV" : "WebDAV",
@@ -165,7 +164,8 @@
     "Save" : "儲存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
+    "%s of %s used" : "在 %s 中使用了%s ",
     "Cancel upload" : "取消上傳",
-    "%1$s of %2$s used" : "在  %2$s中使用了%1$s "
+    "%1$s%% of %2$s used" : "在%2$s使用了%1$s%%"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

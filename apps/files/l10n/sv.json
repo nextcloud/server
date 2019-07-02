@@ -133,9 +133,8 @@
     "Unlimited" : "Obegränsad",
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "File Management" : "Filhantering",
-    "%s of %s used" : "%s av %s använt",
-    "%1$s%% of %2$s used" : "%1$s%% av %2$s använt",
     "%s used" : "%s använt",
+    "%1$s of %2$s used" : "%1$s av %2$s använt",
     "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
     "WebDAV" : "WebDAV",
@@ -165,7 +164,8 @@
     "Save" : "Spara",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta cirka 5 minuter för ändringarna att träda i kraft.",
     "Missing permissions to edit from here." : "Saknar rättigheter att ändra härifrån.",
+    "%s of %s used" : "%s av %s använt",
     "Cancel upload" : "Avbryt uppladdning",
-    "%1$s of %2$s used" : "%1$s av %2$s använt"
+    "%1$s%% of %2$s used" : "%1$s%% av %2$s använt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

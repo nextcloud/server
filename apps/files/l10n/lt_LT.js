@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Neribotai",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
     "File Management" : "Failų tvarkymas",
-    "%s of %s used" : "naudojama %s iš %s",
-    "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s",
     "%s used" : "%s panaudota",
+    "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
     "Settings" : "Nustatymai",
     "Show hidden files" : "Rodyti paslėptus failus",
     "WebDAV" : "WebDAV",
@@ -167,7 +166,8 @@ OC.L10N.register(
     "Save" : "Įrašyti",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Naudojant PHP-FPM, pakeitimų taikymas gali užtrukti 5 minutes.",
     "Missing permissions to edit from here." : "Draudžiama iš čia redaguoti",
+    "%s of %s used" : "naudojama %s iš %s",
     "Cancel upload" : "Atsisakyti įkėlimo",
-    "%1$s of %2$s used" : "naudojama %1$s iš %2$s"
+    "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
