@@ -951,40 +951,13 @@ class ShareAPIController extends OCSController {
 				}
 				$share->setExpirationDate($expireDate);
 			}
-
 		}
-
-		if ($permissions !== null && $share->getShareOwner() !== $this->currentUser) {
-			// Get the root mount point for the user and check the share permissions there
-			$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
-			$userNodes = $userFolder->getById($share->getNodeId());
-			$userNode = array_shift($userNodes);
-
-			$userMountPointId = $userNode->getMountPoint()->getStorageRootId();
-			$userMountPoints = $userFolder->getById($userMountPointId);
-			$userMountPoint = array_shift($userMountPoints);
-
-			/* Check if this is an incoming share */
-			$incomingShares = $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
-			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
-			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
-
-			/** @var \OCP\Share\IShare[] $incomingShares */
-			if (!empty($incomingShares)) {
-				$maxPermissions = 0;
-				foreach ($incomingShares as $incomingShare) {
-					$maxPermissions |= $incomingShare->getPermissions();
-				}
-
-				if ($share->getPermissions() & ~$maxPermissions) {
-					throw new OCSNotFoundException($this->l->t('Cannot increase permissions'));
-				}
-			}
-		}
-
 
 		try {
 			$share = $this->shareManager->updateShare($share);
+		} catch (GenericShareException $e) {
+			$code = $e->getCode() === 0 ? 403 : $e->getCode();
+			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		}
