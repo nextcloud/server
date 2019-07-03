@@ -290,16 +290,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
-		/*
-		 * Quick fix for #23536
-		 * Non moveable mount points do not have update and delete permissions
-		 * while we 'most likely' do have that on the storage.
-		 */
-		$permissions = $share->getNode()->getPermissions();
 		$mount = $share->getNode()->getMountPoint();
-		if (!($mount instanceof MoveableMount)) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
-		} else if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
 			$userMountPoint = array_shift($userMountPoints);
@@ -315,6 +308,16 @@ class Manager implements IManager {
 				foreach ($incomingShares as $incomingShare) {
 					$permissions |= $incomingShare->getPermissions();
 				}
+			}
+		} else {
+			/*
+			 * Quick fix for #23536
+			 * Non moveable mount points do not have update and delete permissions
+			 * while we 'most likely' do have that on the storage.
+			 */
+			$permissions = $share->getNode()->getPermissions();
+			if (!($mount instanceof MoveableMount)) {
+				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 			}
 		}
 
