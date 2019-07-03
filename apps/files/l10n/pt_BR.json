@@ -134,6 +134,7 @@
     "Upload (max. %s)" : "Envio (max. %s)",
     "File Management" : "Gerenciamento de Arquivos",
     "%s used" : "%s usado",
+    "%s%% of %s used" : "%s%% usados de %s",
     "%1$s of %2$s used" : "%1$s usado de %2$s",
     "Settings" : "Configurações",
     "Show hidden files" : "Exibir arquivos ocultos",

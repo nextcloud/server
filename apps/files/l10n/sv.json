@@ -134,6 +134,7 @@
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "File Management" : "Filhantering",
     "%s used" : "%s använt",
+    "%s%% of %s used" : "%s%% av %s använt",
     "%1$s of %2$s used" : "%1$s av %2$s använt",
     "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
