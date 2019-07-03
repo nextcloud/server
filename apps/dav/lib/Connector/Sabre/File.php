@@ -147,7 +147,12 @@ class File extends Node implements IFile {
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
-		} else {
+
+			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
+				$needsPartFile = false;
+			}
+		}
+		if (!$needsPartFile) {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 
@@ -178,7 +183,7 @@ class File extends Node implements IFile {
 				}
 
 				$isEOF = false;
-				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function($stream) use (&$isEOF) {
+				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
 					$isEOF = feof($stream);
 				});
 

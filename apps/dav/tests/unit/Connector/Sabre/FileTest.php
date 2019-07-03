@@ -28,13 +28,20 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\Storage\Local;
+use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\File;
+use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use Test\HookHelper;
 use OC\Files\Filesystem;
 use OCP\Lock\ILockingProvider;
+use Test\TestCase;
+use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
 
 /**
  * Class File
@@ -43,7 +50,9 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-class FileTest extends \Test\TestCase {
+class FileTest extends TestCase {
+	use MountProviderTrait;
+	use UserTrait;
 
 	/**
 	 * @var string
@@ -61,9 +70,8 @@ class FileTest extends \Test\TestCase {
 
 		\OC_Hook::clear();
 
-		$this->user = $this->getUniqueID('user_');
-		$userManager = \OC::$server->getUserManager();
-		$userManager->createUser($this->user, 'pass');
+		$this->user = 'test_user';
+		$this->createUser($this->user, 'pass');
 
 		$this->loginAsUser($this->user);
 
@@ -79,15 +87,14 @@ class FileTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject | Storage
+	 * @return \PHPUnit_Framework_MockObject_MockObject|Storage
 	 */
 	private function getMockStorage() {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$storage->expects($this->any())
-			->method('getId')
-			->will($this->returnValue('home::someuser'));
+		$storage->method('getId')
+			->willReturn('home::someuser');
 		return $storage;
 	}
 
@@ -1162,5 +1169,36 @@ class FileTest extends \Test\TestCase {
 		$file = new  \OCA\DAV\Connector\Sabre\File($view, $info);
 
 		$file->get();
+	}
+
+	public function testSimplePutNoCreatePermissions() {
+		$this->logout();
+
+		$storage = new Temporary([]);
+		$storage->file_put_contents('file.txt', 'old content');
+		$noCreateStorage = new PermissionsMask([
+			'storage'=> $storage,
+			'mask' => Constants::PERMISSION_ALL -  Constants::PERMISSION_CREATE
+		]);
+
+		$this->registerMount($this->user, $noCreateStorage, '/' . $this->user . '/files/root');
+
+		$this->loginAsUser($this->user);
+
+		$view = new View('/' . $this->user . '/files');
+
+		$info = $view->getFileInfo('root/file.txt');
+
+		$file = new File($view, $info);
+
+		// beforeMethod locks
+		$view->lockFile('root/file.txt', ILockingProvider::LOCK_SHARED);
+
+		$file->put($this->getStream('new content'));
+
+		// afterMethod unlocks
+		$view->unlockFile('root/file.txt', ILockingProvider::LOCK_SHARED);
+
+		$this->assertEquals('new content', $view->file_get_contents('root/file.txt'));
 	}
 }
