@@ -34,6 +34,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
@@ -46,6 +47,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -65,6 +67,8 @@ class UsersController extends AUserData {
 	private $federatedFileSharingFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
+	/** @var RemoteWipe */
+	private $remoteWipe;
 
 	/**
 	 * @param string $appName
@@ -93,7 +97,8 @@ class UsersController extends AUserData {
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
-								ISecureRandom $secureRandom) {
+								ISecureRandom $secureRandom,
+							    RemoteWipe $remoteWipe) {
 		parent::__construct($appName,
 							$request,
 							$userManager,
@@ -108,6 +113,7 @@ class UsersController extends AUserData {
 		$this->newUserMailHelper = $newUserMailHelper;
 		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
 		$this->secureRandom = $secureRandom;
+		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**
@@ -584,6 +590,37 @@ class UsersController extends AUserData {
 			default:
 				throw new OCSException('', 103);
 		}
+		return new DataResponse();
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 * @NoAdminRequired
+	 *
+	 * @param string $userId
+	 *
+	 * @return DataResponse
+	 *
+	 * @throws OCSException
+	 */
+	public function wipeUserDevices(string $userId): DataResponse {
+		/** @var IUser $currentLoggedInUser */
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+
+		if ($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			throw new OCSException('', 101);
+		}
+
+		// If not permitted
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$this->remoteWipe->markAllTokensForWipe($targetUser);
+
 		return new DataResponse();
 	}
 

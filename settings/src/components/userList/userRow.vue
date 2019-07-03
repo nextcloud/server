@@ -23,10 +23,10 @@
 <template>
 	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
 	<div class="row" v-if="Object.keys(user).length ===1" :data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
+		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
 			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
-				 v-if="!loading.delete && !loading.disable">
+				 v-if="!loading.delete && !loading.disable && !loading.wipe">
 		</div>
 		<div class="name">{{user.id}}</div>
 		<div class="obfuscated">{{t('settings','You do not have permissions to see the details of this user')}}</div>
@@ -34,10 +34,10 @@
 
 	<!-- User full data -->
 	<div class="row" v-else :class="{'disabled': loading.delete || loading.disable}" :data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable}">
+		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
 			<img alt="" width="32" height="32" :src="generateAvatar(user.id, 32)"
 				 :srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
-				 v-if="!loading.delete && !loading.disable">
+				 v-if="!loading.delete && !loading.disable && !loading.wipe">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">{{user.id}}</div>
@@ -165,22 +165,31 @@ export default {
 				quota: false,
 				delete: false,
 				disable: false,
-				languages: false
+				languages: false,
+				wipe: false,
 			}
 		}
 	},
 	computed: {
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
-			let actions = [{
-				icon: 'icon-delete',
-				text: t('settings','Delete user'),
-				action: this.deleteUser
-			},{
-				icon: this.user.enabled ? 'icon-close' : 'icon-add',
-				text: this.user.enabled ? t('settings','Disable user') : t('settings','Enable user'),
-				action: this.enableDisableUser
-			}];
+			let actions = [
+				{
+					icon: 'icon-delete',
+					text: t('settings', 'Delete user'),
+					action: this.deleteUser,
+				},
+				{
+					icon: 'icon-delete',
+					text: t('settings', 'Wipe all devices'),
+					action: this.wipeUserDevices,
+				},
+				{
+					icon: this.user.enabled ? 'icon-close' : 'icon-add',
+					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					action: this.enableDisableUser,
+				},
+			];
 			if (this.user.email !== null && this.user.email !== '') {
 				actions.push({
 					icon: 'icon-mail',
@@ -306,6 +315,17 @@ export default {
 		formatGroupsTitle(groups) {
 			let names = groups.map(group => group.name);
 			return names.slice(2,).join(', ');
+		},
+
+		wipeUserDevices() {
+			this.loading.wipe = true;
+			this.loading.all = true;
+			let userid = this.user.id;
+			return this.$store.dispatch('wipeUserDevices', userid)
+				.then(() => {
+					this.loading.wipe = false
+					this.loading.all = false
+				});
 		},
 
 		deleteUser() {

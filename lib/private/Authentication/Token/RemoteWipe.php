@@ -25,19 +25,15 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
-use BadMethodCallException;
+use function array_filter;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
-use OCP\Activity\IEvent;
-use OCP\Activity\IManager as IActivityManager;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUser;
-use OCP\Notification\IManager as INotificationManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RemoteWipe {
 
@@ -58,6 +54,15 @@ class RemoteWipe {
 		$this->logger = $logger;
 	}
 
+	/**
+	 * @param int $id
+	 *
+	 * @return bool
+	 *
+	 * @throws InvalidTokenException
+	 * @throws WipeTokenException
+	 * @throws ExpiredTokenException
+	 */
 	public function markTokenForWipe(int $id): bool {
 		$token = $this->tokenProvider->getTokenById($id);
 
@@ -67,6 +72,31 @@ class RemoteWipe {
 
 		$token->wipe();
 		$this->tokenProvider->updateToken($token);
+
+		return true;
+	}
+
+	/**
+	 * @param IUser $user
+	 *
+	 * @return bool true if any tokens have been marked for remote wipe
+	 */
+	public function markAllTokensForWipe(IUser $user): bool {
+		$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
+
+		/** @var IWipeableToken[] $wipeable */
+		$wipeable = array_filter($tokens, function (IToken $token) {
+			return $token instanceof IWipeableToken;
+		});
+
+		if (empty($wipeable)) {
+			return false;
+		}
+
+		foreach ($wipeable as $token) {
+			$token->wipe();
+			$this->tokenProvider->updateToken($token);
+		}
 
 		return true;
 	}

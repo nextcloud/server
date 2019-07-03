@@ -50,6 +50,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFields', 'url' => '/user/fields', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
+		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#deleteUser', 'url' => '/users/{userId}', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#enableUser', 'url' => '/users/{userId}/enable', 'verb' => 'PUT'],
 		['root' => '/cloud', 'name' => 'Users#disableUser', 'url' => '/users/{userId}/disable', 'verb' => 'PUT'],

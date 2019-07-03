@@ -33,6 +33,7 @@ use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -89,6 +90,43 @@ class RemoteWipeTest extends TestCase {
 			->with($token);
 
 		$result = $this->remoteWipe->markTokenForWipe(123);
+
+		$this->assertTrue($result);
+	}
+
+	public function testMarkAllTokensForWipeNoWipeableToken(): void {
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user123');
+		$token1 = $this->createMock(IToken::class);
+		$token2 = $this->createMock(IToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenByUser')
+			->with('user123')
+			->willReturn([$token1, $token2]);
+
+		$result = $this->remoteWipe->markAllTokensForWipe($user);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMarkAllTokensForWipe(): void {
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user123');
+		$token1 = $this->createMock(IToken::class);
+		$token2 = $this->createMock(IWipeableToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenByUser')
+			->with('user123')
+			->willReturn([$token1, $token2]);
+		$token2->expects($this->once())
+			->method('wipe');
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($token2);
+
+		$result = $this->remoteWipe->markAllTokensForWipe($user);
 
 		$this->assertTrue($result);
 	}

@@ -398,6 +398,20 @@ const actions = {
 	},
 
 	/**
+	 * Mark all user devices for remote wipe
+	 *
+	 * @param {Object} context
+	 * @param {string} userid User id
+	 * @returns {Promise}
+	 */
+	wipeUserDevices(context, userid) {
+		return api.requireAdmin().then((response) => {
+			return api.post(OC.linkToOCS(`cloud/users/${userid}/wipe`, 2))
+				.catch((error) => {throw error;});
+		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
+	},
+
+	/**
 	 * Delete a user
 	 * 
 	 * @param {Object} context
