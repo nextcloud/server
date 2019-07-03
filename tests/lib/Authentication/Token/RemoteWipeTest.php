@@ -29,6 +29,7 @@ use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\IProvider as ITokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
@@ -61,6 +62,35 @@ class RemoteWipeTest extends TestCase {
 			$this->eventDispatcher,
 			$this->logger
 		);
+	}
+
+	public function testMarkNonWipableTokenForWipe(): void {
+		$token = $this->createMock(IToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with(123)
+			->willReturn($token);
+
+		$result = $this->remoteWipe->markTokenForWipe(123);
+
+		$this->assertFalse($result);
+	}
+
+	public function testMarkTokenForWipe(): void {
+		$token = $this->createMock(IWipeableToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with(123)
+			->willReturn($token);
+		$token->expects($this->once())
+			->method('wipe');
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($token);
+
+		$result = $this->remoteWipe->markTokenForWipe(123);
+
+		$this->assertTrue($result);
 	}
 
 	public function testStartWipingNotAWipeToken() {

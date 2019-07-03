@@ -35,6 +35,7 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -55,6 +56,19 @@ class RemoteWipe {
 		$this->tokenProvider = $tokenProvider;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+	}
+
+	public function markTokenForWipe(int $id): bool {
+		$token = $this->tokenProvider->getTokenById($id);
+
+		if (!($token instanceof IWipeableToken)) {
+			return false;
+		}
+
+		$token->wipe();
+		$this->tokenProvider->updateToken($token);
+
+		return true;
 	}
 
 	/**
