@@ -251,6 +251,66 @@ Feature: sharing
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
+  Scenario: User is not allowed to reshare file with additional delete permissions
+  As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /PARENT |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 16 |
+    And As an "user1"
+    When creating a share with
+      | path | /PARENT (2) |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 25 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: User is not allowed to reshare file with additional delete permissions for files
+  As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 16 |
+    And As an "user1"
+    When creating a share with
+      | path | /textfile0 (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 25 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When Getting info of last share
+    Then Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | file |
+      | item_source | A_NUMBER |
+      | share_type | 0 |
+      | share_with | user2 |
+      | file_source | A_NUMBER |
+      | file_target | /textfile0 (2).txt |
+      | path | /textfile0 (2).txt |
+      | permissions | 17 |
+      | stime | A_NUMBER |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user1 |
+      | storage_id | shared::/textfile0 (2).txt |
+      | file_parent | A_NUMBER |
+      | share_with_displayname | user2 |
+      | displayname_owner | user1 |
+      | mimetype          | text/plain |
+
   Scenario: Get a share with a user which didn't received the share
     Given user "user0" exists
     And user "user1" exists
