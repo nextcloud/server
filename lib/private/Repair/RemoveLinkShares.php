@@ -196,7 +196,7 @@ class RemoveLinkShares implements IRepairStep {
 
 		$users = array_keys($this->userToNotify);
 		foreach ($users as $user) {
-			$notification->setUser($user);
+			$notification->setUser((string) $user);
 			$this->notificationManager->notify($notification);
 		}
 	}
