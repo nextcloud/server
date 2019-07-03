@@ -230,7 +230,7 @@ class ViewController extends Controller {
 
 		$nav->assign('navigationItems', $navItems);
 
-		$nav->assign('usage', \OC_Helper::humanFileSize(ceil($storageInfo['used'] / 102400) * 102400));
+		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
 		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l10n->t('Unlimited');
 		} else {
