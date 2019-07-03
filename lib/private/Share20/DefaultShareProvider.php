@@ -940,6 +940,10 @@ class DefaultShareProvider implements IShareProvider {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$share->setSharedWith($data['share_with']);
+			$user = $this->userManager->get($data['share_with']);
+			if ($user !== null) {
+				$share->setSharedWithDisplayName($user->getDisplayName());
+			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
