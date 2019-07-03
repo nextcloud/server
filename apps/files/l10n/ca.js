@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Càrrega (màx. %s)",
     "File Management" : "Gestió de fitxers",
     "%s used" : "%s utilitzat",
+    "%s%% of %s used" : "Usat%s%% de %s ",
     "%1$s of %2$s used" : "%1$s de %2$s utilitzat",
     "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",

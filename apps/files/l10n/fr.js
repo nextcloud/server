@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Envoi (max. %s)",
     "File Management" : "Gestion de fichier",
     "%s used" : "%s utilisé",
+    "%s%% of %s used" : "%s%% de %s utilisé",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
     "Settings" : "Paramètres",
     "Show hidden files" : "Afficher les fichiers masqués",
