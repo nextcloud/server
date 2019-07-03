@@ -28,6 +28,7 @@ namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -45,6 +46,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
 use OCP\Lock\LockedException;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IManager;
 use OCP\Share;
 use Test\TestCase;
@@ -2056,13 +2058,16 @@ class ShareAPIControllerTest extends TestCase {
 		$mountPoint->method('getStorageRootId')
 			->willReturn(42);
 
-		$this->shareManager->expects($this->never())->method('updateShare');
+		$this->shareManager->expects($this->once())
+			->method('updateShare')
+			->with($share)
+			->willThrowException(new GenericShareException('Can’t increase permissions of path/file', 'Can’t increase permissions of path/file', 404));
 
 		try {
 			$ocs->updateShare(42, 31);
 			$this->fail();
-		} catch (OCSNotFoundException $e) {
-			$this->assertEquals('Cannot increase permissions', $e->getMessage());
+		} catch (OCSException $e) {
+			$this->assertEquals('Can’t increase permissions of path/file', $e->getMessage());
 		}
 	}
 
