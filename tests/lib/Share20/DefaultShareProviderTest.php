@@ -1110,8 +1110,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$user0 = $this->createMock(IUser::class);
 		$user0->method('getUID')->willReturn('user0');
+		$user0->method('getDisplayName')->willReturn('user0');
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
+		$user0->method('getDisplayName')->willReturn('user0');
 
 		$this->userManager->method('get')->willReturnMap([
 			['user0', $user0],
@@ -1640,8 +1642,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
+		$user1->method('getDisplayName')->willReturn('user1');
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
+		$user2->method('getDisplayName')->willReturn('user2');
 		$this->userManager->method('get')->will($this->returnValueMap([
 			['user1', $user1],
 			['user2', $user2],
@@ -1691,8 +1695,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
+		$user1->method('getDisplayName')->willReturn('user1');
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
+		$user2->method('getDisplayName')->willReturn('user2');
 		$user3 = $this->createMock(IUser::class);
 		$this->userManager->method('get')->will($this->returnValueMap([
 			['user1', $user1],
@@ -1755,6 +1761,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		for($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
 			$user->method('getUID')->willReturn('user'.$i);
+			$user->method('getDisplayName')->willReturn('user' . $i);
 			$users['user'.$i] = $user;
 		}
 
@@ -2105,8 +2112,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$user0 = $this->createMock(IUser::class);
 		$user0->method('getUID')->willReturn('user0');
+		$user0->method('getDisplayName')->willReturn('user0');
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')->willReturn('user1');
+		$user1->method('getDisplayName')->willReturn('user1');
 
 		$this->userManager->method('get')->will($this->returnValueMap([
 			['user0', $user0],
