@@ -269,11 +269,13 @@ class Manager implements IManager {
 
 		// And you can't share your rootfolder
 		if ($this->userManager->userExists($share->getSharedBy())) {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getSharedBy())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			$userFolderPath = $userFolder->getPath();
 		} else {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			$userFolderPath = $userFolder->getPath();
 		}
-		if ($sharedPath === $share->getNode()->getPath()) {
+		if ($userFolderPath === $share->getNode()->getPath()) {
 			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
@@ -288,15 +290,35 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
-		/*
-		 * Quick fix for #23536
-		 * Non moveable mount points do not have update and delete permissions
-		 * while we 'most likely' do have that on the storage.
-		 */
-		$permissions = $share->getNode()->getPermissions();
 		$mount = $share->getNode()->getMountPoint();
-		if (!($mount instanceof MoveableMount)) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+			// When it's a reshare use the parent share permissions as maximum
+			$userMountPointId = $mount->getStorageRootId();
+			$userMountPoints = $userFolder->getById($userMountPointId);
+			$userMountPoint = array_shift($userMountPoints);
+
+			/* Check if this is an incoming share */
+			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
+
+			/** @var \OCP\Share\IShare[] $incomingShares */
+			if (!empty($incomingShares)) {
+				$permissions = 0;
+				foreach ($incomingShares as $incomingShare) {
+					$permissions |= $incomingShare->getPermissions();
+				}
+			}
+		} else {
+			/*
+			 * Quick fix for #23536
+			 * Non moveable mount points do not have update and delete permissions
+			 * while we 'most likely' do have that on the storage.
+			 */
+			$permissions = $share->getNode()->getPermissions();
+			if (!($mount instanceof MoveableMount)) {
+				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			}
 		}
 
 		// Check that we do not share with more permissions than we have
