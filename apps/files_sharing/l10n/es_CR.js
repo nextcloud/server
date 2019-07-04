@@ -83,7 +83,6 @@ OC.L10N.register(
     "Could not lock path" : "No fue posible bloquear la ruta",
     "Wrong or no update parameter given" : "El parametro de actualización está erróneo o falta",
     "Can't change permissions for public share links" : "No es posible cambiar los permisos para ligas públicas compartidas",
-    "Cannot increase permissions" : "No es posible incrementar los permisos",
     "shared by %s" : "compartido por %s",
     "Direct link" : "Liga directa",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",

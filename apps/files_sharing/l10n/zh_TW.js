@@ -93,7 +93,6 @@ OC.L10N.register(
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Can't change permissions for public share links" : "無法由公開分享的連結變更權限",
-    "Cannot increase permissions" : "無法增加權限",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",
     "Direct link" : "直接連結",

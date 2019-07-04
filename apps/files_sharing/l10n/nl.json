@@ -101,7 +101,6 @@
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
     "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Cannot increase permissions" : "Kan de rechten niet verruimen",
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
     "Direct link" : "Directe link",

@@ -103,7 +103,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Cannot increase permissions" : "パーミッションを追加できません",
     "shared by %s" : "%s が共有",
     "Download all files" : "すべてのファイルをダウンロード",
     "Direct link" : "リンク",

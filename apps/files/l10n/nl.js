@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (max. %s)",
     "File Management" : "Bestandsbeheer",
     "%s used" : "%s gebruikt",
+    "%s%% of %s used" : "%s%% van %s gebruikt",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
