@@ -97,7 +97,6 @@ OC.L10N.register(
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu",
     "shared by %s" : "%s jakama",
     "Download all files" : "Lataa kaikki tiedostot",
     "Direct link" : "Suora linkki",

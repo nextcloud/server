@@ -103,7 +103,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Parámetro incorrecto ou non actualizado",
     "Can't change permissions for public share links" : "Non é posíbel cambiar os permisos das ligazóns de recursos compartidos públicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
-    "Cannot increase permissions" : "Non é posíbel aumentar os permisos",
     "shared by %s" : "compartido por %s",
     "Download all files" : "Descargar todos os ficheiros",
     "Direct link" : "Ligazón directa",

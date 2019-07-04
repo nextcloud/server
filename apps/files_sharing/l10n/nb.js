@@ -98,7 +98,6 @@ OC.L10N.register(
     "Could not lock path" : "Kunne ikke låse sti",
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
-    "Cannot increase permissions" : "Kan ikke øke tillatelser",
     "shared by %s" : "delt av %s",
     "Download all files" : "Last ned alle filer",
     "Direct link" : "Direkte lenke",
