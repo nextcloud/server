@@ -506,10 +506,8 @@ class Checker {
 		} catch (\Exception $e) {
 			$result = [
 					'EXCEPTION' => [
-
 							'class' => \get_class($e),
 							'message' => $e->getMessage(),
-
 					],
 			];
 		}
