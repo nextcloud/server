@@ -101,7 +101,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Talk jelszó megosztásának küldése nem sikerült mert a Nextcloud Talk nem engedélyezett",
-    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket",
     "shared by %s" : "megosztotta %s",
     "Download all files" : "Összes fájl letöltése",
     "Direct link" : "Közvetlen hivatkozás",

@@ -51,7 +51,6 @@ OC.L10N.register(
     "Not a directory" : "Nav direktorijs",
     "Could not lock path" : "Nevarēja bloķēt ceļu",
     "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības",
-    "Cannot increase permissions" : "Nevar palielināt tiesības",
     "Direct link" : "Tiešā saite",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Share API is disabled" : "Koplietošanas API ir atslēgta",

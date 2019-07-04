@@ -82,7 +82,6 @@ OC.L10N.register(
     "Could not lock path" : "לא ניתן היה לנעול נתיב",
     "Wrong or no update parameter given" : "משתנה עדכון שניתן שגוי או לא קיים",
     "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
-    "Cannot increase permissions" : "לא ניתן להעלות הרשאות",
     "shared by %s" : "שותף על ידי %s",
     "Download all files" : "הורדת כל הקבצים",
     "Direct link" : "קישור ישיר",

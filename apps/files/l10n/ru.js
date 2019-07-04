@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Загрузка (максимум %s)",
     "File Management" : "Управление файлами",
     "%s used" : "%s использовано",
+    "%s%% of %s used" : "использовано %s%% из %s",
     "%1$s of %2$s used" : "использовано %1$s из %2$s ",
     "Settings" : "Настройки",
     "Show hidden files" : "Показывать скрытые файлы",
