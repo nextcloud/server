@@ -83,7 +83,6 @@ OC.L10N.register(
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
     "Can't change permissions for public share links" : "Can't change permissions for public share links",
-    "Cannot increase permissions" : "Cannot increase permissions",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
     "Add to your Nextcloud" : "Add to your Nextcloud",

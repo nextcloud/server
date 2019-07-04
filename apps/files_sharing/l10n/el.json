@@ -87,7 +87,6 @@
     "Could not lock path" : "Αδυναμία κλειδώματος διαδρομής",
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
     "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
-    "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα",
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Direct link" : "Άμεσος σύνδεσμος",

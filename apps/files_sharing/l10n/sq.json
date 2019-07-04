@@ -81,7 +81,6 @@
     "Could not lock path" : "S’u kyç dot shtegu",
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
     "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike",
-    "Cannot increase permissions" : "S’mund të fuqizohen lejet",
     "shared by %s" : "ndarë nga %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",

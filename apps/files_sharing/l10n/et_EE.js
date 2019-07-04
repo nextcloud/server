@@ -83,7 +83,6 @@ OC.L10N.register(
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
     "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
-    "Cannot increase permissions" : "Ei saa õigusi suurendada",
     "shared by %s" : "jagas %s",
     "Direct link" : "Otsene link",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
