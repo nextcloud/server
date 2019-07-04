@@ -101,7 +101,6 @@
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan Nextcloud Talk ile parola gönderilerek paylaşılamadı",
-    "Cannot increase permissions" : "Erişim izinleri yükseltilemez",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",

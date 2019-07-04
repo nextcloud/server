@@ -62,7 +62,6 @@ OC.L10N.register(
     "Not a directory" : "Nun ye un direutoriu",
     "Could not lock path" : "Nun pudo bloquiase'l camín",
     "Can't change permissions for public share links" : "Nun puen camudase los permisos pa los enllaces de comparticiones públiques",
-    "Cannot increase permissions" : "Nun puen aumentase los permisos",
     "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
     "Sharing" : "Compartiendo",

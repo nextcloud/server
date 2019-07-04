@@ -98,7 +98,6 @@ OC.L10N.register(
     "Could not lock path" : "Nepavyko užrakinti kelio",
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
     "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
-    "Cannot increase permissions" : "Negalima pridėti papildomų leidimų",
     "shared by %s" : "pasidalino %s",
     "Download all files" : "Atsisiųsti visus failus ",
     "Direct link" : "Tiesioginė nuoroda",
