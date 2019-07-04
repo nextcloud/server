@@ -134,7 +134,7 @@ OC.Lostpassword = {
 
 	getSendStatusNode : function(){
 		if (!$('#lost-password').length){
-			$('<p id="lost-password"></p>').insertBefore($('#remember_login'));
+			$('<p id="lost-password"></p>').insertBefore($('#lost-password-back'));
 		} else {
 			$('#lost-password').replaceWith($('<p id="lost-password"></p>'));
 		}

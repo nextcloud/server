@@ -44,6 +44,7 @@ class SystemConfig {
 		'dbhost' => true,
 		'dbpassword' => true,
 		'dbuser' => true,
+		'administrator_email' => true,
 		'mail_from_address' => true,
 		'mail_domain' => true,
 		'mail_smtphost' => true,
