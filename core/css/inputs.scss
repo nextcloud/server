@@ -365,7 +365,7 @@ input {
 			// Detail description below label of checkbox or radio button
 			& + label ~ em {
 				display: inline-block;
-				margin-left: 18px;
+				margin-left: 25px;
 			}
 			& + label ~ em:last-of-type {
 				margin-bottom: $checkbox-radio-size;
