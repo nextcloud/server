@@ -833,4 +833,4 @@ t.exports=function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 i.nc=btoa(OC.requestToken),o.default.use(a.a),o.default.use(s.a),o.default.prototype.t=t,new(o.default.extend(E))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=4c61a98ac39aa3c24a85
