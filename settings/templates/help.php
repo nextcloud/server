@@ -2,13 +2,13 @@
 	<ul>
 	<?php if($_['admin']) { ?>
 		<li>
-			<a class="<?php p($_['style1']); ?>"
-				href="<?php print_unescaped($_['url1']); ?>">
+			<a class="icon-user <?php p($_['style1']); ?>"
+				href="<?php print_unescaped($_['url1']); ?> class= "">
 				<?php p($l->t('User documentation')); ?>
 			</a>
 		</li>
 		<li>
-			<a class="<?php p($_['style2']); ?>"
+			<a class="icon-user-admin <?php p($_['style2']); ?>"
 				href="<?php print_unescaped($_['url2']); ?>">
 				<?php p($l->t('Administrator documentation')); ?>
 			</a>
@@ -16,12 +16,12 @@
 	<?php } ?>
 
 		<li>
-			<a href="https://docs.nextcloud.com" target="_blank" rel="noreferrer noopener">
+			<a href="https://docs.nextcloud.com" class="icon-category-office" target="_blank" rel="noreferrer noopener">
 				<?php p($l->t('Documentation')); ?> ↗
 			</a>
 		</li>
 		<li>
-			<a href="https://help.nextcloud.com" target="_blank" rel="noreferrer noopener">
+			<a href="https://help.nextcloud.com" class="icon-comment" target="_blank" rel="noreferrer noopener">
 				<?php p($l->t('Forum')); ?> ↗
 			</a>
 		</li>
