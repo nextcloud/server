@@ -9,7 +9,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/',
-		filename: 'vue-[name].js'
+		filename: 'vue-[name].js?v=[chunkhash]'
 	},
 	optimization: {
 		splitChunks: {
