@@ -106,7 +106,7 @@ input {
 .profile-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 2fr 1fr;
 }
 
 .personal-show-container {
@@ -211,7 +211,7 @@ select {
 .personal-settings-container {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 2fr;
 	&:after {
 		clear: both;
 	}
