@@ -805,4 +805,4 @@ t.exports=function(t){return null!=t&&null!=t.constructor&&"function"==typeof t.
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 i.default.use(s.a);var h={setEnforced:function(t,e){i.default.set(t,"enforced",e)},setEnforcedGroups:function(t,e){i.default.set(t,"enforcedGroups",e)},setExcludedGroups:function(t,e){i.default.set(t,"excludedGroups",e)}},v={save:function(t){var e=t.commit;return e("setEnabled",!1),generateCodes().then(function(t){var n=t.codes,r=t.state;return e("setEnabled",r.enabled),e("setTotal",r.total),e("setUsed",r.used),e("setCodes",n),!0})}},m=new s.a.Store({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:h,actions:v});r.nc=btoa(OC.requestToken),i.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},m.replaceState(OCP.InitialState.loadState("settings","mandatory2FAState")),new(i.default.extend(p))({store:m}).$mount("#two-factor-auth-settings")}]);
-//# sourceMappingURL=vue-settings-admin-security.js.map
+//# sourceMappingURL=vue-settings-admin-security.js.map?v=15cdb9813efeb0fb6f90
