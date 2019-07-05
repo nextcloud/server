@@ -334,7 +334,7 @@ class CheckSetupController extends Controller {
 	public function rescanFailedIntegrityCheck() {
 		$this->checker->runInstanceVerification();
 		return new RedirectResponse(
-			$this->urlGenerator->linkToRoute('settings.AdminSettings.index')
+			$this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview'])
 		);
 	}
 
