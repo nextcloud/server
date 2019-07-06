@@ -63,7 +63,7 @@ class AccessibilityProvider {
 			], [
 				'id'    => 'themedark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
-				'title' => $this->l->t('Dark theme (beta)'),
+				'title' => $this->l->t('Dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
 			]
 		);
