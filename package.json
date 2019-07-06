@@ -22,7 +22,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@chenfengyuan/vue-qrcode": "^1.0.0",
+    "@chenfengyuan/vue-qrcode": "^1.0.1",
     "Select2": "git+https://github.com/select2/select2.git#3.4.8",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
