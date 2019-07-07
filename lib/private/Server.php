@@ -790,7 +790,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$config,
 				$c->getMemCacheFactory(),
 				$appManager,
-				$c->getTempManager()
+				$c->getTempManager(),
+				$c->getMimeTypeDetector()
 			);
 		});
 		$this->registerService(\OCP\IRequest::class, function ($c) {
