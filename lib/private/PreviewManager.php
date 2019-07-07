@@ -35,7 +35,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IPreview;
-use OCP\Preview\IProvider;
+use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PreviewManager implements IPreview {
@@ -53,6 +53,9 @@ class PreviewManager implements IPreview {
 
 	/** @var Generator */
 	private $generator;
+	
+	/** @var GeneratorHelper */
+	private $helper;
 
 	/** @var bool */
 	protected $providerListDirty = false;
@@ -85,11 +88,13 @@ class PreviewManager implements IPreview {
 								IRootFolder $rootFolder,
 								IAppData $appData,
 								EventDispatcherInterface $eventDispatcher,
+								GeneratorHelper $helper,
 								$userId) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->helper = $helper;
 		$this->userId = $userId;
 	}
 
@@ -255,9 +260,9 @@ class PreviewManager implements IPreview {
 
 		foreach ($this->providers as $supportedMimeType => $providers) {
 			if (preg_match($supportedMimeType, $file->getMimetype())) {
-				foreach ($providers as $closure) {
-					$provider = $closure();
-					if (!($provider instanceof IProvider)) {
+				foreach ($providers as $providerClosure) {
+					$provider = $this->helper->getProvider($providerClosure);
+					if (!($provider instanceof IProviderV2)) {
 						continue;
 					}
 

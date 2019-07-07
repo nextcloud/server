@@ -68,6 +68,7 @@ use OC\Command\CronBus;
 use OC\Comments\ManagerFactory as CommentsManagerFactory;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
+use OC\Dashboard\DashboardManager;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudFederationFactory;
@@ -99,19 +100,20 @@ use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
+use OC\Preview\GeneratorHelper;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
-use OC\Security\CSP\ContentSecurityPolicyManager;
+use OC\Security\CredentialsManager;
 use OC\Security\Crypto;
+use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenGenerator;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
-use OC\Security\CredentialsManager;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
@@ -122,21 +124,20 @@ use OC\Tagging\TagMapper;
 use OC\Template\IconsCacher;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use OC\Dashboard\DashboardManager;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
-
+use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Collaboration\AutoComplete\IManager;
+use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Dashboard\IDashboardManager;
 use OCP\Defaults;
-use OCA\Theming\Util;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
@@ -148,7 +149,6 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
-use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Log\ILogFactory;
@@ -207,6 +207,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getRootFolder(),
 				$c->getAppDataDir('preview'),
 				$c->getEventDispatcher(),
+				$c->getGeneratorHelper(),
 				$c->getSession()->get('user_id')
 			);
 		});
@@ -2059,5 +2060,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getStorageFactory() {
 		return $this->query(IStorageFactory::class);
+	}
+
+	/**
+	 * Get the Preview GeneratorHelper
+	 *
+	 * @return GeneratorHelper
+	 * @since 17.0.0
+	 */
+	public function getGeneratorHelper() {
+		return $this->query(\OC\Preview\GeneratorHelper::class);
 	}
 }
