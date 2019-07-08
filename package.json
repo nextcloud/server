@@ -62,9 +62,9 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/core": "^7.5.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.5.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "browserslist-config-nextcloud": "0.0.1",
