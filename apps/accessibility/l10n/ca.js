@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "High contrast theme" : "Tema de contrast alt",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de contrast alt per facilitar la navegació. La qualitat visual es reduirà però s'incrementarà la claredat.",
+    "Dark theme" : "Tema fosc",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Un tema fosc per ajudar els ulls reduint la lluminositat i la brillantor totals. És sota desenvolupament, de manera que si us plau informeu de les errades que hi pugueu trobar. ",
     "Dyslexia font" : "Tipus de lletra per a la dislèxia",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic és un tipus de lletra gratuït dissenyat per mitigar alguns dels errors de lectura habituals causats per la dislèxia.",
