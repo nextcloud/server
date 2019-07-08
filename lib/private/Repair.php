@@ -45,6 +45,7 @@ use OC\Repair\NC14\RepairPendingCronJobs;
 use OC\Repair\NC15\SetVcardDatabaseUID;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
 use OC\Repair\NC16\CleanupCardDAVPhotoCache;
+use OC\Repair\NC16\RemoveCypressFiles;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -155,6 +156,7 @@ class Repair implements IOutput {
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
+			\OC::$server->query(RemoveCypressFiles::class),
 		];
 	}
 
