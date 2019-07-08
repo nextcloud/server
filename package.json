@@ -39,7 +39,7 @@
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
     "lodash": "^4.17.11",
-    "marked": "^0.6.2",
+    "marked": "^0.7.0",
     "moment": "^2.24.0",
     "nextcloud-axios": "^0.2.0",
     "nextcloud-password-confirmation": "^0.4.1",
