@@ -63,6 +63,12 @@
 
 			<!-- internal link copy -->
 			<SharingEntryInternal :file-info="fileInfo" />
+
+			<!-- projects -->
+			<CollectionList v-if="fileInfo"
+				:id="`${fileInfo.id}`"
+				type="file"
+				:name="fileInfo.name" />
 		</template>
 	</Tab>
 </template>
@@ -72,6 +78,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import Tab from 'nextcloud-vue/dist/Components/AppSidebarTab'
 import Avatar from 'nextcloud-vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
+import { CollectionList } from 'nextcloud-vue-collections'
 
 import { shareWithTitle } from '../utils/SharedWithMe'
 import Share from '../models/Share'
@@ -88,6 +95,7 @@ export default {
 
 	components: {
 		Avatar,
+		CollectionList,
 		SharingEntryInternal,
 		SharingEntrySimple,
 		SharingInput,
