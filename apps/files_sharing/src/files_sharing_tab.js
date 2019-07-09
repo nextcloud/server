@@ -24,6 +24,8 @@ import SharingTab from './views/SharingTab'
 import ShareSearch from './services/ShareSearch'
 import ExternalLinkActions from './services/ExternalLinkActions'
 
+import TabSections from './services/TabSections'
+
 if (window.OCA && window.OCA.Sharing) {
 	Object.assign(window.OCA.Sharing, { ShareSearch: new ShareSearch() })
 }
@@ -31,6 +33,8 @@ if (window.OCA && window.OCA.Sharing) {
 if (window.OCA && window.OCA.Sharing) {
 	Object.assign(window.OCA.Sharing, { ExternalLinkActions: new ExternalLinkActions() })
 }
+
+Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
 window.addEventListener('DOMContentLoaded', () => {
 	if (OCA.Files && OCA.Files.Sidebar) {
