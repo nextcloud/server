@@ -138,7 +138,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/login');
 
 		$expected = new RedirectResponse('/login');
-		$expected->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+		$expected->addHeader('Clear-Site-Data', '"cache", "storage"');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
@@ -168,7 +168,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/login');
 
 		$expected = new RedirectResponse('/login');
-		$expected->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+		$expected->addHeader('Clear-Site-Data', '"cache", "storage"');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 

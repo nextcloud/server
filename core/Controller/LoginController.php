@@ -128,7 +128,7 @@ class LoginController extends Controller {
 
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
-		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+		$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		return $response;
 	}
 
