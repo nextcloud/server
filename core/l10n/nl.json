@@ -227,7 +227,6 @@
     "User disabled" : "Gebruiker gedeactiveerd",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We hebben meerdere foutieve inlogverzoeken van jouw IP gedetecteerd. Hierdoor wordt je volgende inlogverzoek 30 seconden uitgesteld.",
     "Reset password" : "Reset wachtwoord",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "We hebben een wachtwoord reset e-mail naar het bij dit account behorende adres gestuurd. Indien je binnen een redelijke tijd niets hebt ontvangen, controleer je spam/ongewenste mail.",
     "If it is not there ask your local administrator." : "Als het hier niet is, vraag dan de lokale beheerder",
     "Password can not be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met je beheerder.",
     "Back to login" : "Terug naar inloggen",

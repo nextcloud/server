@@ -229,7 +229,6 @@ OC.L10N.register(
     "User disabled" : "Пользователь отключён",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С вашего IP-адреса было выполнено множество неудачных попыток входа в систему. Следующую попытку можно будет выполнить через 30 секунд.",
     "Reset password" : "Сбросить пароль",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Письмо с инструкциями по сбору пароля было отправлено на адрес электронной почты, указанный для этой учётной записи. Если это письмо не будет получено в разумное время, проверьте папку «Спам». ",
     "If it is not there ask your local administrator." : "В случае, если письмо не будет получено, сообщите об этом администратору системы.",
     "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь с вашим системным администратором.",
     "Back to login" : "Вернуться на страницу входа",
