@@ -229,7 +229,6 @@ OC.L10N.register(
     "User disabled" : "Użytkownik zablokowany",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Wykryliśmy wiele nieudanych prób logowania z Twojego adresu IP. Dlatego następne logowanie będzie możliwe dopiero za 30 sekund.",
     "Reset password" : "Zresetuj hasło",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Wysłaliśmy wiadomość dotyczącą resetowania hasła na adres e-mail przypisany dla tego konta. Jeśli nie otrzymasz go w rozsądnym czasie, sprawdź katalog ze spamem i kosz.",
     "If it is not there ask your local administrator." : "Jeśli nie ma, skontaktuj się z lokalnym administratorem.",
     "Password can not be changed. Please contact your administrator." : "Hasło nie może zostać zmienione. Skontaktuj się z administratorem.",
     "Back to login" : "Powrót do logowania",
