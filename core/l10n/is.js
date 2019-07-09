@@ -223,7 +223,6 @@ OC.L10N.register(
     "User disabled" : "Notandi óvirkur",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Við urðum vör við margar misheppnaðar innskráningar í röð frá IP-vistfanginu þínu. Þar með verður næsta innskráning tafin (throttled) um 30 sekúndur.",
     "Reset password" : "Endursetja lykilorð",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Tengillinn til að endurstilla lykilorðið þitt hefur verið sendur á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá ruslpóstmöppuna.",
     "If it is not there ask your local administrator." : "Ef hann er ekki þar, spurðu þá kerfisstjórann þinn. ",
     "Password can not be changed. Please contact your administrator." : "Ekki er hægt að breyta lykilorði. Hafðu samband við kerfisstjóra.",
     "Back to login" : "Til baka í innskráningu",

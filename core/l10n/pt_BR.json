@@ -227,7 +227,6 @@
     "User disabled" : "Usuário desativado",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
     "Reset password" : "Redefinir senha",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Enviamos um e-mail para redefinir a senha ao endereço de e-mail desta conta. Se não recebê-lo em um período de tempo razoável, verifique as pastas de spam/lixo eletrônico.",
     "If it is not there ask your local administrator." : "Se não estiver lá, pergunte ao administrador.",
     "Password can not be changed. Please contact your administrator." : "A senha não pôde ser alterada. Por favor, contate o administrador.",
     "Back to login" : "Voltar ao login",
