@@ -1018,7 +1018,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$request
 			);
 		});
-		$this->registerService('CsrfTokenManager', function (Server $c) {
+		$this->registerService(CsrfTokenManager::class, function (Server $c) {
 			$tokenGenerator = new CsrfTokenGenerator($c->getSecureRandom());
 
 			return new CsrfTokenManager(
@@ -1026,6 +1026,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(SessionStorage::class)
 			);
 		});
+		$this->registerAlias('CsrfTokenManager', CsrfTokenManager::class);
 		$this->registerService(SessionStorage::class, function (Server $c) {
 			return new SessionStorage($c->getSession());
 		});
@@ -1901,7 +1902,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return CsrfTokenManager
 	 */
 	public function getCsrfTokenManager() {
-		return $this->query('CsrfTokenManager');
+		return $this->query(CsrfTokenManager::class);
 	}
 
 	/**
