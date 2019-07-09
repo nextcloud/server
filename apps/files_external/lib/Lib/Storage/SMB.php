@@ -302,6 +302,8 @@ class SMB extends Common implements INotifyStorage {
 				}
 			} catch (NotFoundException $e) {
 				// Ignore this, can happen on unavailable DFS shares
+			} catch (ForbiddenException $e) {
+				// Ignore this too - it's a symlink
 			}
 		}
 		return $highestMTime;
