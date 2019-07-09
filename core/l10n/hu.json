@@ -227,7 +227,6 @@
     "User disabled" : "Felhasználó letiltva",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet érzékeltünk az IP-dről. A legközelebbi kísérleted így 30 másodperccel késleltetve lesz.",
     "Reset password" : "Jelszó-visszaállítás",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Elküldtük a jelszó-helyreállítási e-mailt az a fiókhoz tartozó e-mail címre. Ha nem kapja meg elfogadható időn belül, akkor ellenőrizze a levélszemét mappáját.",
     "If it is not there ask your local administrator." : "Ha nincs ott, akkor kérdezze a helyi rendszergazdát.",
     "Password can not be changed. Please contact your administrator." : "A jelszó nem módosítható. Lépjen kapcsolatba a rendszergazdával.",
     "Back to login" : "Vissza a bejelentkezéshez",

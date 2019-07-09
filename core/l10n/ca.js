@@ -229,7 +229,6 @@ OC.L10N.register(
     "User disabled" : "Usuari inhabilitat",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hem detectat múltiples intents de connexió no vàlids des de la vostra IP. Per tant, el vostre pròxim inici de sessió s’elimina fins a 30 segons.",
     "Reset password" : "Reinicialitza la contrasenya",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "S'ha enviat un correu per restablir la contrasenya a l'adreça de correu d'aquest compte. Si no el rebeu en una plaç de temps raonable, reviseu les carpetes de spam/correu no desitjat.",
     "If it is not there ask your local administrator." : "Si no és allà pregunteu al vostre administrador local.",
     "Password can not be changed. Please contact your administrator." : "La contrasenya no es pot canviar. Contacteu amb l'administrador.",
     "Back to login" : "Torna a accedir",

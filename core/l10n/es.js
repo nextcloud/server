@@ -229,7 +229,6 @@ OC.L10N.register(
     "User disabled" : "Usuario deshabilitado",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos inválidos desde tu IP. Por tanto, tu próximo intento se retrasará 30 segundos.",
     "Reset password" : "Restablecer contraseña",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Se ha enviado un correo de restauración de contraseña a la dirección asociada a esta cuenta. Si no lo recibes en un tiempo razonable, revisa tu carpeta de correo no deseado.",
     "If it is not there ask your local administrator." : "Si no está ahí ponte en contacto con el administrador local",
     "Password can not be changed. Please contact your administrator." : "La contraseña no se puede cambiar. Por favor, contacte a su administrador.",
     "Back to login" : "Volver a la identificación",
