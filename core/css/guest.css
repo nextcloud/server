@@ -228,6 +228,15 @@ input[type='email'] {
 	border: none;
 	font-weight: normal;
 }
+input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
+	width: 219px;
+	padding-right: 40px;
+}
+.toggle-password {
+	position: absolute;
+	top: 17px;
+	right: 20px;
+}
 input.login {
 	width: 260px;
 	height: 50px;
