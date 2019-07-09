@@ -355,6 +355,7 @@ return array(
     'OCP\\PreConditionNotMetException' => $baseDir . '/lib/public/PreConditionNotMetException.php',
     'OCP\\Preview\\IProvider' => $baseDir . '/lib/public/Preview/IProvider.php',
     'OCP\\Preview\\IProviderV2' => $baseDir . '/lib/public/Preview/IProviderV2.php',
+    'OCP\\Preview\\IVersionedPreviewFile' => $baseDir . '/lib/public/Preview/IVersionedPreviewFile.php',
     'OCP\\Remote\\Api\\IApiCollection' => $baseDir . '/lib/public/Remote/Api/IApiCollection.php',
     'OCP\\Remote\\Api\\IApiFactory' => $baseDir . '/lib/public/Remote/Api/IApiFactory.php',
     'OCP\\Remote\\Api\\ICapabilitiesApi' => $baseDir . '/lib/public/Remote/Api/ICapabilitiesApi.php',
