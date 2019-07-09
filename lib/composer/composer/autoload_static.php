@@ -407,6 +407,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Search\\PagedProvider' => __DIR__ . '/../../..' . '/lib/public/Search/PagedProvider.php',
         'OCP\\Search\\Provider' => __DIR__ . '/../../..' . '/lib/public/Search/Provider.php',
         'OCP\\Search\\Result' => __DIR__ . '/../../..' . '/lib/public/Search/Result.php',
+        'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
         'OCP\\Security\\IContentSecurityPolicyManager' => __DIR__ . '/../../..' . '/lib/public/Security/IContentSecurityPolicyManager.php',
         'OCP\\Security\\ICredentialsManager' => __DIR__ . '/../../..' . '/lib/public/Security/ICredentialsManager.php',
         'OCP\\Security\\ICrypto' => __DIR__ . '/../../..' . '/lib/public/Security/ICrypto.php',
