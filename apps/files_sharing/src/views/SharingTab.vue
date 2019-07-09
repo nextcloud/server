@@ -33,6 +33,8 @@
 			<SharingEntry v-if="isSharedWithMe" v-bind="sharedWithMe"></SharingEntry>
 			<SharingInput :shares="shares" :file-info="fileInfo" :reshare="reshare" />
 		</template>
+
+		<collection-list v-if="fileInfo" type="file" :id="`${fileInfo.id}`" :name="fileInfo.name"></collection-list>
 	</Tab>
 </template>
 
@@ -45,6 +47,7 @@ import { shareWithTitle } from '../utils/SharedWithMe'
 import Share from '../models/Share'
 import SharingEntry from '../components/SharingEntry'
 import SharingInput from '../components/SharingInput'
+import { CollectionList } from 'nextcloud-vue-collections'
 
 export default {
 	name: 'SharingTab',
@@ -52,7 +55,8 @@ export default {
 	components: {
 		SharingEntry,
 		SharingInput,
-		Tab
+		Tab,
+		CollectionList
 	},
 
 	props: {
