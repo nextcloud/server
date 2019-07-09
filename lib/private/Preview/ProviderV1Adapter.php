@@ -40,7 +40,7 @@ class ProviderV1Adapter implements IProviderV2 {
 	}
 
 	public function isAvailable(FileInfo $file): bool {
-		return $this->isAvailable($file);
+		return $this->providerV1->isAvailable($file);
 	}
 
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
