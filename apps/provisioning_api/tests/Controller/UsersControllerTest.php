@@ -33,6 +33,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
 use OC\Accounts\AccountManager;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -54,6 +55,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -85,6 +87,8 @@ class UsersControllerTest extends TestCase {
 	private $federatedFileSharingFactory;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
+	/** @var RemoteWipe|MockObject */
+	private $remoteWipe;
 
 	protected function setUp() {
 		parent::setUp();
@@ -101,6 +105,7 @@ class UsersControllerTest extends TestCase {
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->federatedFileSharingFactory = $this->createMock(FederatedFileSharingFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -116,7 +121,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -377,7 +383,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe
 			])
 			->setMethods(['editUser'])
 			->getMock();
@@ -3112,7 +3119,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -3175,7 +3183,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['getUserData'])
 			->getMock();

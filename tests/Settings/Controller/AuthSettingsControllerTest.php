@@ -26,6 +26,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
@@ -35,22 +36,25 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AuthSettingsControllerTest extends TestCase {
 
 	/** @var AuthSettingsController */
 	private $controller;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
-	/** @var IProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IProvider|MockObject */
 	private $tokenProvider;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|MockObject */
 	private $session;
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|MockObject */
 	private $secureRandom;
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	private $activityManager;
+	/** @var RemoteWipe|MockObject */
+	private $remoteWipe;
 	private $uid = 'jane';
 
 	protected function setUp() {
@@ -61,7 +65,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
-		/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $logger */
+		$this->remoteWipe = $this->createMock(RemoteWipe::class);
+		/** @var ILogger|MockObject $logger */
 		$logger = $this->createMock(ILogger::class);
 
 		$this->controller = new AuthSettingsController(
@@ -72,6 +77,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->secureRandom,
 			$this->uid,
 			$this->activityManager,
+			$this->remoteWipe,
 			$logger
 		);
 	}
@@ -201,6 +207,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataRenameToken
+	 *
 	 * @param string $name
 	 * @param string $newName
 	 */
@@ -243,6 +250,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataUpdateFilesystemScope
+	 *
 	 * @param bool $filesystem
 	 * @param bool $newFilesystem
 	 */
@@ -359,4 +367,29 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($this->equalTo($tokenId))
 			->willReturn($token);
 	}
+
+	public function testRemoteWipeNotSuccessful(): void {
+		$this->remoteWipe->expects($this->once())
+			->method('markTokenForWipe')
+			->with(123)
+			->willReturn(false);
+
+		$response = $this->controller->wipe(123);
+
+		$expected = new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testRemoteWipeSuccessful(): void {
+		$this->remoteWipe->expects($this->once())
+			->method('markTokenForWipe')
+			->with(123)
+			->willReturn(true);
+
+		$response = $this->controller->wipe(123);
+
+		$expected = new JSONResponse([]);
+		$this->assertEquals($expected, $response);
+	}
+
 }

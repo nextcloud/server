@@ -35,6 +35,7 @@ use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Settings\Activity\Provider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
@@ -63,6 +64,9 @@ class AuthSettingsController extends Controller {
 	/** @var IManager */
 	private $activityManager;
 
+	/** @var RemoteWipe */
+	private $remoteWipe;
+
 	/** @var ILogger */
 	private $logger;
 
@@ -74,6 +78,7 @@ class AuthSettingsController extends Controller {
 	 * @param ISecureRandom $random
 	 * @param string|null $userId
 	 * @param IManager $activityManager
+	 * @param RemoteWipe $remoteWipe
 	 * @param ILogger $logger
 	 */
 	public function __construct(string $appName,
@@ -83,6 +88,7 @@ class AuthSettingsController extends Controller {
 								ISecureRandom $random,
 								?string $userId,
 								IManager $activityManager,
+								RemoteWipe $remoteWipe,
 								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
@@ -90,6 +96,7 @@ class AuthSettingsController extends Controller {
 		$this->session = $session;
 		$this->random = $random;
 		$this->activityManager = $activityManager;
+		$this->remoteWipe = $remoteWipe;
 		$this->logger = $logger;
 	}
 
@@ -262,14 +269,9 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
-		$token = $this->tokenProvider->getTokenById($id);
-
-		if (!($token instanceof IWipeableToken)) {
+		if (!$this->remoteWipe->markTokenForWipe($id)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
-
-		$token->wipe();
-		$this->tokenProvider->updateToken($token);
 
 		return new JSONResponse([]);
 	}
