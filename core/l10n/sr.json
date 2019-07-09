@@ -227,7 +227,6 @@
     "User disabled" : "Корисник онемогућен",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Приметили смо више неисправних покушаја пријава са Ваше IP адресе. Следећа пријава ће бити могућа тек за 30 секунди.",
     "Reset password" : "Ресетуј лозинку",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Послали смо Вам е-пошту за ресетовање лозинке на е-мејл адресу која је повезана са овим налогом. Ако је не примите ускоро, проверите фасцикле за нежељену пошту.",
     "If it is not there ask your local administrator." : "Ако није ни тамо, контактирајте вашег администратора.",
     "Password can not be changed. Please contact your administrator." : "Лозинка се не може променити. Контактирајте администратора.",
     "Back to login" : "Назад на пријаву",

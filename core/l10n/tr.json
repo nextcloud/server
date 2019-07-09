@@ -227,7 +227,6 @@
     "User disabled" : "Kullanıcı devre dışı",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "IP adresinizden yapılan birden çok geçersiz oturum açma girişimi algılandı. Bu nedenle oturum açmanız 30 saniye süreyle engellendi.",
     "Reset password" : "Parolayı sıfırla",
-    "We have sent a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.",
     "If it is not there ask your local administrator." : "E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün.",
     "Password can not be changed. Please contact your administrator." : "Parola değiştirilemedi. Lütfen yöneticiniz ile görüşün.",
     "Back to login" : "Oturum açmaya geri dön",
