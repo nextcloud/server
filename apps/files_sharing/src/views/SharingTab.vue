@@ -34,6 +34,10 @@
 			<SharingInput :shares="shares" :file-info="fileInfo" :reshare="reshare" />
 		</template>
 
+		<div class="sharingTab__additionalContent" v-for="(section, $index) in sections" :ref="'section-' + $index">
+			<div :is="section($refs['section-'+$index], fileInfo)" :file-info="fileInfo"></div>
+		</div>
+
 		<collection-list v-if="fileInfo" type="file" :id="`${fileInfo.id}`" :name="fileInfo.name"></collection-list>
 	</Tab>
 </template>
@@ -77,7 +81,8 @@ export default {
 			// reshare Share object
 			reshare: null,
 			sharedWithMe: {},
-			shares: []
+			shares: [],
+			sections: OCA.Sharing.ShareTabSections.getSections()
 		}
 	},
 

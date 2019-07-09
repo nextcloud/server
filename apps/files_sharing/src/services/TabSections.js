@@ -1,7 +1,7 @@
-/**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+/*
+ * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,12 +20,28 @@
  *
  */
 
+/**
+ * Callback for adding two numbers.
+ *
+ * @callback registerSectionCallback
+ * @param {Element} el - The DOM element where the section is rendered
+ * @param {FileInfo} fileInfo
+ */
+export default class TabSections {
+	#sections;
 
-import SharingTab from './views/SharingTab'
-import TabSections from './services/TabSections'
+	constructor () {
+		this.#sections = []
+	}
 
-Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
+	/**
+	 * @param {registerSectionCallback} section To be called to mount the section to the sharing sidebar
+	 */
+	registerSection(section) {
+		this.#sections.push(section)
+	}
 
-window.addEventListener('DOMContentLoaded', () => {
-	OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab('sharing', SharingTab))
-})
+	getSections() {
+		return this.#sections
+	}
+}
