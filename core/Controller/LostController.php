@@ -261,7 +261,8 @@ class LostController extends Controller {
 		}
 		
 		$parameters = $this->setPasswordResetParameters($userObj, $parameters);
-		$parameters['administrator_email'] = $this->config->getSystemValue('administrator_email');
+		// the administrator_email value, if set in confif.php makes possible mailto:// and customized messages in front pages
+		$parameters['administrator_email'] = $this->config->getSystemValue('administrator_email',null);
 		$parameters['login_form_autocomplete'] = 'on';
 		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
 
