@@ -227,6 +227,7 @@
     "User disabled" : "Utilisateur désactivé",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Nous avons détecté plusieurs tentatives de connexion invalides depuis votre adresse IP. C'est pourquoi votre prochaine connexion sera retardée de 30 secondes.",
     "Reset password" : "Réinitialiser le mot de passe",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Un e-mail de réinitialisation de mot de passe a été envoyé à l'adresse e-mail du compte. Si vous ne le recevez pas, vérifiez vos dossiers de courrier indésirable/pourriel/spam ou demandez de l'aide à votre administrateur local.",
     "If it is not there ask your local administrator." : "Si ce n'est pas le cas, veuillez contacter votre administrateur.",
     "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur.",
     "Back to login" : "Retour à la page de connexion",
