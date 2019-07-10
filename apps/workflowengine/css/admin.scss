@@ -2,11 +2,11 @@
 	padding: 5px;
 	padding-bottom: 20px;
 	margin-bottom: 20px;
-	border-bottom: #eee 1px solid;
-	border-left: rgba(0,0,0,0) 1px solid;
+	border-bottom: var(--color-border) 1px solid;
+	border-left: rgba(0, 0, 0, 0) 2px solid;
 }
 .workflowengine .operation.modified {
-	border-left: rgb(255, 94, 32) 1px solid;
+	border-left: var(--color-warning) 2px solid;
 }
 .workflowengine .operation button {
 	margin-bottom: 0;
@@ -17,7 +17,7 @@
 }
 .workflowengine .operation span.info {
 	padding: 7px;
-	color: #eee;
+	color: var(--color-border);
 }
 .workflowengine .rules .operation:nth-last-child(2) {
 	margin-bottom: 5px;
@@ -35,7 +35,7 @@
 }
 
 .workflowengine .operation .check:hover {
-	background-color: #f8f8f8;
+	background-color: var(--color-background-dark);
 }
 
 .workflowengine .operation-header .operation-name {
@@ -70,6 +70,6 @@
 }
 
 .workflowengine .invalid-input {
-	border-color: #aa0000;
+	border-color: var(--color-error);
 }
 
