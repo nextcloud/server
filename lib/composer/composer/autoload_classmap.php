@@ -1065,6 +1065,7 @@ return array(
     'OC\\Repair\\NC16\\AddClenupLoginFlowV2BackgroundJob' => $baseDir . '/lib/private/Repair/NC16/AddClenupLoginFlowV2BackgroundJob.php',
     'OC\\Repair\\NC16\\CleanupCardDAVPhotoCache' => $baseDir . '/lib/private/Repair/NC16/CleanupCardDAVPhotoCache.php',
     'OC\\Repair\\NC16\\RemoveCypressFiles' => $baseDir . '/lib/private/Repair/NC16/RemoveCypressFiles.php',
+    'OC\\Repair\\NC17\\SetEnterpriseLogo' => $baseDir . '/lib/private/Repair/NC17/SetEnterpriseLogo.php',
     'OC\\Repair\\NC17\\SwitchUpdateChannel' => $baseDir . '/lib/private/Repair/NC17/SwitchUpdateChannel.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
