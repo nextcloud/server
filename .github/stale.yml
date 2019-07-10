@@ -22,7 +22,7 @@ staleLabel: stale
 # Comment to post when marking as stale. Set to `false` to disable
 markComment: >
   This issue has been automatically marked as stale because it has not had
-  recent activity and it seems to be missing some essential informations.
+  recent activity and seems to be missing some essential information.
   It will be closed if no further activity occurs. Thank you
   for your contributions.
 
