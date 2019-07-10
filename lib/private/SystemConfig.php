@@ -50,6 +50,7 @@ class SystemConfig {
 		'mail_smtpname' => true,
 		'mail_smtppassword' => true,
 		'passwordsalt' => true,
+		'administrator_email' => true,
 		'secret' => true,
 		'updater.secret' => true,
 		'trusted_proxies' => true,
