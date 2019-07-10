@@ -41,12 +41,14 @@ use OC\Core\Controller\LostController;
 			<div class="warning">
 				<?php p($l->t('An internal error occurred.')); ?><br>
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?> </small>
+				<?php if (isset($_['administrator_email']) && $_['administrator_email'] != '') {?>
 				<small>
 				<?php p($l->t('email')); ?>  : 
 				<a href="mailto:<?php p($_['administrator_email']); ?>?subject= <?php p($l->t('An internal error occurred.')); ?>&body= <?php p($l->t('Username')) ?>  :  <?php p($_['displayName']); ?>" >
 					<?php p($_['administrator_email']); ?>
 				</a>
 				</small>
+				<?php } ?>
 			</div>
 		<?php endif; ?>
 		<div id="message" class="hidden">
@@ -98,7 +100,11 @@ use OC\Core\Controller\LostController;
 		<?php } } else {  ?>
 
 			<p class="warning wrongUser">
-					<?php p($l->t("Please try again or contact %s.",$_['administrator_email'])); ?>
+			<?php if (isset($_['administrator_email']) && $_['administrator_email'] != '') { ?>
+				<?php p($l->t("Please try again or contact %s.",$_['administrator_email'])); ?>
+			<?php } else { ?>
+				<?php p($l->t("Please try again or contact your administrator.")); ?>
+			<?php }	?>
 			</p>
 		<?php }	?>
 		</div>
@@ -106,10 +112,12 @@ use OC\Core\Controller\LostController;
 		<div class="login-additional">
 			<p id="new-password"></p>
 			<p id="new-password-admin" class="info" style="display:none;" >
+			<?php if (isset($_['administrator_email']) && $_['administrator_email'] != '') { ?>
 				<?php p($l->t('email')); ?>   :  
 				<a  href="mailto:<?php p($_['administrator_email']); ?>?subject=<?php p($l->t('Error')) ?>&body=<?php p($l->t('Username')) ?>  :  <?php p($_['displayName']);?> - <?php p($l->t('Couldn\'t send reset email. Please contact your administrator.'));?>">
 					<?php p($_['administrator_email']); ?>
   				</a>
+			<?php }	?>
 			</p>
 			<a id="new-password-close" href="" style="display:none;">
 					<?php p($l->t('Close this window')); ?>
