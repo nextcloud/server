@@ -32,7 +32,7 @@ module.exports = []
 		workflowengine
 	)
 	.map(config =>
-		merge(config, {
+		merge.smart({
 			module: {
 				rules: [
 					{
@@ -81,5 +81,5 @@ module.exports = []
 				},
 				extensions: ['*', '.js', '.vue', '.json']
 			}
-		})
+		}, config)
 	);

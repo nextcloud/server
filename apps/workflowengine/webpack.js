@@ -10,9 +10,10 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.handlebars$/,
+				test: /\.handlebars/,
 				loader: "handlebars-loader",
-				options: {
+				query: {
+					extensions: '.handlebars',
 					helperDirs: path.join(__dirname, 'src/hbs_helpers'),
 				}
 			}
