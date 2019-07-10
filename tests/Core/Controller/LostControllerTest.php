@@ -821,28 +821,38 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testTwoUsersWithSameEmailOneDisabled() {
+
+	/**
+	 * @return array
+	 */
+	public function dataTwoUserswithSameEmailOneDisabled(): array {
+		return [
+			['user1' => true, 'user2' => false],
+			['user1' => false, 'user2' => true]
+		];
+	}
+
+	/**
+	 * @dataProvider dataTwoUserswithSameEmailOneDisabled
+	 * @param bool $userEnabled1
+	 * @param bool $userEnabled2
+	 */
+	public function testTwoUsersWithSameEmailOneDisabled(bool $userEnabled1, bool $userEnabled2): void {
 		$user1 = $this->createMock(IUser::class);
-		$user1->expects($this->any())
-			->method('getEMailAddress')
+		$user1->method('getEMailAddress')
 			->willReturn('test@example.com');
-		$user1->expects($this->any())
-			->method('getUID')
+		$user1->method('getUID')
 			->willReturn('User1');
-		$user1->expects($this->any())
-			->method('isEnabled')
-			->willReturn(true);
+		$user1->method('isEnabled')
+			->willReturn($userEnabled1);
 
 		$user2 = $this->createMock(IUser::class);
-		$user2->expects($this->any())
-			->method('getEMailAddress')
+		$user2->method('getEMailAddress')
 			->willReturn('test@example.com');
-		$user2->expects($this->any())
-			->method('getUID')
+		$user2->method('getUID')
 			->willReturn('User2');
-		$user2->expects($this->any())
-			->method('isEnabled')
-			->willReturn(false);
+		$user2->method('isEnabled')
+			->willReturn($userEnabled2);
 
 		$this->userManager
 			->method('get')
@@ -852,14 +862,7 @@ class LostControllerTest extends \Test\TestCase {
 			->method('getByEmail')
 			->willReturn([$user1, $user2]);
 
-		// request password reset for test@example.com
-		$response = $this->lostController->email('test@example.com');
-
-		$expectedResponse = new JSONResponse([
-			'status' => 'success'
-		]);
-		$expectedResponse->throttle();
-
-		$this->assertEquals($expectedResponse, $response);
+		$result = self::invokePrivate($this->lostController, 'findUserByIdOrMail', ['test@example.com']);
+		$this->assertInstanceOf(IUser::class, $result);
 	}
 }

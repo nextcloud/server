@@ -50,6 +50,9 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use function array_filter;
+use function count;
+use function reset;
 
 /**
  * Class LostController
@@ -389,12 +392,12 @@ class LostController extends Controller {
 			return $user;
 		}
 
-		$users = \array_filter($this->userManager->getByEmail($input), function (IUser $user) {
+		$users = array_filter($this->userManager->getByEmail($input), function (IUser $user) {
 			return $user->isEnabled();
 		});
 
-		if (\count($users) === 1) {
-			return $users[0];
+		if (count($users) === 1) {
+			return reset($users);
 		}
 
 		throw $userNotFound;
