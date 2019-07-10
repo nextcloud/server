@@ -823,7 +823,7 @@ class LostControllerTest extends \Test\TestCase {
 	 * @param bool $userEnabled1
 	 * @param bool $userEnabled2
 	 */
-	public function testTwoUsersWithSameEmailOneDisabled(bool $userEnabled1, bool $userEnabled2): void {
+	public function testTwoUsersWithSameEmailOneDisabled(bool $userEnabled1, bool $userEnabled2) {
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getEMailAddress')
 			->willReturn('test@example.com');
