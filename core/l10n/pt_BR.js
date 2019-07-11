@@ -229,6 +229,7 @@ OC.L10N.register(
     "User disabled" : "Usuário desativado",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
     "Reset password" : "Redefinir senha",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Uma mensagem de redefinição de senha foi enviada para o e-mail dessa conta. Se você não receber, verifique suas pastas de spam/lixo ou peça ajuda ao administrador.",
     "If it is not there ask your local administrator." : "Se não estiver lá, pergunte ao administrador.",
     "Password can not be changed. Please contact your administrator." : "A senha não pôde ser alterada. Por favor, contate o administrador.",
     "Back to login" : "Voltar ao login",
