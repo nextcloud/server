@@ -653,7 +653,6 @@ $CONFIG = array(
  *   - ``daily``
  *   - ``beta``
  *   - ``stable``
- *   - ``production``
  */
 'updater.release.channel' => 'stable',
 

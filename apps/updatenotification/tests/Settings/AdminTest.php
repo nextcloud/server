@@ -35,6 +35,7 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Test\TestCase;
 
@@ -51,6 +52,8 @@ class AdminTest extends TestCase {
 	private $groupManager;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
+	/** @var IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	private $subscriptionRegistry;
 
 	public function setUp() {
 		parent::setUp();
@@ -60,9 +63,10 @@ class AdminTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 
 		$this->admin = new Admin(
-			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory
+			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory, $this->subscriptionRegistry
 		);
 	}
 
@@ -120,6 +124,11 @@ class AdminTest extends TestCase {
 			->with('admin')
 			->willReturn($group);
 
+		$this->subscriptionRegistry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
 		$params = [
 			'json' => json_encode([
 				'isNewVersionAvailable' => true,
@@ -138,6 +147,7 @@ class AdminTest extends TestCase {
 				'notifyGroups' => [
 					['value' => 'admin', 'label' => 'Administrators'],
 				],
+				'hasValidSubscription' => true,
 			]),
 		];
 

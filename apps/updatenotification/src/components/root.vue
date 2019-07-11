@@ -115,6 +115,7 @@
 				versionIsEol: false,
 				downloadLink: '',
 				isNewVersionAvailable: false,
+				hasValidSubscription: false,
 				updateServerURL: '',
 				changelogURL: '',
 				whatsNewData: [],
@@ -224,7 +225,7 @@
 				if(this.changelogURL) {
 					whatsNew.push({
 						href: this.changelogURL,
-						text: t('updatenotificaiton', 'View changelog'),
+						text: t('updatenotification', 'View changelog'),
 						icon: 'icon-link',
 						target: '_blank',
 						action: ''
@@ -237,7 +238,16 @@
 				let channelList = [];
 
 				channelList.push({
-					text: t('updatenotificaiton', 'Stable'),
+					text: t('updatenotification', 'Enterprise'),
+					longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
+					icon: 'icon-star',
+					active: this.currentChannel === 'enterprise',
+					disabled: !this.hasValidSubscription,
+					action: this.changeReleaseChannelToEnterprise
+				});
+
+				channelList.push({
+					text: t('updatenotification', 'Stable'),
 					longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
 					icon: 'icon-checkmark',
 					active: this.currentChannel === 'stable',
@@ -245,15 +255,7 @@
 				});
 
 				channelList.push({
-					text: t('updatenotificaiton', 'Production'),
-					longtext: t('updatenotification', 'Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version.'),
-					icon: 'icon-star',
-					active: this.currentChannel === 'production',
-					action: this.changeReleaseChannelToProduction
-				});
-
-				channelList.push({
-					text: t('updatenotificaiton', 'Beta'),
+					text: t('updatenotification', 'Beta'),
 					longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
 					icon: 'icon-category-customization',
 					active: this.currentChannel === 'beta',
@@ -272,19 +274,19 @@
 			},
 
 			isNonDefaultChannel: function() {
-				return this.currentChannel !== 'production' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta';
+				return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta';
 			},
 
 			localizedChannelName: function() {
 				switch (this.currentChannel) {
-					case 'production':
-						return t('updatenotificaiton', 'Production');
+					case 'enterprise':
+						return t('updatenotification', 'Enterprise');
 						break;
 					case 'stable':
-						return t('updatenotificaiton', 'Stable');
+						return t('updatenotification', 'Stable');
 						break;
 					case 'beta':
-						return t('updatenotificaiton', 'Beta');
+						return t('updatenotification', 'Beta');
 						break;
 					default:
 						return this.currentChannel;
@@ -317,11 +319,11 @@
 					form.submit();
 				}.bind(this));
 			},
+			changeReleaseChannelToEnterprise: function() {
+				this.changeReleaseChannel('enterprise')
+			},
 			changeReleaseChannelToStable: function() {
 				this.changeReleaseChannel('stable')
-			},
-			changeReleaseChannelToProduction: function() {
-				this.changeReleaseChannel('production')
 			},
 			changeReleaseChannelToBeta: function() {
 				this.changeReleaseChannel('beta')
@@ -375,6 +377,7 @@
 			this.notifyGroups = data.notifyGroups;
 			this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
 			this.versionIsEol = data.versionIsEol;
+			this.hasValidSubscription = data.hasValidSubscription;
 			if(data.changes && data.changes.changelogURL) {
 				this.changelogURL = data.changes.changelogURL;
 			}
