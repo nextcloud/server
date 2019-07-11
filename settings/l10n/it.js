@@ -636,6 +636,7 @@ OC.L10N.register(
     "No language set" : "Nessuna lingua impostata",
     "Never" : "Mai",
     "Delete user" : "Elimina utente",
+    "Wipe all devices" : "Cancella tutti i dispositivi",
     "Disable user" : "Disabilita utente",
     "Enable user" : "Abilita utente",
     "Resend welcome email" : "Invia nuovamente email di benvenuto",
