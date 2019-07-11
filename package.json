@@ -38,7 +38,7 @@
     "jquery-migrate": "^1.4.1",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "marked": "^0.6.2",
     "moment": "^2.24.0",
     "nextcloud-axios": "^0.1.3",
