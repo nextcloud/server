@@ -985,6 +985,7 @@ $CONFIG = array(
  * Defaults to the following providers:
  *
  *  - OC\Preview\BMP
+ *  - OC\Preview\CBZ
  *  - OC\Preview\GIF
  *  - OC\Preview\HEIC
  *  - OC\Preview\JPEG
@@ -1003,7 +1004,8 @@ $CONFIG = array(
 	'OC\Preview\XBitmap',
 	'OC\Preview\MP3',
 	'OC\Preview\TXT',
-	'OC\Preview\MarkDown'
+	'OC\Preview\MarkDown',
+	'OC\Preview\CBZ'
 ),
 
 /**
