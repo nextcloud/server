@@ -229,6 +229,7 @@ OC.L10N.register(
     "User disabled" : "用户不可用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到您的 IP 进行了多次无效登录尝试。因此，请 30 秒之后再尝试。",
     "Reset password" : "重置密码",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置的电子邮件发送到此帐户的电子邮件地址。 如果您未在合理的时间内收到，请优先检查您的垃圾邮件/垃圾邮件文件夹。如果不存在此电子邮件，请咨询系统管理员。",
     "If it is not there ask your local administrator." : "如果它不在此处，请询问您的本地管理员。",
     "Password can not be changed. Please contact your administrator." : "无法修改密码，请联系管理员。",
     "Back to login" : "返回登录",
