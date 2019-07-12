@@ -226,14 +226,19 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions() {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
 		$uids = array_unique($mentions[0]);
 		$result = [];
 		foreach ($uids as $uid) {
-			$result[] = ['type' => 'user', 'id' => trim(substr($uid, 1), '"')];
+			$cleanUid = trim(substr($uid, 1), '"');
+			if (strpos($cleanUid, 'guest/') === 0) {
+				$result[] = ['type' => 'guest', 'id' => $cleanUid];
+			} else {
+				$result[] = ['type' => 'user', 'id' => $cleanUid];
+			}
 		}
 		return $result;
 	}
