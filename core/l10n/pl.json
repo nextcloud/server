@@ -385,7 +385,7 @@
     "These apps will be updated:" : "Te aplikacje zostaną zaktualizowane:",
     "These incompatible apps will be disabled:" : "Te niekompatybilne aplikacje zostaną wyłączone:",
     "The theme %s has been disabled." : "Motyw %s został wyłączony.",
-    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Przed kontynuowaniem upewnij się, że baza danych, katalog konfiguracji i katalog danych zostały zarchiwizowane.",
+    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Przed kontynuowaniem upewnij się, że baza danych, katalog konfiguracji i katalog danych zostało zarchiwizowane.",
     "Start update" : "Rozpocznij aktualizację",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Aby uniknąć przekroczenia limitu czasu w przypadku większych instalacji, można zamiast tego uruchomić następujące polecenie z katalogu instalacyjnego:",
     "Detailed logs" : "Szczegółowe logi",
