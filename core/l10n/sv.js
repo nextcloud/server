@@ -199,6 +199,7 @@ OC.L10N.register(
     "User disabled" : "Användare inaktiverad",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har upptäckt flera felaktiga inloggningsförsök från din IP-adress. Ditt nästa inloggningsförsök kommer därför att fördröjas med upp till 30 sekunder.",
     "Reset password" : "Återställ lösenord",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "If it is not there ask your local administrator." : "Om det inte finns, fråga din lokala administratör.",
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Back to login" : "Tillbaka till inloggning",
