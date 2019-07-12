@@ -1045,6 +1045,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Preview\\BMP' => __DIR__ . '/../../..' . '/lib/private/Preview/BMP.php',
         'OC\\Preview\\BackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Preview/BackgroundCleanupJob.php',
         'OC\\Preview\\Bitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/Bitmap.php',
+        'OC\\Preview\\CBZ' => __DIR__ . '/../../..' . '/lib/private/Preview/CBZ.php',
         'OC\\Preview\\Font' => __DIR__ . '/../../..' . '/lib/private/Preview/Font.php',
         'OC\\Preview\\GIF' => __DIR__ . '/../../..' . '/lib/private/Preview/GIF.php',
         'OC\\Preview\\Generator' => __DIR__ . '/../../..' . '/lib/private/Preview/Generator.php',

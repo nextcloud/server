@@ -1011,6 +1011,7 @@ return array(
     'OC\\Preview\\BMP' => $baseDir . '/lib/private/Preview/BMP.php',
     'OC\\Preview\\BackgroundCleanupJob' => $baseDir . '/lib/private/Preview/BackgroundCleanupJob.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',
+    'OC\\Preview\\CBZ' => $baseDir . '/lib/private/Preview/CBZ.php',
     'OC\\Preview\\Font' => $baseDir . '/lib/private/Preview/Font.php',
     'OC\\Preview\\GIF' => $baseDir . '/lib/private/Preview/GIF.php',
     'OC\\Preview\\Generator' => $baseDir . '/lib/private/Preview/Generator.php',
