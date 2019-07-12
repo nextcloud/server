@@ -37,8 +37,6 @@ OC.L10N.register(
     "View changelog" : "Visualizza le novità",
     "Stable" : "Stabile",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
-    "Production" : "Produzione",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2).",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> applicazione non ha un aggiornamento disponibile per questa versione","<strong>%n</strong> applicazioni non hanno un aggiornamento disponibile per questa versione"],
@@ -46,6 +44,8 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produzione</strong> fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabile</strong> è la versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> è una versione pre-rilascio solo per provare le nuove funzionalità, non per ambienti di produzione.",
-    "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale"
+    "Could not start updater, please try the manual update" : "Impossibile avviare lo strumento di aggiornamento, prova l'aggiornamento manuale",
+    "Production" : "Produzione",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Fornirà sempre l'ultimo livello di patch, ma non aggiornerà immediatamente alla successiva versione principale. Tale aggiornamento di solito avviene con la seconda versione minore (x.0.2)."
 },
 "nplurals=2; plural=(n != 1);");

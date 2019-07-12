@@ -37,8 +37,6 @@ OC.L10N.register(
     "View changelog" : "Visa ändringslogg",
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste större mer omfattande versionen.",
-    "Production" : "Produktion",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Kommer alltid att tillhandahålla den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Uppdateringen sker vanligen med den andra mindre versionen (x.0.2) och endast om instansen redan har den senaste mindre versionen.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
@@ -46,6 +44,8 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produktion</strong> kommer alltid att tillhandahålla den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Uppdateringen sker vanligen med den andra mindre versionen (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> är den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste mer omfattande versionen.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> är en förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
-    "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt"
+    "Could not start updater, please try the manual update" : "Kunde inte starta uppdateraren, vänligen försök uppdatera manuellt",
+    "Production" : "Produktion",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Kommer alltid att tillhandahålla den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Uppdateringen sker vanligen med den andra mindre versionen (x.0.2) och endast om instansen redan har den senaste mindre versionen."
 },
 "nplurals=2; plural=(n != 1);");
