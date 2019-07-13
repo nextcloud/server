@@ -120,6 +120,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
     "Tags" : "Atzīmes",
     "Deleted files" : "Dzēstās datnes",
+    "Shares" : "Koplietots",
     "Shared with others" : "Koplietots ar citiem",
     "Shared with you" : "Koplietots ar tevi",
     "Shared by link" : "Koplietots ar saiti",
