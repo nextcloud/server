@@ -35,6 +35,8 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nie można połączyć się z appstore lub całkowicie zgłasza brak aktualizacji. Wyszukaj aktualizacje ręcznie lub upewnij się, że masz dostęp do Internetu i możesz łączyć się z appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Wszystkie</strong> aplikacje mają aktualizację dla tej wersji",
     "View changelog" : "Zobacz listę zmian",
+    "Enterprise" : "Komercyjna",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Do użytku komercyjnego. Zapewnia zawsze najnowszy poziom poprawek, które zostaną wprowadzone dopiero po przetestowaniu przez Nextcloud GmbH. Aktualizacja usunie błędy krytyczne i wprowadzi dodatkowe ulepszenia. Ten kanał jest dostępny tylko dla klientów, którzy otrzymują pakiet Nextcloud Enterprise.",
     "Stable" : "Stabilna",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnowsza wersja stabilna. Jest odpowiednia do regularnego używania i zawsze będzie aktualizowana do najnowszej wersji głównej.",
     "Beta" : "Beta",
@@ -44,7 +46,7 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>production</strong> zawsze zapewni najnowsze poprawki, ale nie zaktualizuje się do następnej wersji głównej. Ta aktualizacja zwykle ma miejsce przy drugiej wersji wydania (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> to najnowsza stabilna wersja. Jest odpowiednia do regularnego używania i zawsze będzie aktualizowana do najnowszej wersji głównej.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> jest wersją przedpremierową tylko do testowania nowych funkcji. Nie jest do środowisk produkcyjnych.",
-    "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj z aktualizować ręcznie",
+    "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj zaktualizować ręcznie",
     "Production" : "Produkcyjna",
     "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Zawsze będzie dostarczać najnowsze poprawki, ale nie będzie aktualizowana do następnej wersji głównej. Ta aktualizacja zazwyczaj ma miejsce przy drugiej wersji wydania (x.0.2) i tylko wtedy, gdy instancja jest już w najnowszej wersji."
 },
