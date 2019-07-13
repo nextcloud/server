@@ -9,7 +9,32 @@
  */
 
 (function() {
-
+	/* Copies to cliboard */
+	var copyToClipboard = function(text) {
+ 
+		if (window.clipboardData && window.clipboardData.setData) {
+		 // IE specific code path to prevent textarea being shown while dialog is visible.
+		 
+		return clipboardData.setData("Text", text); 
+		 
+		} 
+		 
+		else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+				var textarea = document.createElement("textarea");
+				textarea.textContent = text;
+				textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+				document.body.appendChild(textarea);
+				textarea.select();
+				try {
+					return document.execCommand("copy"); // Security exception may be thrown by some browsers.
+				} catch (ex) {
+					console.warn("Copy to clipboard failed.", ex);
+					return false;
+				} finally {
+					document.body.removeChild(textarea);
+				}
+			}
+	}
 	/**
 	 * Construct a new FileActions instance
 	 * @constructs FileActions
@@ -587,6 +612,65 @@
 		 * Register the actions that are used by default for the files app.
 		 */
 		registerDefaultActions: function() {
+			this.registerAction({
+				name: 'CopyDownload',
+				displayName: t('files', 'Copy Download Link'),
+				order: -40,
+				mime: 'all',
+				permissions: OC.PERMISSION_READ,
+				iconClass: 'icon-download',
+				actionHandler: function (filename, context) {
+					var dir = context.dir || context.fileList.getCurrentDirectory();
+					var isDir = context.$file.attr('data-type') === 'dir';
+					var apiShareUrl = OC.linkToOCS("apps/files_sharing/api/v1", 2) + "shares";
+					var path = dir+"/"+filename;
+					var encPath = encodeURIComponent(path);
+					var downloadFileaction = $(context.$file).find('.fileactions .action-copydownload');
+
+					// don't allow a second click on the download action
+					if(downloadFileaction.hasClass('disabled')) {
+						return;
+					}
+					downloadFileaction.addClass('disabled');
+					if (path) {
+						OC.Notification.showTemporary("Checking shares for file '"+filename+"'...");
+						$.ajax({
+							type: "GET",
+							url: apiShareUrl+"?format=json&path="+encPath,
+							success: function(res)
+							{
+								if(res.ocs.meta.statuscode != 200)
+									OC.Notification.showTemporary("Failed to check shares!");
+								else if(res.ocs.data.length >= 1)
+								{
+									copyToClipboard(res.ocs.data[0].url+"/download");
+									OC.Notification.showTemporary("Copied direct download link for file '"+filename+"' to the clipboard!");
+								}
+								else
+								{
+									OC.Notification.showTemporary("Creating new share for file '"+filename+"'...");
+									$.ajax({
+										type: "POST",
+										url: apiShareUrl+"?format=json",
+										data: {"shareType": 3, "path": path},
+										success: function(res)
+										{
+											if(res.ocs.meta.statuscode != 200)
+												OC.Notification.showTemporary("Failed to create share for file '"+filename+"'...");
+											else
+											{
+												copyToClipboard(res.ocs.data.url+"/download");
+												OC.Notification.showTemporary("Copied direct download link for file '"+filename+"' to the clipboard!");
+											}
+										}
+									});
+								}
+								downloadFileaction.removeClass('disabled');
+							}
+						});
+					}
+				}
+			});
 			this.registerAction({
 				name: 'Download',
 				displayName: t('files', 'Download'),
