@@ -68,7 +68,7 @@ OC.L10N.register(
     "Check %s does not exist" : "Die Prüfung %s existiert nicht",
     "Check %s is invalid" : "Die Prüfung %s ist ungültig",
     "Check #%s does not exist" : "Die Prüfung #%s existiert nicht",
-    "Tag management" : "Tags-Verwaltung",
+    "Tag management" : "Schlagwortverwaltung",
     "Files workflow engine" : "Datei-Arbeitsablauf-Engine",
     "Open documentation" : "Dokumentation öffnen",
     "Loading…" : "Laden…",
