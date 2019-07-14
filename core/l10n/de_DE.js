@@ -229,7 +229,7 @@ OC.L10N.register(
     "User disabled" : "Nutzer deaktiviert",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von Ihrer IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",
     "Reset password" : "Passwort zurücksetzen",
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail Adresse gesendet. Wenn Sie diese nicht erhalten haben, prüfen Sie bitte den Spam/Junk Ordner oder kontaktieren Sie Ihren lokalen Administrator für weitere Hilfe.",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn Sie diese nicht erhalten haben, prüfen Sie bitte den Spam/Junk Ordner oder kontaktieren Sie Ihren lokalen Administrator für weitere Hilfe.",
     "If it is not there ask your local administrator." : "Wenn Sie keine E-Mail bekommen haben, wenden Sie sich bitte an Ihren lokalen Administrator.",
     "Password can not be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator.",
     "Back to login" : "Zur Anmeldung wechseln",
