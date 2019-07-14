@@ -359,10 +359,15 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @return IIndexDocument
 	 */
 	final public function addSubTag(string $sub, string $tag): IIndexDocument {
-		$this->subTags[$sub] = $tag;
+		if (!array_key_exists($sub, $this->subTags)) {
+			$this->subTags[$sub] = [];
+		}
+
+		$this->subTags[$sub][] = $tag;
 
 		return $this;
 	}
+
 
 	/**
 	 * Set the list of sub tags assigned to the original document.
