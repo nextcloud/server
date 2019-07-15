@@ -900,10 +900,15 @@ describe('Core base tests', function() {
 		var hideSpy;
 		var clock;
 
-		var getInnerText = function($node) {
-			return $node.contents().filter(function(){
-				return this.nodeType === 3;
-			})[0].nodeValue;
+		/**
+		 * Returns the HTML or plain text of the given notification row.
+		 *
+		 * This is needed to ignore the close button that is added to the
+		 * notification row after the text.
+		 */
+		var getNotificationText = function($node) {
+			return $node.contents()[0].outerHTML ||
+					$node.contents()[0].nodeValue;
 		}
 
 		beforeEach(function() {
@@ -931,7 +936,7 @@ describe('Core base tests', function() {
 
 				var $row = $('#testArea .toastify');
 				expect($row).toBeDefined();
-				expect(getInnerText($row)).toEqual('My notification test');
+				expect(getNotificationText($row)).toEqual('My notification test');
 			});
 			it('shows a HTML notification with default timeout', function() {
 				OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
@@ -942,7 +947,7 @@ describe('Core base tests', function() {
 
 				var $row = $('#testArea .toastify');
 				expect($row).toBeDefined();
-				expect(getInnerText($row)).toEqual('<a>My notification test</a>');
+				expect(getNotificationText($row)).toEqual('<a>My notification test</a>');
 			});
 			it('hides itself after 7 seconds', function() {
 				OC.Notification.showTemporary('');

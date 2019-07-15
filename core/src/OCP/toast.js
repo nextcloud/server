@@ -56,12 +56,12 @@ const Toast = {
 		options = options || {};
 		_.defaults(options, {
 			timeout: 7,
-			showHtml: false,
+			isHTML: false,
 			type: undefined,
 			close: true,
 			callback: () => {}
 		});
-		if (!options.showHtml) {
+		if (!options.isHTML) {
 			text = $('<div/>').text(text).html()
 		}
 		let classes = ''
