@@ -43,6 +43,7 @@ use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
 use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\NC16\RemoveCypressFiles;
+use OC\Repair\NC17\SetEnterpriseLogo;
 use OC\Repair\NC17\SwitchUpdateChannel;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -151,6 +152,7 @@ class Repair implements IOutput {
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
 			\OC::$server->query(RemoveCypressFiles::class),
 			\OC::$server->query(SwitchUpdateChannel::class),
+			\OC::$server->query(SetEnterpriseLogo::class),
 		];
 	}
 
