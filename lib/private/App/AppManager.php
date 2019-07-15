@@ -39,6 +39,7 @@ use OCP\App\ManagerEvent;
 use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -72,6 +73,9 @@ class AppManager implements IAppManager {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
 
@@ -98,12 +102,14 @@ class AppManager implements IAppManager {
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $dispatcher) {
+								EventDispatcherInterface $dispatcher,
+								ILogger $logger) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
 		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -220,7 +226,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				\OC::$server->getLogger()->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
 				return false;
 			}
 
@@ -253,7 +259,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				\OC::$server->getLogger()->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
 				return false;
 			}
 
