@@ -64,7 +64,10 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	private function repair(IOutput $output): void {
 		try {
 			$folders = $this->appData->getDirectoryListing();
-		} catch (NotFoundException|RuntimeException $e) {
+		} catch (NotFoundException $e) {
+			return;
+		} catch (RuntimeException $e) {
+			$this->logger->logException($e, ['message' => 'Failed to fetch directory listing in CleanupCardDAVPhotoCache']);
 			return;
 		}
 
