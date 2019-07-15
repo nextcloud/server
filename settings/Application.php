@@ -220,6 +220,11 @@ class Application extends App {
 			$appConfig['core']['public_webfinger'] = $publicWebFinger;
 		}
 
+		$publicNodeInfo = \OC::$server->getConfig()->getAppValue('core', 'public_nodeinfo', '');
+		if (!empty($publicNodeInfo)) {
+			$appConfig['core']['public_nodeinfo'] = $publicNodeInfo;
+		}
+
 		$settings['array']['oc_appconfig'] = json_encode($appConfig);
 	}
 }
