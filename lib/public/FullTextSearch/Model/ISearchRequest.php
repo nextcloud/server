@@ -322,5 +322,25 @@ interface ISearchRequest {
 	public function getFields(): array;
 
 
+
+	/**
+	 * Add a MUST search on an extra field
+	 *
+	 * @param ISearchRequestSimpleQuery $query
+	 *
+	 * @return ISearchRequest
+	 * @since 17.0.0
+	 */
+	public function addSimpleQuery(ISearchRequestSimpleQuery $query): ISearchRequest;
+
+
+	/**
+	 * Get the list of queries on extra field.
+	 *
+	 * @return ISearchRequestSimpleQuery[]
+	 * @since 17.0.0
+	 */
+	public function getSimpleQueries(): array;
+
 }
 
