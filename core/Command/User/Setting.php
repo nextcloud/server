@@ -178,10 +178,15 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && $key === 'email') {
+				if ($app === 'settings' && in_array ($key , ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
-						$user->setEMailAddress($input->getArgument('value'));
+						if ($key === 'email') {
+							$user->setEMailAddress($input->getArgument('value'));
+						} else if ($key === 'display_name') {
+							$user->setDisplayName($input->getArgument('value'));
+						}
+						// setEmailAddress and setDisplayName both internally set the value
 						return 0;
 					}
 				}
@@ -194,11 +199,17 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && $key === 'email') {
+				if ($app === 'settings' && in_array ($key , ['email', 'display_name'])) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
-						$user->setEMailAddress('');
-						return 0;
+						if ($key === 'email') {
+							$user->setEMailAddress('');
+							// setEmailAddress already deletes the value
+							return 0;
+						} else if ($key === 'display_name') {
+							$output->writeln('<error>Display name can\'t be deleted.</error>');
+							return 1;
+						}
 					}
 				}
 

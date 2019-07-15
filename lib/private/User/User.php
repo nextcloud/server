@@ -159,6 +159,7 @@ class User implements IUser {
 			if ($result) {
 				$this->displayName = $displayName;
 				$this->triggerChange('displayName', $displayName, $oldDisplayName);
+				$this->config->setUserValue($this->uid, 'settings', 'display_name', $displayName);
 			}
 			return $result !== false;
 		}
