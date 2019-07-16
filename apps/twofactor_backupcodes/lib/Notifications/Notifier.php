@@ -60,6 +60,9 @@ class Notifier implements INotifier {
 				);
 
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']));
+
+				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/password.svg')));
+
 				return $notification;
 
 			default:

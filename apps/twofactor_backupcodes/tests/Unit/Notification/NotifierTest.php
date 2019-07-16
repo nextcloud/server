@@ -117,7 +117,7 @@ class NotifierTest extends TestCase {
 			->willReturnSelf();
 		$notification->expects($this->once())
 			->method('setParsedMessage')
-			->with('You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.')
+			->with('You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor.')
 			->willReturnSelf();
 
 		$this->url->expects($this->once())
