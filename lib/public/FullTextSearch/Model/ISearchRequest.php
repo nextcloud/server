@@ -94,6 +94,8 @@ interface ISearchRequest {
 	/**
 	 * Set the searched string.
 	 *
+	 * @param string $search
+	 *
 	 * @since 17.0.0
 	 *
 	 * @return ISearchRequest
@@ -101,9 +103,11 @@ interface ISearchRequest {
 	public function setSearch(string $search): ISearchRequest;
 
 	/**
-	 * Complete the searched string.
+	 * Extends the searched string.
 	 *
 	 * @since 17.0.0
+	 *
+	 * @param string $search
 	 *
 	 * @return ISearchRequest
 	 */
