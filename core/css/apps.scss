@@ -711,7 +711,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 }
 
 
-.settings-button {
+#app-settings-header .settings-button {
 	display: block;
 	height: 44px;
 	width: 100%;
@@ -732,7 +732,9 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	color: var(--color-main-text);
 	opacity: .57;
 
-	&.opened,
+	&.opened {
+		border-top: solid 1px var(--color-border);
+	}
 	&:hover,
 	&:focus {
 		background-color: var(--color-main-background);
