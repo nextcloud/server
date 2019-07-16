@@ -74,7 +74,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		/** @var IManager $manager */
 		$manager = $container->query(IManager::class);
-		$manager->registerNotifier(Notifier::class);
+		$manager->registerNotifierService(Notifier::class);
 	}
 
 	public function deleteUser($params) {

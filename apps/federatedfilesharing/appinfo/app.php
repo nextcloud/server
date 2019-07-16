@@ -29,7 +29,7 @@ $app = new \OCA\FederatedFileSharing\AppInfo\Application();
 $eventDispatcher = \OC::$server->getEventDispatcher();
 
 $manager = \OC::$server->getNotificationManager();
-$manager->registerNotifier(Notifier::class);
+$manager->registerNotifierService(Notifier::class);
 
 $federatedShareProvider = $app->getFederatedShareProvider();
 

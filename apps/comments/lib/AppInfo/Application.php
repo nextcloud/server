@@ -76,7 +76,7 @@ class Application extends App {
 	}
 
 	protected function registerNotifier() {
-		$this->getContainer()->getServer()->getNotificationManager()->registerNotifier(Notifier::class);
+		$this->getContainer()->getServer()->getNotificationManager()->registerNotifierService(Notifier::class);
 	}
 
 	protected function registerCommentsEventHandler() {

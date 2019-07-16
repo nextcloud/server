@@ -20,19 +20,37 @@ declare(strict_types=1);
  *
  */
 
-namespace OCP\Notification;
+namespace Test\Notification;
 
 
-/**
- * @since 17.0.0
- */
-class AlreadyProcessedException extends \RuntimeException {
+use OCP\Notification\IApp;
+use OCP\Notification\INotification;
+
+class DummyApp implements IApp {
 
 	/**
-	 * @since 17.0.0
+	 * @param INotification $notification
+	 * @throws \InvalidArgumentException When the notification is not valid
+	 * @since 9.0.0
 	 */
-	public function __construct() {
-		parent::__construct('Notification is processed already');
+	public function notify(INotification $notification): void {
+		// TODO: Implement notify() method.
 	}
 
+	/**
+	 * @param INotification $notification
+	 * @since 9.0.0
+	 */
+	public function markProcessed(INotification $notification): void {
+		// TODO: Implement markProcessed() method.
+	}
+
+	/**
+	 * @param INotification $notification
+	 * @return int
+	 * @since 9.0.0
+	 */
+	public function getCount(INotification $notification): int {
+		// TODO: Implement getCount() method.
+	}
 }

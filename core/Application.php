@@ -65,8 +65,8 @@ class Application extends App {
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
-		$notificationManager->registerNotifier(RemoveLinkSharesNotifier::class);
-		$notificationManager->registerNotifier(AuthenticationNotifier::class);
+		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
+		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
 			function (GenericEvent $event) use ($container) {

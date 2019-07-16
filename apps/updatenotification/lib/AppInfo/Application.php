@@ -71,6 +71,6 @@ class Application extends App {
 
 	public function registerNotifier() {
 		$notificationsManager = $this->getContainer()->getServer()->getNotificationManager();
-		$notificationsManager->registerNotifier(Notifier::class);
+		$notificationsManager->registerNotifierService(Notifier::class);
 	}
 }
