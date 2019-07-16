@@ -91,6 +91,28 @@ interface ISearchRequest {
 	 */
 	public function getSearch(): string;
 
+	/**
+	 * Set the searched string.
+	 *
+	 * @param string $search
+	 *
+	 * @since 17.0.0
+	 *
+	 * @return ISearchRequest
+	 */
+	public function setSearch(string $search): ISearchRequest;
+
+	/**
+	 * Extends the searched string.
+	 *
+	 * @since 17.0.0
+	 *
+	 * @param string $search
+	 *
+	 * @return ISearchRequest
+	 */
+	public function addSearch(string $search): ISearchRequest;
+
 
 	/**
 	 * Get the value of an option (as string).
