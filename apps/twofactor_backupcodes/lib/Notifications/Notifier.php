@@ -56,10 +56,13 @@ class Notifier implements INotifier {
 				$notification->setParsedSubject(
 					$l->t('Generate backup codes')
 				)->setParsedMessage(
-					$l->t('You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.')
+					$l->t('You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor.')
 				);
 
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.PersonalSettings.index', ['section' => 'security']));
+
+				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/password.svg')));
+
 				return $notification;
 
 			default:
