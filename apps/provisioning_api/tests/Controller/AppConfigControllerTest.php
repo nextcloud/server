@@ -342,9 +342,10 @@ class AppConfigControllerTest extends TestCase {
 
 	public function dataVerifyConfigKey() {
 		return [
-			['activity', 'abc'],
-			['dav', 'public_route'],
-			['files', 'remote_route'],
+			['activity', 'abc', ''],
+			['dav', 'public_route', ''],
+			['files', 'remote_route', ''],
+			['core', 'encryption_enabled', 'yes'],
 		];
 	}
 
@@ -352,22 +353,25 @@ class AppConfigControllerTest extends TestCase {
 	 * @dataProvider dataVerifyConfigKey
 	 * @param string $app
 	 * @param string $key
+	 * @param string $value
 	 */
-	public function testVerifyConfigKey($app, $key) {
+	public function testVerifyConfigKey($app, $key, $value) {
 		$api = $this->getInstance();
-		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key]);
+		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key, $value]);
 		$this->addToAssertionCount(1);
 	}
 
 	public function dataVerifyConfigKeyThrows() {
 		return [
-			['activity', 'installed_version'],
-			['calendar', 'enabled'],
-			['contacts', 'types'],
-			['core', 'public_files'],
-			['core', 'public_dav'],
-			['core', 'remote_files'],
-			['core', 'remote_dav'],
+			['activity', 'installed_version', ''],
+			['calendar', 'enabled', ''],
+			['contacts', 'types', ''],
+			['core', 'encryption_enabled', 'no'],
+			['core', 'encryption_enabled', ''],
+			['core', 'public_files', ''],
+			['core', 'public_dav', ''],
+			['core', 'remote_files', ''],
+			['core', 'remote_dav', ''],
 		];
 	}
 
@@ -376,9 +380,10 @@ class AppConfigControllerTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 * @param string $app
 	 * @param string $key
+	 * @param string $value
 	 */
-	public function testVerifyConfigKeyThrows($app, $key) {
+	public function testVerifyConfigKeyThrows($app, $key, $value) {
 		$api = $this->getInstance();
-		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key]);
+		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key, $value]);
 	}
 }
