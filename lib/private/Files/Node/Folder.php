@@ -383,6 +383,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 		// Search in batches of 500 entries
 		$searchLimit = 500;
 		$results = [];
+		$searchResultCount = 0;
+		$count = 0;
 		do {
 			$searchResult = $this->recentSearch($searchLimit, $offset, $storageIds, $folderMimetype);
 
@@ -391,6 +393,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 				break;
 			}
 
+			$searchResultCount += count($searchResult);
+
 			$parseResult = $this->recentParse($searchResult, $mountMap, $mimetypeLoader);
 
 			foreach ($parseResult as $result) {
@@ -398,7 +402,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 			}
 
 			$offset += $searchLimit;
-		} while (count($results) < $limit);
+			$count++;
+		} while (count($results) < $limit && ($searchResultCount < (3 * $limit) || $count < 5));
 
 		return array_slice($results, 0, $limit);
 	}
