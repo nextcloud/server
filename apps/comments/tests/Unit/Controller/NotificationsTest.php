@@ -117,6 +117,9 @@ class NotificationsTest extends TestCase {
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
+		$comment->expects($this->any())
+			->method('getId')
+			->willReturn('1234');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
@@ -192,6 +195,9 @@ class NotificationsTest extends TestCase {
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
+		$comment->expects($this->any())
+			->method('getId')
+			->willReturn('1234');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
