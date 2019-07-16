@@ -67,7 +67,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
 	 *                          \InvalidArgumentException is thrown later
-	 * @since 9.0.0
+	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
 		$this->appClasses[] = $appClass;
