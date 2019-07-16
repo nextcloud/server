@@ -974,6 +974,7 @@ return array(
     'OC\\Log\\Errorlog' => $baseDir . '/lib/private/Log/Errorlog.php',
     'OC\\Log\\ExceptionSerializer' => $baseDir . '/lib/private/Log/ExceptionSerializer.php',
     'OC\\Log\\File' => $baseDir . '/lib/private/Log/File.php',
+    'OC\\Log\\LogDetails' => $baseDir . '/lib/private/Log/LogDetails.php',
     'OC\\Log\\LogFactory' => $baseDir . '/lib/private/Log/LogFactory.php',
     'OC\\Log\\Rotate' => $baseDir . '/lib/private/Log/Rotate.php',
     'OC\\Log\\Syslog' => $baseDir . '/lib/private/Log/Syslog.php',

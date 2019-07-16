@@ -47,7 +47,7 @@ use OCP\ILogger;
  * Log is saved at data/nextcloud.log (on default)
  */
 
-class File implements IWriter, IFileBased {
+class File extends LogDetails implements IWriter, IFileBased {
 	/** @var string */
 	protected $logFile;
 	/** @var int */
@@ -56,6 +56,7 @@ class File implements IWriter, IFileBased {
 	private $config;
 
 	public function __construct(string $path, string $fallbackPath = '', SystemConfig $config) {
+		parent::__construct($config);
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
 			if(
@@ -79,63 +80,7 @@ class File implements IWriter, IFileBased {
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
-		// default to ISO8601
-		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
-		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
-		try {
-			$timezone = new \DateTimeZone($logTimeZone);
-		} catch (\Exception $e) {
-			$timezone = new \DateTimeZone('UTC');
-		}
-		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
-		if ($time === false) {
-			$time = new \DateTime(null, $timezone);
-		} else {
-			// apply timezone if $time is created from UNIX timestamp
-			$time->setTimezone($timezone);
-		}
-		$request = \OC::$server->getRequest();
-		$reqId = $request->getId();
-		$remoteAddr = $request->getRemoteAddress();
-		// remove username/passwords from URLs before writing the to the log file
-		$time = $time->format($format);
-		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
-		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
-		} else {
-			$user = '--';
-		}
-		$userAgent = $request->getHeader('User-Agent');
-		if ($userAgent === '') {
-			$userAgent = '--';
-		}
-		$version = $this->config->getValue('version', '');
-		$entry = compact(
-			'reqId',
-			'level',
-			'time',
-			'remoteAddr',
-			'user',
-			'app',
-			'method',
-			'url',
-			'message',
-			'userAgent',
-			'version'
-		);
-		// PHP's json_encode only accept proper UTF-8 strings, loop over all
-		// elements to ensure that they are properly UTF-8 compliant or convert
-		// them manually.
-		foreach($entry as $key => $value) {
-			if(is_string($value)) {
-				$testEncode = json_encode($value);
-				if($testEncode === false) {
-					$entry[$key] = utf8_encode($value);
-				}
-			}
-		}
-		$entry = json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR);
+		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
 		if ($this->logFileMode > 0 && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
 			@chmod($this->logFile, $this->logFileMode);
