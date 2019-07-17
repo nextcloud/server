@@ -14,7 +14,6 @@ OC.L10N.register(
     "Generate backup codes" : "Genera els codis de seguretat",
     "You created two-factor backup codes for your account" : "Heu creat els codis de seguretat de dos factors per al vostre compte",
     "Second-factor backup codes" : "Codis de seguretat de segon factor",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Heu activat l'autenticació de dos factors, però encara no heu generat els codis de seguretat. Assegureu-vos de fer-ho en cas de perdre l'accés al segon factor.",
     "Backup code" : "Codi de seguretat",
     "Use backup code" : "Utilitza un codi de seguretat",
     "Two factor backup codes" : "Codis de seguretat de l'autenticació en dos factors",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "destruït",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Heu activat l'autenticació de dos factors, però encara no heu generat els codis de seguretat. Assegureu-vos de fer-ho en cas de perdre l'accés al segon factor."
 },
 "nplurals=2; plural=(n != 1);");

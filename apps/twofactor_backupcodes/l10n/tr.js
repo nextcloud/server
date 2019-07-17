@@ -14,7 +14,6 @@ OC.L10N.register(
     "Generate backup codes" : "Yedek kodları oluştur",
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
     "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın.",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "beforeUpdate" : "guncellenmedenOnce",
     "beforeDestroy" : "yokEdilmedenOnce",
     "destroyed" : "yokEdildi",
-    "beforeMount" : "baglanmadanOnce"
+    "beforeMount" : "baglanmadanOnce",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın."
 },
 "nplurals=2; plural=(n > 1);");

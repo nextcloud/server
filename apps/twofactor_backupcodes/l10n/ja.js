@@ -12,7 +12,6 @@ OC.L10N.register(
     "Generate backup codes" : "バックアップコードを生成",
     "You created two-factor backup codes for your account" : "アカウントの二要素認証バックアップコードを作成しました",
     "Second-factor backup codes" : "第二要素バックアップコード",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。",
     "Backup code" : "バックアップコード",
     "Use backup code" : "バックアップコードを使用する",
     "Two factor backup codes" : "二要素認証バックアップコード",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "beforeUpdate" : "更新前",
     "beforeDestroy" : "破棄前",
     "destroyed" : "破棄されました",
-    "beforeMount" : "マウント前"
+    "beforeMount" : "マウント前",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。"
 },
 "nplurals=1; plural=0;");
