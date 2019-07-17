@@ -28,6 +28,7 @@
 namespace OCP\App;
 
 use OCP\IUser;
+use OCP\IGroup;
 
 /**
  * Interface IAppManager
@@ -158,4 +159,18 @@ interface IAppManager {
 	 * @since 9.0.0
 	 */
 	public function getAlwaysEnabledApps();
+
+	/**
+	 * @param \OCP\IGroup $group
+	 * @return String[]
+	 * @since 17.0.0
+	 */
+	public function getEnabledAppsForGroup(IGroup $group): array;
+
+	/**
+	 * @param String $appId
+	 * @return string[]
+	 * @since 17.0.0
+	 */
+	public function getAppRestriction(string $appId): array;
 }

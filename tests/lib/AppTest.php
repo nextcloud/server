@@ -542,7 +542,8 @@ class AppTest extends \Test\TestCase {
 			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getEventDispatcher()
+			\OC::$server->getEventDispatcher(),
+			\OC::$server->getLogger()
 		));
 	}
 

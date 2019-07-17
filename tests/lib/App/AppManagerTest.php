@@ -19,6 +19,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\IAppConfig;
@@ -90,6 +91,9 @@ class AppManagerTest extends TestCase {
 	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
 	protected $eventDispatcher;
 
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
+
 	/** @var IAppManager */
 	protected $manager;
 
@@ -102,11 +106,12 @@ class AppManagerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->logger = $this->createMock(ILogger::class);
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
-		$this->manager = new AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher);
+		$this->manager = new AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 	}
 
 	protected function expectClearCache() {
@@ -159,7 +164,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -206,7 +211,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -259,7 +264,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -418,7 +423,7 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsNeedingUpgrade() {
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher])
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -466,7 +471,7 @@ class AppManagerTest extends TestCase {
 	public function testGetIncompatibleApps() {
 		/** @var AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher])
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -503,5 +508,41 @@ class AppManagerTest extends TestCase {
 		$this->assertCount(2, $apps);
 		$this->assertEquals('test1', $apps[0]['id']);
 		$this->assertEquals('test3', $apps[1]['id']);
+	}
+
+	public function testGetEnabledAppsForGroup() {
+		$group = $this->createMock(IGroup::class);
+		$group->expects($this->any())
+			->method('getGID')
+			->will($this->returnValue('foo'));
+
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
+		$enabled = [
+			'cloud_federation_api',
+			'dav',
+			'federatedfilesharing',
+			'files',
+			'lookup_server_connector',
+			'oauth2',
+			'provisioning_api',
+			'test1',
+			'test3',
+			'twofactor_backupcodes',
+			'workflowengine',
+		];
+		$this->assertEquals($enabled, $this->manager->getEnabledAppsForGroup($group));
+	}
+
+	public function testGetAppRestriction() {
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+
+		$this->assertEquals([], $this->manager->getAppRestriction('test1'));
+		$this->assertEquals([], $this->manager->getAppRestriction('test2'));
+		$this->assertEquals(['foo'], $this->manager->getAppRestriction('test3'));
 	}
 }

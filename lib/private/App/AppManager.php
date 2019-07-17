@@ -37,7 +37,9 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\ICacheFactory;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -71,6 +73,9 @@ class AppManager implements IAppManager {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
 
@@ -97,12 +102,14 @@ class AppManager implements IAppManager {
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $dispatcher) {
+								EventDispatcherInterface $dispatcher,
+								ILogger $logger) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
 		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -149,6 +156,36 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * @param \OCP\IGroup $group
+	 * @return array
+	 */
+	public function getEnabledAppsForGroup(IGroup $group): array {
+		$apps = $this->getInstalledAppsValues();
+		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
+			return $this->checkAppForGroups($enabled, $group);
+		});
+		return array_keys($appsForGroups);
+	}
+
+	/**
+	 * @param string $appId
+	 * @return array
+	 */
+	public function getAppRestriction(string $appId): array {
+		$values = $this->getInstalledAppsValues();
+
+		if (!isset($values[$appId])) {
+			return [];
+		}
+
+		if ($values[$appId] === 'yes' || $values[$appId] === 'no') {
+			return [];
+		}
+		return json_decode($values[$appId]);
+	}
+
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
@@ -189,7 +226,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				\OC::$server->getLogger()->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
 				return false;
 			}
 
@@ -204,11 +241,39 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * @param string $enabled
+	 * @param IGroup $group
+	 * @return bool
+	 */
+	private function checkAppForGroups(string $enabled, IGroup $group): bool {
+		if ($enabled === 'yes') {
+			return true;
+		} elseif ($group === null) {
+			return false;
+		} else {
+			if (empty($enabled)) {
+				return false;
+			}
+
+			$groupIds = json_decode($enabled);
+
+			if (!is_array($groupIds)) {
+				$jsonError = json_last_error();
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				return false;
+			}
+
+			return in_array($group->getGID(), $groupIds);
+		}
+	}
+
+	/**
 	 * Check if an app is enabled in the instance
 	 *
 	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
+	 * @param \OCP\IGroup[]|String[] $groups
 	 * @return bool
 	 */
 	public function isInstalled($appId) {
@@ -268,14 +333,18 @@ class AppManager implements IAppManager {
 
 		$groupIds = array_map(function ($group) {
 			/** @var \OCP\IGroup $group */
-			return $group->getGID();
+			return ($group instanceof IGroup)
+				? $group->getGID()
+				: $group;
 		}, $groups);
+
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
+
 	}
 
 	/**
