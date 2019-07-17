@@ -96,9 +96,9 @@ class IMipPluginTest extends TestCase {
 
 	public function testDelivery() {
 		$this->config
-			->method('getSystemValue')
-			->with('dav.invitation_link_recipients', true)
-			->willReturn(true);
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
 		$message = $this->_testMessage();
 		$this->_expectSend();
@@ -108,9 +108,9 @@ class IMipPluginTest extends TestCase {
 
 	public function testFailedDelivery() {
 		$this->config
-			->method('getSystemValue')
-			->with('dav.invitation_link_recipients', true)
-			->willReturn(true);
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
 		$message = $this->_testMessage();
 		$this->mailer
@@ -127,9 +127,9 @@ class IMipPluginTest extends TestCase {
 	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
 
 		$this->config
-			->method('getSystemValue')
-			->with('dav.invitation_link_recipients', true)
-			->willReturn(true);
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
 		$message = $this->_testMessage( $veventParams );
 
@@ -167,8 +167,8 @@ class IMipPluginTest extends TestCase {
 
 		$this->_expectSend($recipient, true, $has_buttons);
 		$this->config
-			->method('getSystemValue')
-			->with('dav.invitation_link_recipients', true)
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn($config_setting);
 
 		$this->plugin->schedule($message);
@@ -178,13 +178,13 @@ class IMipPluginTest extends TestCase {
 	public function dataIncludeResponseButtons() {
 		return [
 			// dav.invitation_link_recipients, recipient, $has_buttons
-			[ true, 'joe@internal.com', true],
+			[ 'yes', 'joe@internal.com', true],
 			[ 'joe@internal.com', 'joe@internal.com', true],
 			[ 'internal.com', 'joe@internal.com', true],
-			[ ['pete@otherinternal.com', 'internal.com'], 'joe@internal.com', true],
-			[ false, 'joe@internal.com', false],
+			[ 'pete@otherinternal.com,internal.com', 'joe@internal.com', true],
+			[ 'no', 'joe@internal.com', false],
 			[ 'internal.com', 'joe@external.com', false],
-			[ ['jane@otherinternal.com', 'internal.com'], 'joe@otherinternal.com', false],
+			[ 'jane@otherinternal.com,internal.com', 'joe@otherinternal.com', false],
 		];
 	}
 
