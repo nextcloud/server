@@ -13,7 +13,6 @@ OC.L10N.register(
     "Generate backup codes" : "Vytvořit záložní kódy",
     "You created two-factor backup codes for your account" : "Vytvořili jste záložní kódy dvoufázového ověření pro váš účet",
     "Second-factor backup codes" : "Dvoufázové záložní kódy",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi.",
     "Backup code" : "Záložní kód",
     "Use backup code" : "Použít záložní kód",
     "Two factor backup codes" : "Záložní kódy pro dvoufázové ověřování",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "beforeUpdate" : "předAktualizací",
     "beforeDestroy" : "předZničením",
     "destroyed" : "zničeno",
-    "beforeMount" : "předPřipojením"
+    "beforeMount" : "předPřipojením",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

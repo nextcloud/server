@@ -286,7 +286,7 @@ OC.L10N.register(
     "Failed to rename the project" : "Nie można zmienić nazwy projektu",
     "Failed to create a project" : "Nie udało się utworzyć projektu",
     "Failed to add the item to the project" : "Nie udało się dodać elementu do projektu",
-    "Connect items to a project to make them easier to find" : "Połącz elementy z projektem, aby łatwiej je było znaleźć",
+    "Connect items to a project to make them easier to find" : "Połącz elementy z projektem, aby łatwiej je znaleźć",
     "Type to search for existing projects" : "Wpisz rodzaj, aby wyszukać istniejące projekty",
     "New in" : "Nowość w",
     "View changelog" : "Przeglądaj zmiany rejestru",

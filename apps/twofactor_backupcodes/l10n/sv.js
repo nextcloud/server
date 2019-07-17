@@ -13,7 +13,6 @@ OC.L10N.register(
     "Generate backup codes" : "Generera återställningsnycklar",
     "You created two-factor backup codes for your account" : "Du skapade återställningsnycklar till tvåfaktorsautentiseringen på ditt användarkonto.",
     "Second-factor backup codes" : "Tvåfaktorsautentisering",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor.",
     "Backup code" : "Återställningsnyckel",
     "Use backup code" : "Använd återställningsnyckel",
     "Two factor backup codes" : "Återställningsnycklar tvåfaktor",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "mounted" : "monterad",
     "deactivated" : "inaktiverad",
     "created" : "skapad",
-    "destroyed" : "förstörd"
+    "destroyed" : "förstörd",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor."
 },
 "nplurals=2; plural=(n != 1);");

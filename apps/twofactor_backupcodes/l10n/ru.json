@@ -12,7 +12,6 @@
     "Generate backup codes" : "Создать резервные коды",
     "You created two-factor backup codes for your account" : "Вы создали двухфакторные резервные коды для своего аккаунта",
     "Second-factor backup codes" : "Резервные коды двухфакторной аутентификации",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Включена двухфаторная аутентификация, но резервные коды ещё не выпущены. Выпустите и сохраните резервные для входа в систему в случае утраты доступа к выбранному второму фактору проверки подлинности.",
     "Backup code" : "Резервный код",
     "Use backup code" : "Использовать резервный код",
     "Two factor backup codes" : "Второй фактор — резервные коды",
@@ -30,6 +29,7 @@
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "destroyed",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Включена двухфаторная аутентификация, но резервные коды ещё не выпущены. Выпустите и сохраните резервные для входа в систему в случае утраты доступа к выбранному второму фактору проверки подлинности."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
