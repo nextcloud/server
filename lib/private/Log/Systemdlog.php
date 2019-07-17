@@ -23,6 +23,7 @@
 namespace OC\Log;
 
 use OC\HintException;
+use OC\SystemConfig;
 use OCP\ILogger;
 use OCP\IConfig;
 use OCP\Log\IWriter;
@@ -42,7 +43,7 @@ use OCP\Log\IWriter;
 // SYSLOG_FACILITY=, SYSLOG_IDENTIFIER=, SYSLOG_PID=
 //     Syslog compatibility fields
 
-class Systemdlog implements IWriter {
+class Systemdlog extends LogDetails implements IWriter {
 	protected $levels = [
 		ILogger::DEBUG => 7,
 		ILogger::INFO => 6,
@@ -53,14 +54,15 @@ class Systemdlog implements IWriter {
 
 	protected $syslogId;
 
-	public function __construct(IConfig $config) {
+	public function __construct(SystemConfig $config) {
+		parent::__construct($config);
 		if(!function_exists('sd_journal_send')) {
 			throw new HintException(
 				'PHP extension php-systemd is not available.',
 				'Please install and enable PHP extension systemd if you wish to log to the Systemd journal.');
 
 		}
-		$this->syslogId = $config->getSystemValue('syslog_tag', 'Nextcloud');
+		$this->syslogId = $config->getValue('syslog_tag', 'Nextcloud');
 	}
 
 	/**
@@ -73,6 +75,6 @@ class Systemdlog implements IWriter {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
 				'SYSLOG_IDENTIFIER='.$this->syslogId,
-				'MESSAGE={'.$app.'} '.$message);
+				'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
 	}
 }
