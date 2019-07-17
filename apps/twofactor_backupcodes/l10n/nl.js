@@ -14,7 +14,6 @@ OC.L10N.register(
     "Generate backup codes" : "Genereer backup code",
     "You created two-factor backup codes for your account" : "Je creëerde tweefactor back-up codes voor je account",
     "Second-factor backup codes" : "Twee-factor backup code",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Je hebt tweefactor authenticatie ingeschakeld, maar nog geen backup codes gegenereerd. Doe dat eerst, voor het geval dat je toegang tot je tweede factor apparaat kwijt bent.",
     "Backup code" : "Backup code",
     "Use backup code" : "Gebruik backup code",
     "Two factor backup codes" : "Twee-factor backupcode",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "vernietigd",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Je hebt tweefactor authenticatie ingeschakeld, maar nog geen backup codes gegenereerd. Doe dat eerst, voor het geval dat je toegang tot je tweede factor apparaat kwijt bent."
 },
 "nplurals=2; plural=(n != 1);");

@@ -14,7 +14,6 @@ OC.L10N.register(
     "Generate backup codes" : "Útbúa öryggisafritunarkóða",
     "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti.",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "eyðilagt",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
