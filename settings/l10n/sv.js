@@ -202,6 +202,7 @@ OC.L10N.register(
     "No language set" : "Inget språk angivet",
     "Never" : "Aldrig",
     "Delete user" : "Radera användare",
+    "Wipe all devices" : "Rensa alla enheter",
     "Disable user" : "Stäng av användare",
     "Enable user" : "Aktivera användare",
     "Resend welcome email" : "Skicka om välkomstmeddelande via e-post",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "Generate backup codes" : "生成备用码",
     "You created two-factor backup codes for your account" : "您已经为账号创建了两步验证的备用码",
     "Second-factor backup codes" : "两步验证备用码",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。",
     "Backup code" : "备用码",
     "Use backup code" : "使用备用码",
     "Two factor backup codes" : "两步验证备用码",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "beforeUpdate" : "更新前",
     "beforeDestroy" : "销毁前",
     "destroyed" : "已销毁",
-    "beforeMount" : "挂载前"
+    "beforeMount" : "挂载前",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。"
 },
 "nplurals=1; plural=0;");
