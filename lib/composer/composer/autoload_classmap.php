@@ -347,6 +347,7 @@ return array(
     'OCP\\Migration\\IOutput' => $baseDir . '/lib/public/Migration/IOutput.php',
     'OCP\\Migration\\IRepairStep' => $baseDir . '/lib/public/Migration/IRepairStep.php',
     'OCP\\Migration\\SimpleMigrationStep' => $baseDir . '/lib/public/Migration/SimpleMigrationStep.php',
+    'OCP\\Notification\\AlreadyProcessedException' => $baseDir . '/lib/public/Notification/AlreadyProcessedException.php',
     'OCP\\Notification\\IAction' => $baseDir . '/lib/public/Notification/IAction.php',
     'OCP\\Notification\\IApp' => $baseDir . '/lib/public/Notification/IApp.php',
     'OCP\\Notification\\IManager' => $baseDir . '/lib/public/Notification/IManager.php',

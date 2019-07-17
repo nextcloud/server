@@ -65,24 +65,8 @@ class Application extends App {
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
-		$notificationManager->registerNotifier(function () use ($server) {
-			return new RemoveLinkSharesNotifier(
-				$server->getL10NFactory()
-			);
-		}, function () {
-			return [
-				'id' => 'core',
-				'name' => 'core',
-			];
-		});
-		$notificationManager->registerNotifier(function () use ($server) {
-			return $server->query(AuthenticationNotifier::class);
-		}, function () {
-			return [
-				'id' => 'auth',
-				'name' => 'authentication notifier',
-			];
-		});
+		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
+		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
 			function (GenericEvent $event) use ($container) {

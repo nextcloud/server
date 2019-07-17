@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -45,9 +46,6 @@ class Action implements IAction {
 	/** @var bool */
 	protected $primary;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct() {
 		$this->label = '';
 		$this->labelParsed = '';
@@ -62,8 +60,8 @@ class Action implements IAction {
 	 * @throws \InvalidArgumentException if the label is invalid
 	 * @since 8.2.0
 	 */
-	public function setLabel($label) {
-		if (!is_string($label) || $label === '' || isset($label[32])) {
+	public function setLabel(string $label): IAction {
+		if ($label === '' || isset($label[32])) {
 			throw new \InvalidArgumentException('The given label is invalid');
 		}
 		$this->label = $label;
@@ -74,7 +72,7 @@ class Action implements IAction {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->label;
 	}
 
@@ -84,8 +82,8 @@ class Action implements IAction {
 	 * @throws \InvalidArgumentException if the label is invalid
 	 * @since 8.2.0
 	 */
-	public function setParsedLabel($label) {
-		if (!is_string($label) || $label === '') {
+	public function setParsedLabel(string $label): IAction {
+		if ($label === '') {
 			throw new \InvalidArgumentException('The given parsed label is invalid');
 		}
 		$this->labelParsed = $label;
@@ -96,21 +94,16 @@ class Action implements IAction {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getParsedLabel() {
+	public function getParsedLabel(): string {
 		return $this->labelParsed;
 	}
 
 	/**
 	 * @param $primary bool
 	 * @return $this
-	 * @throws \InvalidArgumentException if $primary is invalid
 	 * @since 9.0.0
 	 */
-	public function setPrimary($primary) {
-		if (!is_bool($primary)) {
-			throw new \InvalidArgumentException('The given primary option is invalid');
-		}
-
+	public function setPrimary(bool $primary): IAction {
 		$this->primary = $primary;
 		return $this;
 	}
@@ -119,7 +112,7 @@ class Action implements IAction {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isPrimary() {
+	public function isPrimary(): bool {
 		return $this->primary;
 	}
 
@@ -130,11 +123,17 @@ class Action implements IAction {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink($link, $requestType) {
-		if (!is_string($link) || $link === '' || isset($link[256])) {
+	public function setLink(string $link, string $requestType): IAction {
+		if ($link === '' || isset($link[256])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
-		if (!in_array($requestType, ['GET', 'POST', 'PUT', 'DELETE'], true)) {
+		if (!in_array($requestType, [
+			self::TYPE_GET,
+			self::TYPE_POST,
+			self::TYPE_PUT,
+			self::TYPE_DELETE,
+			self::TYPE_WEB,
+		], true)) {
 			throw new \InvalidArgumentException('The given request type is invalid');
 		}
 		$this->link = $link;
@@ -146,7 +145,7 @@ class Action implements IAction {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getLink() {
+	public function getLink(): string {
 		return $this->link;
 	}
 
@@ -154,21 +153,21 @@ class Action implements IAction {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getRequestType() {
+	public function getRequestType(): string {
 		return $this->requestType;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isValid() {
+	public function isValid(): bool {
 		return $this->label !== '' && $this->link !== '';
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isValidParsed() {
+	public function isValidParsed(): bool {
 		return $this->labelParsed !== '' && $this->link !== '';
 	}
 }

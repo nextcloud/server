@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,19 +20,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Notification;
+namespace Test\Notification;
 
-use OCP\L10N\IFactory;
+
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
-class RemoveLinkSharesNotifier implements INotifier {
-	/** @var IFactory */
-	private $l10nFactory;
-
-	public function __construct(IFactory $factory) {
-		$this->l10nFactory = $factory;
-	}
+class DummyNotifier implements INotifier {
 
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
@@ -43,7 +36,7 @@ class RemoveLinkSharesNotifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getID(): string {
-		return 'core';
+		// TODO: Implement getID() method.
 	}
 
 	/**
@@ -53,22 +46,18 @@ class RemoveLinkSharesNotifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName(): string {
-		return $this->l10nFactory->get('core')->t('Nextcloud Server');
+		// TODO: Implement getName() method.
 	}
 
+	/**
+	 * @param INotification $notification
+	 * @param string $languageCode The code of the language that should be used to prepare the notification
+	 * @return INotification
+	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
+	 * @since 9.0.0
+	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if($notification->getApp() !== 'core') {
-			throw new \InvalidArgumentException();
-		}
-		$l = $this->l10nFactory->get('core', $languageCode);
-
-		if ($notification->getSubject() === 'repair_exposing_links') {
-			$notification->setParsedSubject($l->t('Some of your link shares have been removed'));
-			$notification->setParsedMessage($l->t('Due to a security bug we had to remove some of your link shares. Please see the link for more information.'));
-			$notification->setLink('https://nextcloud.com/security/advisory/?id=NC-SA-2019-003');
-			return $notification;
-		}
-
-		throw new \InvalidArgumentException('Invalid subject');
+		// TODO: Implement prepare() method.
 	}
 }

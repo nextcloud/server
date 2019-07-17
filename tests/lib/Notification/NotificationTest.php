@@ -63,29 +63,6 @@ class NotificationTest extends TestCase {
 		return $dataSets;
 	}
 
-	protected function dataInvalidStringType() {
-		return [
-			[true],
-			[false],
-			[16412],
-			[[]],
-			[null],
-		];
-	}
-
-	protected function dataInvalidInt() {
-		return [
-			[true],
-			[false],
-			[''],
-			['a'],
-			[str_repeat('a', 256)],
-			[[]],
-			[['a']],
-			[[str_repeat('a', 256)]],
-		];
-	}
-
 	public function dataSetApp() {
 		return $this->dataValidString(32);
 	}
@@ -104,10 +81,6 @@ class NotificationTest extends TestCase {
 		return $this->dataInvalidString(32);
 	}
 
-	public function dataSetAppInvalidType() {
-		return $this->dataInvalidStringType();
-	}
-
 	/**
 	 * @dataProvider dataSetAppInvalid
 	 * @param mixed $app
@@ -115,16 +88,6 @@ class NotificationTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetAppInvalid($app) {
-		$this->notification->setApp($app);
-	}
-
-	/**
-	 * @dataProvider dataSetAppInvalidType
-	 * @param mixed $app
-	 *
-	 * @expectedException \TypeError
-	 */
-	public function testSetAppInvalidType($app) {
 		$this->notification->setApp($app);
 	}
 
@@ -147,10 +110,6 @@ class NotificationTest extends TestCase {
 		return $this->dataInvalidString(64);
 	}
 
-	public function dataSetUserInvalidType() {
-		return $this->dataInvalidStringType();
-	}
-
 	/**
 	 * @dataProvider dataSetUserInvalid
 	 * @param mixed $user
@@ -158,16 +117,6 @@ class NotificationTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetUserInvalid($user) {
-		$this->notification->setUser($user);
-	}
-
-	/**
-	 * @dataProvider dataSetUserInvalidType
-	 * @param mixed $user
-	 *
-	 * @expectedException \TypeError
-	 */
-	public function testSetUserInvalidType($user) {
 		$this->notification->setUser($user);
 	}
 
@@ -216,48 +165,32 @@ class NotificationTest extends TestCase {
 
 	public function dataSetObject() {
 		return [
-			['a', '21', '21'],
-			[str_repeat('a', 64), 42, '42'],
+			['a', '21'],
+			[str_repeat('a', 64), '42'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSetObject
 	 * @param string $type
-	 * @param int|string $id
-	 * @param string $exptectedId
+	 * @param string $id
 	 */
-	public function testSetObject($type, $id, $exptectedId) {
+	public function testSetObject($type, $id) {
 		$this->assertSame('', $this->notification->getObjectType());
 		$this->assertSame('', $this->notification->getObjectId());
 		$this->assertSame($this->notification, $this->notification->setObject($type, $id));
 		$this->assertSame($type, $this->notification->getObjectType());
-		$this->assertSame($exptectedId, $this->notification->getObjectId());
+		$this->assertSame($id, $this->notification->getObjectId());
 	}
 
 	public function dataSetObjectTypeInvalid() {
 		return $this->dataInvalidString(64);
 	}
 
-	/**
-	 * @dataProvider dataSetObjectTypeInvalid
-	 * @param mixed $type
-	 *
-	 * @expectedException \InvalidArgumentException
-	 * @expectedMessage 'The given object type is invalid'
-	 */
-	public function testSetObjectTypeInvalid($type) {
-		$this->notification->setObject($type, 1337);
-	}
-
 	public function dataSetObjectIdInvalid() {
 		return [
-			[true],
-			[false],
 			[''],
 			[str_repeat('a', 64 + 1)],
-			[[]],
-			[[str_repeat('a', 64 + 1)]],
 		];
 	}
 

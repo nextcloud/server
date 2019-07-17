@@ -74,15 +74,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		/** @var IManager $manager */
 		$manager = $container->query(IManager::class);
-		$manager->registerNotifier(
-			function() use ($container) {
-				return $container->query(Notifier::class);
-			},
-			function () use ($container) {
-				$l = $container->query(IL10N::class);
-				return ['id' => 'twofactor_backupcodes', 'name' => $l->t('Second-factor backup codes')];
-			}
-		);
+		$manager->registerNotifierService(Notifier::class);
 	}
 
 	public function deleteUser($params) {

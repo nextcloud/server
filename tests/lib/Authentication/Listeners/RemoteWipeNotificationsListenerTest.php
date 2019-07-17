@@ -92,7 +92,7 @@ class RemoteWipeNotificationListenerTests extends TestCase {
 		$token->method('getId')->willReturn(123);
 		$notification->expects($this->once())
 			->method('setObject')
-			->with('token', 123)
+			->with('token', '123')
 			->willReturnSelf();
 		$token->method('getName')->willReturn('Token 1');
 		$notification->expects($this->once())
@@ -132,7 +132,7 @@ class RemoteWipeNotificationListenerTests extends TestCase {
 		$token->method('getId')->willReturn(123);
 		$notification->expects($this->once())
 			->method('setObject')
-			->with('token', 123)
+			->with('token', '123')
 			->willReturnSelf();
 		$token->method('getName')->willReturn('Token 1');
 		$notification->expects($this->once())
