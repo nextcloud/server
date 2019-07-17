@@ -249,28 +249,26 @@ class IMipPlugin extends SabreIMipPlugin {
 			** nextcloud server, to recipients who can access the nextcloud server via
 			** their internet/intranet.  Issue #12156
 			**
+			** The app setting is stored in the appconfig database table.
+			**
 			** For nextcloud servers accessible to the public internet, the default
-			** "dav.invitation_link_recipients" value "true" (all recipients) is appropriate.
+			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
 			**
 			** When the nextcloud server is restricted behind a firewall, accessible
 			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
-			** to the email address or email domain, or array of addresses or domains,
+			** to the email address or email domain, or comma separated list of addresses or domains,
 			** of recipients who can access the server.
 			**
-			** To deliver URL's always, set invitation_link_recipients to boolean "true".
-			** To suppress URL's entirely, set invitation_link_recipients to boolean "false".
+			** To always deliver URLs, set invitation_link_recipients to "yes".
+			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
 			*/
 
 			$recipientDomain = substr(strrchr($recipient, "@"), 1);
-			$invitationLinkRecipients = $this->config->getSystemValue('dav.invitation_link_recipients', true);
-			if (is_array($invitationLinkRecipients)) {
-				$invitationLinkRecipients = array_map('strtolower', $invitationLinkRecipients); // for case insensitive in_array
-			}
-			if ($invitationLinkRecipients === true
-				 || (is_string($invitationLinkRecipients) && strcasecmp($recipient, $invitationLinkRecipients) === 0)
-				 || (is_string($invitationLinkRecipients) && strcasecmp($recipientDomain, $invitationLinkRecipients) === 0)
-				 || (is_array($invitationLinkRecipients) && in_array(strtolower($recipient), $invitationLinkRecipients))
-				 || (is_array($invitationLinkRecipients) && in_array(strtolower($recipientDomain), $invitationLinkRecipients))) {
+			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getAppValue('dav', 'invitation_link_recipients', 'yes'))));
+
+			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
+				 || in_array(strtolower($recipient), $invitationLinkRecipients)
+				 || in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
 				$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
 			}
 		}
