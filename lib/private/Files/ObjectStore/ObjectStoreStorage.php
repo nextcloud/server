@@ -410,10 +410,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		$stream = fopen('php://temp', 'r+');
-		fwrite($stream, $data);
-		rewind($stream);
-		return $this->writeStream($path, $stream, strlen($data)) > 0;
+		$handle = $this->fopen($path, 'w+');
+		fwrite($handle, $data);
+		fclose($handle);
+		return true;
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
