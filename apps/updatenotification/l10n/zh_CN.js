@@ -36,6 +36,7 @@ OC.L10N.register(
     "<strong>All</strong> apps have an update for this version available" : "<strong>所有</strong> 应用有适用于这个版本的更新",
     "View changelog" : "查看更新记录",
     "Enterprise" : "企业级",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "供企业使用。总是提供最新的补丁级别，但不会马上升级到下一个大版本。当Nextcloud GmbH为大规模和关键任务部署完成额外的加固和测试后，升级才会进行。此频道只对客户可用，提供Nextcloud企业级软件包。",
     "Stable" : "稳定版",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta测试版",

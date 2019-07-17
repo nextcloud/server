@@ -13,7 +13,6 @@ OC.L10N.register(
     "Generate backup codes" : "Ustvari rezervne šifre",
     "You created two-factor backup codes for your account" : "Za račun so uspešno ustvarjene dvo-stopenjske varnostne kode",
     "Second-factor backup codes" : "Varnostne kode druge stopnje",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje.",
     "Backup code" : "Varnostna koda",
     "Use backup code" : "Uporabi varnostno kodo",
     "Two factor backup codes" : "Dvostopenjske varnostne kode",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "beforeUpdate" : "pred posodabljanjem",
     "beforeDestroy" : "pred uničenjem",
     "destroyed" : "uničeno",
-    "beforeMount" : "pred priklapljanjem"
+    "beforeMount" : "pred priklapljanjem",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
