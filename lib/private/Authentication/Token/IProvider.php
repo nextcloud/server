@@ -45,6 +45,7 @@ interface IProvider {
 	 * @param int $type token type
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function generateToken(string $token,
 								  string $uid,
@@ -82,6 +83,7 @@ interface IProvider {
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function renewSessionToken(string $oldSessionId, string $sessionId);
 
@@ -158,6 +160,7 @@ interface IProvider {
 	 * @param string $oldTokenId
 	 * @param string $newTokenId
 	 * @return IToken
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken;
 
