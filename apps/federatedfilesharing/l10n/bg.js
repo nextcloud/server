@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Федерално споделяне",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
     "Remote share" : "Отдалечено споделяне",
     "Remote share password" : "Парола за отдалечено споделяне",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Неуспешно осъществяване на федерално споделяне, можеби паролата е грепна.",
     "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
     "File is already shared with %s" : "Файлът е вече споделен с %s",
+    "Federated sharing" : "Федерално споделяне",
     "Accept" : "Приемам",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID - %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID",

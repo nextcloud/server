@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Sammenknyttet deling",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
     "Remote share" : "Ekstern ressurs",
     "Remote share password" : "Passord for ekstern ressurs",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Ikke tillatt å opprette en sammenknyttet skydeling med den samme brukeren",
     "File is already shared with %s" : "Filen er allerede delt med %s",
     "Could not find share" : "Kunne ikke finne ressurs",
+    "Federated sharing" : "Sammenknyttet deling",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du har mottatt \"%3$s\" som en ekstern deling fra %1$s (på vegne av %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du har mottatt {share} som en ekstern deling fra {user} (på vegne av {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Du har mottatt \"%3$s\" som en ekstern deling fra %1$s",

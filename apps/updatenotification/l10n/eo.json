@@ -1,7 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} disponeblas. Ekhavi pli da informo pri kiel ĝisdatigi.",
-    "Update notifications" : "Sciigoj pri ĝisdatigoj",
     "Channel updated" : "Kanalo ĝisdatigita",
+    "Update notifications" : "Sciigoj pri ĝisdatigoj",
     "The update server could not be reached since %d days to check for new updates." : "La servilo de ĝisdatigoj ne atingeblis de %d tagoj.",
     "Please check the Nextcloud and server log files for errors." : "Bv. kontroli la protokoldosieron de Nextcloud kaj de la servilo pri eraroj.",
     "Update to %1$s is available." : "Ĝisdatigo al %1$s disponeblas.",

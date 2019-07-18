@@ -1,5 +1,4 @@
 { "translations": {
-    "Federated sharing" : "Udostępnianie Federacyjne",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcesz się dzielić zdalnie {name} z {owner}@{remote}?",
     "Remote share" : "Zdalny zasób",
     "Remote share password" : "Hasło do zdalnego zasobu",
@@ -22,6 +21,7 @@
     "File is already shared with %s" : "Plik jest już współdzielony z %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Udostępnianie %1$s nie powiodło się, nie można odnaleźć %2$s, być może serwer jest nieosiągalny lub używa certyfikatu z podpisem własnym.",
     "Could not find share" : "Nie można znaleźć powiązania",
+    "Federated sharing" : "Udostępnianie Federacyjne",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %1$s (w imieniu %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Otrzymałeś {share} zdalne udostępnienie od {user} (w imieniu {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %1$s",

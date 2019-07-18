@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federated-Sharing",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzugefügt werden?",
     "Remote share" : "Externe Freigabe",
     "Remote share password" : "Passwort für die externe Freigabe",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Datei wird bereits mit %s geteilt",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %1$s fehlgeschlagen, da %2$s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
+    "Federated sharing" : "Federated-Sharing",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du hast \"%3$s\" als eine externe Freigabe von \"%1$s\" empfangen (im Auftrag von %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du hast {share} als eine externe Freigabe von {user} empfangen (im Auftrag von {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Du hast \"%3$s\" als eine externe Freigabe von \"%1$s\" empfangen",

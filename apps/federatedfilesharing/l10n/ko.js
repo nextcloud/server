@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "연합 공유",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
     "Remote share" : "원격 공유",
     "Remote share password" : "원격 공유 암호",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "파일이 %s와(과) 이미 공유됨",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s 공유 실패. %2$s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다.",
     "Could not find share" : "공유를 찾을 수 없음",
+    "Federated sharing" : "연합 공유",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s(%2$s 대신) 님으로부터 \"%3$s\"을(를) 원격 공유로 받음",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user}({behalf} 대신) 님으로부터 {share}을(를) 원격 공유로 받음",
     "You received \"%3$s\" as a remote share from %1$s" : "%1$s 님으로부터 \"%3$s\"을(를) 원격 공유로 받음",

@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
-    "Update notifications" : "升级通知",
     "Channel updated" : "更新通道",
+    "Update notifications" : "升级通知",
     "The update server could not be reached since %d days to check for new updates." : "更新服务器自 %d 天前起无法访问以检查更新。",
     "Please check the Nextcloud and server log files for errors." : "请检查 Nextcloud 和服务器的日志中的错误。",
     "Update to %1$s is available." : " 可以更新到 %1$s 。",
