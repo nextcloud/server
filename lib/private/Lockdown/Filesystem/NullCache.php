@@ -111,10 +111,6 @@ class NullCache implements ICache {
 		return [];
 	}
 
-	public function searchByTag($tag, $userId) {
-		return [];
-	}
-
 	public function getIncomplete() {
 		return [];
 	}

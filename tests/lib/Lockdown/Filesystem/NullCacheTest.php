@@ -139,10 +139,6 @@ class NulLCacheTest extends \Test\TestCase {
 		$this->assertSame([], $this->cache->searchByMime('foo'));
 	}
 
-	public function testSearchByTag() {
-		$this->assertSame([], $this->cache->searchByTag('foo', 'user'));
-	}
-
 	public function testGetIncomplete() {
 		$this->assertSame([], $this->cache->getIncomplete());
 	}

@@ -432,57 +432,6 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
-	public function testSearchByTag() {
-		$manager = $this->createMock(Manager::class);
-		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
-		 */
-		$view = $this->createMock(View::class);
-		$root = $this->getMockBuilder(Root::class)
-			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
-			->getMock();
-		$root->expects($this->any())
-			->method('getUser')
-			->will($this->returnValue($this->user));
-		$storage = $this->createMock(Storage::class);
-		$storage->method('getId')->willReturn('');
-		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
-
-		$mount = $this->createMock(IMountPoint::class);
-		$mount->expects($this->once())
-			->method('getStorage')
-			->will($this->returnValue($storage));
-		$mount->expects($this->once())
-			->method('getInternalPath')
-			->will($this->returnValue('foo'));
-
-		$storage->expects($this->once())
-			->method('getCache')
-			->will($this->returnValue($cache));
-
-		$cache->expects($this->once())
-			->method('searchByTag')
-			->with('tag1', 'user1')
-			->will($this->returnValue(array(
-				array('fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain')
-			)));
-
-		$root->expects($this->once())
-			->method('getMountsIn')
-			->with('/bar/foo')
-			->will($this->returnValue(array()));
-
-		$root->expects($this->once())
-			->method('getMount')
-			->with('/bar/foo')
-			->will($this->returnValue($mount));
-
-		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
-		$result = $node->searchByTag('tag1', 'user1');
-		$this->assertEquals(1, count($result));
-		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
-	}
-
 	public function testSearchSubStorages() {
 		$manager = $this->createMock(Manager::class);
 		/**

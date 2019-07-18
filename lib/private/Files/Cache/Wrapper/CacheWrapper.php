@@ -241,18 +241,6 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return ICacheEntry[] file data
-	 */
-	public function searchByTag($tag, $userId) {
-		$results = $this->getCache()->searchByTag($tag, $userId);
-		return array_map(array($this, 'formatCacheEntry'), $results);
-	}
-
-	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
