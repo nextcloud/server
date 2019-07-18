@@ -27,6 +27,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
@@ -339,4 +340,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getChanges($syncToken, $syncLevel, $limit = null) {
+		if (!$syncToken && $limit) {
+			throw new UnsupportedLimitOnInitialSyncException();
+		}
+
+		return parent::getChanges($syncToken, $syncLevel, $limit);
+	}
 }

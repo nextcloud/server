@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -194,5 +195,16 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 */
 	public function calendarQuery(array $filters):array {
 		return $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getChanges($syncToken, $syncLevel, $limit = null) {
+		if (!$syncToken && $limit) {
+			throw new UnsupportedLimitOnInitialSyncException();
+		}
+
+		return parent::getChanges($syncToken, $syncLevel, $limit);
 	}
 }
