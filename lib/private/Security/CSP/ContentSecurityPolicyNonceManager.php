@@ -58,7 +58,11 @@ class ContentSecurityPolicyNonceManager {
 	 */
 	public function getNonce(): string {
 		if($this->nonce === '') {
-			$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			if (empty($this->request->server['CSP_NONCE'])) {
+				$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			} else {
+				$this->nonce = $this->request->server['CSP_NONCE'];
+			}
 		}
 
 		return $this->nonce;
