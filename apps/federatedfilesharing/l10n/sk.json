@@ -1,5 +1,4 @@
 { "translations": {
-    "Federated sharing" : "Združené sprístupňovanie",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
     "Remote share" : "Vzdialené úložisko",
     "Remote share password" : "Heslo k vzdialenému úložisku",
@@ -21,6 +20,7 @@
     "Not allowed to create a federated share with the same user" : "Nie je možné vytvoriť združené sprístupnenie so sebou samým",
     "File is already shared with %s" : "Súbor je už sprístupnený používateľovi %s",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
+    "Federated sharing" : "Združené sprístupňovanie",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s (v mene %2$s) ",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržali ste {share} ako vzdialené zdieľanie od {user} (v mene {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "聯盟式分享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要加入來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share" : "遠端分享",
     "Remote share password" : "遠端分享密碼",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "不允許與同一個使用者建立聯盟式分享",
     "File is already shared with %s" : "檔案已和 %s 分享",
     "Could not find share" : "找不到分享",
+    "Federated sharing" : "聯盟式分享",
     "Accept" : "接受",
     "Decline" : "拒絕",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "可透過我的 #Nextcloud 聯盟雲端 ID，與我分享，請看 %s",

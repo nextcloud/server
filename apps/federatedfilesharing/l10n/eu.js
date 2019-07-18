@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federatutako partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}k partekatzen duen {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share" : "Urruneko partekatzea",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Ezin da erabiltzaile berdinarekin federatutako partekatzea sortu.",
     "File is already shared with %s" : "Fitxategia 1%s-rekin partekatua dago iada",
     "Could not find share" : "Ezin da partekatzea topatu",
+    "Federated sharing" : "Federatutako partekatzea",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu ( 3%2$s-en ordez)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user}-en {share} urruneko partekatze bezala jaso duzu ({behalf} ordez)",
     "You received \"%3$s\" as a remote share from %1$s" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu",

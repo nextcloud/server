@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federated sharing",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share" : "Remote share",
     "Remote share password" : "Remote share password",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Not allowed to create a federated share with the same user",
     "File is already shared with %s" : "File is already shared with %s",
     "Could not find share" : "Could not find share",
+    "Federated sharing" : "Federated sharing",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "You received {share} as a remote share from {user} (on behalf of {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "You received \"%3$s\" as a remote share from %1$s",

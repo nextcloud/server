@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obten más información de cómo actualizar. ",
-    "Update notifications" : "Actualizar notificaciones",
     "Channel updated" : "Canal actualizado",
+    "Update notifications" : "Actualizar notificaciones",
     "The update server could not be reached since %d days to check for new updates." : "El servidor de actualización no ha podido ser alcanzado desde %d días para verificar actualizaciones. ",
     "Please check the Nextcloud and server log files for errors." : "Por favor verifica los archivos de bitacoras de Nextcloud y del servidor por errores. ",
     "Update to %1$s is available." : "La actualización a %1$s está disponible. ",

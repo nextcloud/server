@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
-    "Update notifications" : "Päivitysilmoitukset",
     "Channel updated" : "Päivityskanava päivitetty",
+    "Update notifications" : "Päivitysilmoitukset",
     "The update server could not be reached since %d days to check for new updates." : "Päivityspalvelinta ei ole tavoitettu %d päivään; uusia päivityksiä ei voida tarkistaa.",
     "Please check the Nextcloud and server log files for errors." : "Tarkista Nextcloud- ja palvelinlokitiedostot virheiden osalta.",
     "Update to %1$s is available." : "Kohteen %1$s päivitys on saatavilla.",
