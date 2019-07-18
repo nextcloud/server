@@ -70,7 +70,8 @@
 			position: -webkit-sticky;
 			position: sticky;
 			// header + breadcrumbs
-			top: $header-height + 44px;
+			top: $header-height;
+			padding-top: 40px;
 			// under breadcrumbs, over file list
 			z-index: 55;
 			display: block;
