@@ -61,6 +61,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->time = $time;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
@@ -268,6 +271,7 @@ class PublicKeyTokenProvider implements IProvider {
 	/**
 	 * Convert a DefaultToken to a publicKeyToken
 	 * This will also be updated directly in the Database
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function convertToken(DefaultToken $defaultToken, string $token, $password): PublicKeyToken {
 		$pkToken = $this->newToken(
@@ -286,6 +290,9 @@ class PublicKeyTokenProvider implements IProvider {
 		return $this->mapper->update($pkToken);
 	}
 
+	/**
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 */
 	private function newToken(string $token,
 							  string $uid,
 							  string $loginName,
@@ -306,6 +313,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$res = openssl_pkey_new($config);
 		if ($res === false) {
 			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
 		openssl_pkey_export($res, $privateKey);

@@ -109,6 +109,7 @@ class Manager implements IProvider {
 	 *
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken {
@@ -206,6 +207,7 @@ class Manager implements IProvider {
 	 * @param string $newTokenId
 	 * @return IToken
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
 		if ($token instanceof DefaultToken) {
