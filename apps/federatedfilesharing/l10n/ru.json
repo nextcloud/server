@@ -1,5 +1,4 @@
 { "translations": {
-    "Federated sharing" : "Общий доступ из федеративного хранилища",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённый общий каталог {name} из {owner}@{remote}?",
     "Remote share" : "Общий ресурс другого сервера",
     "Remote share password" : "Пароль общего ресурса другого сервера",
@@ -22,6 +21,7 @@
     "File is already shared with %s" : "Доступ к файлу уже предоставлен %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось предоставить доступ к «%1$s», не удалось найти %2$s. Возможно, сервер недоступен или использует самоподписанный сертификат.",
     "Could not find share" : "Не удалось найти общий ресурс",
+    "Federated sharing" : "Общий доступ из федеративного хранилища",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вам предоставили общий доступ к ресурсу «%3$s»  расположенному на сервере %1$s (от имени %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вы получили «{share}» в качестве удалённого ресурса от {user} (от имени {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Вы получили «%3$s» в качестве удалённого ресурса из %1$s",

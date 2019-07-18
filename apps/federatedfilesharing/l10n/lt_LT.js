@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federacinis bendrinimas",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
     "Remote share" : "Nuotolinis viešinys",
     "Remote share password" : "Nuotolinio viešinio slaptažodis",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
     "File is already shared with %s" : "Failas jau yra bendrinamas su %s",
     "Could not find share" : "Nepavyko rasti bendrinamų duomenų",
+    "Federated sharing" : "Federacinis bendrinimas",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s (%2$s vardu) esantis kitame serveryje",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Gavote galimybę peržiūrėti duomenis \"{share}\", kuriuos pasidalino {user} ({behalf} vardu) esantis kitame serveryje",
     "You received \"%3$s\" as a remote share from %1$s" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s",

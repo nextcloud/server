@@ -14,6 +14,7 @@ OC.L10N.register(
     "Generate backup codes" : "Yedek kodları oluştur",
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
     "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "İki aşamalı kimlik doğrulamayı etkinleştirdiniz ancak henüz yedek kodlarını üretmediniz. Bu kodlar herhangi bir nedenle ikinci aşamayı kullanamadığınızda hesabınıza erişebilmenizi sağlar.",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",

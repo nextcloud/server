@@ -1,7 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
-    "Update notifications" : "Frissítési értesítés",
     "Channel updated" : "Csatorna frissítve",
+    "Update notifications" : "Frissítési értesítés",
     "The update server could not be reached since %d days to check for new updates." : "A frissítési szerver  %d napja nem elérhető a frissítések kereséséhez.",
     "Please check the Nextcloud and server log files for errors." : "Kérlek nézd meg a Nextcloud és a szervernaplókat a hibák miatt.",
     "Update to %1$s is available." : "%1$s frissítés elérhető.",

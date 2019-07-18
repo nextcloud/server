@@ -1,5 +1,4 @@
 { "translations": {
-    "Federated sharing" : "Datafællesskabsdeling",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
     "Remote share" : "Eksterne drev",
     "Remote share password" : "Fjerndrev adgangskode",
@@ -19,6 +18,7 @@
     "Not allowed to create a federated share with the same user" : "Det er ikke tilladt at danne et datafællesskab med samme bruger",
     "File is already shared with %s" : "Filen deles allerede med %s",
     "Could not find share" : "Kan ikke finde deling",
+    "Federated sharing" : "Datafællesskabsdeling",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du modtog \"/%3$s\" som en ekstern deling fra %1$s (på vegne af %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du modtog {share} som en ekstern deling fra {user} (på vegne af {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Du modtog \"%3$s\" som en ekstern deling fra %1$s",

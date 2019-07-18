@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
-    "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
     "Channel updated" : "Ενημερωμένο κανάλι",
+    "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
     "The update server could not be reached since %d days to check for new updates." : "Ο διακομιστής ενημέρωσης δεν ήταν προσβάσιμος από %dημέρες για να ελέγξει για νέες ενημερώσεις. ",
     "Please check the Nextcloud and server log files for errors." : "Παρακαλούμε ελέγξτε για σφάλματα στα αρχεία ιστορικού του Nextcloud και του διακομιστή σας.",
     "Update to %1$s is available." : "Είναι διαθέσιμη η ενημέρωση σε %1$s.",
