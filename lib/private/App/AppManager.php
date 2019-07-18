@@ -462,7 +462,7 @@ class AppManager implements IAppManager {
 
 	public function getAppVersion(string $appId, bool $useCache = true): string {
 		if(!$useCache || !isset($this->appVersions[$appId])) {
-			$appInfo = \OC::$server->getAppManager()->getAppInfo($appId);
+			$appInfo = $this->getAppInfo($appId);
 			$this->appVersions[$appId] = ($appInfo !== null && isset($appInfo['version'])) ? $appInfo['version'] : '0';
 		}
 		return $this->appVersions[$appId];
