@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
@@ -22,11 +23,8 @@
 
 namespace OCA\LookupServerConnector;
 
-use OC\Accounts\AccountManager;
-use OC\Security\IdentityProof\Signer;
 use OCA\LookupServerConnector\BackgroundJobs\RetryJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
 
@@ -36,136 +34,51 @@ use OCP\IUser;
  * @package OCA\LookupServerConnector
  */
 class UpdateLookupServer {
-	/** @var AccountManager */
-	private $accountManager;
-	/** @var IClientService */
-	private $clientService;
-	/** @var Signer */
-	private $signer;
+	/** @var IConfig */
+	private $config;
 	/** @var IJobList */
 	private $jobList;
-	/** @var string URL point to lookup server */
-	private $lookupServer;
-	/** @var bool  */
-	private $lookupServerEnabled;
 
 	/**
-	 * @param AccountManager $accountManager
-	 * @param IClientService $clientService
-	 * @param Signer $signer
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(AccountManager $accountManager,
-								IClientService $clientService,
-								Signer $signer,
-								IJobList $jobList,
+	public function __construct(IJobList $jobList,
 								IConfig $config) {
-		$this->accountManager = $accountManager;
-		$this->clientService = $clientService;
-		$this->signer = $signer;
+		$this->config = $config;
 		$this->jobList = $jobList;
-
-		if($config->getSystemValue('has_internet_connection', true) === false) {
-			return;
-		}
-
-		$this->lookupServerEnabled = $config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes';
-
-		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		if(!empty($this->lookupServer)) {
-			$this->lookupServer = rtrim($this->lookupServer, '/');
-			$this->lookupServer .= '/users';
-		}
 	}
 
 	/**
 	 * @param IUser $user
 	 */
-	public function userUpdated(IUser $user) {
-
+	public function userUpdated(IUser $user): void {
 		if (!$this->shouldUpdateLookupServer()) {
 			return;
 		}
 
-		$userData = $this->accountManager->getUser($user);
-		$publicData = [];
-
-		foreach ($userData as $key => $data) {
-			if ($data['scope'] === AccountManager::VISIBILITY_PUBLIC) {
-				$publicData[$key] = $data;
-			}
-		}
-
-		$this->sendToLookupServer($user, $publicData);
-	}
-
-	/**
-	 * send public user data to the lookup server
-	 *
-	 * @param IUser $user
-	 * @param array $publicData
-	 */
-	protected function sendToLookupServer(IUser $user, array $publicData) {
-
-		$dataArray = ['federationId' => $user->getCloudId()];
-
-		if (!empty($publicData)) {
-			$dataArray['name'] = isset($publicData[AccountManager::PROPERTY_DISPLAYNAME]) ? $publicData[AccountManager::PROPERTY_DISPLAYNAME]['value'] : '';
-			$dataArray['email'] = isset($publicData[AccountManager::PROPERTY_EMAIL]) ? $publicData[AccountManager::PROPERTY_EMAIL]['value'] : '';
-			$dataArray['address'] = isset($publicData[AccountManager::PROPERTY_ADDRESS]) ? $publicData[AccountManager::PROPERTY_ADDRESS]['value'] : '';
-			$dataArray['website'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['value'] : '';
-			$dataArray['twitter'] = isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['value'] : '';
-			$dataArray['phone'] = isset($publicData[AccountManager::PROPERTY_PHONE]) ? $publicData[AccountManager::PROPERTY_PHONE]['value'] : '';
-			$dataArray['twitter_signature'] = isset($publicData[AccountManager::PROPERTY_TWITTER]['signature']) ? $publicData[AccountManager::PROPERTY_TWITTER]['signature'] : '';
-			$dataArray['website_signature'] = isset($publicData[AccountManager::PROPERTY_WEBSITE]['signature']) ? $publicData[AccountManager::PROPERTY_WEBSITE]['signature'] : '';
-			$dataArray['verificationStatus'] =
-				[
-					AccountManager::PROPERTY_WEBSITE => isset($publicData[AccountManager::PROPERTY_WEBSITE]) ? $publicData[AccountManager::PROPERTY_WEBSITE]['verified'] : '',
-					AccountManager::PROPERTY_TWITTER => isset($publicData[AccountManager::PROPERTY_TWITTER]) ? $publicData[AccountManager::PROPERTY_TWITTER]['verified'] : '',
-				];
-		}
-
-		$dataArray = $this->signer->sign('lookupserver', $dataArray, $user);
-		$httpClient = $this->clientService->newClient();
-		try {
-			if (empty($publicData)) {
-				$httpClient->delete($this->lookupServer,
-					[
-						'body' => json_encode($dataArray),
-						'timeout' => 10,
-						'connect_timeout' => 3,
-					]
-				);
-			} else {
-				$httpClient->post($this->lookupServer,
-					[
-						'body' => json_encode($dataArray),
-						'timeout' => 10,
-						'connect_timeout' => 3,
-					]
-				);
-			}
-		} catch (\Exception $e) {
-			$this->jobList->add(RetryJob::class,
-				[
-					'dataArray' => $dataArray,
-					'retryNo' => 0,
-				]
-			);
-		}
+		// Reset retry counter
+		$this->config->deleteUserValue(
+			$user->getUID(),
+			'lookup_server_connector',
+			'update_retries'
+		);
+		$this->jobList->add(RetryJob::class, ['userId' => $user->getUID()]);
 	}
 
 	/**
 	 * check if we should update the lookup server, we only do it if
 	 *
-	 * * we have a valid URL
-	 * * the lookup server update was enabled by the admin
+	 * + we have an internet connection
+	 * + the lookup server update was not disabled by the admin
+	 * + we have a valid lookup server URL
 	 *
 	 * @return bool
 	 */
-	private function shouldUpdateLookupServer() {
-		return $this->lookupServerEnabled && !empty($this->lookupServer);
+	private function shouldUpdateLookupServer(): bool {
+		return $this->config->getSystemValueBool('has_internet_connection', true) === true &&
+			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes' &&
+			$this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') !== '';
 	}
 
 }
