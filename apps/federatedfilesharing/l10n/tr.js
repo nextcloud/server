@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Birleşmiş paylaşım",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
     "Remote share" : "Uzak paylaşım",
     "Remote share password" : "Uzak paylaşım parolası",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Dosya %s ile zaten paylaşılmış",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s paylaşılamadı. %2$s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
     "Could not find share" : "Paylaşım bulunamadı",
+    "Federated sharing" : "Birleşmiş paylaşım",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%2$s adına)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user} kullanıcısından {share} uzak paylaşımını aldınız ( {behalf} adına)",
     "You received \"%3$s\" as a remote share from %1$s" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız",

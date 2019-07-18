@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Egyesített megosztás",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzá akarod adni a {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share" : "Távoli megosztás",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet létrehozni egyesített megosztást",
     "File is already shared with %s" : "Fájl már megosztva vele: %s",
     "Could not find share" : "A megosztás nem található",
+    "Federated sharing" : "Egyesített megosztás",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s (%2$s nevében)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Kaptál egy távoli megosztást: {share}, innen: {user} ({behalf} nevében)",
     "You received \"%3$s\" as a remote share from %1$s" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s",

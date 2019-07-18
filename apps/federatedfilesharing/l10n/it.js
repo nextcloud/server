@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Condivisione federata",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
     "Remote share" : "Condivisione remota",
     "Remote share password" : "Password della condivisione remota",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Il file è già condiviso con %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "La condivisione di %1$s non è riuscita, impossibile trovare %2$s, è probabile che il server non sia al momento raggiungibile o che utilizzi un certificato auto-firmato.",
     "Could not find share" : "Impossibile trovare la condivisione",
+    "Federated sharing" : "Condivisione federata",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s (per conto di %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Hai ricevuto {share} come condivisione remota da {user} (per conto di {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s",

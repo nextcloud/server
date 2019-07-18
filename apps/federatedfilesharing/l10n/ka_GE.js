@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "ფედერალური გაზიარება",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "გსურთ დაამატოთ {owner}@{remote}-ის დისტანცური გაზიარება {name}?",
     "Remote share" : "დისტანციური გაზიარება",
     "Remote share password" : "დისტანციური გაზიარების პაროლი",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "იმავე მომხმარებელთან ფედერალური გაზიარება ვერ შეიქმნება",
     "File is already shared with %s" : "ფაილი უკვე გაზიარებულია მომხმარებელთან %s ",
     "Could not find share" : "გაზიარება ვერ იქნა ნაპოვნი",
+    "Federated sharing" : "ფედერალური გაზიარება",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "თქვენ მიიღეთ გაზიარება {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user} (სახელით {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s",

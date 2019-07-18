@@ -12,6 +12,7 @@
     "Generate backup codes" : "Gerar códigos de backup",
     "You created two-factor backup codes for your account" : "Você criou os códigos de backup de dois fatores para sua conta.",
     "Second-factor backup codes" : "Códigos de backup segundo-fator",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Você ativou a autenticação de dois fatores, mas ainda não gerou códigos de backup. Eles são necessários para restaurar o acesso à sua conta caso você perca seu segundo fator.",
     "Backup code" : "Código de backup",
     "Use backup code" : "Usar o código de backup",
     "Two factor backup codes" : "Códigos de backup de dois fatores",

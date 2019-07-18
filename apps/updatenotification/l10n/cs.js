@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte informace o tom, jak aktualizovat.",
-    "Update notifications" : "Aktualizovat oznámení",
     "Channel updated" : "Kanál aktualizován",
+    "Update notifications" : "Aktualizovat oznámení",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl %d dní dosažitelný pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Podívejte se po chybách v záznamu událostí Nextcloud a serveru.",
     "Update to %1$s is available." : "Je dostupná aktualizace na %1$s.",

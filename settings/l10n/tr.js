@@ -636,6 +636,7 @@ OC.L10N.register(
     "No language set" : "Herhangi bir dil ayarlanmamış",
     "Never" : "Asla",
     "Delete user" : "Kullanıcıyı Sil",
+    "Wipe all devices" : "Tüm aygıtları sil",
     "Disable user" : "Kullanıcıyı devre dışı bırak",
     "Enable user" : "Kullanıcıyı etkinleştir",
     "Resend welcome email" : "Karşılama e-postasını yeniden gönder",

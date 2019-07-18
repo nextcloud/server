@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Compartir Federate",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Esque tu vole adder le Compartir Remote {name} de {owner}@{remote}?",
     "Remote share" : "Compartir Remote",
     "Remote share password" : "Contrasigno del Compartir Remote",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator.",
     "File is already shared with %s" : "File ja es compartite con %s",
     "Could not find share" : "Impossibile trovar le compartite",
+    "Federated sharing" : "Compartir Federate",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Tu recipeva \"%3$s\" como un compartimento remote de %1$s (in nomine de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Tu recipeva {share} como un compartimento remote de {user} (in nomine de {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Tu recipeva \"%3$s\" como un compartimento remote de %1$s",

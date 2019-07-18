@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
-    "Update notifications" : "アップデート通知",
     "Channel updated" : "チャンネルを更新しました",
+    "Update notifications" : "アップデート通知",
     "The update server could not be reached since %d days to check for new updates." : "%d日以降、新しい更新をチェックする更新サーバーにアクセスできませんでした。",
     "Please check the Nextcloud and server log files for errors." : "Nextcloudとサーバーログファイルでエラーがないか確認してください。",
     "Update to %1$s is available." : "%1$s への更新が利用可能です。",
