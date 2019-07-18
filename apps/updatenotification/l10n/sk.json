@@ -1,7 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
-    "Update notifications" : "Aktualizovať hlásenia",
     "Channel updated" : "Kanál bol aktualizovaný",
+    "Update notifications" : "Aktualizovať hlásenia",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizačný server je nedostupný %d dní pre kontrolu aktualizácií.",
     "Please check the Nextcloud and server log files for errors." : "Chyby skontrolujte prosím v logoch Nextcloud a webového servera",
     "Update to %1$s is available." : "Je dostupná aktualizácia na verziu %1$s.",

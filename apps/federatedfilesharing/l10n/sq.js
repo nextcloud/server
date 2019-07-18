@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Ndarje e federuar",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Doni që të shtoni ndarjen në remote {name} nga {owner}@{remote}?",
     "Remote share" : "Ndarje në largësi",
     "Remote share password" : "Fjalëkalim ndarjeje të largët",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
     "File is already shared with %s" : "Skedari është ndarë tashmë me %s",
     "Could not find share" : "Nuk mund të gjenim ndarjen",
+    "Federated sharing" : "Ndarje e federuar",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Ju pranuat \"%3$s\" si një shpërndarje në distancë nga %1$s (në emër të %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Ju ",
     "You received \"%3$s\" as a remote share from %1$s" : "Ju pranuat \"%3$s\" si një shpërndarje në distancë nga %1$s",
