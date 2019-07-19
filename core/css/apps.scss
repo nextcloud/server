@@ -736,7 +736,8 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 		border-top: solid 1px var(--color-border);
 	}
 	&:hover,
-	&:focus {
+	&:focus,
+	&.opened {
 		background-color: var(--color-main-background);
 		opacity: 1;
 		box-shadow: inset 4px 0 var(--color-primary);
