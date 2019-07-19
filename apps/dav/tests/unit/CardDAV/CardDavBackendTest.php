@@ -642,22 +642,27 @@ class CardDavBackendTest extends TestCase {
 	 *
 	 * @param string $pattern
 	 * @param array $properties
+	 * @param array $options
 	 * @param array $expected
 	 */
-	public function testSearch($pattern, $properties, $expected) {
+	public function testSearch($pattern, $properties, $options, $expected) {
 		/** @var VCard $vCards */
 		$vCards = [];
 		$vCards[0] = new VCard();
 		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid'));
 		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
-		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@owncloud.org'));
+		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@nextcloud.com'));
 		$vCards[1] = new VCard();
 		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid'));
 		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
+		$vCards[2] = new VCard();
+		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid'));
+		$vCards[2]->add(new Text($vCards[2], 'FN', 'find without options'));
+		$vCards[2]->add(new Text($vCards[2], 'CLOUD', 'peter_pan@nextcloud.com'));
 
 		$vCardIds = [];
 		$query = $this->db->getQueryBuilder();
-		for($i=0; $i<2; $i++) {
+		for($i=0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
@@ -690,7 +695,7 @@ class CardDavBackendTest extends TestCase {
 								'addressbookid' => $query->createNamedParameter(0),
 								'cardid' => $query->createNamedParameter($vCardIds[0]),
 								'name' => $query->createNamedParameter('CLOUD'),
-								'value' => $query->createNamedParameter('John@owncloud.org'),
+								'value' => $query->createNamedParameter('John@nextcloud.com'),
 								'preferred' => $query->createNamedParameter(0)
 						]
 				);
@@ -706,8 +711,30 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[2]),
+					'name' => $query->createNamedParameter('FN'),
+					'value' => $query->createNamedParameter('find without options'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[2]),
+					'name' => $query->createNamedParameter('CLOUD'),
+					'value' => $query->createNamedParameter('peter_pan@nextcloud.com'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
 
-		$result = $this->backend->search(0, $pattern, $properties);
+		$result = $this->backend->search(0, $pattern, $properties, $options);
 
 		// check result
 		$this->assertSame(count($expected), count($result));
@@ -726,11 +753,13 @@ class CardDavBackendTest extends TestCase {
 
 	public function dataTestSearch() {
 		return [
-				['John', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				['M. Doe', ['FN'], [['uri1', 'John M. Doe']]],
-				['Do', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'case insensitive' => ['john', ['FN'], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]]
+				['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
+				['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'case insensitive' => ['john', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+				'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
+				'find not empty ClOUD' => ['%_%', ['CLOUD'], ['escape_like_param'=>false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
 		];
 	}
 
