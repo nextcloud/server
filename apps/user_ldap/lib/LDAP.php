@@ -221,6 +221,17 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
+	 * @param string $userDN
+	 * @param string $oldPassword
+	 * @param string $password
+	 * @return bool
+	 */
+	public function exopPasswd($link, $userDN, $oldPassword, $password) {
+		return $this->invokeLDAPMethod('exop_passwd', $link, $userDN, $oldPassword, $password);
+	}
+
+	/**
+	 * @param LDAP $link
 	 * @param string $option
 	 * @param int $value
 	 * @return bool|mixed
