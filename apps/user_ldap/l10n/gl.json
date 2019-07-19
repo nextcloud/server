@@ -53,6 +53,7 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "A caixa de grupo está desactivada, o servidor LDAP / AD non admite «memberOf».",
     "Password change rejected. Hint: " : "Contrasinal rexeitado. Consello:",
     "Please login with the new password" : "Acceda co novo contrasinal",
+    "LDAP User backend" : "Infraestrutura do usuario LDAP",
     "Your password will expire tomorrow." : "O seu contrasinal caduca mañá.",
     "Your password will expire today." : "O seu contrasinal caducará hoxe.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["O seu contrasinal caducará en %n día.","O seu contrasinal caducará en %n días."],
