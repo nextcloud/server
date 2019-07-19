@@ -41,6 +41,7 @@
     "A remote wipe was started on device %s" : "Eine Fernlöschung wurde am Gerät %s gestartet",
     "Remote wipe finished" : "Fernlöschung fertig",
     "The remote wipe on %s has finished" : "Die Fernlöschung auf %s ist fertig",
+    "Authentication" : "Authentifizierung",
     "Unknown filetype" : "Unbekannter Dateityp",
     "Invalid image" : "Ungültiges Bild",
     "Avatar image is not square" : "Benutzerbild ist nicht quadratisch",

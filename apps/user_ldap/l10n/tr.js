@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "LDAP / AD sunucusu memberOf parametresini desteklemediğinden grup kutusu devre dışı.",
     "Password change rejected. Hint: " : "Parola değişimi reddedildi. İpucu:",
     "Please login with the new password" : "Lütfen yeni parolanız ile oturum açın",
+    "LDAP User backend" : "LDAP kullanıcı arka yüzü",
     "Your password will expire tomorrow." : "Parolanızın süresi yarın dolacak.",
     "Your password will expire today." : "Parolanızın süresi bugün dolacak.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Parolanızın süresi %n gün içinde dolacak.","Parolanızın süresi %n gün içinde dolacak."],

@@ -35,6 +35,8 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazasına bağlanılamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet üzerine ve uygulama mağazasına bağlanabildiğinden emin olun.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
+    "Enterprise" : "Kurumsal",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Kurumsal kullanım için her zaman en son yayınlanmış yama düzeyi sunulur ancak sonraki ana sürüme hemen geçilmez. Bu güncellemeye Nextcloud GmbH tarafından büyük ölçekli ve görev kritik dağıtımlar için ek düzenlemeler ve sınamalar yapıldıktan sonra geçilir. Bu kanalı yalnız müşteriler kullanabilir ve Nextcloud Enterprise paketi sunulur.",
     "Stable" : "Kararlı",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Son kararlı sürüm. Normal kullanıma uygundur ve her zaman son büyük sürümü kullanır.",
     "Beta" : "Beta",
