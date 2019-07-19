@@ -28,6 +28,7 @@ OC.L10N.register(
     "Reset your password" : "Parolamı Sıfırla",
     "Couldn't send reset email. Please contact your administrator." : "Sıfırlama e-postası gönderilemedi. Lütfen yöneticiniz ile görüşün.",
     "Couldn't send reset email. Please make sure your username is correct." : "Sıfırlama e-postası gönderilemedi. Lütfen kullanıcı adınızın doğru olduğundan emin olun.",
+    "Nextcloud Server" : "Nextcloud Sunucusu",
     "Some of your link shares have been removed" : "Bazı bağlantı paylaşımlarınız silindi",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Bir güvenlik açığı nedeniyle bazı bağlantı paylaşımlarınızı silmek zorunda kaldık. ayrıntılı bilgi almak için bağlantıya bakabilirsiniz.",
     "Preparing update" : "Güncelleme hazırlanıyor",

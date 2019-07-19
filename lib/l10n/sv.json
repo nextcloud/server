@@ -36,6 +36,7 @@
     "A remote wipe was started on device %s" : "Fjärrensning startades på enhet %s",
     "Remote wipe finished" : "Fjärrensning klar",
     "The remote wipe on %s has finished" : "Fjärrensning av enhet %s har slutörts",
+    "Authentication" : "Autentisering",
     "Unknown filetype" : "Okänd filtyp",
     "Invalid image" : "Ogiltig bild",
     "Avatar image is not square" : "Profilbilden är inte fyrkantig",
