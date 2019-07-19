@@ -14,6 +14,7 @@ OC.L10N.register(
     "Generate backup codes" : "Genera i codici di backup",
     "You created two-factor backup codes for your account" : "Hai creato codici di backup a due fattori per il tuo account",
     "Second-factor backup codes" : "Codici di backup con secondo fattore",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Hai abilitato l'autenticazione a due fattori, ma non hai ancora generato i codici di backup. Sono necessari per recuperare l'accesso al tuo account nel caso in cui tu perda l'accesso al secondo fattore.",
     "Backup code" : "Codice di backup",
     "Use backup code" : "Usa il codice di backup",
     "Two factor backup codes" : "Codici di backup a due fattori",
