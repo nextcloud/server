@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP / AD-Server memberOf nicht unterstützt.",
     "Password change rejected. Hint: " : "Passwortändertung verweigert. Hinweis:",
     "Please login with the new password" : "Bitte mit dem neuen Passwort anmelden",
+    "LDAP User backend" : "LDAP Benutzer-Backend",
     "Your password will expire tomorrow." : "Dein Passwort läuft morgen ab",
     "Your password will expire today." : "Dein Passwort läuft heute ab",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Dein Passwort läuft in %n Tag ab","Dein Passwort läuft in %n Tagen ab"],

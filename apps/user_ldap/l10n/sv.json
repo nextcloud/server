@@ -53,6 +53,7 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Grupplådan var inaktiverat eftersom LDAP/AD-servern inte stödjer memberOf.",
     "Password change rejected. Hint: " : "Lösenordsbyte nekad. Anledning/tips: ",
     "Please login with the new password" : "Vänligen logga in med det nya lösenordet",
+    "LDAP User backend" : "LDAP användarbackend",
     "Your password will expire tomorrow." : "Ditt lösenord kommer att gå ut imorgon.",
     "Your password will expire today." : "Ditt lösenord kommer att gå ut idag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Ditt lösenord kommer gå ut inom %n dag.","Ditt lösenord kommer gå ut inom %n dagar."],

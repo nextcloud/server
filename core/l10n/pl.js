@@ -28,6 +28,7 @@ OC.L10N.register(
     "Reset your password" : "Zresetuj hasło",
     "Couldn't send reset email. Please contact your administrator." : "Nie mogę wysłać e-maila resetującego hasło. Skontaktuj się z administratorem.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nie mogę wysłać e-maila resetującego hasło. Sprawdź czy nazwa użytkownika jest poprawna.",
+    "Nextcloud Server" : "Serwer Nextcloud",
     "Some of your link shares have been removed" : "Niektóre współdzielenia w linkach zostały usunięte",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Ze względu na błąd bezpieczeństwa musieliśmy usunąć część Twoich udostępnień przez link. Zobacz link, aby uzyskać więcej informacji.",
     "Preparing update" : "Przygotowywanie aktualizacji",

@@ -53,6 +53,7 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "La casella dei gruppi è stata disabilitata, poiché il server LDAP / AD non supporta memberOf.",
     "Password change rejected. Hint: " : "Cambio password rifiutato. Suggerimento:",
     "Please login with the new password" : "Accedi con la nuova password",
+    "LDAP User backend" : "Motore Utenti LDAP",
     "Your password will expire tomorrow." : "La tua password scadrà domani.",
     "Your password will expire today." : "La tua password scadrà oggi.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La tua password scadrà tra %n giorno.","La tua password scadrà oggi tra %n giorni."],
