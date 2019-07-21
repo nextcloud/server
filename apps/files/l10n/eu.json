@@ -134,6 +134,7 @@
     "Upload (max. %s)" : "Kargatu (max. %s)",
     "File Management" : "Fitxategi-kudeaketa",
     "%s used" : "%s erabilita",
+    "%s%% of %s used" : "%s%% / %s erabilita",
     "%1$s of %2$s used" : "%1$s / %2$s(e)tik erabilita",
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",

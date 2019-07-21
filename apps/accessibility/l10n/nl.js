@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "High contrast theme" : "Hoog contrast-thema",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Een thema met hoog contrast maakt de navigatie makkelijker. De visuele kwaliteit kan verminderen, maar duidelijkheid neemt toe.",
+    "Dark theme" : "Donker thema",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Een donker thema geeft je ogen rust door de hoeveelheid licht te verminderen. Dit thema is nog in ontwikkeling, dus we horen het graag als je fouten tegenkomt. ",
     "Dyslexia font" : "Dyslexie-lettertype",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic is een gratis en open source lettertype dat is ontwikkeld om de meest voorkomende leesfouten te voorkomen die worden veroorzaakt door dyslexie.",
