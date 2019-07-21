@@ -43,6 +43,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'Thumbs.db', // Microsoft Windows
 		'.directory', // Dolphin (KDE)
 		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage web-apps.
+		'.rnd',
 	];
 
 	/**
@@ -54,7 +55,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 */
 	private $excludedFilenamePatterns = [
 		'/^\.webapp-nextcloud-(\d+\.){2}(\d+)(-r\d+)?$/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
- 	];
+	];
 
 	/**
 	 * @return bool
@@ -68,12 +69,12 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		}
 
 		$currentFileName = $current->getFilename();
-		if (in_array($currentFileName, $this->excludedFilenames, true)){
+		if (in_array($currentFileName, $this->excludedFilenames, true)) {
 			return false;
 		}
 
-		foreach ($this->excludedFilenamePatterns as $pattern){
-			if (preg_match($pattern, $currentFileName) > 0){
+		foreach ($this->excludedFilenamePatterns as $pattern) {
+			if (preg_match($pattern, $currentFileName) > 0) {
 				return false;
 			}
 		}
