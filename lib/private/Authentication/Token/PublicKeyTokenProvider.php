@@ -316,7 +316,10 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
-		openssl_pkey_export($res, $privateKey);
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
 
 		// Extract the public key from $res to $pubKey
 		$publicKey = openssl_pkey_get_details($res);
