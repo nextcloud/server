@@ -431,6 +431,6 @@ OC.L10N.register(
     "%s will be updated to version %s" : "%s wird auf Version %s aktualisiert",
     "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist.",
     "Thank you for your patience." : "Vielen Dank für Deine Geduld.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Zurücksetzen des Passworts an die für dieses Konto bekannte E-Mail Adresse versendet. Solltest Du diesen nicht in Kürze erhalten, prüfe bitte Deinen Spam-Ordner.<br>Wenn Du keine E-Mail bekommen hast, wende Dich bitte an Deinen lokalen Administrator."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Zurücksetzen des Passworts an die für dieses Konto bekannte E-Mail-Adresse versendet. Solltest Du diese nicht in Kürze erhalten, prüfe bitte Deinen Spam-Ordner.<br>Wenn Du keine E-Mail bekommen hast, wende Dich bitte an Deinen lokalen Administrator."
 },
 "nplurals=2; plural=(n != 1);");
