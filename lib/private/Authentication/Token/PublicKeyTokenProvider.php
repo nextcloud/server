@@ -299,7 +299,9 @@ class PublicKeyTokenProvider implements IProvider {
 			$this->logOpensslError();
 		}
 
-		openssl_pkey_export($res, $privateKey);
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+		}
 
 		// Extract the public key from $res to $pubKey
 		$publicKey = openssl_pkey_get_details($res);
