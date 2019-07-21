@@ -12,6 +12,7 @@
     "Generate backup codes" : "Genereer backup code",
     "You created two-factor backup codes for your account" : "Je creëerde tweefactor back-up codes voor je account",
     "Second-factor backup codes" : "Twee-factor backup code",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Je hebt tweefactor authenticatie ingeschakeld, maar nog geen backup codes gegenereerd. Die zijn nodig voor het ontsluiten van je account, in het geval dat je je tweede factor kwijt bent.",
     "Backup code" : "Backup code",
     "Use backup code" : "Gebruik backup code",
     "Two factor backup codes" : "Twee-factor backupcode",
