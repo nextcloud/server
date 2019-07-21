@@ -26,6 +26,7 @@
     "Reset your password" : "Resetear su contraseña",
     "Couldn't send reset email. Please contact your administrator." : "No pudo enviarse el correo para restablecer la contraseña. Por favor, contacte con su administrador.",
     "Couldn't send reset email. Please make sure your username is correct." : "No se pudo enviar el correo electrónico para el restablecimiento. Por favor, asegúrese de que su nombre de usuario es el correcto.",
+    "Nextcloud Server" : "Servidor Nexcloud",
     "Some of your link shares have been removed" : "Algunos de tus enlaces compartidos han sido eliminados.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Debido a un bug de seguridad hemos tenido que eliminar algunos de tus enlaces compartidos. Por favor, accede al link para más información.",
     "Preparing update" : "Preparando la actualización",
