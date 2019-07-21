@@ -287,9 +287,7 @@ class OC_Mount_Config {
 		$result = true;
 		if(is_array($option)) {
 			foreach ($option as $optionItem) {
-				if(is_array($optionItem)) {
-					$result = $result && self::arePlaceholdersSubstituted($option);
-				}
+					$result = $result && self::arePlaceholdersSubstituted($optionItem);
 			}
 		} else if (is_string($option)) {
 			if (strpos(rtrim($option, '$'), '$') !== false) {
