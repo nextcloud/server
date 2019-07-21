@@ -32,6 +32,8 @@ class PlaceholderSubstituteTest extends TestCase {
 		return [
 			['smb_$user', false],
 			['hidden_share$', true],
+			[['smb_$user', 'hidden_share$'], false],
+			[['smb_hello', 'hidden_share$'], true]
 		];
 	}
 
