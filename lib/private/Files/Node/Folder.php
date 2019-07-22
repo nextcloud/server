@@ -442,6 +442,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, $result));
 
 		return array_values(array_filter($files, function (Node $node) {
+			$cacheEntry = $node->getMountPoint()->getStorage()->getCache()->get($node->getId());
+			if (!$cacheEntry) {
+				return false;
+			}
 			$relative = $this->getRelativePath($node->getPath());
 			return $relative !== null && $relative !== '/';
 		}));
