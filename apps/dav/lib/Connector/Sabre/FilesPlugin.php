@@ -71,7 +71,6 @@ class FilesPlugin extends ServerPlugin {
 	const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 	const IS_ENCRYPTED_PROPERTYNAME = '{http://nextcloud.org/ns}is-encrypted';
 	const SHARE_NOTE = '{http://nextcloud.org/ns}note';
-	const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
 	/**
 	 * Reference to main server object
@@ -164,7 +163,6 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_ENCRYPTED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
-		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -363,13 +361,11 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
 			});
+
 			$propFind->handle(self::SHARE_NOTE, function() use ($node, $httpRequest) {
 				return $node->getNoteFromShare(
 					$httpRequest->getRawServerValue('PHP_AUTH_USER')
 				);
-			});
-			$propFind->handle(self::SHAREES_PROPERTYNAME, function() use ($node, $httpRequest) {
-				return $node->getShareeFromShare($httpRequest->getRawServerValue('PHP_AUTH_USER'));
 			});
 		}
 

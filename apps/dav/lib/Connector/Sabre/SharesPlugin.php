@@ -27,9 +27,13 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use \Sabre\DAV\PropFind;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use OCP\Files\NotFoundException;
+use OCP\Lock\LockedException;
+use \OCA\DAV\Connector\Sabre\Node;
 
 /**
  * Sabre Plugin to provide share-related properties
@@ -37,7 +41,9 @@ use OCP\Share\IShare;
 class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
+	const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
 	/**
 	 * Reference to main server object
@@ -106,6 +112,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = ShareTypeList::class;
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
+		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
 
 		$this->server = $server;
 		$this->server->on('propFind', array($this, 'handleGetProperties'));
@@ -214,5 +221,69 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 			return new ShareTypeList($shareTypes);
 		});
+
+		$propFind->handle(self::SHAREES_PROPERTYNAME, function() use ($sabreNode) {
+			$test = $this->server->httpRequest->getRawServerValue('PHP_AUTH_USER');
+			return $this->getShareeFromShare($sabreNode, $test);
+		});
+	}
+
+	/**
+	 * @param \Sabre\DAV\INode $sabreNode
+	 * @param string $user
+	 * @return string
+	 * @throws FileLocked
+	 * @throws NotFoundException
+	 */
+	public function getShareeFromShare(\Sabre\DAV\INode $sabreNode, $user) {
+		$sharees = [];
+
+		if ($user == null) {
+			return $sharees;
+		}
+		$types = [
+			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_REMOTE,
+			Share::SHARE_TYPE_GROUP,
+		];
+
+		if ($sabreNode->getPath() === "/") {
+			return $sharees;
+		}
+
+		$path = $this->getPath();
+
+		if ($path !== null) {
+			$userFolder = \OC::$server->getRootFolder()->getUserFolder($user);
+			try {
+				$path = $userFolder->get($path);
+				$this->lock($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				throw new NotFoundException($this->l->t('Wrong path, file/folder doesn\'t exist'));
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
+		}
+
+		foreach ($types as $shareType) {
+			$shares = $this->shareManager->getSharesBy($user, $shareType, $path, false, -1, 0);
+			foreach ($shares as $share) {
+				if ($share->getSharedBy() === $user) {
+					$sharees[] = $share->getSharedWith();
+				}
+			}
+		}
+		return implode(', ', $sharees);
+	}
+
+	/**
+	 * Lock a Node
+	 *
+	 * @param \OCP\Files\Node $node
+	 * @throws LockedException
+	 */
+	private function lock(\OCP\Files\Node $node) {
+		$node->lock(ILockingProvider::LOCK_SHARED);
+		$this->lockedNode = $node;
 	}
 }
