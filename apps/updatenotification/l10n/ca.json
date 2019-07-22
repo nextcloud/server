@@ -33,6 +33,8 @@
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No s’ha pogut connectar amb el magatzem d’aplicacions o aquest no ha retornat cap actualització. Cerqueu manualment actualitzacions o assegureu-vos que el vostre servidor tingui accés a Internet i es pugui connectar al magatzem d'aplicacions.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Totes</strong> les aplicacions tenen una actualització disponible per aquesta versió",
     "View changelog" : "Mostra el registre de canvis",
+    "Enterprise" : "Empresa",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Per ús empresarial. Proporciona sempre el nivell de patch més recent, però no s'actualitzarà immediatament a la propera versió principal. Aquesta actualització es produeix quan Nextcloud GmbH ha realitzat proves i enduriments addicionals per a implementacions a gran escala i de missions crítiques. Aquest canal només està disponible per als clients i proporciona el paquet Nextcloud Enterprise.",
     "Stable" : "Estable",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La versió estable més recent. És adequat per un ús normal i sempre s'actualitzarà a la versió més recent.",
     "Beta" : "Beta",

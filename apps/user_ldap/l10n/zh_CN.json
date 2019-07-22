@@ -53,6 +53,7 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "该组框被禁用，因为 LDAP/AD 服务器不支持 memberOf。",
     "Password change rejected. Hint: " : "密码更改出错。提示：",
     "Please login with the new password" : "请使用新密码登录",
+    "LDAP User backend" : "LDAP 用户后端",
     "Your password will expire tomorrow." : "您的密码将在明天过期",
     "Your password will expire today." : "您的明码将在今天过期",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["您的密码会在%n天后过期"],
