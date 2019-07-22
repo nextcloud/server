@@ -861,13 +861,15 @@ class FolderTest extends NodeTest {
 			'storage_mtime' => $baseTime,
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
-			'size' => 3
+			'size' => 3,
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		]);
 		$id2 = $cache->put('bar/foo/old.txt', [
 			'storage_mtime' => $baseTime - 100,
 			'mtime' => $baseTime - 100,
 			'mimetype' => 'text/plain',
-			'size' => 3
+			'size' => 3,
+			'permissions' => \OCP\Constants::PERMISSION_READ
 		]);
 		$cache->put('bar/asd/outside.txt', [
 			'storage_mtime' => $baseTime,
@@ -879,7 +881,8 @@ class FolderTest extends NodeTest {
 			'storage_mtime' => $baseTime - 600,
 			'mtime' => $baseTime - 600,
 			'mimetype' => 'text/plain',
-			'size' => 3
+			'size' => 3,
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		]);
 
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
@@ -922,21 +925,24 @@ class FolderTest extends NodeTest {
 			'storage_mtime' => $baseTime,
 			'mtime' => $baseTime,
 			'mimetype' => \OCP\Files\FileInfo::MIMETYPE_FOLDER,
-			'size' => 3
+			'size' => 3,
+			'permissions' => 0
 		]);
 		$id2 = $cache->put('bar/foo/folder/bar.txt', [
 			'storage_mtime' => $baseTime,
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'parent' => $id1
+			'parent' => $id1,
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		]);
 		$id3 = $cache->put('bar/foo/folder/asd.txt', [
 			'storage_mtime' => $baseTime - 100,
 			'mtime' => $baseTime - 100,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'parent' => $id1
+			'parent' => $id1,
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		]);
 
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
@@ -985,7 +991,8 @@ class FolderTest extends NodeTest {
 			'storage_mtime' => $baseTime,
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
-			'size' => 3
+			'size' => 3,
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		]);
 		$cache->put('outside.txt', [
 			'storage_mtime' => $baseTime - 100,
