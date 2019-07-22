@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: File support request
 about: Request support for a file type currently not supported
 title: Add support for xxx files
 labels: 0. Needs triage, enhancement, mime support
