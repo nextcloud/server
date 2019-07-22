@@ -447,7 +447,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 				return false;
 			}
 			$relative = $this->getRelativePath($node->getPath());
-			return $relative !== null && $relative !== '/';
+			return $relative !== null && $relative !== '/'
+				&& ($cacheEntry->getPermissions() & \OCP\Constants::PERMISSION_READ) === \OCP\Constants::PERMISSION_READ;
 		}));
 	}
 
