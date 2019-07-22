@@ -75,6 +75,13 @@ class Updater extends BasicEmitter {
 	];
 
 	/**
+	 * List of appIds that have automatically been disabled during upgrade
+	 *
+	 * @var String[]
+	 */
+	private $autoDisabledApps = [];
+
+	/**
 	 * @param IConfig $config
 	 * @param Checker $checker
 	 * @param ILogger $log
@@ -256,7 +263,8 @@ class Updater extends BasicEmitter {
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$this->upgradeAppStoreApps(\OC_App::$autoDisabledApps, true);
+		$autoDisabledApps = array_merge(\OC_App::$autoDisabledApps, $this->autoDisabledApps);
+		$this->upgradeAppStoreApps($autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
 		OC_App::loadApps(['authentication']);
@@ -405,6 +413,7 @@ class Updater extends BasicEmitter {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
 				\OC::$server->getAppManager()->disableApp($app);
+				$this->autoDisabledApps[] = $app;
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
 			}
 			// no need to disable any app in case this is a non-core upgrade
