@@ -41,6 +41,7 @@
     "A remote wipe was started on device %s" : "设备%s上一个远程擦除操作已开始",
     "Remote wipe finished" : "远程擦除完成",
     "The remote wipe on %s has finished" : "%s上的远程擦除操作已完成",
+    "Authentication" : "验证",
     "Unknown filetype" : "未知的文件类型",
     "Invalid image" : "无效的图像",
     "Avatar image is not square" : "头像图像不是正方形",

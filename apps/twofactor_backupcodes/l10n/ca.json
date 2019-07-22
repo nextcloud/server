@@ -12,6 +12,7 @@
     "Generate backup codes" : "Genera els codis de seguretat",
     "You created two-factor backup codes for your account" : "Heu creat els codis de seguretat de dos factors per al vostre compte",
     "Second-factor backup codes" : "Codis de seguretat de segon factor",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Heu activat l'autenticació de dos factors però encara no heu generat els codis de seguretat. Aquests són necessaris per restablir l'accés al vostre compte en cas de perdre el vostre segon factor.",
     "Backup code" : "Codi de seguretat",
     "Use backup code" : "Utilitza un codi de seguretat",
     "Two factor backup codes" : "Codis de seguretat de l'autenticació en dos factors",
