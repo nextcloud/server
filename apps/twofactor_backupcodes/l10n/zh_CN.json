@@ -12,6 +12,7 @@
     "Generate backup codes" : "生成备用码",
     "You created two-factor backup codes for your account" : "您已经为账号创建了两步验证的备用码",
     "Second-factor backup codes" : "两步验证备用码",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "您已启用两步验证但还没有生成备用码。当您丢失您的第二因素时，备用码能帮助您恢复对您账号的访问。",
     "Backup code" : "备用码",
     "Use backup code" : "使用备用码",
     "Two factor backup codes" : "两步验证备用码",
