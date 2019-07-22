@@ -404,6 +404,7 @@ OC.L10N.register(
     "Ukrainian (Ukraine)" : "Ukrainien (Ukraine)",
     "Ukrainian" : "Ukrainien",
     "Urdu" : "Ourdou",
+    "Uzbek" : "Ouzbek",
     "Vietnamese (Vietnam)" : "Vietnamien (Vietnam)",
     "Vietnamese" : "Vietnamien",
     "Welsh" : "Gallois",
