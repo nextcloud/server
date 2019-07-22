@@ -41,6 +41,7 @@
     "A remote wipe was started on device %s" : "S'ha engegat una neteja remota en el dispositiu %s",
     "Remote wipe finished" : "Ha finalitzat la neteja remota",
     "The remote wipe on %s has finished" : "Ha finalitzat la neteja remota a %s",
+    "Authentication" : "Autenticació",
     "Unknown filetype" : "Tipus de fitxer desconegut",
     "Invalid image" : "Imatge no vàlida",
     "Avatar image is not square" : "La imatge de perfil no és quadrada",

@@ -15,7 +15,7 @@ OC.L10N.register(
     "our design team" : "el nostre equip de disseny",
     "Enable" : "Activa",
     "Dark theme (beta)" : "Tema fosc (beta)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic és una tipografia gratuïta dissenyada per reduir alguns dels problemes comuns de lectura causats per la dislèxia. La tipografia fou creada per Abelardo González, que la va publicar amb una llicència oberta.",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic és una tipografia gratuïta dissenyada per reduir alguns dels problemes comuns de lectura causats per la dislèxia. La tipografia fou creada per Abelardo Gonzalez, que la va publicar amb una llicència oberta.",
     "Provides multiple accessibilities options to ease your use of nextcloud" : "Proporciona múltiples opcions d'accessibilitat per facilitar l'ús de Nextcloud",
     "Themes" : "Temes",
     "Fonts" : "Tipografies",

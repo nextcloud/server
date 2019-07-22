@@ -26,6 +26,7 @@
     "Reset your password" : "重置您的密码",
     "Couldn't send reset email. Please contact your administrator." : "未能成功发送重置邮件，请联系管理员。",
     "Couldn't send reset email. Please make sure your username is correct." : "无法发送重置邮件，请检查您的用户名是否正确。",
+    "Nextcloud Server" : "Nextcloud 服务器",
     "Some of your link shares have been removed" : "您的一些链接共享已被移除",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "由于一个安全缺陷，我们必须移除您的部分链接共享。更多信息请查看此链接。",
     "Preparing update" : "正在准备更新",

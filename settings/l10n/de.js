@@ -557,7 +557,7 @@ OC.L10N.register(
     "Marked for remote wipe" : "Für Fernlöschung markiert",
     "Device settings" : "Geräteeinstellungen",
     "Allow filesystem access" : "Erlaube Dateisystem-Zugriff",
-    "Rename" : "Umbennen",
+    "Rename" : "Umbenennen",
     "Revoke" : "Widerrufen",
     "Wipe device" : "Gerät löschen",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Zurückziehen dieses Tokens könnte das Löschen von deinem Gerät verhindern, wenn die Löschung noch nicht gestartet wurde.",
