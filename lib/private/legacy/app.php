@@ -70,7 +70,6 @@ class OC_App {
 	static private $loadedApps = [];
 	static private $altLogin = [];
 	static private $alreadyRegistered = [];
-	static public $autoDisabledApps = [];
 	const supportedApp = 300;
 	const officialApp = 200;
 
@@ -157,8 +156,7 @@ class OC_App {
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					\OC::$server->getAppManager()->disableApp($app);
-					self::$autoDisabledApps[] = $app;
+					\OC::$server->getAppManager()->disableApp($app, true);
 				}
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
