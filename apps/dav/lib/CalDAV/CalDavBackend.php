@@ -739,7 +739,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				throw new DAV\Exception('The ' . $sccs . ' property must be of type: \Sabre\CalDAV\Property\SupportedCalendarComponentSet');
 			}
 			$values['components'] = implode(',',$properties[$sccs]->getValue());
+		} else if (isset($properties['components'])) {
+			// Allow to provide components internally without having
+			// to create a SupportedCalendarComponentSet object
+			$values['components'] = $properties['components'];
 		}
+
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
 			$values['transparent'] = (int) ($properties[$transp]->getValue() === 'transparent');
