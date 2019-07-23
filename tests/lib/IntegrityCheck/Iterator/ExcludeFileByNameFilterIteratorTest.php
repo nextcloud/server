@@ -45,6 +45,7 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 			['.webapp-nextcloud-15.0.2', false],
 			['.webapp-nextcloud-14.0.5-r3', false],
 			['wx.webapp-nextcloud-obee', true],
+			['.rnd', false],
 		];
 	}
 
