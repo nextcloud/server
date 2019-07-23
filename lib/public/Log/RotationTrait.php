@@ -49,7 +49,8 @@ trait RotationTrait {
 	 * @since 14.0.0
 	 */
 	protected function rotate():string {
-		$rotatedFile = $this->filePath.'.1';
+		// We use `time()` directly here to avoid loading more classes
+		$rotatedFile = $this->filePath . '.' . time();
 		rename($this->filePath, $rotatedFile);
 		return $rotatedFile;
 	}
