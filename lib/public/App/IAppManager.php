@@ -110,9 +110,10 @@ interface IAppManager {
 	 * Disable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId);
+	public function disableApp($appId, $automaticDisabled = false);
 
 	/**
 	 * Get the directory for the given app.
@@ -166,6 +167,12 @@ interface IAppManager {
 	 * @since 17.0.0
 	 */
 	public function getEnabledAppsForGroup(IGroup $group): array;
+
+	/**
+	 * @return array
+	 * @since 17.0.0
+	 */
+	public function getAutoDisabledApps(): array;
 
 	/**
 	 * @param String $appId
