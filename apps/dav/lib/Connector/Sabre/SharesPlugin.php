@@ -27,13 +27,9 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use \Sabre\DAV\PropFind;
 use OCP\IUserSession;
 use OCP\Share\IShare;
-use OCP\Files\NotFoundException;
-use OCP\Lock\LockedException;
-use \OCA\DAV\Connector\Sabre\Node;
 
 /**
  * Sabre Plugin to provide share-related properties
@@ -223,67 +219,45 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		});
 
 		$propFind->handle(self::SHAREES_PROPERTYNAME, function() use ($sabreNode) {
-			$test = $this->server->httpRequest->getRawServerValue('PHP_AUTH_USER');
-			return $this->getShareeFromShare($sabreNode, $test);
-		});
-	}
+			$user = $this->server->httpRequest->getRawServerValue('PHP_AUTH_USER');
 
-	/**
-	 * @param \Sabre\DAV\INode $sabreNode
-	 * @param string $user
-	 * @return string
-	 * @throws FileLocked
-	 * @throws NotFoundException
-	 */
-	public function getShareeFromShare(\Sabre\DAV\INode $sabreNode, $user) {
-		$sharees = [];
-
-		if ($user == null) {
-			return $sharees;
-		}
-		$types = [
-			Share::SHARE_TYPE_USER,
-			Share::SHARE_TYPE_REMOTE,
-			Share::SHARE_TYPE_GROUP,
-		];
-
-		if ($sabreNode->getPath() === "/") {
-			return $sharees;
-		}
-
-		$path = $this->getPath();
-
-		if ($path !== null) {
-			$userFolder = \OC::$server->getRootFolder()->getUserFolder($user);
-			try {
-				$path = $userFolder->get($path);
-				$this->lock($path);
-			} catch (\OCP\Files\NotFoundException $e) {
-				throw new NotFoundException($this->l->t('Wrong path, file/folder doesn\'t exist'));
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			if ($user == null) {
+				return [];
 			}
-		}
 
-		foreach ($types as $shareType) {
-			$shares = $this->shareManager->getSharesBy($user, $shareType, $path, false, -1, 0);
-			foreach ($shares as $share) {
-				if ($share->getSharedBy() === $user) {
-					$sharees[] = $share->getSharedWith();
+			if ($sabreNode->getPath() === "/") {
+				return [];
+			}
+
+			$userFolder = \OC::$server->getRootFolder()->getUserFolder($user);
+			$path = $userFolder->get($sabreNode->getPath());
+
+			if (isset($this->cachedShareTypes[$sabreNode->getId()])) {
+				$shareTypes = $this->cachedShareTypes[$sabreNode->getId()];
+			} else {
+				list($parentPath,) = \Sabre\Uri\split($sabreNode->getPath());
+				if ($parentPath === '') {
+					$parentPath = '/';
+				}
+				// if we already cached the folder this file is in we know there are no shares for this file
+				if (array_search($parentPath, $this->cachedFolders) === false) {
+					$node = $this->userFolder->get($sabreNode->getPath());
+					$shareTypes = $this->getShareTypes($node);
+				} else {
+					return [];
 				}
 			}
-		}
-		return implode(', ', $sharees);
-	}
 
-	/**
-	 * Lock a Node
-	 *
-	 * @param \OCP\Files\Node $node
-	 * @throws LockedException
-	 */
-	private function lock(\OCP\Files\Node $node) {
-		$node->lock(ILockingProvider::LOCK_SHARED);
-		$this->lockedNode = $node;
+			foreach ($shareTypes as $shareType) {
+				$shares = $this->shareManager->getSharesBy($user, $shareType, $path, false, -1, 0);
+
+				foreach ($shares as $share) {
+					if ($share->getSharedBy() === $user) {
+						$sharees[] = $share->getSharedWith();
+					}
+				}
+			}
+			return implode(', ', $sharees);
+		});
 	}
 }
