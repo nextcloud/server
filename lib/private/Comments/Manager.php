@@ -159,7 +159,7 @@ class Manager implements ICommentsManager {
 		if ($comment->getParentId() === '0') {
 			return $comment->getId();
 		} else {
-			return $this->determineTopmostParentId($comment->getId());
+			return $this->determineTopmostParentId($comment->getParentId());
 		}
 	}
 
