@@ -23,18 +23,8 @@
 
 namespace OCA\Files_External\Config;
 
-use OCP\IUserSession;
-
-class UserPlaceholderHandler implements IConfigHandler {
+class UserPlaceholderHandler extends UserContext implements IConfigHandler {
 	use SimpleSubstitutionTrait;
-
-	/** @var IUserSession */
-	private $session;
-
-	public function __construct(IUserSession $session) {
-		$this->session = $session;
-		$this->placeholder = 'user';
-	}
 
 	/**
 	 * @param mixed $optionValue
@@ -42,12 +32,11 @@ class UserPlaceholderHandler implements IConfigHandler {
 	 * @since 16.0.0
 	 */
 	public function handle($optionValue) {
-		$user = $this->session->getUser();
-		if($user === null) {
+		$this->placeholder = 'user';
+		$uid = $this->getUserId();
+		if($uid === null) {
 			return $optionValue;
 		}
-		$uid = $user->getUID();
-
 		return $this->processInput($optionValue, $uid);
 	}
 }
