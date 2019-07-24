@@ -111,7 +111,7 @@ class Util {
 	public function hexToRGB($color) {
 		$hex = preg_replace("/[^0-9A-Fa-f]/", '', $color);
 		if (strlen($hex) === 3) {
-			$hex = $hex{0} . $hex{0} . $hex{1} . $hex{1} . $hex{2} . $hex{2};
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 		}
 		if (strlen($hex) !== 6) {
 			return 0;
