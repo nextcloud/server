@@ -34,7 +34,7 @@ trait SimpleSubstitutionTrait {
 	 * @var string the placeholder without $ prefix
 	 * @since 16.0.0
 	 */
-	private $placeholder;
+	protected $placeholder;
 
 	/** @var string */
 	protected $sanitizedPlaceholder;
