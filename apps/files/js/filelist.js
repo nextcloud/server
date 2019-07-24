@@ -405,7 +405,7 @@
 					this.setupUploadEvents(this._uploader);
 				}
 			}
-
+		    this.triedActionOnce = false;
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
 		},
@@ -812,7 +812,7 @@
 			if ($tr.hasClass('dragging')) {
 				return;
 			}
-			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
+			if (this._allowSelection && (event.shiftKey)) {
 				event.preventDefault();
 				if (event.shiftKey) {
 					this._selectRange($tr);
@@ -821,30 +821,21 @@
 				}
 				this._lastChecked = $tr;
 				this.updateSelectionSummary();
+			} else if (this._allowSelection && (event.ctrlKey)) {
 			} else {
 				// clicked directly on the name
 				if (!this._detailsView || $(event.target).is('.nametext, .name') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
 					if (!renaming) {
-						this.fileActions.currentFile = $tr.find('td');
-						var mime = this.fileActions.getCurrentMimeType();
-						var type = this.fileActions.getCurrentType();
-						var permissions = this.fileActions.getCurrentPermissions();
-						var action = this.fileActions.getDefault(mime,type, permissions);
-						if (action) {
-							event.preventDefault();
-							// also set on global object for legacy apps
-							window.FileActions.currentFile = this.fileActions.currentFile;
-							action(filename, {
-								$file: $tr,
-								fileList: this,
-								fileActions: this.fileActions,
-								dir: $tr.attr('data-path') || this.getCurrentDirectory()
-							});
-						}
-						// deselect row
-						$(event.target).closest('a').blur();
+					    this.fileActions.currentFile = $tr.find('td');
+					    var item = this.$fileList.children().filterAttr('data-id', '' + $tr.attr('data-id'));
+
+					    if(this.openAction($tr.attr('data-id'))) {
+						event.preventDefault();
+					    }
+					    // deselect row
+					    $(event.target).closest('a').blur();
 					}
 				} else {
 					// Even if there is no Details action the default event
@@ -872,6 +863,28 @@
 				}
 			}
 		},
+
+	        openAction: function(id) {
+		    var item = this.$fileList.children().filterAttr('data-id', '' + id);
+		    var filename = item.attr('data-file');
+		    // also set on global object for legacy apps
+		    window.FileActions.currentFile = item.find('td');
+		    this.fileActions.currentFile = item.find('td');
+		    var mime = this.fileActions.getCurrentMimeType();
+		    var type = this.fileActions.getCurrentType();
+		    var permissions = this.fileActions.getCurrentPermissions();
+		    var action = this.fileActions.getDefault(mime,type, permissions);
+		    if (action) {
+		    	action(filename, {
+		    		$file: item,
+		    		fileList: this,
+		    		fileActions: this.fileActions,
+		    		dir: item.attr('data-path') || this.getCurrentDirectory()
+		        	});
+		    	return true;
+		    }
+		    return false;
+	        },
 
 		/**
 		 * Event handler for when clicking on a file's checkbox
@@ -1211,7 +1224,7 @@
 		 * @param animate true to animate the new elements
 		 * @return array of DOM elements of the newly added files
 		 */
-		_nextPage: function(animate) {
+	    _nextPage: function(animate) {
 			var index = this.$fileList.children().length,
 				count = this.pageSize(),
 				hidden,
@@ -1262,8 +1275,12 @@
 					}
 				}, 0);
 			}
-
-			return newTrs;
+	                if(!this.triedActionOnce) {
+	           	        var urlParams = OC.Util.History.parseUrlQuery();
+	           		this.openAction(urlParams.editfile);
+	           		this.triedActionOnce = true;
+	            	}
+	       	    	return newTrs;
 		},
 
 		/**
@@ -1463,9 +1480,8 @@
 			// linkUrl
 			if (mime === 'httpd/unix-directory') {
 				linkUrl = this.linkTo(path + '/' + name);
-			}
-			else {
-				linkUrl = this.getDownloadUrl(name, path, type === 'dir');
+			} else {
+                                linkUrl = this.linkTo(path) + "&editfile="+fileData.id;
 			}
 			var linkElem = $('<a></a>').attr({
 				"class": "name",
