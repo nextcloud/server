@@ -39,6 +39,8 @@ class UserContext {
 	/** @var IRequest */
 	private $request;
 
+	private $user;
+
 	public function __construct(IUserSession $session, ShareManager $manager, IRequest $request) {
 		$this->session = $session;
 		$this->shareManager = $manager;
@@ -49,8 +51,14 @@ class UserContext {
 		return $this->session;
 	}
 
+	public function setUser($user): void {
+		$this->user = $user;
+	}
 
 	protected function getUserId(): ?string {
+		if ($this->user !== null) {
+			return $this->user;
+		}
 		if($this->session && $this->session->getUser() !== null) {
 			return $this->session->getUser()->getUID();
 		}
