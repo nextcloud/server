@@ -1543,12 +1543,15 @@
 			try {
 				var maxContrastHex = window.getComputedStyle(document.documentElement)
 					.getPropertyValue('--color-text-maxcontrast').trim()
+				if (maxContrastHex.length < 4) {
+					throw Error();
+				}
 				var maxContrast = parseInt(maxContrastHex.substring(1, 3), 16)
 			} catch(error) {
 				var maxContrast = OCA.Accessibility
 					&& OCA.Accessibility.theme === 'themedark'
-						? '130'
-						: '118'
+						? 130
+						: 118
 			}
 
 			// size column
