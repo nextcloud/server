@@ -59,20 +59,20 @@ interface ISearchResult {
 	/**
 	 * Get the original SearchRequest.
 	 *
-	 * @see ISearchRequest
-	 *
+	 * @return ISearchRequest
 	 * @since 15.0.0
 	 *
-	 * @return ISearchRequest
+	 * @see ISearchRequest
+	 *
 	 */
 	public function getRequest(): ISearchRequest;
 
 	/**
 	 * Get the targeted Content Provider.
 	 *
+	 * @return IFullTextSearchProvider
 	 * @since 15.0.0
 	 *
-	 * @return IFullTextSearchProvider
 	 */
 	public function getProvider(): IFullTextSearchProvider;
 
@@ -80,56 +80,65 @@ interface ISearchResult {
 	/**
 	 * Add an IIndexDocument as one of the result of the search request.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param IIndexDocument $document
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function addDocument(IIndexDocument $document): ISearchResult;
 
 	/**
 	 * Returns all result of the search request, in an array of IIndexDocument.
 	 *
+	 * @return IIndexDocument[]
 	 * @since 15.0.0
 	 *
-	 * @return IIndexDocument[]
 	 */
 	public function getDocuments(): array;
 
 	/**
 	 * Set an array of IIndexDocument as the result of the search request.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param IIndexDocument[] $documents
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setDocuments(array $documents): ISearchResult;
 
 
+
+	
+	public function addInfo(string $k, string $value): ISearchResult;
+
+	public function getInfo(string $k): string;
+
+	public function getInfosAll(): array;
+
+
 	/**
 	 * Add an aggregation to the result.
-	 *
-	 * @since 15.0.0
 	 *
 	 * @param string $category
 	 * @param string $value
 	 * @param int $count
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function addAggregation(string $category, string $value, int $count): ISearchResult;
 
 	/**
 	 * Get all aggregations.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param string $category
 	 *
 	 * @return array
+	 * @since 15.0.0
+	 *
 	 */
 	public function getAggregations(string $category): array;
 
@@ -137,11 +146,11 @@ interface ISearchResult {
 	/**
 	 * Set the raw result of the request.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param string $result
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setRawResult(string $result): ISearchResult;
 
@@ -150,11 +159,11 @@ interface ISearchResult {
 	 * Set the total number of results for the search request.
 	 * Used by pagination.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param int $total
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setTotal(int $total): ISearchResult;
 
@@ -162,11 +171,11 @@ interface ISearchResult {
 	/**
 	 * Set the top score for the search request.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param int $score
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setMaxScore(int $score): ISearchResult;
 
@@ -174,11 +183,11 @@ interface ISearchResult {
 	/**
 	 * Set the time spent by the request to perform the search.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param int $time
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setTime(int $time): ISearchResult;
 
@@ -186,11 +195,11 @@ interface ISearchResult {
 	/**
 	 * Set to true if the request timed out.
 	 *
-	 * @since 15.0.0
-	 *
 	 * @param bool $timedOut
 	 *
 	 * @return ISearchResult
+	 * @since 15.0.0
+	 *
 	 */
 	public function setTimedOut(bool $timedOut): ISearchResult;
 

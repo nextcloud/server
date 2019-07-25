@@ -119,6 +119,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
+use OC\Stratos\StratosManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Template\IconsCacher;
@@ -158,6 +159,7 @@ use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share\IShareHelper;
+use OCP\Stratos\IStratosManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -1185,6 +1187,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
+		$this->registerAlias(IStratosManager::class, StratosManager::class);
 
 		$this->registerService(\OC\Security\IdentityProof\Manager::class, function (Server $c) {
 			return new \OC\Security\IdentityProof\Manager(
