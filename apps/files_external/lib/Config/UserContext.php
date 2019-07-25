@@ -24,6 +24,8 @@
 namespace OCA\Files_External\Config;
 
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
@@ -39,25 +41,30 @@ class UserContext {
 	/** @var IRequest */
 	private $request;
 
-	private $user;
+	/** @var string */
+	private $userId;
 
-	public function __construct(IUserSession $session, ShareManager $manager, IRequest $request) {
+	/** @var IUserManager */
+	private $userManager;
+
+	public function __construct(IUserSession $session, ShareManager $manager, IRequest $request, IUserManager $userManager) {
 		$this->session = $session;
 		$this->shareManager = $manager;
 		$this->request = $request;
+		$this->userManager = $userManager;
 	}
 
 	public function getSession(): IUserSession {
 		return $this->session;
 	}
 
-	public function setUser($user): void {
-		$this->user = $user;
+	public function setUserId(string $userId): void {
+		$this->userId = $userId;
 	}
 
 	protected function getUserId(): ?string {
-		if ($this->user !== null) {
-			return $this->user;
+		if ($this->userId !== null) {
+			return $this->userId;
 		}
 		if($this->session && $this->session->getUser() !== null) {
 			return $this->session->getUser()->getUID();
@@ -68,6 +75,14 @@ class UserContext {
 			return $share->getShareOwner();
 		} catch (ShareNotFound $e) {}
 
+		return null;
+	}
+
+	protected function getUser(): ?IUser {
+		$userId = $this->getUserId();
+		if($userId !== null) {
+			return $this->userManager->get($userId);
+		}
 		return null;
 	}
 

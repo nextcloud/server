@@ -212,11 +212,12 @@ class OC_Mount_Config {
 
 	/**
 	 * @param mixed $input
+	 * @param string|null $userId
 	 * @return mixed
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 16.0.0
 	 */
-	public static function substitutePlaceholdersInConfig($input, $user = null) {
+	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
 		/** @var BackendService $backendService */
 		$backendService = self::$app->getContainer()->query(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
