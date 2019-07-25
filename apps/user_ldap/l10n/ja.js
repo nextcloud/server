@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "LDAP/ADサーバーがMemberOfオプションをサポートしていないため、グループボックスは無効になりました。",
     "Password change rejected. Hint: " : "パスワード変更が拒否されました。ヒント：",
     "Please login with the new password" : "新しいパスワードでログインしてください",
+    "LDAP User backend" : "LDAPユーザーバックエンド",
     "Your password will expire tomorrow." : "パスワードが明日期限切れになります。",
     "Your password will expire today." : "パスワードが今日期限切れになります。",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["パスワードがあと %n日で期限切れになります。"],
