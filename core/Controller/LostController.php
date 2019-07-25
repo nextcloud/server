@@ -40,6 +40,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\IInitialStateService;
 use OCP\ILogger;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
@@ -88,6 +89,8 @@ class LostController extends Controller {
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var IInitialStateService */
+	private $initialStateService;
 
 	/**
 	 * @param string $appName
@@ -118,7 +121,8 @@ class LostController extends Controller {
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
 								ILogger $logger,
-								Manager $twoFactorManager) {
+								Manager $twoFactorManager,
+								IInitialStateService $initialStateService) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -133,6 +137,7 @@ class LostController extends Controller {
 		$this->crypto = $crypto;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -164,13 +169,15 @@ class LostController extends Controller {
 				'guest'
 			);
 		}
+		$this->initialStateService->provideInitialState('core', 'resetPasswordUser', $userId);
+		$this->initialStateService->provideInitialState('core', 'resetPasswordTarget',
+			$this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', ['userId' => $userId, 'token' => $token])
+		);
 
 		return new TemplateResponse(
 			'core',
-			'lostpassword/resetpassword',
-			array(
-				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
-			),
+			'login',
+			[],
 			'guest'
 		);
 	}

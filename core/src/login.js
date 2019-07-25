@@ -59,5 +59,7 @@ new View({
 		canResetPassword: fromStateOr('loginCanResetPassword', false),
 		resetPasswordLink: fromStateOr('loginResetPasswordLink', ''),
 		autoCompleteAllowed: fromStateOr('loginAutocomplete', true),
+		resetPasswordTarget: fromStateOr('resetPasswordTarget', ''),
+		resetPasswordUser: fromStateOr('resetPasswordUser', ''),
 	}
 }).$mount('#login');
