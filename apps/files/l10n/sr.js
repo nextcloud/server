@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "File Management" : "Управљање фајловима",
     "%s used" : "%s искоришћено",
+    "%s%% of %s used" : "%s%% од %s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
