@@ -222,8 +222,8 @@ class OC_Mount_Config {
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {
-			if ($handler instanceof UserContext) {
-				$handler->setUser($user);
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
 			}
 			$input = $handler->handle($input);
 		}
