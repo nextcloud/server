@@ -528,10 +528,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturn([$file]);
 
 		$cache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->once())
+		$this->cacheFactory->expects($this->exactly(2))
 			->method('createDistributed')
 			->willReturn($cache);
-		$cache->expects($this->once())
+		$cache->expects($this->exactly(2))
 			->method('clear')
 			->with('');
 		$this->appData->expects($this->once())
