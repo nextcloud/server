@@ -55,6 +55,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
@@ -229,7 +230,13 @@ class File extends Node implements IFile {
 			}
 
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			$context = [];
+
+			if ($e instanceof LockedException) {
+				$context['level'] = ILogger::DEBUG;
+			}
+
+			\OC::$server->getLogger()->logException($e, $context);
 			if ($needsPartFile) {
 				$partStorage->unlink($internalPartPath);
 			}
