@@ -91,6 +91,19 @@ class Sharing extends Action {
 					'id',
 				]
 			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_EMAIL) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the email recipient "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);			
 		}
 	}
 
@@ -147,6 +160,18 @@ class Sharing extends Action {
 					'id',
 				]
 			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_EMAIL) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the email recipient "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);			
 		}
 	}
 
