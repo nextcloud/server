@@ -24,6 +24,8 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\DBALException;
+
 class AdapterPgSql extends Adapter {
 	public function lastInsertId($table) {
 		return $this->conn->fetchColumn('SELECT lastval()');
@@ -40,12 +42,17 @@ class AdapterPgSql extends Adapter {
 	 * @suppress SqlInjectionChecker
 	 */
 	public function insertIgnoreConflict(string $table,array $values) : int {
-		$builder = $this->conn->getQueryBuilder();
-		$builder->insert($table);
-		foreach($values as $key => $value) {
-			$builder->setValue($key, $builder->createNamedParameter($value));
+
+		try {
+			$builder = $this->conn->getQueryBuilder();
+			$builder->insert($table);
+			foreach ($values as $key => $value) {
+				$builder->setValue($key, $builder->createNamedParameter($value));
+			}
+			return $this->conn->executeUpdate($builder->getSQL(), $builder->getParameters(), $builder->getParameterTypes());
+		} catch (DBALException $e) {
+			// === ON CONFLICT DO NOTHING
+			return 0;
 		}
-		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
 	}
 }
