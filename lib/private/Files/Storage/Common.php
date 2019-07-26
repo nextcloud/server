@@ -715,7 +715,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e);
+				$logger->logException($e, ['level' => ILogger::INFO]);
 			}
 			throw $e;
 		}
@@ -747,7 +747,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e);
+				$logger->logException($e, ['level' => ILogger::INFO]);
 			}
 			throw $e;
 		}
@@ -778,7 +778,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		try {
 			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OC::$server->getLogger()->logException($e, ['level' => ILogger::INFO]);
 			throw $e;
 		}
 	}
