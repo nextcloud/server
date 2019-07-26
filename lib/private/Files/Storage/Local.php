@@ -202,9 +202,9 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		if (!is_null($mtime)) {
-			$result = touch($this->getSourcePath($path), $mtime);
+			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
-			$result = touch($this->getSourcePath($path));
+			$result = @touch($this->getSourcePath($path));
 		}
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
