@@ -724,52 +724,6 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * Search for files by tag of a given users.
-	 *
-	 * Note that every user can tag files differently.
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return ICacheEntry[] file data
-	 */
-	public function searchByTag($tag, $userId) {
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
-			'`mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, ' .
-			'`encrypted`, `etag`, `permissions`, `checksum` ' .
-			'FROM `*PREFIX*filecache` `file`, ' .
-			'`*PREFIX*vcategory_to_object` `tagmap`, ' .
-			'`*PREFIX*vcategory` `tag` ' .
-			// JOIN filecache to vcategory_to_object
-			'WHERE `file`.`fileid` = `tagmap`.`objid` ' .
-			// JOIN vcategory_to_object to vcategory
-			'AND `tagmap`.`type` = `tag`.`type` ' .
-			'AND `tagmap`.`categoryid` = `tag`.`id` ' .
-			// conditions
-			'AND `file`.`storage` = ? ' .
-			'AND `tag`.`type` = \'files\' ' .
-			'AND `tag`.`uid` = ? ';
-		if (is_int($tag)) {
-			$sql .= 'AND `tag`.`id` = ? ';
-		} else {
-			$sql .= 'AND `tag`.`category` = ? ';
-		}
-		$result = $this->connection->executeQuery(
-			$sql,
-			[
-				$this->getNumericStorageId(),
-				$userId,
-				$tag
-			]
-		);
-
-		$files = $result->fetchAll();
-
-		return array_map(function (array $data) {
-			return self::cacheEntryFromData($data, $this->mimetypeLoader);
-		}, $files);
-	}
-
-	/**
 	 * Re-calculate the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
