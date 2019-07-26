@@ -961,10 +961,28 @@ describe('Core base tests', function() {
 				$row = $('#testArea .toastify');
 				expect($row.length).toEqual(0);
 			});
+			it('hides itself after a given time', function() {
+				OC.Notification.showTemporary('', {timeout: 10});
+
+				var $row = $('#testArea .toastify');
+				expect($row.length).toEqual(1);
+
+				// travel in time +7000 milliseconds
+				clock.tick(7500);
+
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(1);
+
+				// travel in time another 4000 milliseconds
+				clock.tick(4000);
+
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
+			});
 		});
 		describe('show', function() {
 			it('hides itself after a given time', function() {
-				OC.Notification.showTemporary('', {timeout: 10});
+				OC.Notification.show('', {timeout: 10});
 
 				var $row = $('#testArea .toastify');
 				expect($row.length).toEqual(1);
