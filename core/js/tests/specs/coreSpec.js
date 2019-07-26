@@ -1027,6 +1027,62 @@ describe('Core base tests', function() {
 				expect($row.length).toEqual(1);
 			});
 		});
+		describe('hide', function() {
+			it('hides a temporary notification before its timeout expires', function() {
+				var hideCallback = sinon.spy();
+
+				var notification = OC.Notification.showTemporary('');
+
+				var $row = $('#testArea .toastify');
+				expect($row.length).toEqual(1);
+
+				OC.Notification.hide(notification, hideCallback);
+
+				// Give time to the hide animation to finish
+				clock.tick(1000);
+
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
+
+				expect(hideCallback.calledOnce).toEqual(true);
+			});
+			it('hides a notification before its timeout expires', function() {
+				var hideCallback = sinon.spy();
+
+				var notification = OC.Notification.show('', {timeout: 10});
+
+				var $row = $('#testArea .toastify');
+				expect($row.length).toEqual(1);
+
+				OC.Notification.hide(notification, hideCallback);
+
+				// Give time to the hide animation to finish
+				clock.tick(1000);
+
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
+
+				expect(hideCallback.calledOnce).toEqual(true);
+			});
+			it('hides a notification without timeout', function() {
+				var hideCallback = sinon.spy();
+
+				var notification = OC.Notification.show('');
+
+				var $row = $('#testArea .toastify');
+				expect($row.length).toEqual(1);
+
+				OC.Notification.hide(notification, hideCallback);
+
+				// Give time to the hide animation to finish
+				clock.tick(1000);
+
+				$row = $('#testArea .toastify');
+				expect($row.length).toEqual(0);
+
+				expect(hideCallback.calledOnce).toEqual(true);
+			});
+		});
 		it('cumulates several notifications', function() {
 			var $row1 = OC.Notification.showTemporary('One');
 			var $row2 = OC.Notification.showTemporary('Two', {timeout: 2});
