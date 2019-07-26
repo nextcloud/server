@@ -771,6 +771,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Db\\LoginFlowV2' => __DIR__ . '/../../..' . '/core/Db/LoginFlowV2.php',
         'OC\\Core\\Db\\LoginFlowV2Mapper' => __DIR__ . '/../../..' . '/core/Db/LoginFlowV2Mapper.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
+        'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
         'OC\\Core\\Migrations\\Version13000Date20170705121758' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170705121758.php',
         'OC\\Core\\Migrations\\Version13000Date20170718121200' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170718121200.php',

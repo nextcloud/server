@@ -275,8 +275,10 @@ class LostControllerTest extends \Test\TestCase {
 				array(false, $nonExistingUser)
 			)));
 
-		$this->logger->expects($this->exactly(2))
+		$this->logger->expects($this->exactly(0))
 			->method('logException');
+		$this->logger->expects($this->exactly(2))
+			->method('warning');
 
 		$this->userManager
 			->method('getByEmail')
@@ -722,8 +724,10 @@ class LostControllerTest extends \Test\TestCase {
 			->with('ExistingUser')
 			->willReturn($user);
 
-		$this->logger->expects($this->exactly(1))
+		$this->logger->expects($this->exactly(0))
 			->method('logException');
+		$this->logger->expects($this->once())
+			->method('warning');
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -807,8 +811,10 @@ class LostControllerTest extends \Test\TestCase {
 			->method('getByEmail')
 			->willReturn([$user1, $user2]);
 
-		$this->logger->expects($this->exactly(1))
+		$this->logger->expects($this->exactly(0))
 			->method('logException');
+		$this->logger->expects($this->once())
+			->method('warning');
 
 		// request password reset for test@example.com
 		$response = $this->lostController->email('test@example.com');
