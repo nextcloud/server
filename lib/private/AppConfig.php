@@ -44,10 +44,10 @@ class AppConfig implements IAppConfig {
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'spreed' => [
-			'turn_server_secret',
+			'/^turn_server_secret$/',
 		],
 		'user_ldap' => [
-			'ldap_agent_password',
+			'/^(s..)?ldap_agent_password$/',
 		],
 	];
 
@@ -289,8 +289,9 @@ class AppConfig implements IAppConfig {
 		$values = $this->getValues($app, false);
 
 		if (isset($this->sensitiveValues[$app])) {
-			foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
-				if (isset($values[$sensitiveKey])) {
+			foreach ($this->sensitiveValues[$app] as $sensitiveKeyExp) {
+				$sensitiveKeys = preg_grep($sensitiveKeyExp, array_keys($values));
+				foreach ($sensitiveKeys as $sensitiveKey) {
 					$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
 				}
 			}
