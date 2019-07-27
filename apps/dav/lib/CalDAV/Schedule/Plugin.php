@@ -27,6 +27,7 @@ namespace OCA\DAV\CalDAV\Schedule;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use Sabre\DAV\INode;
+use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Xml\Property\LocalHref;
@@ -55,19 +56,23 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @return void
 	 */
 	function propFind(PropFind $propFind, INode $node) {
-		// overwrite Sabre/Dav's implementation
-		$propFind->handle('{' . self::NS_CALDAV . '}calendar-user-type', function() use ($node) {
-			$calendarUserType = '{' . self::NS_CALDAV . '}calendar-user-type';
-			$props = $node->getProperties([$calendarUserType]);
-
-			if (isset($props[$calendarUserType])) {
-				return $props[$calendarUserType];
-			}
-
-			return 'INDIVIDUAL';
-		});
-
 		parent::propFind($propFind, $node);
+
+		if ($node instanceof IPrincipal) {
+			// overwrite Sabre/Dav's implementation
+			$propFind->handle('{' . self::NS_CALDAV . '}calendar-user-type', function () use ($node) {
+				if ($node instanceof IProperties) {
+					$calendarUserType = '{' . self::NS_CALDAV . '}calendar-user-type';
+					$props = $node->getProperties([$calendarUserType]);
+
+					if (isset($props[$calendarUserType])) {
+						return $props[$calendarUserType];
+					}
+				}
+
+				return 'INDIVIDUAL';
+			});
+		}
 	}
 
 	/**
