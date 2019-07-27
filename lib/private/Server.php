@@ -135,6 +135,7 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Dashboard\IDashboardManager;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
@@ -385,7 +386,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig(),
 				$c->getSecureRandom(),
 				$c->getLockdownManager(),
-				$c->getLogger()
+				$c->getLogger(),
+				$c->query(IEventDispatcher::class)
 			);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
