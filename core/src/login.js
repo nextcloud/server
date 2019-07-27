@@ -22,6 +22,8 @@
 import Vue from 'vue';
 import queryString from 'query-string';
 
+__webpack_nonce__ = btoa(OC.requestToken)
+
 import OC from './OC/index'; // TODO: Not needed but L10n breaks if removed
 import LoginView from './views/Login.vue';
 import Nextcloud from './mixins/Nextcloud';
