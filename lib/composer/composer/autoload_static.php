@@ -491,6 +491,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Middleware\\PublicShare\\PublicShareMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/PublicShare/PublicShareMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\BruteForceMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/BruteForceMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\CORSMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/CORSMiddleware.php',
+        'OC\\AppFramework\\Middleware\\Security\\CSPMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/CSPMiddleware.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\AppNotEnabledException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/AppNotEnabledException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\CrossSiteRequestForgeryException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/CrossSiteRequestForgeryException.php',
         'OC\\AppFramework\\Middleware\\Security\\Exceptions\\LaxSameSiteCookieFailedException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/Security/Exceptions/LaxSameSiteCookieFailedException.php',
