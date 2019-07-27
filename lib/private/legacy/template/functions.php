@@ -46,7 +46,7 @@ function p($string) {
  * @param string $opts, additional optional options
 */
 function emit_css_tag($href, $opts = '') {
-	$s='<link rel="stylesheet"';
+	$s='<link rel="stylesheet" nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
 	if (!empty($href)) {
 		$s.=' href="' . $href .'"';
 	}

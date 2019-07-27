@@ -257,7 +257,14 @@ class IconsCacher {
 			}
 		}
 		$linkToCSS = $this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName, 'v' => $mtime]);
-		\OC_Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS], null, true);
+		\OC_Util::addHeader('link',
+			[
+				'rel' => 'stylesheet',
+				'href' => $linkToCSS,
+				'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce(),
+			],
+			null,
+			true);
 	}
 
 }

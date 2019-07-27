@@ -39,6 +39,7 @@ $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
 	[
 		'rel' => 'stylesheet',
 		'href' => $linkToCSS,
+		'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce(),
 	]
 );
 
