@@ -83,6 +83,7 @@ class TemplateResponse extends Response {
 		$this->renderAs = $renderAs;
 
 		$this->setContentSecurityPolicy(new ContentSecurityPolicy());
+		$this->setFeaturePolicy(new FeaturePolicy());
 	}
 
 

@@ -117,6 +117,7 @@ class ControllerTest extends \Test\TestCase {
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Type' => 'application/json; charset=utf-8',
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
+			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 		];
 
 		$response = $this->controller->customDataResponse(array('hi'));
