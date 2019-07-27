@@ -146,7 +146,6 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Napako je najverjetneje povzročil predpomnilnik ali pospeševalnik, kot sta Zend OPcache ali eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Ali so bili moduli PHP nameščeni, pa so še vedno označeni kot manjkajoči?",
     "Please ask your server administrator to restart the web server." : "Obvestite skrbnika strežnika, da je treba ponovno zagnati spletni strežnik.",
-    "PostgreSQL >= 9 required" : "Zahtevana je različica PostgreSQL >= 9.",
     "Please upgrade your database version" : "Posodobite različico podatkovne zbirke.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Spremenite dovoljenja mape na 0770 in s tem onemogočite branje vsebine drugim uporabnikom.",
     "Check the value of \"datadirectory\" in your configuration" : "V konfiguraciji preverite nastavitev \"datadirectory\"",
@@ -181,6 +180,7 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Nastavljanje souporabe %s je spodletelo, ker v predpomnilniku zahtevana datoteka ne obstaja.",
     "%s shared »%s« with you" : "%s je omogočil souporabo »%s«",
     "%s via %s" : "%s prek %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" ni mogoče namestiti zaradi nerešenih odvisnosti: %s"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" ni mogoče namestiti zaradi nerešenih odvisnosti: %s",
+    "PostgreSQL >= 9 required" : "Zahtevana je različica PostgreSQL >= 9."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
