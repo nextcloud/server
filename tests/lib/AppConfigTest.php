@@ -318,12 +318,14 @@ class AppConfigTest extends TestCase {
 			->with('user_ldap', false)
 			->willReturn([
 				'ldap_agent_password' => 'secret',
+				's42ldap_agent_password' => 'secret',
 				'ldap_dn' => 'dn',
 			]);
 
 		$values = $config->getFilteredValues('user_ldap');
 		$this->assertEquals([
 			'ldap_agent_password' => IConfig::SENSITIVE_VALUE,
+			's42ldap_agent_password' => IConfig::SENSITIVE_VALUE,
 			'ldap_dn' => 'dn',
 		], $values);
 	}
