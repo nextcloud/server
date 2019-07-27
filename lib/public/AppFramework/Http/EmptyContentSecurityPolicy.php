@@ -433,6 +433,15 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
 			$policy .= 'style-src ';
+			if(is_string($this->useJsNonce)) {
+				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$allowedStyleDomains = array_flip($this->allowedStyleDomains);
+				unset($allowedStyleDomains['\'self\'']);
+				$this->allowedStyleDomains = array_flip($allowedStyleDomains);
+				if(count($allowedStyleDomains) !== 0) {
+					$policy .= ' ';
+				}
+			}
 			if(is_array($this->allowedStyleDomains)) {
 				$policy .= implode(' ', $this->allowedStyleDomains);
 			}
