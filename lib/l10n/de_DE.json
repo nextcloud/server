@@ -205,6 +205,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dies wird wahrscheinlich durch Zwischenspeicher/Beschleuniger wie etwa Zend OPcache oder eAccelerator verursacht.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-Module wurden installiert, werden aber als noch fehlend gelistet?",
     "Please ask your server administrator to restart the web server." : "Bitte kontaktieren Sie Ihren Server-Administrator und bitten Sie um den Neustart des Webservers.",
+    "PostgreSQL >= 9.5 required" : "PostgreSQL >= 9.5 benötigt",
     "Please upgrade your database version" : "Bitte aktualisieren Sie Ihre Datenbankversion",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bitte ändern Sie die Berechtigungen auf 0770, so dass das Verzeichnis nicht von anderen Benutzern angezeigt werden kann.",
     "Your data directory is readable by other users" : "Ihr Datenverzeichnis kann von anderen Benutzern gelesen werden",
