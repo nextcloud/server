@@ -205,6 +205,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Això probablement està provocat per un mecanisme de memòria cau/accelerador com Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "S'han instal·lat mòduls PHP, però encara es llisten com una mancança?",
     "Please ask your server administrator to restart the web server." : "Si us plau, demaneu a l'administrador que reiniciï el servidor web.",
+    "PostgreSQL >= 9.5 required" : "PostgreSQL >= 9.5 obligatori",
     "Please upgrade your database version" : "Si us plau, actualitzeu la versió de la vostra base de dades",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Si us plau, canvieu els permisos a 0770 per tal que el directori no pugui ser llistat per altres usuaris.",
     "Your data directory is readable by other users" : "El vostre directori de dades és llegible per altres usuaris",
