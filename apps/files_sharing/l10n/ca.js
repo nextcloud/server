@@ -130,7 +130,7 @@ OC.L10N.register(
     "Upload files to %s" : "Carrega fitxers a %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
-    "Uploading files…" : "S'estan carregant fitxers...",
+    "Uploading files…" : "S'està carregant fitxers...",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
     "Sharing %s failed because the back end does not allow shares from type %s" : "No s'ha pogut compartir %s perquè l'aplicació de fons no permet comparticions del tipus%s"
