@@ -228,6 +228,7 @@
     "User disabled" : "Usuari inhabilitat",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hem detectat múltiples intents de connexió no vàlids des de la vostra IP. Per tant, el vostre pròxim inici de sessió s’elimina fins a 30 segons.",
     "Reset password" : "Reinicialitza la contrasenya",
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "S'ha enviat un missatge de reinici de contrasenya a l'adreça electrònica d'aquest compte. Si no el rebeu, comproveu les vostres carpetes de correu brossa o demaneu ajuda al vostre administrador local.",
     "If it is not there ask your local administrator." : "Si no és allà pregunteu al vostre administrador local.",
     "Password can not be changed. Please contact your administrator." : "La contrasenya no es pot canviar. Contacteu amb l'administrador.",
     "Back to login" : "Torna a accedir",
