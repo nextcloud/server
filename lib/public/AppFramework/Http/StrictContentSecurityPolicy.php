@@ -39,6 +39,7 @@ namespace OCP\AppFramework\Http;
  *
  * @package OCP\AppFramework\Http
  * @since 14.0.0
+ * @deprecated 17.0.0
  */
 class StrictContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
