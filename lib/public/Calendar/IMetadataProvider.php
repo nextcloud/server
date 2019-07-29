@@ -52,7 +52,7 @@ interface IMetadataProvider {
 	 * @return bool - Whether or not key is available
 	 * @since 17.0.0
 	 */
-	public function hasMetadataForKey(string $key):boolean;
+	public function hasMetadataForKey(string $key):bool;
 
 	/**
 	 * Get the value for a metadata key
