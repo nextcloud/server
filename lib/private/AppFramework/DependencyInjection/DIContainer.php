@@ -220,13 +220,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getUserSession()->isLoggedIn(),
 				$server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
-				$server->getContentSecurityPolicyManager(),
-				$server->getCsrfTokenManager(),
-				$server->getContentSecurityPolicyNonceManager(),
 				$server->getAppManager(),
 				$server->getL10N('lib')
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
+			$dispatcher->registerMiddleware(
+				new OC\AppFramework\Middleware\Security\CSPMiddleware(
+					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
+					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
+					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
+				)
+			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
 					$c->query(IControllerMethodReflector::class),

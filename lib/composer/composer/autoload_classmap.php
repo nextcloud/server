@@ -457,6 +457,7 @@ return array(
     'OC\\AppFramework\\Middleware\\PublicShare\\PublicShareMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/PublicShare/PublicShareMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\BruteForceMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/BruteForceMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\CORSMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/CORSMiddleware.php',
+    'OC\\AppFramework\\Middleware\\Security\\CSPMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/Security/CSPMiddleware.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\AppNotEnabledException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/AppNotEnabledException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\CrossSiteRequestForgeryException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/CrossSiteRequestForgeryException.php',
     'OC\\AppFramework\\Middleware\\Security\\Exceptions\\LaxSameSiteCookieFailedException' => $baseDir . '/lib/private/AppFramework/Middleware/Security/Exceptions/LaxSameSiteCookieFailedException.php',

@@ -84,12 +84,6 @@ class SecurityMiddleware extends Middleware {
 	private $isAdminUser;
 	/** @var bool */
 	private $isSubAdmin;
-	/** @var ContentSecurityPolicyManager */
-	private $contentSecurityPolicyManager;
-	/** @var CsrfTokenManager */
-	private $csrfTokenManager;
-	/** @var ContentSecurityPolicyNonceManager */
-	private $cspNonceManager;
 	/** @var IAppManager */
 	private $appManager;
 	/** @var IL10N */
@@ -104,9 +98,6 @@ class SecurityMiddleware extends Middleware {
 								bool $isLoggedIn,
 								bool $isAdminUser,
 								bool $isSubAdmin,
-								ContentSecurityPolicyManager $contentSecurityPolicyManager,
-								CsrfTokenManager $csrfTokenManager,
-								ContentSecurityPolicyNonceManager $cspNonceManager,
 								IAppManager $appManager,
 								IL10N $l10n
 	) {
@@ -119,9 +110,6 @@ class SecurityMiddleware extends Middleware {
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
 		$this->isSubAdmin = $isSubAdmin;
-		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
-		$this->csrfTokenManager = $csrfTokenManager;
-		$this->cspNonceManager = $cspNonceManager;
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 	}
@@ -201,34 +189,6 @@ class SecurityMiddleware extends Middleware {
 		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
-	}
-
-	/**
-	 * Performs the default CSP modifications that may be injected by other
-	 * applications
-	 *
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
-	public function afterController($controller, $methodName, Response $response): Response {
-		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
-
-		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
-			return $response;
-		}
-
-		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
-		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
-
-		if($this->cspNonceManager->browserSupportsCspV3()) {
-			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
-		}
-
-		$response->setContentSecurityPolicy($defaultPolicy);
-
-		return $response;
 	}
 
 	/**
