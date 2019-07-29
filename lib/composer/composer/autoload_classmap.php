@@ -737,6 +737,7 @@ return array(
     'OC\\Core\\Db\\LoginFlowV2' => $baseDir . '/core/Db/LoginFlowV2.php',
     'OC\\Core\\Db\\LoginFlowV2Mapper' => $baseDir . '/core/Db/LoginFlowV2Mapper.php',
     'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => $baseDir . '/core/Exception/LoginFlowV2NotFoundException.php',
+    'OC\\Core\\Exception\\ResetPasswordException' => $baseDir . '/core/Exception/ResetPasswordException.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
     'OC\\Core\\Migrations\\Version13000Date20170705121758' => $baseDir . '/core/Migrations/Version13000Date20170705121758.php',
     'OC\\Core\\Migrations\\Version13000Date20170718121200' => $baseDir . '/core/Migrations/Version13000Date20170718121200.php',
