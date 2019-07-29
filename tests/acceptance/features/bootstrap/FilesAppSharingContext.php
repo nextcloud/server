@@ -249,14 +249,6 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->actor->find(FileListContext::shareActionForFile(FilesAppContext::currentSectionMainView(), $fileName), 10)->click();
 
 		$this->actor->find(self::shareLinkAddNewButton(), 5)->click();
-
-		// Wait until the menu was opened after the share creation to continue.
-		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::shareLinkMenu(),
-				$timeout = 5 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The share link menu is not open yet after $timeout seconds");
-		}
 	}
 
 	/**
