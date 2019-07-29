@@ -1327,35 +1327,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * In case a password protected link is not yet authenticated this function will return false
-	 *
-	 * @param array $linkItem
-	 * @return boolean
-	 */
-	public static function checkPasswordProtectedShare(array $linkItem) {
-		if (!isset($linkItem['share_with'])) {
-			return true;
-		}
-		if (!isset($linkItem['share_type'])) {
-			return true;
-		}
-		if (!isset($linkItem['id'])) {
-			return true;
-		}
-
-		if ($linkItem['share_type'] != \OCP\Share::SHARE_TYPE_LINK) {
-			return true;
-		}
-
-		if ( \OC::$server->getSession()->exists('public_link_authenticated')
-			&& \OC::$server->getSession()->get('public_link_authenticated') === (string)$linkItem['id'] ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * construct select statement
 	 * @param int $format
 	 * @param boolean $fileDependent ist it a file/folder share or a generla share
