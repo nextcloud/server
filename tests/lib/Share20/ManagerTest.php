@@ -551,6 +551,14 @@ class ManagerTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$node = $this->createMock(Node::class);
+		$storage = $this->createMock(Storage\IStorage::class);
+		$storage->method('instanceOfStorage')
+			->with('\OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$file->method('getStorage')
+			->willReturn($storage);
+		$node->method('getStorage')
+			->willReturn($storage);
 
 		$data = [
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $file, null, $user0, $user0, 31, null, null), 'SharedWith is not a valid user', true],
@@ -584,6 +592,8 @@ class ManagerTest extends \Test\TestCase {
 		$nonShareAble->method('getPath')->willReturn('path');
 		$nonShareAble->method('getOwner')
 			->willReturn($owner);
+		$nonShareAble->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonShareAble, $user2, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
@@ -595,6 +605,8 @@ class ManagerTest extends \Test\TestCase {
 		$limitedPermssions->method('getPath')->willReturn('path');
 		$limitedPermssions->method('getOwner')
 			->willReturn($owner);
+		$limitedPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, null, null, null), 'A share requires permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null), 'A share requires permissions', true];
@@ -602,6 +614,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$mount = $this->createMock(MoveableMount::class);
 		$limitedPermssions->method('getMountPoint')->willReturn($mount);
+
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Can’t increase permissions of path', true];
@@ -613,6 +626,8 @@ class ManagerTest extends \Test\TestCase {
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
 		$nonMoveableMountPermssions->method('getOwner')
 			->willReturn($owner);
+		$nonMoveableMountPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
@@ -631,6 +646,8 @@ class ManagerTest extends \Test\TestCase {
 		$allPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
 		$allPermssions->method('getOwner')
 			->willReturn($owner);
+		$allPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $allPermssions, $user2, $user0, $user0, 30, null, null), 'Shares need at least read permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 2, null, null), 'Shares need at least read permissions', true];
@@ -638,6 +655,22 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $allPermssions, $user2, $user0, $user0, 31, null, null), null, false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 3, null, null), null, false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $allPermssions, null, $user0, $user0, 17, null, null), null, false];
+
+
+		$remoteStorage = $this->createMock(Storage\IStorage::class);
+		$remoteStorage->method('instanceOfStorage')
+			->with('\OCA\Files_Sharing\External\Storage')
+			->willReturn(true);
+		$remoteFile = $this->createMock(Folder::class);
+		$remoteFile->method('isShareable')->willReturn(true);
+		$remoteFile->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ ^ \OCP\Constants::PERMISSION_UPDATE);
+		$remoteFile->method('getOwner')
+			->willReturn($owner);
+		$remoteFile->method('getStorage')
+			->willReturn($storage);
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null), null, false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null), null, false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of ', true];
 
 		return $data;
 	}
