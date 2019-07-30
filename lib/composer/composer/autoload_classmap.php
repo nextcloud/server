@@ -1212,6 +1212,7 @@ return array(
     'OC\\Updater\\VersionCheck' => $baseDir . '/lib/private/Updater/VersionCheck.php',
     'OC\\User\\Backend' => $baseDir . '/lib/private/User/Backend.php',
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',
+    'OC\\User\\Events\\PostLoginEvent' => $baseDir . '/lib/private/User/Events/PostLoginEvent.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
     'OC\\User\\Manager' => $baseDir . '/lib/private/User/Manager.php',
     'OC\\User\\NoUserException' => $baseDir . '/lib/private/User/NoUserException.php',

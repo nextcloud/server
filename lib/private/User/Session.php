@@ -50,6 +50,7 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -113,6 +114,8 @@ class Session implements IUserSession, Emitter {
 
 	/** @var ILogger */
 	private $logger;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
 	/**
 	 * @param Manager $manager
@@ -131,7 +134,8 @@ class Session implements IUserSession, Emitter {
 								IConfig $config,
 								ISecureRandom $random,
 								ILockdownManager $lockdownManager,
-								ILogger $logger) {
+								ILogger $logger,
+								IEventDispatcher $dispatcher) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFactory = $timeFactory;
@@ -140,6 +144,7 @@ class Session implements IUserSession, Emitter {
 		$this->random = $random;
 		$this->lockdownManager = $lockdownManager;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -369,6 +374,14 @@ class Session implements IUserSession, Emitter {
 			$this->setToken(null);
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
+
+		$postLoginEvent = new OC\User\Events\PostLoginEvent(
+			$user,
+			$loginDetails['password'],
+			$isToken
+		);
+		$this->dispatcher->dispatch(OC\User\Events\PostLoginEvent::class, $postLoginEvent);
+
 		$this->manager->emit('\OC\User', 'postLogin', [
 			$user,
 			$loginDetails['password'],
