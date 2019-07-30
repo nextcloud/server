@@ -281,12 +281,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				}
 			}
 
-			$sharees = [];
-			foreach ($shares as $share) {
-				$sharees[] = $share->getSharedWith();
-			}
-
-			return implode(', ', $sharees);
+			return new ShareeList($shares);
 		});
 	}
 }
