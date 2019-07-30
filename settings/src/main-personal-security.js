@@ -28,7 +28,7 @@ import AuthTokenSection from './components/AuthTokenSection';
 __webpack_nonce__ = btoa(OC.requestToken);
 
 Vue.use(VueClipboard);
-Vue.use(VTooltip);
+Vue.use(VTooltip, { defaultHtml: false });
 Vue.prototype.t = t;
 
 const View = Vue.extend(AuthTokenSection);

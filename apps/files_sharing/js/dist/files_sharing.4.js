@@ -1,4 +1,4 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{15:function(e,o,i){"use strict";i.r(o);var n=i(18),l=i(19),r=i(29),u=i(32),d=i.n(u),a=i(33),s={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(36).a}},c=i(60),f=Object(c.a)(s,function(){var e=this.$createElement,t=this._self._c||e;return this.fileId?t("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()},[],!1,null,null,null).exports;i.d(o,"Vue",function(){return n.default}),i.d(o,"View",function(){return f}),
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{15:function(e,o,i){"use strict";i.r(o);var n=i(17),l=i(19),u=i(29),r=i(32),d=i.n(r),s={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(33).a}},a=i(57),c=Object(a.a)(s,function(){var t=this.$createElement,e=this._self._c||t;return this.fileId?e("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()},[],!1,null,null,null).exports;i.d(o,"Vue",function(){return n.default}),i.d(o,"View",function(){return c}),
 /*
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -20,5 +20,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-n.default.prototype.t=t,n.default.component("PopoverMenu",r.PopoverMenu),n.default.directive("ClickOutside",d.a),n.default.directive("Tooltip",a.a),n.default.use(l.a)}}]);
-//# sourceMappingURL=files_sharing.4.js.map?v=acf7f9399f46bb285280
+n.default.prototype.t=t,n.default.component("PopoverMenu",u.PopoverMenu),n.default.directive("ClickOutside",d.a),u.Tooltip.options.defaultHtml=!1,n.default.directive("Tooltip",u.Tooltip),n.default.use(l.a)}}]);
+//# sourceMappingURL=files_sharing.4.js.map?v=29acd4da72c17d499b8f
