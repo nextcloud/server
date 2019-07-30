@@ -225,7 +225,7 @@ class File extends Node implements IFile {
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($count !== $expected) {
-					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 
@@ -490,8 +490,7 @@ class File extends Node implements IFile {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
-					throw new BadRequest(
-						'expected filesize ' . $expected . ' got ' . $bytesWritten);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $bytesWritten . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 		}
