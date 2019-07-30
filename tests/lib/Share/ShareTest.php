@@ -223,35 +223,6 @@ class ShareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider checkPasswordProtectedShareDataProvider
-	 * @param $expected
-	 * @param $item
-	 */
-	public function testCheckPasswordProtectedShare($expected, $item) {
-		\OC::$server->getSession()->set('public_link_authenticated', '100');
-		$result = \OC\Share\Share::checkPasswordProtectedShare($item);
-		$this->assertEquals($expected, $result);
-	}
-
-	function checkPasswordProtectedShareDataProvider() {
-		return array(
-			array(true, array()),
-			array(true, array('share_with' => null)),
-			array(true, array('share_with' => '')),
-			array(true, array('share_with' => '1234567890', 'share_type' => '1')),
-			array(true, array('share_with' => '1234567890', 'share_type' => 1)),
-			array(true, array('share_with' => '1234567890', 'share_type' => '3', 'id' => '100')),
-			array(true, array('share_with' => '1234567890', 'share_type' => 3, 'id' => '100')),
-			array(true, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 100)),
-			array(true, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 100)),
-			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => '101')),
-			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => '101')),
-			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 101)),
-			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 101)),
-		);
-	}
-
-	/**
 	 * @dataProvider urls
 	 * @param string $url
 	 * @param string $expectedResult
