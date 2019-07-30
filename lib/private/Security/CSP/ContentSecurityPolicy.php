@@ -54,6 +54,8 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	/**
 	 * @param boolean $evalScriptAllowed
+	 *
+	 * @deprecated 17.0.0 Unsafe eval should not be used anymore.
 	 */
 	public function setEvalScriptAllowed(bool $evalScriptAllowed) {
 		$this->evalScriptAllowed = $evalScriptAllowed;
