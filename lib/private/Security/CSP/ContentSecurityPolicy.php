@@ -225,6 +225,15 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->allowedWorkerSrcDomains = $allowedWorkerSrcDomains;
 	}
 
+	public function getAllowedFormActionDomains(): array {
+		return $this->allowedFormActionDomains;
+	}
+
+	public function setAllowedFormActionDomains(array $allowedFormActionDomains): void {
+		$this->allowedFormActionDomains = $allowedFormActionDomains;
+	}
+
+
 	public function getReportTo(): array {
 		return $this->reportTo;
 	}
