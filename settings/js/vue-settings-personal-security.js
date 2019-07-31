@@ -395,5 +395,5 @@ t.exports=function(t){var e={};function n(i){if(e[i])return e[i].exports;var r=e
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-i.nc=btoa(OC.requestToken),r.a.use(a.a),r.a.use(s.a),r.a.prototype.t=t,new(r.a.extend(k))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security")}]);
+i.nc=btoa(OC.requestToken),r.a.use(a.a),r.a.use(s.a,{defaultHtml:!1}),r.a.prototype.t=t,new(r.a.extend(k))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security")}]);
 //# sourceMappingURL=vue-settings-personal-security.js.map

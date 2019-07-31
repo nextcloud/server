@@ -96,6 +96,8 @@
 	import { VTooltip } from 'v-tooltip';
 	import ClickOutside from 'vue-click-outside';
 
+	VTooltip.options.defaultHtml = false
+
 	export default {
 		name: 'root',
 		components: {
