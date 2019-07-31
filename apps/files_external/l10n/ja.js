@@ -103,6 +103,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "秘密鍵でSFTPログイン",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共有",
+    "Show hidden files" : "隠しファイルを表示",
     "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
