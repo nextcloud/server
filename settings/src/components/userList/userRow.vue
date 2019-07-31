@@ -131,9 +131,6 @@ import popoverMenu from '../popoverMenu';
 import ClickOutside from 'vue-click-outside';
 import Multiselect from 'vue-multiselect';
 import Vue from 'vue'
-import VTooltip from 'v-tooltip'
-
-Vue.use(VTooltip)
 
 export default {
 	name: 'userRow',

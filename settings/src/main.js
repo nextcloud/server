@@ -23,11 +23,14 @@ import "@babel/polyfill";
 
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
+import VTooltip from 'v-tooltip'
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
 sync(store, router);
+
+Vue.use(VTooltip, { defaultHtml: false });
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
