@@ -135,67 +135,55 @@ class ThemingController extends Controller {
 	 */
 	public function updateStylesheet($setting, $value) {
 		$value = trim($value);
+		$error = null;
 		switch ($setting) {
 			case 'name':
 				if (strlen($value) > 250) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given name is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given name is too long');
 				}
 				break;
 			case 'url':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given web address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given web address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given web address is not a valid URL');
 				}
 				break;
 			case 'imprintUrl':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given legal notice address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given legal notice address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given legal notice address is not a valid URL');
 				}
 				break;
 			case 'privacyUrl':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given privacy policy address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given privacy policy address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
 				}
 				break;
 			case 'slogan':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given slogan is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given slogan is too long');
 				}
 				break;
 			case 'color':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given color is invalid'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given color is invalid');
 				}
 				break;
+		}
+		if ($error !== null) {
+			return new DataResponse([
+				'data' => [
+					'message' => $error,
+				],
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
 		}
 
 		$this->themingDefaults->set($setting, $value);
@@ -213,6 +201,14 @@ class ThemingController extends Controller {
 				'status' => 'success'
 			]
 		);
+	}
+
+	/**
+	 * Check that a string is a valid http/https url
+	 */
+	private function isValidUrl(string $url): bool {
+		return ((strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) &&
+			filter_var($url, FILTER_VALIDATE_URL) !== false);
 	}
 
 	/**
