@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Прикажите најновије слике са одмора и видео записе као у филмовима, прикажите делић Вашег најновијег романа директно из Некстклауда, одаберите најбољи GIF из Ваше колекције, све захваљујући директном прегледу омиљених фајлова и још много тога!",
     "Error loading {name}" : "Грешка приликом учитавања {name}",
     "Your browser does not support the video tag." : "Ваш веб читач не подржава video ознаку.",
+    "Open sidebar" : "Отвори бочну траку",
     "View" : "Погледај",
     "Share" : "Подели"
 },
