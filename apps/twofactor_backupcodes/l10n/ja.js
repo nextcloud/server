@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "_" : "_",
     "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
+    "{name} backup codes" : "{name} バックアップコード",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下はあなたのバックアップコードです。 後からこのコードを見ることはできないので、保存するか印刷しておいてください",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",

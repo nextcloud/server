@@ -135,6 +135,8 @@
     "Couldn't send reset email. Please contact your administrator." : "Kon nie die herstel-e-pos stuur nie. Kontak asseblief jou administrateur.",
     "Password can not be changed. Please contact your administrator." : "Wagwoord kan nie verander word nie. Kontak asseblief u administrateur.",
     "Back to login" : "Terug na aanmelding",
+    "New password" : "Nuwe wagwoord",
+    "I know what I'm doing" : "Ek weet wat ek doen",
     "Forgot password?" : "Wagwoord vergeet?",
     "Settings" : "Instellings",
     "Could not load your contacts" : "Kon nie u kontakte laai nie",
@@ -216,8 +218,6 @@
     "App token" : "Toep-tekseenheid",
     "Grant access" : "Verleen toegang",
     "Account access" : "Rekening toegang",
-    "New password" : "Nuwe wagwoord",
-    "New Password" : "Nuwe wagwoord",
     "The password is wrong. Try again." : "Die wagwoord is verkeerd. Probeer weer.",
     "Two-factor authentication" : "Twee-faktor-verifikasie",
     "Use backup code" : "Gebruik rugsteunkode",
@@ -235,7 +235,6 @@
     "Updated \"%s\" to %s" : "\"%s\" na %s bygewerk",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Daar was probleme met die nagaan van die kode integriteit. Meer inligting…</a>",
     "Dismiss" : "Ontslaan",
-    "I know what I'm doing" : "Ek weet wat ek doen",
     "Sending email …" : "Stuur tans e-pos …",
     "Copy URL" : "Kopieer URL",
     "Enable" : "Aktiveer",
@@ -248,6 +247,7 @@
     "SQLite will be used as database." : "SQLite sal as databasis gebruik word.",
     "Wrong password." : "Verkeerde wagwoord.",
     "Redirecting …" : "Herlei …",
+    "New Password" : "Nuwe wagwoord",
     "%s will be updated to version %s" : "%s sal na %s bygewerk word",
     "Thank you for your patience." : "Dankie vir u geduld."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
