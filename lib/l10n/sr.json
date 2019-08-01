@@ -205,6 +205,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ово је вероватно изазвано кешом или акцелератором као што су ЗендОПкеш или еАкцелератор.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP модули су инсталирани али се и даље воде као недостајући?",
     "Please ask your server administrator to restart the web server." : "Замолите вашег администратора сервера да поново покрене веб сервер.",
+    "PostgreSQL >= 9.5 required" : "Захтеван је PostgreSQL >= 9.5",
     "Please upgrade your database version" : "Надоградите ваше издање базе",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Промените дозволе у 0770 како директоријуми не би могли бити излистани од стране других корисника.",
     "Your data directory is readable by other users" : "Директоријум са подацима је читљив од стране других корисника система",

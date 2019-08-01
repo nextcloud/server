@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "アップロード ( 最大 %s )",
     "File Management" : "ファイル管理",
     "%s used" : "%s 使用中",
+    "%s%% of %s used" : "%s中%s%%が使われています。",
     "%1$s of %2$s used" : "%2$s 中%1$s が使われています。",
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",
