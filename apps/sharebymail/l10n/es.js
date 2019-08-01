@@ -40,6 +40,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha compartido «%2$s» contigo y quiere añadir:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha compartido «%2$s» contigo y quiere añadir",
     "»%s« added a note to a file shared with you" : "«%s» ha añadido una nota a un archivo compartido contigo",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Has compartido »%1$s« con %2$s. El enlace ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %3$s cada elemento compartido necesita ser protegido con contraseña y no está permitido enviar directamente esta clave al destinatario. Por lo tanto necesita reenviar la contraseña manualmente al destinatario.",
     "Password to access »%1$s« shared by you with %2$s" : "Contraseña para acceder a  «%1$s» compartida por tí con %2$s",
     "This is the password:" : "Esta es la contraseña:",
     "You can choose a different password at any time in the share dialog." : "Puedes elegir una contraseña diferente en cualquier momento en el diálogo de compartir.",
