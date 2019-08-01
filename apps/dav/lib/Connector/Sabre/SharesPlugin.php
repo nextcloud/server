@@ -158,6 +158,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			if (array_search($parentPath, $this->cachedFolders) === false) {
 				$node = $this->userFolder->get($sabreNode->getPath());
 				$shares = $this->getShare($node);
+				$this->cachedShares[$sabreNode->getId()] = $shares;
 			} else {
 				return [];
 			}
@@ -190,6 +191,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		) {
 			$folderNode = $this->userFolder->get($sabreNode->getPath());
 
+			$this->cachedFolders[] = $sabreNode->getPath();
 			$childShares = $this->getSharesFolder($folderNode);
 			foreach ($childShares as $id => $shares) {
 				$this->cachedShares[$id] = $shares;
