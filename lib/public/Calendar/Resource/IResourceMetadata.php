@@ -100,4 +100,19 @@ interface IResourceMetadata {
 	 * @since 17.0.0
 	 */
 	public const VEHICLE_SEATING_CAPACITY = '{http://nextcloud.com/ns}resource-vehicle-seating-capacity';
+
+	/**
+	 * Contact information about the person who is responsible to administer / maintain this resource
+	 * This key stores a textual description of name and possible ways to contact the person
+	 *
+	 * @since 17.0.0
+	 */
+	public const CONTACT_PERSON = '{http://nextcloud.com/ns}resource-contact-person';
+
+	/**
+	 * Link to the vcard of the contact person
+	 *
+	 * @since 17.0.0
+	 */
+	public const CONTACT_PERSON_VCARD = '{http://nextcloud.com/ns}resource-contact-person-vcard';
 }
