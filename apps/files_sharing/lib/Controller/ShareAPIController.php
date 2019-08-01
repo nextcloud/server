@@ -453,8 +453,10 @@ class ShareAPIController extends OCSController {
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-		} else if ($shareType === Share::SHARE_TYPE_LINK) {
-			//Can we even share links?
+		} else if ($shareType === Share::SHARE_TYPE_LINK
+			|| $shareType === Share::SHARE_TYPE_EMAIL) {
+
+			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
 			}
@@ -485,10 +487,16 @@ class ShareAPIController extends OCSController {
 				$share->setPassword($password);
 			}
 
-
-			if (!empty($label)) {
-				$share->setLabel($label);
+			// Only share by mail have a recipient
+			if ($shareType === Share::SHARE_TYPE_EMAIL) {
+				$share->setSharedWith($shareWith);
+			} else {
+				// Only link share have a label
+				if (!empty($label)) {
+					$share->setLabel($label);
+				}
 			}
+
 
 			if ($sendPasswordByTalk === 'true') {
 				if (!$this->appManager->isEnabledForUser('spreed')) {
@@ -522,21 +530,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-		} else if ($shareType === Share::SHARE_TYPE_EMAIL) {
-			if ($share->getNodeType() === 'file') {
-				$share->setPermissions(Constants::PERMISSION_READ);
-			} else {
-				$share->setPermissions($permissions);
-			}
-			$share->setSharedWith($shareWith);
-
-			if ($sendPasswordByTalk === 'true') {
-				if (!$this->appManager->isEnabledForUser('spreed')) {
-					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$path->getPath()]));
-				}
-
-				$share->setSendPasswordByTalk(true);
-			}
 		} else if ($shareType === Share::SHARE_TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
