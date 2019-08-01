@@ -103,7 +103,46 @@ class Sharing extends Action {
 					'permissions',
 					'id',
 				]
-			);			
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_CIRCLE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the circle "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the remote user "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE_GROUP) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the remote group "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
 		}
 	}
 
@@ -171,7 +210,43 @@ class Sharing extends Action {
 					'shareWith',
 					'id',
 				]
-			);			
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_CIRCLE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the circle "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the remote user "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE_GROUP) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the remote group "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
 		}
 	}
 
