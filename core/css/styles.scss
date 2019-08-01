@@ -23,6 +23,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	font-family: inherit;
 	vertical-align: baseline;
 	cursor: default;
+	scrollbar-color: var(--color-border-dark) transparent;
+	scrollbar-width: thin;
 }
 
 html, body {
@@ -146,7 +148,7 @@ body {
 /* SCROLLING */
 
 ::-webkit-scrollbar {
-	width: 9px;
+	width: 6px;
 	height: 5px;
 }
 
@@ -155,9 +157,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--color-background-darker);
+	background: var(--color-border-dark);
 	border-radius: var(--border-radius);
 }
+
 
 /* SELECTION */
 
