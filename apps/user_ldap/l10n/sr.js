@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Поље групе је искључено јер LDAP / AD сервер не подржава припадност групи.",
     "Password change rejected. Hint: " : "Промена лозинке није прихваћена. Смерница:",
     "Please login with the new password" : "Пријавите се са новом лозинком",
+    "LDAP User backend" : "LDAP позадина за кориснике",
     "Your password will expire tomorrow." : "Ваша лозинка ће истећи сутра.",
     "Your password will expire today." : "Ваша лозинка ће истећи данас.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Ваша лозинка ће истећи за %n дан.","Ваша лозинка ће истећи за %n дана.","Ваша лозинка ће истећи за %n дана."],

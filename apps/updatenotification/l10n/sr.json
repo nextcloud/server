@@ -33,6 +33,8 @@
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не могу да се повежем на продавницу апликација или продавница нема ниједно ажурирање. Претражите ручно ажурирања или проверите да ли сервер има везу са интернетом",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Све</strong> апликације имају доступна ажурирања за ову верзију",
     "View changelog" : "Погледајте дневник измена",
+    "Enterprise" : "Предузетничка",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За предузећа. Пружа најновији ниво закрпа, али неће одмах да ажурира аутоматски на следећу главну верзију. То ажурирање ће се десити када Nextcloud GmbH обави додатне провере и тестирања на великим и критичним системима. Овај канал је доступан само муштеријама и пружа  Nextcloud Enterprise пакет.",
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најскорашњија стабилна верзија. Погодна за редовну употребу и увек ће бити на најновијој главној верзији.",
     "Beta" : "Бета",
