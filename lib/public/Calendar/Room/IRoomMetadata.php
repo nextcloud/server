@@ -54,4 +54,25 @@ interface IRoomMetadata {
 	 * @since 17.0.0
 	 */
 	public const CAPACITY = '{http://nextcloud.com/ns}room-seating-capacity';
+
+	/**
+	 * The physical address of the building this room is located in
+	 *
+	 * @since 17.0.0
+	 */
+	public const BUILDING_ADDRESS = '{http://nextcloud.com/ns}room-building-address';
+
+	/**
+	 * The story of the building this rooms is located in
+	 *
+	 * @since 17.0.0
+	 */
+	public const BUILDING_STORY = '{http://nextcloud.com/ns}room-building-story';
+
+	/**
+	 * The room-number
+	 *
+	 * @since 17.0.0
+	 */
+	public const BUILDING_ROOM_NUMBER = '{http://nextcloud.com/ns}room-building-room-number';
 }
