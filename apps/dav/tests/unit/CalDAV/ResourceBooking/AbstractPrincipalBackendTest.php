@@ -219,6 +219,26 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 		];
 	}
 
+	public function testSearchPrincipalsByMetadataKey() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->with()
+			->will($this->returnValue($user));
+		$this->groupManager->expects($this->once())
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->returnValue(['group1', 'group2']));
+
+		$actual = $this->principalBackend->searchPrincipals($this->principalPrefix, [
+			'{http://nextcloud.com/ns}meta3' => 'value',
+		]);
+
+		$this->assertEquals([
+			$this->principalPrefix . '/backend2-res4',
+		], $actual);
+	}
+
 	public function testSearchPrincipalsByCalendarUserAddressSet() {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')
