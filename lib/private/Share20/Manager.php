@@ -290,8 +290,10 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
+		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
+		$permissions = 0;
 		$mount = $share->getNode()->getMountPoint();
-		if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if (!$isFederatedShare && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
@@ -304,7 +306,6 @@ class Manager implements IManager {
 
 			/** @var \OCP\Share\IShare[] $incomingShares */
 			if (!empty($incomingShares)) {
-				$permissions = 0;
 				foreach ($incomingShares as $incomingShare) {
 					$permissions |= $incomingShare->getPermissions();
 				}
