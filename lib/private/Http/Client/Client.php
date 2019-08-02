@@ -95,15 +95,15 @@ class Client implements IClient {
 	 * @return string|null
 	 */
 	private function getProxyUri(): ?string {
-		$proxyHost = $this->config->getSystemValue('proxy', null);
+		$proxyHost = $this->config->getSystemValue('proxy', '');
 
-		if ($proxyHost === null) {
+		if ($proxyHost === '' || $proxyHost === null) {
 			return null;
 		}
 
-		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
+		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', '');
 
-		if ($proxyUserPwd === null) {
+		if ($proxyUserPwd === '' || $proxyUserPwd === null) {
 			return $proxyHost;
 		}
 
