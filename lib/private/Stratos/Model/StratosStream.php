@@ -52,8 +52,8 @@ class StratosStream implements IStratosStream, JsonSerializable {
 	/** @var string */
 	private $type = '';
 
-	/** @var string */
-	private $ttl = '';
+	/** @var int */
+	private $ttl = 0;
 
 	/** @var string */
 	private $app = '';
@@ -119,18 +119,18 @@ class StratosStream implements IStratosStream, JsonSerializable {
 
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getTtl(): string {
+	public function getTtl(): int {
 		return $this->ttl;
 	}
 
 	/**
-	 * @param string $ttl
+	 * @param int $ttl
 	 *
 	 * @return IStratosStream
 	 */
-	public function setTtl(string $ttl): IStratosStream {
+	public function setTtl(int $ttl): IStratosStream {
 		$this->ttl = $ttl;
 
 		return $this;
@@ -221,7 +221,7 @@ class StratosStream implements IStratosStream, JsonSerializable {
 	public function import(array $import): IStratosStream {
 		$this->setType($this->get('type', $import));
 		$this->setApp($this->get('app', $import));
-		$this->setTtl($this->get('ttl', $import));
+		$this->setTtl($this->getInt('ttl', $import));
 		$this->setRecipient($this->get('recipient', $import));
 		$this->setSource($this->get('source', $import));
 		$this->setCreation($this->getInt('creation', $import));

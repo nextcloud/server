@@ -41,12 +41,12 @@ namespace OCP\Stratos\Model;
 interface IStratosStream {
 
 
-	const TTL_SHORT = 'short';
-	const TTL_FEW_MINUTES = 'few_minutes';
-	const TTL_FEW_HOURS = 'few_hours';
-	const TTL_DAY = 'day';
-	const TTL_LONG = 'long';
-	const TTL_GODLIKE = 'godlike';
+	const TTL_SHORT = 10;
+	const TTL_FEW_MINUTES = 180;
+	const TTL_FEW_HOURS = 7200;
+	const TTL_DAY = 24*3600;
+	const TTL_LONG = 24*3600*8;
+	const TTL_GODLIKE = 0;
 
 
 	/**
@@ -102,16 +102,16 @@ interface IStratosStream {
 
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getTtl(): string;
+	public function getTtl(): int;
 
 	/**
-	 * @param string $ttl
+	 * @param int $ttl
 	 *
 	 * @return IStratosStream
 	 */
-	public function setTtl(string $ttl): IStratosStream;
+	public function setTtl(int $ttl): IStratosStream;
 
 
 	/**
