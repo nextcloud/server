@@ -50,7 +50,7 @@ script('core', [
 				autocomplete="off" autocapitalize="none" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<input type="checkbox" id="show" class="hidden-visually" name="show">
-			<label for="show"></label>
+			<label for="show" class="hidden-visually"><?php p($l->t( 'Show password')); ?></label>
 		</p>
 	</fieldset>
 
