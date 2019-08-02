@@ -96,6 +96,7 @@ return array(
     'OCA\\DAV\\Command\\ListCalendars' => $baseDir . '/../lib/Command/ListCalendars.php',
     'OCA\\DAV\\Command\\MoveCalendar' => $baseDir . '/../lib/Command/MoveCalendar.php',
     'OCA\\DAV\\Command\\RemoveInvalidShares' => $baseDir . '/../lib/Command/RemoveInvalidShares.php',
+    'OCA\\DAV\\Command\\SendEventReminders' => $baseDir . '/../lib/Command/SendEventReminders.php',
     'OCA\\DAV\\Command\\SyncBirthdayCalendar' => $baseDir . '/../lib/Command/SyncBirthdayCalendar.php',
     'OCA\\DAV\\Command\\SyncSystemAddressBook' => $baseDir . '/../lib/Command/SyncSystemAddressBook.php',
     'OCA\\DAV\\Comments\\CommentNode' => $baseDir . '/../lib/Comments/CommentNode.php',
