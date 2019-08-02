@@ -49,7 +49,11 @@ class ReminderService {
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
 
-	public const REMINDER_TYPES = [self::REMINDER_TYPE_EMAIL, self::REMINDER_TYPE_DISPLAY, self::REMINDER_TYPE_AUDIO];
+	public const REMINDER_TYPES = [
+		self::REMINDER_TYPE_EMAIL,
+		self::REMINDER_TYPE_DISPLAY,
+		self::REMINDER_TYPE_AUDIO
+	];
 
     public function __construct(Backend $backend,
                                 NotificationProviderManager $notificationProviderManager,
@@ -70,9 +74,7 @@ class ReminderService {
 	 * @throws NotificationProvider\ProviderNotAvailableException
 	 * @throws NotificationTypeDoesNotExistException
 	 */
-    public function processReminders(): void
-    {
-
+    public function processReminders():void {
         $reminders = $this->backend->getRemindersToProcess();
 
 		foreach ($reminders as $reminder) {
@@ -101,8 +103,7 @@ class ReminderService {
 	 * @throws VObject\InvalidDataException
 	 * @throws NoUserException
 	 */
-	public function onTouchCalendarObject(string $action, array $calendarData, array $shares, array $objectData): void
-	{
+	public function onTouchCalendarObject(string $action, array $calendarData, array $shares, array $objectData):void {
 		if (!isset($calendarData['principaluri'])) {
 			return;
 		}
@@ -157,8 +158,7 @@ class ReminderService {
 	 * @param array $shares
 	 * @return string[]
 	 */
-	private function getUsersForShares(array $shares): array
-	{
+	private function getUsersForShares(array $shares):array {
 		$users = $groups = [];
 		foreach ($shares as $share) {
 			$principal = explode('/', $share['{http://owncloud.org/ns}principal']);

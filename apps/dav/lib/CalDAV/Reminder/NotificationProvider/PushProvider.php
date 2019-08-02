@@ -35,9 +35,9 @@ use OCP\Notification\INotification;
 use Sabre\VObject\Component\VCalendar;
 use OCP\AppFramework\Utility\ITimeFactory;
 
-class PushProvider extends AbstractNotificationProvider
-{
+class PushProvider extends AbstractNotificationProvider {
 
+	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
     /**
@@ -75,9 +75,7 @@ class PushProvider extends AbstractNotificationProvider
 	 * @return void
 	 * @throws \Exception
 	 */
-    public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user): void
-    {
-
+    public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user):void {
 		$lang = $this->config->getUserValue($user->getUID(), 'core', 'lang', $this->l10nFactory->findLanguage());
 		$this->l10n = $this->l10nFactory->get('dav', $lang);
 

@@ -31,8 +31,7 @@ class NotificationProviderManager {
      * @throws ProviderNotAvailableException
      * @throws NotificationTypeDoesNotExistException
      */
-    public function getProvider(string $type): AbstractNotificationProvider
-    {
+    public function getProvider(string $type):AbstractNotificationProvider {
         if (in_array($type, ReminderService::REMINDER_TYPES, true)) {
             if (isset($this->providers[$type])) {
                 return $this->providers[$type];
@@ -46,8 +45,7 @@ class NotificationProviderManager {
 	 * @param string $providerClassName
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-    public function registerProvider(string $providerClassName): void
-	{
+    public function registerProvider(string $providerClassName):void {
 		$provider = \OC::$server->query($providerClassName);
 
 		if (!$provider instanceof AbstractNotificationProvider) {

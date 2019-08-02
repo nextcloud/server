@@ -33,11 +33,12 @@ use OCP\Mail\IMailer;
 use OCP\IUser;
 use Sabre\VObject\Component\VCalendar;
 
-class EmailProvider extends AbstractNotificationProvider
-{
+class EmailProvider extends AbstractNotificationProvider {
+
 	/** @var IMailer */
 	private $mailer;
 
+	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
 	/**
@@ -63,8 +64,7 @@ class EmailProvider extends AbstractNotificationProvider
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user): void
-	{
+	public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user):void {
 		if ($user->getEMailAddress() === null) {
 			return;
 		}
@@ -111,8 +111,7 @@ class EmailProvider extends AbstractNotificationProvider
 	 * @param IEMailTemplate $template
 	 * @param string $summary
 	 */
-	private function addSubjectAndHeading(IEMailTemplate $template, string $summary): void
-	{
+	private function addSubjectAndHeading(IEMailTemplate $template, string $summary):void {
 		$template->setSubject('Notification: ' . $summary);
 		$template->addHeading($summary);
 	}
@@ -122,8 +121,7 @@ class EmailProvider extends AbstractNotificationProvider
 	 * @param array $eventData
 	 * @param string $calendarDisplayName
 	 */
-	private function addBulletList(IEMailTemplate $template, array $eventData, string $calendarDisplayName): void
-	{
+	private function addBulletList(IEMailTemplate $template, array $eventData, string $calendarDisplayName):void {
 		$template->addBodyListItem($calendarDisplayName, $this->l10n->t('Calendar:'),
 			$this->getAbsoluteImagePath('actions/info.svg'));
 
@@ -148,8 +146,7 @@ class EmailProvider extends AbstractNotificationProvider
 	 * @param string $path
 	 * @return string
 	 */
-	private function getAbsoluteImagePath($path): string
-	{
+	private function getAbsoluteImagePath(string $path):string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->imagePath('core', $path)
 		);

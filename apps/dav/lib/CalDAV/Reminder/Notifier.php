@@ -31,14 +31,15 @@ use OCP\IURLGenerator;
 
 class Notifier implements INotifier {
 
-	public static $units = array(
+	/** @var array */
+	public static $units = [
         'y' => 'year',
         'm' => 'month',
         'd' => 'day',
         'h' => 'hour',
         'i' => 'minute',
         's' => 'second',
-    );
+    ];
 
 	/** @var IFactory */
 	protected $factory;
@@ -60,8 +61,7 @@ class Notifier implements INotifier {
 	 * @return INotification
 	 * @throws \Exception
 	 */
-	public function prepare(INotification $notification, $languageCode): INotification
-	{
+	public function prepare(INotification $notification, string $languageCode):INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
 			throw new \InvalidArgumentException('Notification not from this app');
 		}
@@ -87,8 +87,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @throws \Exception
 	 */
-	private function processEventTitle(array $event): string
-	{
+	private function processEventTitle(array $event):string {
 		$event_datetime = new \DateTime();
 		$event_datetime->setTimestamp($event['start']);
 		$now = new \DateTime();
@@ -112,8 +111,7 @@ class Notifier implements INotifier {
 	 * @param string $title
 	 * @return string
 	 */
-	private function getPluralizedTitle(int $count, int $invert, string $unit, string $title): string
-	{
+	private function getPluralizedTitle(int $count, int $invert, string $unit, string $title):string {
 		if ($invert) {
 			return $this->l->n('%s (in one %s)', '%s (in %n %ss)', $count, [$title, $unit]);
 		}
@@ -125,8 +123,7 @@ class Notifier implements INotifier {
 	 * @param array $event
 	 * @return string
 	 */
-	private function processEventDescription(array $event): string
-	{
+	private function processEventDescription(array $event):string {
 		$description = [
 			$this->l->t('Calendar: %s', $event['calendar']),
 			$this->l->t('Date: %s', $event['when']),

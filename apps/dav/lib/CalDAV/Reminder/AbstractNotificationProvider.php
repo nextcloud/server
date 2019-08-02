@@ -37,9 +37,9 @@ use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 
-abstract class AbstractNotificationProvider
-{
+abstract class AbstractNotificationProvider {
 
+	/** @var string */
 	public const NOTIFICATION_TYPE = '';
 
     /** @var ILogger */
@@ -78,7 +78,7 @@ abstract class AbstractNotificationProvider
 	 * @param IUser $user
 	 * @return void
 	 */
-    public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user): void {}
+    abstract function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user): void;
 
 	/**
 	 * @var VCalendar $vcalendar
@@ -86,8 +86,7 @@ abstract class AbstractNotificationProvider
 	 * @return array
 	 * @throws \Exception
 	 */
-    protected function extractEventDetails(VCalendar $vcalendar, $defaultValue = ''): array
-	{
+    protected function extractEventDetails(VCalendar $vcalendar, $defaultValue = ''):array {
 		/** @var VEvent $vevent */
         $vevent = $vcalendar->VEVENT;
 
@@ -129,8 +128,7 @@ abstract class AbstractNotificationProvider
 	 * @return string
 	 * @throws \Exception
 	 */
-	private function generateWhenString(Property $dtstart, Property $dtend): string
-	{
+	private function generateWhenString(Property $dtstart, Property $dtend):string {
 		$isAllDay = $dtstart instanceof Property\ICalendar\Date;
 
 		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtstart */
@@ -201,8 +199,7 @@ abstract class AbstractNotificationProvider
 	 * @param DateTime $dtEnd
 	 * @return bool
 	 */
-    private function isDayEqual(DateTime $dtStart, DateTime $dtEnd): bool
-    {
+    private function isDayEqual(DateTime $dtStart, DateTime $dtEnd):bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 }

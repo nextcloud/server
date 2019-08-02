@@ -56,8 +56,7 @@ class Backend {
 	 * @param int $notificationDate
 	 * @param int $eventStartDate
 	 */
-	public function insertReminder(string $uid, string $calendarId, string $uri, string $type, int $notificationDate, int $eventStartDate): void
-	{
+	public function insertReminder(string $uid, string $calendarId, string $uri, string $type, int $notificationDate, int $eventStartDate):void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
@@ -76,8 +75,7 @@ class Backend {
 	 * @param int $calendarId
 	 * @param string $objectUri
 	 */
-	public function cleanRemindersForEvent(int $calendarId, string $objectUri): void
-	{
+	public function cleanRemindersForEvent(int $calendarId, string $objectUri):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -92,8 +90,7 @@ class Backend {
 	 * @param integer $calendarId
 	 * @return void
 	 */
-	public function cleanRemindersForCalendar(int $calendarId): void
-	{
+	public function cleanRemindersForCalendar(int $calendarId):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -107,8 +104,7 @@ class Backend {
 	 * @param integer $reminderId
 	 * @return void
 	 */
-	public function removeReminder(int $reminderId): void
-	{
+	public function removeReminder(int $reminderId):void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -122,8 +118,7 @@ class Backend {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getRemindersToProcess(): array
-	{
+	public function getRemindersToProcess():array {
 		$query = $this->db->getQueryBuilder();
 		$fields = ['cr.id', 'cr.calendarid', 'cr.objecturi', 'cr.type', 'cr.notificationdate', 'cr.uid', 'co.calendardata', 'c.displayname'];
 		$stmt = $query->select($fields)
