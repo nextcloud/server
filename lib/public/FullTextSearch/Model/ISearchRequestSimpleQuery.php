@@ -55,6 +55,8 @@ interface ISearchRequestSimpleQuery {
 	const COMPARE_TYPE_INT_LT = 7;
 	const COMPARE_TYPE_BOOL = 8;
 	const COMPARE_TYPE_ARRAY = 9;
+	const COMPARE_TYPE_REGEX = 10;
+	const COMPARE_TYPE_WILDCARD = 11;
 
 
 	/**
