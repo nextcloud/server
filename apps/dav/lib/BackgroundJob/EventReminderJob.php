@@ -50,10 +50,15 @@ class EventReminderJob extends TimedJob {
 	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function run($arg): void
-	{
-		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') === 'yes') {
-			$this->reminderService->processReminders();
+	public function run($arg):void {
+		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
+			return;
 		}
+
+		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'backgroundjob') {
+			return;
+		}
+
+		$this->reminderService->processReminders();
 	}
 }
