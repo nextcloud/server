@@ -75,4 +75,21 @@ interface IRoomMetadata {
 	 * @since 17.0.0
 	 */
 	public const BUILDING_ROOM_NUMBER = '{http://nextcloud.com/ns}room-building-room-number';
+
+	/**
+	 * Features provided by the room.
+	 * This is a stringified list of features.
+	 * Example: "PHONE,VIDEO-CONFERENCING"
+	 *
+	 * Standard features include:
+	 * - PHONE: This room is fitted with a phone
+	 * - VIDEO-CONFERENCING: This room is fitted with a video-conferencing system
+	 * - TV: This room is fitted with a TV
+	 * - PROJECTOR: This room is fitted with a projector
+	 * - WHITEBOARD: This room is fitted with a whiteboard
+	 * - WHEELCHAIR-ACCESSIBLE: This room is wheelchair-accessible
+	 *
+	 * @since 17.0.0
+	 */
+	public const FEATURES = '{http://nextcloud.com/ns}room-features';
 }
