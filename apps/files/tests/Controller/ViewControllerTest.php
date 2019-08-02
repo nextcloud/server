@@ -32,6 +32,7 @@ namespace OCA\Files\Tests\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -81,7 +82,7 @@ class ViewControllerTest extends TestCase {
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->eventDispatcher = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
 		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
