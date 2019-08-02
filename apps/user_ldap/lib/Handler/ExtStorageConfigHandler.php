@@ -25,19 +25,11 @@ namespace OCA\User_LDAP\Handler;
 
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Config\SimpleSubstitutionTrait;
+use OCA\Files_External\Config\UserContext;
 use OCA\User_LDAP\User_Proxy;
-use OCP\IUserSession;
 
-class ExtStorageConfigHandler implements IConfigHandler {
+class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 	use SimpleSubstitutionTrait;
-
-	/** @var IUserSession */
-	private $session;
-
-	public function __construct(IUserSession $session) {
-		$this->placeholder = 'home';
-		$this->session = $session;
-	}
 
 	/**
 	 * @param mixed $optionValue
@@ -46,7 +38,9 @@ class ExtStorageConfigHandler implements IConfigHandler {
 	 * @throws \Exception
 	 */
 	public function handle($optionValue) {
-		$user = $this->session->getUser();
+		$this->placeholder = 'home';
+		$user = $this->getUser();
+
 		if($user === null) {
 			return $optionValue;
 		}
