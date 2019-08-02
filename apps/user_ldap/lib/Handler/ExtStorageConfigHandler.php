@@ -41,7 +41,7 @@ class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 		$this->placeholder = 'home';
 		$user = $this->getUser();
 
-		if($user->getUID() === null) {
+		if($user === null) {
 			return $optionValue;
 		}
 
