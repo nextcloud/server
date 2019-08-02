@@ -31,6 +31,7 @@ use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
+use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
@@ -259,6 +260,7 @@ class Application extends App {
 		try {
 			/** @var NotificationProviderManager $notificationProviderManager */
 			$notificationProviderManager = $this->getContainer()->query(NotificationProviderManager::class);
+			$notificationProviderManager->registerProvider(AudioProvider::class);
 			$notificationProviderManager->registerProvider(EmailProvider::class);
 			$notificationProviderManager->registerProvider(PushProvider::class);
 		} catch(\Exception $ex) {

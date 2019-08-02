@@ -70,6 +70,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Reminder\\AbstractNotificationProvider' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/AbstractNotificationProvider.php',
         'OCA\\DAV\\CalDAV\\Reminder\\Backend' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/Backend.php',
         'OCA\\DAV\\CalDAV\\Reminder\\NotificationProviderManager' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/NotificationProviderManager.php',
+        'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\AudioProvider' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/NotificationProvider/AudioProvider.php',
         'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\EmailProvider' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php',
         'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\ProviderNotAvailableException' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/NotificationProvider/ProviderNotAvailableException.php',
         'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\PushProvider' => __DIR__ . '/..' . '/../lib/CalDAV/Reminder/NotificationProvider/PushProvider.php',

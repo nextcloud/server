@@ -55,6 +55,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Reminder\\AbstractNotificationProvider' => $baseDir . '/../lib/CalDAV/Reminder/AbstractNotificationProvider.php',
     'OCA\\DAV\\CalDAV\\Reminder\\Backend' => $baseDir . '/../lib/CalDAV/Reminder/Backend.php',
     'OCA\\DAV\\CalDAV\\Reminder\\NotificationProviderManager' => $baseDir . '/../lib/CalDAV/Reminder/NotificationProviderManager.php',
+    'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\AudioProvider' => $baseDir . '/../lib/CalDAV/Reminder/NotificationProvider/AudioProvider.php',
     'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\EmailProvider' => $baseDir . '/../lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php',
     'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\ProviderNotAvailableException' => $baseDir . '/../lib/CalDAV/Reminder/NotificationProvider/ProviderNotAvailableException.php',
     'OCA\\DAV\\CalDAV\\Reminder\\NotificationProvider\\PushProvider' => $baseDir . '/../lib/CalDAV/Reminder/NotificationProvider/PushProvider.php',
