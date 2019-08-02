@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "S'està carregant la vista prèvia ...",
+    "Loading preview…" : "S'està carregant la previsualització...",
     "Saved" : "Desat",
     "Admin" : "Administrador",
     "a safe home for all your data" : "un lloc segur per a les vostres dades",
@@ -39,13 +39,13 @@ OC.L10N.register(
     "Login image" : "Imatge d'inici de sessió",
     "Upload new login background" : "Carrega un nou fons d'inici de sessió",
     "Remove background image" : "Suprimeix la imatge de fons",
-    "Advanced options" : "Opcions avançades",
+    "Advanced options" : "Paràmetres avançats",
     "Legal notice link" : "Enllaç a l'avís legal",
     "Privacy policy link" : "Enllaç a la política de privadesa",
     "Header logo" : "Logotip de capçalera",
     "Upload new header logo" : "Carrega un nou logotip de capçalera",
-    "Favicon" : "Favicon",
+    "Favicon" : "Icona de web",
     "Upload new favicon" : "Carrega un nou favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·la l'extensió Imagemagick per al PHP i es generarà automàticament un favicon a partir del logo i del color del tema."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color."
 },
 "nplurals=2; plural=(n != 1);");

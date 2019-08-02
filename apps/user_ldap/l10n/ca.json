@@ -1,6 +1,6 @@
 { "translations": {
     "Failed to clear the mappings." : "No s’han pogut netejar les assignacions.",
-    "Failed to delete the server configuration" : "Ha fallat en eliminar la configuració del servidor",
+    "Failed to delete the server configuration" : "No s'han pogut suprimir els paràmetres del servidor",
     "Invalid configuration: Anonymous binding is not allowed." : "Configuració no vàlida: no es permet l'enllaç anònim.",
     "Valid configuration, connection established!" : "Configuració vàlida, connexió establerta!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Configuració vàlida, però no s'ha pogut enllaçar. Comproveu la configuració del servidor i les credencials.",
@@ -32,7 +32,7 @@
     "More than 1,000 directory entries available." : "Hi ha més de 1.000 entrades de directoris disponibles.",
     "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["Hi ha {objectsFound} entrades disponibles al DN de base proporcionat","Hi ha {objectsFound} entrades disponibles al DN de base proporcionat"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Hi ha hagut un error. Comproveu la base DN, així com la configuració de connexió i les credencials.",
-    "Do you really want to delete the current Server Configuration?" : "Voleu eliminar la configuració actual del servidor?",
+    "Do you really want to delete the current Server Configuration?" : "Segur que voleu suprimir els paràmetres actuals del servidor?",
     "Confirm Deletion" : "Confirma l'eliminació",
     "Mappings cleared successfully!" : "S'han netejat les assignacions amb èxit!",
     "Error while clearing the mappings." : "S'ha produït un error en eliminar les assignacions.",
@@ -187,6 +187,6 @@
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Els noms d'usuari son emprats per emmagatzemar i assignar metadades. Per tal d'identificar i reconèixer amb precisió als usuaris, cada usuari LDAP té un nom d'usuari intern. Això requereix una assignació de noms d'usuari interns per a cada un dels usuaris LDAP. Al nom d'usuari creat s'assigna el UUID de l'usuari LDAP. A més el DN es guarda en memòria cau per a reduir la interacció amb LDAP, però no s'utilitza per a identificació. Si el DN canvia, es trobaran els canvis. El nom d'usuari intern s'utilitza arreu. Netejar el mapa d'assignacions deixaria restes per totes bandes. Netejar el mapa d'assignacions no és que sigui sensible a la configuració, sinó que afecta a totes les configuracions LDAP! Mai netegeu el mapa d'assignacions en un entorn de producció, només en escenaris de proves o experimentals.",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Suprimeix el mapatge de grup Nom de grup-LDAP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
