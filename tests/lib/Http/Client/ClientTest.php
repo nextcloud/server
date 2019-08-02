@@ -77,12 +77,22 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
+			->with(
+				$this->equalTo('proxy'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('foo');
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('proxyuserpwd', null)
+			->with(
+				$this->equalTo('proxyuserpwd'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('username:password');
 		$this->assertSame('username:password@foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
