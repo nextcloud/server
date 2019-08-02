@@ -106,7 +106,18 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
+	private function callForRegistrations() {
+		static $eventSent = false;
+		if(!$eventSent) {
+			\OC::$server->getEventDispatcher()->dispatch(
+				'OCA\\Files_External::loadAdditionalBackends'
+			);
+			$eventSent = true;
+		}
+	}
+
 	private function loadBackendProviders() {
+		$this->callForRegistrations();
 		foreach ($this->backendProviders as $provider) {
 			$this->registerBackends($provider->getBackends());
 		}
@@ -124,6 +135,7 @@ class BackendService {
 	}
 
 	private function loadAuthMechanismProviders() {
+		$this->callForRegistrations();
 		foreach ($this->authMechanismProviders as $provider) {
 			$this->registerAuthMechanisms($provider->getAuthMechanisms());
 		}
@@ -321,6 +333,7 @@ class BackendService {
 	}
 
 	protected function loadConfigHandlers():void {
+		$this->callForRegistrations();
 		$newLoaded = false;
 		foreach ($this->configHandlerLoaders as $placeholder => $loader) {
 			$handler = $loader();
