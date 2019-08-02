@@ -234,6 +234,7 @@ OC.L10N.register(
     "Back to login" : "Retour à la page de connexion",
     "New password" : "Nouveau mot de passe",
     "I know what I'm doing" : "Je sais ce que je fais",
+    "Resetting password" : "Réinitialisation du mot de passe",
     "Forgot password?" : "Mot de passe oublié ?",
     "Settings" : "Paramètres",
     "Could not load your contacts" : "Impossible de charger vos contacts",
