@@ -248,20 +248,14 @@ class Application extends App {
 		return $this->getContainer()->query(SyncService::class);
 	}
 
-	public function registerNotifier() {
-		$this->getContainer()->getServer()->getNotificationManager()->registerNotifier(function() {
-			return $this->getContainer()->query(Notifier::class);
-		}, function() {
-			$l = $this->getContainer()->getServer()->getL10NFactory()->get(self::APP_ID);
-			return [
-				'id' => self::APP_ID,
-				'name' => $l->t('Calendars and Contacts'),
-			];
-		});
+	public function registerNotifier():void {
+		$this->getContainer()
+			->getServer()
+			->getNotificationManager()
+			->registerNotifierService(Notifier::class);
 	}
 
-	public function registerCalendarReminders(): void
-	{
+	public function registerCalendarReminders():void {
 		try {
 			/** @var NotificationProviderManager $notificationProviderManager */
 			$notificationProviderManager = $this->getContainer()->query(NotificationProviderManager::class);
