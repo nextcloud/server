@@ -56,6 +56,26 @@ class Notifier implements INotifier {
 	}
 
 	/**
+	 * Identifier of the notifier, only use [a-z0-9_]
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getID():string {
+		return 'dav';
+	}
+
+	/**
+	 * Human readable name describing the notifier
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getName():string {
+		return $this->factory->get('dav')->t('Calendar');
+	}
+
+	/**
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
