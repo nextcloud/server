@@ -31,7 +31,7 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "新しいバージョンが利用可能です: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "{lastCheckedDate} にチェックが入っています",
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
-    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpが<samp>appstoreenabled</samp>をfalseに設定していないことを確認してください。",
+    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。更新を手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
     "View changelog" : "変更履歴を確認する",
