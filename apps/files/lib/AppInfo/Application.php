@@ -59,40 +59,15 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService('ViewController', function (IContainer $c) use ($server) {
-			return new ViewController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$server->getURLGenerator(),
-				$c->query('L10N'),
-				$server->getConfig(),
-				$server->getEventDispatcher(),
-				$server->getUserSession(),
-				$server->getAppManager(),
-				$server->getRootFolder(),
-				$c->query(Helper::class)
-			);
-		});
-
-		/**
-		 * Core
-		 */
-		$container->registerService('L10N', function(IContainer $c) {
-			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
-		});
-
 		/**
 		 * Services
 		 */
-		$container->registerService('Tagger', function(IContainer $c)  {
-			return $c->query('ServerContainer')->getTagManager()->load('files');
-		});
 		$container->registerService('TagService', function(IContainer $c) use ($server) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),
 				$c->query('ServerContainer')->getActivityManager(),
-				$c->query('Tagger'),
+				$c->query('ServerContainer')->getTagManager()->load('files'),
 				$homeFolder,
 				$server->getEventDispatcher()
 			);
