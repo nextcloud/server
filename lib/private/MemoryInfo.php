@@ -76,6 +76,6 @@ class MemoryInfo {
 				$memoryLimit *= 1024;
 		}
 
-		return $memoryLimit;
+		return (int)$memoryLimit;
 	}
 }
