@@ -66,7 +66,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fitxer","%n fitxers"],
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["incloent %n ocult","incloent %n ocults"],
-    "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
+    "You don’t have permission to upload or create files here" : "No teniu permís per pujar o crear fitxers aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["S'està pujant %n fitxer","S'estan pujant %n fitxers"],
     "New" : "Nou",
     "Select file range" : "Selecciona el rang de fitxers",
