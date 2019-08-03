@@ -32,7 +32,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "{lastCheckedDate} にチェックが入っています",
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。更新を手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
     "View changelog" : "変更履歴を確認する",
     "Enterprise" : "エンタープライズ",
