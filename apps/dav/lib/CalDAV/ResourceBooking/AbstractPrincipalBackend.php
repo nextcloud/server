@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -51,6 +51,12 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	private $dbTableName;
 
 	/** @var string */
+	private $dbMetaDataTableName;
+
+	/** @var string */
+	private $dbForeignKeyName;
+
+	/** @var string */
 	private $cuType;
 
 	/**
@@ -74,7 +80,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
 		$this->principalPrefix = $principalPrefix;
-		$this->dbTableName = 'calendar_' . $dbPrefix;
+		$this->dbTableName = 'calendar_' . $dbPrefix . 's';
+		$this->dbMetaDataTableName = $this->dbTableName . '_md';
+		$this->dbForeignKeyName = $dbPrefix . '_id';
 		$this->cuType = $cuType;
 	}
 
@@ -100,8 +108,31 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->from($this->dbTableName);
 			$stmt = $query->execute();
 
+			$metaDataQuery = $this->db->getQueryBuilder();
+			$metaDataQuery->select([$this->dbForeignKeyName, 'key', 'value'])
+				->from($this->dbMetaDataTableName);
+			$metaDataStmt = $metaDataQuery->execute();
+			$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+
+			$metaDataById = [];
+			foreach($metaDataRows as $metaDataRow) {
+				if (!isset($metaDataById[$metaDataRow[$this->dbForeignKeyName]])) {
+					$metaDataById[$metaDataRow[$this->dbForeignKeyName]] = [];
+				}
+
+				$metaDataById[$metaDataRow[$this->dbForeignKeyName]][$metaDataRow['key']] =
+					$metaDataRow['value'];
+			}
+
 			while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-				$principals[] = $this->rowToPrincipal($row);
+				$id = $row['id'];
+
+				if (isset($metaDataById[$id])) {
+					$principals[] = $this->rowToPrincipal($row, $metaDataById[$id]);
+				} else {
+					$principals[] = $this->rowToPrincipal($row);
+				}
+
 			}
 
 			$stmt->closeCursor();
@@ -138,7 +169,50 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			return null;
 		}
 
-		return $this->rowToPrincipal($row);
+		$metaDataQuery = $this->db->getQueryBuilder();
+		$metaDataQuery->select(['key', 'value'])
+			->from($this->dbMetaDataTableName)
+			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
+		$metaDataStmt = $metaDataQuery->execute();
+		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metadata = [];
+
+		foreach($metaDataRows as $metaDataRow) {
+			$metadata[$metaDataRow['key']] = $metaDataRow['value'];
+		}
+
+		return $this->rowToPrincipal($row, $metadata);
+	}
+
+	/**
+	 * @param int $id
+	 * @return array|null
+	 */
+	public function getPrincipalById($id):?array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
+			->from($this->dbTableName)
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
+		$stmt = $query->execute();
+		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+		if(!$row) {
+			return null;
+		}
+
+		$metaDataQuery = $this->db->getQueryBuilder();
+		$metaDataQuery->select(['key', 'value'])
+			->from($this->dbMetaDataTableName)
+			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
+		$metaDataStmt = $metaDataQuery->execute();
+		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metadata = [];
+
+		foreach($metaDataRows as $metaDataRow) {
+			$metadata[$metaDataRow['key']] = $metaDataRow['value'];
+		}
+
+		return $this->rowToPrincipal($row, $metadata);
 	}
 
 	/**
@@ -253,7 +327,15 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					break;
 
 				default:
-					$results[] = [];
+					$rowsByMetadata = $this->searchPrincipalsByMetadataKey($prop, $value);
+					$filteredRows = array_filter($rowsByMetadata, function($row) use ($usersGroups) {
+						return $this->isAllowedToAccessResource($row, $usersGroups);
+					});
+
+					$results[] = array_map(function($row) {
+						return $row['uri'];
+					}, $filteredRows);
+
 					break;
 			}
 		}
@@ -272,6 +354,39 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			default:
 				return array_values(array_intersect(...$results));
 		}
+	}
+
+	/**
+	 * Searches principals based on their metadata keys.
+	 * This allows to search for all principals with a specific key.
+	 * e.g.:
+	 * '{http://nextcloud.com/ns}room-building-address' => 'ABC Street 123, ...'
+	 *
+	 * @param $key
+	 * @param $value
+	 * @return array
+	 */
+	private function searchPrincipalsByMetadataKey($key, $value):array {
+		$query = $this->db->getQueryBuilder();
+		$query->select([$this->dbForeignKeyName])
+			->from($this->dbMetaDataTableName)
+			->where($query->expr()->eq('key', $query->createNamedParameter($key)))
+			->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
+		$stmt = $query->execute();
+
+		$rows = [];
+		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			$id = $row[$this->dbForeignKeyName];
+
+			$principalRow = $this->getPrincipalById($id);
+			if (!$principalRow) {
+				continue;
+			}
+
+			$rows[] = $principalRow;
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -338,14 +453,18 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 	/**
 	 * convert database row to principal
+	 *
+	 * @param String[] $row
+	 * @param String[] $metadata
+	 * @return Array
 	 */
-	private function rowToPrincipal($row) {
-		return [
+	private function rowToPrincipal(array $row, array $metadata=[]):array {
+		return array_merge([
 			'uri' => $this->principalPrefix . '/' . $row['backend_id'] . '-' . $row['resource_id'],
 			'{DAV:}displayname' => $row['displayname'],
 			'{http://sabredav.org/ns}email-address' => $row['email'],
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => $this->cuType,
-		];
+		], $metadata);
 	}
 
 	/**
@@ -353,7 +472,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param $userGroups
 	 * @return bool
 	 */
-	private function isAllowedToAccessResource($row, $userGroups) {
+	private function isAllowedToAccessResource(array $row, array $userGroups):bool {
 		if (!isset($row['group_restrictions']) ||
 			$row['group_restrictions'] === null ||
 			$row['group_restrictions'] === '') {

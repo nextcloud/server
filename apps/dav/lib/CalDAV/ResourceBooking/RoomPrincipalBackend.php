@@ -40,6 +40,6 @@ class RoomPrincipalBackend extends AbstractPrincipalBackend {
 								IGroupManager $groupManager,
 								ILogger $logger) {
 		parent::__construct($dbConnection, $userSession, $groupManager, $logger,
-			'principals/calendar-rooms', 'rooms', 'ROOM');
+			'principals/calendar-rooms', 'room', 'ROOM');
 	}
 }
