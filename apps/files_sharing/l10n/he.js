@@ -48,6 +48,8 @@ OC.L10N.register(
     "You shared {file} as public link" : "שיתפת את {file} כקישור ציבורי",
     "You removed public link for {file}" : "הסרת קישור ציבורי עבור {file}",
     "Public link expired for {file}" : "תוקף הקישור הציבורי עבור {file} פג",
+    "{user} declined the remote share" : "השיתוף המרוחק נדחה על ידי {user}",
+    "You received a new remote share {file} from {user}" : "קיבלת שיתוף מרוחק חדש {file} מאת",
     "Shared with {user}" : "שותף עם {user}",
     "Removed share for {user}" : "הוסר השיתוף עבור {user}",
     "You removed yourself" : "הסרת את עצמך",
