@@ -17,7 +17,7 @@ trigger:
 
 ---
 kind: pipeline
-name: cypress-e2e-testing
+name: cypress-e2e-testing master
 
 services:
    # nextcloud server
@@ -172,6 +172,173 @@ steps:
     commands:
       - cd /drone/src
       - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER-$DRONE_PULL_REQUEST
+
+volumes:
+  - name: cache
+    temp: {}
+  - name: droneshm
+    temp: {}
+
+trigger:
+  branch:
+    - master
+    - stable*
+
+---
+kind: pipeline
+name: cypress-e2e-testing 16
+
+services:
+   # nextcloud server
+  - name: server
+    image: nextcloudci/server:server-10
+    commands:
+      # Add app sources to the app directory
+      - export BRANCH=stable16
+      - echo "Testing against $BRANCH"
+      - ln -s /drone/src /var/www/html/apps/viewer
+      - ls -lLa /var/www/html/apps/viewer
+      - mkdir /var/www/html/data
+      - chown -R www-data:www-data /var/www/html/apps/viewer
+      - chown -R www-data:www-data /var/www/html/data
+
+       # Install nextcloud, watch logs and run apache
+      - bash /initnc.sh
+
+steps:
+  # clone and build the app
+  - name: build
+    image: nextcloudci/node:node-5
+    volumes:
+    - name: cache
+      path: /root/.cache
+    commands:
+      - git --no-pager log -1
+      - npm ci
+      - npm run build
+
+  # wait on server to be ready
+  - name: wait-on-server
+    image: nextcloudci/node:node-5
+    environment:
+      CYPRESS_baseUrl: http://server/index.php/
+      LOGIN: login
+    commands:
+      - WAIT_ON=$CYPRESS_baseUrl$LOGIN
+      - npm install -g wait-on
+      - wait-on -i 500 -t 300000 $WAIT_ON
+
+  - name: testing 1
+    image: cypress/browsers:chrome69
+    depends_on:
+      - build
+      - wait-on-server
+    # avoid memory process crash
+    # https://docs.cypress.io/guides/references/error-messages.html#The-Chromium-Renderer-process-just-crashed
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: cache
+        path: /root/.cache
+      - name: droneshm
+        path: /dev/shm
+    environment:
+      CYPRESS_RECORD_TOKEN: 
+        from_secret: cypress_record_token
+      CYPRESS_baseUrl: http://server/index.php/
+      LOGIN: login
+    commands:
+      - cd /drone/src
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+
+  - name: testing 2
+    image: cypress/browsers:chrome69
+    depends_on:
+      - build
+      - wait-on-server
+    # avoid memory process crash
+    # https://docs.cypress.io/guides/references/error-messages.html#The-Chromium-Renderer-process-just-crashed
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: cache
+        path: /root/.cache
+      - name: droneshm
+        path: /dev/shm
+    environment:
+      CYPRESS_RECORD_TOKEN: 
+        from_secret: cypress_record_token
+      CYPRESS_baseUrl: http://server/index.php/
+      LOGIN: login
+    commands:
+      - cd /drone/src
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+
+  - name: testing 3
+    image: cypress/browsers:chrome69
+    depends_on:
+      - build
+      - wait-on-server
+    # avoid memory process crash
+    # https://docs.cypress.io/guides/references/error-messages.html#The-Chromium-Renderer-process-just-crashed
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: cache
+        path: /root/.cache
+      - name: droneshm
+        path: /dev/shm
+    environment:
+      CYPRESS_RECORD_TOKEN: 
+        from_secret: cypress_record_token
+      CYPRESS_baseUrl: http://server/index.php/
+      LOGIN: login
+    commands:
+      - cd /drone/src
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
+
+  - name: testing 4
+    image: cypress/browsers:chrome69
+    depends_on:
+      - build
+      - wait-on-server
+    # avoid memory process crash
+    # https://docs.cypress.io/guides/references/error-messages.html#The-Chromium-Renderer-process-just-crashed
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: cache
+        path: /root/.cache
+      - name: droneshm
+        path: /dev/shm
+    environment:
+      CYPRESS_RECORD_TOKEN: 
+        from_secret: cypress_record_token
+      CYPRESS_baseUrl: http://server/index.php/
+      LOGIN: login
+    commands:
+      - cd /drone/src
+      - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel
 
 volumes:
   - name: cache
