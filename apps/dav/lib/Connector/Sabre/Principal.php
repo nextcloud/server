@@ -35,6 +35,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
@@ -228,8 +229,59 @@ class Principal implements BackendInterface {
 	 * @throws Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
-		$a = 'b';
-		throw new Exception('Setting members of the group is not supported yet');
+		list($prefix, $target) = \Sabre\Uri\split($principal);
+
+		if ($target !== 'calendar-proxy-write' && $target !== 'calendar-proxy-read') {
+			throw new Exception('Setting members of the group is not supported yet');
+		}
+
+		$permission = ProxyMapper::PERMISSION_READ;
+		if ($target === 'calendar-proxy-write') {
+			$permission |= ProxyMapper::PERMISSION_WRITE;
+		}
+
+		list($prefix, $owner) = \Sabre\Uri\split($prefix);
+		$proxies = $this->proxyMapper->getProxiesOf($owner);
+
+		foreach ($members as $member) {
+			list($prefix, $name) = \Sabre\Uri\split($member);
+
+			if ($prefix !== $this->principalPrefix) {
+				throw new Exception('Invalid member group prefix: ' . $prefix);
+			}
+
+			$user = $this->userManager->get($name);
+			if ($user === null) {
+				throw new Exception('Invalid member: ' . $name);
+			}
+
+			$found = false;
+			foreach ($proxies as $proxy) {
+				if ($proxy->getProxyId() === $user->getUID()) {
+					$found = true;
+					$proxy->setPermissions($proxy->getPermissions() | $permission);
+					$this->proxyMapper->update($proxy);
+
+					$proxies = array_filter($proxies, function(Proxy $p) use ($proxy) {
+						return $p->getId() !== $proxy->getId();
+					});
+					break;
+				}
+			}
+
+			if ($found === false) {
+				$proxy = new Proxy();
+				$proxy->setOwnerId($owner);
+				$proxy->setProxyId($user->getUID());
+				$proxy->setPermissions($permission);
+				$this->proxyMapper->insert($proxy);
+			}
+		}
+
+		// Delete all remaining proxies
+		foreach ($proxies as $proxy) {
+			$this->proxyMapper->delete($proxy);
+		}
 	}
 
 	/**
