@@ -213,8 +213,8 @@ export default {
 			document.body.style.overflow = 'hidden'
 
 			// retrieve, sort and store file List
-			const relativePath = `${fileInfo.dir !== '/' ? fileInfo.dir : ''}/${fileName}`
-			let fileList = await FileList(OC.getCurrentUser().uid, relativePath)
+
+			let fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, fileName))
 
 			let mime = fileList.find(file => file.name === fileName).mimetype
 
@@ -226,7 +226,7 @@ export default {
 					: [mime]
 
 				// retrieve folder list
-				fileList = await FileList(OC.getCurrentUser().uid, fileInfo.dir)
+				fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, ''))
 
 				// filter out the unwanted mimes
 				fileList = fileList.filter(file => file.mimetype && mimes.indexOf(file.mimetype) !== -1)
@@ -257,6 +257,25 @@ export default {
 				console.error(`The following file could not be displayed`, fileName, fileInfo)
 				this.currentFile.failed = true
 			}
+		},
+
+		/**
+		 * Get an url encoded path
+		 *
+		 * @param {string} dir path of the files directory
+		 * @param {string} fileName unencoded file name
+		 * @returns {string} url encoded file path
+		 */
+		encodeFilePath(dir, fileName) {
+			const pathSections = (dir !== '/' ? dir : '').split('/')
+			pathSections.push(fileName)
+			let relativePath = ''
+			pathSections.forEach((section) => {
+				if (section !== '') {
+					relativePath += '/' + encodeURIComponent(section)
+				}
+			})
+			return relativePath
 		},
 
 		/**
