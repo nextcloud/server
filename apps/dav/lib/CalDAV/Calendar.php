@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
@@ -46,6 +47,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	/** @var IConfig */
 	private $config;
 
+	/** @var ProxyMapper */
+	private $proxyMapper;
+
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
@@ -58,6 +62,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$this->config = $config;
+
+		// TODO: proper DI
+		$this->proxyMapper = \OC::$server->query(ProxyMapper::class);
 	}
 
 	/**
@@ -141,7 +148,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		if (!$this->isShared()) {
-			return $acl;
+			return $this->addProxies($acl);
 		}
 
 		if ($this->getOwner() !== parent::getOwner()) {
@@ -174,9 +181,37 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
-		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+		$acl = array_filter($acl, function($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
+
+		$acl = $this->addProxies($acl);
+
+		return $acl;
+	}
+
+	public function addProxies(array $acl): array {
+		list($prefix, $name) = \Sabre\Uri\split($this->getOwner());
+		$proxies = $this->proxyMapper->getProxiesOf($name);
+
+		foreach ($proxies as $proxy) {
+			if ($proxy->getPermissions() & ProxyMapper::PERMISSION_READ) {
+				$acl[] =  [
+					'privilege' => '{DAV:}read',
+					'principal' => 'principals/users/' . $proxy->getProxyId(),
+					'protected' => true,
+				];
+			}
+			if ($proxy->getPermissions() & ProxyMapper::PERMISSION_WRITE) {
+				$acl[] =  [
+					'privilege' => '{DAV:}write',
+					'principal' => 'principals/users/' . $proxy->getProxyId(),
+					'protected' => true,
+				];
+			}
+		}
+
+		return $acl;
 	}
 
 	public function getChildACL() {

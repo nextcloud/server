@@ -23,6 +23,7 @@
 
 namespace OCA\Files_Versions\AppInfo;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
@@ -51,8 +52,8 @@ class Application extends App {
 				$server->getGroupManager(),
 				$server->getShareManager(),
 				$server->getUserSession(),
-				$server->getConfig(),
-				$server->getAppManager()
+				$server->getAppManager(),
+				$server->query(ProxyMapper::class)
 			);
 		});
 

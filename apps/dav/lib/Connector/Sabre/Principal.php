@@ -35,9 +35,9 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
-use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -62,9 +62,6 @@ class Principal implements BackendInterface {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IConfig */
-	private $config;
-
 	/** @var IAppManager */
 	private $appManager;
 
@@ -76,30 +73,24 @@ class Principal implements BackendInterface {
 
 	/** @var bool */
 	private $hasCircles;
+	/** @var ProxyMapper */
+	private $proxyMapper;
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param string $principalPrefix
-	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
 								IShareManager $shareManager,
 								IUserSession $userSession,
-								IConfig $config,
 								IAppManager $appManager,
+								ProxyMapper $proxyMapper,
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
-		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
+		$this->proxyMapper = $proxyMapper;
 	}
 
 	/**
@@ -137,6 +128,21 @@ class Principal implements BackendInterface {
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = \Sabre\Uri\split($path);
+
+		if ($name === 'calendar-proxy-write' || $name === 'calendar-proxy-read') {
+			list($prefix2, $name2) = \Sabre\Uri\split($prefix);
+
+			if ($prefix2 === $this->principalPrefix) {
+				$user = $this->userManager->get($name2);
+
+				if ($user !== null) {
+					return [
+						'uri' => 'principals/users/' . $user->getUID() . '/' . $name,
+					];
+				}
+				return null;
+			}
+		}
 
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
@@ -195,6 +201,17 @@ class Principal implements BackendInterface {
 					return 'principals/groups/' . urlencode($group->getGID());
 				}, $groups);
 
+				$proxies = $this->proxyMapper->getProxiesFor($user->getUID());
+				foreach ($proxies as $proxy) {
+					if ($proxy->getPermissions() & ProxyMapper::PERMISSION_READ) {
+						$groups[] = 'principals/users/' . $proxy->getOwnerId() . '/calendar-proxy-read';
+					}
+
+					if ($proxy->getPermissions() & ProxyMapper::PERMISSION_WRITE) {
+						$groups[] = 'principals/users/' . $proxy->getOwnerId() . '/calendar-proxy-write';
+					}
+				}
+
 				return $groups;
 			}
 		}
@@ -211,6 +228,7 @@ class Principal implements BackendInterface {
 	 * @throws Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
+		$a = 'b';
 		throw new Exception('Setting members of the group is not supported yet');
 	}
 

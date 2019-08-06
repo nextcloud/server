@@ -26,6 +26,7 @@ namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
@@ -58,8 +59,8 @@ class RootCollection extends SimpleCollection {
 			$groupManager,
 			$shareManager,
 			\OC::$server->getUserSession(),
-			$config,
-			\OC::$server->getAppManager()
+			\OC::$server->getAppManager(),
+			\OC::$server->query(ProxyMapper::class)
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $l10n);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
