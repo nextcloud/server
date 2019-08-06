@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+import SizeValue from './components/Values/SizeValue'
 (function() {
 
 	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
@@ -49,6 +49,9 @@
 				.tooltip({
 					placement: 'bottom'
 				});
+		},
+		component: function () {
+			return SizeValue
 		}
 	};
 })();

@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import FileMimeType from './components/Values/FileMimeType'
 
 (function() {
 
@@ -65,6 +66,10 @@
 			var regexRegex = /^\/(.*)\/([gui]{0,3})$/,
 				result = regexRegex.exec(string);
 			return result !== null;
+		},
+
+		component: function () {
+			return FileMimeType
 		}
 	};
 })();
