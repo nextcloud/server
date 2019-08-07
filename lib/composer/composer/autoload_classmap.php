@@ -439,6 +439,7 @@ return array(
     'OCP\\User\\Backend\\ISetPasswordBackend' => $baseDir . '/lib/public/User/Backend/ISetPasswordBackend.php',
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
     'OCP\\WorkflowEngine\\ICheck' => $baseDir . '/lib/public/WorkflowEngine/ICheck.php',
+    'OCP\\WorkflowEngine\\IEntityAware' => $baseDir . '/lib/public/WorkflowEngine/IEntityAware.php',
     'OCP\\WorkflowEngine\\IManager' => $baseDir . '/lib/public/WorkflowEngine/IManager.php',
     'OCP\\WorkflowEngine\\IOperation' => $baseDir . '/lib/public/WorkflowEngine/IOperation.php',
     'OC\\Accounts\\Account' => $baseDir . '/lib/private/Accounts/Account.php',

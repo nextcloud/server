@@ -28,18 +28,23 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\WorkflowEngine\ICheck;
+use OCP\WorkflowEngine\IEntityAware;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 
-class Manager implements IManager {
+class Manager implements IManager, IEntityAware {
 
 	/** @var IStorage */
 	protected $storage;
 
 	/** @var string */
 	protected $path;
+
+	/** @var object */
+	protected $entity;
 
 	/** @var array[] */
 	protected $operations = [];
@@ -118,7 +123,10 @@ class Manager implements IManager {
 			return true;
 		}
 
-		if ($checkInstance instanceof ICheck) {
+		if ($checkInstance instanceof IEntityAware && $this->entity !== null) {
+			$checkInstance->setEntity($this->entity);
+			return $checkInstance->executeCheck($check['operator'], $check['value']);
+		} elseif ($checkInstance instanceof ICheck) {
 			$checkInstance->setFileInfo($this->storage, $this->path);
 			return $checkInstance->executeCheck($check['operator'], $check['value']);
 		} else {
@@ -387,5 +395,23 @@ class Manager implements IManager {
 		}
 
 		return $operation;
+	}
+
+	/**
+	 * @param object $entity
+	 * @since 18.0.0
+	 */
+	public function setEntity($entity) {
+		if(!is_object($entity)) {
+			$this->container->getLogger()->logException(
+				new \InvalidArgumentException('provided entity is not an object'),
+				[
+					'app' => 'workflowengine',
+					'level' => ILogger::ERROR,
+				]
+			);
+			return;
+		}
+		$this->entity = $entity;
 	}
 }
