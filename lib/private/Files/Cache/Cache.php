@@ -416,7 +416,7 @@ class Cache implements ICache {
 		$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?';
 		$result = $this->connection->executeQuery($sql, array($this->getNumericStorageId(), $pathHash));
 		if ($row = $result->fetch()) {
-			return $row['fileid'];
+			return (int)$row['fileid'];
 		} else {
 			return -1;
 		}
