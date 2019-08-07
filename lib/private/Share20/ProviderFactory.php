@@ -278,12 +278,14 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER
+			|| $shareType === \OCP\Share::SHARE_TYPE_GUEST
+			|| $shareType === \OCP\Share::SHARE_TYPE_GROUP
+			|| $shareType === \OCP\Share::SHARE_TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE
+			|| $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();

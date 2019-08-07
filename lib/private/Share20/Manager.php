@@ -208,7 +208,8 @@ class Manager implements IManager {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function generalCreateChecks(\OCP\Share\IShare $share) {
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
 				throw new \InvalidArgumentException('SharedWith is not a valid user');
@@ -251,8 +252,11 @@ class Manager implements IManager {
 		}
 
 		// Cannot share with yourself
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $share->getSharedBy()) {
+		if ((
+				$share->getShareType() === \OCP\Share::SHARE_TYPE_USER 
+				|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST
+			)
+			&& $share->getSharedWith() === $share->getSharedBy()) {
 			throw new \InvalidArgumentException('Can’t share with yourself');
 		}
 
@@ -632,8 +636,9 @@ class Manager implements IManager {
 			$share->setShareOwner($share->getNode()->getOwner()->getUID());
 		}
 
-		//Verify share type
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		// Verify share type
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			$this->userCreateChecks($share);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
@@ -671,8 +676,11 @@ class Manager implements IManager {
 		}
 
 		// Cannot share with the owner
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $share->getShareOwner()) {
+		if ((
+				$share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+				|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST
+			)
+			&& $share->getSharedWith() === $share->getShareOwner()) {
 			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
@@ -698,7 +706,8 @@ class Manager implements IManager {
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			$mailSend = $share->getMailSend();
 			if($mailSend === true) {
 				$user = $this->userManager->get($share->getSharedWith());
@@ -840,14 +849,18 @@ class Manager implements IManager {
 		}
 
 		// Cannot share with the owner
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $share->getShareOwner()) {
+		if ((
+				$share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+				|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST
+			)
+			&& $share->getSharedWith() === $share->getShareOwner()) {
 			throw new \InvalidArgumentException('Can’t share with the share owner');
 		}
 
 		$this->generalCreateChecks($share);
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			$this->userCreateChecks($share);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
@@ -1043,7 +1056,11 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Can’t change target of link share');
 		}
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() !== $recipientId) {
+		if ((
+				$share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+				|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST
+			)
+			&& $share->getSharedWith() !== $recipientId) {
 			throw new \InvalidArgumentException('Invalid recipient');
 		}
 

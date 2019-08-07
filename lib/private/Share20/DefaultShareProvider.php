@@ -139,7 +139,8 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->insert('share');
 		$qb->setValue('share_type', $qb->createNamedParameter($share->getShareType()));
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
@@ -237,7 +238,8 @@ class DefaultShareProvider implements IShareProvider {
 
 		$originalShare = $this->getShareById($share->getId());
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			/*
 			 * We allow updating the recipient on user shares.
 			 */
@@ -451,7 +453,8 @@ class DefaultShareProvider implements IShareProvider {
 					->execute();
 			}
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 
 			if ($share->getSharedWith() !== $recipient) {
 				throw new ProviderException('Recipient does not match');
@@ -503,7 +506,8 @@ class DefaultShareProvider implements IShareProvider {
 	 * @inheritdoc
 	 */
 	public function move(\OCP\Share\IShare $share, $recipient) {
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			// Just update the target
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
@@ -761,7 +765,8 @@ class DefaultShareProvider implements IShareProvider {
 		/** @var Share[] $shares */
 		$shares = [];
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER
+			|| $shareType === \OCP\Share::SHARE_TYPE_GUEST) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->select('s.*',
@@ -938,7 +943,8 @@ class DefaultShareProvider implements IShareProvider {
 		$shareTime->setTimestamp((int)$data['stime']);
 		$share->setShareTime($shareTime);
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			$share->setSharedWith($data['share_with']);
 			$user = $this->userManager->get($data['share_with']);
 			if ($user !== null) {
@@ -1046,7 +1052,8 @@ class DefaultShareProvider implements IShareProvider {
 
 		$qb->delete('share');
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER
+			|| $shareType === \OCP\Share::SHARE_TYPE_GUEST) {
 			/*
 			 * Delete all user shares that are owned by this user
 			 * or that are received by this user
@@ -1217,7 +1224,8 @@ class DefaultShareProvider implements IShareProvider {
 		$link = false;
 		while($row = $cursor->fetch()) {
 			$type = (int)$row['share_type'];
-			if ($type === \OCP\Share::SHARE_TYPE_USER) {
+			if ($type === \OCP\Share::SHARE_TYPE_USER
+				|| $type === \OCP\Share::SHARE_TYPE_GUEST) {
 				$uid = $row['share_with'];
 				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
 				$users[$uid][$row['id']] = $row;
@@ -1298,7 +1306,8 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	private function propagateNote(IShare $share) {
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER
+			|| $share->getShareType() === \OCP\Share::SHARE_TYPE_GUEST) {
 			$user = $this->userManager->get($share->getSharedWith());
 			$this->sendNote([$user], $share);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
