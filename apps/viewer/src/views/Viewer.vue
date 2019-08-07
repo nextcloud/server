@@ -212,6 +212,13 @@ export default {
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
 
+			// swap title with original one
+			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
+			if (title && !title.dataset.old) {
+				title.dataset.old = document.title
+				document.title = `${fileName} - ${OC.theme.title}`
+			}
+
 			// retrieve, sort and store file List
 
 			let fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, fileName))
@@ -428,6 +435,13 @@ export default {
 
 			// restore default
 			document.body.style.overflow = null
+
+			// swap back original title
+			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
+			if (title && title.dataset.old) {
+				document.title = title.dataset.old
+				delete title.dataset.old
+			}
 		},
 
 		/**
