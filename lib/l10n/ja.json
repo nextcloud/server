@@ -117,8 +117,8 @@
     "Files can’t be shared with create permissions" : "作成権限つきでファイルを共有できません。",
     "Expiration date is in the past" : "有効期限が切れています",
     "Can’t set expiration date more than %s days in the future" : "有効期限を%s日以降に設定できません。",
-    "%1$s shared »%2$s« with you" : "%1$s は %2$s をあなたと共有しました",
-    "%1$s shared »%2$s« with you." : "%1$sが あなたと >> %2$s <<を共有しました。",
+    "%1$s shared »%2$s« with you" : "%1$s は »%2$s« をあなたと共有しました",
+    "%1$s shared »%2$s« with you." : "%1$sが あなたと »%2$s« を共有しました。",
     "Click the button below to open it." : "開くには下のボタンをクリック",
     "The requested share does not exist anymore" : "この共有はもう存在しません。",
     "Could not find category \"%s\"" : "カテゴリ \"%s\" が見つかりませんでした",
@@ -263,12 +263,12 @@
     "Sharing %1$s failed, because the user %2$s does not exist" : "ユーザー%2$sが存在しないため、%1$sの共有に失敗しました",
     "Sharing %1$s failed, because the user %2$s is not a member of any groups that %3$s is a member of" : "ユーザー%2$sは、%3$sがメンバーになっているグループのメンバーでないため、%1$sの共有に失敗しました",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "このアイテムはすでに %2$s と共有されているため、%1$s の共有に失敗しました",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s を共有できませんでした。このアイテムは、ユーザー%2$sによりすでに共有されています。",
-    "Sharing %1$s failed, because the group %2$s does not exist" : "%1$s を共有できませんでした。グループ%2$s は存在しません。",
-    "Sharing %1$s failed, because %2$s is not a member of the group %3$s" : "%1$s を共有できませんでした。%2$s は、グループ %3$sのメンバーではありません。",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
+    "Sharing %1$s failed, because the group %2$s does not exist" : "グループ%2$s が存在しないため、%1$s の共有に失敗しました。",
+    "Sharing %1$s failed, because %2$s is not a member of the group %3$s" : "%2$s は、グループ %3$sのメンバーではないため%1$sを共有できませんでした。",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable." : "%1$s を共有できませんでした。%2$s が見つかりませんでした。現在サーバーに接続できないようです。",
     "Share type %1$s is not valid for %2$s" : "共有方法%1$s は、%2$s には適用できません。",
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "アクセス権が%2$sに付与されたアクセス権を超えているため、%1$sの共有に失敗しました",
-    "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "%2$sの共有バックエンドでソースが見つからなかったため、%1$sの共有に失敗しました"
+    "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "%2$sの共有バックエンドで元データが見つからなかったため、%1$sの共有に失敗しました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
