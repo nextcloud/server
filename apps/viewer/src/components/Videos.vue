@@ -26,6 +26,7 @@
 		:autoplay="active"
 		:controls="visibleControls"
 		:poster="livePhotoPath"
+		:playsinline="true"
 		:preload="true"
 		:src="davPath"
 		:style="{
