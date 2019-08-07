@@ -1062,6 +1062,11 @@ function initCore() {
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
+
+			// trigger redirect
+			// needed for ie, but also works for every browser
+			window.location = $app.href
+
 			if(event.which === 1 && !event.ctrlKey && !event.metaKey && $app.parent('#more-apps').length === 0) {
 				$app.find('svg').remove();
 				$app.find('div').remove(); // prevent odd double-clicks
