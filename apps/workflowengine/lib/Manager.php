@@ -127,6 +127,25 @@ class Manager implements IManager {
 		}
 	}
 
+	public function getAllOperations(): array {
+		$this->operations = [];
+
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select('*')
+			->from('flow_operations');
+		$result = $query->execute();
+
+		while ($row = $result->fetch()) {
+			if(!isset($this->operations[$row['class']])) {
+				$this->operations[$row['class']] = [];
+			}
+			$this->operations[$row['class']][] = $row;
+		}
+
+		return $this->operations;
+	}
+
 	/**
 	 * @param string $class
 	 * @return array[]
@@ -352,5 +371,21 @@ class Manager implements IManager {
 		$query->execute();
 
 		return $query->getLastInsertId();
+	}
+
+	public function formatOperation(array $operation): array {
+		$checkIds = json_decode($operation['checks'], true);
+		$checks = $this->getChecks($checkIds);
+
+		$operation['checks'] = [];
+		foreach ($checks as $check) {
+			// Remove internal values
+			unset($check['id']);
+			unset($check['hash']);
+
+			$operation['checks'][] = $check;
+		}
+
+		return $operation;
 	}
 }

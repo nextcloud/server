@@ -26,5 +26,8 @@ return [
 		['name' => 'flowOperations#updateOperation', 'url' => '/operations/{id}', 'verb' => 'PUT'],
 		['name' => 'flowOperations#deleteOperation', 'url' => '/operations/{id}', 'verb' => 'DELETE'],
 		['name' => 'requestTime#getTimezones', 'url' => '/timezones', 'verb' => 'GET'],
-	]
+	],
+	'ocs-resources' => [
+		'global_workflows' => ['url' => '/api/v1/workflows/global'],
+	],
 ];

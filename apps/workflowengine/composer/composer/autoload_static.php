@@ -33,6 +33,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Check\\RequestUserAgent' => __DIR__ . '/..' . '/../lib/Check/RequestUserAgent.php',
         'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => __DIR__ . '/..' . '/../lib/Check/UserGroupMembership.php',
         'OCA\\WorkflowEngine\\Controller\\FlowOperations' => __DIR__ . '/..' . '/../lib/Controller/FlowOperations.php',
+        'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/GlobalWorkflowsController.php',
         'OCA\\WorkflowEngine\\Controller\\RequestTime' => __DIR__ . '/..' . '/../lib/Controller/RequestTime.php',
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
