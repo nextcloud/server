@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Настройка групп была отключена, так как сервер LDAP / AD не поддерживает memberOf.",
     "Password change rejected. Hint: " : "Смена пароля отклонена. Подсказка:",
     "Please login with the new password" : "Войдите в систему со своим новым паролем",
+    "LDAP User backend" : "Механизм учета пользователей LDAP",
     "Your password will expire tomorrow." : "Завтра истекает срок действия пароля.",
     "Your password will expire today." : "Сегодня истекает срок действия пароля.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Срок действия пароля истекает через %n день.","Срок действия пароля истекает через %n дня.","Срок действия пароля истекает через %n дней.","Срок действия пароля истекает через %n день."],
