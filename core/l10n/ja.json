@@ -431,6 +431,6 @@
     "%s will be updated to version %s" : "%s は バーション %s にアップデートされます",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
     "Thank you for your patience." : "しばらくお待ちください。",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするEメールを、私たちが知っているEメールアドレスに送信しました。 あなたが妥当な時間内にそれを受け取らないならば、あなたのスパム/ジャンクフォルダーをチェックしてください。<br>それがそこにない場合はあなたの地元の管理者に尋ねてください。"
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするEメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にそれを受け取れないならば、あなたのスパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合はサーバー管理者に確認して下さい。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
