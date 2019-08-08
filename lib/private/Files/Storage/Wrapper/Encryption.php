@@ -704,6 +704,16 @@ class Encryption extends Wrapper {
 	 */
 	private function copyBetweenStorage(Storage\IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
 
+		// store encryptedVersion
+		$encrypted        = false;
+		$encryptedVersion = 0;
+		if (isset($sourceStorage->getCache()->get($sourceInternalPath)['encrypted'])) {
+			$encrypted = $sourceStorage->getCache()->get($sourceInternalPath)['encrypted'];
+		}
+		if (isset($sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'])) {
+			$encryptedVersion = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
+		}
+
 		// for versions we have nothing to do, because versions should always use the
 		// key from the original file. Just create a 1:1 copy and done
 		if ($this->isVersion($targetInternalPath) ||
@@ -774,6 +784,10 @@ class Encryption extends Wrapper {
 				$this->getCache()->remove($targetInternalPath);
 			}
 		}
+
+		// restore encryptedVersion
+		$sourceStorage->getCache()->put($sourceInternalPath, ['encrypted' => $encrypted, 'encryptedVersion' => $encryptedVersion]);
+
 		return (bool)$result;
 	}
 
@@ -1020,7 +1034,7 @@ class Encryption extends Wrapper {
 		}
 
 		try {
-			$encryptionModule = $this->getEncryptionModule($fullPath);
+			$encryptionModule = $this->getEncryptionModule($path);
 		} catch (ModuleDoesNotExistsException $e) {
 			return false;
 		}

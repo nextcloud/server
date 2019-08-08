@@ -439,7 +439,7 @@ class Local extends \OC\Files\Storage\Common {
 			throw new ForbiddenException('Invalid path', false);
 		}
 
-		$fullPath = $this->datadir . $path;
+		$fullPath = Filesystem::normalizePath($this->datadir . $path);
 		$currentPath = $path;
 		if ($this->allowSymlinks || $currentPath === '') {
 			return $fullPath;
