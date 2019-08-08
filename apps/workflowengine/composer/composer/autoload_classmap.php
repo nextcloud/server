@@ -21,5 +21,6 @@ return array(
     'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => $baseDir . '/../lib/Controller/GlobalWorkflowsController.php',
     'OCA\\WorkflowEngine\\Controller\\RequestTime' => $baseDir . '/../lib/Controller/RequestTime.php',
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
+    'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => $baseDir . '/../lib/Migration/Version2019Date20190808074233.php',
     'OCA\\WorkflowEngine\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
 );
