@@ -128,6 +128,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "File Management" : "Tiedostohallinta",
     "%s used" : "%s käytetty",
+    "%s%% of %s used" : "%s%% / %s käytetty",
     "%1$s of %2$s used" : "%1$s/%2$s käytetty",
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",

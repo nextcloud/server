@@ -23,6 +23,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Paina oheista painiketta palauttaaksesi salasanasi. Jos et ole pyytänyt salasanan palautusta, jätä tämä sähköpostiviesti huomioimatta.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Paina oheista linkkiä palauttaaksesi salasanasi. Jos et ole pyytänyt salasanan palautusta, jätä tämä sähköpostiviesti huomioimatta.",
     "Reset your password" : "Palauta salasanasi",
+    "Nextcloud Server" : "Nextcloud-palvelin",
     "Some of your link shares have been removed" : "Jotkin linkkijakosi on poistettu",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Tietoturvaongelman vuoksi jouduimme poistaa joitakin linkkijakojasi. Lue lisätietoja linkin kautta.",
     "Preparing update" : "Valmistellaan päivitystä",
