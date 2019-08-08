@@ -577,9 +577,16 @@ export default {
 	position: fixed;
 	top: 0;
 	height: 100%;
-	z-index: 15000;
+	z-index: 2025;
 	.thumbnailContainer {
 		display: none;
 	}
+}
+
+// put autocomplete over full sidebar
+// TODO: remove when new sharing sidebar (18)
+// is the min-version of viewer
+.ui-autocomplete {
+	z-index: 2050 !important;
 }
 </style>
