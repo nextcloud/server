@@ -123,13 +123,12 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			\OCP\Share::SHARE_TYPE_CIRCLE,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
-			// one of each type is enough to find out about the types
 			$shares = $this->shareManager->getSharesBy(
 				$this->userId,
 				$requestedShareType,
 				$node,
 				false,
-				1
+				-1
 			);
 			foreach ($shares as $share) {
 				$result[] = $share;
