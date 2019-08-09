@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,19 +21,27 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
+namespace OCA\DAV\CalDAV\Reminder;
 
-class ProviderNotAvailableException extends \Exception {
+use OCP\IUser;
+use Sabre\VObject\Component\VEvent;
+
+/**
+ * Interface INotificationProvider
+ *
+ * @package OCA\DAV\CalDAV\Reminder
+ */
+interface INotificationProvider {
 
 	/**
-	 * ProviderNotAvailableException constructor.
+	 * Send notification
 	 *
-	 * @since 16.0.0
-	 *
-	 * @param string $type ReminderType
+	 * @param VEvent $vevent
+	 * @param string $calendarDisplayName
+	 * @param IUser[] $users
+	 * @return void
 	 */
-	public function __construct(string $type) {
-		parent::__construct("No notification provider for type $type available");
-	}
-
+	public function send(VEvent $vevent,
+						 string $calendarDisplayName,
+						 array $users=[]): void;
 }

@@ -1,6 +1,11 @@
 <?php
+declare(strict_types=1);
 /**
+ * @copyright Copyright (c) 2019, Thomas Citharel
+ * @copyright Copyright (c) 2019, Georg Ehrke
+ *
  * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -19,36 +24,55 @@
  */
 namespace OCA\DAV\CalDAV\Reminder;
 
-use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
-
+/**
+ * Class NotificationProviderManager
+ *
+ * @package OCA\DAV\CalDAV\Reminder
+ */
 class NotificationProviderManager {
 
-    /** @var array */
+    /** @var INotificationProvider[] */
     private $providers = [];
+
+	/**
+	 * Checks whether a provider for a given ACTION exists
+	 *
+	 * @param string $type
+	 * @return bool
+	 */
+	public function hasProvider(string $type):bool {
+		return (\in_array($type, ReminderService::REMINDER_TYPES, true)
+			&& isset($this->providers[$type]));
+	}
+
     /**
-     * @var string $type
-     * @return AbstractNotificationProvider
-     * @throws ProviderNotAvailableException
+	 * Get provider for a given ACTION
+	 *
+     * @param string $type
+     * @return INotificationProvider
+     * @throws NotificationProvider\ProviderNotAvailableException
      * @throws NotificationTypeDoesNotExistException
      */
-    public function getProvider(string $type):AbstractNotificationProvider {
+    public function getProvider(string $type):INotificationProvider {
         if (in_array($type, ReminderService::REMINDER_TYPES, true)) {
             if (isset($this->providers[$type])) {
                 return $this->providers[$type];
             }
-            throw new ProviderNotAvailableException($type);
+            throw new NotificationProvider\ProviderNotAvailableException($type);
         }
         throw new NotificationTypeDoesNotExistException($type);
     }
 
 	/**
+	 * Registers a new provider
+	 *
 	 * @param string $providerClassName
 	 * @throws \OCP\AppFramework\QueryException
 	 */
     public function registerProvider(string $providerClassName):void {
 		$provider = \OC::$server->query($providerClassName);
 
-		if (!$provider instanceof AbstractNotificationProvider) {
+		if (!$provider instanceof INotificationProvider) {
 			throw new \InvalidArgumentException('Invalid notification provider registered');
 		}
 

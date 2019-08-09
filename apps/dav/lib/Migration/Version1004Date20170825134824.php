@@ -324,8 +324,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 				'length' => 1,
 			]);
 			$table->addColumn('stripattachments', 'smallint', [
-				'notnull' => false,
-				'length' => 1,
+
 			]);
 			$table->addColumn('lastmodified', 'integer', [
 				'notnull' => false,

@@ -27,6 +27,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class SendEventReminders
+ *
+ * @package OCA\DAV\Command
+ */
 class SendEventReminders extends Command {
 
 	/** @var ReminderService */
@@ -35,10 +40,13 @@ class SendEventReminders extends Command {
 	/** @var IConfig */
 	protected $config;
 
-	public function __construct(string $name = null,
-								ReminderService $reminderService,
+	/**
+	 * @param ReminderService $reminderService
+	 * @param IConfig $config
+	 */
+	public function __construct(ReminderService $reminderService,
 								IConfig $config) {
-		parent::__construct($name);
+		parent::__construct();
 		$this->reminderService = $reminderService;
 		$this->config = $config;
 	}

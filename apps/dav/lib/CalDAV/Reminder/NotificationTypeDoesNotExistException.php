@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2019, Thomas Citharel
  *
  * @author Thomas Citharel <tcit@tcit.fr>
  *

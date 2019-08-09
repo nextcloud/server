@@ -231,12 +231,10 @@ class Application extends App {
 			);
 
 			/** @var ReminderService $reminderBackend */
-			$reminderService= $this->getContainer()->query(ReminderService::class);
+			$reminderService = $this->getContainer()->query(ReminderService::class);
 
 			$reminderService->onTouchCalendarObject(
 				$eventName,
-				$event->getArgument('calendarData'),
-				$event->getArgument('shares'),
 				$event->getArgument('objectData')
 			);
 		};

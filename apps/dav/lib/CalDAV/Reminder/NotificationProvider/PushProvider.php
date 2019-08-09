@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2019, Thomas Citharel
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,11 +23,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
-use OCA\DAV\CalDAV\Reminder\AbstractNotificationProvider;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
@@ -32,22 +33,24 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\IUser;
 use OCP\Notification\INotification;
-use Sabre\VObject\Component\VCalendar;
 use OCP\AppFramework\Utility\ITimeFactory;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Property;
 
-class PushProvider extends AbstractNotificationProvider {
+/**
+ * Class PushProvider
+ *
+ * @package OCA\DAV\CalDAV\Reminder\NotificationProvider
+ */
+class PushProvider extends AbstractProvider {
 
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
-    /**
-     * @var IManager
-     */
+    /** @var IManager */
 	private $manager;
 
-	/**
-	 * @var ITimeFactory
-	 */
+	/** @var ITimeFactory */
 	private $timeFactory;
 
 	/**
@@ -58,42 +61,75 @@ class PushProvider extends AbstractNotificationProvider {
 	 * @param IUrlGenerator $urlGenerator
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IConfig $config, IManager $manager, ILogger $logger,
+	public function __construct(IConfig $config,
+								IManager $manager,
+								ILogger $logger,
 								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator, ITimeFactory $timeFactory) {
+								IURLGenerator $urlGenerator,
+								ITimeFactory $timeFactory) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->manager = $manager;
 		$this->timeFactory = $timeFactory;
     }
 
 	/**
-	 * Send notification
+	 * Send push notification to all users.
 	 *
-	 * @param VCalendar $vcalendar
+	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
-	 * @param IUser $user
-	 * @return void
+	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
-    public function send(VCalendar $vcalendar, string $calendarDisplayName, IUser $user):void {
-		$lang = $this->config->getUserValue($user->getUID(), 'core', 'lang', $this->l10nFactory->findLanguage());
-		$this->l10n = $this->l10nFactory->get('dav', $lang);
+    public function send(VEvent $vevent,
+						 string $calendarDisplayName=null,
+						 array $users=[]):void {
+		$eventDetails = $this->extractEventDetails($vevent);
+		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 
-		$event = $this->extractEventDetails($vcalendar);
-		/** @var INotification $notification */
-		$notification = $this->manager->createNotification();
-		$notification->setApp(Application::APP_ID)
-			->setUser($user->getUID())
-			->setDateTime($this->timeFactory->getDateTime())
-			->setObject(Application::APP_ID, $event['uid']) // $type and $id
-			->setSubject('calendar_reminder', ['title' => $event['title'], 'start' => $event['start']->getTimestamp()]) // $subject and $parameters
-			->setMessage('calendar_reminder', [
-				'when' => $event['when'],
-				'description' => $event['description'],
-				'location' => $event['location'],
-				'calendar' => $calendarDisplayName
-			])
-		;
-		$this->manager->notify($notification);
+    	foreach($users as $user) {
+			/** @var INotification $notification */
+			$notification = $this->manager->createNotification();
+			$notification->setApp(Application::APP_ID)
+				->setUser($user->getUID())
+				->setDateTime($this->timeFactory->getDateTime())
+				->setObject(Application::APP_ID, (string) $vevent->UID)
+				->setSubject('calendar_reminder', [
+					'title' => $eventDetails['title'],
+					'start_atom' => $eventDetails['start_atom']
+				])
+				->setMessage('calendar_reminder', $eventDetails);
+
+			$this->manager->notify($notification);
+		}
     }
+
+	/**
+	 * @var VEvent $vevent
+	 * @return array
+	 * @throws \Exception
+	 */
+	protected function extractEventDetails(VEvent $vevent):array {
+		/** @var Property\ICalendar\DateTime $start */
+		$start = $vevent->DTSTART;
+		$end = $this->getDTEndFromEvent($vevent);
+
+		return [
+			'title' => isset($vevent->SUMMARY)
+				? ((string) $vevent->SUMMARY)
+				: null,
+			'description' => isset($vevent->DESCRIPTION)
+				? ((string) $vevent->DESCRIPTION)
+				: null,
+			'location' => isset($vevent->LOCATION)
+				? ((string) $vevent->LOCATION)
+				: null,
+			'all_day' => $start instanceof Property\ICalendar\Date,
+			'start_atom' => $start->getDateTime()->format(\DateTime::ATOM),
+			'start_is_floating' => $start->isFloating(),
+			'start_timezone' => $start->getDateTime()->getTimezone()->getName(),
+			'end_atom' => $end->getDateTime()->format(\DateTime::ATOM),
+			'end_is_floating' => $end->isFloating(),
+			'end_timezone' => $end->getDateTime()->getTimezone()->getName(),
+		];
+	}
 }
