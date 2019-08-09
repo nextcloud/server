@@ -34,7 +34,8 @@ namespace OC\Stratos\Model\Helper;
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
 use OCP\Stratos\Model\IStratosItem;
-use OCP\Stratos\Model\IStratosNotification;
+use OCP\Stratos\Model\Helper\IStratosNotification;
+use OC\Stratos\Model\StratosRecipients;
 
 
 /**
@@ -42,7 +43,7 @@ use OCP\Stratos\Model\IStratosNotification;
  *
  * @package OC\Stratos\Model\Helper
  */
-class StratosNotification implements IStratosNotification, JsonSerializable {
+class StratosNotification extends StratosRecipients implements IStratosNotification, JsonSerializable {
 
 
 	use TArrayTools;
@@ -196,14 +197,16 @@ class StratosNotification implements IStratosNotification, JsonSerializable {
 	 * @return array
 	 */
 	public function jsonSerialize(): array {
-		return [
-			'app'    => $this->getApp(),
-			'title'  => $this->getTitle(),
-			'type'   => $this->getMessage(),
-			'source' => $this->getLevel(),
-			'link'   => $this->getLink(),
-			'ttl'    => $this->getTtl()
-		];
+		return array_merge(
+			parent::jsonSerialize(),
+			[
+				'app'    => $this->getApp(),
+				'title'  => $this->getTitle(),
+				'type'   => $this->getMessage(),
+				'source' => $this->getLevel(),
+				'link'   => $this->getLink(),
+				'ttl'    => $this->getTtl()
+			]);
 	}
 
 }

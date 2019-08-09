@@ -28,59 +28,55 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model\Helper;
-
-
-use OCP\Stratos\Model\IStratosRecipients;
+namespace OCP\Stratos\Model;
 
 
 /**
- * Interface IStratosEvent
+ * Interface IStratosRecipients
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos\Helper
+ * @package OCP\Stratos
  */
-interface IStratosEvent extends IStratosRecipients {
-
-
-	/**
-	 * @return string
-	 */
-	public function getApp(): string;
+interface IStratosRecipients {
 
 	/**
-	 * @param string $app
+	 * @param string $user
 	 *
-	 * @return self
+	 * @return IStratosRecipients
 	 */
-	public function setApp(string $app): self;
-
+	public function addUser(string $user): self;
 
 	/**
-	 * @return string
-	 */
-	public function getCommand(): string;
-
-	/**
-	 * @param string $title
+	 * @param array $users
 	 *
-	 * @return self
+	 * @return IStratosRecipients
 	 */
-	public function setCommand(string $title): self;
-
+	public function addUsers(array $users): self;
 
 	/**
-	 * @return array
-	 */
-	public function getPayload(): array;
-
-	/**
-	 * @param array $payload
+	 * @param string $group
 	 *
-	 * @return self
+	 * @return IStratosRecipients
 	 */
-	public function setPayload(array $payload): self;
+	public function addGroup(string $group): self;
+
+	/**
+	 * @param array $groups
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function addGroups(array $groups): self;
+
+	/**
+	 * @return string[]
+	 */
+	public function getUsers(): array;
+
+	/**
+	 * @return string[]
+	 */
+	public function getGroups(): array;
 
 }
 

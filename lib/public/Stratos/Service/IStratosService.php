@@ -31,7 +31,8 @@ declare(strict_types=1);
 namespace OCP\Stratos\Service;
 
 
-use OCP\Stratos\Model\IStratosItem;
+use OCP\Stratos\Model\IStratosRecipients;
+use OCP\Stratos\Model\IStratosWrapper;
 
 
 /**
@@ -43,7 +44,17 @@ use OCP\Stratos\Model\IStratosItem;
  */
 interface IStratosService {
 
-	public function pushItemToUser(IStratosItem $stream, string $userId);
+
+	public function push(IStratosWrapper $wrapper);
+
+
+	/**
+	 * @param IStratosWrapper $wrapper
+	 * @param IStratosRecipients $recipients
+	 *
+	 * @return mixed
+	 */
+	public function fillRecipients(IStratosWrapper $wrapper, IStratosRecipients $recipients);
 
 }
 

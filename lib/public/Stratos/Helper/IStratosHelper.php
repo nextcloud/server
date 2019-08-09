@@ -31,8 +31,8 @@ declare(strict_types=1);
 namespace OCP\Stratos\Helper;
 
 
-use OCP\Stratos\Model\IStratosEvent;
-use OCP\Stratos\Model\IStratosNotification;
+use OCP\Stratos\Model\Helper\IStratosEvent;
+use OCP\Stratos\Model\Helper\IStratosNotification;
 use OCP\Stratos\Model\IStratosWrapper;
 
 
@@ -60,34 +60,28 @@ interface IStratosHelper {
 	 *
 	 * @return IStratosWrapper
 	 */
-	public function pushNotification(IStratosNotification $notification, string $userId
-	): IStratosWrapper;
+	public function pushNotification(IStratosNotification $notification): IStratosWrapper;
 
 	/**
 	 * @param IStratosNotification $notification
-	 * @param array $users
 	 *
 	 * @return IStratosWrapper
 	 */
-	public function pushNotifications(IStratosNotification $notification, array $users
-	): IStratosWrapper;
+	public function generateFromNotification(IStratosNotification $notification): IStratosWrapper;
 
 
 	/**
 	 * @param IStratosEvent $event
-	 * @param string $userId
 	 *
 	 * @return IStratosWrapper
 	 */
-	public function broadcastEvent(IStratosEvent $event, string $userId): IStratosWrapper;
+	public function broadcastEvent(IStratosEvent $event): IStratosWrapper;
 
 	/**
 	 * @param IStratosEvent $event
-	 * @param array $users
 	 *
 	 * @return IStratosWrapper
 	 */
-	public function broadcastEvents(IStratosEvent $event, array $users): IStratosWrapper;
+	public function generateFromEvent(IStratosEvent $event): IStratosWrapper;
 
 }
-

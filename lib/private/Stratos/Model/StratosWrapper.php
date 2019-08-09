@@ -58,8 +58,15 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	private $creation = 0;
 
 
-	public function __construct(array $recipients = []) {
-		$this->recipients = $recipients;
+	/**
+	 * StratosWrapper constructor.
+	 *
+	 * @param IStratosItem $item
+	 */
+	public function __construct($item = null) {
+		if ($user !== null && $item instanceof IStratosItem) {
+			$this->item = $item;
+		}
 
 		return $this;
 	}
@@ -92,7 +99,7 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function getRecipients(): array {
 		return $this->recipients;
@@ -117,6 +124,19 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	public function addRecipient(string $recipient): IStratosWrapper {
 		if (!in_array($recipient, $this->recipients)) {
 			$this->recipients[] = $recipient;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param string $recipient
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function addRecipients(array $recipients): IStratosWrapper {
+		foreach ($recipients as $recipient) {
+			$this->addRecipient($recipient);
 		}
 
 		return $this;

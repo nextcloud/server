@@ -28,7 +28,10 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model;
+namespace OCP\Stratos\Model\Helper;
+
+
+use OCP\Stratos\Model\IStratosRecipients;
 
 
 /**
@@ -36,9 +39,9 @@ namespace OCP\Stratos\Model;
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos
+ * @package OCP\Stratos\Helper
  */
-interface IStratosNotification {
+interface IStratosNotification extends IStratosRecipients {
 
 
 	const LEVEL_SUCCESS = 'success';

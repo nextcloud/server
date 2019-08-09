@@ -80,6 +80,14 @@ interface IStratosWrapper {
 
 
 	/**
+	 * @param array $recipients
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function addRecipients(array $recipients): self;
+
+
+	/**
 	 * @param array $import
 	 *
 	 * @return self

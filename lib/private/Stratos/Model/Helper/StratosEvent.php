@@ -33,7 +33,8 @@ namespace OC\Stratos\Model\Helper;
 
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
-use OCP\Stratos\Model\IStratosEvent;
+use OC\Stratos\Model\StratosRecipients;
+use OCP\Stratos\Model\Helper\IStratosEvent;
 
 
 /**
@@ -41,7 +42,7 @@ use OCP\Stratos\Model\IStratosEvent;
  *
  * @package OC\Stratos\Model\Helper
  */
-class StratosEvent implements IStratosEvent, JsonSerializable {
+class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSerializable {
 
 
 	use TArrayTools;
@@ -130,11 +131,15 @@ class StratosEvent implements IStratosEvent, JsonSerializable {
 	 * @return array
 	 */
 	public function jsonSerialize(): array {
-		return [
-			'app'     => $this->getApp(),
-			'command' => $this->getCommand(),
-			'payload' => $this->getPayload()
-		];
+		return array_merge(
+			parent::jsonSerialize(),
+			[
+
+				'app'     => $this->getApp(),
+				'command' => $this->getCommand(),
+				'payload' => $this->getPayload()
+			]
+		);
 	}
 
 }
