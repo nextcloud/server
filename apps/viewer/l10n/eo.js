@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Eraro dum ŝargo de {name}",
     "Your browser does not support the video tag." : "Via retumilo ne subtenas la HTML-kodon „video“.",
     "Open sidebar" : "Malfermi flankopanelon",
-    "View" : "Vidi",
-    "Share" : "Kunhavigi"
+    "View" : "Vidi"
 },
 "nplurals=2; plural=(n != 1);");

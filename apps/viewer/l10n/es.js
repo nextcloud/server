@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Error al cargar {name}",
     "Your browser does not support the video tag." : "Tu navegador no soporta la etiqueta video.",
     "Open sidebar" : "Abrir barra lateral",
-    "View" : "Ver",
-    "Share" : "Compartir"
+    "View" : "Ver"
 },
 "nplurals=2; plural=(n != 1);");

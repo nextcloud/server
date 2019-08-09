@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Грешка приликом учитавања {name}",
     "Your browser does not support the video tag." : "Ваш веб читач не подржава video ознаку.",
     "Open sidebar" : "Отвори бочну траку",
-    "View" : "Погледај",
-    "Share" : "Подели"
+    "View" : "Погледај"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

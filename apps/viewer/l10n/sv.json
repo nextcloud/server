@@ -5,7 +5,6 @@
     "Error loading {name}" : "Fel vid inläsning av {name}",
     "Your browser does not support the video tag." : "Din webbläsare stöder inte videotaggen.",
     "Open sidebar" : "Öppna sidofältet",
-    "View" : "Visa",
-    "Share" : "Dela"
+    "View" : "Visa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

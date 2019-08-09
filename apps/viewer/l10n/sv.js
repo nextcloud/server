@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Fel vid inläsning av {name}",
     "Your browser does not support the video tag." : "Din webbläsare stöder inte videotaggen.",
     "Open sidebar" : "Öppna sidofältet",
-    "View" : "Visa",
-    "Share" : "Dela"
+    "View" : "Visa"
 },
 "nplurals=2; plural=(n != 1);");

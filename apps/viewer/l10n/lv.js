@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Kļūda ielādējot {name}",
     "Your browser does not support the video tag." : "Pārlūkprogramma neatbalsta video tagu.",
     "Open sidebar" : "Atvērt sānjoslu",
-    "View" : "Skats",
-    "Share" : "Koplietot"
+    "View" : "Skats"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

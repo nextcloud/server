@@ -5,7 +5,6 @@
     "Error loading {name}" : "Błąd podczas ładowania {name}",
     "Your browser does not support the video tag." : "Twoja przeglądarka nie obsługuje etykiety wideo.",
     "Open sidebar" : "Otwórz pasek boczny",
-    "View" : "Podgląd",
-    "Share" : "Udostępnij"
+    "View" : "Podgląd"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

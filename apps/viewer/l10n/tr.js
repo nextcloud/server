@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
     "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor.",
     "Open sidebar" : "Yan çubuğu aç",
-    "View" : "Görüntüle",
-    "Share" : "Paylaş"
+    "View" : "Görüntüle"
 },
 "nplurals=2; plural=(n > 1);");

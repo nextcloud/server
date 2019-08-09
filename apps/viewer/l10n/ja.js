@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "[名前]の読み込みエラー",
     "Your browser does not support the video tag." : "あなたのブラウザーはvideoタグをサポートしていません。",
     "Open sidebar" : "サイドバーを開く",
-    "View" : "表示",
-    "Share" : "共有"
+    "View" : "表示"
 },
 "nplurals=1; plural=0;");
