@@ -31,7 +31,7 @@ declare(strict_types=1);
 namespace OCP\Stratos\Service;
 
 
-use OCP\Stratos\Model\IStratosStream;
+use OCP\Stratos\Model\IStratosItem;
 
 
 /**
@@ -43,10 +43,7 @@ use OCP\Stratos\Model\IStratosStream;
  */
 interface IStratosService {
 
-
-	public function test(string $test);
-
-	public function sendStreamToUser(IStratosStream $stream);
+	public function pushItemToUser(IStratosItem $stream, string $userId);
 
 }
 

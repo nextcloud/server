@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2019, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,34 +28,56 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos;
-
-
-use JsonSerializable;
-use OCP\Stratos\Model\IStratosEvent;
+namespace OCP\Stratos\Model;
 
 
 /**
- * Class StratosEvent
+ * Interface IStratosEvent
  *
- * @package OC\Stratos
+ * @since 18.0.0
+ *
+ * @package OCP\Stratos
  */
-class StratosEvent extends StratosStream implements IStratosEvent, JsonSerializable {
+interface IStratosEvent {
 
 
-	const TYPE = 'Event';
+	/**
+	 * @return string
+	 */
+	public function getApp(): string;
+
+	/**
+	 * @param string $app
+	 *
+	 * @return self
+	 */
+	public function setApp(string $app): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommand(): string;
+
+	/**
+	 * @param string $title
+	 *
+	 * @return self
+	 */
+	public function setCommand(string $title): self;
 
 
 	/**
 	 * @return array
 	 */
-	public function jsonSerialize(): array {
-		return array_merge(
-			parent::jsonSerialize(),
-			[
-			]
-		);
-	}
+	public function getPayload(): array;
+
+	/**
+	 * @param array $payload
+	 *
+	 * @return self
+	 */
+	public function setPayload(array $payload): self;
 
 }
 

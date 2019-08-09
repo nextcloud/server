@@ -32,6 +32,7 @@ namespace OC\Stratos;
 
 
 use OCP\Stratos\Exceptions\StratosInstallException;
+use OCP\Stratos\Helper\IStratosHelper;
 use OCP\Stratos\IStratosManager;
 use OCP\Stratos\Service\IStratosService;
 
@@ -47,14 +48,20 @@ class StratosManager implements IStratosManager {
 	/** @var IStratosService */
 	private $stratosService;
 
+	/** @var IStratosHelper */
+	private $stratosHelper;
+
 
 	/**
 	 * @param IStratosService $stratosService
+	 * @param IStratosHelper $stratosHelper
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerStratosService(IStratosService $stratosService) {
+	public function registerStratos(IStratosService $stratosService, IStratosHelper $stratosHelper
+	) {
 		$this->stratosService = $stratosService;
+		$this->stratosHelper = $stratosHelper;
 	}
 
 
@@ -85,16 +92,13 @@ class StratosManager implements IStratosManager {
 
 
 	/**
-	 * @param string $test
+	 * @return IStratosHelper
+	 * @throws StratosInstallException
 	 */
-	public function test(string $test) {
-		try {
-			$this->checkRegistration();
-		} catch (StratosInstallException $e) {
-			return;
-		}
+	public function getStratosHelper(): IStratosHelper {
+		$this->checkRegistration();
 
-		$this->stratosService->test($test);
+		return $this->stratosHelper;
 	}
 
 
@@ -102,8 +106,8 @@ class StratosManager implements IStratosManager {
 	 * @throws StratosInstallException
 	 */
 	private function checkRegistration() {
-		if ($this->stratosService === null) {
-			throw new StratosInstallException('stratosService is not registered');
+		if ($this->stratosService === null || $this->stratosHelper === null) {
+			throw new StratosInstallException('Stratos is not available. Please check the Stratos App is installed and enabled');
 		}
 	}
 

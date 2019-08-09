@@ -32,13 +32,59 @@ namespace OCP\Stratos\Model;
 
 
 /**
- * Interface IStratosMessage
+ * Interface IStratosWrapper
  *
  * @since 18.0.0
  *
  * @package OCP\Stratos
  */
-interface IStratosEvent {
+interface IStratosWrapper {
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasItem(): bool;
+
+	/**
+	 * @return IStratosItem
+	 */
+	public function getItem(): IStratosItem;
+
+	/**
+	 * @param IStratosItem $item
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function setItem(IStratosItem $item): self;
+
+
+	/**
+	 * @return array
+	 */
+	public function getRecipients(): array;
+
+	/**
+	 * @param array $recipients
+	 *
+	 * @return self
+	 */
+	public function setRecipients(array $recipients): self;
+
+	/**
+	 * @param string $recipient
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function addRecipient(string $recipient): self;
+
+
+	/**
+	 * @param array $import
+	 *
+	 * @return self
+	 */
+	public function import(array $import): self;
 
 }
 

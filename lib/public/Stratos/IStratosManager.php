@@ -31,6 +31,8 @@ declare(strict_types=1);
 namespace OCP\Stratos;
 
 
+use OCP\Stratos\Exceptions\StratosInstallException;
+use OCP\Stratos\Helper\IStratosHelper;
 use OCP\Stratos\Service\IStratosService;
 
 
@@ -48,11 +50,11 @@ interface IStratosManager {
 	 * Register a IStratosService.
 	 *
 	 * @param IStratosService $stratosService
+	 * @param IStratosHelper $stratosHelper
 	 *
 	 * @since 18.0.0
-	 *
 	 */
-	public function registerStratosService(IStratosService $stratosService);
+	public function registerStratos(IStratosService $stratosService, IStratosHelper $stratosHelper);
 
 
 	/**
@@ -63,14 +65,16 @@ interface IStratosManager {
 
 	/**
 	 * @return IStratosService
+	 * @throws StratosInstallException
 	 */
 	public function getStratosService(): IStratosService;
 
 
 	/**
-	 * @param string $test
+	 * @return IStratosHelper
+	 * @throws StratosInstallException
 	 */
-	public function test(string $test);
+	public function getStratosHelper(): IStratosHelper;
 
 }
 

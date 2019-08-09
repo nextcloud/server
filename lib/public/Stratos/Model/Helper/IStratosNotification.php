@@ -32,85 +32,97 @@ namespace OCP\Stratos\Model;
 
 
 /**
- * Interface IStratosMessage
+ * Interface IStratosNotification
  *
  * @since 18.0.0
  *
  * @package OCP\Stratos
  */
-interface IStratosMessage extends IStratosStream {
+interface IStratosNotification {
 
 
-	const TYPE_CONFIRMATION = 1;
-	const TYPE_NOTE = 2;
-	const TYPE_STATUS = 3;
-	const TYPE_WARNING = 4;
-	const TYPE_ERROR = 5;
+	const LEVEL_SUCCESS = 'success';
+	const LEVEL_MESSAGE = 'message';
+	const LEVEL_WARNING = 'warning';
+	const LEVEL_ERROR = 'error';
 
 
 	/**
-	 * @param int $type
+	 * @return string
+	 */
+	public function getApp(): string;
+
+	/**
+	 * @param string $app
 	 *
-	 * @return IStratosMessage
+	 * @return self
 	 */
-	public function setMessageType(int $type): IStratosMessage;
+	public function setApp(string $app): self;
 
-	/**
-	 * @return int
-	 */
-	public function getMessageType(): int;
-
-
-	/**
-	 * @param string $title
-	 *
-	 * @return IStratosMessage
-	 */
-	public function setTitle(string $title): IStratosMessage;
 
 	/**
 	 * @return string
 	 */
 	public function getTitle(): string;
 
-
 	/**
-	 * @param string $content
+	 * @param string $title
 	 *
-	 * @return IStratosMessage
+	 * @return self
 	 */
-	public function setContent(string $content): IStratosMessage;
-
-	/**
-	 * @return string
-	 */
-	public function getContent(): string;
+	public function setTitle(string $title): self;
 
 
 	/**
 	 * @return string
 	 */
-	public function getDetail(): string;
+	public function getMessage(): string;
 
 	/**
-	 * @param string $detail
+	 * @param string $message
 	 *
-	 * @return IStratosMessage
+	 * @return self
 	 */
-	public function setDetail(string $detail): IStratosMessage;
+	public function setMessage(string $message): self;
 
-
-	/**
-	 * @param string $link
-	 *
-	 * @return IStratosMessage
-	 */
-	public function setLink(string $link): IStratosMessage;
 
 	/**
 	 * @return string
 	 */
 	public function getLink(): string;
+
+	/**
+	 * @param string $link
+	 *
+	 * @return self
+	 */
+	public function setLink(string $link): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getLevel(): string;
+
+	/**
+	 * @param string $level
+	 *
+	 * @return self
+	 */
+	public function setLevel(string $level): self;
+
+
+	/**
+	 * @return int
+	 */
+	public function getTtl(): int;
+
+	/**
+	 * @param int $ttl
+	 *
+	 * @return self
+	 */
+	public function setTtl(int $ttl): self;
 
 }
 

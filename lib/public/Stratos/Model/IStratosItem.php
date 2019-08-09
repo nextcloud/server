@@ -32,21 +32,25 @@ namespace OCP\Stratos\Model;
 
 
 /**
- * Interface IStratosStream
+ * Interface IStratosItem
  *
  * @since 18.0.0
  *
  * @package OCP\Stratos
  */
-interface IStratosStream {
+interface IStratosItem {
 
 
-	const TTL_SHORT = 10;
+	const TTL_INSTANT = 15;
 	const TTL_FEW_MINUTES = 180;
 	const TTL_FEW_HOURS = 7200;
-	const TTL_DAY = 24*3600;
-	const TTL_LONG = 24*3600*8;
+	const TTL_DAY = 24 * 3600;
+	const TTL_LONG = 24 * 3600 * 8;
 	const TTL_GODLIKE = 0;
+
+	const TYPE_NOTIFICATION = 'Notification';
+	const TYPE_EVENT = 'Event';
+	const TYPE_WHATSNEW = 'WhatsNew';
 
 
 	/**
@@ -54,12 +58,11 @@ interface IStratosStream {
 	 */
 	public function getId(): int;
 
+
 	/**
-	 * @param int $id
-	 *
-	 * @return IStratosStream
+	 * @return string
 	 */
-	public function setId(int $id): IStratosStream;
+	public function getToken(): string;
 
 
 	/**
@@ -70,9 +73,9 @@ interface IStratosStream {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosStream
+	 * @return self
 	 */
-	public function setApp(string $app): IStratosStream;
+	public function setApp(string $app): self;
 
 
 	/**
@@ -83,9 +86,22 @@ interface IStratosStream {
 	/**
 	 * @param string $source
 	 *
-	 * @return IStratosStream
+	 * @return self
 	 */
-	public function setSource(string $source): IStratosStream;
+	public function setSource(string $source): self;
+
+
+	/**
+	 * @return array
+	 */
+	public function getPayload(): array;
+
+	/**
+	 * @param array $payload
+	 *
+	 * @return self
+	 */
+	public function setPayload(array $payload): self;
 
 
 	/**
@@ -96,9 +112,9 @@ interface IStratosStream {
 	/**
 	 * @param string $type
 	 *
-	 * @return IStratosStream
+	 * @return self
 	 */
-	public function setType(string $type): IStratosStream;
+	public function setType(string $type): self;
 
 
 	/**
@@ -109,43 +125,30 @@ interface IStratosStream {
 	/**
 	 * @param int $ttl
 	 *
-	 * @return IStratosStream
+	 * @return self
 	 */
-	public function setTtl(int $ttl): IStratosStream;
-
-
-	/**
-	 * @return string
-	 */
-	public function getRecipient(): string;
-
-	/**
-	 * @param string $recipient
-	 *
-	 * @return IStratosStream
-	 */
-	public function setRecipient(string $recipient): IStratosStream;
-
-
-	/**
-	 * @param array $import
-	 *
-	 * @return IStratosStream
-	 */
-	public function import(array $import): IStratosStream;
+	public function setTtl(int $ttl): self;
 
 
 	/**
 	 * @param int $timestamp
 	 *
-	 * @return IStratosStream
+	 * @return self
 	 */
-	public function setCreation(int $timestamp): IStratosStream;
+	public function setCreation(int $timestamp): self;
 
 	/**
 	 * @return int
 	 */
 	public function getCreation(): int;
+
+
+	/**
+	 * @param array $import
+	 *
+	 * @return self
+	 */
+	public function import(array $import): self;
 
 }
 
