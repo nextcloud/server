@@ -16,6 +16,7 @@
     "Following databases are supported: %s" : "قواعد البيانات التالية مدعومة: %s",
     "The command line tool %s could not be found" : "لم يتم العثور على أداة سطر الأوامر %s",
     "The library %s is not available." : "مكتبة %s غير متوفرة.",
+    "Authentication" : "المصادقة",
     "Unknown filetype" : "نوع الملف غير معروف",
     "Invalid image" : "الصورة غير صالحة",
     "Avatar image is not square" : "الصورة الرمزية ليست على شكل مربّع",
