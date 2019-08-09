@@ -560,7 +560,7 @@ OC.L10N.register(
     "Rename" : "Umbenennen",
     "Revoke" : "Widerrufen",
     "Wipe device" : "Gerät löschen",
-    "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Zurückziehen dieses Tokens könnte das Löschen von deinem Gerät verhindern, wenn die Löschung noch nicht gestartet wurde.",
+    "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Zurückziehen dieses Tokens könnte das Löschen von Deinem Gerät verhindern, wenn die Löschung noch nicht gestartet wurde.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

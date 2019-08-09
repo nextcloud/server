@@ -233,6 +233,7 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur.",
     "Back to login" : "Retour à la page de connexion",
     "New password" : "Nouveau mot de passe",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Vos fichiers sont chiffrés. Il n'y aura aucun moyen de récupérer vos données après la réinitialisation de votre mot de passe. Si vous n'êtes pas sûr de ce que vous faîtes, veuillez contacter votre administrateur avant de continuer. Voulez-vous vraiment continuer ?",
     "I know what I'm doing" : "Je sais ce que je fais",
     "Resetting password" : "Réinitialisation du mot de passe",
     "Forgot password?" : "Mot de passe oublié ?",

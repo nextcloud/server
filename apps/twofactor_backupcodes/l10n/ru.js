@@ -14,6 +14,7 @@ OC.L10N.register(
     "Generate backup codes" : "Создать резервные коды",
     "You created two-factor backup codes for your account" : "Вы создали двухфакторные резервные коды для своего аккаунта",
     "Second-factor backup codes" : "Резервные коды двухфакторной аутентификации",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Вы включили двухфакторную аутентификацию, но еще не сгенерировали резервные коды. Они необходимы для восстановления доступа к вашей учетной записи в случае, если вы потеряете свой второй фактор проверки подлинности.",
     "Backup code" : "Резервный код",
     "Use backup code" : "Использовать резервный код",
     "Two factor backup codes" : "Второй фактор — резервные коды",
