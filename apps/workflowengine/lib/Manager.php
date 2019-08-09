@@ -23,6 +23,7 @@ namespace OCA\WorkflowEngine;
 
 
 use OC\Files\Storage\Wrapper\Jail;
+use OCA\WorkflowEngine\Entity\File;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
@@ -31,9 +32,12 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\WorkflowEngine\ICheck;
+use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityAware;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager implements IManager, IEntityAware {
 
@@ -61,15 +65,32 @@ class Manager implements IManager, IEntityAware {
 	/** @var IL10N */
 	protected $l;
 
+	/** @var EventDispatcherInterface */
+	protected $eventDispatcher;
+
+	/** @var IEntity[] */
+	protected $registeredEntities = [];
+
+	/** @var ILogger */
+	protected $logger;
+
 	/**
 	 * @param IDBConnection $connection
 	 * @param IServerContainer $container
 	 * @param IL10N $l
 	 */
-	public function __construct(IDBConnection $connection, IServerContainer $container, IL10N $l) {
+	public function __construct(
+		IDBConnection $connection,
+		IServerContainer $container,
+		IL10N $l,
+		EventDispatcherInterface $eventDispatcher,
+		ILogger $logger
+	) {
 		$this->connection = $connection;
 		$this->container = $container;
 		$this->l = $l;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -413,5 +434,38 @@ class Manager implements IManager, IEntityAware {
 			return;
 		}
 		$this->entity = $entity;
+	}
+
+	/**
+	 * @return IEntity[]
+	 */
+	public function getEntitiesList() {
+		$this->eventDispatcher->dispatch('OCP\WorkflowEngine::registerEntities', new GenericEvent($this));
+
+		return array_merge($this->getBuildInEntities(), $this->registeredEntities);
+	}
+
+	/**
+	 * Listen to 'OCP/WorkflowEngine::registerEntities' at the EventDispatcher
+	 * for registering your entities
+	 *
+	 * @since 18.0.0
+	 */
+	public function registerEntity(IEntity $entity): void {
+		$this->registeredEntities[$entity->getId()] = $entity;
+	}
+
+	/**
+	 * @return IEntity[]
+	 */
+	protected function getBuildInEntities(): array {
+		try {
+			return [
+				$this->container->query(File::class),
+			];
+		} catch (QueryException $e) {
+			$this->logger->logException($e);
+			return [];
+		}
 	}
 }

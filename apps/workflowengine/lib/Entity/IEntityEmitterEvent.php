@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,7 +22,13 @@
  *
  */
 
-/** @var array $_ */
-/** @var \OCP\IL10N $l */
-?>
-<div id="<?php p($_['appid']); ?>" class="<? p(\OCA\WorkflowEngine\AppInfo\Application::APP_ID); ?>"></div>
+namespace OCA\WorkflowEngine\Entity;
+
+
+use OCP\WorkflowEngine\IEntityEvent;
+
+interface IEntityEmitterEvent extends IEntityEvent {
+	public function getEmitterClassName(): string;
+
+	public function getSlot(): string;
+}

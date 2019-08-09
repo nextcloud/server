@@ -27,8 +27,10 @@ use OCA\WorkflowEngine\Controller\FlowOperations;
 
 class Application extends \OCP\AppFramework\App {
 
+	const APP_ID = 'workflowengine';
+
 	public function __construct() {
-		parent::__construct('workflowengine');
+		parent::__construct(self::APP_ID);
 
 		$this->getContainer()->registerAlias('FlowOperationsController', FlowOperations::class);
 		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
@@ -47,7 +49,7 @@ class Application extends \OCP\AppFramework\App {
 					class_exists(Template::class, true);
 				}
 
-				style('workflowengine', [
+				style(self::APP_ID, [
 					'admin',
 				]);
 
@@ -59,7 +61,7 @@ class Application extends \OCP\AppFramework\App {
 					'systemtags/systemtagscollection',
 				]);
 
-				script('workflowengine', [
+				script(self::APP_ID, [
 					'workflowengine',
 				]);
 			},

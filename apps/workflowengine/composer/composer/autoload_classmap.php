@@ -20,7 +20,11 @@ return array(
     'OCA\\WorkflowEngine\\Controller\\FlowOperations' => $baseDir . '/../lib/Controller/FlowOperations.php',
     'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => $baseDir . '/../lib/Controller/GlobalWorkflowsController.php',
     'OCA\\WorkflowEngine\\Controller\\RequestTime' => $baseDir . '/../lib/Controller/RequestTime.php',
+    'OCA\\WorkflowEngine\\Entity\\File' => $baseDir . '/../lib/Entity/File.php',
+    'OCA\\WorkflowEngine\\Entity\\GenericEntityEmitterEvent' => $baseDir . '/../lib/Entity/GenericEntityEmitterEvent.php',
+    'OCA\\WorkflowEngine\\Entity\\IEntityEmitterEvent' => $baseDir . '/../lib/Entity/IEntityEmitterEvent.php',
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
     'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => $baseDir . '/../lib/Migration/Version2019Date20190808074233.php',
+    'OCA\\WorkflowEngine\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\WorkflowEngine\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
 );

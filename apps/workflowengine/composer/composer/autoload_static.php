@@ -35,8 +35,12 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Controller\\FlowOperations' => __DIR__ . '/..' . '/../lib/Controller/FlowOperations.php',
         'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/GlobalWorkflowsController.php',
         'OCA\\WorkflowEngine\\Controller\\RequestTime' => __DIR__ . '/..' . '/../lib/Controller/RequestTime.php',
+        'OCA\\WorkflowEngine\\Entity\\File' => __DIR__ . '/..' . '/../lib/Entity/File.php',
+        'OCA\\WorkflowEngine\\Entity\\GenericEntityEmitterEvent' => __DIR__ . '/..' . '/../lib/Entity/GenericEntityEmitterEvent.php',
+        'OCA\\WorkflowEngine\\Entity\\IEntityEmitterEvent' => __DIR__ . '/..' . '/../lib/Entity/IEntityEmitterEvent.php',
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => __DIR__ . '/..' . '/../lib/Migration/Version2019Date20190808074233.php',
+        'OCA\\WorkflowEngine\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\WorkflowEngine\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
     );
 

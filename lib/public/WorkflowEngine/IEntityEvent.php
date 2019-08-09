@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,36 +24,29 @@
 
 namespace OCP\WorkflowEngine;
 
-
-use OCP\Files\Storage\IStorage;
-
 /**
- * Interface IManager
+ * Interface IEntityEvent
+ *
+ * represents an entitiy event that is dispatched via EventDispatcher
  *
  * @package OCP\WorkflowEngine
- * @since 9.1
  */
-interface IManager {
+interface IEntityEvent {
 	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 * @since 9.1
-	 */
-	public function setFileInfo(IStorage $storage, $path);
-
-	/**
-	 * @param string $class
-	 * @param bool $returnFirstMatchingOperationOnly
-	 * @return array
-	 * @since 9.1
-	 */
-	public function getMatchingOperations($class, $returnFirstMatchingOperationOnly = true);
-
-	/**
-	 * Listen to 'OCP/WorkflowEngine::registerEntities' at the EventDispatcher
-	 * for registering your entities
+	 * returns a translated name to be presented in the web interface.
+	 *
+	 * Example: "created" (en), "kreita" (eo)
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerEntity(IEntity $entity): void;
+	public function getDisplayName(): string;
+
+	/**
+	 * returns the event name that is emitted by the EventDispatcher, e.g.:
+	 *
+	 * Example: "OCA\MyApp\Factory\Cats::postCreated"
+	 *
+	 * @since 18.0.0
+	 */
+	public function getEventName(): string;
 }

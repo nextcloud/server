@@ -22,10 +22,15 @@
 namespace OCA\WorkflowEngine\Tests;
 
 
+use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Manager;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\WorkflowEngine\IEntity;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -38,24 +43,36 @@ class ManagerTest extends TestCase {
 
 	/** @var Manager */
 	protected $manager;
-	/** @var IDBConnection */
+	/** @var MockObject|IDBConnection */
 	protected $db;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
+	protected $logger;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface */
+	protected $eventDispatcher;
+	/** @var MockObject|IServerContainer */
+	protected $container;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();
-		$container = $this->createMock(IServerContainer::class);
+		$this->container = $this->createMock(IServerContainer::class);
+		/** @var IL10N|MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
 
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->logger = $this->createMock(ILogger::class);
+
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
-			$container,
-			$l
+			$this->container,
+			$l,
+			$this->eventDispatcher,
+			$this->logger
 		);
 		$this->clearChecks();
 	}
@@ -90,5 +107,51 @@ class ManagerTest extends TestCase {
 		$data = $this->manager->getChecks([$check2]);
 		$this->assertArrayNotHasKey($check1, $data);
 		$this->assertArrayHasKey($check2, $data);
+	}
+
+	public function testGetEntitiesListBuildInOnly() {
+		$fileEntityMock = $this->createMock(File::class);
+
+		$this->container->expects($this->once())
+			->method('query')
+			->with(File::class)
+			->willReturn($fileEntityMock);
+
+		$entities = $this->manager->getEntitiesList();
+
+		$this->assertCount(1, $entities);
+		$this->assertInstanceOf(IEntity::class, $entities[0]);
+	}
+
+	public function testGetEntitiesList() {
+		$fileEntityMock = $this->createMock(File::class);
+
+		$this->container->expects($this->once())
+			->method('query')
+			->with(File::class)
+			->willReturn($fileEntityMock);
+
+		/** @var MockObject|IEntity $extraEntity */
+		$extraEntity = $this->createMock(IEntity::class);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with('OCP\WorkflowEngine::registerEntities', $this->anything())
+			->willReturnCallback(function() use ($extraEntity) {
+				$this->manager->registerEntity($extraEntity);
+			});
+
+		$entities = $this->manager->getEntitiesList();
+
+		$this->assertCount(2, $entities);
+
+		$entityTypeCounts = array_reduce($entities, function (array $carry, IEntity $entity) {
+			if($entity instanceof File) $carry[0]++;
+			else if($entity instanceof IEntity) $carry[1]++;
+			return $carry;
+		}, [0, 0]);
+
+		$this->assertSame(1, $entityTypeCounts[0]);
+		$this->assertSame(1, $entityTypeCounts[1]);
 	}
 }
