@@ -40,6 +40,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вы только что предоставили общий доступ к «%1$s» пользователю %2$s. Уведомление о предоставлении доступа было отправлено получателю. В соответствии с политиками безопасности, заданными администратором %3$s, каждый общий ресурс должен быть защищён паролем, а также не допускается непосредственное отправление пароля получателю, поэтому вам потребуется самостоятельно перенаправить получателю пароль для доступа.",
     "Password to access »%1$s« shared by you with %2$s" : "Пароль для доступа к «%1$s»,  общий доступ к которому предоставлен вами пользователю %2$s",
     "This is the password:" : "Пароль: ",
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
