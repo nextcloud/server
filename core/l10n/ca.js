@@ -147,7 +147,7 @@ OC.L10N.register(
     "New share link" : "Nou enllaç de compartició",
     "Created on {time}" : "Creat a {time}",
     "Password protect by Talk" : "Contrasenya protegida per Talk",
-    "Could not unshare" : "No es pot descompartir",
+    "Could not unshare" : "No es pot deixar de compartir",
     "Shared with you and the group {group} by {owner}" : "Compartit amb tu i amb el grup {group} per {owner}",
     "Shared with you and {circle} by {owner}" : "Compartit amb tu i {circle} per {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Compartit amb tu i amb la conversa {conversation} per {owner}",
