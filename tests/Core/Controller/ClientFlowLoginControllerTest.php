@@ -186,6 +186,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 			],
 			'guest'
 		);
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->addAllowedFormActionDomain('nc://*');
+		$expected->setContentSecurityPolicy($csp);
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage());
 	}
 
@@ -245,6 +248,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 			],
 			'guest'
 		);
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->addAllowedFormActionDomain('nc://*');
+		$expected->setContentSecurityPolicy($csp);
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage('MyClientIdentifier'));
 	}
 
