@@ -34,6 +34,7 @@
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všehny</strong> aplikace mají k dispozici aktualizaci pro tuto verzi",
     "View changelog" : "Zobrazit souhrn změn",
     "Enterprise" : "Podnikové",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pro podnikové nasazení. Poskytuje vždy nejnovější opravy, ale nebude hned aktualizováno na další hlavní vydání. K tomu dojde až Nextcloud GmbH dokončí další zodolnění a testování pro velká a kritická nasazení. Tento kanál je k dispozici pouze zákazníkům a poskytuje balíček Nextcloud Enterprise.",
     "Stable" : "Stabilní",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",
     "Beta" : "Vývojové",

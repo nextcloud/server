@@ -156,7 +156,7 @@
     "Group Search Attributes" : "Atributs de cerca de grup",
     "Group-Member association" : "Associació membres-grup",
     "Dynamic Group Member URL" : "URL del Dynamic Group Member",
-    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "L'atribut LDAP que en objectes de Grup conté una URL de cerca LDAP que determina quins objectes pertanyen al grup. (Si es deixa en blanc es desactiva la funcionalitat de pertinença dinàmica a grups)",
+    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "L'atribut LDAP que en objectes de Grup conté un URL de cerca LDAP que determina quins objectes pertanyen al grup. (Si es deixa en blanc es desactiva la funcionalitat de pertinença dinàmica a grups)",
     "Nested Groups" : "Grups imbricats",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Quan està activat, els grups que contenen grups estan permesos. (Només funciona si l'atribut del grup membre conté DNs.)",
     "Paging chunksize" : "Mida de la pàgina",
