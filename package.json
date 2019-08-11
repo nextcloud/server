@@ -73,7 +73,7 @@
     "file-loader": "^4.1.0",
     "handlebars-loader": "^1.7.1",
     "node-sass": "^4.12.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^7.2.0",
     "style-loader": "^0.23.1",
     "url-loader": "^2.1.0",
     "vue-loader": "^15.7.1",
