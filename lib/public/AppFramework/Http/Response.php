@@ -84,6 +84,9 @@ class Response {
 	/** @var ContentSecurityPolicy|null Used Content-Security-Policy */
 	private $contentSecurityPolicy = null;
 
+	/** @var FeaturePolicy */
+	private $featurePolicy;
+
 	/** @var bool */
 	private $throttled = false;
 	/** @var array */
@@ -96,6 +99,7 @@ class Response {
 	 */
 	public function __construct() {
 		$this->setContentSecurityPolicy(new EmptyContentSecurityPolicy());
+		$this->setFeaturePolicy(new EmptyFeaturePolicy());
 	}
 
 	/**
@@ -242,6 +246,7 @@ class Response {
 			$this->setContentSecurityPolicy(new ContentSecurityPolicy());
 		}
 		$this->headers['Content-Security-Policy'] = $this->contentSecurityPolicy->buildPolicy();
+		$this->headers['Feature-Policy'] = $this->featurePolicy->buildPolicy();
 
 		if($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
@@ -293,6 +298,24 @@ class Response {
 	public function getContentSecurityPolicy() {
 		return $this->contentSecurityPolicy;
 	}
+
+
+	/**
+	 * @since 17.0.0
+	 */
+	public function getFeaturePolicy(): EmptyFeaturePolicy {
+		return $this->featurePolicy;
+	}
+
+	/**
+	 * @since 17.0.0
+	 */
+	public function setFeaturePolicy(EmptyFeaturePolicy $featurePolicy): self {
+		$this->featurePolicy = $featurePolicy;
+
+		return $this;
+	}
+
 
 
 	/**
