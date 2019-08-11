@@ -108,7 +108,8 @@ class EmailProvider extends AbstractProvider {
 			if ($organizer) {
 				$message->setReplyTo($organizer);
 			}
-			$message->setBcc($emailAddresses);
+			$message->setTo([])
+				->setBcc($emailAddresses);
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
@@ -185,7 +186,7 @@ class EmailProvider extends AbstractProvider {
 			return null;
 		}
 
-		$organizer = $vevent->ORGANZIER;
+		$organizer = $vevent->ORGANIZER;
 		if (strcasecmp($organizer->getValue(), 'mailto:') !== 0) {
 			return null;
 		}
@@ -309,7 +310,7 @@ class EmailProvider extends AbstractProvider {
 			}
 		}
 
-		if (isset($vevent->ORGANIZER)) {
+		if (isset($vevent->ORGANIZER) && $this->hasAttendeeMailURI($vevent->ORGANIZER)) {
 			$emailAddresses[$this->getEMailAddressOfAttendee($vevent->ORGANIZER)] = [];
 		}
 
@@ -349,7 +350,7 @@ class EmailProvider extends AbstractProvider {
 	 * @return bool
 	 */
 	private function hasAttendeeMailURI(VObject\Property $attendee):bool {
-		return strcasecmp($attendee->getValue(), 'mailto:') === 0;
+		return stripos($attendee->getValue(), 'mailto:') === 0;
 	}
 
 	/**

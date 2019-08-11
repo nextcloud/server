@@ -33,6 +33,7 @@
 			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
 			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
 			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
+			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
 		</post-migration>
