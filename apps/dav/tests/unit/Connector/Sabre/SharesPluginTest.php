@@ -120,7 +120,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->anything(),
 				$this->anything(),
 				$this->equalTo(false),
-				$this->equalTo(1)
+				$this->equalTo(-1)
 			)
 			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
 				if (in_array($requestedShareType, $shareTypes)) {
@@ -203,7 +203,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->anything(),
 				$this->anything(),
 				$this->equalTo(false),
-				$this->equalTo(1)
+				$this->equalTo(-1)
 			)
 			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares){
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
