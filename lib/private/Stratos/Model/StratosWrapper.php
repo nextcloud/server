@@ -64,7 +64,7 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	 * @param IStratosItem $item
 	 */
 	public function __construct($item = null) {
-		if ($user !== null && $item instanceof IStratosItem) {
+		if ($item !== null && $item instanceof IStratosItem) {
 			$this->item = $item;
 		}
 
@@ -130,7 +130,7 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	}
 
 	/**
-	 * @param string $recipient
+	 * @param array $recipients
 	 *
 	 * @return IStratosWrapper
 	 */
