@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Thomas Citharel
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +26,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
-use OCA\DAV\CalDAV\Reminder\AbstractNotificationProvider;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -34,7 +36,6 @@ use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Test\TestCase;
-use OCA\DAV\Tests\unit\CalDAV\Reminder\AbstractNotificationProviderTest;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
 
@@ -75,65 +76,111 @@ class PushProviderTest extends AbstractNotificationProviderTest {
         );
     }
 
-    public function testSend(): void
-    {
-        $notification = $this->createMock(INotification::class);
-        $notification
-            ->expects($this->once())
-            ->method('setApp')
-            ->with(Application::APP_ID)
-            ->willReturn($notification);
+    public function testNotificationType():void  {
+    	$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
+	}
 
-        $notification
-            ->expects($this->once())
-            ->method('setUser')
-            ->willReturn($notification)
-        ;
+    public function testSend(): void {
+    	$user1 = $this->createMock(IUser::class);
+    	$user1->method('getUID')
+			->willReturn('uid1');
+    	$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')
+			->willReturn('uid2');
+    	$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')
+			->willReturn('uid3');
 
-        $notification
-            ->expects($this->once())
-            ->method('setDateTime')
-            ->willReturn($notification)
-        ;
+		$users = [$user1, $user2, $user3];
 
-        $notification
-            ->expects($this->once())
-            ->method('setObject')
-            ->willReturn($notification)
-        ;
-
-        $notification
-            ->expects($this->once())
-            ->method('setSubject')
-            ->willReturn($notification)
-        ;
-
-        $notification
-            ->expects($this->once())
-            ->method('setMessage')
-            ->willReturn($notification)
-        ;
-
-        $this->manager
-            ->expects($this->once())
-            ->method('createNotification')
-            ->willReturn($notification);
-
-        $this->manager
-            ->expects($this->once())
-            ->method('notify')
-            ->with($notification);
-
-        $l10n = $this->createMock(IL10N::class);
-        $this->l10nFactory
-            ->method('get')
-            ->willReturn($l10n);
-
-        $this->timeFactory->expects($this->once())
-			->method('getDateTime')
+		$dateTime = new \DateTime('@946684800');
+		$this->timeFactory->method('getDateTime')
 			->with()
-			->willReturn(new \DateTime());
+			->willReturn($dateTime);
 
-		$this->provider->send($this->vcalendar, $this->calendarDisplayName, $this->user);
+		$notification1 = $this->createNotificationMock('uid1', $dateTime);
+		$notification2 = $this->createNotificationMock('uid2', $dateTime);
+		$notification3 = $this->createNotificationMock('uid3', $dateTime);
+
+		$this->manager->expects($this->at(0))
+			->method('createNotification')
+			->with()
+			->willReturn($notification1);
+		$this->manager->expects($this->at(2))
+			->method('createNotification')
+			->with()
+			->willReturn($notification2);
+		$this->manager->expects($this->at(4))
+			->method('createNotification')
+			->with()
+			->willReturn($notification3);
+
+		$this->manager->expects($this->at(1))
+			->method('notify')
+			->with($notification1);
+		$this->manager->expects($this->at(3))
+			->method('notify')
+			->with($notification2);
+		$this->manager->expects($this->at(5))
+			->method('notify')
+			->with($notification3);
+
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
     }
+
+	/**
+	 * @param string $uid
+	 * @param \DateTime $dt
+	 */
+    private function createNotificationMock(string $uid, \DateTime $dt):INotification {
+		$notification = $this->createMock(INotification::class);
+		$notification
+			->expects($this->once())
+			->method('setApp')
+			->with('dav')
+			->willReturn($notification);
+
+		$notification->expects($this->once())
+			->method('setUser')
+			->with($uid)
+			->willReturn($notification);
+
+		$notification->expects($this->once())
+			->method('setDateTime')
+			->with($dt)
+			->willReturn($notification);
+
+		$notification->expects($this->once())
+			->method('setObject')
+			->with('dav', 'uid1234')
+			->willReturn($notification);
+
+		$notification->expects($this->once())
+			->method('setSubject')
+			->with('calendar_reminder', [
+				'title' => 'Fellowship meeting',
+				'start_atom' => '2017-01-01T00:00:00+00:00',
+			])
+			->willReturn($notification);
+
+		$notification
+			->expects($this->once())
+			->method('setMessage')
+			->with('calendar_reminder', [
+				'title' => 'Fellowship meeting',
+				'start_atom' => '2017-01-01T00:00:00+00:00',
+				'description' => null,
+				'location' => null,
+				'all_day' => false,
+				'start_is_floating' => false,
+				'start_timezone' => 'UTC',
+				'end_atom' => '2017-01-01T00:00:00+00:00',
+				'end_is_floating' => false,
+				'end_timezone' => 'UTC',
+				'calendar_displayname' => 'Personal',
+			])
+			->willReturn($notification);
+
+		return $notification;
+	}
 }

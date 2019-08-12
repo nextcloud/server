@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018, Thomas Citharel
+ * @copyright Copyright (c) 2019, Thomas Citharel
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +24,6 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
-use OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
@@ -29,285 +31,367 @@ use Test\TestCase;
 
 class BackendTest extends TestCase {
 
-    /**
-     * Reminder Backend
-     *
-     * @var ReminderBackend|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $reminderBackend;
-
-    /** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $dbConnection;
+	/**
+	 * Reminder Backend
+	 *
+	 * @var ReminderBackend|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $reminderBackend;
 
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $timeFactory;
+	private $timeFactory;
 
-    public function setUp() {
+	public function setUp() {
 		parent::setUp();
 
-		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->delete('calendar_reminders')->execute();
+		$query->delete('calendarobjects')->execute();
+		$query->delete('calendars')->execute();
+
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-        $this->reminderBackend = new ReminderBackend($this->dbConnection, $this->timeFactory);
-    }
+		$this->reminderBackend = new ReminderBackend(self::$realDatabase, $this->timeFactory);
 
-    public function testCleanRemindersForEvent(): void
-    {
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder */
-        $queryBuilder = $this->createMock(IQueryBuilder::class);
-        $stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
-
-		$this->dbConnection->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->method('expr')
-			->will($this->returnValue($expr));
-
-		$expr->method('eq')
-			->will($this->returnValueMap([
-				['calendarid', 'createNamedParameter-1', null, 'WHERE_CLAUSE_1'],
-				['objecturi', 'createNamedParameter-2', null, 'WHERE_CLAUSE_2'],
-			]));
-		$queryBuilder->method('createNamedParameter')
-			->will($this->returnValueMap([
-				[1, \PDO::PARAM_STR, null, 'createNamedParameter-1'],
-				['object.ics', \PDO::PARAM_STR, null, 'createNamedParameter-2'],
-			]));
-
-		$queryBuilder->expects($this->at(0))
-			->method('delete')
-			->with('calendar_reminders')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
-			->method('where')
-			->with('WHERE_CLAUSE_1')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(6))
-			->method('andWhere')
-			->with('WHERE_CLAUSE_2')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(7))
-			->method('execute')
-			->with()
-			->willReturn($stmt);
-
-		$this->reminderBackend->cleanRemindersForEvent(1, 'object.ics');
+		$this->createRemindersTestSet();
 	}
 
-	public function testCleanRemindersForCalendar(): void
-    {
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder */
-        $queryBuilder = $this->createMock(IQueryBuilder::class);
-        $stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
-
-		$this->dbConnection->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->method('expr')
-			->will($this->returnValue($expr));
-
-		$expr->method('eq')
-			->will($this->returnValueMap([
-				['calendarid', 'createNamedParameter-1', null, 'WHERE_CLAUSE_1'],
-			]));
-		$queryBuilder->method('createNamedParameter')
-			->will($this->returnValueMap([
-				[1337, \PDO::PARAM_STR, null, 'createNamedParameter-1'],
-			]));
-
-		$queryBuilder->expects($this->at(0))
-			->method('delete')
-			->with('calendar_reminders')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
-			->method('where')
-			->with('WHERE_CLAUSE_1')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(4))
-			->method('execute')
-			->with()
-			->willReturn($stmt);
-
-		$this->reminderBackend->cleanRemindersForCalendar(1337);
+	protected function tearDown() {
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->delete('calendar_reminders')->execute();
+		$query->delete('calendarobjects')->execute();
+		$query->delete('calendars')->execute();
 	}
 
-	public function testRemoveReminder(): void
-	{
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder */
-        $queryBuilder = $this->createMock(IQueryBuilder::class);
-        $stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
 
-		$this->dbConnection->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->method('expr')
-			->will($this->returnValue($expr));
+	public function testCleanRemindersForEvent(): void {
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
 
-		$expr->method('eq')
-			->will($this->returnValueMap([
-				['id', 'createNamedParameter-1', null, 'WHERE_CLAUSE_1'],
-			]));
-		$queryBuilder->method('createNamedParameter')
-			->will($this->returnValueMap([
-				[16, \PDO::PARAM_STR, null, 'createNamedParameter-1'],
-			]));
+		$this->assertCount(4, $rows);
 
-		$queryBuilder->expects($this->at(0))
-			->method('delete')
-			->with('calendar_reminders')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
-			->method('where')
-			->with('WHERE_CLAUSE_1')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(4))
-			->method('execute')
-			->with()
-			->willReturn($stmt);
+		$this->reminderBackend->cleanRemindersForEvent(1);
 
-		$this->reminderBackend->removeReminder(16);
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(2, $rows);
 	}
 
-	public function testGetRemindersToProcess(): void
-    {
-		$dbData = [[
-				'cr.id' => 30,
-				'cr.calendarid' => 3,
-				'cr.objecturi' => 'object.ics',
-				'cr.type' => 'EMAIL',
-				'cr.notificationdate' => 1337,
-				'cr.uid' => 'user1',
-				'co.calendardata' => 'BEGIN:VCALENDAR',
-				'c.displayname' => 'My Calendar'
-			]];
+	public function testCleanRemindersForCalendar(): void {
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
 
-		$this->timeFactory->expects($this->exactly(2))
+		$this->assertCount(4, $rows);
+
+		$this->reminderBackend->cleanRemindersForCalendar(1);
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(1, $rows);
+	}
+
+	public function testRemoveReminder(): void {
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(4, $rows);
+
+		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(3, $rows);
+	}
+
+	public function testGetRemindersToProcess(): void {
+		$this->timeFactory->expects($this->exactly(1))
 			->method('getTime')
 			->with()
-			->willReturn(1337);
+			->willReturn(123457);
 
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder */
-        $queryBuilder = $this->createMock(IQueryBuilder::class);
-        $stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+		$rows = $this->reminderBackend->getRemindersToProcess();
 
-		$this->dbConnection->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->willReturn($queryBuilder);
-		$queryBuilder->method('expr')
-			->willReturn($expr);
+		$this->assertCount(2, $rows);
+		unset($rows[0]['id']);
+		unset($rows[1]['id']);
 
-		$expr->method('eq')
-			->willReturnMap([
-				['cr.calendarid', 'c.id', null, 'EQ_CLAUSE_1'],
-				['co.uri', 'cr.objecturi', null, 'EQ_CLAUSE_2'],
-			]);
-		$expr->method('andX')
-			->willReturnMap([
-				['EQ_CLAUSE_1', 'EQ_CLAUSE_2', 'ANDX_CLAUSE'],
-			]);
-
-		$expr->method('lte')
-			->with('cr.notificationdate', 'createNamedParameter-1', null)
-			->willReturn('LTE_CLAUSE_1');
-
-		$expr->method('gte')
-			->with('cr.eventstartdate', 'createNamedParameter-1', null)
-			->willReturn('GTE_CLAUSE_2');
-
-		$queryBuilder->method('createNamedParameter')
-			->willReturnMap([
-				[1337, \PDO::PARAM_STR, null, 'createNamedParameter-1'],
-			]);
-
-		$queryBuilder->expects($this->at(0))
-			->method('select')
-			->with(['cr.id', 'cr.calendarid', 'cr.objecturi', 'cr.type', 'cr.notificationdate', 'cr.uid', 'co.calendardata', 'c.displayname'])
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(1))
-			->method('from')
-			->with('calendar_reminders', 'cr')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
-			->method('where')
-			->with('LTE_CLAUSE_1')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(7))
-			->method('andWhere')
-			->with('GTE_CLAUSE_2')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(9))
-			->method('leftJoin')
-			->with('cr', 'calendars', 'c', 'EQ_CLAUSE_1')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(13))
-			->method('leftJoin')
-			->with('cr', 'calendarobjects', 'co', 'ANDX_CLAUSE')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(14))
-			->method('execute')
-			->with()
-			->willReturn($stmt);
-
-		$stmt->expects($this->once())
-			->method('fetchAll')
-			->with()
-			->willReturn($dbData);
-
-		$actual = $this->reminderBackend->getRemindersToProcess();
-		$this->assertEquals($dbData, $actual);
+		$this->assertEquals($rows[0], [
+			'calendar_id' => 1,
+			'object_id' => 1,
+			'uid' => 'asd',
+			'is_recurring' => false,
+			'recurrence_id' => 123458,
+			'is_recurrence_exception' => false,
+			'event_hash' => 'asd123',
+			'alarm_hash' => 'asd567',
+			'type' => 'EMAIL',
+			'is_relative' => true,
+			'notification_date' => 123456,
+			'is_repeat_based' => false,
+			'calendardata' => 'Calendar data 123',
+			'displayname' => 'Displayname 123',
+			'principaluri' => 'principals/users/user001',
+		]);
+		$this->assertEquals($rows[1], [
+			'calendar_id' => 1,
+			'object_id' => 1,
+			'uid' => 'asd',
+			'is_recurring' => false,
+			'recurrence_id' => 123458,
+			'is_recurrence_exception' => false,
+			'event_hash' => 'asd123',
+			'alarm_hash' => 'asd567',
+			'type' => 'AUDIO',
+			'is_relative' => true,
+			'notification_date' => 123456,
+			'is_repeat_based' => false,
+			'calendardata' => 'Calendar data 123',
+			'displayname' => 'Displayname 123',
+			'principaluri' => 'principals/users/user001',
+		]);
 	}
 
-	public function testInsertReminder(): void
-    {
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $queryBuilder */
-        $queryBuilder = $this->createMock(IQueryBuilder::class);
-        $stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+	public function testGetAllScheduledRemindersForEvent(): void {
+		$rows = $this->reminderBackend->getAllScheduledRemindersForEvent(1);
 
-		$this->dbConnection->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->method('expr')
-			->will($this->returnValue($expr));
+		$this->assertCount(2, $rows);
+		unset($rows[0]['id']);
+		unset($rows[1]['id']);
 
-		$queryBuilder->method('createNamedParameter')
-			->will($this->returnValueMap([
-				['user1', \PDO::PARAM_STR, null, 'createNamedParameter-1'],
-				['1', \PDO::PARAM_STR, null, 'createNamedParameter-2'],
-				['object.ics', \PDO::PARAM_STR, null, 'createNamedParameter-3'],
-				['EMAIL', \PDO::PARAM_STR, null, 'createNamedParameter-4'],
-				[1227, \PDO::PARAM_STR, null, 'createNamedParameter-5'],
-				[1337, \PDO::PARAM_STR, null, 'createNamedParameter-6'],
-			]));
+		$this->assertEquals($rows[0], [
+			'calendar_id' => 1,
+			'object_id' => 1,
+			'uid' => 'asd',
+			'is_recurring' => false,
+			'recurrence_id' => 123458,
+			'is_recurrence_exception' => false,
+			'event_hash' => 'asd123',
+			'alarm_hash' => 'asd567',
+			'type' => 'EMAIL',
+			'is_relative' => true,
+			'notification_date' => 123456,
+			'is_repeat_based' => false,
+		]);
+		$this->assertEquals($rows[1], [
+			'calendar_id' => 1,
+			'object_id' => 1,
+			'uid' => 'asd',
+			'is_recurring' => false,
+			'recurrence_id' => 123458,
+			'is_recurrence_exception' => false,
+			'event_hash' => 'asd123',
+			'alarm_hash' => 'asd567',
+			'type' => 'AUDIO',
+			'is_relative' => true,
+			'notification_date' => 123456,
+			'is_repeat_based' => false,
+		]);
+	}
 
-		$queryBuilder->expects($this->at(0))
-			->method('insert')
-			->with('calendar_reminders')
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(7))
-			->method('values')
-			->with([
-				'uid' => 'createNamedParameter-1',
-				'calendarid' => 'createNamedParameter-2',
-				'objecturi' => 'createNamedParameter-3',
-				'type' => 'createNamedParameter-4',
-				'notificationdate' => 'createNamedParameter-5',
-				'eventstartdate' => 'createNamedParameter-6',
+	public function testInsertReminder(): void {
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(4, $rows);
+
+		$this->reminderBackend->insertReminder(42, 1337, 'uid99', true, 12345678,
+			true, 'hash99', 'hash42', 'AUDIO', false, 12345670, false);
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(5, $rows);
+
+		unset($rows[4]['id']);
+
+		$this->assertEquals($rows[4], [
+			'calendar_id' => '42',
+			'object_id' => '1337',
+			'is_recurring' => '1',
+			'uid' => 'uid99',
+			'recurrence_id' => '12345678',
+			'is_recurrence_exception' => '1',
+			'event_hash' => 'hash99',
+			'alarm_hash' => 'hash42',
+			'type' => 'AUDIO',
+			'is_relative' => '0',
+			'notification_date' => '12345670',
+			'is_repeat_based' => '0',
+		]);
+	}
+
+	public function testUpdateReminder() {
+		$query = self::$realDatabase->getQueryBuilder();
+		$rows = $query->select('*')
+			->from('calendar_reminders')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(4, $rows);
+
+		$this->assertEquals($rows[3]['notification_date'], 123600);
+
+		$reminderId = (int)  $rows[3]['id'];
+		$newNotificationDate = 123700;
+
+		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$row = $query->select('notification_date')
+			->from('calendar_reminders')
+			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
+			->execute()
+			->fetch();
+
+		$this->assertEquals((int) $row['notification_date'], 123700);
+	}
+
+
+	private function createRemindersTestSet(): void {
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendars')
+			->values([
+				'id' => $query->createNamedParameter(1),
+				'principaluri' => $query->createNamedParameter('principals/users/user001'),
+				'displayname' => $query->createNamedParameter('Displayname 123'),
 			])
-			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(8))
-			->method('execute')
-			->with()
-			->willReturn($stmt);
+			->execute();
 
-		$actual = $this->reminderBackend->insertReminder('user1', '1', 'object.ics', 'EMAIL', 1227, 1337);
-    }
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendars')
+			->values([
+				'id' => $query->createNamedParameter(99),
+				'principaluri' => $query->createNamedParameter('principals/users/user002'),
+				'displayname' => $query->createNamedParameter('Displayname 99'),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendarobjects')
+			->values([
+				'id' => $query->createNamedParameter(1),
+				'calendardata' => $query->createNamedParameter('Calendar data 123'),
+				'calendarid' => $query->createNamedParameter(1),
+				'size' => $query->createNamedParameter(42),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendarobjects')
+			->values([
+				'id' => $query->createNamedParameter(2),
+				'calendardata' => $query->createNamedParameter('Calendar data 456'),
+				'calendarid' => $query->createNamedParameter(1),
+				'size' => $query->createNamedParameter(42),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendarobjects')
+			->values([
+				'id' => $query->createNamedParameter(10),
+				'calendardata' => $query->createNamedParameter('Calendar data 789'),
+				'calendarid' => $query->createNamedParameter(99),
+				'size' => $query->createNamedParameter(42),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendar_reminders')
+			->values([
+				'calendar_id' => $query->createNamedParameter(1),
+				'object_id' => $query->createNamedParameter(1),
+				'uid' => $query->createNamedParameter('asd'),
+				'is_recurring' => $query->createNamedParameter(0),
+				'recurrence_id' => $query->createNamedParameter(123458),
+				'is_recurrence_exception' => $query->createNamedParameter(0),
+				'event_hash' => $query->createNamedParameter('asd123'),
+				'alarm_hash' => $query->createNamedParameter('asd567'),
+				'type' => $query->createNamedParameter('EMAIL'),
+				'is_relative' => $query->createNamedParameter(1),
+				'notification_date' => $query->createNamedParameter(123456),
+				'is_repeat_based' => $query->createNamedParameter(0),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendar_reminders')
+			->values([
+				'calendar_id' => $query->createNamedParameter(1),
+				'object_id' => $query->createNamedParameter(1),
+				'uid' => $query->createNamedParameter('asd'),
+				'is_recurring' => $query->createNamedParameter(0),
+				'recurrence_id' => $query->createNamedParameter(123458),
+				'is_recurrence_exception' => $query->createNamedParameter(0),
+				'event_hash' => $query->createNamedParameter('asd123'),
+				'alarm_hash' => $query->createNamedParameter('asd567'),
+				'type' => $query->createNamedParameter('AUDIO'),
+				'is_relative' => $query->createNamedParameter(1),
+				'notification_date' => $query->createNamedParameter(123456),
+				'is_repeat_based' => $query->createNamedParameter(0),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendar_reminders')
+			->values([
+				'calendar_id' => $query->createNamedParameter(1),
+				'object_id' => $query->createNamedParameter(2),
+				'uid' => $query->createNamedParameter('asd'),
+				'is_recurring' => $query->createNamedParameter(0),
+				'recurrence_id' => $query->createNamedParameter(123900),
+				'is_recurrence_exception' => $query->createNamedParameter(0),
+				'event_hash' => $query->createNamedParameter('asd123'),
+				'alarm_hash' => $query->createNamedParameter('asd567'),
+				'type' => $query->createNamedParameter('EMAIL'),
+				'is_relative' => $query->createNamedParameter(1),
+				'notification_date' => $query->createNamedParameter(123499),
+				'is_repeat_based' => $query->createNamedParameter(0),
+			])
+			->execute();
+
+		$query = self::$realDatabase->getQueryBuilder();
+		$query->insert('calendar_reminders')
+			->values([
+				'calendar_id' => $query->createNamedParameter(99),
+				'object_id' => $query->createNamedParameter(10),
+				'uid' => $query->createNamedParameter('asd'),
+				'is_recurring' => $query->createNamedParameter(0),
+				'recurrence_id' => $query->createNamedParameter(123900),
+				'is_recurrence_exception' => $query->createNamedParameter(0),
+				'event_hash' => $query->createNamedParameter('asd123'),
+				'alarm_hash' => $query->createNamedParameter('asd567'),
+				'type' => $query->createNamedParameter('DISPLAY'),
+				'is_relative' => $query->createNamedParameter(1),
+				'notification_date' => $query->createNamedParameter(123600),
+				'is_repeat_based' => $query->createNamedParameter(0),
+			])
+			->execute();
+	}
 }

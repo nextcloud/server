@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Reminder;
 
-use DateTime;
+use \DateTime;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
@@ -85,10 +85,6 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName():string {
-		if ($this->l10n) {
-			return $this->l10n->t('Calendar');
-		}
-
 		return $this->l10nFactory->get('dav')->t('Calendar');
 	}
 
@@ -143,7 +139,7 @@ class Notifier implements INotifier {
 	private function prepareNotificationSubject(INotification $notification): void {
 		$parameters = $notification->getSubjectParameters();
 
-		$startTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
+		$startTime = \DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
 		$now = $this->timeFactory->getDateTime();
 		$title = $this->getTitleFromParameters($parameters);
 
@@ -220,8 +216,8 @@ class Notifier implements INotifier {
 	 * @throws \Exception
 	 */
 	private function generateDateString(array $parameters):string {
-		$startDateTime = DateTime::createFromFormat(DATE_ATOM, $parameters['start_atom']);
-		$endDateTime = DateTime::createFromFormat(DATE_ATOM, $parameters['end_atom']);
+		$startDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
+		$endDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['end_atom']);
 		$isAllDay = $parameters['all_day'];
 		$diff = $startDateTime->diff($endDateTime);
 

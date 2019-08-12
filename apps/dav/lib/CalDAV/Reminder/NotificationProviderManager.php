@@ -31,8 +31,8 @@ namespace OCA\DAV\CalDAV\Reminder;
  */
 class NotificationProviderManager {
 
-    /** @var INotificationProvider[] */
-    private $providers = [];
+	/** @var INotificationProvider[] */
+	private $providers = [];
 
 	/**
 	 * Checks whether a provider for a given ACTION exists
@@ -45,23 +45,23 @@ class NotificationProviderManager {
 			&& isset($this->providers[$type]));
 	}
 
-    /**
+	/**
 	 * Get provider for a given ACTION
 	 *
-     * @param string $type
-     * @return INotificationProvider
-     * @throws NotificationProvider\ProviderNotAvailableException
-     * @throws NotificationTypeDoesNotExistException
-     */
-    public function getProvider(string $type):INotificationProvider {
-        if (in_array($type, ReminderService::REMINDER_TYPES, true)) {
-            if (isset($this->providers[$type])) {
-                return $this->providers[$type];
-            }
-            throw new NotificationProvider\ProviderNotAvailableException($type);
-        }
-        throw new NotificationTypeDoesNotExistException($type);
-    }
+	 * @param string $type
+	 * @return INotificationProvider
+	 * @throws NotificationProvider\ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
+	 */
+	public function getProvider(string $type):INotificationProvider {
+		if (in_array($type, ReminderService::REMINDER_TYPES, true)) {
+			if (isset($this->providers[$type])) {
+				return $this->providers[$type];
+			}
+			throw new NotificationProvider\ProviderNotAvailableException($type);
+		}
+		throw new NotificationTypeDoesNotExistException($type);
+	}
 
 	/**
 	 * Registers a new provider
@@ -69,7 +69,7 @@ class NotificationProviderManager {
 	 * @param string $providerClassName
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-    public function registerProvider(string $providerClassName):void {
+	public function registerProvider(string $providerClassName):void {
 		$provider = \OC::$server->query($providerClassName);
 
 		if (!$provider instanceof INotificationProvider) {

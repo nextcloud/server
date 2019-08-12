@@ -51,17 +51,42 @@ class EventReminderJobTest extends TestCase {
 
 	public function data(): array
 	{
-		return [[true], [false]];
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+			[false, false, false],
+		];
 	}
 
 	/**
 	 * @dataProvider data
+	 *
 	 * @param bool $sendEventReminders
+	 * @param bool $sendEventRemindersMode
+	 * @param bool $expectCall
 	 */
-	public function testRun(bool $sendEventReminders): void
-	{
-		$this->config->expects($this->once())->method('getAppValue')->with('dav', 'sendEventReminders', 'yes')->willReturn($sendEventReminders ? 'yes' : 'no');
-		$this->reminderService->expects($this->exactly($sendEventReminders ? 1 : 0))->method('processReminders');
+	public function testRun(bool $sendEventReminders, bool $sendEventRemindersMode, bool $expectCall): void {
+		$this->config->expects($this->at(0))
+			->method('getAppValue')
+			->with('dav', 'sendEventReminders', 'yes')
+			->willReturn($sendEventReminders ? 'yes' : 'no');
+
+		if ($sendEventReminders) {
+			$this->config->expects($this->at(1))
+				->method('getAppValue')
+				->with('dav', 'sendEventRemindersMode', 'backgroundjob')
+				->willReturn($sendEventRemindersMode ? 'backgroundjob' : 'cron');
+
+		}
+
+		if ($expectCall) {
+			$this->reminderService->expects($this->once())
+				->method('processReminders');
+		} else {
+			$this->reminderService->expects($this->never())
+				->method('processReminders');
+		}
 
 		$this->backgroundJob->run([]);
 	}

@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2019, Thomas Citharel
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -24,6 +27,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Reminder\Notifier;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
@@ -36,22 +40,33 @@ class NotifierTest extends TestCase {
 
 	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $factory;
+
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
+
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l;
+	protected $l10n;
+
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	protected $timeFactory;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l = $this->createMock(IL10N::class);
-		$this->l->expects($this->any())
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function($string, $args) {
 				return vsprintf($string, $args);
 			});
-		$this->l->expects($this->any())
+		$this->l10n->expects($this->any())
+			->method('l')
+			->willReturnCallback(function($string, $args) {
+				/** \DateTime $args */
+				return $args->format(\DateTime::ATOM);
+			});
+		$this->l10n->expects($this->any())
 			->method('n')
 			->willReturnCallback(function($textSingular, $textPlural, $count, $args) {
 				$text = $count === 1 ? $textSingular : $textPlural;
@@ -61,12 +76,26 @@ class NotifierTest extends TestCase {
 		$this->factory = $this->createMock(IFactory::class);
 		$this->factory->expects($this->any())
 			->method('get')
-			->willReturn($this->l);
+			->willReturn($this->l10n);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->timeFactory
+			->method('getDateTime')
+			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2005-08-15T14:00:00+02:00'));
 
 		$this->notifier = new Notifier(
 			$this->factory,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->timeFactory
 		);
+	}
+
+	public function testGetId():void {
+		$this->assertEquals($this->notifier->getID(), 'dav');
+	}
+
+	public function testGetName():void {
+		$this->assertEquals($this->notifier->getName(), 'Calendar');
 	}
 
 	/**
@@ -111,17 +140,24 @@ class NotifierTest extends TestCase {
 			[
 				'calendar_reminder',
 				[
-					'title' => 'foo',
-					'start' => time() - 60 * 60 * 24
+					'title' => 'Title of this event',
+					'start_atom' => '2005-08-15T15:52:01+02:00'
 				],
-				'foo (one day ago)',
+				'Title of this event (in 1 hour, 52 minutes)',
 				[
-					'when' => 'foo',
-					'description' => 'bar',
+					'title' => 'Title of this event',
+					'description' => null,
 					'location' => 'NC Headquarters',
-					'calendar' => 'Personal'
+					'all_day' => false,
+					'start_atom' => '2005-08-15T15:52:01+02:00',
+					'start_is_floating' => false,
+					'start_timezone' => 'Europe/Berlin',
+					'end_atom' => '2005-08-15T17:52:01+02:00',
+					'end_is_floating' => false,
+					'end_timezone' => 'Europe/Berlin',
+					'calendar_displayname' => 'Personal',
 				],
-				'Calendar: Personal<br>Date: foo<br>Description: bar<br>Where: NC Headquarters'
+				"Calendar: Personal\r\nDate: 2005-08-15T15:52:01+02:00, 2005-08-15T15:52:01+02:00 - 2005-08-15T17:52:01+02:00 (Europe/Berlin)\r\nWhere: NC Headquarters"
 			],
 		];
 	}

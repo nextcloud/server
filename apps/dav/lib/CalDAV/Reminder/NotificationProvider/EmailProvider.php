@@ -25,8 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
-use DateTime;
-use DateTimeImmutable;
+use \DateTime;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -97,36 +96,35 @@ class EmailProvider extends AbstractProvider {
 		$organizer = $this->getOrganizerEMailAndNameFromEvent($vevent);
 
 		foreach($sortedByLanguage as $lang => $emailAddresses) {
-			if ($this->hasL10NForLang($lang)) {
+			if (!$this->hasL10NForLang($lang)) {
 				$lang = $fallbackLanguage;
 			}
 			$l10n = $this->getL10NForLang($lang);
 			$fromEMail = \OCP\Util::getDefaultEmailAddress('reminders-noreply');
 
-			$message = $this->mailer->createMessage();
-			$message->setFrom([$fromEMail]);
-			if ($organizer) {
-				$message->setReplyTo($organizer);
-			}
-			$message->setTo([])
-				->setBcc($emailAddresses);
-
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
-
 			$this->addSubjectAndHeading($template, $l10n, $vevent);
 			$this->addBulletList($template, $l10n, $calendarDisplayName, $vevent);
-
 			$template->addFooter();
-			$message->useTemplate($template);
 
-			try {
-				$failed = $this->mailer->send($message);
-				if ($failed) {
-					$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' => implode(', ', $failed)]);
+			foreach ($emailAddresses as $emailAddress) {
+				$message = $this->mailer->createMessage();
+				$message->setFrom([$fromEMail]);
+				if ($organizer) {
+					$message->setReplyTo($organizer);
 				}
-			} catch (\Exception $ex) {
-				$this->logger->logException($ex, ['app' => 'dav']);
+				$message->setTo([$emailAddress]);
+				$message->useTemplate($template);
+
+				try {
+					$failed = $this->mailer->send($message);
+					if ($failed) {
+						$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' => implode(', ', $failed)]);
+					}
+				} catch (\Exception $ex) {
+					$this->logger->logException($ex, ['app' => 'dav']);
+				}
 			}
 		}
 	}
@@ -165,9 +163,9 @@ class EmailProvider extends AbstractProvider {
 			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
 				$this->getAbsoluteImagePath('actions/more.svg'));
 		}
-    }
+	}
 
-    /**
+	/**
 	 * @param string $path
 	 * @return string
 	 */
@@ -199,35 +197,6 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		return [$organizerEMail];
-	}
-
-	/**
-	 * @param array $sortedByLanguage
-	 * @param IUser[] $users
-	 * @param string $defaultLanguage
-	 */
-	private function sortUsersByLanguage(array &$sortedByLanguage,
-										 array $users,
-										 string $defaultLanguage):void {
-		/**
-		 * @var array $sortedByLanguage
-		 * [
-		 *   'de' => ['a@b.com', 'c@d.com'],
-		 *   ...
-		 * ]
-		 */
-		foreach($users as $user) {
-			/** @var IUser $user */
-			$emailAddress = $user->getEMailAddress();
-			$lang = $this->config->getUserValue($user->getUID(),
-				'core', 'lang', $defaultLanguage);
-
-			if (!isset($sortedByLanguage[$lang])) {
-				$sortedByLanguage[$lang] = [];
-			}
-
-			$sortedByLanguage[$lang][] = $emailAddress;
-		}
 	}
 
 	/**
@@ -386,7 +355,7 @@ class EmailProvider extends AbstractProvider {
 			}
 		}
 
-		return array_unique($emailAddresses);
+		return $emailAddresses;
 	}
 
 	/**
@@ -415,7 +384,9 @@ class EmailProvider extends AbstractProvider {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
+		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
+		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
 
 		if ($isAllDay) {
@@ -432,7 +403,9 @@ class EmailProvider extends AbstractProvider {
 
 		$startTimezone = $endTimezone = null;
 		if (!$vevent->DTSTART->isFloating()) {
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$startTimezone = $vevent->DTSTART->getDateTime()->getTimezone()->getName();
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$endTimezone = $this->getDTEndFromEvent($vevent)->getDateTime()->getTimezone()->getName();
 		}
 

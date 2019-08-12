@@ -25,8 +25,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
-use \DateTime;
-use \DateTimeImmutable;
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -36,7 +34,6 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 
 /**
@@ -49,22 +46,22 @@ abstract class AbstractProvider implements INotificationProvider  {
 	/** @var string */
 	public const NOTIFICATION_TYPE = '';
 
-    /** @var ILogger */
-    protected $logger;
+	/** @var ILogger */
+	protected $logger;
 
-    /** @var L10NFactory */
-    private $l10nFactory;
+	/** @var L10NFactory */
+	private $l10nFactory;
 
-    /** @var IL10N[] */
+	/** @var IL10N[] */
 	private $l10ns;
 
 	/** @var string */
 	private $fallbackLanguage;
 
-    /** @var IURLGenerator */
-    protected $urlGenerator;
+	/** @var IURLGenerator */
+	protected $urlGenerator;
 
-    /** @var IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	/**
@@ -79,9 +76,9 @@ abstract class AbstractProvider implements INotificationProvider  {
 								IConfig $config) {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
-        $this->urlGenerator = $urlGenerator;
+		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
-    }
+	}
 
 	/**
 	 * Send notification
@@ -91,22 +88,22 @@ abstract class AbstractProvider implements INotificationProvider  {
 	 * @param IUser[] $users
 	 * @return void
 	 */
-    abstract public function send(VEvent $vevent,
+	abstract public function send(VEvent $vevent,
 						   string $calendarDisplayName,
 						   array $users=[]): void;
 
 	/**
 	 * @return string
 	 */
-    protected function getFallbackLanguage():string {
-    	if ($this->fallbackLanguage) {
-    		return $this->fallbackLanguage;
+	protected function getFallbackLanguage():string {
+		if ($this->fallbackLanguage) {
+			return $this->fallbackLanguage;
 		}
 
-    	$fallbackLanguage = $this->l10nFactory->findLanguage();
-    	$this->fallbackLanguage = $fallbackLanguage;
+		$fallbackLanguage = $this->l10nFactory->findLanguage();
+		$this->fallbackLanguage = $fallbackLanguage;
 
-    	return $fallbackLanguage;
+		return $fallbackLanguage;
 	}
 
 	/**
@@ -114,7 +111,7 @@ abstract class AbstractProvider implements INotificationProvider  {
 	 * @return bool
 	 */
 	protected function hasL10NForLang(string $lang):bool {
-    	return $this->l10nFactory->languageExists('dav', $lang);
+		return $this->l10nFactory->languageExists('dav', $lang);
 	}
 
 	/**

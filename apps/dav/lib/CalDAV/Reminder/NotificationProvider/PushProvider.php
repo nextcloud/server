@@ -47,7 +47,7 @@ class PushProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
-    /** @var IManager */
+	/** @var IManager */
 	private $manager;
 
 	/** @var ITimeFactory */
@@ -70,7 +70,7 @@ class PushProvider extends AbstractProvider {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->manager = $manager;
 		$this->timeFactory = $timeFactory;
-    }
+	}
 
 	/**
 	 * Send push notification to all users.
@@ -80,13 +80,13 @@ class PushProvider extends AbstractProvider {
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
-    public function send(VEvent $vevent,
+	public function send(VEvent $vevent,
 						 string $calendarDisplayName=null,
 						 array $users=[]):void {
 		$eventDetails = $this->extractEventDetails($vevent);
 		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 
-    	foreach($users as $user) {
+		foreach($users as $user) {
 			/** @var INotification $notification */
 			$notification = $this->manager->createNotification();
 			$notification->setApp(Application::APP_ID)
@@ -101,7 +101,7 @@ class PushProvider extends AbstractProvider {
 
 			$this->manager->notify($notification);
 		}
-    }
+	}
 
 	/**
 	 * @var VEvent $vevent
@@ -124,11 +124,15 @@ class PushProvider extends AbstractProvider {
 				? ((string) $vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'start_atom' => $start->getDateTime()->format(\DateTime::ATOM),
 			'start_is_floating' => $start->isFloating(),
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'start_timezone' => $start->getDateTime()->getTimezone()->getName(),
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'end_atom' => $end->getDateTime()->format(\DateTime::ATOM),
 			'end_is_floating' => $end->isFloating(),
+			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'end_timezone' => $end->getDateTime()->getTimezone()->getName(),
 		];
 	}
