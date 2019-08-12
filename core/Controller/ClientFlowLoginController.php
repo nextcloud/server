@@ -195,7 +195,10 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::stateName, $stateToken);
 
-		return new StandaloneTemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->addAllowedFormActionDomain('nc://*');
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/authpicker',
 			[
@@ -209,6 +212,9 @@ class ClientFlowLoginController extends Controller {
 			],
 			'guest'
 		);
+
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
@@ -234,7 +240,10 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		return new StandaloneTemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->addAllowedFormActionDomain('nc://*');
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/grant',
 			[
@@ -248,6 +257,9 @@ class ClientFlowLoginController extends Controller {
 			],
 			'guest'
 		);
+
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
