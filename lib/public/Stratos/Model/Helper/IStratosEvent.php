@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCP\Stratos\Model\Helper;
 
 
+use JsonSerializable;
 use OCP\Stratos\Model\IStratosRecipients;
 
 
@@ -81,6 +82,13 @@ interface IStratosEvent extends IStratosRecipients {
 	 * @return self
 	 */
 	public function setPayload(array $payload): self;
+
+	/**
+	 * @param JsonSerializable $payload
+	 *
+	 * @return self
+	 */
+	public function setPayloadSerializable (JsonSerializable $payload): self;
 
 }
 

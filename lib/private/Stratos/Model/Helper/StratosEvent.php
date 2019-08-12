@@ -126,6 +126,17 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 		return $this;
 	}
 
+	/**
+	 * @param JsonSerializable $payload
+	 *
+	 * @return IStratosEvent
+	 */
+	public function setPayloadSerializable(JsonSerializable $payload): IStratosEvent {
+		$this->payload = $payload->jsonSerialize();
+
+		return $this;
+	}
+
 
 	/**
 	 * @return array
