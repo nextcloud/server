@@ -38,6 +38,9 @@ class Users extends Base {
 	const SUBJECT_SELF_UNSHARED = 'self_unshared';
 	const SUBJECT_SELF_UNSHARED_BY = 'self_unshared_by';
 
+	const SUBJECT_EXPIRED_USER = 'expired_user';
+	const SUBJECT_EXPIRED = 'expired';
+
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
@@ -63,7 +66,10 @@ class Users extends Base {
 			$subject = $this->l->t('Shared by {actor}');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed share');
-
+		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
+			$subject = $this->l->t('Share for {user} expired');
+		} else if ($event->getSubject() === self::SUBJECT_EXPIRED) {
+			$subject = $this->l->t('Share expired');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -103,6 +109,10 @@ class Users extends Base {
 			$subject = $this->l->t('{actor} shared {file} with you');
 		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed you from the share named {file}');
+		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
+			$subject = $this->l->t('Share for file {file} with {user} expired');
+		} else if ($event->getSubject() === self::SUBJECT_EXPIRED) {
+			$subject = $this->l->t('Share for file {file} expired');
 
 		} else {
 			throw new \InvalidArgumentException();
@@ -125,6 +135,8 @@ class Users extends Base {
 		switch ($subject) {
 			case self::SUBJECT_SHARED_USER_SELF:
 			case self::SUBJECT_UNSHARED_USER_SELF:
+			case self::SUBJECT_EXPIRED_USER:
+			case self::SUBJECT_EXPIRED:
 				return [
 					'file' => $this->getFile($parameters[0], $event),
 					'user' => $this->getUser($parameters[1]),
