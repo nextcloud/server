@@ -40,7 +40,7 @@ class Syslog extends LogDetails implements IWriter {
 
 	public function __construct(SystemConfig $config) {
 		parent::__construct($config);
-		openlog($config->getSystemValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
+		openlog($config->getValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {
