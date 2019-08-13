@@ -38,6 +38,7 @@ use OCP\IGroup;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
+use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -151,6 +152,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User
 	 */
 	protected function getUserObject($uid, $backend, $cacheUser = true) {
+		if ($backend instanceof IGetRealUIDBackend) {
+			$uid = $backend->getRealUID($uid);
+		}
+
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
 		}

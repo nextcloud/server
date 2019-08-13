@@ -65,6 +65,7 @@ use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -80,7 +81,8 @@ class Database extends ABackend
 	           IGetDisplayNameBackend,
 	           ICheckPasswordBackend,
 	           IGetHomeBackend,
-	           ICountUsersBackend {
+	           ICountUsersBackend,
+	           IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
@@ -473,6 +475,15 @@ class Database extends ABackend
 				}
 			}
 		}
-
 	}
+
+	public function getRealUID(string $uid): string {
+		if (!$this->userExists($uid)) {
+			throw new \RuntimeException($uid . ' does not exist');
+		}
+
+		return $this->cache[$uid]['uid'];
+	}
+
+
 }

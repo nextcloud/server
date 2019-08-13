@@ -432,6 +432,7 @@ return array(
     'OCP\\User\\Backend\\ICreateUserBackend' => $baseDir . '/lib/public/User/Backend/ICreateUserBackend.php',
     'OCP\\User\\Backend\\IGetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/IGetDisplayNameBackend.php',
     'OCP\\User\\Backend\\IGetHomeBackend' => $baseDir . '/lib/public/User/Backend/IGetHomeBackend.php',
+    'OCP\\User\\Backend\\IGetRealUIDBackend' => $baseDir . '/lib/public/User/Backend/IGetRealUIDBackend.php',
     'OCP\\User\\Backend\\IPasswordConfirmationBackend' => $baseDir . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
     'OCP\\User\\Backend\\IProvideAvatarBackend' => $baseDir . '/lib/public/User/Backend/IProvideAvatarBackend.php',
     'OCP\\User\\Backend\\ISetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
