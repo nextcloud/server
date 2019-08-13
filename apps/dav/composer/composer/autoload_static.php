@@ -141,6 +141,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\Server' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Server.php',
         'OCA\\DAV\\Connector\\Sabre\\ServerFactory' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ServerFactory.php',
         'OCA\\DAV\\Connector\\Sabre\\ShareTypeList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ShareTypeList.php',
+        'OCA\\DAV\\Connector\\Sabre\\ShareeList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ShareeList.php',
         'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/SharesPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\TagList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagList.php',
         'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagsPlugin.php',
