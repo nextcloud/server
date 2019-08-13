@@ -144,6 +144,28 @@ import { Multiselect } from 'nextcloud-vue'
 import InfiniteLoading from 'vue-infinite-loading';
 import Vue from 'vue';
 
+const unlimitedQuota = {
+	id: 'none',
+	label: t('settings', 'Unlimited')
+}
+const defaultQuota = {
+	id: 'default',
+	label: t('settings', 'Default quota')
+}
+const newUser = {
+	id: '',
+	displayName: '',
+	password: '',
+	mailAddress: '',
+	groups: [],
+	subAdminsGroups: [],
+	quota: defaultQuota,
+	language: {
+		code: 'en',
+		name: t('settings', 'Default language')
+	}
+}
+
 export default {
 	name: 'userList',
 	props: ['users', 'showConfig', 'selectedGroup', 'externalActions'],
@@ -153,27 +175,16 @@ export default {
 		InfiniteLoading
 	},
 	data() {
-		let unlimitedQuota = {id:'none', label:t('settings', 'Unlimited')},
-			defaultQuota = {id:'default', label:t('settings', 'Default quota')};
 		return {
-			unlimitedQuota: unlimitedQuota,
-			defaultQuota: defaultQuota,
+			unlimitedQuota,
+			defaultQuota,
 			loading: {
 				all: false,
 				groups: false
 			},
 			scrolled: false,
 			searchQuery: '',
-			newUser: {
-				id:'',
-				displayName:'',
-				password:'',
-				mailAddress:'',
-				groups: [],
-				subAdminsGroups: [],
-				quota: defaultQuota,
-				language: {code: 'en', name: t('settings', 'Default language')}
-			}
+			newUser: Object.assign({}, newUser)
 		};
 	},
 	mounted() {
@@ -181,18 +192,10 @@ export default {
 			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'));
 		}
 
-		/** 
-		 * Init default language from server data. The use of this.settings
-		 * requires a computed variable, which break the v-model binding of the form,
-		 * this is a much easier solution than getter and setter on a computed var
-		 */
-		Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage);
-
 		/**
-		 * In case the user directly loaded the user list within a group
-		 * the watch won't be triggered. We need to initialize it.
+		 * Reset and init new user form
 		 */
-		this.setNewUserDefaultGroup(this.selectedGroup);
+		this.resetForm()
 
 		/** 
 		 * Register search
@@ -206,9 +209,9 @@ export default {
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
 				let disabledUsers = this.users.filter(user => user.enabled === false);
-				if (disabledUsers.length===0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
+				if (disabledUsers.length === 0 && this.$refs.infiniteLoading && this.$refs.infiniteLoading.isComplete) {
 					// disabled group is empty, redirection to all users
-					this.$router.push({name: 'users'});
+					this.$router.push({ name: 'users' });
 					this.$refs.infiniteLoading.stateChanger.reset()
 				}
 				return disabledUsers;
@@ -341,9 +344,23 @@ export default {
 
 		resetForm() {
 			// revert form to original state
-			Object.assign(this.newUser, this.$options.data.call(this).newUser);
-			// reset group
+			this.newUser = Object.assign({}, newUser);
+
+			/** 
+			 * Init default language from server data. The use of this.settings
+			 * requires a computed variable, which break the v-model binding of the form,
+			 * this is a much easier solution than getter and setter on a computed var
+			 */
+			if (this.settings.defaultLanguage) {
+				Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage);
+			}
+
+			/**
+			 * In case the user directly loaded the user list within a group
+			 * the watch won't be triggered. We need to initialize it.
+			 */
 			this.setNewUserDefaultGroup(this.selectedGroup);
+
 			this.loading.all = false;
 		},
 		createUser() {
