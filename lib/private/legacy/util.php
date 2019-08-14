@@ -978,9 +978,9 @@ class OC_Util {
 				$data = $result->fetchRow();
 				if (isset($data['server_version'])) {
 					$version = $data['server_version'];
-					if (version_compare($version, '9.5.0', '<')) {
+					if (version_compare($version, '9.0.0', '<')) {
 						$errors[] = array(
-							'error' => $l->t('PostgreSQL >= 9.5 required'),
+							'error' => $l->t('PostgreSQL >= 9 required'),
 							'hint' => $l->t('Please upgrade your database version')
 						);
 					}
