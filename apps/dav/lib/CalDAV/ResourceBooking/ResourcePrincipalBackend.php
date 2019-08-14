@@ -22,24 +22,34 @@
  */
 namespace OCA\DAV\CalDAV\ResourceBooking;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserSession;
 
+/**
+ * Class ResourcePrincipalBackend
+ *
+ * @package OCA\DAV\CalDAV\ResourceBooking
+ */
 class ResourcePrincipalBackend extends AbstractPrincipalBackend {
 
 	/**
+	 * ResourcePrincipalBackend constructor.
+	 *
 	 * @param IDBConnection $dbConnection
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param ILogger $logger
+	 * @param ProxyMapper $proxyMapper
 	 */
 	public function __construct(IDBConnection $dbConnection,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
-								ILogger $logger) {
+								ILogger $logger,
+								ProxyMapper $proxyMapper) {
 		parent::__construct($dbConnection, $userSession, $groupManager, $logger,
-			'principals/calendar-resources', 'resource', 'RESOURCE');
+			$proxyMapper, 'principals/calendar-resources', 'resource', 'RESOURCE');
 	}
 }

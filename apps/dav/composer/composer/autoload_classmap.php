@@ -196,6 +196,7 @@ return array(
     'OCA\\DAV\\SystemTag\\SystemTagsObjectMappingCollection' => $baseDir . '/../lib/SystemTag/SystemTagsObjectMappingCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsObjectTypeCollection' => $baseDir . '/../lib/SystemTag/SystemTagsObjectTypeCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsRelationsCollection' => $baseDir . '/../lib/SystemTag/SystemTagsRelationsCollection.php',
+    'OCA\\DAV\\Traits\\PrincipalProxyTrait' => $baseDir . '/../lib/Traits/PrincipalProxyTrait.php',
     'OCA\\DAV\\Upload\\AssemblyStream' => $baseDir . '/../lib/Upload/AssemblyStream.php',
     'OCA\\DAV\\Upload\\ChunkingPlugin' => $baseDir . '/../lib/Upload/ChunkingPlugin.php',
     'OCA\\DAV\\Upload\\CleanupService' => $baseDir . '/../lib/Upload/CleanupService.php',

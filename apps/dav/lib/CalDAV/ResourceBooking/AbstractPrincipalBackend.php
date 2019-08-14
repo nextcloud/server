@@ -22,6 +22,8 @@
  */
 namespace OCA\DAV\CalDAV\ResourceBooking;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -43,6 +45,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 	/** @var ILogger */
 	private $logger;
+
+	/** @var ProxyMapper */
+	private $proxyMapper;
 
 	/** @var string */
 	private $principalPrefix;
@@ -72,6 +77,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 								IUserSession $userSession,
 								IGroupManager $groupManager,
 								ILogger $logger,
+								ProxyMapper $proxyMapper,
 								string $principalPrefix,
 								string $dbPrefix,
 								string $cuType) {
@@ -79,12 +85,15 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
+		$this->proxyMapper = $proxyMapper;
 		$this->principalPrefix = $principalPrefix;
 		$this->dbTableName = 'calendar_' . $dbPrefix . 's';
 		$this->dbMetaDataTableName = $this->dbTableName . '_md';
 		$this->dbForeignKeyName = $dbPrefix . '_id';
 		$this->cuType = $cuType;
 	}
+
+	use PrincipalProxyTrait;
 
 	/**
 	 * Returns a list of principals based on a prefix.
@@ -213,39 +222,6 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		return $this->rowToPrincipal($row, $metadata);
-	}
-
-	/**
-	 * Returns the list of members for a group-principal
-	 *
-	 * @param string $principal
-	 * @return string[]
-	 */
-	public function getGroupMemberSet($principal) {
-		return [];
-	}
-
-	/**
-	 * Returns the list of groups a principal is a member of
-	 *
-	 * @param string $principal
-	 * @return array
-	 */
-	public function getGroupMembership($principal) {
-		return [];
-	}
-
-	/**
-	 * Updates the list of group members for a group principal.
-	 *
-	 * The principals should be passed as a list of uri's.
-	 *
-	 * @param string $principal
-	 * @param string[] $members
-	 * @throws Exception
-	 */
-	public function setGroupMemberSet($principal, array $members) {
-		throw new Exception('Setting members of the group is not supported yet');
 	}
 
 	/**

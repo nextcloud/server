@@ -24,6 +24,7 @@
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -78,8 +79,8 @@ class CreateCalendar extends Command {
 			$this->groupManager,
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getConfig(),
-			\OC::$server->getAppManager()
+			\OC::$server->getAppManager(),
+			\OC::$server->query(ProxyMapper::class)
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();

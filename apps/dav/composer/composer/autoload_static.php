@@ -211,6 +211,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\SystemTag\\SystemTagsObjectMappingCollection' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagsObjectMappingCollection.php',
         'OCA\\DAV\\SystemTag\\SystemTagsObjectTypeCollection' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagsObjectTypeCollection.php',
         'OCA\\DAV\\SystemTag\\SystemTagsRelationsCollection' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagsRelationsCollection.php',
+        'OCA\\DAV\\Traits\\PrincipalProxyTrait' => __DIR__ . '/..' . '/../lib/Traits/PrincipalProxyTrait.php',
         'OCA\\DAV\\Upload\\AssemblyStream' => __DIR__ . '/..' . '/../lib/Upload/AssemblyStream.php',
         'OCA\\DAV\\Upload\\ChunkingPlugin' => __DIR__ . '/..' . '/../lib/Upload/ChunkingPlugin.php',
         'OCA\\DAV\\Upload\\CleanupService' => __DIR__ . '/..' . '/../lib/Upload/CleanupService.php',

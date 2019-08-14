@@ -32,6 +32,7 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use InvalidArgumentException;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -131,8 +132,8 @@ class CardDavBackendTest extends TestCase {
 				$this->groupManager,
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
-				$this->createMock(IConfig::class),
 				$this->createMock(IAppManager::class),
+				$this->createMock(ProxyMapper::class),
 				])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();

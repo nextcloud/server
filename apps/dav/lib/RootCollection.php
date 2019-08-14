@@ -54,17 +54,19 @@ class RootCollection extends SimpleCollection {
 		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
+		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+
 		$userPrincipalBackend = new Principal(
 			$userManager,
 			$groupManager,
 			$shareManager,
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
-			\OC::$server->query(ProxyMapper::class)
+			$proxyMapper
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $l10n);
-		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
-		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger);
+		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
+		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 

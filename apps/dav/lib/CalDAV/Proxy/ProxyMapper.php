@@ -27,17 +27,27 @@ namespace OCA\DAV\CalDAV\Proxy;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
+/**
+ * Class ProxyMapper
+ *
+ * @package OCA\DAV\CalDAV\Proxy
+ */
 class ProxyMapper extends QBMapper {
 
 	const PERMISSION_READ  = 1;
 	const PERMISSION_WRITE = 2;
 
+	/**
+	 * ProxyMapper constructor.
+	 *
+	 * @param IDBConnection $db
+	 */
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'dav_cal_proxy', Proxy::class);
 	}
 
 	/**
-	 * @param string $proxyId The userId that can act as a proxy for the resulting calendars
+	 * @param string $proxyId The principal uri that can act as a proxy for the resulting calendars
 	 *
 	 * @return Proxy[]
 	 */
@@ -52,7 +62,7 @@ class ProxyMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $ownerId The userId that has the resulting proxies for their calendars
+	 * @param string $ownerId The principal uri that has the resulting proxies for their calendars
 	 *
 	 * @return Proxy[]
 	 */

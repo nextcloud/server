@@ -21,6 +21,8 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
+use OCA\DAV\CalDAV\Proxy\Proxy;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -43,6 +45,9 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
+	/** @var ProxyMapper|\PHPUnit_Framework_MockObject_MockObject */
+	protected $proxyMapper;
+
 	/** @var string */
 	protected $mainDbTable;
 
@@ -64,6 +69,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->proxyMapper = $this->createMock(ProxyMapper::class);
 	}
 
 	protected function tearDown() {
@@ -152,21 +158,113 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	}
 
 	public function testGetGroupMemberSet() {
-		$actual = $this->principalBackend->getGroupMemberSet($this->principalPrefix . '/foo-bar');
+		$actual = $this->principalBackend->getGroupMemberSet($this->principalPrefix . '/backend1-res1');
 		$this->assertEquals([], $actual);
+	}
+
+	public function testGetGroupMemberSetProxyRead() {
+		$proxy1 = new Proxy();
+		$proxy1->setProxyId('proxyId1');
+		$proxy1->setPermissions(1);
+
+		$proxy2 = new Proxy();
+		$proxy2->setProxyId('proxyId2');
+		$proxy2->setPermissions(3);
+
+		$proxy3 = new Proxy();
+		$proxy3->setProxyId('proxyId3');
+		$proxy3->setPermissions(3);
+
+		$this->proxyMapper->expects($this->once())
+			->method('getProxiesOf')
+			->with($this->principalPrefix . '/backend1-res1')
+			->willReturn([$proxy1, $proxy2, $proxy3]);
+
+		$actual = $this->principalBackend->getGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-read');
+		$this->assertEquals(['proxyId1'], $actual);
+	}
+
+	public function testGetGroupMemberSetProxyWrite() {
+		$proxy1 = new Proxy();
+		$proxy1->setProxyId('proxyId1');
+		$proxy1->setPermissions(1);
+
+		$proxy2 = new Proxy();
+		$proxy2->setProxyId('proxyId2');
+		$proxy2->setPermissions(3);
+
+		$proxy3 = new Proxy();
+		$proxy3->setProxyId('proxyId3');
+		$proxy3->setPermissions(3);
+
+		$this->proxyMapper->expects($this->once())
+			->method('getProxiesOf')
+			->with($this->principalPrefix . '/backend1-res1')
+			->willReturn([$proxy1, $proxy2, $proxy3]);
+
+		$actual = $this->principalBackend->getGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-write');
+		$this->assertEquals(['proxyId2', 'proxyId3'], $actual);
 	}
 
 	public function testGetGroupMembership() {
-		$actual = $this->principalBackend->getGroupMembership($this->principalPrefix . '/foo-bar');
-		$this->assertEquals([], $actual);
+		$proxy1 = new Proxy();
+		$proxy1->setOwnerId('proxyId1');
+		$proxy1->setPermissions(1);
+
+		$proxy2 = new Proxy();
+		$proxy2->setOwnerId('proxyId2');
+		$proxy2->setPermissions(3);
+
+		$this->proxyMapper->expects($this->once())
+			->method('getProxiesFor')
+			->with($this->principalPrefix . '/backend1-res1')
+			->willReturn([$proxy1, $proxy2]);
+
+		$actual = $this->principalBackend->getGroupMembership($this->principalPrefix . '/backend1-res1');
+
+		$this->assertEquals(['proxyId1/calendar-proxy-read', 'proxyId2/calendar-proxy-write'], $actual);
 	}
 
-	/**
-	 * @expectedException        \Sabre\DAV\Exception
-	 * @expectedExceptionMessage Setting members of the group is not supported yet
-	 */
 	public function testSetGroupMemberSet() {
-		$this->principalBackend->setGroupMemberSet($this->principalPrefix . '/foo-bar', ['foo', 'bar']);
+		$this->proxyMapper->expects($this->at(0))
+			->method('getProxiesOf')
+			->with($this->principalPrefix . '/backend1-res1')
+			->willReturn([]);
+
+		$this->proxyMapper->expects($this->at(1))
+			->method('insert')
+			->with($this->callback(function($proxy) {
+				/** @var Proxy $proxy */
+				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+					return false;
+				}
+				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend1-res2') {
+					return false;
+				}
+				if ($proxy->getPermissions() !== 3) {
+					return false;
+				}
+
+				return true;
+			}));
+		$this->proxyMapper->expects($this->at(2))
+			->method('insert')
+			->with($this->callback(function($proxy) {
+				/** @var Proxy $proxy */
+				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+					return false;
+				}
+				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend2-res3') {
+					return false;
+				}
+				if ($proxy->getPermissions() !== 3) {
+					return false;
+				}
+
+				return true;
+			}));
+
+		$this->principalBackend->setGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-write', [$this->principalPrefix . '/backend1-res2', $this->principalPrefix . '/backend2-res3']);
 	}
 
 	public function testUpdatePrincipal() {
