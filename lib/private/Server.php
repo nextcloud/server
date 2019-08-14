@@ -449,9 +449,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('AllConfig', \OC\AllConfig::class);
 		$this->registerAlias(\OCP\IConfig::class, \OC\AllConfig::class);
 
-		$this->registerService('SystemConfig', function ($c) use ($config) {
+		$this->registerService(\OC\SystemConfig::class, function ($c) use ($config) {
 			return new \OC\SystemConfig($config);
 		});
+		$this->registerAlias('SystemConfig', \OC\SystemConfig::class);
 
 		$this->registerService(\OC\AppConfig::class, function (Server $c) {
 			return new \OC\AppConfig($c->getDatabaseConnection());
