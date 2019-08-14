@@ -685,7 +685,10 @@
 				name: 'Delete',
 				displayName: function(context) {
 					var mountType = context.$file.attr('data-mounttype');
-					var deleteTitle = t('files', 'Delete');
+					var type = context.$file.attr('data-type');
+					var deleteTitle = (type && type === 'file')
+						? t('files', 'Delete file')
+						: t('files', 'Delete folder')
 					if (mountType === 'external-root') {
 						deleteTitle = t('files', 'Disconnect storage');
 					} else if (mountType === 'shared-root') {
