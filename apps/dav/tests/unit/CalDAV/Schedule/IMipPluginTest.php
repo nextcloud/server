@@ -48,166 +48,76 @@ use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
 
-	public function testDelivery() {
-		$mailMessage = $this->createMock(IMessage::class);
-		$mailMessage->method('setFrom')->willReturn($mailMessage);
-		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
-		$mailMessage->method('setTo')->willReturn($mailMessage);
-		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
-		$emailTemplate = $this->createMock(IEMailTemplate::class);
-		$emailAttachment = $this->createMock(IAttachment::class);
-		$mailer->method('createEMailTemplate')->willReturn($emailTemplate);
-		$mailer->method('createMessage')->willReturn($mailMessage);
-		$mailer->method('createAttachment')->willReturn($emailAttachment);
-		$mailer->expects($this->once())->method('send');
-		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
+        public function setUp() {
+		$this->mailMessage = $this->createMock(IMessage::class);
+		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
+		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
+		$this->mailMessage->method('setTo')->willReturn($this->mailMessage);
+
+		$this->mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
+		$this->mailer->method('createMessage')->willReturn($this->mailMessage);
+
+		$this->emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($this->emailTemplate);
+
+		$this->emailAttachment = $this->createMock(IAttachment::class);
+		$this->mailer->method('createAttachment')->willReturn($this->emailAttachment);
+
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
-		$timeFactory->method('getTime')->willReturn(1);
-		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
-		$config = $this->createMock(IConfig::class);
+
+		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
+		$this->timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
+
+		$this->config = $this->createMock(IConfig::class);
+
 		$l10n = $this->createMock(IL10N::class);
-		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->willReturn($l10n);
-		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-		$urlGenerator = $this->createMock(IURLGenerator::class);
-		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
-		$db = $this->createMock(IDBConnection::class);
-		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
-		$random = $this->createMock(ISecureRandom::class);
-		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
-		$defaults = $this->createMock(Defaults::class);
-		$defaults->expects($this->once())
-			->method('getName')
-			->will($this->returnValue('Instance Name 123'));
 
-		$random->expects($this->once())
-			->method('generate')
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->queryBuilder = $this->createMock(IQueryBuilder::class);
+		$db = $this->createMock(IDBConnection::class);
+		$db->method('getQueryBuilder')
+			->with()
+			->will($this->returnValue($this->queryBuilder));
+
+		$random = $this->createMock(ISecureRandom::class);
+		$random->method('generate')
 			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
 			->will($this->returnValue('random_token'));
 
-		$queryBuilder = $this->createMock(IQueryBuilder::class);
+		$defaults = $this->createMock(Defaults::class);
+		$defaults->method('getName')
+			->will($this->returnValue('Instance Name 123'));
 
-		$db->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(0))
-			->method('insert')
-			->with('calendar_invitations')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(8))
-			->method('values')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(9))
-			->method('execute');
+		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
+	}
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
-		$message = new Message();
-		$message->method = 'REQUEST';
-		$message->message = new VCalendar();
-		$message->message->add('VEVENT', [
-			'UID' => $message->uid,
-			'SEQUENCE' => $message->sequence,
-			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
-		]);
-		$message->sender = 'mailto:gandalf@wiz.ard';
-		$message->recipient = 'mailto:frodo@hobb.it';
+	public function testDelivery() {
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
-		$emailTemplate->expects($this->once())
-			->method('setSubject')
-			->with('Invitation: Fellowship meeting');
-		$mailMessage->expects($this->once())
-			->method('setTo')
-			->with(['frodo@hobb.it' => null]);
-		$mailMessage->expects($this->once())
-			->method('setReplyTo')
-			->with(['gandalf@wiz.ard' => null]);
-
-		$plugin->schedule($message);
+		$message = $this->_testMessage();
+		$this->_expectSend();
+		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
 	public function testFailedDelivery() {
-		$mailMessage = $this->createMock(IMessage::class);
-		$mailMessage->method('setFrom')->willReturn($mailMessage);
-		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
-		$mailMessage->method('setTo')->willReturn($mailMessage);
-		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
-		$emailTemplate = $this->createMock(IEMailTemplate::class);
-		$emailAttachment = $this->createMock(IAttachment::class);
-		$mailer->method('createEMailTemplate')->willReturn($emailTemplate);
-		$mailer->method('createMessage')->willReturn($mailMessage);
-		$mailer->method('createAttachment')->willReturn($emailAttachment);
-		$mailer->method('send')->willThrowException(new \Exception());
-		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
-		$timeFactory->method('getTime')->willReturn(1);
-		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
-		$config = $this->createMock(IConfig::class);
-		$l10n = $this->createMock(IL10N::class);
-		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
-		$l10nFactory = $this->createMock(IFactory::class);
-		$l10nFactory->method('get')->willReturn($l10n);
-		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-		$urlGenerator = $this->createMock(IURLGenerator::class);
-		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
-		$db = $this->createMock(IDBConnection::class);
-		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
-		$random = $this->createMock(ISecureRandom::class);
-		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
-		$defaults = $this->createMock(Defaults::class);
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
-		$random->expects($this->once())
-			->method('generate')
-			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-			->will($this->returnValue('random_token'));
-
-		$queryBuilder = $this->createMock(IQueryBuilder::class);
-
-		$db->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(0))
-			->method('insert')
-			->with('calendar_invitations')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(8))
-			->method('values')
-			->will($this->returnValue($queryBuilder));
-		$queryBuilder->expects($this->at(9))
-			->method('execute');
-
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
-		$message = new Message();
-		$message->method = 'REQUEST';
-		$message->message = new VCalendar();
-		$message->message->add('VEVENT', [
-			'UID' => $message->uid,
-			'SEQUENCE' => $message->sequence,
-			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2017-01-01 00:00:00') // 1483228800
-		]);
-		$message->sender = 'mailto:gandalf@wiz.ard';
-		$message->recipient = 'mailto:frodo@hobb.it';
-
-		$emailTemplate->expects($this->once())
-			->method('setSubject')
-			->with('Invitation: Fellowship meeting');
-		$mailMessage->expects($this->once())
-			->method('setTo')
-			->with(['frodo@hobb.it' => null]);
-		$mailMessage->expects($this->once())
-			->method('setReplyTo')
-			->with(['gandalf@wiz.ard' => null]);
-
-		$plugin->schedule($message);
+		$message = $this->_testMessage();
+		$this->mailer
+			->method('send')
+			->willThrowException(new \Exception());
+		$this->_expectSend();
+		$this->plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
@@ -215,77 +125,17 @@ class IMipPluginTest extends TestCase {
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
 	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
-		$mailMessage = $this->createMock(IMessage::class);
-		$mailMessage->method('setFrom')->willReturn($mailMessage);
-		$mailMessage->method('setReplyTo')->willReturn($mailMessage);
-		$mailMessage->method('setTo')->willReturn($mailMessage);
-		/** @var Mailer | \PHPUnit_Framework_MockObject_MockObject $mailer */
-		$mailer = $this->getMockBuilder(IMailer::class)->disableOriginalConstructor()->getMock();
-		$emailTemplate = $this->createMock(IEMailTemplate::class);
-		$emailAttachment = $this->createMock(IAttachment::class);
-		$mailer->method('createEMailTemplate')->willReturn($emailTemplate);
-		$mailer->method('createMessage')->willReturn($mailMessage);
-		$mailer->method('createAttachment')->willReturn($emailAttachment);
-		if ($expectsMail) {
-			$mailer->expects($this->once())->method('send');
-		} else {
-			$mailer->expects($this->never())->method('send');
-		}
-		/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject $logger */
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
-		$timeFactory->method('getTime')->willReturn(1496912528);
-		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
-		$config = $this->createMock(IConfig::class);
-		$l10n = $this->createMock(IL10N::class);
-		/** @var IFactory | \PHPUnit_Framework_MockObject_MockObject $l10nFactory */
-		$l10nFactory = $this->createMock(IFactory::class);
-		$l10nFactory->method('get')->willReturn($l10n);
-		/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-		$urlGenerator = $this->createMock(IURLGenerator::class);
-		/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject $db */
-		$db = $this->createMock(IDBConnection::class);
-		/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject $random */
-		$random = $this->createMock(ISecureRandom::class);
-		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $defaults */
-		$defaults = $this->createMock(Defaults::class);
 
-		if ($expectsMail) {
-			$random->expects($this->once())
-				->method('generate')
-				->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-				->will($this->returnValue('random_token'));
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
 
-			$queryBuilder = $this->createMock(IQueryBuilder::class);
+		$message = $this->_testMessage( $veventParams );
 
-			$db->expects($this->once())
-				->method('getQueryBuilder')
-				->with()
-				->will($this->returnValue($queryBuilder));
-			$queryBuilder->expects($this->at(0))
-				->method('insert')
-				->with('calendar_invitations')
-				->will($this->returnValue($queryBuilder));
-			$queryBuilder->expects($this->at(8))
-				->method('values')
-				->will($this->returnValue($queryBuilder));
-			$queryBuilder->expects($this->at(9))
-				->method('execute');
-		}
+		$this->_expectSend('frodo@hobb.it', $expectsMail, $expectsMail);
 
-		$plugin = new IMipPlugin($config, $mailer, $logger, $timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
-		$message = new Message();
-		$message->method = 'REQUEST';
-		$message->message = new VCalendar();
-		$message->message->add('VEVENT', array_merge([
-			'UID' => 'uid1337',
-			'SEQUENCE' => 42,
-			'SUMMARY' => 'Fellowship meeting',
-		], $veventParams));
-		$message->sender = 'mailto:gandalf@wiz.ard';
-		$message->recipient = 'mailto:frodo@hobb.it';
-
-		$plugin->schedule($message);
+		$this->plugin->schedule($message);
 
 		if ($expectsMail) {
 			$this->assertEquals('1.1', $message->getScheduleStatus());
@@ -307,5 +157,93 @@ class IMipPluginTest extends TestCase {
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;COUNT=33'], true],
 			[['DTSTART' => new \DateTime('2017-01-01 00:00:00'), 'DTEND' => new \DateTime('2017-01-01 00:00:00'), 'RRULE' => 'FREQ=WEEKLY;UNTIL=20171001T000000Z'], true],
 		];
+	}
+
+	/**
+	* @dataProvider dataIncludeResponseButtons
+	*/
+	public function testIncludeResponseButtons( $config_setting, $recipient, $has_buttons ) {
+		$message = $this->_testMessage([],$recipient);
+
+		$this->_expectSend($recipient, true, $has_buttons);
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn($config_setting);
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function dataIncludeResponseButtons() {
+		return [
+			// dav.invitation_link_recipients, recipient, $has_buttons
+			[ 'yes', 'joe@internal.com', true],
+			[ 'joe@internal.com', 'joe@internal.com', true],
+			[ 'internal.com', 'joe@internal.com', true],
+			[ 'pete@otherinternal.com,internal.com', 'joe@internal.com', true],
+			[ 'no', 'joe@internal.com', false],
+			[ 'internal.com', 'joe@external.com', false],
+			[ 'jane@otherinternal.com,internal.com', 'joe@otherinternal.com', false],
+		];
+	}
+
+	private function _testMessage($attrs = [], $recipient = 'frodo@hobb.it' ) {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2018-01-01 00:00:00')
+		], $attrs));
+		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
+		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ] );
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->recipient = 'mailto:'.$recipient;
+		return $message;
+	}
+
+
+        private function _expectSend( $recipient = 'frodo@hobb.it', $expectSend = true, $expectButtons = true ) {
+
+		// if the event is in the past, we skip out
+		if (!$expectSend) {
+			$this->mailer
+				->expects($this->never())
+				->method('send');
+			return;
+		}
+
+		$this->emailTemplate->expects($this->once())
+			->method('setSubject')
+			->with('Invitation: Fellowship meeting');
+		$this->mailMessage->expects($this->once())
+			->method('setTo')
+			->with([$recipient => null]);
+		$this->mailMessage->expects($this->once())
+			->method('setReplyTo')
+			->with(['gandalf@wiz.ard' => null]);
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		if ($expectButtons) {
+			$this->queryBuilder->expects($this->at(0))
+				->method('insert')
+				->with('calendar_invitations')
+				->will($this->returnValue($this->queryBuilder));
+			$this->queryBuilder->expects($this->at(8))
+				->method('values')
+				->will($this->returnValue($this->queryBuilder));
+			$this->queryBuilder->expects($this->at(9))
+				->method('execute');
+		}
+		else {
+			$this->queryBuilder->expects($this->never())
+				->method('insert')
+				->with('calendar_invitations');
+		}
 	}
 }
