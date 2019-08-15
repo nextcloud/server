@@ -158,6 +158,7 @@
     "To fix this issue update your libxml2 version and restart your web server." : "Atnaujinkite libxml2 versiją ir perkraukite žiniatinklio serverį, kad sutvarkytumėte šią problemą.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduliai yra įdiegti, bet jų vis tiek trūksta?",
     "Please ask your server administrator to restart the web server." : "Kreipkitės į savo sistemos administratorių, kad jis perkrautų žiniatinklio serverį.",
+    "PostgreSQL >= 9 required" : "Reikalinga PostgreSQL >= 9",
     "Please upgrade your database version" : "Atnaujinkite duomenų bazės versiją.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Pakeiskite leidimus į 0770, kad šis katalogas negalėtų būti išvardytas kitiems naudotojams.",
     "Your data directory is readable by other users" : "Duomenų katalogą gali skaityti kiti naudotojai",
@@ -202,7 +203,6 @@
     "%s shared »%s« with you" : "%s pasidalino »%s« su jumis",
     "%s shared »%s« with you." : "%s pasidalino »%s« su Jumis.",
     "%s via %s" : "%s per %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" negali būti įdiegta, nes nėra įvykdytos: %s",
-    "PostgreSQL >= 9 required" : "Reikalinga PostgreSQL >= 9"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Programa \"%s\" negali būti įdiegta, nes nėra įvykdytos: %s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

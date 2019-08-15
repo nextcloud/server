@@ -165,6 +165,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Kjo ka gjasa të jetë shkaktuar nga një fshehtinë/përshpejtues i tillë si Zend OPcache ose eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modulet PHP janë instaluar, por tregohen ende sikur mungojnë?",
     "Please ask your server administrator to restart the web server." : "Ju lutemi, kërkojini përgjegjësit të shërbyesit tuaj të rinisë shërbyesin web.",
+    "PostgreSQL >= 9 required" : "Lypset PostgreSQL >= 9",
     "Please upgrade your database version" : "Ju lutemi, përmirësoni bazën tuaj të të dhënave me një version më të ri.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ju lutemi, kalojani lejet në 0770, që kështu atë drejtori të mos mund ta shfaqin përdorues të tjerë.",
     "Your data directory is readable by other users" : "Direktoria juaj e të dhënave është e lexueshme nga përdorues të tjerë",
@@ -208,7 +209,6 @@
     "%s shared »%s« with you" : "%s ndau me ju »%s«",
     "%s shared »%s« with you." : "1 %s ndarë »1 %s« me ju.",
     "%s via %s" : "%s përmes %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s.",
-    "PostgreSQL >= 9 required" : "Lypset PostgreSQL >= 9"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Përditësimi \"%s\" s’instalohet dot, ngaqë s’plotësohen varësitë vijuese: %s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

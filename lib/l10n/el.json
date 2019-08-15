@@ -169,6 +169,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Κάποια αρθρώματα της PHP έχουν εγκατασταθεί, αλλά είναι ακόμα καταγεγραμμένες ως εκλιπόντα;",
     "Please ask your server administrator to restart the web server." : "Παρακαλώ ζητήστε από το διαχειριστή του διακομιστή σας να επανεκκινήσει το διακομιστή δικτύου σας.",
+    "PostgreSQL >= 9 required" : "Απαιτείται PostgreSQL >= 9",
     "Please upgrade your database version" : "Παρακαλώ αναβαθμίστε την έκδοση της βάσης δεδομένων σας",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Παρακαλώ αλλάξτε τις ρυθμίσεις σε 0770 έτσι ώστε ο κατάλογος να μην μπορεί να προβάλλεται από άλλους χρήστες.",
     "Your data directory is readable by other users" : "Ο κατάλογος δεδομένων σας είναι διαθέσιμος προς ανάγνωση από άλλους χρήστες",
@@ -213,7 +214,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αρχείο δεν βρέθηκε στην προσωρινή αποθήκευση αρχείων",
     "%s shared »%s« with you" : "Ο %s διαμοιράστηκε μαζί σας το »%s«",
     "%s via %s" : "%s μέσω %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Αυτή η εφαρμογή  %s δεν μπορεί να εγκατασταθεί διότι δεν πληρούνται  οι ακόλουθες εξαρτήσεις:  %s",
-    "PostgreSQL >= 9 required" : "Απαιτείται PostgreSQL >= 9"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Αυτή η εφαρμογή  %s δεν μπορεί να εγκατασταθεί διότι δεν πληρούνται  οι ακόλουθες εξαρτήσεις:  %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

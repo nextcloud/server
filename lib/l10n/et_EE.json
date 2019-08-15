@@ -145,6 +145,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "See on tõenäoliselt põhjustatud puhver/kiirendist nagu Zend OPcache või eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moodulid on paigaldatud, kuid neid näitatakse endiselt kui puuduolevad?",
     "Please ask your server administrator to restart the web server." : "Palu oma serveri haldajal veebiserver taaskäivitada.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 on nõutav",
     "Please upgrade your database version" : "Palun uuenda oma andmebaasi versiooni",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
@@ -176,7 +177,6 @@
     "%s shared »%s« with you" : "%s jagas sinuga »%s«",
     "%s shared »%s« with you." : "%s jagas »%s« sinuga.",
     "%s via %s" : "%s läbi %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Rakendust \"%s\" ei saa paigaldada sest järgmised sõltuvused ei ole täidetud: %s",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 on nõutav"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Rakendust \"%s\" ei saa paigaldada sest järgmised sõltuvused ei ole täidetud: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

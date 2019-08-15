@@ -280,6 +280,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Help translate" : "Βοηθήστε στη μετάφραση",
     "Current password" : "Τρέχων συνθηματικό",
-    "Change password" : "Αλλαγή συνθηματικού"
+    "Change password" : "Αλλαγή συνθηματικού",
+    "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας."
 },
 "nplurals=2; plural=(n != 1);");
