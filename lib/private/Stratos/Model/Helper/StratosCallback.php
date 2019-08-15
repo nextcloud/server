@@ -150,7 +150,7 @@ class StratosCallback extends StratosRecipients implements IStratosCallback, Jso
 			parent::jsonSerialize(),
 			[
 				'app'     => $this->getApp(),
-				'id'      => $this->getId(),
+				'source'  => $this->getSource(),
 				'payload' => $this->payload
 			]
 		);
