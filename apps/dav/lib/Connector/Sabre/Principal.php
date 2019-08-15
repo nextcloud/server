@@ -35,9 +35,11 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OCA\DAV\CalDAV\Proxy\Proxy;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
-use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -62,9 +64,6 @@ class Principal implements BackendInterface {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IConfig */
-	private $config;
-
 	/** @var IAppManager */
 	private $appManager;
 
@@ -77,29 +76,39 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasCircles;
 
+	/** @var ProxyMapper */
+	private $proxyMapper;
+
 	/**
+	 * Principal constructor.
+	 *
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param IShareManager $shareManager
 	 * @param IUserSession $userSession
-	 * @param IConfig $config
+	 * @param IAppManager $appManager
+	 * @param ProxyMapper $proxyMapper
 	 * @param string $principalPrefix
 	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
 								IShareManager $shareManager,
 								IUserSession $userSession,
-								IConfig $config,
 								IAppManager $appManager,
+								ProxyMapper $proxyMapper,
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
-		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
+		$this->proxyMapper = $proxyMapper;
+	}
+
+	use PrincipalProxyTrait {
+		getGroupMembership as protected traitGetGroupMembership;
 	}
 
 	/**
@@ -138,6 +147,21 @@ class Principal implements BackendInterface {
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = \Sabre\Uri\split($path);
 
+		if ($name === 'calendar-proxy-write' || $name === 'calendar-proxy-read') {
+			list($prefix2, $name2) = \Sabre\Uri\split($prefix);
+
+			if ($prefix2 === $this->principalPrefix) {
+				$user = $this->userManager->get($name2);
+
+				if ($user !== null) {
+					return [
+						'uri' => 'principals/users/' . $user->getUID() . '/' . $name,
+					];
+				}
+				return null;
+			}
+		}
+
 		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
 
@@ -155,23 +179,6 @@ class Principal implements BackendInterface {
 	}
 
 	/**
-	 * Returns the list of members for a group-principal
-	 *
-	 * @param string $principal
-	 * @return string[]
-	 * @throws Exception
-	 */
-	public function getGroupMemberSet($principal) {
-		// TODO: for now the group principal has only one member, the user itself
-		$principal = $this->getPrincipalByPath($principal);
-		if (!$principal) {
-			throw new Exception('Principal not found');
-		}
-
-		return [$principal['uri']];
-	}
-
-	/**
 	 * Returns the list of groups a principal is a member of
 	 *
 	 * @param string $principal
@@ -182,36 +189,30 @@ class Principal implements BackendInterface {
 	public function getGroupMembership($principal, $needGroups = false) {
 		list($prefix, $name) = \Sabre\Uri\split($principal);
 
-		if ($prefix === $this->principalPrefix) {
-			$user = $this->userManager->get($name);
-			if (!$user) {
-				throw new Exception('Principal not found');
-			}
+		if ($prefix !== $this->principalPrefix) {
+			return [];
+		}
 
-			if ($this->hasGroups || $needGroups) {
-				$groups = $this->groupManager->getUserGroups($user);
-				$groups = array_map(function($group) {
-					/** @var IGroup $group */
-					return 'principals/groups/' . urlencode($group->getGID());
-				}, $groups);
+		$user = $this->userManager->get($name);
+		if (!$user) {
+			throw new Exception('Principal not found');
+		}
 
-				return $groups;
+		$groups = [];
+
+		if ($this->hasGroups || $needGroups) {
+			$userGroups = $this->groupManager->getUserGroups($user);
+			foreach($userGroups as $userGroup) {
+				$groups[] = 'principals/groups/' . urlencode($userGroup->getGID());
 			}
 		}
-		return [];
-	}
 
-	/**
-	 * Updates the list of group members for a group principal.
-	 *
-	 * The principals should be passed as a list of uri's.
-	 *
-	 * @param string $principal
-	 * @param string[] $members
-	 * @throws Exception
-	 */
-	public function setGroupMemberSet($principal, array $members) {
-		throw new Exception('Setting members of the group is not supported yet');
+		$groups = array_unique(array_merge(
+			$groups,
+			$this->traitGetGroupMembership($principal, $needGroups)
+		));
+
+		return $groups;
 	}
 
 	/**
@@ -482,5 +483,4 @@ class Principal implements BackendInterface {
 
 		return [];
 	}
-
 }

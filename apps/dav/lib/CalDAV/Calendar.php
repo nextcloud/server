@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
@@ -46,6 +47,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	/** @var IConfig */
 	private $config;
 
+	/**
+	 * Calendar constructor.
+	 *
+	 * @param BackendInterface $caldavBackend
+	 * @param $calendarInfo
+	 * @param IL10N $l10n
+	 * @param IConfig $config
+	 */
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
@@ -119,17 +128,37 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return $this->calendarInfo['principaluri'];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getACL() {
 		$acl =  [
 			[
 				'privilege' => '{DAV:}read',
 				'principal' => $this->getOwner(),
 				'protected' => true,
-			]];
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-read',
+				'protected' => true,
+			],
+		];
+
 		if ($this->getName() !== BirthdayService::BIRTHDAY_CALENDAR_URI) {
 			$acl[] = [
 				'privilege' => '{DAV:}write',
 				'principal' => $this->getOwner(),
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
 				'protected' => true,
 			];
 		} else {
@@ -138,7 +167,18 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			];
+			$acl[] = [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			];
 		}
+
+		$acl[] = [
+			'privilege' => '{DAV:}write-properties',
+			'principal' => $this->getOwner() . '/calendar-proxy-read',
+			'protected' => true,
+		];
 
 		if (!$this->isShared()) {
 			return $acl;
@@ -173,7 +213,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
-		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
+		$allowedPrincipals = [
+			$this->getOwner(),
+			$this->getOwner(). '/calendar-proxy-read',
+			$this->getOwner(). '/calendar-proxy-write',
+			parent::getOwner(),
+			'principals/system/public'
+		];
 		return array_filter($acl, function($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});

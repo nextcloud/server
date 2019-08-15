@@ -137,7 +137,8 @@ class Server {
 		// acl
 		$acl = new DavAclPlugin();
 		$acl->principalCollectionSet = [
-			'principals/users', 'principals/groups',
+			'principals/users',
+			'principals/groups',
 			'principals/calendar-resources',
 			'principals/calendar-rooms',
 		];
