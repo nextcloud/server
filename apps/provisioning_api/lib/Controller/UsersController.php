@@ -41,6 +41,7 @@ use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -458,7 +459,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('Unknown user', 101);
 		}
 
 		$permittedFields = [];
@@ -515,12 +516,12 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+				throw new OCSException('You must be admin or subadmin', \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('You`re not allowed to edit '.$key, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 		// Process the edit
 		switch($key) {
@@ -574,7 +575,7 @@ class UsersController extends AUserData {
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
-					throw new OCSException('', 102);
+					throw new OCSException('Invalid email address', 102);
 				}
 				break;
 			case AccountManager::PROPERTY_PHONE:
@@ -588,7 +589,7 @@ class UsersController extends AUserData {
 				}
 				break;
 			default:
-				throw new OCSException('', 103);
+				throw new OCSException('Invalid property', 103);
 		}
 		return new DataResponse();
 	}
@@ -638,7 +639,7 @@ class UsersController extends AUserData {
 		$targetUser = $this->userManager->get($userId);
 
 		if ($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			throw new OCSException('', 101);
+			throw new OCSException('Unknown user', 101);
 		}
 
 		// If not permitted
