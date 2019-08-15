@@ -1,5 +1,7 @@
+<?php
+declare(strict_types=1);
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -19,26 +21,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-"use strict";
+namespace OCA\DAV\CalDAV\Reminder;
 
-$('#caldavSendInvitations').change(function() {
-	var val = $(this)[0].checked;
+use OCP\IUser;
+use Sabre\VObject\Component\VEvent;
 
-	OCP.AppConfig.setValue('dav', 'sendInvitations', val ? 'yes' : 'no');
-});
+/**
+ * Interface INotificationProvider
+ *
+ * @package OCA\DAV\CalDAV\Reminder
+ */
+interface INotificationProvider {
 
-$('#caldavGenerateBirthdayCalendar').change(function() {
-	var val = $(this)[0].checked;
-
-	if (val) {
-		$.post(OC.generateUrl('/apps/dav/enableBirthdayCalendar'));
-	} else {
-		$.post(OC.generateUrl('/apps/dav/disableBirthdayCalendar'));
-	}
-});
-
-$('#caldavSendRemindersNotifications').change(function() {
-	var val = $(this)[0].checked;
-
-	OCP.AppConfig.setValue('dav', 'sendEventReminders', val ? 'yes' : 'no');
-});
+	/**
+	 * Send notification
+	 *
+	 * @param VEvent $vevent
+	 * @param string $calendarDisplayName
+	 * @param IUser[] $users
+	 * @return void
+	 */
+	public function send(VEvent $vevent,
+						 string $calendarDisplayName,
+						 array $users=[]): void;
+}
