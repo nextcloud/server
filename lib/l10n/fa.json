@@ -46,11 +46,11 @@
     "Cannot write into \"config\" directory" : "امکان نوشتن درون شاخه‌ی \"config\" وجود ندارد",
     "Please ask your server administrator to install the module." : "لطفا از مدیر سیستم بخواهید تا ماژول را نصب کند.",
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
     "Library %s with a version higher than %s is required - available version %s." : "کتابخانه %s با نسخه‎‌ی بالاتر از %s نیاز است - نسخه‎ی موجود %s.",
     "Library %s with a version lower than %s is required - available version %s." : "کتابخانه %s با نسخه‎‌ی پایین‌تر از %s نیاز است - نسخه‎ی موجود %s.",
     "%s shared »%s« with you" : "%s به اشتراک گذاشته شده است »%s« توسط شما",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "امکان نصب برنامه \"%s\" با توجه به برآورده نکردن نیازمندی زیر وجود ندارد: %s",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "امکان نصب برنامه \"%s\" با توجه به برآورده نکردن نیازمندی زیر وجود ندارد: %s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
