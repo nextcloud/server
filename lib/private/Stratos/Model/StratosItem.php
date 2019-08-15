@@ -167,19 +167,35 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	 * @return array
 	 */
 	public function getPayload(): array {
+		if ($this->payload instanceof JsonSerializable) {
+			return json_decode($this->payload, true);
+		}
+
 		return $this->payload;
 	}
 
 	/**
 	 * @param array $payload
 	 *
-	 * @return StratosItem
+	 * @return IStratosItem
 	 */
 	public function setPayload(array $payload): IStratosItem {
 		$this->payload = $payload;
 
 		return $this;
 	}
+
+	/**
+	 * @param JsonSerializable $payload
+	 *
+	 * @return IStratosItem
+	 */
+	public function setPayloadSerializable(JsonSerializable $payload): IStratosItem {
+		$this->payload = $payload;
+
+		return $this;
+	}
+
 
 
 	/**

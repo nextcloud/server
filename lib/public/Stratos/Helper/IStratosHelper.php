@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCP\Stratos\Helper;
 
 
+use OCP\Stratos\Model\Helper\IStratosCallback;
 use OCP\Stratos\Model\Helper\IStratosEvent;
 use OCP\Stratos\Model\Helper\IStratosNotification;
 use OCP\Stratos\Model\IStratosWrapper;
@@ -55,8 +56,24 @@ interface IStratosHelper {
 
 
 	/**
+	 * @param IStratosCallback $callback
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function toCallback(IStratosCallback $callback): IStratosWrapper;
+
+	/**
+	 * @param IStratosCallback $callback
+	 *
+	 * @return IStratosWrapper
+	 */
+	public function generateFromCallback(IStratosCallback $callback): IStratosWrapper;
+
+
+
+
+	/**
 	 * @param IStratosNotification $notification
-	 * @param string $userId
 	 *
 	 * @return IStratosWrapper
 	 */

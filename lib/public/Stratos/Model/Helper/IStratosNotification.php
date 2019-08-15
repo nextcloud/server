@@ -44,6 +44,8 @@ use OCP\Stratos\Model\IStratosRecipients;
 interface IStratosNotification extends IStratosRecipients {
 
 
+	const TYPE = 'Notification';
+
 	const LEVEL_SUCCESS = 'success';
 	const LEVEL_MESSAGE = 'message';
 	const LEVEL_WARNING = 'warning';

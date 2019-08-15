@@ -34,15 +34,15 @@ namespace OC\Stratos\Model\Helper;
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
 use OC\Stratos\Model\StratosRecipients;
-use OCP\Stratos\Model\Helper\IStratosEvent;
+use OCP\Stratos\Model\Helper\IStratosCallback;
 
 
 /**
- * Class StratosEvent
+ * Class StratosCallback
  *
  * @package OC\Stratos\Model\Helper
  */
-class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSerializable {
+class StratosCallback extends StratosRecipients implements IStratosCallback, JsonSerializable {
 
 
 	use TArrayTools;
@@ -52,21 +52,21 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	private $app = '';
 
 	/** @var string */
-	private $command = '';
+	private $source = '';
 
 	/** @var array */
-	private $payload = [];
+	private $payload = '';
 
 
 	/**
-	 * StratosEvent constructor.
+	 * StratosCallback constructor.
 	 *
 	 * @param string $app
-	 * @param string $command
+	 * @param $source
 	 */
-	public function __construct($app = '', $command = '') {
+	public function __construct($app = '', $source = '') {
 		$this->app = $app;
-		$this->command = $command;
+		$this->source = $source;
 	}
 
 
@@ -80,9 +80,9 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosEvent
+	 * @return IStratosCallback
 	 */
-	public function setApp(string $app): IStratosEvent {
+	public function setApp(string $app): IStratosCallback {
 		$this->app = $app;
 
 		return $this;
@@ -92,17 +92,17 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @return string
 	 */
-	public function getCommand(): string {
-		return $this->command;
+	public function getSource(): string {
+		return $this->source;
 	}
 
 	/**
-	 * @param string $command
+	 * @param string $source
 	 *
-	 * @return IStratosEvent
+	 * @return IStratosCallback
 	 */
-	public function setCommand(string $command): IStratosEvent {
-		$this->command = $command;
+	public function setSource(string $source): IStratosCallback {
+		$this->source = $source;
 
 		return $this;
 	}
@@ -122,9 +122,9 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param array $payload
 	 *
-	 * @return IStratosEvent
+	 * @return IStratosCallback
 	 */
-	public function setPayload(array $payload): IStratosEvent {
+	public function setPayload(array $payload): IStratosCallback {
 		$this->payload = $payload;
 
 		return $this;
@@ -133,10 +133,10 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param JsonSerializable $payload
 	 *
-	 * @return IStratosEvent
+	 * @return self
 	 */
-	public function setPayloadSerializable(JsonSerializable $payload): IStratosEvent {
-		$this->payload = $payload->jsonSerialize();
+	public function setPayloadSerializable(JsonSerializable $payload): IStratosCallback {
+		$this->payload = $payload;
 
 		return $this;
 	}
@@ -150,8 +150,8 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 			parent::jsonSerialize(),
 			[
 				'app'     => $this->getApp(),
-				'command' => $this->getCommand(),
-				'payload' => $this->getPayload()
+				'id'      => $this->getId(),
+				'payload' => $this->payload
 			]
 		);
 	}

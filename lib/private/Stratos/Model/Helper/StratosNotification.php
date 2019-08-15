@@ -206,7 +206,8 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 				'source' => $this->getLevel(),
 				'link'   => $this->getLink(),
 				'ttl'    => $this->getTtl()
-			]);
+			]
+		);
 	}
 
 }

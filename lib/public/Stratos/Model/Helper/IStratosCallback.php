@@ -36,16 +36,16 @@ use OCP\Stratos\Model\IStratosRecipients;
 
 
 /**
- * Interface IStratosEvent
+ * Interface IStratosCallback
  *
  * @since 18.0.0
  *
  * @package OCP\Stratos\Helper
  */
-interface IStratosEvent extends IStratosRecipients {
+interface IStratosCallback extends IStratosRecipients {
 
 
-	const TYPE = 'Event';
+	const TYPE = 'Callback';
 
 
 	/**
@@ -64,14 +64,14 @@ interface IStratosEvent extends IStratosRecipients {
 	/**
 	 * @return string
 	 */
-	public function getCommand(): string;
+	public function getSource(): string;
 
 	/**
-	 * @param string $title
+	 * @param string $source
 	 *
 	 * @return self
 	 */
-	public function setCommand(string $title): self;
+	public function setSource(string $source): self;
 
 
 	/**

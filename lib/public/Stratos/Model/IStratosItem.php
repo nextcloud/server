@@ -31,6 +31,8 @@ declare(strict_types=1);
 namespace OCP\Stratos\Model;
 
 
+use JsonSerializable;
+
 /**
  * Interface IStratosItem
  *
@@ -47,10 +49,6 @@ interface IStratosItem {
 	const TTL_DAY = 24 * 3600;
 	const TTL_LONG = 24 * 3600 * 8;
 	const TTL_GODLIKE = 0;
-
-	const TYPE_NOTIFICATION = 'Notification';
-	const TYPE_EVENT = 'Event';
-	const TYPE_WHATSNEW = 'WhatsNew';
 
 
 	/**
@@ -102,6 +100,13 @@ interface IStratosItem {
 	 * @return self
 	 */
 	public function setPayload(array $payload): self;
+
+	/**
+	 * @param JsonSerializable $payload
+	 *
+	 * @return IStratosItem
+	 */
+	public function setPayloadSerializable(JsonSerializable $payload): self;
 
 
 	/**
