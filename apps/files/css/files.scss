@@ -1080,9 +1080,15 @@ table.dragshadow td.size {
 		opacity: 1;
 	}
 }
-/* Make sure the hidden input is not rendered at all to avoid scrolling to top */
+
+/**
+ * Make sure the hidden input is always
+ * on the visible scrolled area of the
+ * page to avoid scrolling to top when focusing
+ */
 #showgridview {
-	display: none;
+	position: fixed;
+	top: 0;
 }
 
 /* Adjustments for link share page */
