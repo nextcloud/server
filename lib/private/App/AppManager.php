@@ -91,6 +91,9 @@ class AppManager implements IAppManager {
 	/** @var array */
 	private $appVersions = [];
 
+	/** @var array */
+	private $autoDisabledApps = [];
+
 	/**
 	 * @param IUserSession $userSession
 	 * @param AppConfig $appConfig
@@ -165,6 +168,13 @@ class AppManager implements IAppManager {
 			return $this->checkAppForGroups($enabled, $group);
 		});
 		return array_keys($appsForGroups);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAutoDisabledApps(): array {
+		return $this->autoDisabledApps;
 	}
 
 	/**
@@ -351,12 +361,18 @@ class AppManager implements IAppManager {
 	 * Disable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $automaticDisabled
 	 * @throws \Exception if app can't be disabled
 	 */
-	public function disableApp($appId) {
+	public function disableApp($appId, $automaticDisabled = false) {
 		if ($this->isAlwaysEnabled($appId)) {
 			throw new \Exception("$appId can't be disabled.");
 		}
+
+		if ($automaticDisabled) {
+			$this->autoDisabledApps[] = $appId;
+		}
+
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 
