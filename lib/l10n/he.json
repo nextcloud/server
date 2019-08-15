@@ -179,6 +179,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "זה ככל הנראה נגרם על ידי מאיץ/מטמון כמו Zend OPcache או eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "מודולי PHP הותקנו, אך עדיין רשומים כחסרים?",
     "Please ask your server administrator to restart the web server." : "יש לבקש ממנהל השרת שלך להפעיל מחדש את שרת האינטרנט.",
+    "PostgreSQL >= 9 required" : "נדרש PostgreSQL >= 9",
     "Please upgrade your database version" : "יש לשדרג את גרסת מסד הנתונים שלך",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "יש לשנות את ההרשאות ל- 0770 כך שהתיקייה לא תרשם על ידי משתמשים אחרים.",
     "Your data directory is readable by other users" : "תיקיית הנתונים שלך ניתנת לקריאה על ידי משתמשים אחרים",
@@ -229,7 +230,6 @@
     "%s shared »%s« with you" : "%s שיתף/שיתפה איתך את »%s«",
     "%s via %s" : "%s על בסיס %s",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "היישום \"%s\" לא ניתן להתקנה כיוון שיחסי התלות הבאים אינם מתקיימים: %s",
-    "PostgreSQL >= 9 required" : "נדרש PostgreSQL >= 9",
     "Sharing %1$s failed, because the user %2$s does not exist" : "השיתוף של %1$s נכשל כיוון שהמשתמש %2$s אינו קיים",
     "Sharing %1$s failed, because the user %2$s is not a member of any groups that %3$s is a member of" : "השיתוף של %1$s נכשל, כיוון שהמשתמש %2$s אינו חבר בקבוצות באף קבוצה בה יש ל־%3$s חברות בה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

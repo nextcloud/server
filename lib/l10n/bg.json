@@ -131,6 +131,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Това може да се дължи на cache/accelerator като Zend OPache или eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP модулите са инсталирани, но все още се обявяват като липсващи?",
     "Please ask your server administrator to restart the web server." : "Моля, поискай от своя администратор да рестартира уеб сървъра.",
+    "PostgreSQL >= 9 required" : "Изисква се PostgreSQL >= 9",
     "Please upgrade your database version" : "Моля, обнови базата данни.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
     "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
@@ -159,7 +160,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Неуспешно споделяне на %s, защото файлът не може да бъде намерен в кеша.",
     "%s shared »%s« with you" : "%s сподели »%s« с вас",
     "%s shared »%s« with you." : "%s сподели »%s« с вас.",
-    "%s via %s" : "%s чрез %s",
-    "PostgreSQL >= 9 required" : "Изисква се PostgreSQL >= 9"
+    "%s via %s" : "%s чрез %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
