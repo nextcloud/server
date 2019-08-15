@@ -131,6 +131,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dablemente esto seya culpa d'un caché o acelerador, como por exemplu Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Instaláronse los módulos PHP, ¿pero tán entá llistaos como faltantes?",
     "Please ask your server administrator to restart the web server." : "Por favor, entruga al to alministrador pa reaniciar el sirvidor web.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 requeríu",
     "Please upgrade your database version" : "Por favor, anueva la versión de la to base de datos",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor, camuda los permisos a 0770 pa que'l direutoriu nun pueda llistase por otros usuarios.",
     "Check the value of \"datadirectory\" in your configuration" : "Comprobar el valor del \"datadirectory\" na so configuración",
@@ -166,7 +167,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Compartir %s falló, yá que'l ficheru nun pudo atopase na caché de ficheru",
     "%s shared »%s« with you" : "%s compartió »%s« contigo",
     "%s via %s" : "%s via %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "L'aplicación \"%s\" nun puede instalase porque les siguientes dependencies nun se cumplen: %s",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 requeríu"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "L'aplicación \"%s\" nun puede instalase porque les siguientes dependencies nun se cumplen: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
