@@ -426,10 +426,16 @@ class Generator {
 	 * @return ISimpleFolder
 	 */
 	private function getPreviewFolder(File $file) {
+		$folderName = implode('/', str_split($file->getId()));
 		try {
-			$folder = $this->appData->getFolder($file->getId());
+			$folder = $this->appData->getFolder($folderName);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($file->getId());
+			try {
+				// In order to have some retrocompatibility
+				$folder = $this->appData->getFolder($file->getId());
+			} catch (NotFoundException $e) {
+				$folder = $this->appData->newFolder($folderName);
+			}
 		}
 
 		return $folder;
