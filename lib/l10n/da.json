@@ -155,6 +155,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator",
     "PHP modules have been installed, but they are still listed as missing?" : "Der er installeret PHP-moduler, men de fremstår stadig som fraværende?",
     "Please ask your server administrator to restart the web server." : "Du bedes anmode din serveradministrator om at genstarte webserveren.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 kræves",
     "Please upgrade your database version" : "Opgradér venligst din databaseversion",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Tilpas venligst rettigheder til 0770, så mappen ikke fremvises for andre brugere.",
     "Check the value of \"datadirectory\" in your configuration" : "Tjek værdien for \"databibliotek\" i din konfiguration",
@@ -191,7 +192,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Deling af %s mislykkedes, fordi filen ikke kunne findes i fil-cachen",
     "%s shared »%s« with you" : "%s delte »%s« med dig",
     "%s via %s" : "%s via %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App'en \"%s\" kan ikke installeres, da følgende krav ikke er opfyldt: %s ",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 kræves"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App'en \"%s\" kan ikke installeres, da følgende krav ikke er opfyldt: %s "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

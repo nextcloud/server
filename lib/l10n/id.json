@@ -89,6 +89,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Hal ini kemungkinan disebabkan oleh cache/akselerator seperti Zend OPcache atau eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modul PHP telah terinstal, tetapi mereka terlihat tidak ada?",
     "Please ask your server administrator to restart the web server." : "Mohon minta administrator Anda untuk menjalankan ulang server web.",
+    "PostgreSQL >= 9 required" : "Diperlukan PostgreSQL >= 9",
     "Please upgrade your database version" : "Mohon perbarui versi basis data Anda",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Mohon ubah perizinan menjadi 0770 sehingga direktori tersebut tidak dapat dilihat oleh pengguna lain.",
     "Check the value of \"datadirectory\" in your configuration" : "Periksa nilai \"datadirectory\" di konfigurasi Anda",
@@ -122,7 +123,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Gagal berbagi %s, karena berkas tidak ditemukan di berkas cache",
     "%s shared »%s« with you" : "%s membagikan »%s« dengan anda",
     "%s via %s" : "%s melalui %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "aplikasi \"%s\" tidak dapat dipasang karena dependensi berikut belum terpenuhi: %s",
-    "PostgreSQL >= 9 required" : "Diperlukan PostgreSQL >= 9"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "aplikasi \"%s\" tidak dapat dipasang karena dependensi berikut belum terpenuhi: %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

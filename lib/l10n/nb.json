@@ -182,6 +182,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette forårsakes sannsynligvis av hurtiglager/akselerator, som f.eks. Zend OPcache eller eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-moduler har blitt installert, men de listes fortsatt som fraværende?",
     "Please ask your server administrator to restart the web server." : "Be server-administratoren om å starte webserveren på nytt.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 kreves",
     "Please upgrade your database version" : "Oppgrader databaseversjonen din",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Endre tillatelsene til 0770 slik at mappen ikke kan listes av andre brukere.",
     "Your data directory is readable by other users" : "Din datamappe kan leses av andre brukere",
@@ -229,7 +230,6 @@
     "%s shared »%s« with you" : "%s delte »%s« med deg",
     "%s shared »%s« with you." : "%s delte \"%s\" med deg.",
     "%s via %s" : "%s via %s",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Appen \"%s\" kan ikke installeres fordi følgende krav ikke er tilfredsstilt: %s",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 kreves"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Appen \"%s\" kan ikke installeres fordi følgende krav ikke er tilfredsstilt: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -164,6 +164,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Tämä johtuu todennäköisesti välimuistista tai kiihdyttimestä kuten Zend OPcachesta tai eAcceleratorista.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-moduulit on asennettu, mutta ovatko ne vieläkin listattu puuttuviksi?",
     "Please ask your server administrator to restart the web server." : "Pyydä palvelimen ylläpitäjää käynnistämään web-palvelin uudelleen.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 vaaditaan",
     "Please upgrade your database version" : "Päivitä tietokantasi versio",
     "Your data directory is readable by other users" : "Data-hakemisto on muiden käyttäjien luettavissa",
     "Your data directory must be an absolute path" : "Data-hakemiston tulee olla absoluuttinen polku",
@@ -205,7 +206,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Kohteen %s jakaminen epäonnistui, koska tiedostoa ei löytynyt tiedostovälimuistista",
     "%s shared »%s« with you" : "%s jakoi kohteen »%s« kanssasi",
     "%s shared »%s« with you." : "%s jakoi kohteen »%s« kanssasi.",
-    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Sovelluksen \"%s\" asennus ei onnistu, koska seuraavia riippuvuuksia ei ole täytetty: %s",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 vaaditaan"
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Sovelluksen \"%s\" asennus ei onnistu, koska seuraavia riippuvuuksia ei ole täytetty: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
