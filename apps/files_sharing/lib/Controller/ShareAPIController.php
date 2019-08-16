@@ -305,13 +305,13 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($this->canAccessShare($share)) {
-			try {
+		try {
+			if ($this->canAccessShare($share)) {
 				$share = $this->formatShare($share);
 				return new DataResponse([$share]);
-			} catch (NotFoundException $e) {
-				//Fall trough
 			}
+		} catch (NotFoundException $e) {
+			// Fall trough
 		}
 
 		throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
@@ -983,6 +983,13 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Does the user have read permission on the share
+	 *
+	 * @param \OCP\Share\IShare $share the share to check
+	 * @param boolean $checkGroups check groups as well?
+	 * @return boolean
+	 * @throws NotFoundException
+	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function canAccessShare(\OCP\Share\IShare $share, bool $checkGroups = true): bool {
@@ -997,12 +1004,21 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
-		// If the share is shared with you (or a group you are a member of)
+		// If the share is shared with you, you can access it!
 		if ($share->getShareType() === Share::SHARE_TYPE_USER
 			&& $share->getSharedWith() === $this->currentUser) {
 			return true;
 		}
 
+		// Have reshare rights on the shared file/folder ?
+		// Does the currentUser have access to the shared file?
+		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
+		$files = $userFolder->getById($share->getNodeId());
+		if (!empty($files) && $this->shareProviderResharingRights($this->currentUser, $share, $files[0])) {
+			return true;
+		}
+
+		// If in the recipient group, you can see the share
 		if ($checkGroups && $share->getShareType() === Share::SHARE_TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			$user = $this->userManager->get($this->currentUser);

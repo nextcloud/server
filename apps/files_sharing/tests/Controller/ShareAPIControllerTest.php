@@ -375,6 +375,15 @@ class ShareAPIControllerTest extends TestCase {
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
 		$this->shareManager->expects($this->once())
 			->method('deleteFromSelf')
 			->with($share, $this->currentUser);
@@ -426,6 +435,15 @@ class ShareAPIControllerTest extends TestCase {
 		$node->expects($this->once())
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
 
 		$this->shareManager->expects($this->never())
 			->method('deleteFromSelf');
@@ -758,6 +776,11 @@ class ShareAPIControllerTest extends TestCase {
 			->with('ocinternal:42', 'currentUser')
 			->willReturn($share);
 
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
 		$this->ocs->getShare(42);
 	}
 
@@ -775,6 +798,27 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getSharedWith')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
+		$file = $this->getMockBuilder(File::class)->getMock();
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$file]);
+
+		$file->method('getPermissions')
+			->will($this->onConsecutiveCalls(\OCP\Constants::PERMISSION_SHARE, \OCP\Constants::PERMISSION_READ));
+
+		// getPermissions -> share
+		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+
+		// getPermissions -> read
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
@@ -852,6 +896,15 @@ class ShareAPIControllerTest extends TestCase {
 	 * @param bool canAccessShareByHelper
 	 */
 	public function testCanAccessRoomShare(bool $expected, \OCP\Share\IShare $share, bool $helperAvailable, bool $canAccessShareByHelper) {
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
 		if (!$helperAvailable) {
 			$this->appManager->method('isEnabledForUser')
 				->with('spreed')
@@ -1726,6 +1779,15 @@ class ShareAPIControllerTest extends TestCase {
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
 
 		$this->ocs->updateShare(42);
 	}

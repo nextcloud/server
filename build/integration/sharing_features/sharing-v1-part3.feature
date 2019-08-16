@@ -398,8 +398,8 @@ Feature: sharing
     When As an "user1"
     And Updating last share with
       | permissions | 19 |
-    Then the OCS status code should be "404"
-    And the HTTP status code should be "200"
+    Then the OCS status code should be "403"
+    And the HTTP status code should be "401"
 
   Scenario: do not allow to increase link share permissions on reshare
     Given As an "admin"
