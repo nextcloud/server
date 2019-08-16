@@ -31,6 +31,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityAware;
@@ -73,6 +74,8 @@ class Manager implements IManager, IEntityAware {
 
 	/** @var ILogger */
 	protected $logger;
+	/** @var IUserSession */
+	protected $session;
 
 	/**
 	 * @param IDBConnection $connection
@@ -84,13 +87,15 @@ class Manager implements IManager, IEntityAware {
 		IServerContainer $container,
 		IL10N $l,
 		EventDispatcherInterface $eventDispatcher,
-		ILogger $logger
+		ILogger $logger,
+		IUserSession $session
 	) {
 		$this->connection = $connection;
 		$this->container = $container;
 		$this->l = $l;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+		$this->session = $session;
 	}
 
 	/**
@@ -155,14 +160,33 @@ class Manager implements IManager, IEntityAware {
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}
 	}
+	public function getAllOperations(int $scope = IManager::SCOPE_ADMIN, string $scopeId = null): array {
+		if(!in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER])) {
+			throw new \InvalidArgumentException('Provided value for scope is not supported');
+		}
+		if($scope === IManager::SCOPE_USER && $scopeId === null) {
+			$user = $this->session->getUser();
+			if($user === null) {
+				throw new \InvalidArgumentException('No user ID was provided');
+			}
+			$scopeId = $user->getUID();
+		}
 
-	public function getAllOperations(): array {
 		$this->operations = [];
 
 		$query = $this->connection->getQueryBuilder();
 
-		$query->select('*')
-			->from('flow_operations');
+		$query->select('o.*')
+			->from('flow_operations', 'o')
+			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
+			->where($query->expr()->eq('s.type', $query->createParameter('scope')));
+
+		if($scope === IManager::SCOPE_USER) {
+			$query->andWhere($query->expr()->eq('s.value', $query->createParameter('scopeId')));
+		}
+
+		$query->setParameters(['scope' => $scope, 'scopeId' => $scopeId]);
+
 		$result = $query->execute();
 
 		while ($row = $result->fetch()) {
@@ -174,6 +198,7 @@ class Manager implements IManager, IEntityAware {
 
 		return $this->operations;
 	}
+
 
 	/**
 	 * @param string $class

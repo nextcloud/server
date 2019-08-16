@@ -33,6 +33,10 @@ use OCP\Files\Storage\IStorage;
  * @since 9.1
  */
 interface IManager {
+
+	const SCOPE_ADMIN = 0;
+	const SCOPE_USER = 1;
+
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
