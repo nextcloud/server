@@ -91,7 +91,7 @@ OC.L10N.register(
     "New folder" : "Нова папка",
     "Upload file" : "Прикачи датотека",
     "Not favorited" : "Нема фаворити",
-    "Remove from favorites" : "Избриши од фаворити",
+    "Remove from favorites" : "Отстрани од фаворити",
     "Add to favorites" : "Додади во фаворити",
     "An error occurred while trying to update the tags" : "Се случи грешка додека се обидувавте да ги освежите таговите",
     "Added to favorites" : "Додадени во фаворити",
