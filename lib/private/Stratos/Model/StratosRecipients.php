@@ -43,8 +43,17 @@ use OCP\Stratos\Model\IStratosRecipients;
 class StratosRecipients implements IStratosRecipients, JsonSerializable {
 
 
+	/** @var array */
 	private $users = [];
+
+	/** @var array */
+	private $removedUsers = [];
+
+	/** @var array */
 	private $groups = [];
+
+	/** @var array */
+	private $removedGroups = [];
 
 
 	/**
@@ -53,7 +62,7 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	 * @return IStratosRecipients
 	 */
 	public function addUser(string $user): IStratosRecipients {
-		$this->users[] = $user;
+		array_push($this->users, $user);
 
 		return $this;
 	}
@@ -70,12 +79,35 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	}
 
 	/**
+	 * @param string $user
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeUser(string $user): IStratosRecipients {
+		$this->removeUsers([$user]);
+
+		return $this;
+	}
+
+	/**
+	 * @param array $users
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeUsers(array $users): IStratosRecipients {
+		$this->removedUsers = array_merge($this->removedUsers, $users);
+
+		return $this;
+	}
+
+
+	/**
 	 * @param string $group
 	 *
 	 * @return IStratosRecipients
 	 */
 	public function addGroup(string $group): IStratosRecipients {
-		$this->groups[] = $group;
+		array_push($this->groups, $group);
 
 		return $this;
 	}
@@ -87,6 +119,28 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	 */
 	public function addGroups(array $groups): IStratosRecipients {
 		$this->groups = array_merge($this->groups, $groups);
+
+		return $this;
+	}
+
+	/**
+	 * @param string $group
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeGroup(string $group): IStratosRecipients {
+		$this->removeGroups([$group]);
+
+		return $this;
+	}
+
+	/**
+	 * @param array $groups
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeGroups(array $groups): IStratosRecipients {
+		$this->removedGroups = array_merge($this->removedGroups, $groups);
 
 		return $this;
 	}
@@ -104,6 +158,21 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	 */
 	public function getGroups(): array {
 		return $this->groups;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getRemovedUsers(): array {
+		return $this->removedUsers;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getRemovedGroups(): array {
+		return $this->removedGroups;
 	}
 
 

@@ -111,7 +111,8 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	 * @return IStratosWrapper
 	 */
 	public function setRecipients(array $recipients): IStratosWrapper {
-		$this->recipients = $recipients;
+		$this->recipients = [];
+		$this->addRecipients($recipients);
 
 		return $this;
 	}

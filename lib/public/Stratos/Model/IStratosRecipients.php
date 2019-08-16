@@ -55,6 +55,22 @@ interface IStratosRecipients {
 	public function addUsers(array $users): self;
 
 	/**
+	 * @param string $user
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeUser(string $user): self;
+
+	/**
+	 * @param array $users
+	 *
+	 * @return IStratosRecipients
+	 */
+
+	public function removeUsers(array $users): self;
+
+
+	/**
 	 * @param string $group
 	 *
 	 * @return IStratosRecipients
@@ -69,6 +85,22 @@ interface IStratosRecipients {
 	public function addGroups(array $groups): self;
 
 	/**
+	 * @param string $group
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function removeGroup(string $group): self;
+
+	/**
+	 * @param array $groups
+	 *
+	 * @return IStratosRecipients
+	 */
+
+	public function removeGroups(array $groups): self;
+
+
+	/**
 	 * @return string[]
 	 */
 	public function getUsers(): array;
@@ -77,6 +109,16 @@ interface IStratosRecipients {
 	 * @return string[]
 	 */
 	public function getGroups(): array;
+
+	/**
+	 * @return string[]
+	 */
+	public function getRemovedUsers(): array;
+
+	/**
+	 * @return string[]
+	 */
+	public function getRemovedGroups(): array;
 
 }
 
