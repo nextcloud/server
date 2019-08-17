@@ -626,7 +626,7 @@ OC.L10N.register(
     "Enable" : "Inschakelen",
     "Enable untested app" : "Inschakelen niet-geteste apps",
     "The app will be downloaded from the app store" : "De app zal worden gedownload van de app store",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Deze is niet aangeduid als compatibel met uw versie van Nextcloud. Als u verdergaat, zal u de app kunnen installeren. Gelieve op te merken dat de app mogelijks niet werkt zoals verwacht.",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Deze is niet aangeduid als compatibel met jouw versie van Nextcloud. Als je verdergaat, zal je de app kunnen installeren. Let op dat de app misschien niet werkt zoals verwacht.",
     "You do not have permissions to see the details of this user" : "Je hebt niet de autorisaties om de details van deze gebruiekr te zien",
     "The backend does not support changing the display name" : "De backend ondersteunt het wijzigen van de weergavenaam niet",
     "New password" : "Nieuw wachtwoord",
