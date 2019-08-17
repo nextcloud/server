@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Copiar",
     "Choose target folder" : "Escolher pasta destino",
     "Open" : "Abrir",
+    "Delete file" : "Excluir arquivo",
+    "Delete folder" : "Excluir pasta",
     "Disconnect storage" : "Desconectar armazenamento",
     "Unshare" : "Descompartilhar",
     "Could not load info for file \"{file}\"" : "Não foi possível carregar informações para o arquivo \"{file}\" ",

@@ -290,7 +290,7 @@ OC.L10N.register(
     "Failed to create a project" : "プロジェクトの作成に失敗",
     "Failed to add the item to the project" : "プロジェクトへのアイテムの追加に失敗",
     "Connect items to a project to make them easier to find" : "アイテムをプロジェクトに接続して見つけやすくする",
-    "Type to search for existing projects" : "既存のプロジェクトを検索するためのタイプ",
+    "Type to search for existing projects" : "入力して既存のプロジェクトを検索します",
     "New in" : "新機能",
     "View changelog" : "変更履歴を確認する",
     "No action available" : "操作できません",

@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Kopyala",
     "Choose target folder" : "Hedef klasörü seçin",
     "Open" : "Aç",
+    "Delete file" : "Dosyayı sil",
+    "Delete folder" : "Klasörü sil",
     "Disconnect storage" : "Depolama bağlantısını kes",
     "Unshare" : "Paylaşımı Kaldır",
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",
