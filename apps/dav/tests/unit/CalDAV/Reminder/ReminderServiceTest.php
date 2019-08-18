@@ -166,6 +166,23 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
+	public const CALENDAR_DATA_NO_ALARM = <<<EOD
+BEGIN:VCALENDAR
+PRODID:-//Nextcloud calendar v1.6.4
+BEGIN:VEVENT
+CREATED:20160602T133732
+DTSTAMP:20160602T133732
+LAST-MODIFIED:20160602T133732
+UID:wej2z68l9h
+SUMMARY:Test Event
+LOCATION:Somewhere ...
+DESCRIPTION:maybe ....
+DTSTART;TZID=Europe/Berlin;VALUE=DATE:20160609
+DTEND;TZID=Europe/Berlin;VALUE=DATE:20160610
+END:VEVENT
+END:VCALENDAR
+EOD;
+
     public function setUp() {
 		parent::setUp();
 
@@ -274,6 +291,21 @@ EOD;
 			->method('getDateTime')
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
+
+		$this->reminderService->onTouchCalendarObject($action, $objectData);
+	}
+
+	public function testOnCalendarObjectCreateEmpty():void {
+		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA_NO_ALARM,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+
+		$this->backend->expects($this->never())
+			->method('insertReminder');
 
 		$this->reminderService->onTouchCalendarObject($action, $objectData);
 	}
