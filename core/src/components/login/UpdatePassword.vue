@@ -103,7 +103,7 @@
 
 				try {
 					const { data } = await Axios.post(this.resetPasswordTarget, {
-						password: this.user,
+						password: this.password,
 						proceed: this.proceed
 					})
 					if (data && data.status === 'success') {
