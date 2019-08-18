@@ -700,7 +700,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('encryptedData');
 		$this->userManager->method('get')
 			->with('DisabledUser')
-			->willReturn($this->existingUser);
+			->willReturn($user);
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'DisabledUser', 'NewPassword', true);
 		$expectedResponse = [
