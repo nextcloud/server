@@ -699,6 +699,22 @@ class LostControllerTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
+	public function testIsSetPasswordTokenNullFailing() {
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn(null);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+
+		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t reset password because the token is invalid'
+		];
+		$this->assertSame($expectedResponse, $response);
+	}
+
 	public function testSetPasswordForDisabledUser() {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
