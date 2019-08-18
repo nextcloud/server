@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Kopiera",
     "Choose target folder" : "Välj målmapp",
     "Open" : "Öppna",
+    "Delete file" : "Radera fil",
+    "Delete folder" : "Radera mapp",
     "Disconnect storage" : "Koppla bort lagring",
     "Unshare" : "Sluta dela",
     "Could not load info for file \"{file}\"" : "Kunde inte ladda information för fil \"{file}\"",
