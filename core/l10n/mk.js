@@ -203,7 +203,7 @@ OC.L10N.register(
     "I know what I'm doing" : "Знам што правам",
     "Resetting password" : "Ресетирање на лозинка",
     "Forgot password?" : "Заборавена лозинка?",
-    "Settings" : "Подесувања",
+    "Settings" : "Параметри",
     "Could not load your contacts" : "Неможат да се вчитаат вашите контакти",
     "Search contacts …" : "Пребарување контакти ...",
     "No contacts found" : "Не се пронајдени контакти",

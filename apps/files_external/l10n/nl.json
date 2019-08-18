@@ -107,8 +107,8 @@
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Servicenaam",
     "Request timeout (seconds)" : "Aanvraag time-out (seconds)",
-    "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Curl ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je systeembeheerder dit te installeren.",
-    "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder dit te installeren.",
+    "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Curl ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Aankoppelen van %s is niet mogelijk. Vraag je systeembeheerder dit te installeren.",
+    "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP ondersteuning in PHP is niet ingeschakeld of geïnstalleerd. Aankoppelen van %s is niet mogelijk. Vraag je beheerder dit te installeren.",
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" is niet geïnstalleerd. Aankoppelen van %2$s is niet mogelijk. Vraag je beheerder om dit te installeren.",
     "External storage support" : "Externe opslag ondersteuning",
     "Adds basic external storage support" : "Toevoegen basale ondersteuning voor externe opslag",
@@ -129,6 +129,6 @@
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren."
+    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
