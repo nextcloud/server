@@ -628,18 +628,26 @@ class ShareAPIController extends OCSController {
 			return $carry;
 		}, []);
 
+		// filter out duplicate shares
+		$known = [];
+		$shares = array_filter($shares, function($share) use (&$known) {
+			if (in_array($share->getId(), $known)) {
+				return false;
+			}
+			$known[] = $share->getId();
+			return true;
+		});
+
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
-		$known = [];
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->currentUser) {
+			if ($share->getSharedWith() === $this->currentUser) {
 				continue;
 			}
 
 			try {
 				$format = $this->formatShare($share);
 
-				$known[] = $share->getId();
 				$formatted[] = $format;
 				if ($share->getSharedBy() === $this->currentUser) {
 					$miniFormatted[] = $format;
