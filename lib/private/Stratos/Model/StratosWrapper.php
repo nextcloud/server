@@ -161,7 +161,7 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 
 
 	/**
-	 * @return mixed|void
+	 * @return array
 	 */
 	public function jsonSerialize(): array {
 		return [

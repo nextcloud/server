@@ -120,5 +120,45 @@ interface IStratosRecipients {
 	 */
 	public function getRemovedGroups(): array;
 
+
+	/**
+	 * @param string $app
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function filterApp(string $app): self;
+
+	/**
+	 * @param string[] $apps
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function filterApps(array $apps): self;
+
+	/**
+	 * @return string[]
+	 */
+	public function getFilteredApps(): array;
+
+
+	/**
+	 * @param string $app
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function limitToApp(string $app): self;
+
+	/**
+	 * @param string[] $apps
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function limitToApps(array $apps): self;
+
+	/**
+	 * @return string[]
+	 */
+	public function getLimitedToApps(): array;
+
 }
 

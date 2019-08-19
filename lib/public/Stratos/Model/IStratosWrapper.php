@@ -77,7 +77,7 @@ interface IStratosWrapper {
 	 * @return IStratosWrapper
 	 */
 	public function addRecipient(string $recipient): self;
-	
+
 	/**
 	 * @param array $recipients
 	 *

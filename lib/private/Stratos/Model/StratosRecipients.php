@@ -55,6 +55,12 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/** @var array */
 	private $removedGroups = [];
 
+	/** @var array */
+	private $filteredApps = [];
+
+	/** @var array */
+	private $limitToApps = [];
+
 
 	/**
 	 * @param string $user
@@ -68,7 +74,7 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	}
 
 	/**
-	 * @param array $users
+	 * @param string[] $users
 	 *
 	 * @return IStratosRecipients
 	 */
@@ -84,13 +90,11 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	 * @return IStratosRecipients
 	 */
 	public function removeUser(string $user): IStratosRecipients {
-		$this->removeUsers([$user]);
-
-		return $this;
+		return $this->removeUsers([$user]);
 	}
 
 	/**
-	 * @param array $users
+	 * @param string[] $users
 	 *
 	 * @return IStratosRecipients
 	 */
@@ -113,7 +117,7 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	}
 
 	/**
-	 * @param array $groups
+	 * @param string[] $groups
 	 *
 	 * @return IStratosRecipients
 	 */
@@ -129,13 +133,11 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	 * @return IStratosRecipients
 	 */
 	public function removeGroup(string $group): IStratosRecipients {
-		$this->removeGroups([$group]);
-
-		return $this;
+		return $this->removeGroups([$group]);
 	}
 
 	/**
-	 * @param array $groups
+	 * @param string[] $groups
 	 *
 	 * @return IStratosRecipients
 	 */
@@ -177,12 +179,72 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 
 
 	/**
+	 * @param string $app
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function filterApp(string $app): IStratosRecipients {
+		return $this->filterApps([$app]);
+	}
+
+	/**
+	 * @param string[] $apps
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function filterApps(array $apps): IStratosRecipients {
+		$this->filteredApps = array_merge($this->filteredApps, $apps);
+
+		return $this;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getFilteredApps(): array {
+		return $this->filteredApps;
+	}
+
+
+	/**
+	 * @param string $app
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function limitToApp(string $app): IStratosRecipients {
+		return $this->limitToApps([$app]);
+	}
+
+	/**
+	 * @param string[] $apps
+	 *
+	 * @return IStratosRecipients
+	 */
+	public function limitToApps(array $apps): IStratosRecipients {
+		$this->limitToApps = array_merge($this->limitToApps, $apps);
+
+		return $this;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getLimitedToApps(): array {
+		return $this->limitToApps;
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function jsonSerialize(): array {
 		return [
-			'_users'  => $this->getUsers(),
-			'_groups' => $this->getGroups()
+			'_users'         => $this->getUsers(),
+			'_groups'        => $this->getGroups(),
+			'_removedUsers'  => $this->getRemovedUsers(),
+			'_removedGroups' => $this->getRemovedGroups(),
+			'_filteredApps'  => $this->getFilteredApps(),
+			'_limitToApps'   => $this->getLimitedToApps()
 		];
 	}
 

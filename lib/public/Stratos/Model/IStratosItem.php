@@ -136,6 +136,36 @@ interface IStratosItem {
 
 
 	/**
+	 * @param array $meta
+	 *
+	 * @return IStratosItem
+	 */
+	public function setMeta(array $meta): self;
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IStratosItem
+	 */
+	public function addMeta(string $k, string $v): self;
+
+	/**
+	 * @param string $k
+	 * @param array $v
+	 *
+	 * @return IStratosItem
+	 */
+	public function addMetaArray(string $k, array $v): self;
+
+	/**
+	 * @return array
+	 */
+	public function getMeta(): array;
+
+
+
+	/**
 	 * @param int $timestamp
 	 *
 	 * @return self

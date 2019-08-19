@@ -63,6 +63,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/** @var array */
 	private $payload = [];
 
+	/** @var array */
+	private $meta = [];
+
 	/** @var string */
 	private $type = '';
 
@@ -197,7 +200,6 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	}
 
 
-
 	/**
 	 * @return string
 	 */
@@ -237,6 +239,49 @@ class StratosItem implements IStratosItem, JsonSerializable {
 
 
 	/**
+	 * @param array $meta
+	 *
+	 * @return IStratosItem
+	 */
+	public function setMeta(array $meta): IStratosItem {
+		$this->meta = $meta;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IStratosItem
+	 */
+	public function addMeta(string $k, string $v): IStratosItem {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param array $v
+	 *
+	 * @return IStratosItem
+	 */
+	public function addMetaArray(string $k, array $v): IStratosItem {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMeta(): array {
+		return $this->meta;
+	}
+
+
+	/**
 	 * @return int
 	 */
 	public function getCreation(): int {
@@ -268,6 +313,7 @@ class StratosItem implements IStratosItem, JsonSerializable {
 		$this->setTtl($this->getInt('ttl', $import, -1));
 		$this->setPayload($this->getArray('payload', $import, []));
 		$this->setSource($this->get('source', $import));
+		$this->setMeta($this->getArray('meta', $import));
 		$this->setCreation($this->getInt('creation', $import));
 
 		return $this;
@@ -284,6 +330,7 @@ class StratosItem implements IStratosItem, JsonSerializable {
 			'type'     => $this->getType(),
 			'source'   => $this->getSource(),
 			'payload'  => $this->getPayload(),
+			'meta'     => $this->getMeta(),
 			'ttl'      => $this->getTtl(),
 			'creation' => $this->getCreation()
 		];
