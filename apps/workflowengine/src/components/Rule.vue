@@ -191,7 +191,7 @@
 		& > span {
 			min-width: 50px;
 			text-align: right;
-			color: var(--color-text-light);
+			color: var(--color-text-maxcontrast);
 			padding-right: 5px;
 		}
 		.multiselect {
