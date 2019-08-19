@@ -196,6 +196,10 @@ class ReminderService {
 		foreach($recurrenceExceptions as $recurrenceException) {
 			$eventHash = $this->getEventHash($recurrenceException);
 
+			if (!isset($recurrenceException->VALARM)) {
+				continue;
+			}
+
 			foreach($recurrenceException->VALARM as $valarm) {
 				/** @var VAlarm $valarm */
 				$alarmHash = $this->getAlarmHash($valarm);
@@ -215,6 +219,10 @@ class ReminderService {
 			$processedAlarms = [];
 			$masterAlarms = [];
 			$masterHash = $this->getEventHash($masterItem);
+
+			if (!isset($masterItem->VALARM)) {
+				return;
+			}
 
 			foreach($masterItem->VALARM as $valarm) {
 				$masterAlarms[] = $this->getAlarmHash($valarm);
