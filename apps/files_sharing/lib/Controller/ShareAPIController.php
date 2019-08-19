@@ -612,10 +612,10 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * @param \OCP\Files\Folder $folder
-	 * @return DataResponse
+	 * @return array
 	 * @throws OCSBadRequestException
 	 */
-	private function getSharesInDir(Node $folder): DataResponse {
+	private function getSharesInDir(Node $folder): array {
 		if (!($folder instanceof \OCP\Files\Folder)) {
 			throw new OCSBadRequestException($this->l->t('Not a directory'));
 		}
@@ -630,41 +630,13 @@ class ShareAPIController extends OCSController {
 
 		// filter out duplicate shares
 		$known = [];
-		$shares = array_filter($shares, function($share) use (&$known) {
+		return array_filter($shares, function($share) use (&$known) {
 			if (in_array($share->getId(), $known)) {
 				return false;
 			}
 			$known[] = $share->getId();
 			return true;
 		});
-
-		$formatted = $miniFormatted = [];
-		$resharingRight = false;
-		foreach ($shares as $share) {
-			if ($share->getSharedWith() === $this->currentUser) {
-				continue;
-			}
-
-			try {
-				$format = $this->formatShare($share);
-
-				$formatted[] = $format;
-				if ($share->getSharedBy() === $this->currentUser) {
-					$miniFormatted[] = $format;
-				}
-				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $folder)) {
-					$resharingRight = true;
-				}
-			} catch (\Exception $e) {
-				//Ignore this share
-			}
-		}
-
-		if (!$resharingRight) {
-			$formatted = $miniFormatted;
-		}
-
-		return new DataResponse($formatted);
 	}
 
 	/**
@@ -713,35 +685,45 @@ class ShareAPIController extends OCSController {
 			return $result;
 		}
 
-		if ($subfiles === 'true') {
-			$result = $this->getSharesInDir($path);
-			return $result;
-		}
-
 		if ($reshares === 'true') {
 			$reshares = true;
 		} else {
 			$reshares = false;
 		}
 
-		// Get all shares
-		$shares = $this->getAllShares($path, $reshares);
+		if ($subfiles === 'true') {
+			$shares = $this->getSharesInDir($path);
+			$recipientNode = null;
+		} else {
+			// get all shares
+			$shares = $this->getAllShares($path, $reshares);
+			$recipientNode = $path;
+		}
 
+		// process all shares
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
 		foreach ($shares as $share) {
 			/** @var IShare $share */
+
+			// do not list the shares of the current user
 			if ($share->getSharedWith() === $this->currentUser) {
 				continue;
 			}
 
 			try {
-				$format = $this->formatShare($share, $path);
+				$format = $this->formatShare($share, $recipientNode);
 				$formatted[] = $format;
+
+				// let's also build a list of shares created
+				// by the current user only, in case
+				// there is no resharing rights
 				if ($share->getSharedBy() === $this->currentUser) {
 					$miniFormatted[] = $format;
 				}
 
+				// check if one of those share is shared with me
+				// and if I have resharing rights on it
 				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
 					$resharingRight = true;
 				}
