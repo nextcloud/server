@@ -65,6 +65,7 @@
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "_Uploading %n file_::_Uploading %n files_" : ["Μεταφόρτωση %n αρχείου","Μεταφόρτωση %n αρχείων"],
     "New" : "Νέο",
+    "Select file range" : "Επέλεξε εύρος αρχείων",
     "\"{name}\" is an invalid file name." : "Το \"{name}\" δεν είναι έγκυρο όνομα αρχείου.",
     "File name cannot be empty." : "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
     "\"/\" is not allowed inside a file name." : "Το \"/\" δεν είναι επιτρεπτό εντός του ονόματος αρχείου.",
