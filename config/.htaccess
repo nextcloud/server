@@ -1,14 +1,23 @@
-# line below if for Apache 2.4
+# Section for Apache 2.4 and 2.5
 <ifModule mod_authz_core.c>
-Require all denied
+  Require all denied
+</ifModule>
+<ifModule mod_access_compat.c>
+  Deny from all
+  Satisfy All
 </ifModule>
 
-# line below if for Apache 2.2
+# Section for Apache 2.2
 <ifModule !mod_authz_core.c>
-deny from all
+  <ifModule !mod_access_compat.c>
+    <ifModule mod_authz_host.c>
+      Deny from all
+    </ifModule>
+    Satisfy All
+  </ifModule>
 </ifModule>
 
-# section for Apache 2.2 and 2.4
+# Section for Apache 2.2 to 2.5
 <ifModule mod_autoindex.c>
-IndexIgnore *
+  IndexIgnore *
 </ifModule>
