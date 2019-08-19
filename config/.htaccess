@@ -1,4 +1,4 @@
-# Section for Apache 2.4 and 2.5
+# Section for Apache 2.4 to 2.6
 <IfModule mod_authz_core.c>
   Require all denied
 </IfModule>
@@ -17,7 +17,7 @@
   </IfModule>
 </IfModule>
 
-# Section for Apache 2.2 to 2.5
+# Section for Apache 2.2 to 2.6
 <IfModule mod_autoindex.c>
   IndexIgnore *
 </IfModule>
