@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Command;
 
+use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\WorkflowEngine\IManager;
 use Symfony\Component\Console\Command\Command;
@@ -69,8 +70,10 @@ class Index extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$ops = $this->manager->getAllOperations(
-			$this->mappedScope($input->getArgument('scope')),
-			$input->getArgument('scopeId')
+			new ScopeContext(
+				$this->mappedScope($input->getArgument('scope')),
+				$input->getArgument('scopeId')
+			)
 		);
 		$output->writeln(\json_encode($ops));
 	}

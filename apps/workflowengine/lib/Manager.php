@@ -23,7 +23,10 @@ namespace OCA\WorkflowEngine;
 
 
 use OC\Files\Storage\Wrapper\Jail;
+use Doctrine\DBAL\DBALException;
+use OC\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\Entity\File;
+use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
@@ -74,6 +77,10 @@ class Manager implements IManager, IEntityAware {
 
 	/** @var ILogger */
 	protected $logger;
+
+	/** @var CappedMemoryCache */
+	protected $operationsByScope = [];
+
 	/** @var IUserSession */
 	protected $session;
 
@@ -95,6 +102,7 @@ class Manager implements IManager, IEntityAware {
 		$this->l = $l;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+		$this->operationsByScope = new CappedMemoryCache(64);
 		$this->session = $session;
 	}
 
@@ -114,7 +122,16 @@ class Manager implements IManager, IEntityAware {
 	 * @inheritdoc
 	 */
 	public function getMatchingOperations($class, $returnFirstMatchingOperationOnly = true) {
-		$operations = $this->getOperations($class);
+		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
+		$user = $this->session->getUser();
+		if($user !== null) {
+			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
+		}
+
+		$operations = [];
+		foreach ($scopes as $scope) {
+			$operations = array_merge($operations, $this->getOperations($class, $scope));
+		}
 
 		$matches = [];
 		foreach ($operations as $operation) {
@@ -160,19 +177,10 @@ class Manager implements IManager, IEntityAware {
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}
 	}
-	public function getAllOperations(int $scope = IManager::SCOPE_ADMIN, string $scopeId = null): array {
-		if(!in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER])) {
-			throw new \InvalidArgumentException('Provided value for scope is not supported');
+	public function getAllOperations(ScopeContext $scopeContext): array {
+		if(isset($this->operations[$scopeContext->getHash()])) {
+			return $this->operations[$scopeContext->getHash()];
 		}
-		if($scope === IManager::SCOPE_USER && $scopeId === null) {
-			$user = $this->session->getUser();
-			if($user === null) {
-				throw new \InvalidArgumentException('No user ID was provided');
-			}
-			$scopeId = $user->getUID();
-		}
-
-		$this->operations = [];
 
 		$query = $this->connection->getQueryBuilder();
 
@@ -181,48 +189,29 @@ class Manager implements IManager, IEntityAware {
 			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
 			->where($query->expr()->eq('s.type', $query->createParameter('scope')));
 
-		if($scope === IManager::SCOPE_USER) {
+		if($scopeContext->getScope() === IManager::SCOPE_USER) {
 			$query->andWhere($query->expr()->eq('s.value', $query->createParameter('scopeId')));
 		}
 
-		$query->setParameters(['scope' => $scope, 'scopeId' => $scopeId]);
-
+		$query->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
 		$result = $query->execute();
 
+		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
-			if(!isset($this->operations[$row['class']])) {
-				$this->operations[$row['class']] = [];
+			if(!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
+				$this->operations[$scopeContext->getHash()][$row['class']] = [];
 			}
-			$this->operations[$row['class']][] = $row;
+			$this->operations[$scopeContext->getHash()][$row['class']][] = $row;
 		}
 
-		return $this->operations;
+		return $this->operations[$scopeContext->getHash()];
 	}
 
-
-	/**
-	 * @param string $class
-	 * @return array[]
-	 */
-	public function getOperations($class) {
-		if (isset($this->operations[$class])) {
-			return $this->operations[$class];
+	public function getOperations(string $class, ScopeContext $scopeContext): array {
+		if (!isset($this->operations[$scopeContext->getHash()])) {
+			$this->getAllOperations($scopeContext);
 		}
-
-		$query = $this->connection->getQueryBuilder();
-
-		$query->select('*')
-			->from('flow_operations')
-			->where($query->expr()->eq('class', $query->createNamedParameter($class)));
-		$result = $query->execute();
-
-		$this->operations[$class] = [];
-		while ($row = $result->fetch()) {
-			$this->operations[$class][] = $row;
-		}
-		$result->closeCursor();
-
-		return $this->operations[$class];
+		return $this->operations[$scopeContext->getHash()][$class] ?? [];
 	}
 
 	/**
@@ -246,22 +235,7 @@ class Manager implements IManager, IEntityAware {
 		throw new \UnexpectedValueException($this->l->t('Operation #%s does not exist', [$id]));
 	}
 
-	/**
-	 * @param string $class
-	 * @param string $name
-	 * @param array[] $checks
-	 * @param string $operation
-	 * @return array The added operation
-	 * @throws \UnexpectedValueException
-	 */
-	public function addOperation($class, $name, array $checks, $operation) {
-		$this->validateOperation($class, $name, $checks, $operation);
-
-		$checkIds = [];
-		foreach ($checks as $check) {
-			$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
-		}
-
+	protected function insertOperation(string $class, string $name, array $checkIds, string $operation): int {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('flow_operations')
 			->values([
@@ -272,8 +246,66 @@ class Manager implements IManager, IEntityAware {
 			]);
 		$query->execute();
 
-		$id = $query->getLastInsertId();
+		return $query->getLastInsertId();
+	}
+
+	/**
+	 * @param string $class
+	 * @param string $name
+	 * @param array[] $checks
+	 * @param string $operation
+	 * @return array The added operation
+	 * @throws \UnexpectedValueException
+	 * @throws DBALException
+	 */
+	public function addOperation($class, $name, array $checks, $operation, ScopeContext $scope) {
+		$this->validateOperation($class, $name, $checks, $operation);
+
+		$this->connection->beginTransaction();
+
+		try {
+			$checkIds = [];
+			foreach ($checks as $check) {
+				$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
+			}
+
+			$id = $this->insertOperation($class, $name, $checkIds, $operation);
+			$this->addScope($id, $scope);
+
+			$this->connection->commit();
+		} catch (DBALException $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
+
 		return $this->getOperation($id);
+	}
+
+	protected function canModify(int $id, ScopeContext $scopeContext):bool {
+		if(isset($this->operationsByScope[$scopeContext->getHash()])) {
+			return in_array($id, $this->operationsByScope[$scopeContext->getHash()], true);
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb = $qb->select('o.id')
+			->from('flow_operations', 'o')
+			->leftJoin('o', 'flow_operations_scope', 's', $qb->expr()->eq('o.id', 's.operation_id'))
+			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
+
+		if($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
+			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
+		}
+
+		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
+		$result = $qb->execute();
+
+		$this->operationsByScope[$scopeContext->getHash()] = [];
+		while($opId = $result->fetchColumn(0)) {
+			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
+		}
+		$result->closeCursor();
+
+		return in_array($id, $this->operationsByScope[$scopeContext->getHash()], true);
 	}
 
 	/**
@@ -283,23 +315,36 @@ class Manager implements IManager, IEntityAware {
 	 * @param string $operation
 	 * @return array The updated operation
 	 * @throws \UnexpectedValueException
+	 * @throws \DomainException
+	 * @throws DBALException
 	 */
-	public function updateOperation($id, $name, array $checks, $operation) {
+	public function updateOperation($id, $name, array $checks, $operation, ScopeContext $scopeContext): array {
+		if(!$this->canModify($id, $scopeContext)) {
+			throw new \DomainException('Target operation not within scope');
+		};
 		$row = $this->getOperation($id);
 		$this->validateOperation($row['class'], $name, $checks, $operation);
 
 		$checkIds = [];
-		foreach ($checks as $check) {
-			$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
-		}
+		try {
+			$this->connection->beginTransaction();
+			foreach ($checks as $check) {
+				$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
+			}
 
-		$query = $this->connection->getQueryBuilder();
-		$query->update('flow_operations')
-			->set('name', $query->createNamedParameter($name))
-			->set('checks', $query->createNamedParameter(json_encode(array_unique($checkIds))))
-			->set('operation', $query->createNamedParameter($operation))
-			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-		$query->execute();
+			$query = $this->connection->getQueryBuilder();
+			$query->update('flow_operations')
+				->set('name', $query->createNamedParameter($name))
+				->set('checks', $query->createNamedParameter(json_encode(array_unique($checkIds))))
+				->set('operation', $query->createNamedParameter($operation))
+				->where($query->expr()->eq('id', $query->createNamedParameter($id)));
+			$query->execute();
+			$this->connection->commit();
+		} catch (DBALException $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
+		unset($this->operations[$scopeContext->getHash()]);
 
 		return $this->getOperation($id);
 	}
@@ -308,12 +353,36 @@ class Manager implements IManager, IEntityAware {
 	 * @param int $id
 	 * @return bool
 	 * @throws \UnexpectedValueException
+	 * @throws DBALException
+	 * @throws \DomainException
 	 */
-	public function deleteOperation($id) {
+	public function deleteOperation($id, ScopeContext $scopeContext) {
+		if(!$this->canModify($id, $scopeContext)) {
+			throw new \DomainException('Target operation not within scope');
+		};
 		$query = $this->connection->getQueryBuilder();
-		$query->delete('flow_operations')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-		return (bool) $query->execute();
+		try {
+			$this->connection->beginTransaction();
+			$result = (bool)$query->delete('flow_operations')
+				->where($query->expr()->eq('id', $query->createNamedParameter($id)))
+				->execute();
+			if($result) {
+				$qb = $this->connection->getQueryBuilder();
+				$result &= (bool)$qb->delete('flow_operations_scope')
+					->where($qb->expr()->eq('operation_id', $query->createNamedParameter($id)))
+					->execute();
+			}
+			$this->connection->commit();
+		} catch (DBALException $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
+
+		if(isset($this->operations[$scopeContext->getHash()])) {
+			unset($this->operations[$scopeContext->getHash()]);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -425,6 +494,18 @@ class Manager implements IManager, IEntityAware {
 		$query->execute();
 
 		return $query->getLastInsertId();
+	}
+
+	protected function addScope(int $operationId, ScopeContext $scope): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$insertQuery = $query->insert('flow_operations_scope');
+		$insertQuery->values([
+			'operation_id' => $query->createNamedParameter($operationId),
+			'type' => $query->createNamedParameter($scope->getScope()),
+			'value' => $query->createNamedParameter($scope->getScopeId()),
+		]);
+		$insertQuery->execute();
 	}
 
 	public function formatOperation(array $operation): array {

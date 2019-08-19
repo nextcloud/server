@@ -24,88 +24,18 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Controller;
 
-use OCA\WorkflowEngine\Manager;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSBadRequestException;
-use OCP\AppFramework\OCSController;
-use OCP\IRequest;
+use OCA\WorkflowEngine\Helper\ScopeContext;
+use OCP\WorkflowEngine\IManager;
 
-class GlobalWorkflowsController extends OCSController {
+class GlobalWorkflowsController extends AWorkflowController {
 
-	/** @var Manager */
-	private $manager;
+	/** @var ScopeContext */
+	private $scopeContext;
 
-	public function __construct(
-		$appName,
-		IRequest $request,
-		Manager $manager
-	) {
-		parent::__construct($appName, $request);
-
-		$this->manager = $manager;
-	}
-
-	/**
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/global?format=json"
-	 */
-	public function index(): DataResponse {
-		$operationsByClass = $this->manager->getAllOperations();
-
-		foreach ($operationsByClass as &$operations) {
-			foreach ($operations as &$operation) {
-				$operation = $this->manager->formatOperation($operation);
-			}
+	protected function getScopeContext(): ScopeContext {
+		if($this->scopeContext === null) {
+			$this->scopeContext = new ScopeContext(IManager::SCOPE_ADMIN);
 		}
-
-		return new DataResponse($operationsByClass);
-	}
-
-	/**
-	 * @throws OCSBadRequestException
-	 *
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/global/OCA\\Workflow_DocToPdf\\Operation?format=json"
-	 */
-	public function show(string $id): DataResponse {
-		// The ID corresponds to a class name
-		$operations = $this->manager->getOperations($id);
-
-		foreach ($operations as &$operation) {
-			$operation = $this->manager->formatOperation($operation);
-		}
-
-		return new DataResponse($operations);
-	}
-
-	/**
-	 * @throws OCSBadRequestException
-	 */
-	public function create(string $class, string $name, array $checks, string $operation): DataResponse {
-		try {
-			$operation = $this->manager->addOperation($class, $name, $checks, $operation);
-			$operation = $this->manager->formatOperation($operation);
-			return new DataResponse($operation);
-		} catch (\UnexpectedValueException $e) {
-			throw new OCSBadRequestException($e->getMessage(), $e);
-		}
-	}
-
-	/**
-	 * @throws OCSBadRequestException
-	 */
-	public function update(int $id, string $name, array $checks, string $operation): DataResponse {
-		try {
-			$operation = $this->manager->updateOperation($id, $name, $checks, $operation);
-			$operation = $this->manager->formatOperation($operation);
-			return new DataResponse($operation);
-		} catch (\UnexpectedValueException $e) {
-			throw new OCSBadRequestException($e->getMessage(), $e);
-		}
-	}
-
-	/**
-	 */
-	public function destroy(int $id): DataResponse {
-		$deleted = $this->manager->deleteOperation((int) $id);
-		return new DataResponse($deleted);
+		return $this->scopeContext;
 	}
 }
