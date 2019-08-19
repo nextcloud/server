@@ -1,23 +1,23 @@
 # Section for Apache 2.4 and 2.5
-<ifModule mod_authz_core.c>
+<IfModule mod_authz_core.c>
   Require all denied
-</ifModule>
-<ifModule mod_access_compat.c>
+</IfModule>
+<IfModule mod_access_compat.c>
   Deny from all
   Satisfy All
-</ifModule>
+</IfModule>
 
 # Section for Apache 2.2
-<ifModule !mod_authz_core.c>
-  <ifModule !mod_access_compat.c>
-    <ifModule mod_authz_host.c>
+<IfModule !mod_authz_core.c>
+  <IfModule !mod_access_compat.c>
+    <IfModule mod_authz_host.c>
       Deny from all
-    </ifModule>
+    </IfModule>
     Satisfy All
-  </ifModule>
-</ifModule>
+  </IfModule>
+</IfModule>
 
 # Section for Apache 2.2 to 2.5
-<ifModule mod_autoindex.c>
+<IfModule mod_autoindex.c>
   IndexIgnore *
-</ifModule>
+</IfModule>
