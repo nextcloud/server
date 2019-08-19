@@ -520,6 +520,9 @@ class OC {
 				'/^WebDAVFS/',
 				// Windows webdav drive
 				'/^Microsoft-WebDAV-MiniRedir/',
+				// KeeWeb
+                                '/KeeWeb\/\d[.]\d[.]\d/',
+
 			];
 		}
 
