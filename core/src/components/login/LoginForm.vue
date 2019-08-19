@@ -22,6 +22,7 @@
 <template>
 	<form method="post"
 		  name="login"
+		  :action="OC.generateUrl('login')"
 		  @submit="submit">
 		<fieldset>
 			<div v-if="apacheAuthFailed"
