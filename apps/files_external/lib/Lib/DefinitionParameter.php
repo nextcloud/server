@@ -38,12 +38,16 @@ class DefinitionParameter implements \JsonSerializable {
 	const FLAG_NONE = 0;
 	const FLAG_OPTIONAL = 1;
 	const FLAG_USER_PROVIDED = 2;
+	const FLAG_PRESERVE_SANITIZE = 4;
 
 	/** @var string name of parameter */
 	private $name;
 
 	/** @var string human-readable parameter text */
 	private $text;
+
+	/** @var string human-readable parameter tool tip */
+	private $tooltip;
 
 	/** @var int value type, see self::VALUE_* constants */
 	private $type = self::VALUE_TEXT;
@@ -92,6 +96,26 @@ class DefinitionParameter implements \JsonSerializable {
 	public function setType($type) {
 		$this->type = $type;
 		return $this;
+	}
+
+	/**
+	 * Set the tooltip for the parameter
+	 *
+	 * @param string $tooltip
+	 * @return DefinitionParameter
+	 */
+	public function setTooltip(string $tooltip): DefinitionParameter {
+		$this->tooltip = $tooltip;
+		return $this;
+	}
+
+	/**
+	 * Get the tooltip for the value
+	 *
+	 * @return string
+	 */
+	public function getTooltip(): ?string {
+		return $this->tooltip;
 	}
 
 	/**
@@ -152,7 +176,8 @@ class DefinitionParameter implements \JsonSerializable {
 		return [
 			'value' => $this->getText(),
 			'flags' => $this->getFlags(),
-			'type' => $this->getType()
+			'type' => $this->getType(),
+			'tooltip' => $this->getTooltip(),
 		];
 	}
 

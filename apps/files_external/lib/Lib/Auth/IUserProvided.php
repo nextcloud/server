@@ -22,6 +22,7 @@
 
 namespace OCA\Files_External\Lib\Auth;
 
+use OCA\Files_External\Lib\StorageConfig;
 use OCP\IUser;
 
 /**
@@ -32,6 +33,7 @@ interface IUserProvided {
 	 * @param IUser $user the user for which to save the user provided options
 	 * @param int $mountId the mount id to save the options for
 	 * @param array $options the user provided options
+	 * @param StorageConfig $storage
 	 */
-	public function saveBackendOptions(IUser $user, $mountId, array $options);
+	public function saveBackendOptions(IUser $user, $mountId, array $options, StorageConfig $storage);
 }

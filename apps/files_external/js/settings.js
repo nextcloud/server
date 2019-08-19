@@ -999,6 +999,10 @@ MountConfigListView.prototype = _.extend({
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		}
+		if (placeholder.tooltip) {
+			newElement.attr('title', placeholder.tooltip);
+			newElement.tooltip();
+		}
 		highlightInput(newElement);
 		$td.append(newElement);
 		return newElement;
@@ -1213,8 +1217,6 @@ MountConfigListView.prototype = _.extend({
 		if (typeof message === 'string') {
 			$statusSpan.attr('title', message);
 			$statusSpan.tooltip();
-		} else {
-			$statusSpan.tooltip('destroy');
 		}
 	},
 

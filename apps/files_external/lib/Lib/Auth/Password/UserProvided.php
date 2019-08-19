@@ -51,6 +51,10 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('User entered, store in database'))
 			->addParameters([
+				(new DefinitionParameter('key', $l->t('Credential Identifier')))
+					->setTooltip($l->t('Identifier used to reuse credentials between storage, leave empty to use per-storage credentials'))
+					->setFlag(DefinitionParameter::FLAG_PRESERVE_SANITIZE)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('user', $l->t('Username')))
 					->setFlag(DefinitionParameter::FLAG_USER_PROVIDED),
 				(new DefinitionParameter('password', $l->t('Password')))
@@ -59,12 +63,16 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 			]);
 	}
 
-	private function getCredentialsIdentifier($storageId) {
-		return self::CREDENTIALS_IDENTIFIER_PREFIX . $storageId;
+	private function getCredentialsIdentifier(?string $key, $storageId) {
+		if ($key) {
+			return self::CREDENTIALS_IDENTIFIER_PREFIX . $key;
+		} else {
+			return self::CREDENTIALS_IDENTIFIER_PREFIX . $storageId;
+		}
 	}
 
-	public function saveBackendOptions(IUser $user, $id, array $options) {
-		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($id), [
+	public function saveBackendOptions(IUser $user, $id, array $options, StorageConfig $storage) {
+		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($storage->getBackendOption('key'), $id), [
 			'user' => $options['user'], // explicitly copy the fields we want instead of just passing the entire $options array
 			'password' => $options['password'] // this way we prevent users from being able to modify any other field
 		]);
@@ -75,7 +83,7 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		}
 		$uid = $user->getUID();
-		$credentials = $this->credentialsManager->retrieve($uid, $this->getCredentialsIdentifier($storage->getId()));
+		$credentials = $this->credentialsManager->retrieve($uid, $this->getCredentialsIdentifier($storage->getBackendOption('key'), $storage->getId()));
 
 		if (!isset($credentials)) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');

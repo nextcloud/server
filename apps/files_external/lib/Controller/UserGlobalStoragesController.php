@@ -27,6 +27,7 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCP\ILogger;
 use \OCP\IRequest;
@@ -122,7 +123,7 @@ class UserGlobalStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id]),
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -157,12 +158,12 @@ class UserGlobalStoragesController extends StoragesController {
 			$storage = $this->service->getStorage($id);
 			$authMechanism = $storage->getAuthMechanism();
 			if ($authMechanism instanceof IUserProvided) {
-				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
+				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions, $storage);
 				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
 			} else {
 				return new DataResponse(
 					[
-						'message' => (string)$this->l10n->t('Storage with ID "%d" is not user editable', array($id))
+						'message' => (string)$this->l10n->t('Storage with ID "%d" is not user editable', [$id]),
 					],
 					Http::STATUS_FORBIDDEN
 				);
@@ -170,7 +171,7 @@ class UserGlobalStoragesController extends StoragesController {
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
-					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', array($id))
+					'message' => (string)$this->l10n->t('Storage with ID "%d" not found', [$id]),
 				],
 				Http::STATUS_NOT_FOUND
 			);
@@ -192,7 +193,17 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param StorageConfig $storage
 	 */
 	protected function sanitizeStorage(StorageConfig $storage) {
-		$storage->setBackendOptions([]);
+		$preserveBackendOptionKeys = array_filter($storage->getAuthMechanism()->getParameters(), function (DefinitionParameter $parameter) {
+			return $parameter->isFlagSet(DefinitionParameter::FLAG_PRESERVE_SANITIZE);
+		});
+		$preserveBackendOptionKeys = array_map(function (DefinitionParameter $parameter) {
+			return $parameter->getName();
+		}, $preserveBackendOptionKeys);
+		$preserveBackendOptions = array_filter($storage->getBackendOptions(), function (string $key) use ($preserveBackendOptionKeys) {
+			return in_array($key, $preserveBackendOptionKeys);
+		}, ARRAY_FILTER_USE_KEY);
+
+		$storage->setBackendOptions($preserveBackendOptions);
 		$storage->setMountOptions([]);
 
 		if ($storage->getAuthMechanism() instanceof IUserProvided) {
