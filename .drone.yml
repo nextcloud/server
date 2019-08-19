@@ -589,7 +589,7 @@ services:
   image: redis
 - name: mysql
   image: mysql:8.0
-  command: [ "--default-authentication-plugin=mysql_native_password" ]
+  command: [ "--default-authentication-plugin=mysql_native_password", "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -630,6 +630,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+  command: [ "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   tmpfs:
     - /var/lib/mysql
 
@@ -663,6 +664,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+  command: [ "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   tmpfs:
     - /var/lib/mysql
 
@@ -696,6 +698,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+  command: [ "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   tmpfs:
     - /var/lib/mysql
 
@@ -731,6 +734,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+  command: [ "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   tmpfs:
     - /var/lib/mysql
 trigger:
@@ -765,6 +769,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+  command: [ "--max_allowed_packet=64M", "--wait_timeout=28800" ]
   tmpfs:
     - /var/lib/mysql
 
@@ -905,7 +910,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--max_allowed_packet=64M", "--wait_timeout=28800"]
   tmpfs:
     - /var/lib/mysql
 
@@ -941,7 +946,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--max_allowed_packet=64M", "--wait_timeout=28800"]
   tmpfs:
     - /var/lib/mysql
 
@@ -977,7 +982,7 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--max_allowed_packet=64M", "--wait_timeout=28800"]
   tmpfs:
     - /var/lib/mysql
 
