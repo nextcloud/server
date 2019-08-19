@@ -163,10 +163,12 @@
 
 	.rule {
 		display: flex;
+		flex-wrap: wrap;
+
 		.trigger, .action {
 			flex-grow: 1;
 			min-height: 100px;
-			width: 50%;
+			flex-basis: 50%;
 		}
 		.action {
 			position: relative;
@@ -177,6 +179,8 @@
 		}
 		.icon-confirm {
 			background-position: right center;
+			padding-right: 20px;
+			margin-right: 20px;
 		}
 	}
 	.trigger p, .action p {

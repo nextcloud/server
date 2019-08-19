@@ -15,6 +15,7 @@
 </template>
 
 <script>
+	import { Checks } from '../services/Operation';
 	import { Multiselect, Actions, ActionButton } from 'nextcloud-vue'
 	import ClickOutside from 'vue-click-outside';
 
@@ -43,13 +44,8 @@
 			}
 		},
 		mounted() {
-			this.options = Object.values(OCA.WorkflowEngine.Plugins).map((plugin) => {
-				if (plugin.component) {
-					return {...plugin.getCheck(), component: plugin.component}
-				}
-				return plugin.getCheck()
-			})
-			this.currentOption = this.options.find((option) => option.class === this.check.class)
+			this.options = Object.values(Checks)
+			this.currentOption = Checks[this.check.class]
 			this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 			this.$nextTick(() => {
 				this.$refs.checkSelector.$el.focus()
@@ -59,12 +55,12 @@
 			operators() {
 				if (!this.currentOption)
 					return []
-				return this.options.find((item) => item.class === this.currentOption.class).operators
+				return Checks[this.currentOption.class].operators
 			},
 			currentComponent() {
 				if (!this.currentOption)
 					return []
-				let currentComponent = this.options.find((item) => item.class === this.currentOption.class).component
+				let currentComponent = Checks[this.currentOption.class].component
 				return currentComponent && currentComponent()
 			}
 		},

@@ -14,12 +14,6 @@
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
 				</button>
 			</div>
-			<transition name="slide">
-				<div class="actions" v-if="!hasUnsavedRule && showMoreOperations && hasMoreOperations">
-					<Operation v-for="operation in getMoreOperations" :key="operation.class" :icon="operation.icon" :title="operation.title" :description="operation.description"
-							   @click.native="createNewRule(operation)"></Operation>
-				</div>
-			</transition>
 		</div>
 
 		<transition-group name="slide">
@@ -59,6 +53,9 @@
 				return Object.keys(this.operations.getAll()).length > ACTION_LIMIT
 			},
 			getMainOperations() {
+				if (this.showMoreOperations) {
+					return Object.values(this.operations.getAll())
+				}
 				return Object.values(this.operations.getAll()).slice(0, ACTION_LIMIT)
 			},
 			getMoreOperations() {
@@ -95,10 +92,16 @@
 </script>
 
 <style scoped lang="scss">
+	.section {
+		max-width: 100vw;
+	}
 	.actions {
 		display: flex;
-		.action__item {
-			border: 1px solid var(--color-border);
+		flex-wrap: wrap;
+		.actions__item {
+			max-width: 300px;
+			min-width: 200px;
+			flex-basis: 200px;
 		}
 	}
 

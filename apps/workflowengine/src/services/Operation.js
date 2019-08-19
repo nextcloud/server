@@ -1,5 +1,41 @@
 import ConvertToPdf from './../components/Operations/ConvertToPdf'
 import Tag from './../components/Operations/Tag'
+
+const ALL_CHECKS = [
+	'OCA\\WorkflowEngine\\Check\\FileMimeType',
+	'OCA\\WorkflowEngine\\Check\\FileName',
+	'OCA\\WorkflowEngine\\Check\\FileSize',
+	'OCA\\WorkflowEngine\\Check\\FileSystemTags',
+	'OCA\\WorkflowEngine\\Check\\RequestRemoteAddress',
+	'OCA\\WorkflowEngine\\Check\\RequestTime',
+	'OCA\\WorkflowEngine\\Check\\RequestURL',
+	'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
+	'OCA\\WorkflowEngine\\Check\\UserGroupMembership'
+]
+
+const Entities = OCP.InitialState.loadState('workflowengine', 'entities').map(entity => {
+	return {
+		...entity,
+		// TODO: see if we should have this defined in the backend as well
+		checks: [...ALL_CHECKS]
+	}
+})
+
+const Checks = Object.values(OCA.WorkflowEngine.Plugins).map((plugin) => {
+	if (plugin.component) {
+		return {...plugin.getCheck(), component: plugin.component}
+	}
+	return plugin.getCheck()
+}).reduce((obj, item) => {
+	obj[item.class] = item
+	return obj
+}, {})
+
+/**
+ * Register operations
+ * TODO: should be provided by the backend
+ */
+
 class OperationService {
 
 	constructor() {
@@ -20,92 +56,63 @@ class OperationService {
 	}
 
 }
-
-class EventService {
-
-	constructor() {
-		this.events = {}
-	}
-	registerEvent(event) {
-		this.events[event.id] = event
-	}
-
-	getAll() {
-		return this.events
-	}
-
-	get(id) {
-		return this.events[id]
-	}
-
-}
-
 const operationService = new OperationService()
-const eventService = new EventService()
-
-
-const ALL_CHECKS = [
-	'OCA\\WorkflowEngine\\Check\\FileMimeType',
-	'OCA\\WorkflowEngine\\Check\\FileName',
-	'OCA\\WorkflowEngine\\Check\\FileSize',
-	'OCA\\WorkflowEngine\\Check\\FileSystemTags',
-	'OCA\\WorkflowEngine\\Check\\RequestRemoteAddress',
-	'OCA\\WorkflowEngine\\Check\\RequestTime',
-	'OCA\\WorkflowEngine\\Check\\RequestURL',
-	'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
-	'OCA\\WorkflowEngine\\Check\\UserGroupMembership'
-]
-
-/**
- * TODO: move to separate apps
- * TODO: fetch from initial state api
- **/
-const EVENT_FILE_ACCESS = 'EVENT_FILE_ACCESS'
-const EVENT_FILE_CHANGED = 'EVENT_FILE_CHANGED'
-const EVENT_FILE_TAGGED = 'EVENT_FILE_TAGGED'
-
-eventService.registerEvent({
-	id: EVENT_FILE_ACCESS,
-	name: 'File is accessed',
-	icon: 'icon-desktop',
-	checks: ALL_CHECKS,
-})
-
-eventService.registerEvent({
-	id: EVENT_FILE_CHANGED,
-	name: 'File was updated',
-	icon: 'icon-folder',
-	checks: ALL_CHECKS,
-})
-
-
-eventService.registerEvent({
-	id: EVENT_FILE_TAGGED,
-	name: 'File was tagged',
-	icon: 'icon-tag',
-	checks: ALL_CHECKS,
-})
 
 operationService.registerOperation({
 	class: 'OCA\\FilesAccessControl\\Operation',
 	title: 'Block access',
-	description: 'todo',
+	description: 'Deny access to files when they are accessed',
 	icon: 'icon-block',
 	color: 'var(--color-error)',
-	events: [
-		EVENT_FILE_ACCESS
+	entites: [
+		'WorkflowEngine_Entity_File'
 	],
+	events: [
+		// TODO: this is probably handled differently since there is no regular event for files access control
+		'WorkflowEngine_Entity_File::postTouch'
+	],
+	operation: 'deny'
+})
+
+operationService.registerOperation({
+	class: 'OCA\\TestExample\\Operation1',
+	title: 'Rename file',
+	description: '🚧 For UI mocking only',
+	icon: 'icon-address-white',
+	color: 'var(--color-success)',
+	entites: [],
+	events: [],
+	operation: 'deny'
+})
+operationService.registerOperation({
+	class: 'OCA\\TestExample\\Operation2',
+	title: 'Notify me',
+	description: '🚧 For UI mocking only',
+	icon: 'icon-comment-white',
+	color: 'var(--color-warning)',
+	entites: [],
+	events: [],
+	operation: 'deny'
+})
+operationService.registerOperation({
+	class: 'OCA\\TestExample\\Operation3',
+	title: 'Call a web hook',
+	description: '🚧 For UI mocking only',
+	icon: 'icon-category-integration icon-invert',
+	color: 'var(--color-primary)',
+	entites: [],
+	events: [],
 	operation: 'deny'
 })
 
 operationService.registerOperation({
 	class: 'OCA\\FilesAutomatedTagging\\Operation',
 	title: 'Tag a file',
-	description: 'todo',
-	icon: 'icon-tag',
+	description: 'Assign a tag to a file',
+	icon: 'icon-tag-white',
 	events: [
-		EVENT_FILE_CHANGED,
-		EVENT_FILE_TAGGED
+		'WorkflowEngine_Entity_File::postWrite',
+		//'WorkflowEngine_Entity_File::postTagged',
 	],
 	options: Tag
 
@@ -114,28 +121,23 @@ operationService.registerOperation({
 operationService.registerOperation({
 	class: 'OCA\\WorkflowPDFConverter\\Operation',
 	title: 'Convert to PDF',
-	description: 'todo',
+	description: 'Generate a PDF file',
 	color: '#dc5047',
 	icon: 'icon-convert-pdf',
 	events: [
-		EVENT_FILE_CHANGED,
+		'WorkflowEngine_Entity_File::postWrite',
 		//EVENT_FILE_TAGGED
 	],
 	options: ConvertToPdf
 })
 
+console.debug('[InitialState] Entities', Entities)
+console.debug('[WorkflowEngine] Checks', Checks)
+console.debug('[WorkflowEngine] Operations', operationService.operations)
 
-const legacyChecks = Object.values(OCA.WorkflowEngine.Plugins).map((plugin) => {
-	if (plugin.component) {
-		return {...plugin.getCheck(), component: plugin.component}
-	}
-	return plugin.getCheck()
-}).reduce((obj, item) => {
-	obj[item.class] = item
-	return obj
-}, {})
 
 export {
-	eventService,
+	Entities,
+	Checks,
 	operationService
 }

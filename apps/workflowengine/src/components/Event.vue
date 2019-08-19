@@ -2,11 +2,11 @@
 	<div>
 	<Multiselect :value="currentEvent" :options="allEvents" label="name" track-by="id" :allow-empty="false" :disabled="allEvents.length <= 1" @input="updateEvent">
 		<template slot="singleLabel" slot-scope="props">
-			<span class="option__icon" :class="props.option.icon"></span>
+			<img class="option__icon" :src="props.option.icon" />
 			<span class="option__title option__title_single">{{ props.option.name }}</span>
 		</template>
 		<template slot="option" slot-scope="props">
-			<span class="option__icon" :class="props.option.icon"></span>
+			<img class="option__icon" :src="props.option.icon" />
 			<span class="option__title">{{ props.option.name }}</span>
 		</template>
 	</Multiselect>
@@ -15,7 +15,7 @@
 
 <script>
 	import { Multiselect } from 'nextcloud-vue'
-	import { eventService, operationService } from '../services/Operation'
+	import { Entities, operationService } from '../services/Operation'
 
 	export default {
 		name: "Event",
@@ -36,7 +36,21 @@
 				return this.allEvents.find(event => event.id === this.rule.event)
 			},
 			allEvents() {
-				return this.operation.events.map((eventName) => eventService.get(eventName))
+				return this.operation.events.map((entityEventName) => {
+					const parts = entityEventName.split('::')
+					const entityId = parts[0]
+					const eventName = parts[1]
+					const Entity = Entities.find((entity) => entity.id === entityId)
+					const Event = Entity.events.find((event) => event.eventName === eventName)
+					return {
+						entity: entityId,
+						id: entityEventName,
+						event: eventName,
+						name: Event.displayName,
+						icon: Entity.icon,
+						checks: Entity.checks,
+					}
+				})
 			},
 			operation() {
 				return operationService.get(this.rule.class)
