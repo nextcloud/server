@@ -43,8 +43,21 @@ class AppConfig implements IAppConfig {
 
 	/** @var array[] */
 	protected $sensitiveValues = [
+		'external' => [
+			'/^sites$/',
+		],
 		'spreed' => [
+			'/^signaling_ticket_secret$/',
 			'/^turn_server_secret$/',
+			'/^stun_servers$/',
+			'/^turn_servers$/',
+			'/^signaling_servers$/',
+		],
+		'theming' => [
+			'/^imprintUrl$/',
+			'/^privacyUrl$/',
+			'/^slogan$/',
+			'/^url$/',
 		],
 		'user_ldap' => [
 			'/^(s..)?ldap_agent_password$/',
