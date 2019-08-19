@@ -92,7 +92,7 @@ class CodeChecker extends BasicEmitter {
 		}, $excludedDirectories);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($excludes){
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
