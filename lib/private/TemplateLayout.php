@@ -113,6 +113,8 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('themingInvertMenu', $util->invertTextColor(\OC::$server->getThemingDefaults()->getColorPrimary()));
 			} catch (\OCP\AppFramework\QueryException $e) {
 				$this->assign('themingInvertMenu', false);
+			} catch (\OCP\AutoloadNotAllowedException $e) {
+				$this->assign('themingInvertMenu', false);
 			}
 
 		} else if ($renderAs === 'error') {
