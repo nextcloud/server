@@ -253,6 +253,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Εξαίρεση ομάδων από τον διαμοιρασμό",
     "These groups will still be able to receive shares, but not to initiate them." : "Αυτές οι ομάδες θα συνεχίσουν να λαμβάνουν διαμοιρασμούς, αλλά δεν θα είναι δυνατό να τους δημιουργήσουν.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης του ονόματος χρήστη στο πεδίο διαμοιρασμού. Αν η ρύθμιση αυτή είναι απενεργοποιημένη θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή το email του. ",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Αυτό το κείμενο θα ",
     "Like our Facebook page" : "Ακολουθήστε μας στην σελίδα μας στο facebook!",
     "Follow us on Twitter" : "Ακολουθήστε μας στο Twitter",
