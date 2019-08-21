@@ -285,10 +285,10 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-logoheader-mime' => "'" . $this->config->getAppValue('theming', 'logoheaderMime') . "'",
 			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
-
+		
 		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
-		$variables['image-logoheader'] = "'".$this->imageManager->getImageUrl('logoheader')."'";
-		$variables['image-favicon'] = "'".$this->imageManager->getImageUrl('favicon')."'";
+		$variables['image-logoheader'] = "url('".$this->imageManager->getImageUrl('logoheader')."')";
+		$variables['image-favicon'] = "url('".$this->imageManager->getImageUrl('favicon')."')";
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
 		$variables['image-login-plain'] = 'false';
 
