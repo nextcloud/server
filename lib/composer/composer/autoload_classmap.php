@@ -1022,6 +1022,7 @@ return array(
     'OC\\Repair\\NC15\\SetVcardDatabaseUID' => $baseDir . '/lib/private/Repair/NC15/SetVcardDatabaseUID.php',
     'OC\\Repair\\NC16\\AddClenupLoginFlowV2BackgroundJob' => $baseDir . '/lib/private/Repair/NC16/AddClenupLoginFlowV2BackgroundJob.php',
     'OC\\Repair\\NC16\\CleanupCardDAVPhotoCache' => $baseDir . '/lib/private/Repair/NC16/CleanupCardDAVPhotoCache.php',
+    'OC\\Repair\\NC16\\ClearCollectionsAccessCache' => $baseDir . '/lib/private/Repair/NC16/ClearCollectionsAccessCache.php',
     'OC\\Repair\\NC16\\RemoveCypressFiles' => $baseDir . '/lib/private/Repair/NC16/RemoveCypressFiles.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
