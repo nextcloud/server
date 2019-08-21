@@ -194,8 +194,12 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
+		$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
+		if ($encryptedToken === null) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
+
 		try {
-			$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
 			$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
 			$decryptedToken = $this->crypto->decrypt($encryptedToken, $mailAddress.$this->config->getSystemValue('secret'));
 		} catch (\Exception $e) {
