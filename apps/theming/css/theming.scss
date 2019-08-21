@@ -150,7 +150,7 @@ $invert: luma($color-primary) > 0.6;
 @if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
 	#theming .advanced-option-logoheader .image-preview,
 	body:not(#body-login) #header .logo {
-		background-image: url(#{$image-logoheader});
+		background-image: $image-logoheader;
 	}
 } @else {
 	#theming .advanced-option-favicon .image-preview {
@@ -160,7 +160,7 @@ $invert: luma($color-primary) > 0.6;
 
 @if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
 	#theming .advanced-option-favicon .image-preview {
-		background-image: url(#{$image-favicon});
+		background-image: $image-favicon;
 	}
 } @else {
 	#theming .advanced-option-favicon .image-preview {

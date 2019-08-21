@@ -680,8 +680,8 @@ class ThemingDefaultsTest extends TestCase {
 			'color-primary-element' => '#aaaaaa',
 			'theming-logoheader-mime' => '\'jpeg\'',
 			'theming-favicon-mime' => '\'jpeg\'',
-			'image-logoheader' => '\'custom-logoheader?v=0\'',
-			'image-favicon' => '\'custom-favicon?v=0\'',
+			'image-logoheader' => "url('custom-logoheader?v=0')",
+			'image-favicon' => "url('custom-favicon?v=0')",
 			'has-legal-links' => 'false'
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
