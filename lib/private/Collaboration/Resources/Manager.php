@@ -464,6 +464,14 @@ class Manager implements IManager {
 		}
 	}
 
+	public function invalidateAccessCacheForAllCollections(): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->delete(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->neq('collection_id', $query->createNamedParameter(0)));
+		$query->execute();
+	}
+
 	public function invalidateAccessCacheForCollection(ICollection $collection): void {
 		$query = $this->connection->getQueryBuilder();
 
