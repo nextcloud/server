@@ -196,12 +196,13 @@ services:
   image: redis
 - name: mysql
   image: mysql:8.0
-  command: [ "--default-authentication-plugin=mysql_native_password", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+  command: [ "--default-authentication-plugin=mysql_native_password", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
+    MYSQL_LOG_CONSOLE: true
   tmpfs:
     - /var/lib/mysql
 
@@ -237,7 +238,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -271,7 +273,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -305,7 +308,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -341,7 +345,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 trigger:
@@ -376,7 +381,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -517,7 +523,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -553,7 +560,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
@@ -589,7 +597,8 @@ services:
     MYSQL_USER: oc_autotest
     MYSQL_PASSWORD: owncloud
     MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log_warnings=5", "--log-error=/dev/stdout", "--general-log-file=/dev/stdout", "--general-log"]
+    MYSQL_LOG_CONSOLE: true
+  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true", "--innodb-buffer-pool-size=512M", "--max_allowed_packet=128M", "--wait_timeout=28800", "--log-error-verbosity=3", "--general-log-file=/dev/stdout", "--general-log"]
   tmpfs:
     - /var/lib/mysql
 
