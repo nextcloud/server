@@ -142,6 +142,7 @@ class DefaultShareProvider implements IShareProvider {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
+			$qb->setValue('accepted', $qb->createNamedParameter(IShare::STATUS_PENDING));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
@@ -932,6 +933,7 @@ class DefaultShareProvider implements IShareProvider {
 			->setTarget($data['file_target'])
 			->setNote($data['note'])
 			->setMailSend((bool)$data['mail_send'])
+			->setStatus((int)$data['accepted'])
 			->setLabel($data['label']);
 
 		$shareTime = new \DateTime();
@@ -1020,6 +1022,7 @@ class DefaultShareProvider implements IShareProvider {
 
 			while($data = $stmt->fetch()) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
+				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
 				$shareMap[$data['parent']]->setParent($data['parent']);
 			}

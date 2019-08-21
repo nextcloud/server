@@ -35,6 +35,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 class MountProvider implements IMountProvider {
 	/**
@@ -94,6 +95,11 @@ class MountProvider implements IMountProvider {
 			try {
 				/** @var \OCP\Share\IShare $parentShare */
 				$parentShare = $share[0];
+
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED) {
+					continue;
+				}
+
 				$owner = $parentShare->getShareOwner();
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
@@ -188,8 +194,11 @@ class MountProvider implements IMountProvider {
 
 			// use most permissive permissions
 			$permissions = 0;
+			$status = IShare::STATUS_PENDING;
 			foreach ($shares as $share) {
 				$permissions |= $share->getPermissions();
+				$status = max($status, $share->getStatus());
+
 				if ($share->getTarget() !== $superShare->getTarget()) {
 					// adjust target, for database consistency
 					$share->setTarget($superShare->getTarget());
@@ -216,7 +225,8 @@ class MountProvider implements IMountProvider {
 				}
 			}
 
-			$superShare->setPermissions($permissions);
+			$superShare->setPermissions($permissions)
+				->setStatus($status);
 
 			$result[] = [$superShare, $shares];
 		}
