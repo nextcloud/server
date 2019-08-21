@@ -672,6 +672,11 @@
 				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 				
 			$('.list-container').toggleClass('view-grid', show);
+			if (show) {
+				// If switching into grid view from list view, too few files might be displayed
+				// Try rendering the next page
+				this._onScroll();
+			}
 		},
 
 		/**
