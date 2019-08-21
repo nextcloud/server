@@ -427,18 +427,21 @@ class Generator {
 	 */
 	private function getPreviewFolder(File $file) {
 		$folderName = implode('/', str_split($file->getId()));
+
 		try {
-			$folder = $this->appData->getFolder($folderName);
+			return $this->appData->getFolder($folderName);
 		} catch (NotFoundException $e) {
-			try {
-				// In order to have some retrocompatibility
-				$folder = $this->appData->getFolder($file->getId());
-			} catch (NotFoundException $e) {
-				$folder = $this->appData->newFolder($folderName);
-			}
+			// preview folder does not exist.
 		}
 
-		return $folder;
+		try {
+			// In order to have some retrocompatibility
+			return $this->appData->getFolder($file->getId());
+		} catch (NotFoundException $e) {
+			// preview folder does not exist.
+		}
+
+		return $this->appData->newFolder($folderName);
 	}
 
 	/**
