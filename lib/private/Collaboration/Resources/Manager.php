@@ -353,12 +353,15 @@ class Manager implements IManager {
 			return $access;
 		}
 
-		$access = false;
+		$access = null;
+		// Access is granted when a user can access all resources
 		foreach ($collection->getResources() as $resource) {
-			if ($resource->canAccess($user)) {
-				$access = true;
+			if (!$resource->canAccess($user)) {
+				$access = false;
 				break;
 			}
+
+			$access = true;
 		}
 
 		$this->cacheAccessForCollection($collection, $user, $access);
