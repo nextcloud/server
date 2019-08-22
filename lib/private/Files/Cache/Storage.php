@@ -166,11 +166,12 @@ class Storage {
 
 	/**
 	 * @param bool $isAvailable
+	 * @param int $delay amount of seconds to delay reconsidering that storage further
 	 */
-	public function setAvailability($isAvailable) {
+	public function setAvailability($isAvailable, int $delay = 0) {
 		$sql = 'UPDATE `*PREFIX*storages` SET `available` = ?, `last_checked` = ? WHERE `id` = ?';
 		$available = $isAvailable ? 1 : 0;
-		\OC_DB::executeAudited($sql, array($available, time(), $this->storageId));
+		\OC_DB::executeAudited($sql, [$available, time() + $delay, $this->storageId]);
 	}
 
 	/**
