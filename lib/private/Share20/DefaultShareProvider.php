@@ -253,6 +253,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
+				->set('accepted', $qb->createNamedParameter($share->getStatus()))
 				->execute();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();

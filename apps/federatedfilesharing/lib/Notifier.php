@@ -86,7 +86,7 @@ class Notifier implements INotifier {
 	 * @throws \InvalidArgumentException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'files_sharing') {
+		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw
 			throw new \InvalidArgumentException();
 		}

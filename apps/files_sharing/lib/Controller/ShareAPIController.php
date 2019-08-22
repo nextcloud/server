@@ -947,6 +947,45 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 * @throws OCSNotFoundException
+	 * @throws OCSException
+	 * @throws OCSBadRequestException
+	 */
+	public function acceptShare(string $id): DataResponse {
+		try {
+			$share = $this->getShareById($id);
+		} catch (ShareNotFound $e) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		if (!$this->canAccessShare($share, false)) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		if ($share->getShareType() !== Share::SHARE_TYPE_USER ||
+			$share->getSharedWith() !== $this->currentUser) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+
+		try {
+			$this->shareManager->updateShare($share);
+		} catch (GenericShareException $e) {
+			$code = $e->getCode() === 0 ? 403 : $e->getCode();
+			throw new OCSException($e->getHint(), $code);
+		} catch (\Exception $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
+		}
+
+		return new DataResponse();
+	}
+
+	/**
 	 * Does the user have read permission on the share
 	 *
 	 * @param \OCP\Share\IShare $share the share to check
