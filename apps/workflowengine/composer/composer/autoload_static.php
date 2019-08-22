@@ -45,7 +45,9 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => __DIR__ . '/..' . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
         'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => __DIR__ . '/..' . '/../lib/Migration/Version2019Date20190808074233.php',
+        'OCA\\WorkflowEngine\\Settings\\ASettings' => __DIR__ . '/..' . '/../lib/Settings/ASettings.php',
         'OCA\\WorkflowEngine\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
+        'OCA\\WorkflowEngine\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\WorkflowEngine\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
     );
 

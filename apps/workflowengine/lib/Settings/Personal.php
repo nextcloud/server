@@ -24,11 +24,9 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Settings;
 
-class Admin extends ASettings {
+class Personal extends ASettings {
 
 	function isAdmin(): bool {
-		return true;
+		return false;
 	}
 }
-
-

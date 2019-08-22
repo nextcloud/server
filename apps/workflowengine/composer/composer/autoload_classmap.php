@@ -30,6 +30,8 @@ return array(
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
     'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => $baseDir . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
     'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => $baseDir . '/../lib/Migration/Version2019Date20190808074233.php',
+    'OCA\\WorkflowEngine\\Settings\\ASettings' => $baseDir . '/../lib/Settings/ASettings.php',
     'OCA\\WorkflowEngine\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
+    'OCA\\WorkflowEngine\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\WorkflowEngine\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
 );
