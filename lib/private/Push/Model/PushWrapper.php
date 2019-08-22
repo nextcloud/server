@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,27 +28,27 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos\Model;
+namespace OC\Push\Model;
 
 
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
-use OCP\Stratos\Model\IStratosItem;
-use OCP\Stratos\Model\IStratosWrapper;
+use OCP\Push\Model\IPushItem;
+use OCP\Push\Model\IPushWrapper;
 
 
 /**
- * Class StratosManager
+ * Class PushManager
  *
- * @package OC\Stratos\Model
+ * @package OC\Push\Model
  */
-class StratosWrapper implements IStratosWrapper, JsonSerializable {
+class PushWrapper implements IPushWrapper, JsonSerializable {
 
 
 	use TArrayTools;
 
 
-	/** @var IStratosItem */
+	/** @var IPushItem */
 	private $item;
 
 	/** @var array */
@@ -59,12 +59,12 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 
 
 	/**
-	 * StratosWrapper constructor.
+	 * PushWrapper constructor.
 	 *
-	 * @param IStratosItem $item
+	 * @param IPushItem $item
 	 */
 	public function __construct($item = null) {
-		if ($item !== null && $item instanceof IStratosItem) {
+		if ($item !== null && $item instanceof IPushItem) {
 			$this->item = $item;
 		}
 
@@ -80,18 +80,18 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	}
 
 	/**
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function getItem(): IStratosItem {
+	public function getItem(): IPushItem {
 		return $this->item;
 	}
 
 	/**
-	 * @param IStratosItem $item
+	 * @param IPushItem $item
 	 *
-	 * @return IStratosWrapper
+	 * @return IPushWrapper
 	 */
-	public function setItem(IStratosItem $item): IStratosWrapper {
+	public function setItem(IPushItem $item): IPushWrapper {
 		$this->item = $item;
 
 		return $this;
@@ -108,9 +108,9 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	/**
 	 * @param array $recipients
 	 *
-	 * @return IStratosWrapper
+	 * @return IPushWrapper
 	 */
-	public function setRecipients(array $recipients): IStratosWrapper {
+	public function setRecipients(array $recipients): IPushWrapper {
 		$this->recipients = [];
 		$this->addRecipients($recipients);
 
@@ -120,9 +120,9 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	/**
 	 * @param string $recipient
 	 *
-	 * @return IStratosWrapper
+	 * @return IPushWrapper
 	 */
-	public function addRecipient(string $recipient): IStratosWrapper {
+	public function addRecipient(string $recipient): IPushWrapper {
 		if (!in_array($recipient, $this->recipients)) {
 			$this->recipients[] = $recipient;
 		}
@@ -133,9 +133,9 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	/**
 	 * @param array $recipients
 	 *
-	 * @return IStratosWrapper
+	 * @return IPushWrapper
 	 */
-	public function addRecipients(array $recipients): IStratosWrapper {
+	public function addRecipients(array $recipients): IPushWrapper {
 		foreach ($recipients as $recipient) {
 			$this->addRecipient($recipient);
 		}
@@ -149,8 +149,8 @@ class StratosWrapper implements IStratosWrapper, JsonSerializable {
 	 *
 	 * @return self
 	 */
-	public function import(array $import): IStratosWrapper {
-		$item = new StratosItem();
+	public function import(array $import): IPushWrapper {
+		$item = new PushItem();
 		$item->import($this->getArray('item', $import, []));
 
 		$this->setItem($item);

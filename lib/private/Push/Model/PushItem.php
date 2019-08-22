@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,21 +28,21 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos\Model;
+namespace OC\Push\Model;
 
 
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use daita\NcSmallPhpTools\Traits\TStringTools;
 use JsonSerializable;
-use OCP\Stratos\Model\IStratosItem;
+use OCP\Push\Model\IPushItem;
 
 
 /**
- * Class StratosItem
+ * Class PushItem
  *
- * @package OC\Stratos\Model
+ * @package OC\Push\Model
  */
-class StratosItem implements IStratosItem, JsonSerializable {
+class PushItem implements IPushItem, JsonSerializable {
 
 
 	use TArrayTools;
@@ -77,7 +77,7 @@ class StratosItem implements IStratosItem, JsonSerializable {
 
 
 	/**
-	 * StratosItem constructor.
+	 * PushItem constructor.
 	 *
 	 * @param string $app
 	 * @param string $type
@@ -93,9 +93,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param int $id
 	 *
-	 * @return StratosItem
+	 * @return PushItem
 	 */
-	public function setId(int $id): IStratosItem {
+	public function setId(int $id): IPushItem {
 		$this->id = $id;
 
 		return $this;
@@ -119,9 +119,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param string $token
 	 *
-	 * @return StratosItem
+	 * @return PushItem
 	 */
-	public function setToken(string $token): IStratosItem {
+	public function setToken(string $token): IPushItem {
 		$this->token = $token;
 
 		return $this;
@@ -138,9 +138,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function setApp(string $app): IStratosItem {
+	public function setApp(string $app): IPushItem {
 		$this->app = $app;
 
 		return $this;
@@ -157,9 +157,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param string $source
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function setSource(string $source): IStratosItem {
+	public function setSource(string $source): IPushItem {
 		$this->source = $source;
 
 		return $this;
@@ -180,9 +180,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param array $payload
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function setPayload(array $payload): IStratosItem {
+	public function setPayload(array $payload): IPushItem {
 		$this->payload = $payload;
 
 		return $this;
@@ -191,9 +191,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param JsonSerializable $payload
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function setPayloadSerializable(JsonSerializable $payload): IStratosItem {
+	public function setPayloadSerializable(JsonSerializable $payload): IPushItem {
 		$this->payload = $payload;
 
 		return $this;
@@ -210,9 +210,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param string $type
 	 *
-	 * @return StratosItem
+	 * @return PushItem
 	 */
-	public function setType(string $type): IStratosItem {
+	public function setType(string $type): IPushItem {
 		$this->type = $type;
 
 		return $this;
@@ -229,9 +229,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param int $ttl
 	 *
-	 * @return StratosItem
+	 * @return PushItem
 	 */
-	public function setTtl(int $ttl): IStratosItem {
+	public function setTtl(int $ttl): IPushItem {
 		$this->ttl = $ttl;
 
 		return $this;
@@ -241,9 +241,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param array $meta
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function setMeta(array $meta): IStratosItem {
+	public function setMeta(array $meta): IPushItem {
 		$this->meta = $meta;
 
 		return $this;
@@ -253,9 +253,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	 * @param string $k
 	 * @param string $v
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function addMeta(string $k, string $v): IStratosItem {
+	public function addMeta(string $k, string $v): IPushItem {
 		$this->meta[$k] = $v;
 
 		return $this;
@@ -265,9 +265,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	 * @param string $k
 	 * @param array $v
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function addMetaArray(string $k, array $v): IStratosItem {
+	public function addMetaArray(string $k, array $v): IPushItem {
 		$this->meta[$k] = $v;
 
 		return $this;
@@ -291,9 +291,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param int $creation
 	 *
-	 * @return StratosItem
+	 * @return PushItem
 	 */
-	public function setCreation(int $creation): IStratosItem {
+	public function setCreation(int $creation): IPushItem {
 		$this->creation = $creation;
 
 		return $this;
@@ -303,9 +303,9 @@ class StratosItem implements IStratosItem, JsonSerializable {
 	/**
 	 * @param array $import
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
-	public function import(array $import): IStratosItem {
+	public function import(array $import): IPushItem {
 		$this->setId($this->getInt('id', $import, 0));
 		$this->setToken($this->get('token', $import, ''));
 		$this->setType($this->get('type', $import, ''));

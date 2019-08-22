@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,19 +28,19 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model;
+namespace OCP\Push\Model;
 
 
 use JsonSerializable;
 
 /**
- * Interface IStratosItem
+ * Interface IPushItem
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos
+ * @package OCP\Push
  */
-interface IStratosItem {
+interface IPushItem {
 
 
 	const TTL_INSTANT = 15;
@@ -104,7 +104,7 @@ interface IStratosItem {
 	/**
 	 * @param JsonSerializable $payload
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): self;
 
@@ -138,7 +138,7 @@ interface IStratosItem {
 	/**
 	 * @param array $meta
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
 	public function setMeta(array $meta): self;
 
@@ -146,7 +146,7 @@ interface IStratosItem {
 	 * @param string $k
 	 * @param string $v
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
 	public function addMeta(string $k, string $v): self;
 
@@ -154,7 +154,7 @@ interface IStratosItem {
 	 * @param string $k
 	 * @param array $v
 	 *
-	 * @return IStratosItem
+	 * @return IPushItem
 	 */
 	public function addMetaArray(string $k, array $v): self;
 

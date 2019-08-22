@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,24 +28,28 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model\Helper;
+namespace OCP\Push\Model\Helper;
 
 
-use JsonSerializable;
-use OCP\Stratos\Model\IStratosRecipients;
+use OCP\Push\Model\IPushRecipients;
 
 
 /**
- * Interface IStratosEvent
+ * Interface IPushNotification
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos\Helper
+ * @package OCP\Push\Helper
  */
-interface IStratosEvent extends IStratosRecipients {
+interface IPushNotification extends IPushRecipients {
 
 
-	const TYPE = 'Event';
+	const TYPE = 'Notification';
+
+	const LEVEL_SUCCESS = 'success';
+	const LEVEL_MESSAGE = 'message';
+	const LEVEL_WARNING = 'warning';
+	const LEVEL_ERROR = 'error';
 
 
 	/**
@@ -64,34 +68,66 @@ interface IStratosEvent extends IStratosRecipients {
 	/**
 	 * @return string
 	 */
-	public function getCommand(): string;
+	public function getTitle(): string;
 
 	/**
 	 * @param string $title
 	 *
 	 * @return self
 	 */
-	public function setCommand(string $title): self;
+	public function setTitle(string $title): self;
 
 
 	/**
-	 * @return array
+	 * @return string
 	 */
-	public function getPayload(): array;
+	public function getMessage(): string;
 
 	/**
-	 * @param array $payload
+	 * @param string $message
 	 *
 	 * @return self
 	 */
-	public function setPayload(array $payload): self;
+	public function setMessage(string $message): self;
+
 
 	/**
-	 * @param JsonSerializable $payload
+	 * @return string
+	 */
+	public function getLink(): string;
+
+	/**
+	 * @param string $link
 	 *
 	 * @return self
 	 */
-	public function setPayloadSerializable(JsonSerializable $payload): self;
+	public function setLink(string $link): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getLevel(): string;
+
+	/**
+	 * @param string $level
+	 *
+	 * @return self
+	 */
+	public function setLevel(string $level): self;
+
+
+	/**
+	 * @return int
+	 */
+	public function getTtl(): int;
+
+	/**
+	 * @param int $ttl
+	 *
+	 * @return self
+	 */
+	public function setTtl(int $ttl): self;
 
 }
 

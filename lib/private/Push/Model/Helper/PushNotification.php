@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,22 +28,22 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos\Model\Helper;
+namespace OC\Push\Model\Helper;
 
 
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
-use OCP\Stratos\Model\IStratosItem;
-use OCP\Stratos\Model\Helper\IStratosNotification;
-use OC\Stratos\Model\StratosRecipients;
+use OC\Push\Model\PushRecipients;
+use OCP\Push\Model\Helper\IPushNotification;
+use OCP\Push\Model\IPushItem;
 
 
 /**
- * Class StratosNotification
+ * Class PushNotification
  *
- * @package OC\Stratos\Model\Helper
+ * @package OC\Push\Model\Helper
  */
-class StratosNotification extends StratosRecipients implements IStratosNotification, JsonSerializable {
+class PushNotification extends PushRecipients implements IPushNotification, JsonSerializable {
 
 
 	use TArrayTools;
@@ -69,12 +69,12 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 
 
 	/**
-	 * StratosNotification constructor.
+	 * PushNotification constructor.
 	 *
 	 * @param string $app
 	 * @param int $ttl
 	 */
-	public function __construct($app = '', $ttl = IStratosItem::TTL_INSTANT) {
+	public function __construct($app = '', $ttl = IPushItem::TTL_INSTANT) {
 		$this->app = $app;
 		$this->ttl = $ttl;
 	}
@@ -90,9 +90,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setApp(string $app): IStratosNotification {
+	public function setApp(string $app): IPushNotification {
 		$this->app = $app;
 
 		return $this;
@@ -108,9 +108,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param string $title
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setTitle(string $title): IStratosNotification {
+	public function setTitle(string $title): IPushNotification {
 		$this->title = $title;
 
 		return $this;
@@ -127,9 +127,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param string $message
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setMessage(string $message): IStratosNotification {
+	public function setMessage(string $message): IPushNotification {
 		$this->message = $message;
 
 		return $this;
@@ -146,9 +146,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param string $level
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setLevel(string $level): IStratosNotification {
+	public function setLevel(string $level): IPushNotification {
 		$this->level = $level;
 
 		return $this;
@@ -165,9 +165,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param string $link
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setLink(string $link): IStratosNotification {
+	public function setLink(string $link): IPushNotification {
 		$this->link = $link;
 
 		return $this;
@@ -184,9 +184,9 @@ class StratosNotification extends StratosRecipients implements IStratosNotificat
 	/**
 	 * @param int $ttl
 	 *
-	 * @return IStratosNotification
+	 * @return IPushNotification
 	 */
-	public function setTtl(int $ttl): IStratosNotification {
+	public function setTtl(int $ttl): IPushNotification {
 		$this->ttl = $ttl;
 
 		return $this;

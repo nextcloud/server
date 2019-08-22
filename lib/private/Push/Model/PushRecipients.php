@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,19 +28,19 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos\Model;
+namespace OC\Push\Model;
 
 
 use JsonSerializable;
-use OCP\Stratos\Model\IStratosRecipients;
+use OCP\Push\Model\IPushRecipients;
 
 
 /**
- * Class StratosNotification
+ * Class PushRecipients
  *
- * @package OC\Stratos\Model\Helper
+ * @package OC\Push\Model\Helper
  */
-class StratosRecipients implements IStratosRecipients, JsonSerializable {
+class PushRecipients implements IPushRecipients, JsonSerializable {
 
 
 	/** @var array */
@@ -65,9 +65,9 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $user
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function addUser(string $user): IStratosRecipients {
+	public function addUser(string $user): IPushRecipients {
 		array_push($this->users, $user);
 
 		return $this;
@@ -76,9 +76,9 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string[] $users
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function addUsers(array $users): IStratosRecipients {
+	public function addUsers(array $users): IPushRecipients {
 		$this->users = array_merge($this->users, $users);
 
 		return $this;
@@ -87,18 +87,18 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $user
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function removeUser(string $user): IStratosRecipients {
+	public function removeUser(string $user): IPushRecipients {
 		return $this->removeUsers([$user]);
 	}
 
 	/**
 	 * @param string[] $users
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function removeUsers(array $users): IStratosRecipients {
+	public function removeUsers(array $users): IPushRecipients {
 		$this->removedUsers = array_merge($this->removedUsers, $users);
 
 		return $this;
@@ -108,9 +108,9 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $group
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function addGroup(string $group): IStratosRecipients {
+	public function addGroup(string $group): IPushRecipients {
 		array_push($this->groups, $group);
 
 		return $this;
@@ -119,9 +119,9 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string[] $groups
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function addGroups(array $groups): IStratosRecipients {
+	public function addGroups(array $groups): IPushRecipients {
 		$this->groups = array_merge($this->groups, $groups);
 
 		return $this;
@@ -130,18 +130,18 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $group
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function removeGroup(string $group): IStratosRecipients {
+	public function removeGroup(string $group): IPushRecipients {
 		return $this->removeGroups([$group]);
 	}
 
 	/**
 	 * @param string[] $groups
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function removeGroups(array $groups): IStratosRecipients {
+	public function removeGroups(array $groups): IPushRecipients {
 		$this->removedGroups = array_merge($this->removedGroups, $groups);
 
 		return $this;
@@ -181,18 +181,18 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function filterApp(string $app): IStratosRecipients {
+	public function filterApp(string $app): IPushRecipients {
 		return $this->filterApps([$app]);
 	}
 
 	/**
 	 * @param string[] $apps
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function filterApps(array $apps): IStratosRecipients {
+	public function filterApps(array $apps): IPushRecipients {
 		$this->filteredApps = array_merge($this->filteredApps, $apps);
 
 		return $this;
@@ -209,18 +209,18 @@ class StratosRecipients implements IStratosRecipients, JsonSerializable {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function limitToApp(string $app): IStratosRecipients {
+	public function limitToApp(string $app): IPushRecipients {
 		return $this->limitToApps([$app]);
 	}
 
 	/**
 	 * @param string[] $apps
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
-	public function limitToApps(array $apps): IStratosRecipients {
+	public function limitToApps(array $apps): IPushRecipients {
 		$this->limitToApps = array_merge($this->limitToApps, $apps);
 
 		return $this;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,21 +28,21 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos\Model\Helper;
+namespace OC\Push\Model\Helper;
 
 
 use daita\NcSmallPhpTools\Traits\TArrayTools;
 use JsonSerializable;
-use OC\Stratos\Model\StratosRecipients;
-use OCP\Stratos\Model\Helper\IStratosEvent;
+use OC\Push\Model\PushRecipients;
+use OCP\Push\Model\Helper\IPushCallback;
 
 
 /**
- * Class StratosEvent
+ * Class PushCallback
  *
- * @package OC\Stratos\Model\Helper
+ * @package OC\Push\Model\Helper
  */
-class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSerializable {
+class PushCallback extends PushRecipients implements IPushCallback, JsonSerializable {
 
 
 	use TArrayTools;
@@ -52,21 +52,21 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	private $app = '';
 
 	/** @var string */
-	private $command = '';
+	private $source = '';
 
 	/** @var array */
-	private $payload = [];
+	private $payload = '';
 
 
 	/**
-	 * StratosEvent constructor.
+	 * PushCallback constructor.
 	 *
 	 * @param string $app
-	 * @param string $command
+	 * @param $source
 	 */
-	public function __construct($app = '', $command = '') {
+	public function __construct($app = '', $source = '') {
 		$this->app = $app;
-		$this->command = $command;
+		$this->source = $source;
 	}
 
 
@@ -80,9 +80,9 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosEvent
+	 * @return IPushCallback
 	 */
-	public function setApp(string $app): IStratosEvent {
+	public function setApp(string $app): IPushCallback {
 		$this->app = $app;
 
 		return $this;
@@ -92,17 +92,17 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @return string
 	 */
-	public function getCommand(): string {
-		return $this->command;
+	public function getSource(): string {
+		return $this->source;
 	}
 
 	/**
-	 * @param string $command
+	 * @param string $source
 	 *
-	 * @return IStratosEvent
+	 * @return IPushCallback
 	 */
-	public function setCommand(string $command): IStratosEvent {
-		$this->command = $command;
+	public function setSource(string $source): IPushCallback {
+		$this->source = $source;
 
 		return $this;
 	}
@@ -122,9 +122,9 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param array $payload
 	 *
-	 * @return IStratosEvent
+	 * @return IPushCallback
 	 */
-	public function setPayload(array $payload): IStratosEvent {
+	public function setPayload(array $payload): IPushCallback {
 		$this->payload = $payload;
 
 		return $this;
@@ -133,10 +133,10 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 	/**
 	 * @param JsonSerializable $payload
 	 *
-	 * @return IStratosEvent
+	 * @return self
 	 */
-	public function setPayloadSerializable(JsonSerializable $payload): IStratosEvent {
-		$this->payload = $payload->jsonSerialize();
+	public function setPayloadSerializable(JsonSerializable $payload): IPushCallback {
+		$this->payload = $payload;
 
 		return $this;
 	}
@@ -150,8 +150,8 @@ class StratosEvent extends StratosRecipients implements IStratosEvent, JsonSeria
 			parent::jsonSerialize(),
 			[
 				'app'     => $this->getApp(),
-				'command' => $this->getCommand(),
-				'payload' => $this->getPayload()
+				'source'  => $this->getSource(),
+				'payload' => $this->payload
 			]
 		);
 	}

@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -27,15 +28,70 @@
  */
 
 
-namespace OCP\Stratos\Exceptions;
+namespace OCP\Push\Model;
+
 
 /**
+ * Interface IPushWrapper
+ *
  * @since 18.0.0
  *
- * Class StratosInstallException
- *
- * @package OCP\Stratos\Exceptions
+ * @package OCP\Push
  */
-class StratosInstallException extends \Exception {
+interface IPushWrapper {
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasItem(): bool;
+
+	/**
+	 * @return IPushItem
+	 */
+	public function getItem(): IPushItem;
+
+	/**
+	 * @param IPushItem $item
+	 *
+	 * @return IPushWrapper
+	 */
+	public function setItem(IPushItem $item): self;
+
+
+	/**
+	 * @return array
+	 */
+	public function getRecipients(): array;
+
+	/**
+	 * @param array $recipients
+	 *
+	 * @return self
+	 */
+	public function setRecipients(array $recipients): self;
+
+	/**
+	 * @param string $recipient
+	 *
+	 * @return IPushWrapper
+	 */
+	public function addRecipient(string $recipient): self;
+
+	/**
+	 * @param array $recipients
+	 *
+	 * @return IPushWrapper
+	 */
+	public function addRecipients(array $recipients): self;
+
+
+	/**
+	 * @param array $import
+	 *
+	 * @return self
+	 */
+	public function import(array $import): self;
+
 }
 

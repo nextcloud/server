@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,70 +28,70 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model;
+namespace OCP\Push\Model\Helper;
+
+
+use JsonSerializable;
+use OCP\Push\Model\IPushRecipients;
 
 
 /**
- * Interface IStratosWrapper
+ * Interface IPushEvent
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos
+ * @package OCP\Push\Helper
  */
-interface IStratosWrapper {
+interface IPushEvent extends IPushRecipients {
+
+
+	const TYPE = 'Event';
 
 
 	/**
-	 * @return bool
+	 * @return string
 	 */
-	public function hasItem(): bool;
+	public function getApp(): string;
 
 	/**
-	 * @return IStratosItem
-	 */
-	public function getItem(): IStratosItem;
-
-	/**
-	 * @param IStratosItem $item
+	 * @param string $app
 	 *
-	 * @return IStratosWrapper
+	 * @return self
 	 */
-	public function setItem(IStratosItem $item): self;
+	public function setApp(string $app): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommand(): string;
+
+	/**
+	 * @param string $title
+	 *
+	 * @return self
+	 */
+	public function setCommand(string $title): self;
 
 
 	/**
 	 * @return array
 	 */
-	public function getRecipients(): array;
+	public function getPayload(): array;
 
 	/**
-	 * @param array $recipients
+	 * @param array $payload
 	 *
 	 * @return self
 	 */
-	public function setRecipients(array $recipients): self;
+	public function setPayload(array $payload): self;
 
 	/**
-	 * @param string $recipient
-	 *
-	 * @return IStratosWrapper
-	 */
-	public function addRecipient(string $recipient): self;
-
-	/**
-	 * @param array $recipients
-	 *
-	 * @return IStratosWrapper
-	 */
-	public function addRecipients(array $recipients): self;
-
-
-	/**
-	 * @param array $import
+	 * @param JsonSerializable $payload
 	 *
 	 * @return self
 	 */
-	public function import(array $import): self;
+	public function setPayloadSerializable(JsonSerializable $payload): self;
 
 }
 

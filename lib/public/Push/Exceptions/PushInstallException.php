@@ -1,9 +1,8 @@
 <?php
-declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,33 +27,15 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Service;
-
-
-use OCP\Stratos\Model\IStratosRecipients;
-use OCP\Stratos\Model\IStratosWrapper;
-
+namespace OCP\Push\Exceptions;
 
 /**
- * Interface IStratosService
- *
  * @since 18.0.0
  *
- * @package OCP\Stratos\Service
+ * Class PushInstallException
+ *
+ * @package OCP\Push\Exceptions
  */
-interface IStratosService {
-
-
-	public function push(IStratosWrapper $wrapper);
-
-
-	/**
-	 * @param IStratosWrapper $wrapper
-	 * @param IStratosRecipients $recipients
-	 *
-	 * @return mixed
-	 */
-	public function fillRecipients(IStratosWrapper $wrapper, IStratosRecipients $recipients);
-
+class PushInstallException extends \Exception {
 }
 

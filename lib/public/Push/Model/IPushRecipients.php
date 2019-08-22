@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,43 +28,43 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model;
+namespace OCP\Push\Model;
 
 
 /**
- * Interface IStratosRecipients
+ * Interface IPushRecipients
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos
+ * @package OCP\Push
  */
-interface IStratosRecipients {
+interface IPushRecipients {
 
 	/**
 	 * @param string $user
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function addUser(string $user): self;
 
 	/**
 	 * @param array $users
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function addUsers(array $users): self;
 
 	/**
 	 * @param string $user
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function removeUser(string $user): self;
 
 	/**
 	 * @param array $users
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 
 	public function removeUsers(array $users): self;
@@ -73,28 +73,28 @@ interface IStratosRecipients {
 	/**
 	 * @param string $group
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function addGroup(string $group): self;
 
 	/**
 	 * @param array $groups
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function addGroups(array $groups): self;
 
 	/**
 	 * @param string $group
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function removeGroup(string $group): self;
 
 	/**
 	 * @param array $groups
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 
 	public function removeGroups(array $groups): self;
@@ -124,14 +124,14 @@ interface IStratosRecipients {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function filterApp(string $app): self;
 
 	/**
 	 * @param string[] $apps
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function filterApps(array $apps): self;
 
@@ -144,14 +144,14 @@ interface IStratosRecipients {
 	/**
 	 * @param string $app
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function limitToApp(string $app): self;
 
 	/**
 	 * @param string[] $apps
 	 *
-	 * @return IStratosRecipients
+	 * @return IPushRecipients
 	 */
 	public function limitToApps(array $apps): self;
 

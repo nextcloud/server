@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,70 +28,33 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos\Model\Helper;
+namespace OCP\Push\Service;
 
 
-use JsonSerializable;
-use OCP\Stratos\Model\IStratosRecipients;
+use OCP\Push\Model\IPushRecipients;
+use OCP\Push\Model\IPushWrapper;
 
 
 /**
- * Interface IStratosCallback
+ * Interface IPushService
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos\Helper
+ * @package OCP\Push\Service
  */
-interface IStratosCallback extends IStratosRecipients {
+interface IPushService {
 
 
-	const TYPE = 'Callback';
+	public function push(IPushWrapper $wrapper);
 
 
 	/**
-	 * @return string
-	 */
-	public function getApp(): string;
-
-	/**
-	 * @param string $app
+	 * @param IPushWrapper $wrapper
+	 * @param IPushRecipients $recipients
 	 *
-	 * @return self
+	 * @return mixed
 	 */
-	public function setApp(string $app): self;
-
-
-	/**
-	 * @return string
-	 */
-	public function getSource(): string;
-
-	/**
-	 * @param string $source
-	 *
-	 * @return self
-	 */
-	public function setSource(string $source): self;
-
-
-	/**
-	 * @return array
-	 */
-	public function getPayload(): array;
-
-	/**
-	 * @param array $payload
-	 *
-	 * @return self
-	 */
-	public function setPayload(array $payload): self;
-
-	/**
-	 * @param JsonSerializable $payload
-	 *
-	 * @return self
-	 */
-	public function setPayloadSerializable(JsonSerializable $payload): self;
+	public function fillRecipients(IPushWrapper $wrapper, IPushRecipients $recipients);
 
 }
 

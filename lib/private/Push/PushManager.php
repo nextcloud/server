@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,40 +28,40 @@ declare(strict_types=1);
  */
 
 
-namespace OC\Stratos;
+namespace OC\Push;
 
 
-use OCP\Stratos\Exceptions\StratosInstallException;
-use OCP\Stratos\Helper\IStratosHelper;
-use OCP\Stratos\IStratosManager;
-use OCP\Stratos\Service\IStratosService;
+use OCP\Push\Exceptions\PushInstallException;
+use OCP\Push\Helper\IPushHelper;
+use OCP\Push\IPushManager;
+use OCP\Push\Service\IPushService;
 
 
 /**
- * Class StratosManager
+ * Class PushManager
  *
- * @package OC\Stratos
+ * @package OC\Push
  */
-class StratosManager implements IStratosManager {
+class PushManager implements IPushManager {
 
 
-	/** @var IStratosService */
-	private $stratosService;
+	/** @var IPushService */
+	private $pushService;
 
-	/** @var IStratosHelper */
-	private $stratosHelper;
+	/** @var IPushHelper */
+	private $pushHelper;
 
 
 	/**
-	 * @param IStratosService $stratosService
-	 * @param IStratosHelper $stratosHelper
+	 * @param IPushService $pushService
+	 * @param IPushHelper $pushHelper
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerStratos(IStratosService $stratosService, IStratosHelper $stratosHelper
+	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper
 	) {
-		$this->stratosService = $stratosService;
-		$this->stratosHelper = $stratosHelper;
+		$this->pushService = $pushService;
+		$this->pushHelper = $pushHelper;
 	}
 
 
@@ -73,7 +73,7 @@ class StratosManager implements IStratosManager {
 			$this->checkRegistration();
 
 			return true;
-		} catch (StratosInstallException $e) {
+		} catch (PushInstallException $e) {
 		}
 
 		return false;
@@ -81,33 +81,35 @@ class StratosManager implements IStratosManager {
 
 
 	/**
-	 * @return IStratosService
-	 * @throws StratosInstallException
+	 * @return IPushService
+	 * @throws PushInstallException
 	 */
-	public function getStratosService(): IStratosService {
+	public function getPushService(): IPushService {
 		$this->checkRegistration();
 
-		return $this->stratosService;
+		return $this->pushService;
 	}
 
 
 	/**
-	 * @return IStratosHelper
-	 * @throws StratosInstallException
+	 * @return IPushHelper
+	 * @throws PushInstallException
 	 */
-	public function getStratosHelper(): IStratosHelper {
+	public function getPushHelper(): IPushHelper {
 		$this->checkRegistration();
 
-		return $this->stratosHelper;
+		return $this->pushHelper;
 	}
 
 
 	/**
-	 * @throws StratosInstallException
+	 * @throws PushInstallException
 	 */
 	private function checkRegistration() {
-		if ($this->stratosService === null || $this->stratosHelper === null) {
-			throw new StratosInstallException('Stratos is not available. Please check the Stratos App is installed and enabled');
+		if ($this->pushService === null || $this->pushHelper === null) {
+			throw new PushInstallException(
+				'Nextcloud Push is not available. Please check the Nextcloud Push App is installed and enabled'
+			);
 		}
 	}
 

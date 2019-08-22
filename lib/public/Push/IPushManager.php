@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * Stratos - above your cloud
+ * Push - Nextcloud Push Service
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,33 +28,33 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Stratos;
+namespace OCP\Push;
 
 
-use OCP\Stratos\Exceptions\StratosInstallException;
-use OCP\Stratos\Helper\IStratosHelper;
-use OCP\Stratos\Service\IStratosService;
+use OCP\Push\Exceptions\PushInstallException;
+use OCP\Push\Helper\IPushHelper;
+use OCP\Push\Service\IPushService;
 
 
 /**
- * Interface IStratosManager
+ * Interface IPushManager
  *
  * @since 18.0.0
  *
- * @package OCP\Stratos
+ * @package OCP\Push
  */
-interface IStratosManager {
+interface IPushManager {
 
 
 	/**
-	 * Register a IStratosService.
+	 * Register a IPushService.
 	 *
-	 * @param IStratosService $stratosService
-	 * @param IStratosHelper $stratosHelper
+	 * @param IPushService $pushService
+	 * @param IPushHelper $pushHelper
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerStratos(IStratosService $stratosService, IStratosHelper $stratosHelper);
+	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper);
 
 
 	/**
@@ -64,17 +64,17 @@ interface IStratosManager {
 
 
 	/**
-	 * @return IStratosService
-	 * @throws StratosInstallException
+	 * @return IPushService
+	 * @throws PushInstallException
 	 */
-	public function getStratosService(): IStratosService;
+	public function getPushService(): IPushService;
 
 
 	/**
-	 * @return IStratosHelper
-	 * @throws StratosInstallException
+	 * @return IPushHelper
+	 * @throws PushInstallException
 	 */
-	public function getStratosHelper(): IStratosHelper;
+	public function getPushHelper(): IPushHelper;
 
 }
 
