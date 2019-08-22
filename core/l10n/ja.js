@@ -41,13 +41,13 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "メンテナンスモードが継続中です",
     "Updating database schema" : "データベースのスキーマを更新",
     "Updated database" : "データベース更新済み",
-    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "データベーススキーマーがアップデートできるかどうかチェックしています。(この操作の時間はデータベースの容量によります)",
+    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "データベーススキーマがアップデートできるかどうかチェックしています。(この操作の時間はデータベースの容量によります)",
     "Checked database schema update" : "指定データベースのスキーマを更新",
     "Checking updates of apps" : "アプリの更新をチェックしています。",
     "Checking for update of app \"%s\" in appstore" : "アプリストアで \"%s\" アプリのアップデートを確認しています",
     "Update app \"%s\" from appstore" : "アプリストアから \"%s\" アプリをアップデートする",
     "Checked for update of app \"%s\" in appstore" : "アプリストアで \"%s\" アプリのアップデートを確認済",
-    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "データベーススキーマー %s がアップデートできるかどうかチェックしています。(この操作の時間はデータベースの容量によります)",
+    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "データベーススキーマ %s がアップデートできるかどうかチェックしています。(この操作の時間はデータベースの容量によります)",
     "Checked database schema update for apps" : "アプリの指定データベースのスキーマを更新",
     "Updated \"%1$s\" to %2$s" : "%1$sを%2$sに更新しました",
     "Set log level to debug" : "ログをデバッグレベルに設定",
@@ -433,6 +433,6 @@ OC.L10N.register(
     "%s will be updated to version %s" : "%s は バーション %s にアップデートされます",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
     "Thank you for your patience." : "しばらくお待ちください。",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするEメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にそれを受け取れないならば、あなたのスパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合はサーバー管理者に確認して下さい。"
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするためのメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にメールを受け取れない場合は、スパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合は、サーバー管理者に確認してください。"
 },
 "nplurals=1; plural=0;");
