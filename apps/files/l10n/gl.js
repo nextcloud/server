@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Copiar",
     "Choose target folder" : "Escoller o cartafol de destino",
     "Open" : "Abrir",
+    "Delete file" : "Eliminar ficheiro",
+    "Delete folder" : "Eliminar cartafol",
     "Disconnect storage" : "Desconectar o almacenamento",
     "Unshare" : "Deixar de compartir",
     "Could not load info for file \"{file}\"" : "Non foi posíbel cargar información para o ficheiro «{file}»",
