@@ -24,7 +24,13 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
-
+/**
+ * Interface IEntityAware
+ *
+ * @package OCP\WorkflowEngine
+ *
+ * @since 18.0.0
+ */
 interface IEntityAware {
 	/**
 	 * @param object $entity
