@@ -167,6 +167,14 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while getting file info']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+		} catch (ForbiddenException $e) {
+			// with php-smbclient, this exceptions is thrown when the provided password is invalid.
+			// Possible is also ForbiddenException with a different error code, so we check it.
+			if($e->getCode() === 1) {
+				$this->logger->logException($e, ['message' => 'Error while getting file info']);
+				throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			}
+			throw $e;
 		}
 	}
 
