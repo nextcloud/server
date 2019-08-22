@@ -55,6 +55,11 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars',  'calendarid');
 		$output->info(sprintf('%d changes without a calendar have been cleaned up', $orphanItems));
 
+		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions',  'calendarid');
+		$output->info(sprintf('%d cached events without a calendar subscription have been cleaned up', $orphanItems));
+		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions',  'calendarid');
+		$output->info(sprintf('%d changes without a calendar subscription have been cleaned up', $orphanItems));
+
 		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks',  'addressbookid');
 		$output->info(sprintf('%d contacts without an addressbook have been cleaned up', $orphanItems));
 		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards',  'cardid');
