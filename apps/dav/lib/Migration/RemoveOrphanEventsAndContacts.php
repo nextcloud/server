@@ -75,6 +75,12 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 			->from($childTable, 'c')
 			->leftJoin('c', $parentTable, 'p', $qb->expr()->eq('c.' . $parentId, 'p.id'))
 			->where($qb->expr()->isNull('p.id'));
+
+		if (\in_array($parentTable, ['calendars', 'calendarsubscriptions'], true)) {
+			$calendarType = $parentTable === 'calendarsubscriptions' ? CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION : CalDavBackend::CALENDAR_TYPE_CALENDAR;
+			$qb->andWhere($qb->expr()->eq('c.calendartype', $qb->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+		}
+
 		$result = $qb->execute();
 
 		$orphanItems = array();
