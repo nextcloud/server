@@ -31,6 +31,8 @@
     "Copy" : "Copiar",
     "Choose target folder" : "Elegir carpeta de destino",
     "Open" : "Abrir",
+    "Delete file" : "Eliminar archivo",
+    "Delete folder" : "Eliminar carpeta",
     "Disconnect storage" : "Desconectar almacenamiento",
     "Unshare" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No se ha podido cargar información para el archivo \"{file}\"",

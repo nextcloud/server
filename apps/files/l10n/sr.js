@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Копирај",
     "Choose target folder" : "Одаберите одредишну фасциклу",
     "Open" : "Отвори",
+    "Delete file" : "Обриши фајл",
+    "Delete folder" : "Обриши фасциклу",
     "Disconnect storage" : "Искључи складиште",
     "Unshare" : "Укини дељење",
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла \"{file}\"",
