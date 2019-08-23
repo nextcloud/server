@@ -24,9 +24,11 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Settings;
 
+use OCP\WorkflowEngine\IManager;
+
 class Personal extends ASettings {
 
-	function isAdmin(): bool {
-		return false;
+	function getScope(): int {
+		return IManager::SCOPE_USER;
 	}
 }

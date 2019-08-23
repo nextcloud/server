@@ -22,15 +22,22 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\WorkflowEngine\Settings;
+namespace OCP\WorkflowEngine;
 
-use OCP\WorkflowEngine\IManager;
-
-class Admin extends ASettings {
-
-	function getScope(): int {
-		return IManager::SCOPE_ADMIN;
-	}
-}
-
-
+/**
+ * Interface IComplexOperator
+ *
+ * This interface represents an operator that is less generic and indicates
+ * that some of the tasks it does itself instead of relying on the engine.
+ * This includes:
+ *
+ * * registering listeners – the implementing app needs to ensure that the
+ *   business logic registers listeners to the events it listens to. For example
+ *   when direct storage access is required, adding a wrapper or listening to
+ *   a specific one is required over usual file events.
+ *
+ * @package OCP\WorkflowEngine
+ *
+ * @sincee 18.0.0
+ */
+interface IComplexOperator extends IOperator { }

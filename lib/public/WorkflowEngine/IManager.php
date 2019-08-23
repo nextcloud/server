@@ -59,4 +59,12 @@ interface IManager {
 	 * @since 18.0.0
 	 */
 	public function registerEntity(IEntity $entity): void;
+
+	/**
+	 * Listen to 'OCP/WorkflowEngine::registerOperators' at the EventDispatcher
+	 * for registering your operators
+	 *
+	 * @since 18.0.0
+	 */
+	public function registerOperator(IOperator $operator): void;
 }

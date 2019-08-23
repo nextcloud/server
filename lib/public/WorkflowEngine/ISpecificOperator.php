@@ -22,15 +22,29 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\WorkflowEngine\Settings;
+namespace OCP\WorkflowEngine;
 
-use OCP\WorkflowEngine\IManager;
+/**
+ * Interface ISpecificOperator
+ *
+ * This interface represents an operator that is designed to work with exactly
+ * one entity type.
+ *
+ * In almost all of the cases it is not necessary to have this limitation,
+ * because the action is not connected to the event. This mechanism suits
+ * special cases.
+ *
+ * @package OCP\WorkflowEngine
+ * @since 18.0.0
+ */
+interface ISpecificOperator extends IOperator {
 
-class Admin extends ASettings {
-
-	function getScope(): int {
-		return IManager::SCOPE_ADMIN;
-	}
+	/**
+	 * returns the id of the entity the operator is designed for
+	 *
+	 * Example: 'WorkflowEngine_Entity_File'
+	 *
+	 * @since 18.0.0
+	 */
+	public function getEntityId():string;
 }
-
-

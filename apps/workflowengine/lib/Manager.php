@@ -40,6 +40,7 @@ use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityAware;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
+use OCP\WorkflowEngine\IOperator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -74,6 +75,9 @@ class Manager implements IManager, IEntityAware {
 
 	/** @var IEntity[] */
 	protected $registeredEntities = [];
+
+	/** @var IOperator[] */
+	protected $registeredOperators = [];
 
 	/** @var ILogger */
 	protected $logger;
@@ -545,10 +549,19 @@ class Manager implements IManager, IEntityAware {
 	/**
 	 * @return IEntity[]
 	 */
-	public function getEntitiesList() {
+	public function getEntitiesList(): array {
 		$this->eventDispatcher->dispatch('OCP\WorkflowEngine::registerEntities', new GenericEvent($this));
 
 		return array_merge($this->getBuildInEntities(), $this->registeredEntities);
+	}
+
+	/**
+	 * @return IOperator[]
+	 */
+	public function getOperatorList(): array {
+		$this->eventDispatcher->dispatch('OCP\WorkflowEngine::registerOperators', new GenericEvent($this));
+
+		return array_merge($this->getBuildInOperators(), $this->registeredOperators);
 	}
 
 	/**
@@ -561,6 +574,10 @@ class Manager implements IManager, IEntityAware {
 		$this->registeredEntities[$entity->getId()] = $entity;
 	}
 
+	public function registerOperator(IOperator $operator): void {
+		$this->registeredOperators[$operator->getId()] = $operator;
+	}
+
 	/**
 	 * @return IEntity[]
 	 */
@@ -568,6 +585,20 @@ class Manager implements IManager, IEntityAware {
 		try {
 			return [
 				$this->container->query(File::class),
+			];
+		} catch (QueryException $e) {
+			$this->logger->logException($e);
+			return [];
+		}
+	}
+
+	/**
+	 * @return IOperator[]
+	 */
+	protected function getBuildInOperators(): array {
+		try {
+			return [
+				// None yet
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);
