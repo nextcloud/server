@@ -315,6 +315,14 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
+	 * Is the share expired ?
+	 *
+	 * @return boolean
+	 * @since 18.0.0
+	 */
+	public function isExpired();
+
+	/**
 	 * set a label for a share, some shares, e.g. public links can have a label
 	 *
 	 * @param string $label
