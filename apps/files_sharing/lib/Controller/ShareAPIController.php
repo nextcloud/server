@@ -823,7 +823,7 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
-		if ($share->getShareOwner() !== $this->currentUser && $share->getSharedBy() !== $this->currentUser) {
+		if (!$this->canEditShare($share)) {
 			throw new OCSForbiddenException('You are not allowed to edit incoming shares');
 		}
 
@@ -1021,6 +1021,33 @@ class ShareAPIController extends OCSController {
 				return false;
 			}
 		}
+
+		return false;
+	}
+
+	/**
+	 * Does the user have edit permission on the share
+	 *
+	 * @param \OCP\Share\IShare $share the share to check
+	 * @return boolean
+	 */
+	protected function canEditShare(\OCP\Share\IShare $share): bool {
+		// A file with permissions 0 can't be accessed by us. So Don't show it
+		if ($share->getPermissions() === 0) {
+			return false;
+		}
+
+		// The owner of the file and the creator of the share
+		// can always edit the share
+		if ($share->getShareOwner() === $this->currentUser ||
+			$share->getSharedBy() === $this->currentUser
+		) {
+			return true;
+		}
+
+		//! we do NOT support some kind of `admin` in groups.
+		//! You cannot edit shares shared to a group you're
+		//! a member of if you're not the share owner or the file owner!
 
 		return false;
 	}
