@@ -26,48 +26,19 @@
 
 namespace OC\Settings\Admin;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
-use OC\Lock\DBLockingProvider;
-use OC\Lock\NoopLockingProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IL10N;
-use OCP\IRequest;
-use OCP\Lock\ILockingProvider;
 use OCP\Settings\ISettings;
 
 class Server implements ISettings {
-	/** @var IDBConnection|Connection */
-	private $db;
-	/** @var IRequest */
-	private $request;
 	/** @var IConfig */
 	private $config;
-	/** @var ILockingProvider */
-	private $lockingProvider;
-	/** @var IL10N */
-	private $l;
 
 	/**
-	 * @param IDBConnection $db
-	 * @param IRequest $request
 	 * @param IConfig $config
-	 * @param ILockingProvider $lockingProvider
-	 * @param IL10N $l
 	 */
-	public function __construct(IDBConnection $db,
-								IRequest $request,
-								IConfig $config,
-								ILockingProvider $lockingProvider,
-								IL10N $l) {
-		$this->db = $db;
-		$this->request = $request;
+	public function __construct(IConfig $config) {
 		$this->config = $config;
-		$this->lockingProvider = $lockingProvider;
-		$this->l = $l;
 	}
 
 	/**
@@ -89,7 +60,7 @@ class Server implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'server';
 	}
 
@@ -100,7 +71,7 @@ class Server implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 }
