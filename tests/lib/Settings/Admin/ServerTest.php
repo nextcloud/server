@@ -23,44 +23,23 @@
 
 namespace Test\Settings\Admin;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\Settings\Admin\Server;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IL10N;
-use OCP\IRequest;
-use OCP\Lock\ILockingProvider;
 use Test\TestCase;
 
 class ServerTest extends TestCase {
 	/** @var Server */
 	private $admin;
-	/** @var IDBConnection */
-	private $dbConnection;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
-	private $request;
 	/** @var IConfig */
 	private $config;
-	/** @var ILockingProvider */
-	private $lockingProvider;
-	/** @var IL10N */
-	private $l10n;
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->request = $this->createMock(IRequest::class);
-		$this->dbConnection = $this->getMockBuilder('\OCP\IDBConnection')->getMock();
-		$this->lockingProvider = $this->getMockBuilder('\OCP\Lock\ILockingProvider')->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->admin = new Server(
-			$this->dbConnection,
-			$this->request,
-			$this->config,
-			$this->lockingProvider,
-			$this->l10n
+			$this->config
 		);
 	}
 

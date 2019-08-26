@@ -34,7 +34,7 @@
 
 			$formatter = \OC::$server->getDateTimeFormatter();
 			$absolute_time = $formatter->formatDateTime($_['lastcron'], 'long', 'long');
-			if (time() - $_['lastcron'] <= 3600): ?>
+			if (time() - $_['lastcron'] <= 600): ?>
 				<span class="status success"></span>
 				<span class="crondate" title="<?php p($absolute_time);?>">
 				<?php p($l->t("Last job ran %s.", [$relative_time]));?>
@@ -72,7 +72,7 @@
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP.")); ?></em>
 			</p>
 			<p>
 				<input type="radio" name="mode" value="cron" class="radio"
@@ -83,7 +83,7 @@
 					print_unescaped('disabled');
 				}?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use system cron service to call the cron.php file every 15 minutes.")); ?>
+				<em><?php p($l->t("Use system cron service to call the cron.php file every 5 minutes.")); ?>
 					<?php if($_['cli_based_cron_possible']) {
 						p($l->t('The cron.php needs to be executed by the system user "%s".', [$_['cli_based_cron_user']]));
 					} else {
