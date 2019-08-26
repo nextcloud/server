@@ -336,21 +336,24 @@ class ShareAPIController extends OCSController {
 		try {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
-			throw new OCSNotFoundException($this->l->t('could not delete share'));
-		}
-
-		if (!$this->canAccessShare($share)) {
 			throw new OCSNotFoundException($this->l->t('Could not delete share'));
 		}
 
-		if ((
-				$share->getShareType() === Share::SHARE_TYPE_GROUP
-				|| $share->getShareType() === Share::SHARE_TYPE_ROOM
-			)
-			&& $share->getShareOwner() !== $this->currentUser
-			&& $share->getSharedBy() !== $this->currentUser) {
+		if (!$this->canAccessShare($share)) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		// if it's a group share or a room share
+		// we don't delete the share, but only the
+		// mount point. Allowing it to be restored
+		// from the deleted shares
+		if ($this->canDeleteShareFromSelf($share)) {
 			$this->shareManager->deleteFromSelf($share, $this->currentUser);
 		} else {
+			if (!$this->canDeleteShare($share)) {
+				throw new OCSForbiddenException($this->l->t('Could not delete share'));
+			}
+
 			$this->shareManager->deleteShare($share);
 		}
 
@@ -499,7 +502,6 @@ class ShareAPIController extends OCSController {
 					$share->setLabel($label);
 				}
 			}
-
 
 			if ($sendPasswordByTalk === 'true') {
 				if (!$this->appManager->isEnabledForUser('spreed')) {
@@ -1053,6 +1055,83 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Does the user have delete permission on the share
+	 *
+	 * @param \OCP\Share\IShare $share the share to check
+	 * @return boolean
+	 */
+	protected function canDeleteShare(\OCP\Share\IShare $share): bool {
+		// A file with permissions 0 can't be accessed by us. So Don't show it
+		if ($share->getPermissions() === 0) {
+			return false;
+		}
+
+		// if the user is the recipient, i can unshare
+		// the share with self
+		if ($share->getShareType() === Share::SHARE_TYPE_USER &&
+			$share->getSharedWith() === $this->currentUser
+		) {
+			return true;
+		}
+
+		// The owner of the file and the creator of the share
+		// can always delete the share
+		if ($share->getShareOwner() === $this->currentUser ||
+			$share->getSharedBy() === $this->currentUser
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Does the user have delete permission on the share
+	 * This differs from the canDeleteShare function as it only
+	 * remove the share for the current user. It does NOT
+	 * completely delete the share but only the mount point.
+	 * It can then be restored from the deleted shares section.
+	 *
+	 * @param \OCP\Share\IShare $share the share to check
+	 * @return boolean
+	 *
+	 * @suppress PhanUndeclaredClassMethod
+	 */
+	protected function canDeleteShareFromSelf(\OCP\Share\IShare $share): bool {
+		if ($share->getShareType() !== Share::SHARE_TYPE_GROUP &&
+			$share->getShareType() !== Share::SHARE_TYPE_ROOM
+		) {
+			return false;
+		}
+
+		if ($share->getShareOwner() === $this->currentUser ||
+			$share->getSharedBy() === $this->currentUser
+		) {
+			// Delete the whole share, not just for self
+			return false;
+		}
+
+		// If in the recipient group, you can delete the share from self
+		if ($share->getShareType() === Share::SHARE_TYPE_GROUP) {
+			$sharedWith = $this->groupManager->get($share->getSharedWith());
+			$user = $this->userManager->get($this->currentUser);
+			if ($user !== null && $sharedWith !== null && $sharedWith->inGroup($user)) {
+				return true;
+			}
+		}
+
+		if ($share->getShareType() === Share::SHARE_TYPE_ROOM) {
+			try {
+				return $this->getRoomShareHelper()->canAccessShare($share, $this->currentUser);
+			} catch (QueryException $e) {
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Make sure that the passed date is valid ISO 8601
 	 * So YYYY-MM-DD
 	 * If not throw an exception
@@ -1228,4 +1307,5 @@ class ShareAPIController extends OCSController {
 
 		return false;
 	}
+
 }
