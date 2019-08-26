@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Copia",
     "Choose target folder" : "Tria la carpeta de destinació",
     "Open" : "Obre",
+    "Delete file" : "Suprimeix el fitxer",
+    "Delete folder" : "Suprimeix la carpeta",
     "Disconnect storage" : "Desonnecta l'emmagatzematge",
     "Unshare" : "Deixa de compartir",
     "Could not load info for file \"{file}\"" : "No s'ha pogut carregar la informació del fitxer \"{file}\"",
