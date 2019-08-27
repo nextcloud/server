@@ -29,6 +29,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IManager;
@@ -55,6 +56,8 @@ class ManagerTest extends TestCase {
 	protected $eventDispatcher;
 	/** @var MockObject|IServerContainer */
 	protected $container;
+	/** @var MockObject|IUserSession */
+	protected $session;
 
 	protected function setUp() {
 		parent::setUp();
@@ -70,13 +73,15 @@ class ManagerTest extends TestCase {
 
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->session = $this->createMock(IUserSession::class);
 
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->container,
 			$l,
 			$this->eventDispatcher,
-			$this->logger
+			$this->logger,
+			$this->session
 		);
 		$this->clearTables();
 	}
