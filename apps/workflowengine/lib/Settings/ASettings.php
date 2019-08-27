@@ -30,11 +30,11 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
-use OCP\WorkflowEngine\IComplexOperator;
+use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityEvent;
-use OCP\WorkflowEngine\IOperator;
-use OCP\WorkflowEngine\ISpecificOperator;
+use OCP\WorkflowEngine\IOperation;
+use OCP\WorkflowEngine\ISpecificOperation;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class ASettings implements ISettings {
@@ -140,18 +140,18 @@ abstract class ASettings implements ISettings {
 	}
 
 	private function operatorsToArray(array $operators) {
-		$operators = array_filter($operators, function(IOperator $operator) {
+		$operators = array_filter($operators, function(IOperation $operator) {
 			return $operator->isAvailableForScope($this->getScope());
 		});
 
-		return array_map(function (IOperator $operator) {
+		return array_map(function (IOperation $operator) {
 			return [
-				'id' => $operator->getId(),
+				'id' => get_class($operator),
 				'icon' => $operator->getIcon(),
 				'name' => $operator->getDisplayName(),
 				'description' => $operator->getDescription(),
-				'fixedEntity' => $operator instanceof ISpecificOperator ? $operator->getEntityId() : '',
-				'isComplex' => $operator instanceof IComplexOperator,
+				'fixedEntity' => $operator instanceof ISpecificOperation ? $operator->getEntityId() : '',
+				'isComplex' => $operator instanceof IComplexOperation,
 			];
 		}, $operators);
 	}

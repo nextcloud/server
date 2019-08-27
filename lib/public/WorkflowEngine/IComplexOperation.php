@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OCP\WorkflowEngine;
 
 /**
- * Interface IComplexOperator
+ * Interface IComplexOperation
  *
  * This interface represents an operator that is less generic and indicates
  * that some of the tasks it does itself instead of relying on the engine.
@@ -40,4 +40,4 @@ namespace OCP\WorkflowEngine;
  *
  * @sincee 18.0.0
  */
-interface IComplexOperator extends IOperator { }
+interface IComplexOperation extends IOperation { }

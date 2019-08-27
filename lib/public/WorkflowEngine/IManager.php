@@ -37,6 +37,9 @@ interface IManager {
 	const SCOPE_ADMIN = 0;
 	const SCOPE_USER = 1;
 
+	const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
+	const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
+
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
@@ -66,5 +69,5 @@ interface IManager {
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerOperator(IOperator $operator): void;
+	public function registerOperation(IOperation $operator): void;
 }

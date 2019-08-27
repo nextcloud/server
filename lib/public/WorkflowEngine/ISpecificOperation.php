@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OCP\WorkflowEngine;
 
 /**
- * Interface ISpecificOperator
+ * Interface ISpecificOperation
  *
  * This interface represents an operator that is designed to work with exactly
  * one entity type.
@@ -37,7 +37,7 @@ namespace OCP\WorkflowEngine;
  * @package OCP\WorkflowEngine
  * @since 18.0.0
  */
-interface ISpecificOperator extends IOperator {
+interface ISpecificOperation extends IOperation {
 
 	/**
 	 * returns the id of the entity the operator is designed for
