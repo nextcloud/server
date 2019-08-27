@@ -94,10 +94,16 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
-	public function create(string $class, string $name, array $checks, string $operation): DataResponse {
+	public function create(
+		string $class,
+		string $name,
+		array $checks,
+		string $operation,
+		array $events
+	): DataResponse {
 		$context = $this->getScopeContext();
 		try {
-			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context);
+			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context, $events);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {
@@ -114,9 +120,15 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
-	public function update(int $id, string $name, array $checks, string $operation): DataResponse {
+	public function update(
+		int $id,
+		string $name,
+		array $checks,
+		string $operation,
+		array $events
+	): DataResponse {
 		try {
-			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $this->getScopeContext());
+			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $this->getScopeContext(), $events);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {

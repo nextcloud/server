@@ -290,19 +290,19 @@ class ManagerTest extends TestCase {
 		$check2 = ['class' => 'OCA\WFE\C33', 'operator' => 'eq', 'value' => 23456];
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope);
+		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, []);
 		$this->assertSame('Test01a', $op['name']);
 		$this->assertSame('foohur', $op['operation']);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope);
+		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, []);
 		$this->assertSame('Test02a', $op['name']);
 		$this->assertSame('barfoo', $op['operation']);
 
 		foreach([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
 			try {
 				/** @noinspection PhpUnhandledExceptionInspection */
-				$this->manager->updateOperation($run[1], 'Evil', [$check2], 'hackx0r', $run[0]);
+				$this->manager->updateOperation($run[1], 'Evil', [$check2], 'hackx0r', $run[0], []);
 				$this->assertTrue(false, 'DomainException not thrown');
 			} catch (\DomainException $e) {
 				$this->assertTrue(true);
@@ -398,4 +398,5 @@ class ManagerTest extends TestCase {
 		$this->assertSame(1, $entityTypeCounts[0]);
 		$this->assertSame(1, $entityTypeCounts[1]);
 	}
+
 }

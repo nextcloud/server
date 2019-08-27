@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\WorkflowEngine\Migration;
 
 use Closure;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
@@ -69,7 +70,13 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('operation', Type::TEXT, [
 				'notnull' => false,
 			]);
+			$this->addEventsColumn($table);
 			$table->setPrimaryKey(['id']);
+		} else {
+			$table = $schema->getTable('flow_operations');
+			if(!$table->hasColumn('events')) {
+				$this->addEventsColumn($table);
+			}
 		}
 
 		if (!$schema->hasTable('flow_operations_scope')) {
@@ -96,5 +103,12 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 		}
 
 		return $schema;
+	}
+
+	protected function addEventsColumn(Table $table) {
+		$table->addColumn('events', Type::TEXT, [
+			'notnull' => true,
+			'default' => '[]',
+		]);
 	}
 }
