@@ -194,8 +194,6 @@ OC.L10N.register(
     "Select default encryption module:" : "Määra vaikimisi krüpteerimise moodul:",
     "Start migration" : "Alusta kolimist",
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php tuleb käivitada süsteemikasutaja \"%s\" poolt.",
     "Sharing" : "Jagamine",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Administraatorina saate jagamise valikuid täpselt seadistada. Lisateavet leiad dokumentatsioonist.",
@@ -241,6 +239,8 @@ OC.L10N.register(
     "Help translate" : "Aita tõlkida",
     "Locale" : "Kasutuskoht",
     "Current password" : "Praegune parool",
-    "Change password" : "Muuda parooli"
+    "Change password" : "Muuda parooli",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel."
 },
 "nplurals=2; plural=(n != 1);");

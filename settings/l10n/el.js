@@ -232,8 +232,6 @@ OC.L10N.register(
     "Background jobs" : "Εργασίες παρασκηνίου",
     "Pick background job setting" : "Επιλέξτε τη ρύθμιση εργασίας φόντου",
     "Execute one task with each page loaded" : "Εκτελεί μια διεργασία κάθε φορά που φορτώνεται μια σελίδα",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Το cron.php πρέπει να εκτελεστεί από τον χρήστη του συστήματος \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Για να τρέξετε αυτό χρειάζεστε την επέκταση PHP POSIX. Δείτε {linkstart} PHP τεκμηρίωση {linked} για περισσότερες λεπτομέρειες.",
     "Sharing" : "Διαμοιρασμός",
@@ -284,6 +282,8 @@ OC.L10N.register(
     "Help translate" : "Βοηθήστε στη μετάφραση",
     "Current password" : "Τρέχων συνθηματικό",
     "Change password" : "Αλλαγή συνθηματικού",
-    "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας."
+    "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά."
 },
 "nplurals=2; plural=(n != 1);");

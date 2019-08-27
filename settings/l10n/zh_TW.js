@@ -198,8 +198,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "背景工作從未執行！",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "為了獲得最佳的效能，設定背景工作非常重要，對於比較大的服務來說，建議使用 Cron 設定，請查閱說明文件以獲得更多資訊。",
     "Execute one task with each page loaded" : "每個頁面載入時執行",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 已經在一個 webcron 服務中註冊，每 15 分鐘將會透過 HTTP 呼叫 cron.php",
-    "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php 必須由系統使用者 \"%s\" 來執行",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "要執行這個，您需要 PHP POSIX 擴充元件，請查閱 {linkstart}PHP 說明文件{linkend} 以獲得更多細節。",
     "Sharing" : "分享",
@@ -252,6 +250,8 @@ OC.L10N.register(
     "Help translate" : "幫助翻譯",
     "Locale" : "所在地",
     "Current password" : "目前密碼",
-    "Change password" : "變更密碼"
+    "Change password" : "變更密碼",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 已經在一個 webcron 服務中註冊，每 15 分鐘將會透過 HTTP 呼叫 cron.php",
+    "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php"
 },
 "nplurals=1; plural=0;");
