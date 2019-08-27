@@ -41,10 +41,6 @@ class File implements IEntity {
 		$this->urlGenerator = $urlGenerator;
 	}
 
-	public function getId(): string {
-		return 'WorkflowEngine_Entity_File';
-	}
-
 	public function getName(): string {
 		return $this->l10n->t('File');
 	}

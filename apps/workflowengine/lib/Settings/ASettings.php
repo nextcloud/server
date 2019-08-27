@@ -131,7 +131,7 @@ abstract class ASettings implements ISettings {
 			}, $entity->getEvents());
 
 			return [
-				'id' => $entity->getId(),
+				'id' => get_class($entity),
 				'icon' => $entity->getIcon(),
 				'name' => $entity->getName(),
 				'events' => $events,

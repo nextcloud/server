@@ -39,20 +39,6 @@ namespace OCP\WorkflowEngine;
 interface IEntity {
 
 	/**
-	 * returns a unique ID of the entity. 
-	 * 
-	 * It can be, but does not need to be the class name of the entitiy. Beware
-	 * that it will be referenced in the database when rules are established,
-	 * so it should not change over the course of the app life.
-	 *
-	 * Example 1: "OCA/MyApp/Entity/Cat"
-	 * Example 2: "myapp_Cats"
-	 * 
-	 * @since 18.0.0
-	 */
-	public function getId(): string;
-	
-	/**
 	 * returns a translated name to be presented in the web interface.
 	 *
 	 * Example: "File" (en), "Dosiero" (eo)

@@ -570,7 +570,7 @@ class Manager implements IManager, IEntityAware {
 	 * @since 18.0.0
 	 */
 	public function registerEntity(IEntity $entity): void {
-		$this->registeredEntities[$entity->getId()] = $entity;
+		$this->registeredEntities[get_class($entity)] = $entity;
 	}
 
 	public function registerOperation(IOperation $operator): void {
