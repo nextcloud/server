@@ -1001,6 +1001,7 @@ steps:
 - name: integration-capabilities_features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh capabilities_features/capabilities.feature
@@ -1025,6 +1026,7 @@ steps:
 - name: integration-federation_features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
     - cd build/integration
     - ./run.sh federation_features/federated.feature
@@ -1049,6 +1051,7 @@ steps:
 - name: integration-auth
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/auth.feature
@@ -1073,6 +1076,7 @@ steps:
 - name: integration-maintenance-mode
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/maintenance-mode.feature
@@ -1097,6 +1101,7 @@ steps:
 - name: integration-ratelimiting
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
     - ./occ config:system:set redis port --value=6379 --type=integer
@@ -1131,6 +1136,7 @@ steps:
 - name: integration-carddav
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/carddav.feature
@@ -1155,6 +1161,7 @@ steps:
 - name: integration-dav-v2
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/dav-v2.feature
@@ -1179,6 +1186,7 @@ steps:
 - name: integration-ocs-v1
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/ocs-v1.feature
@@ -1203,6 +1211,7 @@ steps:
 - name: integration-sharing-v1
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/sharing-v1.feature
@@ -1227,6 +1236,7 @@ steps:
 - name: integration-sharing-v1-part2
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/sharing-v1-part2.feature
@@ -1251,6 +1261,7 @@ steps:
 - name: integration-sharing-v1-part3
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/sharing-v1-part3.feature
@@ -1275,6 +1286,7 @@ steps:
 - name: integration-checksums-v1
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/checksums.feature
@@ -1299,6 +1311,7 @@ steps:
 - name: integration-external-storage
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/external-storage.feature
@@ -1323,6 +1336,7 @@ steps:
 - name: integration-provisioning-v1
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/provisioning-v1.feature
@@ -1347,6 +1361,7 @@ steps:
 - name: integration-tags
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/tags.feature
@@ -1371,6 +1386,7 @@ steps:
 - name: integration-caldav
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/caldav.feature
@@ -1395,6 +1411,7 @@ steps:
 - name: integration-comments
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/comments.feature
@@ -1419,6 +1436,7 @@ steps:
 - name: integration-comments-search
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/comments-search.feature
@@ -1443,6 +1461,7 @@ steps:
 - name: integration-favorites
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/favorites.feature
@@ -1467,6 +1486,7 @@ steps:
 - name: integration-provisioning-v2
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/provisioning-v2.feature
@@ -1491,6 +1511,7 @@ steps:
 - name: integration-webdav-related
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/webdav-related.feature
@@ -1515,6 +1536,7 @@ steps:
 - name: integration-sharees-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh sharees_features/sharees.feature
@@ -1539,6 +1561,7 @@ steps:
 - name: integration-sharees-v2-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh sharees_features/sharees_provisioningapiv2.feature
@@ -1563,6 +1586,7 @@ steps:
 - name: integration-setup-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - cd build/integration
     - ./run.sh setup_features/setup.feature
 
@@ -1586,6 +1610,7 @@ steps:
 - name: integration-filesdrop-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh filesdrop_features/filesdrop.feature
@@ -1610,6 +1635,7 @@ steps:
 - name: integration-transfer-ownership-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/transfer-ownership.feature
@@ -1634,6 +1660,7 @@ steps:
 - name: integration-ldap-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh ldap_features/ldap-ocs.feature
@@ -1658,6 +1685,7 @@ steps:
 - name: integration-ldap-openldap-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
     - ./occ config:system:set redis port --value=6379 --type=integer
@@ -1698,6 +1726,7 @@ steps:
 - name: integration-ldap-openldap-uid-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
     - ./occ config:system:set redis port --value=6379 --type=integer
@@ -1738,6 +1767,7 @@ steps:
 - name: integration-ldap-openldap-numerical-id-features
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
     - ./occ config:system:set redis port --value=6379 --type=integer
@@ -1778,6 +1808,7 @@ steps:
 - name: integration-trashbin
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh features/trashbin.feature
@@ -1802,6 +1833,7 @@ steps:
 - name: integration-remote-api
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh remoteapi_features/remote.feature
@@ -1826,6 +1858,7 @@ steps:
 - name: integration-download
   image: nextcloudci/integration-php7.1:1
   commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
     - ./run.sh --tags ~@large features/download.feature
