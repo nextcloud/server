@@ -303,8 +303,6 @@ OC.L10N.register(
     "Last job execution ran %s. Something seems wrong." : "Azken lanaren exekuzioak %s itzuli zuen. Zerbait gaizki joan da ",
     "Background job didn’t run yet!" : "Atzeko planoko lana ez da martxan jarri oraindik!",
     "Execute one task with each page loaded" : "Exekutatu zeregin bat orri karga bakoitzean",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Sistemako \"%s\" erabiltzaileak, cron.php exekutatu behar du.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Hau exekutatzeko PHP POSIX luzapena behar duzu. {linkstart}PHP dokumentazioa{linkend} ikusi informazio gehiagorako",
     "Sharing" : "Partekatzea",
@@ -361,6 +359,8 @@ OC.L10N.register(
     "iOS Client" : "iOS Bezeroa",
     "Android Client" : "Android Bezeroa",
     "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
-    "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko."
+    "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko."
 },
 "nplurals=2; plural=(n != 1);");

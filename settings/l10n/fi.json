@@ -281,7 +281,6 @@
     "Background job didn’t run yet!" : "Taustatyötä ei suoritettu vielä!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Optimaalisen suorituskyvyn vuoksi on tärkeää määrittää taustatyöt oikein. Suuria asennuksia varten 'Cron' on suositeltava asetus. Lisätietoja on saatavilla dokumentaatiossa.",
     "Execute one task with each page loaded" : "Suorita yksi tehtävä jokaista ladattua sivua kohden",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Tiedosto cron.php tulee suorittaa järjestelmän käyttäjänä \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Tämän suorittamiseksi tarvitset PHP:n POSIX-laajennuksen. Lue {linkstart}PHP:n dokumentaatio{linkend} saadaksesi lisätietoja.",
     "Sharing" : "Jakaminen",
@@ -351,6 +350,7 @@
     "Not supported!" : "Ei tuettu!",
     "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
     "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
-    "Default quota :" : "Oletuskiintiö:"
+    "Default quota :" : "Oletuskiintiö:",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

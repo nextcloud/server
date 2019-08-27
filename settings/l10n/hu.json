@@ -292,8 +292,6 @@
     "Background job didn’t run yet!" : "Háttérfeladat még nem futott le!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Az optimális teljesítményhez fontos, hogy a háttérfeladatok megfelelően legyenek beállítva. Nagyobb telepítésekhez a 'Cron' javasolt. Kérlek nézd meg a dokumentációt a részletekért.",
     "Execute one task with each page loaded" : "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt letöltenek",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "a cron.php a webcron szolgáltatásban van regisztrálva 15 percenkénti meghívásra HTTP-n keresztül.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "A rendszer cron szolgáltatásának használata a cron.php meghívására 15 percenként.",
     "The cron.php needs to be executed by the system user \"%s\"." : "A cron.php-t ennek a rendszer felhasználónak kell végrehajtania: \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Ennek futtatásához PHP POSIX kiterjesztés szükséges. Nézd meg a {linkstart}PHP dokumentációt{linkend} a részletekért.",
     "Sharing" : "Megosztás",
@@ -363,6 +361,8 @@
     "Press Ctrl-C to copy." : "A másoláshoz nyomj Ctrl-C-t.",
     "Error while loading browser sessions and device tokens" : "Hiba a böngésző munkamenet és az eszköz tokenek betöltése közben.",
     "Default quota :" : "Alapértelmezett kvóta :",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "a cron.php a webcron szolgáltatásban van regisztrálva 15 percenkénti meghívásra HTTP-n keresztül.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "A rendszer cron szolgáltatásának használata a cron.php meghívására 15 percenként.",
     "Follow us on Google+" : "Kövess Google+ -on",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Jelenleg használt: <strong>%s</strong>, ebből: <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
