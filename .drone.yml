@@ -1,1010 +1,1019 @@
-kind: pipeline
-name: jsunit
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: jsunit
-  image: nextcloudci/jsunit:jsunit-5
-  commands:
-    - ./autotest-js.sh
-    - curl -o codecov.sh https://codecov.io/bash
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: webpack-build
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: webpack-build
-  image: nextcloudci/node:node-4
-  commands:
-    - npm ci
-    - npm run build
-    - git status
-    - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: checkers
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: checkers
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - ./autotest-checkers.sh
-  secrets: [ github_token ]
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: handlebars
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: handlebars
-  image: node
-  commands:
-    - npm install handlebars -g
-    - ./build/compile-handlebars-templates.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: syntax-and-phan
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: syntax-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
-- name: syntax-php7.2
-  image: nextcloudci/php7.2:php7.2-12
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
-- name: syntax-php7.3
-  image: nextcloudci/php7.3:php7.3-1
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
-- name: phan
-  image: nextcloudci/php7.2:php7.2-12
-  commands:
-    - composer install
-    - composer require --dev "phan/phan:0.11.1"
-    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
-    - php ./build/.phan/plugin-checker.php
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: litmus
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: litmus-v1
-  image: nextcloudci/litmus-php7.1:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/litmus-v1/script.sh
-- name: litmus-v2
-  image: nextcloudci/litmus-php7.2:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/litmus-v2/script.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: caldavtester-new-endpoint
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: caldavtester-new-endpoint
-  image: nextcloudci/litmus-php7.1:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/caldav/install.sh
-    - bash apps/dav/tests/travis/caldav/script-new-endpoint.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: caldavtester-old-endpoint
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: caldavtester-old-endpoint
-  image: nextcloudci/litmus-php7.1:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/caldav/install.sh
-    - bash apps/dav/tests/travis/caldav/script-old-endpoint.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: carddavtester-new-endpoint
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: carddavtester-new-endpoint
-  image: nextcloudci/litmus-php7.1:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/carddav/install.sh
-    - bash apps/dav/tests/travis/carddav/script-new-endpoint.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: carddavtester-old-endpoint
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: carddavtester-old-endpoint
-  image: nextcloudci/litmus-php7.1:1
-  commands:
-    - bash tests/travis/install.sh sqlite
-    - bash apps/dav/tests/travis/carddav/install.sh
-    - bash apps/dav/tests/travis/carddav/script-old-endpoint.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: samba
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: sqlite-php7.0-samba-native
-  image: nextcloudci/samba-native-php7.1:1
-  commands:
-    - smbd -D -FS &
-    - ./autotest-external.sh sqlite smb-linux
-    - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-- name: sqlite-php7.0-samba-non-native
-  image: nextcloudci/samba-non-native-php7.1:1
-  commands:
-    - smbd -D -FS &
-    - ./autotest-external.sh sqlite smb-linux
-    - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: sqlite-php7.1-webdav-apache
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: sqlite-php7.0-webdav-apache
-  image: nextcloudci/webdav-apache-php7.1:1
-  commands:
-    - apache2
-    - ./autotest-external.sh sqlite webdav-apachedrone
-    - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
-
-services:
-- name: cache
-  image: redis
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: nodb
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: nodb-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-- name: nodb-php7.2
-  image: nextcloudci/php7.2:php7.2-11
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-- name: nodb-php7.3
-  image: nextcloudci/php7.3:php7.3-1
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-
-services:
-- name: cache
-  image: redis
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: sqlite
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: sqlite-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-- name: sqlite-php7.2
-  image: nextcloudci/php7.2:php7.2-12
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-- name: sqlite-php7.3
-  image: nextcloudci/php7.3:php7.3-1
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-
-services:
-- name: cache
-  image: redis
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mariadb10.0-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mariadb10.0-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
-
-services:
-- name: cache
-  image: redis
-- name: mariadb
-  image: mariadb:10.0
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mariadb10.1-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mariadb10.1-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
-
-services:
-- name: cache
-  image: redis
-- name: mariadb
-  image: mariadb:10.1
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mariadb10.2-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mariadb10.2-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
-
-services:
-- name: cache
-  image: redis
-- name: mariadb
-  image: mariadb:10.2
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mariadb10.3-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mariadb10.3-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
-
-services:
-- name: cache
-  image: redis
-- name: mariadb
-  image: mariadb:10.3
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mariadb10.4-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mariadb10.4-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
-
-services:
-- name: cache
-  image: redis
-- name: mariadb
-  image: mariadb:10.4
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql8.0-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: cache
-  image: redis
-- name: mysql
-  image: mysql:8.0
-  command: [ "--default-authentication-plugin=mysql_native_password" ]
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql5.7-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: cache
-  image: redis
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql5.7-php7.2
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql-php7.2
-  image: nextcloudci/php7.2:php7.2-12
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql5.7-php7.3
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql-php7.3
-  image: nextcloudci/php7.3:php7.3-1
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: mysql
-  image: mysql:5.7
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql5.6-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql5.6-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: cache
-  image: redis
-- name: mysql
-  image: mysql:5.6
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysql5.5-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysql5.5-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
-
-services:
-- name: cache
-  image: redis
-- name: mysql
-  image: mysql:5.5
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: postgres9-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: postgres-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - sleep 10 # gives the database enough time to initialize
-    - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-
-services:
-- name: cache
-  image: redis
-- name: postgres-9
-  image: postgres:9
-  environment:
-    POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
-    POSTGRES_PASSWORD: owncloud
-  tmpfs:
-    - /var/lib/postgresql/data
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: postgres10-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: postgres-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - sleep 10 # gives the database enough time to initialize
-    - POSTGRES=10 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-
-services:
-- name: cache
-  image: redis
-- name: postgres-10
-  image: postgres:10
-  environment:
-    POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
-    POSTGRES_PASSWORD: owncloud
-  tmpfs:
-    - /var/lib/postgresql/data
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: postgres11-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: postgres-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - sleep 10 # gives the database enough time to initialize
-    - POSTGRES=11 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
-
-services:
-- name: cache
-  image: redis
-- name: postgres-11
-  image: postgres:11
-  environment:
-    POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
-    POSTGRES_PASSWORD: owncloud
-  tmpfs:
-    - /var/lib/postgresql/data
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysqlmb4-php7.1
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysqlmb4-php7.1
-  image: nextcloudci/php7.1:php7.1-16
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-
-services:
-- name: cache
-  image: redis
-- name: mysqlmb4
-  image: mysql:5.7.22
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysqlmb4-php7.2
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysqlmb4-php7.2
-  image: nextcloudci/php7.2:php7.2-12
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-
-services:
-- name: cache
-  image: redis
-- name: mysqlmb4
-  image: mysql:5.7.22
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: mysqlmb4-php7.3
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: mysqlmb4-php7.3
-  image: nextcloudci/php7.3:php7.3-1
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
-
-services:
-- name: cache
-  image: redis
-- name: mysqlmb4
-  image: mysql:5.7.22
-  environment:
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: oc_autotest
-    MYSQL_PASSWORD: owncloud
-    MYSQL_DATABASE: oc_autotest
-  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
-  tmpfs:
-    - /var/lib/mysql
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
+#kind: pipeline
+#name: jsunit
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: jsunit
+#  image: nextcloudci/jsunit:jsunit-5
+#  commands:
+#    - ./autotest-js.sh
+#    - curl -o codecov.sh https://codecov.io/bash
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: webpack-build
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: webpack-build
+#  image: nextcloudci/node:node-4
+#  commands:
+#    - npm ci
+#    - npm run build
+#    - git status
+#    - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: checkers
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: checkers
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - ./autotest-checkers.sh
+#  secrets: [ github_token ]
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: handlebars
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: handlebars
+#  image: node
+#  commands:
+#    - npm install handlebars -g
+#    - ./build/compile-handlebars-templates.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: syntax-and-phan
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: syntax-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - composer install
+#    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .
+#- name: syntax-php7.2
+#  image: nextcloudci/php7.2:php7.2-12
+#  commands:
+#    - composer install
+#    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+#- name: syntax-php7.3
+#  image: nextcloudci/php7.3:php7.3-1
+#  commands:
+#    - composer install
+#    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+#- name: phan
+#  image: nextcloudci/php7.2:php7.2-12
+#  commands:
+#    - composer install
+#    - composer require --dev "phan/phan:0.11.1"
+#    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
+#    - php ./build/.phan/plugin-checker.php
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: litmus
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: litmus-v1
+#  image: nextcloudci/litmus-php7.1:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/litmus-v1/script.sh
+#- name: litmus-v2
+#  image: nextcloudci/litmus-php7.2:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/litmus-v2/script.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: caldavtester-new-endpoint
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: caldavtester-new-endpoint
+#  image: nextcloudci/litmus-php7.1:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/caldav/install.sh
+#    - bash apps/dav/tests/travis/caldav/script-new-endpoint.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: caldavtester-old-endpoint
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: caldavtester-old-endpoint
+#  image: nextcloudci/litmus-php7.1:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/caldav/install.sh
+#    - bash apps/dav/tests/travis/caldav/script-old-endpoint.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: carddavtester-new-endpoint
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: carddavtester-new-endpoint
+#  image: nextcloudci/litmus-php7.1:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/carddav/install.sh
+#    - bash apps/dav/tests/travis/carddav/script-new-endpoint.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: carddavtester-old-endpoint
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: carddavtester-old-endpoint
+#  image: nextcloudci/litmus-php7.1:1
+#  commands:
+#    - bash tests/travis/install.sh sqlite
+#    - bash apps/dav/tests/travis/carddav/install.sh
+#    - bash apps/dav/tests/travis/carddav/script-old-endpoint.sh
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: samba
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: sqlite-php7.0-samba-native
+#  image: nextcloudci/samba-native-php7.1:1
+#  commands:
+#    - smbd -D -FS &
+#    - ./autotest-external.sh sqlite smb-linux
+#    - wget https://codecov.io/bash -O codecov.sh
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
+#- name: sqlite-php7.0-samba-non-native
+#  image: nextcloudci/samba-non-native-php7.1:1
+#  commands:
+#    - smbd -D -FS &
+#    - ./autotest-external.sh sqlite smb-linux
+#    - wget https://codecov.io/bash -O codecov.sh
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: sqlite-php7.1-webdav-apache
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: sqlite-php7.0-webdav-apache
+#  image: nextcloudci/webdav-apache-php7.1:1
+#  commands:
+#    - apache2
+#    - ./autotest-external.sh sqlite webdav-apachedrone
+#    - wget https://codecov.io/bash -O codecov.sh
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
+#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-webdav-apachedrone.xml; fi"
+#
+#services:
+#- name: cache
+#  image: redis
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: nodb
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: nodb-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+#- name: nodb-php7.2
+#  image: nextcloudci/php7.2:php7.2-11
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+#- name: nodb-php7.3
+#  image: nextcloudci/php7.3:php7.3-1
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+#
+#services:
+#- name: cache
+#  image: redis
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: sqlite
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: sqlite-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+#- name: sqlite-php7.2
+#  image: nextcloudci/php7.2:php7.2-12
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+#- name: sqlite-php7.3
+#  image: nextcloudci/php7.3:php7.3-1
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+#
+#services:
+#- name: cache
+#  image: redis
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mariadb10.0-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mariadb10.0-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mariadb
+#  image: mariadb:10.0
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mariadb10.1-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mariadb10.1-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mariadb
+#  image: mariadb:10.1
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mariadb10.2-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mariadb10.2-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mariadb
+#  image: mariadb:10.2
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mariadb10.3-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mariadb10.3-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mariadb
+#  image: mariadb:10.3
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mariadb10.4-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mariadb10.4-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mariadb
+#  image: mariadb:10.4
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql8.0-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysql
+#  image: mysql:8.0
+#  command: [ "--default-authentication-plugin=mysql_native_password" ]
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql5.7-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysql
+#  image: mysql:5.7
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql5.7-php7.2
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql-php7.2
+#  image: nextcloudci/php7.2:php7.2-12
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: mysql
+#  image: mysql:5.7
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql5.7-php7.3
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql-php7.3
+#  image: nextcloudci/php7.3:php7.3-1
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: mysql
+#  image: mysql:5.7
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql5.6-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql5.6-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysql
+#  image: mysql:5.6
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysql5.5-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysql5.5-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysql
+#  image: mysql:5.5
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: postgres9-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: postgres-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - sleep 10 # gives the database enough time to initialize
+#    - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: postgres-9
+#  image: postgres:9
+#  environment:
+#    POSTGRES_USER: oc_autotest
+#    POSTGRES_DB: oc_autotest_dummy
+#    POSTGRES_PASSWORD: owncloud
+#  tmpfs:
+#    - /var/lib/postgresql/data
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: postgres10-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: postgres-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - sleep 10 # gives the database enough time to initialize
+#    - POSTGRES=10 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: postgres-10
+#  image: postgres:10
+#  environment:
+#    POSTGRES_USER: oc_autotest
+#    POSTGRES_DB: oc_autotest_dummy
+#    POSTGRES_PASSWORD: owncloud
+#  tmpfs:
+#    - /var/lib/postgresql/data
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: postgres11-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: postgres-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - sleep 10 # gives the database enough time to initialize
+#    - POSTGRES=11 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: postgres-11
+#  image: postgres:11
+#  environment:
+#    POSTGRES_USER: oc_autotest
+#    POSTGRES_DB: oc_autotest_dummy
+#    POSTGRES_PASSWORD: owncloud
+#  tmpfs:
+#    - /var/lib/postgresql/data
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysqlmb4-php7.1
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysqlmb4-php7.1
+#  image: nextcloudci/php7.1:php7.1-16
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysqlmb4
+#  image: mysql:5.7.22
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysqlmb4-php7.2
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysqlmb4-php7.2
+#  image: nextcloudci/php7.2:php7.2-12
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysqlmb4
+#  image: mysql:5.7.22
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
+#kind: pipeline
+#name: mysqlmb4-php7.3
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
+#- name: mysqlmb4-php7.3
+#  image: nextcloudci/php7.3:php7.3-1
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+#
+#services:
+#- name: cache
+#  image: redis
+#- name: mysqlmb4
+#  image: mysql:5.7.22
+#  environment:
+#    MYSQL_ROOT_PASSWORD: owncloud
+#    MYSQL_USER: oc_autotest
+#    MYSQL_PASSWORD: owncloud
+#    MYSQL_DATABASE: oc_autotest
+#  command: [ "--innodb_large_prefix=true", "--innodb_file_format=barracuda", "--innodb_file_per_table=true" ]
+#  tmpfs:
+#    - /var/lib/mysql
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
+#
+#---
 kind: pipeline
 name: integration-capabilities_features
 
+clone:
+  disable: true
+
 steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: integration-capabilities_features
-  image: nextcloudci/integration-php7.1:1
-  commands:
-    - bash tests/drone-run-integration-tests.sh || exit 0
-    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-    - cd build/integration
-    - ./run.sh capabilities_features/capabilities.feature
+  - name: clone
+    image: drone:git
+    environment:
+      DRONE_REMOTE_URL: ${DRONE_REMOTE_URL}
+      DRONE_BUILD_EVENT: ${DRONE_BUILD_EVENT}
+      DRONE_COMMIT_SHA: ${DRONE_COMMIT_SHA}
+      DRONE_COMMIT_BRANCH: ${DRONE_COMMIT_BRANCH}
+    commands:
+      - /usr/local/bin/clone
+      - bash tests/drone-run-integration-tests.sh || exit 0
+      - git submodule update --init
+  - name: integration-capabilities_features
+    image: nextcloudci/integration-php7.1:1
+    commands:
+      - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+      - cd build/integration
+      - ./run.sh capabilities_features/capabilities.feature
 
 trigger:
   branch:
