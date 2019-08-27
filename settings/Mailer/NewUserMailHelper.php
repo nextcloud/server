@@ -148,7 +148,7 @@ class NewUserMailHelper {
 			$leftButtonText,
 			$link,
 			$l10n->t('Install Client'),
-			'https://nextcloud.com/install/#install-clients'
+			$this->config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients')
 		);
 		$emailTemplate->addFooter();
 
