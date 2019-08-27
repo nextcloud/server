@@ -295,8 +295,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pre optimálny výkon je dôležité nakonfigurovať úlohy na pozadí správne. Pre väčšie inštancie sa odporúča 'Cron'. Viac informácií je možné nájsť v dokumentácii.",
     "Pick background job setting" : "Vybrať nastavenie úlohy na pozadí",
     "Execute one task with each page loaded" : "Vykonať jednu úlohu s každým načítaní stránky",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je zaregistrované v službe webcron a zavolá cron.php každých 15 minút cez HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Použiť systémovú službu cron na spúšťanie súboru cron.php každých 15 minút.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Je potrebné, aby cron.php bol spustený systémovým používateľom \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pre spustenie potrebujete mať rozšírenie PHP POSIX. Viac detailov v {linkstart}PHP dokumentácii{linkend}.",
     "Sharing" : "Sprístupňovanie",
@@ -357,6 +355,8 @@ OC.L10N.register(
     "Locale" : "Miestne nastavenie",
     "Current password" : "Aktuálne heslo",
     "Change password" : "Zmeniť heslo",
-    "Use a second factor besides your password to increase security for your account." : "Pre zlepšenie zabezpečenia vášho účtu použite okrem hesla aj druhý faktor."
+    "Use a second factor besides your password to increase security for your account." : "Pre zlepšenie zabezpečenia vášho účtu použite okrem hesla aj druhý faktor.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je zaregistrované v službe webcron a zavolá cron.php každých 15 minút cez HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Použiť systémovú službu cron na spúšťanie súboru cron.php každých 15 minút."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

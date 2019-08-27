@@ -265,8 +265,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "배경 작업이 아직 실행되지 않았습니다!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "최적 성능을 위해서 백그라운드 작업을 올바르게 설정하는 것을 추천합니다. 큰 인스턴스에서는 'Cron'을 사용하는 것을 추천합니다. 더 많은 정보를 보려면 문서를 참조하십시오.",
     "Execute one task with each page loaded" : "개별 페이지를 불러올 때마다 실행",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다.",
     "The cron.php needs to be executed by the system user \"%s\"." : "시스템 사용자 \"%s\"(으)로 cron.php를 실행해야 합니다.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "이 항목을 실행하려면 PHP POSIX 확장이 필요합니다. 자세한 사항은 {linkstart}PHP 문서{linkend}를 참조하십시오.",
     "Sharing" : "공유",
@@ -331,6 +329,8 @@ OC.L10N.register(
     "iOS Client" : "iOS 클라이언트",
     "Android Client" : "Android 클라이언트",
     "Not supported!" : "지원되지 않습니다!",
-    "Press Ctrl-C to copy." : "복사하기 위해 Ctrl-C를 누르세요."
+    "Press Ctrl-C to copy." : "복사하기 위해 Ctrl-C를 누르세요.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다."
 },
 "nplurals=1; plural=0;");

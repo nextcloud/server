@@ -747,8 +747,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Um die optimale Geschwindigkeit zu erreichen ist es wichtig, dass die Hintergrund-Aktivitäten richtig konfiguriert sind. Für größere Installationen ist 'Cron' die empfohlene Einstellung. Weitere Informationen findest Du in der Dokumentation.",
     "Pick background job setting" : "Wähle eine Hintergrund-Aufgabeneinstellung aus",
     "Execute one task with each page loaded" : "Eine Aufgabe bei jedem Laden einer Seite ausführen",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft. ",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Nutze den System-Cron-Service um cron.php alle 15 Minuten aufzurufen.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Die cron.php muss durch den Systemnutzer \"%s\" ausgeführt werden.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Um dies auszuführen, wird die PHP-Posix Erweiterung benötigt. Weitere Informationen in der {linkstart}PHP-Dokumentation{linkend}. ",
     "Sharing" : "Teilen",
@@ -822,6 +820,8 @@ OC.L10N.register(
     "Error while loading browser sessions and device tokens" : "Fehler beim Laden der Browser-Sitzungen und Geräte-Token",
     "Default quota :" : "Standard Speicherkontingent:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Bitte prüfe noch einmal die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Installationsanleitungen  ↗</a> und kontrolliere das <a href=\"%s\">Protokoll</a> auf Fehler und Warnungen.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft. ",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Nutze den System-Cron-Service um cron.php alle 15 Minuten aufzurufen.",
     "Follow us on Google+" : " Folge uns auf Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Du benutzt <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)"
 },

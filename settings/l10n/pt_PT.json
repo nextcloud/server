@@ -200,8 +200,6 @@
     "Background job didn’t run yet!" : "Tarefa de segundo plano ainda não foi executada!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para desempenho óptimo é importante que configura as tarefas de segundo plano correctamente. Para maiores instâncias a definição recomendada é 'Cron'. Por favor veja a documentação para mais informações.",
     "Execute one task with each page loaded" : "Executar uma tarefa com cada página carregada",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos.",
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php precisa de ser executado pelo utilizador do sistema \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para esta execução precisa da extensão PHP POSIX. Veja {iniciodaligação}documentação PHP{fimdaligação} para mais mais detalhes.",
     "Sharing" : "Partilha",
@@ -253,6 +251,8 @@
     "Twitter handle @…" : "Identificador do Twitter  @...",
     "Help translate" : "Ajude a traduzir",
     "Current password" : "Palavra-passe atual",
-    "Change password" : "Alterar palavra-passe"
+    "Change password" : "Alterar palavra-passe",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -445,8 +445,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pro optimální výkon je důležité správně nastavit úlohy spouštěné na pozadí. Pro větší instance je doporučenou metodou použití systémového plánovače (cron). Více informací naleznete v dokumentaci.",
     "Pick background job setting" : "Vybrat nastavení úlohy na pozadí",
     "Execute one task with each page loaded" : "Spustit jednu úlohu s načtením každé stránky",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Použít systémovou službu cron pro volání cron.php každých 15 minut.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Je třeba, aby cron.php bylo spouštěno s právy systémového uživatele „%s“.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pro spuštění je potřeba PHP POSIX rozšíření. Více informací lze nalézt v {linkstart}dokumentaci k PHP{linkend}.",
     "Sharing" : "Sdílení",
@@ -520,6 +518,8 @@ OC.L10N.register(
     "Error while loading browser sessions and device tokens" : "Chyba při načítání sezení prohlížeče a tokenů přístroje",
     "Default quota :" : "Výchozí kvóta",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Důkladně si přečtěte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">průvodce instalací ↗</a>a zkontrolujte, že v <a href=\"%s\">záznamu událostí</a> nejsou žádné chyby ani varování.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Použít systémovou službu cron pro volání cron.php každých 15 minut.",
     "Follow us on Google+" : "Následujte nás na Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Používáte <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)"
 },

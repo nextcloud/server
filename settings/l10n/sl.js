@@ -26,6 +26,8 @@ OC.L10N.register(
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Za overitev računa Twitter, objavite sporočilo (prepričajte se, da ni nobenega preloma vrstice):",
     "Your %s account was created" : "Račun %s je uspešno ustvarjen.",
     "Set your password" : "Določitev gesla",
+    "Create" : "Ustvari",
+    "Change" : "Spremeni",
     "Delete" : "Izbriši",
     "Unlimited" : "Neomejeno",
     "Verifying …" : "Poteka overjanje ...",

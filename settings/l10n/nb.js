@@ -281,8 +281,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal ytelse er det viktig å sette opp bakgrunnsjobber rett. For kjøring på større installasjoner er 'Cron' anbefalt innstilling. Se dokumentasjonen for mer informasjon.",
     "Pick background job setting" : "Velg innstilling for bakgrunnsjobb",
     "Execute one task with each page loaded" : "Utfør en oppgave med hver side som blir lastet",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert kvarter over HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Bruk systemets cron-tjeneste til å kalle cron.php hvert kvarter.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Filen cron.php må kjøres systemet som følgende bruker \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "For å kjøre denne trenger du PHP POSIX utvidelse. Se {linkstart}PHP-dokumentasjonen{linkend} for flere detaljer.",
     "Sharing" : "Deling",
@@ -343,6 +341,8 @@ OC.L10N.register(
     "Locale" : "Nasjonal innstilling",
     "Current password" : "Nåværende passord",
     "Change password" : "Endre passord",
-    "Use a second factor besides your password to increase security for your account." : "Bruk en annen faktor i tillegg til passordet ditt for å øke sikkerheten for kontoen din."
+    "Use a second factor besides your password to increase security for your account." : "Bruk en annen faktor i tillegg til passordet ditt for å øke sikkerheten for kontoen din.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert kvarter over HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Bruk systemets cron-tjeneste til å kalle cron.php hvert kvarter."
 },
 "nplurals=2; plural=(n != 1);");
