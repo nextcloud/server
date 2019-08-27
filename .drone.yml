@@ -998,7 +998,7 @@ clone:
 
 steps:
   - name: clone
-    image: drone:git
+    image: plugins/git
     environment:
       DRONE_REMOTE_URL: ${DRONE_REMOTE_URL}
       DRONE_BUILD_EVENT: ${DRONE_BUILD_EVENT}
