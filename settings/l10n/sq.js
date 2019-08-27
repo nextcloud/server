@@ -197,8 +197,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "Puna ne background nuk ka filluar akoma!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Për performancë optimale është e rëndësishme të konfigurosh punë të sfondit në mënyrë korrekte. Për raste më të mëdha 'Cron' është konfigurimi i rekomanduar. Ju lutem shih dokumentacionin për më shumë informacion.",
     "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta.",
     "The cron.php needs to be executed by the system user \"%s\"." : "con.php duhet të ekzekutohet bga përdoruesi i sistemit \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Për të bërë këtë ekzekutim ju duhet shtesa PHP POSIX. Shikoni {linkstart} dokumentacionin e PHP {linkend} pë më shumë detaje.",
     "Sharing" : "Ndarje me të tjerët",
@@ -251,6 +249,8 @@ OC.L10N.register(
     "Twitter handle @…" : "Përdoruesi i Twitter @ ...",
     "Help translate" : "Ndihmoni në përkthim",
     "Current password" : "Fjalëkalimi i tanishëm",
-    "Change password" : "Ndrysho fjalëkalimin"
+    "Change password" : "Ndrysho fjalëkalimin",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta."
 },
 "nplurals=2; plural=(n != 1);");

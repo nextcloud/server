@@ -199,8 +199,6 @@
     "Background job didn’t run yet!" : "ფონური საქმე ჯერ არ გაშვებულა!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "ოპტიმალური მოღვაწეობისთვის მნიშვნელოვანია ფონური საქმეების სწორი კონფიგურაცია. დიდი ინსტანციებისთვის 'კრონი' რეკომენდირებული არჩევანია. გთხოვთ მეტი ინფორმაციისთვის იხილოთ დოკუმენტაცია.",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php უნდა გაუშვას სისტემურმა მოხმარებელმა \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "ამის გასაშვებად საჭიროა გქონდეთ PHP POSIX გაფართოება. მეტი დეტალებისთვის იხილეთ {linkstart}PHP დოკუმენტაცია{linkend}. ",
     "Sharing" : "გაზიარება",
@@ -254,6 +252,8 @@
     "Twitter handle @…" : "Twitter @…",
     "Help translate" : "თარგმნის დახმარება",
     "Current password" : "მიმდინარე პაროლი",
-    "Change password" : "პაროლის შეცვლა"
+    "Change password" : "პაროლის შეცვლა",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

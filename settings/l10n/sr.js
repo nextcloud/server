@@ -747,8 +747,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "За оптималне перформансе, битно је да правилно подесите послове у позадини. За веће инстанце, 'крон' је препоручено подешавање. Погледајте документацију за више информација.",
     "Pick background job setting" : "Одаберите поставке позадинског посла",
     "Execute one task with each page loaded" : "Изврши један задатак са сваком учитаном страницом",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php треба да се извршава као системски корисник „%s“.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Да бисте ово покренули, потребна је PHP POSIX екстензија. Погледајте {linkstart}PHP документацију{linkend} за више детаља.",
     "Sharing" : "Дељење",
@@ -822,6 +820,8 @@ OC.L10N.register(
     "Error while loading browser sessions and device tokens" : "Грешка при учитавању сесија веб читача и токена са уређаја",
     "Default quota :" : "Подразумевана квота:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Добро погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">инсталациону документацију ↗</a> и проверите за било какве грешке или упозорења у <a href=\"%s\">записнику</a>.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "Follow us on Google+" : "Пратите нас на Google+-у",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Користите <strong>%s</strong> од <strong>%s</strong> (<strong>%s %%</strong>)"
 },

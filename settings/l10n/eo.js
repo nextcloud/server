@@ -628,8 +628,6 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Por optimuma rendimento, gravas bone agordi fonajn taskojn. Por serviloj kun multe da uzantoj kaj datumoj,  „Cron“ estas rekomendita. Bv. vidi la dokumentaron por pli da informoj.",
     "Pick background job setting" : "Elekti agordon pri fona tasko",
     "Execute one task with each page loaded" : "Ruli unu taskon kun ĉiu ŝargo de paĝo",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php estas registrita ĉe perreta „cron“-servo por esti vokita ĉiujn 15 minutojn per HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 15 minutojn.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php bezonas esti rulita de la sistema uzanto „%s“.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Por ruli iton, vi bezonas la PHP-modulon pri POSIX. Vidu la {linkstart}PHP-dokumentaron{linkend} pro pli da detaloj.",
     "Sharing" : "Kunhavigo",
@@ -703,6 +701,8 @@ OC.L10N.register(
     "Error while loading browser sessions and device tokens" : "Erara dum ŝargo de returmilaj seancoj kaj aparataj ĵetonoj",
     "Default quota :" : "Defaŭlta kvoto:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Bv. zorgeme kontroli la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">manlibroj pri instalaĵo ↗</a>, kaj kontroli avertojn kaj erarojn en la <a href=\"%s\">protokolo</a>.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php estas registrita ĉe perreta „cron“-servo por esti vokita ĉiujn 15 minutojn per HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 15 minutojn.",
     "Follow us on Google+" : "Sekvu nin per Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Vi uzas <strong>%s</strong> el <strong>%s</strong> (<strong>%s %%</strong>)"
 },

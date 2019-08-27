@@ -717,8 +717,6 @@
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "За оптимални перформанси важно е правилно да ги конфигурирате задачите кој се извршуваат во позадина. За големи истанци „КРОН“ е препорачаната поставка. Погледнете ја документацијата за повеќе информации.",
     "Pick background job setting" : "Избери го начинот на извршување на задачите во позадина",
     "Execute one task with each page loaded" : "Изврши по една задача со секоја вчитана страница",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php е регистриран на webcron сервисот за да го повикува cron.php секој 15 минути преку HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Го користи системскиот КРОН сервис и го повикува cron.php секој 15 минути.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php е потребно да биде извршен од системски корисник\" %s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "За да го извршите ова, треба PHP POSIX додаток. Погледни во  {linkstart}PHP документацијата{linkend} за повеќе детали.",
     "Sharing" : "Споделување",
@@ -789,6 +787,8 @@
     "Error while loading browser sessions and device tokens" : "Грепка при вчитување на сесијата на прелистувачот и токенот на уредот",
     "Default quota :" : "Стандардна квота:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Ве молиме двојно проверете ги <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">упатствата за инсталација ↗</a>, и проверете ги грешките или предупредувањата во <a href=\"%s\">записникот</a>.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php е регистриран на webcron сервисот за да го повикува cron.php секој 15 минути преку HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Го користи системскиот КРОН сервис и го повикува cron.php секој 15 минути.",
     "Follow us on Google+" : "Follow us on Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Вие користите <strong>%s</strong> од <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
