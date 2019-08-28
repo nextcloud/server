@@ -48,7 +48,7 @@
 			this.currentOption = Checks[this.check.class]
 			this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 			this.$nextTick(() => {
-				this.$refs.checkSelector.$el.focus()
+				//this.$refs.checkSelector.$el.focus()
 			})
 		},
 		computed: {

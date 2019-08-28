@@ -1,5 +1,5 @@
 <template>
-	<div class="section rule">
+	<div class="section rule" :style="{ borderLeftColor: operation.color }">
 		<!-- TODO: icon-confirm -->
 		<div class="trigger icon-confirm">
 			<p>
@@ -17,11 +17,11 @@
 		</div>
 		<div class="action">
 			<div class="buttons">
-				<button class="status-button icon" :class="ruleStatus.class" v-tooltip="ruleStatus.tooltip" @click="saveRule">{{ ruleStatus.title }}</button>
 				<Actions>
-					<ActionButton v-if="rule.id === -1" icon="icon-close" @click="$emit('cancel')">Cancel</ActionButton>
-					<ActionButton v-else icon="icon-delete" @click="deleteRule">Delete</ActionButton>
+					<ActionButton v-if="rule.id === -1" icon="icon-close" @click="$emit('cancel')">Cancel rule creation</ActionButton>
+					<ActionButton v-else icon="icon-close" @click="deleteRule">Remove rule</ActionButton>
 				</Actions>
+				<button class="status-button icon" :class="ruleStatus.class" v-tooltip="ruleStatus.tooltip" @click="saveRule">{{ ruleStatus.title }}</button>
 			</div>
 			<Operation :icon="operation.icon" :title="operation.title" :description="operation.description">
 				<component v-if="operation.options" :is="operation.options" v-model="operation.operation" @input="updateOperation" />
@@ -38,6 +38,7 @@
 	import { operationService } from '../services/Operation'
 	import axios from 'nextcloud-axios'
 	import confirmPassword from 'nextcloud-password-confirmation'
+	import {getApiUrl} from '../helpers/api';
 
 	export default {
 		name: 'Rule',
@@ -69,7 +70,7 @@
 			},
 			ruleStatus() {
 				if (this.error) {
-					return { title: 'Invalid', class: 'icon-close-white invalid', tooltip: { placement: 'bottom', show: true, content: escapeHTML(this.error.data) } }
+					return { title: 'Invalid', class: 'icon-close-white invalid', tooltip: { placement: 'bottom', show: true, content: escapeHTML(this.error) } }
 				}
 				if (!this.dirty || this.checking) {
 					return { title: 'Active', class: 'icon icon-checkmark' }
@@ -93,12 +94,13 @@
 					this.dirty = true
 				}
 				try {
-					let result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations/test`), this.rule)
+					// TODO: add new verify endpoint
+					//let result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations/test`), this.rule)
 					this.error = null
 					this.checking = false
 				} catch (e) {
-					console.error('Failed to update operation')
-					this.error = e.response
+					console.error('Failed to update operation', e)
+					this.error = e.response.ocs.meta.message
 					this.checking = false
 				}
 			},
@@ -107,23 +109,24 @@
 					await confirmPassword()
 					let result
 					if (this.rule.id === -1) {
-						result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations`), this.rule)
-						this.rule.id = result.id
+						result = await axios.post(getApiUrl(''), {...this.rule, events: [this.rule.event]})
+						this.rule.id = result.data.ocs.data.id
 					} else {
-						result = await axios.put(OC.generateUrl(`/apps/workflowengine/operations/${this.rule.id}`), this.rule)
+						result = await axios.put(getApiUrl(`/${this.rule.id}`), {...this.rule, events: [this.rule.event]})
 					}
-					this.$emit('update', result.data)
+					this.$emit('update', this.rule)
 					this.dirty = false
 					this.error = null
 				} catch (e) {
-					console.error('Failed to update operation')
-					this.error = e.response
+					console.log(e.response.data.ocs.meta.message)
+					console.error('Failed to update operation', e)
+					this.error = e.response.data.ocs.meta.message
 				}
 			},
 			async deleteRule() {
 				try {
 					await confirmPassword()
-					await axios.delete(OC.generateUrl(`/apps/workflowengine/operations/${this.rule.id}`))
+					await axios.delete(getApiUrl(`/${this.rule.id}`))
 					this.$emit('delete')
 				} catch (e) {
 					console.error('Failed to delete operation')
@@ -164,17 +167,20 @@
 	.rule {
 		display: flex;
 		flex-wrap: wrap;
+		border-left: 5px solid #fff;
 
 		.trigger, .action {
 			flex-grow: 1;
 			min-height: 100px;
-			flex-basis: 50%;
+			max-width: 700px;
 		}
 		.action {
 			position: relative;
 			.buttons {
 				position: absolute;
 				right: 0;
+				display: flex;
+				z-index: 1;
 			}
 		}
 		.icon-confirm {

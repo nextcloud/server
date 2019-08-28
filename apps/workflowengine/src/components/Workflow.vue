@@ -1,14 +1,15 @@
 <template>
-	<div>
+	<div id="workflowengine">
 		<div class="section">
 			<h2>{{ t('workflowengine', 'Workflows') }}</h2>
 
-			<div class="actions" v-if="!hasUnsavedRule">
+			<transition-group name="slide" tag="div" class="actions">
 				<Operation v-for="operation in getMainOperations" :key="operation.class"
 						   :icon="operation.icon" :title="operation.title" :description="operation.description" :color="operation.color"
 						   @click.native="createNewRule(operation)"></Operation>
-			</div>
-			<div class="actions__more" v-if="!hasUnsavedRule && hasMoreOperations">
+			</transition-group>
+
+			<div class="actions__more" v-if="hasMoreOperations">
 				<button class="icon" :class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
 						@click="showMoreOperations=!showMoreOperations">
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
@@ -16,7 +17,7 @@
 			</div>
 		</div>
 
-		<transition-group name="slide">
+		<transition-group name="slide" v-if="rules.length > 0">
 			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" @delete="removeRule(rule)" @cancel="removeRule(rule)" @update="updateRule"></Rule>
 		</transition-group>
 
@@ -28,6 +29,7 @@
 	import Operation from './Operation'
 	import { operationService } from '../services/Operation'
 	import axios from 'nextcloud-axios'
+	import { getApiUrl } from '../helpers/api';
 
 	const ACTION_LIMIT = 3
 
@@ -38,11 +40,12 @@
 			Rule
 		},
 		async mounted() {
-			const { data } = await axios.get(OC.generateUrl('/apps/workflowengine/operations'))
-			this.rules = data
+			const { data } = await axios.get(getApiUrl(''))
+			this.rules = Object.values(data.ocs.data).flat()
 		},
 		data() {
 			return {
+				scope: OCP.InitialState.loadState('workflowengine', 'scope'),
 				operations: operationService,
 				showMoreOperations: false,
 				rules: []
@@ -61,9 +64,6 @@
 			getMoreOperations() {
 				return Object.values(this.operations.getAll()).slice(ACTION_LIMIT)
 
-			},
-			hasUnsavedRule() {
-				return !!this.rules.find((rule) => rule.id === -1)
 			}
 		},
 		methods: {
@@ -82,6 +82,8 @@
 				this.rules.unshift({
 					id: -1,
 					class: operation.class,
+					entity: undefined,
+					event: undefined,
 					name: '', // unused in the new ui, there for legacy reasons
 					checks: [],
 					operation: operation.operation || ''
@@ -92,16 +94,19 @@
 </script>
 
 <style scoped lang="scss">
+	#workflowengine {
+		border-bottom: 1px solid var(--color-border);
+	}
 	.section {
 		max-width: 100vw;
 	}
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
+		max-width: 900px;
 		.actions__item {
-			max-width: 300px;
-			min-width: 200px;
-			flex-basis: 200px;
+			max-width: 290px;
+			flex-basis: 250px;
 		}
 	}
 
@@ -145,5 +150,7 @@
 	.slide-enter, .slide-leave-to {
 		overflow: hidden;
 		max-height: 0;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 </style>

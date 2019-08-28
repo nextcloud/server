@@ -71,6 +71,12 @@
 		}
 	}
 
+	.actions__item:not(.colored) {
+		.icon {
+			filter: invert(1);
+		}
+	}
+
 	/* TODO: those should be provided by the backend, remove once ready */
 	.icon-block {
 		background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' height='32' width='32' version='1.1' viewBox='0 0 32 32'%3E%3Cpath fill='%23fff' d='m10.203 2-8.203 8.203v11.594l8.203 8.203h11.594l8.203-8.203v-11.594l-8.203-8.203h-11.594zm11.097 5.3092 3.345 3.3448-5.346 5.346 5.346 5.346-3.299 3.299-5.346-5.346-5.346 5.346-3.2992-3.299 5.3462-5.346-5.3462-5.346 3.2992-3.2992 5.346 5.3462 5.3-5.3918z'/%3E%3C/svg%3E");

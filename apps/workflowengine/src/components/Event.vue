@@ -28,12 +28,15 @@
 				required: true
 			}
 		},
+		mounted() {
+			this.updateEvent(this.currentEvent)
+		},
 		computed: {
 			currentEvent() {
-				if (typeof this.rule.event === 'undefined') {
+				if (!this.rule.event) {
 					return this.allEvents.length > 0 ? this.allEvents[0] : null
 				}
-				return this.allEvents.find(event => event.id === this.rule.event)
+				return this.allEvents.find(event => event.entity === this.rule.entity && event.event === this.rule.event)
 			},
 			allEvents() {
 				return this.operation.events.map((entityEventName) => {
@@ -45,7 +48,7 @@
 					return {
 						entity: entityId,
 						id: entityEventName,
-						event: eventName,
+						events: eventName,
 						name: Event.displayName,
 						icon: Entity.icon,
 						checks: Entity.checks,
@@ -58,8 +61,11 @@
 		},
 		methods: {
 			updateEvent(event) {
-				this.$set(this.rule, 'event', event.id)
-				this.$emit('update', this.rule)
+				if (this.rule.entity !== event.entity || this.rule.events !== '["' + event.event + '"]') {
+					this.$set(this.rule, 'entity', event.entity)
+					this.$set(this.rule, 'event', event.event)
+					this.$emit('update', this.rule)
+				}
 			}
 		}
 	}

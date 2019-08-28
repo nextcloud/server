@@ -65,11 +65,11 @@ operationService.registerOperation({
 	icon: 'icon-block',
 	color: 'var(--color-error)',
 	entites: [
-		'WorkflowEngine_Entity_File'
+		'OCA\\WorkflowEngine\\Entity\\File'
 	],
 	events: [
 		// TODO: this is probably handled differently since there is no regular event for files access control
-		'WorkflowEngine_Entity_File::postTouch'
+		'OCA\\WorkflowEngine\\Entity\\File::postTouch'
 	],
 	operation: 'deny'
 })
