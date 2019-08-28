@@ -747,6 +747,8 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Um die optimale Geschwindigkeit zu erreichen ist es wichtig, dass die Hintergrund-Aktivitäten richtig konfiguriert sind. Für größere Installationen ist 'Cron' die empfohlene Einstellung. Weitere Informationen findest Du in der Dokumentation.",
     "Pick background job setting" : "Wähle eine Hintergrund-Aufgabeneinstellung aus",
     "Execute one task with each page loaded" : "Eine Aufgabe bei jedem Laden einer Seite ausführen",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php ist bei einem Webcron-Dienst angemeldet, der cron.php alle 5 Minuten über HTTP aufruft.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Verwende den System-Cron-Dienst, um die Datei cron.php alle 5 Minuten aufzurufen.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Die cron.php muss durch den Systemnutzer \"%s\" ausgeführt werden.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Um dies auszuführen, wird die PHP-Posix Erweiterung benötigt. Weitere Informationen in der {linkstart}PHP-Dokumentation{linkend}. ",
     "Sharing" : "Teilen",
