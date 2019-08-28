@@ -58,7 +58,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$qb = $this->dbc->getQueryBuilder();
 
 		$qb->update('flow_operations')
-			->set('entity', File::class)
+			->set('entity', $qb->createNamedParameter(File::class))
 			->where($qb->expr()->emptyString('entity'))
 			->execute();
 
@@ -70,8 +70,8 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$insertQuery = $qb->insert('flow_operations_scope');
 		while($id = $ids->fetchColumn(0)) {
 			$insertQuery->values(['operation_id' => $qb->createNamedParameter($id), 'type' => IManager::SCOPE_ADMIN]);
+			$insertQuery->execute();
 		}
-		$insertQuery->execute();
 	}
 
 	protected function getIdsWithoutScope(): Statement {
