@@ -140,6 +140,10 @@ class Cache extends CacheJail {
 		if (is_null($path)) {
 			$path = isset($entry['path']) ? $entry['path'] : '';
 			$entry['path'] = $this->getJailedPath($path);
+			// set path if it is outside a jail
+			if ($entry['path'] === null) {
+				$entry['path'] = $path;
+			}
 		} else {
 			$entry['path'] = $path;
 		}
