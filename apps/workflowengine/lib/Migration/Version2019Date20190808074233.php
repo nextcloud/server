@@ -70,12 +70,12 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('operation', Type::TEXT, [
 				'notnull' => false,
 			]);
-			$this->addEventsColumn($table);
+			$this->addEntityColumns($table);
 			$table->setPrimaryKey(['id']);
 		} else {
 			$table = $schema->getTable('flow_operations');
-			if(!$table->hasColumn('events')) {
-				$this->addEventsColumn($table);
+			if(!$table->hasColumn('entity')) {
+				$this->addEntityColumns($table);
 			}
 		}
 
@@ -105,7 +105,11 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 		return $schema;
 	}
 
-	protected function addEventsColumn(Table $table) {
+	protected function addEntityColumns(Table $table) {
+		$table->addColumn('entity', Type::STRING, [
+			'notnull' => true,
+			'length' => 256,
+		]);
 		$table->addColumn('events', Type::TEXT, [
 			'notnull' => true,
 			'default' => '[]',

@@ -22,6 +22,7 @@
 namespace OCA\WorkflowEngine\Tests;
 
 
+use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
@@ -29,6 +30,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
@@ -141,24 +143,25 @@ class ManagerTest extends TestCase {
 	public function testScope() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
 
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test01', [11, 22], 'foo']
+			['OCA\WFE\TestOp', 'Test01', [11, 22], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId1, $adminScope]);
 
 		$opId2 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test02', [33, 22], 'bar']
+			['OCA\WFE\TestOp', 'Test02', [33, 22], 'bar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 		$opId3 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test03', [11, 44], 'foobar']
+			['OCA\WFE\TestOp', 'Test03', [11, 44], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId3, $userScope]);
 
@@ -174,24 +177,25 @@ class ManagerTest extends TestCase {
 	public function testGetAllOperations() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
 
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo']
+			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId1, $adminScope]);
 
 		$opId2 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar']
+			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 		$opId3 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestUserOp', 'Test03', [11, 44], 'foobar']
+			['OCA\WFE\TestUserOp', 'Test03', [11, 44], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId3, $userScope]);
 
@@ -211,36 +215,37 @@ class ManagerTest extends TestCase {
 	public function testGetOperations() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
 
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test01', [11, 22], 'foo']
+			['OCA\WFE\TestOp', 'Test01', [11, 22], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId1, $adminScope]);
 		$opId4 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\OtherTestOp', 'Test04', [5], 'foo']
+			['OCA\WFE\OtherTestOp', 'Test04', [5], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId4, $adminScope]);
 
 		$opId2 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test02', [33, 22], 'bar']
+			['OCA\WFE\TestOp', 'Test02', [33, 22], 'bar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 		$opId3 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestOp', 'Test03', [11, 44], 'foobar']
+			['OCA\WFE\TestOp', 'Test03', [11, 44], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId3, $userScope]);
 		$opId5 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\OtherTestOp', 'Test05', [5], 'foobar']
+			['OCA\WFE\OtherTestOp', 'Test05', [5], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId5, $userScope]);
 
@@ -262,12 +267,18 @@ class ManagerTest extends TestCase {
 	public function testUpdateOperation() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
 
 		$this->container->expects($this->any())
 			->method('query')
 			->willReturnCallback(function ($class) {
 				if(substr($class, -2) === 'Op') {
 					return $this->createMock(IOperation::class);
+				} else if($class === File::class) {
+					return $this->getMockBuilder(File::class)
+						->setConstructorArgs([$this->createMock(L10N::class), $this->createMock(IURLGenerator::class)])
+						->setMethodsExcept(['getEvents'])
+						->getMock();
 				}
 				return $this->createMock(ICheck::class);
 			});
@@ -275,14 +286,14 @@ class ManagerTest extends TestCase {
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo']
+			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId1, $adminScope]);
 
 		$opId2 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar']
+			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 
@@ -290,19 +301,19 @@ class ManagerTest extends TestCase {
 		$check2 = ['class' => 'OCA\WFE\C33', 'operator' => 'eq', 'value' => 23456];
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, []);
+		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['postDelete']);
 		$this->assertSame('Test01a', $op['name']);
 		$this->assertSame('foohur', $op['operation']);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, []);
+		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, $entity, ['postDelete']);
 		$this->assertSame('Test02a', $op['name']);
 		$this->assertSame('barfoo', $op['operation']);
 
 		foreach([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
 			try {
 				/** @noinspection PhpUnhandledExceptionInspection */
-				$this->manager->updateOperation($run[1], 'Evil', [$check2], 'hackx0r', $run[0], []);
+				$this->manager->updateOperation($run[1], 'Evil', [$check2], 'hackx0r', $run[0], $entity, []);
 				$this->assertTrue(false, 'DomainException not thrown');
 			} catch (\DomainException $e) {
 				$this->assertTrue(true);
@@ -313,18 +324,19 @@ class ManagerTest extends TestCase {
 	public function testDeleteOperation() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
 
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo']
+			['OCA\WFE\TestAdminOp', 'Test01', [11, 22], 'foo', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId1, $adminScope]);
 
 		$opId2 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
-			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar']
+			['OCA\WFE\TestUserOp', 'Test02', [33, 22], 'bar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId2, $userScope]);
 

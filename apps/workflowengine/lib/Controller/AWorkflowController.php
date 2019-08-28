@@ -99,11 +99,12 @@ abstract class AWorkflowController extends OCSController {
 		string $name,
 		array $checks,
 		string $operation,
+		string $entity,
 		array $events
 	): DataResponse {
 		$context = $this->getScopeContext();
 		try {
-			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context, $events);
+			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context, $entity, $events);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {
@@ -125,10 +126,12 @@ abstract class AWorkflowController extends OCSController {
 		string $name,
 		array $checks,
 		string $operation,
+		string $entity,
 		array $events
 	): DataResponse {
 		try {
-			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $this->getScopeContext(), $events);
+			$context = $this->getScopeContext();
+			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $context, $entity, $events);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {

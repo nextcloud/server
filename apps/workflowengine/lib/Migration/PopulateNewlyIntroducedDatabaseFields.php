@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\WorkflowEngine\Migration;
 
 use Doctrine\DBAL\Driver\Statement;
+use OCA\WorkflowEngine\Entity\File;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -49,6 +50,18 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$this->populateScopeTable($result);
 
 		$result->closeCursor();
+
+		$this->populateEntityCol();
+	}
+
+	protected function populateEntityCol() {
+		$qb = $this->dbc->getQueryBuilder();
+
+		$qb->update('flow_operations')
+			->set('entity', File::class)
+			->where($qb->expr()->emptyString('entity'))
+			->execute();
+
 	}
 
 	protected function populateScopeTable(Statement $ids): void {
