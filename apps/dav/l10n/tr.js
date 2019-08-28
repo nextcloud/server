@@ -43,6 +43,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "Bir <strong>takvim</strong> düzenlendi",
     "A calendar <strong>event</strong> was modified" : "Bir takvim <strong>etkinliği</strong> düzenlendi",
     "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
+    "Death of %s" : "%s ölümü",
     "Contact birthdays" : "Kişi doğum günleri",
     "Calendar:" : "Takvim:",
     "Date:" : "Tarih:",
