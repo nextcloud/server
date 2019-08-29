@@ -2,7 +2,7 @@
 	<div>
 		<div v-if="operation.isComplex && operation.fixedEntity !== ''">
 			<img class="option__icon" :src="entity.icon">
-			<span class="option__title option__title_single">{{ entity.name }}</span>
+			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
 		<Multiselect v-else :value="currentEvent" :options="allEvents"
 			label="eventName" track-by="id" :allow-empty="false"
