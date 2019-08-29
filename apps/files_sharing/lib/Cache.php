@@ -75,6 +75,10 @@ class Cache extends CacheJail {
 		if (is_null($this->root)) {
 			$absoluteRoot = $this->sourceRootInfo->getPath();
 
+			if ($this->sourceRootInfo->getMimeType() === 'httpd/unix-directory') {
+				$absoluteRoot = rtrim($absoluteRoot, '/') . '/';
+			}
+
 			// the sourceRootInfo path is the absolute path of the folder in the "real" storage
 			// in the case where a folder is shared from a Jail we need to ensure that the share Jail
 			// has it's root set relative to the source Jail
@@ -140,10 +144,6 @@ class Cache extends CacheJail {
 		if (is_null($path)) {
 			$path = isset($entry['path']) ? $entry['path'] : '';
 			$entry['path'] = $this->getJailedPath($path);
-			// set path if it is outside a jail
-			if ($entry['path'] === null) {
-				$entry['path'] = $path;
-			}
 		} else {
 			$entry['path'] = $path;
 		}
