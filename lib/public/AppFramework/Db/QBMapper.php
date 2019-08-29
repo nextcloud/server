@@ -204,13 +204,13 @@ abstract class QBMapper {
 	 * @since 16.0.0
 	 */
 	protected function getParameterTypeForProperty(Entity $entity, string $property): int {
-		$types = $entity->getFieldTypes();
+		$type = $entity->getFieldType($property);
 
-		if(!isset($types[ $property ])) {
+		if ($type === null) {
 			return IQueryBuilder::PARAM_STR;
 		}
 
-		switch($types[ $property ]) {
+		switch($type) {
 			case 'int':
 			case 'integer':
 				return IQueryBuilder::PARAM_INT;

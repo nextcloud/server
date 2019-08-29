@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Db;
 
 
+use OC\AppFramework\Utility\ControllerMethodReflector;
+
 /**
  * @method integer getId()
  * @method void setId(integer $id)
@@ -32,6 +34,7 @@ namespace OCP\AppFramework\Db;
  */
 abstract class Entity {
 
+	/** @var int */
 	public $id;
 
 	private $_updatedFields = [];
@@ -39,6 +42,7 @@ abstract class Entity {
 		'id' => 'integer'
 	];
 
+	private $reflectionClass = null;
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -70,6 +74,12 @@ abstract class Entity {
 		foreach($row as $key => $value){
 			$prop = ucfirst($instance->columnToProperty($key));
 			$setter = 'set' . $prop;
+
+			$type = $instance->getFieldType($instance->columnToProperty($key));
+			if ($type !== null) {
+				settype($value, $type);
+			}
+
 			$instance->$setter($value);
 		}
 
@@ -96,6 +106,36 @@ abstract class Entity {
 		$this->_updatedFields = [];
 	}
 
+	public function getFieldType(string $name): ?string  {
+		if (isset($this->_fieldTypes[$name])) {
+			return $this->_fieldTypes[$name];
+		}
+
+		if ($this->reflectionClass === null) {
+			$this->reflectionClass = new \ReflectionClass($this);
+		}
+
+		try {
+			$prop = $this->reflectionClass->getProperty($name);
+		} catch (\ReflectionException $e) {
+			$this->_fieldTypes[$name] = null;
+			return null;
+		}
+
+		$docs = $prop->getDocComment();
+
+		// extract type parameter information
+		preg_match_all('/@var\h+(?P<type>\w+)/', $docs, $matches);
+
+		if (isset($matches['type'][0])) {
+			$this->_fieldTypes[$name] = $matches['type'][0];
+		} else {
+			$this->_fieldTypes[$name] = null;
+		}
+
+		return $this->_fieldTypes[$name];
+	}
+
 	/**
 	 * Generic setter for properties
 	 * @since 7.0.0
@@ -108,9 +148,11 @@ abstract class Entity {
 			}
 			$this->markFieldUpdated($name);
 
+			$type = $this->getFieldType($name);
+
 			// if type definition exists, cast to correct type
-			if($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
-				settype($args[0], $this->_fieldTypes[$name]);
+			if($args[0] !== null && $type !== null) {
+				settype($args[0], $type);
 			}
 			$this->$name = $args[0];
 
