@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,8 +34,10 @@ abstract class Entity {
 
 	public $id;
 
-	private $_updatedFields = array();
-	private $_fieldTypes = array('id' => 'integer');
+	private $_updatedFields = [];
+	private $_fieldTypes = [
+		'id' => 'integer'
+	];
 
 
 	/**
@@ -44,7 +47,7 @@ abstract class Entity {
 	 * @return Entity
 	 * @since 7.0.0
 	 */
-	public static function fromParams(array $params) {
+	public static function fromParams(array $params): Entity {
 		$instance = new static();
 
 		foreach($params as $key => $value) {
@@ -61,7 +64,7 @@ abstract class Entity {
 	 * @param array $row the row to map onto the entity
 	 * @since 7.0.0
 	 */
-	public static function fromRow(array $row){
+	public static function fromRow(array $row): Entity {
 		$instance = new static();
 
 		foreach($row as $key => $value){
@@ -80,7 +83,7 @@ abstract class Entity {
 	 * @return array with attribute and type
 	 * @since 7.0.0
 	 */
-	public function getFieldTypes() {
+	public function getFieldTypes(): array {
 		return $this->_fieldTypes;
 	}
 
@@ -89,15 +92,15 @@ abstract class Entity {
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 * @since 7.0.0
 	 */
-	public function resetUpdatedFields(){
-		$this->_updatedFields = array();
+	public function resetUpdatedFields(): void{
+		$this->_updatedFields = [];
 	}
 
 	/**
 	 * Generic setter for properties
 	 * @since 7.0.0
 	 */
-	protected function setter($name, $args) {
+	protected function setter(string $name, $args) {
 		// setters should only work for existing attributes
 		if(property_exists($this, $name)){
 			if($this->$name === $args[0]) {
@@ -121,14 +124,13 @@ abstract class Entity {
 	 * Generic getter for properties
 	 * @since 7.0.0
 	 */
-	protected function getter($name) {
+	protected function getter(string $name) {
 		// getters should only work for existing attributes
 		if(property_exists($this, $name)){
 			return $this->$name;
-		} else {
-			throw new \BadFunctionCallException($name . 
-				' is not a valid attribute');
 		}
+
+		throw new \BadFunctionCallException($name . ' is not a valid attribute');
 	}
 
 
@@ -139,7 +141,7 @@ abstract class Entity {
 	 * getter method
 	 * @since 7.0.0
 	 */
-	public function __call($methodName, $args){
+	public function __call(string $methodName, $args){
 		$attr = lcfirst( substr($methodName, 3) );
 
 		if(strpos($methodName, 'set') === 0){
@@ -147,7 +149,7 @@ abstract class Entity {
 		} elseif(strpos($methodName, 'get') === 0) {
 			return $this->getter($attr);
 		} else {
-			throw new \BadFunctionCallException($methodName . 
+			throw new \BadFunctionCallException($methodName .
 					' does not exist');
 		}
 
@@ -159,7 +161,7 @@ abstract class Entity {
 	 * @param string $attribute the name of the attribute
 	 * @since 7.0.0
 	 */
-	protected function markFieldUpdated($attribute){
+	protected function markFieldUpdated(string $attribute){
 		$this->_updatedFields[$attribute] = true;
 	}
 
@@ -170,7 +172,7 @@ abstract class Entity {
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty($columnName){
+	public function columnToProperty(string $columnName): string {
 		$parts = explode('_', $columnName);
 		$property = null;
 
@@ -192,7 +194,7 @@ abstract class Entity {
 	 * @return string the column name
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn(string $property): string {
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
@@ -212,7 +214,7 @@ abstract class Entity {
 	 * @return array array of updated fields for update query
 	 * @since 7.0.0
 	 */
-	public function getUpdatedFields(){
+	public function getUpdatedFields(): array {
 		return $this->_updatedFields;
 	}
 
@@ -224,7 +226,7 @@ abstract class Entity {
 	 * @param string $type the type which will be used to call settype()
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type){
+	protected function addType(string $fieldName, string $type){
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 
@@ -236,7 +238,7 @@ abstract class Entity {
 	 * @return string slugified value
 	 * @since 7.0.0
 	 */
-	public function slugify($attributeName){
+	public function slugify(string $attributeName): string {
 		// toSlug should only work for existing attributes
 		if(property_exists($this, $attributeName)){
 			$value = $this->$attributeName;
@@ -245,10 +247,9 @@ abstract class Entity {
 			$value = strtolower($value);
 			// trim '-'
 			return trim($value, '-');
-		} else {
-			throw new \BadFunctionCallException($attributeName .
-				' is not a valid attribute');
 		}
+
+		throw new \BadFunctionCallException($attributeName . ' is not a valid attribute');
 	}
 
 }
