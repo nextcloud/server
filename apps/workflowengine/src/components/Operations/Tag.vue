@@ -1,22 +1,24 @@
 <template>
-	<multiselect :options="options" v-model="value" track-by="id" label="title" :multiple="true" :tagging="true" @input="$emit('input', value.map(item => item.id))"></multiselect>
+	<Multiselect v-model="value" :options="options" track-by="id"
+		label="title" :multiple="true" :tagging="true"
+		@input="$emit('input', value.map(item => item.id))" />
 </template>
 
 <script>
-	// TODO: fetch tags from endpoint
-	const tags = [{id: 3, title: 'foo'}, {id: 4, title: 'bar'}]
+// TODO: fetch tags from endpoint
+import { Multiselect } from 'nextcloud-vue'
 
-	import { Multiselect } from 'nextcloud-vue'
-	export default {
-		name: "Tag",
-		components: {Multiselect},
-		data() {
-			return {
-				options: tags,
-				value: null
-			}
+const tags = [{ id: 3, title: 'foo' }, { id: 4, title: 'bar' }]
+export default {
+	name: 'Tag',
+	components: { Multiselect },
+	data() {
+		return {
+			options: tags,
+			value: null
 		}
 	}
+}
 </script>
 
 <style scoped>

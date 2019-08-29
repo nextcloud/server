@@ -1,74 +1,63 @@
 <template>
 	<div>
-	<Multiselect :value="currentEvent" :options="allEvents" label="name" track-by="id" :allow-empty="false" :disabled="allEvents.length <= 1" @input="updateEvent">
-		<template slot="singleLabel" slot-scope="props">
-			<img class="option__icon" :src="props.option.icon" />
-			<span class="option__title option__title_single">{{ props.option.name }}</span>
-		</template>
-		<template slot="option" slot-scope="props">
-			<img class="option__icon" :src="props.option.icon" />
-			<span class="option__title">{{ props.option.name }}</span>
-		</template>
-	</Multiselect>
+		<div v-if="operation.isComplex && operation.fixedEntity !== ''">
+			<img class="option__icon" :src="entity.icon">
+			<span class="option__title option__title_single">{{ entity.name }}</span>
+		</div>
+		<Multiselect v-else :value="currentEvent" :options="allEvents"
+			label="eventName" track-by="id" :allow-empty="false"
+			:disabled="allEvents.length <= 1" @input="updateEvent">
+			<template slot="singleLabel" slot-scope="props">
+				<img class="option__icon" :src="props.option.entity.icon">
+				<span class="option__title option__title_single">{{ props.option.displayName }}</span>
+			</template>
+			<template slot="option" slot-scope="props">
+				<img class="option__icon" :src="props.option.entity.icon">
+				<span class="option__title">{{ props.option.displayName }}</span>
+			</template>
+		</Multiselect>
 	</div>
 </template>
 
 <script>
-	import { Multiselect } from 'nextcloud-vue'
-	import { Entities, operationService } from '../services/Operation'
+import { Multiselect } from 'nextcloud-vue'
 
-	export default {
-		name: "Event",
-		components: {
-			Multiselect
+export default {
+	name: 'Event',
+	components: {
+		Multiselect
+	},
+	props: {
+		rule: {
+			type: Object,
+			required: true
+		}
+	},
+	computed: {
+		entity() {
+			return this.$store.getters.getEntityForOperation(this.operation)
 		},
-		props: {
-			rule: {
-				type: Object,
-				required: true
+		operation() {
+			return this.$store.getters.getOperationForRule(this.rule)
+		},
+		allEvents() {
+			return this.$store.getters.getEventsForOperation(this.operation)
+		},
+		currentEvent() {
+			if (!this.rule.events) {
+				return this.allEvents.length > 0 ? this.allEvents[0] : null
 			}
-		},
-		mounted() {
-			this.updateEvent(this.currentEvent)
-		},
-		computed: {
-			currentEvent() {
-				if (!this.rule.event) {
-					return this.allEvents.length > 0 ? this.allEvents[0] : null
-				}
-				return this.allEvents.find(event => event.entity === this.rule.entity && event.event === this.rule.event)
-			},
-			allEvents() {
-				return this.operation.events.map((entityEventName) => {
-					const parts = entityEventName.split('::')
-					const entityId = parts[0]
-					const eventName = parts[1]
-					const Entity = Entities.find((entity) => entity.id === entityId)
-					const Event = Entity.events.find((event) => event.eventName === eventName)
-					return {
-						entity: entityId,
-						id: entityEventName,
-						events: eventName,
-						name: Event.displayName,
-						icon: Entity.icon,
-						checks: Entity.checks,
-					}
-				})
-			},
-			operation() {
-				return operationService.get(this.rule.class)
-			}
-		},
-		methods: {
-			updateEvent(event) {
-				if (this.rule.entity !== event.entity || this.rule.events !== '["' + event.event + '"]') {
-					this.$set(this.rule, 'entity', event.entity)
-					this.$set(this.rule, 'event', event.event)
-					this.$emit('update', this.rule)
-				}
-			}
+			return this.allEvents.find(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
+		}
+	},
+	methods: {
+		updateEvent(event) {
+			this.$set(this.rule, 'entity', event.entity.id)
+			this.$set(this.rule, 'events', [event.eventName])
+			this.$store.dispatch('updateRule', this.rule)
 		}
 	}
+}
 </script>
 
 <style scoped>

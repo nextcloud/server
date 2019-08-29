@@ -20,66 +20,66 @@
 
 (function() {
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
-	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
+	OCA.WorkflowEngine = OCA.WorkflowEngine || {}
+	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {}
 
 	OCA.WorkflowEngine.Plugins.RequestUserAgentPlugin = {
 		predefinedValues: ['android', 'ios', 'desktop'],
 		getCheck: function() {
 			return {
-				'class': 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
-				'name': t('workflowengine', 'Request user agent'),
-				'operators': [
-					{'operator': 'is', 'name': t('workflowengine', 'is')},
-					{'operator': '!is', 'name': t('workflowengine', 'is not')},
-					{'operator': 'matches', 'name': t('workflowengine', 'matches')},
-					{'operator': '!matches', 'name': t('workflowengine', 'does not match')}
+				class: 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
+				name: t('workflowengine', 'Request user agent'),
+				operators: [
+					{ operator: 'is', name: t('workflowengine', 'is') },
+					{ operator: '!is', name: t('workflowengine', 'is not') },
+					{ operator: 'matches', name: t('workflowengine', 'matches') },
+					{ operator: '!matches', name: t('workflowengine', 'does not match') }
 				]
-			};
+			}
 		},
 		render: function(element, check) {
-			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\RequestUserAgent') {
-				return;
+			if (check.class !== 'OCA\\WorkflowEngine\\Check\\RequestUserAgent') {
+				return
 			}
 
-			var placeholder = 'Mozilla/5.0 User Agent';
+			var placeholder = 'Mozilla/5.0 User Agent'
 
 			if (check.operator === 'matches' || check.operator === '!matches') {
-				placeholder = '/^Mozilla\\/5\\.0 (.*)$/i';
+				placeholder = '/^Mozilla\\/5\\.0 (.*)$/i'
 			}
 
 			$(element).css('width', '250px')
 				.attr('placeholder', placeholder)
-				.attr('title', t('workflowengine', 'Example: {placeholder}', {placeholder: placeholder}))
+				.attr('title', t('workflowengine', 'Example: {placeholder}', { placeholder: placeholder }))
 				.addClass('has-tooltip')
 				.tooltip({
 					placement: 'bottom'
-				});
+				})
 
 			if (check.operator === 'matches' || check.operator === '!matches') {
 				if (this._validateRegex(check.value)) {
-					$(element).removeClass('invalid-input');
+					$(element).removeClass('invalid-input')
 				} else {
-					$(element).addClass('invalid-input');
+					$(element).addClass('invalid-input')
 				}
 			} else {
-				var self = this,
-					data = [
+				var self = this
+				var data = [
 					{
 						text: t('workflowengine', 'Sync clients'),
 						children: [
-							{id: 'android', text: t('workflowengine', 'Android client')},
-							{id: 'ios', text: t('workflowengine', 'iOS client')},
-							{id: 'desktop', text: t('workflowengine', 'Desktop client')},
-							{id: 'mail', text: t('workflowengine', 'Thunderbird & Outlook addons')}
+							{ id: 'android', text: t('workflowengine', 'Android client') },
+							{ id: 'ios', text: t('workflowengine', 'iOS client') },
+							{ id: 'desktop', text: t('workflowengine', 'Desktop client') },
+							{ id: 'mail', text: t('workflowengine', 'Thunderbird & Outlook addons') }
 						]
 					}
-				];
+				]
 				if (this.predefinedValues.indexOf(check.value) === -1) {
 					data.unshift({
 						id: check.value,
 						text: check.value
-					});
+					})
 				}
 
 				$(element).select2({
@@ -89,31 +89,31 @@
 							return {
 								id: term,
 								text: term
-							};
+							}
 						}
 					},
 					id: function(element) {
-						return element.id;
+						return element.id
 					},
-					formatResult: function (tag) {
-						return tag.text;
+					formatResult: function(tag) {
+						return tag.text
 					},
-					formatSelection: function (tag) {
-						return tag.text;
+					formatSelection: function(tag) {
+						return tag.text
 					},
 					escapeMarkup: function(m) {
-						return m;
+						return m
 					}
 				})
 			}
 		},
 
 		_validateRegex: function(string) {
-			var regexRegex = /^\/(.*)\/([gui]{0,3})$/,
-				result = regexRegex.exec(string);
-			return result !== null;
+			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
+			var result = regexRegex.exec(string)
+			return result !== null
 		}
-	};
-})();
+	}
+})()
 
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.RequestUserAgentPlugin);
+OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.RequestUserAgentPlugin)

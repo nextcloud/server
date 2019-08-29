@@ -4,93 +4,68 @@
 			<h2>{{ t('workflowengine', 'Workflows') }}</h2>
 
 			<transition-group name="slide" tag="div" class="actions">
-				<Operation v-for="operation in getMainOperations" :key="operation.class"
-						   :icon="operation.icon" :title="operation.title" :description="operation.description" :color="operation.color"
-						   @click.native="createNewRule(operation)"></Operation>
+				<Operation v-for="operation in getMainOperations" :key="operation.id" :operation="operation"
+					@click.native="createNewRule(operation)" />
 			</transition-group>
 
-			<div class="actions__more" v-if="hasMoreOperations">
+			<div v-if="hasMoreOperations" class="actions__more">
 				<button class="icon" :class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
-						@click="showMoreOperations=!showMoreOperations">
+					@click="showMoreOperations=!showMoreOperations">
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
 				</button>
 			</div>
 		</div>
 
-		<transition-group name="slide" v-if="rules.length > 0">
-			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" @delete="removeRule(rule)" @cancel="removeRule(rule)" @update="updateRule"></Rule>
+		<transition-group v-if="rules.length > 0" name="slide">
+			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
 		</transition-group>
-
 	</div>
 </template>
 
 <script>
-	import Rule from './Rule'
-	import Operation from './Operation'
-	import { operationService } from '../services/Operation'
-	import axios from 'nextcloud-axios'
-	import { getApiUrl } from '../helpers/api';
+import Rule from './Rule'
+import Operation from './Operation'
+import { mapGetters, mapState } from 'vuex'
 
-	const ACTION_LIMIT = 3
+const ACTION_LIMIT = 3
 
-	export default {
-		name: 'Workflow',
-		components: {
-			Operation,
-			Rule
+export default {
+	name: 'Workflow',
+	components: {
+		Operation,
+		Rule
+	},
+	data() {
+		return {
+			showMoreOperations: false
+		}
+	},
+	computed: {
+		...mapGetters({
+			rules: 'getRules'
+		}),
+		...mapState({
+			operations: 'operations'
+		}),
+		hasMoreOperations() {
+			return Object.keys(this.operations).length > ACTION_LIMIT
 		},
-		async mounted() {
-			const { data } = await axios.get(getApiUrl(''))
-			this.rules = Object.values(data.ocs.data).flat()
-		},
-		data() {
-			return {
-				scope: OCP.InitialState.loadState('workflowengine', 'scope'),
-				operations: operationService,
-				showMoreOperations: false,
-				rules: []
+		getMainOperations() {
+			if (this.showMoreOperations) {
+				return Object.values(this.operations)
 			}
-		},
-		computed: {
-			hasMoreOperations() {
-				return Object.keys(this.operations.getAll()).length > ACTION_LIMIT
-			},
-			getMainOperations() {
-				if (this.showMoreOperations) {
-					return Object.values(this.operations.getAll())
-				}
-				return Object.values(this.operations.getAll()).slice(0, ACTION_LIMIT)
-			},
-			getMoreOperations() {
-				return Object.values(this.operations.getAll()).slice(ACTION_LIMIT)
-
-			}
-		},
-		methods: {
-			updateRule(rule) {
-				let index = this.rules.findIndex((item) => rule === item)
-				this.$set(this.rules, index, rule)
-			},
-			removeRule(rule) {
-				let index = this.rules.findIndex((item) => rule === item)
-				this.rules.splice(index, 1)
-			},
-			showAllOperations() {
-
-			},
-			createNewRule(operation) {
-				this.rules.unshift({
-					id: -1,
-					class: operation.class,
-					entity: undefined,
-					event: undefined,
-					name: '', // unused in the new ui, there for legacy reasons
-					checks: [],
-					operation: operation.operation || ''
-				})
-			}
+			return Object.values(this.operations).slice(0, ACTION_LIMIT)
+		}
+	},
+	mounted() {
+		this.$store.dispatch('fetchRules')
+	},
+	methods: {
+		createNewRule(operation) {
+			this.$store.dispatch('createNewRule', operation)
 		}
 	}
+}
 </script>
 
 <style scoped lang="scss">
@@ -118,7 +93,6 @@
 		padding-left: 32px;
 		background-position: 10px center;
 	}
-
 
 	.slide-enter-active {
 		-moz-transition-duration: 0.3s;

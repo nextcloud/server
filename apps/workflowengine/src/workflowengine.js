@@ -1,19 +1,25 @@
-import './filemimetypeplugin'
-import './filenameplugin'
-import './filesizeplugin'
-import './filesystemtagsplugin'
-import './requestremoteaddressplugin'
-import './requesttimeplugin'
-import './requesturlplugin'
-import './requestuseragentplugin'
-import './usergroupmembershipplugin'
+import './legacy/filemimetypeplugin'
+import './legacy/filenameplugin'
+import './legacy/filesizeplugin'
+import './legacy/filesystemtagsplugin'
+import './legacy/requestremoteaddressplugin'
+import './legacy/requesttimeplugin'
+import './legacy/requesturlplugin'
+import './legacy/requestuseragentplugin'
+import './legacy/usergroupmembershipplugin'
+
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+import store from './store'
+
+import Settings from './components/Workflow'
 
 window.OCA.WorkflowEngine = OCA.WorkflowEngine
+Vue.use(Vuex)
 
-import Vue from 'vue';
-
-Vue.prototype.t = t;
-
-import Settings from './components/Workflow';
+Vue.prototype.t = t
 const View = Vue.extend(Settings)
-new View({}).$mount('#workflowengine')
+new View({
+	store
+}).$mount('#workflowengine')

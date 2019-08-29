@@ -20,28 +20,28 @@
 
 (function() {
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
-	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
+	OCA.WorkflowEngine = OCA.WorkflowEngine || {}
+	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {}
 
 	OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin = {
 		getCheck: function() {
-			this.collection = OC.SystemTags.collection;
+			this.collection = OC.SystemTags.collection
 
 			return {
-				'class': 'OCA\\WorkflowEngine\\Check\\FileSystemTags',
-				'name': t('workflowengine', 'File system tag'),
-				'operators': [
-					{'operator': 'is', 'name': t('workflowengine', 'is tagged with')},
-					{'operator': '!is', 'name': t('workflowengine', 'is not tagged with')}
+				class: 'OCA\\WorkflowEngine\\Check\\FileSystemTags',
+				name: t('workflowengine', 'File system tag'),
+				operators: [
+					{ operator: 'is', name: t('workflowengine', 'is tagged with') },
+					{ operator: '!is', name: t('workflowengine', 'is not tagged with') }
 				]
-			};
+			}
 		},
 		render: function(element, check) {
-			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\FileSystemTags') {
-				return;
+			if (check.class !== 'OCA\\WorkflowEngine\\Check\\FileSystemTags') {
+				return
 			}
 
-			$(element).css('width', '400px');
+			$(element).css('width', '400px')
 
 			$(element).select2({
 				allowClear: false,
@@ -50,29 +50,29 @@
 				query: _.debounce(function(query) {
 					query.callback({
 						results: OC.SystemTags.collection.filterByName(query.term)
-					});
+					})
 				}, 100, true),
 				id: function(element) {
-					return element.get('id');
+					return element.get('id')
 				},
 				initSelection: function(element, callback) {
-					callback($(element).val());
+					callback($(element).val())
 				},
-				formatResult: function (tag) {
-					return OC.SystemTags.getDescriptiveTag(tag);
+				formatResult: function(tag) {
+					return OC.SystemTags.getDescriptiveTag(tag)
 				},
-				formatSelection: function (tagId) {
-					var tag = OC.SystemTags.collection.get(tagId);
+				formatSelection: function(tagId) {
+					var tag = OC.SystemTags.collection.get(tagId)
 					if (!_.isUndefined(tag)) {
-						return OC.SystemTags.getDescriptiveTag(tag);
+						return OC.SystemTags.getDescriptiveTag(tag)
 					}
 				},
 				escapeMarkup: function(m) {
-					return m;
+					return m
 				}
-			});
+			})
 		}
-	};
-})();
+	}
+})()
 
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin);
+OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileSystemTagsPlugin)

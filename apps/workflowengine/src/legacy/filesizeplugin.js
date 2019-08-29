@@ -17,43 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import SizeValue from './components/Values/SizeValue'
+import SizeValue from './../components/Values/SizeValue'
 (function() {
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
-	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
+	OCA.WorkflowEngine = OCA.WorkflowEngine || {}
+	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {}
 
 	OCA.WorkflowEngine.Plugins.FileSizePlugin = {
 		getCheck: function() {
 			return {
-				'class': 'OCA\\WorkflowEngine\\Check\\FileSize',
-				'name': t('workflowengine', 'File size (upload)'),
-				'operators': [
-					{'operator': 'less', 'name': t('workflowengine', 'less')},
-					{'operator': '!greater', 'name': t('workflowengine', 'less or equals')},
-					{'operator': '!less', 'name': t('workflowengine', 'greater or equals')},
-					{'operator': 'greater', 'name': t('workflowengine', 'greater')}
+				class: 'OCA\\WorkflowEngine\\Check\\FileSize',
+				name: t('workflowengine', 'File size (upload)'),
+				operators: [
+					{ operator: 'less', name: t('workflowengine', 'less') },
+					{ operator: '!greater', name: t('workflowengine', 'less or equals') },
+					{ operator: '!less', name: t('workflowengine', 'greater or equals') },
+					{ operator: 'greater', name: t('workflowengine', 'greater') }
 				]
-			};
+			}
 		},
 		render: function(element, check) {
-			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\FileSize') {
-				return;
+			if (check.class !== 'OCA\\WorkflowEngine\\Check\\FileSize') {
+				return
 			}
 
-			var placeholder = '12 MB'; // Do not translate!!!
+			var placeholder = '12 MB' // Do not translate!!!
 			$(element).css('width', '250px')
 				.attr('placeholder', placeholder)
-				.attr('title', t('workflowengine', 'Example: {placeholder}', {placeholder: placeholder}))
+				.attr('title', t('workflowengine', 'Example: {placeholder}', { placeholder: placeholder }))
 				.addClass('has-tooltip')
 				.tooltip({
 					placement: 'bottom'
-				});
+				})
 		},
-		component: function () {
+		component: function() {
 			return SizeValue
 		}
-	};
-})();
+	}
+})()
 
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileSizePlugin);
+OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileSizePlugin)

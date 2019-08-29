@@ -4,143 +4,144 @@
 		<div class="trigger icon-confirm">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>
-				<Event :rule="rule" @update="updateRule"></Event>
+				<Event :rule="rule" @update="updateRule" />
 			</p>
 			<p v-for="check in rule.checks">
 				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check :check="check" @update="updateRule" @remove="removeCheck(check)"></Check>
+				<Check :check="check" @update="updateRule" @remove="removeCheck(check)" />
 			</p>
 			<p>
-				<span> </span>
-				<input v-if="lastCheckComplete" type="button" class="check--add" @click="rule.checks.push({class: null, operator: null, value: null})" value="Add a new filter"/>
+				<span />
+				<input v-if="lastCheckComplete" type="button" class="check--add"
+					value="Add a new filter" @click="rule.checks.push({class: null, operator: null, value: null})">
 			</p>
 		</div>
 		<div class="action">
 			<div class="buttons">
 				<Actions>
-					<ActionButton v-if="rule.id === -1" icon="icon-close" @click="$emit('cancel')">Cancel rule creation</ActionButton>
-					<ActionButton v-else icon="icon-close" @click="deleteRule">Remove rule</ActionButton>
+					<ActionButton v-if="rule.id < -1" icon="icon-close" @click="cancelRule">
+						Cancel rule creation
+					</ActionButton>
+					<ActionButton v-else icon="icon-close" @click="deleteRule">
+						Remove rule
+					</ActionButton>
 				</Actions>
-				<button class="status-button icon" :class="ruleStatus.class" v-tooltip="ruleStatus.tooltip" @click="saveRule">{{ ruleStatus.title }}</button>
+				<button v-tooltip="ruleStatus.tooltip" class="status-button icon" :class="ruleStatus.class"
+					@click="saveRule">
+					{{ ruleStatus.title }}
+				</button>
 			</div>
-			<Operation :icon="operation.icon" :title="operation.title" :description="operation.description">
-				<component v-if="operation.options" :is="operation.options" v-model="operation.operation" @input="updateOperation" />
+			<Operation :operation="operation" :colored="false">
+				<component :is="operation.options" v-if="operation.options" v-model="rule.operation"
+					@input="updateOperation" />
 			</Operation>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { Actions, ActionButton, Tooltip } from 'nextcloud-vue'
-	import Event from './Event'
-	import Check from './Check'
-	import Operation from './Operation'
-	import { operationService } from '../services/Operation'
-	import axios from 'nextcloud-axios'
-	import confirmPassword from 'nextcloud-password-confirmation'
-	import {getApiUrl} from '../helpers/api';
+import { Actions, ActionButton, Tooltip } from 'nextcloud-vue'
+import Event from './Event'
+import Check from './Check'
+import Operation from './Operation'
 
-	export default {
-		name: 'Rule',
-		components: {
-			Operation, Check, Event, Actions, ActionButton
+export default {
+	name: 'Rule',
+	components: {
+		Operation, Check, Event, Actions, ActionButton
+	},
+	directives: {
+		Tooltip
+	},
+	props: {
+		rule: {
+			type: Object,
+			required: true
+		}
+	},
+	data() {
+		return {
+			editing: false,
+			checks: [],
+			error: null,
+			dirty: this.rule.id < 0,
+			checking: false
+		}
+	},
+	computed: {
+		operation() {
+			return this.$store.getters.getOperationForRule(this.rule)
 		},
-		directives: {
-			Tooltip
+		ruleStatus() {
+			if (this.error) {
+				return {
+					title: t('workflowengine', 'The configuration is invalid'),
+					class: 'icon-close-white invalid',
+					tooltip: { placement: 'bottom', show: true, content: this.error }
+				}
+			}
+			if (!this.dirty || this.checking) {
+				return { title: 'Active', class: 'icon icon-checkmark' }
+			}
+			return { title: 'Save', class: 'icon-confirm-white primary' }
+
 		},
-		props: {
-			rule: {
-				type: Object,
-				required: true,
+		lastCheckComplete() {
+			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
+			return typeof lastCheck === 'undefined' || lastCheck.class !== null
+		}
+	},
+	methods: {
+		async updateOperation(operation) {
+			this.$set(this.rule, 'operation', operation)
+			await this.updateRule()
+		},
+		async updateRule() {
+			this.checking = true
+			if (!this.dirty) {
+				this.dirty = true
+			}
+			try {
+				// TODO: add new verify endpoint
+				// let result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations/test`), this.rule)
+				this.error = null
+				this.checking = false
+				this.$store.dispatch('updateRule', this.rule)
+			} catch (e) {
+				console.error('Failed to update operation', e)
+				this.error = e.response.ocs.meta.message
+				this.checking = false
 			}
 		},
-		data () {
-			return {
-				editing: false,
-				operationService,
-				checks: [],
-				error: null,
-				dirty: this.rule.id === -1,
-				checking: false
+		async saveRule() {
+			try {
+				await this.$store.dispatch('pushUpdateRule', this.rule)
+				this.dirty = false
+				this.error = null
+			} catch (e) {
+				console.error('Failed to save operation')
+				this.error = e.response.data.ocs.meta.message
 			}
 		},
-		computed: {
-			operation() {
-				return this.operationService.get(this.rule.class)
-			},
-			ruleStatus() {
-				if (this.error) {
-					return { title: 'Invalid', class: 'icon-close-white invalid', tooltip: { placement: 'bottom', show: true, content: escapeHTML(this.error) } }
-				}
-				if (!this.dirty || this.checking) {
-					return { title: 'Active', class: 'icon icon-checkmark' }
-				}
-				return { title: 'Save', class: 'icon-confirm-white primary' }
-
-
-			},
-			lastCheckComplete() {
-				const lastCheck = this.rule.checks[this.rule.checks.length-1]
-				return typeof lastCheck === 'undefined' || lastCheck.class !== null
+		async deleteRule() {
+			try {
+				await this.$store.dispatch('deleteRule', this.rule)
+			} catch (e) {
+				console.error('Failed to delete operation')
+				this.error = e.response.data.ocs.meta.message
 			}
 		},
-		methods: {
-			updateOperation(operation) {
-				this.$set(this.rule, 'operation', operation)
-			},
-			async updateRule() {
-				this.checking = true
-				if (!this.dirty) {
-					this.dirty = true
-				}
-				try {
-					// TODO: add new verify endpoint
-					//let result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations/test`), this.rule)
-					this.error = null
-					this.checking = false
-				} catch (e) {
-					console.error('Failed to update operation', e)
-					this.error = e.response.ocs.meta.message
-					this.checking = false
-				}
-			},
-			async saveRule() {
-				try {
-					await confirmPassword()
-					let result
-					if (this.rule.id === -1) {
-						result = await axios.post(getApiUrl(''), {...this.rule, events: [this.rule.event]})
-						this.rule.id = result.data.ocs.data.id
-					} else {
-						result = await axios.put(getApiUrl(`/${this.rule.id}`), {...this.rule, events: [this.rule.event]})
-					}
-					this.$emit('update', this.rule)
-					this.dirty = false
-					this.error = null
-				} catch (e) {
-					console.log(e.response.data.ocs.meta.message)
-					console.error('Failed to update operation', e)
-					this.error = e.response.data.ocs.meta.message
-				}
-			},
-			async deleteRule() {
-				try {
-					await confirmPassword()
-					await axios.delete(getApiUrl(`/${this.rule.id}`))
-					this.$emit('delete')
-				} catch (e) {
-					console.error('Failed to delete operation')
-					this.error = e.response
-				}
-			},
-			removeCheck(check) {
-				const index = this.rule.checks.findIndex(item => item === check)
-				if (index !== -1) {
-					this.rule.checks.splice(index, 1)
-				}
+		cancelRule() {
+			this.$store.dispatch('removeRule', this.rule)
+		},
+		removeCheck(check) {
+			const index = this.rule.checks.findIndex(item => item === check)
+			if (index < 0) {
+				this.rule.checks.splice(index, 1)
 			}
 		}
 	}
+}
 </script>
 
 <style scoped lang="scss">
@@ -162,6 +163,7 @@
 	.status-button.invalid {
 		background-color: var(--color-warning);
 		color: #fff;
+		border: none;
 	}
 
 	.rule {

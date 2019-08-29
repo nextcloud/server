@@ -20,56 +20,56 @@
 
 (function() {
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
-	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
+	OCA.WorkflowEngine = OCA.WorkflowEngine || {}
+	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {}
 
 	OCA.WorkflowEngine.Plugins.UserGroupMembershipPlugin = {
 		getCheck: function() {
 			return {
-				'class': 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
-				'name': t('workflowengine', 'User group membership'),
-				'operators': [
-					{'operator': 'is', 'name': t('workflowengine', 'is member of')},
-					{'operator': '!is', 'name': t('workflowengine', 'is not member of')}
+				class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
+				name: t('workflowengine', 'User group membership'),
+				operators: [
+					{ operator: 'is', name: t('workflowengine', 'is member of') },
+					{ operator: '!is', name: t('workflowengine', 'is not member of') }
 				]
-			};
+			}
 		},
 		render: function(element, check, groups) {
-			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\UserGroupMembership') {
-				return;
+			if (check.class !== 'OCA\\WorkflowEngine\\Check\\UserGroupMembership') {
+				return
 			}
 
-			$(element).css('width', '400px');
+			$(element).css('width', '400px')
 
 			$(element).select2({
 				data: { results: groups, text: 'displayname' },
-				initSelection: function (element, callback) {
-					var groupId = element.val();
+				initSelection: function(element, callback) {
+					var groupId = element.val()
 					if (groupId && groups.length > 0) {
 						callback({
 							id: groupId,
-							displayname: groups.find(function (group) {
-								return group.id === groupId;
+							displayname: groups.find(function(group) {
+								return group.id === groupId
 							}).displayname
-						});
+						})
 					} else if (groupId) {
 						callback({
 							id: groupId,
 							displayname: groupId
-						});
+						})
 					} else {
-						callback();
+						callback()
 					}
 				},
-				formatResult: function (element) {
-					return '<span>' + escapeHTML(element.displayname) + '</span>';
+				formatResult: function(element) {
+					return '<span>' + escapeHTML(element.displayname) + '</span>'
 				},
-				formatSelection: function (element) {
-					return '<span title="'+escapeHTML(element.id)+'">'+escapeHTML(element.displayname)+'</span>';
+				formatSelection: function(element) {
+					return '<span title="' + escapeHTML(element.id) + '">' + escapeHTML(element.displayname) + '</span>'
 				}
-			});
+			})
 		}
-	};
-})();
+	}
+})()
 
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.UserGroupMembershipPlugin);
+OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.UserGroupMembershipPlugin)

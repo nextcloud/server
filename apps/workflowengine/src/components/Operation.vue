@@ -1,34 +1,26 @@
 <template>
-	<div class="actions__item" :class="{'colored': !!color}" :style="{ backgroundColor: color }">
-		<div class="icon" :class="icon"></div>
-		<h3>{{ title }}</h3>
-		<small>{{ description }}</small>
+	<div class="actions__item" :class="{'colored': colored}" :style="{ backgroundColor: colored ? operation.color : 'transparent' }">
+		<div class="icon" :class="operation.iconClass" :style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
+		<h3>{{ operation.name }}</h3>
+		<small>{{ operation.description }}</small>
 		<slot />
 	</div>
 </template>
 
 <script>
-	export default {
-		name: "Operation",
-		props: {
-			icon: {
-				type: String,
-				required: true
-			},
-			title: {
-				type: String,
-				required: true
-			},
-			description: {
-				type: String,
-				required: true
-			},
-			color: {
-				type: String,
-				required: false
-			},
+export default {
+	name: 'Operation',
+	props: {
+		operation: {
+			type: Object,
+			required: true
+		},
+		colored: {
+			type: Boolean,
+			default: true
 		}
 	}
+}
 </script>
 
 <style scoped lang="scss">
@@ -50,6 +42,7 @@
 		background-position: center center;
 		margin-top: 10px;
 		margin-bottom: 20px;
+		background-repeat: no-repeat;
 	}
 	h3, small {
 		padding: 6px;
