@@ -38,6 +38,19 @@ namespace OCP\WorkflowEngine;
  *
  * @package OCP\WorkflowEngine
  *
- * @sincee 18.0.0
+ * @since 18.0.0
  */
-interface IComplexOperation extends IOperation { }
+interface IComplexOperation extends IOperation {
+
+	/**
+	 * As IComplexOperation chooses the triggering events itself, a hint has
+	 * to be shown to the user so make clear when this operation is becoming
+	 * active. This method returns such a translated string.
+	 *
+	 * Example: "When a file is accessed" (en)
+	 *
+	 * @since 18.0.0
+	 */
+	public function getTriggerHint(): string;
+
+}

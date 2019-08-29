@@ -152,6 +152,7 @@ abstract class ASettings implements ISettings {
 				'description' => $operator->getDescription(),
 				'fixedEntity' => $operator instanceof ISpecificOperation ? $operator->getEntityId() : '',
 				'isComplex' => $operator instanceof IComplexOperation,
+				'triggerHint' => $operator instanceof IComplexOperation ? $operator->getTriggerHint() : '',
 			];
 		}, $operators);
 	}
