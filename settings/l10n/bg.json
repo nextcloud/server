@@ -174,8 +174,6 @@
     "Last job ran %s." : "За последно cron задача е стартирала %s.",
     "Last job execution ran %s. Something seems wrong." : "За последно cron задача е стартирала %s. Изглежда, че има проблем.",
     "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Услугата webcron стартира cron.php всеки 15 минути по HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Ползва услугата cron на сървъра за да стартира cron.php всеки 15 минути.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Необходимо е cron.php да се стартира от системния потребител \"%s\".",
     "Sharing" : "Споделяне",
     "Allow apps to use the Share API" : "Разреши приложенията да използват Share API",
@@ -228,6 +226,8 @@
     "Not supported!" : "Не се поддържа!",
     "Press ⌘-C to copy." : "За копиране натиснете ⌘-C.",
     "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Услугата webcron стартира cron.php всеки 15 минути по HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Ползва услугата cron на сървъра за да стартира cron.php всеки 15 минути.",
     "Follow us on Google+" : "Следвайте ни в Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Ползвате <strong>%s</strong> от <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

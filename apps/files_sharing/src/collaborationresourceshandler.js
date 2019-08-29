@@ -8,10 +8,10 @@ window.OCP.Collaboration.registerType('file', {
 				const client = OC.Files.getClient();
 				client.getFileInfo(f).then((status, fileInfo) => {
 					resolve(fileInfo.id);
-				}, () => {
+				}).fail(() => {
 					reject();
 				});
-			}, false);
+			}, false, null, false, OC.dialogs.FILEPICKER_TYPE_CHOOSE, '', { allowDirectoryChooser: true });
 		});
 	},
 	typeString: t('files_sharing', 'Link to a file'),

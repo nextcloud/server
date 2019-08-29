@@ -43,6 +43,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "Ein <strong>Kalender</strong> wurde bearbeitet",
     "A calendar <strong>event</strong> was modified" : "Ein Kalender-<strong>Ereignis</strong> wurde bearbeitet",
     "A calendar <strong>todo</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde bearbeitet",
+    "Death of %s" : "Todestag von %s",
     "Contact birthdays" : "Geburtstage von Kontakten",
     "Calendar:" : "Kalender:",
     "Date:" : "Datum:",

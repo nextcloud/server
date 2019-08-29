@@ -39,9 +39,9 @@ let currentMenuToggle = null
 export const registerMenu = ($toggle, $menuEl, toggle, headerMenu) => {
 	$menuEl.addClass('menu')
 
-	// On link, the enter key trigger a click event
+	// On link and button, the enter key trigger a click event
 	// Only use the click to avoid two fired events
-	$toggle.on($toggle.prop('tagName') === 'A'
+	$toggle.on(($toggle.prop('tagName') === 'A' || $toggle.prop('tagName') === 'BUTTON')
 		? 'click.menu'
 		: 'click.menu keyup.menu', function (event) {
 		// prevent the link event (append anchor to URL)

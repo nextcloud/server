@@ -597,14 +597,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Search', \OCP\ISearch::class);
 
-		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function (Server $c) {
-			return new \OC\Security\RateLimiting\Limiter(
-				$this->getUserSession(),
-				$this->getRequest(),
-				new \OC\AppFramework\Utility\TimeFactory(),
-				$c->query(\OC\Security\RateLimiting\Backend\IBackend::class)
-			);
-		});
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
 			return new \OC\Security\RateLimiting\Backend\MemoryCache(
 				$this->getMemCacheFactory(),

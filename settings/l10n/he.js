@@ -397,8 +397,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "משימת הרקע לא רצה עדיין!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "לביצועים מיטביים חשוב להגדיר משימות רקע כראוי. למערכות גדולות יותר מוטב להשתמש ב־‚Cron’. נא לעיין בתיעוד לקבל מידע נוסף.",
     "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
     "The cron.php needs to be executed by the system user \"%s\"." : "יש להפעיל את cron.php בתור משתמש המערכת „%s”.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "כדי להריץ זאת יש צורך בהרחבת POSIX ל־PHP. נא לעיין ב{linkstart}תיעוד של PHP{linkend} לפרטים נוספים.",
     "Sharing" : "שיתוף",
@@ -461,6 +459,8 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
     "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
     "Default quota :" : "מכסת בררת מחדל:",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
     "Follow us on Google+" : "לעקוב אחרינו ב־Google+‎"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

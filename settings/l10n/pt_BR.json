@@ -745,8 +745,8 @@
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para um desempenho ideal, é importante configurar corretamente os trabalhos em segundo plano. Para instâncias maiores, 'Cron' é a configuração recomendada. Consulte a documentação para obter mais informações.",
     "Pick background job setting" : "Configuração de trabalhos em segundo plano",
     "Execute one task with each page loaded" : "Execute uma tarefa com cada página carregada",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registrado em um serviço webcron para chamar cron.php a cada 15 minutos em HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Usar o serviço cron para chamar o arquivo cron.php a cada 15 minutos.",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "O cron.php está registrado num webcron para chamar cron.php a cada 5 minutos em HTTP.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Use o serviço cron do sistema para chamar o arquivo cron.php a cada 5 minutos.",
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php precisa ser executado pelo usuário de sistema \"%s\"",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para executar isso, você precisa da extensão PHP POSIX. Veja a {linkstart} documentação do PHP {linkend} para mais detalhes.",
     "Sharing" : "Compartilhamento",
@@ -820,6 +820,8 @@
     "Error while loading browser sessions and device tokens" : "Erro ao carregar as sessões do browser e tokens do dispositivo",
     "Default quota :" : "Cota padrão:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Reverifique os <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">guias de instalação ↗</a> e cheque por erros ou avisos no <a href=\"%s\">log</a>.",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registrado em um serviço webcron para chamar cron.php a cada 15 minutos em HTTP.",
+    "Use system cron service to call the cron.php file every 15 minutes." : "Usar o serviço cron para chamar o arquivo cron.php a cada 15 minutos.",
     "Follow us on Google+" : "Siga-nos no Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Você está usando <strong>%s</strong> de <strong>%s</strong> (<strong>%s %%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

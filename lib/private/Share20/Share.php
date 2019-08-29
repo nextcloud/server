@@ -371,6 +371,14 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function isExpired() {
+		return $this->getExpirationDate() !== null &&
+			$this->getExpirationDate() <= new \DateTime();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function setSharedBy($sharedBy) {
 		if (!is_string($sharedBy)) {
 			throw new \InvalidArgumentException();

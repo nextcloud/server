@@ -195,8 +195,9 @@ const Dialogs = {
 	 * @param modal make the dialog modal
 	 * @param type Type of file picker : Choose, copy, move, copy and move
 	 * @param path path to the folder that the the file can be picket from
+	 * @param options additonal options that need to be set
 	 */
-	filepicker: function (title, callback, multiselect, mimetypeFilter, modal, type, path) {
+	filepicker: function (title, callback, multiselect, mimetypeFilter, modal, type, path, options) {
 		var self = this;
 
 		this.filepicker.sortField = 'name';
@@ -221,6 +222,9 @@ const Dialogs = {
 
 		this.filelist = null;
 		path = path || '';
+		options = Object.assign({
+			allowDirectoryChooser: false
+		}, options)
 
 		$.when(this._getFilePickerTemplate()).then(function ($tmpl) {
 			self.filepicker.loading = false;
@@ -244,7 +248,7 @@ const Dialogs = {
 				nameCol: t('core', 'Name'),
 				sizeCol: t('core', 'Size'),
 				modifiedCol: t('core', 'Modified')
-			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter);
+			}).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter).data('allowDirectoryChooser', options.allowDirectoryChooser)
 
 			if (modal === undefined) {
 				modal = false;
@@ -457,7 +461,7 @@ const Dialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog');
 			var buttonEnableDisable = getOcDialog.find('.primary');
-			if (self.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
+			if (self.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1 && !self.$filePicker.data('.allowDirectoryChooser')) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);
@@ -1178,7 +1182,7 @@ const Dialogs = {
 		} else if ($element.data('type') === 'dir') {
 			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 			this._changeButtonsText(type, $element.data('entryname'));
-			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1) {
+			if (this.$filePicker.data('mimetype').indexOf("httpd/unix-directory") !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
 				buttonEnableDisable.prop("disabled", false);
 			} else {
 				buttonEnableDisable.prop("disabled", true);

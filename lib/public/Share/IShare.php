@@ -40,6 +40,63 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
 interface IShare {
 
 	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_USER = 0;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_GROUP = 1;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_LINK = 3;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_EMAIL = 4;
+
+	/**
+	 * ToDo Check if it is still in use otherwise remove it
+	 * @since 17.0.0
+	 */
+	// public const TYPE_CONTACT = 5;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_REMOTE = 6;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_CIRCLE = 7;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_GUEST = 8;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_REMOTE_GROUP = 9;
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_ROOM = 10;
+
+	/**
+	 * Internal type used by RoomShareProvider
+	 * @since 17.0.0
+	 */
+	// const TYPE_USERROOM = 11;
+
+	/**
 	 * Set the internal id of the share
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
@@ -256,6 +313,14 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
+
+	/**
+	 * Is the share expired ?
+	 *
+	 * @return boolean
+	 * @since 18.0.0
+	 */
+	public function isExpired();
 
 	/**
 	 * set a label for a share, some shares, e.g. public links can have a label

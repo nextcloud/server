@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Копировать",
     "Choose target folder" : "Выберите каталога назначения",
     "Open" : "Открыть",
+    "Delete file" : "Удалить файл",
+    "Delete folder" : "Удалить каталог",
     "Disconnect storage" : "Отсоединить хранилище",
     "Unshare" : "Закрыть доступ",
     "Could not load info for file \"{file}\"" : "Не удаётся загрузить информацию для файла \"{file}\"",
