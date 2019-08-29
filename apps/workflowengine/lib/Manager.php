@@ -401,7 +401,7 @@ class Manager implements IManager, IEntityAware {
 			if($result) {
 				$qb = $this->connection->getQueryBuilder();
 				$result &= (bool)$qb->delete('flow_operations_scope')
-					->where($qb->expr()->eq('operation_id', $query->createNamedParameter($id)))
+					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
 					->execute();
 			}
 			$this->connection->commit();
