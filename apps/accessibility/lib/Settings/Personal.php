@@ -84,8 +84,12 @@ class Personal implements ISettings {
 		$serverData = [
 			'themes' => $this->accessibilityProvider->getThemes(),
 			'fonts'  => $this->accessibilityProvider->getFonts(),
-			'theme'  => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false),
-			'font'   => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false)
+			'highcontrast' => $this->accessibilityProvider->getHighContrast(),
+			'selected' => [
+				'highcontrast' => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'highcontrast', false),
+				'theme'  => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false),
+				'font'   => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false)
+			]
 		];
 
 		return new TemplateResponse($this->appName, 'settings-personal', ['serverData' => $serverData]);

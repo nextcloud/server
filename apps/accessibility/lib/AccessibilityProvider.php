@@ -56,15 +56,21 @@ class AccessibilityProvider {
 	public function getThemes() {
 		return array(
 			[
-				'id'    => 'themehighcontrast',
-				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
-				'title' => $this->l->t('High contrast theme'),
-				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
-			], [
-				'id'    => 'themedark',
+				'id'    => 'dark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
 				'title' => $this->l->t('Dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
+			]
+		);
+	}
+
+	public function getHighContrast() {
+		return array(
+			[
+				'id'    => 'highcontrast',
+				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
+				'title' => $this->l->t('High contrast theme'),
+				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
 			]
 		);
 	}
