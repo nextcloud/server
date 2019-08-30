@@ -187,7 +187,7 @@ abstract class QBMapper {
 		}
 
 		$qb->where(
-			$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+			$qb->expr()->eq('id', $qb->createNamedParameter($id, $this->getParameterTypeForProperty($entity, 'id')))
 		);
 		$qb->execute();
 
