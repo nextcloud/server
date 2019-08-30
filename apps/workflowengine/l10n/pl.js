@@ -48,7 +48,7 @@ OC.L10N.register(
     "Group list is empty" : "Lista grup jest pusta",
     "Unable to retrieve the group list" : "Nie można pobrać listy grup",
     "Saved" : "Zapisano",
-    "Saving failed:" : "Zapis się nie udał:",
+    "Saving failed:" : "Nieudany zapis:",
     "Add rule group" : "Dodaj grupę reguł",
     "The given operator is invalid" : "Dana operacja jest nieprawidłowa",
     "The given regular expression is invalid" : "Podane wyrażenie regularne jest błędne",
