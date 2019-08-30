@@ -124,6 +124,11 @@ abstract class Entity {
 
 		$docs = $prop->getDocComment();
 
+		if ($docs === false) {
+			$this->_fieldTypes[$name] = null;
+			return null;
+		}
+
 		// extract type parameter information
 		preg_match_all('/@var\h+(?P<type>\w+)/', $docs, $matches);
 
