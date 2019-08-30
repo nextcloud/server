@@ -13,16 +13,6 @@ const ALL_CHECKS = [
 	'OCA\\WorkflowEngine\\Check\\UserGroupMembership'
 ]
 
-const Checks = Object.values(OCA.WorkflowEngine.Plugins).map((plugin) => {
-	if (plugin.component) {
-		return { ...plugin.getCheck(), component: plugin.component }
-	}
-	return plugin.getCheck()
-}).reduce((obj, item) => {
-	obj[item.class] = item
-	return obj
-}, {})
-
 const Operators = OCP.InitialState.loadState('workflowengine', 'operators')
 
 /**
@@ -71,7 +61,6 @@ Operators['OCA\\FilesAutomatedTagging\\Operation'] = {
 }
 
 export {
-	Checks,
 	Operators,
 	ALL_CHECKS
 }

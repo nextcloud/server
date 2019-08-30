@@ -1,5 +1,5 @@
 <template>
-	<input type="text">
+	<input type="text" v-model="test">
 </template>
 
 <script>
@@ -12,6 +12,7 @@ export default {
 	},
 	data() {
 		return {
+			test: 'test',
 			predefinedTypes: [
 				{
 					icon: 'icon-picture',
@@ -29,6 +30,13 @@ export default {
 					pattern: 'application/pdf'
 				}
 			]
+		}
+	},
+	methods: {
+		validateRegex(string) {
+			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
+			var result = regexRegex.exec(string)
+			return result !== null
 		}
 	}
 }

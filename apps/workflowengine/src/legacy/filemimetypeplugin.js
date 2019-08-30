@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import FileMimeType from './../components/Values/FileMimeType'
-
 (function() {
 
 	OCA.WorkflowEngine = OCA.WorkflowEngine || {}
@@ -66,12 +64,6 @@ import FileMimeType from './../components/Values/FileMimeType'
 			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
 			var result = regexRegex.exec(string)
 			return result !== null
-		},
-
-		component: function() {
-			return FileMimeType
 		}
 	}
 })()
-
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileMimeTypePlugin)

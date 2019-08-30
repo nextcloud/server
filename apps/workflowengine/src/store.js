@@ -35,6 +35,12 @@ const store = new Vuex.Store({
 		scope: OCP.InitialState.loadState('workflowengine', 'scope'),
 		// TODO: move to backend data
 		operations: Operators,
+
+		plugins: Vue.observable({
+			checks: {},
+			operators: {}
+		}),
+
 		entities: OCP.InitialState.loadState('workflowengine', 'entities').map(entity => {
 			return {
 				...entity,
@@ -63,6 +69,12 @@ const store = new Vuex.Store({
 		removeRule(state, rule) {
 			const index = state.rules.findIndex((item) => rule.id === item.id)
 			state.rules.splice(index, 1)
+		},
+		addPluginCheck(state, plugin) {
+			Vue.set(state.plugins.checks, plugin.class, plugin)
+		},
+		addPluginOperator(state, plugin) {
+			Vue.set(state.plugins.operators, plugin.class, plugin)
 		}
 	},
 	actions: {

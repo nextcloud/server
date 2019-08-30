@@ -3,12 +3,12 @@
 		<Multiselect ref="checkSelector" v-model="currentOption" :options="options"
 			label="name" track-by="class" :allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a filter')" @input="updateCheck" />
-		<Multiselect v-if="currentOption" v-model="currentOperator" :options="operators"
+		<Multiselect :disabled="!currentOption" v-model="currentOperator" :options="operators"
 			label="name" track-by="operator" :allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a comparator')" @input="updateCheck" />
-		<component :is="currentOption.component()" v-if="currentOperator && currentComponent" v-model="check.value" />
-		<input v-else-if="currentOperator" v-model="check.value" type="text"
-			@input="updateCheck">
+		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value" :disabled="!currentOption" />
+		<input v-else v-model="check.value" type="text"
+			@input="updateCheck" :disabled="!currentOption">
 		<Actions>
 			<ActionButton v-if="deleteVisible || !currentOption" icon="icon-delete" @click="$emit('remove')" />
 		</Actions>
@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import { Checks } from '../services/Operation'
 import { Multiselect, Actions, ActionButton } from 'nextcloud-vue'
 import ClickOutside from 'vue-click-outside'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'Check',
@@ -45,19 +45,22 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			Checks: (state) => state.plugins.checks
+		}),
 		operators() {
 			if (!this.currentOption) { return [] }
-			return Checks[this.currentOption.class].operators
+			return this.Checks[this.currentOption.class].operators
 		},
 		currentComponent() {
 			if (!this.currentOption) { return [] }
-			const currentComponent = Checks[this.currentOption.class].component
-			return currentComponent && currentComponent()
+			const currentComponent = this.Checks[this.currentOption.class].component
+			return currentComponent
 		}
 	},
 	mounted() {
-		this.options = Object.values(Checks)
-		this.currentOption = Checks[this.check.class]
+		this.options = Object.values(this.Checks)
+		this.currentOption = this.Checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 	},
 	methods: {
@@ -82,6 +85,12 @@ export default {
 <style scoped lang="scss">
 	.check {
 		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+		padding-right: 20px;
+		& > *:not(.icon-delete) {
+			width: 200px;
+		}
 		& > .multiselect,
 		& > input[type=text] {
 			margin-right: 5px;
@@ -92,5 +101,9 @@ export default {
 	}
 	::placeholder {
 		font-size: 10px;
+	}
+	.icon-delete {
+		margin-top: -5px;
+		margin-bottom: -5px;
 	}
 </style>

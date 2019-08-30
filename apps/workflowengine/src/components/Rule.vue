@@ -12,7 +12,7 @@
 			</p>
 			<p>
 				<span />
-				<input v-if="lastCheckComplete" type="button" class="check--add"
+				<di<input v-if="lastCheckComplete" type="button" class="check--add"
 					value="Add a new filter" @click="rule.checks.push({class: null, operator: null, value: null})">
 			</p>
 		</div>
@@ -174,9 +174,10 @@ export default {
 		.trigger, .action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 700px;
+			max-width: 900px;
 		}
 		.action {
+			max-width: 400px;
 			position: relative;
 			.buttons {
 				position: absolute;
@@ -212,7 +213,8 @@ export default {
 		background-position: 7px center;
 		background-color: transparent;
 		padding-left: 6px;
-		width: 160px;
+		margin: 0;
+		width: 200px;
 		border-radius: var(--border-radius);
 		font-weight: normal;
 		text-align: left;
