@@ -19,7 +19,6 @@ return array(
     'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => $baseDir . '/../lib/Check/UserGroupMembership.php',
     'OCA\\WorkflowEngine\\Command\\Index' => $baseDir . '/../lib/Command/Index.php',
     'OCA\\WorkflowEngine\\Controller\\AWorkflowController' => $baseDir . '/../lib/Controller/AWorkflowController.php',
-    'OCA\\WorkflowEngine\\Controller\\FlowOperations' => $baseDir . '/../lib/Controller/FlowOperations.php',
     'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => $baseDir . '/../lib/Controller/GlobalWorkflowsController.php',
     'OCA\\WorkflowEngine\\Controller\\RequestTime' => $baseDir . '/../lib/Controller/RequestTime.php',
     'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => $baseDir . '/../lib/Controller/UserWorkflowsController.php',
