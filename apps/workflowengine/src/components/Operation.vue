@@ -59,6 +59,7 @@ export default {
 	}
 
 	.colored {
+		background-color: var(--color-primary-element);
 		* {
 			color: var(--color-primary-text)
 		}

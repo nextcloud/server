@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="operation.isComplex && operation.fixedEntity !== ''">
+		<div v-if="operation.isComplex && operation.fixedEntity !== ''" class="isComplex">
 			<img class="option__icon" :src="entity.icon">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
@@ -60,7 +60,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+	.isComplex {
+		img {
+			vertical-align: top;
+			padding-top: 4px;
+			padding-bottom: 4px;
+			padding-left: 4px;
+		}
+		span {
+			padding-top: 2px;
+			display: inline-block;
+		}
+	}
 	.multiselect::v-deep .multiselect__single {
 		display: flex;
 	}

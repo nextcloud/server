@@ -89,11 +89,12 @@ export default {
 		width: 100%;
 		padding-right: 20px;
 		& > *:not(.icon-delete) {
-			width: 200px;
+			width: 180px;
 		}
 		& > .multiselect,
 		& > input[type=text] {
 			margin-right: 5px;
+			margin-bottom: 5px;
 		}
 	}
 	input[type=text] {

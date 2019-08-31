@@ -24,7 +24,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'nextcloud-axios'
 import { getApiUrl } from './helpers/api'
-import { ALL_CHECKS, Operators } from './services/Operation'
+import { ALL_CHECKS } from './services/Operation'
 import confirmPassword from 'nextcloud-password-confirmation'
 
 Vue.use(Vuex)
@@ -33,8 +33,7 @@ const store = new Vuex.Store({
 	state: {
 		rules: [],
 		scope: OCP.InitialState.loadState('workflowengine', 'scope'),
-		// TODO: move to backend data
-		operations: Operators,
+		operations: OCP.InitialState.loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({
 			checks: {},
@@ -74,7 +73,10 @@ const store = new Vuex.Store({
 			Vue.set(state.plugins.checks, plugin.class, plugin)
 		},
 		addPluginOperator(state, plugin) {
-			Vue.set(state.plugins.operators, plugin.class, plugin)
+			plugin = Object.assign(
+				{ color: 'var(--color-primary-element)' },
+				plugin, state.operations[plugin.id] || {})
+			Vue.set(state.operations, plugin.id, plugin)
 		}
 	},
 	actions: {
@@ -88,7 +90,8 @@ const store = new Vuex.Store({
 			let entity = null
 			let events = []
 			if (rule.isComplex === false && rule.fixedEntity === '') {
-				entity = context.state.entities.find((item) => rule.entities[0] === item.id)
+				entity = context.state.entities.find((item) => rule.entities && rule.entities[0] === item.id)
+				entity = entity ? entity : Object.values(context.state.entities)[0]
 				events = [entity.events[0].eventName]
 			}
 

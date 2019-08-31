@@ -4,6 +4,7 @@ import store from './store'
 
 import Settings from './components/Workflow'
 import FileValues from './components/Values/file'
+import {Operators} from './services/Operation';
 
 /**
  * A plugin for displaying a custom value field for checks
@@ -21,7 +22,7 @@ import FileValues from './components/Values/file'
  * A plugin for extending the admin page repesentation of a operator
  *
  * @typedef {Object} OperatorPlugin
- * @property {string} class - The PHP class name of the check
+ * @property {string} id - The PHP class name of the check
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
  * @property {Vue} component - A vue component to handle the rendering of options
@@ -40,6 +41,8 @@ import FileValues from './components/Values/file'
  * Public javascript api for apps to register custom plugins
  */
 window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
+
+
 	/**
 	 *
 	 * @param {CheckPlugin} Plugin
@@ -58,6 +61,7 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 
 // Register shipped checks for file entity
 FileValues.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
+Object.values(Operators).forEach((operatorPlugin) => window.OCA.WorkflowEngine.registerOperator(operatorPlugin))
 
 Vue.use(Vuex)
 Vue.prototype.t = t

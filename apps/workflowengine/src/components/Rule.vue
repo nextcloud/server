@@ -1,7 +1,7 @@
 <template>
 	<div class="section rule" :style="{ borderLeftColor: operation.color }">
 		<!-- TODO: icon-confirm -->
-		<div class="trigger icon-confirm">
+		<div class="trigger">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>
 				<Event :rule="rule" @update="updateRule" />
@@ -12,10 +12,11 @@
 			</p>
 			<p>
 				<span />
-				<di<input v-if="lastCheckComplete" type="button" class="check--add"
+				<input v-if="lastCheckComplete" type="button" class="check--add"
 					value="Add a new filter" @click="rule.checks.push({class: null, operator: null, value: null})">
 			</p>
 		</div>
+		<div class="flow-icon icon-confirm"></div>
 		<div class="action">
 			<div class="buttons">
 				<Actions>
@@ -26,15 +27,15 @@
 						Remove rule
 					</ActionButton>
 				</Actions>
-				<button v-tooltip="ruleStatus.tooltip" class="status-button icon" :class="ruleStatus.class"
-					@click="saveRule">
-					{{ ruleStatus.title }}
-				</button>
 			</div>
 			<Operation :operation="operation" :colored="false">
 				<component :is="operation.options" v-if="operation.options" v-model="rule.operation"
 					@input="updateOperation" />
 			</Operation>
+			<button v-tooltip="ruleStatus.tooltip" class="status-button icon" :class="ruleStatus.class"
+					@click="saveRule">
+				{{ ruleStatus.title }}
+			</button>
 		</div>
 	</div>
 </template>
@@ -152,6 +153,8 @@ export default {
 
 	.status-button {
 		transition: 0.5s ease all;
+		display: block;
+		margin: auto;
 	}
 	.status-button.primary {
 		padding-left: 32px;
@@ -166,15 +169,19 @@ export default {
 		border: none;
 	}
 
+	.flow-icon {
+		width: 44px;
+	}
+
 	.rule {
 		display: flex;
 		flex-wrap: wrap;
-		border-left: 5px solid #fff;
+		border-left: 5px solid var(--color-primary-element);
 
 		.trigger, .action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 900px;
+			max-width: 700px;
 		}
 		.action {
 			max-width: 400px;
@@ -214,10 +221,24 @@ export default {
 		background-color: transparent;
 		padding-left: 6px;
 		margin: 0;
-		width: 200px;
+		width: 180px;
 		border-radius: var(--border-radius);
 		font-weight: normal;
 		text-align: left;
 		font-size: 1em;
 	}
+
+	@media (max-width:1400px) {
+		.rule {
+			&, .trigger, .action {
+				width: 100%;
+				max-width: 100%;
+			}
+			.flow-icon {
+				display: none;
+			}
+		}
+	}
+
+
 </style>
