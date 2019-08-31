@@ -16,7 +16,7 @@ OC.L10N.register(
     "Enable" : "Включить",
     "Dark theme (beta)" : "Тёмное оформление (бета)",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic — это бесплатный шрифт, разработанный для облегчения восприятия текста людьми, которые страдают дислексией. Шрифт был создан Абелардо Гонсалесом (ориг. Abelardo Gonzalez), на правах лицензии с открытым исходным кодом (SIL Open Font License).",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Предоставляет дополнительные параметры Nextcloud для более комфортного использования",
+    "Provides multiple accessibilities options to ease your use of nextcloud" : "Предоставляет расширенный вариант настройки nextcloud, для более комфортного использования",
     "Themes" : "Оформления",
     "Fonts" : "Шрифты",
     "enabled" : "Задействован"
