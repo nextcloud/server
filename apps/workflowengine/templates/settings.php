@@ -22,4 +22,4 @@
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 ?>
-<div id="<? p(\OCA\WorkflowEngine\AppInfo\Application::APP_ID); ?>"></div>
+<div id="<?php p(\OCA\WorkflowEngine\AppInfo\Application::APP_ID); ?>"></div>
