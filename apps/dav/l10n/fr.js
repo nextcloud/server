@@ -87,7 +87,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Provisoire",
-    "Save" : "Sauvegarder",
+    "Save" : "Enregistrer",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
     "Calendar server" : "Serveur de calendrier",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installer aussi {calendarappstoreopen}l'application Calendrier{linkclose}, ou {calendardocopen}connecter à votre PC & téléphone pour synchroniser ↗{linkclose}.",
