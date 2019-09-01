@@ -41,7 +41,7 @@
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
     "moment": "^2.24.0",
-    "nextcloud-axios": "^0.2.0",
+    "nextcloud-axios": "^0.2.1",
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.12.1",
     "nextcloud-vue-collections": "^0.5.6",
