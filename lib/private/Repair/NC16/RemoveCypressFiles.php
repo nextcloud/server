@@ -51,6 +51,10 @@ class RemoveCypressFiles implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
+		if (\OC_Util::getChannel() === 'git') {
+			return;
+		}
+		
 		$file = $this->pathToViewerApp . '/cypress.json';
 		if (file_exists($file)) {
 			unlink($file);
