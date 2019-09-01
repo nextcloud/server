@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "复制",
     "Choose target folder" : "选择目标文件夹",
     "Open" : "打开",
+    "Delete file" : "删除文件",
+    "Delete folder" : "删除文件夹",
     "Disconnect storage" : "断开存储的连接",
     "Unshare" : "取消共享",
     "Could not load info for file \"{file}\"" : "无法加载文件 \"{file}\" 的信息",
