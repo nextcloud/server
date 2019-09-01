@@ -747,6 +747,8 @@ OC.L10N.register(
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "为了优化性能，正确配置后台任务非常重要。对于较大的实例，推荐配置为 'Cron'。详情请参考相关文档。",
     "Pick background job setting" : "选择后台任务设置",
     "Execute one task with each page loaded" : "每个页面加载后执行一个任务",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php注册到 webcron 服务上，每5分钟通过HTTP执行一次cron.php。",
+    "Use system cron service to call the cron.php file every 5 minutes." : "使用系统定时任务服务每5分钟执行一次cron.php文件。",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php 需要被系统用户 \"%s\" 执行。",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "为了运行该功能，您需要 PHP posix 扩展。请参考 {linkstart}PHP 文档{linkend} 获取更多信息。",
     "Sharing" : "共享",
