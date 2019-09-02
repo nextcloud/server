@@ -94,7 +94,9 @@ export default {
 		selectTheme(id, idSelectedBefore) {
 			this.selectItem('theme', id);
 			document.body.classList.remove(idSelectedBefore);
-			if (id) document.body.classList.add(id);
+			if (id) {
+				document.body.classList.add(id);
+			}
 		},
 		selectFont(id) {
 			this.selectItem('font', id);
