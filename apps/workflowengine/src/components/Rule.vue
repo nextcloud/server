@@ -135,11 +135,12 @@ export default {
 		cancelRule() {
 			this.$store.dispatch('removeRule', this.rule)
 		},
-		removeCheck(check) {
+		async removeCheck(check) {
 			const index = this.rule.checks.findIndex(item => item === check)
-			if (index < 0) {
-				this.rule.checks.splice(index, 1)
+			if (index > -1) {
+				this.$delete(this.rule.checks, index)
 			}
+			this.$store.dispatch('updateRule', this.rule)
 		}
 	}
 }
