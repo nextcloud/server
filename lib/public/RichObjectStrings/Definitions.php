@@ -268,6 +268,25 @@ class Definitions {
 				],
 			],
 		],
+		'guest' => [
+			'author' => 'Nextcloud',
+			'app' => 'spreed',
+			'since' => '17.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the guest user',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'Potential displayname of the guest user',
+					'example' => 'Foobar Cats',
+				],
+			],
+		],
 		'highlight' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',
