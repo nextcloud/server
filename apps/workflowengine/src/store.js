@@ -58,7 +58,7 @@ const store = new Vuex.Store({
 	},
 	mutations: {
 		addRule(state, rule) {
-			state.rules.push(rule)
+			state.rules.push({ ...rule, valid: true })
 		},
 		updateRule(state, rule) {
 			const index = state.rules.findIndex((item) => rule.id === item.id)
@@ -129,6 +129,10 @@ const store = new Vuex.Store({
 			await confirmPassword()
 			await axios.delete(getApiUrl(`/${rule.id}`))
 			context.commit('removeRule', rule)
+		},
+		setValid (context, { rule, valid }) {
+			rule.valid = valid
+			context.commit('updateRule', rule)
 		}
 	},
 	getters: {

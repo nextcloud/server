@@ -8,7 +8,7 @@
 			</p>
 			<p v-for="check in rule.checks">
 				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check :check="check" @update="updateRule" @remove="removeCheck(check)" />
+				<Check :check="check" :rule="rule" @update="updateRule" @remove="removeCheck(check)" />
 			</p>
 			<p>
 				<span />
@@ -74,7 +74,7 @@ export default {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
 		ruleStatus() {
-			if (this.error) {
+			if (this.error || !this.rule.valid) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					class: 'icon-close-white invalid',

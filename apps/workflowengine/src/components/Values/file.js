@@ -40,6 +40,36 @@ const FileChecks = Object.values(OCA.WorkflowEngine.Plugins).map((plugin) => {
 
 
 // new way of registering checks
+
+const validateRegex = function(string) {
+	var regexRegex = /^\/(.*)\/([gui]{0,3})$/
+	var result = regexRegex.exec(string)
+	return result !== null
+}
+
+FileChecks.push({
+	class: 'OCA\\WorkflowEngine\\Check\\FileName',
+	name: t('workflowengine', 'File name'),
+	operators: [
+		{ operator: 'is', name: t('workflowengine', 'is') },
+		{ operator: '!is', name: t('workflowengine', 'is not') },
+		{ operator: 'matches', name: t('workflowengine', 'matches') },
+		{ operator: '!matches', name: t('workflowengine', 'does not match') }
+	],
+	placeholder: (check) => {
+		if (check.operator === 'matches' || check.operator === '!matches') {
+			return '/^dummy-.+$/i'
+		}
+		return 'filename.txt'
+	},
+	validate: (check) => {
+		if (check.operator === 'matches' || check.operator === '!matches') {
+			return validateRegex(check.value)
+		}
+		return true
+	}
+})
+
 FileChecks.push({
 	class: 'OCA\\WorkflowEngine\\Check\\FileMimeType',
 	name: t('workflowengine', 'File MIME type'),

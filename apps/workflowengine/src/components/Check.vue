@@ -6,9 +6,9 @@
 		<Multiselect :disabled="!currentOption" v-model="currentOperator" :options="operators"
 			label="name" track-by="operator" :allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a comparator')" @input="updateCheck" />
-		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value" :disabled="!currentOption" />
-		<input v-else v-model="check.value" type="text"
-			@input="updateCheck" :disabled="!currentOption">
+		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value" :disabled="!currentOption" :check="check" @valid="valid=true && validate()" @invalid="valid=false && validate()" />
+		<input v-else v-model="check.value" type="text" :class="{ invalid: !valid }"
+			@input="updateCheck" :disabled="!currentOption" :placeholder="valuePlaceholder">
 		<Actions>
 			<ActionButton v-if="deleteVisible || !currentOption" icon="icon-delete" @click="$emit('remove')" />
 		</Actions>
@@ -34,6 +34,10 @@ export default {
 		check: {
 			type: Object,
 			required: true
+		},
+		rule: {
+			type: Object,
+			required: true
 		}
 	},
 	data() {
@@ -41,7 +45,8 @@ export default {
 			deleteVisible: false,
 			currentOption: null,
 			currentOperator: null,
-			options: []
+			options: [],
+			valid: true,
 		}
 	},
 	computed: {
@@ -56,12 +61,22 @@ export default {
 			if (!this.currentOption) { return [] }
 			const currentComponent = this.Checks[this.currentOption.class].component
 			return currentComponent
+		},
+		valuePlaceholder() {
+			if (this.currentOption && this.currentOption.placeholder) {
+				return this.currentOption.placeholder(this.check)
+			}
 		}
 	},
 	mounted() {
 		this.options = Object.values(this.Checks)
 		this.currentOption = this.Checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
+	},
+	watch: {
+		'check.operator': function () {
+			this.validate()
+		}
 	},
 	methods: {
 		showDelete() {
@@ -70,12 +85,27 @@ export default {
 		hideDelete() {
 			this.deleteVisible = false
 		},
+		validate() {
+			if (this.currentOption && this.currentOption.validate) {
+				if(this.currentOption.validate(this.check)) {
+					this.valid = true
+				} else {
+					this.valid = false
+				}
+			}
+			this.$store.dispatch('setValid', { rule: this.rule, valid: this.rule.valid && this.valid })
+			return this.valid
+		},
 		updateCheck() {
 			if (this.check.class !== this.currentOption.class) {
 				this.currentOperator = this.operators[0]
 			}
 			this.check.class = this.currentOption.class
 			this.check.operator = this.currentOperator.operator
+
+			if (!this.validate()) {
+				return
+			}
 			this.$emit('update', this.check)
 		}
 	}
@@ -106,5 +136,8 @@ export default {
 	.icon-delete {
 		margin-top: -5px;
 		margin-bottom: -5px;
+	}
+	.invalid {
+		border: 1px solid var(--color-error) !important;
 	}
 </style>
