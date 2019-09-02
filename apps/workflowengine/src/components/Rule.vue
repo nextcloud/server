@@ -155,6 +155,7 @@ export default {
 		transition: 0.5s ease all;
 		display: block;
 		margin: auto;
+		margin-right: 0;
 	}
 	.status-button.primary {
 		padding-left: 32px;
@@ -194,7 +195,7 @@ export default {
 			}
 		}
 		.icon-confirm {
-			background-position: right center;
+			background-position: right 27px;
 			padding-right: 20px;
 			margin-right: 20px;
 		}
@@ -202,7 +203,6 @@ export default {
 	.trigger p, .action p {
 		display: flex;
 		align-items: center;
-		margin-bottom: 5px;
 
 		& > span {
 			min-width: 50px;

@@ -1,8 +1,10 @@
 <template>
 	<div class="actions__item" :class="{'colored': colored}" :style="{ backgroundColor: colored ? operation.color : 'transparent' }">
 		<div class="icon" :class="operation.iconClass" :style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
+		<div class="actions__item__description">
 		<h3>{{ operation.name }}</h3>
 		<small>{{ operation.description }}</small>
+		</div>
 		<slot />
 	</div>
 </template>
@@ -32,7 +34,7 @@ export default {
 		padding: 10px;
 		border-radius: var(--border-radius-large);
 		margin-right: 20px;
-		margin-bottom: 20px;
+		margin-bottom: 5px;
 	}
 	.icon {
 		display: block;
@@ -44,9 +46,11 @@ export default {
 		margin-bottom: 20px;
 		background-repeat: no-repeat;
 	}
+	.actions__item__description {
+		text-align: center;
+	}
 	h3, small {
 		padding: 6px;
-		text-align: center;
 		display: block;
 	}
 	h3 {
@@ -66,7 +70,19 @@ export default {
 	}
 
 	.actions__item:not(.colored) {
+		flex-direction: row;
+
+		.actions__item__description {
+			padding-top: 5px;
+			text-align: left;
+			small {
+				padding: 0;
+			}
+		}
 		.icon {
+			width: 50px;
+			margin: 0;
+			margin-right: 10px;
 			filter: invert(1);
 		}
 	}
