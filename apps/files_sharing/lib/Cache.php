@@ -67,7 +67,7 @@ class Cache extends CacheJail {
 
 		parent::__construct(
 			null,
-			null
+			''	
 		);
 	}
 
