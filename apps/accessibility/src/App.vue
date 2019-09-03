@@ -5,8 +5,8 @@
 		<p v-html="descriptionDetail" />
 
 		<div class="preview-list">
-			<preview v-for="preview in highcontrast" :preview="preview"
-				 :key="preview.id" :selected="selected.highcontrast"
+			<preview :preview="highcontrast"
+				 :key="highcontrast.id" :selected="selected.highcontrast"
 				 v-on:select="selectHighContrast"></preview>
 			<preview v-for="preview in themes" :preview="preview"
 				 :key="preview.id" :selected="selected.theme"

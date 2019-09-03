@@ -65,14 +65,12 @@ class AccessibilityProvider {
 	}
 
 	public function getHighContrast() {
-		return array(
-			[
+		return [
 				'id'    => 'highcontrast',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
 				'title' => $this->l->t('High contrast theme'),
 				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
-			]
-		);
+			];
 	}
 
 	public function getFonts() {
