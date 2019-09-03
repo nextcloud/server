@@ -117,7 +117,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Izbriši",
     "Rename" : "Preimenuj",
-    "Collaborative tags" : "Oznake sodelovanja",
+    "Collaborative tags" : "Sodelovalne oznake",
     "No tags found" : "Ni najdenih oznak",
     "unknown text" : "neznano besedilo",
     "Hello world!" : "Pozdravljen svet!",
