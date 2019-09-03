@@ -132,6 +132,9 @@ class AccessibilityController extends Controller {
 
 		foreach ($userValues as $key => $scssFile) {
 			if ($scssFile !== false) {
+				if ($scssFile === 'highcontrast' && in_array('dark', $userValues)) {
+					$scssFile .= 'dark';
+				}
 				$imports .= '@import "' . $scssFile . '";';
 			}
 		}
