@@ -455,6 +455,7 @@ Feature: sharing
     When Updating last share with
       | permissions | 1 |
     Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions
     Given user "user0" exists
@@ -476,6 +477,7 @@ Feature: sharing
     When Updating last share with
       | permissions | 31 |
     Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
 
   Scenario: Do not allow sub reshare to exceed permissions
     Given user "user0" exists
@@ -498,6 +500,7 @@ Feature: sharing
     When Updating last share with
       | permissions | 31 |
     Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
 
   Scenario: Only allow 1 link share per file/folder
     Given user "user0" exists
