@@ -127,6 +127,30 @@ Feature: sharing
     Then the OCS status code should be "997"
     And the HTTP status code should be "401"
 
+  Scenario: Deleting a group share as its owner
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user0" belongs to group "group1"
+    And user "user1" belongs to group "group1"
+    And As an "user0"
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 1 |
+      | shareWith | group1 |
+    When As an "user0"
+    And Deleting last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share 
+    And the OCS status code should be "404"
+    And the HTTP status code should be "200"
+    And As an "user1"
+    And Getting info of last share 
+    And the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
   Scenario: Deleting a group share as user
     Given As an "admin"
     And user "user0" exists
@@ -336,6 +360,46 @@ Feature: sharing
     When Deleting last share
     Then etag of element "/" of user "user1" has changed
     And etag of element "/PARENT" of user "user0" has not changed
+
+  Scenario: do not allow to increase permissions on received share
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 17 |
+    When As an "user1"
+    And Updating last share with
+      | permissions | 19 |
+    Then the OCS status code should be "403"
+    And the HTTP status code should be "401"
+
+  Scenario: do not allow to increase permissions on non received share with user with resharing rights
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 31 |
+    And creating a share with
+      | path | TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 17 |
+    When As an "user1"
+    And Updating last share with
+      | permissions | 19 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
 
   Scenario: do not allow to increase link share permissions on reshare
     Given As an "admin"

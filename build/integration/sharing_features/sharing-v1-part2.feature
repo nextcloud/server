@@ -409,6 +409,27 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: delete a share with a user that didn't receive the share
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And As an "user2"
+    When Deleting last share
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
+  Scenario: delete a share with a user with resharing rights that didn't receive the share
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user2"
+    And As an "user1"
+    When Deleting last share
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
   Scenario: Keep usergroup shares (#22143)
     Given As an "admin"
     And user "user0" exists
