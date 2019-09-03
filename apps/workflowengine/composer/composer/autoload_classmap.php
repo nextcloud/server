@@ -23,8 +23,6 @@ return array(
     'OCA\\WorkflowEngine\\Controller\\RequestTime' => $baseDir . '/../lib/Controller/RequestTime.php',
     'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => $baseDir . '/../lib/Controller/UserWorkflowsController.php',
     'OCA\\WorkflowEngine\\Entity\\File' => $baseDir . '/../lib/Entity/File.php',
-    'OCA\\WorkflowEngine\\Entity\\GenericEntityEmitterEvent' => $baseDir . '/../lib/Entity/GenericEntityEmitterEvent.php',
-    'OCA\\WorkflowEngine\\Entity\\IEntityEmitterEvent' => $baseDir . '/../lib/Entity/IEntityEmitterEvent.php',
     'OCA\\WorkflowEngine\\Helper\\ScopeContext' => $baseDir . '/../lib/Helper/ScopeContext.php',
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
     'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => $baseDir . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',

@@ -472,6 +472,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\User\\Backend\\ISetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
         'OCP\\User\\Backend\\ISetPasswordBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISetPasswordBackend.php',
         'OCP\\Util' => __DIR__ . '/../../..' . '/lib/public/Util.php',
+        'OCP\\WorkflowEngine\\GenericEntityEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/GenericEntityEvent.php',
         'OCP\\WorkflowEngine\\ICheck' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/ICheck.php',
         'OCP\\WorkflowEngine\\IComplexOperation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IComplexOperation.php',
         'OCP\\WorkflowEngine\\IEntity' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IEntity.php',

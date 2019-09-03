@@ -38,8 +38,6 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Controller\\RequestTime' => __DIR__ . '/..' . '/../lib/Controller/RequestTime.php',
         'OCA\\WorkflowEngine\\Controller\\UserWorkflowsController' => __DIR__ . '/..' . '/../lib/Controller/UserWorkflowsController.php',
         'OCA\\WorkflowEngine\\Entity\\File' => __DIR__ . '/..' . '/../lib/Entity/File.php',
-        'OCA\\WorkflowEngine\\Entity\\GenericEntityEmitterEvent' => __DIR__ . '/..' . '/../lib/Entity/GenericEntityEmitterEvent.php',
-        'OCA\\WorkflowEngine\\Entity\\IEntityEmitterEvent' => __DIR__ . '/..' . '/../lib/Entity/IEntityEmitterEvent.php',
         'OCA\\WorkflowEngine\\Helper\\ScopeContext' => __DIR__ . '/..' . '/../lib/Helper/ScopeContext.php',
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => __DIR__ . '/..' . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',

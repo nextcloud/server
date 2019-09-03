@@ -438,6 +438,7 @@ return array(
     'OCP\\User\\Backend\\ISetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/ISetDisplayNameBackend.php',
     'OCP\\User\\Backend\\ISetPasswordBackend' => $baseDir . '/lib/public/User/Backend/ISetPasswordBackend.php',
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
+    'OCP\\WorkflowEngine\\GenericEntityEvent' => $baseDir . '/lib/public/WorkflowEngine/GenericEntityEvent.php',
     'OCP\\WorkflowEngine\\ICheck' => $baseDir . '/lib/public/WorkflowEngine/ICheck.php',
     'OCP\\WorkflowEngine\\IComplexOperation' => $baseDir . '/lib/public/WorkflowEngine/IComplexOperation.php',
     'OCP\\WorkflowEngine\\IEntity' => $baseDir . '/lib/public/WorkflowEngine/IEntity.php',

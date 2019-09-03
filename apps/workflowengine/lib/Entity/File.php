@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Entity;
 
-use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 
 class File implements IEntity {
@@ -50,15 +50,14 @@ class File implements IEntity {
 	}
 
 	public function getEvents(): array {
-		$emitterClass = IRootFolder::class;
-		$slot = '\OC\Files';
+		$namespace = '\OCP\Files::';
 		return [
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postCreate', $this->l10n->t('File created')),
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postWrite', $this->l10n->t('File updated')),
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postRename', $this->l10n->t('File renamed')),
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postDelete', $this->l10n->t('File deleted')),
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postTouch', $this->l10n->t('File accessed')),
-			new GenericEntityEmitterEvent($emitterClass, $slot, 'postCopy', $this->l10n->t('File copied')),
+			new GenericEntityEvent($this->l10n->t('File created'), $namespace . 'postCreate' ),
+			new GenericEntityEvent($this->l10n->t('File updated'), $namespace . 'postWrite' ),
+			new GenericEntityEvent($this->l10n->t('File renamed'), $namespace . 'postRename' ),
+			new GenericEntityEvent($this->l10n->t('File deleted'), $namespace . 'postDelete' ),
+			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch' ),
+			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy' ),
 		];
 	}
 }

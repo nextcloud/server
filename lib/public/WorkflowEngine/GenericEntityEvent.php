@@ -22,38 +22,46 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\WorkflowEngine\Entity;
+namespace OCP\WorkflowEngine;
 
-class GenericEntityEmitterEvent implements IEntityEmitterEvent {
-	/** @var string */
-	private $emitterClassName;
-	/** @var string */
-	private $eventName;
+class GenericEntityEvent implements IEntityEvent {
+
 	/** @var string */
 	private $displayName;
 	/** @var string */
-	private $slot;
+	private $eventName;
 
-	public function __construct(string $emitterClassName, string $slot, string $eventName, string $displayName) {
-		$this->emitterClassName = $emitterClassName;
-		$this->eventName = $eventName;
-		$this->displayName = $displayName;
-		$this->slot = $slot;
+	public function __construct(string $displayName, string $eventName) {
+		if(trim($displayName) === '') {
+			throw new \InvalidArgumentException('DisplayName must not be empty');
+		}
+		if(trim($eventName) === '') {
+			throw new \InvalidArgumentException('EventName must not be empty');
+		}
+
+		$this->displayName = trim($displayName);
+		$this->eventName = trim($eventName);
 	}
 
-	public function getEmitterClassName(): string {
-		return $this->emitterClassName;
-	}
-
-	public function getSlot(): string {
-		return $this->slot;
-	}
-
+	/**
+	 * returns a translated name to be presented in the web interface.
+	 *
+	 * Example: "created" (en), "kreita" (eo)
+	 *
+	 * @since 18.0.0
+	 */
 	public function getDisplayName(): string {
-		return $this->displayName;
+		return $this->getDisplayName();
 	}
 
+	/**
+	 * returns the event name that is emitted by the EventDispatcher, e.g.:
+	 *
+	 * Example: "OCA\MyApp\Factory\Cats::postCreated"
+	 *
+	 * @since 18.0.0
+	 */
 	public function getEventName(): string {
-		return $this->eventName;
+		return $this->getEventName();
 	}
 }
