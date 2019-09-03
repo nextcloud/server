@@ -1193,7 +1193,7 @@ table.grid td.date {
 		text-align: right;
 	}
 	select:nth-child(2),
-	input {
+	input:not([type='button']) {
 		width: 143px;
 	}
 }
