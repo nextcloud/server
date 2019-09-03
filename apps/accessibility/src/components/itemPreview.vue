@@ -19,12 +19,8 @@ export default {
 			get() {
 				return this.selected === this.preview.id;
 			},
-			set(val) {
-				this.$emit(
-					'select',
-					val ? this.preview.id : false,
-					this.selected
-				);
+			set(checked) {
+				this.$emit('select', checked ? this.preview.id : false,	this.selected);
 			}
 		}
     },
