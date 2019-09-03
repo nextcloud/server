@@ -298,7 +298,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getLogger(),
 				$this->getUserManager()
 			);
-			$connector = new HookConnector($root, $view);
+			$connector = new HookConnector($root, $view, $c->getEventDispatcher());
 			$connector->viewToNode();
 
 			$previewConnector = new \OC\Preview\WatcherConnector($root, $c->getSystemConfig());
