@@ -1,8 +1,7 @@
 <?php
 declare (strict_types = 1);
 /**
- * @author Janis Koehr <janiskoehr@icloud.com>
- * @copyright Janis Koehr 2019
+ * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
