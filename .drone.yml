@@ -427,7 +427,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -497,7 +496,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -532,20 +530,19 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
 kind: pipeline
-name: mariadb10.4-php7.1
+name: mariadb10.4-php7.3
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: mariadb10.4-php7.1
-  image: nextcloudci/php7.1:php7.1-16
+- name: mariadb10.4-php7.3
+  image: nextcloudci/php7.3:php7.3-1
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
@@ -572,15 +569,15 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql8.0-php7.1
+name: mysql8.0-php7.2
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: mysql-php7.1
-  image: nextcloudci/php7.1:php7.1-16
+- name: mysql-php7.2
+  image: nextcloudci/php7.2:php7.2-12
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
@@ -638,7 +635,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -671,7 +667,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -704,7 +699,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -773,20 +767,19 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
 kind: pipeline
-name: postgres9-php7.1
+name: postgres9-php7.3
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: postgres-php7.1
-  image: nextcloudci/php7.1:php7.1-16
+- name: postgres-php7.3
+  image: nextcloudci/php7.3:php7.3-1
   commands:
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -843,7 +836,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -914,7 +906,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -950,7 +941,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
@@ -986,7 +976,6 @@ trigger:
     - master
     - stable*
   event:
-    - pull_request
     - push
 
 ---
