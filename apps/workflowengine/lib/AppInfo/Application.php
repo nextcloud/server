@@ -21,27 +21,36 @@
 
 namespace OCA\WorkflowEngine\AppInfo;
 
+use OCA\WorkflowEngine\Manager;
 use OCP\Template;
 use OCA\WorkflowEngine\Controller\RequestTime;
-use OCA\WorkflowEngine\Controller\FlowOperations;
+use OCP\WorkflowEngine\IOperation;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends \OCP\AppFramework\App {
 
 	const APP_ID = 'workflowengine';
 
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
+	/** @var Manager */
+	protected $manager;
+
 	public function __construct() {
 		parent::__construct(self::APP_ID);
 
-		$this->getContainer()->registerAlias('FlowOperationsController', FlowOperations::class);
 		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
+
+		$this->dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$this->manager = $this->getContainer()->query(Manager::class);
 	}
 
 	/**
 	 * Register all hooks and listeners
 	 */
 	public function registerHooksAndListeners() {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener(
+		$this->dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
 				if (!function_exists('style')) {
@@ -67,5 +76,24 @@ class Application extends \OCP\AppFramework\App {
 			},
 			-100
 		);
+	}
+
+	public function registerRuleListeners() {
+		$configuredEvents = $this->manager->getAllConfiguredEvents();
+
+		foreach ($configuredEvents as $operationClass => $events) {
+			foreach ($events as $entityClass => $eventNames) {
+				array_map(function (string $eventName) use ($operationClass) {
+					$this->dispatcher->addListener(
+						$eventName,
+						function (GenericEvent $event) use ($eventName, $operationClass) {
+							/** @var IOperation $operation */
+							$operation = $this->getContainer()->query($operationClass);
+							$operation->onEvent($eventName, $event);
+						}
+					);
+				}, $eventNames);
+			}
+		}
 	}
 }

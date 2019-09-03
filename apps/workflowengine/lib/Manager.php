@@ -182,6 +182,33 @@ class Manager implements IManager, IEntityAware {
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}
 	}
+
+	public function getAllConfiguredEvents() {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->selectDistinct('class')
+			->addSelect('entity', 'events')
+			->from('flow_operations')
+			->where($query->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR));
+
+		$result = $query->execute();
+		$operations = [];
+		while($row = $result->fetch()) {
+			$eventNames = \json_decode($row['events']);
+
+			$operation = $row['class'];
+			$entity =  $row['entity'];
+
+			$operations[$operation] = $operations[$row['class']] ?? [];
+			$operations[$operation][$entity] = $operations[$operation][$entity] ?? [];
+
+			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames));
+		}
+		$result->closeCursor();
+
+		return $operations;
+	}
+
 	public function getAllOperations(ScopeContext $scopeContext): array {
 		if(isset($this->operations[$scopeContext->getHash()])) {
 			return $this->operations[$scopeContext->getHash()];
