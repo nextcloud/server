@@ -164,6 +164,17 @@ form #datadirField legend {
 	font-size: 15px;
 }
 
+#alternative-logins a::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	vertical-align: bottom;
+	margin-right: 5px;
+}
+
 
 @media only screen and (max-width: 1024px) {
 	.wrapper {
