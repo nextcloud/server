@@ -63,6 +63,11 @@ class Listener {
 			$group = $this->groupManager->get($share->getSharedWith());
 
 			foreach ($group->getUsers() as $user) {
+				if ($user->getUID() === $share->getShareOwner() ||
+					$user->getUID() === $share->getSharedBy()) {
+					continue;
+				}
+
 				$notification->setUser($user->getUID());
 				$this->notificationManager->notify($notification);
 			}

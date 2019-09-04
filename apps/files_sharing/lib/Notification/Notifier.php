@@ -28,7 +28,10 @@ namespace OCA\Files_Sharing\Notification;
 
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
@@ -45,6 +48,10 @@ class Notifier implements INotifier {
 	private $shareManager;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var IGroupManager  */
+	protected $groupManager;
+	/** @var IUserManager  */
+	protected $userManager;
 	/** @var IURLGenerator */
 	protected $url;
 
@@ -52,10 +59,14 @@ class Notifier implements INotifier {
 	public function __construct(IFactory $l10nFactory,
 								IManager $shareManager,
 								IRootFolder $rootFolder,
+								IGroupManager $groupManager,
+								IUserManager $userManager,
 								IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;
+		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
 		$this->url = $url;
 	}
 
@@ -135,11 +146,12 @@ class Notifier implements INotifier {
 	}
 
 	protected function parseShareInvitation(IShare $share, INotification $notification, IL10N $l): INotification {
+
 		if ($share->getShareType() === IShare::TYPE_USER) {
-			if ($share->getSharedWith() !== $notification->getUser()) {
+			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
-
+		} else if ($share->getShareType() === IShare::TYPE_GROUP) {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
@@ -147,6 +159,10 @@ class Notifier implements INotifier {
 
 		switch ($notification->getSubject()) {
 			case 'incoming_user_share':
+				if ($share->getSharedWith() !== $notification->getUser()) {
+					throw new AlreadyProcessedException();
+				}
+
 				$subject = $l->t('You received {share} as a share from {user}');
 				$subjectParameters = [
 					'share' => [
@@ -160,34 +176,70 @@ class Notifier implements INotifier {
 						'name' => $share->getShareOwner(),
 					],
 				];
+				break;
 
-				$placeholders = $replacements = [];
-				foreach ($subjectParameters as $placeholder => $parameter) {
-					$placeholders[] = '{' . $placeholder . '}';
-					$replacements[] = $parameter['name'];
+			case 'incoming_group_share':
+				$user = $this->userManager->get($notification->getUser());
+				if (!$user instanceof IUser) {
+					throw new AlreadyProcessedException();
 				}
 
-				$notification->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-					->setRichSubject($subject, $subjectParameters)
-					->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+				$group = $this->groupManager->get($share->getSharedWith());
+				if (!$group->inGroup($user)) {
+					throw new AlreadyProcessedException();
+				}
 
-				$acceptAction = $notification->createAction();
-				$acceptAction->setParsedLabel($l->t('Accept'))
-					->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.acceptShare', ['id' => $share->getId()]), 'POST')
-					->setPrimary(true);
-				$notification->addParsedAction($acceptAction);
+				if ($share->getPermissions() === 0) {
+					// Already rejected
+					throw new AlreadyProcessedException();
+				}
 
-				$rejectAction = $notification->createAction();
-				$rejectAction->setParsedLabel($l->t('Reject'))
-					->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.deleteShare', ['id' => $share->getId()]), 'DELETE')
-					->setPrimary(false);
-				$notification->addParsedAction($rejectAction);
-
-				return $notification;
+				$subject = $l->t('You received {share} to group {group} as a share from {user}');
+				$subjectParameters = [
+					'share' => [
+						'type' => 'highlight',
+						'id' => $notification->getObjectId(),
+						'name' => $share->getNode()->getName(),
+					],
+					'group' => [
+						'type' => 'user-group',
+						'id' => $group->getGID(),
+						'name' => $group->getDisplayName(),
+					],
+					'user' =>  [
+						'type' => 'user',
+						'id' => $share->getShareOwner(),
+						'name' => $share->getShareOwner(),
+					],
+				];
 				break;
 
 			default:
 				throw new \InvalidArgumentException('Invalid subject');
 		}
+
+		$placeholders = $replacements = [];
+		foreach ($subjectParameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			$replacements[] = $parameter['name'];
+		}
+
+		$notification->setParsedSubject(str_replace($placeholders, $replacements, $subject))
+			->setRichSubject($subject, $subjectParameters)
+			->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
+
+		$acceptAction = $notification->createAction();
+		$acceptAction->setParsedLabel($l->t('Accept'))
+			->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.acceptShare', ['id' => $share->getId()]), 'POST')
+			->setPrimary(true);
+		$notification->addParsedAction($acceptAction);
+
+		$rejectAction = $notification->createAction();
+		$rejectAction->setParsedLabel($l->t('Reject'))
+			->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.deleteShare', ['id' => $share->getId()]), 'DELETE')
+			->setPrimary(false);
+		$notification->addParsedAction($rejectAction);
+
+		return $notification;
 	}
 }
