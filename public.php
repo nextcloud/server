@@ -68,7 +68,7 @@ try {
 	OC_App::loadApps(array('filesystem', 'logging'));
 
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
-		http_response_code(501);
+		http_response_code(404);
 		exit;
 	}
 	OC_App::loadApp($app);
