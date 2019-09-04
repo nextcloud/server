@@ -223,8 +223,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('getUserValue');
 
-		// One on remove and once on setting the new avatar
-		$this->user->expects($this->exactly(2))->method('triggerChange');
+		$this->user->expects($this->exactly(1))->method('triggerChange');
 
 		$this->avatar->set($image->data());
 	}
