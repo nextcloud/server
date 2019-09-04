@@ -49,6 +49,7 @@ class CalDAVSettings implements ISettings {
 			'send_invitations' => $this->config->getAppValue('dav', 'sendInvitations', 'yes'),
 			'generate_birthday_calendar' => $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes'),
 			'send_reminders_notifications' => $this->config->getAppValue('dav', 'sendEventReminders', 'yes'),
+			'send_reminders_notifications_push' => $this->config->getAppValue('dav', 'sendEventRemindersPush', 'no'),
 		];
 
 		return new TemplateResponse('dav', 'settings-admin-caldav', $parameters);

@@ -63,6 +63,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
     public function setUp() {
         parent::setUp();
 
+        $this->config = $this->createMock(IConfig::class);
         $this->manager = $this->createMock(IManager::class);
         $this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -80,7 +81,38 @@ class PushProviderTest extends AbstractNotificationProviderTest {
     	$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
 	}
 
+	public function testNotSend(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'sendEventRemindersPush', 'no')
+			->willReturn('no');
+
+		$this->manager->expects($this->never())
+			->method('createNotification');
+		$this->manager->expects($this->never())
+			->method('notify');
+
+		$user1 = $this->createMock(IUser::class);
+		$user1->method('getUID')
+			->willReturn('uid1');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')
+			->willReturn('uid2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')
+			->willReturn('uid3');
+
+		$users = [$user1, $user2, $user3];
+
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+	}
+
     public function testSend(): void {
+    	$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'sendEventRemindersPush', 'no')
+			->willReturn('yes');
+
     	$user1 = $this->createMock(IUser::class);
     	$user1->method('getUID')
 			->willReturn('uid1');
