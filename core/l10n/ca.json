@@ -233,7 +233,7 @@
     "New password" : "Contrasenya nova",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Els vostres fitxers estan xifrats. No hi haurà manera de recuperar les vostres dades un cop que es reinicialitzi la contrasenya. Si no esteu segurs del que feu, contacteu el vostre administrador abans de continuar. Esteu segurs de voler continuar ara?",
     "I know what I'm doing" : "Sé el que faig",
-    "Resetting password" : "Reinicialitzant la contrasenya",
+    "Resetting password" : "S'està restablint la contrasenya",
     "Forgot password?" : "Heu oblidat la contrasenya?",
     "Settings" : "Paràmetres",
     "Could not load your contacts" : "No s'han pogut carregar els vostres contactes",
