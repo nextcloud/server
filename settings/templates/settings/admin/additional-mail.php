@@ -141,7 +141,7 @@ $mail_sendmailmode = [
 				   value="<?php p($_['mail_smtpname']) ?>" />
 			<input type="text" name="mail_smtppassword" id="mail_smtppassword" autocomplete="off"
 				   placeholder="<?php p($l->t('SMTP Password'))?>" value="<?php p($_['mail_smtppassword']) ?>" />
-			<input id="mail_credentials_settings_submit" type="button" value="<?php p($l->t('Store credentials')) ?>">
+			<input id="mail_credentials_settings_submit" type="button" value="<?php p($l->t('Save')) ?>">
 		</p>
 	</form>
 
