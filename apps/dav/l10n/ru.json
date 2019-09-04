@@ -41,6 +41,7 @@
     "A <strong>calendar</strong> was modified" : "<strong>Календарь</strong> был изменен",
     "A calendar <strong>event</strong> was modified" : "<strong>Событие</strong> календаря была изменено",
     "A calendar <strong>todo</strong> was modified" : "<strong>Задача</strong> календаря была изменена",
+    "Death of %s" : "Смерть %s",
     "Contact birthdays" : "Дни рождения контакта",
     "Calendar:" : "Календарь:",
     "Date:" : "Дата:",
