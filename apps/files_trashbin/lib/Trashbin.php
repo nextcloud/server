@@ -190,7 +190,9 @@ class Trashbin {
 		$target = $user . '/files_trashbin/files/' . $targetFilename . '.d' . $timestamp;
 		$source = $owner . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
 		$free = $view->free_space($target);
-		if (($free < 0) || ($view->filesize($source) < $free)) {
+		$isUnknownOrUnlimitedFreeSpace = $free < 0;
+		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
+		if ($isUnknownOrUnlimitedFreeSpace || $isEnoughFreeSpaceLeft) {
 			self::copy_recursive($source, $target, $view);
 		}
 
