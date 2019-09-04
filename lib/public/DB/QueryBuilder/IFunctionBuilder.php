@@ -105,4 +105,24 @@ interface IFunctionBuilder {
 	 * @since 14.0.0
 	 */
 	public function count($count, $alias = '');
+
+	/**
+	 * Takes the maximum of all rows in a column
+	 *
+	 * @param mixed $field the column to maximum
+	 *
+	 * @return IQueryFunction
+	 * @since 18.0.0
+	 */
+	public function max($field);
+
+	/**
+	 * Takes the minimum of all rows in a column
+	 *
+	 * @param mixed $field the column to minimum
+	 *
+	 * @return IQueryFunction
+	 * @since 18.0.0
+	 */
+	public function min($field);
 }
