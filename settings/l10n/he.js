@@ -364,7 +364,6 @@ OC.L10N.register(
     "Credentials" : "פרטי גישה",
     "SMTP Username" : "שם משתמש SMTP ",
     "SMTP Password" : "סיסמת SMTP",
-    "Store credentials" : "שמירת אישורים",
     "Test email settings" : "בדיקת הגדרות דואר אלקטרוני",
     "Send email" : "שליחת דואר אלקטרוני",
     "Security & setup warnings" : "הזהרות אבטחה והתקנה",
@@ -459,6 +458,7 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
     "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
     "Default quota :" : "מכסת בררת מחדל:",
+    "Store credentials" : "שמירת אישורים",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
     "Follow us on Google+" : "לעקוב אחרינו ב־Google+‎"

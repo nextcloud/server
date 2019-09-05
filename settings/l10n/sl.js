@@ -208,7 +208,6 @@ OC.L10N.register(
     "Credentials" : "Poverila",
     "SMTP Username" : "Uporabniško ime SMTP",
     "SMTP Password" : "Geslo SMTP",
-    "Store credentials" : "Shrani poverila",
     "Test email settings" : "Preizkus nastavitev elektronske pošte",
     "Send email" : "Pošlji elektronsko sporočilo",
     "Security & setup warnings" : "Varnost in namestitvena opozorila",
@@ -294,6 +293,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
     "Error while loading browser sessions and device tokens" : " Napaka med nalaganjem sej brskalnika in žetonov naprave",
     "Default quota :" : "Privzeta količinska omejitev :",
+    "Store credentials" : "Shrani poverila",
     "Follow us on Google+" : "Sledite nam na Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Uporabljate <strong>%s</strong> od <strong>%s</strong> (<strong>%s %%</strong>)"
 },

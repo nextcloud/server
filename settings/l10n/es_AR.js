@@ -168,7 +168,6 @@ OC.L10N.register(
     "Credentials" : "Credenciales",
     "SMTP Username" : "nombre de usuario SMTP",
     "SMTP Password" : "Contraseña SMTP",
-    "Store credentials" : "Almacenar credenciales",
     "Test email settings" : "Probar las configuraciones de correo electrónico",
     "Send email" : "Enviar correo electrónico",
     "Security & setup warnings" : "Advertencias de seguridad y configuración",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Help translate" : "Ayude a traducir",
     "Current password" : "Contraseña actual",
     "Change password" : "Cambiar contraseña",
+    "Store credentials" : "Almacenar credenciales",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. "
 },
 "nplurals=2; plural=(n != 1);");

@@ -277,7 +277,6 @@ OC.L10N.register(
     "Credentials" : "Kredentzialak",
     "SMTP Username" : "SMTP erabiltzaile-izena",
     "SMTP Password" : "SMTP pasahitza",
-    "Store credentials" : "Gorde kredentzialak",
     "Test email settings" : "Probatu eposta ezarpenak",
     "Send email" : "Bidali eposta",
     "Security & setup warnings" : "Segurtasun eta konfigurazio abisuak",
@@ -360,6 +359,7 @@ OC.L10N.register(
     "Android Client" : "Android Bezeroa",
     "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
     "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
+    "Store credentials" : "Gorde kredentzialak",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko."
 },
