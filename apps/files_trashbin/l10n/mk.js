@@ -20,9 +20,9 @@ OC.L10N.register(
     "Select all" : "Избери се",
     "Name" : "Име",
     "Actions" : "Акции",
-    "Deleted" : "Избришан",
+    "Deleted" : "Избришана",
     "Delete" : "Избриши",
-    "Couldn't delete %s permanently" : "Не можеше трајно да се избрише %s",
+    "Couldn't delete %s permanently" : "Не може да се избрише %s",
     "Couldn't restore %s" : "Неможе да се врати %s",
     "Error" : "Грешка"
 },

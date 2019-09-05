@@ -174,7 +174,6 @@ OC.L10N.register(
     "Credentials" : "უფლებამოსილებანი",
     "SMTP Username" : "SMTP მოხმარებლის სახელი",
     "SMTP Password" : "SMTP მომხმარებლის პაროლი",
-    "Store credentials" : "უფლებამოსილებანის შენახვა",
     "Test email settings" : "ელ-ფოსტის პარამეტრების შემომება",
     "Send email" : "ელ-წერილის გაგზავნა",
     "Security & setup warnings" : "უსაფრთხოების და მოწყობის გაფრთხილებები",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Help translate" : "თარგმნის დახმარება",
     "Current password" : "მიმდინარე პაროლი",
     "Change password" : "პაროლის შეცვლა",
+    "Store credentials" : "უფლებამოსილებანის შენახვა",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
     "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში."
 },

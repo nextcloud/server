@@ -260,7 +260,6 @@ OC.L10N.register(
     "Credentials" : "Prihlasovanie údaje",
     "SMTP Username" : "SMTP používateľské meno",
     "SMTP Password" : "SMTP heslo",
-    "Store credentials" : "Ukladať prihlasovacie údaje",
     "Test email settings" : "Nastavenia testovacieho emailu",
     "Send email" : "Odoslať email",
     "Security & setup warnings" : "Bezpečnosť a nastavenia upozornení",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "Current password" : "Aktuálne heslo",
     "Change password" : "Zmeniť heslo",
     "Use a second factor besides your password to increase security for your account." : "Pre zlepšenie zabezpečenia vášho účtu použite okrem hesla aj druhý faktor.",
+    "Store credentials" : "Ukladať prihlasovacie údaje",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je zaregistrované v službe webcron a zavolá cron.php každých 15 minút cez HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Použiť systémovú službu cron na spúšťanie súboru cron.php každých 15 minút."
 },

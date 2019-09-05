@@ -170,7 +170,6 @@ OC.L10N.register(
     "Credentials" : "Kredenciale",
     "SMTP Username" : "Emër përdoruesi SMTP",
     "SMTP Password" : "Fjalëkalim SMTP",
-    "Store credentials" : "Depozitoji kredencialet",
     "Test email settings" : "Testoni rregullimet e email-it",
     "Send email" : "Dërgo email",
     "Security & setup warnings" : "Sinjalizime sigurie & rregullimi",
@@ -250,6 +249,7 @@ OC.L10N.register(
     "Help translate" : "Ndihmoni në përkthim",
     "Current password" : "Fjalëkalimi i tanishëm",
     "Change password" : "Ndrysho fjalëkalimin",
+    "Store credentials" : "Depozitoji kredencialet",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta."
 },

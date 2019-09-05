@@ -172,7 +172,6 @@ OC.L10N.register(
     "Credentials" : "帳密",
     "SMTP Username" : "SMTP 帳號",
     "SMTP Password" : "SMTP 密碼",
-    "Store credentials" : "儲存帳密",
     "Test email settings" : "測試郵件設定",
     "Send email" : "寄送郵件",
     "Security & setup warnings" : "安全及設定警告",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Locale" : "所在地",
     "Current password" : "目前密碼",
     "Change password" : "變更密碼",
+    "Store credentials" : "儲存帳密",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 已經在一個 webcron 服務中註冊，每 15 分鐘將會透過 HTTP 呼叫 cron.php",
     "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php"
 },
