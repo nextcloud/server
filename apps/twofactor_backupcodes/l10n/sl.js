@@ -13,6 +13,7 @@ OC.L10N.register(
     "Generate backup codes" : "Ustvari rezervne šifre",
     "You created two-factor backup codes for your account" : "Za račun so uspešno ustvarjene dvo-stopenjske varnostne kode",
     "Second-factor backup codes" : "Varnostne kode druge stopnje",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Uporabljajo se za obnovitev dostopa do računa v primeru neveljavnosti kode druge stopnje.",
     "Backup code" : "Varnostna koda",
     "Use backup code" : "Uporabi varnostno kodo",
     "Two factor backup codes" : "Dvostopenjske varnostne kode",

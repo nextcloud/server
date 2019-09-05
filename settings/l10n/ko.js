@@ -232,7 +232,6 @@ OC.L10N.register(
     "Credentials" : "인증 정보",
     "SMTP Username" : "SMTP 사용자 이름",
     "SMTP Password" : "SMTP 암호",
-    "Store credentials" : "인증 정보 저장",
     "Test email settings" : "이메일 설정 시험",
     "Send email" : "이메일 보내기",
     "Security & setup warnings" : "보안 및 설치 경고",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "Android Client" : "Android 클라이언트",
     "Not supported!" : "지원되지 않습니다!",
     "Press Ctrl-C to copy." : "복사하기 위해 Ctrl-C를 누르세요.",
+    "Store credentials" : "인증 정보 저장",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
     "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다."
 },

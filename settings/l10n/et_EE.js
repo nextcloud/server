@@ -180,7 +180,6 @@ OC.L10N.register(
     "Credentials" : "Kasutajatunnused",
     "SMTP Username" : "SMTP kasutajatunnus",
     "SMTP Password" : "SMTP parool",
-    "Store credentials" : "Säilita kasutajaandmed",
     "Test email settings" : "Testi e-posti seadeid",
     "Send email" : "Saada kiri",
     "Security & setup warnings" : "Turva- ja paigalduse hoiatused",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Locale" : "Kasutuskoht",
     "Current password" : "Praegune parool",
     "Change password" : "Muuda parooli",
+    "Store credentials" : "Säilita kasutajaandmed",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel."
 },

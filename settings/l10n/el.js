@@ -208,7 +208,6 @@ OC.L10N.register(
     "Credentials" : "Πιστοποιητικά",
     "SMTP Username" : "Όνομα χρήστη SMTP",
     "SMTP Password" : "Συνθηματικό SMTP",
-    "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
     "Test email settings" : "Δοκιμή ρυθμίσεων email",
     "Send email" : "Αποστολή email",
     "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
@@ -283,6 +282,7 @@ OC.L10N.register(
     "Current password" : "Τρέχων συνθηματικό",
     "Change password" : "Αλλαγή συνθηματικού",
     "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας.",
+    "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά."
 },

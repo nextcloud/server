@@ -332,7 +332,6 @@ OC.L10N.register(
     "Credentials" : "Kredensial",
     "SMTP Username" : "Nama pengguna SMTP",
     "SMTP Password" : "Kata sandi SMTP",
-    "Store credentials" : "Simpan kredensial",
     "Test email settings" : "Pengaturan surel percobaan",
     "Send email" : "Kirim surel",
     "Security & setup warnings" : "Peringatan Keamanan & Pengaturan",
@@ -425,6 +424,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Tekan CTRL-C untuk menyalin.",
     "Error while loading browser sessions and device tokens" : "Galat saat memuat sesi peramban dan token perangkat",
     "Default quota :" : "Kuota bawaan : ",
+    "Store credentials" : "Simpan kredensial",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Mohon cek kembali <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Petunjuk pemasangan ↗</a>, dan cek semua galat atau peringatan di <a href=\"%s\">log</a>.",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Anda menggunakan <strong>%s</strong> dari <strong>%s</strong> (<strong>%s %%</strong>)"
 },

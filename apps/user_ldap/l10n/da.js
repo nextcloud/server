@@ -54,6 +54,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Gruppeboksen var slået fra, fordi LDAP/AD-serveren ikke understøtter memberOf.",
     "Password change rejected. Hint: " : "Kodeord ændring afvist. Hint:",
     "Please login with the new password" : "Log venligst ind med dit nye password",
+    "LDAP User backend" : "LDAP Bruger-backend",
     "Your password will expire tomorrow." : "Dit password udløber i morgen.",
     "Your password will expire today." : "Dit password udløber i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Dit password udløber om en dag.","Dit password udløber om %n dage."],

@@ -252,7 +252,6 @@ OC.L10N.register(
     "Credentials" : "Tilitiedot",
     "SMTP Username" : "SMTP-käyttäjätunnus",
     "SMTP Password" : "SMTP-salasana",
-    "Store credentials" : "Säilytä tilitiedot",
     "Test email settings" : "Testaa sähköpostiasetukset",
     "Send email" : "Lähetä sähköpostiviesti",
     "Security & setup warnings" : "Turvallisuus- ja asetusvaroitukset",
@@ -353,6 +352,7 @@ OC.L10N.register(
     "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
     "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
     "Default quota :" : "Oletuskiintiö:",
+    "Store credentials" : "Säilytä tilitiedot",
     "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein."
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,6 +7,7 @@
     "Print backup codes" : "Печати ги резевните кодови",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервни кодови се генерирани. Искористени се {used} од {total} кодови.",
     "Regenerate backup codes" : "Генерирај повторно резервни кодови",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Доколку генерирате повторно резервни кодови, старите кодови нема да бидат во употреба.",
     "Generate backup codes" : "Генерирај резервни кодови",
     "You created two-factor backup codes for your account" : "Вие креиравте резервни кодови за двофакторна автентификација на вашата сметка",

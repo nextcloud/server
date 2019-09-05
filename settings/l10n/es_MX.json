@@ -184,7 +184,6 @@
     "Credentials" : "Credenciales",
     "SMTP Username" : "Usuario SMTP",
     "SMTP Password" : "Contraseña SMTP",
-    "Store credentials" : "Almacenar credenciales",
     "Test email settings" : "Probar las configuraciones de correo electrónico",
     "Send email" : "Enviar correo electrónico",
     "Security & setup warnings" : "Advertencias de seguridad y configuración",
@@ -267,6 +266,7 @@
     "Help translate" : "Ayuda a traducir",
     "Current password" : "Contraseña actual",
     "Change password" : "Cambiar contraseña",
+    "Store credentials" : "Almacenar credenciales",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registrado en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP. ",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

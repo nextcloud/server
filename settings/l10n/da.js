@@ -222,7 +222,6 @@ OC.L10N.register(
     "Credentials" : "Brugeroplysninger",
     "SMTP Username" : "SMTP Brugernavn",
     "SMTP Password" : "SMTP Kodeord",
-    "Store credentials" : "Gem brugeroplysninger",
     "Test email settings" : "Test e-mail-indstillinger",
     "Send email" : "Send e-mail",
     "Security & setup warnings" : "Advarsler om sikkerhed og opsætning",
@@ -293,6 +292,7 @@ OC.L10N.register(
     "Twitter handle @…" : "Twitter handle @…",
     "Help translate" : "Hjælp med oversættelsen",
     "Current password" : "Nuværende adgangskode",
-    "Change password" : "Skift kodeord"
+    "Change password" : "Skift kodeord",
+    "Store credentials" : "Gem brugeroplysninger"
 },
 "nplurals=2; plural=(n != 1);");
