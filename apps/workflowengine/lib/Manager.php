@@ -129,6 +129,7 @@ class Manager implements IManager, IEntityAware {
 		$this->storage = $storage;
 
 		if ($storage->instanceOfStorage(Jail::class)) {
+			/** @var Jail $storage */
 			$path = $storage->getJailedPath($path);
 		}
 		$this->path = $path;
