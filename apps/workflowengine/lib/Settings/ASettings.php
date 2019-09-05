@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
+use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityEvent;
@@ -94,6 +95,13 @@ abstract class ASettings implements ISettings {
 			$this->operatorsToArray($operators)
 		);
 
+		$checks = $this->manager->getCheckList();
+		$this->initialStateService->provideInitialState(
+			Application::APP_ID,
+			'checks',
+			$this->checksToArray($checks)
+		);
+
 		$this->initialStateService->provideInitialState(
 			Application::APP_ID,
 			'scope',
@@ -155,5 +163,18 @@ abstract class ASettings implements ISettings {
 				'triggerHint' => $operator instanceof IComplexOperation ? $operator->getTriggerHint() : '',
 			];
 		}, $operators);
+	}
+
+	private function checksToArray(array $checks) {
+		$checks = array_filter($checks, function(ICheck $check) {
+			return $check->isAvailableForScope($this->getScope());
+		});
+
+		return array_map(function (ICheck $check) {
+			return [
+				'id' => get_class($check),
+				'supportedEntities' => $check->supportedEntities(),
+			];
+		}, $checks);
 	}
 }

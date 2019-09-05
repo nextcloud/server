@@ -21,10 +21,18 @@
 
 namespace OCA\WorkflowEngine;
 
-
 use OC\Files\Storage\Wrapper\Jail;
 use Doctrine\DBAL\DBALException;
 use OC\Cache\CappedMemoryCache;
+use OCA\WorkflowEngine\Check\FileMimeType;
+use OCA\WorkflowEngine\Check\FileName;
+use OCA\WorkflowEngine\Check\FileSize;
+use OCA\WorkflowEngine\Check\FileSystemTags;
+use OCA\WorkflowEngine\Check\RequestRemoteAddress;
+use OCA\WorkflowEngine\Check\RequestTime;
+use OCA\WorkflowEngine\Check\RequestURL;
+use OCA\WorkflowEngine\Check\RequestUserAgent;
+use OCA\WorkflowEngine\Check\UserGroupMembership;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCP\AppFramework\QueryException;
@@ -79,6 +87,9 @@ class Manager implements IManager, IEntityAware {
 
 	/** @var IOperation[] */
 	protected $registeredOperators = [];
+
+	/** @var ICheck[] */
+	protected $registeredChecks = [];
 
 	/** @var ILogger */
 	protected $logger;
@@ -510,6 +521,12 @@ class Manager implements IManager, IEntityAware {
 				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
+			if (!empty($instance->supportedEntities())
+				&& !in_array(get_class($entity), $instance->supportedEntities())
+			) {
+				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
+			}
+
 			$instance->validateCheck($check['operator'], $check['value']);
 		}
 	}
@@ -653,17 +670,24 @@ class Manager implements IManager, IEntityAware {
 	}
 
 	/**
-	 * Listen to 'OCP/WorkflowEngine::registerEntities' at the EventDispatcher
-	 * for registering your entities
-	 *
-	 * @since 18.0.0
+	 * @return ICheck[]
 	 */
+	public function getCheckList(): array {
+		$this->eventDispatcher->dispatch(IManager::EVENT_NAME_REG_CHECK, new GenericEvent($this));
+
+		return array_merge($this->getBuildInChecks(), $this->registeredChecks);
+	}
+
 	public function registerEntity(IEntity $entity): void {
 		$this->registeredEntities[get_class($entity)] = $entity;
 	}
 
 	public function registerOperation(IOperation $operator): void {
 		$this->registeredOperators[get_class($operator)] = $operator;
+	}
+
+	public function registerCheck(ICheck $check): void {
+		$this->registeredChecks[get_class($check)] = $check;
 	}
 
 	/**
@@ -687,6 +711,28 @@ class Manager implements IManager, IEntityAware {
 		try {
 			return [
 				// None yet
+			];
+		} catch (QueryException $e) {
+			$this->logger->logException($e);
+			return [];
+		}
+	}
+
+	/**
+	 * @return IEntity[]
+	 */
+	protected function getBuildInChecks(): array {
+		try {
+			return [
+				$this->container->query(FileMimeType::class),
+				$this->container->query(FileName::class),
+				$this->container->query(FileSize::class),
+				$this->container->query(FileSystemTags::class),
+				$this->container->query(RequestRemoteAddress::class),
+				$this->container->query(RequestTime::class),
+				$this->container->query(RequestURL::class),
+				$this->container->query(RequestUserAgent::class),
+				$this->container->query(UserGroupMembership::class),
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Check;
 
+use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -74,5 +75,13 @@ class FileName extends AbstractStringCheck {
 			$actualValue = mb_strtolower($actualValue);
 		}
 		return parent::executeStringCheck($operator, $checkValue, $actualValue);
+	}
+
+	public function supportedEntities(): array {
+		return [ File::class ];
+	}
+
+	public function isAvailableForScope(int $scope): bool {
+		return true;
 	}
 }

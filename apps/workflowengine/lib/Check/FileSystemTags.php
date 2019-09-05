@@ -22,6 +22,7 @@
 namespace OCA\WorkflowEngine\Check;
 
 
+use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Cache\ICache;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
@@ -165,5 +166,13 @@ class FileSystemTags implements ICheck {
 	protected function dirname($path) {
 		$dir = dirname($path);
 		return $dir === '.' ? '' : $dir;
+	}
+
+	public function supportedEntities(): array {
+		return [ File::class ];
+	}
+
+	public function isAvailableForScope(int $scope): bool {
+		return true;
 	}
 }

@@ -126,4 +126,8 @@ class RequestTime implements ICheck {
 			throw new \UnexpectedValueException($this->l->t('The given end time is invalid'), 4);
 		}
 	}
+
+	public function isAvailableForScope(int $scope): bool {
+		return true;
+	}
 }

@@ -39,6 +39,7 @@ interface IManager {
 
 	const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
 	const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
+	const EVENT_NAME_REG_CHECK = 'OCP\WorkflowEngine::registerChecks';
 
 	/**
 	 * @param IStorage $storage
@@ -56,18 +57,26 @@ interface IManager {
 	public function getMatchingOperations($class, $returnFirstMatchingOperationOnly = true);
 
 	/**
-	 * Listen to 'OCP/WorkflowEngine::registerEntities' at the EventDispatcher
-	 * for registering your entities
+	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_ENTITY` at the
+	 * EventDispatcher for registering your entities.
 	 *
 	 * @since 18.0.0
 	 */
 	public function registerEntity(IEntity $entity): void;
 
 	/**
-	 * Listen to 'OCP/WorkflowEngine::registerOperators' at the EventDispatcher
-	 * for registering your operators
+	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_OPERATION` at the
+	 * EventDispatcher for registering your operators.
 	 *
 	 * @since 18.0.0
 	 */
 	public function registerOperation(IOperation $operator): void;
+
+	/**
+	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_CHECK` at the
+	 * EventDispatcher for registering your operators.
+	 *
+	 * @since 18.0.0
+	 */
+	public function registerCheck(ICheck $check): void;
 }

@@ -22,6 +22,7 @@
 namespace OCA\WorkflowEngine\Check;
 
 
+use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
@@ -194,5 +195,9 @@ class FileMimeType extends AbstractStringCheck {
 			$this->request->getPathInfo() === '/webdav' ||
 			strpos($this->request->getPathInfo(), '/webdav/') === 0
 		);
+	}
+
+	public function supportedEntities(): array {
+		return [ File::class ];
 	}
 }
