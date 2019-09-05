@@ -485,6 +485,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
 	 */
 	public static function getAppPath(string $appId) {
 		if ($appId === null || trim($appId) === '') {
@@ -503,6 +504,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
 		if (($dir = self::findAppInDirectories($appId)) != false) {

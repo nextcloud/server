@@ -411,7 +411,7 @@ class AppManager implements IAppManager {
 	 * @return string
 	 * @throws AppPathNotFoundException if app path can't be found
 	 */
-	public function getAppWebPath($appId) {
+	public function getAppWebPath(string $appId): string {
 		$appWebPath = \OC_App::getAppWebPath($appId);
 		if($appWebPath === false) {
 			throw new AppPathNotFoundException('Could not find web path for ' . $appId);

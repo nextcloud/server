@@ -131,10 +131,10 @@ interface IAppManager {
 	 *
 	 * @param string $appId
 	 * @return string
-	 * @since 17.0.0
+	 * @since 18.0.0
 	 * @throws AppPathNotFoundException
 	 */
-	public function getAppWebPath($appId);
+	public function getAppWebPath(string $appId): string;
 
 	/**
 	 * List all apps enabled for a user
