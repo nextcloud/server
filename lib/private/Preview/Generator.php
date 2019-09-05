@@ -117,8 +117,18 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
-		$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
-		$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
+		// Compute max width and height preserving aspect ratio
+		// TODO test this with images smaller than preview_max_x and/or preview_max_y
+		// TODO Does this code really belong to here... see lib/private/legacy/image.php::resize() for example
+		$image = new OCPImage();
+		$image->loadFromData($file->getContent());
+		$heightOrig = $image->height();
+		$widthOrig = $image->width();
+		$ratio = $widthOrig / $heightOrig;
+		$maxWidthConfig = (int)$this->config->getSystemValue('preview_max_x', 4096);
+		$maxHeightConfig = (int)$this->config->getSystemValue('preview_max_y', 4096);
+		$maxWidth = min($maxWidthConfig, $ratio * $maxHeightConfig);
+		$maxHeight = min($maxHeightConfig, $maxWidthConfig / $ratio);
 
 		// If both width and heigth are -1 we just want the max preview
 		if ($width === -1 && $height === -1) {
@@ -136,12 +146,13 @@ class Generator {
 			return $maxPreview;
 		}*/
 
+
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			try {
 				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $mimeType, $previewVersion);
 			} catch (NotFoundException $e) {
-				$preview = $this->generatePreview($previewFolder, $file, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+				$preview = $this->generatePreview($previewFolder, $image, $width, $height, $crop, $previewVersion);
 			}
 		} catch (\InvalidArgumentException $e) {
 			throw new NotFoundException();
@@ -279,17 +290,12 @@ class Generator {
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
-	 * @param int $maxWidth
-	 * @param int $maxHeight
 	 * @param string $prefix
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	private function generatePreview(ISimpleFolder $previewFolder, File $file, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
-		$preview = new OCPImage();
-		$preview->loadFromData($file->getContent());
-
+	private function generatePreview(ISimpleFolder $previewFolder, OCPImage $preview, $width, $height, $crop, $prefix) {
 		if (!$preview->valid()) {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
 		}
@@ -297,14 +303,13 @@ class Generator {
 		if ($crop) {
 			if ($height !== $preview->height() && $width !== $preview->width()) {
 				//Resize
-				$widthR = $preview->width() / $width;
-				$heightR = $preview->height() / $height;
+				$ratioOrig = $preview->width() / $preview->height();
 
-				if ($widthR > $heightR) {
+				if ($ratioOrig > 1) {
 					$scaleH = $height;
-					$scaleW = $maxWidth / $heightR;
+					$scaleW = $height * $ratioOrig;
 				} else {
-					$scaleH = $maxHeight / $widthR;
+					$scaleH = $width / $ratioOrig;
 					$scaleW = $width;
 				}
 				$preview->preciseResize((int)round($scaleW), (int)round($scaleH));
