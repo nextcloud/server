@@ -25,7 +25,6 @@
 
 namespace OC\Preview;
 
-use OC\Preview\GeneratorHelper;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -33,11 +32,9 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
-use OCP\IImage;
+use OCP\Image as OCPImage;
 use OCP\IPreview;
-use OCP\Preview\IProvider;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -49,8 +46,6 @@ class Generator {
 	private $config;
 	/** @var IAppData */
 	private $appData;
-	/** @var GeneratorHelper */
-	private $helper;
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
@@ -71,8 +66,8 @@ class Generator {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
-		$this->helper = $helper;
 		$this->eventDispatcher = $eventDispatcher;
+		//TODO remove GeneratorHelper $helper
 	}
 
 	/**
@@ -122,14 +117,8 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
-		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType, $previewVersion);
-		if ($maxPreview->getSize() === 0) {
-			$maxPreview->delete();
-			throw new NotFoundException('Max preview size 0, invalid!');
-		}
-
-		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview, $previewVersion);
+		$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
+		$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
 
 		// If both width and heigth are -1 we just want the max preview
 		if ($width === -1 && $height === -1) {
@@ -141,16 +130,18 @@ class Generator {
 		list($width, $height) = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
 
 		// No need to generate a preview that is just the max preview
+		// TODO think about this use case...
+		/*
 		if ($width === $maxWidth && $height === $maxHeight) {
 			return $maxPreview;
-		}
+		}*/
 
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			try {
-				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
+				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $mimeType, $previewVersion);
 			} catch (NotFoundException $e) {
-				$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+				$preview = $this->generatePreview($previewFolder, $file, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 			}
 		} catch (\InvalidArgumentException $e) {
 			throw new NotFoundException();
@@ -162,72 +153,6 @@ class Generator {
 		}
 
 		return $preview;
-	}
-
-	/**
-	 * @param ISimpleFolder $previewFolder
-	 * @param File $file
-	 * @param string $mimeType
-	 * @param string $prefix
-	 * @return ISimpleFile
-	 * @throws NotFoundException
-	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, File $file, $mimeType, $prefix) {
-		$nodes = $previewFolder->getDirectoryListing();
-
-		foreach ($nodes as $node) {
-			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0) && strpos($name, 'max')) {
-				return $node;
-			}
-		}
-
-		$previewProviders = $this->previewManager->getProviders();
-		foreach ($previewProviders as $supportedMimeType => $providers) {
-			if (!preg_match($supportedMimeType, $mimeType)) {
-				continue;
-			}
-
-			foreach ($providers as $providerClosure) {
-				$provider = $this->helper->getProvider($providerClosure);
-				if (!($provider instanceof IProviderV2)) {
-					continue;
-				}
-
-				if (!$provider->isAvailable($file)) {
-					continue;
-				}
-
-				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
-				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
-
-				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
-
-				if (!($preview instanceof IImage)) {
-					continue;
-				}
-
-				// Try to get the extention.
-				try {
-					$ext = $this->getExtention($preview->dataMimeType());
-				} catch (\InvalidArgumentException $e) {
-					// Just continue to the next iteration if this preview doesn't have a valid mimetype
-					continue;
-				}
-
-				$path = $prefix . (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
-				try {
-					$file = $previewFolder->newFile($path);
-					$file->putContent($preview->data());
-				} catch (NotPermittedException $e) {
-					throw new NotFoundException();
-				}
-
-				return $file;
-			}
-		}
-
-		throw new NotFoundException();
 	}
 
 	/**
@@ -361,8 +286,9 @@ class Generator {
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
-		$preview = $this->helper->getImage($maxPreview);
+	private function generatePreview(ISimpleFolder $previewFolder, File $file, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
+		$preview = new OCPImage();
+		$preview->loadFromData($file->getContent());
 
 		if (!$preview->valid()) {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
