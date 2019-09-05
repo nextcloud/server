@@ -264,7 +264,6 @@ OC.L10N.register(
     "Credentials" : "Prisijungimo duomenys",
     "SMTP Username" : "SMTP naudotojo vardas",
     "SMTP Password" : "SMTP slaptažodis",
-    "Store credentials" : "Išsaugoti prisijungimo duomenis",
     "Test email settings" : "Išbandyti el. pašto nustatymus",
     "Send email" : "Siųsti el. paštą",
     "Security & setup warnings" : "Saugumo ir sąrankos įspėjimai",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Nukopijuosite spustelėję Ctrl-C.",
     "Error while loading browser sessions and device tokens" : "Klaida, įkeliant naršyklės seansus ir įrenginio prieigos raktus",
     "Default quota :" : "Numatytasis leidžiamas duomenų kiekis :",
+    "Store credentials" : "Išsaugoti prisijungimo duomenis",
     "Follow us on Google+" : "Sekite mus Google+",
     "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Naudojate <strong>%s</strong> iš<strong>%s</strong> (<strong>%s %%</strong>)"
 },

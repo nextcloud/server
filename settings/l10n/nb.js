@@ -246,7 +246,6 @@ OC.L10N.register(
     "Credentials" : "Påloggingsdetaljer",
     "SMTP Username" : "SMTP-brukernavn",
     "SMTP Password" : "SMTP-passord",
-    "Store credentials" : "Lagre påloggingsdetaljer",
     "Test email settings" : "Test innstillinger for e-post",
     "Send email" : "Send e-post",
     "Security & setup warnings" : "Advarsler om sikkerhet og oppsett",
@@ -342,6 +341,7 @@ OC.L10N.register(
     "Current password" : "Nåværende passord",
     "Change password" : "Endre passord",
     "Use a second factor besides your password to increase security for your account." : "Bruk en annen faktor i tillegg til passordet ditt for å øke sikkerheten for kontoen din.",
+    "Store credentials" : "Lagre påloggingsdetaljer",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert kvarter over HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Bruk systemets cron-tjeneste til å kalle cron.php hvert kvarter."
 },

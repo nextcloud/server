@@ -175,7 +175,6 @@ OC.L10N.register(
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome de utilizador SMTP",
     "SMTP Password" : "Palavra-passe SMTP",
-    "Store credentials" : "Armazenar credenciais",
     "Test email settings" : "Testar definições de e-mail",
     "Send email" : "Enviar email",
     "Security & setup warnings" : "Avisos de configuração e segurança",
@@ -254,6 +253,7 @@ OC.L10N.register(
     "Help translate" : "Ajude a traduzir",
     "Current password" : "Palavra-passe atual",
     "Change password" : "Alterar palavra-passe",
+    "Store credentials" : "Armazenar credenciais",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos."
 },
