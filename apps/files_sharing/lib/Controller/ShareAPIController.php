@@ -1138,7 +1138,7 @@ class ShareAPIController extends OCSController {
 	 * If the Talk application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Spreed\Share\Helper\ShareAPIController
+	 * @return \OCA\Talk\Share\Helper\ShareAPIController
 	 * @throws QueryException
 	 */
 	private function getRoomShareHelper() {
@@ -1146,7 +1146,7 @@ class ShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Spreed\Share\Helper\ShareAPIController');
+		return $this->serverContainer->query('\OCA\Talk\Share\Helper\ShareAPIController');
 	}
 
 
