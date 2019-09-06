@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCP\Push\Service;
 
 
+use OCP\Push\Exceptions\ItemNotFoundException;
+use OCP\Push\Exceptions\UnknownStreamTypeException;
+use OCP\Push\Model\IPushItem;
 use OCP\Push\Model\IPushRecipients;
 use OCP\Push\Model\IPushWrapper;
 
@@ -45,7 +48,31 @@ use OCP\Push\Model\IPushWrapper;
 interface IPushService {
 
 
-	public function push(IPushWrapper $wrapper);
+	/**
+	 * erase if keyword is specified and already exist in db.
+	 *
+	 * @param IPushWrapper $wrapper
+	 */
+	public function push(IPushWrapper $wrapper): void;
+
+	/**
+	 * update only if the item still exists.
+	 *
+	 * @param IPushItem $item
+	 */
+	public function update(IPushItem $item): void;
+
+
+	/**
+	 * @param string $app
+	 * @param string $userId
+	 * @param string $keyword
+	 *
+	 * @return IPushItem
+	 * @throws ItemNotFoundException
+	 * @throws UnknownStreamTypeException
+	 */
+	public function getItemByKeyword(string $app, string $userId, string $keyword): IPushItem;
 
 
 	/**
@@ -54,7 +81,7 @@ interface IPushService {
 	 *
 	 * @return mixed
 	 */
-	public function fillRecipients(IPushWrapper $wrapper, IPushRecipients $recipients);
+	public function fillRecipients(IPushWrapper $wrapper, IPushRecipients $recipients): void;
 
 }
 

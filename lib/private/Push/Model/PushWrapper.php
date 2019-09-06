@@ -123,7 +123,7 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @return IPushWrapper
 	 */
 	public function addRecipient(string $recipient): IPushWrapper {
-		if (!in_array($recipient, $this->recipients)) {
+		if (!in_array($recipient, $this->recipients) && $recipient !== '') {
 			$this->recipients[] = $recipient;
 		}
 

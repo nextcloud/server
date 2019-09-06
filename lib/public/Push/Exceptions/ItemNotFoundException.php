@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 
 /**
@@ -28,44 +27,18 @@ declare(strict_types=1);
  */
 
 
-namespace OCP\Push\Model\Helper;
+namespace OCP\Push\Exceptions;
 
-
-use JsonSerializable;
-use OCP\Push\Model\IPushRecipients;
-
+use Exception;
 
 /**
- * Interface IPushCallback
- *
  * @since 18.0.0
  *
- * @package OCP\Push\Helper
+ * Class PushInstallException
+ *
+ * @package OCP\Push\Exceptions
  */
-interface IPushCallback extends IPushRecipients {
-
-
-	const TYPE = 'Callback';
-
-
-	/**
-	 * @return array
-	 */
-	public function getPayload(): array;
-
-	/**
-	 * @param array $payload
-	 *
-	 * @return self
-	 */
-	public function setPayload(array $payload): self;
-
-	/**
-	 * @param JsonSerializable $payload
-	 *
-	 * @return self
-	 */
-	public function setPayloadSerializable(JsonSerializable $payload): self;
-
+class ItemNotFoundException extends Exception {
 }
+
 

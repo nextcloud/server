@@ -50,12 +50,6 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 
 	/** @var string */
-	private $app = '';
-
-	/** @var string */
-	private $title = '';
-
-	/** @var string */
 	private $message = '';
 
 	/** @var string */
@@ -75,7 +69,7 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param int $ttl
 	 */
 	public function __construct($app = '', $ttl = IPushItem::TTL_INSTANT) {
-		$this->app = $app;
+		$this->setApp($app);
 		$this->ttl = $ttl;
 	}
 
@@ -83,26 +77,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	/**
 	 * @return string
 	 */
-	public function getApp(): string {
-		return $this->app;
-	}
-
-	/**
-	 * @param string $app
-	 *
-	 * @return IPushNotification
-	 */
-	public function setApp(string $app): IPushNotification {
-		$this->app = $app;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getTitle(): string {
-		return $this->title;
+		return $this->getSource();
 	}
 
 	/**
@@ -111,7 +87,7 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @return IPushNotification
 	 */
 	public function setTitle(string $title): IPushNotification {
-		$this->title = $title;
+		$this->setSource($title);
 
 		return $this;
 	}

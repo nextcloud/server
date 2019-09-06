@@ -47,10 +47,6 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 
 	use TArrayTools;
 
-
-	/** @var string */
-	private $app = '';
-
 	/** @var string */
 	private $command = '';
 
@@ -65,27 +61,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 	 * @param string $command
 	 */
 	public function __construct($app = '', $command = '') {
-		$this->app = $app;
+		$this->setApp($app);
 		$this->command = $command;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getApp(): string {
-		return $this->app;
-	}
-
-	/**
-	 * @param string $app
-	 *
-	 * @return IPushEvent
-	 */
-	public function setApp(string $app): IPushEvent {
-		$this->app = $app;
-
-		return $this;
 	}
 
 

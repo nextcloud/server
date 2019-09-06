@@ -55,19 +55,6 @@ interface IPushNotification extends IPushRecipients {
 	/**
 	 * @return string
 	 */
-	public function getApp(): string;
-
-	/**
-	 * @param string $app
-	 *
-	 * @return self
-	 */
-	public function setApp(string $app): self;
-
-
-	/**
-	 * @return string
-	 */
 	public function getTitle(): string;
 
 	/**

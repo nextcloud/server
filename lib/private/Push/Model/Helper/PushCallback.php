@@ -48,12 +48,6 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	use TArrayTools;
 
 
-	/** @var string */
-	private $app = '';
-
-	/** @var string */
-	private $source = '';
-
 	/** @var array */
 	private $payload = '';
 
@@ -65,46 +59,8 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	 * @param $source
 	 */
 	public function __construct($app = '', $source = '') {
-		$this->app = $app;
-		$this->source = $source;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getApp(): string {
-		return $this->app;
-	}
-
-	/**
-	 * @param string $app
-	 *
-	 * @return IPushCallback
-	 */
-	public function setApp(string $app): IPushCallback {
-		$this->app = $app;
-
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getSource(): string {
-		return $this->source;
-	}
-
-	/**
-	 * @param string $source
-	 *
-	 * @return IPushCallback
-	 */
-	public function setSource(string $source): IPushCallback {
-		$this->source = $source;
-
-		return $this;
+		$this->setApp($app);
+		$this->setSource($source);
 	}
 
 

@@ -101,6 +101,20 @@ interface IPushItem {
 	 */
 	public function setPayload(array $payload): self;
 
+
+	/**
+	 * @return string
+	 */
+	public function getKeyword(): string;
+
+	/**
+	 * @param string $keyword
+	 *
+	 * @return self
+	 */
+	public function setKeyword(string $keyword): self;
+
+
 	/**
 	 * @param JsonSerializable $payload
 	 *
@@ -152,6 +166,22 @@ interface IPushItem {
 
 	/**
 	 * @param string $k
+	 * @param int $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaInt(string $k, int $v): self;
+
+	/**
+	 * @param string $k
+	 * @param bool $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaBool(string $k, bool $v): self;
+
+	/**
+	 * @param string $k
 	 * @param array $v
 	 *
 	 * @return IPushItem
@@ -159,10 +189,17 @@ interface IPushItem {
 	public function addMetaArray(string $k, array $v): self;
 
 	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaArrayEntry(string $k, string $v): self;
+
+	/**
 	 * @return array
 	 */
 	public function getMeta(): array;
-
 
 
 	/**

@@ -29,6 +29,9 @@
 
 namespace OCP\Push\Exceptions;
 
+use Exception;
+
+
 /**
  * @since 18.0.0
  *
@@ -36,6 +39,6 @@ namespace OCP\Push\Exceptions;
  *
  * @package OCP\Push\Exceptions
  */
-class PushInstallException extends \Exception {
+class PushInstallException extends Exception {
 }
 

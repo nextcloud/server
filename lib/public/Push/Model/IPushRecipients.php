@@ -40,6 +40,99 @@ namespace OCP\Push\Model;
  */
 interface IPushRecipients {
 
+
+	/**
+	 * @return string
+	 */
+	public function getApp(): string;
+
+	/**
+	 * @param string $app
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setApp(string $app): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getSource(): string;
+
+	/**
+	 * @param string $source
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setSource(string $source): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getKeyword(): string;
+
+	/**
+	 * @param string $keyword
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setKeyword(string $keyword): self;
+
+
+	/**
+	 * @return array
+	 */
+	public function getMeta(): array;
+
+	/**
+	 * @param array $meta
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setMeta(array $meta): self;
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMeta(string $k, string $v): self;
+
+	/**
+	 * @param string $k
+	 * @param int $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaInt(string $k, int $v): self;
+
+	/**
+	 * @param string $k
+	 * @param array $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaArray(string $k, array $v): self;
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaArrayEntry(string $k, string $v): self;
+
+	/**
+	 * @param string $k
+	 * @param bool $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaBool(string $k, bool $v): self;
+
+
 	/**
 	 * @param string $user
 	 *

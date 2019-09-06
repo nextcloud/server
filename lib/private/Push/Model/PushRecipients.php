@@ -32,6 +32,7 @@ namespace OC\Push\Model;
 
 
 use JsonSerializable;
+use OCA\Push\Model\Polling;
 use OCP\Push\Model\IPushRecipients;
 
 
@@ -42,6 +43,18 @@ use OCP\Push\Model\IPushRecipients;
  */
 class PushRecipients implements IPushRecipients, JsonSerializable {
 
+
+	/** @var string */
+	private $app = '';
+
+	/** @var string */
+	private $source = '';
+
+	/** @var string */
+	private $keyword = '';
+
+	/** @var array */
+	private $meta = [];
 
 	/** @var array */
 	private $users = [];
@@ -60,6 +73,148 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/** @var array */
 	private $limitToApps = [];
+
+
+	/**
+	 * @return string
+	 */
+	public function getApp(): string {
+		return $this->app;
+	}
+
+	/**
+	 * @param string $app
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setApp(string $app): IPushRecipients {
+		$this->app = $app;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getSource(): string {
+		return $this->source;
+	}
+
+	/**
+	 * @param string $source
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setSource(string $source): IPushRecipients {
+		$this->source = $source;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getKeyword(): string {
+		return $this->keyword;
+	}
+
+	/**
+	 * @param string $keyword
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setKeyword(string $keyword): IPushRecipients {
+		$this->keyword = $keyword;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getMeta(): array {
+		return $this->meta;
+	}
+
+	/**
+	 * @param array $meta
+	 *
+	 * @return IPushRecipients
+	 */
+	public function setMeta(array $meta): IPushRecipients {
+		$this->meta = $meta;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMeta(string $k, string $v): IPushRecipients {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param int $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaInt(string $k, int $v): IPushRecipients {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param array $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaArray(string $k, array $v): IPushRecipients {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaArrayEntry(string $k, string $v): IPushRecipients {
+		if (!array_key_exists($k, $this->meta)) {
+			$this->meta[$k] = [];
+		}
+
+		if (!in_array($v, $this->meta[$k])) {
+			$this->meta[$k][] = $v;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param bool $v
+	 *
+	 * @return IPushRecipients
+	 */
+	public function addMetaBool(string $k, bool $v): IPushRecipients {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
 
 
 	/**
@@ -100,6 +255,7 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 */
 	public function removeUsers(array $users): IPushRecipients {
 		$this->removedUsers = array_merge($this->removedUsers, $users);
+
 
 		return $this;
 	}

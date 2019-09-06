@@ -48,6 +48,7 @@ class PushItem implements IPushItem, JsonSerializable {
 	use TArrayTools;
 	use TStringTools;
 
+
 	/** @var int */
 	private $id = 0;
 
@@ -59,6 +60,9 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/** @var string */
 	private $source = '';
+
+	/** @var string */
+	private $keyword = '';
 
 	/** @var array */
 	private $payload = [];
@@ -167,6 +171,25 @@ class PushItem implements IPushItem, JsonSerializable {
 
 
 	/**
+	 * @return string
+	 */
+	public function getKeyword(): string {
+		return $this->keyword;
+	}
+
+	/**
+	 * @param string $keyword
+	 *
+	 * @return IPushItem
+	 */
+	public function setKeyword(string $keyword): IPushItem {
+		$this->keyword = $keyword;
+
+		return $this;
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function getPayload(): array {
@@ -263,6 +286,30 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @param string $k
+	 * @param bool $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaBool(string $k, bool $v): IPushItem {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
+	 * @param int $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaInt(string $k, int $v): IPushItem {
+		$this->meta[$k] = $v;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $k
 	 * @param array $v
 	 *
 	 * @return IPushItem
@@ -272,6 +319,25 @@ class PushItem implements IPushItem, JsonSerializable {
 
 		return $this;
 	}
+
+	/**
+	 * @param string $k
+	 * @param string $v
+	 *
+	 * @return IPushItem
+	 */
+	public function addMetaArrayEntry(string $k, string $v): IPushItem {
+		if (!array_key_exists($k, $this->meta)) {
+			$this->meta[$k] = [];
+		}
+
+		if (!in_array($v, $this->meta[$k])) {
+			$this->meta[$k][] = $v;
+		}
+
+		return $this;
+	}
+
 
 	/**
 	 * @return array
@@ -313,6 +379,7 @@ class PushItem implements IPushItem, JsonSerializable {
 		$this->setTtl($this->getInt('ttl', $import, -1));
 		$this->setPayload($this->getArray('payload', $import, []));
 		$this->setSource($this->get('source', $import));
+		$this->setKeyword($this->get('keyword', $import));
 		$this->setMeta($this->getArray('meta', $import));
 		$this->setCreation($this->getInt('creation', $import));
 
@@ -325,10 +392,12 @@ class PushItem implements IPushItem, JsonSerializable {
 	 */
 	public function jsonSerialize(): array {
 		return [
+			'id'       => $this->getId(),
 			'token'    => $this->getToken(),
 			'app'      => $this->getApp(),
 			'type'     => $this->getType(),
 			'source'   => $this->getSource(),
+			'keyword'  => $this->getKeyword(),
 			'payload'  => $this->getPayload(),
 			'meta'     => $this->getMeta(),
 			'ttl'      => $this->getTtl(),
