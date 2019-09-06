@@ -43,6 +43,7 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
+use OCP\IGroup;
 use OCP\IServerContainer;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\External\Manager;
@@ -187,6 +188,11 @@ class Application extends App {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
+		});
+		$dispatcher->addListener(IGroup::class . '::postAddUser', function(GenericEvent $event) {
+			/** @var Listener $listener */
+			$listener = $this->getContainer()->query(Listener::class);
+			$listener->userAddedToGroup($event);
 		});
 	}
 }
