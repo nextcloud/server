@@ -65,8 +65,7 @@ use OC\Core\Controller\LostController;
 			</div>
 		<?php } ?>
 
-		<p class="grouptop">
-
+		<p>
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username or email')); ?>"
 				aria-label="<?php p($l->t('Username or email')); ?>"
