@@ -712,6 +712,7 @@ OC.L10N.register(
     "Credentials" : "Kimlik Doğrulama Bilgileri",
     "SMTP Username" : "SMTP Kullanıcı Adı",
     "SMTP Password" : "SMTP Parolası",
+    "Save" : "Kaydet",
     "Test email settings" : "E-posta ayarlarını sına",
     "Send email" : "E-posta gönder",
     "Security & setup warnings" : "Güvenlik ve kurulum uyarıları",

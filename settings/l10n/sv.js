@@ -712,6 +712,7 @@ OC.L10N.register(
     "Credentials" : "Inloggningsuppgifter",
     "SMTP Username" : "SMTP-användarnamn",
     "SMTP Password" : "SMTP-lösenord",
+    "Save" : "Spara",
     "Test email settings" : "Testa e-postinställningar",
     "Send email" : "Skicka e-post",
     "Security & setup warnings" : "Säkerhet & systemvarningar",
