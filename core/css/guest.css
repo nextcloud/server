@@ -97,20 +97,19 @@ body {
 }
 
 .wrapper {
-	width: 300px;
+	max-width: 100%;
 	margin-top: 10vh;
 }
 
 /* Default FORM */
 form {
 	position: relative;
-	width: 280px;
 	margin: auto;
 	padding: 0;
 }
 form fieldset {
-	margin-bottom: 20px;
-	text-align: left;
+	width: 260px;
+	margin: auto auto 20px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -156,25 +155,34 @@ form #datadirField legend {
 #alternative-logins {
 	margin: 30px 15px 20px;
 	display: block;
+	min-width: 260px;
+	max-width: 400px;
+	overflow: hidden;
 }
 
 #alternative-logins a {
 	margin: 10px 5px;
 	display: block;
 	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #alternative-logins a::before {
 	content: "";
 	background-repeat: no-repeat;
 	background-size: contain;
-	width: 18px;
+	width: 0;
 	height: 18px;
 	display: inline-block;
 	vertical-align: bottom;
-	margin-right: 5px;
 }
 
+#alternative-logins .button {
+	color: #0082c9;
+	padding: 12px 20px;
+}
 
 @media only screen and (max-width: 1024px) {
 	.wrapper {
@@ -182,6 +190,9 @@ form #datadirField legend {
 	}
 	#alternative-logins {
 		margin: 30px 15px 10px;
+	}
+	#alternative-logins .label-prefix {
+		display: none;
 	}
 }
 
@@ -196,6 +207,10 @@ form #datadirField legend {
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#submit-wrapper {
+	margin: 0 auto;
 }
 
 #submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
