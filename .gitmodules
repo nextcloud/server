@@ -1,3 +1,15 @@
 [submodule "3rdparty"]
 	path = 3rdparty
 	url = https://github.com/nextcloud/3rdparty.git
+
+[submodule "custom_apps/firstrunwizard"]
+	path = custom_apps/firstrunwizard
+	url = https://github.com/compagnon/nextcloud-firstrunwizard.git
+
+[submodule "custom_apps"]
+	path = custom_apps
+	url = https://github.com/compagnon/nextcloud-custom_apps.git
+
+	[submodule "nextcloud-themes_sagis"]
+	path = themes/sagis
+	url = https://github.com/compagnon/nextcloud-themes_sagis.git
