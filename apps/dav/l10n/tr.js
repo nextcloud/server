@@ -98,6 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Etkinleştirildikten hemen sonra görüntülenmez, bir süre sonra görüntülenir.",
     "Send notifications for events" : "Etkinlik bildirimleri gönderilsin",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır.",
+    "Enable notifications for events via push" : "Anında etkinlik bildirimleri kullanılsın",
     "%s via %s" : "%s, %s aracılığıyla",
     "The meeting »%s« with %s was canceled." : "Bu »%s« görüşmesi %s ile yapılacakken iptal edildi.",
     "The meeting »%s« with %s was updated." : "Bu »%s« görüşmesi %s ile yapılacakken güncellendi.",
