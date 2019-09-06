@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import { Actions, ActionButton, Tooltip } from 'nextcloud-vue'
+import { Tooltip } from 'nextcloud-vue/dist/Directives/Tooltip'
+import { Actions } from 'nextcloud-vue/dist/Components/Actions'
+import { ActionButton } from 'nextcloud-vue/dist/Components/ActionButton'
 import Event from './Event'
 import Check from './Check'
 import Operation from './Operation'

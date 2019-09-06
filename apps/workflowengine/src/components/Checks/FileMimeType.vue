@@ -1,9 +1,8 @@
 <template>
 	<div>
-
 		<multiselect
 			:value="currentValue"
-			placeholder="Select a file type"
+			placeholder="Select a user agent"
 			label="label"
 			track-by="pattern"
 			:options="options" :multiple="false" :tagging="false" @input="setValue">
@@ -21,7 +20,7 @@
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue'
+	import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 
 export default {
 	name: 'FileMimeType',

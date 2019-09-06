@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from './store'
-
 import Settings from './components/Workflow'
-import FileValues from './components/Values/file'
+import ShippedChecks from './components/Checks'
 
 /**
  * A plugin for displaying a custom value field for checks
@@ -43,7 +42,6 @@ import FileValues from './components/Values/file'
  */
 window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 
-
 	/**
 	 *
 	 * @param {CheckPlugin} Plugin
@@ -60,8 +58,8 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 	}
 })
 
-// Register shipped checks for file entity
-FileValues.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
+// Register shipped checks
+ShippedChecks.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
 
 /**
  * FIXME: remove before merge as this is for UI testing only
@@ -69,16 +67,16 @@ FileValues.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(chec
 const demo = [
 	{
 		id: 'OCA\\TestExample\\Operation1',
-		name: 'Rename file',
-		description: '🚧 For UI mocking only',
-		iconClass: 'icon-address-white',
+		name: 'Convert to PDF',
+		description: 'Convert a file to PDF using Libreoffice',
+		iconClass: 'icon-convert-pdf',
 		color: 'var(--color-success)',
 		operation: 'deny'
 	},
 	{
 		id: 'OCA\\TestExample\\Operation2',
 		name: 'Notify me',
-		description: '🚧 For UI mocking only',
+		description: 'Send a Nextcloud Notification',
 		iconClass: 'icon-comment-white',
 		color: 'var(--color-warning)',
 		operation: 'deny'
