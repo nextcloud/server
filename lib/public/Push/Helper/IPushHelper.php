@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,13 @@ use OCP\Push\Model\IPushWrapper;
 /**
  * Interface IPushHelper
  *
+ * this Interface is used to quickly generate and save items, based on basic templates:
+ *  - IPushNotification
+ *  - IPushEvent
+ *  - IPushCallback
+ *
+ * A PushHelper is registered by the Push App (when installed)
+ *
  * @since 18.0.0
  *
  * @package OCP\Push\Helper
@@ -48,57 +55,84 @@ interface IPushHelper {
 
 
 	/**
+	 * test the Push App integration, sending a test notification to $userId
+	 *
 	 * @param string $userId
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function test(string $userId): IPushWrapper;
 
 
 	/**
+	 * Using an IPushCallback, generates a IPushWrapper and save it in database.
+	 *
 	 * @param IPushCallback $callback
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function toCallback(IPushCallback $callback): IPushWrapper;
 
 	/**
+	 * Generates a IPushWrapper from an IPushCallback
+	 *
 	 * @param IPushCallback $callback
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function generateFromCallback(IPushCallback $callback): IPushWrapper;
 
 
-
-
 	/**
+	 * Using an IPushNotification, generates a IPushWrapper and save it in database.
+	 *
 	 * @param IPushNotification $notification
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function pushNotification(IPushNotification $notification): IPushWrapper;
 
 	/**
+	 * Generates a IPushWrapper from an IPushNotification
+	 *
 	 * @param IPushNotification $notification
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function generateFromNotification(IPushNotification $notification): IPushWrapper;
 
 
 	/**
+	 * Using an IPushEvent, generates a IPushWrapper and save it in database.
+	 *
 	 * @param IPushEvent $event
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function broadcastEvent(IPushEvent $event): IPushWrapper;
 
 	/**
+	 * Generates a IPushWrapper from an IPushEvent
+	 *
 	 * @param IPushEvent $event
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function generateFromEvent(IPushEvent $event): IPushWrapper;
 
 }
+

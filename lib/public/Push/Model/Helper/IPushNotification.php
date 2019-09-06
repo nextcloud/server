@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,8 @@ use OCP\Push\Model\IPushRecipients;
 /**
  * Interface IPushNotification
  *
+ * Template used to generate an IPushItem with type=Notification
+ *
  * @since 18.0.0
  *
  * @package OCP\Push\Helper
@@ -53,66 +55,110 @@ interface IPushNotification extends IPushRecipients {
 
 
 	/**
+	 * get the title of the notification
+	 *
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getTitle(): string;
 
 	/**
+	 * set the title of the notification
+	 *
 	 * @param string $title
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setTitle(string $title): self;
 
 
 	/**
+	 * get the message of the notification
+	 *
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getMessage(): string;
 
 	/**
+	 * set the message of the notification
+	 *
 	 * @param string $message
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setMessage(string $message): self;
 
 
 	/**
+	 * get the link to open on a click on the notification
+	 *
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getLink(): string;
 
 	/**
+	 * set the link to open on a click on the notification
+	 *
 	 * @param string $link
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setLink(string $link): self;
 
 
 	/**
+	 * get the level of the notification.
+	 *
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getLevel(): string;
 
 	/**
+	 * set the level of the notification:
+	 *  - IPushNotification::LEVEL_SUCCESS
+	 *  - IPushNotification::LEVEL_MESSAGE
+	 *  - IPushNotification::LEVEL_WARNING
+	 *  - IPushNotification::LEVEL_ERROR
+	 *
 	 * @param string $level
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setLevel(string $level): self;
 
 
 	/**
+	 * get the Time To Live
+	 *
 	 * @return int
+	 *
+	 * @since 18.0.0
 	 */
 	public function getTtl(): int;
 
 	/**
+	 * set the Time To Live
+	 *
 	 * @param int $ttl
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setTtl(int $ttl): self;
 

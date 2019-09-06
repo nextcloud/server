@@ -40,6 +40,8 @@ use OCP\Push\Model\Helper\IPushEvent;
 /**
  * Class PushEvent
  *
+ * @since 18.0.0
+ *
  * @package OC\Push\Model\Helper
  */
 class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
@@ -59,6 +61,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 	 *
 	 * @param string $app
 	 * @param string $command
+	 *
+	 * @since 18.0.0
 	 */
 	public function __construct($app = '', $command = '') {
 		$this->setApp($app);
@@ -68,6 +72,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getCommand(): string {
 		return $this->command;
@@ -77,6 +83,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 	 * @param string $command
 	 *
 	 * @return IPushEvent
+	 *
+	 * @since 18.0.0
 	 */
 	public function setCommand(string $command): IPushEvent {
 		$this->command = $command;
@@ -87,6 +95,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 
 	/**
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPayload(): array {
 		if ($this->payload instanceof JsonSerializable) {
@@ -100,6 +110,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 	 * @param array $payload
 	 *
 	 * @return IPushEvent
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayload(array $payload): IPushEvent {
 		$this->payload = $payload;
@@ -111,6 +123,8 @@ class PushEvent extends PushRecipients implements IPushEvent, JsonSerializable {
 	 * @param JsonSerializable $payload
 	 *
 	 * @return IPushEvent
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): IPushEvent {
 		$this->payload = $payload->jsonSerialize();

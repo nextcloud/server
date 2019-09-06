@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,8 @@ use OCP\Push\Model\IPushRecipients;
 /**
  * Interface IPushEvent
  *
+ * Template used to generate an IPushItem with type=Event
+ *
  * @since 18.0.0
  *
  * @package OCP\Push\Helper
@@ -49,34 +51,54 @@ interface IPushEvent extends IPushRecipients {
 
 
 	/**
+	 * get the Javascript method that will be called on the front-end
+	 *
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getCommand(): string;
 
 	/**
+	 * set the Javascript method that will be called on the front-end
+	 *
 	 * @param string $title
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setCommand(string $title): self;
 
 
 	/**
+	 * get the payload
+	 *
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPayload(): array;
 
 	/**
+	 * set the payload
+	 *
 	 * @param array $payload
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayload(array $payload): self;
 
 	/**
+	 * set a serializable object as the payload
+	 *
 	 * @param JsonSerializable $payload
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): self;
 

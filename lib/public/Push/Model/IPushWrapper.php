@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,14 @@ namespace OCP\Push\Model;
 /**
  * Interface IPushWrapper
  *
+ * An IPushWrapper is the main object to handle and manage IPushItem around the Push App.
+ * It contains:
+ *   - a single IPushItem: data that will be send to the front-end
+ *   - a list of recipients: Nextcloud local accounts (userId)
+ *
+ * The main purpose is to create and store new IPushItems.
+ * The IPushWrapper is not used when retrieving IPushItem from the database.
+ *
  * @since 18.0.0
  *
  * @package OCP\Push
@@ -42,54 +50,86 @@ interface IPushWrapper {
 
 
 	/**
+	 * returns if the wrapper contains an IPushItem.
+	 *
 	 * @return bool
+	 *
+	 * @since 18.0.0
 	 */
 	public function hasItem(): bool;
 
 	/**
+	 * returns the IPushItem from the wrapper.
+	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function getItem(): IPushItem;
 
 	/**
+	 * add an IPushItem to the wrapper.
+	 *
 	 * @param IPushItem $item
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function setItem(IPushItem $item): self;
 
 
 	/**
-	 * @return array
+	 * returns the list of Nextcloud local accounts (userId) set as recipients
+	 *
+	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getRecipients(): array;
 
 	/**
-	 * @param array $recipients
+	 * set the list of recipients for the wrappers, based on Nextcloud local accounts (userId)
+	 *
+	 * @param string[] $recipients
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setRecipients(array $recipients): self;
 
 	/**
+	 * Add a single Nextcloud local account (userId) to the list of recipients
+	 *
 	 * @param string $recipient
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function addRecipient(string $recipient): self;
 
 	/**
-	 * @param array $recipients
+	 * Add multiple Nextcloud local accounts (userId) to the list of recipients
+	 *
+	 * @param string[] $recipients
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function addRecipients(array $recipients): self;
 
 
 	/**
+	 * fill the current IPushWrapper with data from a formatted array
+	 *
 	 * @param array $import
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function import(array $import): self;
 

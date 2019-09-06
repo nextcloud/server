@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,8 @@ use OCP\Push\Model\IPushRecipients;
 /**
  * Interface IPushCallback
  *
+ * Template used to generate an IPushItem with type=Callback
+ *
  * @since 18.0.0
  *
  * @package OCP\Push\Helper
@@ -49,21 +51,33 @@ interface IPushCallback extends IPushRecipients {
 
 
 	/**
+	 * get the payload
+	 *
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPayload(): array;
 
 	/**
+	 * set the payload
+	 *
 	 * @param array $payload
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayload(array $payload): self;
 
 	/**
+	 * set a serializable object as the payload
+	 *
 	 * @param JsonSerializable $payload
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): self;
 

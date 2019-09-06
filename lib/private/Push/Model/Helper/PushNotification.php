@@ -41,6 +41,8 @@ use OCP\Push\Model\IPushItem;
 /**
  * Class PushNotification
  *
+ * @since 18.0.0
+ *
  * @package OC\Push\Model\Helper
  */
 class PushNotification extends PushRecipients implements IPushNotification, JsonSerializable {
@@ -67,6 +69,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 *
 	 * @param string $app
 	 * @param int $ttl
+	 *
+	 * @since 18.0.0
 	 */
 	public function __construct($app = '', $ttl = IPushItem::TTL_INSTANT) {
 		$this->setApp($app);
@@ -76,6 +80,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getTitle(): string {
 		return $this->getSource();
@@ -85,6 +91,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param string $title
 	 *
 	 * @return IPushNotification
+	 *
+	 * @since 18.0.0
 	 */
 	public function setTitle(string $title): IPushNotification {
 		$this->setSource($title);
@@ -95,6 +103,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getMessage(): string {
 		return $this->message;
@@ -104,6 +114,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param string $message
 	 *
 	 * @return IPushNotification
+	 *
+	 * @since 18.0.0
 	 */
 	public function setMessage(string $message): IPushNotification {
 		$this->message = $message;
@@ -114,6 +126,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getLevel(): string {
 		return $this->level;
@@ -123,6 +137,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param string $level
 	 *
 	 * @return IPushNotification
+	 *
+	 * @since 18.0.0
 	 */
 	public function setLevel(string $level): IPushNotification {
 		$this->level = $level;
@@ -133,6 +149,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getLink(): string {
 		return $this->link;
@@ -142,6 +160,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param string $link
 	 *
 	 * @return IPushNotification
+	 *
+	 * @since 18.0.0
 	 */
 	public function setLink(string $link): IPushNotification {
 		$this->link = $link;
@@ -152,6 +172,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 
 	/**
 	 * @return int
+	 *
+	 * @since 18.0.0
 	 */
 	public function getTtl(): int {
 		return $this->ttl;
@@ -161,6 +183,8 @@ class PushNotification extends PushRecipients implements IPushNotification, Json
 	 * @param int $ttl
 	 *
 	 * @return IPushNotification
+	 *
+	 * @since 18.0.0
 	 */
 	public function setTtl(int $ttl): IPushNotification {
 		$this->ttl = $ttl;

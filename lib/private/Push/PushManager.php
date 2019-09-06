@@ -40,6 +40,8 @@ use OCP\Push\Service\IPushService;
 /**
  * Class PushManager
  *
+ * @since 18.0.0
+ *
  * @package OC\Push
  */
 class PushManager implements IPushManager {
@@ -58,8 +60,7 @@ class PushManager implements IPushManager {
 	 *
 	 * @since 18.0.0
 	 */
-	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper
-	) {
+	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper): void {
 		$this->pushService = $pushService;
 		$this->pushHelper = $pushHelper;
 	}
@@ -67,6 +68,8 @@ class PushManager implements IPushManager {
 
 	/**
 	 * @return bool
+	 *
+	 * @since 18.0.0
 	 */
 	public function isAvailable(): bool {
 		try {
@@ -83,6 +86,8 @@ class PushManager implements IPushManager {
 	/**
 	 * @return IPushService
 	 * @throws PushInstallException
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPushService(): IPushService {
 		$this->checkRegistration();
@@ -94,6 +99,8 @@ class PushManager implements IPushManager {
 	/**
 	 * @return IPushHelper
 	 * @throws PushInstallException
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPushHelper(): IPushHelper {
 		$this->checkRegistration();
@@ -103,7 +110,11 @@ class PushManager implements IPushManager {
 
 
 	/**
+	 * check if an IPushService and IPushHelper have been registered
+	 *
 	 * @throws PushInstallException
+	 *
+	 * @since 18.0.0
 	 */
 	private function checkRegistration() {
 		if ($this->pushService === null || $this->pushHelper === null) {

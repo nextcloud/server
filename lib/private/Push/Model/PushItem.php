@@ -40,6 +40,8 @@ use OCP\Push\Model\IPushItem;
 /**
  * Class PushItem
  *
+ * @since 18.0.0
+ *
  * @package OC\Push\Model
  */
 class PushItem implements IPushItem, JsonSerializable {
@@ -85,6 +87,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 *
 	 * @param string $app
 	 * @param string $type
+	 *
+	 * @since 18.0.0
 	 */
 	public function __construct($app = '', $type = '') {
 		$this->app = $app;
@@ -98,6 +102,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param int $id
 	 *
 	 * @return PushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setId(int $id): IPushItem {
 		$this->id = $id;
@@ -107,6 +113,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return int
+	 *
+	 * @since 18.0.0
 	 */
 	public function getId(): int {
 		return $this->id;
@@ -115,6 +123,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getToken(): string {
 		return $this->token;
@@ -124,6 +134,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $token
 	 *
 	 * @return PushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setToken(string $token): IPushItem {
 		$this->token = $token;
@@ -134,6 +146,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getApp(): string {
 		return $this->app;
@@ -143,6 +157,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $app
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setApp(string $app): IPushItem {
 		$this->app = $app;
@@ -153,6 +169,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getSource(): string {
 		return $this->source;
@@ -162,6 +180,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $source
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setSource(string $source): IPushItem {
 		$this->source = $source;
@@ -172,6 +192,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getKeyword(): string {
 		return $this->keyword;
@@ -181,6 +203,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $keyword
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setKeyword(string $keyword): IPushItem {
 		$this->keyword = $keyword;
@@ -191,6 +215,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPayload(): array {
 		if ($this->payload instanceof JsonSerializable) {
@@ -204,6 +230,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param array $payload
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayload(array $payload): IPushItem {
 		$this->payload = $payload;
@@ -215,6 +243,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param JsonSerializable $payload
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): IPushItem {
 		$this->payload = $payload;
@@ -225,6 +255,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getType(): string {
 		return $this->type;
@@ -234,6 +266,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $type
 	 *
 	 * @return PushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setType(string $type): IPushItem {
 		$this->type = $type;
@@ -244,6 +278,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return int
+	 *
+	 * @since 18.0.0
 	 */
 	public function getTtl(): int {
 		return $this->ttl;
@@ -253,6 +289,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param int $ttl
 	 *
 	 * @return PushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setTtl(int $ttl): IPushItem {
 		$this->ttl = $ttl;
@@ -265,6 +303,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param array $meta
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setMeta(array $meta): IPushItem {
 		$this->meta = $meta;
@@ -277,6 +317,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $v
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMeta(string $k, string $v): IPushItem {
 		$this->meta[$k] = $v;
@@ -289,6 +331,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param bool $v
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaBool(string $k, bool $v): IPushItem {
 		$this->meta[$k] = $v;
@@ -301,6 +345,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param int $v
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaInt(string $k, int $v): IPushItem {
 		$this->meta[$k] = $v;
@@ -313,6 +359,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param array $v
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaArray(string $k, array $v): IPushItem {
 		$this->meta[$k] = $v;
@@ -325,6 +373,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param string $v
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaArrayEntry(string $k, string $v): IPushItem {
 		if (!array_key_exists($k, $this->meta)) {
@@ -341,6 +391,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getMeta(): array {
 		return $this->meta;
@@ -349,6 +401,8 @@ class PushItem implements IPushItem, JsonSerializable {
 
 	/**
 	 * @return int
+	 *
+	 * @since 18.0.0
 	 */
 	public function getCreation(): int {
 		return $this->creation;
@@ -358,6 +412,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param int $creation
 	 *
 	 * @return PushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function setCreation(int $creation): IPushItem {
 		$this->creation = $creation;
@@ -370,6 +426,8 @@ class PushItem implements IPushItem, JsonSerializable {
 	 * @param array $import
 	 *
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function import(array $import): IPushItem {
 		$this->setId($this->getInt('id', $import, 0));

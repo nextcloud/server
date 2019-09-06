@@ -40,6 +40,8 @@ use OCP\Push\Model\IPushWrapper;
 /**
  * Class PushManager
  *
+ * @since 18.0.0
+ *
  * @package OC\Push\Model
  */
 class PushWrapper implements IPushWrapper, JsonSerializable {
@@ -62,6 +64,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * PushWrapper constructor.
 	 *
 	 * @param IPushItem $item
+	 *
+	 * @since 18.0.0
 	 */
 	public function __construct($item = null) {
 		if ($item !== null && $item instanceof IPushItem) {
@@ -74,6 +78,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 
 	/**
 	 * @return bool
+	 *
+	 * @since 18.0.0
 	 */
 	public function hasItem(): bool {
 		return ($this->item !== null);
@@ -81,6 +87,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 
 	/**
 	 * @return IPushItem
+	 *
+	 * @since 18.0.0
 	 */
 	public function getItem(): IPushItem {
 		return $this->item;
@@ -90,6 +98,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @param IPushItem $item
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function setItem(IPushItem $item): IPushWrapper {
 		$this->item = $item;
@@ -100,6 +110,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getRecipients(): array {
 		return $this->recipients;
@@ -109,6 +121,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @param array $recipients
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function setRecipients(array $recipients): IPushWrapper {
 		$this->recipients = [];
@@ -121,6 +135,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @param string $recipient
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function addRecipient(string $recipient): IPushWrapper {
 		if (!in_array($recipient, $this->recipients) && $recipient !== '') {
@@ -134,6 +150,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @param array $recipients
 	 *
 	 * @return IPushWrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function addRecipients(array $recipients): IPushWrapper {
 		foreach ($recipients as $recipient) {
@@ -148,6 +166,8 @@ class PushWrapper implements IPushWrapper, JsonSerializable {
 	 * @param array $import
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function import(array $import): IPushWrapper {
 		$item = new PushItem();

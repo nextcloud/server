@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,15 @@ use OCP\Push\Service\IPushService;
 /**
  * Interface IPushManager
  *
+ * IPushManager is a service available in Core that can be integrated within any app:
+ *
+ *    use OCP\Push\IPushManager;
+ *    public function __construct(IPushManager $pushManager) {
+ *       $this->pushManager = $pushManager;
+ *    }
+ *
+ * Once defined, it will be used to obtains more services from the Push App, if the App is available.
+ *
  * @since 18.0.0
  *
  * @package OCP\Push
@@ -47,32 +56,46 @@ interface IPushManager {
 
 
 	/**
-	 * Register a IPushService.
+	 * Register a IPushService and IPushHelper.
+	 * This is used by the Push App itself.
 	 *
 	 * @param IPushService $pushService
 	 * @param IPushHelper $pushHelper
 	 *
 	 * @since 18.0.0
+	 *
 	 */
-	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper);
+	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper): void;
 
 
 	/**
+	 * returns if the Push App is available or not.
+	 *
 	 * @return bool
+	 *
+	 * @since 18.0.0
 	 */
 	public function isAvailable(): bool;
 
 
 	/**
+	 * returns the registered IPushService
+	 *
 	 * @return IPushService
 	 * @throws PushInstallException
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPushService(): IPushService;
 
 
 	/**
+	 * returns the registered IPushHelper
+	 *
 	 * @return IPushHelper
 	 * @throws PushInstallException
+	 * @since 18.0.0
+	 *
 	 */
 	public function getPushHelper(): IPushHelper;
 

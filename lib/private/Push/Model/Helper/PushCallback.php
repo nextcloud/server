@@ -40,6 +40,8 @@ use OCP\Push\Model\Helper\IPushCallback;
 /**
  * Class PushCallback
  *
+ * @since 18.0.0
+ *
  * @package OC\Push\Model\Helper
  */
 class PushCallback extends PushRecipients implements IPushCallback, JsonSerializable {
@@ -57,6 +59,8 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	 *
 	 * @param string $app
 	 * @param $source
+	 *
+	 * @since 18.0.0
 	 */
 	public function __construct($app = '', $source = '') {
 		$this->setApp($app);
@@ -66,6 +70,8 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 
 	/**
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getPayload(): array {
 		if ($this->payload instanceof JsonSerializable) {
@@ -79,6 +85,8 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	 * @param array $payload
 	 *
 	 * @return IPushCallback
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayload(array $payload): IPushCallback {
 		$this->payload = $payload;
@@ -90,6 +98,8 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	 * @param JsonSerializable $payload
 	 *
 	 * @return self
+	 *
+	 * @since 18.0.0
 	 */
 	public function setPayloadSerializable(JsonSerializable $payload): IPushCallback {
 		$this->payload = $payload;

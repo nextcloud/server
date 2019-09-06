@@ -32,12 +32,13 @@ namespace OC\Push\Model;
 
 
 use JsonSerializable;
-use OCA\Push\Model\Polling;
 use OCP\Push\Model\IPushRecipients;
 
 
 /**
  * Class PushRecipients
+ *
+ * @since 18.0.0
  *
  * @package OC\Push\Model\Helper
  */
@@ -77,6 +78,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getApp(): string {
 		return $this->app;
@@ -86,6 +89,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $app
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function setApp(string $app): IPushRecipients {
 		$this->app = $app;
@@ -96,6 +101,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getSource(): string {
 		return $this->source;
@@ -105,6 +112,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $source
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function setSource(string $source): IPushRecipients {
 		$this->source = $source;
@@ -115,6 +124,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string
+	 *
+	 * @since 18.0.0
 	 */
 	public function getKeyword(): string {
 		return $this->keyword;
@@ -124,6 +135,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $keyword
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function setKeyword(string $keyword): IPushRecipients {
 		$this->keyword = $keyword;
@@ -134,6 +147,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return array
+	 *
+	 * @since 18.0.0
 	 */
 	public function getMeta(): array {
 		return $this->meta;
@@ -143,6 +158,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param array $meta
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function setMeta(array $meta): IPushRecipients {
 		$this->meta = $meta;
@@ -155,6 +172,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $v
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMeta(string $k, string $v): IPushRecipients {
 		$this->meta[$k] = $v;
@@ -167,6 +186,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param int $v
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaInt(string $k, int $v): IPushRecipients {
 		$this->meta[$k] = $v;
@@ -179,6 +200,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param array $v
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaArray(string $k, array $v): IPushRecipients {
 		$this->meta[$k] = $v;
@@ -191,6 +214,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $v
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaArrayEntry(string $k, string $v): IPushRecipients {
 		if (!array_key_exists($k, $this->meta)) {
@@ -209,6 +234,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param bool $v
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addMetaBool(string $k, bool $v): IPushRecipients {
 		$this->meta[$k] = $v;
@@ -221,6 +248,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $user
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addUser(string $user): IPushRecipients {
 		array_push($this->users, $user);
@@ -232,6 +261,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $users
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addUsers(array $users): IPushRecipients {
 		$this->users = array_merge($this->users, $users);
@@ -243,6 +274,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $user
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function removeUser(string $user): IPushRecipients {
 		return $this->removeUsers([$user]);
@@ -252,6 +285,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $users
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function removeUsers(array $users): IPushRecipients {
 		$this->removedUsers = array_merge($this->removedUsers, $users);
@@ -265,6 +300,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $group
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addGroup(string $group): IPushRecipients {
 		array_push($this->groups, $group);
@@ -276,6 +313,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $groups
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function addGroups(array $groups): IPushRecipients {
 		$this->groups = array_merge($this->groups, $groups);
@@ -287,6 +326,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $group
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function removeGroup(string $group): IPushRecipients {
 		return $this->removeGroups([$group]);
@@ -296,6 +337,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $groups
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function removeGroups(array $groups): IPushRecipients {
 		$this->removedGroups = array_merge($this->removedGroups, $groups);
@@ -306,6 +349,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getUsers(): array {
 		return $this->users;
@@ -313,6 +358,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getGroups(): array {
 		return $this->groups;
@@ -321,6 +368,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getRemovedUsers(): array {
 		return $this->removedUsers;
@@ -328,6 +377,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getRemovedGroups(): array {
 		return $this->removedGroups;
@@ -338,6 +389,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $app
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function filterApp(string $app): IPushRecipients {
 		return $this->filterApps([$app]);
@@ -347,6 +400,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $apps
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function filterApps(array $apps): IPushRecipients {
 		$this->filteredApps = array_merge($this->filteredApps, $apps);
@@ -356,6 +411,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getFilteredApps(): array {
 		return $this->filteredApps;
@@ -366,6 +423,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string $app
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function limitToApp(string $app): IPushRecipients {
 		return $this->limitToApps([$app]);
@@ -375,6 +434,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 	 * @param string[] $apps
 	 *
 	 * @return IPushRecipients
+	 *
+	 * @since 18.0.0
 	 */
 	public function limitToApps(array $apps): IPushRecipients {
 		$this->limitToApps = array_merge($this->limitToApps, $apps);
@@ -384,6 +445,8 @@ class PushRecipients implements IPushRecipients, JsonSerializable {
 
 	/**
 	 * @return string[]
+	 *
+	 * @since 18.0.0
 	 */
 	public function getLimitedToApps(): array {
 		return $this->limitToApps;

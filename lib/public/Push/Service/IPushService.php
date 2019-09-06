@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2020, Maxence Lange <maxence@artificial-owl.com>
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,9 @@ use OCP\Push\Model\IPushWrapper;
 /**
  * Interface IPushService
  *
+ * This interface contains list of tools to manage your events.
+ * A PushService is registered by the Push App (when installed)
+ *
  * @since 18.0.0
  *
  * @package OCP\Push\Service
@@ -49,21 +52,30 @@ interface IPushService {
 
 
 	/**
-	 * erase if keyword is specified and already exist in db.
+	 * Save the item, contained in the wrapper, in the database.
+	 * If a keyword is specified to the item, any non-published item with the same keyword/appId/userId will
+	 * be deleted.
 	 *
 	 * @param IPushWrapper $wrapper
+	 *
+	 * @since 18.0.0
 	 */
 	public function push(IPushWrapper $wrapper): void;
 
 	/**
-	 * update only if the item still exists.
+	 * Update the item, if still available in the database.
 	 *
 	 * @param IPushItem $item
+	 *
+	 * @since 18.0.0
 	 */
 	public function update(IPushItem $item): void;
 
 
 	/**
+	 * returns the IPushItem identified by its appId, userId and keyword.
+	 * throws an ItemNotFoundException if the item is not available in the database.
+	 *
 	 * @param string $app
 	 * @param string $userId
 	 * @param string $keyword
@@ -71,15 +83,21 @@ interface IPushService {
 	 * @return IPushItem
 	 * @throws ItemNotFoundException
 	 * @throws UnknownStreamTypeException
+	 *
+	 * @since 18.0.0
 	 */
 	public function getItemByKeyword(string $app, string $userId, string $keyword): IPushItem;
 
 
 	/**
+	 * fill the IPushWrapper with recipients stored in the IPushRecipients
+	 *
 	 * @param IPushWrapper $wrapper
 	 * @param IPushRecipients $recipients
 	 *
 	 * @return mixed
+	 *
+	 * @since 18.0.0
 	 */
 	public function fillRecipients(IPushWrapper $wrapper, IPushRecipients $recipients): void;
 
