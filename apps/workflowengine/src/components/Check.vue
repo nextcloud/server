@@ -50,9 +50,9 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
-			Checks: (state) => state.plugins.checks
-		}),
+		Checks() {
+			return this.$store.getters.getChecksForEntity(this.rule.entity)
+		},
 		operators() {
 			if (!this.currentOption) { return [] }
 			return this.Checks[this.currentOption.class].operators

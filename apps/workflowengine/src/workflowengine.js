@@ -4,7 +4,6 @@ import store from './store'
 
 import Settings from './components/Workflow'
 import FileValues from './components/Values/file'
-import {Operators} from './services/Operation';
 
 /**
  * A plugin for displaying a custom value field for checks
@@ -63,7 +62,29 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 
 // Register shipped checks for file entity
 FileValues.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
-Object.values(Operators).forEach((operatorPlugin) => window.OCA.WorkflowEngine.registerOperator(operatorPlugin))
+
+/**
+ * FIXME: remove before merge as this is for UI testing only
+ */
+const demo = [
+	{
+		id: 'OCA\\TestExample\\Operation1',
+		name: 'Rename file',
+		description: '🚧 For UI mocking only',
+		iconClass: 'icon-address-white',
+		color: 'var(--color-success)',
+		operation: 'deny'
+	},
+	{
+		id: 'OCA\\TestExample\\Operation2',
+		name: 'Notify me',
+		description: '🚧 For UI mocking only',
+		iconClass: 'icon-comment-white',
+		color: 'var(--color-warning)',
+		operation: 'deny'
+	}
+]
+demo.forEach((operatorPlugin) => window.OCA.WorkflowEngine.registerOperator(operatorPlugin))
 
 Vue.use(Vuex)
 Vue.prototype.t = t

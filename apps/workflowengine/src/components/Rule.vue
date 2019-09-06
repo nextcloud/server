@@ -1,5 +1,5 @@
 <template>
-	<div class="section rule" :style="{ borderLeftColor: operation.color }">
+	<div class="section rule" :style="{ borderLeftColor: operation.color || '' }">
 		<!-- TODO: icon-confirm -->
 		<div class="trigger">
 			<p>

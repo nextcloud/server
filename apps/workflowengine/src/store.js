@@ -24,7 +24,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'nextcloud-axios'
 import { getApiUrl } from './helpers/api'
-import { ALL_CHECKS } from './services/Operation'
 import confirmPassword from 'nextcloud-password-confirmation'
 
 Vue.use(Vuex)
@@ -40,13 +39,7 @@ const store = new Vuex.Store({
 			operators: {}
 		}),
 
-		entities: OCP.InitialState.loadState('workflowengine', 'entities').map(entity => {
-			return {
-				...entity,
-				// TODO: move to backend data once checks are provided
-				checks: [...ALL_CHECKS]
-			}
-		}),
+		entities: OCP.InitialState.loadState('workflowengine', 'entities'),
 		events: OCP.InitialState.loadState('workflowengine', 'entities')
 			.map((entity) => entity.events.map(event => {
 				return {
@@ -54,7 +47,8 @@ const store = new Vuex.Store({
 					entity,
 					...event
 				}
-			})).flat()
+			})).flat(),
+		checks: OCP.InitialState.loadState('workflowengine', 'checks')
 	},
 	mutations: {
 		addRule(state, rule) {
@@ -149,6 +143,20 @@ const store = new Vuex.Store({
 		},
 		getEventsForOperation(state) {
 			return (operation) => state.events
+		},
+		/**
+		 * Return all available checker plugins for a given entity class
+		 */
+		getChecksForEntity(state) {
+			return (entity) => {
+				return state.checks
+					.filter((check) => check.supportedEntities.indexOf(entity) > -1 || check.supportedEntities.length === 0)
+					.map((check) => state.plugins.checks[check.id])
+					.reduce((obj, item) => {
+						obj[item.class] = item
+						return obj
+					}, {})
+			}
 		}
 	}
 })
