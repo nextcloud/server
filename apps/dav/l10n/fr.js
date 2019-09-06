@@ -98,6 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Par conséquent, ils ne seront pas disponibles immédiatement après l'activation mais apparaîtront après un certain temps.",
     "Send notifications for events" : "Envoyer une notification pour les évènements",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Les notifications seront envoyées par des tâches de fond, qui doivent par conséquent être exécutées régulièrement.",
+    "Enable notifications for events via push" : "Activer les notifications push pour les évènements",
     "%s via %s" : "%s via %s",
     "The meeting »%s« with %s was canceled." : "La réunion «%s» avec %s a été annulée.",
     "The meeting »%s« with %s was updated." : "La réunion «%s» avec %s a été mise à jour.",
