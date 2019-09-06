@@ -41,6 +41,7 @@
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
     "nextcloud-axios": "^0.2.1",
     "nextcloud-password-confirmation": "^0.4.2",
     "nextcloud-vue": "^0.12.3",
