@@ -96,7 +96,9 @@ class MountProvider implements IMountProvider {
 				/** @var \OCP\Share\IShare $parentShare */
 				$parentShare = $share[0];
 
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED) {
+				if (($parentShare->getShareType() === IShare::TYPE_GROUP ||
+					$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
+					$parentShare->getShareType() === IShare::TYPE_USER) && $parentShare->getStatus() !== IShare::STATUS_ACCEPTED) {
 					continue;
 				}
 

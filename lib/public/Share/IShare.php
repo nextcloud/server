@@ -50,6 +50,12 @@ interface IShare {
 	public const TYPE_GROUP = 1;
 
 	/**
+	 * @internal
+	 * @since 18.0.0
+	 */
+	public const TYPE_USERGROUP = 2;
+
+	/**
 	 * @since 17.0.0
 	 */
 	public const TYPE_LINK = 3;
