@@ -64,6 +64,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareInfoMiddleware.php',
         'OCA\\Files_Sharing\\Middleware\\SharingCheckMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SharingCheckMiddleware.php',
         'OCA\\Files_Sharing\\Migration\\OwncloudGuestShareType' => __DIR__ . '/..' . '/../lib/Migration/OwncloudGuestShareType.php',
+        'OCA\\Files_Sharing\\Migration\\SetAcceptedStatus' => __DIR__ . '/..' . '/../lib/Migration/SetAcceptedStatus.php',
         'OCA\\Files_Sharing\\Migration\\SetPasswordColumn' => __DIR__ . '/..' . '/../lib/Migration/SetPasswordColumn.php',
         'OCA\\Files_Sharing\\MountProvider' => __DIR__ . '/..' . '/../lib/MountProvider.php',
         'OCA\\Files_Sharing\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
