@@ -130,4 +130,17 @@ class RequestTime implements ICheck {
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}
+
+	/**
+	 * returns a list of Entities the checker supports. The values must match
+	 * the class name of the entity.
+	 *
+	 * An empty result means the check is universally available.
+	 *
+	 * @since 18.0.0
+	 */
+	public function supportedEntities(): array {
+		return [];
+	}
+
 }
