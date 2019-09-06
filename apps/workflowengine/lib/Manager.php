@@ -523,7 +523,7 @@ class Manager implements IManager, IEntityAware {
 			}
 
 			if (!empty($instance->supportedEntities())
-				&& !in_array(get_class($entity), $instance->supportedEntities())
+				&& !in_array($entity, $instance->supportedEntities())
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
 			}
