@@ -51,7 +51,7 @@ class GenericEntityEvent implements IEntityEvent {
 	 * @since 18.0.0
 	 */
 	public function getDisplayName(): string {
-		return $this->getDisplayName();
+		return $this->displayName;
 	}
 
 	/**
@@ -62,6 +62,6 @@ class GenericEntityEvent implements IEntityEvent {
 	 * @since 18.0.0
 	 */
 	public function getEventName(): string {
-		return $this->getEventName();
+		return $this->eventName;
 	}
 }
