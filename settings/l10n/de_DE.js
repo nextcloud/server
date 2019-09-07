@@ -748,7 +748,7 @@ OC.L10N.register(
     "Pick background job setting" : "Wähle eine Hintergrund-Aufgabeneinstellung aus",
     "Execute one task with each page loaded" : "Eine Aufgabe bei jedem Laden einer Seite ausführen",
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php ist bei einem Webcron-Dienst angemeldet, der cron.php alle 5 Minuten über HTTP aufruft.",
-    "Use system cron service to call the cron.php file every 5 minutes." : "Verwenden Sie den System-Cron-Dienst, um die Datei cron.php alle 5 Minuten aufzurufen.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Den System-Cron-Dienst verwenden, um die Datei cron.php alle 5 Minuten aufzurufen.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Die cron.php muss durch den Systemnutzer \"%s\" ausgeführt werden.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Um dies auszuführen, wird die PHP-Posix Erweiterung benötigt. Weitere Informationen in der {linkstart}PHP-Dokumentation{linkend}. ",
     "Sharing" : "Teilen",
