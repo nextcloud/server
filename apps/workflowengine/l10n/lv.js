@@ -15,7 +15,7 @@ OC.L10N.register(
     "File system tag" : "Failu sistēmas birka",
     "is tagged with" : "atzīmēts ar",
     "is not tagged with" : "nav atzīmēts ar",
-    "Select tag…" : "Izvēlies atzīmi...",
+    "Select tag…" : "Izvēlies birku...",
     "Request remote address" : "Pieprasīt attālo adresi",
     "matches IPv4" : "atbilst IPv4",
     "does not match IPv4" : "neatbilst IPv4",
