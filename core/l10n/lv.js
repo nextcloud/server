@@ -129,7 +129,7 @@ OC.L10N.register(
     "Delete" : "Dzēst",
     "Rename" : "Pārsaukt",
     "Collaborative tags" : "Sadarbības birkas",
-    "No tags found" : "Netika atrasta neviena atzīme",
+    "No tags found" : "Netika atrasta neviena birka",
     "unknown text" : "nezināms teksts",
     "Hello world!" : "Sveika, pasaule!",
     "sunny" : "saulains",
