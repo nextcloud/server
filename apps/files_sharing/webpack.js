@@ -10,6 +10,7 @@ module.exports = {
 		path: path.resolve(__dirname, './js/dist/'),
 		publicPath: '/js/',
 		filename: '[name].js',
-		chunkFilename: 'files_sharing.[id].js?v=[chunkhash]'
+		chunkFilename: 'files_sharing.[id].js?v=[chunkhash]',
+		jsonpFunction: 'webpackJsonpFilesSharing'
 	}
 }

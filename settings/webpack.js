@@ -9,7 +9,8 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/',
-		filename: 'vue-[name].js?v=[chunkhash]'
+		filename: 'vue-[name].js?v=[chunkhash]',
+		jsonpFunction: 'webpackJsonpSettings'
 	},
 	optimization: {
 		splitChunks: {

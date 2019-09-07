@@ -6,6 +6,7 @@ module.exports = {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/js/',
 		filename: 'workflowengine.js',
+		jsonpFunction: 'webpackJsonpWorkflowengine'
 	},
 	module: {
 		rules: [
