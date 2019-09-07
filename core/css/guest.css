@@ -169,11 +169,12 @@ form #datadirField legend {
 	text-overflow: ellipsis;
 }
 
-#alternative-logins a::before {
+#alternative-logins a.button::before {
 	content: "";
 	background-repeat: no-repeat;
 	background-size: contain;
 	width: 0;
+	margin-right: 0;
 	height: 18px;
 	display: inline-block;
 	vertical-align: bottom;
@@ -190,9 +191,6 @@ form #datadirField legend {
 	}
 	#alternative-logins {
 		margin: 30px 15px 10px;
-	}
-	#alternative-logins .label-prefix {
-		display: none;
 	}
 }
 
