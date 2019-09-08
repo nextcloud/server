@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Delningar visas här",
     "Restore share" : "Återställ delning",
     "Something happened. Unable to restore the share." : "Ett fel uppstod. Kan inte återställa delningen.",
+    "This will stop your current uploads." : "Detta kommer att stoppa nuvarande uppladdningar.",
     "Move or copy" : "Flytta eller kopiera",
     "Download" : "Ladda ned",
     "Delete" : "Radera",

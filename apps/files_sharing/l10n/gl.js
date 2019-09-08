@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Os recursos compartidos amosaránse aquí",
     "Restore share" : "Restaurar recursos compartido",
     "Something happened. Unable to restore the share." : "Algo aconteceu. Non é posíbel restaurar o recurso compartido",
+    "This will stop your current uploads." : "Isto deterá os envíos actuais.",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Descargar",
     "Delete" : "Eliminar",
