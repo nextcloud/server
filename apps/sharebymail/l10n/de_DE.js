@@ -47,7 +47,7 @@ OC.L10N.register(
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Share by mail" : "Geteilt über eine E-Mail",
     "Share provider which allows you to share files by mail" : "Anbieter zum Teilen. Ermöglicht das Teilen von Dateien per E-Mail",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern eine personalisierte Verknüpfung zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern eine personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Enforce password protection" : "Passwortschutz erzwingen",
     "Sharing %s failed, this item is already shared with %s" : "Teilen von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",

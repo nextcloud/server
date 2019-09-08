@@ -45,8 +45,8 @@ OC.L10N.register(
     "Advanced options" : "Erweiterte Optionen",
     "Legal notice link" : "Link zum Impressum",
     "Privacy policy link" : "Link zur Datenschutzerklärung",
-    "Header logo" : "Kopfbereich-Logo",
-    "Upload new header logo" : "Neues Kopfbereich-Logo hochladen",
+    "Header logo" : "Kopfbereichs-Logo",
+    "Upload new header logo" : "Neues Kopfbereichs-Logo hochladen",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favoriten-Icons auf Basis des hochgeladenen Icons und der Farbe zu erstellen."

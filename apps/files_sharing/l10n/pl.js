@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Tutaj pojawią się udostępnienia",
     "Restore share" : "Przywróć udostępnienia",
     "Something happened. Unable to restore the share." : "Coś nie tak. Nie można przywrócić udostępnienia",
+    "This will stop your current uploads." : "Spowoduje to zatrzymanie wysyłania plików.",
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
