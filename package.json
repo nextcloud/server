@@ -21,7 +21,7 @@
   ],
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
+    "@babel/polyfill": "^7.6.0",
     "@chenfengyuan/vue-qrcode": "^1.0.1",
     "select2": "3.5.1",
     "autosize": "^4.0.2",
