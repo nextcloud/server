@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Freigaben werden hier angezeigt",
     "Restore share" : "Freigabe wiederherstellen",
     "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
+    "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : " Löschen",
