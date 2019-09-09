@@ -24,6 +24,7 @@ namespace OCA\WorkflowEngine\AppInfo;
 use OCA\WorkflowEngine\Manager;
 use OCP\Template;
 use OCA\WorkflowEngine\Controller\RequestTime;
+use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IOperation;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -83,13 +84,17 @@ class Application extends \OCP\AppFramework\App {
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {
-				array_map(function (string $eventName) use ($operationClass) {
+				array_map(function (string $eventName) use ($operationClass, $entityClass) {
 					$this->dispatcher->addListener(
 						$eventName,
-						function (GenericEvent $event) use ($eventName, $operationClass) {
+						function (GenericEvent $event) use ($eventName, $operationClass, $entityClass) {
+							$ruleMatcher = $this->manager->getRuleMatcher();
+							/** @var IEntity $entity */
+							$entity = $this->getContainer()->query($entityClass);
+							$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 							/** @var IOperation $operation */
 							$operation = $this->getContainer()->query($operationClass);
-							$operation->onEvent($eventName, $event);
+							$operation->onEvent($eventName, $event, $ruleMatcher);
 						}
 					);
 				}, $eventNames);

@@ -28,6 +28,8 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
+use OCP\WorkflowEngine\IRuleMatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class File implements IEntity {
 
@@ -59,5 +61,22 @@ class File implements IEntity {
 			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch' ),
 			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy' ),
 		];
+	}
+
+	/**
+	 * @since 18.0.0
+	 */
+	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, GenericEvent $event): void {
+		switch ($eventName) {
+			case 'postCreate':
+			case 'postWrite':
+			case 'postDelete':
+			case 'postTouch':
+				$ruleMatcher->setEntitySubject($this, $event->getSubject());
+				break;
+			case 'postRename':
+			case 'postCopy':
+				$ruleMatcher->setEntitySubject($this, $event->getSubject()[1]);
+		}
 	}
 }

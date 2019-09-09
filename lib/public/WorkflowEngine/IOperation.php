@@ -91,12 +91,13 @@ interface IOperation {
 	 * Is being called by the workflow engine when an event was triggered that
 	 * is configured for this operation. An evaluation whether the event
 	 * qualifies for this operation to run has still to be done by the
-	 * implementor.
+	 * implementor by calling the RuleMatchers getMatchingOperations method
+	 * and evaluating the results.
 	 *
-	 * If the implementor is an IComplexOpe	ration, this method will not be
+	 * If the implementor is an IComplexOperation, this method will not be
 	 * called automatically. It can be used or left as no-op by the implementor.
 	 *
 	 * @since 18.0.0
 	 */
-	public function onEvent(string $eventName, GenericEvent $event): void;
+	public function onEvent(string $eventName, GenericEvent $event, IRuleMatcher $ruleMatcher): void;
 }
