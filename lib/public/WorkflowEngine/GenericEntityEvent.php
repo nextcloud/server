@@ -24,6 +24,13 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
+/**
+ * Class GenericEntityEvent
+ *
+ * @package OCP\WorkflowEngine
+ *
+ * @since 18.0.0
+ */
 class GenericEntityEvent implements IEntityEvent {
 
 	/** @var string */
@@ -31,6 +38,11 @@ class GenericEntityEvent implements IEntityEvent {
 	/** @var string */
 	private $eventName;
 
+	/**
+	 * GenericEntityEvent constructor.
+	 *
+	 * @since 18.0.0
+	 */
 	public function __construct(string $displayName, string $eventName) {
 		if(trim($displayName) === '') {
 			throw new \InvalidArgumentException('DisplayName must not be empty');

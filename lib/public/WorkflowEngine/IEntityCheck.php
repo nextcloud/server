@@ -47,6 +47,7 @@ interface IEntityCheck {
 	 * @param IEntity $entity
 	 * @param mixed $subject
 	 * @throws \UnexpectedValueException
+	 * @since 18.0.0
 	 */
 	public function setEntitySubject(IEntity $entity, $subject): void;
 
