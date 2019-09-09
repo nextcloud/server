@@ -165,7 +165,12 @@ class Notifier implements INotifier {
 					throw new AlreadyProcessedException();
 				}
 
-				$subject = $l->t('You received {share} as a share from {user}');
+				$sharer = $this->userManager->get($share->getSharedBy());
+				if (!$sharer instanceof IUser) {
+					throw new \InvalidArgumentException('Temporary failure');
+				}
+
+				$subject = $l->t('You received {share} as a share by {user}');
 				$subjectParameters = [
 					'share' => [
 						'type' => 'highlight',
@@ -174,8 +179,8 @@ class Notifier implements INotifier {
 					],
 					'user' =>  [
 						'type' => 'user',
-						'id' => $share->getShareOwner(),
-						'name' => $share->getShareOwner(),
+						'id' => $sharer->getUID(),
+						'name' => $sharer->getDisplayName(),
 					],
 				];
 				break;
@@ -196,7 +201,12 @@ class Notifier implements INotifier {
 					throw new AlreadyProcessedException();
 				}
 
-				$subject = $l->t('You received {share} to group {group} as a share from {user}');
+				$sharer = $this->userManager->get($share->getSharedBy());
+				if (!$sharer instanceof IUser) {
+					throw new \InvalidArgumentException('Temporary failure');
+				}
+
+				$subject = $l->t('You received {share} to group {group} as a share by {user}');
 				$subjectParameters = [
 					'share' => [
 						'type' => 'highlight',
@@ -210,8 +220,8 @@ class Notifier implements INotifier {
 					],
 					'user' =>  [
 						'type' => 'user',
-						'id' => $share->getShareOwner(),
-						'name' => $share->getShareOwner(),
+						'id' => $sharer->getUID(),
+						'name' => $sharer->getDisplayName(),
 					],
 				];
 				break;
