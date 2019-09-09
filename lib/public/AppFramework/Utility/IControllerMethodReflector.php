@@ -40,6 +40,7 @@ interface IControllerMethodReflector {
 	 * @param string $method the method which we want to inspect
 	 * @return void
 	 * @since 8.0.0
+	 * @deprecated 17.0.0 Reflect should not be called multiple times and only be used internally. This will be removed in Nextcloud 18
 	 */
 	public function reflect($object, string $method);
 

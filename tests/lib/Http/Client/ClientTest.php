@@ -111,8 +111,9 @@ class ClientTest extends \Test\TestCase {
 			'verify' => '/my/path.crt',
 			'proxy' => 'foo',
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
+				'User-Agent' => 'Nextcloud Server Crawler',
+			],
+			'timeout' => 30,
 		];
 	}
 
@@ -128,13 +129,10 @@ class ClientTest extends \Test\TestCase {
 	public function testGetWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('get', 'http://localhost/', $options)
@@ -154,13 +152,10 @@ class ClientTest extends \Test\TestCase {
 	public function testPostWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('post', 'http://localhost/', $options)
@@ -180,13 +175,10 @@ class ClientTest extends \Test\TestCase {
 	public function testPutWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('put', 'http://localhost/', $options)
@@ -206,13 +198,10 @@ class ClientTest extends \Test\TestCase {
 	public function testDeleteWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('delete', 'http://localhost/', $options)
@@ -232,13 +221,10 @@ class ClientTest extends \Test\TestCase {
 	public function testOptionsWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('options', 'http://localhost/', $options)
@@ -258,13 +244,10 @@ class ClientTest extends \Test\TestCase {
 	public function testHeadWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
 			'proxy' => 'bar',
-			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler'
-			]
-		];
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('head', 'http://localhost/', $options)
@@ -288,7 +271,8 @@ class ClientTest extends \Test\TestCase {
 			'proxy' => null,
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
-			]
+			],
+			'timeout' => 30,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
@@ -314,7 +298,8 @@ class ClientTest extends \Test\TestCase {
 			'proxy' => 'foo',
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
-			]
+			],
+			'timeout' => 30,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 }

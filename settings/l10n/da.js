@@ -1,6 +1,17 @@
 OC.L10N.register(
     "settings",
     {
+    "{actor} added you to group {group}" : "{actor} tilføjede dig til gruppe {group}",
+    "You added {user} to group {group}" : "Tilføjede {user} til gruppen {group}",
+    "{actor} added {user} to group {group}" : "{actor} tilføjede {user} til gruppe {group}",
+    "An administrator added you to group {group}" : "En administrator tilføjede dig til gruppen {group}",
+    "An administrator added {user} to group {group}" : "En administrator tilføjede {user} til gruppen {group}",
+    "{actor} removed you from group {group}" : "{actor} fjernede dig fra gruppen {group}",
+    "You removed {user} from group {group}" : "Fjernede {user}  fra gruppen {group}",
+    "{actor} removed {user} from group {group}" : "{actor} fjernede {user}fra gruppen {group}",
+    "An administrator removed you from group {group}" : "En administrator fjernede dig fra gruppen {group}",
+    "An administrator removed {user} from group {group}" : "En administrator fjernede {user} fra gruppen {group}",
+    "Your <strong>group memberships</strong> were modified" : "Dine <strong>gruppemedlemsskaber</strong> blev ændret",
     "{actor} changed your password" : "{actor} ændrede din adgangskode",
     "You changed your password" : "Du ændrede din kode",
     "Your password was reset by an administrator" : "Din adgangskode er blevet resat af en administrator",
@@ -56,6 +67,7 @@ OC.L10N.register(
     "Set your password" : "Sæt dit password",
     "Go to %s" : "Gå til %s",
     "Install Client" : "Installer client",
+    "Create" : "Opret",
     "Delete" : "Slet",
     "Unlimited" : "Ubegrænset",
     "Verifying …" : "Bekræfter.....",
@@ -210,7 +222,6 @@ OC.L10N.register(
     "Credentials" : "Brugeroplysninger",
     "SMTP Username" : "SMTP Brugernavn",
     "SMTP Password" : "SMTP Kodeord",
-    "Store credentials" : "Gem brugeroplysninger",
     "Test email settings" : "Test e-mail-indstillinger",
     "Send email" : "Send e-mail",
     "Security & setup warnings" : "Advarsler om sikkerhed og opsætning",
@@ -281,6 +292,7 @@ OC.L10N.register(
     "Twitter handle @…" : "Twitter handle @…",
     "Help translate" : "Hjælp med oversættelsen",
     "Current password" : "Nuværende adgangskode",
-    "Change password" : "Skift kodeord"
+    "Change password" : "Skift kodeord",
+    "Store credentials" : "Gem brugeroplysninger"
 },
 "nplurals=2; plural=(n != 1);");

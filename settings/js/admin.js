@@ -248,7 +248,8 @@ $(document).ready(function(){
 		// run setup checks then gather error messages
 		$.when(
 			OC.SetupChecks.checkWebDAV(),
-			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!OC.appConfig.core.public_webfinger, [200, 501]),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/webfinger', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!OC.appConfig.core.public_webfinger, [200, 404]),
+			OC.SetupChecks.checkWellKnownUrl('/.well-known/nodeinfo', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true && !!OC.appConfig.core.public_nodeinfo, [200, 404]),
 			OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocm-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
@@ -257,8 +258,8 @@ $(document).ready(function(){
 			OC.SetupChecks.checkGeneric(),
 			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), OC.theme.docPlaceholderUrl),
 			OC.SetupChecks.checkDataProtected()
-		).then(function (check1, check2, check3, check4, check5, check6, check7, check8, check9, check10) {
-			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10);
+		).then(function (check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11) {
+			var messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11);
 			var $el = $('#postsetupchecks');
 			$('#security-warning-state-loading').addClass('hidden');
 

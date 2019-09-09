@@ -22,6 +22,7 @@
  */
 
 script('settings', [
+	'settings',
 	'templates',
 	'vue-settings-personal-security',
 ]);

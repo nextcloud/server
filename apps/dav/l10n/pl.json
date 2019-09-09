@@ -96,6 +96,7 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Dlatego nie będą dostępne natychmiast po włączeniu, ale pojawią się po pewnym czasie.",
     "Send notifications for events" : "Wysyłaj powiadomienia o wydarzeniach",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Powiadomienia będą wysyłane za pośrednictwem zadań w tle, więc mogą pojawiać się one dosyć często.",
+    "Enable notifications for events via push" : "Włącz powiadomienia o zdarzeniach poprzez push",
     "%s via %s" : "%s przez %s",
     "The meeting »%s« with %s was canceled." : "Spotkanie »%s« z %s zostało anulowane.",
     "The meeting »%s« with %s was updated." : "Spotkanie »%s« z %s zostało zaktualizowane.",

@@ -157,7 +157,6 @@ OC.L10N.register(
     "Credentials" : "Credenciales",
     "SMTP Username" : "Nome d'usuariu SMTP",
     "SMTP Password" : "Contraseña SMTP",
-    "Store credentials" : "Atroxar credenciales",
     "Test email settings" : "Probar configuración de corréu electrónicu",
     "Send email" : "Unviar mensaxe",
     "Security & setup warnings" : "Alvertancies de seguranza y configuración",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Help translate" : "Ayúdanos nes traducciones",
     "Current password" : "Contraseña actual",
-    "Change password" : "Camudar contraseña"
+    "Change password" : "Camudar contraseña",
+    "Store credentials" : "Atroxar credenciales"
 },
 "nplurals=2; plural=(n != 1);");

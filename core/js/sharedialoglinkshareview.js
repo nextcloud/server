@@ -243,11 +243,6 @@
 						if (newShareId) {
 							var shares = self.$el.find('li[data-share-id]');
 							var $newShare = self.$el.find('li[data-share-id="'+newShareId+'"]');
-							// only open the menu by default if this is the first share
-							if ($newShare && shares.length === 1) {
-								var $menu = $newShare.find('.popovermenu');
-								OC.showMenu(null, $menu);
-							}
 						}
 					},
 					error: function() {

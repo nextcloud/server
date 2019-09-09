@@ -46,7 +46,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Saving…" : "Speichern…",
     "Group list is empty" : "Gruppenliste ist leer",
-    "Unable to retrieve the group list" : "Gruppenliste konnte nicht empfangen werden",
+    "Unable to retrieve the group list" : "Gruppenliste konnte nicht abgerufen werden",
     "Saved" : "Gespeichert",
     "Saving failed:" : "Speichern fehlgeschlagen:",
     "Add rule group" : "Regelgruppe hinzufügen",
