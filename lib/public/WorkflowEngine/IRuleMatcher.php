@@ -25,16 +25,15 @@ declare(strict_types=1);
 namespace OCP\WorkflowEngine;
 
 /**
- * Interface IEntityAware
+ * Class IRuleMatcher
  *
  * @package OCP\WorkflowEngine
  *
  * @since 18.0.0
  */
-interface IEntityAware {
+interface IRuleMatcher extends IFileCheck {
 	/**
-	 * @param object $entity
 	 * @since 18.0.0
 	 */
-	public function setEntity($entity);
+	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array;
 }

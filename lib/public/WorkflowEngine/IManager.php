@@ -23,9 +23,6 @@
 
 namespace OCP\WorkflowEngine;
 
-
-use OCP\Files\Storage\IStorage;
-
 /**
  * Interface IManager
  *
@@ -40,21 +37,6 @@ interface IManager {
 	const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
 	const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
 	const EVENT_NAME_REG_CHECK = 'OCP\WorkflowEngine::registerChecks';
-
-	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 * @since 9.1
-	 */
-	public function setFileInfo(IStorage $storage, $path);
-
-	/**
-	 * @param string $class
-	 * @param bool $returnFirstMatchingOperationOnly
-	 * @return array
-	 * @since 9.1
-	 */
-	public function getMatchingOperations($class, $returnFirstMatchingOperationOnly = true);
 
 	/**
 	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_ENTITY` at the
@@ -79,4 +61,9 @@ interface IManager {
 	 * @since 18.0.0
 	 */
 	public function registerCheck(ICheck $check): void;
+
+	/**
+	 * @since 18.0.0
+	 */
+	public function getRuleMatcher(): IRuleMatcher;
 }

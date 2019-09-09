@@ -28,9 +28,7 @@ use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
-use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
-use OCP\WorkflowEngine\IFileCheck;
 
 trait TFileCheck {
 	/** @var IStorage */

@@ -24,7 +24,6 @@ namespace OCA\WorkflowEngine\Check;
 
 use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
-use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IManager;
 
 abstract class AbstractStringCheck implements ICheck {
@@ -120,9 +119,5 @@ abstract class AbstractStringCheck implements ICheck {
 		}
 		$this->matches[$patternHash][$subjectHash] = preg_match($pattern, $subject);
 		return $this->matches[$patternHash][$subjectHash];
-	}
-
-	public function setEntitySubject(IEntity $entity, $subject): void {
-		// Noop
 	}
 }

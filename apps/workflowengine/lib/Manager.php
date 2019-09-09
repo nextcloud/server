@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine;
 
-use OC\Files\Storage\Wrapper\Jail;
 use Doctrine\DBAL\DBALException;
 use OC\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\Check\FileMimeType;
@@ -35,6 +34,7 @@ use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCA\WorkflowEngine\Check\UserGroupMembership;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
+use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
@@ -46,14 +46,14 @@ use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
-use OCP\WorkflowEngine\IEntityAware;
 use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
+use OCP\WorkflowEngine\IRuleMatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Manager implements IManager, IEntityAware {
+class Manager implements IManager {
 
 	/** @var IStorage */
 	protected $storage;
@@ -122,77 +122,8 @@ class Manager implements IManager, IEntityAware {
 		$this->session = $session;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setFileInfo(IStorage $storage, $path) {
-		$this->storage = $storage;
-
-		if ($storage->instanceOfStorage(Jail::class)) {
-			/** @var Jail $storage */
-			$path = $storage->getJailedPath($path);
-		}
-		$this->path = $path;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getMatchingOperations($class, $returnFirstMatchingOperationOnly = true) {
-		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
-		$user = $this->session->getUser();
-		if($user !== null) {
-			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
-		}
-
-		$operations = [];
-		foreach ($scopes as $scope) {
-			$operations = array_merge($operations, $this->getOperations($class, $scope));
-		}
-
-		$matches = [];
-		foreach ($operations as $operation) {
-			$checkIds = json_decode($operation['checks'], true);
-			$checks = $this->getChecks($checkIds);
-
-			foreach ($checks as $check) {
-				if (!$this->check($check)) {
-					// Check did not match, continue with the next operation
-					continue 2;
-				}
-			}
-
-			if ($returnFirstMatchingOperationOnly) {
-				return $operation;
-			}
-			$matches[] = $operation;
-		}
-
-		return $matches;
-	}
-
-	/**
-	 * @param array $check
-	 * @return bool
-	 */
-	protected function check(array $check) {
-		try {
-			$checkInstance = $this->container->query($check['class']);
-		} catch (QueryException $e) {
-			// Check does not exist, assume it matches.
-			return true;
-		}
-
-		if ($checkInstance instanceof IEntityAware && $this->entity !== null) {
-			$checkInstance->setEntity($this->entity);
-			return $checkInstance->executeCheck($check['operator'], $check['value']);
-		} elseif ($checkInstance instanceof ICheck) {
-			$checkInstance->setFileInfo($this->storage, $this->path);
-			return $checkInstance->executeCheck($check['operator'], $check['value']);
-		} else {
-			// Check is invalid
-			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
-		}
+	public function getRuleMatcher(): IRuleMatcher {
+		return new RuleMatcher($this->session, $this->container, $this->l, $this);
 	}
 
 	public function getAllConfiguredEvents() {
@@ -632,24 +563,6 @@ class Manager implements IManager, IEntityAware {
 		}
 
 		return $operation;
-	}
-
-	/**
-	 * @param object $entity
-	 * @since 18.0.0
-	 */
-	public function setEntity($entity) {
-		if(!is_object($entity)) {
-			$this->container->getLogger()->logException(
-				new \InvalidArgumentException('provided entity is not an object'),
-				[
-					'app' => 'workflowengine',
-					'level' => ILogger::ERROR,
-				]
-			);
-			return;
-		}
-		$this->entity = $entity;
 	}
 
 	/**

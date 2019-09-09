@@ -70,24 +70,4 @@ interface ICheck {
 	 * @since 18.0.0
 	 */
 	public function isAvailableForScope(int $scope): bool;
-
-	/**
-	 * Equips the check with a subject fitting the Entity. For instance, an
-	 * entity of File will receive an instance of OCP\Files\Node, or a comment
-	 * entity might get an IComment.
-	 *
-	 * The implementing check must be aware of the incoming type.
-	 *
-	 * If an unsupported subject is passed the implementation MAY throw an
-	 * \UnexpectedValueException.
-	 *
-	 * When an implementation does not depend on a subject being passed to it,
-	 * for example RequestTime, the implemented method SHOULD just pass, without
-	 * any further operation.
-	 *
-	 * @param IEntity $entity
-	 * @param mixed $subject
-	 * @throws \UnexpectedValueException
-	 */
-	public function setEntitySubject(IEntity $entity, $subject): void;
 }

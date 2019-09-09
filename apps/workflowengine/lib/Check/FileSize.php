@@ -23,7 +23,6 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCA\WorkflowEngine\Entity\File;
-use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Util;
@@ -118,9 +117,5 @@ class FileSize implements ICheck {
 
 	public function isAvailableForScope(int $scope): bool {
 		return true;
-	}
-
-	public function setEntitySubject(IEntity $entity, $subject): void {
-		// NOOP
 	}
 }

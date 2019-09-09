@@ -33,10 +33,21 @@ use OCP\Files\Storage\IStorage;
  * @package OCP\WorkflowEngine
  * @since 18.0.0
  */
-interface IFileCheck extends IEntityCheck {
+interface IEntityCheck {
 	/**
-	 * @since 18.0.0
+	 * Equips the check with a subject fitting the Entity. For instance, an
+	 * entity of File will receive an instance of OCP\Files\Node, or a comment
+	 * entity might get an IComment.
+	 *
+	 * The implementing check must be aware of the incoming type.
+	 *
+	 * If an unsupported subject is passed the implementation MAY throw an
+	 * \UnexpectedValueException.
+	 *
+	 * @param IEntity $entity
+	 * @param mixed $subject
+	 * @throws \UnexpectedValueException
 	 */
-	public function setFileInfo(IStorage $storage, string $path);
+	public function setEntitySubject(IEntity $entity, $subject): void;
 
 }

@@ -27,7 +27,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
-use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IManager;
 
 class UserGroupMembership implements ICheck {
@@ -113,9 +112,5 @@ class UserGroupMembership implements ICheck {
 	public function isAvailableForScope(int $scope): bool {
 		// admin only by default
 		return $scope === IManager::SCOPE_ADMIN;
-	}
-
-	public function setEntitySubject(IEntity $entity, $subject): void {
-		// NOOP
 	}
 }
