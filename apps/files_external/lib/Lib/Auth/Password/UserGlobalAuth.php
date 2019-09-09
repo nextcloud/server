@@ -44,9 +44,18 @@ class UserGlobalAuth extends AuthMechanism {
 
 		$this
 			->setIdentifier('password::global::user')
-			->setVisibility(BackendService::VISIBILITY_ADMIN)
+			->setVisibility(BackendService::VISIBILITY_DEFAULT)
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Global credentials, user entered'));
+	}
+
+	public function saveBackendOptions(IUser $user, $id, $backendOptions) {
+		// make sure we're not setting any unexpected keys
+		$credentials = [
+			'user' => $backendOptions['user'],
+			'password' => $backendOptions['password'],
+		];
+		$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
 	}
 
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
