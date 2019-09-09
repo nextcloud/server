@@ -943,7 +943,7 @@ class Manager implements IManager {
 
 		if (!method_exists($provider, 'acceptShare')) {
 			// TODO FIX ME
-			throw new \InvalidArgumentException('not supported');
+			throw new \InvalidArgumentException('Share provider does not support accepting');
 		}
 		$provider->acceptShare($share, $recipientId);
 		$event = new GenericEvent($share);
