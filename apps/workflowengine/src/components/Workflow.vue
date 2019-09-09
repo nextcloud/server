@@ -80,13 +80,9 @@ export default {
 		flex-wrap: wrap;
 		max-width: 900px;
 		.actions__item {
-			max-width: 290px;
+			max-width: 280px;
 			flex-basis: 250px;
 		}
-	}
-
-	.actions__more {
-		text-align: center;
 	}
 
 	button.icon {

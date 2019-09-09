@@ -7,17 +7,5 @@ module.exports = {
 		publicPath: '/js/',
 		filename: 'workflowengine.js',
 		jsonpFunction: 'webpackJsonpWorkflowengine'
-	},
-	module: {
-		rules: [
-			{
-				test: /\.handlebars/,
-				loader: "handlebars-loader",
-				query: {
-					extensions: '.handlebars',
-					helperDirs: path.join(__dirname, 'src/hbs_helpers'),
-				}
-			}
-		]
 	}
 }

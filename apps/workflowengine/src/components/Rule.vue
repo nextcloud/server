@@ -1,6 +1,5 @@
 <template>
 	<div class="section rule" :style="{ borderLeftColor: operation.color || '' }">
-		<!-- TODO: icon-confirm -->
 		<div class="trigger">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>
@@ -21,10 +20,10 @@
 			<div class="buttons">
 				<Actions>
 					<ActionButton v-if="rule.id < -1" icon="icon-close" @click="cancelRule">
-						Cancel rule creation
+						{{ t('workflowengine', 'Cancel rule creation') }}
 					</ActionButton>
 					<ActionButton v-else icon="icon-close" @click="deleteRule">
-						Remove rule
+						{{ t('workflowengine', 'Remove rule') }}
 					</ActionButton>
 				</Actions>
 			</div>
@@ -204,6 +203,7 @@ export default {
 		}
 	}
 	.trigger p, .action p {
+		min-height: 34px;
 		display: flex;
 		align-items: center;
 
@@ -211,7 +211,9 @@ export default {
 			min-width: 50px;
 			text-align: right;
 			color: var(--color-text-maxcontrast);
-			padding-right: 5px;
+			padding-right: 10px;
+			padding-top: 7px;
+			margin-bottom: auto;
 		}
 		.multiselect {
 			flex-grow: 1;

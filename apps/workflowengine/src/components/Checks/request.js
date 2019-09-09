@@ -42,7 +42,6 @@ const RequestChecks = [
 			{ operator: 'in', name: t('workflowengine', 'between') },
 			{ operator: '!in', name: t('workflowengine', 'not between') }
 		],
-		// TODO: implement component
 		component: RequestTime
 	},
 	{
@@ -54,7 +53,8 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') }
 		],
-		component: RequestUserAgent
+		// TODO: implement component
+		// component: RequestUserAgent
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',

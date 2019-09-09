@@ -138,6 +138,10 @@ export default {
 		margin-top: -5px;
 		margin-bottom: -5px;
 	}
+	button.action-item.action-item--single.icon-delete {
+		height: 34px;
+		width: 34px;
+	}
 	.invalid {
 		border: 1px solid var(--color-error) !important;
 	}

@@ -61,29 +61,6 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 // Register shipped checks
 ShippedChecks.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
 
-/**
- * FIXME: remove before merge as this is for UI testing only
- */
-const demo = [
-	{
-		id: 'OCA\\TestExample\\Operation1',
-		name: 'Convert to PDF',
-		description: 'Convert a file to PDF using Libreoffice',
-		iconClass: 'icon-convert-pdf',
-		color: 'var(--color-success)',
-		operation: 'deny'
-	},
-	{
-		id: 'OCA\\TestExample\\Operation2',
-		name: 'Notify me',
-		description: 'Send a Nextcloud Notification',
-		iconClass: 'icon-comment-white',
-		color: 'var(--color-warning)',
-		operation: 'deny'
-	}
-]
-demo.forEach((operatorPlugin) => window.OCA.WorkflowEngine.registerOperator(operatorPlugin))
-
 Vue.use(Vuex)
 Vue.prototype.t = t
 

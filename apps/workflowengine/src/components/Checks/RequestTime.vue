@@ -74,7 +74,7 @@ export default {
 		display: flex;
 		flex-grow: 1;
 		flex-wrap: wrap;
-		max-width: 200px;
+		max-width: 180px;
 
 		.multiselect {
 			width: 100%;
