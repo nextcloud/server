@@ -31,8 +31,9 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\WorkflowEngine\ICheck;
+use OCP\WorkflowEngine\IFileCheck;
 
-class FileSystemTags implements ICheck {
+class FileSystemTags implements ICheck, IFileCheck {
 
 	/** @var array */
 	protected $fileIds;

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,9 +24,6 @@
 
 namespace OCP\WorkflowEngine;
 
-
-use OCP\Files\Storage\IStorage;
-
 /**
  * Interface ICheck
  *
@@ -33,13 +31,6 @@ use OCP\Files\Storage\IStorage;
  * @since 9.1
  */
 interface ICheck {
-	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 * @since 9.1
-	 */
-	public function setFileInfo(IStorage $storage, $path);
-
 	/**
 	 * @param string $operator
 	 * @param string $value

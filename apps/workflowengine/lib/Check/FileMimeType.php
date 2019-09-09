@@ -27,8 +27,9 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\WorkflowEngine\IFileCheck;
 
-class FileMimeType extends AbstractStringCheck {
+class FileMimeType extends AbstractStringCheck implements IFileCheck {
 
 	/** @var array */
 	protected $mimeType;

@@ -45,14 +45,6 @@ class RequestRemoteAddress implements ICheck {
 	}
 
 	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 */
-	public function setFileInfo(IStorage $storage, $path) {
-		// A different path doesn't change time, so nothing to do here.
-	}
-
-	/**
 	 * @param string $operator
 	 * @param string $value
 	 * @return bool

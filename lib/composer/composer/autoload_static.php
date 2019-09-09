@@ -478,6 +478,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\WorkflowEngine\\IEntity' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IEntity.php',
         'OCP\\WorkflowEngine\\IEntityAware' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IEntityAware.php',
         'OCP\\WorkflowEngine\\IEntityEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IEntityEvent.php',
+        'OCP\\WorkflowEngine\\IFileCheck' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IFileCheck.php',
         'OCP\\WorkflowEngine\\IManager' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IManager.php',
         'OCP\\WorkflowEngine\\IOperation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/IOperation.php',
         'OCP\\WorkflowEngine\\ISpecificOperation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/ISpecificOperation.php',

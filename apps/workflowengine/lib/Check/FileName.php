@@ -26,8 +26,9 @@ use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\WorkflowEngine\IFileCheck;
 
-class FileName extends AbstractStringCheck {
+class FileName extends AbstractStringCheck implements IFileCheck {
 
 	/** @var IRequest */
 	protected $request;

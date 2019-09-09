@@ -50,13 +50,6 @@ class FileSize implements ICheck {
 	}
 
 	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 */
-	public function setFileInfo(IStorage $storage, $path) {
-	}
-
-	/**
 	 * @param string $operator
 	 * @param string $value
 	 * @return bool

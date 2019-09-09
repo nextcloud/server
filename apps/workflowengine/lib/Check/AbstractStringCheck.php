@@ -43,14 +43,6 @@ abstract class AbstractStringCheck implements ICheck {
 	}
 
 	/**
-	 * @param IStorage $storage
-	 * @param string $path
-	 */
-	public function setFileInfo(IStorage $storage, $path) {
-		// Nothing changes here with a different path
-	}
-
-	/**
 	 * @return string
 	 */
 	abstract protected function getActualValue();

@@ -444,6 +444,7 @@ return array(
     'OCP\\WorkflowEngine\\IEntity' => $baseDir . '/lib/public/WorkflowEngine/IEntity.php',
     'OCP\\WorkflowEngine\\IEntityAware' => $baseDir . '/lib/public/WorkflowEngine/IEntityAware.php',
     'OCP\\WorkflowEngine\\IEntityEvent' => $baseDir . '/lib/public/WorkflowEngine/IEntityEvent.php',
+    'OCP\\WorkflowEngine\\IFileCheck' => $baseDir . '/lib/public/WorkflowEngine/IFileCheck.php',
     'OCP\\WorkflowEngine\\IManager' => $baseDir . '/lib/public/WorkflowEngine/IManager.php',
     'OCP\\WorkflowEngine\\IOperation' => $baseDir . '/lib/public/WorkflowEngine/IOperation.php',
     'OCP\\WorkflowEngine\\ISpecificOperation' => $baseDir . '/lib/public/WorkflowEngine/ISpecificOperation.php',
