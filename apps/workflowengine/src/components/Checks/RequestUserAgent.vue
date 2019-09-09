@@ -40,13 +40,14 @@
 				<span class="option__title">{{ props.option.label }} {{ props.option.$groupLabel }}</span>
 			</template>
 		</Multiselect>
-		<input type="text" :value="currentValue.pattern" @input="updateCustom" v-if="!isPredefined">
+		<input v-if="!isPredefined" type="text" :value="currentValue.pattern"
+			@input="updateCustom">
 	</div>
 </template>
 
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
-import valueMixin from '../../mixins/valueMixin';
+import valueMixin from '../../mixins/valueMixin'
 
 export default {
 	name: 'RequestUserAgent',
@@ -103,7 +104,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom user agent'),
-				pattern: this.newValue,
+				pattern: this.newValue
 			}
 		}
 	},

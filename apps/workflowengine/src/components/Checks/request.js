@@ -23,6 +23,7 @@
 import RequestUserAgent from './RequestUserAgent'
 import RequestTime from './RequestTime'
 import RequestURL from './RequestURL'
+import RequestUserGroup from './RequestUserGroup'
 
 const RequestChecks = [
 	{
@@ -62,8 +63,8 @@ const RequestChecks = [
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') }
-		]
-		// TODO: implement component
+		],
+		component: RequestUserGroup
 	}
 ]
 

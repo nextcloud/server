@@ -16,7 +16,8 @@
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
-		<input type="text" :value="currentValue.pattern" @input="updateCustom" v-if="!isPredefined">
+		<input v-if="!isPredefined" type="text" :value="currentValue.pattern"
+			@input="updateCustom">
 	</div>
 </template>
 

@@ -22,59 +22,59 @@
 
 <template>
 	<MultiselectTag v-model="newValue" :multiple="false"
-					label="Select a tag"
-					@input="update" />
+		label="Select a tag"
+		@input="update" />
 </template>
 
 <script>
-	import { MultiselectTag } from './MultiselectTag'
+import { MultiselectTag } from './MultiselectTag'
 
-	export default {
-		name: 'SizeValue',
-		components: {
-			MultiselectTag
-		},
-		props: {
-			value: {
-				type: String,
-				default: ''
-			}
-		},
-		data() {
-			return {
-				valid: false,
-				newValue: []
-			}
-		},
-		beforeMount() {
+export default {
+	name: 'FileSystemTag',
+	components: {
+		MultiselectTag
+	},
+	props: {
+		value: {
+			type: String,
+			default: ''
+		}
+	},
+	data() {
+		return {
+			valid: false,
+			newValue: []
+		}
+	},
+	watch: {
+		value() {
 			this.updateValue()
-		},
-		watch: {
-			value() {
-				this.updateValue()
+		}
+	},
+	beforeMount() {
+		this.updateValue()
+	},
+	methods: {
+		updateValue() {
+			if (this.value !== '') {
+				this.newValue = this.value
+			} else {
+				this.newValue = null
 			}
 		},
-		methods: {
-			updateValue() {
-				if (this.value !== "") {
-					this.newValue = this.value
-				} else {
-					this.newValue = null
-				}
-			},
-			validate() {
-				return true
-			},
-			update() {
-				if (this.validate()) {
-					this.$emit('input', this.newValue || '')
-					this.valid = false
-				} else {
-					this.valid = false
-				}
+		validate() {
+			return true
+		},
+		update() {
+			if (this.validate()) {
+				this.$emit('input', this.newValue || '')
+				this.valid = false
+			} else {
+				this.valid = false
 			}
 		}
 	}
+}
 </script>
 
 <style scoped>

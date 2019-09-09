@@ -1,6 +1,6 @@
 <template>
 	<div class="timeslot">
-		<Multiselect v-model="newValue.timezone" :options="timezones" />
+		<Multiselect v-model="newValue.timezone" :options="timezones" @input="update" />
 		<input v-model="newValue.startTime" type="text" class="timeslot--start"
 			placeholder="08:00" @input="update">
 		<input v-model="newValue.endTime" type="text" placeholder="18:00"
@@ -11,7 +11,7 @@
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 import moment from 'moment-timezone'
-import valueMixin from '../../mixins/valueMixin';
+import valueMixin from '../../mixins/valueMixin'
 
 const zones = moment.tz.names()
 export default {

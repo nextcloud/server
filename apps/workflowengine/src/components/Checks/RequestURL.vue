@@ -40,15 +40,15 @@
 				<span class="option__title">{{ props.option.label }} {{ props.option.$groupLabel }}</span>
 			</template>
 		</Multiselect>
-		<input type="text" :value="currentValue.pattern"
-			   :placeholder="placeholder"
-			   @input="updateCustom" v-if="!isPredefined">
+		<input v-if="!isPredefined" type="text"
+			:value="currentValue.pattern"
+			:placeholder="placeholder" @input="updateCustom">
 	</div>
 </template>
 
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
-import valueMixin from '../../mixins/valueMixin';
+import valueMixin from '../../mixins/valueMixin'
 
 export default {
 	name: 'RequestURL',
@@ -65,7 +65,7 @@ export default {
 				{
 					label: t('workflowengine', 'Predefined URLs'),
 					children: [
-						{ pattern: 'webdav', label: t('workflowengine', 'Files WebDAV')},
+						{ pattern: 'webdav', label: t('workflowengine', 'Files WebDAV') }
 					]
 				}
 			]
@@ -108,7 +108,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom URL'),
-				pattern: this.newValue,
+				pattern: this.newValue
 			}
 		}
 	},

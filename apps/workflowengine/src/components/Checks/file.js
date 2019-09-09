@@ -22,7 +22,7 @@
 
 import FileMimeType from './FileMimeType'
 import { stringValidator, validateIPv4, validateIPv6 } from './../../helpers/validators'
-import FileSystemTag from './FileSystemTag';
+import FileSystemTag from './FileSystemTag'
 const FileChecks = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileName',

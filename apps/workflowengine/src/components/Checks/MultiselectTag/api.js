@@ -46,11 +46,11 @@ const parseXml = (xml) => {
 }
 
 const xmlToTagList = (xml) => {
-	let json = xmlToJson(parseXml(xml))
-	let list = json['d:multistatus']['d:response']
-	let result = []
-	for (let index in list) {
-		let tag = list[index]['d:propstat']
+	const json = xmlToJson(parseXml(xml))
+	const list = json['d:multistatus']['d:response']
+	const result = []
+	for (const index in list) {
+		const tag = list[index]['d:propstat']
 
 		if (tag['d:status']['#text'] !== 'HTTP/1.1 200 OK') {
 			continue
