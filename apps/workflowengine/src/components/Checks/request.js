@@ -22,6 +22,7 @@
 
 import RequestUserAgent from './RequestUserAgent'
 import RequestTime from './RequestTime'
+import RequestURL from './RequestURL'
 
 const RequestChecks = [
 	{
@@ -32,8 +33,8 @@ const RequestChecks = [
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') }
-		]
-		// TODO: implement component
+		],
+		component: RequestURL
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',

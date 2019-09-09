@@ -22,6 +22,7 @@
 
 import FileMimeType from './FileMimeType'
 import { stringValidator, validateIPv4, validateIPv6 } from './../../helpers/validators'
+import FileSystemTag from './FileSystemTag';
 const FileChecks = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileName',
@@ -95,7 +96,8 @@ const FileChecks = [
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is tagged with') },
 			{ operator: '!is', name: t('workflowengine', 'is not tagged with') }
-		]
+		],
+		component: FileSystemTag
 	}
 ]
 
