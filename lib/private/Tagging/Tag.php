@@ -62,7 +62,7 @@ class Tag extends Entity {
 	 * @todo migrate existing database columns to the correct names
 	 * to be able to drop this direct mapping
 	 */
-	public function columnToProperty($columnName){
+	public function columnToProperty(string $columnName): string  {
 		if ($columnName === 'category') {
 		    return 'name';
 		} elseif ($columnName === 'uid') {
@@ -78,7 +78,7 @@ class Tag extends Entity {
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn(string $property): string {
 		if ($property === 'name') {
 		    return 'category';
 		} elseif ($property === 'owner') {
