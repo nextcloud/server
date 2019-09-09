@@ -8,6 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Daniel Rudolf <nextcloud.com@daniel-rudolf.de>
  *
  * @license AGPL-3.0
  *
@@ -124,6 +125,16 @@ interface IAppManager {
 	 * @throws AppPathNotFoundException
 	 */
 	public function getAppPath($appId);
+
+	/**
+	 * Get the web path for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @since 18.0.0
+	 * @throws AppPathNotFoundException
+	 */
+	public function getAppWebPath(string $appId): string;
 
 	/**
 	 * List all apps enabled for a user
