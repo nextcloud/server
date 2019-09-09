@@ -2,8 +2,8 @@
 	<div class="actions__item" :class="{'colored': colored}" :style="{ backgroundColor: colored ? operation.color : 'transparent' }">
 		<div class="icon" :class="operation.iconClass" :style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
 		<div class="actions__item__description">
-		<h3>{{ operation.name }}</h3>
-		<small>{{ operation.description }}</small>
+			<h3>{{ operation.name }}</h3>
+			<small>{{ operation.description }}</small>
 		</div>
 		<div class="actions__item_options">
 			<slot />

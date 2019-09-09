@@ -85,7 +85,7 @@ const store = new Vuex.Store({
 			let events = []
 			if (rule.isComplex === false && rule.fixedEntity === '') {
 				entity = context.state.entities.find((item) => rule.entities && rule.entities[0] === item.id)
-				entity = entity ? entity : Object.values(context.state.entities)[0]
+				entity = entity || Object.values(context.state.entities)[0]
 				events = [entity.events[0].eventName]
 			}
 
@@ -124,7 +124,7 @@ const store = new Vuex.Store({
 			await axios.delete(getApiUrl(`/${rule.id}`))
 			context.commit('removeRule', rule)
 		},
-		setValid (context, { rule, valid }) {
+		setValid(context, { rule, valid }) {
 			rule.valid = valid
 			context.commit('updateRule', rule)
 		}

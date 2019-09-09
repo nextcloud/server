@@ -3,12 +3,17 @@
 		<Multiselect ref="checkSelector" v-model="currentOption" :options="options"
 			label="name" track-by="class" :allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a filter')" @input="updateCheck" />
-		<Multiselect :disabled="!currentOption" v-model="currentOperator" :options="operators"
+		<Multiselect v-model="currentOperator" :disabled="!currentOption" :options="operators"
 			label="name" track-by="operator" :allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a comparator')" @input="updateCheck" />
-		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value" :disabled="!currentOption" :check="check" @valid="valid=true && validate()" @invalid="valid=false && validate()" />
-		<input v-else v-model="check.value" type="text" :class="{ invalid: !valid }"
-			@input="updateCheck" :disabled="!currentOption" :placeholder="valuePlaceholder">
+		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value"
+			:disabled="!currentOption" :check="check"
+			@input="updateCheck"
+			@valid="(valid=true) && validate()"
+			@invalid="(valid=false) && validate()" />
+		<input v-else v-model="check.value" type="text"
+			:class="{ invalid: !valid }"
+			:disabled="!currentOption" :placeholder="valuePlaceholder" @input="updateCheck">
 		<Actions>
 			<ActionButton v-if="deleteVisible || !currentOption" icon="icon-delete" @click="$emit('remove')" />
 		</Actions>
@@ -47,7 +52,7 @@ export default {
 			currentOption: null,
 			currentOperator: null,
 			options: [],
-			valid: true,
+			valid: true
 		}
 	},
 	computed: {
@@ -67,17 +72,18 @@ export default {
 			if (this.currentOption && this.currentOption.placeholder) {
 				return this.currentOption.placeholder(this.check)
 			}
+			return ''
+		}
+	},
+	watch: {
+		'check.operator': function() {
+			this.validate()
 		}
 	},
 	mounted() {
 		this.options = Object.values(this.Checks)
 		this.currentOption = this.Checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
-	},
-	watch: {
-		'check.operator': function () {
-			this.validate()
-		}
 	},
 	methods: {
 		showDelete() {
@@ -88,7 +94,7 @@ export default {
 		},
 		validate() {
 			if (this.currentOption && this.currentOption.validate) {
-				if(this.currentOption.validate(this.check)) {
+				if (this.currentOption.validate(this.check)) {
 					this.valid = true
 				} else {
 					this.valid = false

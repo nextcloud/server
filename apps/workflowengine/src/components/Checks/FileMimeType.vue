@@ -1,35 +1,39 @@
 <template>
 	<div>
-		<multiselect
+		<Multiselect
 			:value="currentValue"
-			placeholder="Select a user agent"
+			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			track-by="pattern"
-			:options="options" :multiple="false" :tagging="false" @input="setValue">
+			:options="options" :multiple="false" :tagging="false"
+			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon"></span>
+				<span class="option__icon" :class="props.option.icon" />
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon"></span>
+				<span class="option__icon" :class="props.option.icon" />
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
-		</multiselect>
-		<input type="text" :value="currentValue.pattern" @input="updateCustom"/>
+		</Multiselect>
+		<input type="text" :value="currentValue.pattern" @input="updateCustom" v-if="!isPredefined">
 	</div>
 </template>
 
 <script>
-	import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
+import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
+import valueMixin from './../../mixins/valueMixin'
 
 export default {
 	name: 'FileMimeType',
 	components: {
 		Multiselect
 	},
+	mixins: [
+		valueMixin
+	],
 	data() {
 		return {
-			value: '',
 			predefinedTypes: [
 				{
 					icon: 'icon-picture',
@@ -53,23 +57,29 @@ export default {
 		options() {
 			return [...this.predefinedTypes, this.customValue]
 		},
+		isPredefined() {
+			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.pattern)
+			if (matchingPredefined) {
+				return true
+			}
+			return false
+		},
 		customValue() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.value.pattern === type.pattern)
 			return {
 				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom pattern'),
-				pattern: '',
+				label: t('workflowengine', 'Custom mimetype'),
+				pattern: ''
 			}
 		},
 		currentValue() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.value === type.pattern)
+			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.pattern)
 			if (matchingPredefined) {
 				return matchingPredefined
 			}
 			return {
 				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom pattern'),
-				pattern: this.value,
+				label: t('workflowengine', 'Custom mimetype'),
+				pattern: this.newValue
 			}
 		}
 	},
@@ -79,25 +89,19 @@ export default {
 			var result = regexRegex.exec(string)
 			return result !== null
 		},
-		setValue (value) {
+		setValue(value) {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
-				this.value = value.pattern
+				this.newValue = value.pattern
+				this.$emit('input', this.newValue)
 			}
 		},
-		updateCustom (event) {
-			console.log(event)
-			this.value = event.target.value
+		updateCustom(event) {
+			this.newValue = event.target.value
+			this.$emit('input', this.newValue)
 		}
 	}
 }
 </script>
 
-<style scoped>
-	.multiselect::v-deep .multiselect__single {
-		display: flex;
-	}
-	input, .multiselect {
-		width: 100%;
-	}
-</style>
+<style scoped src="./../../css/multiselect.css"></style>

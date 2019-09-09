@@ -20,7 +20,6 @@
  *
  */
 
-
 const validateRegex = function(string) {
 	var regexRegex = /^\/(.*)\/([gui]{0,3})$/
 	var result = regexRegex.exec(string)

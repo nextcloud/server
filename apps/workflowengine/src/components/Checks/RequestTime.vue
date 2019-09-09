@@ -1,14 +1,17 @@
 <template>
 	<div class="timeslot">
-		<multiselect v-model="newValue.timezone" :options="timezones"></multiselect>
-		<input type="text" class="timeslot--start" v-model="newValue.startTime" placeholder="08:00" @input="update"/>
-		<input type="text" v-model="newValue.endTime" placeholder="18:00" @input="update"/>
+		<Multiselect v-model="newValue.timezone" :options="timezones" />
+		<input v-model="newValue.startTime" type="text" class="timeslot--start"
+			placeholder="08:00" @input="update">
+		<input v-model="newValue.endTime" type="text" placeholder="18:00"
+			@input="update">
 	</div>
 </template>
 
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 import moment from 'moment-timezone'
+import valueMixin from '../../mixins/valueMixin';
 
 const zones = moment.tz.names()
 export default {
@@ -16,6 +19,9 @@ export default {
 	components: {
 		Multiselect
 	},
+	mixins: [
+		valueMixin
+	],
 	props: {
 		value: {
 			type: String,
@@ -29,7 +35,7 @@ export default {
 				startTime: null,
 				endTime: null,
 				timezone: moment.tz.guess()
-			},
+			}
 		}
 	},
 	computed: {
@@ -37,8 +43,8 @@ export default {
 			return zones
 		}
 	},
-	watch: {
-		'value': function(value) {
+	methods: {
+		updateInternalValue(value) {
 			var data = JSON.parse(value)
 			var startTime = data[0].split(' ', 2)[0]
 			var endTime = data[1].split(' ', 2)[0]
@@ -48,13 +54,11 @@ export default {
 				endTime: endTime,
 				timezone: timezone
 			}
-		}
-	},
-	methods: {
+		},
 		validate() {
-			return this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null &&
-				this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null &&
-				moment.tz.zone(this.newValue.timezone) !== null
+			return this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
+				&& this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
+				&& moment.tz.zone(this.newValue.timezone) !== null
 		},
 		update() {
 			if (this.validate()) {

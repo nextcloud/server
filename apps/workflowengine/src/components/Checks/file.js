@@ -20,8 +20,8 @@
  *
  */
 
-import FileMimeType from './FileMimeType';
-import { stringValidator, validateIPv4, validateIPv6} from './../../helpers/validators'
+import FileMimeType from './FileMimeType'
+import { stringValidator, validateIPv4, validateIPv6 } from './../../helpers/validators'
 const FileChecks = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileName',
@@ -77,7 +77,7 @@ const FileChecks = [
 		],
 		placeholder: (check) => {
 			if (check.operator === 'matchesIPv6' || check.operator === '!matchesIPv6') {
-				return '::1/128';
+				return '::1/128'
 			}
 			return '127.0.0.1/32'
 		},

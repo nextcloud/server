@@ -5,9 +5,10 @@
 				<span>{{ t('workflowengine', 'When') }}</span>
 				<Event :rule="rule" @update="updateRule" />
 			</p>
-			<p v-for="check in rule.checks">
+			<p v-for="(check, index) in rule.checks" :key="index">
 				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check :check="check" :rule="rule" @update="updateRule" @remove="removeCheck(check)" />
+				<Check :check="check" :rule="rule" @update="updateRule"
+					@remove="removeCheck(check)" />
 			</p>
 			<p>
 				<span />
@@ -15,7 +16,7 @@
 					value="Add a new filter" @click="rule.checks.push({class: null, operator: null, value: null})">
 			</p>
 		</div>
-		<div class="flow-icon icon-confirm"></div>
+		<div class="flow-icon icon-confirm" />
 		<div class="action">
 			<div class="buttons">
 				<Actions>
@@ -32,7 +33,7 @@
 					@input="updateOperation" />
 			</Operation>
 			<button v-tooltip="ruleStatus.tooltip" class="status-button icon" :class="ruleStatus.class"
-					@click="saveRule">
+				@click="saveRule">
 				{{ ruleStatus.title }}
 			</button>
 		</div>
@@ -244,6 +245,5 @@ export default {
 			}
 		}
 	}
-
 
 </style>

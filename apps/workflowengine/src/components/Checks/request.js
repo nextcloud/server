@@ -20,8 +20,8 @@
  *
  */
 
-import RequestUserAgent from './RequestUserAgent';
-import RequestTime from './RequestTime';
+import RequestUserAgent from './RequestUserAgent'
+import RequestTime from './RequestTime'
 
 const RequestChecks = [
 	{
@@ -32,7 +32,7 @@ const RequestChecks = [
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') }
-		],
+		]
 		// TODO: implement component
 	},
 	{
@@ -53,8 +53,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') }
 		],
-		// TODO: implement component
-		// component: RequestUserAgent
+		component: RequestUserAgent
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
@@ -62,7 +61,7 @@ const RequestChecks = [
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') }
-		],
+		]
 		// TODO: implement component
 	}
 ]
