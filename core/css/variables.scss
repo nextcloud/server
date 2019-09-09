@@ -47,20 +47,48 @@ $color-primary-text-dark: darken($color-primary-text, 7%) !default;
 $color-primary-element: $color-primary !default;
 $color-primary-element-light: lighten($color-primary-element, 15%) !default;
 
-$color-error: #e9322d;
-$color-warning: #eca700;
-$color-success: #46ba61;
-// used for svg
-$color-white: #fff;
-$color-black: #000;
-$color-yellow: #FC0;
-
 // rgb(118, 118, 118) / #767676
 // min. color contrast for normal text on white background according to WCAG AA
 // (Works as well: color: #000; opacity: 0.57;)
 $color-text-maxcontrast: nc-lighten($color-main-text, 46.2%) !default;
 $color-text-light: nc-lighten($color-main-text, 15%) !default;
 $color-text-lighter: nc-lighten($color-main-text, 30%) !default;
+
+$color-error: #e9322d;
+$color-warning: #eca700;
+$color-success: #46ba61;
+
+// automated rgb css variables generator
+// please add every colours that needs to have their rgb truple generated
+$colors: (
+	color-main-text: $color-main-text,
+	color-main-background: $color-main-background,
+	color-main-background-translucent: $color-main-background-translucent,
+
+	color-background-dark: $color-background-dark,
+	color-background-darker: $color-background-darker,
+
+	color-primary: $color-primary,
+	color-primary-text: $color-primary-text,
+
+	color-primary-text-dark: $color-primary-text-dark,
+	color-primary-element: $color-primary-element,
+	color-primary-element-light: $color-primary-element-light,
+
+	color-text-maxcontrast: $color-text-maxcontrast,
+	color-text-light: $color-text-light,
+	color-text-lighter: $color-text-lighter,
+
+	color-error: $color-error,
+	color-warning: $color-warning,
+	color-success: $color-success
+);
+
+
+// used for svg icons colour generation
+$color-white: #fff;
+$color-black: #000;
+$color-yellow: #FC0;
 
 $image-logo: url('../img/logo/logo.svg?v=1') !default;
 $image-login-background: url('../img/background.png?v=2') !default;

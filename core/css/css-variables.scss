@@ -3,22 +3,14 @@
 // All css4 variables must be fixed! Scss is a PRE processor
 // css4 variables are processed after scss!
 :root {
-	--color-main-text: $color-main-text;
-	--color-main-background: $color-main-background;
-	--color-main-background-translucent: $color-main-background-translucent;
 
-	--color-background-dark: $color-background-dark;
-	--color-background-darker: $color-background-darker;
-
-	--color-primary: $color-primary;
-	--color-primary-text: $color-primary-text;
-	--color-primary-text-dark: $color-primary-text-dark;
-	--color-primary-element: $color-primary-element;
-	--color-primary-element-light: $color-primary-element-light;
-
-	--color-error: $color-error;
-	--color-warning: $color-warning;
-	--color-success: $color-success;
+	// generate css variables colours
+	// associated with their rgb so we can use rgba
+	// color: rgba(var(--color-primary-rgb), 0.1)
+	@each $color,$value in $colors {
+		--#{$color}: $value;
+		--#{$color}-rgb: red($value), green($value), blue($value);
+	}
 
 	--color-text-maxcontrast: $color-text-maxcontrast;
 	--color-text-light: $color-text-light;
