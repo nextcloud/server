@@ -24,7 +24,6 @@ namespace OCA\WorkflowEngine\Check;
 
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\WorkflowEngine\IManager;
 
 class RequestUserAgent extends AbstractStringCheck {
 

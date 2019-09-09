@@ -23,9 +23,9 @@ namespace OCA\WorkflowEngine\Check;
 
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
+use OCP\WorkflowEngine\IEntity;
 
 class RequestTime implements ICheck {
 
@@ -135,4 +135,7 @@ class RequestTime implements ICheck {
 		return [];
 	}
 
+	public function setEntitySubject(IEntity $entity, $subject): void {
+		// NOOP
+	}
 }

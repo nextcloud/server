@@ -30,6 +30,9 @@ use OCP\IRequest;
 use OCP\WorkflowEngine\IFileCheck;
 
 class FileMimeType extends AbstractStringCheck implements IFileCheck {
+	use TFileCheck {
+		setFileInfo as _setFileInfo;
+	}
 
 	/** @var array */
 	protected $mimeType;
@@ -39,12 +42,6 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 
 	/** @var IMimeTypeDetector */
 	protected $mimeTypeDetector;
-
-	/** @var IStorage */
-	protected $storage;
-
-	/** @var string */
-	protected $path;
 
 	/**
 	 * @param IL10N $l
@@ -62,8 +59,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @param string $path
 	 */
 	public function setFileInfo(IStorage $storage, $path) {
-		$this->storage = $storage;
-		$this->path = $path;
+		$this->_setFileInfo($storage, $path);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
 			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
 			$this->mimeType[$this->storage->getId()][$this->path] = null;

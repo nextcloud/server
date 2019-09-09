@@ -22,10 +22,10 @@
 namespace OCA\WorkflowEngine\Check;
 
 
-use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\WorkflowEngine\ICheck;
+use OCP\WorkflowEngine\IEntity;
 
 class RequestRemoteAddress implements ICheck {
 
@@ -170,5 +170,9 @@ class RequestRemoteAddress implements ICheck {
 	 */
 	public function isAvailableForScope(int $scope): bool {
 		return true;
+	}
+
+	public function setEntitySubject(IEntity $entity, $subject): void {
+		// NOOP
 	}
 }
