@@ -29,22 +29,26 @@ use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use SebastianBergmann\Comparator\MockObjectComparator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase  {
-	/** @var Factory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Factory|MockObject */
 	private $factory;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|MockObject */
 	private $appData;
-	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICrypto|MockObject */
 	private $crypto;
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|MockObject */
 	private $manager;
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
+	/** @var ILogger|MockObject */
+	private $logger;
 
 	public function setUp() {
 		parent::setUp();
@@ -57,6 +61,7 @@ class ManagerTest extends TestCase  {
 			->method('get')
 			->with('identityproof')
 			->willReturn($this->appData);
+		$this->logger = $this->createMock(ILogger::class);
 
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->manager = $this->getManager(['generateKeyPair']);
@@ -73,14 +78,16 @@ class ManagerTest extends TestCase  {
 			return new Manager(
 				$this->factory,
 				$this->crypto,
-				$this->config
+				$this->config,
+				$this->logger
 			);
 		} else {
 			return $this->getMockBuilder(Manager::class)
 				->setConstructorArgs([
 					$this->factory,
 					$this->crypto,
-					$this->config
+					$this->config,
+					$this->logger
 				])->setMethods($setMethods)->getMock();
 		}
 	}
