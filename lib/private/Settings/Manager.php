@@ -298,6 +298,10 @@ class Manager implements IManager {
 			/** @var ISettings $form */
 			$form = $this->container->query(Personal\Security::class);
 			$forms[$form->getPriority()] = [$form];
+
+			/** @var ISettings $form */
+			$form = $this->container->query(Personal\Security\Authtokens::class);
+			$forms[$form->getPriority()] = [$form];
 		}
 		if ($section === 'additional') {
 			/** @var ISettings $form */

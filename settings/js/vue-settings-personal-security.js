@@ -904,5 +904,5 @@ function y(){throw new Error("Dynamic requires are not currently supported by ro
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-i.nc=btoa(OC.requestToken),r.default.use(a.a),r.default.use(s.a,{defaultHtml:!1}),r.default.prototype.t=t,new(r.default.extend(N))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map?v=bedaaf1d6e26dcd2fca0
+i.nc=btoa(OC.requestToken),r.default.use(a.a),r.default.use(s.a,{defaultHtml:!1}),r.default.prototype.t=t,new(r.default.extend(N))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security-authtokens")}]);
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=a2158eef5a0e4bafeee7

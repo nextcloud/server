@@ -1,7 +1,9 @@
-/*
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+<?php
+declare(strict_types=1);
+/**
+ * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,23 +19,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import Vue from 'vue';
-import VueClipboard from 'vue-clipboard2';
-import VTooltip from 'v-tooltip';
+script('settings', [
+	'vue-settings-personal-security',
+]);
 
-import AuthTokenSection from './components/AuthTokenSection';
+?>
 
-__webpack_nonce__ = btoa(OC.requestToken);
-
-Vue.use(VueClipboard);
-Vue.use(VTooltip, { defaultHtml: false });
-Vue.prototype.t = t;
-
-const View = Vue.extend(AuthTokenSection);
-new View({
-	propsData: {
-		tokens: OCP.InitialState.loadState('settings', 'app_tokens'),
-	}
-}).$mount('#security-authtokens');
+<div id="security-authtokens" class="section"></div>

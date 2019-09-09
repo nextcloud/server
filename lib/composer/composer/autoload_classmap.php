@@ -1167,6 +1167,7 @@ return array(
     'OC\\Settings\\Personal\\Additional' => $baseDir . '/settings/Settings/Personal/Additional.php',
     'OC\\Settings\\Personal\\PersonalInfo' => $baseDir . '/settings/Settings/Personal/PersonalInfo.php',
     'OC\\Settings\\Personal\\Security' => $baseDir . '/settings/Settings/Personal/Security.php',
+    'OC\\Settings\\Personal\\Security\\Authtokens' => $baseDir . '/settings/Settings/Personal/Security/Authtokens.php',
     'OC\\Settings\\Personal\\ServerDevNotice' => $baseDir . '/settings/Settings/Personal/ServerDevNotice.php',
     'OC\\Settings\\Section' => $baseDir . '/lib/private/Settings/Section.php',
     'OC\\Setup' => $baseDir . '/lib/private/Setup.php',
