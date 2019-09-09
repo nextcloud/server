@@ -106,13 +106,20 @@ abstract class Entity {
 		$this->_updatedFields = [];
 	}
 
+	/**
+	 * @since 18.0.0
+	 */
 	public function getFieldType(string $name): ?string  {
 		if (isset($this->_fieldTypes[$name])) {
 			return $this->_fieldTypes[$name];
 		}
 
 		if ($this->reflectionClass === null) {
-			$this->reflectionClass = new \ReflectionClass($this);
+			try {
+				$this->reflectionClass = new \ReflectionClass($this);
+			} catch (\ReflectionException $e) {
+				return null;
+			}
 		}
 
 		try {
