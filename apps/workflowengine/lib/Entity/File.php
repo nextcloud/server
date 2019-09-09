@@ -24,8 +24,10 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Entity;
 
+use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
@@ -37,10 +39,13 @@ class File implements IEntity {
 	protected $l10n;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
+	/** @var IRootFolder */
+	private $root;
 
-	public function __construct(IL10N $l10n, IURLGenerator $urlGenerator) {
+	public function __construct(IL10N $l10n, IURLGenerator $urlGenerator, IRootFolder $root) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
+		$this->root = $root;
 	}
 
 	public function getName(): string {
@@ -60,6 +65,7 @@ class File implements IEntity {
 			new GenericEntityEvent($this->l10n->t('File deleted'), $namespace . 'postDelete' ),
 			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch' ),
 			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy' ),
+			new GenericEntityEvent($this->l10n->t('Tag assigned'), MapperEvent::EVENT_ASSIGN ),
 		];
 	}
 
@@ -77,6 +83,17 @@ class File implements IEntity {
 			case 'postRename':
 			case 'postCopy':
 				$ruleMatcher->setEntitySubject($this, $event->getSubject()[1]);
+				break;
+			case MapperEvent::EVENT_ASSIGN:
+				if(!$event instanceof MapperEvent || $event->getObjectType() !== 'files') {
+					break;
+				}
+				$nodes = $this->root->getById((int)$event->getObjectId());
+				if(is_array($nodes) && !empty($nodes)) {
+					$node = array_shift($nodes);
+					$ruleMatcher->setEntitySubject($this, $node);
+				}
+				break;
 		}
 	}
 }
