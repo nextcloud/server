@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Notification;
 
-use OC\Share\Share;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -61,12 +60,12 @@ class Listener {
 		$share = $event->getSubject();
 		$notification = $this->instantiateNotification($share);
 
-		if ($share->getShareType() === Share::SHARE_TYPE_USER) {
-			$notification->setSubject('incoming_user_share')
+		if ($share->getShareType() === IShare::TYPE_USER) {
+			$notification->setSubject(Notifier::INCOMING_USER_SHARE)
 				->setUser($share->getSharedWith());
 			$this->notificationManager->notify($notification);
-		} else if ($share->getShareType() === Share::SHARE_TYPE_GROUP) {
-			$notification->setSubject('incoming_group_share');
+		} else if ($share->getShareType() === IShare::TYPE_GROUP) {
+			$notification->setSubject(Notifier::INCOMING_GROUP_SHARE);
 			$group = $this->groupManager->get($share->getSharedWith());
 
 			foreach ($group->getUsers() as $user) {
@@ -108,7 +107,7 @@ class Listener {
 				}
 
 				$notification = $this->instantiateNotification($share);
-				$notification->setSubject('incoming_group_share')
+				$notification->setSubject(Notifier::INCOMING_GROUP_SHARE)
 					->setUser($user->getUID());
 				$this->notificationManager->notify($notification);
 			}

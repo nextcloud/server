@@ -41,6 +41,8 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class Notifier implements INotifier {
+	public const INCOMING_USER_SHARE = 'incoming_user_share';
+	public const INCOMING_GROUP_SHARE = 'incoming_group_share';
 
 	/** @var IFactory */
 	protected $l10nFactory;
@@ -158,7 +160,7 @@ class Notifier implements INotifier {
 		}
 
 		switch ($notification->getSubject()) {
-			case 'incoming_user_share':
+			case self::INCOMING_USER_SHARE:
 				if ($share->getSharedWith() !== $notification->getUser()) {
 					throw new AlreadyProcessedException();
 				}
@@ -178,7 +180,7 @@ class Notifier implements INotifier {
 				];
 				break;
 
-			case 'incoming_group_share':
+			case self::INCOMING_GROUP_SHARE:
 				$user = $this->userManager->get($notification->getUser());
 				if (!$user instanceof IUser) {
 					throw new AlreadyProcessedException();
