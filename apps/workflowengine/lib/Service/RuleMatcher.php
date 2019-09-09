@@ -36,6 +36,7 @@ use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
+use OCP\WorkflowEngine\IEntityCheck;
 use OCP\WorkflowEngine\IFileCheck;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IRuleMatcher;
@@ -117,21 +118,20 @@ class RuleMatcher implements IRuleMatcher {
 			return true;
 		}
 
-		if ($checkInstance instanceof ICheck) {
+		if ($checkInstance instanceof IFileCheck) {
+			if (empty($this->fileInfo)) {
+				throw new \RuntimeException('Must set file info before running the check');
+			}
+			$checkInstance->setFileInfo($this->fileInfo['storage'], $this->fileInfo['path']);
+		} elseif ($checkInstance instanceof IEntityCheck) {
 			foreach($this->contexts as $entityInfo) {
 				list($entity, $subject) = $entityInfo;
 				$checkInstance->setEntitySubject($entity, $subject);
 			}
-			return $checkInstance->executeCheck($check['operator'], $check['value']);
-		} elseif ($checkInstance instanceof IFileCheck) {
-			if(empty($this->fileInfo)) {
-				throw new \RuntimeException('Must set file info before running the check');
-			}
-			$checkInstance->setFileInfo($this->fileInfo['storage'], $this->fileInfo['path']);
-			return $checkInstance->executeCheck($check['operator'], $check['value']);
 		} else {
 			// Check is invalid
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}
+		return $checkInstance->executeCheck($check['operator'], $check['value']);
 	}
 }
