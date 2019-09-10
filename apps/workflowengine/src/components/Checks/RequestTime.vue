@@ -30,17 +30,13 @@ export default {
 	},
 	data() {
 		return {
+			timezones: zones,
 			valid: false,
 			newValue: {
 				startTime: null,
 				endTime: null,
 				timezone: moment.tz.guess()
 			}
-		}
-	},
-	computed: {
-		timezones() {
-			return zones
 		}
 	},
 	methods: {

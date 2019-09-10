@@ -77,12 +77,14 @@ export default {
 		options() {
 			return [...this.predefinedTypes, this.customValue]
 		},
+		matchingPredefined() {
+			return this.predefinedTypes
+				.map(groups => groups.children)
+				.flat()
+				.find((type) => this.newValue === type.pattern)
+		},
 		isPredefined() {
-			const matchingPredefined = this.predefinedTypes.map(groups => groups.children).flat().find((type) => this.newValue === type.pattern)
-			if (matchingPredefined) {
-				return true
-			}
-			return false
+			return !!this.matchingPredefined
 		},
 		customValue() {
 			return {
@@ -97,9 +99,8 @@ export default {
 			}
 		},
 		currentValue() {
-			const matchingPredefined = this.predefinedTypes.map(groups => groups.children).flat().find((type) => this.newValue === type.pattern)
-			if (matchingPredefined) {
-				return matchingPredefined
+			if (this.matchingPredefined) {
+				return this.matchingPredefined
 			}
 			return {
 				icon: 'icon-settings-dark',

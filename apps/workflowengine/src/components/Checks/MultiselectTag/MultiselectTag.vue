@@ -28,8 +28,7 @@
 		:custom-label="tagLabel"
 		class="multiselect-vue" :multiple="multiple"
 		:close-on-select="false" :tag-width="60"
-		:disabled="disabled" @input="update"
-		@search-change="asyncFind">
+		:disabled="disabled" @input="update">
 		<span slot="noResult">{{ t('core', 'No results') }}</span>
 		<template #option="scope">
 			{{ tagLabel(scope.option) }}
@@ -88,11 +87,9 @@ export default {
 		searchTags().then((result) => {
 			this.tags = result
 			this.inputValObjects = this.getValueObject()
-		})
+		}).catch(console.error.bind(this))
 	},
 	methods: {
-		asyncFind(query) {
-		},
 		getValueObject() {
 			if (this.tags.length === 0) {
 				return []
@@ -118,10 +115,10 @@ export default {
 		},
 		tagLabel({ displayName, userVisible, userAssignable }) {
 			if (userVisible === false) {
-				return `${displayName} (invisible)`
+				return t('systemtags', '%s (invisible)').replace('%s', displayName)
 			}
 			if (userAssignable === false) {
-				return `${displayName} (restricted)`
+				return t('systemtags', '%s (restricted)').replace('%s', displayName)
 			}
 			return displayName
 		}

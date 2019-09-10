@@ -42,7 +42,6 @@ export default {
 	},
 	data() {
 		return {
-			valid: false,
 			newValue: []
 		}
 	},
@@ -62,16 +61,8 @@ export default {
 				this.newValue = null
 			}
 		},
-		validate() {
-			return true
-		},
 		update() {
-			if (this.validate()) {
-				this.$emit('input', this.newValue || '')
-				this.valid = false
-			} else {
-				this.valid = false
-			}
+			this.$emit('input', this.newValue || '')
 		}
 	}
 }

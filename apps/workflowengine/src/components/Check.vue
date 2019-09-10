@@ -14,8 +14,8 @@
 		<input v-else v-model="check.value" type="text"
 			:class="{ invalid: !valid }"
 			:disabled="!currentOption" :placeholder="valuePlaceholder" @input="updateCheck">
-		<Actions>
-			<ActionButton v-if="deleteVisible || !currentOption" icon="icon-delete" @click="$emit('remove')" />
+		<Actions v-if="deleteVisible || !currentOption">
+			<ActionButton icon="icon-delete" @click="$emit('remove')" />
 		</Actions>
 	</div>
 </template>
