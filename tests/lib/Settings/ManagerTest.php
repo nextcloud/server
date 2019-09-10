@@ -244,15 +244,24 @@ class ManagerTest extends TestCase {
 		$section->expects($this->once())
 			->method('getPriority')
 			->willReturn(16);
-		$this->container->expects($this->once())
+		$section2 = $this->createMock(Security\Authtokens::class);
+		$section2->expects($this->once())
+			->method('getPriority')
+			->willReturn(100);
+		$this->container->expects($this->at(0))
 			->method('query')
 			->with(Security::class)
 			->willReturn($section);
+		$this->container->expects($this->at(1))
+			->method('query')
+			->with(Security\Authtokens::class)
+			->willReturn($section2);
 
 		$settings = $this->manager->getPersonalSettings('security');
 
 		$this->assertEquals([
-			16 => [$section]
+			16 => [$section],
+			100 => [$section2],
 		], $settings);
 	}
 

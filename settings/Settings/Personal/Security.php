@@ -49,68 +49,36 @@ class Security implements ISettings {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var TwoFactorManager */
-	private $twoFactorManager;
-
-	/** @var IAuthTokenProvider */
-	private $tokenProvider;
-
 	/** @var ProviderLoader */
 	private $providerLoader;
 
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var ISession */
-	private $session;
-
-	/** @var IInitialStateService */
-	private $initialStateService;
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $uid;
-	/**
-	 *@var IConfig
-	 */
+
+	/** @var IConfig */
 	private $config;
 
 	public function __construct(IUserManager $userManager,
-								TwoFactorManager $providerManager,
-								IAuthTokenProvider $tokenProvider,
 								ProviderLoader $providerLoader,
 								IUserSession $userSession,
-								ISession $session,
 								IConfig $config,
-								IInitialStateService $initialStateService,
 								?string $UserId) {
 		$this->userManager = $userManager;
-		$this->twoFactorManager = $providerManager;
-		$this->tokenProvider = $tokenProvider;
 		$this->providerLoader = $providerLoader;
 		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->initialStateService = $initialStateService;
 		$this->uid = $UserId;
 		$this->config = $config;
 	}
 
-	/**
-	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
-	 * @since 9.1
-	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$user = $this->userManager->get($this->uid);
 		$passwordChangeSupported = false;
 		if ($user !== null) {
 			$passwordChangeSupported = $user->canChangePassword();
 		}
-
-		$this->initialStateService->provideInitialState(
-			'settings',
-			'app_tokens',
-			$this->getAppTokens()
-		);
 
 		return new TemplateResponse('settings', 'settings/personal/security', [
 			'passwordChangeSupported' => $passwordChangeSupported,
@@ -119,23 +87,11 @@ class Security implements ISettings {
 		]);
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 * @since 9.1
-	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'security';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 * @since 9.1
-	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 
@@ -157,32 +113,4 @@ class Security implements ISettings {
 			}))
 		];
 	}
-
-	private function getAppTokens(): array {
-		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
-
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
-			return [];
-		}
-		try {
-			$sessionToken = $this->tokenProvider->getToken($sessionId);
-		} catch (InvalidTokenException $ex) {
-			return [];
-		}
-
-		return array_map(function (IToken $token) use ($sessionToken) {
-			$data = $token->jsonSerialize();
-			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken;
-			if ($sessionToken->getId() === $token->getId()) {
-				$data['canDelete'] = false;
-				$data['canRename'] = false;
-				$data['current'] = true;
-			}
-			return $data;
-		}, $tokens);
-	}
-
 }

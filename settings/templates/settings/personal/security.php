@@ -104,4 +104,3 @@ if($_['passwordChangeSupported']) {
 	</ul>
 </div>
 
-<div id="security" class="section"></div>

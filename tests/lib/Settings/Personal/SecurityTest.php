@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -25,15 +24,10 @@ declare(strict_types=1);
 
 namespace Test\Settings\Personal;
 
-use OC\Authentication\Token\DefaultToken;
-use OC\Authentication\Token\IProvider as IAuthTokenProvider;
-use OC\Authentication\TwoFactorAuth\Manager as TwoFactorManager;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OC\Settings\Personal\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\IInitialStateService;
-use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -45,26 +39,14 @@ class SecurityTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var TwoFactorManager|MockObject */
-	private $twoFactorManager;
-
-	/** @var IAuthTokenProvider|MockObject */
-	private $authTokenProvider;
-
 	/** @var ProviderLoader|MockObject */
 	private $providerLoader;
 
 	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var ISession|MockObject */
-	private $session;
-
 	/** @var IConfig|MockObject */
 	private $config;
-
-	/** @var IInitialStateService|MockObject */
-	private $initialStateService;
 
 	/** @var string */
 	private $uid;
@@ -76,39 +58,21 @@ class SecurityTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->twoFactorManager = $this->createMock(TwoFactorManager::class);
-		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
 		$this->providerLoader = $this->createMock(ProviderLoader::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->session = $this->createMock(ISession::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->uid = 'test123';
 
 		$this->section = new Security(
 			$this->userManager,
-			$this->twoFactorManager,
-			$this->authTokenProvider,
 			$this->providerLoader,
 			$this->userSession,
-			$this->session,
 			$this->config,
-			$this->initialStateService,
 			$this->uid
 		);
 	}
 
 	public function testGetForm() {
-		$token1 = new DefaultToken();
-		$token1->setId(100);
-		$token2 = new DefaultToken();
-		$token2->setId(200);
-		$tokens = [
-			$token1,
-			$token2,
-		];
-		$sessionToken = new DefaultToken();
-		$sessionToken->setId(100);
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -117,40 +81,6 @@ class SecurityTest extends TestCase {
 		$user->expects($this->once())
 			->method('canChangePassword')
 			->willReturn(true);
-		$this->authTokenProvider->expects($this->once())
-			->method('getTokenByUser')
-			->with($this->uid)
-			->willReturn($tokens);
-		$this->session->expects($this->once())
-			->method('getId')
-			->willReturn('session123');
-		$this->authTokenProvider->expects($this->once())
-			->method('getToken')
-			->with('session123')
-			->willReturn($sessionToken);
-		$this->initialStateService->expects($this->once())
-			->method('provideInitialState')
-			->with('settings', 'app_tokens', [
-				[
-					'id' => 100,
-					'name' => null,
-					'lastActivity' => 0,
-					'type' => 0,
-					'canDelete' => false,
-					'current' => true,
-					'scope' => ['filesystem' => true],
-					'canRename' => false,
-				],
-				[
-					'id' => 200,
-					'name' => null,
-					'lastActivity' => 0,
-					'type' => 0,
-					'canDelete' => true,
-					'scope' => ['filesystem' => true],
-					'canRename' => true,
-				],
-			]);
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
