@@ -61,6 +61,8 @@ class ManagerTest extends TestCase {
 	protected $container;
 	/** @var MockObject|IUserSession */
 	protected $session;
+	/** @var MockObject|L10N */
+	protected $l;
 
 	protected function setUp() {
 		parent::setUp();
@@ -68,8 +70,8 @@ class ManagerTest extends TestCase {
 		$this->db = \OC::$server->getDatabaseConnection();
 		$this->container = $this->createMock(IServerContainer::class);
 		/** @var IL10N|MockObject $l */
-		$l = $this->createMock(IL10N::class);
-		$l->method('t')
+		$this->l = $this->createMock(IL10N::class);
+		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
@@ -81,7 +83,7 @@ class ManagerTest extends TestCase {
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->container,
-			$l,
+			$this->l,
 			$this->eventDispatcher,
 			$this->logger,
 			$this->session
@@ -277,7 +279,7 @@ class ManagerTest extends TestCase {
 					return $this->createMock(IOperation::class);
 				} else if($class === File::class) {
 					return $this->getMockBuilder(File::class)
-						->setConstructorArgs([$this->createMock(L10N::class), $this->createMock(IURLGenerator::class), $this->createMock(IRootFolder::class)])
+						->setConstructorArgs([$this->l, $this->createMock(IURLGenerator::class), $this->createMock(IRootFolder::class)])
 						->setMethodsExcept(['getEvents'])
 						->getMock();
 				}
@@ -302,12 +304,12 @@ class ManagerTest extends TestCase {
 		$check2 = ['class' => 'OCA\WFE\C33', 'operator' => 'eq', 'value' => 23456];
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['postDelete']);
+		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['\OCP\Files::postDelete']);
 		$this->assertSame('Test01a', $op['name']);
 		$this->assertSame('foohur', $op['operation']);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, $entity, ['postDelete']);
+		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, $entity, ['\OCP\Files::postDelete']);
 		$this->assertSame('Test02a', $op['name']);
 		$this->assertSame('barfoo', $op['operation']);
 
