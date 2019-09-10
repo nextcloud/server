@@ -93,7 +93,8 @@ OCA.Files_External.StatusManager = {
 							status: statusCode,
 							id: mountData.id,
 							error: statusMessage,
-							userProvided: response.userProvided
+							userProvided: response.userProvided,
+							authMechanism: response.authMechanism
 						};
 					}
 					afterCallback(mountData, self.mountStatus[mountData.mount_point]);
@@ -178,7 +179,7 @@ OCA.Files_External.StatusManager = {
 			if (allMountStatus.hasOwnProperty(name) && allMountStatus[name].status > 0 && allMountStatus[name].status < 7) {
 				var mountData = allMountStatus[name];
 				if (mountData.type === "system") {
-					if (mountData.userProvided) {
+					if (mountData.userProvided || mountData.authMechanism === 'password::global::user') {
 						// personal mount whit credentials problems
 						this.showCredentialsDialog(name, mountData);
 					} else {

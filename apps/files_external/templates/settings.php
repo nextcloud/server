@@ -188,7 +188,6 @@
 	<?php endif; ?>
 </form>
 
-<?php if ($canCreateMounts): ?>
 <div class="followupsection">
 	<form autocomplete="false" action="#"
 		  id="global_credentials">
@@ -207,4 +206,3 @@
 		<input type="submit" value="<?php p($l->t('Save')) ?>"/>
 	</form>
 </div>
-<?php endif; ?>
