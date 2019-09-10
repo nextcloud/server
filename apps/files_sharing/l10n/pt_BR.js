@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Compartilhamentos serão mostrados aqui",
     "Restore share" : "Restaurar compartilhamento",
     "Something happened. Unable to restore the share." : "Algo aconteceu. Não foi possível restaurar o compartilhamento.",
+    "This will stop your current uploads." : "Isso interromperá seus envios atuais.",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Baixar",
     "Delete" : "Excluir",
