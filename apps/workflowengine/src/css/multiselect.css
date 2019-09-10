@@ -1,0 +1,11 @@
+.multiselect::v-deep .multiselect__single {
+	display: flex;
+}
+
+.option__icon {
+	min-width: 25px;
+}
+
+input, .multiselect {
+	width: 100%;
+}
