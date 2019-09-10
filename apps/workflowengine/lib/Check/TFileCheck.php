@@ -42,7 +42,7 @@ trait TFileCheck {
 	 * @param string $path
 	 * @since 18.0.0
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
+	public function setFileInfo(IStorage $storage, string $path) {
 		$this->storage = $storage;
 		$this->path = $path;
 	}

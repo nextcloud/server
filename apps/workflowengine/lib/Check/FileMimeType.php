@@ -58,7 +58,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @param IStorage $storage
 	 * @param string $path
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
+	public function setFileInfo(IStorage $storage, string $path) {
 		$this->_setFileInfo($storage, $path);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
 			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
