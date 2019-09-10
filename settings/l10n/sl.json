@@ -1,4 +1,7 @@
 { "translations": {
+    "You added {user} to group {group}" : "Uporabnika {user} ste dodali v skupino {group}",
+    "An administrator added you to group {group}" : "Administrator vas je dodal v skupino {group}",
+    "An administrator added {user} to group {group}" : "Administrator je dodal uporabnika {user} v skupino {group}",
     "{actor} changed your password" : "{actor} spremeni moje geslo",
     "You changed your password" : "Spremenili ste vaše geslo",
     "Your password was reset by an administrator" : "Skrbnik sistema je ponastavil staro geslo",
