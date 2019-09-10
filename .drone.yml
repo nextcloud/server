@@ -348,6 +348,10 @@ steps:
   image: nextcloudci/php7.3:php7.3-1
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+- name: nodb-php7.4
+  image: nextcloudci/php7.4:1
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
 services:
 - name: cache
@@ -380,6 +384,10 @@ steps:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.3
   image: nextcloudci/php7.3:php7.3-1
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+- name: sqlite-php7.4
+  image: nextcloudci/php7.4:1
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
