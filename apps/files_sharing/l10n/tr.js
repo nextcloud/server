@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Paylaşımlar burada görüntülenir",
     "Restore share" : "Paylaşımı geri yükle",
     "Something happened. Unable to restore the share." : "Bir sorun çıktı. Paylaşım geri yüklenemedi.",
+    "This will stop your current uploads." : "Bu işlem geçerli yüklemeleri durduracak.",
     "Move or copy" : "Taşı ya da kopyala",
     "Download" : "İndir",
     "Delete" : "Sil",
