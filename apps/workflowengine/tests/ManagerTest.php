@@ -26,6 +26,7 @@ use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -276,7 +277,7 @@ class ManagerTest extends TestCase {
 					return $this->createMock(IOperation::class);
 				} else if($class === File::class) {
 					return $this->getMockBuilder(File::class)
-						->setConstructorArgs([$this->createMock(L10N::class), $this->createMock(IURLGenerator::class)])
+						->setConstructorArgs([$this->createMock(L10N::class), $this->createMock(IURLGenerator::class), $this->createMock(IRootFolder::class)])
 						->setMethodsExcept(['getEvents'])
 						->getMock();
 				}
