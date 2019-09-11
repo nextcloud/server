@@ -661,7 +661,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Spreed\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
 				->setMethods(array('canAccessShare'))
 				->getMock();
 			$helper->method('canAccessShare')
@@ -669,7 +669,7 @@ class ShareAPIControllerTest extends TestCase {
 				->willReturn($canAccessShareByHelper);
 
 			$this->serverContainer->method('query')
-				->with('\OCA\Spreed\Share\Helper\ShareAPIController')
+				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}
 
@@ -1306,7 +1306,7 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Spreed\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
 			->setMethods(array('createShare'))
 			->getMock();
 		$helper->method('createShare')
@@ -1329,7 +1329,7 @@ class ShareAPIControllerTest extends TestCase {
 			));
 
 		$this->serverContainer->method('query')
-			->with('\OCA\Spreed\Share\Helper\ShareAPIController')
+			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
 		$this->shareManager->method('createShare')
@@ -1429,7 +1429,7 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Spreed\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
 			->setMethods(array('createShare'))
 			->getMock();
 		$helper->method('createShare')
@@ -1447,7 +1447,7 @@ class ShareAPIControllerTest extends TestCase {
 			));
 
 		$this->serverContainer->method('query')
-			->with('\OCA\Spreed\Share\Helper\ShareAPIController')
+			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
 		$this->shareManager->expects($this->never())->method('createShare');
@@ -3342,7 +3342,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Spreed\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
 				->setMethods(array('formatShare'))
 				->getMock();
 			$helper->method('formatShare')
@@ -3350,7 +3350,7 @@ class ShareAPIControllerTest extends TestCase {
 				->willReturn($formatShareByHelper);
 
 			$this->serverContainer->method('query')
-				->with('\OCA\Spreed\Share\Helper\ShareAPIController')
+				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}
 
