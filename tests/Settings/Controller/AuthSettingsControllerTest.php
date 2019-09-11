@@ -34,6 +34,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -49,6 +50,8 @@ class AuthSettingsControllerTest extends TestCase {
 	private $tokenProvider;
 	/** @var ISession|MockObject */
 	private $session;
+	/**@var IUserSession|MockObject */
+	private $userSession;
 	/** @var ISecureRandom|MockObject */
 	private $secureRandom;
 	/** @var IManager|MockObject */
@@ -63,6 +66,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
@@ -76,6 +80,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->session,
 			$this->secureRandom,
 			$this->uid,
+			$this->userSession,
 			$this->activityManager,
 			$this->remoteWipe,
 			$logger
