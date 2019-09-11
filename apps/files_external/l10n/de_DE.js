@@ -34,7 +34,7 @@ OC.L10N.register(
     "There was an error with message: " : "Es ist ein Fehler mit folgender Meldung aufgetreten:",
     "External mount error" : "Fehler beim Einbinden des externen Speichers",
     "external-storage" : "Externer Speicher",
-    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Es konnte keine Liste der Windows-Netzwerklaufwerke empfangen werden: Leere Antwort vom Server",
+    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Es konnte keine Liste der Windows-Netzlaufwerke empfangen werden: Leere Antwort vom Server",
     "Please enter the credentials for the {mount} mount" : "Bitte geben Sie die Anmeldeinformationen für den {mount} Speicher an",
     "Username" : "Benutzername",
     "Password" : "Passwort",
