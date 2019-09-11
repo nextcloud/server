@@ -31,6 +31,9 @@ $invert: luma($color-primary) > 0.6;
 }
 
 @if ($invert) {
+	// too bright, use dark text to mix the primary
+	$color-primary-light: mix($color-primary, $color-main-text, 10%);
+
 	#appmenu:not(.inverted) svg {
 		filter: invert(1);
 	}

@@ -40,6 +40,7 @@ $color-background-dark: nc-darken($color-main-background, 7%) !default;
 $color-background-darker: nc-darken($color-main-background, 14%) !default;
 
 $color-primary: #0082c9 !default;
+$color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
 $color-primary-text: #ffffff !default;
 // do not use nc-darken/lighten in case of overriding because
 // primary-text is independent of color-main-text
