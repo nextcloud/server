@@ -21,25 +21,37 @@
 
 namespace OCA\WorkflowEngine\AppInfo;
 
+use OCA\WorkflowEngine\Manager;
 use OCP\Template;
 use OCA\WorkflowEngine\Controller\RequestTime;
-use OCA\WorkflowEngine\Controller\FlowOperations;
+use OCP\WorkflowEngine\IEntity;
+use OCP\WorkflowEngine\IOperation;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends \OCP\AppFramework\App {
 
-	public function __construct() {
-		parent::__construct('workflowengine');
+	const APP_ID = 'workflowengine';
 
-		$this->getContainer()->registerAlias('FlowOperationsController', FlowOperations::class);
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
+	/** @var Manager */
+	protected $manager;
+
+	public function __construct() {
+		parent::__construct(self::APP_ID);
+
 		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
+
+		$this->dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$this->manager = $this->getContainer()->query(Manager::class);
 	}
 
 	/**
 	 * Register all hooks and listeners
 	 */
 	public function registerHooksAndListeners() {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener(
+		$this->dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
 				if (!function_exists('style')) {
@@ -47,7 +59,7 @@ class Application extends \OCP\AppFramework\App {
 					class_exists(Template::class, true);
 				}
 
-				style('workflowengine', [
+				style(self::APP_ID, [
 					'admin',
 				]);
 
@@ -59,11 +71,34 @@ class Application extends \OCP\AppFramework\App {
 					'systemtags/systemtagscollection',
 				]);
 
-				script('workflowengine', [
+				script(self::APP_ID, [
 					'workflowengine',
 				]);
 			},
 			-100
 		);
+	}
+
+	public function registerRuleListeners() {
+		$configuredEvents = $this->manager->getAllConfiguredEvents();
+
+		foreach ($configuredEvents as $operationClass => $events) {
+			foreach ($events as $entityClass => $eventNames) {
+				array_map(function (string $eventName) use ($operationClass, $entityClass) {
+					$this->dispatcher->addListener(
+						$eventName,
+						function (GenericEvent $event) use ($eventName, $operationClass, $entityClass) {
+							$ruleMatcher = $this->manager->getRuleMatcher();
+							/** @var IEntity $entity */
+							$entity = $this->getContainer()->query($entityClass);
+							$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
+							/** @var IOperation $operation */
+							$operation = $this->getContainer()->query($operationClass);
+							$operation->onEvent($eventName, $event, $ruleMatcher);
+						}
+					);
+				}, $eventNames);
+			}
+		}
 	}
 }

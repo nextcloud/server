@@ -22,12 +22,17 @@
 namespace OCA\WorkflowEngine\Check;
 
 
+use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\WorkflowEngine\IFileCheck;
 
-class FileMimeType extends AbstractStringCheck {
+class FileMimeType extends AbstractStringCheck implements IFileCheck {
+	use TFileCheck {
+		setFileInfo as _setFileInfo;
+	}
 
 	/** @var array */
 	protected $mimeType;
@@ -37,12 +42,6 @@ class FileMimeType extends AbstractStringCheck {
 
 	/** @var IMimeTypeDetector */
 	protected $mimeTypeDetector;
-
-	/** @var IStorage */
-	protected $storage;
-
-	/** @var string */
-	protected $path;
 
 	/**
 	 * @param IL10N $l
@@ -59,9 +58,8 @@ class FileMimeType extends AbstractStringCheck {
 	 * @param IStorage $storage
 	 * @param string $path
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
-		$this->storage = $storage;
-		$this->path = $path;
+	public function setFileInfo(IStorage $storage, string $path) {
+		$this->_setFileInfo($storage, $path);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
 			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
 			$this->mimeType[$this->storage->getId()][$this->path] = null;
@@ -194,5 +192,9 @@ class FileMimeType extends AbstractStringCheck {
 			$this->request->getPathInfo() === '/webdav' ||
 			strpos($this->request->getPathInfo(), '/webdav/') === 0
 		);
+	}
+
+	public function supportedEntities(): array {
+		return [ File::class ];
 	}
 }
