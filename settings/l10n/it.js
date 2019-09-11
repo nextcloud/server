@@ -712,6 +712,7 @@ OC.L10N.register(
     "Credentials" : "Credenziali",
     "SMTP Username" : "Nome utente SMTP",
     "SMTP Password" : "Password SMTP",
+    "Save" : "Salva",
     "Test email settings" : "Prova impostazioni email",
     "Send email" : "Invia email",
     "Security & setup warnings" : "Avvisi di sicurezza e di configurazione",
