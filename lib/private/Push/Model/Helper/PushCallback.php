@@ -58,11 +58,11 @@ class PushCallback extends PushRecipients implements IPushCallback, JsonSerializ
 	 * PushCallback constructor.
 	 *
 	 * @param string $app
-	 * @param $source
+	 * @param string $source
 	 *
 	 * @since 18.0.0
 	 */
-	public function __construct($app = '', $source = '') {
+	public function __construct(string $app = '', string $source = '') {
 		$this->setApp($app);
 		$this->setSource($source);
 	}

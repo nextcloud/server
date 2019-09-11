@@ -65,7 +65,7 @@ interface IPushManager {
 	 * @since 18.0.0
 	 *
 	 */
-	public function registerPushApp(IPushService $pushService, IPushHelper $pushHelper): void;
+	public function registerPushService(IPushService $pushService, IPushHelper $pushHelper): void;
 
 
 	/**
