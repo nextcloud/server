@@ -149,7 +149,7 @@ const store = new Vuex.Store({
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {
-				return state.checks
+				return Object.values(state.checks)
 					.filter((check) => check.supportedEntities.indexOf(entity) > -1 || check.supportedEntities.length === 0)
 					.map((check) => state.plugins.checks[check.id])
 					.reduce((obj, item) => {
