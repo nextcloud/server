@@ -31,6 +31,7 @@ use OCP\IContainer;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
+use function get_class;
 
 class EventDispatcher implements IEventDispatcher {
 
@@ -72,6 +73,10 @@ class EventDispatcher implements IEventDispatcher {
 	public function dispatch(string $eventName,
 							 Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);
+	}
+
+	public function dispatchTyped(Event $event): void {
+		$this->dispatch(get_class($event), $event);
 	}
 
 	/**
