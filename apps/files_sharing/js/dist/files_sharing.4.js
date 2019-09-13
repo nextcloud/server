@@ -1,4 +1,4 @@
-(window.webpackJsonpFilesSharing=window.webpackJsonpFilesSharing||[]).push([[4],{14:function(e,o,i){"use strict";i.r(o);var n=i(16),l=i(18),r=i(28),u=i(31),s=i.n(u),a={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(32).a}},d=i(56),c=Object(d.a)(a,function(){var t=this.$createElement,e=this._self._c||t;return this.fileId?e("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()},[],!1,null,null,null).exports;i.d(o,"Vue",function(){return n.default}),i.d(o,"View",function(){return c}),
+(window.webpackJsonpFilesSharing=window.webpackJsonpFilesSharing||[]).push([[4],{14:function(e,o,i){"use strict";i.r(o);var n=i(16),l=i(18),r=i(28),u=i(31),s=i.n(u),a={name:"CollaborationView",computed:{fileId:function(){return this.$root.model&&this.$root.model.id?""+this.$root.model.id:null},filename:function(){return this.$root.model&&this.$root.model.name?""+this.$root.model.name:""}},components:{CollectionList:i(32).a}},d=i(56),c=Object(d.a)(a,(function(){var t=this.$createElement,e=this._self._c||t;return this.fileId?e("collection-list",{attrs:{type:"file",id:this.fileId,name:this.filename}}):this._e()}),[],!1,null,null,null).exports;i.d(o,"Vue",(function(){return n.default})),i.d(o,"View",(function(){return c})),
 /*
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -21,4 +21,4 @@
  *
  */
 n.default.prototype.t=t,n.default.component("PopoverMenu",r.PopoverMenu),n.default.directive("ClickOutside",s.a),r.Tooltip.options.defaultHtml=!1,n.default.directive("Tooltip",r.Tooltip),n.default.use(l.a)}}]);
-//# sourceMappingURL=files_sharing.4.js.map?v=c1ca7d7f891682cc7e47
+//# sourceMappingURL=files_sharing.4.js.map?v=5596bb6abd38d5a9e62c
