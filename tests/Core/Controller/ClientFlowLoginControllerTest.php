@@ -159,7 +159,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('oauth.state')
-			->willReturn('OauthStateToken');
+			->willReturn(null);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
@@ -182,7 +182,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => 'StateToken',
 				'serverHost' => 'https://example.com',
-				'oauthState' => 'OauthStateToken',
 			],
 			'guest'
 		);
@@ -223,35 +222,19 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('get')
 			->with('oauth.state')
 			->willReturn('OauthStateToken');
-		$this->defaults
+		$this->urlGenerator
 			->expects($this->once())
-			->method('getName')
-			->willReturn('ExampleCloud');
-		$this->request
-			->expects($this->once())
-			->method('getServerHost')
-			->willReturn('example.com');
-		$this->request
-			->method('getServerProtocol')
-			->willReturn('https');
+			->method('linkToRoute')
+			->with(
+				'core.ClientFlowLogin.grantPage',
+				[
+					'stateToken' => 'StateToken',
+					'clientIdentifier' => 'MyClientIdentifier',
+					'oauthState' => 'OauthStateToken'
+				])
+			->willReturn('grantURL');
 
-		$expected = new StandaloneTemplateResponse(
-			'core',
-			'loginflow/authpicker',
-			[
-				'client' => 'My external service',
-				'clientIdentifier' => 'MyClientIdentifier',
-				'instanceName' => 'ExampleCloud',
-				'urlGenerator' => $this->urlGenerator,
-				'stateToken' => 'StateToken',
-				'serverHost' => 'https://example.com',
-				'oauthState' => 'OauthStateToken',
-			],
-			'guest'
-		);
-		$csp = new Http\ContentSecurityPolicy();
-		$csp->addAllowedFormActionDomain('https://example.com/redirect.php');
-		$expected->setContentSecurityPolicy($csp);
+		$expected = new Http\RedirectResponse('grantURL');
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage('MyClientIdentifier'));
 	}
 

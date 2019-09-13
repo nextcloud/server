@@ -41,6 +41,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
@@ -166,7 +167,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $clientIdentifier
 	 *
-	 * @return StandaloneTemplateResponse
+	 * @return StandaloneTemplateResponse|RedirectResponse
 	 */
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
@@ -201,6 +202,19 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
 
+		$oauthState = $this->session->get('oauth.state');
+		if (!empty($oauthState)) {
+			$targetUrl = $this->urlGenerator->linkToRoute(
+				'core.ClientFlowLogin.grantPage',
+				[
+					'stateToken' => $stateToken,
+					'clientIdentifier' => $clientIdentifier,
+					'oauthState' => $oauthState
+				]
+			);
+			return new RedirectResponse($targetUrl);
+		}
+
 		$csp = new Http\ContentSecurityPolicy();
 		if ($client) {
 			$csp->addAllowedFormActionDomain($client->getRedirectUri());
@@ -218,7 +232,6 @@ class ClientFlowLoginController extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'serverHost' => $this->getServerPath(),
-				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
 		);
