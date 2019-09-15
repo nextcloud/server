@@ -138,7 +138,6 @@ export default {
 
 		components: {},
 		mimeGroups: {},
-		mimesAliases: {},
 		registeredHandlers: [],
 
 		currentIndex: 0,
@@ -170,12 +169,20 @@ export default {
 
 	watch: {
 		// make sure any late external app can register handlers
+		// should not happens if external apps do not wait for
+		// the DOMContentLoaded event!
 		handlers: function() {
 			// make sure the viewer is done registering handlers
 			// so we only register handlers added AFTER the init
 			// of the viewer
 			if (this.isLoaded) {
-				this.registerHandler(this.handlers[this.handlers.length - 1])
+				console.error('Please do NOT wait for the DOMContentLoaded before registering your viewer handler')
+				const handler = this.handlers[this.handlers.length - 1]
+				// register all primary components mimes
+				this.registerHandler(handler)
+				// then register aliases. We need to have the components
+				// first so we can bind the alias to them.
+				this.registerHandlerAlias(handler)
 			}
 		}
 	},
@@ -183,8 +190,14 @@ export default {
 	beforeMount() {
 		// register on load
 		document.addEventListener('DOMContentLoaded', event => {
+			// register all primary components mimes
 			this.handlers.forEach(handler => {
 				this.registerHandler(handler)
+			})
+			// then register aliases. We need to have the components
+			// first so we can bind the alias to them.
+			this.handlers.forEach(handler => {
+				this.registerHandlerAlias(handler)
 			})
 			this.isLoaded = true
 		})
@@ -220,7 +233,6 @@ export default {
 			}
 
 			// retrieve, sort and store file List
-
 			let fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, fileName))
 
 			let mime = fileList.find(file => file.name === fileName).mimetype
@@ -252,7 +264,6 @@ export default {
 			fileInfo = this.fileList[this.currentIndex]
 
 			// override mimetype if existing alias
-			mime = this.getAliasIfAny(mime)
 			if (!this.components[mime]) {
 				mime = mime.split('/')[0]
 			}
@@ -292,7 +303,7 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			// override mimetype if existing alias
-			const mime = this.getAliasIfAny(fileInfo.mimetype)
+			const mime = fileInfo.mimetype
 			this.currentFile = new File(fileInfo, mime, this.components[mime])
 			this.updatePreviousNext()
 		},
@@ -305,7 +316,7 @@ export default {
 			const next = this.fileList[this.currentIndex + 1]
 
 			if (prev) {
-				const mime = this.getAliasIfAny(prev.mimetype)
+				const mime = prev.mimetype
 				if (this.components[mime]) {
 					this.previousFile = new File(prev, mime, this.components[mime])
 				}
@@ -315,7 +326,7 @@ export default {
 			}
 
 			if (next) {
-				const mime = this.getAliasIfAny(next.mimetype)
+				const mime = next.mimetype
 				if (this.components[mime]) {
 					this.nextFile = new File(next, mime, this.components[mime])
 				}
@@ -348,47 +359,21 @@ export default {
 				return
 			}
 
-			// checking if no valid mimes data and no mimes Aliases
+			// checking if no valid mimes data but alias. If so, skipping...
+			if (!(handler.mimes && Array.isArray(handler.mimes)) && handler.mimesAliases) {
+				return
+			}
+
+			// Nothing available to process! Failure
 			if (!(handler.mimes && Array.isArray(handler.mimes)) && !handler.mimesAliases) {
 				console.error(`The following handler doesn't have a valid mime array`, handler)
 				return
 			}
 
-			if (handler.mimesAliases && typeof handler.mimesAliases !== 'object') {
-				console.error(`The following handler doesn't have a valid mimesAliases object`, handler)
-				return
-
-			}
-
-			// checking valid handler component data AND no alias (we can register alias without component)
-			if ((!handler.component || typeof handler.component !== 'object') && !handler.mimesAliases) {
+			// checking valid handler component data
+			if ((!handler.component || typeof handler.component !== 'object')) {
 				console.error(`The following handler doesn't have a valid component`, handler)
 				return
-			}
-
-			const register = ({ mime, handler }) => {
-				// unregistered handler, let's go!
-				OCA.Files.fileActions.registerAction({
-					name: 'view',
-					displayName: t('viewer', 'View'),
-					mime: mime,
-					permissions: OC.PERMISSION_READ,
-					actionHandler: this.openFile
-				})
-				OCA.Files.fileActions.setDefault(mime, 'view')
-
-				// register groups
-				if (handler.group) {
-					this.mimeGroups[mime] = handler.group
-					// init if undefined
-					if (!this.mimeGroups[handler.group]) {
-						this.mimeGroups[handler.group] = []
-					}
-					this.mimeGroups[handler.group].push(mime)
-				}
-
-				// set the handler as registered
-				this.registeredHandlers.push(handler.id)
 			}
 
 			// parsing mimes registration
@@ -400,27 +385,74 @@ export default {
 						return
 					}
 
-					register({ mime, handler })
+					// register file action and groups
+					this.registerAction({ mime, group: handler.group })
 
 					// register mime's component
 					this.components[mime] = handler.component
 					Vue.component(handler.component.name, handler.component)
+
+					// set the handler as registered
+					this.registeredHandlers.push(handler.id)
 				})
 			}
+		},
 
+		registerHandlerAlias(handler) {
 			// parsing aliases registration
 			if (handler.mimesAliases) {
 				Object.keys(handler.mimesAliases).forEach(mime => {
+
+					if (handler.mimesAliases && typeof handler.mimesAliases !== 'object') {
+						console.error(`The following handler doesn't have a valid mimesAliases object`, handler)
+						return
+
+					}
+
+					// this is the targeted alias
+					const alias = handler.mimesAliases[mime]
+
 					// checking valid mime
 					if (this.components[mime]) {
 						console.error(`The following mime is already registered`, mime, handler)
 						return
 					}
+					if (!this.components[alias]) {
+						console.error(`The requested alias does not exists`, alias, mime, handler)
+						return
+					}
 
-					register({ mime, handler })
+					// register file action and groups if the request alias had a group
+					this.registerAction({ mime, group: this.mimeGroups[alias] })
 
-					this.mimesAliases[mime] = handler.mimesAliases[mime]
+					// register mime's component
+					this.components[mime] = this.components[alias]
+
+					// set the handler as registered
+					this.registeredHandlers.push(handler.id)
 				})
+			}
+		},
+
+		registerAction({ mime, group }) {
+			// unregistered handler, let's go!
+			OCA.Files.fileActions.registerAction({
+				name: 'view',
+				displayName: t('viewer', 'View'),
+				mime: mime,
+				permissions: OC.PERMISSION_READ,
+				actionHandler: this.openFile
+			})
+			OCA.Files.fileActions.setDefault(mime, 'view')
+
+			// register groups
+			if (group) {
+				this.mimeGroups[mime] = group
+				// init if undefined
+				if (!this.mimeGroups[group]) {
+					this.mimeGroups[group] = []
+				}
+				this.mimeGroups[group].push(mime)
 			}
 		},
 
@@ -524,18 +556,6 @@ export default {
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
 			}
-		},
-
-		/**
-		 * Return the alias if exists
-		 *
-		 * @param {String} mime the mime type
-		 * @returns {String} the mime type or the mime alias
-		 */
-		getAliasIfAny(mime) {
-			return this.mimesAliases[mime]
-				? this.mimesAliases[mime]
-				: mime
 		}
 	}
 }
