@@ -149,34 +149,6 @@ class PreviewManager implements IPreview {
 	}
 
 	/**
-	 * return a preview of a file
-	 *
-	 * @param string $file The path to the file where you want a thumbnail from
-	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
-	 * @return \OCP\IImage
-	 * @deprecated 11 Use getPreview
-	 */
-	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
-		try {
-			$userRoot = $this->rootFolder->getUserFolder($this->userId)->getParent();
-			$node = $userRoot->get($file);
-			if (!($file instanceof File)) {
-				throw new NotFoundException();
-			}
-
-			$preview = $this->getPreview($node, $maxX, $maxY);
-		} catch (\Exception $e) {
-			return new \OC_Image();
-		}
-
-		$previewImage = new \OC_Image();
-		$previewImage->loadFromData($preview->getContent());
-		return $previewImage;
-	}
-
-	/**
 	 * Returns a preview of a file
 	 *
 	 * The cache is searched first and if nothing usable was found then a preview is
