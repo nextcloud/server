@@ -33,6 +33,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
+use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -74,6 +75,13 @@ class HookManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $syncService */
+		$defaults = $this->getMockBuilder(Defaults::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$defaults->expects($this->once())->method('getColorPrimary')->willReturn('#745bca');
+
 		/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject $cal */
 		$cal = $this->getMockBuilder(CalDavBackend::class)
 			->disableOriginalConstructor()
@@ -81,7 +89,10 @@ class HookManagerTest extends TestCase {
 		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
-			'personal', ['{DAV:}displayname' => 'Personal']);
+			'personal', [
+				'{DAV:}displayname' => 'Personal',
+				'{http://apple.com/ns/ical/}calendar-color' => '#745bca'
+			]);
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder(CardDavBackend::class)
@@ -92,7 +103,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -112,6 +123,11 @@ class HookManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $syncService */
+		$defaults = $this->getMockBuilder(Defaults::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject $cal */
 		$cal = $this->getMockBuilder(CalDavBackend::class)
 			->disableOriginalConstructor()
@@ -126,7 +142,7 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$card->expects($this->never())->method('createAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -146,6 +162,12 @@ class HookManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $syncService */
+		$defaults = $this->getMockBuilder(Defaults::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$defaults->expects($this->once())->method('getColorPrimary')->willReturn('#745bca');
+
 		/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject $cal */
 		$cal = $this->getMockBuilder(CalDavBackend::class)
 			->disableOriginalConstructor()
@@ -153,7 +175,10 @@ class HookManagerTest extends TestCase {
 		$cal->expects($this->once())->method('getCalendarsForUserCount')->willReturn(0);
 		$cal->expects($this->once())->method('createCalendar')->with(
 			'principals/users/newUser',
-			'personal', ['{DAV:}displayname' => 'Personal']);
+			'personal', [
+				'{DAV:}displayname' => 'Personal',
+				'{http://apple.com/ns/ical/}calendar-color' => '#745bca'
+			]);
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $card */
 		$card = $this->getMockBuilder(CardDavBackend::class)
@@ -164,7 +189,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
 		$hm->firstLogin($user);
 	}
 
@@ -186,6 +211,11 @@ class HookManagerTest extends TestCase {
 		$syncService->expects($this->once())
 			->method('deleteUser');
 
+		/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject $syncService */
+		$defaults = $this->getMockBuilder(Defaults::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject $cal */
 		$cal = $this->getMockBuilder(CalDavBackend::class)
 			->disableOriginalConstructor()
@@ -205,7 +235,7 @@ class HookManagerTest extends TestCase {
 		]);
 		$card->expects($this->once())->method('deleteAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
 		$hm->preDeleteUser(['uid' => 'newUser']);
 		$hm->postDeleteUser(['uid' => 'newUser']);
 	}
