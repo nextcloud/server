@@ -162,7 +162,8 @@ class HookManager {
 				try {
 					$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
 						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
-						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary()
+						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
+						'components' => 'VEVENT'
 					]);
 				} catch (\Exception $ex) {
 					\OC::$server->getLogger()->logException($ex);
