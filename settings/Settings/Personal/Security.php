@@ -46,6 +46,9 @@ use OCP\IConfig;
 
 class Security implements ISettings {
 
+	/** @var IInitialStateService */
+	private $initialStateService;
+
 	/** @var IUserManager */
 	private $userManager;
 
@@ -61,11 +64,13 @@ class Security implements ISettings {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IUserManager $userManager,
+	public function __construct(IInitialStateService $initialStateService,
+								IUserManager $userManager,
 								ProviderLoader $providerLoader,
 								IUserSession $userSession,
 								IConfig $config,
 								?string $UserId) {
+		$this->initialStateService = $initialStateService;
 		$this->userManager = $userManager;
 		$this->providerLoader = $providerLoader;
 		$this->userSession = $userSession;
@@ -80,11 +85,18 @@ class Security implements ISettings {
 			$passwordChangeSupported = $user->canChangePassword();
 		}
 
+		$this->initialStateService->provideInitialState(
+			'settings',
+			'can_create_app_token',
+			$this->userSession->getImpersonatingUserID() !== null
+		);
+
 		return new TemplateResponse('settings', 'settings/personal/security', [
 			'passwordChangeSupported' => $passwordChangeSupported,
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
 			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
+
 	}
 
 	public function getSection(): string {
