@@ -80,18 +80,6 @@ interface IPreview {
 	public function hasProviders();
 
 	/**
-	 * Return a preview of a file
-	 * @param string $file The path to the file where you want a thumbnail from
-	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
-	 * @return \OCP\IImage
-	 * @since 6.0.0
-	 * @deprecated 11 Use getPreview
-	 */
-	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false);
-
-	/**
 	 * Returns a preview of a file
 	 *
 	 * The cache is searched first and if nothing usable was found then a preview is
