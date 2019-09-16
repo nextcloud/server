@@ -133,7 +133,7 @@ class LoginController extends Controller {
 		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
-		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+		$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		return $response;
 	}
 
