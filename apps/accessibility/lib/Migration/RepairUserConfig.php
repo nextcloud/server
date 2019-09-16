@@ -22,6 +22,7 @@ declare (strict_types = 1);
 
 namespace OCA\Accessibility\Migration;
 
+use OCA\Accessibility\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -29,9 +30,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RepairUserConfig implements IRepairStep {
-
-	/** @var string */
-	private const APP_NAME = 'accessibility';
 
 	/** @var IUserManager */
 	protected $userManager;
@@ -72,13 +70,13 @@ class RepairUserConfig implements IRepairStep {
 	public function run(IOutput $output) {
 		$output->startProgress();
 		$this->userManager->callForSeenUsers(function(IUser $user) use ($output) {
-			$theme = $this->config->getUserValue($user->getUID(), self::APP_NAME, 'theme', false);
+			$theme = $this->config->getUserValue($user->getUID(), Application::APP_NAME, 'theme', false);
 			if ($theme === 'themedark') {
-				$this->config->setUserValue($user->getUID(), self::APP_NAME, 'theme', 'dark');
+				$this->config->setUserValue($user->getUID(), Application::APP_NAME, 'theme', 'dark');
 			}
 			if ($theme === 'themehighcontrast') {
-				$this->config->setUserValue($user->getUID(), self::APP_NAME, 'highcontrast', 'highcontrast');
-				$this->config->deleteUserValue($user->getUID(), self::APP_NAME, 'theme');
+				$this->config->setUserValue($user->getUID(), Application::APP_NAME, 'highcontrast', 'highcontrast');
+				$this->config->deleteUserValue($user->getUID(), Application::APP_NAME, 'theme');
 			}
 			$output->advance();
 		});
