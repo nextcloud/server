@@ -14,9 +14,6 @@ OC.L10N.register(
     "Name" : "שם",
     "Actions" : "פעולולת",
     "Deleted" : "נמחק",
-    "Delete" : "מחיקה",
-    "Couldn't delete %s permanently" : "לא ניתן למחוק את %s לצמיתות",
-    "Couldn't restore %s" : "לא ניתן לשחזר את %s",
-    "Error" : "שגיאה"
+    "Delete" : "מחיקה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

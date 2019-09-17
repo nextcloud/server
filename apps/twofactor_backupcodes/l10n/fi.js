@@ -16,11 +16,10 @@ OC.L10N.register(
     "Backup code" : "Varakoodi",
     "Use backup code" : "Käytä varakoodia",
     "Two factor backup codes" : "Kaksivaiheiden tunnistautumisen varakoodit",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Varakoodit on luotu. {{used}}/{{total}} koodia on käytetty.",
-    "Nextcloud backup codes" : "Nextcloud-varakoodit",
     "activated" : "aktivoitu",
     "updated" : "päivitetty",
     "created" : "luotu",
-    "destroyed" : "tuhottu"
+    "destroyed" : "tuhottu",
+    "Nextcloud backup codes" : "Nextcloud-varakoodit"
 },
 "nplurals=2; plural=(n != 1);");

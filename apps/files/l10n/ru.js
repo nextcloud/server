@@ -162,15 +162,14 @@ OC.L10N.register(
     "Deleted shares" : "Удаленные общие ресурсы",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
-    "Target folder" : "Целевой каталог",
     "File handling" : "Управление файлами",
     "Maximum upload size" : "Максимальный размер загружаемого файла",
     "max. possible: " : "макс. возможно: ",
     "Save" : "Сохранить",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "В режиме PHP-FPM применение изменений может занять до 5 минут.",
     "Missing permissions to edit from here." : "Отсутствуют права на внесение здесь изменений.",
-    "%s of %s used" : "использовано %s из %s",
     "Cancel upload" : "Отменить загрузку",
+    "%s of %s used" : "использовано %s из %s",
     "%1$s%% of %2$s used" : "использовано %1$s%% из %2$s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

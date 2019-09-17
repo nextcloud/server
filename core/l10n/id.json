@@ -202,25 +202,13 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Tidak dapat mengirim email karena tidak ada alamat email untuk nama pengguna ini. Silahkan hubungi administrator Anda.",
     "Couldn't send reset email. Please make sure your username is correct." : "Tidak dapat menyetel ulang email. Mohon pastikan nama pengguna Anda benar.",
-    "Updated \"%s\" to %s" : "Terbaru \"%s\" sampai %s",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Ada permasalahan dengan pengecekan integrasi kode. Informasi selanjutnya…</a>",
     "Dismiss" : "Buang",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Sebuah tautan untuk setel ulang kata sandi Anda telah dikirim ke email Anda. Jika Anda tidak menerima dalam jangka waktu yang wajar, periksa folder spam/sampah Anda.<br>Jika tidak ada, tanyakan pada administrator Anda.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Berkas anda terenkripsi. Tidak ada jalan untuk mendapatkan kembali data anda setelah kata sandi disetel ulang.<br />Jika anda tidak yakin, harap hubungi administrator anda sebelum melanjutkannya. <br />Apa anda ingin melanjutkannya?",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} dibagikan lewat tautan",
-    "{sharee} (group)" : "{sharee} (grup)",
-    "{sharee} (remote)" : "{sharee} (remote)",
-    "{sharee} (email)" : "{sharee} (surel)",
-    "The specified document has not been found on the server." : "Dokumen yang diminta tidak tersedia pada server.",
-    "You can click here to return to %s." : "Anda dapat klik disini unutk kembali ke %s.",
     "SQLite will be used as database." : "SQLite akan digunakan sebagai basis data.",
     "For larger installations we recommend to choose a different database backend." : "Untuk instalasi yang lebih besar, kami menyarankan untuk memilih backend basis data yang berbeda.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Terutama saat menggunakan klien desktop untuk sinkronisasi berkas, penggunaan SQLite tidak disarankan.",
     "Wrong password." : "Sandi salah.",
-    "New Password" : "Kata sandi Baru",
-    "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Keamanan tambahan diaktifkan untuk akun anda. Harap otentikasi menggunakan faktor kedua.",
-    "%s will be updated to version %s" : "%s akan diperbaarui ke versi %s",
-    "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
-    "Thank you for your patience." : "Terima kasih atas kesabaran anda."
+    "New Password" : "Kata sandi Baru"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

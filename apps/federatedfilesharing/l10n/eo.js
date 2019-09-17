@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Kunhavigu ĝin, por ke viaj amikoj povu kunhavigi dosierojn kun vi:",
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
-    "HTML Code:" : "HTML-kodo:",
-    "Sharing %s failed, because this item is already shared with %s" : "Kunhavigo de %s malsukcesis, ĉar la ero jam kunhaviĝis kun %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de %s malsukcesis, ne eblis trovi %s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon."
+    "HTML Code:" : "HTML-kodo:"
 },
 "nplurals=2; plural=(n != 1);");

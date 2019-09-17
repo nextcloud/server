@@ -99,10 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Envoyer une notification pour les évènements",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Les notifications seront envoyées par des tâches de fond, qui doivent par conséquent être exécutées régulièrement.",
     "Enable notifications for events via push" : "Activer les notifications push pour les évènements",
-    "%s via %s" : "%s via %s",
-    "The meeting »%s« with %s was canceled." : "La réunion «%s» avec %s a été annulée.",
-    "The meeting »%s« with %s was updated." : "La réunion «%s» avec %s a été mise à jour.",
-    "%s invited you to »%s«" : "%s vous a invité à «%s»",
     "Please make sure to properly set up the email settings above." : "Merci de vérifier d'avoir correctement configuré les paramètres de courriel ci-dessus"
 },
 "nplurals=2; plural=(n > 1);");

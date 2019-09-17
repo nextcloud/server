@@ -218,17 +218,12 @@
     "Current password" : "Текуща парола",
     "Change password" : "Промени паролата",
     "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS клиент",
-    "Android Client" : "Android клиент",
     "Not supported!" : "Не се поддържа!",
     "Press ⌘-C to copy." : "За копиране натиснете ⌘-C.",
     "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C.",
     "Store credentials" : "Запиши",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Услугата webcron стартира cron.php всеки 15 минути по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Ползва услугата cron на сървъра за да стартира cron.php всеки 15 минути.",
-    "Follow us on Google+" : "Следвайте ни в Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Ползвате <strong>%s</strong> от <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Следвайте ни в Google+"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

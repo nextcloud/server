@@ -14,9 +14,6 @@ OC.L10N.register(
     "Name" : "Όνομα",
     "Actions" : "Ενέργειες",
     "Deleted" : "Διαγραμμένα",
-    "Delete" : "Διαγραφή",
-    "Couldn't delete %s permanently" : "Αδύνατη η μόνιμη διαγραφή του %s",
-    "Couldn't restore %s" : "Αδυναμία επαναφοράς %s",
-    "Error" : "Σφάλμα"
+    "Delete" : "Διαγραφή"
 },
 "nplurals=2; plural=(n != 1);");

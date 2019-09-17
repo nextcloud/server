@@ -41,7 +41,6 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>производствена</strong> осигурява последните пачове, но не се актуализира, веднага, до последната главна версия. Актуализацията става на втората малка версия (х.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>стабилна</strong> е последната стабилна версия. Подходяща е за ежедневно ползване и се актуализации до последната главна версия.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>бета</strong> е за тестване на нови функционалности. Не е подходяща за ползване в производствена среда.",
-    "Could not start updater, please try the manual update" : "Актуализиращата програма не беше стартирана. Моля, опитайте ръчно обновление",
     "Production" : "Производствена ",
     "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Осигурява последните пачове, но не се актуализиране, веднага, до следваща главна версия. Актуализирането става на втората малка версия (x0.2), само при условие, че е инсталирана последната малка версия."
 },

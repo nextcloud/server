@@ -111,7 +111,6 @@ OC.L10N.register(
     "Note" : "Σημείωση",
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
-    "Uploaded files:" : "Αποστολή αρχείων:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %s"
+    "Uploaded files:" : "Αποστολή αρχείων:"
 },
 "nplurals=2; plural=(n != 1);");

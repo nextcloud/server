@@ -48,8 +48,6 @@
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
-    "HTML Code:" : "HTML Kodu:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s paylaşılmadı. %s ile zaten paylaşılmış",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s paylaşılamadı. %s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir."
+    "HTML Code:" : "HTML Kodu:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

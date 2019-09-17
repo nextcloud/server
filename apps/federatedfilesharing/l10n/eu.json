@@ -39,8 +39,6 @@
     "Share it so your friends can share files with you:" : "Partekatu zure lagunek fitxategiak zurekin partekatzeko:",
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
-    "HTML Code:" : "HTML kodea:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du."
+    "HTML Code:" : "HTML kodea:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

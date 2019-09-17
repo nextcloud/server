@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Inloggegevens, bewaren in de database",
     "Username and password" : "Gebruikersnaam en wachtwoord",
     "Log-in credentials, save in session" : "Inloggegevens, opslaan in sessie",
+    "Global credentials, user entered" : "Algemene inloggegevens, door gebruiker opgegeven",
     "User entered, store in database" : "Gebruiker opgegeven, opslaan in de database",
     "RSA public key" : "RSA publieke sleutel",
     "Public key" : "Publieke sleutel",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag je beheerder om dit te installeren."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
 },
 "nplurals=2; plural=(n != 1);");

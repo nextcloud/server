@@ -210,25 +210,13 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nun pudo unviase'l corréu de reaniciu porque nun hai direición de corréu dala pa esti nome d'usuariu. Contauta col to alministrador, por favor.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nun pudo unviase'l corréu. Asegurate que'l to nome d'usuariu seya correutu, por favor",
-    "Updated \"%s\" to %s" : "Anováu \"%s\" a %s",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Hebo problemes cola comprobación d'integridá del códigu. Más información…</a>",
     "Dismiss" : "Encaboxar",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Unviósete al corréu l'enllaz pa reaniciar la to contraseña. Si nun lu recibes nuna cantidá razonable de tiempu, comprueba les tos carpetes de corréu puxarra. <br>Si nun ta ehí, entruga al to alministrador llocal",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Los tos ficheros tán cifraos. Nun habrá mou de recuperar los datos dempués de reaniciar la to contraseña.<br />Si nun tas seguru de lo que facer, contautua col to alministrador enantes de siguir. <br />¿De xuru que quies siguir?",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} compartió per enllaz",
-    "{sharee} (group)" : "{sharee} (grupu)",
-    "{sharee} (email)" : "{sharee} (corréu)",
-    "The specified document has not been found on the server." : "Nun s'alcontró'l documentu especificáu nel sirvidor.",
-    "You can click here to return to %s." : "Pues primir equí pa volver a %s.",
     "SQLite will be used as database." : "SQLite usaráse como base de datos.",
     "For larger installations we recommend to choose a different database backend." : "Pa instalaciones más grandes, aconseyamos escoyer un backend diferente de base de datos.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especialmente al usar el veceru d'escritoriu. Pa la sincornización de ficheros nun s'aconseya.",
     "Wrong password." : "Contraseña incorreuta",
-    "You are about to grant %s access to your %s account." : "Tas a pìques de conceder a %s l'accesu a la to cuenta %s.",
-    "Redirecting …" : "Redirixendo...",
-    "New Password" : "Contraseña nueva",
-    "%s will be updated to version %s" : "%s anovaráse a la versión %s",
-    "This page will refresh itself when the %s instance is available again." : "Esta páxina refrescaráse sola cuando la instancia %s vuelva tar disponible.",
-    "Thank you for your patience." : "Gracies pola to paciencia."
+    "New Password" : "Contraseña nueva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

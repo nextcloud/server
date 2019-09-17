@@ -122,14 +122,13 @@
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "Target folder" : "Dosja e synuar",
     "File handling" : "Trajtim kartele",
     "Maximum upload size" : "Madhësi maksimale ngarkimi",
     "max. possible: " : "maks. i mundshëm: ",
     "Save" : "Ruaje",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Me PHP-FPM mund të duhen 5 minuta që ndryshimet të hyjnë në fuqi.",
     "Missing permissions to edit from here." : "Mungojnë lejet për përpunim që nga këtu.",
-    "%s of %s used" : "%s nga %s është përdorur",
-    "Cancel upload" : "Anulo ngarkimin"
+    "Cancel upload" : "Anulo ngarkimin",
+    "%s of %s used" : "%s nga %s është përdorur"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

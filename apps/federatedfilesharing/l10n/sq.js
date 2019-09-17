@@ -41,8 +41,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Shërndajeni që miqtë tuaj mund të ndajnë skedarë me ju:",
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
-    "HTML Code:" : "Kod HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ndarja e %s dështoi, nuk mund të gjendet %s, ndoshta serveri është për momentin i paaksesueshëm ose përdor një çertifikatë të vetë-nënshkruar"
+    "HTML Code:" : "Kod HTML:"
 },
 "nplurals=2; plural=(n != 1);");

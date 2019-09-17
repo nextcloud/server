@@ -810,22 +810,14 @@ OC.L10N.register(
     "Current password" : "Geçerli parola",
     "Change password" : "Parola değiştir",
     "Use a second factor besides your password to increase security for your account." : "Parolanızın yanında ikinci bir doğrulama kullanarak hesabınızın güvenliğini arttırabilirsiniz.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL eski bir %s sürümü kullanıyor (%s). Lütfen işletim sisteminizi güncelleyin, yoksa %s gibi özellikler düzgün çalışmaz.",
     "Disconnect" : "Bağlantıyı Kes",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS İstemcisi",
-    "Android Client" : "Android İstemcisi",
     "Not supported!" : "Desteklenmiyor!",
     "Press ⌘-C to copy." : "Kopyalamak için ⌘-C tuşlarına basın.",
     "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C tuşlarına basın.",
     "Error while loading browser sessions and device tokens" : "Tarayıcı oturumu ve aygıt kodları yüklenirken sorun çıktı",
-    "Default quota :" : "Varsayılan kota : ",
     "Store credentials" : "Kimlik bilgileri kaydedilsin",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Lütfen <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">kurulum rehberlerini↗</a> yeniden gözden geçirin ve <a href=\"%s\">günlük</a> kayıtlarındaki hata ve uyarılara bakın.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php, HTTP üzerinden 15 dakikada bir yürütülmesi için webcron hizmetine kaydedildi.",
     "Use system cron service to call the cron.php file every 15 minutes." : "15 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
-    "Follow us on Google+" : "Bizi Google+ üzerinde izleyin",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Kullandığınız: <strong>%s</strong> Kullanabileceğiniz: <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Bizi Google+ üzerinde izleyin"
 },
 "nplurals=2; plural=(n > 1);");

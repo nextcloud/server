@@ -22,7 +22,6 @@
     "Error occurred while updating comment with id {id}" : "Eroare la actualizarea comentariului cu id-ul {id}",
     "Error occurred while posting comment" : "Eroare la postarea comentariului",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu necitit","%n comentarii necitite","%n comentarii necitite"],
-    "Comment" : "Comentariu",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s te-a menționat într-un comentariu la ”%2$s”"
+    "Comment" : "Comentariu"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

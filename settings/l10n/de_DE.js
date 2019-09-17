@@ -810,22 +810,14 @@ OC.L10N.register(
     "Current password" : "Aktuelles Passwort",
     "Change password" : "Passwort ändern",
     "Use a second factor besides your password to increase security for your account." : "Verwenden Sie neben Ihrem Passwort einen zweiten Faktor, um die Sicherheit für Ihr Konto zu erhöhen.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL verwendet eine veraltete %s Version (%s). Bitte aktualisieren Sie ihr Betriebssystem, da ansonsten Funktionen, wie z.B. %s, nicht zuverlässig funktionieren.",
     "Disconnect" : "Trennen",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS-Client",
-    "Android Client" : "Android-Client",
     "Not supported!" : "Nicht unterstützt!",
     "Press ⌘-C to copy." : "Drücken Sie ⌘-C zum Kopieren.",
     "Press Ctrl-C to copy." : "Zum Kopieren Strg-C drücken.",
     "Error while loading browser sessions and device tokens" : "Fehler beim Laden der Browser-Sitzungen und Geräte-Token",
-    "Default quota :" : "Standard Speicherkontingent:",
     "Store credentials" : "Anmeldeinformationen speichern",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Bitte überprüfen Sie noch einmal die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Installationsanleitungen ↗</a> und prüfen Sie das <a href=\"%s\">Protokoll</a> auf Fehler oder Warungen.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft. ",
     "Use system cron service to call the cron.php file every 15 minutes." : "Nutzen Sie den System-Cron-Service um cron.php alle 15 Minuten aufzurufen.",
-    "Follow us on Google+" : "Folgen Sie uns auf Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Sie benutzen <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Folgen Sie uns auf Google+"
 },
 "nplurals=2; plural=(n != 1);");

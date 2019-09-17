@@ -18,8 +18,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "A two-factor auth backup codes provider",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
     "Submit" : "Submit",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup codes have been generated. {{used}} of {{total}} codes have been used.",
-    "Nextcloud backup codes" : "Nextcloud backup codes",
     "activated" : "activated",
     "updated" : "updated",
     "mounted" : "mounted",
@@ -30,6 +28,7 @@ OC.L10N.register(
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "destroyed",
     "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Nextcloud backup codes",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor."
 },
 "nplurals=2; plural=(n != 1);");

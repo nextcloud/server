@@ -129,8 +129,6 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Iuj agorditaj eksteraj surmetingoj ne estas konektitaj. Bv. alklaki la ruĝa(j)n vico(j)n por pli da informoj",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ ne estas instalita. Surmetado de %s ne eblas. Bv. vidi kun via administranto."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
 },
 "nplurals=2; plural=(n != 1);");

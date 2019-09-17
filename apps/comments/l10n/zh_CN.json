@@ -26,8 +26,6 @@
     "Error occurred while posting comment" : "发布评论出错",
     "_%n unread comment_::_%n unread comments_" : ["%n 未读评论"],
     "_1 new comment_::_{unread} new comments_" : ["{unread} 新评论"],
-    "Comment" : "评论",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "您在 “%s” 上一名用户的评论中被提到过，该用户在那之后被删除了",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的评论中提到了您"
+    "Comment" : "评论"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

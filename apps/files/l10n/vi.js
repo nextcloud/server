@@ -118,7 +118,6 @@ OC.L10N.register(
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Text file" : "Tập tin văn bản",
-    "Target folder" : "Thư mục đích",
     "File handling" : "Xử lý tập tin",
     "Maximum upload size" : "Kích thước tối đa ",
     "max. possible: " : "tối đa cho phép:",

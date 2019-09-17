@@ -16,6 +16,7 @@
     "Shares will show up here" : "Shares worden hier getoond",
     "Restore share" : "Herstel share",
     "Something happened. Unable to restore the share." : "Er is iets gebeurd. Kan de share niet herstellen.",
+    "This will stop your current uploads." : "Dit beëindigt onderhanden uploads",
     "Move or copy" : "Verplaatsen of kopiëren",
     "Download" : "Downloaden",
     "Delete" : "Verwijderen",
@@ -136,7 +137,6 @@
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Delen van %s mislukte omdat de backend het delen van type %s niet ondersteunt"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

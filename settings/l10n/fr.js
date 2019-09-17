@@ -701,22 +701,14 @@ OC.L10N.register(
     "Current password" : "Mot de passe actuel",
     "Change password" : "Changer de mot de passe",
     "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL utilise une version obsolète de %s (%s). Veuillez mettre à jour votre système d'exploitation ou des fonctionnalités telles que %s ne fonctionneront pas correctement.",
     "Disconnect" : "Se déconnecter",
-    "iPhone iOS" : "iOS iPhone",
-    "iPad iOS" : "iOS iPad",
-    "iOS Client" : "Client iOS",
-    "Android Client" : "Client Android",
     "Not supported!" : "Non supporté !",
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
     "Press Ctrl-C to copy." : "Appuyez sur Ctrl + C pour copier.",
     "Error while loading browser sessions and device tokens" : "Erreur lors du chargement des jetons de la session du navigateur et de l'appareil",
-    "Default quota :" : "Quota par défaut :",
     "Store credentials" : "Enregistrer les identifiants",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Merci de consulter les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">guides d'installation ↗</a> et de vérifier les erreurs ou avertissements des <a href=\"%s\">logs</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php est enregistré à un service webcron pour exécuter cron.php toutes les 15 minutes par HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Utiliser le service cron du système pour appeler le fichier cron.php toutes les 15 minutes.",
-    "Follow us on Google+" : "Nous suivre sur Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Vous utilisez <strong>%s</strong> de <strong>%s</strong> (<strong>%s%%</strong>)"
+    "Follow us on Google+" : "Nous suivre sur Google+"
 },
 "nplurals=2; plural=(n > 1);");

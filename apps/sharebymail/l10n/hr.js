@@ -49,17 +49,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Omogućuje korisnicima dijeljenje personalizirane poveznice na datoteku ili mapu dodavanjem adrese e-pošte.",
     "Send password by mail" : "Pošalji zaporku poštom",
     "Enforce password protection" : "Nametni zaštitu zaporkom",
-    "Sharing %s failed, this item is already shared with %s" : "Dijeljenje %s nije uspjelo jer je ova stavka već podijeljena s %s",
-    "%s shared »%s« with you" : "%s dijeli »%s« s vama",
-    "%s shared »%s« with you." : "%s dijeli »%s« s vama.",
-    "%s via %s" : "%s putem %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s dijeli »%s« s vama.\nTrebali ste već primiti poruku e-pošte s poveznicom za pristupanje.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s dijeli »%s« s vama. Trebali ste već primiti poruku e-pošte s poveznicom za pristupanje.",
-    "Password to access »%s« shared to you by %s" : "Zaporku za pristupanje »%s« s vama dijeli %s",
-    "It is protected with the following password: %s" : "Zaštićena je sljedećom zaporkom: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Upravo ste podijelili »%s« s %s. Dijeljenje je već poslano primatelju. Zbog sigurnosnih pravila koje je definirao administrator %s, svako dijeljenje mora biti zaštićeno zaporkom i nije dopušteno slati zaporku izravno primatelju. Stoga zaporku morate ručno proslijediti primatelju.",
-    "Password to access »%s« shared with %s" : "Zaporka za pristupanje »%s« dijeljena s %s",
-    "This is the password: %s" : "Ovo je zaporka: %s",
     "Password to access »%1$s« shared with %2$s" : "Zaporka za pristupanje »%1$s« dijeljena s %2$s"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

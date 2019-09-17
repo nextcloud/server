@@ -28,8 +28,6 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Fel inträffade vid publicering av kommentar",
     "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"],
     "_1 new comment_::_{unread} new comments_" : ["1 ny kommentar","{unread} nya kommentarer"],
-    "Comment" : "Kommentar",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Du nämndes på “%s” i en kommentar av en användare som nu har tagits bort",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s nämnde dig i en kommentar på “%2$s”"
+    "Comment" : "Kommentar"
 },
 "nplurals=2; plural=(n != 1);");

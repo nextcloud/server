@@ -264,7 +264,6 @@ OC.L10N.register(
     "Change password" : "Cambiar contraseña",
     "Store credentials" : "Almacenar credenciales",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registrado en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP. ",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. ",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Estas usando <strong>%s</strong> de <strong>%s</strong> (<strong>%s%%</strong>)"
+    "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. "
 },
 "nplurals=2; plural=(n != 1);");

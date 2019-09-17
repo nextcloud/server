@@ -136,14 +136,13 @@
     "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Target folder" : "Sihtkaust",
     "File handling" : "Failide käsitlemine",
     "Maximum upload size" : "Maksimaalne üleslaadimise suurus",
     "max. possible: " : "maks. võimalik: ",
     "Save" : "Salvesta",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-ga võib selle väärtuse mõju rakendamine võtta aega kuni 5 minutit pärast salvestamist.",
     "Missing permissions to edit from here." : "Puuduvad õigused siit muuta.",
-    "%s of %s used" : "Kasutatud %s/%s",
-    "Cancel upload" : "Tühista üleslaadimine"
+    "Cancel upload" : "Tühista üleslaadimine",
+    "%s of %s used" : "Kasutatud %s/%s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

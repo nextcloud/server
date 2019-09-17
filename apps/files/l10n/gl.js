@@ -162,15 +162,14 @@ OC.L10N.register(
     "Deleted shares" : "Recursos compartidos eliminados",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
-    "Target folder" : "Cartafol de destino",
     "File handling" : "Manexo de ficheiros",
     "Maximum upload size" : "Tamaño máximo do envío",
     "max. possible: " : "máx. posíbel: ",
     "Save" : "Gardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podería levarlle 5 minutos para que se realicen os cambios.",
     "Missing permissions to edit from here." : "Faltan os permisos para poder editar dende aquí.",
-    "%s of %s used" : "%s de %s utilizado",
     "Cancel upload" : "Cancelar o envío",
+    "%s of %s used" : "%s de %s utilizado",
     "%1$s%% of %2$s used" : "%1$s%% de %2$s utilizado"
 },
 "nplurals=2; plural=(n != 1);");

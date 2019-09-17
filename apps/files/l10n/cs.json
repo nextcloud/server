@@ -82,7 +82,7 @@
     "View in folder" : "Zobrazit ve složce",
     "Copied!" : "Zkopírováno!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro uživatele, kteří mají přístup k tomuto souboru/složce)",
-    "Path" : "Popis umístění",
+    "Path" : "Cesta",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů","%n bajtů"],
     "Favorited" : "Přidáno k oblíbeným",
     "Favorite" : "Oblíbené",
@@ -157,15 +157,14 @@
     "Deleted shares" : "Smazaná sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
-    "Target folder" : "Cílový adresář",
     "File handling" : "Zacházení se soubory",
     "Maximum upload size" : "Maximální velikost pro odesílání",
     "max. possible: " : "největší možná: ",
     "Save" : "Uložit",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Při použití PHP-FPM může změna nastavení trvat až 5 minut od uložení.",
     "Missing permissions to edit from here." : "Pro úpravy v aktuálním náhledu chybí oprávnění.",
-    "%s of %s used" : "%s z %s použito",
     "Cancel upload" : "Zrušit nahrávání",
+    "%s of %s used" : "%s z %s použito",
     "%1$s%% of %2$s used" : "použito %1$s%% z %2$s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

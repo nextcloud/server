@@ -686,22 +686,14 @@
     "Current password" : "Nuna pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
     "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL uzas neĝisdatan version %s (%s). Bv. ĝisdatigi vian operaciumon, aŭ trajtoj kiel %s ne plu funkcios fidinde.",
     "Disconnect" : "Malkonekti",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS-kliento",
-    "Android Client" : "Android-kliento",
     "Not supported!" : "Ne subtenite!",
     "Press ⌘-C to copy." : "Premu ⌘-C por kopii.",
     "Press Ctrl-C to copy." : "Premu Ctrl-C por kopii.",
     "Error while loading browser sessions and device tokens" : "Erara dum ŝargo de returmilaj seancoj kaj aparataj ĵetonoj",
-    "Default quota :" : "Defaŭlta kvoto:",
     "Store credentials" : "Memorigi akreditilojn",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Bv. zorgeme kontroli la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">manlibroj pri instalaĵo ↗</a>, kaj kontroli avertojn kaj erarojn en la <a href=\"%s\">protokolo</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php estas registrita ĉe perreta „cron“-servo por esti vokita ĉiujn 15 minutojn per HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 15 minutojn.",
-    "Follow us on Google+" : "Sekvu nin per Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Vi uzas <strong>%s</strong> el <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Sekvu nin per Google+"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

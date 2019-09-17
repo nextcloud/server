@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Споделете и вашите пријатели ќе можат да споделуваат со вас:",
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене преку Nextcloud",
-    "HTML Code:" : "HTML код:",
-    "Sharing %s failed, because this item is already shared with %s" : "Споделувањето на %s е неуспешно, бидејќи истото веќе е споделено со %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %s е неуспешно, неможе да се пронајде %s, можеби серверот моментално не е достапен или користи недоверлив сертификат."
+    "HTML Code:" : "HTML код:"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

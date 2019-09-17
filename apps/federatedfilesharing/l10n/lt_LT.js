@@ -37,8 +37,6 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
-    "HTML Code:" : "HTML kodas:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s bendrinimas nepavyko, kadangi šis elementas jau yra bendrinamas su %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "\"%s\" pasidalinimas nepavyko, neįmanoma rasti %s, tikėtina, kad serveris šiuo metu nepasiekiamas arba naudoja nepatikimą sertifikatą."
+    "HTML Code:" : "HTML kodas:"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -48,8 +48,6 @@
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Add to your website" : "Añadir a su sitio web",
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Fallo al compartir %s, ya que este elemento ya está compartido con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Error al compartir %s No se pudo hallar %s, quizás haya un problema de conexión con el servidor."
+    "HTML Code:" : "Código HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
