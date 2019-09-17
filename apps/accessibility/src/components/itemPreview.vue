@@ -4,7 +4,7 @@
 		<div class="preview-description">
 			<h3>{{preview.title}}</h3>
 			<p>{{preview.text}}</p>
-			<input type="checkbox" class="checkbox" :id="'accessibility-' + preview.id" v-model="checked" @change="selectItem" />
+			<input type="checkbox" class="checkbox" :id="'accessibility-' + preview.id" v-model="checked" />
 			<label :for="'accessibility-' + preview.id">{{t('accessibility', 'Enable')}} {{preview.title.toLowerCase()}}</label>
 		</div>
 	</div>
@@ -14,18 +14,15 @@
 export default {
 	name: 'itemPreview',
 	props: ['preview', 'selected'],
-	data() {
-		return {
-			checked: this.selected === this.preview.id,
-		};
-	},
-	methods: {
-		selectItem() {
-			this.$emit(
-				'select',
-				this.checked ? this.preview.id : false
-			);
+	computed: {
+		checked: {
+			get() {
+				return this.selected === this.preview.id;
+			},
+			set(checked) {
+				this.$emit('select', checked ? this.preview.id : false,	this.selected);
+			}
 		}
-	}
+    },
 };
 </script>

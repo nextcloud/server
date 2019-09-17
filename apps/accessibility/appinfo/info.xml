@@ -19,6 +19,12 @@
         <nextcloud min-version="18" max-version="18"/>
     </dependencies>
 
+	<repair-steps>
+		<pre-migration>
+			<step>OCA\Accessibility\Migration\RepairUserConfig</step>
+		</pre-migration>
+	</repair-steps>
+
     <settings>
         <personal>OCA\Accessibility\Settings\Personal</personal>
         <personal-section>OCA\Accessibility\Settings\PersonalSection</personal-section>

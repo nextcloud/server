@@ -5,6 +5,9 @@
 		<p v-html="descriptionDetail" />
 
 		<div class="preview-list">
+			<preview :preview="highcontrast"
+				 :key="highcontrast.id" :selected="selected.highcontrast"
+				 v-on:select="selectHighContrast"></preview>
 			<preview v-for="preview in themes" :preview="preview"
 				 :key="preview.id" :selected="selected.theme"
 				 v-on:select="selectTheme"></preview>
@@ -40,13 +43,17 @@ export default {
 		themes() {
 			return this.serverData.themes;
 		},
+		highcontrast() {
+			return this.serverData.highcontrast;
+		},
 		fonts() {
 			return this.serverData.fonts;
 		},
 		selected() {
 			return {
-				theme: this.serverData.theme,
-				font: this.serverData.font
+				theme: this.serverData.selected.theme,
+				highcontrast: this.serverData.selected.highcontrast,
+				font: this.serverData.selected.font
 			};
 		},
 		description() {
@@ -81,8 +88,15 @@ export default {
 		}
 	},
 	methods: {
-		selectTheme(id) {
+		selectHighContrast(id) {
+			this.selectItem('highcontrast', id);
+		},
+		selectTheme(id, idSelectedBefore) {
 			this.selectItem('theme', id);
+			document.body.classList.remove(idSelectedBefore);
+			if (id) {
+				document.body.classList.add(id);
+			}
 		},
 		selectFont(id) {
 			this.selectItem('font', id);
@@ -92,7 +106,7 @@ export default {
 		 * Commit a change and force reload css
 		 * Fetching the file again will trigger the server update
 		 *
-		 * @param {string} type type of the change (font or theme)
+		 * @param {string} type type of the change (font, highcontrast or theme)
 		 * @param {string} id the data of the change
 		 */
 		selectItem(type, id) {
@@ -101,7 +115,7 @@ export default {
 					{ value: id }
 				)
 				.then(response => {
-					this.serverData[type] = id;
+					this.serverData.selected[type] = id;
 
 					// Remove old link
 					let link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]');
