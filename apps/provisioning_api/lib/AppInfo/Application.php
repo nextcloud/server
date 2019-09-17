@@ -26,7 +26,7 @@ namespace OCA\Provisioning_API\AppInfo;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Utility\IControllerMethodReflector;

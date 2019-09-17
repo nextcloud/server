@@ -36,7 +36,7 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
-use OC\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;

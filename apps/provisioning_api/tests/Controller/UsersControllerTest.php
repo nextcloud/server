@@ -40,7 +40,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\Mail\IEMailTemplate;
-use OC\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\AppFramework\Http\DataResponse;
