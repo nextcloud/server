@@ -363,7 +363,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return $this->caldavBackend->getPublishStatus($this);
 	}
 
-	private function canWrite() {
+	public function canWrite() {
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			return false;
+		}
+
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
