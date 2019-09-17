@@ -98,10 +98,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Зато можда неће бити видљиви баш одмах по укључивању, али ће се појавити после неког времена.",
     "Send notifications for events" : "Шаљи обавештења о догађајима",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Обавештења ће бити слана кроз послове у позадини, па би требало да су они постављени да се често извршавају.",
-    "%s via %s" : "%s путем %s",
-    "The meeting »%s« with %s was canceled." : "Састанак „%s“ са  %s је отказан.",
-    "The meeting »%s« with %s was updated." : "Састанак „%s“ са %s је ажуриран.",
-    "%s invited you to »%s«" : "%s Вас је позвао на „%s“",
     "Please make sure to properly set up the email settings above." : "Пазите да правилно подесите поставке е-поште изнад."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

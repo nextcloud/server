@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Paylaşımlar burada görüntülenir",
     "Restore share" : "Paylaşımı geri yükle",
     "Something happened. Unable to restore the share." : "Bir sorun çıktı. Paylaşım geri yüklenemedi.",
+    "This will stop your current uploads." : "Bu işlem geçerli yüklemeleri durduracak.",
     "Move or copy" : "Taşı ya da kopyala",
     "Download" : "İndir",
     "Delete" : "Sil",
@@ -138,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
     "Uploading files…" : "Dosyalar yükleniyor...",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Arka uç %s türündeki paylaşımlara izin vermediğinden %s paylaşılamadı"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz."
 },
 "nplurals=2; plural=(n > 1);");

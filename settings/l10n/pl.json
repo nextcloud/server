@@ -710,6 +710,7 @@
     "Credentials" : "Poświadczenia",
     "SMTP Username" : "Użytkownik SMTP",
     "SMTP Password" : "Hasło SMTP",
+    "Save" : "Zapisz",
     "Test email settings" : "Przetestuj ustawienia poczty e-mail",
     "Send email" : "Wyślij e-mail",
     "Security & setup warnings" : "Ostrzeżenia bezpieczeństwa i konfiguracji",
@@ -807,22 +808,14 @@
     "Current password" : "Bieżące hasło",
     "Change password" : "Zmień hasło",
     "Use a second factor besides your password to increase security for your account." : "Użyj drugiego zabezpieczenia oprócz hasła, aby zwiększyć bezpieczeństwo konta.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL używa nieaktualnej %s wersji (%s). Zaktualizuj system operacyjny lub funkcje takie jak %s nie będą działać prawidłowo.",
     "Disconnect" : "Rozłącz",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "Klient iOS",
-    "Android Client" : "Klient Android",
     "Not supported!" : "Niewspierany!",
     "Press ⌘-C to copy." : "Naciśnij ⌘-C, aby skopiować.",
     "Press Ctrl-C to copy." : "Naciśnij Ctrl-C, aby skopiować.",
     "Error while loading browser sessions and device tokens" : "Błąd podczas ładowania sesji przeglądarki i tokenów urządzenia",
-    "Default quota :" : "Domyślny limit:",
     "Store credentials" : "Zapisz poświadczenia",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Sprawdź dokładnie <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">instrukcje instalacji ↗</a> oraz sprawdź, czy nie ma błędów lub ostrzeżeń w <a href=\"%s\">logach</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Użyj cron.php, który jest zarejestrowany w usłudze webcron, aby wywoływać cron.php co 15 minut przez HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 15 minut.",
-    "Follow us on Google+" : "Bądź z nami na Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Używasz: <strong>%s</strong> z <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Bądź z nami na Google+"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

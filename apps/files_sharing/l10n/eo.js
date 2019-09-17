@@ -132,7 +132,6 @@ OC.L10N.register(
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploading files…" : "Alŝutante dosierojn...",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Kunhavigo de %s malsukcesis, ĉar la servilo ne permesas kunhavon de tipo %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s."
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,7 +26,6 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Yra prieinama nauja versija: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tikrinta {lastCheckedDate}",
     "View changelog" : "Rodyti keitinių žurnalą",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Visada galite atnaujinti į naujesnę versiją / eksperimentinį kanalą. Tačiau niekada negalite sendinti versijos ar persijungti į stabilų kanalą.",
-    "Could not start updater, please try the manual update" : "Nepavyko paleisti atnaujinimo programos, prašome bandyti atnaujinimą rankiniu būdu"
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Visada galite atnaujinti į naujesnę versiją / eksperimentinį kanalą. Tačiau niekada negalite sendinti versijos ar persijungti į stabilų kanalą."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

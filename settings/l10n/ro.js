@@ -309,7 +309,6 @@ OC.L10N.register(
     "Help translate" : "Ajută la traducere",
     "Current password" : "Parola curentă",
     "Change password" : "Schimbă parola",
-    "Store credentials" : "Stochează datele de autentificare",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Utilizezi <strong>%s</strong> din <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Store credentials" : "Stochează datele de autentificare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

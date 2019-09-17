@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Pilih Semua",
     "Name" : "Nama",
     "Deleted" : "Dihapus",
-    "Delete" : "Hapus",
-    "Couldn't delete %s permanently" : "Tidak dapat menghapus permanen %s",
-    "Couldn't restore %s" : "Tidak dapat memulihkan %s",
-    "Error" : "Galat"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

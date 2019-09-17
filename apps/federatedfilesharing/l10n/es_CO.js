@@ -43,8 +43,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Add to your website" : "Agregar a tu sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado."
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,6 +16,7 @@
     "Shares will show up here" : "Freigaben werden hier angezeigt",
     "Restore share" : "Freigabe wiederherstellen",
     "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
+    "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : " Löschen",
@@ -136,7 +137,6 @@
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
     "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: ",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$szu.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$szu."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

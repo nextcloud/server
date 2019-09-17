@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Credenciais de acceso, gardar na base de datos",
     "Username and password" : "Nome de usuario e contrasinal",
     "Log-in credentials, save in session" : "Credenciais de acceso, gardar na sesión",
+    "Global credentials, user entered" : "Credenciais globais, introducidas polo usuario",
     "User entered, store in database" : "Usuario que accedeu, almacenar na base de datos",
     "RSA public key" : "Chave pública RSA",
     "Public key" : "Chave pública",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Add storage" : "Engadir almacenamento",
     "Advanced settings" : "Axustes avanzados",
     "Allow users to mount external storage" : "Permitirlle aos usuarios montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algúns dos puntos de montaxe externos configurados non están conectados. Prema na(s) fila(s) vermella(s)  para obter máis información",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» non está instalado. Non é posíbel a montaxe de %s. Consulte co administrador do sistema como instalalo."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
 },
 "nplurals=2; plural=(n != 1);");

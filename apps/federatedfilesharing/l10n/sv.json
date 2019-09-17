@@ -48,8 +48,6 @@
     "Share it so your friends can share files with you:" : "Dela det så att dina vänner kan dela filer med dig:",
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
-    "HTML Code:" : "HTML Kod:",
-    "Sharing %s failed, because this item is already shared with %s" : "Delning %s misslyckades därför att objektet redan är delat med %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Misslyckades att dela ut %s kunde inte hitta %s, kanske är servern inte tillgänglig för närvarande eller så används ett självsignerat certifikat"
+    "HTML Code:" : "HTML Kod:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

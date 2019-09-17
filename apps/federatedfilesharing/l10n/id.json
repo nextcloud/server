@@ -34,8 +34,6 @@
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Berbagi %s gagal, tidak menemukan %s, mungkin peladen saat ini tidak dapat dicapai atau menggunakan sertifikat self-signed."
+    "HTML Code:" : "Kode HTML:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

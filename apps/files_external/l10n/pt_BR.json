@@ -72,6 +72,7 @@
     "Log-in credentials, save in database" : "Credenciais de acesso, salvas no banco de dados",
     "Username and password" : "Nome de usuário e senha",
     "Log-in credentials, save in session" : "Credenciais de login, guardadas em sessão",
+    "Global credentials, user entered" : "Credenciais globais, usuário inserido",
     "User entered, store in database" : "Usuário adicionado, armazenado no banco de dados",
     "RSA public key" : "Chave pública RSA",
     "Public key" : "Chave pública",
@@ -127,8 +128,6 @@
     "Add storage" : "Adic. armazenamento",
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alguns dos pontos de montagem externos configurados não estão conectados. Clique na(s) linha(s) vermelha(s) para mais informações",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. A montagem de %s não foi possível. Por favor, solicite a instalação ao administrador do sistema."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

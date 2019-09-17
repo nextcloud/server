@@ -13,11 +13,12 @@ OC.L10N.register(
     "No shared links" : "Keine geteilten Links",
     "Files and folders you share by link will show up here" : "Per Link freigegebene Dateien und Ordner werden hier erscheinen",
     "No deleted shares" : "Keine gelöschten Freigaben",
-    "Shares you deleted will show up here" : "Von Ihnen gelöschte Freigaben werden hier erscheinen",
+    "Shares you deleted will show up here" : "Von Ihnen gelöschte Freigaben werden hier angezeigt",
     "No shares" : "Keine Freigaben",
     "Shares will show up here" : "Freigaben werden hier angezeigt",
     "Restore share" : "Freigabe wiederherstellen",
     "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
+    "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
@@ -138,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
     "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: ",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu."
 },
 "nplurals=2; plural=(n != 1);");

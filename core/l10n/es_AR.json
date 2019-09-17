@@ -244,27 +244,13 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No fue posible enviar el correo electrónico para restablecer porque no hay una dirección de correo electrónico para este usuario. Favor de contactar a su adminsitrador. ",
     "Couldn't send reset email. Please make sure your username is correct." : "No fue posible restablecer el correo electrónico. Favor de asegurarse que su nombre de usuario sea correcto. ",
-    "Updated \"%s\" to %s" : "Actualizando \"%s\" a %s",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Se presentaron problemas con la verificación de integridad del código. Mayor información ...</a>",
     "Dismiss" : "Descartar",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "El link para restablecer su contraseña ha sido enviada a su correo electrónico. Si no lo recibe dentro de un tiempo razonable, verifique las carpetas de spam/basura.<br>Si no la encuentra consulte a su adminstrador local.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos están encriptados. No habrá manera de recuperar sus datos una vez que restablezca su contraseña. <br />Si no está seguro de qué hacer, favor de contactar a su administrador antes de continuar. <br />¿Realmente desea continuar?",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} ha compatido mediante un link",
-    "{sharee} (group)" : "{sharee} (grupo)",
-    "{sharee} (remote)" : "{sharee} (remoto)",
-    "{sharee} (email)" : "{sharee} (correo electrónico)",
-    "The specified document has not been found on the server." : "El documento especificado no ha sido encontrado en el servidor. ",
-    "You can click here to return to %s." : "Puede hacer click aquí para regresar a %s.",
     "SQLite will be used as database." : "SQLite será usado como la base de datos.",
     "For larger installations we recommend to choose a different database backend." : "Para instalaciones más grandes le recomendamos elegir un backend de base de datos diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLiite es especialmente desalentado al usar el cliente de escritorio para sincrionizar. ",
     "Wrong password." : "Contraseña inválida. ",
-    "You are about to grant %s access to your %s account." : "Está a punto de concederle a \"%s\" acceso a su cuenta %s.",
-    "Redirecting …" : "Redireccionando ... ",
-    "New Password" : "Nueva Contraseña",
-    "Enhanced security is enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada está habilitada para su cuenta. Favor de autenticarse usando un segundo factor. ",
-    "%s will be updated to version %s" : "%s será actualizado a la versión %s",
-    "This page will refresh itself when the %s instance is available again." : "Esta página se actualizará sola cuando la instancia %s esté disponible de nuevo. ",
-    "Thank you for your patience." : "Gracias por su paciencia."
+    "New Password" : "Nueva Contraseña"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

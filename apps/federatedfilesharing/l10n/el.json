@@ -37,8 +37,6 @@
     "Share it so your friends can share files with you:" : "Διαμοιραστείτε το ώστε οι φίλοι σας να μπορούν να διαμοιράζονται αρχεία με εσάς:",
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
-    "HTML Code:" : "Κώδικας HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα."
+    "HTML Code:" : "Κώδικας HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

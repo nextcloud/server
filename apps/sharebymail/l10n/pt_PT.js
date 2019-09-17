@@ -26,17 +26,6 @@ OC.L10N.register(
     "Share by mail" : "Partilhado por e-mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir aos utilizadores a partilha de uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de email.",
     "Send password by mail" : "Enviar palavra-chave por e-mail",
-    "Enforce password protection" : "Forçar proteção por palavra-passe",
-    "Sharing %s failed, this item is already shared with %s" : "Partilha de %s falhou, este item já está partilhado com %s",
-    "%s shared »%s« with you" : "%s partilhou »%s« consigo",
-    "%s shared »%s« with you." : "%s partilhou »%s« consigo.",
-    "%s via %s" : "%s via %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s partilhou »%s« consigo.\nJá deveria ter recebido um outro e-mail com uma hiperligação para o aceder.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s partilhou »%s« consigo. Já deveria ter recebido um outro e-mail com uma hiperligação para o aceder.",
-    "Password to access »%s« shared to you by %s" : "Palavra-chave para acesso a »%s« partilhada consigo por %s",
-    "It is protected with the following password: %s" : "Está protegido com a seguinte palavra-chave: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Partilhou »%s« com %s. A partilha já foi enviada ao destinatário. Devido à política de segurança definida pelo administrador de  %s cada partilha deverá ser protegida por uma palavra-chave e não é permitido o envio da mesma directamente para o destinatário. Assim, necessita de enviar a palavra-chave manualmente para o respectivo destinatário.",
-    "Password to access »%s« shared with %s" : "Palavra-chave para aceder a »%s« partilhada com %s",
-    "This is the password: %s" : "Esta é a palavra-chave: %s"
+    "Enforce password protection" : "Forçar proteção por palavra-passe"
 },
 "nplurals=2; plural=(n != 1);");

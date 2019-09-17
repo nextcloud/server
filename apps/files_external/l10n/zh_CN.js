@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "登录凭据，保存在数据库中",
     "Username and password" : "用户名和密码",
     "Log-in credentials, save in session" : "登录凭据，存储在会话中",
+    "Global credentials, user entered" : "全局凭据，用户输入",
     "User entered, store in database" : "用户登录，存储在数据库中",
     "RSA public key" : "RSA 公钥",
     "Public key" : "公钥",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Add storage" : "增加存储",
     "Advanced settings" : "高级选项",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "一些外部挂载点没有连接。请检查标红的行以获取更多信息",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "没有安装 \"%s\"。无法挂载 %s。请联系您的系统管理员安装。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。"
 },
 "nplurals=1; plural=0;");

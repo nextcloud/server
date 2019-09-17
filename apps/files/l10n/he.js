@@ -159,15 +159,14 @@ OC.L10N.register(
     "Deleted shares" : "שיתופים שנמחקו",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "Target folder" : "תיקיית יעד",
     "File handling" : "טיפול בקבצים",
     "Maximum upload size" : "גודל העלאה מקסימלי",
     "max. possible: " : "המרבי האפשרי: ",
     "Save" : "שמירה",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "בשימוש ב- PHP-FPM זה יכול להמשך 5 דקות לשינויים לחול.",
     "Missing permissions to edit from here." : "חסרות הרשאות לעריכה מכאן.",
-    "%s of %s used" : "%s מתוך %s בשימוש",
     "Cancel upload" : "ביטול העלאה",
+    "%s of %s used" : "%s מתוך %s בשימוש",
     "%1$s%% of %2$s used" : "%1$s%% מתוך %2$s בשימוש"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

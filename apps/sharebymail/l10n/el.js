@@ -31,17 +31,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
     "Enforce password protection" : "Επιβάλετε προστασία συνθηματικού",
-    "Sharing %s failed, this item is already shared with %s" : "Διαμοιρασμός %s απέτυχε, αυτό το αντικείμενο είναι ήδη διαμοιρασμένο με %s",
-    "%s shared »%s« with you" : "%s διαμοιρασμένα »%s« με σένα",
-    "%s shared »%s« with you." : "%s διαμοιράστηκε »%s« με εσάς.",
-    "%s via %s" : "%s μέσω %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s διαμοιράστηκε »%s« με εσάς.\nΘα πρέπει να έχετε ήδη λάβει ένα ξεχωριστό mail με έναν σύνδεσμο με πρόσβαση σε αυτό.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s διαμοιράστηκε »%s« με εσάς. Θα πρέπει να έχετε ήδη λάβει ένα ξεχωριστό mail με έναν σύνδεσμο με πρόσβαση σε αυτό.",
-    "Password to access »%s« shared to you by %s" : "Συνθηματικό για πρόσβαση στο »%s« διαμοιράστηκε μαζί σας μέσω %s",
-    "It is protected with the following password: %s" : "Είναι προστατευμένο με το ακόλουθο συνθηματικό: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Έχετε μόλις διαμοιραστεί »%s« με %s. Ο διαμοιρασμός έχει ήδη σταλθεί στον παραλήπτη. Βάση των πολιτικών ασφαλείας που έχουν ορισθεί από τον διαχειριστή του %s ο κάθε διαμοιρασμός χρειάζεται να προστατεύεται από ένα συνθηματικό και δεν επιτρέπετε να σταλθεί το συνθηματικό απευθείας στον παραλήπτη. Επομένως χρειάζεται να προωθήσετε το συνθηματικό χειροκίνητα στον παραλήπτη.",
-    "Password to access »%s« shared with %s" : "Συνθηματικό για πρόσβαση στο »%s« διαμοιράστηκε με %s",
-    "This is the password: %s" : "Αυτό είναι το συνθηματικό: %s",
     "Password to access »%1$s« shared with %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε με %2$s"
 },
 "nplurals=2; plural=(n != 1);");

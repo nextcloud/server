@@ -105,7 +105,6 @@ OC.L10N.register(
     "Upload files to %s" : "Enviar ficheiros para %s",
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploading files…" : "A enviar ficheiros...",
-    "Uploaded files:" : "Ficheiros enviados:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "A partilha de %s falhou porque \"back end\" não permite partilhas do tipo %s"
+    "Uploaded files:" : "Ficheiros enviados:"
 },
 "nplurals=2; plural=(n != 1);");

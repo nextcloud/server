@@ -132,7 +132,6 @@ OC.L10N.register(
     "Select or drop files" : "Odaberi ili ispusti datoteke",
     "Uploading files…" : "Otpremanje datoteka...",
     "Uploaded files:" : "Otpremljene datoteke:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Neuspješno dijeljenje %s jer pozadinski servis ne dopušta dijeljenje vrste %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

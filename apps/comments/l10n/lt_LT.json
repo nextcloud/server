@@ -25,7 +25,6 @@
     "Error occurred while posting comment" : "Skelbiant komentarą, įvyko klaida",
     "_%n unread comment_::_%n unread comments_" : ["%n neskaitytas komentaras","%n neskaityti komentarai","%n neskaitytų komentarų","%n neskaitytas komentaras"],
     "_1 new comment_::_{unread} new comments_" : ["1 neskaitytas komentaras","{unread} neskaityti komentarai","{unread} neskaitytų komentarų","{unread} neskaitytas komentaras"],
-    "Comment" : "Komentaras",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s jus paminėjo komentare \"%2$s\""
+    "Comment" : "Komentaras"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

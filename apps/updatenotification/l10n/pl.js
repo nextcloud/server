@@ -22,7 +22,7 @@ OC.L10N.register(
     "Your version is up to date." : "Posiadasz aktualną wersję.",
     "A non-default update server is in use to be checked for updates:" : "Do sprawdzania aktualizacji nie są używane domyślne serwery aktualizacji:",
     "Update channel:" : "Kanał aktualizacji:",
-    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Zawsze możesz zaktualizować do nowszej wersji. Ale nigdy nie możesz powrócić do wersji stabilnej.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Zawsze możesz zaktualizować do nowszej wersji. Ale nigdy nie możesz powrócić do wersji bardziej stabilnej.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Zauważ, że po opublikowaniu nowej wersji może minąć trochę czasu, zanim pojawi się ona tutaj. Publikację dla naszych użytkowników rozkładamy w czasie, a czasami pomijamy wersję, gdy znajdziemy jakieś błędy.",
     "Notify members of the following groups about available updates:" : "Powiadom członków następujących grup o dostępnych aktualizacjach: ",
     "Only notification for app updates are available." : "Tylko powiadomienia o aktualizacjach aplikacji są dostępne.",
@@ -46,7 +46,6 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>production</strong> zawsze zapewni najnowsze poprawki, ale nie zaktualizuje się do następnej wersji głównej. Ta aktualizacja zwykle ma miejsce przy drugiej wersji wydania (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> to najnowsza stabilna wersja. Jest odpowiednia do regularnego używania i zawsze będzie aktualizowana do najnowszej wersji głównej.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> jest wersją przedpremierową tylko do testowania nowych funkcji. Nie jest do środowisk produkcyjnych.",
-    "Could not start updater, please try the manual update" : "Nie można uruchomić aktualizacji, spróbuj zaktualizować ręcznie",
     "Production" : "Produkcyjna",
     "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Zawsze będzie dostarczać najnowsze poprawki, ale nie będzie aktualizowana do następnej wersji głównej. Ta aktualizacja zazwyczaj ma miejsce przy drugiej wersji wydania (x.0.2) i tylko wtedy, gdy instancja jest już w najnowszej wersji."
 },

@@ -20,8 +20,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Útgefandi tveggja-þrepa öryggisafritunarkóða",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Notaðu einn af öryggisafritunarkóðunum sem þú vistaðir þegar þú settir upp tveggja-þátta auðkenningu.",
     "Submit" : "Senda inn",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Öryggisafritunarkóðar hafa verið útbúnir. {{used}} af {{total}} kóðum hafa verið notaðir.",
-    "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
     "activated" : "virkjað",
     "updated" : "uppfært",
     "mounted" : "tengt í skráakerfi",
@@ -32,6 +30,7 @@ OC.L10N.register(
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "eyðilagt",
     "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Nextcloud öryggisafritunarkóðar",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

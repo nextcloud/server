@@ -104,7 +104,6 @@ OC.L10N.register(
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
-    "Uploaded files:" : "ფაილების ატვირთვა:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "გაზიარება %s არ მოხერხდა, რადგანაც ბექენდი არ იღებს გაზიარებებს ტიპით %s"
+    "Uploaded files:" : "ფაილების ატვირთვა:"
 },
 "nplurals=2; plural=(n!=1);");

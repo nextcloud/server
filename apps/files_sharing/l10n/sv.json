@@ -16,6 +16,7 @@
     "Shares will show up here" : "Delningar visas här",
     "Restore share" : "Återställ delning",
     "Something happened. Unable to restore the share." : "Ett fel uppstod. Kan inte återställa delningen.",
+    "This will stop your current uploads." : "Detta kommer att stoppa nuvarande uppladdningar.",
     "Move or copy" : "Flytta eller kopiera",
     "Download" : "Ladda ned",
     "Delete" : "Radera",
@@ -135,7 +136,6 @@
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
     "Uploaded files:" : "Uppladdade filer:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Delningen av %s misslyckades. Ej tillåtet med delning av %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

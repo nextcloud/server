@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Les partages seront affichés ici",
     "Restore share" : "Restaurer le partage",
     "Something happened. Unable to restore the share." : "Quelque chose s'est passé. Impossible de restaurer le partage.",
+    "This will stop your current uploads." : "Cela va arrêter vos envois en cours.",
     "Move or copy" : "Déplacer ou copier",
     "Download" : "Télécharger",
     "Delete" : "Supprimer",
@@ -42,6 +43,7 @@ OC.L10N.register(
     "You removed group {group} from {file}" : "Vous avez supprimé le groupe {group} de {file}",
     "{actor} shared {file} with group {group}" : "{actor} a partagé {file} avec le groupe {group}",
     "{actor} removed group {group} from {file}" : "{actor} a supprimé le groupe {group} de {file}",
+    "Share for file {file} with group {group} expired" : "Partage du fichier {file} avec le groupe {group} expiré",
     "Shared as public link" : "Partagé avec un lien public",
     "Removed public link" : "Lien public supprimé",
     "Public link expired" : "Lien public expiré",
@@ -78,6 +80,7 @@ OC.L10N.register(
     "{actor} removed {user} from {file}" : "{actor} a supprimé {user} de {file}",
     "{actor} shared {file} with you" : "{actor} a partagé {file} avec vous",
     "{actor} removed you from the share named {file}" : "{actor} vous a supprimé du partage du nom de {file}",
+    "Share for file {file} with {user} expired" : "Partage du fichier {file} avec l'utilisateur {user} expiré",
     "Share for file {file} expired" : "Partage du fichier {file} expiré",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par mail ou par lien public a été <strong>téléchargé</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
@@ -136,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
     "Uploading files…" : "Envoi des fichiers...",
     "Uploaded files:" : "Fichiers envoyés :",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Le partage %s a échoué parce que l'infrastructure n'autorise pas les partages du type %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s."
 },
 "nplurals=2; plural=(n > 1);");

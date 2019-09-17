@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Compartilhamentos serão mostrados aqui",
     "Restore share" : "Restaurar compartilhamento",
     "Something happened. Unable to restore the share." : "Algo aconteceu. Não foi possível restaurar o compartilhamento.",
+    "This will stop your current uploads." : "Isso interromperá seus envios atuais.",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Baixar",
     "Delete" : "Excluir",
@@ -138,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Selecione ou solte arquivos",
     "Uploading files…" : "Enviando arquivos...",
     "Uploaded files:" : "Arquivos enviados:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "O compartilhando %s falhou porque o serviço não permite ações de tipo %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s."
 },
 "nplurals=2; plural=(n > 1);");

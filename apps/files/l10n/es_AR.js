@@ -138,14 +138,13 @@ OC.L10N.register(
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Target folder" : "Carpeta destino",
     "File handling" : "Administración de archivos",
     "Maximum upload size" : "Tamaño máximo de carga",
     "max. possible: " : "max. posible:",
     "Save" : "Guardar",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios apliquen. ",
     "Missing permissions to edit from here." : "Faltan privilegios para editar desde aquí. ",
-    "%s of %s used" : "%s de %s usado",
-    "Cancel upload" : "Cancelar subida"
+    "Cancel upload" : "Cancelar subida",
+    "%s of %s used" : "%s de %s usado"
 },
 "nplurals=2; plural=(n != 1);");

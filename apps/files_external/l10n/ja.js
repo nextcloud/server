@@ -129,8 +129,6 @@ OC.L10N.register(
     "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "いくつかの設定済み外部マウントポイントに接続できませんでした。詳細情報は赤い行をクリックしてください",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"はインストールされていません。 %s のマウントは不可能です。システム管理者にインストールを依頼してください。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
 },
 "nplurals=1; plural=0;");

@@ -39,8 +39,6 @@
     "Share it so your friends can share files with you:" : "Jaga seda, et su sõbrad saaksid sinuga faile jagada:",
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextcloudi",
-    "HTML Code:" : "HTML kood:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati."
+    "HTML Code:" : "HTML kood:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

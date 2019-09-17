@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Tutaj pojawią się udostępnienia",
     "Restore share" : "Przywróć udostępnienia",
     "Something happened. Unable to restore the share." : "Coś nie tak. Nie można przywrócić udostępnienia",
+    "This will stop your current uploads." : "Spowoduje to zatrzymanie wysyłania plików.",
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
@@ -138,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files…" : "Wysyłanie plików…",
     "Uploaded files:" : "Wysłane pliki:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Przesyłając pliki, akceptujesz %1$swarunki usługi%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Udostępnianie %s nie powiodło się, ponieważ zaplecze nie zezwala na współdzielenia typu %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Przesyłając pliki, akceptujesz %1$swarunki usługi%2$s."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

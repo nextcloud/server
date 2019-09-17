@@ -123,7 +123,6 @@ OC.L10N.register(
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
-    "Uploaded files:" : "Opplastede filer:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at serveren ikke tillater deling av filtypen %s"
+    "Uploaded files:" : "Opplastede filer:"
 },
 "nplurals=2; plural=(n != 1);");
