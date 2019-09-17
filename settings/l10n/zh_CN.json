@@ -710,6 +710,7 @@
     "Credentials" : "凭证",
     "SMTP Username" : "SMTP 用户名",
     "SMTP Password" : "SMTP 密码",
+    "Save" : "保存",
     "Test email settings" : "测试电子邮件设置",
     "Send email" : "发送邮件",
     "Security & setup warnings" : "安全及设置警告",
@@ -807,22 +808,14 @@
     "Current password" : "当前密码",
     "Change password" : "修改密码",
     "Use a second factor besides your password to increase security for your account." : "使用除您密码之外的第二种方法来增强您账号的安全性。",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL 当前使用的过时的%s版本（%s）。请更新您的操作系统，否则像%s这样的特性将无法可靠地工作。",
     "Disconnect" : "断开连接",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS 客户端",
-    "Android Client" : "安卓客户端",
     "Not supported!" : "不支持！",
     "Press ⌘-C to copy." : "按 ⌘-C 复制。",
     "Press Ctrl-C to copy." : "按 Ctrl-C 复制。",
     "Error while loading browser sessions and device tokens" : "加载浏览器会话和设备令牌时出错",
-    "Default quota :" : "默认限额：",
     "Store credentials" : "存储凭据",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "请仔细检查<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">安装指南↗</a>，并检查<a href=\"%s\">日志</a>中是否有错误或警告。",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 注册到 webcron 服务上，通过 http 每 15 分钟执行 cron.php。",
     "Use system cron service to call the cron.php file every 15 minutes." : "使用系统定时任务服务每 15 分钟执行一次 cron.php 文件。",
-    "Follow us on Google+" : "在 Google+ 上关注我们",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "您正在使用 <strong>%s</strong> ，来自 <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "在 Google+ 上关注我们"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

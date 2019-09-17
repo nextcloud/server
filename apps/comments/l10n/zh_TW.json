@@ -25,8 +25,6 @@
     "Error occurred while updating comment with id {id}" : "編輯留言 {id} 發生錯誤",
     "Error occurred while posting comment" : "張貼留言出錯",
     "_%n unread comment_::_%n unread comments_" : ["%n 未讀留言"],
-    "Comment" : "留言",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “%s” 的留言中提到你",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s 在 “%2$s” 的留言中提到你"
+    "Comment" : "留言"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

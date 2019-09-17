@@ -31,7 +31,6 @@ OC.L10N.register(
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všetky</strong> aplikácie majú dostupnú aktualizáciu",
     "View changelog" : "Zobraziť súhrn zmien",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikácia nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong> aplikácie nemá dostupnú aktualizáciu na túto verziu ","<strong>%n</strong> aplikácií nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong>aplikácií nemá dostupnú aktualizáciu na túto verziu"],
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy je možné prejsť na novšiu verziu / experimentálny kanál. Ale následne nie je možné prejsť naspäť na staršiu verziu / stabilnejší kanál.",
-    "Could not start updater, please try the manual update" : "Nebolo možné spustiť aktualizátor, skúste prosím manuálnu aktualizáciu"
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Vždy je možné prejsť na novšiu verziu / experimentálny kanál. Ale následne nie je možné prejsť naspäť na staršiu verziu / stabilnejší kanál."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

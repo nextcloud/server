@@ -124,8 +124,6 @@
     "Click to recheck the configuration" : "Napsauta tarkistaaksesi uudelleen määritykset",
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
-    "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Jotkin määritetyt erilliset liitospisteet eivät ole yhdistettynä. Napsauta punaisia rivejä saadaksesi lisätietoja",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde."
+    "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

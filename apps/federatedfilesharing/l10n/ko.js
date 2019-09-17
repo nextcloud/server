@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "친구들과 파일을 공유할 수 있도록 공유하십시오:",
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
-    "HTML Code:" : "HTML 코드:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s을(를) 공유할 수 없습니다. 이미 %s 님과 공유되어 있습니다",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다."
+    "HTML Code:" : "HTML 코드:"
 },
 "nplurals=1; plural=0;");

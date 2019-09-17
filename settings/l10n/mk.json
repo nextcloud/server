@@ -776,22 +776,14 @@
     "Current password" : "Моментална лозинка",
     "Change password" : "Промени лозинка",
     "Use a second factor besides your password to increase security for your account." : "Користете втор фактор и покрај вашата лозинка за да ја зголемите безбедноста на вашата сметка.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL користи застарена %s верзија (%s). Ве молиме ажурирајте го вашиот оперативен систем или можностите како %s нема да работат безбедно.",
     "Disconnect" : "Исклучи",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS Client",
-    "Android Client" : "Android Client",
     "Not supported!" : "Не е поддржано!",
     "Press ⌘-C to copy." : "Притисни ⌘-C за да копираш",
     "Press Ctrl-C to copy." : "Притисни Ctrl-C за да копираш.",
     "Error while loading browser sessions and device tokens" : "Грепка при вчитување на сесијата на прелистувачот и токенот на уредот",
-    "Default quota :" : "Стандардна квота:",
     "Store credentials" : "Зачувај акредитиви",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Ве молиме двојно проверете ги <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">упатствата за инсталација ↗</a>, и проверете ги грешките или предупредувањата во <a href=\"%s\">записникот</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php е регистриран на webcron сервисот за да го повикува cron.php секој 15 минути преку HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Го користи системскиот КРОН сервис и го повикува cron.php секој 15 минути.",
-    "Follow us on Google+" : "Follow us on Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Вие користите <strong>%s</strong> од <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Follow us on Google+"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

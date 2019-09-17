@@ -125,8 +125,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Smelltu til að yfirfara aftur uppsetninguna",
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
-    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sumir uppsettir tengipunktar eru ekki tengdir í skráakerfið. Smelltu á rauðu örina/örvarnar til að fá frekari upplýsingar",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" er ekki uppsett. Tenging %s í skráakerfi er ekki möguleg. Biddu kerfisstjórann þinn um að setja þetta upp."
+    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

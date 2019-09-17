@@ -120,8 +120,6 @@ OC.L10N.register(
     "Available for" : "Prieinamas",
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
-    "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Kai kurios sukonfigūruotos išorinės saugyklos nebuvo prijungtos. Paspauskite ant raudonai nuspalvotų eilučių norėdami gauti išsamesnę informaciją",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Nėra įdiegta \"%s\". %s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad įdiegtų trūkstamą paketą."
+    "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

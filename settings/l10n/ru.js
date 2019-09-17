@@ -809,22 +809,14 @@ OC.L10N.register(
     "Current password" : "Текущий пароль",
     "Change password" : "Сменить пароль",
     "Use a second factor besides your password to increase security for your account." : "Чтобы повысить безопасность своей учётной записи, помимо пароля используйте второй фактор проверки подлинности.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL использует устаревшую %s версию (%s). Пожалуйста, обновите операционную систему, иначе такие функции, как %s, не будут работать надежно.",
     "Disconnect" : "Отключить",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "клиент для iOS",
-    "Android Client" : "клиент для Android",
     "Not supported!" : "Не поддерживается!",
     "Press ⌘-C to copy." : "Нажмите ⌘-C для копирования. ",
     "Press Ctrl-C to copy." : "Нажмите Ctrl-C для копирования.",
     "Error while loading browser sessions and device tokens" : "Ошибка при загрузке сеансов работы браузера и токенов устройств",
-    "Default quota :" : "Квота по умолчанию :",
     "Store credentials" : "Сохранить учётные данные",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Пожалуйста, перечитайте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">инструкции по установке ↗</a> и проверьте <a href=\"%s\">логи</a> на предмет наличия ошибок или предупреждений.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php зарегистрирован в службе webcron и будет вызываться каждые 15 минут по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Использовать системный cron для вызова файла cron.php каждые 15 минут.",
-    "Follow us on Google+" : "Следите за нашими новостями в Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Вы используете <strong>%s</strong> из <strong>%s</strong> (<strong>%s%%</strong>)"
+    "Follow us on Google+" : "Следите за нашими новостями в Google+"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -232,23 +232,10 @@
     "Update needed" : "Bywerking benodig",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Kon nie die herstel-e-pos stuur nie aangesien daar geen e-posadres met die gebruikersnaam geassosieer is nie. Kontak asseblief jou administrateur.",
     "Couldn't send reset email. Please make sure your username is correct." : "Kon nie die herstel e-pos stuur nie. Kontroleer jou gebruikersnaam.",
-    "Updated \"%s\" to %s" : "\"%s\" na %s bygewerk",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Daar was probleme met die nagaan van die kode integriteit. Meer inligting…</a>",
     "Dismiss" : "Ontslaan",
     "Sending email …" : "Stuur tans e-pos …",
-    "Copy URL" : "Kopieer URL",
-    "Enable" : "Aktiveer",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} gedeel via skakel",
-    "{sharee} (group)" : "{sharee} (groep)",
-    "{sharee} (remote)" : "{sharee} (afgeleë)",
-    "{sharee} (email)" : "{sharee} (e-pos)",
-    "The specified document has not been found on the server." : "Die gekose dokument was nie op die bediener gevind nie.",
-    "You can click here to return to %s." : "U kan hier klik om terug te keer na %s",
     "SQLite will be used as database." : "SQLite sal as databasis gebruik word.",
     "Wrong password." : "Verkeerde wagwoord.",
-    "Redirecting …" : "Herlei …",
-    "New Password" : "Nuwe wagwoord",
-    "%s will be updated to version %s" : "%s sal na %s bygewerk word",
-    "Thank you for your patience." : "Dankie vir u geduld."
+    "New Password" : "Nuwe wagwoord"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

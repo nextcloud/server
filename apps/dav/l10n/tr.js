@@ -99,10 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Etkinlik bildirimleri gönderilsin",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır.",
     "Enable notifications for events via push" : "Anında etkinlik bildirimleri kullanılsın",
-    "%s via %s" : "%s, %s aracılığıyla",
-    "The meeting »%s« with %s was canceled." : "Bu »%s« görüşmesi %s ile yapılacakken iptal edildi.",
-    "The meeting »%s« with %s was updated." : "Bu »%s« görüşmesi %s ile yapılacakken güncellendi.",
-    "%s invited you to »%s«" : "%s sizi şu görüşmeye çağırdı »%s«",
     "Please make sure to properly set up the email settings above." : "Lütfen yukarıdaki e-posta ayarlarını doğru olarak yaptığınızdan emin olun."
 },
 "nplurals=2; plural=(n > 1);");

@@ -19,9 +19,6 @@
     "Name" : "Nome",
     "Actions" : "Accións",
     "Deleted" : "Eliminado",
-    "Delete" : "Eliminar",
-    "Couldn't delete %s permanently" : "Non foi posíbel eliminar %s de xeito permanente",
-    "Couldn't restore %s" : "Non foi posíbel restaurar %s",
-    "Error" : "Erro"
+    "Delete" : "Eliminar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

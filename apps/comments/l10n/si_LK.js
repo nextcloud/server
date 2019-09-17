@@ -23,7 +23,6 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "අකුරු {max} න් {count} බාවිතා කර ඇත",
     "Error occurred while updating comment with id {id}" : "{id} අදහස වෙනස් කිරීමේ දෝෂයක් ඇත",
     "Error occurred while posting comment" : "අදහස්ගැ දැක්වීමේ ගැටළුවක් ඇත",
-    "Comment" : "අදහස",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s ඔබව %2$s හි අදහසක මතක් කර ඇත"
+    "Comment" : "අදහස"
 },
 "nplurals=2; plural=(n != 1);");

@@ -85,8 +85,8 @@
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "could not delete share" : "nelze smazat sdílení",
     "Could not delete share" : "Nelze smazat sdílení",
-    "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",
-    "Wrong path, file/folder doesn't exist" : "Chybný popis umístění – soubor/složka neexistuje",
+    "Please specify a file or folder path" : "Zadejte cestu k souboru či složce",
+    "Wrong path, file/folder doesn't exist" : "Chybná cesta – soubor/složka neexistuje",
     "Could not create share" : "Nelze vytvořit sdílení",
     "invalid permissions" : "neplatná oprávnění",
     "Please specify a valid user" : "Zadejte platného uživatele",
@@ -136,7 +136,6 @@
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
     "Uploading files…" : "Nahrávání souborů…",
     "Uploaded files:" : "Nahrané soubory:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s se nezdařilo, protože podpůrná vrstva nepodporuje typ sdílení %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

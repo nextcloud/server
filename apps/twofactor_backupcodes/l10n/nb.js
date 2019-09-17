@@ -18,8 +18,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "En leverandør av sikkerhetskopi av to-faktor koder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av backup kodene du lagret når du opprettet to-faktor autentisering.",
     "Submit" : "Send",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Sikkerhetskopi-koder har blitt opprettet. {{used}} av {{total}} koder i bruk.",
-    "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
     "activated" : "aktivert",
     "updated" : "oppdatert",
     "mounted" : "tilkoblet",
@@ -30,6 +28,7 @@ OC.L10N.register(
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "ødelagt",
     "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Nextcloud sikkerhetskopi-koder",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktivert to-faktor autentisering men har ikke generert backup koder. Vær sikker på å gjøre dette i tilfelle du mister tilgang til din andre faktor."
 },
 "nplurals=2; plural=(n != 1);");

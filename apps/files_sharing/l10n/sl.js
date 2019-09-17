@@ -70,7 +70,6 @@ OC.L10N.register(
     "Upload files to %s" : "Pošlji datoteke v %s",
     "Select or drop files" : "Izberi ali povleci datoteke",
     "Uploading files…" : "Poteka pošiljanje datotek ...",
-    "Uploaded files:" : "Poslane datoteke:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deljenje %s ni uspelo ker sistem ne dovoli souporabe za tip %s"
+    "Uploaded files:" : "Poslane datoteke:"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

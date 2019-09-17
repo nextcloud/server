@@ -40,8 +40,6 @@
     "Share it so your friends can share files with you:" : "გააზიარეთ, რომ თქვენმა მეგობრებმაც შეძლონ ფაილების გაზიარება თქვენთან:",
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
-    "HTML Code:" : "HTML კოდი:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს."
+    "HTML Code:" : "HTML კოდი:"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

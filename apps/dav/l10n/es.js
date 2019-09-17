@@ -43,6 +43,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "Un <strong>calendario</strong> fue modificado.",
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario fue modificado.",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>lista de tareas</strong> fue modificada",
+    "Death of %s" : "Muerte de %s",
     "Contact birthdays" : "Cumpleaños del contacto",
     "Calendar:" : "Calendario:",
     "Date:" : "Fecha:",
@@ -97,10 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Por ello, no estarán disponibles inmediatamente tras activarlos, sino que aparecerán después de cierto tiempo.",
     "Send notifications for events" : "Enviar notificaciones de los eventos",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Las notificaciones se enviarán a través de trabajos en segundo plano, por lo que estos deben llevarse a cabo con cierta frecuencia.",
-    "%s via %s" : "%s vía %s",
-    "The meeting »%s« with %s was canceled." : "La reunión »%s« con %s se ha cancelado.",
-    "The meeting »%s« with %s was updated." : "La reunión »%s« con %s se ha actualizado.",
-    "%s invited you to »%s«" : "%s te ha invitado a »%s«",
+    "Enable notifications for events via push" : "Activar notificaciones push para eventos",
     "Please make sure to properly set up the email settings above." : "Por favor, asegúrate de que las configuraciones de correo de arriba son correctas"
 },
 "nplurals=2; plural=(n != 1);");

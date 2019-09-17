@@ -162,15 +162,14 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Target folder" : "Paskirties aplankas",
     "File handling" : "Failų apdorojimas",
     "Maximum upload size" : "Maksimalus įkeliamo failo dydis",
     "max. possible: " : "daug. leidžiama:",
     "Save" : "Įrašyti",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Naudojant PHP-FPM, pakeitimų taikymas gali užtrukti 5 minutes.",
     "Missing permissions to edit from here." : "Draudžiama iš čia redaguoti",
-    "%s of %s used" : "naudojama %s iš %s",
     "Cancel upload" : "Atsisakyti įkėlimo",
+    "%s of %s used" : "naudojama %s iš %s",
     "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

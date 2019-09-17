@@ -21,9 +21,6 @@ OC.L10N.register(
     "Name" : "Název",
     "Actions" : "Akce",
     "Deleted" : "Smazáno",
-    "Delete" : "Smazat",
-    "Couldn't delete %s permanently" : "%s se nedaří natrvalo smazat",
-    "Couldn't restore %s" : "%s se nedaří obnovit",
-    "Error" : "Chyba"
+    "Delete" : "Smazat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

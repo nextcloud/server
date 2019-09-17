@@ -98,10 +98,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "И поэтому они станут доступны не моментально, а через некоторое время.",
     "Send notifications for events" : "Отправлять уведомления о событиях",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Уведомления будут отправляться через фоновые задания, поэтому они должны выполняться достаточно часто.",
-    "%s via %s" : "%s через %s",
-    "The meeting »%s« with %s was canceled." : "Встреча «%s» с %s отменена.",
-    "The meeting »%s« with %s was updated." : "Встреча «%s» с %s обновлена.",
-    "%s invited you to »%s«" : "%s пригласил(а) Вас на «%s»",
     "Please make sure to properly set up the email settings above." : "Проверьте правильность заданных выше параметров электронной почты."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

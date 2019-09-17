@@ -34,8 +34,6 @@
     "Your Federated Cloud ID:" : "Tu ID de Nube Federate:",
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
-    "HTML Code:" : "Codice HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Compartir %s falleva, proque iste elemento ja es compartite con %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartir %s falleva, il es impossibile trovar %s: possibilemente le servitor es actualmente non accessibile o usa un certificato auto-signate."
+    "HTML Code:" : "Codice HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

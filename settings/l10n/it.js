@@ -810,22 +810,14 @@ OC.L10N.register(
     "Current password" : "Password attuale",
     "Change password" : "Modifica password",
     "Use a second factor besides your password to increase security for your account." : "Utilizza un secondo fattore oltre alla tua password per aumentare la sicurezza per il tuo account.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL utilizza una versione %s datata (%s). Aggiorna il tuo sistema operativo o funzionalità come %s non funzioneranno correttamente.",
     "Disconnect" : "Disconnetti",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "Client iOS",
-    "Android Client" : "Client Android",
     "Not supported!" : "Non supportato!",
     "Press ⌘-C to copy." : "Premi ⌘-C per copiare.",
     "Press Ctrl-C to copy." : "Premi Ctrl-C per copiare.",
     "Error while loading browser sessions and device tokens" : "Errore durante il caricamento delle sessioni del browser e dei token di dispositivo",
-    "Default quota :" : "Quota predefinita:",
     "Store credentials" : "Memorizza le credenziali",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Leggi attentamente le <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">guide d'installazione ↗</a>, e controlla gli errori o gli avvisi nel <a href=\"%s\">log</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php è registrato su un servizio webcron per invocare cron.php ogni 15 minuti su HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usa il servizio cron di sistema per invocare il file cron.php ogni 15 minuti.",
-    "Follow us on Google+" : "Seguici su Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Seguici su Google+"
 },
 "nplurals=2; plural=(n != 1);");

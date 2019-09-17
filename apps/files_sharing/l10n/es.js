@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Los archivos que compartas aparecerán aquí",
     "Restore share" : "Restaurar recurso compartido",
     "Something happened. Unable to restore the share." : "Algo ha sucedido. No se pudo restaurar el recurso compartido.",
+    "This will stop your current uploads." : "Esto detendrá tus subidas actuales.",
     "Move or copy" : "Mover o copiar",
     "Download" : "Descargar",
     "Delete" : "Eliminar",
@@ -79,6 +80,8 @@ OC.L10N.register(
     "{actor} removed {user} from {file}" : "{actor} eliminó a {user} de {file}",
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
     "{actor} removed you from the share named {file}" : "{actor} te ha eliminado del recurso compartido llamado {file}",
+    "Share for file {file} with {user} expired" : "Ha expirado la compartición del archivo {file} con {user}",
+    "Share for file {file} expired" : "Ha expirado la compartición del archivo {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un archivo o carpeta compartida por correo o enlace público fue  <strong>descargado</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Se ha compartido un archivo o carpeta desde <strong>otro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Se ha <strong>compartido</strong> un archivo o carpeta",
@@ -136,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
     "Uploading files…" : "Subiendo archivos...",
     "Uploaded files:" : "Archivos subidos:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Compartir %s ha fallado porque el backend no admite recursos compartidos del tipo %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s."
 },
 "nplurals=2; plural=(n != 1);");

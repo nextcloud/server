@@ -139,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione ou arrastre e solte ficheiros",
     "Uploading files…" : "Enviando ficheiros…",
     "Uploaded files:" : "Ficheiros enviados:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Fallou a compartición de %s, xa que a infraestrutura non permite accións do tipo %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s."
 },
 "nplurals=2; plural=(n != 1);");
