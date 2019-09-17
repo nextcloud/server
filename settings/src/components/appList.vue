@@ -24,13 +24,13 @@
 	<div id="app-content-inner">
 		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
+				<button v-if="showUpdateAll" class="primary" @click="updateAll">{{t('settings', 'Update all')}}</button>
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<app-item v-for="app in apps" :key="app.id" :app="app" :category="category" />
 				</transition-group>
 			</template>
 			<template v-for="bundle in bundles" v-if="useBundleView && bundleApps(bundle.id).length > 0">
 				<transition-group name="app-list" tag="div" class="apps-list-container">
-
 					<div class="apps-header" :key="bundle.id">
 						<div class="app-image"></div>
 						<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" v-on:click="toggleBundle(bundle.id)"></h2>
@@ -85,6 +85,12 @@ export default {
 	computed: {
 		loading() {
 			return this.$store.getters.loading('list');
+		},
+		hasPendingUpdate() {
+			return this.apps.find(app => app.update)
+		},
+		showUpdateAll(){
+			return this.hasPendingUpdate && ['installed', 'updates'].indexOf(this.category) !== -1
 		},
 		apps() {
 			let apps = this.$store.getters.getAllApps
@@ -178,6 +184,15 @@ export default {
 			let apps = this.bundleApps(id).map(app => app.id);
 			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
 				.catch((error) => { OC.Notification.show(error)});
+		},
+		updateAll(){
+			this.apps.forEach(function (app) {
+				this.$store.dispatch('updateApp', { appId: app.id })
+					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
+					.catch((error) => { OC.Notification.show(error)});
+
+
+			}.bind(this))
 		}
 	},
 }
