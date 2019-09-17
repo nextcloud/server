@@ -240,22 +240,12 @@ OC.L10N.register(
     "Update needed" : "نیاز به روز رسانی دارد",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "ایمیل بازنشانی ارسال نشد, زیرا هیچ نشانی ایمیل برای این نام کاربری وجود ندارد. لطفا با ادمین خود تماس بگیرید.",
     "Couldn't send reset email. Please make sure your username is correct." : "پست الکترونیکی بازنشانی نشد, لطفا مطمئن شوید که نام کاربری شما درست است",
-    "Updated \"%s\" to %s" : "\"%s\" به %s بروزرسانی شد",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>",
     "Dismiss" : "پنهان کن",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "فایل های شما رمزگذاری می شوند پس از بازنشانی گذرواژه شما هیچ راهی برای بازگرداندن اطلاعات نخواهید داشت. <br /> اگر مطمئن نیستید که چه کاری باید انجام دهید، قبل از ادامه دادن، با ادمین خود تماس بگیرید. <br />واقعا می خواهید ادامه دهید؟ ",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shareInitiatorDisplayName}} به اشتراک گذاشته شده از طریق لینک",
-    "{sharee} (group)" : "{sharee} (group)",
-    "{sharee} (remote)" : "{sharee} (remote)",
-    "{sharee} (email)" : "{sharee} (email)",
-    "The specified document has not been found on the server." : "مستند مورد نظر در سرور یافت نشد.",
-    "You can click here to return to %s." : "شما می‎توانید برای بازگشت به  %s اینجا کلیک کنید.",
     "SQLite will be used as database." : "SQLite به عنوان پایگاه‎داده استفاده خواهد شد.",
     "For larger installations we recommend to choose a different database backend." : "برای نصب و راه اندازی بزرگتر توصیه می کنیم یک پایگاه داده متفاوتی را انتخاب کنید.",
     "Wrong password." : "گذرواژه اشتباه.",
-    "New Password" : "رمزعبور جدید",
-    "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد",
-    "Thank you for your patience." : "از صبر شما متشکریم"
+    "New Password" : "رمزعبور جدید"
 },
 "nplurals=2; plural=(n > 1);");

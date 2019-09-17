@@ -48,8 +48,6 @@
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "HTML Code:" : "HTML Code:",
-    "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf getekend certificaat."
+    "HTML Code:" : "HTML Code:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "共享将在这里显示",
     "Restore share" : "恢复共享",
     "Something happened. Unable to restore the share." : "发生了问题。无法恢复该共享。",
+    "This will stop your current uploads." : "此操作将终止您当前的上传。",
     "Move or copy" : "移动或复制",
     "Download" : "下载",
     "Delete" : "删除",
@@ -138,7 +139,6 @@ OC.L10N.register(
     "Select or drop files" : "选择或删除文件",
     "Uploading files…" : "上传文件... ",
     "Uploaded files:" : "上传的文件： ",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "共享 %s 失败，后端不允许共享 %s 类型"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。"
 },
 "nplurals=1; plural=0;");

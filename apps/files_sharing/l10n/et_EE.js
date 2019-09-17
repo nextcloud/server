@@ -103,7 +103,6 @@ OC.L10N.register(
     "Upload files to %s" : "Laadi failid %s",
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine…",
-    "Uploaded files:" : "Üleslaetud failid:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s jagamine ebaõnnestus sest server ei luba %s tüüpi jagamisi"
+    "Uploaded files:" : "Üleslaetud failid:"
 },
 "nplurals=2; plural=(n != 1);");

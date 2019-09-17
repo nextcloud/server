@@ -27,7 +27,6 @@ OC.L10N.register(
     "View changelog" : "Εμφάνιση αλλαγών",
     "Stable" : "Σταθερός",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι.",
-    "Could not start updater, please try the manual update" : "Δεν μπορεί να εκκινήσει η εφαρμογή ενημέρωσης, παρακαλώ δοκιμάστε την χειροκίνητη ενημέρωση"
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Μπορείτε πάντα να περάσετε σε νεότερη / πειραματική έκδοση. Αλλά ποτέ δεν μπορείτε να γυρίσετε πίσω σε πιο σταθερό κανάλι."
 },
 "nplurals=2; plural=(n != 1);");

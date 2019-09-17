@@ -809,22 +809,14 @@ OC.L10N.register(
     "Current password" : "Trenutna zaporka",
     "Change password" : "Promijeni zaporku",
     "Use a second factor besides your password to increase security for your account." : "Koristite se i drugim faktorom pored zaporke kako biste povećali sigurnost svog računa.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL upotrebljava zastarjelu inačicu %s (%s). Ažurirajte svoj operacijski sustav kako bi značajke, kao što je %s, pouzdano radile.",
     "Disconnect" : "Odspoji",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "Klijent za iOS",
-    "Android Client" : "Klijent za Android",
     "Not supported!" : "Nije podržano!",
     "Press ⌘-C to copy." : "Pritisnite ⌘-C za kopiranje.",
     "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
     "Error while loading browser sessions and device tokens" : "Pogreška prilikom učitavanja sesija preglednika i tokena uređaja",
-    "Default quota :" : "Zadana kvota:",
     "Store credentials" : "Pohrani vjerodajnice",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Pažljivo pročitajte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">upute za instalaciju ↗</a> i potražite postoje li ikakve pogreške ili upozorenja u <a href=\"%s\">zapisima</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php registriran je na servisu webcron za pozivanje datoteke cron.php svakih 15 minuta putem HTTP-a.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Koristite se sistemskim servisom cron za pozivanje datoteke cron.php svakih 15 minuta.",
-    "Follow us on Google+" : "Pratite nas na Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Koristite <strong>%s</strong> od <strong>%s</strong> (<strong>%s % %</strong>)"
+    "Follow us on Google+" : "Pratite nas na Google+"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

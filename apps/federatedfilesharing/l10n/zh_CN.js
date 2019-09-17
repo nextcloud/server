@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码：",
-    "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。"
+    "HTML Code:" : "HTML 代码："
 },
 "nplurals=1; plural=0;");

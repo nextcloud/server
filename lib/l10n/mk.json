@@ -138,11 +138,6 @@
     "Verifying" : "Потврдување",
     "Verifying …" : "Потврдување …",
     "Verify" : "Потврди",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Споделувањето на %s е неуспешно, неможе да се пронајде %s, можеби серверот моментално не е достапен.",
-    "Sharing %s failed, because the sharing backend for %s could not find its source" : "Споделувањето на %s е неуспешно, бидејќи серверот на %s неможе да го пронајде споделувањето",
-    "%s shared »%s« with you" : "%s сподели »%s« со вас",
-    "%s shared »%s« with you." : "%s сподели »%s« со вас.",
-    "%s via %s" : "%s преку %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен.",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Споделувањето на %1$s е неуспешно, бидејќи серверот на %2$s неможе да го пронајде споделувањето"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

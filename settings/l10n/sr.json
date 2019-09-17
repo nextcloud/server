@@ -807,22 +807,14 @@
     "Current password" : "Тренутна лозинка",
     "Change password" : "Измени лозинку",
     "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL користи застарелу верзију %s (%s). Ажурирајте оперативни систем или функционалности као што је %s неће радити поуздано.",
     "Disconnect" : "Раскачи се",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS клијент",
-    "Android Client" : "Андроид клијент",
     "Not supported!" : "Није подржано! ",
     "Press ⌘-C to copy." : "Притисните ⌘-C за копирање.",
     "Press Ctrl-C to copy." : "Притисни Ctrl-C за копирање.",
     "Error while loading browser sessions and device tokens" : "Грешка при учитавању сесија веб читача и токена са уређаја",
-    "Default quota :" : "Подразумевана квота:",
     "Store credentials" : "Сачувај акредитиве",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Добро погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">инсталациону документацију ↗</a> и проверите за било какве грешке или упозорења у <a href=\"%s\">записнику</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
-    "Follow us on Google+" : "Пратите нас на Google+-у",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Користите <strong>%s</strong> од <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Пратите нас на Google+-у"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

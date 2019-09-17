@@ -138,7 +138,6 @@ OC.L10N.register(
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
     "Uploaded files:" : "Uppladdade filer:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Delningen av %s misslyckades. Ej tillåtet med delning av %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s."
 },
 "nplurals=2; plural=(n != 1);");

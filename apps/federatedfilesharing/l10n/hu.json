@@ -43,8 +43,6 @@
     "Share it so your friends can share files with you:" : "Oszd meg, hogy a barátaid is megoszthassanak veled fájlokat:",
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ."
+    "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

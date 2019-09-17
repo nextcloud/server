@@ -796,22 +796,14 @@ OC.L10N.register(
     "Current password" : "Núverandi lykilorð",
     "Change password" : "Breyta lykilorði",
     "Use a second factor besides your password to increase security for your account." : "Notaðu annað þrep til viðbótar lykilorðinu þínu til að auka öryggi notandaaðgangsins þíns.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL er að nota úrelda útgáfu af %s (%s). Uppfærðu stýrikerfið þitt, annars er hætt við að eiginleikar á borð við %s virki ekki sem skyldi.",
     "Disconnect" : "Aftengjast",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS-biðlari",
-    "Android Client" : "Android-biðlari",
     "Not supported!" : "Óstutt!",
     "Press ⌘-C to copy." : "Ýttu á ⌘-C til að afrita.",
     "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
     "Error while loading browser sessions and device tokens" : "Villa við að hlaða inn vafrasetum og teiknum fyrir tæki",
-    "Default quota :" : "Sjálfgefinn kvóti :",
     "Store credentials" : "Geyma auðkenni",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Yfirfarðu vandlega <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">uppsetningarleiðbeiningarnar ↗</a>, og athugaðu hvort nokkrar villumeldingar eða aðvaranir séu í <a href=\"%s\">annálnum</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er skráð á webcron-þjónustu til að kalla á cron.php á 15 mínútna fresti yfir HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Nota cron-þjónustu kerfisins til að kalla á cron.php skrána á 15 mínútna fresti.",
-    "Follow us on Google+" : "Fylgstu með okkur á Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Þú ert að nota <strong>%$s</strong> af <strong>%$s</strong> (<strong>%$s %%</strong>)"
+    "Follow us on Google+" : "Fylgstu með okkur á Google+"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -43,8 +43,6 @@
     "Share it so your friends can share files with you:" : "Zdieľajte to, aby mohli vaši priatelia zdieľať súbory s vami:",
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát."
+    "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

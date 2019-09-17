@@ -19,8 +19,6 @@
     "A two-factor auth backup codes provider" : "Un provedor de códigos de seguranza para a autenticación de dous factores",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use un dos códigos de seguranza que gardou cuando axustou a autenticación de dous factores.",
     "Submit" : "Enviar ",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Los códigos de seguranza foron xerados. Usou {{used}} códigos de {{total}}.",
-    "Nextcloud backup codes" : "Códigos de seguranza do Nextcloud",
     "activated" : "activado",
     "updated" : "actualizado",
     "mounted" : "montado",
@@ -31,6 +29,7 @@
     "beforeDestroy" : "antesDaDestrución",
     "destroyed" : "destruído",
     "beforeMount" : "antesDaMontaxe",
+    "Nextcloud backup codes" : "Códigos de seguranza do Nextcloud",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Activou a autenticación de dous factores mais non xerou aída os códigos de seguranza. Asegúrese de facelo para o caso de perda de acceso ao seu segundo factor."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

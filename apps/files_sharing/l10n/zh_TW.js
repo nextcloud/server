@@ -116,7 +116,6 @@ OC.L10N.register(
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
     "Uploading files…" : "上傳檔案中…",
-    "Uploaded files:" : "已上傳的檔案：",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "分享 %s 失敗，因為後端不允許來自 %s 類型的分享"
+    "Uploaded files:" : "已上傳的檔案："
 },
 "nplurals=1; plural=0;");

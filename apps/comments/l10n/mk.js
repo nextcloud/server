@@ -28,8 +28,6 @@ OC.L10N.register(
     "Error occurred while posting comment" : "Настана грешка при обидот за испраќање на коментарот",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"],
     "_1 new comment_::_{unread} new comments_" : ["1 нов коментар","{unread} нови коментари"],
-    "Comment" : "Коментар",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Бевте спомнати на коментар на “%s”,од корисник кој сега е избришан",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s те спомна во коментар на датотеката “%2$s”"
+    "Comment" : "Коментар"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

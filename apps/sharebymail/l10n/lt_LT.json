@@ -47,17 +47,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia vartotojams pasidalinti asmenine nuoroda į failą ar aplanką, siunčiant el. paštu.",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
     "Enforce password protection" : "Apsaugoti slaptažodžiu",
-    "Sharing %s failed, this item is already shared with %s" : "%s pasidalinimas nepavyko, šis elementas jau yra pasidalintas su %s",
-    "%s shared »%s« with you" : "%s pasidalino „%s“ su jumis ",
-    "%s shared »%s« with you." : "%s pasidalino „%s“ su jumis.",
-    "%s via %s" : "%s per %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s pasidalino „%s“ su jumis.\nTurėjote gauti el. laišką su prieigos nuoroda.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s pasidalino „%s“ su jumis. Turėjote gauti el. laišką su prieigos nuoroda.",
-    "Password to access »%s« shared to you by %s" : "%s pasidalino slaptažodžiu, reikalingu atverti „%s“",
-    "It is protected with the following password: %s" : "Apsaugota šiuo slaptažodžiu: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ką tik pasidalinote „%s“ su %s.  Dalinimosi nuoroda buvo išsiųsta adresatui.  Pagal saugumo taisykles, kurias nustatė %s administratorius, kiekvienas dalinimasis turi būti apsaugotas slaptažodžiu ir negalima slaptažodžio tiesiogiai perduoti gavėjui. Slaptažodį perduoti gavėjui turite neautomatiniu būdu.",
-    "Password to access »%s« shared with %s" : "Slaptažodis prieigai prie „%s“ pasidalintas su %s",
-    "This is the password: %s" : "Štai yra slaptažodis: %s",
     "Password to access »%1$s« shared with %2$s" : "Slaptažodis prieigai prie „%1$s“ pasidalintas su %2$s"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

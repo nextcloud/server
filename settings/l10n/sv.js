@@ -810,22 +810,14 @@ OC.L10N.register(
     "Current password" : "Nuvarande lösenord",
     "Change password" : "Ändra lösenord",
     "Use a second factor besides your password to increase security for your account." : "Använd en andra faktor förutom ditt lösenord för att öka säkerheten för ditt konto.",
-    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "cURL använder en föråldrad %s version (%s). Var god uppdatera ditt operativsystem annars kan funktioner som %s sluta fungera pålitligt.",
     "Disconnect" : "Koppla från",
-    "iPhone iOS" : "iPhone iOS",
-    "iPad iOS" : "iPad iOS",
-    "iOS Client" : "iOS-klient",
-    "Android Client" : "Android-klient",
     "Not supported!" : "Stöds inte!",
     "Press ⌘-C to copy." : "Tryck ⌘-C för att kopiera.",
     "Press Ctrl-C to copy." : "Tryck Ctrl-C för att kopiera.",
     "Error while loading browser sessions and device tokens" : "Fel vid inläsning av webbläsarsessioner och enhetstoken.",
-    "Default quota :" : "Förvalt lagringsutrymme:",
     "Store credentials" : "Lagra inloggningsuppgifter",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%s\">log</a>." : "Dubbelkolla <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">installationsguiderna ↗</a>, och kontrollera eventuella fel eller varningar i <a href=\"%s\">loggen</a>.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php är registrerat hos en webcron-tjänst att köra cron.php varje kvart över HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Använd systemets cron-tjänst för att anropa cron.php varje kvart.",
-    "Follow us on Google+" : "Följ oss på Google+",
-    "You are using <strong>%s</strong> of <strong>%s</strong> (<strong>%s %%</strong>)" : "Du använder <strong>%s</strong> av <strong>%s</strong> (<strong>%s %%</strong>)"
+    "Follow us on Google+" : "Följ oss på Google+"
 },
 "nplurals=2; plural=(n != 1);");

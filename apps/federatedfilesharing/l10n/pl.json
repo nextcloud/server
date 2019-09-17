@@ -48,8 +48,6 @@
     "Share it so your friends can share files with you:" : "Udostępnij, aby Twoi znajomi mogli współdzielić pliki z Tobą:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
-    "HTML Code:" : "Kod HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Udostępnianie %s nie powiodło się, ponieważ ten element jest już udostępniony w %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Udostępnianie %s nie powiodło się, nie można znaleźć %s, być może serwer jest obecnie nieosiągalny lub używa certyfikatu z podpisem własnym."
+    "HTML Code:" : "Kod HTML:"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

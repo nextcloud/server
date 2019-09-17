@@ -130,7 +130,6 @@
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s을(를) 공유할 수 없습니다. 백엔드에서 %s 형식의 공유를 지원하지 않습니다"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -126,7 +126,6 @@ OC.L10N.register(
     "Shared by link" : "Koplietots ar saiti",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
-    "Target folder" : "Mērķa mape",
     "File handling" : "Datņu pārvaldība",
     "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
     "max. possible: " : "maksimālais iespējamais:",

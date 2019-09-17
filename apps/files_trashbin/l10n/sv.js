@@ -19,9 +19,6 @@ OC.L10N.register(
     "Name" : "Namn",
     "Actions" : "Åtgärder",
     "Deleted" : "Raderad",
-    "Delete" : "Radera",
-    "Couldn't delete %s permanently" : "Kunde inte radera %s permanent",
-    "Couldn't restore %s" : "Kunde inte återställa %s",
-    "Error" : "Fel"
+    "Delete" : "Radera"
 },
 "nplurals=2; plural=(n != 1);");

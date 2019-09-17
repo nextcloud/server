@@ -123,7 +123,6 @@ OC.L10N.register(
     "Select or drop files" : "Valitse tai pudota tiedostoja",
     "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Kohteen %s jakaminen epäonnistui, koska tietovarasto ei salli %s tyyppisiä jakoja"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s."
 },
 "nplurals=2; plural=(n != 1);");

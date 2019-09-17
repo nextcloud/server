@@ -255,27 +255,13 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "S’u dërgua dot email ricaktimi, ngaqë s’ka adresë email për këtë përdoruesi. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "Couldn't send reset email. Please make sure your username is correct." : "S’u dërgua dot email ricaktimi. Ju lutemi, sigurohuni që emri juaj i përdoruesit është i saktë.",
-    "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
-    "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Pati probleme me kontrollin e integritetit të kodit. Më tepër të dhëna…</a>",
     "Dismiss" : "Mos e merr parasysh",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Lidhja për ricaktimin e fjalëkalimi tuaj u dërgua tek email-i juaj. Nëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme/postës së pavlerë.<br>Nëse s’është as aty, pyetni përgjegjësin tuaj lokal.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Skedarët tuaj janë të enkriptuar. Nuk do ketë asnjë mënyrë për ti rimarrë të dhënat pasi fjalëkalimi juaj të rivendoset. <br>Nëse nuk jeni të sigurt se çfarë duhet të bëni, ju lutemi flisni me administratorin tuaj para se të vazhdoni. <br /> Doni vërtet të vazhdoni?",
-    "Enable" : "Aktivizo",
-    "{{shareInitiatorDisplayName}} shared via link" : "{{shpërndaEmrinEShfaqurTëNismëtarit}} shpërnda nëpërmjet linkut",
-    "{sharee} (group)" : "{sharee} (grup)",
-    "{sharee} (remote)" : "{sharee} (i largët)",
-    "{sharee} (email)" : "{sharee} (email)",
-    "The specified document has not been found on the server." : "Dokumenti i përcaktuar s’u gjet në shërbyes.",
-    "You can click here to return to %s." : "Mund të klikoni këtu për t’u kthyer te %s.",
     "SQLite will be used as database." : "Si bazë të dhënash do të përdoret SQLite.",
     "For larger installations we recommend to choose a different database backend." : "Për instalime më të mëdha këshillojmë të zgjidhni një tjetër program shërbyesi baze të dhënash.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Përdorimi i SQLite-it shkëshillohet veçanërisht, kur për njëkohësim kartelash përdoret klienti desktop.",
     "Wrong password." : "Fjalëkalim i gabuar.",
-    "Redirecting …" : "Duke ju lidhur...",
-    "New Password" : "Fjalëkalim i Ri",
-    "Enhanced security is enabled for your account. Please authenticate using a second factor." : "Rrit sigurinë për llogarin tuaj. Ju lutem bëni verifikimin duke përdorur një element të dytë.",
-    "%s will be updated to version %s" : "%s do të përditësohet me versionin %s",
-    "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati.",
-    "Thank you for your patience." : "Ju faleminderit për durimin."
+    "New Password" : "Fjalëkalim i Ri"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

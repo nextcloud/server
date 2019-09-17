@@ -127,7 +127,6 @@ OC.L10N.register(
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Feltöltött fájlok:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s megosztása sikertelen, mert a háttér rendszer nem engedélyezi a következő típusú megosztásokat: %s"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s."
 },
 "nplurals=2; plural=(n != 1);");

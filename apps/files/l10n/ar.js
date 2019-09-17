@@ -112,7 +112,6 @@ OC.L10N.register(
     "Shared by link" : "شاركته باستخدام رابط مشاركة",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
-    "Target folder" : "المجلد الهدف",
     "File handling" : "التعامل مع الملف",
     "Maximum upload size" : "الحد الأقصى لحجم الملفات التي يمكن رفعها",
     "max. possible: " : "الحد الأقصى المسموح به",
