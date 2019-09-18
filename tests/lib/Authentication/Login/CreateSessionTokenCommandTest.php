@@ -76,7 +76,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 			->method('updateTokens')
 			->with(
 				$this->username,
-				$this->username
+				$this->password
 			);
 
 		$result = $this->cmd->process($data);
@@ -109,7 +109,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 			->method('updateTokens')
 			->with(
 				$this->username,
-				$this->username
+				$this->password
 			);
 
 		$result = $this->cmd->process($data);
