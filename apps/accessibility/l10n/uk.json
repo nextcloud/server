@@ -1,6 +1,4 @@
 { "translations": {
-    "High contrast theme" : "Висококонтрастна тема",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Висококонтрастна тема для того, щоб полегшити користування. Візуальні ефекти буде погіршено, однак чіткість - покращено.",
     "Dark theme" : "Темна тема",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Темна тема зменшує навантаження для очей шляхом зменшення загального світлового випромінення і яскравості. Вона все ще перебуває на стадії розробки, тож якщо знайдете якісь проблеми, будь ласка, сповістіть нас про це.",
     "Dyslexia font" : "Шрифт для людей, які страждають від дислексії",
@@ -10,6 +8,8 @@
     "our issue tracker" : "наш баґ-трекер",
     "our design team" : "наша команда дизайнерів",
     "Enable" : "Увімкнути",
+    "High contrast theme" : "Висококонтрастна тема",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Висококонтрастна тема для того, щоб полегшити користування. Візуальні ефекти буде погіршено, однак чіткість - покращено.",
     "Dark theme (beta)" : "Темна тема (бета)",
     "Themes" : "Теми",
     "Fonts" : "Шрифти",
