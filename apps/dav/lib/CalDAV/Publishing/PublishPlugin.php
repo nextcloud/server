@@ -126,7 +126,10 @@ class PublishPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function() use ($node) {
-				return new AllowedSharingModes(!$node->isSubscription(), !$node->isSubscription());
+				$canShare = (!$node->isSubscription() && $node->canWrite());
+				$canPublish = (!$node->isSubscription() && $node->canWrite());
+
+				return new AllowedSharingModes($canShare, $canPublish);
 			});
 		}
 	}
