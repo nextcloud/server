@@ -22,7 +22,6 @@
 
 <template>
 	<div id="app-details-view" style="padding: 20px;">
-		<button v-on:click="onUpdate(enable)">Update all</button>
 		<h2>
 			<div v-if="!app.preview" class="icon-settings-dark"></div>
 			<svg v-if="app.previewAsIcon && app.preview" width="32" height="32" viewBox="0 0 32 32">
