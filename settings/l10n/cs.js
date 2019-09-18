@@ -135,6 +135,7 @@ OC.L10N.register(
     "Czech (Czech Republic)" : "Čeština (Česko)",
     "Czech" : "Čeština",
     "Danish" : "Dánština",
+    "Embu" : "Embu",
     "English (Australia)" : "angličtina (Austrálie)",
     "English (Canada)" : "angličtina (Kanada)",
     "English (India)" : "angličtina (Indie)",

@@ -1,6 +1,4 @@
 { "translations": {
-    "High contrast theme" : "Suuren kontrastin teema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Suuren kontrastin teema helpottaa navigointiasi. Visuaalinen laatu on heikompi, mutta selkeys paranee.",
     "Dark theme" : "Tumma teema",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tumma teema helpottaa silmien rasitusta vähentämällä kokonaiskirkkautta. Teemaa kehitetään edelleen, joten ilmoitathan mahdollisesti kohtaamasi ongelmat.",
     "Dyslexia font" : "Lukihäiriökirjasin",
@@ -12,6 +10,8 @@
     "our issue tracker" : "virheidenseurantajärjestelmämme",
     "our design team" : "suunnitteluryhmämme",
     "Enable" : "Ota käyttöön",
+    "High contrast theme" : "Suuren kontrastin teema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Suuren kontrastin teema helpottaa navigointiasi. Visuaalinen laatu on heikompi, mutta selkeys paranee.",
     "Dark theme (beta)" : "Tumma teema (beta)",
     "Themes" : "Teemat",
     "Fonts" : "Fontit",
