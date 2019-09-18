@@ -186,7 +186,9 @@ export default {
 				.catch((error) => { OC.Notification.show(error)});
 		},
 		updateAll(){
-			this.apps.forEach(function (app) {
+			this.apps
+				.filter(app => app.update)
+				.forEach(function (app) {
 				this.$store.dispatch('updateApp', { appId: app.id })
 					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
 					.catch((error) => { OC.Notification.show(error)});
