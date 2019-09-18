@@ -497,31 +497,31 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param VEvent $vevent
 	 */
 	private function addEventTable(IEMailTemplate $template, IL10N $l10n, VEvent $vevent) {
-		/* TODO [brad2014]: should event-title background be a theme color? */
-		$htmlText = '
-			<style>
-			  table.event-table { border: 2px solid black; border-collapse: collapse; }
-				table.event-table tr { vertical-align: top; }
-				table.event-table td { padding: 2px .5em; }
-				td.event-title { background: #8cf; font-weight: bold; text-align: right; }
-			</style>
-			<table class="event-table">
-			';
 		$plainText = '';
+		$htmlText = vsprintf('<table style="%s">',[
+			"border: 2px solid black; border-collapse: collapse;"
+		]);
+		/* TODO [brad2014]: should tdHeadStyle background be a theme color? */
+		$trHtml = vsprintf('<tr style="%s"><td style="%s">%%s</td><td style="%s">%%s</td></tr>',
+			[
+				"vertical-align:top;",
+				"padding:3px .5em;background:#8cf;font-weight:bold;text-align:right;",
+				"padding:3px .5em;"
+			]);
 		if ($vevent->SUMMARY) {
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Title:')), htmlspecialchars($vevent->SUMMARY)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Title:'), $vevent->SUMMARY]);
 		}
 		if ($vevent->LOCATION) {
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Location:')), htmlspecialchars($vevent->LOCATION)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Location:'), $vevent->LOCATION]);
 		}
 		if ($vevent->URL) {
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Link:')), htmlspecialchars($vevent->URL)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Link:'), $vevent->URL]);
@@ -529,7 +529,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		if (true) {
 			$meetingWhen = $this->generateWhenString($l10n, $vevent);
 
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Time:')), htmlspecialchars($meetingWhen)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Time:'), $meetingWhen]);
@@ -542,13 +542,13 @@ class IMipPlugin extends SabreIMipPlugin {
 				$organizerName .= ' ✔︎';
 			}
 
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Organizer:')), htmlspecialchars($organizerName)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Organizer:'), $organizerName]);
 		}
 		if ($vevent->DESCRIPTION) {
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Description:')), str_replace(PHP_EOL,'<br/>', htmlspecialchars($vevent->DESCRIPTION))
 			]);
 			$plainText .= vsprintf("%15s %s\n", [
@@ -566,7 +566,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				}
 				array_push($attendeeNames, $attendeeName);
 			}
-			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+			$htmlText .= vsprintf($trHtml, [
 				htmlspecialchars($l10n->t('Attendees:')), implode('<br/>',$attendeeNames)
 			]);
 			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Attendees:'), implode(PHP_EOL.str_repeat(' ',16),$attendeeNames)]);
