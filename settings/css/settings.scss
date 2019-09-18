@@ -1343,12 +1343,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
 	$grid-row-height: 46px;
-	$grid-col-min-width: 120px;
+	$grid-col-min-width: 210px;
+
 	#app-content.user-list-grid {
 		display: grid;
 		grid-auto-columns: 1fr;
 		grid-auto-rows: $grid-row-height;
 		grid-column-gap: 20px;
+
 		.row {
 			// TODO replace with css4 subgrid when available
 			// fallback for ie11 no grid
@@ -1361,6 +1363,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			   what follows will be manually defined  */
 			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
+
 			&.disabled {
 				opacity: .5;
 			}
@@ -1371,11 +1374,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.password,
 			.mailAddress,
 			.languages,
-			.storageLocation,
-			.userBackend,
-			.lastLogin {
+			.storageLocation {
 				min-width: $grid-col-min-width;
 			}
+
+			.userBackend,
+			.lastLogin {
+				min-width: 79px;
+			}
+
 			.groups,
 			.subadmins,
 			.quota {
@@ -1383,10 +1390,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					min-width: $grid-col-min-width;
 				}
 			}
+
 			.obfuscated {
 				width: 400px;
 				opacity: .7;
 			}
+
 			.userActions {
 				min-width: 44px;
 			}
@@ -1399,9 +1408,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				background-color: var(--color-main-background);
 				z-index: 55; /* above multiselect */
 				top: $header-height;
+
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
 				}
+
 				/* fake input for groups validation */
 				input#newgroups {
 					position: absolute;
@@ -1411,10 +1422,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					z-index: 0;
 				}
 			}
+
 			// separate prop to set initial value to top: 50px
 			&#new-user {
 				top: $header-height + $grid-row-height;
 			}
+
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
 				z-index: 60; /* above new-user */
@@ -1430,14 +1443,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					padding-left: 7px;
 				}
 			}
+
 			&:hover {
 				input:not([type='submit']):not(:focus):not(:active) {
 					border-color: var(--color-border) !important;
 				}
+
 				&:not(#grid-header) {
 					box-shadow: 5px 0 0 var(--color-primary-element) inset;
 				}
 			}
+
 			> div,
 			> form {
 				grid-row: 1;
@@ -1445,35 +1461,41 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				align-items: center;
 				color: var(--color-text);
 				position: relative;
+
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
 					cursor: pointer;
 				}
-				> input:focus, >input:active {
+
+				> input:focus, > input:active {
 					+ .icon-confirm {
 						display: block !important;
 					}
 				}
+
 				/* inputs like mail, username, password */
 				&:not(.userActions) > input:not([type='submit']) {
 					width: 100%;
 					min-width: 0;
 				}
+
 				&.name {
 					word-break: break-all;
 				}
+
 				&.displayName,
 				&.mailAddress {
 					> input {
 						text-overflow: ellipsis;
 					}
 				}
+
 				&.name,
 				&.storageLocation {
 					/* better multi-line visual */
 					line-height: 1.3em;
 					max-height: 100%;
-					overflow : hidden;
+					overflow: hidden;
 					/* not supported by all browsers
 					   so we keep the overflow hidden
 					   as a fallback */
@@ -1482,10 +1504,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
 				}
+
 				&.quota {
-                    .multiselect--active + progress {
-                        display: none;
-                    }
+					.multiselect--active + progress {
+						display: none;
+					}
+
 					progress {
 						position: absolute;
 						width: calc(100% - 4px); /* minus left and right */
@@ -1495,60 +1519,73 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						z-index: 5; /* above multiselect */
 					}
 				}
+
 				.icon-confirm {
 					flex: 0 0 auto;
 					cursor: pointer;
+
 					&:not(:active) {
 						display: none;
 					}
 				}
+
 				&.avatar {
 					height: 32px;
 					width: 32px;
 					margin: 6px;
+
 					img {
 						display: block;
 					}
 				}
+
 				&.userActions {
 					#newsubmit {
 						width: 100%;
 					}
+
 					.toggleUserActions {
 						position: relative;
+
 						.icon-more {
 							width: 44px;
 							height: 44px;
 							opacity: .5;
 							cursor: pointer;
+
 							&:hover {
 								opacity: .7;
 							}
 						}
 					}
+
 					.feedback {
 						display: flex;
 						align-items: center;
 						white-space: nowrap;
 						transition: opacity 200ms ease-in-out;
+
 						.icon-checkmark {
 							opacity: .5;
 							margin-right: 5px;
 						}
 					}
 				}
+
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
 					width: 100%;
 				}
 			}
 		}
+
 		.infinite-loading-container {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			grid-row-start: span 4;
 		}
+
 		.users-list-end {
 			opacity: .5;
 			user-select: none;
