@@ -299,6 +299,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}));
 
 		if (count($mountsContainingFile) === 0) {
+			if ($user === $this->getAppDataDirectoryName()) {
+				return $this->getByIdInRootMount((int) $id);
+			}
 			return [];
 		}
 
@@ -325,6 +328,47 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return array_filter($nodes, function (Node $node) {
 			return $this->getRelativePath($node->getPath());
 		});
+	}
+
+	protected function getAppDataDirectoryName(): string {
+		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		return 'appdata_' . $instanceId;
+	}
+
+	/**
+	 * In case the path we are currently in is inside the appdata_* folder,
+	 * the original getById method does not work, because it can only look inside
+	 * the user's mount points. But the user has no mount point for the root storage.
+	 *
+	 * So in that case we directly check the mount of the root if it contains
+	 * the id. If it does we check if the path is inside the path we are working
+	 * in.
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	protected function getByIdInRootMount(int $id): array {
+		$mount = $this->root->getMount('');
+		$cacheEntry = $mount->getStorage()->getCache($this->path)->get($id);
+		if (!$cacheEntry) {
+			return [];
+		}
+
+		$absolutePath = '/' . ltrim($cacheEntry->getPath(), '/');
+		$currentPath = rtrim($this->path, '/') . '/';
+
+		if (strpos($absolutePath, $currentPath) !== 0) {
+			return [];
+		}
+
+		return [$this->root->createNode(
+			$absolutePath, new \OC\Files\FileInfo(
+				$absolutePath,
+				$mount->getStorage(),
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount
+		))];
 	}
 
 	public function getFreeSpace() {
