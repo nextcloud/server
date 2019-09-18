@@ -175,34 +175,12 @@ class IMipPlugin extends SabreIMipPlugin {
 		$l10n = $this->l10nFactory->get('dav', $lang);
 
 		$meetingAttendeeName = $recipientName ?: $recipient;
-		$meetingInviteeName = $senderName ?: $sender;
+		$meetingOrganizerName = $senderName ?: $sender;
 
 		$meetingTitle = $vevent->SUMMARY;
 		$meetingDescription = $vevent->DESCRIPTION;
 
-		$start = $vevent->DTSTART;
-		if (isset($vevent->DTEND)) {
-			$end = $vevent->DTEND;
-		} elseif (isset($vevent->DURATION)) {
-			$isFloating = $vevent->DTSTART->isFloating();
-			$end = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
-			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
-			$end->setDateTime($endDateTime, $isFloating);
-		} elseif (!$vevent->DTSTART->hasTime()) {
-			$isFloating = $vevent->DTSTART->isFloating();
-			$end = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
-			$endDateTime = $endDateTime->modify('+1 day');
-			$end->setDateTime($endDateTime, $isFloating);
-		} else {
-			$end = clone $vevent->DTSTART;
-		}
-
-		$meetingWhen = $this->generateWhenString($l10n, $start, $end);
-
 		$meetingUrl = $vevent->URL;
-		$meetingLocation = $vevent->LOCATION;
 
 		$defaultVal = '--';
 
@@ -218,7 +196,7 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$data = array(
 			'attendee_name' => (string)$meetingAttendeeName ?: $defaultVal,
-			'invitee_name' => (string)$meetingInviteeName ?: $defaultVal,
+			'invitee_name' => (string)$meetingOrganizerName ?: $defaultVal,
 			'meeting_title' => (string)$meetingTitle ?: $defaultVal,
 			'meeting_description' => (string)$meetingDescription ?: $defaultVal,
 			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
@@ -236,9 +214,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$template->addHeader();
 
 		$this->addSubjectAndHeading($template, $l10n, $method, $summary,
-			$meetingAttendeeName, $meetingInviteeName);
-		$this->addBulletList($template, $l10n, $meetingWhen, $meetingLocation,
-			$meetingDescription, $meetingUrl);
+			$meetingAttendeeName, $meetingOrganizerName);
+		$this->addEventTable($template, $l10n, $vevent);
 
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
@@ -269,7 +246,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
 				 || in_array(strtolower($recipient), $invitationLinkRecipients)
 				 || in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
-				$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
+        $this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
 			}
 		}
 
@@ -395,10 +372,29 @@ class IMipPlugin extends SabreIMipPlugin {
 
 	/**
 	 * @param IL10N $l10n
-	 * @param Property $dtstart
-	 * @param Property $dtend
+	 * @param VEvent $vevent
 	 */
-	private function generateWhenString(IL10N $l10n, Property $dtstart, Property $dtend) {
+	private function generateWhenString(IL10N $l10n, VEvent $vevent) {
+
+		$dtstart = $vevent->DTSTART;
+		if (isset($vevent->DTEND)) {
+			$dtend = $vevent->DTEND;
+		} elseif (isset($vevent->DURATION)) {
+			$isFloating = $vevent->DTSTART->isFloating();
+			$dtend = clone $vevent->DTSTART;
+			$endDateTime = $end->getDateTime();
+			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
+			$dtend->setDateTime($endDateTime, $isFloating);
+		} elseif (!$vevent->DTSTART->hasTime()) {
+			$isFloating = $vevent->DTSTART->isFloating();
+			$dtend = clone $vevent->DTSTART;
+			$endDateTime = $end->getDateTime();
+			$endDateTime = $endDateTime->modify('+1 day');
+			$dtend->setDateTime($endDateTime, $isFloating);
+		} else {
+			$dtend = clone $vevent->DTSTART;
+		}
+
 		$isAllDay = $dtstart instanceof Property\ICalendar\Date;
 
 		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtstart */
@@ -482,45 +478,102 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param string $inviteeName
 	 */
 	private function addSubjectAndHeading(IEMailTemplate $template, IL10N $l10n,
-										  $method, $summary, $attendeeName, $inviteeName) {
+										  $method, $summary) {
 		if ($method === self::METHOD_CANCEL) {
-			$template->setSubject('Cancelled: ' . $summary);
-			$template->addHeading($l10n->t('Invitation canceled'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was canceled.', [$summary, $inviteeName]));
+			$template->setSubject('Canceled: ' . $summary);
+			$template->addHeading($l10n->t('Invitation canceled'));
 		} else if ($method === self::METHOD_REPLY) {
 			$template->setSubject('Re: ' . $summary);
-			$template->addHeading($l10n->t('Invitation updated'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was updated.', [$summary, $inviteeName]));
+			$template->addHeading($l10n->t('Invitation updated'));
 		} else {
 			$template->setSubject('Invitation: ' . $summary);
-			$template->addHeading($l10n->t('%1$s invited you to »%2$s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
+			$template->addHeading($l10n->t('Invitation'));
 		}
 	}
 
 	/**
 	 * @param IEMailTemplate $template
 	 * @param IL10N $l10n
-	 * @param string $time
-	 * @param string $location
-	 * @param string $description
-	 * @param string $url
+	 * @param VEvent $vevent
 	 */
-	private function addBulletList(IEMailTemplate $template, IL10N $l10n, $time, $location, $description, $url) {
-		$template->addBodyListItem($time, $l10n->t('When:'),
-			$this->getAbsoluteImagePath('filetypes/text-calendar.svg'));
+	private function addEventTable(IEMailTemplate $template, IL10N $l10n, VEvent $vevent) {
+		/* TODO [brad2014]: should event-title background be a theme color? */
+		$htmlText = '
+			<style>
+			  table.event-table { border: 2px solid black; border-collapse: collapse; }
+				table.event-table tr { vertical-align: top; }
+				table.event-table td { padding: 2px .5em; }
+				td.event-title { background: #8cf; font-weight: bold; text-align: right; }
+			</style>
+			<table class="event-table">
+			';
+		$plainText = '';
+		if ($vevent->SUMMARY) {
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Title:')), htmlspecialchars($vevent->SUMMARY)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Title:'), $vevent->SUMMARY]);
+		}
+		if ($vevent->LOCATION) {
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Location:')), htmlspecialchars($vevent->LOCATION)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Location:'), $vevent->LOCATION]);
+		}
+		if ($vevent->URL) {
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Link:')), htmlspecialchars($vevent->URL)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Link:'), $vevent->URL]);
+		}
+		if (true) {
+			$meetingWhen = $this->generateWhenString($l10n, $vevent);
 
-		if ($location) {
-			$template->addBodyListItem($location, $l10n->t('Where:'),
-				$this->getAbsoluteImagePath('filetypes/location.svg'));
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Time:')), htmlspecialchars($meetingWhen)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Time:'), $meetingWhen]);
 		}
-		if ($description) {
-			$template->addBodyListItem((string)$description, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('filetypes/text.svg'));
+		if ($vevent->ORGANIZER) {
+			$organizer = $vevent->ORGANIZER;
+			$organizerName = substr($organizer->getValue(),7); // strip off mailto:
+			$partStat = $organizer->offsetGet('PARTSTAT');
+			if (($partStat instanceof Parameter) && (strcasecmp($partStat->getValue(), 'ACCEPTED') === 0)) {
+				$organizerName .= ' ✔︎';
+			}
+
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Organizer:')), htmlspecialchars($organizerName)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Organizer:'), $organizerName]);
 		}
-		if ($url) {
-			$template->addBodyListItem((string)$url, $l10n->t('Link:'),
-				$this->getAbsoluteImagePath('filetypes/link.svg'));
+		if ($vevent->DESCRIPTION) {
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Description:')), str_replace(PHP_EOL,'<br/>', htmlspecialchars($vevent->DESCRIPTION))
+			]);
+			$plainText .= vsprintf("%15s %s\n", [
+				$l10n->t('Description:'),
+				str_replace(PHP_EOL, PHP_EOL.str_repeat(' ',16), $vevent->DESCRIPTION)]);
 		}
+		$attendees = $vevent->select('ATTENDEE');
+		$attendeeNames = [];
+		if (count($attendees)) {
+			foreach ($attendees as $attendee) {
+				$attendeeName = substr($attendee->getValue(),7); // strip off mailto:
+				$partStat = $attendee->offsetGet('PARTSTAT');
+				if (($partStat instanceof Parameter) && (strcasecmp($partStat->getValue(), 'ACCEPTED') === 0)) {
+					$attendeeName .= ' ✔︎';
+				}
+				array_push($attendeeNames, $attendeeName);
+			}
+			$htmlText .= vsprintf('<tr><td class="event-title">%s</td><td>%s</td></tr>', [
+				htmlspecialchars($l10n->t('Attendees:')), implode('<br/>',$attendeeNames)
+			]);
+			$plainText .= vsprintf("%15s %s\n", [$l10n->t('Attendees:'), implode(PHP_EOL.str_repeat(' ',16),$attendeeNames)]);
+		}
+		$htmlText .= '</table>';
+		$plainText .= PHP_EOL;
+		$template->addBodyText($htmlText, $plainText);
 	}
 
 	/**
@@ -553,16 +606,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		$text = $l10n->t('More options at %s', [$moreOptionsURL]);
 
 		$template->addBodyText($html, $text);
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function getAbsoluteImagePath($path) {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
 	}
 
 	/**
