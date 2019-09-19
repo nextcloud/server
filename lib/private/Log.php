@@ -214,24 +214,27 @@ class Log implements ILogger {
 		}
 		$message = strtr($message, $replace);
 
-		if ($level >= $minLevel) {
-			$this->writeLog($app, $message, $level);
+		try {
+			if ($level >= $minLevel) {
+				$this->writeLog($app, $message, $level);
 
-			if ($this->crashReporters !== null) {
-				$messageContext = array_merge(
-					$context,
-					[
-						'level' => $level
-					]
-				);
-				$this->crashReporters->delegateMessage($message, $messageContext);
+				if ($this->crashReporters !== null) {
+					$messageContext = array_merge(
+						$context,
+						[
+							'level' => $level
+						]
+					);
+					$this->crashReporters->delegateMessage($message, $messageContext);
+				}
+			} else {
+				if ($this->crashReporters !== null) {
+					$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
+				}
 			}
-		} else {
-			if ($this->crashReporters !== null) {
-				$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
-			}
+		} catch (\Throwable $e) {
+			// make sure we dont hard crash if logging fails
 		}
-
 	}
 
 	private function getLogLevel($context) {
@@ -318,16 +321,20 @@ class Log implements ILogger {
 
 		array_walk($context, [$this->normalizer, 'format']);
 
-		if ($level >= $minLevel) {
-			if (!$this->logger instanceof IFileBased) {
-				$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
+		try {
+			if ($level >= $minLevel) {
+				if (!$this->logger instanceof IFileBased) {
+					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
+				}
+				$this->writeLog($app, $data, $level);
 			}
-			$this->writeLog($app, $data, $level);
-		}
 
-		$context['level'] = $level;
-		if (!is_null($this->crashReporters)) {
-			$this->crashReporters->delegateReport($exception, $context);
+			$context['level'] = $level;
+			if (!is_null($this->crashReporters)) {
+				$this->crashReporters->delegateReport($exception, $context);
+			}
+		} catch (\Throwable $e) {
+			// make sure we dont hard crash if logging fails
 		}
 	}
 
