@@ -112,7 +112,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * TODO: add factory to federated sharing app
 			 */
-			$l = $this->serverContainer->getL10N('federatedfilessharing');
+			$l = $this->serverContainer->getL10N('federatedfilesharing');
 			$addressHandler = new AddressHandler(
 				$this->serverContainer->getURLGenerator(),
 				$l,
