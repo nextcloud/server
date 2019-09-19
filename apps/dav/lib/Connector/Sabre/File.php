@@ -149,7 +149,7 @@ class File extends Node implements IFile {
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
 
-			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
+			if ((!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) || (!$view->isReadable($partFilePath))) {
 				$needsPartFile = false;
 			}
 		}
