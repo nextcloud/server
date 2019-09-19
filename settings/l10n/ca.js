@@ -712,6 +712,7 @@ OC.L10N.register(
     "Credentials" : "Credencials",
     "SMTP Username" : "Nom d'usuari SMTP",
     "SMTP Password" : "Contrasenya SMTP",
+    "Save" : "Desa",
     "Test email settings" : "Prova els paràmetres de correu electrònic",
     "Send email" : "Envia el correu electrònic",
     "Security & setup warnings" : "Avisos de seguretat i configuració",
