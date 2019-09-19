@@ -177,5 +177,7 @@ video {
 	max-height: 100%;
 	align-self: center;
 	justify-self: center;
+	/* over arrows in tiny screens */
+	z-index: 20050;
 }
 </style>
