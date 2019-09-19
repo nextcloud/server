@@ -58,6 +58,7 @@ OC.L10N.register(
     "Custom user agent" : "Benutzerdefinierter User-Agent",
     "When" : "Wenn",
     "and" : "und",
+    "Cancel rule creation" : "Regelerstellung abbrechen",
     "Remove rule" : "Regel entfernen",
     "The configuration is invalid" : "Die Konfiguration ist ungültig",
     "Show less" : "Weniger anzeigen",

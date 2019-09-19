@@ -35,6 +35,8 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kunde inte ansluta till appstore eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
     "View changelog" : "Visa ändringslogg",
+    "Enterprise" : "Enterprise",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Innehåller alltid den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Den uppdateringen sker när Nextcloud GmbH har utfört ytterligare verifiering och testning för storskaliga och kritiska installationer. Den här kanalen är endast tillgänglig för kunder och tillhandahåller Nextcloud Enterprise-paketet.",
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste större mer omfattande versionen.",
     "Beta" : "Beta",
