@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Dark theme" : "Mörkt tema",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ett mörkt tema för att lätta dina ögon genom att minska den allmänna ljusstyrkan. Det är fortfarande under utveckling, så rapportera gärna eventuella problem ni hittar.",
+    "High contrast mode" : "Läge med hög kontrast",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ett läge med hög kontrast för att underlätta din navigering. Visuell kvalitet kommer att minska men tydligheten ökar.",
     "Dyslexia font" : "Dyslexi-typsnitt",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic är ett fritt typsnitt/font som är utformat för att mildra några av de vanligaste lässvårigheterna som orsakas av dyslexi.",
     "Accessibility" : "Tillgänglighet",

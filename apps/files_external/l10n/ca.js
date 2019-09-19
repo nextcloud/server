@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Credencials d'inici de sessió, desades a la base de dades",
     "Username and password" : "Nom d'usuari i contrasenya",
     "Log-in credentials, save in session" : "Credencials d'inici de sessió, desades a la sessió",
+    "Global credentials, user entered" : "Credencials globals, l'usuari ha entrat",
     "User entered, store in database" : "Usuari introduït, emmagatzemat a la base de dades",
     "RSA public key" : "Clau pública RSA",
     "Public key" : "Clau pública",
