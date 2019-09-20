@@ -49,6 +49,8 @@ use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\IDBConnection;
 
@@ -61,6 +63,8 @@ class Database extends ABackend
 	           ICountUsersBackend,
 	           ICreateGroupBackend,
 	           IDeleteGroupBackend,
+	           IGetDisplayNameBackend,
+	           IGroupDetailsBackend,
 	           IRemoveFromGroupBackend {
 
 	/** @var string[] */
@@ -391,7 +395,7 @@ class Database extends ABackend
 	 */
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
-		
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->createFunction('COUNT(DISTINCT ' . $query->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
@@ -400,11 +404,11 @@ class Database extends ABackend
 			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('enabled')))
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
 			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
-		
+
 		$result = $query->execute();
 		$count = $result->fetchColumn();
 		$result->closeCursor();
-		
+
 		if ($count !== false) {
 			$count = (int)$count;
 		} else {
@@ -412,6 +416,38 @@ class Database extends ABackend
 		}
 
 		return $count;
+	}
+
+	/**
+	 * @param string $gid
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getDisplayName(string $gid): string {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('displayname')
+			->from('groups')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
+
+		$result = $query->execute();
+		$displayName = $result->fetchColumn();
+		$result->closeCursor();
+
+		return (string) $displayName;
+	}
+
+	/**
+	 * @param string $gid
+	 * @return array
+	 * @since 14.0.0
+	 */
+	public function getGroupDetails(string $gid): array {
+		$displayName = $this->getDisplayName($gid);
+		if ($displayName !== '') {
+			return ['displayName' => $displayName];
+		}
+
+		return [];
 	}
 
 }
