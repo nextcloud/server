@@ -25,6 +25,7 @@
     "Error occurred while updating comment with id {id}" : "En feil oppstod under oppdatering av kommentar med id {id}",
     "Error occurred while posting comment" : "En feil oppstod under posting av kommentar",
     "_%n unread comment_::_%n unread comments_" : ["%n ulest kommentar","%n uleste kommentarer"],
+    "_1 new comment_::_{unread} new comments_" : ["[uleste] nye kommentarer","{uleste} nye kommentarer"],
     "Comment" : "Kommentar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
