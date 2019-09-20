@@ -28,6 +28,7 @@ use OC\Core\Command\Base;
 use OCP\IGroupManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Add extends Base {
@@ -49,7 +50,13 @@ class Add extends Base {
 			->addArgument(
 				'groupid',
 				InputArgument::REQUIRED,
-				'Group name'
+				'Group id'
+			)
+			->addOption(
+				'display-name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Group name used in the web UI (can contain any characters)'
 			);
 	}
 
@@ -62,6 +69,10 @@ class Add extends Base {
 		} else {
 			$group = $this->groupManager->createGroup($gid);
 			$output->writeln('Created group "' . $group->getGID() . '"');
+
+			if ($input->hasOption('display-name')) {
+				$group->setDisplayName($input->getOption('display-name'));
+			}
 		}
 	}
 }

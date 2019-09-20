@@ -48,6 +48,15 @@ interface IGroup {
 	public function getDisplayName();
 
 	/**
+	 * Set the group display name
+	 *
+	 * @param string $displayName
+	 * @return bool
+	 * @since 18.0.0
+	 */
+	public function setDisplayName(string $displayName): bool;
+
+	/**
 	 * get all users in the group
 	 *
 	 * @return \OCP\IUser[]

@@ -52,6 +52,7 @@ use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\IDBConnection;
 
 /**
@@ -65,7 +66,8 @@ class Database extends ABackend
 	           IDeleteGroupBackend,
 	           IGetDisplayNameBackend,
 	           IGroupDetailsBackend,
-	           IRemoveFromGroupBackend {
+	           IRemoveFromGroupBackend,
+	           ISetDisplayNameBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
@@ -448,6 +450,26 @@ class Database extends ABackend
 		}
 
 		return [];
+	}
+
+	/**
+	 * @param string $gid
+	 * @param string $displayName
+	 * @return bool
+	 * @since 18.0.0
+	 */
+	public function setDisplayName(string $gid, string $displayName): bool {
+		if (!$this->groupExists($gid)) {
+			return false;
+		}
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->update('groups')
+			->set('displayname', $query->createNamedParameter($displayName))
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
+		$query->execute();
+
+		return true;
 	}
 
 }
