@@ -80,7 +80,7 @@
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.8",
+    "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"
   }
