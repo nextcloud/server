@@ -420,11 +420,6 @@ class Database extends ABackend
 		return $count;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getDisplayName(string $gid): string {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('displayname')
@@ -438,11 +433,6 @@ class Database extends ABackend
 		return (string) $displayName;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return array
-	 * @since 14.0.0
-	 */
 	public function getGroupDetails(string $gid): array {
 		$displayName = $this->getDisplayName($gid);
 		if ($displayName !== '') {
@@ -452,12 +442,6 @@ class Database extends ABackend
 		return [];
 	}
 
-	/**
-	 * @param string $gid
-	 * @param string $displayName
-	 * @return bool
-	 * @since 18.0.0
-	 */
 	public function setDisplayName(string $gid, string $displayName): bool {
 		if (!$this->groupExists($gid)) {
 			return false;
