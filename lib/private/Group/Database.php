@@ -421,6 +421,8 @@ class Database extends ABackend
 	}
 
 	public function getDisplayName(string $gid): string {
+		$this->fixDI();
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('displayname')
 			->from('groups')
@@ -446,6 +448,8 @@ class Database extends ABackend
 		if (!$this->groupExists($gid)) {
 			return false;
 		}
+
+		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->update('groups')
