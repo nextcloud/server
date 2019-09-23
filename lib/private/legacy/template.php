@@ -266,7 +266,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
-		$content = new OC_Template( $application, $name, "guest" );
+		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
 		}
