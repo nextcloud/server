@@ -54,6 +54,7 @@ class Version18000Date20190920085628 extends SimpleMigrationStep {
 			$table->addColumn('displayname', Type::STRING, [
 				'notnull' => true,
 				'length' => 255,
+				'default' => '',
 			]);
 		}
 
