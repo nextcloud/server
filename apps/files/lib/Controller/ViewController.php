@@ -29,13 +29,14 @@
 namespace OCA\Files\Controller;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -44,8 +45,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ViewController
@@ -63,7 +62,7 @@ class ViewController extends Controller {
 	protected $l10n;
 	/** @var IConfig */
 	protected $config;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 	/** @var IUserSession */
 	protected $userSession;
@@ -79,7 +78,7 @@ class ViewController extends Controller {
 		IURLGenerator $urlGenerator,
 		IL10N $l10n,
 		IConfig $config,
-		EventDispatcherInterface $eventDispatcherInterface,
+		IEventDispatcher $eventDispatcher,
 		IUserSession $userSession,
 		IAppManager $appManager,
 		IRootFolder $rootFolder,
@@ -91,7 +90,7 @@ class ViewController extends Controller {
 		$this->urlGenerator    = $urlGenerator;
 		$this->l10n            = $l10n;
 		$this->config          = $config;
-		$this->eventDispatcher = $eventDispatcherInterface;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->userSession     = $userSession;
 		$this->appManager      = $appManager;
 		$this->rootFolder      = $rootFolder;
@@ -267,8 +266,8 @@ class ViewController extends Controller {
 			];
 		}
 
-		$event = new GenericEvent(null, ['hiddenFields' => []]);
-		$this->eventDispatcher->dispatch('OCA\Files::loadAdditionalScripts', $event);
+		$event = new LoadAdditionalScriptsEvent();
+		$this->eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, $event);
 
 		$params                                = [];
 		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
@@ -285,7 +284,7 @@ class ViewController extends Controller {
 		$params['fileNotFound']                = $fileNotFound ? 1 : 0;
 		$params['appNavigation']               = $nav;
 		$params['appContents']                 = $contentItems;
-		$params['hiddenFields']                = $event->getArgument('hiddenFields');
+		$params['hiddenFields']                = $event->getHiddenFields();
 
 		$response = new TemplateResponse(
 			$this->appName,
