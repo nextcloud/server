@@ -81,7 +81,7 @@ class Storage {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database');
+					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
 				}
 			}
 		}
