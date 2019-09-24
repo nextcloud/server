@@ -25,7 +25,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Unha extensión PHP detivo o envío de ficheiros",
     "No file uploaded" : "Non se enviou ningún ficheiro",
     "Unsupported image type" : "Tipo de imaxe non admitido",
-    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Está a empregar un tema personalizado. Os axustes do aplicativo de temas poden ser sobrescritos por el.",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Está a empregar un tema personalizado. Os axustes da aplicación de temas poden ser sobrescritos por el.",
     "Theming" : "Temas",
     "Legal notice" : "Aviso legal",
     "Privacy policy" : "Política de privacidade",
