@@ -44,7 +44,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "Modificáronse as <strong>etiquetas de sistemas</strong> dun ficheio",
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre usuarios.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre usuarios. Moi axeitado para equipos.\n(Se vostede é un provedor cunha instalación de varias instalacións, recoméndase desactivar este aplicativo xa que as etiquetas compártense).",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre usuarios. Moi axeitado para equipos.\n(Se vostede é un provedor cunha instalación de varias instalacións, recoméndase desactivar esta aplicación xa que as etiquetas compártense).",
     "Tagged files" : "Ficheiros etiquetados",
     "Select tags to filter by" : "Seleccionar etiquetas polas que filtrar",
     "No tags found" : "Non se atoparon etiquetas",

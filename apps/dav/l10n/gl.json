@@ -88,7 +88,7 @@
     "Save" : "Gardar",
     "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
     "Calendar server" : "Servidor do calendario",
-    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Instale tamén o {calendarappstoreopen}aplicativo do Calendario{linkclose} ou {calendardocopen}conecte os seus escritorio e móbil para sincronizalos ↗{linkclose}.",
+    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Instale tamén a {calendarappstoreopen}aplicación do Calendario{linkclose} ou {calendardocopen}conecte os seus escritorio e móbil para sincronizalos ↗{linkclose}.",
     "Send invitations to attendees" : "Enviar convites aos asistentes",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Asegúrese de ter configurado correctamente {emailopen}o servidor de correo-e{linkclose}.",
     "Automatically generate a birthday calendar" : "Xerar automaticamente o calendario de aniversarios",
