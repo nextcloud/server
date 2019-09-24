@@ -27,7 +27,7 @@ return array(
     'OCA\\WorkflowEngine\\Helper\\ScopeContext' => $baseDir . '/../lib/Helper/ScopeContext.php',
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
     'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => $baseDir . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
-    'OCA\\WorkflowEngine\\Migration\\Version2019Date20190808074233' => $baseDir . '/../lib/Migration/Version2019Date20190808074233.php',
+    'OCA\\WorkflowEngine\\Migration\\Version2000Date20190808074233' => $baseDir . '/../lib/Migration/Version2000Date20190808074233.php',
     'OCA\\WorkflowEngine\\Service\\RuleMatcher' => $baseDir . '/../lib/Service/RuleMatcher.php',
     'OCA\\WorkflowEngine\\Settings\\ASettings' => $baseDir . '/../lib/Settings/ASettings.php',
     'OCA\\WorkflowEngine\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',

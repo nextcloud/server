@@ -11,7 +11,7 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
 
-class Version2019Date20190808074233 extends SimpleMigrationStep {
+class Version2000Date20190808074233 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -33,10 +33,12 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('class', Type::STRING, [
 				'notnull' => true,
 				'length' => 256,
+				'default' => '',
 			]);
 			$table->addColumn('operator', Type::STRING, [
 				'notnull' => true,
 				'length' => 16,
+				'default' => '',
 			]);
 			$table->addColumn('value', Type::TEXT, [
 				'notnull' => false,
@@ -44,6 +46,7 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('hash', Type::STRING, [
 				'notnull' => true,
 				'length' => 32,
+				'default' => '',
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['hash'], 'flow_unique_hash');
@@ -59,10 +62,12 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('class', Type::STRING, [
 				'notnull' => true,
 				'length' => 256,
+				'default' => '',
 			]);
 			$table->addColumn('name', Type::STRING, [
 				'notnull' => true,
 				'length' => 256,
+				'default' => '',
 			]);
 			$table->addColumn('checks', Type::TEXT, [
 				'notnull' => false,
@@ -87,14 +92,17 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('operation_id', Type::INTEGER, [
 				'notnull' => true,
 				'length' => 4,
+				'default' => 0,
 			]);
 			$table->addColumn('type', Type::INTEGER, [
 				'notnull' => true,
 				'length' => 4,
+				'default' => 0,
 			]);
 			$table->addColumn('value', Type::STRING, [
 				'notnull' => false,
 				'length' => 64,
+				'default' => '',
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['operation_id', 'type', 'value'], 'flow_unique_scope');
@@ -108,6 +116,7 @@ class Version2019Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('entity', Type::STRING, [
 				'notnull' => true,
 				'length' => 256,
+				'default' => '',
 			]);
 		}
 		if(!$table->hasColumn('events')) {
