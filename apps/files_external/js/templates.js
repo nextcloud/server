@@ -1,7 +1,7 @@
 (function() {
   var template = Handlebars.template, templates = OCA.Files_External.Templates = OCA.Files_External.Templates || {};
-templates['credentialsDialog'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+templates['credentialsDialog'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<div id=\"files_external_div_form\"><div>\n	<div>"
     + alias4(((helper = (helper = helpers.credentials_text || (depth0 != null ? depth0.credentials_text : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"credentials_text","hash":{},"data":data}) : helper)))
@@ -11,8 +11,8 @@ templates['credentialsDialog'] = template({"compiler":[7,">= 4.0.0"],"main":func
     + alias4(((helper = (helper = helpers.placeholder_password || (depth0 != null ? depth0.placeholder_password : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"placeholder_password","hash":{},"data":data}) : helper)))
     + "\"/>\n		</form>\n	</div>\n</div>\n";
 },"useData":true});
-templates['mountOptionsDropDown'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+templates['mountOptionsDropDown'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<div class=\"popovermenu open\">\n	<ul>\n		<li class=\"optionRow\">\n			<span class=\"menuitem\">\n				<input id=\"mountOptionsEncrypt\" class=\"checkbox\" name=\"encrypt\" type=\"checkbox\" value=\"true\" checked=\"checked\"/>\n				<label for=\"mountOptionsEncrypt\">"
     + alias4(((helper = (helper = helpers.mountOptionsEncryptLabel || (depth0 != null ? depth0.mountOptionsEncryptLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"mountOptionsEncryptLabel","hash":{},"data":data}) : helper)))
