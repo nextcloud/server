@@ -41,6 +41,7 @@ const Dialogs = {
 	FILEPICKER_TYPE_MOVE: 2,
 	FILEPICKER_TYPE_COPY: 3,
 	FILEPICKER_TYPE_COPY_MOVE: 4,
+	FILEPICKER_TYPE_CUSTOM: 5,
 
 	// used to name each dialog
 	dialogsCounter: 0,
@@ -445,6 +446,16 @@ const Dialogs = {
 					text: t('core', 'Choose'),
 					click: chooseCallback,
 					defaultButton: true
+				})
+			} else if (type === Dialogs.FILEPICKER_TYPE_CUSTOM) {
+				options.buttons.forEach(function(button) {
+					buttonlist.push({
+						text: button.text,
+						click: function() {
+							functionToCall(button.type)
+						},
+						defaultButton: button.defaultButton
+					})
 				})
 			} else {
 				if (type === Dialogs.FILEPICKER_TYPE_COPY || type === Dialogs.FILEPICKER_TYPE_COPY_MOVE) {
@@ -1253,18 +1264,20 @@ const Dialogs = {
 		var moveText = dir === '' ? t('core', 'Move') : t('core', 'Move to {folder}', { folder: dir })
 		var buttons = $('.oc-dialog-buttonrow button')
 		switch (type) {
-		case this.FILEPICKER_TYPE_CHOOSE:
-			break
-		case this.FILEPICKER_TYPE_COPY:
-			buttons.text(copyText)
-			break
-		case this.FILEPICKER_TYPE_MOVE:
-			buttons.text(moveText)
-			break
-		case this.FILEPICKER_TYPE_COPY_MOVE:
-			buttons.eq(0).text(copyText)
-			buttons.eq(1).text(moveText)
-			break
+			case this.FILEPICKER_TYPE_CHOOSE:
+				break
+			case this.FILEPICKER_TYPE_CUSTOM:
+				break
+			case this.FILEPICKER_TYPE_COPY:
+				buttons.text(copyText)
+				break
+			case this.FILEPICKER_TYPE_MOVE:
+				buttons.text(moveText)
+				break
+			case this.FILEPICKER_TYPE_COPY_MOVE:
+				buttons.eq(0).text(copyText)
+				buttons.eq(1).text(moveText)
+				break
 		}
 	}
 }
