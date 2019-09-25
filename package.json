@@ -9,8 +9,9 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.prod.js",
-    "dev": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
-    "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js"
+    "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
+    "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
+    "lint:fix": "ESLINT_FIX=true webpack --progress --watch --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -72,6 +73,16 @@
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "browserslist-config-nextcloud": "0.0.1",
     "css-loader": "^3.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-nextcloud": "0.0.5",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^3.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-nextcloud": "^0.3.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3",
     "exports-loader": "^0.7.0",
     "file-loader": "^4.2.0",
     "handlebars-loader": "^1.7.1",
