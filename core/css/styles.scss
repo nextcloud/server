@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
  * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019, Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -891,7 +892,7 @@ code {
 				display: flex;
 				&__first {
 					overflow: hidden;
-					white-space: nowrap;
+					white-space: pre;
 					text-overflow: ellipsis;
 				}
 			}
