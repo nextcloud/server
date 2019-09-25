@@ -60,7 +60,7 @@
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Rename') }}
 				</ActionButton>
-				
+
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
 					<template v-if="token.type !== 2">

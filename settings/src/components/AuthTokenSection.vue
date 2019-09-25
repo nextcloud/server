@@ -65,6 +65,10 @@
 				type: Array,
 				required: true,
 			},
+			canCreateToken: {
+				type: Boolean,
+				required: true
+			}
 		},
 		components: {
 			AuthTokenSetupDialogue,
