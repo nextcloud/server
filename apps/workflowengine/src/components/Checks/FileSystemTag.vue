@@ -21,7 +21,8 @@
   -->
 
 <template>
-	<MultiselectTag v-model="newValue" :multiple="false"
+	<MultiselectTag v-model="newValue"
+		:multiple="false"
 		label="Select a tag"
 		@input="update" />
 </template>

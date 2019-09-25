@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -21,7 +21,6 @@
 
 import _ from 'underscore'
 import $ from 'jquery'
-import Toastify from 'toastify-js'
 
 /**
  * @todo Write documentation
@@ -35,11 +34,11 @@ export default {
 	getDefaultNotificationFunction: null,
 
 	/**
-	 * @param callback
+	 * @param {Function} callback callback function
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	setDefault: function (callback) {
-		this.getDefaultNotificationFunction = callback;
+	setDefault: function(callback) {
+		this.getDefaultNotificationFunction = callback
 	},
 
 	/**
@@ -52,23 +51,20 @@ export default {
 	 * @param {Function} [callback] callback
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	hide: function ($row, callback) {
-		var self = this;
-		var $notification = $('#content');
-
+	hide: function($row, callback) {
 		if (_.isFunction($row)) {
 			// first arg is the callback
-			callback = $row;
-			$row = undefined;
+			callback = $row
+			$row = undefined
 		}
 
 		if (!$row) {
-			console.error('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification');
-			return;
+			console.error('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification')
+			return
 		}
 
 		// remove the row directly
-		$row.each(function () {
+		$row.each(function() {
 			$(this)[0].toastify.hideToast()
 			if (this === this.updatableNotification) {
 				this.updatableNotification = null
@@ -91,10 +87,10 @@ export default {
 	 * @param {Object} [options] options
 	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
-	 * @return {jQuery} jQuery element for notification row
+	 * @returns {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	showHtml: function (html, options) {
+	showHtml: function(html, options) {
 		options = options || {}
 		options.isHTML = true
 		options.timeout = (!options.timeout) ? -1 : options.timeout
@@ -109,29 +105,29 @@ export default {
 	 * @param {Object} [options] options
 	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
-	 * @return {jQuery} jQuery element for notification row
+	 * @returns {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	show: function (text, options) {
-		options = options || {};
-		options.timeout = (!options.timeout) ? -1 : options.timeout;
-		const toast = window.OCP.Toast.message(text, options);
-		return $(toast.toastElement);
+	show: function(text, options) {
+		options = options || {}
+		options.timeout = (!options.timeout) ? -1 : options.timeout
+		const toast = window.OCP.Toast.message(text, options)
+		return $(toast.toastElement)
 	},
 
 	/**
 	 * Updates (replaces) a sanitized notification.
 	 *
 	 * @param {string} text Message to display
-	 * @return {jQuery} JQuery element for notificaiton row
+	 * @returns {jQuery} JQuery element for notificaiton row
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	showUpdate: function (text) {
+	showUpdate: function(text) {
 		if (this.updatableNotification) {
-			this.updatableNotification.hideToast();
+			this.updatableNotification.hideToast()
 		}
-		this.updatableNotification = OCP.Toast.message(text, {timeout: -1})
-		return $(this.updatableNotification.toastElement);
+		this.updatableNotification = OCP.Toast.message(text, { timeout: -1 })
+		return $(this.updatableNotification.toastElement)
 	},
 
 	/**
@@ -143,21 +139,22 @@ export default {
 	 * @param {int} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
 	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
 	 * @param {string} [options.type] notification type
+	 * @returns {JQuery<any>} the toast element
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	showTemporary: function (text, options) {
+	showTemporary: function(text, options) {
 		options = options || {}
-		options.timeout = options.timeout || 7;
-		const toast = window.OCP.Toast.message(text, options);
-		return $(toast.toastElement);
+		options.timeout = options.timeout || 7
+		const toast = window.OCP.Toast.message(text, options)
+		return $(toast.toastElement)
 	},
 
 	/**
 	 * Returns whether a notification is hidden.
-	 * @return {boolean}
+	 * @returns {boolean}
 	 * @deprecated 17.0.0 use OCP.Toast
 	 */
-	isHidden: function () {
-		return !$('#content').find('.toastify').length;
+	isHidden: function() {
+		return !$('#content').find('.toastify').length
 	}
 }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  * Copyright (c) 2015
  *
@@ -12,7 +13,7 @@
 
 (function() {
 	if (!OC.Share) {
-		OC.Share = {};
+		OC.Share = {}
 	}
 
 	/**
@@ -42,32 +43,31 @@
 		_template: undefined,
 
 		initialize: function(options) {
-			var view = this;
+			var view = this
 
 			this.model.on('change:reshare', function() {
-				view.render();
-			});
+				view.render()
+			})
 
-			if(!_.isUndefined(options.configModel)) {
-				this.configModel = options.configModel;
+			if (!_.isUndefined(options.configModel)) {
+				this.configModel = options.configModel
 			} else {
-				throw 'missing OC.Share.ShareConfigModel';
+				throw 'missing OC.Share.ShareConfigModel'
 			}
 		},
 
 		render: function() {
 			if (!this.model.hasReshare()
-				|| this.model.getReshareOwner() === OC.currentUser)
-			{
-				this.$el.empty();
-				return this;
+				|| this.model.getReshareOwner() === OC.currentUser) {
+				this.$el.empty()
+				return this
 			}
 
-			var reshareTemplate = this.template();
-			var ownerDisplayName = this.model.getReshareOwnerDisplayname();
-			var shareNote = this.model.getReshareNote();
-			
-			var sharedByText = '';
+			var reshareTemplate = this.template()
+			var ownerDisplayName = this.model.getReshareOwnerDisplayname()
+			var shareNote = this.model.getReshareNote()
+
+			var sharedByText = ''
 
 			if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
 				sharedByText = t(
@@ -78,8 +78,8 @@
 						owner: ownerDisplayName
 					},
 					undefined,
-					{escape: false}
-				);
+					{ escape: false }
+				)
 			} else if (this.model.getReshareType() === OC.Share.SHARE_TYPE_CIRCLE) {
 				sharedByText = t(
 					'core',
@@ -89,8 +89,8 @@
 						owner: ownerDisplayName
 					},
 					undefined,
-					{escape: false}
-				);
+					{ escape: false }
+				)
 			} else if (this.model.getReshareType() === OC.Share.SHARE_TYPE_ROOM) {
 				if (this.model.get('reshare').share_with_displayname) {
 					sharedByText = t(
@@ -101,8 +101,8 @@
 							owner: ownerDisplayName
 						},
 						undefined,
-						{escape: false}
-					);
+						{ escape: false }
+					)
 				} else {
 					sharedByText = t(
 						'core',
@@ -111,8 +111,8 @@
 							owner: ownerDisplayName
 						},
 						undefined,
-						{escape: false}
-					);
+						{ escape: false }
+					)
 				}
 			} else {
 				sharedByText = t(
@@ -120,42 +120,40 @@
 					'Shared with you by {owner}',
 					{ owner: ownerDisplayName },
 					undefined,
-					{escape: false}
-				);
+					{ escape: false }
+				)
 			}
-
-
 
 			this.$el.html(reshareTemplate({
 				reshareOwner: this.model.getReshareOwner(),
 				sharedByText: sharedByText,
 				shareNote: shareNote,
 				hasShareNote: shareNote !== ''
-			}));
+			}))
 
 			this.$el.find('.avatar').each(function() {
-				var $this = $(this);
-				$this.avatar($this.data('username'), 32);
-			});
+				var $this = $(this)
+				$this.avatar($this.data('username'), 32)
+			})
 
 			this.$el.find('.reshare').contactsMenu(
 				this.model.getReshareOwner(),
 				OC.Share.SHARE_TYPE_USER,
-				this.$el);
+				this.$el)
 
-			return this;
+			return this
 		},
 
 		/**
 		 * @returns {Function} from Handlebars
 		 * @private
 		 */
-		template: function () {
-			return OC.Share.Templates['sharedialogresharerinfoview'];
+		template: function() {
+			return OC.Share.Templates['sharedialogresharerinfoview']
 		}
 
-	});
+	})
 
-	OC.Share.ShareDialogResharerInfoView = ShareDialogResharerInfoView;
+	OC.Share.ShareDialogResharerInfoView = ShareDialogResharerInfoView
 
-})();
+})()

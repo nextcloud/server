@@ -22,13 +22,14 @@
 <template>
 	<div v-if="!adding">
 		<input v-model="deviceName"
-			   type="text"
-			   @keydown.enter="submit"
-			   :disabled="loading"
-			   :placeholder="t('settings', 'App name')">
+			type="text"
+			:disabled="loading"
+			:placeholder="t('settings', 'App name')"
+			@keydown.enter="submit">
 		<button class="button"
-				:disabled="loading"
-				@click="submit">{{ t('settings', 'Create new app password')	}}
+			:disabled="loading"
+			@click="submit">
+			{{ t('settings', 'Create new app password')	}}
 		</button>
 	</div>
 	<div v-else>
@@ -37,142 +38,142 @@
 		<div class="app-password-row">
 			<span class="app-password-label">{{ t('settings', 'Username') }}</span>
 			<input :value="loginName"
-				   type="text"
-				   class="monospaced"
-				   readonly="readonly"
-				   @focus="selectInput"/>
+				type="text"
+				class="monospaced"
+				readonly="readonly"
+				@focus="selectInput">
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label">{{ t('settings', 'Password') }}</span>
-			<input :value="appPassword"
-				   type="text"
-				   class="monospaced"
-				   ref="appPassword"
-				   readonly="readonly"
-				   @focus="selectInput"/>
-			<a class="icon icon-clippy"
-			   ref="clipboardButton"
-			   v-tooltip="copyTooltipOptions"
-			   @mouseover="hoveringCopyButton = true"
-			   @mouseleave="hoveringCopyButton = false"
-			   v-clipboard:copy="appPassword"
-			   v-clipboard:success="onCopyPassword"
-			   v-clipboard:error="onCopyPasswordFailed"></a>
+			<input ref="appPassword"
+				:value="appPassword"
+				type="text"
+				class="monospaced"
+				readonly="readonly"
+				@focus="selectInput">
+			<a ref="clipboardButton"
+				v-tooltip="copyTooltipOptions"
+				v-clipboard:copy="appPassword"
+				v-clipboard:success="onCopyPassword"
+				v-clipboard:error="onCopyPasswordFailed"
+				class="icon icon-clippy"
+				@mouseover="hoveringCopyButton = true"
+				@mouseleave="hoveringCopyButton = false" />
 			<button class="button"
-					@click="reset">
+				@click="reset">
 				{{ t('settings', 'Done') }}
 			</button>
 		</div>
 		<div class="app-password-row">
-			<span class="app-password-label"></span>
+			<span class="app-password-label" />
 			<a v-if="!showQR"
-			   @click="showQR = true">
+				@click="showQR = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</a>
 			<QR v-else
-				:value="qrUrl"></QR>
+				:value="qrUrl" />
 		</div>
 	</div>
 </template>
 
 <script>
-	import QR from '@chenfengyuan/vue-qrcode';
-	import confirmPassword from 'nextcloud-password-confirmation';
+import QR from '@chenfengyuan/vue-qrcode'
+import confirmPassword from 'nextcloud-password-confirmation'
 
-	export default {
-		name: 'AuthTokenSetupDialogue',
-		components: {
-			QR,
-		},
-		props: {
-			add: {
-				type: Function,
-				required: true,
+export default {
+	name: 'AuthTokenSetupDialogue',
+	components: {
+		QR
+	},
+	props: {
+		add: {
+			type: Function,
+			required: true
+		}
+	},
+	data() {
+		return {
+			adding: false,
+			loading: false,
+			deviceName: '',
+			appPassword: '',
+			loginName: '',
+			passwordCopied: false,
+			showQR: false,
+			qrUrl: '',
+			hoveringCopyButton: false
+		}
+	},
+	computed: {
+		copyTooltipOptions() {
+			const base = {
+				hideOnTargetClick: false,
+				trigger: 'manual'
 			}
-		},
-		data () {
-			return {
-				adding: false,
-				loading: false,
-				deviceName: '',
-				appPassword: '',
-				loginName: '',
-				passwordCopied: false,
-				showQR: false,
-				qrUrl: '',
-				hoveringCopyButton: false,
-			}
-		},
-		computed: {
-			copyTooltipOptions() {
-				const base = {
-					hideOnTargetClick: false,
-					trigger: 'manual',
-				};
 
-				if (this.passwordCopied) {
-					return {
-						...base,
-						content:t('core', 'Copied!'),
-						show: true,
-					}
-				} else {
-					return {
-						...base,
-						content: t('core', 'Copy'),
-						show: this.hoveringCopyButton,
-					}
+			if (this.passwordCopied) {
+				return {
+					...base,
+					content: t('core', 'Copied!'),
+					show: true
+				}
+			} else {
+				return {
+					...base,
+					content: t('core', 'Copy'),
+					show: this.hoveringCopyButton
 				}
 			}
+		}
+	},
+	methods: {
+		selectInput(e) {
+			e.currentTarget.select()
 		},
-		methods: {
-			selectInput (e) {
-				e.currentTarget.select();
-			},
-			submit: function () {
-				confirmPassword()
-					.then(() => {
-						this.loading = true;
-						return this.add(this.deviceName)
+		submit: function() {
+			confirmPassword()
+				.then(() => {
+					this.loading = true
+					return this.add(this.deviceName)
+				})
+				.then(token => {
+					this.adding = true
+					this.loginName = token.loginName
+					this.appPassword = token.token
+
+					const server = window.location.protocol + '//' + window.location.host + OC.getRootPath()
+					this.qrUrl = `nc://login/user:${token.loginName}&password:${token.token}&server:${server}`
+
+					this.$nextTick(() => {
+						this.$refs.appPassword.select()
 					})
-					.then(token => {
-						this.adding = true;
-						this.loginName = token.loginName;
-						this.appPassword = token.token;
+				})
+				.catch(err => {
+					console.error('could not create a new app password', err)
+					OC.Notification.showTemporary(t('core', 'Error while creating device token'))
 
-						const server = window.location.protocol + '//' + window.location.host + OC.getRootPath();
-						this.qrUrl = `nc://login/user:${token.loginName}&password:${token.token}&server:${server}`;
-
-						this.$nextTick(() => {
-							this.$refs.appPassword.select();
-						});
-					})
-					.catch(err => {
-						console.error('could not create a new app password', err);
-						OC.Notification.showTemporary(t('core', 'Error while creating device token'));
-
-						this.reset();
-					});
-			},
-			onCopyPassword() {
-				this.passwordCopied = true;
-				this.$refs.clipboardButton.blur();
-				setTimeout(() => this.passwordCopied = false, 3000);
-			},
-			onCopyPasswordFailed() {
-				OC.Notification.showTemporary(t('core', 'Could not copy app password. Please copy it manually.'));
-			},
-			reset () {
-				this.adding = false;
-				this.loading = false;
-				this.showQR = false;
-				this.qrUrl = '';
-				this.deviceName = '';
-				this.appPassword = '';
-				this.loginName = '';
-			}
+					this.reset()
+				})
+		},
+		onCopyPassword() {
+			this.passwordCopied = true
+			this.$refs.clipboardButton.blur()
+			setTimeout(() => { this.passwordCopied = false }, 3000)
+		},
+		onCopyPasswordFailed() {
+			OC.Notification.showTemporary(t('core', 'Could not copy app password. Please copy it manually.'))
+		},
+		reset() {
+			this.adding = false
+			this.loading = false
+			this.showQR = false
+			this.qrUrl = ''
+			this.deviceName = ''
+			this.appPassword = ''
+			this.loginName = ''
 		}
 	}
+}
 </script>
 
 <style lang="scss" scoped>

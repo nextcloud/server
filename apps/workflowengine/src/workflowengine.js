@@ -44,16 +44,16 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 
 	/**
 	 *
-	 * @param {CheckPlugin} Plugin
+	 * @param {CheckPlugin} Plugin the plugin to register
 	 */
-	registerCheck: function (Plugin) {
+	registerCheck: function(Plugin) {
 		store.commit('addPluginCheck', Plugin)
 	},
 	/**
 	 *
-	 * @param {OperatorPlugin} Plugin
+	 * @param {OperatorPlugin} Plugin the plugin to register
 	 */
-	registerOperator: function (Plugin) {
+	registerOperator: function(Plugin) {
 		store.commit('addPluginOperator', Plugin)
 	}
 })

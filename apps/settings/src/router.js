@@ -21,14 +21,14 @@
  *
  */
 
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 
 // Dynamic loading
-const Users = () => import('./views/Users');
-const Apps = () => import('./views/Apps');
+const Users = () => import('./views/Users')
+const Apps = () => import('./views/Apps')
 
-Vue.use(Router);
+Vue.use(Router)
 
 /*
  * This is the list of routes where the vuejs app will
@@ -80,4 +80,4 @@ export default new Router({
 			]
 		}
 	]
-});
+})

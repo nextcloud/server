@@ -23,31 +23,29 @@
 	<tr :data-id="token.id"
 		:class="wiping">
 		<td class="client">
-			<div :class="iconName.icon"></div>
+			<div :class="iconName.icon" />
 		</td>
 		<td class="token-name">
 			<input v-if="token.canRename && renaming"
-				   type="text"
-				   ref="input"
-				   v-model="newName"
-				   @keyup.enter="rename"
-				   @blur="cancelRename"
-				   @keyup.esc="cancelRename">
-			<span v-else>{{iconName.name}}</span>
-			<span v-if="wiping"
-				  class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
+				ref="input"
+				v-model="newName"
+				type="text"
+				@keyup.enter="rename"
+				@blur="cancelRename"
+				@keyup.esc="cancelRename">
+			<span v-else>{{ iconName.name }}</span>
+			<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
 		</td>
 		<td>
-			<span class="last-activity" v-tooltip="lastActivity">{{lastActivityRelative}}</span>
+			<span v-tooltip="lastActivity" class="last-activity">{{ lastActivityRelative }}</span>
 		</td>
 		<td class="more">
 			<Actions v-if="!token.current"
-				:actions="actions"
-				:open.sync="actionOpen"
 				v-tooltip.auto="{
 					content: t('settings', 'Device settings'),
 					container: 'body'
-				}">
+				}"
+				:open.sync="actionOpen">
 				<ActionCheckbox v-if="token.type === 1"
 					:checked="token.scope.filesystem"
 					@change.stop.prevent="$emit('toggleScope', token, 'filesystem', !token.scope.filesystem)">
@@ -91,7 +89,7 @@ import {
 	Actions,
 	ActionButton,
 	ActionCheckbox
-} from 'nextcloud-vue';
+} from 'nextcloud-vue'
 
 const userAgentMap = {
 	ie: /(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,
@@ -106,18 +104,18 @@ const userAgentMap = {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
 	iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-	ipad: /\(iPad\; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-	iosClient: /^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/,
-	androidClient: /^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/,
-	iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk.*$/,
-	androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk.*$/,
+	ipad: /\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
+	iosClient: /^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)-iOS.*$/,
+	androidClient: /^Mozilla\/5\.0 \(Android\) ownCloud-android.*$/,
+	iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,
+	androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,
 	// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
 	davDroid: /DAV(droid|x5)\/([0-9.]+)/,
 	// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
 	webPirate: /(Sailfish).*WebPirate\/(\d+)/,
 	// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
 	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/
-};
+}
 const nameMap = {
 	ie: t('setting', 'Internet Explorer'),
 	edge: t('setting', 'Edge'),
@@ -134,7 +132,7 @@ const nameMap = {
 	davDroid: 'DAVdroid',
 	webPirate: 'WebPirate',
 	sailfishBrowser: 'SailfishBrowser'
-};
+}
 const iconMap = {
 	ie: 'icon-desktop',
 	edge: 'icon-desktop',
@@ -151,10 +149,10 @@ const iconMap = {
 	davDroid: 'icon-phone',
 	webPirate: 'icon-link',
 	sailfishBrowser: 'icon-link'
-};
+}
 
 export default {
-	name: "AuthToken",
+	name: 'AuthToken',
 	components: {
 		Actions,
 		ActionButton,
@@ -163,91 +161,93 @@ export default {
 	props: {
 		token: {
 			type: Object,
-			required: true,
+			required: true
 		}
 	},
-	computed: {
-		lastActivityRelative () {
-			return OC.Util.relativeModifiedDate(this.token.lastActivity * 1000);
-		},
-		lastActivity () {
-			return OC.Util.formatDate(this.token.lastActivity * 1000, 'LLL');
-		},
-		iconName () {
-			// pretty format sync client user agent
-			let matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/);
-
-			let icon = '';
-			if (matches) {
-				this.token.name = t('settings', 'Sync client - {os}', {
-					os: matches[1],
-					version: matches[2]
-				});
-				icon = 'icon-desktop';
-			}
-
-			// preserve title for cases where we format it further
-			const title = this.token.name;
-			let name = this.token.name;
-			for (let client in userAgentMap) {
-				if (matches = title.match(userAgentMap[client])) {
-					if (matches[2] && matches[1]) { // version number and os
-						name = nameMap[client] + ' ' + matches[2] + ' - ' + matches[1];
-					} else if (matches[1]) { // only version number
-						name = nameMap[client] + ' ' + matches[1];
-					} else {
-						name = nameMap[client];
-					}
-
-					icon = iconMap[client];
-				}
-			}
-			if (this.token.current) {
-				name = t('settings', 'This session');
-			}
-
-			return {
-				icon,
-				name,
-			};
-		},
-		wiping() {
-			return this.token.type === 2;
-		}
-	},
-	data () {
+	data() {
 		return {
 			showMore: this.token.canScope || this.token.canDelete,
 			renaming: false,
 			newName: '',
-			actionOpen: false,
-		};
+			actionOpen: false
+		}
+	},
+	computed: {
+		lastActivityRelative() {
+			return OC.Util.relativeModifiedDate(this.token.lastActivity * 1000)
+		},
+		lastActivity() {
+			return OC.Util.formatDate(this.token.lastActivity * 1000, 'LLL')
+		},
+		iconName() {
+			// pretty format sync client user agent
+			let matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/)
+
+			let icon = ''
+			if (matches) {
+				/* eslint-disable-next-line */
+				this.token.name = t('settings', 'Sync client - {os}', {
+					os: matches[1],
+					version: matches[2]
+				})
+				icon = 'icon-desktop'
+			}
+
+			// preserve title for cases where we format it further
+			const title = this.token.name
+			let name = this.token.name
+			for (let client in userAgentMap) {
+				const matches = title.match(userAgentMap[client])
+				if (matches) {
+					if (matches[2] && matches[1]) { // version number and os
+						name = nameMap[client] + ' ' + matches[2] + ' - ' + matches[1]
+					} else if (matches[1]) { // only version number
+						name = nameMap[client] + ' ' + matches[1]
+					} else {
+						name = nameMap[client]
+					}
+
+					icon = iconMap[client]
+				}
+			}
+			if (this.token.current) {
+				name = t('settings', 'This session')
+			}
+
+			return {
+				icon,
+				name
+			}
+		},
+		wiping() {
+			return this.token.type === 2
+		}
 	},
 	methods: {
 		startRename() {
 			// Close action (popover menu)
-			this.actionOpen = false;
+			this.actionOpen = false
 
-			this.newName = this.token.name;
-			this.renaming = true;
+			this.newName = this.token.name
+			this.renaming = true
 			this.$nextTick(() => {
-				this.$refs.input.select();
-			});
+				this.$refs.input.select()
+			})
 		},
 		cancelRename() {
-			this.renaming = false;
+			this.renaming = false
 		},
 		revoke() {
-			this.actionOpen = false;
+			this.actionOpen = false
 			this.$emit('delete', this.token)
 		},
 		rename() {
-			this.renaming = false;
-			this.$emit('rename', this.token, this.newName);
+			this.renaming = false
+			this.$emit('rename', this.token, this.newName)
 		},
 		wipe() {
-			this.actionOpen = false;
-			this.$emit('wipe', this.token);
+			this.actionOpen = false
+			this.$emit('wipe', this.token)
 		}
 	}
 }

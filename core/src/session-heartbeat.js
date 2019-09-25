@@ -21,13 +21,13 @@
 
 import $ from 'jquery'
 
-import {generateUrl} from './OC/routing'
+import { generateUrl } from './OC/routing'
 import OC from './OC'
-import {setToken as setRequestToken} from './OC/requesttoken'
+import { setToken as setRequestToken } from './OC/requesttoken'
 
 /**
  * session heartbeat (defaults to enabled)
- * @return {boolean}
+ * @returns {boolean}
  */
 const keepSessionAlive = () => {
 	return OC.config.session_keepalive === undefined
@@ -36,7 +36,7 @@ const keepSessionAlive = () => {
 
 /**
  * get interval in seconds
- * @return {Number}
+ * @returns {Number}
  */
 const getInterval = () => {
 	let interval = NaN
@@ -61,7 +61,7 @@ const getInterval = () => {
 export const initSessionHeartBeat = () => {
 	if (!keepSessionAlive()) {
 		console.info('session heartbeat disabled')
-		return;
+		return
 	}
 
 	setInterval(() => {

@@ -21,11 +21,11 @@
  */
 
 import axios from 'nextcloud-axios'
-import confirmPassword from 'nextcloud-password-confirmation' 
+import confirmPassword from 'nextcloud-password-confirmation'
 
 const sanitize = function(url) {
-	return url.replace(/\/$/, ''); // Remove last url slash
-};
+	return url.replace(/\/$/, '') // Remove last url slash
+}
 
 export default {
 
@@ -47,35 +47,35 @@ export default {
 	 *
 	 * Since Promise.then().catch().then() will always execute the last then
 	 * this.$store.dispatch('action').then will always be executed
-	 * 
+	 *
 	 * If you want requireAdmin failure to also catch the API request failure
 	 * you will need to throw a new error in the api.get.catch()
-	 * 
+	 *
 	 * e.g
 	 *	api.requireAdmin().then((response) => {
 	 *		api.get('url')
 	 *			.then((response) => {API success})
 	 *			.catch((error) => {throw error;});
 	 *	}).catch((error) => {requireAdmin OR API failure});
-	 * 
+	 *
 	 * @returns {Promise}
 	 */
 	requireAdmin() {
-		return confirmPassword();
+		return confirmPassword()
 	},
 	get(url) {
-		return axios.get(sanitize(url));
+		return axios.get(sanitize(url))
 	},
 	post(url, data) {
-		return axios.post(sanitize(url), data);
+		return axios.post(sanitize(url), data)
 	},
 	patch(url, data) {
-		return axios.patch(sanitize(url), data);
+		return axios.patch(sanitize(url), data)
 	},
 	put(url, data) {
-		return axios.put(sanitize(url), data);
+		return axios.put(sanitize(url), data)
 	},
 	delete(url, data) {
-		return axios.delete(sanitize(url), { data: data });
+		return axios.delete(sanitize(url), { data: data })
 	}
-};
+}

@@ -1,19 +1,36 @@
 <template>
 	<div v-click-outside="hideDelete" class="check" @click="showDelete">
-		<Multiselect ref="checkSelector" v-model="currentOption" :options="options"
-			label="name" track-by="class" :allow-empty="false"
-			:placeholder="t('workflowengine', 'Select a filter')" @input="updateCheck" />
-		<Multiselect v-model="currentOperator" :disabled="!currentOption" :options="operators"
-			label="name" track-by="operator" :allow-empty="false"
-			:placeholder="t('workflowengine', 'Select a comparator')" @input="updateCheck" />
-		<component :is="currentOption.component" v-if="currentOperator && currentComponent" v-model="check.value"
-			:disabled="!currentOption" :check="check"
+		<Multiselect ref="checkSelector"
+			v-model="currentOption"
+			:options="options"
+			label="name"
+			track-by="class"
+			:allow-empty="false"
+			:placeholder="t('workflowengine', 'Select a filter')"
+			@input="updateCheck" />
+		<Multiselect v-model="currentOperator"
+			:disabled="!currentOption"
+			:options="operators"
+			label="name"
+			track-by="operator"
+			:allow-empty="false"
+			:placeholder="t('workflowengine', 'Select a comparator')"
+			@input="updateCheck" />
+		<component :is="currentOption.component"
+			v-if="currentOperator && currentComponent"
+			v-model="check.value"
+			:disabled="!currentOption"
+			:check="check"
 			@input="updateCheck"
 			@valid="(valid=true) && validate()"
 			@invalid="(valid=false) && validate()" />
-		<input v-else v-model="check.value" type="text"
+		<input v-else
+			v-model="check.value"
+			type="text"
 			:class="{ invalid: !valid }"
-			:disabled="!currentOption" :placeholder="valuePlaceholder" @input="updateCheck">
+			:disabled="!currentOption"
+			:placeholder="valuePlaceholder"
+			@input="updateCheck">
 		<Actions v-if="deleteVisible || !currentOption">
 			<ActionButton icon="icon-delete" @click="$emit('remove')" />
 		</Actions>

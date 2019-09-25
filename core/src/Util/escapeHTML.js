@@ -22,9 +22,9 @@
 /**
  * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
  * @param {string} s String to sanitize
- * @return {string} Sanitized string
+ * @returns {string} Sanitized string
  */
-export default function escapeHTML (s) {
+export default function escapeHTML(s) {
 	return s.toString()
 		.split('&')
 		.join('&amp;')
@@ -32,5 +32,5 @@ export default function escapeHTML (s) {
 		.join('&lt;').split('>')
 		.join('&gt;').split('"')
 		.join('&quot;').split('\'')
-		.join('&#039;');
+		.join('&#039;')
 }

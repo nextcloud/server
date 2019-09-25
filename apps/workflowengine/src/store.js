@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -144,8 +144,12 @@ const store = new Vuex.Store({
 		getEventsForOperation(state) {
 			return (operation) => state.events
 		},
+
 		/**
 		 * Return all available checker plugins for a given entity class
+		 * @param {Object} state the store state
+		 * @param {Object} entity the entity class
+		 * @returns {Array} the available plugins
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {

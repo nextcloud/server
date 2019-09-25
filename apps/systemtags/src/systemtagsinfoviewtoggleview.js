@@ -32,66 +32,66 @@
 	var SystemTagsInfoViewToggleView = OC.Backbone.View.extend(
 		/** @lends OC.Backbone.View.prototype */ {
 
-		tagName: 'span',
+			tagName: 'span',
 
-		className: 'tag-label',
+			className: 'tag-label',
 
-		events: {
-			'click': 'click'
-		},
+			events: {
+				'click': 'click'
+			},
 
-		/**
-		 * @type OCA.SystemTags.SystemTagsInfoView
-		 */
-		_systemTagsInfoView: null,
+			/**
+			 * @type OCA.SystemTags.SystemTagsInfoView
+			 */
+			_systemTagsInfoView: null,
 
-		template: function(data) {
-			return '<span class="icon icon-tag"/>' + t('systemtags', 'Tags');
-		},
+			template: function(data) {
+				return '<span class="icon icon-tag"/>' + t('systemtags', 'Tags')
+			},
 
-		/**
-		 * Initialize this toggle view.
-		 *
-		 * The options must provide a systemTagsInfoView parameter that
-		 * references the SystemTagsInfoView to associate to this toggle view.
-		 */
-		initialize: function(options) {
-			var self = this;
-			options = options || {};
+			/**
+			 * Initialize this toggle view.
+			 *
+			 * The options must provide a systemTagsInfoView parameter that
+			 * references the SystemTagsInfoView to associate to this toggle view.
+			 * @param {Object} options options
+			 */
+			initialize: function(options) {
+				options = options || {}
 
-			this._systemTagsInfoView = options.systemTagsInfoView;
-			if (!this._systemTagsInfoView) {
-				throw 'Missing required parameter "systemTagsInfoView"';
-			}
-		},
+				this._systemTagsInfoView = options.systemTagsInfoView
+				if (!this._systemTagsInfoView) {
+					throw new Error('Missing required parameter "systemTagsInfoView"')
+				}
+			},
 
-		/**
+			/**
 		 * Toggles the visibility of the associated SystemTagsInfoView.
 		 *
 		 * When the systemTagsInfoView is shown its dropdown is also opened.
 		 */
-		click: function() {
-			if (this._systemTagsInfoView.isVisible()) {
-				this._systemTagsInfoView.hide();
-			} else {
-				this._systemTagsInfoView.show();
-				this._systemTagsInfoView.openDropdown();
+			click: function() {
+				if (this._systemTagsInfoView.isVisible()) {
+					this._systemTagsInfoView.hide()
+				} else {
+					this._systemTagsInfoView.show()
+					this._systemTagsInfoView.openDropdown()
+				}
+			},
+
+			/**
+			 * Renders this toggle view.
+			 *
+			 * @returns {OCA.SystemTags.SystemTagsInfoViewToggleView} this object.
+			 */
+			render: function() {
+				this.$el.html(this.template())
+
+				return this
 			}
-		},
 
-		/**
-		 * Renders this toggle view.
-		 *
-		 * @return OCA.SystemTags.SystemTagsInfoViewToggleView this object.
-		 */
-		render: function() {
-			this.$el.html(this.template());
+		})
 
-			return this;
-		},
+	OCA.SystemTags.SystemTagsInfoViewToggleView = SystemTagsInfoViewToggleView
 
-	});
-
-	OCA.SystemTags.SystemTagsInfoViewToggleView = SystemTagsInfoViewToggleView;
-
-})(OCA);
+})(OCA)

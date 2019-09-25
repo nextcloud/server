@@ -22,13 +22,17 @@
 
 <template>
 	<Multiselect v-model="inputValObjects"
-		:options="tags" :options-limit="5"
+		:options="tags"
+		:options-limit="5"
 		:placeholder="label"
 		track-by="id"
 		:custom-label="tagLabel"
-		class="multiselect-vue" :multiple="multiple"
-		:close-on-select="false" :tag-width="60"
-		:disabled="disabled" @input="update">
+		class="multiselect-vue"
+		:multiple="multiple"
+		:close-on-select="false"
+		:tag-width="60"
+		:disabled="disabled"
+		@input="update">
 		<span slot="noResult">{{ t('core', 'No results') }}</span>
 		<template #option="scope">
 			{{ tagLabel(scope.option) }}

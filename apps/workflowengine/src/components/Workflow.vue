@@ -4,12 +4,15 @@
 			<h2>{{ t('workflowengine', 'Workflows') }}</h2>
 
 			<transition-group name="slide" tag="div" class="actions">
-				<Operation v-for="operation in getMainOperations" :key="operation.id" :operation="operation"
+				<Operation v-for="operation in getMainOperations"
+					:key="operation.id"
+					:operation="operation"
 					@click.native="createNewRule(operation)" />
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<button class="icon" :class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
+				<button class="icon"
+					:class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
 					@click="showMoreOperations=!showMoreOperations">
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
 				</button>

@@ -22,10 +22,10 @@
 
 (function() {
 	if (!OC.Share) {
-		OC.Share = {};
+		OC.Share = {}
 	}
 
-	OC.Share.Social = {};
+	OC.Share.Social = {}
 
 	var SocialModel = OC.Backbone.Model.extend({
 		defaults: {
@@ -40,16 +40,15 @@
 			/** Open in new windows */
 			newWindow: true
 		}
-	});
+	})
 
-	OC.Share.Social.Model = SocialModel;
+	OC.Share.Social.Model = SocialModel
 
 	var SocialCollection = OC.Backbone.Collection.extend({
 		model: OC.Share.Social.Model,
 
 		comparator: 'key'
-	});
+	})
 
-
-	OC.Share.Social.Collection = new SocialCollection;
-})();
+	OC.Share.Social.Collection = new SocialCollection()
+})()

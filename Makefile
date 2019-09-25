@@ -23,6 +23,9 @@ watch-js:
 lint-fix:
 	npm run lint:fix
 
+lint-fix-watch:
+	npm run lint:fix-watch
+
 # Cleaning
 clean:
 	rm -rf apps/accessibility/js/

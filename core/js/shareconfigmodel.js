@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  * Copyright (c) 2015
  *
@@ -12,8 +13,8 @@
 
 (function() {
 	if (!OC.Share) {
-		OC.Share = {};
-		OC.Share.Types = {};
+		OC.Share = {}
+		OC.Share.Types = {}
 	}
 
 	// FIXME: the config model should populate its own model attributes based on
@@ -37,36 +38,35 @@
 		 * @returns {boolean}
 		 */
 		isPublicUploadEnabled: function() {
-			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
-			return publicUploadEnabled === 'yes';
+			var publicUploadEnabled = $('#filestable').data('allow-public-upload')
+			return publicUploadEnabled === 'yes'
 		},
 
 		/**
 		 * @returns {boolean}
 		 */
 		isShareWithLinkAllowed: function() {
-			return $('#allowShareWithLink').val() === 'yes';
+			return $('#allowShareWithLink').val() === 'yes'
 		},
 
 		/**
 		 * @returns {string}
 		 */
 		getFederatedShareDocLink: function() {
-			return OC.appConfig.core.federatedCloudShareDoc;
+			return OC.appConfig.core.federatedCloudShareDoc
 		},
 
-		getDefaultExpirationDateString: function () {
-			var expireDateString = '';
+		getDefaultExpirationDateString: function() {
+			var expireDateString = ''
 			if (this.get('isDefaultExpireDateEnabled')) {
-				var date = moment.utc();
-				var expireAfterDays = this.get('defaultExpireDate');
-				date.add(expireAfterDays, 'days');
-				expireDateString = date.format('YYYY-MM-DD 00:00:00');
+				var date = moment.utc()
+				var expireAfterDays = this.get('defaultExpireDate')
+				date.add(expireAfterDays, 'days')
+				expireDateString = date.format('YYYY-MM-DD 00:00:00')
 			}
-			return expireDateString;
+			return expireDateString
 		}
-	});
+	})
 
-
-	OC.Share.ShareConfigModel = ShareConfigModel;
-})();
+	OC.Share.ShareConfigModel = ShareConfigModel
+})()

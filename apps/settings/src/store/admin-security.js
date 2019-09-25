@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2019 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author 2019 Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +24,13 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const mutations = {
+const state = {
+	enforced: false,
+	enforcedGroups: [],
+	excludedGroups: []
+}
+
+const mutations = {
 	setEnforced(state, enabled) {
 		Vue.set(state, 'enforced', enabled)
 	},
@@ -36,28 +42,8 @@ export const mutations = {
 	}
 }
 
-export const actions = {
-	save ({commit}, ) {
-		commit('setEnabled', false);
-
-		return generateCodes()
-			.then(({codes, state})  => {
-			commit('setEnabled', state.enabled);
-		commit('setTotal', state.total);
-		commit('setUsed', state.used);
-		commit('setCodes', codes);
-		return true;
-	});
-	}
-}
-
 export default new Vuex.Store({
 	strict: process.env.NODE_ENV !== 'production',
-	state: {
-		enforced: false,
-		enforcedGroups: [],
-		excludedGroups: [],
-	},
-	mutations,
-	actions
+	state,
+	mutations
 })
