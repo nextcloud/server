@@ -54,7 +54,7 @@ class SMB extends Backend {
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('timeout', $l->t('Timeout')))
-					->setFlag(DefinitionParameter::VALUE_HIDDEN)
+					->setType(DefinitionParameter::VALUE_HIDDEN)
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_SMB)
