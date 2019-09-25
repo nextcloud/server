@@ -88,7 +88,7 @@ class Security implements ISettings {
 		$this->initialStateService->provideInitialState(
 			'settings',
 			'can_create_app_token',
-			$this->userSession->getImpersonatingUserID() !== null
+			$this->userSession->getImpersonatingUserID() === null
 		);
 
 		return new TemplateResponse('settings', 'settings/personal/security', [
