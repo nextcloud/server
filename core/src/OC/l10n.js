@@ -10,6 +10,7 @@
 
 import _ from 'underscore'
 import $ from 'jquery'
+import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
 
 import OC from './index'
