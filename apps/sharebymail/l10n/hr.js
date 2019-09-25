@@ -40,6 +40,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s dijeli »%2$s« s vama i želi dodati:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s dijeli »%2$s« s vama i želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« je dodao bilješku datoteci koju dijeli s vama",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Upravo ste podijelili »%1$s« s %2$s. Dijeljenje je već poslano primatelju. Zbog sigurnosnih pravila koje je definirao administrator %3$s, svako dijeljenje mora biti zaštićeno zaporkom i nije dopušteno slati zaporku izravno primatelju. Stoga zaporku morate ručno proslijediti primatelju.",
     "Password to access »%1$s« shared by you with %2$s" : "Zaporka za pristupanje »%1$s« koju ste podijelili s %2$s",
     "This is the password:" : "Ovo je zaporka:",
     "You can choose a different password at any time in the share dialog." : "U dijaloškom okviru za dijeljenje možete u bilo kojem trenutku odabrati drugu zaporku.",
