@@ -27,11 +27,6 @@ return [
 			'verb' => 'POST',
 		],
 		[
-			'name' => 'Settings#getClients',
-			'url' => '/clients',
-			'verb' => 'GET',
-		],
-		[
 			'name' => 'Settings#deleteClient',
 			'url' => '/clients/{id}',
 			'verb' => 'DELETE'

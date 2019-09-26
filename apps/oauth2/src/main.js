@@ -22,13 +22,16 @@
 
 import Vue from 'vue';
 import App from './App.vue';
+import { loadState } from 'nextcloud-initial-state'
 
 Vue.prototype.t = t;
 Vue.prototype.OC = OC;
 
-const app = new Vue({
-	render: h => h(App)
+const clients = loadState('oauth2', 'clients');
+
+const View = Vue.extend(App)
+new View({
+	propsData: {
+		clients
+	}
 }).$mount('#oauth2');
-
-export { app };
-
