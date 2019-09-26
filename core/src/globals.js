@@ -113,7 +113,7 @@ window['jstimezonedetect'] = jstimezonedetect
 window['jstz'] = jstimezonedetect
 window['jQuery'] = $
 window['marked'] = deprecate(marked, 'marked')
-window['md5'] = md5
+setDeprecatedProp('md5', () => md5, 'The global md5 is deprecated, ship your own (blueimp-md5)')
 window['moment'] = moment
 
 window['OC'] = OC
