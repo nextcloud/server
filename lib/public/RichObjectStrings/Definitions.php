@@ -405,6 +405,43 @@ class Definitions {
 				],
 			],
 		],
+		'talk-attachment' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '18.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the attachment on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The name of the attachment',
+					'example' => 'John Doe',
+				],
+				'conversation' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The token of the conversation',
+					'example' => 'a1b2c3d4',
+				],
+				'mimetype' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
+				],
+			],
+		],
 		'user' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',
