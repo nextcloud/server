@@ -111,7 +111,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 			$files = $this->request->getUploadedFile('files');
 			if (isset($files['type'][0])) {
 				$mimeType = $files['type'][0];
-				if ($this->mimeType === 'application/octet-stream') {
+				if ($mimeType === 'application/octet-stream') {
 					// Maybe not...
 					$mimeTypeTest = $this->mimeTypeDetector->detectPath($files['name'][0]);
 					if ($mimeTypeTest !== 'application/octet-stream' && $mimeTypeTest !== false) {
