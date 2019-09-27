@@ -46,6 +46,8 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -636,13 +638,39 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
+	 * Check if a storage is the same as the current one, including wrapped storages
+	 *
+	 * @param IStorage $storage
+	 * @return bool
+	 */
+	private function isSameStorage(IStorage $storage): bool {
+		while ($storage->instanceOfStorage(Wrapper::class)) {
+			/**
+			 * @var Wrapper $sourceStorage
+			 */
+			$storage = $storage->getWrapperStorage();
+		}
+
+		return $storage === $this;
+	}
+
+	/**
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage === $this) {
+		if ($this->isSameStorage($sourceStorage)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
+				/**
+				 * @var Jail $sourceStorage
+				 */
+				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
+			}
+
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
 

@@ -62,6 +62,14 @@ class Jail extends Wrapper {
 		}
 	}
 
+	/**
+	 * This is separate from Wrapper::getWrapperStorage so we can get the jailed storage consistently even if the jail is inside another wrapper
+	 */
+	public function getUnjailedStorage() {
+		return $this->storage;
+	}
+
+
 	public function getJailedPath($path) {
 		$root = rtrim($this->rootPath, '/') . '/';
 
