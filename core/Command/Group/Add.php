@@ -70,8 +70,9 @@ class Add extends Base {
 			$group = $this->groupManager->createGroup($gid);
 			$output->writeln('Created group "' . $group->getGID() . '"');
 
-			if ($input->hasOption('display-name')) {
-				$group->setDisplayName($input->getOption('display-name'));
+			$displayName = trim((string) $input->getOption('display-name'));
+			if ($displayName !== '') {
+				$group->setDisplayName($displayName);
 			}
 		}
 	}

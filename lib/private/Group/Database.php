@@ -109,6 +109,7 @@ class Database extends ABackend
 			$builder = $this->dbConn->getQueryBuilder();
 			$result = $builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
+				->setValue('displayname', $builder->createNamedParameter($gid))
 				->execute();
 		} catch(UniqueConstraintViolationException $e) {
 			$result = 0;
@@ -450,6 +451,11 @@ class Database extends ABackend
 		}
 
 		$this->fixDI();
+
+		$displayName = trim($displayName);
+		if ($displayName === '') {
+			$displayName = $gid;
+		}
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->update('groups')
