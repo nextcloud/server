@@ -563,6 +563,10 @@ form .warning input[type='checkbox']+label {
 	border-radius: 100px; /* --border-radius-pill */
 }
 
+#alternative-logins .button {
+	border: 1px solid white;
+}
+
 /* fixes for update page TODO should be fixed some time in a proper way */
 /* this is just for an error while updating the ownCloud instance */
 .updateProgress .error {
