@@ -72,6 +72,7 @@
     "Log-in credentials, save in database" : "Přihlašovací údaje, ukládat v databázi",
     "Username and password" : "Uživatelské jméno a heslo",
     "Log-in credentials, save in session" : "Přihlašovací údaje, ukládat v sezení",
+    "Global credentials, user entered" : "Globální přihlašovací údaje, zadané uživatelem",
     "User entered, store in database" : "Uživatel zadán, uložit v databázi",
     "RSA public key" : "RSA veřejný klíč",
     "Public key" : "Veřejný klíč",
