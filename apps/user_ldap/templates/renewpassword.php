@@ -38,7 +38,7 @@ style('user_ldap', 'renewPassword');
 		</p>
 
 		<p class="groupbottom">
-			<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
+			<input type="checkbox" id="personal-show" name="show" class="hidden-visually" /><label for="personal-show"></label>
 			<label id="newPassword-label" for="newPassword" class="infield"><?php p($l->t('New password')); ?></label>
 			<input type="password" id="newPassword" name="newPassword"
 				placeholder="<?php echo $l->t('New password');?>"

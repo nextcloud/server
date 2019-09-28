@@ -84,8 +84,9 @@
 
 			<div id="submit-wrapper">
 				<input type="submit"
-					   id="submit"
 					   class="login primary"
+					   name="submit"
+					   id="submit-form"
 					   title=""
 					   :value="!loading ? t('core', 'Log in') : t('core', 'Logging in …')" />
 				<div class="submit-icon"
