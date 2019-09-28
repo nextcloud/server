@@ -329,8 +329,8 @@ var OCdialogs = {
 
 				if (checkInput()) { 
 					var newname = $input.val();
-					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
-						self._fillFilePicker(self.$filePicker.data('path') + newname );
+					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + '/' + newname).always(function (status) {
+						self._fillFilePicker(self.$filePicker.data('path') + '/' + newname );
 					});
 					OC.hideMenus();
 					self.$filePicker.ocdialog('unsetEnterCallback');
