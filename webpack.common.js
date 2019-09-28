@@ -3,15 +3,15 @@ const merge = require('webpack-merge');
 const { VueLoaderPlugin } = require('vue-loader');
 
 const core = require('./core/webpack');
-const settings = require('./settings/webpack');
-
 const accessibility = require('./apps/accessibility/webpack');
+
 const comments = require('./apps/comments/webpack');
 const files_sharing = require('./apps/files_sharing/webpack');
 const files_trashbin = require('./apps/files_trashbin/webpack');
 const files_versions = require('./apps/files_versions/webpack');
 const oauth2 = require('./apps/oauth2/webpack');
 const systemtags = require('./apps/systemtags/webpack');
+const settings = require('./apps/settings/webpack');
 const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack');
 const updatenotifications = require('./apps/updatenotification/webpack');
 const workflowengine = require('./apps/workflowengine/webpack');

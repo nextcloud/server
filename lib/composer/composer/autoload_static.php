@@ -9,7 +9,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     public static $prefixLengthsPsr4 = array (
         'O' => 
         array (
-            'OC\\Settings\\' => 12,
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
@@ -17,10 +16,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Settings\\' => 
-        array (
-            0 => __DIR__ . '/../../..' . '/settings',
-        ),
         'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
@@ -1176,41 +1171,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Session\\Internal' => __DIR__ . '/../../..' . '/lib/private/Session/Internal.php',
         'OC\\Session\\Memory' => __DIR__ . '/../../..' . '/lib/private/Session/Memory.php',
         'OC\\Session\\Session' => __DIR__ . '/../../..' . '/lib/private/Session/Session.php',
-        'OC\\Settings\\Activity\\GroupProvider' => __DIR__ . '/../../..' . '/settings/Activity/GroupProvider.php',
-        'OC\\Settings\\Activity\\GroupSetting' => __DIR__ . '/../../..' . '/settings/Activity/GroupSetting.php',
-        'OC\\Settings\\Activity\\Provider' => __DIR__ . '/../../..' . '/settings/Activity/Provider.php',
-        'OC\\Settings\\Activity\\SecurityFilter' => __DIR__ . '/../../..' . '/settings/Activity/SecurityFilter.php',
-        'OC\\Settings\\Activity\\SecurityProvider' => __DIR__ . '/../../..' . '/settings/Activity/SecurityProvider.php',
-        'OC\\Settings\\Activity\\SecuritySetting' => __DIR__ . '/../../..' . '/settings/Activity/SecuritySetting.php',
-        'OC\\Settings\\Activity\\Setting' => __DIR__ . '/../../..' . '/settings/Activity/Setting.php',
-        'OC\\Settings\\Admin\\Mail' => __DIR__ . '/../../..' . '/settings/Settings/Admin/Mail.php',
-        'OC\\Settings\\Admin\\Overview' => __DIR__ . '/../../..' . '/settings/Settings/Admin/Overview.php',
-        'OC\\Settings\\Admin\\Security' => __DIR__ . '/../../..' . '/settings/Settings/Admin/Security.php',
-        'OC\\Settings\\Admin\\Server' => __DIR__ . '/../../..' . '/settings/Settings/Admin/Server.php',
-        'OC\\Settings\\Admin\\Sharing' => __DIR__ . '/../../..' . '/settings/Settings/Admin/Sharing.php',
-        'OC\\Settings\\Application' => __DIR__ . '/../../..' . '/settings/Application.php',
-        'OC\\Settings\\BackgroundJobs\\VerifyUserData' => __DIR__ . '/../../..' . '/settings/BackgroundJobs/VerifyUserData.php',
-        'OC\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AdminSettingsController.php',
-        'OC\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AppSettingsController.php',
-        'OC\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/AuthSettingsController.php',
-        'OC\\Settings\\Controller\\CertificateController' => __DIR__ . '/../../..' . '/settings/Controller/CertificateController.php',
-        'OC\\Settings\\Controller\\ChangePasswordController' => __DIR__ . '/../../..' . '/settings/Controller/ChangePasswordController.php',
-        'OC\\Settings\\Controller\\CheckSetupController' => __DIR__ . '/../../..' . '/settings/Controller/CheckSetupController.php',
-        'OC\\Settings\\Controller\\CommonSettingsTrait' => __DIR__ . '/../../..' . '/settings/Controller/CommonSettingsTrait.php',
-        'OC\\Settings\\Controller\\LogSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/LogSettingsController.php',
-        'OC\\Settings\\Controller\\MailSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/MailSettingsController.php',
-        'OC\\Settings\\Controller\\PersonalSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/PersonalSettingsController.php',
-        'OC\\Settings\\Controller\\TwoFactorSettingsController' => __DIR__ . '/../../..' . '/settings/Controller/TwoFactorSettingsController.php',
-        'OC\\Settings\\Controller\\UsersController' => __DIR__ . '/../../..' . '/settings/Controller/UsersController.php',
-        'OC\\Settings\\Hooks' => __DIR__ . '/../../..' . '/settings/Hooks.php',
-        'OC\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/../../..' . '/settings/Mailer/NewUserMailHelper.php',
         'OC\\Settings\\Manager' => __DIR__ . '/../../..' . '/lib/private/Settings/Manager.php',
-        'OC\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/../../..' . '/settings/Middleware/SubadminMiddleware.php',
-        'OC\\Settings\\Personal\\Additional' => __DIR__ . '/../../..' . '/settings/Settings/Personal/Additional.php',
-        'OC\\Settings\\Personal\\PersonalInfo' => __DIR__ . '/../../..' . '/settings/Settings/Personal/PersonalInfo.php',
-        'OC\\Settings\\Personal\\Security' => __DIR__ . '/../../..' . '/settings/Settings/Personal/Security.php',
-        'OC\\Settings\\Personal\\Security\\Authtokens' => __DIR__ . '/../../..' . '/settings/Settings/Personal/Security/Authtokens.php',
-        'OC\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/../../..' . '/settings/Settings/Personal/ServerDevNotice.php',
         'OC\\Settings\\Section' => __DIR__ . '/../../..' . '/lib/private/Settings/Section.php',
         'OC\\Setup' => __DIR__ . '/../../..' . '/lib/private/Setup.php',
         'OC\\Setup\\AbstractDatabase' => __DIR__ . '/../../..' . '/lib/private/Setup/AbstractDatabase.php',

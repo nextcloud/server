@@ -80,6 +80,8 @@ return [
 		'apps/oauth2/tests',
 		'apps/provisioning_api/composer',
 		'apps/provisioning_api/tests',
+		'apps/settings/composer',
+		'apps/settings/tests',
 		'apps/sharebymail/composer',
 		'apps/sharebymail/tests',
 		'apps/systemtags/composer',

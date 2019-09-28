@@ -19,7 +19,7 @@
  * along with this program.  If not see <http://www.gnu.org/licenses/>.
  */
 
-export const coreApps = ['', 'admin','log','core/search','settings','core','3rdparty']
+export const coreApps = ['', 'admin','log','core/search','core','3rdparty']
 export const menuSpeed = 50
 export const PERMISSION_NONE = 0
 export const PERMISSION_CREATE = 4

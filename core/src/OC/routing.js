@@ -145,7 +145,7 @@ export const filePath = (app, type, file) => {
 		}
 		link += file
 	} else {
-		if ((app === 'settings' || app === 'core' || app === 'search') && type === 'ajax') {
+		if ((app === 'core' || app === 'search') && type === 'ajax') {
 			link += '/index.php/'
 		} else {
 			link += '/'
