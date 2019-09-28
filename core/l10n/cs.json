@@ -373,6 +373,7 @@
     "Use backup code" : "Použít záložní kód",
     "Cancel log in" : "Zrušit přihlášení",
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
+    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "Pro váš účet je vynuceno důslednější zabezpečení. Zvolte kterého poskytovatele nastavit:",
     "Error while validating your second factor" : "Chyba při ověřování druhého faktoru",
     "Access through untrusted domain" : "Přístup prostřednictvím nedůvěryhodné domény",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Obraťte se na svého správce. Pokud jste jím vy, upravte v souboru s nastaveními config/config.php parametr „trusted_domains“ podle příkladu v config.sample.php.",
