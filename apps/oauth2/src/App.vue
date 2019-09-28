@@ -59,12 +59,17 @@ import OAuthItem from './components/OAuthItem';
 
 export default {
 	name: 'App',
+	props: {
+		clients: {
+			type: Array,
+			required: true
+		}
+	},
 	components: {
 		OAuthItem
 	},
 	data: function() {
 		return {
-			clients: [],
 			newClient: {
 				name: '',
 				redirectUri: '',
@@ -72,12 +77,6 @@ export default {
 				error: false
 			}
 		};
-	},
-	beforeMount: function() {
-		Axios.get(OC.generateUrl('apps/oauth2/clients'))
-			.then((response) => {
-			this.clients = response.data;
-		});
 	},
 	methods: {
 		deleteClient(id) {
