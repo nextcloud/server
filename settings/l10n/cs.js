@@ -411,6 +411,7 @@ OC.L10N.register(
     "Credentials" : "Přihlašovací údaje",
     "SMTP Username" : "SMTP uživatelské jméno ",
     "SMTP Password" : "SMTP heslo",
+    "Save" : "Uložit",
     "Test email settings" : "Test nastavení e-mailu",
     "Send email" : "Odeslat email",
     "Security & setup warnings" : "Upozornění zabezpečení a nastavení",

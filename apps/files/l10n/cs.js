@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Kopírovat",
     "Choose target folder" : "Zvolte cílovou složku",
     "Open" : "Otevřít",
+    "Delete file" : "Smazat soubor",
+    "Delete folder" : "Smazat složku",
     "Disconnect storage" : "Odpojit úložiště",
     "Unshare" : "Zrušit sdílení",
     "Could not load info for file \"{file}\"" : "Nepodařilo se načíst informace pro soubor {file}",
