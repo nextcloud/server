@@ -683,7 +683,7 @@ class Manager implements ICommentsManager {
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->delete('comments')
-			->where($qb->expr()->eq('id', $qb->createParameter('id')))
+			->where($qb->expr()->eq('id', $qb->createParameter('id'), IQueryBuilder::PARAM_INT))
 			->setParameter('id', $id);
 
 		try {
