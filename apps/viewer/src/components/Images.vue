@@ -45,7 +45,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 
-import Mime from 'Mixins/Mime'
+import Mime from '../mixins/Mime'
 
 Vue.use(AsyncComputed)
 

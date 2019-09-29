@@ -20,7 +20,7 @@
  *
  */
 
-import Videos from 'Components/Videos'
+import Videos from '../components/Videos'
 
 export default {
 	id: 'videos',

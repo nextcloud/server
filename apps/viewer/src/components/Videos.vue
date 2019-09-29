@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import Mime from 'Mixins/Mime'
-import PreviewUrl from 'Mixins/PreviewUrl'
+import Mime from '../mixins/Mime'
+import PreviewUrl from '../mixins/PreviewUrl'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 

@@ -20,8 +20,8 @@
  *
  */
 
-import Images from 'Models/images'
-import Videos from 'Models/videos'
+import Images from '../models/images'
+import Videos from '../models/videos'
 
 export default class Viewer {
 
