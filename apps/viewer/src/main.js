@@ -20,12 +20,10 @@
  *
  */
 import Vue from 'vue'
-import ViewerComponent from 'Views/Viewer'
-import ViewerService from 'Services/Viewer'
+import ViewerComponent from './views/Viewer'
+import ViewerService from './services/Viewer'
 
 import { generateFilePath } from 'nextcloud-server/dist/router'
-
-Vue.prototype.$ = $
 
 Vue.prototype.t = t
 Vue.prototype.n = n
@@ -58,6 +56,10 @@ document.body.appendChild(ViewerRoot)
 // Init vue
 export default new Vue({
 	el: '#viewer',
+	// When debugging the page, it's easier to find which app
+	// is which. Especially when there is multiple apps
+	// roots mounted o the same page!
+	// eslint-disable-next-line vue/match-component-file-name
 	name: 'ViewerRoot',
 	render: h => h(ViewerComponent)
 })

@@ -20,7 +20,7 @@
  *
  */
 
-import Images from 'Components/Images'
+import Images from '../components/Images'
 
 export default {
 	id: 'images',

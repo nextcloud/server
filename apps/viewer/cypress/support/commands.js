@@ -36,7 +36,7 @@ Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
 	cy.visit(route)
 	cy.get('input[name=user]').type(user)
 	cy.get('input[name=password]').type(password)
-	cy.get('input#submit').click()
+	cy.get('#submit-wrapper input[type=submit]').click()
 	cy.url().should('include', route)
 })
 
