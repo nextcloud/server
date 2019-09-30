@@ -426,7 +426,7 @@ class Generator {
 	 * @return ISimpleFolder
 	 */
 	private function getPreviewFolder(File $file) {
-		$folderName = implode('/', str_split($file->getId()));
+		$folderName = implode('/', str_split(substr(md5($file->getId()), 0, 7)));
 
 		try {
 			return $this->appData->getFolder($folderName);
