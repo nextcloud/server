@@ -303,7 +303,8 @@ class Manager implements IManager {
 			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
-
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_CIRCLE, $userMountPoint, -1, 0));
+			
 			/** @var \OCP\Share\IShare[] $incomingShares */
 			if (!empty($incomingShares)) {
 				foreach ($incomingShares as $incomingShare) {
