@@ -80,9 +80,9 @@ steps:
   commands:
     - git submodule update --init
 - name: handlebars
-  image: node
+  image: node:lts
   commands:
-    - npm install handlebars -g
+    - npm i
     - ./build/compile-handlebars-templates.sh
 
 trigger:
