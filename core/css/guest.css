@@ -17,8 +17,7 @@ ul { list-style:none; }
 body {
 	background-color: #ffffff;
 	font-weight: normal;
-	/* bring the default font size up to 15px */
-	font-size: .9375em;
+	font-size: .8em;
 	line-height: 1.6em;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	color: #000;
