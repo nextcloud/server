@@ -105,6 +105,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Paylaş",
     "Show hidden files" : "Gizli dosyaları görüntüle",
+    "Timeout" : "Zaman aşımı",
     "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Username as share" : "Paylaşım olarak kullanıcı adı",
     "OpenStack Object Storage" : "OpenStack Nesne Depolama",

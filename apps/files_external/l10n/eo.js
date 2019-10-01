@@ -104,6 +104,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Kunhavigi",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
+    "Timeout" : "Eltempiĝo",
     "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Username as share" : "Uzantonmo kiel kunhavo",
     "OpenStack Object Storage" : "OpenStack Object Storage",
