@@ -597,7 +597,7 @@ kbd {
  */
 $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 
-#app-content {
+#app-content:not(.vue) {
 	z-index: 1000;
 	background-color: var(--color-main-background);
 	position: relative;
