@@ -27,6 +27,8 @@ use OC\Preview\BackgroundCleanupJob;
 use OC\PreviewManager;
 use OC\SystemConfig;
 use OCP\Files\IRootFolder;
+use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\IDBConnection;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
@@ -112,13 +114,36 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		return $files;
 	}
 
+	private function countPreviews() {
+		$root = \OC::$server->getRootFolder();
+		$config = \OC::$server->getSystemConfig();
+		$preview = $root->get('appdata_' . $config->getValue('instanceid') . '/preview');
+
+		$folders = $preview->getDirectoryListing();
+		$num_previews = 0;
+
+		while (!empty($folders)) {
+			$curr_node = array_pop($folders);
+
+			$new_nodes = $curr_node->getDirectoryListing();
+			foreach ($new_nodes as $new_node) {
+				if ($new_node instanceof Folder) {
+					$folders[] = $new_node;
+				} else {
+					$num_previews++;
+					break;
+				}
+			}
+		}
+
+		return $num_previews;
+	}
+
 	public function testCleanupSystemCron() {
 		$files = $this->setup11Previews();
 
-		$preview = $this->appDataFactory->get('preview');
-
-		$previews = $preview->getDirectoryListing();
-		$this->assertCount(11, $previews);
+		$previews = $this->countPreviews();
+		$this->assertEquals(11, $previews);
 
 		$job = new BackgroundCleanupJob($this->connection, $this->appDataFactory, true);
 		$job->run([]);
@@ -127,20 +152,18 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 			$file->delete();
 		}
 
-		$this->assertCount(11, $previews);
+		$this->assertEquals(11, $previews);
 		$job->run([]);
 
-		$previews = $preview->getDirectoryListing();
-		$this->assertCount(0, $previews);
+		$previews = $this->countPreviews();
+		$this->assertEquals(0, $previews);
 	}
 
 	public function testCleanupAjax() {
 		$files = $this->setup11Previews();
 
-		$preview = $this->appDataFactory->get('preview');
-
-		$previews = $preview->getDirectoryListing();
-		$this->assertCount(11, $previews);
+		$previews = $this->countPreviews();
+		$this->assertEquals(11, $previews);
 
 		$job = new BackgroundCleanupJob($this->connection, $this->appDataFactory, false);
 		$job->run([]);
@@ -149,15 +172,15 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 			$file->delete();
 		}
 
-		$this->assertCount(11, $previews);
+		$this->assertEquals(11, $previews);
 		$job->run([]);
 
-		$previews = $preview->getDirectoryListing();
-		$this->assertCount(1, $previews);
+		$previews = $this->countPreviews();
+		$this->assertEquals(1, $previews);
 
 		$job->run([]);
 
-		$previews = $preview->getDirectoryListing();
-		$this->assertCount(0, $previews);
+		$previews = $this->countPreviews();
+		$this->assertEquals(0, $previews);
 	}
 }

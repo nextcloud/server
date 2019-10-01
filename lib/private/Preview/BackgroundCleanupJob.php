@@ -77,7 +77,8 @@ class BackgroundCleanupJob extends TimedJob {
 
 		while ($row = $cursor->fetch()) {
 			try {
-				$preview = $previews->getFolder($row['name']);
+				$folderName = implode('/', str_split(substr(md5($row['name']), 0, 7)));
+				$preview = $previews->getFolder($folderName);
 				$preview->delete();
 			} catch (NotFoundException $e) {
 				// continue

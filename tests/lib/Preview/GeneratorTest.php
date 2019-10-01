@@ -90,7 +90,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$previewFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
-			->with($this->equalTo(42))
+			->with($this->equalTo('a/1/d/0/c/6/e'))
 			->willReturn($previewFolder);
 
 		$maxPreview = $this->createMock(ISimpleFile::class);
@@ -138,11 +138,14 @@ class GeneratorTest extends \Test\TestCase {
 
 		$previewFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
-			->with($this->equalTo(42))
+			->withConsecutive(
+				[$this->equalTo('a/1/d/0/c/6/e')],
+				[$this->equalTo(42)]
+			)
 			->willThrowException(new NotFoundException());
 
 		$this->appData->method('newFolder')
-			->with($this->equalTo(42))
+			->with($this->equalTo('a/1/d/0/c/6/e'))
 			->willReturn($previewFolder);
 
 		$this->config->method('getSystemValue')
@@ -301,7 +304,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$previewFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
-			->with($this->equalTo(42))
+			->with($this->equalTo('a/1/d/0/c/6/e'))
 			->willReturn($previewFolder);
 
 		$previewFolder->method('getDirectoryListing')
@@ -388,7 +391,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$previewFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
-			->with($this->equalTo(42))
+			->with($this->equalTo('a/1/d/0/c/6/e'))
 			->willReturn($previewFolder);
 
 		$maxPreview = $this->createMock(ISimpleFile::class);
