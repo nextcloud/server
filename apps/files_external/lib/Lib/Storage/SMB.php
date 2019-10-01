@@ -44,6 +44,7 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
 use Icewind\SMB\System;
 use Icewind\Streams\CallbackWrapper;
@@ -106,7 +107,14 @@ class SMB extends Common implements INotifyStorage {
 			$this->logger = \OC::$server->getLogger();
 		}
 
-		$serverFactory = new ServerFactory();
+		$options = new Options();
+		if (isset($params['timeout'])) {
+			$timeout = (int)$params['timeout'];
+			if ($timeout > 0) {
+				$options->setTimeout($timeout);
+			}
+		}
+		$serverFactory = new ServerFactory($options);
 		$this->server = $serverFactory->createServer($params['host'], $auth);
 		$this->share = $this->server->getShare(trim($params['share'], '/'));
 
