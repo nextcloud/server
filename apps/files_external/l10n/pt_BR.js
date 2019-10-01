@@ -105,6 +105,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartilhar",
     "Show hidden files" : "Mostrar arquivos ocultos",
+    "Timeout" : "Tempo de validade",
     "SMB / CIFS using OC login" : "SMB / CIFS usando OC login",
     "Username as share" : "Nome de usuário como compartilhamento",
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
