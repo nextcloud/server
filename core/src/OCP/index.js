@@ -18,4 +18,4 @@ export default {
 	Loader,
 	Toast,
 	WhatsNew
-};
+}

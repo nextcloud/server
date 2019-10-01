@@ -727,11 +727,11 @@ OC.Uploader.prototype = _.extend({
 	 *
 	 * @param {array} selection of files to upload
 	 * @param {object} callbacks - object with several callback methods
-	 * @param {function} callbacks.onNoConflicts
-	 * @param {function} callbacks.onSkipConflicts
-	 * @param {function} callbacks.onReplaceConflicts
-	 * @param {function} callbacks.onChooseConflicts
-	 * @param {function} callbacks.onCancel
+	 * @param {Function} callbacks.onNoConflicts
+	 * @param {Function} callbacks.onSkipConflicts
+	 * @param {Function} callbacks.onReplaceConflicts
+	 * @param {Function} callbacks.onChooseConflicts
+	 * @param {Function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks) {
 		var fileList = this.fileList;

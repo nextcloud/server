@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -22,8 +22,8 @@
 /**
  * URI-Encodes a file path but keep the path slashes.
  *
- * @param {String} path
- * @return {String} encoded path
+ * @param {String} path path
+ * @returns {String} encoded path
  */
 export const encodePath = path => {
 	if (!path) {
@@ -41,8 +41,8 @@ export const encodePath = path => {
  * Returns the base name of the given path.
  * For example for "/abc/somefile.txt" it will return "somefile.txt"
  *
- * @param {String} path
- * @return {String} base name
+ * @param {String} path path
+ * @returns {String} base name
  */
 export const basename = path => path.replace(/\\/g, '/').replace(/.*\//, '')
 
@@ -50,10 +50,10 @@ export const basename = path => path.replace(/\\/g, '/').replace(/.*\//, '')
  * Returns the dir name of the given path.
  * For example for "/abc/somefile.txt" it will return "/abc"
  *
- * @param {String} path
- * @return {String} dir name
+ * @param {String} path path
+ * @returns {String} dir name
  */
-export const dirname = path => path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '')
+export const dirname = path => path.replace(/\\/g, '/').replace(/\/[^/]*$/, '')
 
 /**
  * Returns whether the given paths are the same, without
@@ -62,7 +62,7 @@ export const dirname = path => path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '')
  *
  * @param {String} path1 first path
  * @param {String} path2 second path
- * @return {bool} true if the paths are the same
+ * @returns {bool} true if the paths are the same
  *
  * @since 9.0
  */
@@ -80,13 +80,13 @@ export const isSamePath = (path1, path2) => {
  *
  * @param {...String} path sections
  *
- * @return {String} joined path, any leading or trailing slash
+ * @returns {String} joined path, any leading or trailing slash
  * will be kept
  *
  * @since 8.2
  */
 export const joinPaths = (...args) => {
-	if (arguments.length < 1) {
+	if (args.length < 1) {
 		return ''
 	}
 
@@ -98,7 +98,7 @@ export const joinPaths = (...args) => {
 
 	const lastArg = nonEmptyArgs[nonEmptyArgs.length - 1]
 	const leadingSlash = nonEmptyArgs[0].charAt(0) === '/'
-	const trailingSlash = lastArg.charAt(lastArg.length - 1) === '/';
+	const trailingSlash = lastArg.charAt(lastArg.length - 1) === '/'
 	const sections = nonEmptyArgs.reduce((acc, section) => acc.concat(section.split('/')), [])
 
 	let first = !leadingSlash

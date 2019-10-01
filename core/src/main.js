@@ -24,15 +24,15 @@ import '@babel/polyfill'
 import './Polyfill/index'
 
 // If you remove the line below, tests won't pass
+// eslint-disable-next-line no-unused-vars
 import OC from './OC/index'
 
 import './globals'
 import './jquery/index'
-import {initCore} from './init'
-import {registerAppsSlideToggle} from './OC/apps'
+import { initCore } from './init'
+import { registerAppsSlideToggle } from './OC/apps'
 
-$(document).ready(function () {
-	initCore();
-
-	registerAppsSlideToggle();
-});
+$(document).ready(function() {
+	initCore()
+	registerAppsSlideToggle()
+})

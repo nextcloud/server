@@ -20,17 +20,17 @@
  *
  */
 
-import Vue from 'vue';
-import VTooltip from 'v-tooltip';
-import { sync } from 'vuex-router-sync';
+import Vue from 'vue'
+import VTooltip from 'v-tooltip'
+import { sync } from 'vuex-router-sync'
 
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import App from './App.vue'
+import router from './router'
+import store from './store'
 
-Vue.use(VTooltip, { defaultHtml: false });
+Vue.use(VTooltip, { defaultHtml: false })
 
-sync(store, router);
+sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
@@ -43,15 +43,16 @@ __webpack_nonce__ = btoa(OC.requestToken)
 __webpack_public_path__ = OC.linkTo('settings', 'js/')
 
 // bind to window
-Vue.prototype.t = t;
-Vue.prototype.OC = OC;
-Vue.prototype.OCA = OCA;
-Vue.prototype.oc_userconfig = oc_userconfig;
+Vue.prototype.t = t
+Vue.prototype.OC = OC
+Vue.prototype.OCA = OCA
+// eslint-disable-next-line camelcase
+Vue.prototype.oc_userconfig = oc_userconfig
 
 const app = new Vue({
 	router,
 	store,
 	render: h => h(App)
-}).$mount('#content');
+}).$mount('#content')
 
-export { app, router, store };
+export { app, router, store }

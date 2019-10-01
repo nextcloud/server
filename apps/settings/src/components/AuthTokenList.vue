@@ -22,67 +22,67 @@
 <template>
 	<table id="app-tokens-table">
 		<thead v-if="tokens.length">
-		<tr>
-			<th></th>
-			<th>{{ t('settings', 'Device') }}</th>
-			<th>{{ t('settings', 'Last activity') }}</th>
-			<th></th>
-		</tr>
+			<tr>
+				<th />
+				<th>{{ t('settings', 'Device') }}</th>
+				<th>{{ t('settings', 'Last activity') }}</th>
+				<th />
+			</tr>
 		</thead>
 		<tbody class="token-list">
-		<AuthToken v-for="token in sortedTokens"
-				   :key="token.id"
-				   :token="token"
-				   @toggleScope="toggleScope"
-				   @rename="rename"
-				   @delete="onDelete"
-				   @wipe="onWipe" />
+			<AuthToken v-for="token in sortedTokens"
+				:key="token.id"
+				:token="token"
+				@toggleScope="toggleScope"
+				@rename="rename"
+				@delete="onDelete"
+				@wipe="onWipe" />
 		</tbody>
 	</table>
 </template>
 
 <script>
-	import AuthToken from './AuthToken';
+import AuthToken from './AuthToken'
 
-	export default {
-		name: 'AuthTokenList',
-		components: {
-			AuthToken
+export default {
+	name: 'AuthTokenList',
+	components: {
+		AuthToken
+	},
+	props: {
+		tokens: {
+			type: Array,
+			required: true
+		}
+	},
+	computed: {
+		sortedTokens() {
+			return this.tokens.slice().sort((t1, t2) => {
+				var ts1 = parseInt(t1.lastActivity, 10)
+				var ts2 = parseInt(t2.lastActivity, 10)
+				return ts2 - ts1
+			})
+		}
+	},
+	methods: {
+		toggleScope(token, scope, value) {
+			// Just pass it on
+			this.$emit('toggleScope', token, scope, value)
 		},
-		props: {
-			tokens: {
-				type: Array,
-				required: true,
-			}
+		rename(token, newName) {
+			// Just pass it on
+			this.$emit('rename', token, newName)
 		},
-		computed: {
-			sortedTokens () {
-				return this.tokens.sort((t1, t2) => {
-					var ts1 = parseInt(t1.lastActivity, 10);
-					var ts2 = parseInt(t2.lastActivity, 10);
-					return ts2 - ts1;
-				})
-			}
+		onDelete(token) {
+			// Just pass it on
+			this.$emit('delete', token)
 		},
-		methods: {
-			toggleScope (token, scope, value) {
-				// Just pass it on
-				this.$emit('toggleScope', token, scope, value);
-			},
-			rename (token, newName) {
-				// Just pass it on
-				this.$emit('rename', token, newName);
-			},
-			onDelete (token) {
-				// Just pass it on
-				this.$emit('delete', token);
-			},
-			onWipe(token) {
-				// Just pass it on
-				this.$emit('wipe', token);
-			}
+		onWipe(token) {
+			// Just pass it on
+			this.$emit('wipe', token)
 		}
 	}
+}
 </script>
 
 <style lang="scss" scoped>

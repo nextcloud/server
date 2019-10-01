@@ -21,8 +21,10 @@
   -->
 
 <template>
-	<Content app-name="settings" :class="{ 'with-app-sidebar': currentApp}"
-	:content-class="{ 'icon-loading': loadingList }" :navigation-class="{ 'icon-loading': loading }">
+	<Content app-name="settings"
+		:class="{ 'with-app-sidebar': currentApp}"
+		:content-class="{ 'icon-loading': loadingList }"
+		:navigation-class="{ 'icon-loading': loading }">
 		<AppNavigation>
 			<ul id="appscategories">
 				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
@@ -38,32 +40,22 @@
 </template>
 
 <script>
-import { 
+import {
 	AppContent,
 	AppNavigation,
 	AppNavigationItem,
 	AppSidebar,
 	Content
-} from 'nextcloud-vue';
-import AppList from '../components/appList';
-import Vue from 'vue';
+} from 'nextcloud-vue'
+import AppList from '../components/AppList'
+import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
-import AppDetails from '../components/appDetails';
+import AppDetails from '../components/AppDetails'
 
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Apps',
-	props: {
-		category: {
-			type: String,
-			default: 'installed',
-		},
-		id: {
-			type: String,
-			default: '',
-		}
-	},
 	components: {
 		AppContent,
 		AppNavigation,
@@ -73,110 +65,88 @@ export default {
 		AppDetails,
 		AppList
 	},
-	methods: {
-		setSearch(query) {
-			this.searchQuery = query;
+	props: {
+		category: {
+			type: String,
+			default: 'installed'
 		},
-		resetSearch() {
-			this.setSearch('');
-		},
-		hideAppDetails() {
-			this.$router.push({
-				name: 'apps-category',
-				params: {category: this.category}
-			})
+		id: {
+			type: String,
+			default: ''
 		}
-	},
-	beforeMount() {
-		this.$store.dispatch('getCategories');
-		this.$store.dispatch('getAllApps');
-		this.$store.dispatch('getGroups', {offset: 0, limit: 5});
-		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
-	},
-	mounted() {
-		/** 
-		 * Register search
-		 */
-		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch);
 	},
 	data() {
 		return {
 			searchQuery: ''
 		}
 	},
-	watch: {
-		category: function (val, old) {
-			this.setSearch('');
-		}
-	},
 	computed: {
 		loading() {
-			return this.$store.getters.loading('categories');
+			return this.$store.getters.loading('categories')
 		},
 		loadingList() {
-			return this.$store.getters.loading('list');
+			return this.$store.getters.loading('list')
 		},
 		currentApp() {
-			return this.apps.find(app => app.id === this.id );
+			return this.apps.find(app => app.id === this.id)
 		},
 		categories() {
-			return this.$store.getters.getCategories;
+			return this.$store.getters.getCategories
 		},
 		apps() {
-			return this.$store.getters.getAllApps;
+			return this.$store.getters.getAllApps
 		},
 		updateCount() {
-			return this.$store.getters.getUpdateCount;
+			return this.$store.getters.getUpdateCount
 		},
 		settings() {
-			return this.$store.getters.getServerData;
+			return this.$store.getters.getServerData
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
 		menu() {
 			// Data provided php side
-			let categories = this.$store.getters.getCategories;
-			categories = Array.isArray(categories) ? categories : [];
+			let categories = this.$store.getters.getCategories
+			categories = Array.isArray(categories) ? categories : []
 
 			// Map groups
 			categories = categories.map(category => {
-				let item = {};
-				item.id = 'app-category-' + category.ident;
-				item.icon = 'icon-category-' + category.ident;
-				item.classes = [];							// empty classes, active will be set later
+				let item = {}
+				item.id = 'app-category-' + category.ident
+				item.icon = 'icon-category-' + category.ident
+				item.classes = []							// empty classes, active will be set later
 				item.router = {								// router link to
 					name: 'apps-category',
-					params: {category: category.ident}
-				};
-				item.text = category.displayName;
+					params: { category: category.ident }
+				}
+				item.text = category.displayName
 
-				return item;
-			});
-
+				return item
+			})
 
 			// Add everyone group
 			let defaultCategories = [
 				{
 					id: 'app-category-your-apps',
 					classes: [],
-					router: {name: 'apps'},
+					router: { name: 'apps' },
 					icon: 'icon-category-installed',
-					text: t('settings', 'Your apps'),
+					text: t('settings', 'Your apps')
 				},
 				{
 					id: 'app-category-enabled',
 					classes: [],
 					icon: 'icon-category-enabled',
-					router: {name: 'apps-category', params: {category: 'enabled'}},
-					text: t('settings', 'Active apps'),
+					router: { name: 'apps-category', params: { category: 'enabled' } },
+					text: t('settings', 'Active apps')
 				}, {
 					id: 'app-category-disabled',
 					classes: [],
 					icon: 'icon-category-disabled',
-					router: {name: 'apps-category', params: {category: 'disabled'}},
-					text: t('settings', 'Disabled apps'),
+					router: { name: 'apps-category', params: { category: 'disabled' } },
+					text: t('settings', 'Disabled apps')
 				}
-			];
+			]
 
 			if (!this.settings.appstoreEnabled) {
 				return defaultCategories
@@ -187,40 +157,71 @@ export default {
 					id: 'app-category-updates',
 					classes: [],
 					icon: 'icon-download',
-					router: {name: 'apps-category', params: {category: 'updates'}},
+					router: { name: 'apps-category', params: { category: 'updates' } },
 					text: t('settings', 'Updates'),
-					utils: {counter: this.$store.getters.getUpdateCount}
-				});
+					utils: { counter: this.$store.getters.getUpdateCount }
+				})
 			}
 
 			defaultCategories.push({
 				id: 'app-category-app-bundles',
 				classes: [],
 				icon: 'icon-category-app-bundles',
-				router: {name: 'apps-category', params: {category: 'app-bundles'}},
-				text: t('settings', 'App bundles'),
-			});
+				router: { name: 'apps-category', params: { category: 'app-bundles' } },
+				text: t('settings', 'App bundles')
+			})
 
-			categories = defaultCategories.concat(categories);
+			categories = defaultCategories.concat(categories)
 
 			// Set current group as active
-			let activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category);
+			let activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category)
 			if (activeGroup >= 0) {
-				categories[activeGroup].classes.push('active');
+				categories[activeGroup].classes.push('active')
 			} else {
-				categories[0].classes.push('active');
+				categories[0].classes.push('active')
 			}
 
 			categories.push({
 				id: 'app-developer-docs',
 				classes: [],
 				href: this.settings.developerDocumentation,
-				text: t('settings', 'Developer documentation') + ' ↗',
-			});
+				text: t('settings', 'Developer documentation') + ' ↗'
+			})
 
 			// Return
 			return categories
+		}
+	},
+	watch: {
+		category: function(val, old) {
+			this.setSearch('')
+		}
+	},
+	beforeMount() {
+		this.$store.dispatch('getCategories')
+		this.$store.dispatch('getAllApps')
+		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
+		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
+	},
+	mounted() {
+		/**
+		 * Register search
+		 */
+		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch)
+	},
+	methods: {
+		setSearch(query) {
+			this.searchQuery = query
 		},
+		resetSearch() {
+			this.setSearch('')
+		},
+		hideAppDetails() {
+			this.$router.push({
+				name: 'apps-category',
+				params: { category: this.category }
+			})
+		}
 	}
 }
 </script>

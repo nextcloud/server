@@ -19,22 +19,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Vue from 'vue';
-import VueClipboard from 'vue-clipboard2';
-import VTooltip from 'v-tooltip';
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+import VTooltip from 'v-tooltip'
 
-import AuthTokenSection from './components/AuthTokenSection';
+import AuthTokenSection from './components/AuthTokenSection'
 
-__webpack_nonce__ = btoa(OC.requestToken);
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(OC.requestToken)
 
-Vue.use(VueClipboard);
-Vue.use(VTooltip, { defaultHtml: false });
-Vue.prototype.t = t;
+Vue.use(VueClipboard)
+Vue.use(VTooltip, { defaultHtml: false })
+Vue.prototype.t = t
 
-const View = Vue.extend(AuthTokenSection);
+const View = Vue.extend(AuthTokenSection)
 new View({
 	propsData: {
 		tokens: OCP.InitialState.loadState('settings', 'app_tokens'),
-		canCreateToken: OCP.InitialState.loadState('settings', 'can_create_app_token'),
+		canCreateToken: OCP.InitialState.loadState('settings', 'can_create_app_token')
 	}
-}).$mount('#security-authtokens');
+}).$mount('#security-authtokens')

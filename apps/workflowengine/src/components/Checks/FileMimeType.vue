@@ -5,7 +5,9 @@
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			track-by="pattern"
-			:options="options" :multiple="false" :tagging="false"
+			:options="options"
+			:multiple="false"
+			:tagging="false"
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span class="option__icon" :class="props.option.icon" />
@@ -16,7 +18,9 @@
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
-		<input v-if="!isPredefined" type="text" :value="currentValue.pattern"
+		<input v-if="!isPredefined"
+			type="text"
+			:value="currentValue.pattern"
 			@input="updateCustom">
 	</div>
 </template>

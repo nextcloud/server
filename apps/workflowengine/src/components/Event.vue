@@ -4,9 +4,14 @@
 			<img class="option__icon" :src="entity.icon">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
-		<Multiselect v-else :value="currentEvent" :options="allEvents"
-			label="eventName" track-by="id" :allow-empty="false"
-			:disabled="allEvents.length <= 1" @input="updateEvent">
+		<Multiselect v-else
+			:value="currentEvent"
+			:options="allEvents"
+			label="eventName"
+			track-by="id"
+			:allow-empty="false"
+			:disabled="allEvents.length <= 1"
+			@input="updateEvent">
 			<template slot="singleLabel" slot-scope="props">
 				<img class="option__icon" :src="props.option.entity.icon">
 				<span class="option__title option__title_single">{{ props.option.displayName }}</span>

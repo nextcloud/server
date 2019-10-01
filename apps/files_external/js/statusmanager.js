@@ -125,7 +125,7 @@ OCA.Files_External.StatusManager = {
 
 	/**
 	 * Function to get external mount point list from the files_external API
-	 * @param {function} afterCallback function to be executed
+	 * @param {Function} afterCallback function to be executed
 	 */
 
 	getMountPointList: function (afterCallback) {

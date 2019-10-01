@@ -1,9 +1,14 @@
 <template>
 	<div class="timeslot">
 		<Multiselect v-model="newValue.timezone" :options="timezones" @input="update" />
-		<input v-model="newValue.startTime" type="text" class="timeslot--start"
-			placeholder="08:00" @input="update">
-		<input v-model="newValue.endTime" type="text" placeholder="18:00"
+		<input v-model="newValue.startTime"
+			type="text"
+			class="timeslot--start"
+			placeholder="08:00"
+			@input="update">
+		<input v-model="newValue.endTime"
+			type="text"
+			placeholder="18:00"
 			@input="update">
 	</div>
 </template>

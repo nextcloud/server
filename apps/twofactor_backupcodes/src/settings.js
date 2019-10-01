@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import PersonalSettings from './views/PersonalSettings';
-import store from './store';
+import Vue from 'vue'
+import PersonalSettings from './views/PersonalSettings'
+import store from './store'
 
-Vue.prototype.t = t;
+Vue.prototype.t = t
 
-const initialState = OCP.InitialState.loadState('twofactor_backupcodes', 'state');
+const initialState = OCP.InitialState.loadState('twofactor_backupcodes', 'state')
 store.replaceState(
 	initialState
 )

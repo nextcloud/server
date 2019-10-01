@@ -33,34 +33,34 @@ const TOAST_TYPE_CLASES = {
 const Toast = {
 
 	success(text, options = {}) {
-		options.type = 'success';
+		options.type = 'success'
 		return this.message(text, options)
 	},
 
 	warning(text, options = {}) {
-		options.type = 'warning';
+		options.type = 'warning'
 		return this.message(text, options)
 	},
 
 	error(text, options = {}) {
-		options.type = 'error';
+		options.type = 'error'
 		return this.message(text, options)
 	},
 
 	info(text, options = {}) {
-		options.type = 'info';
+		options.type = 'info'
 		return this.message(text, options)
 	},
 
 	message(text, options) {
-		options = options || {};
+		options = options || {}
 		_.defaults(options, {
 			timeout: 7,
 			isHTML: false,
 			type: undefined,
 			close: true,
 			callback: () => {}
-		});
+		})
 		if (!options.isHTML) {
 			text = $('<div/>').text(text).html()
 		}
@@ -71,7 +71,7 @@ const Toast = {
 
 		const toast = Toastify({
 			text: text,
-			duration: options.timeout ? options.timeout*1000 : null,
+			duration: options.timeout ? options.timeout * 1000 : null,
 			callback: options.callback,
 			close: options.close,
 			gravity: 'top',
@@ -82,7 +82,7 @@ const Toast = {
 		})
 		toast.showToast()
 		// add toastify object to the element for reference in legacy OC.Notification
-		toast.toastElement.toastify = toast;
+		toast.toastElement.toastify = toast
 		return toast
 	}
 }

@@ -20,158 +20,158 @@
  *
  */
 
-import api from './api';
-import Vue from 'vue';
+import api from './api'
+import Vue from 'vue'
 
 const state = {
 	apps: [],
 	categories: [],
 	updateCount: 0,
 	loading: {},
-	loadingList: false,
-};
+	loadingList: false
+}
 
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		OC.Notification.showHtml(t('settings','An error occured during the request. Unable to proceed.')+'<br>'+error.error.response.data.data.message, {timeout: 7});
-		console.log(state, error);
+		OC.Notification.showHtml(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { timeout: 7 })
+		console.error(state, error)
 	},
 
-	initCategories(state, {categories, updateCount}) {
-		state.categories = categories;
-		state.updateCount = updateCount;
+	initCategories(state, { categories, updateCount }) {
+		state.categories = categories
+		state.updateCount = updateCount
 	},
 
 	setUpdateCount(state, updateCount) {
-		state.updateCount = updateCount;
+		state.updateCount = updateCount
 	},
 
 	addCategory(state, category) {
-		state.categories.push(category);
+		state.categories.push(category)
 	},
 
 	appendCategories(state, categoriesArray) {
 		// convert obj to array
-		state.categories = categoriesArray;
+		state.categories = categoriesArray
 	},
 
 	setAllApps(state, apps) {
-		state.apps = apps;
+		state.apps = apps
 	},
 
-	setError(state, {appId, error}) {
+	setError(state, { appId, error }) {
 		if (!Array.isArray(appId)) {
-			appId = [appId];
+			appId = [appId]
 		}
 		appId.forEach((_id) => {
-			let app = state.apps.find(app => app.id === _id);
-			app.error = error;
-		});
+			let app = state.apps.find(app => app.id === _id)
+			app.error = error
+		})
 	},
 
-	clearError(state, {appId, error}) {
-		let app = state.apps.find(app => app.id === appId);
-		app.error = null;
+	clearError(state, { appId, error }) {
+		let app = state.apps.find(app => app.id === appId)
+		app.error = null
 	},
 
-	enableApp(state, {appId, groups}) {
-		let app = state.apps.find(app => app.id === appId);
-		app.active = true;
-		app.groups = groups;
+	enableApp(state, { appId, groups }) {
+		let app = state.apps.find(app => app.id === appId)
+		app.active = true
+		app.groups = groups
 	},
 
 	disableApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId);
-		app.active = false;
-		app.groups = [];
+		let app = state.apps.find(app => app.id === appId)
+		app.active = false
+		app.groups = []
 		if (app.removable) {
-			app.canUnInstall = true;
+			app.canUnInstall = true
 		}
 	},
 
 	uninstallApp(state, appId) {
-		state.apps.find(app => app.id === appId).active = false;
-		state.apps.find(app => app.id === appId).groups = [];
-		state.apps.find(app => app.id === appId).needsDownload = true;
-		state.apps.find(app => app.id === appId).installed = false;
-		state.apps.find(app => app.id === appId).canUnInstall = false;
-		state.apps.find(app => app.id === appId).canInstall = true;
+		state.apps.find(app => app.id === appId).active = false
+		state.apps.find(app => app.id === appId).groups = []
+		state.apps.find(app => app.id === appId).needsDownload = true
+		state.apps.find(app => app.id === appId).installed = false
+		state.apps.find(app => app.id === appId).canUnInstall = false
+		state.apps.find(app => app.id === appId).canInstall = true
 	},
 
 	updateApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId);
-		let version = app.update;
-		app.update = null;
-		app.version = version;
-		state.updateCount--;
+		let app = state.apps.find(app => app.id === appId)
+		let version = app.update
+		app.update = null
+		app.version = version
+		state.updateCount--
 
 	},
 
 	resetApps(state) {
-		state.apps = [];
+		state.apps = []
 	},
 	reset(state) {
-		state.apps = [];
-		state.categories = [];
-		state.updateCount = 0;
+		state.apps = []
+		state.categories = []
+		state.updateCount = 0
 	},
 	startLoading(state, id) {
 		if (Array.isArray(id)) {
 			id.forEach((_id) => {
-				Vue.set(state.loading, _id, true);
+				Vue.set(state.loading, _id, true)
 			})
 		} else {
-			Vue.set(state.loading, id, true);
+			Vue.set(state.loading, id, true)
 		}
 	},
 	stopLoading(state, id) {
 		if (Array.isArray(id)) {
 			id.forEach((_id) => {
-				Vue.set(state.loading, _id, false);
+				Vue.set(state.loading, _id, false)
 			})
 		} else {
-			Vue.set(state.loading, id, false);
+			Vue.set(state.loading, id, false)
 		}
-	},
-};
+	}
+}
 
 const getters = {
 	loading(state) {
 		return function(id) {
-			return state.loading[id];
+			return state.loading[id]
 		}
 	},
 	getCategories(state) {
-		return state.categories;
+		return state.categories
 	},
 	getAllApps(state) {
-		return state.apps;
+		return state.apps
 	},
 	getUpdateCount(state) {
-		return state.updateCount;
+		return state.updateCount
 	}
-};
+}
 
 const actions = {
 
 	enableApp(context, { appId, groups }) {
-		let apps;
+		let apps
 		if (Array.isArray(appId)) {
-			apps = appId;
+			apps = appId
 		} else {
-			apps = [appId];
+			apps = [appId]
 		}
 		return api.requireAdmin().then((response) => {
-			context.commit('startLoading', apps);
-			context.commit('startLoading', 'install');
-			return api.post(OC.generateUrl(`settings/apps/enable`), {appIds: apps, groups: groups})
+			context.commit('startLoading', apps)
+			context.commit('startLoading', 'install')
+			return api.post(OC.generateUrl(`settings/apps/enable`), { appIds: apps, groups: groups })
 				.then((response) => {
-					context.commit('stopLoading', apps);
-					context.commit('stopLoading', 'install');
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 					apps.forEach(_appId => {
-						context.commit('enableApp', {appId: _appId, groups: groups});
-					});
+						context.commit('enableApp', { appId: _appId, groups: groups })
+					})
 
 					// check for server health
 					return api.get(OC.generateUrl('apps/files'))
@@ -182,146 +182,146 @@ const actions = {
 										'settings',
 										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 									),
-									t('settings','App update'),
-									function () {
-										window.location.reload();
+									t('settings', 'App update'),
+									function() {
+										window.location.reload()
 									},
 									true
-								);
+								)
 								setTimeout(function() {
-									location.reload();
-								}, 5000);
+									location.reload()
+								}, 5000)
 							}
 						})
-						.catch((error) => {
+						.catch(() => {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
 									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')
-								});
+								})
 							}
-						});
+						})
 				})
 				.catch((error) => {
-					context.commit('stopLoading', apps);
-					context.commit('stopLoading', 'install');
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 					context.commit('setError', {
 						appId: apps,
 						error: error.response.data.data.message
-					});
-					context.commit('APPS_API_FAILURE', { appId, error});
-				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
-	},
-	forceEnableApp(context, { appId, groups }) {
-		let apps;
-		if (Array.isArray(appId)) {
-			apps = appId;
-		} else {
-			apps = [appId];
-		}
-		return api.requireAdmin().then(() => {
-			context.commit('startLoading', apps);
-			context.commit('startLoading', 'install');
-			return api.post(OC.generateUrl(`settings/apps/force`), {appId})
-				.then((response) => {
-					// TODO: find a cleaner solution
-					location.reload();
-				})
-				.catch((error) => {
-					context.commit('stopLoading', apps);
-					context.commit('stopLoading', 'install');
-					context.commit('setError', {
-						appId: apps,
-						error: error.response.data.data.message
-					});
-					context.commit('APPS_API_FAILURE', { appId, error});
-				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
-	},
-	disableApp(context, { appId }) {
-		let apps;
-		if (Array.isArray(appId)) {
-			apps = appId;
-		} else {
-			apps = [appId];
-		}
-		return api.requireAdmin().then((response) => {
-			context.commit('startLoading', apps);
-			return api.post(OC.generateUrl(`settings/apps/disable`), {appIds: apps})
-				.then((response) => {
-					context.commit('stopLoading', apps);
-					apps.forEach(_appId => {
-						context.commit('disableApp', _appId);
-					});
-					return true;
-				})
-				.catch((error) => {
-					context.commit('stopLoading', apps);
+					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+	},
+	forceEnableApp(context, { appId, groups }) {
+		let apps
+		if (Array.isArray(appId)) {
+			apps = appId
+		} else {
+			apps = [appId]
+		}
+		return api.requireAdmin().then(() => {
+			context.commit('startLoading', apps)
+			context.commit('startLoading', 'install')
+			return api.post(OC.generateUrl(`settings/apps/force`), { appId })
+				.then((response) => {
+					// TODO: find a cleaner solution
+					location.reload()
+				})
+				.catch((error) => {
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
+					context.commit('setError', {
+						appId: apps,
+						error: error.response.data.data.message
+					})
+					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+	},
+	disableApp(context, { appId }) {
+		let apps
+		if (Array.isArray(appId)) {
+			apps = appId
+		} else {
+			apps = [appId]
+		}
+		return api.requireAdmin().then((response) => {
+			context.commit('startLoading', apps)
+			return api.post(OC.generateUrl(`settings/apps/disable`), { appIds: apps })
+				.then((response) => {
+					context.commit('stopLoading', apps)
+					apps.forEach(_appId => {
+						context.commit('disableApp', _appId)
+					})
+					return true
+				})
+				.catch((error) => {
+					context.commit('stopLoading', apps)
+					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
 	uninstallApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
-			context.commit('startLoading', appId);
+			context.commit('startLoading', appId)
 			return api.get(OC.generateUrl(`settings/apps/uninstall/${appId}`))
 				.then((response) => {
-					context.commit('stopLoading', appId);
-					context.commit('uninstallApp', appId);
-					return true;
+					context.commit('stopLoading', appId)
+					context.commit('uninstallApp', appId)
+					return true
 				})
 				.catch((error) => {
-					context.commit('stopLoading', appId);
+					context.commit('stopLoading', appId)
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
 
 	updateApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
-			context.commit('startLoading', appId);
-			context.commit('startLoading', 'install');
+			context.commit('startLoading', appId)
+			context.commit('startLoading', 'install')
 			return api.get(OC.generateUrl(`settings/apps/update/${appId}`))
 				.then((response) => {
-					context.commit('stopLoading', 'install');
-					context.commit('stopLoading', appId);
-					context.commit('updateApp', appId);
-					return true;
+					context.commit('stopLoading', 'install')
+					context.commit('stopLoading', appId)
+					context.commit('updateApp', appId)
+					return true
 				})
 				.catch((error) => {
-					context.commit('stopLoading', appId);
-					context.commit('stopLoading', 'install');
+					context.commit('stopLoading', appId)
+					context.commit('stopLoading', 'install')
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }));
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
 
 	getAllApps(context) {
-		context.commit('startLoading', 'list');
+		context.commit('startLoading', 'list')
 		return api.get(OC.generateUrl(`settings/apps/list`))
 			.then((response) => {
-				context.commit('setAllApps', response.data.apps);
-				context.commit('stopLoading', 'list');
-				return true;
+				context.commit('setAllApps', response.data.apps)
+				context.commit('stopLoading', 'list')
+				return true
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
 	getCategories(context) {
-		context.commit('startLoading', 'categories');
+		context.commit('startLoading', 'categories')
 		return api.get(OC.generateUrl('settings/apps/categories'))
 			.then((response) => {
 				if (response.data.length > 0) {
-					context.commit('appendCategories', response.data);
-					context.commit('stopLoading', 'categories');
-					return true;
+					context.commit('appendCategories', response.data)
+					context.commit('stopLoading', 'categories')
+					return true
 				}
-				return false;
+				return false
 			})
-			.catch((error) => context.commit('API_FAILURE', error));
-	},
+			.catch((error) => context.commit('API_FAILURE', error))
+	}
 
-};
+}
 
-export default { state, mutations, getters, actions };
+export default { state, mutations, getters, actions }

@@ -23,9 +23,11 @@
 <template>
 	<div>
 		<Multiselect v-model="newValue"
-			:class="{'icon-loading-small': groups.length === 0}" :options="groups"
+			:class="{'icon-loading-small': groups.length === 0}"
+			:options="groups"
 			:multiple="false"
-			label="displayname" track-by="id"
+			label="displayname"
+			track-by="id"
 			@input="setValue" />
 	</div>
 </template>
