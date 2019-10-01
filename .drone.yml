@@ -82,7 +82,7 @@ steps:
 - name: handlebars
   image: node
   commands:
-    - npm install handlebars -g
+    - npm i
     - ./build/compile-handlebars-templates.sh
 
 trigger:
