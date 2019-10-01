@@ -75,6 +75,7 @@
 <script>
 import axios from 'nextcloud-axios'
 import OAuthItem from './components/OAuthItem'
+import { generateUrl } from 'nextcloud-router'
 
 export default {
 	name: 'App',
@@ -99,7 +100,7 @@ export default {
 	},
 	methods: {
 		deleteClient(id) {
-			axios.delete(OC.generateUrl('apps/oauth2/clients/{id}', { id: id }))
+			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id: id }))
 				.then((response) => {
 					this.clients = this.clients.filter(client => client.id !== id)
 				})
@@ -108,7 +109,7 @@ export default {
 			this.newClient.error = false
 
 			axios.post(
-				OC.generateUrl('apps/oauth2/clients'),
+				generateUrl('apps/oauth2/clients'),
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri
