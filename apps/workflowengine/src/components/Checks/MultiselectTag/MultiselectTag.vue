@@ -56,6 +56,7 @@ export default {
 			required: true
 		},
 		value: {
+			type: Array,
 			default() {
 				return []
 			}
