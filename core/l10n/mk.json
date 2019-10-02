@@ -334,7 +334,6 @@
     "Use backup code" : "Искористи резервен код",
     "Cancel log in" : "Откажи го најавувањето",
     "Setup two-factor authentication" : "Постави двофакторна автентикација",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "Подобрете ја сигурноста на вашата сметка. Изберете кој провајдер сакате да го поставите:",
     "Error while validating your second factor" : "Грешка при верификација на вториот фактор",
     "Access through untrusted domain" : "Пристап преку недоверлив домен.",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Ве молиме контактирајте го администраторот. Доколку вие сте администратор, променете го \"trusted_domains\" подесувањето во config/config.php како во примерот config.sample.php.",

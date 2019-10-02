@@ -14,7 +14,7 @@ OC.L10N.register(
     "Configuration incorrect" : "Nastavitev ni ustrezna",
     "Configuration incomplete" : "Nastavitev je nepopolna",
     "Configuration OK" : "Nastavitev je ustrezna",
-    "Select groups" : "Izberi skupine",
+    "Select groups" : "Izbor skupin",
     "Select object classes" : "Izbor razredov predmeta",
     "Please check the credentials, they seem to be wrong." : "Preverite poverila! Najverjetneje so napačna.",
     "Please specify the port, it could not be auto-detected." : "Določiti je treba ustrezna vrata, ker jih ni mogoče samodejno zaznati.",
