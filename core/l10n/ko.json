@@ -359,7 +359,6 @@
     "Use backup code" : "백업 코드 사용",
     "Cancel log in" : "로그인 취소",
     "Setup two-factor authentication" : "2단계 인증 설정",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "현재 계정에 향상된 보안이 켜져 있습니다. 인증 공급자를 선택하십시오:",
     "Error while validating your second factor" : "2단계 인증을 검증하는 중 오류 발생",
     "Access through untrusted domain" : "신뢰하지 않는 도메인으로 접근",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "시스템 관리자에게 연락하십시오. 만약 시스템 관리자라면 config/config.php의 \"trusted_domains\" 설정을 config.sample.php를 참조하여 편집하십시오.",

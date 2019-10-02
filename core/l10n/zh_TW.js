@@ -351,7 +351,6 @@ OC.L10N.register(
     "Use backup code" : "使用備用認證碼",
     "Cancel log in" : "取消登入",
     "Setup two-factor authentication" : "設置二階認證",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "您的帳號已啟用進階安全機制，請選擇一個供應者：",
     "Error while validating your second factor" : "驗證二階段因子發生錯誤",
     "Access through untrusted domain" : "經由不可信任的域名存取。",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "請聯絡你的管理員。如果妳就是管理員，請編輯config/config.php內的\"trusted_domains\"設定，該項的範例通常位於config.sample.php。",

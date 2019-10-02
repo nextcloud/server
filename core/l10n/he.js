@@ -344,7 +344,6 @@ OC.L10N.register(
     "Use backup code" : "שימוש בקוד גיבוי",
     "Cancel log in" : "ביטול כניסה",
     "Setup two-factor authentication" : "הגדרת אימות דו־שלבי",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "אבטחה משופרת נאכפת על החשבון שלך. נא לבחור איזה ספק להגדיר:",
     "Error while validating your second factor" : "שגיאה בעת אימות הגורם השני",
     "Access through untrusted domain" : "גישה דרך שם מתחם בלתי מהימן",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "נא ליצור קשר עם מנהל השרת שלך. אם הרשאות ניהול השרת הן בידיך, יש לערוך את ההגדרה „trusted_domains” בתוך config/config.php כמו הדוגמה שבתוך ",
