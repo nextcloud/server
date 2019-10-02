@@ -377,7 +377,6 @@ OC.L10N.register(
     "Use backup code" : "バックアップコードを使用する",
     "Cancel log in" : "ログインをキャンセルする",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "セキュリティの強化があなたのアカウントに強制的に適用されました:",
     "Error while validating your second factor" : "第二要素の検証でエラーが発生しました",
     "Access through untrusted domain" : "信頼できないドメインを介したアクセス",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "管理者に連絡してください。 管理者の場合は、config.sample.phpを参照して config/config.phpの \"trusted_domains\" を設定してください。",

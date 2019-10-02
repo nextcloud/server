@@ -378,7 +378,6 @@ OC.L10N.register(
     "Use backup code" : "Usar código de seguridade",
     "Cancel log in" : "Cancelar o inicio de sesión",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "Foi activada a seguridade mellorada para a súa conta. Escolla o fornecedor que quere estabelecer:",
     "Error while validating your second factor" : "Produciuse un erro ao validar o seu segundo factor",
     "Access through untrusted domain" : "Acceso a través dun dominio non fiábel",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Contacte co administrador. Se vostede é un administrador, edite o axuste de «trusted_domains» en config/config.php coma no exemplo en config.sample.php. ",
