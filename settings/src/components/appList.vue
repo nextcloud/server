@@ -76,7 +76,6 @@ import appItem from './appList/appItem';
 import prefix from './prefixMixin';
 import pLimit from 'package.json';
 
-
 export default {
 	name: 'appList',
 	mixins: [prefix],
@@ -203,6 +202,6 @@ export default {
 				OC.Notification.show(error)
 			})
 		},
-},
+	},
 }
 </script>
