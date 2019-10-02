@@ -74,6 +74,9 @@
 <script>
 import appItem from './appList/appItem';
 import prefix from './prefixMixin';
+import pLimit from 'package.json';
+
+const limit = pLimit(1);
 
 export default {
 	name: 'appList',
@@ -186,16 +189,21 @@ export default {
 				.catch((error) => { OC.Notification.show(error)});
 		},
 		updateAll(){
+			const appsToUpdate = [];
+			const limit = pLimit(1);
+
 			this.apps
 				.filter(app => app.update)
 				.forEach(function (app) {
-				this.$store.dispatch('updateApp', { appId: app.id })
-					.then((response) => { OC.Settings.Apps.rebuildNavigation(); })
-					.catch((error) => { OC.Notification.show(error)});
+					appsToUpdate.push(limit(() => this.$store.dispatch('updateApp', { appId: app.id })))
+				});
 
-
-			}.bind(this))
-		}
-	},
+			Promise.all(appsToUpdate).then(() => {
+				OC.Settings.Apps.rebuildNavigation()
+			}, () => {
+				OC.Notification.show(error)
+			})
+		},
+},
 }
 </script>
