@@ -76,7 +76,6 @@ import appItem from './appList/appItem';
 import prefix from './prefixMixin';
 import pLimit from 'package.json';
 
-const limit = pLimit(1);
 
 export default {
 	name: 'appList',
