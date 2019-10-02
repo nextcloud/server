@@ -322,7 +322,7 @@ class Database extends ABackend
 	 * @param int $offset
 	 * @return array an array of user ids
 	 */
-	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -337,8 +337,13 @@ class Database extends ABackend
 			)));
 		}
 
-		$query->setMaxResults($limit)
-			->setFirstResult($offset);
+		if ($limit !== -1) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset !== 0) {
+			$query->setFirstResult($offset);
+		}
+
 		$result = $query->execute();
 
 		$users = [];
