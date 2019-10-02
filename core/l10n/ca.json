@@ -376,7 +376,6 @@
     "Use backup code" : "Utilitza un codi de còpia de seguretat",
     "Cancel log in" : "Cancel·la l'accés a",
     "Setup two-factor authentication" : "Configura l'autenticació de dos factors",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "La seguretat millorada és obligada per al vostre compte. Trieu quin proveïdor s'ha de configurar:",
     "Error while validating your second factor" : "S'ha produït un error en validar el segon factor",
     "Access through untrusted domain" : "Accedeix a través d'un domini que no és de confiança",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Si us plau, contacteu amb el vostre administrador. Si sou l'administrador, editeu la configuració de \"trusted_domains\" a config/config.php tal com i com es mostra a l'exemple de config.samble.php.",

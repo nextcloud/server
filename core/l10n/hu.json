@@ -375,7 +375,6 @@
     "Use backup code" : "Biztonsági kód használata",
     "Cancel log in" : "Bejelentkezés megszakítása",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "A fokozott biztonság be van tartatva a fiókjánál. Válassza ki a beállítandó szolgáltatót:",
     "Error while validating your second factor" : "Hiba történt a második lépés évényesítésekor",
     "Access through untrusted domain" : "Nem megbízható domain-en keresztüli hozzáférés",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Lépj kapcsolatba a  rendszergazdáddal. Ha te vagy az, szerkeszd a \"trusted_domains\" beállítást a config/config.php-ban a config.sample.php-hoz hasonlóan.",

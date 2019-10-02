@@ -378,7 +378,6 @@ OC.L10N.register(
     "Use backup code" : "Upotrijebi pričuvnu šifru",
     "Cancel log in" : "Otkaži prijavu",
     "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
-    "Enhanced security is enforced for your account. Choose wich provider to set up:" : "Na vašem se računu provodi poboljšana sigurnost. Odaberite davatelja usluga kojeg želite primjenjivati:",
     "Error while validating your second factor" : "Pogreška prilikom potvrđivanja drugog faktora",
     "Access through untrusted domain" : "Pristup s nepouzdane domene",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Obratite se svom administratoru. Ako ste administrator, uredite postavku „trusted_domains” u datoteci config/config.php sukladno primjeru iz datoteke config.sample.php.",
