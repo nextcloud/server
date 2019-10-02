@@ -61,10 +61,11 @@ export default {
 			if (isFirefox && parseInt(navigator.userAgent.split('/').pop()) < 51) {
 				var patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]')
 				for (var i = 0, ii = patterns.length, pattern; i < ii; i++) {
-					const { fill, stroke } = pattern.style
 					pattern = patterns[i]
-					pattern.style.fill = fill
-					pattern.style.stroke = stroke
+					// eslint-disable-next-line no-self-assign
+					pattern.style.fill = pattern.style.fill
+					// eslint-disable-next-line no-self-assign
+					pattern.style.stroke = pattern.style.stroke
 					pattern.removeAttribute('filter')
 					pattern.setAttribute('filter', 'url(#invert)')
 				}

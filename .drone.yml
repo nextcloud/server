@@ -27,15 +27,16 @@ kind: pipeline
 name: webpack-build
 
 steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: webpack-build
+- name: build
   image: nextcloudci/node:node-4
   commands:
+    - cd /drone/src
     - npm ci
     - npm run build
+- name: changes
+  image: nextcloudci/node:node-4
+  commands:
+    - cd /drone/src
     - git status
     - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
 
