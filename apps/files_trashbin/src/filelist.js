@@ -13,6 +13,7 @@
 	var FILENAME_PROP = '{http://nextcloud.org/ns}trashbin-filename'
 	var DELETION_TIME_PROP = '{http://nextcloud.org/ns}trashbin-deletion-time'
 	var TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location'
+	var TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title'
 
 	/**
 	 * Convert a file name in the format filename.d12345 to the real file name.
@@ -45,32 +46,33 @@
 	}
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 		/** @lends OCA.Trashbin.FileList.prototype */ {
-			id: 'trashbin',
-			appName: t('files_trashbin', 'Deleted files'),
-			/** @type {OC.Files.Client} */
-			client: null,
+		id: 'trashbin',
+		appName: t('files_trashbin', 'Deleted files'),
+		/** @type {OC.Files.Client} */
+		client: null,
 
-			/**
+		/**
 		 * @private
 		 */
-			initialize: function() {
-				this.client.addFileInfoParser(function(response, data) {
-					var props = response.propStat[0].properties
-					var path = props[TRASHBIN_ORIGINAL_LOCATION]
-					return {
-						displayName: props[FILENAME_PROP],
-						mtime: parseInt(props[DELETION_TIME_PROP], 10) * 1000,
-						hasPreview: true,
-						path: path,
-						extraData: path
-					}
-				})
+		initialize: function() {
+			this.client.addFileInfoParser(function(response, data) {
+				var props = response.propStat[0].properties
+				var path = props[TRASHBIN_ORIGINAL_LOCATION]
+				var title = props[TRASHBIN_TITLE]
+				return {
+					displayName: props[FILENAME_PROP],
+					mtime: parseInt(props[DELETION_TIME_PROP], 10) * 1000,
+					hasPreview: true,
+					path: path,
+					extraData: title
+				}
+			})
 
-				var result = OCA.Files.FileList.prototype.initialize.apply(this, arguments)
-				this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this))
+			var result = OCA.Files.FileList.prototype.initialize.apply(this, arguments)
+			this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this))
 
-				this.setSort('mtime', 'desc')
-				/**
+			this.setSort('mtime', 'desc')
+			/**
 			 * Override crumb making to add "Deleted Files" entry
 			 * and convert files with ".d" extensions to a more
 			 * user friendly name.
@@ -252,7 +254,7 @@
 		 * Returns list of webdav properties to request
 		 */
 			_getWebdavProperties: function() {
-				return [FILENAME_PROP, DELETION_TIME_PROP, TRASHBIN_ORIGINAL_LOCATION].concat(this.filesClient.getPropfindProperties())
+				return [FILENAME_PROP, DELETION_TIME_PROP, TRASHBIN_ORIGINAL_LOCATION, TRASHBIN_TITLE].concat(this.filesClient.getPropfindProperties())
 			},
 
 			/**
