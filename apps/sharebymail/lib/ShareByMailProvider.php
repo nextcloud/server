@@ -405,7 +405,7 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
 		$text = $this->l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
-		if ($expiration) {
+		if ($expiration instanceof \DateTime) {
 			$relativeDate = (string)$expiration->diff(new \DateTime('now'))->format("%a");
 			$text .= ' ' . $this->l->t('It will expire in %1$s days.', [$relativeDate]);
 		}
