@@ -22,7 +22,7 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import { loadState } from 'nextcloud-initial-state'
+import { loadState } from '@nextcloud/initial-state'
 
 Vue.prototype.t = t
 Vue.prototype.OC = OC
