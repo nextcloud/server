@@ -376,6 +376,7 @@
     "Use backup code" : "Usar código de respaldo",
     "Cancel log in" : "Cancelar inicio de sesión",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Es obligatorio usar seguridad mejorada en tu cuenta. Escoge qué proveedor configurar:",
     "Error while validating your second factor" : "Error al validar su segundo factor",
     "Access through untrusted domain" : "Acceso a través de un dominio del que no se confía",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor, ponte en contacto con tu administrador. Si eres un administrador, edita la configuración \"trusted_domains\" en config/config.php como en el ejemplo que aparece en config.sample.php.",
