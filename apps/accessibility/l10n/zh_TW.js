@@ -2,7 +2,9 @@ OC.L10N.register(
     "accessibility",
     {
     "Dark theme" : "暗色主題",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一個黑暗風格的主題，通過降低整體亮度和亮度來舒緩您的眼睛刺激。 它仍在開發中，因此請報告您可能發現的任何問題。",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "黑暗風格的主題，通過降低整體亮度來舒緩對您眼睛的刺激。暗色主題仍在開發中，如發現任何問題，煩請報告。",
+    "High contrast mode" : "高對比度模式",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "高對比度模式會降低界面質量，但會提高清晰度，有助您瀏覽。",
     "Dyslexia font" : "閱讀障礙字體",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic是一種免費的字型，目的在降低因拼音文字閱讀障礙引起的一些常見閱讀錯誤。",
     "Accessibility" : "輔助功能",

@@ -378,6 +378,7 @@ OC.L10N.register(
     "Use backup code" : "Yedek kodu kullanacağım",
     "Cancel log in" : "Oturum açmaktan vazgeç",
     "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Hesabınız için gelişmiş güvenlik kullanımı dayatılmış. Kuracağınız hizmet sağlayıcıyı seçin:",
     "Error while validating your second factor" : "İkinci aşama doğrulanırken sorun çıktı",
     "Access through untrusted domain" : "Güvenilmeyen etki alanı üzerinden erişim",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Lütfen yöneticiniz ile görüşün. Yöneticisi siz iseniz, config/config.php dosyası içerisindeki \"trusted_domain\" ayarını config/config.sample.php dosyasındaki gibi düzenleyin.",

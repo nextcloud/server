@@ -27,6 +27,7 @@
     "Operation %s is invalid" : "L'operació %s no és vàlida",
     "Check %s does not exist" : "Comprovació %s no existeix",
     "Check %s is invalid" : "Comprovació %s no és vàlid",
+    "Check %s is not allowed with this entity" : "La comprovació de %s no es permet amb aquesta entitat.",
     "Check #%s does not exist" : "Comprovació #%s no existeix",
     "Check %s is invalid or does not exist" : "Comprovació %s no és vàlida o no existeix",
     "Workflows" : "Fluxos de treball",
