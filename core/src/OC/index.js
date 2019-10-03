@@ -38,7 +38,7 @@ import {
 	encodePath,
 	isSamePath,
 	joinPaths
-} from './path'
+} from '@nextcloud/paths'
 import {
 	build as buildQueryString,
 	parse as parseQueryString
@@ -189,10 +189,25 @@ export default {
 	/*
 	 * Path helpers
 	 */
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
 	basename,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
 	encodePath,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
 	dirname,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
 	isSamePath,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
 	joinPaths,
 
 	/**
