@@ -376,6 +376,7 @@
     "Use backup code" : "Користите резервни кôд",
     "Cancel log in" : "Поништите пријаву",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повећана сигурност је захтевана за овај налог. Одаберите провајдера којег желите да подесите:",
     "Error while validating your second factor" : "Грешка при провери Вашег другог фактора",
     "Access through untrusted domain" : "Приступ кроз небезбедни домен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Контактирајте Вашег администратора. Ако сте Ви администратор, измените \"trusted_domains\" подешавање у config/config.php као у примеру config.sample.php.",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Дељења ће се појавити овде",
     "Restore share" : "Поврати дељење",
     "Something happened. Unable to restore the share." : "Нешто чудно се десило. Дељење не може да се поврати.",
+    "This will stop your current uploads." : "Ово ће да прекине тренутна отпремања.",
     "Move or copy" : "Помери или копирај",
     "Download" : "Преузми",
     "Delete" : "Избриши",
