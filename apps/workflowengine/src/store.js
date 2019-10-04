@@ -22,7 +22,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
 import confirmPassword from 'nextcloud-password-confirmation'
 

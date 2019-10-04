@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import Axios from 'nextcloud-axios'
+import Axios from '@nextcloud/axios'
 
 export default {
 	name: 'UpdatePassword',

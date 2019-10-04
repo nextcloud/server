@@ -20,7 +20,7 @@
  *
  */
 
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 import confirmPassword from 'nextcloud-password-confirmation'
 
 const sanitize = function(url) {

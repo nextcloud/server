@@ -25,7 +25,7 @@
 
 <script>
 import ItemPreview from './components/ItemPreview'
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 
 export default {
 	name: 'Accessibility',
