@@ -213,19 +213,20 @@ class ShareAPIControllerTest extends TestCase {
 
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSNotFoundException
-	 * @expectedExceptionMessage could not delete share
+	 * @expectedExceptionMessage Could not delete share
 	 */
 	public function testDeleteShareLocked() {
 		$node = $this->getMockBuilder(File::class)->getMock();
 
 		$share = $this->newShare();
-		$share->setSharedBy($this->currentUser)
-			->setNode($node);
+		$share->setNode($node);
+	
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
 			->with('ocinternal:42')
 			->willReturn($share);
+
 		$this->shareManager
 			->expects($this->never())
 			->method('deleteShare')
@@ -235,6 +236,223 @@ class ShareAPIControllerTest extends TestCase {
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED)
 			->will($this->throwException(new LockedException('mypath')));
+		
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteFromSelf', [$share]));
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
+
+		$this->ocs->deleteShare(42);
+	}
+
+	/**
+	 * You can always remove a share that was shared with you 
+	 */
+	public function testDeleteShareWithMe() {
+		$node = $this->getMockBuilder(File::class)->getMock();
+
+		$share = $this->newShare();
+		$share->setSharedWith($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setNode($node);
+	
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+		
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteFromSelf', [$share]));
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
+
+		$this->ocs->deleteShare(42);
+	}
+
+	/**
+	 * You can always delete a share you own
+	 */
+	public function testDeleteShareOwner() {
+		$node = $this->getMockBuilder(File::class)->getMock();
+
+		$share = $this->newShare();
+		$share->setSharedBy($this->currentUser)
+			->setNode($node);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+		
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteFromSelf', [$share]));
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
+
+		$this->ocs->deleteShare(42);
+	}
+
+	/**
+	 * You can always delete a share when you own
+	 * the file path it belong to
+	 */
+	public function testDeleteShareFileOwner() {
+		$node = $this->getMockBuilder(File::class)->getMock();
+
+		$share = $this->newShare();
+		$share->setShareOwner($this->currentUser)
+			->setNode($node);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+		
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteFromSelf', [$share]));
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
+
+		$this->ocs->deleteShare(42);
+	}
+
+	/**
+	 * You can remove (the mountpoint, not the share)
+	 * a share if you're in the group the share is shared with
+	 */
+	public function testDeleteSharedWithMyGroup() {
+		$node = $this->getMockBuilder(File::class)->getMock();
+
+		$share = $this->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group')
+			->setNode($node);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		// canDeleteShareFromSelf
+		$user = $this->createMock(IUser::class);
+		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
+		$this->groupManager
+			->method('get')
+			->with('group')
+			->willReturn($group);
+		$this->userManager
+			->method('get')
+			->with($this->currentUser)
+			->willReturn($user);
+		$group->method('inGroup')
+			->with($user)
+			->willReturn(true);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
+		$this->shareManager->expects($this->once())
+			->method('deleteFromSelf')
+			->with($share, $this->currentUser);
+		
+		$this->shareManager->expects($this->never())
+			->method('deleteShare');
+		
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canDeleteShareFromSelf', [$share]));
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
+
+		$this->ocs->deleteShare(42);
+	}
+
+	/**
+	 * You cannot remove a share if you're not
+	 * in the group the share is shared with
+	 * @expectedException \OCP\AppFramework\OCS\OCSNotFoundException
+	 * @expectedExceptionMessage Wrong share ID, share doesn't exist
+	 */
+	public function testDeleteSharedWithGroupIDontBelongTo() {
+		$node = $this->getMockBuilder(File::class)->getMock();
+
+		$share = $this->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('group')
+			->setNode($node);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		// canDeleteShareFromSelf
+		$user = $this->createMock(IUser::class);
+		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
+		$this->groupManager
+			->method('get')
+			->with('group')
+			->willReturn($group);
+		$this->userManager
+			->method('get')
+			->with($this->currentUser)
+			->willReturn($user);
+		$group->method('inGroup')
+			->with($user)
+			->willReturn(false);
+
+		$node->expects($this->once())
+			->method('lock')
+			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
+		$this->shareManager->expects($this->never())
+			->method('deleteFromSelf');
+		
+		$this->shareManager->expects($this->never())
+			->method('deleteShare');
+		
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteShareFromSelf', [$share]));
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
 
 		$this->ocs->deleteShare(42);
 	}
@@ -558,6 +776,11 @@ class ShareAPIControllerTest extends TestCase {
 			->with('ocinternal:42', 'currentUser')
 			->willReturn($share);
 
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
 		$this->ocs->getShare(42);
 	}
 
@@ -575,6 +798,27 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getSharedWith')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
+		$file = $this->getMockBuilder(File::class)->getMock();
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$file]);
+
+		$file->method('getPermissions')
+			->will($this->onConsecutiveCalls(\OCP\Constants::PERMISSION_SHARE, \OCP\Constants::PERMISSION_READ));
+
+		// getPermissions -> share
+		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
+		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+
+		// getPermissions -> read
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
@@ -652,6 +896,15 @@ class ShareAPIControllerTest extends TestCase {
 	 * @param bool canAccessShareByHelper
 	 */
 	public function testCanAccessRoomShare(bool $expected, \OCP\Share\IShare $share, bool $helperAvailable, bool $canAccessShareByHelper) {
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
 		if (!$helperAvailable) {
 			$this->appManager->method('isEnabledForUser')
 				->with('spreed')
@@ -1526,6 +1779,15 @@ class ShareAPIControllerTest extends TestCase {
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
 
 		$this->ocs->updateShare(42);
 	}

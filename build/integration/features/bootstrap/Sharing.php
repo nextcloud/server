@@ -218,8 +218,6 @@ trait Sharing {
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
-
-		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	public function createShare($user,

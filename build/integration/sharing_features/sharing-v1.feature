@@ -118,6 +118,7 @@ Feature: sharing
     And Updating last share with
       | expireDate | +3 days |
     And the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -150,6 +151,7 @@ Feature: sharing
     And Updating last share with 
       | password | publicpw |
     And the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -181,6 +183,7 @@ Feature: sharing
     And Updating last share with
       | permissions | 7 |
     And the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -212,6 +215,7 @@ Feature: sharing
     And Updating last share with
       | permissions | 4 |
     And the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -243,6 +247,7 @@ Feature: sharing
     And Updating last share with
       | publicUpload | true |
     And the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -294,6 +299,21 @@ Feature: sharing
     And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0.txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And User "user1" should be included in the response
+    And User "user2" should be included in the response
+    And User "user3" should not be included in the response
+
+  Scenario: getting all shares of a file with a user with resharing rights
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user2"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0 (2).txt&reshares=true"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And User "user1" should be included in the response
