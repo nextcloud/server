@@ -133,5 +133,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped src="./../../css/multiselect.css"></style>
