@@ -1,6 +1,6 @@
 /* global alert */
 
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -344,8 +344,8 @@ const Dialogs = {
 
 				if (checkInput()) {
 					var newname = $input.val();
-					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
-						self._fillFilePicker(self.$filePicker.data('path') + newname);
+					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + '/' + newname).always(function (status) {
+						self._fillFilePicker(self.$filePicker.data('path') + '/' + newname);
 					});
 					OC.hideMenus();
 					self.$filePicker.ocdialog('unsetEnterCallback');
