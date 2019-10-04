@@ -25,6 +25,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
     "@chenfengyuan/vue-qrcode": "^1.0.1",
+    "@nextcloud/event-bus": "^0.2.0",
     "@nextcloud/router": "^0.1.0",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
