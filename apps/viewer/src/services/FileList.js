@@ -20,7 +20,7 @@
  *
  */
 
-import axios from 'axios'
+import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from 'nextcloud-server/dist/router'
 
 /**
@@ -34,7 +34,6 @@ export default async function(user, path) {
 		method: 'PROPFIND',
 		url: generateRemoteUrl(`dav/files/${user}${path}`),
 		headers: {
-			requesttoken: OC.requestToken,
 			'content-Type': 'text/xml'
 		},
 		data: `<?xml version="1.0"?>
