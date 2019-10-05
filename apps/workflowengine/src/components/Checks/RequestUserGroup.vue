@@ -35,7 +35,7 @@
 <script>
 import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 import valueMixin from '../../mixins/valueMixin'
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 export default {
 	name: 'RequestUserGroup',
 	components: {

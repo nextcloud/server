@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 
 import { generateUrl } from '../../OC/routing'
 

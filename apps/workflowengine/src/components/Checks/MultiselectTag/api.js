@@ -20,7 +20,7 @@
  *
  */
 
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from 'nextcloud-router'
 
 const xmlToJson = (xml) => {

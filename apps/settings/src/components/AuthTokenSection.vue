@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 import confirmPassword from 'nextcloud-password-confirmation'
 
 import AuthTokenList from './AuthTokenList'
