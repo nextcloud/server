@@ -73,7 +73,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "檔案或目錄已被 <strong>其他伺服器</strong> 分享",
     "A file or folder has been <strong>shared</strong>" : "檔案或目錄已被 <strong>分享</strong>",
     "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
-    "could not delete share" : "無法刪除分享",
     "Could not delete share" : "無法刪除分享",
     "Please specify a file or folder path" : "請指定檔案或資料夾路徑",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
@@ -116,6 +115,7 @@ OC.L10N.register(
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
     "Uploading files…" : "上傳檔案中…",
-    "Uploaded files:" : "已上傳的檔案："
+    "Uploaded files:" : "已上傳的檔案：",
+    "could not delete share" : "無法刪除分享"
 },
 "nplurals=1; plural=0;");

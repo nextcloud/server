@@ -84,7 +84,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Súbor alebo priečinok bol sprístupnený z <strong>iného servera</strong>",
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>sprístupnený</strong>",
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
-    "could not delete share" : "nie je možné zmazať sprístupnenie",
     "Could not delete share" : "Nie je možné zmazať sprístupnenie",
     "Please specify a file or folder path" : "Zvoľte prosím súbor alebo cestu k priečinku",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
@@ -137,6 +136,7 @@
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
+    "could not delete share" : "nie je možné zmazať sprístupnenie"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

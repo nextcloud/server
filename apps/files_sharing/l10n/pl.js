@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Plik lub katalog został udostępniony z <strong>innego serwera</strong>",
     "A file or folder has been <strong>shared</strong>" : "Plik lub katalog został <strong>udostępniony</strong>",
     "Wrong share ID, share doesn't exist" : "Złe ID współdzielenia, udostępnienie nie istnieje",
-    "could not delete share" : "nie można usunąć udostępniania",
     "Could not delete share" : "Nie można usunąć udostępniania",
     "Please specify a file or folder path" : "Podaj ścieżkę do pliku lub katalogu",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files…" : "Wysyłanie plików…",
     "Uploaded files:" : "Wysłane pliki:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Przesyłając pliki, akceptujesz %1$swarunki usługi%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Przesyłając pliki, akceptujesz %1$swarunki usługi%2$s.",
+    "could not delete share" : "nie można usunąć udostępniania"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

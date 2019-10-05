@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",
     "A file or folder has been <strong>shared</strong>" : "Een bestand of map is <strong>gedeeld</strong>",
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
-    "could not delete share" : "Kan gedeelde folder niet verwijderen",
     "Could not delete share" : "Kan gedeelde folder niet verwijderen",
     "Please specify a file or folder path" : "Geef een bestand of pad van een map op",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
     "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
+    "could not delete share" : "Kan gedeelde folder niet verwijderen"
 },
 "nplurals=2; plural=(n != 1);");

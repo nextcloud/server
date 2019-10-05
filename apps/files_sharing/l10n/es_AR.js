@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Un archivo o carpeta fue compartido desde <strong>otro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "could not delete share" : "no fue posible borrar el elemento compartido",
     "Could not delete share" : "No fue posible borrar el elemento compartido",
     "Please specify a file or folder path" : "Favor de especificar un archivo o ruta de carpeta",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
@@ -102,6 +101,7 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploading files…" : "Cargando archivos...",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "could not delete share" : "no fue posible borrar el elemento compartido"
 },
 "nplurals=2; plural=(n != 1);");
