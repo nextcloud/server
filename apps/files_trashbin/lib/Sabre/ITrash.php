@@ -32,6 +32,8 @@ interface ITrash {
 
 	public function getOriginalLocation(): string;
 
+	public function getTitle(): string;
+
 	public function getDeletionTime(): int;
 
 	public function getSize();
