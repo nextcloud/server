@@ -85,7 +85,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo složka byla nasdílen z <strong>jiného serveru</strong>",
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
-    "could not delete share" : "nelze smazat sdílení",
     "Could not delete share" : "Nelze smazat sdílení",
     "Please specify a file or folder path" : "Zadejte cestu k souboru či složce",
     "Wrong path, file/folder doesn't exist" : "Chybná cesta – soubor/složka neexistuje",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
     "Uploading files…" : "Nahrávání souborů…",
     "Uploaded files:" : "Nahrané soubory:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s všeobecnými podmínkami %1$s %2$s.",
+    "could not delete share" : "nelze smazat sdílení"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

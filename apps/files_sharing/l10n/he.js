@@ -77,7 +77,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "קובץ או תיקייה שותפו מ- <strong>שרת אחר</strong>",
     "A file or folder has been <strong>shared</strong>" : "קובץ או תיקייה <strong>שותפו<strong/>",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
-    "could not delete share" : "לא ניתן למחוק שיתוף",
     "Could not delete share" : "לא ניתן היה למחוק את השיתוף",
     "Please specify a file or folder path" : "יש לספק נתיב לקובץ או תיקייה",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Select or drop files" : "בחירה או השלכה של קבצים",
     "Uploading files…" : "קבצים מועלים…",
     "Uploaded files:" : "קבצים שהועלו:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
+    "could not delete share" : "לא ניתן למחוק שיתוף"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

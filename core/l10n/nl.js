@@ -378,6 +378,7 @@ OC.L10N.register(
     "Use backup code" : "Gebruik back-upcode",
     "Cancel log in" : "Inloggen annuleren",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een provider om in te stellen:",
     "Error while validating your second factor" : "Fout bij het verifiëren van je tweede factor",
     "Access through untrusted domain" : "Toegang via een niet vertrouwd domein",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Neem contact op met je beheerder. Wanneer je een beheerder bent kun je de \"trusted_domains\" instelling bewerken in config/config.php zoals in het voorbeeld config.sample.php. ",

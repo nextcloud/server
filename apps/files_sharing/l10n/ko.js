@@ -79,7 +79,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "<strong>다른 서버</strong>에서 파일이나 폴더를 공유함",
     "A file or folder has been <strong>shared</strong>" : "파일이나 폴더가 <strong>공유됨</strong>",
     "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
-    "could not delete share" : "공유를 삭제할 수 없음",
     "Could not delete share" : "공유를 삭제할 수 없음",
     "Please specify a file or folder path" : "파일이나 폴더 경로를 지정하십시오",
     "Wrong path, file/folder doesn't exist" : "잘못된 경로, 파일/폴더가 존재하지 않음",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
+    "could not delete share" : "공유를 삭제할 수 없음"
 },
 "nplurals=1; plural=0;");

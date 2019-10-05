@@ -79,7 +79,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Egy fájl vagy mappa meg lett osztva egy <strong>másik szerverről</strong>",
     "A file or folder has been <strong>shared</strong>" : "Egy fájl vagy mappa <strong>megosztva</strong>",
     "Wrong share ID, share doesn't exist" : "Hibás megosztás ID, a megosztás nem létezik",
-    "could not delete share" : "a megosztás nem törölhető",
     "Could not delete share" : "A megosztás nem törölhető",
     "Please specify a file or folder path" : "Adj meg egy fájl vagy mappa útvonalat",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Feltöltött fájlok:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
+    "could not delete share" : "a megosztás nem törölhető"
 },
 "nplurals=2; plural=(n != 1);");

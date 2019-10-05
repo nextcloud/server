@@ -37,7 +37,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Datne vai mape tika koplietota no <strong>cita servera</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Koplietota</strong> datne vai mape",
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
-    "could not delete share" : "neizdevās dzēst koplietotni",
     "Could not delete share" : "Neizdevās dzēst koplietotni",
     "Please specify a file or folder path" : "Lūdzu norādiet datnes vai mapes ceļu",
     "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
@@ -72,6 +71,7 @@
     "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
     "Download %s" : "Lejupielādēt %s",
     "Uploading files…" : "Augšupielādē datnes",
-    "Uploaded files:" : "Augšupielādētas datnes:"
+    "Uploaded files:" : "Augšupielādētas datnes:",
+    "could not delete share" : "neizdevās dzēst koplietotni"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
