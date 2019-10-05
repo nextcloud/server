@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "S'ha compartit un fitxer o una carpeta d'un <strong>altre servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
-    "could not delete share" : "no s'ha pogut suprimir la compartició",
     "Could not delete share" : "No s'ha pogut suprimir la compartició",
     "Please specify a file or folder path" : "Si us plau, especifiqueu un camí de fitxer o carpeta",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "S'està carregant fitxers...",
     "Uploaded files:" : "Fitxers carregats:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "could not delete share" : "no s'ha pogut suprimir la compartició"
 },
 "nplurals=2; plural=(n != 1);");

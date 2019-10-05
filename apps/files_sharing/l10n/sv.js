@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mapp har <strong>delats</strong>",
     "Wrong share ID, share doesn't exist" : "Fel delnings-ID, delningen finns inte",
-    "could not delete share" : "kunde inte ta bort delningen",
     "Could not delete share" : "Kunde inte ta bort delningen",
     "Please specify a file or folder path" : "Ange sökväg till filen eller mappen",
     "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Select or drop files" : "Välj eller dra filer hit",
     "Uploading files…" : "Laddar upp filer...",
     "Uploaded files:" : "Uppladdade filer:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
+    "could not delete share" : "kunde inte ta bort delningen"
 },
 "nplurals=2; plural=(n != 1);");

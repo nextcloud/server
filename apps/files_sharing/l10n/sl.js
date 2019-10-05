@@ -33,7 +33,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ali mapa je bila dodana v souporabo prek <strong>drugega strežnika</strong>",
     "A file or folder has been <strong>shared</strong>" : "Za datoteko ali mapo je omogočena <strong>souporaba</strong>",
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
-    "could not delete share" : "mesta souporabe ni mogoče ustvariti",
     "Could not delete share" : "Tega predmeta v souporabi ni mogoče izbrisati.",
     "Please specify a file or folder path" : "Določiti je treba datoteko ali pot do mape",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "Upload files to %s" : "Pošlji datoteke v %s",
     "Select or drop files" : "Izberi ali povleci datoteke",
     "Uploading files…" : "Poteka pošiljanje datotek ...",
-    "Uploaded files:" : "Poslane datoteke:"
+    "Uploaded files:" : "Poslane datoteke:",
+    "could not delete share" : "mesta souporabe ni mogoče ustvariti"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

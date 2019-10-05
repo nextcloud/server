@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
-    "could not delete share" : "impossible de supprimer le partage",
     "Could not delete share" : "Impossible de supprimer le partage",
     "Please specify a file or folder path" : "Veuillez indiquer un fichier ou un chemin",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
     "Uploading files…" : "Envoi des fichiers...",
     "Uploaded files:" : "Fichiers envoyés :",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
+    "could not delete share" : "impossible de supprimer le partage"
 },
 "nplurals=2; plural=(n > 1);");
