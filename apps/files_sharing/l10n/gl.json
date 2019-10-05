@@ -84,7 +84,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol dende <strong>outro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",
     "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
-    "could not delete share" : "non foi posíbel eliminar o recurso compartido",
     "Could not delete share" : "Non foi posíbel eliminar o recurso compartido",
     "Please specify a file or folder path" : "Especifique a ruta dun ficheiro ou cartafol",
     "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
@@ -137,6 +136,7 @@
     "Select or drop files" : "Seleccione ou arrastre e solte ficheiros",
     "Uploading files…" : "Enviando ficheiros…",
     "Uploaded files:" : "Ficheiros enviados:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
+    "could not delete share" : "non foi posíbel eliminar o recurso compartido"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ili mapa dijeli se s <strong>drugog poslužitelja</strong>",
     "A file or folder has been <strong>shared</strong>" : "Datoteka ili mapa je <strong>dijeljena</strong>",
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
-    "could not delete share" : "dijeljenje nije moguće izbrisati",
     "Could not delete share" : "Dijeljenje nije moguće izbrisati",
     "Please specify a file or folder path" : "Navedite put datoteke ili mape",
     "Wrong path, file/folder doesn't exist" : "Pogrešan put, datoteka/mapa ne postoji",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Odaberi ili ispusti datoteke",
     "Uploading files…" : "Otpremanje datoteka...",
     "Uploaded files:" : "Otpremljene datoteke:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
+    "could not delete share" : "dijeljenje nije moguće izbrisati"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Dosiero aŭ dosierujo kunhaviĝis el <strong>alia servilo</strong>",
     "A file or folder has been <strong>shared</strong>" : "Dosiero aŭ dosierujo <strong>kunhaviĝis</strong>",
     "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
-    "could not delete share" : "ne eblis forigi kunhavon",
     "Could not delete share" : "Ne eblis forigi kunhavon",
     "Please specify a file or folder path" : "Bv. entajpi vojon al dosiero aŭ dosierujo",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploading files…" : "Alŝutante dosierojn...",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
+    "could not delete share" : "ne eblis forigi kunhavon"
 },
 "nplurals=2; plural=(n != 1);");

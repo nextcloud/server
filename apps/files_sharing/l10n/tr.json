@@ -84,7 +84,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka bir sunucudan</strong> bir dosya ya da klasör paylaşıldı",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya ya da klasör <strong>paylaşıldı</strong>",
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
-    "could not delete share" : "paylaşım kaldırılamadı",
     "Could not delete share" : "Paylaşım silinemedi",
     "Please specify a file or folder path" : "Lütfen bir dosya ya da klasör yolu belirtin",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
@@ -137,6 +136,7 @@
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
     "Uploading files…" : "Dosyalar yükleniyor...",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
+    "could not delete share" : "paylaşım kaldırılamadı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

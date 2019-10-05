@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "<strong>其它服务器</strong> 中一个文件或者文件夹被共享 ",
     "A file or folder has been <strong>shared</strong>" : "一个文件或文件夹已<strong>共享</strong>。",
     "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
-    "could not delete share" : "无法删除共享",
     "Could not delete share" : "不能删除共享",
     "Please specify a file or folder path" : "请指定一个文件或文件夹路径",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "选择或删除文件",
     "Uploading files…" : "上传文件... ",
     "Uploaded files:" : "上传的文件： ",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
+    "could not delete share" : "无法删除共享"
 },
 "nplurals=1; plural=0;");
