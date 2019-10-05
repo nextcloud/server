@@ -78,7 +78,7 @@
 			 * user friendly name.
 			 */
 				this.breadcrumb._makeCrumbs = function() {
-					var parts = OCA.Files.BreadCrumb.prototype._makeCrumbs.apply(this, arguments)
+					var parts = OCA.Files.BreadCrumb.prototype._makeCrumbs.apply(this, [...arguments, 'icon-delete no-hover'])
 					for (var i = 1; i < parts.length; i++) {
 						parts[i].name = getDeletedFileName(parts[i].name)
 					}
