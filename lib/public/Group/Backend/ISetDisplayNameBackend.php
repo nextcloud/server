@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,15 +23,16 @@ declare(strict_types=1);
 namespace OCP\Group\Backend;
 
 /**
- * @since 17.0.0
+ * @since 18.0.0
  */
-interface IGetDisplayNameBackend {
+interface ISetDisplayNameBackend {
 
 	/**
 	 * @param string $gid
-	 * @return string
-	 * @since 17.0.0
+	 * @param string $displayName
+	 * @return bool
+	 * @since 18.0.0
 	 */
-	public function getDisplayName(string $gid): string;
+	public function setDisplayName(string $gid, string $displayName): bool;
 
 }
