@@ -25,8 +25,10 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\User\Backend\IPasswordConfirmationBackend;
@@ -34,6 +36,8 @@ use OCP\User\Backend\IPasswordConfirmationBackend;
 class PasswordConfirmationMiddleware extends Middleware {
 	/** @var ControllerMethodReflector */
 	private $reflector;
+	/** @var IRequest */
+	private $request;
 	/** @var ISession */
 	private $session;
 	/** @var IUserSession */
@@ -47,15 +51,18 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * PasswordConfirmationMiddleware constructor.
 	 *
 	 * @param ControllerMethodReflector $reflector
+	 * @param IRequest $request
 	 * @param ISession $session
 	 * @param IUserSession $userSession
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
+								IRequest $request,
 								ISession $session,
 								IUserSession $userSession,
 								ITimeFactory $timeFactory) {
 		$this->reflector = $reflector;
+		$this->request = $request;
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->timeFactory = $timeFactory;
@@ -68,6 +75,12 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 */
 	public function beforeController($controller, $methodName) {
 		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
+			if ($controller instanceof OCSController && (
+				$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
+				strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
+			)) {
+				return;
+			}
 			$user = $this->userSession->getUser();
 			$backendClassName = '';
 			if ($user !== null) {

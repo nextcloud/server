@@ -237,6 +237,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
 					$c->query(IControllerMethodReflector::class),
+					$c->query(IRequest::class),
 					$c->query(ISession::class),
 					$c->query(IUserSession::class),
 					$c->query(ITimeFactory::class)
