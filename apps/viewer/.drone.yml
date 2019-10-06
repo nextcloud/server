@@ -1,5 +1,5 @@
 kind: pipeline
-name: build-viewer
+name: webpack
 
 steps:
   - name: webpack-build
