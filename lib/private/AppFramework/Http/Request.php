@@ -399,7 +399,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Returns the request body content.
 	 *
-	 * If the HTTP request method is PUT and the body
+	 * If the HTTP request method is PUT or POST and the body
 	 * not application/x-www-form-urlencoded or application/json a stream
 	 * resource is returned, otherwise an array.
 	 *
@@ -409,7 +409,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->method === 'PUT'
+		if (($this->method === 'PUT' || $this->method === 'POST')
 			&& $this->getHeader('Content-Length') !== '0'
 			&& $this->getHeader('Content-Length') !== ''
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
