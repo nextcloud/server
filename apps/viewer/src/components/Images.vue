@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 
