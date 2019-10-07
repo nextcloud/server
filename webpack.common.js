@@ -93,6 +93,7 @@ module.exports = []
 				// make sure to use the handlebar runtime when importing
 				handlebars: 'handlebars/runtime'
 			},
-			extensions: ['*', '.js', '.vue']
+			extensions: ['*', '.js', '.vue'],
+			symlinks: false
 		}
 	}, config))
