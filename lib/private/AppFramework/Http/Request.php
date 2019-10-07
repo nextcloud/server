@@ -323,11 +323,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		switch ($name) {
 			case 'CONTENT_TYPE' :
 			case 'CONTENT_LENGTH' :
-				if (isset($this->server[$name])) {
-					return $this->server[$name];
-				}
-				break;
-			case 'REMOTE_ADDR' :
+			case 'REMOTE_ADDR':
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
 				}
