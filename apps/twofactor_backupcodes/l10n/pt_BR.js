@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "função",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ocorreu um erro ao gerar os códigos de backup",
     "{name} backup codes" : "Códigos de backup {name}",

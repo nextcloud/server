@@ -262,7 +262,7 @@
     "One file conflict" : "Un conflit de fichier",
     "New Files" : "Nouveaux fichiers",
     "Already existing files" : "Fichiers déjà existants",
-    "Which files do you want to keep?" : "Quels fichiers désirez-vous conserver ?",
+    "Which files do you want to keep?" : "Quels fichiers souhaitez-vous conserver ?",
     "If you select both versions, the copied file will have a number added to its name." : "Si vous sélectionnez les deux versions, un nombre sera ajouté au nom du fichier copié.",
     "Cancel" : "Annuler",
     "Continue" : "Continuer",
