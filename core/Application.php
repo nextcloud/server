@@ -153,6 +153,13 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'calendarobject_calid_index');
 					}
 				}
+
+				if ($schema->hasTable('schedulingobjects')) {
+					$table = $schema->getTable('schedulingobjects');
+					if (!$table->hasIndex('schedulobj_principuri_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'schedulobj_principuri_index');
+					}
+				}
 			}
 		);
 
