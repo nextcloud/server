@@ -184,31 +184,38 @@ class UsersController extends Controller {
 			});
 		}
 
-		if ($this->isAdmin) {
-			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsers();
-			$userCount = $isLDAPUsed ? 0 : array_reduce($this->userManager->countUsers(), function($v, $w) {
-				return $v + (int)$w;
-			}, 0);
-		} else {
-			// User is subadmin !
-			// Map group list to names to retrieve the countDisabledUsersOfGroups
-			$userGroups = $this->groupManager->getUserGroups($user);
-			$groupsNames = [];
-			$userCount = 0;
+		$disabledUsers = -1;
+		$userCount = 0;
 
-			foreach($groups as $key => $group) {
-				// $userCount += (int)$group['usercount'];
-				array_push($groupsNames, $group['name']);
-				// we prevent subadmins from looking up themselves
-				// so we lower the count of the groups he belongs to
-				if (array_key_exists($group['id'], $userGroups)) {
-					$groups[$key]['usercount']--;
-					$userCount = -1; // we also lower from one the total count
-				}
-			};
-			$userCount += $isLDAPUsed ? 0 : $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
-			$disabledUsers = $isLDAPUsed ? -1 : $this->userManager->countDisabledUsersOfGroups($groupsNames);
+		if(!$isLDAPUsed) {
+			if ($this->isAdmin) {
+				$disabledUsers = $this->userManager->countDisabledUsers();
+				$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+					return $v + (int)$w;
+				}, 0);
+			} else {
+				// User is subadmin !
+				// Map group list to names to retrieve the countDisabledUsersOfGroups
+				$userGroups = $this->groupManager->getUserGroups($user);
+				$groupsNames = [];
+
+				foreach($groups as $key => $group) {
+					// $userCount += (int)$group['usercount'];
+					array_push($groupsNames, $group['name']);
+					// we prevent subadmins from looking up themselves
+					// so we lower the count of the groups he belongs to
+					if (array_key_exists($group['id'], $userGroups)) {
+						$groups[$key]['usercount']--;
+						$userCount -= 1; // we also lower from one the total count
+					}
+				};
+				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
+				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsNames);
+			}
+
+			$userCount -= $disabledUsers;
 		}
+
 		$disabledUsersGroup = [
 			'id' => 'disabled',
 			'name' => 'Disabled users',
@@ -237,7 +244,7 @@ class UsersController extends Controller {
 		$serverData['isAdmin'] = $this->isAdmin;
 		$serverData['sortGroups'] = $sortGroupsBy;
 		$serverData['quotaPreset'] = $quotaPreset;
-		$serverData['userCount'] = $userCount - $disabledUsers;
+		$serverData['userCount'] = $userCount;
 		$serverData['languages'] = $languages;
 		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
 		// Settings
