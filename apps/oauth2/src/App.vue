@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import Axios from 'nextcloud-axios'
+import Axios from '@nextcloud/axios'
 import OAuthItem from './components/OAuthItem';
 
 export default {

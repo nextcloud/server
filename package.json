@@ -23,6 +23,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@chenfengyuan/vue-qrcode": "^1.0.1",
+    "@nextcloud/axios": "^0.4.2",
     "@nextcloud/event-bus": "^0.2.1",
     "Select2": "git+https://github.com/select2/select2.git#3.4.8",
     "autosize": "^4.0.2",
@@ -42,7 +43,6 @@
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
     "moment": "^2.24.0",
-    "nextcloud-axios": "^0.2.1",
     "nextcloud-password-confirmation": "^0.4.2",
     "nextcloud-vue": "^0.12.2",
     "nextcloud-vue-collections": "^0.5.6",

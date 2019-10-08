@@ -33,7 +33,7 @@
 </template>
 
 <script>
-	import Axios from 'nextcloud-axios';
+	import Axios from '@nextcloud/axios';
 	import confirmPassword from 'nextcloud-password-confirmation';
 
 	import AuthTokenList from './AuthTokenList';
