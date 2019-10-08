@@ -30,6 +30,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
+use OCA\OAuth2\Service\ClientService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -41,8 +42,6 @@ use OCP\Security\ISecureRandom;
 class OauthApiController extends Controller {
 	/** @var AccessTokenMapper */
 	private $accessTokenMapper;
-	/** @var ClientMapper */
-	private $clientMapper;
 	/** @var ICrypto */
 	private $crypto;
 	/** @var TokenProvider */
@@ -53,12 +52,14 @@ class OauthApiController extends Controller {
 	private $time;
 	/** @var Throttler */
 	private $throttler;
+	/** @var ClientService */
+	private $clientService;
 
 	public function __construct(string $appName,
 								IRequest $request,
 								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
-								ClientMapper $clientMapper,
+								ClientService $clientService,
 								TokenProvider $tokenProvider,
 								ISecureRandom $secureRandom,
 								ITimeFactory $time,
@@ -66,11 +67,11 @@ class OauthApiController extends Controller {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
-		$this->clientMapper = $clientMapper;
 		$this->tokenProvider = $tokenProvider;
 		$this->secureRandom = $secureRandom;
 		$this->time = $time;
 		$this->throttler = $throttler;
+		$this->clientService = $clientService;
 	}
 
 	/**
@@ -98,6 +99,19 @@ class OauthApiController extends Controller {
 			$code = $refresh_token;
 		}
 
+		if (isset($this->request->server['PHP_AUTH_USER'])) {
+			$client_id = $this->request->server['PHP_AUTH_USER'];
+			$client_secret = $this->request->server['PHP_AUTH_PW'];
+		}
+
+		try {
+			$client = $this->clientService->getClient($client_id, $client_secret);
+		} catch (ClientNotFoundException $e) {
+			return new JSONResponse([
+				'error' => 'invalid_request',
+			], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$accessToken = $this->accessTokenMapper->getByCode($code);
 		} catch (AccessTokenNotFoundException $e) {
@@ -106,21 +120,8 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		try {
-			$client = $this->clientMapper->getByUid($accessToken->getClientId());
-		} catch (ClientNotFoundException $e) {
-			return new JSONResponse([
-				'error' => 'invalid_request',
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		if (isset($this->request->server['PHP_AUTH_USER'])) {
-			$client_id = $this->request->server['PHP_AUTH_USER'];
-			$client_secret = $this->request->server['PHP_AUTH_PW'];
-		}
-
-		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $client->getSecret() !== $client_secret) {
+		// The client must match the client of the access token
+		if ($client->getId() !== $accessToken->getClientId()) {
 			return new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
