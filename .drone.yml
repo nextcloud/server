@@ -1438,56 +1438,6 @@ trigger:
 
 ---
 kind: pipeline
-name: integration-sharing-v1-part2
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: integration-sharing-v1-part2
-  image: nextcloudci/integration-php7.1:2
-  commands:
-    - bash tests/drone-run-integration-tests.sh || exit 0
-    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-    - cd build/integration
-    - ./run.sh sharing_features/sharing-v1-part2.feature
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: integration-sharing-v1-part3
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: integration-sharing-v1-part3
-  image: nextcloudci/integration-php7.1:2
-  commands:
-    - bash tests/drone-run-integration-tests.sh || exit 0
-    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
-    - cd build/integration
-    - ./run.sh sharing_features/sharing-v1-part3.feature
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: integration-setup-features
 
 steps:
