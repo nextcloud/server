@@ -764,8 +764,8 @@ code {
 		background-color: var(--color-background-dark);
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
-		position: absolute;
-		top: 4px;
+		position: relative;
+		top: -5px;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
