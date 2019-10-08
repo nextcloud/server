@@ -145,6 +145,14 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'cards_prop_abid');
 					}
 				}
+
+				if ($schema->hasTable('calendarobjects_props')) {
+					$table = $schema->getTable('calendarobjects_props');
+
+					if (!$table->hasIndex('calendarobject_calid_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'calendarobject_calid_index');
+					}
+				}
 			}
 		);
 
