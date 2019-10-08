@@ -22,56 +22,39 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;
-use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
+use OCA\OAuth2\Exceptions\RefreshFailedException;
 use OCA\OAuth2\Service\ClientService;
+use OCA\OAuth2\Service\TokenService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
-use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
 
 class OauthApiController extends Controller {
 	/** @var AccessTokenMapper */
 	private $accessTokenMapper;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var TokenProvider */
-	private $tokenProvider;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var ITimeFactory */
-	private $time;
 	/** @var Throttler */
 	private $throttler;
 	/** @var ClientService */
 	private $clientService;
+	/** @var TokenService */
+	private $tokenService;
 
 	public function __construct(string $appName,
 								IRequest $request,
-								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
 								ClientService $clientService,
-								TokenProvider $tokenProvider,
-								ISecureRandom $secureRandom,
-								ITimeFactory $time,
+								TokenService $tokenService,
 								Throttler $throttler) {
 		parent::__construct($appName, $request);
-		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
-		$this->tokenProvider = $tokenProvider;
-		$this->secureRandom = $secureRandom;
-		$this->time = $time;
 		$this->throttler = $throttler;
 		$this->clientService = $clientService;
+		$this->tokenService = $tokenService;
 	}
 
 	/**
@@ -127,49 +110,23 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
-
-		// Obtain the appToken assoicated
 		try {
-			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
-		} catch (ExpiredTokenException $e) {
-			$appToken = $e->getToken();
-		} catch (InvalidTokenException $e) {
-			//We can't do anything...
-			$this->accessTokenMapper->delete($accessToken);
+			$result = $this->tokenService->refreshToken($accessToken, $code);
+		} catch (RefreshFailedException $e) {
 			return new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		// Rotate the apptoken (so the old one becomes invalid basically)
-		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
-
-		$appToken = $this->tokenProvider->rotate(
-			$appToken,
-			$decryptedToken,
-			$newToken
-		);
-
-		// Expiration is in 1 hour again
-		$appToken->setExpires($this->time->getTime() + 3600);
-		$this->tokenProvider->updateToken($appToken);
-
-		// Generate a new refresh token and encrypt the new apptoken in the DB
-		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
-		$accessToken->setHashedCode(hash('sha512', $newCode));
-		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
-		$this->accessTokenMapper->update($accessToken);
-
-		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
+		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $result->getUid()]);
 
 		return new JSONResponse(
 			[
-				'access_token' => $newToken,
+				'access_token' => $result->getNewToken(),
 				'token_type' => 'Bearer',
 				'expires_in' => 3600,
-				'refresh_token' => $newCode,
-				'user_id' => $appToken->getUID(),
+				'refresh_token' => $result->getNewCode(),
+				'user_id' => $result->getUid(),
 			]
 		);
 	}
