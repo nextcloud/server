@@ -164,7 +164,7 @@ OCA.Sharing.PublicApp = {
 				url: url,
 				headers: {
 					Authorization: 'Basic ' + btoa(token + ':'),
-					Range: 'bytes=0-1000'
+					Range: 'bytes=0-10000'
 				}
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
