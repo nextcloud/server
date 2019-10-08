@@ -234,6 +234,19 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the schedulingobjects table.</info>');
+		if ($schema->hasTable('schedulingobjects')) {
+			$table = $schema->getTable('schedulingobjects');
+			if (!$table->hasIndex('schedulobj_principuri_index')) {
+				$output->writeln('<info>Adding schedulobj_principuri_index index to the schedulingobjects table, this can take some time...</info>');
+
+				$table->addIndex(['principaluri'], 'schedulobj_principuri_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}
