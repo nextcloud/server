@@ -59,7 +59,7 @@ class FileName extends AbstractStringCheck {
 	 * @return string
 	 */
 	protected function getActualValue(): string {
-		return basename($this->path);
+		return $this->path === null ? '' : basename($this->path);
 	}
 
 	/**
