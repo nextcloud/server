@@ -1129,7 +1129,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-checksums-v1
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1154,7 +1154,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-external-storage
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1179,7 +1179,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v1
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1204,7 +1204,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-tags
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1229,7 +1229,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-caldav
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1254,7 +1254,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1279,7 +1279,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments-search
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1304,7 +1304,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-favorites
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1329,7 +1329,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v2
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1354,7 +1354,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-webdav-related
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1379,7 +1379,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-features
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1404,7 +1404,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-v2-features
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1429,7 +1429,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1454,7 +1454,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part2
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1479,7 +1479,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part3
-  image: nextcloudci/integration-php7.1:1
+  image: nextcloudci/integration-php7.1:2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
