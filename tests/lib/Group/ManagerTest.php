@@ -190,6 +190,7 @@ class ManagerTest extends TestCase {
 			->method('createGroup')
 			->will($this->returnCallback(function () use (&$backendGroupCreated) {
 				$backendGroupCreated = true;
+				return true;
 			}));
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
@@ -197,6 +198,35 @@ class ManagerTest extends TestCase {
 
 		$group = $manager->createGroup('group1');
 		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testCreateFailure() {
+		/**@var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP |
+			GroupInterface::REMOVE_FROM_GOUP |
+			GroupInterface::COUNT_USERS |
+			GroupInterface::CREATE_GROUP |
+			GroupInterface::DELETE_GROUP |
+			GroupInterface::GROUP_DETAILS
+		);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('createGroup')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->willReturn([]);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
+		$manager->addBackend($backend);
+
+		$group = $manager->createGroup('group1');
+		$this->assertEquals(null, $group);
 	}
 
 	public function testCreateExists() {

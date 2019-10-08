@@ -180,7 +180,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	protected function getGroupObject($gid, $displayName = null) {
 		$backends = [];
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::GROUP_DETAILS)) {
+			if ($backend->implementsActions(Backend::GROUP_DETAILS)) {
 				$groupData = $backend->getGroupDetails($gid);
 				if (is_array($groupData) && !empty($groupData)) {
 					// take the display name from the first backend that has a non-null one
@@ -210,7 +210,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $gid
-	 * @return \OC\Group\Group
+	 * @return IGroup|bool|null
 	 */
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
@@ -218,13 +218,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} else if ($group = $this->get($gid)) {
 			return $group;
 		} else {
-			$this->emit('\OC\Group', 'preCreate', array($gid));
+			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
-				if ($backend->implementsActions(\OC\Group\Backend::CREATE_GROUP)) {
-					$backend->createGroup($gid);
-					$group = $this->getGroupObject($gid);
-					$this->emit('\OC\Group', 'postCreate', array($group));
-					return $group;
+				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
+					if($backend->createGroup($gid)) {
+						$group = $this->getGroupObject($gid);
+						$this->emit('\OC\Group', 'postCreate', [$group]);
+						return $group;
+					}
 				}
 			}
 			return null;
@@ -300,7 +301,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function isAdmin($userId) {
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
+			if ($backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
