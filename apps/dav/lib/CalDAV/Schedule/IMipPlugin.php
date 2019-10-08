@@ -279,7 +279,7 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$attachment = $this->mailer->createAttachment(
 			$iTipMessage->message->serialize(),
-			'event.ics',// TODO(leon): Make file name unique, e.g. add event id
+			sprintf('event-%s.ics', $vevent->UID ?: 'nextcloud'),
 			'text/calendar; method=' . $iTipMessage->method
 		);
 		$message->attach($attachment);
