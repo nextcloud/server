@@ -1197,7 +1197,8 @@ div.crumb {
 		// Some sane max-width for each folder name
 		max-width: 200px;
 
-		&.icon-home {
+		&.icon-home,
+		&.icon-delete {
 			// Hide home text
 			text-indent: -9999px;
 		}
