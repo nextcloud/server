@@ -861,7 +861,7 @@ class Session implements IUserSession, Emitter {
 
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
 			return false;
 		} catch (InvalidTokenException $ex) {
@@ -870,7 +870,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->setMagicInCookie($user->getUID(), $newToken);
-		$token = $this->tokenProvider->getToken($sessionId);
 
 		//login
 		$this->setUser($user);

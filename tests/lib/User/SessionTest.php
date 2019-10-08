@@ -595,24 +595,23 @@ class SessionTest extends \Test\TestCase {
 			->method('setUserValue')
 			->with('foo', 'login_token', 'abcdefg123456', 10000);
 
-		$session->expects($this->once())
-			->method('getId')
-			->will($this->returnValue($sessionId));
-		$this->tokenProvider->expects($this->once())
-			->method('renewSessionToken')
-			->with($oldSessionId, $sessionId)
-			->will($this->returnValue(true));
-
 		$tokenObject = $this->createMock(IToken::class);
 		$tokenObject->expects($this->once())
 			->method('getLoginName')
 			->willReturn('foobar');
 		$tokenObject->method('getId')
 			->willReturn(42);
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
 		$this->tokenProvider->expects($this->once())
-			->method('getToken')
-			->with($sessionId)
+			->method('renewSessionToken')
+			->with($oldSessionId, $sessionId)
 			->willReturn($tokenObject);
+
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
 
 		$user->expects($this->any())
 			->method('getUID')
