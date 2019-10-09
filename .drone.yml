@@ -2,10 +2,6 @@ kind: pipeline
 name: jsunit
 
 steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
 - name: jsunit
   image: nextcloudci/jsunit:jsunit-5
   commands:
@@ -74,10 +70,6 @@ kind: pipeline
 name: handlebars
 
 steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
 - name: handlebars
   image: node
   commands:
