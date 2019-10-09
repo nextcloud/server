@@ -1,0 +1,271 @@
+<?php
+declare(strict_types=1);
+/**
+ * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+namespace OCP\AppFramework\Db;
+
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+
+/**
+ * Simple parent class for inheriting your data access layer from. This class
+ * may be subject to change in the future
+ *
+ * @since 19.0.0
+ */
+abstract class AQBBaseMapper {
+
+	/** @var string */
+	protected $tableName;
+
+	/** @var string */
+	protected $entityClass;
+
+	/** @var IDBConnection */
+	protected $db;
+
+	/**
+	 * @param IDBConnection $db Instance of the Db abstraction layer
+	 * @param string $tableName the name of the table. set this to allow entity
+	 * @param string $entityClass the name of the entity that the sql should be
+	 * mapped to queries without using sql
+	 * @since 14.0.0
+	 */
+	public function __construct(IDBConnection $db, string $tableName, string $entityClass = null) {
+		$this->db = $db;
+		$this->tableName = $tableName;
+
+		// if not given set the entity name to the class without the mapper part
+		// cache it here for later use since reflection is slow
+		if ($entityClass === null) {
+			$this->entityClass = str_replace('Mapper', '', \get_class($this));
+		} else {
+			$this->entityClass = $entityClass;
+		}
+	}
+
+
+	/**
+	 * @return string the table name
+	 * @since 14.0.0
+	 */
+	public function getTableName(): string {
+		return $this->tableName;
+	}
+
+	/**
+	 * Deletes an entity from the table
+	 * @param BaseEntity $entity the entity that should be deleted
+	 * @return BaseEntity the deleted entity
+	 * @since 14.0.0
+	 */
+	abstract public function delete(BaseEntity $entity): BaseEntity;
+
+	/**
+	 * Creates a new entry in the db from an entity
+	 * @param BaseEntity $entity the entity that should be created
+	 * @return BaseEntity the saved entity with the set id
+	 * @since 14.0.0
+	 * @suppress SqlInjectionChecker
+	 */
+	public function insert(BaseEntity $entity): BaseEntity {
+		// get updated fields to save, fields have to be set using a setter to
+		// be saved
+		$properties = $entity->getUpdatedFields();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert($this->tableName);
+
+		// build the fields
+		foreach($properties as $property => $updated) {
+			$column = $entity->propertyToColumn($property);
+			$getter = 'get' . ucfirst($property);
+			$value = $entity->$getter();
+
+			$type = $this->getParameterTypeForProperty($entity, $property);
+			$qb->setValue($column, $qb->createNamedParameter($value, $type));
+		}
+		$qb->execute();
+
+		return $entity;
+	}
+
+	/**
+	 * Tries to creates a new entry in the db from an entity and
+	 * updates an existing entry if duplicate keys are detected
+	 * by the database
+	 *
+	 * @param Entity $entity the entity that should be created/updated
+	 * @return Entity the saved entity with the (new) id
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @since 15.0.0
+	 * @suppress SqlInjectionChecker
+	 */
+	public function insertOrUpdate(Entity $entity): Entity {
+		try {
+			return $this->insert($entity);
+		} catch (UniqueConstraintViolationException $ex) {
+			return $this->update($entity);
+		}
+	}
+
+	/**
+	 * Updates an entry in the db from an entity
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @param Entity $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
+	 * @since 14.0.0
+	 * @suppress SqlInjectionChecker
+	 */
+	abstract public function update(BaseEntity $entity): BaseEntity;
+
+	/**
+	 * Returns the type parameter for the QueryBuilder for a specific property
+	 * of the $entity
+	 *
+	 * @param BaseEntity $entity The entity to get the types from
+	 * @param string $property The property of $entity to get the type for
+	 * @return int
+	 * @since 16.0.0
+	 */
+	protected function getParameterTypeForProperty(BaseEntity $entity, string $property): int {
+		$types = $entity->getFieldTypes();
+
+		if (!isset($types[$property])) {
+			return IQueryBuilder::PARAM_STR;
+		}
+
+		switch ($types[$property]) {
+			case 'int':
+			case 'integer':
+				return IQueryBuilder::PARAM_INT;
+			case 'string':
+				return IQueryBuilder::PARAM_STR;
+			case 'bool':
+			case 'boolean':
+				return IQueryBuilder::PARAM_BOOL;
+		}
+
+		return IQueryBuilder::PARAM_STR;
+	}
+
+	/**
+	 * Returns an db result and throws exceptions when there are more or less
+	 * results
+	 *
+	 * @param IQueryBuilder $query
+	 * @return array the result as row
+	 * @throws MultipleObjectsReturnedException if more than one item exist
+	 * @throws DoesNotExistException if the item does not exist
+	 * @see findEntity
+	 *
+	 * @since 14.0.0
+	 */
+	protected function findOneQuery(IQueryBuilder $query): array {
+		$cursor = $query->execute();
+
+		$row = $cursor->fetch();
+		if ($row === false) {
+			$cursor->closeCursor();
+			$msg = $this->buildDebugMessage(
+				'Did expect one result but found none when executing', $query
+			);
+			throw new DoesNotExistException($msg);
+		}
+
+		$row2 = $cursor->fetch();
+		$cursor->closeCursor();
+		if ($row2 !== false) {
+			$msg = $this->buildDebugMessage(
+				'Did not expect more than one result when executing', $query
+			);
+			throw new MultipleObjectsReturnedException($msg);
+		}
+
+		return $row;
+	}
+
+	/**
+	 * @param string $msg
+	 * @param IQueryBuilder $sql
+	 * @return string
+	 * @since 14.0.0
+	 */
+	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
+		return $msg .
+			': query "' . $sql->getSQL() . '"; ';
+	}
+
+
+	/**
+	 * Creates an entity from a row. Automatically determines the entity class
+	 * from the current mapper name (MyEntityMapper -> MyEntity)
+	 *
+	 * @param array $row the row which should be converted to an entity
+	 * @return BaseEntity the entity
+	 * @since 14.0.0
+	 */
+	protected function mapRowToEntity(array $row): BaseEntity {
+		return \call_user_func($this->entityClass . '::fromRow', $row);
+	}
+
+
+	/**
+	 * Runs a sql query and returns an array of entities
+	 *
+	 * @param IQueryBuilder $query
+	 * @return BaseEntity[] all fetched entities
+	 * @since 14.0.0
+	 */
+	protected function findEntities(IQueryBuilder $query): array {
+		$cursor = $query->execute();
+
+		$entities = [];
+
+		while ($row = $cursor->fetch()) {
+			$entities[] = $this->mapRowToEntity($row);
+		}
+
+		$cursor->closeCursor();
+
+		return $entities;
+	}
+
+
+	/**
+	 * Returns an db result and throws exceptions when there are more or less
+	 * results
+	 *
+	 * @param IQueryBuilder $query
+	 * @return BaseEntity the entity
+	 * @throws MultipleObjectsReturnedException if more than one item exist
+	 * @throws DoesNotExistException if the item does not exist
+	 * @since 14.0.0
+	 */
+	protected function findEntity(IQueryBuilder $query): BaseEntity {
+		return $this->mapRowToEntity($this->findOneQuery($query));
+	}
+
+}

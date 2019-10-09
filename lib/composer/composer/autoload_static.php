@@ -53,6 +53,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\App' => __DIR__ . '/../../..' . '/lib/public/AppFramework/App.php',
         'OCP\\AppFramework\\AuthPublicShareController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/AuthPublicShareController.php',
         'OCP\\AppFramework\\Controller' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Controller.php',
+        'OCP\\AppFramework\\Db\\AQBBaseMapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/AQBBaseMapper.php',
+        'OCP\\AppFramework\\Db\\BaseEntity' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/BaseEntity.php',
         'OCP\\AppFramework\\Db\\DoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/DoesNotExistException.php',
         'OCP\\AppFramework\\Db\\Entity' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/Entity.php',
         'OCP\\AppFramework\\Db\\IMapperException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/IMapperException.php',

@@ -24,6 +24,8 @@ return array(
     'OCP\\AppFramework\\App' => $baseDir . '/lib/public/AppFramework/App.php',
     'OCP\\AppFramework\\AuthPublicShareController' => $baseDir . '/lib/public/AppFramework/AuthPublicShareController.php',
     'OCP\\AppFramework\\Controller' => $baseDir . '/lib/public/AppFramework/Controller.php',
+    'OCP\\AppFramework\\Db\\AQBBaseMapper' => $baseDir . '/lib/public/AppFramework/Db/AQBBaseMapper.php',
+    'OCP\\AppFramework\\Db\\BaseEntity' => $baseDir . '/lib/public/AppFramework/Db/BaseEntity.php',
     'OCP\\AppFramework\\Db\\DoesNotExistException' => $baseDir . '/lib/public/AppFramework/Db/DoesNotExistException.php',
     'OCP\\AppFramework\\Db\\Entity' => $baseDir . '/lib/public/AppFramework/Db/Entity.php',
     'OCP\\AppFramework\\Db\\IMapperException' => $baseDir . '/lib/public/AppFramework/Db/IMapperException.php',
