@@ -137,6 +137,9 @@ class AccountManager implements IAccountManager {
 		}
 
 		$userDataArray = json_decode($result[0]['data'], true);
+		if ($userDataArray === null || json_last_error() !== JSON_ERROR_NONE) {
+			return $this->buildDefaultUserRecord($user);
+		}
 
 		$userDataArray = $this->addMissingDefaultValues($userDataArray);
 
