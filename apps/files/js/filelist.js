@@ -590,6 +590,7 @@
 			}
 
 			if (!fileName) {
+				this._detailsView.$el.find('[data-original-title]').tooltip('hide')
 				this._detailsView.setFileInfo(null);
 				if (this._currentFileModel) {
 					this._currentFileModel.off();
