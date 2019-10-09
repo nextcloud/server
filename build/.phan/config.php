@@ -24,7 +24,6 @@ return [
 		'lib/composer',
 		'ocs-provider/',
 		'ocs/',
-		'settings/',
 		'tests/lib/Util/User',
 		'themes',
 	],
