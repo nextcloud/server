@@ -93,8 +93,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 
-		$cachedGroups = & $this->cachedGroups;
-		$cachedUserGroups = & $this->cachedUserGroups;
+		$cachedGroups = &$this->cachedGroups;
+		$cachedUserGroups = &$this->cachedUserGroups;
 		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
@@ -149,6 +149,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * Get the active backends
+	 *
 	 * @return \OCP\GroupInterface[]
 	 */
 	public function getBackends() {
@@ -221,7 +222,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
-					if($backend->createGroup($gid)) {
+					if ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
@@ -261,7 +262,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param IUser|null $user
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserGroups(IUser $user= null) {
+	public function getUserGroups(IUser $user = null) {
 		if (!$user instanceof IUser) {
 			return [];
 		}
@@ -296,6 +297,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * Checks if a userId is in the admin group
+	 *
 	 * @param string $userId
 	 * @return bool if admin
 	 */
@@ -310,6 +312,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * Checks if a userId is in a group
+	 *
 	 * @param string $userId
 	 * @param string $group
 	 * @return bool if in group
@@ -320,28 +323,31 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * get a list of group ids for a user
+	 *
 	 * @param IUser $user
 	 * @return array with group ids
 	 */
 	public function getUserGroupIds(IUser $user) {
-		return array_map(function($value) {
-			return (string) $value;
+		return array_map(function ($value) {
+			return (string)$value;
 		}, array_keys($this->getUserGroups($user)));
 	}
 
 	/**
 	 * get an array of groupid and displayName for a user
+	 *
 	 * @param IUser $user
 	 * @return array ['displayName' => displayname]
 	 */
 	public function getUserGroupNames(IUser $user) {
-		return array_map(function($group) {
+		return array_map(function ($group) {
 			return array('displayName' => $group->getDisplayName());
 		}, $this->getUserGroups($user));
 	}
 
 	/**
 	 * get a list of all display names in a group
+	 *
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
@@ -350,32 +356,32 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
-		if(is_null($group)) {
+		if (is_null($group)) {
 			return [];
 		}
 
 		$search = trim($search);
 		$groupUsers = [];
 
-		if(!empty($search)) {
+		if (!empty($search)) {
 			// only user backends have the capability to do a complex search for users
 			$searchOffset = 0;
 			$searchLimit = $limit * 100;
-			if($limit === -1) {
+			if ($limit === -1) {
 				$searchLimit = 500;
 			}
 
 			do {
 				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
-				foreach($filteredUsers as $filteredUser) {
-					if($group->inGroup($filteredUser)) {
-						$groupUsers[]= $filteredUser;
+				foreach ($filteredUsers as $filteredUser) {
+					if ($group->inGroup($filteredUser)) {
+						$groupUsers[] = $filteredUser;
 					}
 				}
 				$searchOffset += $searchLimit;
-			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) >= $searchLimit);
+			} while (count($groupUsers) < $searchLimit + $offset && count($filteredUsers) >= $searchLimit);
 
-			if($limit === -1) {
+			if ($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);
 			} else {
 				$groupUsers = array_slice($groupUsers, $offset, $limit);
@@ -385,7 +391,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		$matchingUsers = [];
-		foreach($groupUsers as $groupUser) {
+		foreach ($groupUsers as $groupUser) {
 			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
