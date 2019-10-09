@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "funkcija",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Prišlo je do namako med ustvarjanjem varnostnih kok",
     "{name} backup codes" : "Varnostne kode {name}",
