@@ -84,8 +84,9 @@ interface IProvider {
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
 	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * @return IToken The new token
 	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId);
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken;
 
 	/**
 	 * Invalidate (delete) the given session token

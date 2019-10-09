@@ -129,7 +129,7 @@ class PublicKeyTokenProvider implements IProvider {
 		return $token;
 	}
 
-	public function renewSessionToken(string $oldSessionId, string $sessionId) {
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
 		$this->cache->clear();
 
 		$token = $this->getToken($oldSessionId);
@@ -144,7 +144,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$password = $this->decryptPassword($token->getPassword(), $privateKey);
 		}
 
-		$this->generateToken(
+		$newToken = $this->generateToken(
 			$sessionId,
 			$token->getUID(),
 			$token->getLoginName(),
@@ -155,6 +155,8 @@ class PublicKeyTokenProvider implements IProvider {
 		);
 
 		$this->mapper->delete($token);
+
+		return $newToken;
 	}
 
 	public function invalidateToken(string $token) {
