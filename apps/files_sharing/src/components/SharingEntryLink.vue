@@ -247,7 +247,14 @@
 						@update:value="debounceQueueUpdate('note')" />
 				</template>
 
-				<components :is="action" v-for="(action, index) in externalActions" :key="index" />
+				<!-- external sharing via url (social...) -->
+				<ActionLink v-for="({icon, url, name}, index) in externalActions"
+					:key="index"
+					:href="url(shareLink)"
+					:icon="icon"
+					target="_blank">
+					{{ name }}
+				</ActionLink>
 
 				<ActionButton icon="icon-delete" :disabled="saving" @click.prevent="onDelete">
 					{{ t('files_sharing', 'Delete share') }}

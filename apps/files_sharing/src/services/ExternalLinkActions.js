@@ -52,11 +52,11 @@ export default class ExternalLinkActions {
 	 * @returns {boolean}
 	 */
 	registerAction(action) {
-		if (typeof action === 'object' && action.render && action.components) {
+		if (typeof action === 'object' && action.icon && action.name && action.url) {
 			this.#state.actions.push(action)
 			return true
 		}
-		console.error(`Invalid action component provided`, action)
+		console.error(`Invalid action provided`, action)
 		return false
 	}
 
