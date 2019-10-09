@@ -37,6 +37,7 @@ Apps.showAppSidebar = function ($el) {
  */
 Apps.hideAppSidebar = function ($el) {
 	var $appSidebar = $el || $('#app-sidebar');
+	$appSidebar.find('[data-original-title]').tooltip('hide')
 	$appSidebar.hide().addClass('disappear');
 	$('#app-content').trigger(new $.Event('appresized'));
 };
