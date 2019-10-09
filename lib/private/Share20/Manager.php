@@ -291,7 +291,8 @@ class Manager implements IManager {
 		}
 
 		$mount = $share->getNode()->getMountPoint();
-		if ($share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		$permissions = $share->getNode()->getPermissions();
+		if ($share->getNode()->getOwner()->getUID() !== '' && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
