@@ -68,6 +68,10 @@ class Add extends Base {
 			return 1;
 		} else {
 			$group = $this->groupManager->createGroup($gid);
+			if($group === false) {
+				$output->writeln('<error>Could not create group</error>');
+				return 2;
+			}
 			$output->writeln('Created group "' . $group->getGID() . '"');
 
 			$displayName = trim((string) $input->getOption('display-name'));

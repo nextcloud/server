@@ -25,6 +25,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Files\Filesystem;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -152,10 +153,14 @@ class Add extends Command {
 			if (!$group) {
 				$this->groupManager->createGroup($groupName);
 				$group = $this->groupManager->get($groupName);
-				$output->writeln('Created group "' . $group->getGID() . '"');
+				if($group instanceof IGroup) {
+					$output->writeln('Created group "' . $group->getGID() . '"');
+				}
 			}
-			$group->addUser($user);
-			$output->writeln('User "' . $user->getUID() . '" added to group "' . $group->getGID() . '"');
+			if($group instanceof IGroup) {
+				$group->addUser($user);
+				$output->writeln('User "' . $user->getUID() . '" added to group "' . $group->getGID() . '"');
+			}
 		}
 	}
 }

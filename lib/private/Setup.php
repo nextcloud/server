@@ -50,6 +50,7 @@ use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\Defaults;
+use OCP\IGroup;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUser;
@@ -380,7 +381,9 @@ class Setup {
 			$config->setAppValue('core', 'vendor', $this->getVendor());
 
 			$group =\OC::$server->getGroupManager()->createGroup('admin');
-			$group->addUser($user);
+			if($group instanceof IGroup) {
+				$group->addUser($user);
+			}
 
 			// Install shipped apps and specified app bundles
 			Installer::installShippedApps();
