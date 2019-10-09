@@ -127,7 +127,7 @@ OC.L10N.register(
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Velikost odvoda za razbremenitev delovnega pomnilnika, ki ga uporablja iskalnik LDAP, pri oštevilčenju uporabnika ali skupine (vrednost 0 možnost onemogoči).",
     "Special Attributes" : "Posebni atributi",
     "Quota Field" : "Polje količinske omejitve",
-    "Quota Default" : "Privzeta količinska omejitev",
+    "Quota Default" : "Privzeta omejitev",
     "Email Field" : "Polje elektronske pošte",
     "User Home Folder Naming Rule" : "Pravila poimenovanja uporabniške osebne mape",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LDAP/AD.",
