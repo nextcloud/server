@@ -155,6 +155,14 @@ export default {
 			margin-right: 5px;
 			margin-bottom: 5px;
 		}
+
+		.multiselect::v-deep .multiselect__content-wrapper li>span,
+		.multiselect::v-deep .multiselect__single {
+			display: block;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 	input[type=text] {
 		margin: 0;
