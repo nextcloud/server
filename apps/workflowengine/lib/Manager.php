@@ -561,6 +561,8 @@ class Manager implements IManager {
 
 			$operation['checks'][] = $check;
 		}
+		$operation['events'] = json_decode($operation['events'], true);
+
 
 		return $operation;
 	}
