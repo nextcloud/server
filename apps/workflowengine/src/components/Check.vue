@@ -11,6 +11,7 @@
 		<Multiselect v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
+			class="comparator"
 			label="name"
 			track-by="operator"
 			:allow-empty="false"
@@ -21,6 +22,7 @@
 			v-model="check.value"
 			:disabled="!currentOption"
 			:check="check"
+			class="option"
 			@input="updateCheck"
 			@valid="(valid=true) && validate()"
 			@invalid="(valid=false) && validate()" />
@@ -30,6 +32,7 @@
 			:class="{ invalid: !valid }"
 			:disabled="!currentOption"
 			:placeholder="valuePlaceholder"
+			class="option"
 			@input="updateCheck">
 		<Actions v-if="deleteVisible || !currentOption">
 			<ActionButton icon="icon-delete" @click="$emit('remove')" />
@@ -110,7 +113,7 @@ export default {
 		},
 		validate() {
 			if (this.currentOption && this.currentOption.validate) {
-				this.valid = !!this.currentOption.validate(this.check);
+				this.valid = !!this.currentOption.validate(this.check)
 			}
 			return this.valid
 		},
@@ -138,6 +141,14 @@ export default {
 		padding-right: 20px;
 		& > *:not(.icon-delete) {
 			width: 180px;
+		}
+		& > .comparator {
+			min-width: 130px;
+			width: 130px;
+		}
+		& > .option {
+			min-width: 230px;
+			width: 230px;
 		}
 		& > .multiselect,
 		& > input[type=text] {

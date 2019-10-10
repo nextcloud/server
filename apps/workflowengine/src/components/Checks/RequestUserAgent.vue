@@ -35,11 +35,16 @@
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span class="option__icon" :class="props.option.icon" />
-				<span class="option__title option__title_single">{{ props.option.label }}</span>
+				<!-- v-html can be used here as t() always passes our translated strings though DOMPurify.sanitize -->
+				<!-- eslint-disable-next-line vue/no-v-html -->
+				<span class="option__title option__title_single" v-html="props.option.label" />
 			</template>
 			<template slot="option" slot-scope="props">
 				<span class="option__icon" :class="props.option.icon" />
-				<span class="option__title">{{ props.option.label }} {{ props.option.$groupLabel }}</span>
+				<!-- eslint-disable-next-line vue/no-v-html -->
+				<span v-if="props.option.$groupLabel" class="option__title" v-html="props.option.$groupLabel" />
+				<!-- eslint-disable-next-line vue/no-v-html -->
+				<span v-else class="option__title" v-html="props.option.label" />
 			</template>
 		</Multiselect>
 		<input v-if="!isPredefined"
@@ -133,3 +138,15 @@ export default {
 	}
 }
 </script>
+<style scoped>
+	.multiselect, input[type='text'] {
+		width: 100%;
+	}
+	.multiselect .multiselect__content-wrapper li>span,
+	.multiselect__single {
+		display: flex;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>
