@@ -636,9 +636,14 @@
 				fileName = ''
 			}
 
+			// this is the old (terrible) way of getting the context.
+			// don't use it anywhere else. Just provide the full path
+			// of the file to the sidebar service
+			var tr = this.findFileEl(fileName)
+			var model = this.getModelForFile(tr)
+			var path = model.attributes.path + '/' + model.attributes.name
+
 			// open sidebar and set file
-			const dir = `${this.dirInfo.path}/${this.dirInfo.name}`
-			const path = `${dir}/${fileName}`
 			OCA.Files.Sidebar.file = path.replace('//', '/')
 		},
 

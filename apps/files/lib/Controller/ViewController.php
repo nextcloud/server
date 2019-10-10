@@ -9,6 +9,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Felix Nüsse <felix.nuesse@t-online.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -30,6 +31,7 @@ namespace OCA\Files\Controller;
 
 use OCA\Files\Activity\Helper;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -268,6 +270,8 @@ class ViewController extends Controller {
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, $event);
+
+		$this->eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
 
 		$params                                = [];
 		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
