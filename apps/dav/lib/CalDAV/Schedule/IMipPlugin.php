@@ -529,23 +529,23 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		if ($vevent->SUMMARY) {
 			$template->addBodyListItem($vevent->SUMMARY, $l10n->t('Title:'),
-				$this->getAbsoluteImagePath('filetypes/text.svg'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/title.svg'),'','',self::IMIP_INDENT);
 		}
 		$meetingWhen = $this->generateWhenString($l10n, $vevent);
 		if ($meetingWhen) {
 			$template->addBodyListItem($meetingWhen, $l10n->t('Time:'),
-				$this->getAbsoluteImagePath('filetypes/text-calendar.svg'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/time.svg'),'','',self::IMIP_INDENT);
 		}
 		if ($vevent->LOCATION) {
 			$template->addBodyListItem($vevent->LOCATION, $l10n->t('Location:'),
-				$this->getAbsoluteImagePath('filetypes/location.svg'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/location.svg'),'','',self::IMIP_INDENT);
 		}
 		if ($vevent->URL) {
 			$template->addBodyListItem(sprintf('<a href="%s">%s</a>',
 					htmlspecialchars($vevent->URL),
 					htmlspecialchars($vevent->URL)),
 				$l10n->t('Link:'),
-				$this->getAbsoluteImagePath('filetypes/link.svg'),
+				$this->getAbsoluteImagePath('caldav/link.svg'),
 				$vevent->URL,'',self::IMIP_INDENT);
 		}
 
@@ -554,7 +554,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		/* Put description last, like an email body, since it can be arbitrarily long */
 		if ($vevent->DESCRIPTION) {
 			$template->addBodyListItem($vevent->DESCRIPTION, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('filetypes/text.svg'),'','',self::IMIP_INDENT);
+				$this->getAbsoluteImagePath('caldav/description.svg'),'','',self::IMIP_INDENT);
 		}
 	}
 
@@ -595,7 +595,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				$organizerText .= ' ✔︎';
 			}
 			$template->addBodyListItem($organizerHTML, $l10n->t('Organizer:'),
-				$this->getAbsoluteImagePath('filetypes/text-vcard.svg'),
+				$this->getAbsoluteImagePath('caldav/organizer.svg'),
 				$organizerText,'',self::IMIP_INDENT);
 		}
 
@@ -624,7 +624,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		$template->addBodyListItem(implode('<br/>',$attendeesHTML), $l10n->t('Attendees:'),
-			$this->getAbsoluteImagePath('filetypes/text-vcard.svg'),
+			$this->getAbsoluteImagePath('caldav/attendees.svg'),
 			implode("\n",$attendeesText),'',self::IMIP_INDENT);
 	}
 
