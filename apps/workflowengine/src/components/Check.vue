@@ -112,7 +112,6 @@ export default {
 			if (this.currentOption && this.currentOption.validate) {
 				this.valid = !!this.currentOption.validate(this.check);
 			}
-			this.$store.dispatch('setValid', { rule: this.rule, valid: this.rule.valid && this.valid })
 			return this.valid
 		},
 		updateCheck() {
@@ -123,7 +122,7 @@ export default {
 			this.check.operator = this.currentOperator.operator
 
 			if (!this.validate()) {
-				return
+				this.check.invalid = !this.valid
 			}
 			this.$emit('update', this.check)
 		}

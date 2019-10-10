@@ -85,7 +85,7 @@ export default {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
 		ruleStatus() {
-			if (this.error || !this.rule.valid) {
+			if (this.error || !this.rule.valid || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					class: 'icon-close-white invalid',
