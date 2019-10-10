@@ -73,17 +73,16 @@ export default {
 		}
 	},
 	computed: {
-		Checks() {
+		checks() {
 			return this.$store.getters.getChecksForEntity(this.rule.entity)
 		},
 		operators() {
 			if (!this.currentOption) { return [] }
-			return this.Checks[this.currentOption.class].operators
+			return this.checks[this.currentOption.class].operators
 		},
 		currentComponent() {
 			if (!this.currentOption) { return [] }
-			const currentComponent = this.Checks[this.currentOption.class].component
-			return currentComponent
+			return this.checks[this.currentOption.class].component
 		},
 		valuePlaceholder() {
 			if (this.currentOption && this.currentOption.placeholder) {
@@ -98,8 +97,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.options = Object.values(this.Checks)
-		this.currentOption = this.Checks[this.check.class]
+		this.options = Object.values(this.checks)
+		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 	},
 	methods: {
@@ -111,11 +110,7 @@ export default {
 		},
 		validate() {
 			if (this.currentOption && this.currentOption.validate) {
-				if (this.currentOption.validate(this.check)) {
-					this.valid = true
-				} else {
-					this.valid = false
-				}
+				this.valid = !!this.currentOption.validate(this.check);
 			}
 			this.$store.dispatch('setValid', { rule: this.rule, valid: this.rule.valid && this.valid })
 			return this.valid
