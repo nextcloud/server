@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="event">
 		<div v-if="operation.isComplex && operation.fixedEntity !== ''" class="isComplex">
 			<img class="option__icon" :src="entity.icon">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
@@ -7,14 +7,16 @@
 		<Multiselect v-else
 			:value="currentEvent"
 			:options="allEvents"
-			label="eventName"
 			track-by="id"
-			:allow-empty="false"
+			:multiple="true"
+			:auto-limit="false"
 			:disabled="allEvents.length <= 1"
 			@input="updateEvent">
-			<template slot="singleLabel" slot-scope="props">
-				<img class="option__icon" :src="props.option.entity.icon">
-				<span class="option__title option__title_single">{{ props.option.displayName }}</span>
+			<template slot="selection" slot-scope="{ values, search, isOpen }">
+				<div v-if="values.length && !isOpen" class="eventlist">
+					<img class="option__icon" :src="values[0].entity.icon">
+					<span class="text option__title option__title_single" v-for="(value, index) in values">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>
+				</div>
 			</template>
 			<template slot="option" slot-scope="props">
 				<img class="option__icon" :src="props.option.entity.icon">
@@ -49,23 +51,22 @@ export default {
 			return this.$store.getters.getEventsForOperation(this.operation)
 		},
 		currentEvent() {
-			if (!this.rule.events) {
-				return this.allEvents.length > 0 ? this.allEvents[0] : null
-			}
-			return this.allEvents.find(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
+			return this.allEvents.filter(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
 		}
 	},
 	methods: {
-		updateEvent(event) {
-			this.$set(this.rule, 'entity', event.entity.id)
-			this.$set(this.rule, 'events', [event.eventName])
-			this.$store.dispatch('updateRule', this.rule)
+		updateEvent(events) {
+			this.$set(this.rule, 'events', events.map(event => event.eventName))
+			this.$emit('update', this.rule)
 		}
 	}
 }
 </script>
 
 <style scoped lang="scss">
+	.event {
+		margin-bottom: 5px;
+	}
 	.isComplex {
 		img {
 			vertical-align: top;
@@ -78,6 +79,11 @@ export default {
 			display: inline-block;
 		}
 	}
+	.multiselect {
+		width: 100%;
+		max-width: 550px;
+		margin-top: 4px;
+	}
 	.multiselect::v-deep .multiselect__single {
 		display: flex;
 	}
@@ -86,8 +92,10 @@ export default {
 		border: 1px solid transparent;
 	}
 
-	.multiselect::v-deep .multiselect__tags .multiselect__single {
+	.multiselect::v-deep .multiselect__tags {
 		background-color: var(--color-main-background) !important;
+		height: auto;
+		min-height: 34px;
 	}
 
 	.multiselect:not(.multiselect--disabled)::v-deep .multiselect__tags .multiselect__single {
@@ -106,5 +114,10 @@ export default {
 	}
 	.option__title_single {
 		font-weight: 900;
+	}
+
+	.eventlist img,
+	.eventlist .text {
+		vertical-align: middle;
 	}
 </style>

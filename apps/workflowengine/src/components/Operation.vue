@@ -63,7 +63,7 @@ export default {
 	h3 {
 		margin: 0;
 		padding: 0;
-		font-weight: 500;
+		font-weight: 600;
 	}
 	small {
 		font-size: 10pt;
@@ -82,6 +82,7 @@ export default {
 		.actions__item__description {
 			padding-top: 5px;
 			text-align: left;
+			width: calc(100% - 105px);
 			small {
 				padding: 0;
 			}
