@@ -65,7 +65,7 @@ class Jail extends Wrapper {
 	public function getJailedPath($path) {
 		$root = rtrim($this->rootPath, '/') . '/';
 
-		if (strpos($path, $root) !== 0) {
+		if ($path !== $this->rootPath && strpos($path, $root) !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->rootPath));
