@@ -4,12 +4,13 @@
 		<input v-model="newValue.startTime"
 			type="text"
 			class="timeslot--start"
-			placeholder="08:00"
+			placeholder="e.g. 08:00"
 			@input="update">
 		<input v-model="newValue.endTime"
 			type="text"
-			placeholder="18:00"
+			placeholder="e.g. 18:00"
 			@input="update">
+		<p v-if="!valid" class="invalid-hint">{{ t('workflowengine', 'Please enter a valid time span')}}</p>
 	</div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
 	props: {
 		value: {
 			type: String,
-			default: '1 MB'
+			default: ''
 		}
 	},
 	data() {
@@ -46,15 +47,16 @@ export default {
 	},
 	methods: {
 		updateInternalValue(value) {
-			var data = JSON.parse(value)
-			var startTime = data[0].split(' ', 2)[0]
-			var endTime = data[1].split(' ', 2)[0]
-			var timezone = data[0].split(' ', 2)[1]
-			this.newValue = {
-				startTime: startTime,
-				endTime: endTime,
-				timezone: timezone
-			}
+			try {
+				const data = JSON.parse(value)
+				if (data.length === 2) {
+					this.newValue = {
+						startTime: data[0].split(' ', 2)[0],
+						endTime: data[1].split(' ', 2)[0],
+						timezone: data[0].split(' ', 2)[1]
+					}
+				}
+			} catch (e) {}
 		},
 		validate() {
 			return this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
@@ -90,10 +92,15 @@ export default {
 			width: 50%;
 			margin: 0;
 			margin-bottom: 5px;
+
 			&.timeslot--start {
 				margin-right: 5px;
 				width: calc(50% - 5px);
 			}
+		}
+
+		.invalid-hint {
+			color: var(--color-text-maxcontrast);
 		}
 	}
 </style>

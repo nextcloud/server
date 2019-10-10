@@ -32,17 +32,20 @@
 			:tagging="false"
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
+				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
+				<img v-else :src="props.option.iconUrl" />
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
-				<span class="option__icon" :class="props.option.icon" />
+				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
+				<img v-else :src="props.option.iconUrl" />
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
+			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
 </template>
@@ -68,12 +71,12 @@ export default {
 					pattern: '/image\\/.*/'
 				},
 				{
-					icon: 'icon-category-office',
+					iconUrl: OC.imagePath('core', 'filetypes/x-office-document'),
 					label: t('workflowengine', 'Office documents'),
 					pattern: '/(vnd\\.(ms-|openxmlformats-).*))$/'
 				},
 				{
-					icon: 'icon-filetype-file',
+					iconUrl: OC.imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
 					pattern: 'application/pdf'
 				}
@@ -130,3 +133,15 @@ export default {
 	}
 }
 </script>
+<style scoped>
+	.multiselect, input[type='text'] {
+		width: 100%;
+	}
+	.multiselect >>> .multiselect__content-wrapper li>span,
+	.multiselect >>> .multiselect__single {
+		display: flex;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>
