@@ -15,7 +15,7 @@
 			<template slot="selection" slot-scope="{ values, search, isOpen }">
 				<div v-if="values.length && !isOpen" class="eventlist">
 					<img class="option__icon" :src="values[0].entity.icon">
-					<span class="text option__title option__title_single" v-for="(value, index) in values">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>
+					<span v-for="(value, index) in values" :key="value.id" class="text option__title option__title_single">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>
 				</div>
 			</template>
 			<template slot="option" slot-scope="props">

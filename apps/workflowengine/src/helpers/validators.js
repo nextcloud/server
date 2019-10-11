@@ -27,24 +27,21 @@ const validateRegex = function(string) {
 	if (!string) {
 		return false
 	}
-	const result = regexRegex.exec(string)
-	return result !== null
+	return regexRegex.exec(string) !== null
 }
 
 const validateIPv4 = function(string) {
 	if (!string) {
 		return false
 	}
-	const result = regexIPv4.exec(string)
-	return result !== null
+	return regexIPv4.exec(string) !== null
 }
 
 const validateIPv6 = function(string) {
 	if (!string) {
 		return false
 	}
-	const result = regexIPv6.exec(string)
-	return result !== null
+	return regexIPv6.exec(string) !== null
 }
 
 const stringValidator = (check) => {

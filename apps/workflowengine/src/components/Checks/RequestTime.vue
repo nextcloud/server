@@ -10,7 +10,9 @@
 			type="text"
 			placeholder="e.g. 18:00"
 			@input="update">
-		<p v-if="!valid" class="invalid-hint">{{ t('workflowengine', 'Please enter a valid time span')}}</p>
+		<p v-if="!valid" class="invalid-hint">
+			{{ t('workflowengine', 'Please enter a valid time span') }}
+		</p>
 	</div>
 </template>
 
@@ -56,7 +58,9 @@ export default {
 						timezone: data[0].split(' ', 2)[1]
 					}
 				}
-			} catch (e) {}
+			} catch (e) {
+				// ignore invalid values
+			}
 		},
 		validate() {
 			return this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null

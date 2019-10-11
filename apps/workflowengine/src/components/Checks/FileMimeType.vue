@@ -33,12 +33,12 @@
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl" />
+				<img v-else :src="props.option.iconUrl">
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl" />
+				<img v-else :src="props.option.iconUrl">
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
