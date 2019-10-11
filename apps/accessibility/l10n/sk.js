@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dark theme" : "Tmavý motív",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tmavý motív vzhľadu pre úľavu vašim očiam znížením celkovej svietivosti a jasu. Je ešte stále vo vývoji, ak náhodou narazíte na nejaký problém, tak nám ho prosím nahláste.",
+    "High contrast mode" : "Režim vysokého kontrastu",
     "Dyslexia font" : "Písmo pre dyslektikov",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic je slobodný typ písma navrhnutý priamo pre obmedzenie vplyvu niektorých bežných porúch čítania spôsobených dyslexiou.",
     "Accessibility" : "Prístupnosť",

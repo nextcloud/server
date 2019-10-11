@@ -2,6 +2,7 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Taggar",
+    "Tag name is empty" : "Taggens namn är tomt",
     "Update" : "Uppdatera",
     "Create" : "Skapa",
     "Select tag…" : "Välj tagg...",
