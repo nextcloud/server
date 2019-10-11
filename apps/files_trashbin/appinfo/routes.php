@@ -24,7 +24,8 @@
 
 namespace OCA\Files_Trashbin\AppInfo;
 
-$application = new Application();
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		[

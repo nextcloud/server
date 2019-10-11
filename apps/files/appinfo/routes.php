@@ -29,7 +29,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files\AppInfo;
 
-$application = new Application();
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $application->registerRoutes(
 	$this,
 	[

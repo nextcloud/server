@@ -24,7 +24,9 @@
 
 namespace OCA\Encryption\AppInfo;
 
-(new Application())->registerRoutes($this, array('routes' => array(
+/** @var Application $app */
+$app = \OC::$server->query(Application::class);
+$app->registerRoutes($this, array('routes' => array(
 
 	[
 		'name' => 'Recovery#adminRecovery',
