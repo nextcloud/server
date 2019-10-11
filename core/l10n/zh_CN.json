@@ -376,6 +376,7 @@
     "Use backup code" : "使用备用口令",
     "Cancel log in" : "取消登录",
     "Setup two-factor authentication" : "配置两步验证",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "您的账户已启用安全增强。请选择提供者进行配置：",
     "Error while validating your second factor" : "验证您的第二项时出错",
     "Access through untrusted domain" : "通过不被信任的域名访问",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "请联系您的管理员。如果您就是管理员，请参照 config.sample.php 中的示例编辑 config/config.php 中的  \"trusted_domains\" 设置。",
