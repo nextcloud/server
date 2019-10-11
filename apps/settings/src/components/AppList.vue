@@ -24,6 +24,13 @@
 	<div id="app-content-inner">
 		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
+				<div v-if="showUpdateAll" class="counter">
+					{{ t('settings', '{counter} apps have an update available', {counter}) }}
+					<button v-if="showUpdateAll"
+						id="app-list-update-all"
+						class="primary"
+						@click="updateAll">{{t('settings', 'Update all')}}</button>
+				</div>
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<AppItem v-for="app in apps"
 						:key="app.id"
@@ -91,6 +98,7 @@
 <script>
 import AppItem from './AppList/AppItem'
 import PrefixMixin from './PrefixMixin'
+import pLimit from 'p-limit'
 
 export default {
 	name: 'AppList',
@@ -100,8 +108,17 @@ export default {
 	mixins: [PrefixMixin],
 	props: ['category', 'app', 'search'],
 	computed: {
+		counter() {
+			return this.apps.filter(app => app.update).length
+		},
 		loading() {
 			return this.$store.getters.loading('list')
+		},
+		hasPendingUpdate() {
+			return this.apps.filter(app => app.update).length > 1
+		},
+		showUpdateAll() {
+			return this.hasPendingUpdate && ['installed', 'updates'].includes(this.category)
 		},
 		apps() {
 			let apps = this.$store.getters.getAllApps
@@ -189,12 +206,24 @@ export default {
 		enableBundle(id) {
 			let apps = this.bundleApps(id).map(app => app.id)
 			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
-				.catch((error) => { console.error(error); OC.Notification.show(error) })
+				.catch((error) => {
+					console.error(error)
+					OC.Notification.show(error)
+				})
 		},
 		disableBundle(id) {
 			let apps = this.bundleApps(id).map(app => app.id)
 			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
-				.catch((error) => { OC.Notification.show(error) })
+				.catch((error) => {
+					OC.Notification.show(error)
+				})
+		},
+		updateAll() {
+			const limit = pLimit(1)
+			this.apps
+				.filter(app => app.update)
+				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id }))
+				)
 		}
 	}
 }
