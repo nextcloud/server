@@ -371,7 +371,7 @@ class Router implements IRouter {
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 			if (class_exists($applicationClassName)) {
-				$application = new $applicationClassName();
+				$application = \OC::$server->query($applicationClassName);
 			} else {
 				$application = new App($appName);
 			}
