@@ -2,6 +2,7 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Etiquetas",
+    "Tag name is empty" : "O nome da etiqueta está baleiro",
     "Update" : "Actualizar",
     "Create" : "Crear",
     "Select tag…" : "Seleccionar a etiqueta…",

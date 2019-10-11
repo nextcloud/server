@@ -6,7 +6,7 @@ OC.L10N.register(
     "Saved" : "Zapisano",
     "Not saved" : "Nie zapisany",
     "Sending…" : "Wysyłam…",
-    "Email sent" : "E-mail wysłany",
+    "Email sent" : "E-mail został wysłany",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Wystąpił błąd. Proszę przesłać certyfikat PEM w kodowaniu ASCII.",
     "Valid until {date}" : "Ważny do {date}",
     "Delete" : "Usuń",
