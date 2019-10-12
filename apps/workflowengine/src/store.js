@@ -25,22 +25,23 @@ import Vuex from 'vuex'
 import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
 import confirmPassword from 'nextcloud-password-confirmation'
+import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
 		rules: [],
-		scope: OCP.InitialState.loadState('workflowengine', 'scope'),
-		operations: OCP.InitialState.loadState('workflowengine', 'operators'),
+		scope: loadState('workflowengine', 'scope'),
+		operations: loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({
 			checks: {},
 			operators: {}
 		}),
 
-		entities: OCP.InitialState.loadState('workflowengine', 'entities'),
-		events: OCP.InitialState.loadState('workflowengine', 'entities')
+		entities: loadState('workflowengine', 'entities'),
+		events: loadState('workflowengine', 'entities')
 			.map((entity) => entity.events.map(event => {
 				return {
 					id: `${entity.id}::${event.eventName}`,
@@ -48,7 +49,7 @@ const store = new Vuex.Store({
 					...event
 				}
 			})).flat(),
-		checks: OCP.InitialState.loadState('workflowengine', 'checks')
+		checks: loadState('workflowengine', 'checks')
 	},
 	mutations: {
 		addRule(state, rule) {

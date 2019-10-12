@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
@@ -35,7 +36,7 @@ Vue.prototype.t = t
 const View = Vue.extend(AuthTokenSection)
 new View({
 	propsData: {
-		tokens: OCP.InitialState.loadState('settings', 'app_tokens'),
-		canCreateToken: OCP.InitialState.loadState('settings', 'can_create_app_token')
+		tokens: loadState('settings', 'app_tokens'),
+		canCreateToken: loadState('settings', 'can_create_app_token')
 	}
 }).$mount('#security-authtokens')
