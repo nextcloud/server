@@ -26,7 +26,7 @@
 <script>
 import ItemPreview from './components/ItemPreview'
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Accessibility',
@@ -119,7 +119,7 @@ export default {
 		async selectItem(type, id) {
 			try {
 				await axios({
-					url: OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type,
+					url: generateOcsUrl('apps/accessibility/api/v1/config', 2) + type,
 					method: id === '' ? 'DELETE' : 'POST',
 					data: {
 						value: id
