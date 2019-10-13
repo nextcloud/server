@@ -271,7 +271,7 @@ OC.L10N.register(
     "(all selected)" : "(все выбранные)",
     "({count} selected)" : "(выбрано: {count})",
     "Error loading file exists template" : "Ошибка при загрузке шаблона существующего файла",
-    "Pending" : "Ожидание",
+    "Pending" : "Ожидается",
     "Copy to {folder}" : "Скопировать в «{folder}»",
     "Move to {folder}" : "Переместить в «{folder}»",
     "Saving..." : "Сохранение…",
