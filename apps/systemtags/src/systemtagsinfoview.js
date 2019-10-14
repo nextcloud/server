@@ -31,6 +31,7 @@
 			_rendered: false,
 
 			className: 'systemTagsInfoView',
+			name: 'systemTags',
 
 			/**
 			 * @type OC.SystemTags.SystemTagsInputField

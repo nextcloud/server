@@ -67,7 +67,7 @@ export default class Sidebar {
 	}
 
 	registerSecondaryView(view) {
-		const hasDuplicate = this.#state.views.findIndex(check => check.cid === view.cid) > -1
+		const hasDuplicate = this.#state.views.findIndex(check => check.name === view.name) > -1
 		if (!hasDuplicate) {
 			this.#state.views.push(view)
 			return true
