@@ -37,8 +37,6 @@ OCA.Sharing.PublicApp = {
 		fileActions = new OCA.Files.FileActions();
 		// default actions
 		fileActions.registerDefaultActions();
-		// legacy actions
-		fileActions.merge(window.FileActions);
 		// regular actions
 		fileActions.merge(OCA.Files.fileActions);
 
