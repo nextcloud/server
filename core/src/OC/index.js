@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { subscribe } from '@nextcloud/event-bus'
+
 import {addScript, addStyle} from './legacy-loader'
 import {
 	ajaxConnectionLostHandler,
@@ -67,8 +69,7 @@ import {
 	getProtocol,
 } from './host'
 import {
-	getToken as getRequestToken,
-	subscribe as subscribeToRequestTokenChange,
+	getToken as getRequestToken
 } from './requesttoken'
 import {
 	hideMenus,
@@ -257,4 +258,9 @@ export default {
 }
 
 // Keep the request token prop in sync
-subscribeToRequestTokenChange(token => OC.requestToken = token)
+subscribe('csrf-token-update', e => {
+	OC.requestToken = e.token
+
+	// Logging might help debug (Sentry) issues
+	console.info('OC.requestToken changed', e.token)
+})
