@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { loadState } from '@nextcloud/initial-state'
 import App from './Accessibility.vue'
 
 /* global t */
@@ -6,7 +7,14 @@ import App from './Accessibility.vue'
 Vue.prototype.OC = OC
 Vue.prototype.t = t
 
-export default new Vue({
-	el: '#accessibility',
-	render: h => h(App)
+const availableConfig = loadState('accessibility', 'available-config')
+const userConfig = loadState('accessibility', 'user-config')
+
+const View = Vue.extend(App)
+const accessibility = new View({
+	propsData: {
+		availableConfig,
+		userConfig
+	}
 })
+accessibility.$mount('#accessibility')

@@ -26,30 +26,36 @@
 <script>
 import ItemPreview from './components/ItemPreview'
 import axios from '@nextcloud/axios'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Accessibility',
 	components: { ItemPreview },
-	data() {
-		return {
-			serverData: []
+	props: {
+		availableConfig: {
+			type: Object,
+			required: true
+		},
+		userConfig: {
+			type: Object,
+			required: true
 		}
 	},
 	computed: {
 		themes() {
-			return this.serverData.themes
+			return this.availableConfig.themes
 		},
 		highcontrast() {
-			return this.serverData.highcontrast
+			return this.availableConfig.highcontrast
 		},
 		fonts() {
-			return this.serverData.fonts
+			return this.availableConfig.fonts
 		},
 		selected() {
 			return {
-				theme: this.serverData.selected.theme,
-				highcontrast: this.serverData.selected.highcontrast,
-				font: this.serverData.selected.font
+				theme: this.userConfig.theme,
+				highcontrast: this.userConfig.highcontrast,
+				font: this.userConfig.font
 			}
 		},
 		description() {
@@ -83,25 +89,21 @@ export default {
 			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">${t('accessibility', 'our design team')}</a>`
 		}
 	},
-	beforeMount() {
-		// importing server data into the app
-		const serverDataElmt = document.getElementById('serverData')
-		if (serverDataElmt !== null) {
-			this.serverData = JSON.parse(
-				document.getElementById('serverData').dataset.server
-			)
-		}
-	},
 	methods: {
+		// SELECT handlers
 		selectHighContrast(id) {
 			this.selectItem('highcontrast', id)
 		},
-		selectTheme(id, idSelectedBefore) {
-			this.selectItem('theme', id)
-			document.body.classList.remove(idSelectedBefore)
+		selectTheme(id) {
+			const previous = this.selected.theme
+			if (previous) {
+				document.body.classList.remove(previous)
+			}
 			if (id) {
 				document.body.classList.add(id)
 			}
+
+			this.selectItem('theme', id)
 		},
 		selectFont(id) {
 			this.selectItem('font', id)
@@ -114,40 +116,46 @@ export default {
 		 * @param {string} type type of the change (font, highcontrast or theme)
 		 * @param {string} id the data of the change
 		 */
-		selectItem(type, id) {
-			axios.post(OC.linkToOCS('apps/accessibility/api/v1/config', 2) + type, { value: id })
-				.then(response => {
-					this.serverData.selected[type] = id
-
-					// Remove old link
-					let link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]')
-					if (!link) {
-						// insert new css
-						let link = document.createElement('link')
-						link.rel = 'stylesheet'
-						link.href = OC.generateUrl('/apps/accessibility/css/user-style.css') + '?v=' + new Date().getTime()
-						document.head.appendChild(link)
-					} else {
-						// compare arrays
-						if (
-							JSON.stringify(Object.values(this.selected))
-							=== JSON.stringify([false, false])
-						) {
-							// if nothing is selected, blindly remove the css
-							link.remove()
-						} else {
-							// force update
-							link.href
-								= link.href.split('?')[0]
-								+ '?v='
-								+ new Date().getTime()
-						}
+		async selectItem(type, id) {
+			try {
+				await axios({
+					url: generateOcsUrl('apps/accessibility/api/v1/config', 2) + type,
+					method: id === '' ? 'DELETE' : 'POST',
+					data: {
+						value: id
 					}
 				})
-				.catch(err => {
-					console.error(err, err.response)
-					OC.Notification.showTemporary(t('accessibility', err.response.data.ocs.meta.message + '. Unable to apply the setting.'))
-				})
+
+				this.userConfig[type] = id
+
+				// Remove old link
+				let link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]')
+				if (!link) {
+					// insert new css
+					let link = document.createElement('link')
+					link.rel = 'stylesheet'
+					link.href = generateUrl('/apps/accessibility/css/user-style.css') + '?v=' + new Date().getTime()
+					document.head.appendChild(link)
+				} else {
+					// compare arrays
+					if (
+						JSON.stringify(Object.values(this.selected))
+						=== JSON.stringify([false, false])
+					) {
+						// if nothing is selected, blindly remove the css
+						link.remove()
+					} else {
+						// force update
+						link.href
+							= link.href.split('?')[0]
+							+ '?v='
+							+ new Date().getTime()
+					}
+				}
+			} catch (err) {
+				console.error(err, err.response)
+				OC.Notification.showTemporary(t('accessibility', err.response.data.ocs.meta.message + '. Unable to apply the setting.'))
+			}
 		}
 	}
 }

@@ -32,7 +32,7 @@ export default {
 				return this.selected === this.preview.id
 			},
 			set(checked) {
-				this.$emit('select', checked ? this.preview.id : false,	this.selected)
+				this.$emit('select', checked ? this.preview.id : '')
 			}
 		}
 	}
