@@ -81,14 +81,15 @@ class Setup {
 	 * @param ISecureRandom $random
 	 * @param Installer $installer
 	 */
-	public function __construct(SystemConfig $config,
-						 IniGetWrapper $iniWrapper,
-						 IL10N $l10n,
-						 Defaults $defaults,
-						 ILogger $logger,
-						 ISecureRandom $random,
-						 Installer $installer
-		) {
+	public function __construct(
+		SystemConfig $config,
+		IniGetWrapper $iniWrapper,
+		IL10N $l10n,
+		Defaults $defaults,
+		ILogger $logger,
+		ISecureRandom $random,
+		Installer $installer
+	) {
 		$this->config = $config;
 		$this->iniWrapper = $iniWrapper;
 		$this->l10n = $l10n;
@@ -101,13 +102,14 @@ class Setup {
 	static protected $dbSetupClasses = [
 		'mysql' => \OC\Setup\MySQL::class,
 		'pgsql' => \OC\Setup\PostgreSQL::class,
-		'oci'   => \OC\Setup\OCI::class,
+		'oci' => \OC\Setup\OCI::class,
 		'sqlite' => \OC\Setup\Sqlite::class,
 		'sqlite3' => \OC\Setup\Sqlite::class,
 	];
 
 	/**
 	 * Wrapper around the "class_exists" PHP function to be able to mock it
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
@@ -117,6 +119,7 @@ class Setup {
 
 	/**
 	 * Wrapper around the "is_callable" PHP function to be able to mock it
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
@@ -142,7 +145,7 @@ class Setup {
 	 */
 	public function getSupportedDatabases($allowAllDatabases = false) {
 		$availableDatabases = [
-			'sqlite' =>  [
+			'sqlite' => [
 				'type' => 'pdo',
 				'call' => 'sqlite',
 				'name' => 'SQLite',
@@ -169,24 +172,24 @@ class Setup {
 			$configuredDatabases = $this->config->getValue('supportedDatabases',
 				['sqlite', 'mysql', 'pgsql']);
 		}
-		if(!is_array($configuredDatabases)) {
+		if (!is_array($configuredDatabases)) {
 			throw new Exception('Supported databases are not properly configured.');
 		}
 
 		$supportedDatabases = array();
 
-		foreach($configuredDatabases as $database) {
-			if(array_key_exists($database, $availableDatabases)) {
+		foreach ($configuredDatabases as $database) {
+			if (array_key_exists($database, $availableDatabases)) {
 				$working = false;
 				$type = $availableDatabases[$database]['type'];
 				$call = $availableDatabases[$database]['call'];
 
 				if ($type === 'function') {
 					$working = $this->is_callable($call);
-				} elseif($type === 'pdo') {
+				} elseif ($type === 'pdo') {
 					$working = in_array($call, $this->getAvailableDbDriversForPdo(), true);
 				}
-				if($working) {
+				if ($working) {
 					$supportedDatabases[$database] = $availableDatabases[$database]['name'];
 				}
 			}
@@ -205,14 +208,14 @@ class Setup {
 	public function getSystemInfo($allowAllDatabases = false) {
 		$databases = $this->getSupportedDatabases($allowAllDatabases);
 
-		$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT.'/data');
+		$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
 
 		$errors = [];
 
 		// Create data directory to test whether the .htaccess works
 		// Notice that this is not necessarily the same data directory as the one
 		// that will effectively be used.
-		if(!file_exists($dataDir)) {
+		if (!file_exists($dataDir)) {
 			@mkdir($dataDir);
 		}
 		$htAccessWorking = true;
@@ -243,7 +246,7 @@ class Setup {
 			];
 		}
 
-		if($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
+		if ($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
 			$errors[] = [
 				'error' => $this->l10n->t(
 					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
@@ -276,14 +279,14 @@ class Setup {
 		$error = array();
 		$dbType = $options['dbtype'];
 
-		if(empty($options['adminlogin'])) {
+		if (empty($options['adminlogin'])) {
 			$error[] = $l->t('Set an admin username.');
 		}
-		if(empty($options['adminpass'])) {
+		if (empty($options['adminpass'])) {
 			$error[] = $l->t('Set an admin password.');
 		}
-		if(empty($options['directory'])) {
-			$options['directory'] = \OC::$SERVERROOT."/data";
+		if (empty($options['directory'])) {
+			$options['directory'] = \OC::$SERVERROOT . "/data";
 		}
 
 		if (!isset(self::$dbSetupClasses[$dbType])) {
@@ -311,8 +314,8 @@ class Setup {
 		$request = \OC::$server->getRequest();
 
 		//no errors, good
-		if(isset($options['trusted_domains'])
-		    && is_array($options['trusted_domains'])) {
+		if (isset($options['trusted_domains'])
+			&& is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
 		} else {
 			$trustedDomains = [$request->getInsecureServerHost()];
@@ -330,12 +333,12 @@ class Setup {
 
 		//write the config file
 		$newConfigValues = [
-			'passwordsalt'		=> $salt,
-			'secret'			=> $secret,
-			'trusted_domains'	=> $trustedDomains,
-			'datadirectory'		=> $dataDir,
-			'dbtype'			=> $dbType,
-			'version'			=> implode('.', \OCP\Util::getVersion()),
+			'passwordsalt' => $salt,
+			'secret' => $secret,
+			'trusted_domains' => $trustedDomains,
+			'datadirectory' => $dataDir,
+			'dbtype' => $dbType,
+			'version' => implode('.', \OCP\Util::getVersion()),
 		];
 
 		if ($this->config->getValue('overwrite.cli.url', null) === null) {
@@ -364,13 +367,13 @@ class Setup {
 		}
 
 		//create the user and group
-		$user =  null;
+		$user = null;
 		try {
 			$user = \OC::$server->getUserManager()->createUser($username, $password);
 			if (!$user) {
 				$error[] = "User <$username> could not be created.";
 			}
-		} catch(Exception $exception) {
+		} catch (Exception $exception) {
 			$error[] = $exception->getMessage();
 		}
 
@@ -380,8 +383,8 @@ class Setup {
 			$config->setAppValue('core', 'lastupdatedat', microtime(true));
 			$config->setAppValue('core', 'vendor', $this->getVendor());
 
-			$group =\OC::$server->getGroupManager()->createGroup('admin');
-			if($group instanceof IGroup) {
+			$group = \OC::$server->getGroupManager()->createGroup('admin');
+			if ($group instanceof IGroup) {
 				$group->addUser($user);
 			}
 
@@ -389,15 +392,16 @@ class Setup {
 			Installer::installShippedApps();
 			$bundleFetcher = new BundleFetcher(\OC::$server->getL10N('lib'));
 			$defaultInstallationBundles = $bundleFetcher->getDefaultInstallationBundle();
-			foreach($defaultInstallationBundles as $bundle) {
+			foreach ($defaultInstallationBundles as $bundle) {
 				try {
 					$this->installer->installAppBundle($bundle);
-				} catch (Exception $e) {}
+				} catch (Exception $e) {
+				}
 			}
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
-			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
+			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 			// Update .htaccess files
 			self::updateHtaccess();
@@ -437,7 +441,7 @@ class Setup {
 	 * @return string Absolute path to htaccess
 	 */
 	private function pathToHtaccess() {
-		return \OC::$SERVERROOT.'/.htaccess';
+		return \OC::$SERVERROOT . '/.htaccess';
 	}
 
 	/**
@@ -502,7 +506,7 @@ class Setup {
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
-		if($rewriteBase !== '') {
+		if ($rewriteBase !== '') {
 			$content .= "\n<IfModule mod_rewrite.c>";
 			$content .= "\n  Options -MultiViews";
 			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
@@ -535,7 +539,7 @@ class Setup {
 
 		if ($content !== '') {
 			//suppress errors in case we don't have permissions for it
-			return (bool) @file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
+			return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
 		}
 
 		return false;
@@ -543,21 +547,21 @@ class Setup {
 
 	public static function protectDataDirectory() {
 		//Require all denied
-		$now =  date('Y-m-d H:i:s');
+		$now = date('Y-m-d H:i:s');
 		$content = "# Generated by Nextcloud on $now\n";
-		$content.= "# line below if for Apache 2.4\n";
-		$content.= "<ifModule mod_authz_core.c>\n";
-		$content.= "Require all denied\n";
-		$content.= "</ifModule>\n\n";
-		$content.= "# line below if for Apache 2.2\n";
-		$content.= "<ifModule !mod_authz_core.c>\n";
-		$content.= "deny from all\n";
-		$content.= "Satisfy All\n";
-		$content.= "</ifModule>\n\n";
-		$content.= "# section for Apache 2.2 and 2.4\n";
-		$content.= "<ifModule mod_autoindex.c>\n";
-		$content.= "IndexIgnore *\n";
-		$content.= "</ifModule>\n";
+		$content .= "# line below if for Apache 2.4\n";
+		$content .= "<ifModule mod_authz_core.c>\n";
+		$content .= "Require all denied\n";
+		$content .= "</ifModule>\n\n";
+		$content .= "# line below if for Apache 2.2\n";
+		$content .= "<ifModule !mod_authz_core.c>\n";
+		$content .= "deny from all\n";
+		$content .= "Satisfy All\n";
+		$content .= "</ifModule>\n\n";
+		$content .= "# section for Apache 2.2 and 2.4\n";
+		$content .= "<ifModule mod_autoindex.c>\n";
+		$content .= "IndexIgnore *\n";
+		$content .= "</ifModule>\n";
 
 		$baseDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);
@@ -575,6 +579,6 @@ class Setup {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
-		return (string) $vendor;
+		return (string)$vendor;
 	}
 }
