@@ -73,12 +73,13 @@ const warnIfNotTesting = function() {
  *
  * @param {Function} func the library to deprecate
  * @param {String} funcName the name of the library
+ * @param {Int} version the version this gets removed
  * @returns {function}
  */
-const deprecate = (func, funcName) => {
+const deprecate = (func, funcName, version) => {
 	const oldFunc = func
 	const newFunc = function() {
-		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud 19.`)
+		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud ${version}.`)
 		return oldFunc.apply(this, arguments)
 	}
 	Object.assign(newFunc, oldFunc)
@@ -104,19 +105,19 @@ const setDeprecatedProp = (global, cb, msg) => {
 
 window['_'] = _
 window['$'] = $
-window['autosize'] = autosize
-window['Backbone'] = Backbone
-window['Clipboard'] = ClipboardJS
-window['ClipboardJS'] = ClipboardJS
+setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('Clipboard', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('ClipboardJS', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window['dav'] = dav
 setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, ship your own')
-window['Handlebars'] = Handlebars
-window['jstimezonedetect'] = jstimezonedetect
-window['jstz'] = jstimezonedetect
+setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('jstimezonedetect', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('jstz', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 window['jQuery'] = $
-window['marked'] = deprecate(marked, 'marked')
-window['md5'] = md5
-window['moment'] = moment
+window['marked'] = deprecate(marked, 'marked', 19)
+setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
 window['OC'] = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
@@ -132,12 +133,12 @@ setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead'
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead')
 window['OCP'] = OCP
 window['OCA'] = OCA
-window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML')
-window['formatDate'] = deprecate(formatDate, 'formatDate')
-window['getURLParameter'] = deprecate(getURLParameter, 'getURLParameter')
-window['humanFileSize'] = deprecate(humanFileSize, 'humanFileSize')
-window['relative_modified_date'] = deprecate(relativeModifiedDate, 'relative_modified_date')
-$.fn.select2 = deprecate($.fn.select2, 'select2')
+window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML', 19)
+window['formatDate'] = deprecate(formatDate, 'formatDate', 19)
+window['getURLParameter'] = deprecate(getURLParameter, 'getURLParameter', 19)
+window['humanFileSize'] = deprecate(humanFileSize, 'humanFileSize', 19)
+window['relative_modified_date'] = deprecate(relativeModifiedDate, 'relative_modified_date', 19)
+$.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string
