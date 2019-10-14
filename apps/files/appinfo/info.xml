@@ -5,7 +5,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>1.13.0</version>
+	<version>1.13.1</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
