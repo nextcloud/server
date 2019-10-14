@@ -40,6 +40,8 @@
 		 */
 		fileList: null,
 
+		currentFileList: null,
+
 		/**
 		 * Backbone model for storing files preferences
 		 */
@@ -112,6 +114,7 @@
 					maxChunkSize: OC.appConfig.files && OC.appConfig.files.max_chunk_size
 				}
 			);
+			this.updateCurrentFileList(this.fileList)
 			this.files.initialize();
 
 			// for backward compatibility, the global FileList will
@@ -158,6 +161,28 @@
 					ev.defaultAction.name
 				);
 			}
+		},
+
+		/**
+		 * Set the currently active file list
+		 *
+		 * Due to the file list implementations being registered after clicking the
+		 * navigation item for the first time, OCA.Files.App is not aware of those until
+		 * they have initialized themselves. Therefore the files list needs to call this
+		 * method manually
+		 *
+		 * @param {OCA.Files.FileList} newFileList
+		 */
+		updateCurrentFileList: function(newFileList) {
+			this.currentFileList = newFileList;
+		},
+
+		/**
+		 * Return the currently active file list
+		 * @return {?OCA.Files.FileList}
+		 */
+		getCurrentFileList: function () {
+			return this.currentFileList;
 		},
 
 		/**
