@@ -27,6 +27,7 @@
 				<LoginForm
 					:username.sync="user"
 					:redirect-url="redirectUrl"
+					:directLogin="directLogin"
 					:messages="messages"
 					:errors="errors"
 					:throttle-delay="throttleDelay"
@@ -114,6 +115,10 @@ export default {
 		autoCompleteAllowed: {
 			type: Boolean,
 			default: true
+		},
+		directLogin: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
