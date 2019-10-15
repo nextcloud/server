@@ -79,8 +79,8 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
-	public function create(string $class, string $name, array $checks, string $operation): DataResponse {
-		return parent::create($class, $name, $checks, $operation);
+	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
+		return parent::create($class, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
@@ -88,8 +88,8 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
-	public function update(int $id, string $name, array $checks, string $operation): DataResponse {
-		return parent::update($id, $name, $checks, $operation);
+	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
+		return parent::update($id, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
