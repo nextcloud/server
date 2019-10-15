@@ -98,7 +98,7 @@ const mutations = {
 		let group = state.groups.find(groupSearch => groupSearch.id === gid)
 		let user = state.users.find(user => user.id === userid)
 		// increase count if user is enabled
-		if (group && user.enabled) {
+		if (group && user.enabled && state.userCount > 0) {
 			group.usercount++
 		}
 		let groups = user.groups
@@ -109,7 +109,7 @@ const mutations = {
 		let group = state.groups.find(groupSearch => groupSearch.id === gid)
 		let user = state.users.find(user => user.id === userid)
 		// lower count if user is enabled
-		if (group && user.enabled) {
+		if (group && user.enabled && state.userCount > 0) {
 			group.usercount--
 		}
 		let groups = user.groups
@@ -135,12 +135,14 @@ const mutations = {
 		let user = state.users.find(user => user.id === userid)
 		user.enabled = enabled
 		// increment or not
-		state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
-		state.userCount += enabled ? 1 : -1
-		user.groups.forEach(group => {
-			// Increment disabled count
-			state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
-		})
+		if (state.userCount > 0) {
+			state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
+			state.userCount += enabled ? 1 : -1
+			user.groups.forEach(group => {
+				// Increment disabled count
+				state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
+			})
+		}
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
