@@ -324,7 +324,7 @@ class Log implements ILogger {
 		try {
 			if ($level >= $minLevel) {
 				if (!$this->logger instanceof IFileBased) {
-					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR);
+					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
 				}
 				$this->writeLog($app, $data, $level);
 			}
