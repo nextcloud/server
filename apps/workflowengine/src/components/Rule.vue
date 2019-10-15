@@ -1,5 +1,5 @@
 <template>
-	<div class="section rule" :style="{ borderLeftColor: operation.color || '' }">
+	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
 		<div class="trigger">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>

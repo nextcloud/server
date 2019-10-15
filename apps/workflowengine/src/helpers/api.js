@@ -19,9 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-const scopeValue = OCP.InitialState.loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
 
 import { loadState } from '@nextcloud/initial-state'
+
+const scopeValue = loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
 
 const getApiUrl = (url) => {
 	return OC.linkToOCS('apps/workflowengine/api/v1/workflows', 2) + scopeValue + url + '?format=json'
