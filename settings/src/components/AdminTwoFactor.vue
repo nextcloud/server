@@ -68,8 +68,7 @@
 </template>
 
 <script>
-	import Axios from 'nextcloud-axios'
-	import { mapState } from 'vuex'
+	import Axios from '@nextcloud/axios'
 	import {Multiselect} from 'nextcloud-vue'
 	import _ from 'lodash'
 
