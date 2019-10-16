@@ -62,6 +62,7 @@ new View({
 		resetPasswordLink: fromStateOr('loginResetPasswordLink', ''),
 		autoCompleteAllowed: fromStateOr('loginAutocomplete', true),
 		resetPasswordTarget: fromStateOr('resetPasswordTarget', ''),
-		resetPasswordUser: fromStateOr('resetPasswordUser', '')
+		resetPasswordUser: fromStateOr('resetPasswordUser', ''),
+		directLogin: query.direct === '1'
 	}
 }).$mount('#login')
