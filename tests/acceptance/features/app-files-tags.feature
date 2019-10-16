@@ -19,15 +19,6 @@ Feature: app-files-tags
 #    When I open the input field for tags in the details view
 #    Then I see that the input field for tags in the details view is shown
 
-  Scenario: show the input field for tags in the details view after the sharing tab has loaded
-    Given I am logged in
-    And I open the details view for "welcome.txt"
-   And I see that the details view is open
-    And I open the "Sharing" tab in the details view
-    And I see that the "Sharing" tab in the details view is eventually loaded
-    When I open the input field for tags in the details view
-    Then I see that the input field for tags in the details view is shown
-
   Scenario: create tags using the Administration settings
     Given I am logged in as the admin
     And I visit the settings page
