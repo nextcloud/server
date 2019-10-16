@@ -25,9 +25,9 @@ declare(strict_types=1);
 
 namespace OC\EventDispatcher;
 
+use OCP\ILogger;
 use function is_callable;
 use OCP\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -35,9 +35,12 @@ class SymfonyAdapter implements EventDispatcherInterface {
 
 	/** @var EventDispatcher */
 	private $eventDispatcher;
+	/** @var ILogger */
+	private $logger;
 
-	public function __construct(EventDispatcher $eventDispatcher) {
+	public function __construct(EventDispatcher $eventDispatcher, ILogger $logger) {
 		$this->eventDispatcher = $eventDispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -46,16 +49,21 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param string $eventName The name of the event to dispatch. The name of
 	 *                              the event is the name of the method that is
 	 *                              invoked on listeners.
-	 * @param SymfonyEvent|null $event The event to pass to the event handlers/listeners
+	 * @param Event|null $event The event to pass to the event handlers/listeners
 	 *                              If not supplied, an empty Event instance is created
 	 *
-	 * @return SymfonyEvent
+	 * @return void
 	 */
-	public function dispatch($eventName, SymfonyEvent $event = null) {
+	public function dispatch($eventName, $event = null) {
+		// type hinting is not possible, due to usage of GenericEvent
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
 		} else {
 			// Legacy event
+			$this->logger->info(
+				'Deprecated event type for {name}: {class}',
+				[ 'name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null' ]
+			);
 			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName, $event);
 		}
 	}
