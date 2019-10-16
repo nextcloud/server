@@ -17,20 +17,35 @@ const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
 const updatenotifications = require('./apps/updatenotification/webpack')
 const workflowengine = require('./apps/workflowengine/webpack')
 
+const modules = {
+	core,
+	settings,
+	accessibility,
+	comments,
+	files_sharing,
+	files_trashbin,
+	files_versions,
+	oauth2,
+	systemtags,
+	twofactor_backupscodes,
+	updatenotifications,
+	workflowengine
+}
+
+const modulesToBuild = () => {
+	const MODULE = process.env.MODULE
+	if (MODULE) {
+		if (!modules[MODULE]) {
+			throw new Error(`No module "${MODULE}" found`)
+		}
+		return [ modules[MODULE] ]
+	}
+	return Object.values(modules)
+}
+
 module.exports = []
 	.concat(
-		core,
-		settings,
-		accessibility,
-		comments,
-		files_sharing,
-		files_trashbin,
-		files_versions,
-		oauth2,
-		systemtags,
-		twofactor_backupscodes,
-		updatenotifications,
-		workflowengine
+		...modulesToBuild()
 	)
 	.map(config => merge.smart({
 		module: {
