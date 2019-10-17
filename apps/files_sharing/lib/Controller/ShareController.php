@@ -445,7 +445,8 @@ class ShareController extends AuthPublicShareController {
 		\OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
 		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
 
-		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
+		$event = new GenericEvent(null, ['share' => $share]);
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts', $event);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
