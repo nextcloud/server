@@ -28,7 +28,10 @@
  *
  */
 
+use OCP\AppFramework\Http\TemplateResponse;
+
 OC_Util::checkLoggedIn();
+\OC::$server->getEventDispatcher()->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN);
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
