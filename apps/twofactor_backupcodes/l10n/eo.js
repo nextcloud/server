@@ -14,6 +14,7 @@ OC.L10N.register(
     "Generate backup codes" : "Generi rezervkodojn",
     "You created two-factor backup codes for your account" : "Vi kreis dufazajn rezervkodojn por via konto",
     "Second-factor backup codes" : "Dufazaj rezervkodoj",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Vi ŝaltis dufazan aŭtentigon, sed vi ankoraŭ ne generis rezervkodojn. Ĉi tiuj lastaj nepras por restaŭri aliron al via konto okaze de perdo de via dua fazo.",
     "Backup code" : "Rezervkodo",
     "Use backup code" : "Uzi rezervkodon",
     "Two factor backup codes" : "Dufazaj rezervkodoj",
@@ -31,6 +32,6 @@ OC.L10N.register(
     "destroyed" : "detruita",
     "beforeMount" : "beforeMount",
     "Nextcloud backup codes" : "Rezervkodoj por Nextcloud",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Vi ŝaltis dufazan aŭtentigon, sed vi ankoraŭ ne generis rezervkodojn. Nepre faru tion tuj por eviti, ke vi ne povos ensaluti okaze de perdo de via duan fazo."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Vi ŝaltis dufazan aŭtentigon, sed vi ankoraŭ ne generis rezervkodojn. Nepre faru tion tuj por eviti, ke vi ne povos ensaluti okaze de perdo de via dua fazo."
 },
 "nplurals=2; plural=(n != 1);");
