@@ -378,6 +378,7 @@ OC.L10N.register(
     "Use backup code" : "Uzi rezervkodon",
     "Cancel log in" : "Nuligi ensaluton",
     "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Plibonigita sekurigo estas devigata por via konto. Elektu provizanton agordotan:",
     "Error while validating your second factor" : "Eraro dum validigo de via dua fazo",
     "Access through untrusted domain" : "Aliro tra nefidinda domajno",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Bv. kontakti vian administranton. Se vi estas administranto, modifu la agordon „trusted_domains“ (fidindaj domajnoj en la angla) en la dosiero config/config.php (estas ekzemplo en config.sample.php).",
