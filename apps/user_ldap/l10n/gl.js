@@ -12,7 +12,7 @@ OC.L10N.register(
     "No data specified" : "Non se especificaron datos",
     " Could not set configuration %s" : "Non foi posíbel estabelecer a configuración %s",
     "Action does not exist" : "Non existe esta acción",
-    "Renewing …" : "Renovando …",
+    "Renewing …" : "Renovando…",
     "Very weak password" : "Contrasinal moi feble",
     "Weak password" : "Contrasinal feble",
     "So-so password" : "Contrasinal non moi aló",
