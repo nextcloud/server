@@ -117,7 +117,7 @@ class SCSSCacher {
 		$this->serverRoot   = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
 		$this->depsCache    = $cacheFactory->createDistributed('SCSS-deps-' . md5($this->urlGenerator->getBaseUrl()));
-		$this->isCachedCache = $cacheFactory->createLocal('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->isCachedCache = $cacheFactory->createDistributed('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
 		$lockingCache = $cacheFactory->createDistributed('SCSS-locks-' . md5($this->urlGenerator->getBaseUrl()));
 		if (!($lockingCache instanceof IMemcache)) {
 			$lockingCache = new NullCache();
@@ -269,8 +269,8 @@ class SCSSCacher {
 	private function variablesChanged(): bool {
 		$injectedVariables = $this->getInjectedVariables();
 		if ($this->config->getAppValue('core', 'theming.variables') !== md5($injectedVariables)) {
-			$this->resetCache();
 			$this->config->setAppValue('core', 'theming.variables', md5($injectedVariables));
+			$this->resetCache();
 			return true;
 		}
 		return false;
@@ -364,6 +364,9 @@ class SCSSCacher {
 	 * We need to regenerate all files when variables change
 	 */
 	public function resetCache() {
+		if (!$this->lockingCache->add('resetCache', 'locked!', 120)) {
+			return;
+		}
 		$this->injectedVariables = null;
 
 		// do not clear locks
@@ -381,6 +384,7 @@ class SCSSCacher {
 			}
 		}
 		$this->logger->debug('SCSSCacher: css cache cleared!');
+		$this->lockingCache->remove('resetCache');
 	}
 
 	/**
