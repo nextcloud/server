@@ -118,6 +118,7 @@
     "Name" : "Nom",
     "Storage type" : "Type de stockage",
     "Scope" : "Portée",
+    "Open documentation" : "Voir la documentation",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Le stockage externe vous permet de monter des périphériques et services externes en tant que périphériques de stockage secondaires sous Nextcloud. Vous pouvez aussi autoriser les utilisateurs à monter leurs propres services de stockage externes.",
     "Folder name" : "Nom du dossier",
     "External storage" : "Stockage externe",
