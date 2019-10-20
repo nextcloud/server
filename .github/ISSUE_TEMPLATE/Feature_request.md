@@ -13,7 +13,7 @@ This is the bug tracker for the Server component. Find other components at https
 
 For reporting potential security issues please see https://nextcloud.com/security/
 
-To make it possible for us to deal with the bug please fill out below information carefully. 
+To make it possible for us to best accommodate your use case, please fill out the information below carefully. 
 You can also use the Issue Template application to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
 
 If you are a customer and are using Nextcloud Enterprise, please submit your issue directly in the Nextcloud Portal https://portal.nextcloud.com so it gets resolved more quickly by our dedicated engineers.
