@@ -107,7 +107,7 @@ OC.L10N.register(
     "Select timezone…" : "Seleccionar o fuso horario…",
     "Workflow" : "Fluxo de traballo",
     "Files workflow engine" : "Motor de fluxo de traballo de ficheiros",
-    "Open documentation" : "Documentación aberta",
+    "Open documentation" : "Abrir a documentación",
     "Loading…" : "Cargando…",
     "Tag management" : "Xestión de etiquetas"
 },
