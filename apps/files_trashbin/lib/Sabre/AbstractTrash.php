@@ -55,7 +55,9 @@ abstract class AbstractTrash implements ITrash {
 		return $this->data;
 	}
 
-	public function getSize(): int {
+	// Removal of return type is intentional as int is not large enough on 32 bit systems
+	// see https://github.com/nextcloud/server/issues/13160
+	public function getSize() {
 		return $this->data->getSize();
 	}
 
