@@ -21,4 +21,4 @@
  *
  */
 n.default.prototype.t=t,r.Tooltip.options.defaultHtml=!1,n.default.component("PopoverMenu",r.PopoverMenu),n.default.directive("ClickOutside",s.a),n.default.directive("Tooltip",r.Tooltip),n.default.use(l.a)}}]);
-//# sourceMappingURL=files_sharing.4.js.map?v=ccb2fff7e4b0c055d6c9
+//# sourceMappingURL=files_sharing.4.js.map?v=77e881f8716db92787aa
