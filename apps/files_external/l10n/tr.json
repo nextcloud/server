@@ -119,6 +119,7 @@
     "Name" : "Ad",
     "Storage type" : "Depolama türü",
     "Scope" : "Kapsam",
+    "Open documentation" : "Belgeleri aç",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Dış depolama özelliği, dış depolama hizmet ve aygıtlarını ikincil Nextcloud depolama aygıtları olarak ekleyebilmenizi sağlar. Ayrıca kullanıcıların kendi dış depolama aygıtlarını ekleyebilmesine izin verebilirsiniz.",
     "Folder name" : "Klasör adı",
     "External storage" : "Dış depolama",
