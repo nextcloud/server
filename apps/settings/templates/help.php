@@ -1,15 +1,18 @@
+<?php
+\OC_Util::addStyle( 'settings', "settings" );
+?>
 <div id="app-navigation">
 	<ul>
-	<?php if($_['admin']) { ?>
 		<li>
-			<a class="icon-user <?php p($_['style1']); ?>"
-				href="<?php print_unescaped($_['url1']); ?> class= "">
+			<a class="icon-user <?php if ($_['mode'] === 'user') { p('active'); } ?>"
+				href="<?php print_unescaped($_['urlUserDocs']); ?>">
 				<?php p($l->t('User documentation')); ?>
 			</a>
 		</li>
+	<?php if($_['admin']) { ?>
 		<li>
-			<a class="icon-user-admin <?php p($_['style2']); ?>"
-				href="<?php print_unescaped($_['url2']); ?>">
+			<a class="icon-user-admin <?php if ($_['mode'] === 'admin') { p('active'); } ?>"
+				href="<?php print_unescaped($_['urlAdminDocs']); ?>">
 				<?php p($l->t('Administrator documentation')); ?>
 			</a>
 		</li>

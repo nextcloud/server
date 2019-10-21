@@ -27,6 +27,7 @@ return array(
     'OCA\\Settings\\Controller\\ChangePasswordController' => $baseDir . '/../lib/Controller/ChangePasswordController.php',
     'OCA\\Settings\\Controller\\CheckSetupController' => $baseDir . '/../lib/Controller/CheckSetupController.php',
     'OCA\\Settings\\Controller\\CommonSettingsTrait' => $baseDir . '/../lib/Controller/CommonSettingsTrait.php',
+    'OCA\\Settings\\Controller\\HelpController' => $baseDir . '/../lib/Controller/HelpController.php',
     'OCA\\Settings\\Controller\\LogSettingsController' => $baseDir . '/../lib/Controller/LogSettingsController.php',
     'OCA\\Settings\\Controller\\MailSettingsController' => $baseDir . '/../lib/Controller/MailSettingsController.php',
     'OCA\\Settings\\Controller\\PersonalSettingsController' => $baseDir . '/../lib/Controller/PersonalSettingsController.php',
