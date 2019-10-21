@@ -120,6 +120,7 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Storage type" : "Tallennustilan tyyppi",
     "Scope" : "Näkyvyysalue",
+    "Open documentation" : "Avaa dokumentaatio",
     "Folder name" : "Kansion nimi",
     "External storage" : "Erillinen tallennustila",
     "Authentication" : "Tunnistautuminen",
