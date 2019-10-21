@@ -283,6 +283,10 @@ export default {
 					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled
 				) {
 					groups.unshift(disabledGroup)
+					if (disabledGroup.utils.counter === -1) {
+						// hides the counter instead of showing -1
+						delete disabledGroup.utils.counter
+					}
 				}
 			}
 
