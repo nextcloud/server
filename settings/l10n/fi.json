@@ -101,6 +101,7 @@
     "Change" : "Muuta",
     "Share" : "Jaa",
     "Unlimited" : "Rajoittamaton",
+    "Verifying" : "Vahvistetaan",
     "Nextcloud settings" : "Nextcloud-asetukset",
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Kaksivaiheinen tunnistautuminen voidaan pakottaa kaikille\tkäyttäjille ja tietyille ryhmille. Mikäli heillä ei ole kaksivaiheista tunnistautumistapaa määriteltynä, he eivät pysty kirjautumaan järjestelmään.",
     "Enforce two-factor authentication" : "Pakota kaksivaiheinen tunnistautuminen",
@@ -162,6 +163,10 @@
     "Web, desktop and mobile clients currently logged in to your account." : "Verkko-, työpöytä- ja mobiililaitteet, jotka ovat parhaillaan kirjautuneet tilillesi.",
     "Do you really want to wipe your data from this device?" : "Haluatko varmasit tyhjentää tiedot tältä laitteelta?",
     "Confirm wipe" : "Vahvista tyhjentäminen",
+    "Error while creating device token" : "Virhe laitepolettia luotaessa",
+    "Error while updating device token name" : "Virhe laitepoletin nimeä päivittäessä",
+    "Error while deleting the token" : "Virhe polettia poistaessa",
+    "Error while wiping the device with the token" : "Virhe tyhjennettäessä laitetta polettia käyttäen",
     "App name" : "Sovelluksen nimi",
     "Create new app password" : "Luo uusi sovellussalasana",
     "Use the credentials below to configure your app or device." : "Käytä oheista tunnusta ja salasanaa konfiguroidessasi sovelluksen tai laitteen.",
@@ -309,7 +314,7 @@
     "Administration" : "Ylläpito",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Kehityksestä on vastannut {communityopen}Nextcloud-yhteisö{linkclose}, {githubopen}lähdekoodi{linkclose} on {licenseopen}AGPL-lisensoitu{linkclose}.",
     "Like our Facebook page" : "Tykkää Facebook-sivustamme",
-    "Follow us on Twitter" : "Seuraa Twitteriä",
+    "Follow us on Twitter" : "Seuraa meitä Twitterissä",
     "Follow us on Mastodon" : "Seuraa meitä Mastodonissa",
     "Check out our blog" : "Lue blogia",
     "Subscribe to our newsletter" : "Tilaa uutiskirje",
@@ -348,7 +353,9 @@
     "Not supported!" : "Ei tuettu!",
     "Press ⌘-C to copy." : "Paina ⌘-C kopioidaksesi.",
     "Press Ctrl-C to copy." : "Paina Ctrl-C kopioidaksesi.",
+    "Error while loading browser sessions and device tokens" : "Virhe ladatessa selainistuntoja ja laitepoletteja",
     "Store credentials" : "Säilytä tilitiedot",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein.",
+    "Follow us on Google+" : "Seuraa meitä Google+:ssa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

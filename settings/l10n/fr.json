@@ -312,6 +312,8 @@
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Afin d'optimiser au mieux la performance de votre instance, il est important de configurer correctement les travaux en arrière-plan. 'Cron' est le paramètre recommandé pour les instances de taille importante. Veuillez vous référer à la documentation Nextcloud pour plus d'informations à ce sujet.",
     "Pick background job setting" : "Définir les paramètres pour la tâche d'arrière-plan",
     "Execute one task with each page loaded" : "Exécute une tâche à chaque chargement de page",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.php est enregistré à un service webcron pour exécuter cron.php toutes les 5 minutes par HTTP.",
+    "Use system cron service to call the cron.php file every 5 minutes." : "Utiliser le service cron du système pour appeler le fichier cron.php toutes les 5 minutes.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Le cron.php doit être exécuté par l'utilisateur système \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pour l'exécuter, vous devez avoir l'extension PHP POSIX. Regarder la {linkstart}documentation PHP{linkend} pour plus de détails.",
     "Sharing" : "Partage",
