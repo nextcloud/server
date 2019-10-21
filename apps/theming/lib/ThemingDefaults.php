@@ -334,11 +334,12 @@ class ThemingDefaults extends \OC_Defaults {
 			$customFavicon = null;
 		}
 
+		$route = false;
 		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
-			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
 		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
-			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
 			try {
@@ -347,11 +348,16 @@ class ThemingDefaults extends \OC_Defaults {
 					return false;
 				}
 			} catch (AppPathNotFoundException $e) {}
-			return $this->urlGenerator->linkToRoute('theming.Theming.getManifest') . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest');
 		}
 		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image )) {
-			return $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
+
+		if ($route) {
+			return $route . '?v=' . $cacheBusterValue;
+		}
+
 		return false;
 	}
 
