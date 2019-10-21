@@ -494,6 +494,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $token
 	 * @param string $files
