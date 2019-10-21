@@ -22,7 +22,7 @@
 
 namespace OCP\Console;
 
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
 
 /**
  * Class ConsoleEvent

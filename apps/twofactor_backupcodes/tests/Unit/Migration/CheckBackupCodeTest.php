@@ -23,15 +23,9 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Migration;
 
-use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
-use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Migration\CheckBackupCodes;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
-use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
-use OCP\IUser;
 use OCP\Migration\IOutput;
-use Symfony\Component\EventDispatcher\Event;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {

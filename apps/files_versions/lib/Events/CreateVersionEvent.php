@@ -24,10 +24,8 @@
 
 namespace OCA\Files_Versions\Events;
 
-
 use OCP\Files\Node;
-use Symfony\Component\EventDispatcher\Event;
-
+use OCP\EventDispatcher\Event;
 
 /**
  * Class CreateVersionEvent
