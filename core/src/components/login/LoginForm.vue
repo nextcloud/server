@@ -123,6 +123,10 @@
 			<input type="hidden"
 				   name="requesttoken"
 				   :value="OC.requestToken">
+			<input v-if="directLogin"
+				   type="hidden"
+				   name="direct"
+				   value="1">
 		</fieldset>
 	</form>
 </template>
@@ -158,6 +162,10 @@
 			autoCompleteAllowed: {
 				type: Boolean,
 				default: true,
+			},
+			directLogin: {
+				type: Boolean,
+				default: false,
 			},
 		},
 		data () {
