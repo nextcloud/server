@@ -27,12 +27,12 @@ namespace OCA\Files\Service;
 use OC\Tags;
 use OCA\Files\Activity\FavoriteProvider;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\Folder;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Service class to manage tags on files.

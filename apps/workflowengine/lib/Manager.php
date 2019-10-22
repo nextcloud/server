@@ -39,6 +39,7 @@ use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -51,7 +52,6 @@ use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager implements IManager {
 

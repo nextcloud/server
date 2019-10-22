@@ -48,6 +48,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
@@ -59,7 +60,6 @@ use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CheckSetupController extends Controller {
 	/** @var IConfig */

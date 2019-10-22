@@ -46,6 +46,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\Defaults;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IContainer;
 use OCP\IGroup;
 use OCP\ILogger;
@@ -53,7 +54,6 @@ use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 

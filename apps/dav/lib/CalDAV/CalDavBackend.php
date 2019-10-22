@@ -38,6 +38,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCP\IDBConnection;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
@@ -64,7 +65,6 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\Uri;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class CalDavBackend

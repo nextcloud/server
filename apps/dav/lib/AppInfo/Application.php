@@ -42,11 +42,11 @@ use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
-use \OCP\AppFramework\App;
+use OCP\AppFramework\App;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 class Application extends App {
 

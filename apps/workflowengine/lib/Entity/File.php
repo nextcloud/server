@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Entity;
 
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -31,7 +32,6 @@ use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class File implements IEntity {
 

@@ -23,12 +23,12 @@ namespace OCA\WorkflowEngine\AppInfo;
 
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Template;
 use OCA\WorkflowEngine\Controller\RequestTime;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IOperation;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends \OCP\AppFramework\App {
 

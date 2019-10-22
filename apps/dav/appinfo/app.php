@@ -25,7 +25,7 @@
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 \OC_App::loadApps(['dav']);
 

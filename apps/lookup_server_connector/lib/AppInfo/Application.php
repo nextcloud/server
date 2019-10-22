@@ -24,7 +24,7 @@ namespace OCA\LookupServerConnector\AppInfo;
 use OCA\LookupServerConnector\UpdateLookupServer;
 use OCP\AppFramework\App;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 class Application extends App {
 	public function __construct () {

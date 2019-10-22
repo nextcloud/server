@@ -43,12 +43,12 @@ use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Console\ConsoleEvent;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IUserSession;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share;
 
 class Application extends App {
