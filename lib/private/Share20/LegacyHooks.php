@@ -25,10 +25,10 @@
 
 namespace OC\Share20;
 
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\File;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share;
 
 class LegacyHooks {

@@ -32,11 +32,11 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
 
@@ -121,6 +121,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @return DataResponse
+	 * @throws OCSForbiddenException
 	 */
 	public function deleteAppPassword() {
 		if (!$this->session->exists('app_password')) {
@@ -141,6 +142,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @throws OCSForbiddenException
 	 */
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {

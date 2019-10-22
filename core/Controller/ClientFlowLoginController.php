@@ -33,11 +33,13 @@ use OC\Authentication\Token\IToken;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -47,7 +49,6 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ClientFlowLoginController extends Controller {
 	/** @var IUserSession */
@@ -161,6 +162,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $clientIdentifier
 	 *
 	 * @return StandaloneTemplateResponse
+	 * @throws ClientNotFoundException
 	 */
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
@@ -230,6 +232,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
 	 * @return StandaloneTemplateResponse
+	 * @throws ClientNotFoundException
 	 */
 	public function grantPage($stateToken = '',
 								 $clientIdentifier = '') {
@@ -277,6 +280,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
 	 * @return Http\RedirectResponse|Response
+	 * @throws ClientNotFoundException
 	 */
 	public function generateAppPassword($stateToken,
 										$clientIdentifier = '') {

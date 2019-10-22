@@ -35,6 +35,7 @@ use OC\Accounts\AccountManager;
 use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IAvatarManager;
 use OCP\IImage;
 use OCP\IURLGenerator;
@@ -43,7 +44,6 @@ use OCP\IConfig;
 use OCP\UserInterface;
 use \OCP\IUserBackend;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class User implements IUser {
 	/** @var string */

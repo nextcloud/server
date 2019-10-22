@@ -57,10 +57,10 @@ use OC\Template\SCSSCacher;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair implements IOutput {
 
@@ -134,6 +134,7 @@ class Repair implements IOutput {
 	 * command line or after an upgrade.
 	 *
 	 * @return IRepairStep[]
+	 * @throws QueryException
 	 */
 	public static function getRepairSteps() {
 		return [

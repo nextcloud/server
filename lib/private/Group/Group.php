@@ -30,6 +30,8 @@
 
 namespace OC\Group;
 
+use OC\User\User;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OC\Hooks\PublicEmitter;
@@ -40,7 +42,6 @@ use OCP\IUser;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\IUserManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Group implements IGroup {
 	/** @var null|string  */
@@ -49,7 +50,7 @@ class Group implements IGroup {
 	/** @var string */
 	private $gid;
 
-	/** @var \OC\User\User[] */
+	/** @var User[] */
 	private $users = array();
 
 	/** @var bool */
@@ -119,7 +120,7 @@ class Group implements IGroup {
 	/**
 	 * get all users in the group
 	 *
-	 * @return \OC\User\User[]
+	 * @return User[]
 	 */
 	public function getUsers() {
 		if ($this->usersLoaded) {
@@ -179,7 +180,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preAddUser', array($this, $user));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
+			if ($backend->implementsActions(Backend::ADD_TO_GROUP)) {
 				$backend->addToGroup($user->getUID(), $this->gid);
 				if ($this->users) {
 					$this->users[$user->getUID()] = $user;
@@ -200,7 +201,7 @@ class Group implements IGroup {
 	/**
 	 * remove a user from the group
 	 *
-	 * @param \OC\User\User $user
+	 * @param User $user
 	 */
 	public function removeUser($user) {
 		$result = false;
@@ -211,7 +212,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', array($this, $user));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
+			if ($backend->implementsActions(Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
 				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
 			}
@@ -240,7 +241,7 @@ class Group implements IGroup {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return User[]
 	 */
 	public function searchUsers($search, $limit = null, $offset = null) {
 		$users = array();
@@ -263,7 +264,7 @@ class Group implements IGroup {
 	public function count($search = '') {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
+			if($backend->implementsActions(Backend::COUNT_USERS)) {
 				if($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
@@ -301,7 +302,7 @@ class Group implements IGroup {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return User[]
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = array();
@@ -332,7 +333,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
+			if ($backend->implementsActions(Backend::DELETE_GROUP)) {
 				$result = true;
 				$backend->deleteGroup($this->gid);
 			}
@@ -349,7 +350,7 @@ class Group implements IGroup {
 	/**
 	 * returns all the Users from an array that really exists
 	 * @param string[] $userIds an array containing user IDs
-	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
+	 * @return User[] an Array with the userId as Key and \OC\User\User as value
 	 */
 	private function getVerifiedUsers($userIds) {
 		if (!is_array($userIds)) {

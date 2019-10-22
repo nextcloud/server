@@ -29,8 +29,11 @@
  *
  */
 
+use OCP\EventDispatcher\GenericEvent;
+use OCP\IEventSource;
+use OCP\IL10N;
 use OCP\ILogger;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Util;
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
@@ -53,12 +56,12 @@ class FeedBackHandler {
 	private $progressStateStep = 0;
 	/** @var string */
 	private $currentStep;
-	/** @var \OCP\IEventSource */
+	/** @var IEventSource */
 	private $eventSource;
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
-	public function __construct(\OCP\IEventSource $eventSource, \OCP\IL10N $l10n) {
+	public function __construct(IEventSource $eventSource, IL10N $l10n) {
 		$this->eventSource = $eventSource;
 		$this->l10n = $l10n;
 	}
@@ -102,7 +105,7 @@ class FeedBackHandler {
 	}
 }
 
-if (\OCP\Util::needUpgrade()) {
+if (Util::needUpgrade()) {
 
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {

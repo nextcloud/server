@@ -23,7 +23,7 @@
 
 namespace OCP\WorkflowEngine;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 /**
  * Interface IOperation

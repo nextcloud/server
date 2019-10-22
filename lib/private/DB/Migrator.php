@@ -37,10 +37,10 @@ use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Migrator {
 

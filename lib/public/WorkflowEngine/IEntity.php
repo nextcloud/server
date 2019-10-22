@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 /**
  * Interface IEntity

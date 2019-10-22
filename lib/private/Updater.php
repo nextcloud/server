@@ -38,10 +38,10 @@ use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class that handles autoupdating of ownCloud

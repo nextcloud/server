@@ -23,11 +23,12 @@ declare(strict_types=1);
 namespace OC\Collaboration\Resources;
 
 
+use OC;
 use OCP\Collaboration\Resources\IManager;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IGroup;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
 
@@ -36,7 +37,7 @@ class Listener {
 			/** @var IUser $user */
 			$user = $event->getArgument('user');
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = OC::$server->query(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		};
@@ -47,7 +48,7 @@ class Listener {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = OC::$server->query(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		});
@@ -56,7 +57,7 @@ class Listener {
 			/** @var IGroup $group */
 			$group = $event->getSubject();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = OC::$server->query(IManager::class);
 
 			foreach ($group->getUsers() as $user) {
 				$resourceManager->invalidateAccessCacheForUser($user);

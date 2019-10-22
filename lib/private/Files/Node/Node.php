@@ -29,11 +29,11 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
 class Node implements \OCP\Files\Node {

@@ -38,11 +38,10 @@ use OC\Core\Notification\RemoveLinkSharesNotifier;
 use OC\DB\MissingIndexInformation;
 use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
-use OCP\IServerContainer;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Application

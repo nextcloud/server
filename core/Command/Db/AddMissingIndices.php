@@ -24,12 +24,12 @@ declare(strict_types=1);
 namespace OC\Core\Command\Db;
 
 use OC\DB\SchemaWrapper;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AddMissingIndices

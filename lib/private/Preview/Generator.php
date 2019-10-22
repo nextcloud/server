@@ -25,7 +25,7 @@
 
 namespace OC\Preview;
 
-use OC\Preview\GeneratorHelper;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -35,11 +35,9 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
-use OCP\Preview\IProvider;
 use OCP\Preview\IVersionedPreviewFile;
 use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
 

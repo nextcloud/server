@@ -29,10 +29,10 @@ namespace OC\Accounts;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 
 /**

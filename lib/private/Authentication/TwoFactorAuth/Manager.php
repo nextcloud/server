@@ -27,17 +27,16 @@ declare(strict_types = 1);
 
 namespace OC\Authentication\TwoFactorAuth;
 
+use OCP\EventDispatcher\GenericEvent;
 use function array_diff;
 use function array_filter;
 use BadMethodCallException;
 use Exception;
-use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
-use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
@@ -45,7 +44,6 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager {
 
