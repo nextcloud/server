@@ -23,6 +23,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "아래 단추를 눌러서 암호를 재설정할 수 있습니다. 암호 초기화를 요청하지 않으셨다면 이 이메일을 무시하십시오.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "아래 링크를 눌러서 암호를 재설정할 수 있습니다. 암호 초기화를 요청하지 않으셨다면 이 이메일을 무시하십시오.",
     "Reset your password" : "내 암호 재설정",
+    "Nextcloud Server" : "Nextcloud 서버",
     "Some of your link shares have been removed" : "일부 링크 공유가 삭제됨",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "보안 버그로 인하여 일부 링크 공유를 삭제했습니다. 링크를 눌러서 더 많은 정보를 볼 수 있습니다.",
     "Preparing update" : "업데이트 준비 중",

@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Storage type" : "Tipo de almacenamiento",
     "Scope" : "Ámbito",
+    "Open documentation" : "Abrir la documentación",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "El almacenamiento externo te permite montar servicios y dispositivos de almacenamiento externo como dispositivos de almacenamiento secundarios de Nextcloud. También puedes permitir que los usuarios monten sus propios servicios de almacenamiento externos.",
     "Folder name" : "Nombre de la carpeta",
     "External storage" : "Almacenamiento externo",
