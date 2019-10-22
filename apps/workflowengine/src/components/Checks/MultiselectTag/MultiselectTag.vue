@@ -55,19 +55,14 @@ export default {
 			type: String,
 			required: true
 		},
-		value: {
-			type: Array,
-			default() {
-				return []
-			}
-		},
+		value: {},
 		disabled: {
 			type: Boolean,
 			default: false
 		},
 		multiple: {
 			type: Boolean,
-			default: true
+			default: false
 		}
 	},
 	data() {
