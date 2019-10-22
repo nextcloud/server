@@ -21,10 +21,11 @@
 */
 
 namespace Test\User;
+
 use OC\HintException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use OC\User\User;
+use OCP\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class DatabaseTest

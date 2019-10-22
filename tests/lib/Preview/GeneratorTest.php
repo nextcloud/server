@@ -24,6 +24,7 @@ namespace Test\Preview;
 
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -32,10 +33,8 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
-use OCP\Preview\IProvider;
 use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GeneratorTest extends \Test\TestCase {
 

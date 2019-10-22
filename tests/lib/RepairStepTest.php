@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -45,15 +46,15 @@ class RepairTest extends TestCase {
 		$this->repair = new \OC\Repair([], $dispatcher);
 
 		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
+			/** @var GenericEvent $event */
 			$this->outputArray[] = 'warning: ' . $event->getArgument(0);
 		});
 		$dispatcher->addListener('\OC\Repair::info', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
+			/** @var GenericEvent $event */
 			$this->outputArray[] = 'info: ' . $event->getArgument(0);
 		});
 		$dispatcher->addListener('\OC\Repair::step', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
+			/** @var GenericEvent $event */
 			$this->outputArray[] = 'step: ' . $event->getArgument(0);
 		});
 	}

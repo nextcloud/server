@@ -41,8 +41,8 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OC\Share20\Manager;
 use OC\Share20\Exception;
-
 use OC\Share20\Share;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IConfig;
@@ -52,7 +52,6 @@ use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ManagerTest

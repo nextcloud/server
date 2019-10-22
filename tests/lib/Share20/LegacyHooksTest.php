@@ -25,9 +25,9 @@ namespace Test\Share20;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\File;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 class LegacyHooksTest extends TestCase {

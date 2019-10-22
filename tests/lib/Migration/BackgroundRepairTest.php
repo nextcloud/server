@@ -23,11 +23,11 @@ namespace Test\Migration;
 
 use OC\Migration\BackgroundRepair;
 use OC\NeedsUpdateException;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 class TestRepairStep implements IRepairStep {
