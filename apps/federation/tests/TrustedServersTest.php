@@ -33,6 +33,7 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -221,8 +222,8 @@ class TrustedServersTest extends TestCase {
 			->willReturnCallback(
 				function($eventId, $event) {
 					$this->assertSame($eventId, 'OCP\Federation\TrustedServerEvent::remove');
-					$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
-					/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
+					$this->assertInstanceOf(GenericEvent::class, $event);
+					/** @var GenericEvent $event */
 					$this->assertSame('url_hash', $event->getSubject());
 				}
 			);

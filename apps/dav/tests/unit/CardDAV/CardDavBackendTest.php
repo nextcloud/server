@@ -38,8 +38,8 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -50,7 +50,6 @@ use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 /**
