@@ -74,10 +74,10 @@
     "@babel/core": "^7.6.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
+    "@nextcloud/browserslist-config": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
-    "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^3.2.0",
     "eslint": "^5.16.0",
     "eslint-config-nextcloud": "0.0.6",
@@ -103,6 +103,6 @@
     "webpack-merge": "^4.2.2"
   },
   "browserslist": [
-    "extends browserslist-config-nextcloud"
+    "extends @nextcloud/browserslist-config"
   ]
 }
