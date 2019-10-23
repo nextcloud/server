@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "Názov",
     "Storage type" : "Typ úložiska",
     "Scope" : "Rozsah",
+    "Open documentation" : "Otvoriť dokumentáciu",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externé úložisko umožňuje pripojiť služby externých úložísk a zariadení ako sekundárne zariadenia na ukladanie pre Nextcloud. Môžete tiež umožniť používateľom pripájať ich vlastné služby externých úložísk.",
     "Folder name" : "Názov priečinka",
     "External storage" : "Externé úložisko",

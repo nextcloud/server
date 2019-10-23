@@ -378,6 +378,7 @@ OC.L10N.register(
     "Use backup code" : "Použiť záložný kód",
     "Cancel log in" : "Zrušiť prihlásenie",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
+    "Enhanced security is enforced for your account. Choose which provider to set up:" : "Pre váš účet je vynútená zvýšená bezpečnosť. Vyberte si poskytovateľa, ktorého chcete nastaviť:",
     "Error while validating your second factor" : "Chyba počas overovania druhého faktora",
     "Access through untrusted domain" : "Prístup cez nedôveryhodnú doménu",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Kontaktujte svojho správcu. Ak ste administrátorom vy, upravte nastavenie \"trusted_domains\" v config/config.php ako napríklad v config.sample.php.",
