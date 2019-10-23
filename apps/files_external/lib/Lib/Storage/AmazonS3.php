@@ -685,7 +685,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source);
 			$this->invalidateCache($path);
-			fclose($source);
 
 			unlink($tmpFile);
 			return true;
