@@ -55,7 +55,10 @@ export default {
 			type: String,
 			required: true
 		},
-		value: {},
+		value: {
+			type: [String, Array],
+			default: null
+		},
 		disabled: {
 			type: Boolean,
 			default: false

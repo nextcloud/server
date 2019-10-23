@@ -237,6 +237,7 @@ export default {
 		margin: 0;
 		width: 180px;
 		border-radius: var(--border-radius);
+		color: var(--color-text-maxcontrast);
 		font-weight: normal;
 		text-align: left;
 		font-size: 1em;

@@ -1,6 +1,5 @@
 <template>
 	<div class="timeslot">
-		<Multiselect v-model="newValue.timezone" :options="timezones" @input="update" />
 		<input v-model="newValue.startTime"
 			type="text"
 			class="timeslot--start"
@@ -13,6 +12,10 @@
 		<p v-if="!valid" class="invalid-hint">
 			{{ t('workflowengine', 'Please enter a valid time span') }}
 		</p>
+		<Multiselect v-show="valid"
+			v-model="newValue.timezone"
+			:options="timezones"
+			@input="update" />
 	</div>
 </template>
 
@@ -90,6 +93,10 @@ export default {
 		.multiselect {
 			width: 100%;
 			margin-bottom: 5px;
+		}
+
+		.multiselect::v-deep .multiselect__tags:not(:hover):not(:focus):not(:active) {
+			border: 1px solid transparent;
 		}
 
 		input[type=text] {

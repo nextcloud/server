@@ -35,7 +35,7 @@
 			class="option"
 			@input="updateCheck">
 		<Actions v-if="deleteVisible || !currentOption">
-			<ActionButton icon="icon-delete" @click="$emit('remove')" />
+			<ActionButton icon="icon-close" @click="$emit('remove')" />
 		</Actions>
 	</div>
 </template>
@@ -139,7 +139,7 @@ export default {
 		flex-wrap: wrap;
 		width: 100%;
 		padding-right: 20px;
-		& > *:not(.icon-delete) {
+		& > *:not(.close) {
 			width: 180px;
 		}
 		& > .comparator {
@@ -170,13 +170,11 @@ export default {
 	::placeholder {
 		font-size: 10px;
 	}
-	.icon-delete {
+	button.action-item.action-item--single.icon-close {
+		height: 44px;
+		width: 44px;
 		margin-top: -5px;
 		margin-bottom: -5px;
-	}
-	button.action-item.action-item--single.icon-delete {
-		height: 34px;
-		width: 34px;
 	}
 	.invalid {
 		border: 1px solid var(--color-error) !important;

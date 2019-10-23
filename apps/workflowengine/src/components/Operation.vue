@@ -55,6 +55,7 @@ export default {
 	.actions__item_options {
 		width: 100%;
 		margin-top: 10px;
+		padding-left: 60px;
 	}
 	h3, small {
 		padding: 6px;

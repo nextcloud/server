@@ -27,8 +27,6 @@
 			:placeholder="t('workflowengine', 'Select a user agent')"
 			label="label"
 			track-by="pattern"
-			group-values="children"
-			group-label="label"
 			:options="options"
 			:multiple="false"
 			:tagging="false"
@@ -70,15 +68,10 @@ export default {
 		return {
 			newValue: '',
 			predefinedTypes: [
-				{
-					label: t('workflowengine', 'Sync clients'),
-					children: [
-						{ pattern: 'android', label: t('workflowengine', 'Android client'), icon: 'icon-phone' },
-						{ pattern: 'ios', label: t('workflowengine', 'iOS client'), icon: 'icon-phone' },
-						{ pattern: 'desktop', label: t('workflowengine', 'Desktop client'), icon: 'icon-desktop' },
-						{ pattern: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' }
-					]
-				}
+				{ pattern: 'android', label: t('workflowengine', 'Android client'), icon: 'icon-phone' },
+				{ pattern: 'ios', label: t('workflowengine', 'iOS client'), icon: 'icon-phone' },
+				{ pattern: 'desktop', label: t('workflowengine', 'Desktop client'), icon: 'icon-desktop' },
+				{ pattern: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' }
 			]
 		}
 	},
@@ -88,8 +81,6 @@ export default {
 		},
 		matchingPredefined() {
 			return this.predefinedTypes
-				.map(groups => groups.children)
-				.flat()
 				.find((type) => this.newValue === type.pattern)
 		},
 		isPredefined() {
@@ -97,14 +88,9 @@ export default {
 		},
 		customValue() {
 			return {
-				label: t('workflowengine', 'Others'),
-				children: [
-					{
-						icon: 'icon-settings-dark',
-						label: t('workflowengine', 'Custom user agent'),
-						pattern: ''
-					}
-				]
+				icon: 'icon-settings-dark',
+				label: t('workflowengine', 'Custom user agent'),
+				pattern: ''
 			}
 		},
 		currentValue() {
@@ -120,8 +106,8 @@ export default {
 	},
 	methods: {
 		validateRegex(string) {
-			var regexRegex = /^\/(.*)\/([gui]{0,3})$/
-			var result = regexRegex.exec(string)
+			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
+			const result = regexRegex.exec(string)
 			return result !== null
 		},
 		setValue(value) {
@@ -142,9 +128,26 @@ export default {
 	.multiselect, input[type='text'] {
 		width: 100%;
 	}
-	.multiselect .multiselect__content-wrapper li>span,
-	.multiselect__single {
+
+	.multiselect .multiselect__content-wrapper li>span {
 		display: flex;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.multiselect::v-deep .multiselect__single {
+		width: 100%;
+		display: flex;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.option__icon {
+		display: inline-block;
+		min-width: 30px;
+		background-position: left;
+	}
+	.option__title {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
