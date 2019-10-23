@@ -26,6 +26,7 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		@close="onClose"
+		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
 		@[defaultActionListener].stop.prevent="onDefaultAction">
 		<!-- TODO: create a standard to allow multiple elements here? -->
@@ -50,6 +51,7 @@
 				:key="tab.id"
 				:component="tabComponent(tab).component"
 				:name="tab.name"
+				:dav-path="davPath"
 				:file-info="fileInfo" />
 		</template>
 	</AppSidebar>
@@ -121,13 +123,8 @@ export default {
 		 * @param {string} id the tab id to set as active
 		 * @returns {string} the current active tab
 		 */
-		activeTab: {
-			get: function() {
-				return this.Sidebar.activeTab
-			},
-			set: function(id) {
-				OCA.Files.Sidebar.activeTab = id
-			}
+		activeTab() {
+			return this.Sidebar.activeTab
 		},
 
 		/**
@@ -292,6 +289,15 @@ export default {
 			return {
 				is: tab.component
 			}
+		},
+
+		/**
+		 * Set current active tab
+		 *
+		 * @param {string} id tab unique id
+		 */
+		setActiveTab(id) {
+			OCA.Files.Sidebar.activeTab = id
 		},
 
 		/**

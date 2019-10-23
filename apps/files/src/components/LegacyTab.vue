@@ -40,7 +40,6 @@ export default {
 		},
 		name: {
 			type: String,
-			default: '',
 			required: true
 		},
 		fileInfo: {
@@ -74,9 +73,15 @@ export default {
 			}
 		}
 	},
+	beforeMount() {
+		this.setFileInfo(this.fileInfo)
+	},
 	mounted() {
 		// append the backbone element and set the FileInfo
 		this.component.$el.appendTo(this.$el)
+	},
+	beforeDestroy() {
+		this.component.remove()
 	},
 	methods: {
 		setFileInfo(fileInfo) {
