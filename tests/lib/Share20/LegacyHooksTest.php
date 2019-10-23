@@ -22,12 +22,14 @@
  */
 namespace Test\Share20;
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\File;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use OC\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyEventDispatcher;
 use Test\TestCase;
 
 class LegacyHooksTest extends TestCase {
@@ -44,7 +46,9 @@ class LegacyHooksTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->eventDispatcher = new EventDispatcher();
+		$logger = \OC::$server->getLogger();
+		$symfonyDispatcher = new SymfonyEventDispatcher();
+		$this->eventDispatcher = new SymfonyAdapter(new EventDispatcher($symfonyDispatcher, \OC::$server, $logger), $logger);
 		$this->hooks = new LegacyHooks($this->eventDispatcher);
 		$this->manager = \OC::$server->getShareManager();
 	}
