@@ -368,6 +368,7 @@
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Bylo zapnuto vylepšené zabezpečení pro tento účet. Zvolte druhý faktor pro ověřování:",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Nedaří se načíst ani jednu ze zapnutých metod dvouúrovňového ověřování. Obraťte se na svého správce.",
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "Je vynucováno dvoufázové ověřování ale to pro váš účet není nastaveno. Obraťte o pomoc na svého správce.",
+    "Two-factor authentication is enforced but has not been configured on your account. Please continue to setup two-factor authentication." : "Je vynucováno dvoufázové ověřování ale to pro váš účet není nastaveno. Pokračujte nastavením dvoufázového ověřování.",
     "Set up two-factor authentication" : "Nastavit dvoufázové ověřování",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Je vynucováno dvoufázové ověřování ale to pro váš účet není nastaveno. Přihlaste se použitím nějakého ze svých záložních kódů nebo se obraťte o pomoc na svého správce.",
     "Use backup code" : "Použít záložní kód",

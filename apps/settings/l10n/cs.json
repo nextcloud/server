@@ -180,6 +180,7 @@
     "Error while updating device token scope" : "Chyba při aktualizaci rozsahu tokenu zařízení",
     "Error while updating device token name" : "Chyba při aktualizaci názvu tokenu zařízení",
     "Error while deleting the token" : "Chyba při mazání tokenu",
+    "Error while wiping the device with the token" : "Chyba při vymazávání zařízení s tokenem",
     "App name" : "Název aplikace",
     "Create new app password" : "Vytvořit nové heslo aplikace",
     "Use the credentials below to configure your app or device." : "Pro nastavení aplikace nebo zařízení použijte níže uvedené údaje.",
