@@ -123,7 +123,7 @@
 			:open.sync="open"
 			@close="onPasswordSubmit">
 			<template v-if="share">
-				<template v-if="isShareOwner">
+				<template v-if="share.canEdit">
 					<!-- folder -->
 					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
 						<ActionRadio :checked="share.permissions === publicUploadRValue"
@@ -256,7 +256,10 @@
 					{{ name }}
 				</ActionLink>
 
-				<ActionButton icon="icon-delete" :disabled="saving" @click.prevent="onDelete">
+				<ActionButton v-if="share.canDelete"
+					icon="icon-delete"
+					:disabled="saving"
+					@click.prevent="onDelete">
 					{{ t('files_sharing', 'Delete share') }}
 				</ActionButton>
 				<ActionButton v-if="!isEmailShareType && canReshare"

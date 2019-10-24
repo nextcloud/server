@@ -420,6 +420,31 @@ export default class Share {
 		return !!((this.permissions & OC.PERMISSION_SHARE))
 	}
 
+	// PERMISSIONS Shortcuts for the CURRENT USER
+	// ! the permissions above are the share settings,
+	// ! meaning the permissions for the recipient
+	/**
+	 * Can the current user EDIT this share ?
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get canEdit() {
+		return this.#share.can_edit === true
+	}
+
+	/**
+	 * Can the current user DELETE this share ?
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get canDelete() {
+		return this.#share.can_delete === true
+	}
+
 	// TODO: SORT THOSE PROPERTIES
 	get label() {
 		return this.#share.label

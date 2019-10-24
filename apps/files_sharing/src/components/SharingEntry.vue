@@ -30,75 +30,80 @@
 			<h5>{{ title }}</h5>
 		</div>
 		<Actions menu-align="right" class="sharing-entry__actions">
-			<!-- edit permission -->
-			<ActionCheckbox
-				ref="canEdit"
-				:checked.sync="canEdit"
-				:value="permissionsEdit"
-				:disabled="saving">
-				{{ t('files_sharing', 'Allow editing') }}
-			</ActionCheckbox>
-
-			<!-- reshare permission -->
-			<ActionCheckbox
-				ref="canReshare"
-				:checked.sync="canReshare"
-				:value="permissionsShare"
-				:disabled="saving">
-				{{ t('files_sharing', 'Can reshare') }}
-			</ActionCheckbox>
-
-			<!-- expiration date -->
-			<ActionCheckbox :checked.sync="hasExpirationDate"
-				:disabled="config.isDefaultExpireDateEnforced || saving"
-				@uncheck="onExpirationDisable">
-				{{ config.isDefaultExpireDateEnforced
-					? t('files_sharing', 'Expiration date enforced')
-					: t('files_sharing', 'Set expiration date') }}
-			</ActionCheckbox>
-			<ActionInput v-if="hasExpirationDate"
-				ref="expireDate"
-				v-tooltip.auto="{
-					content: errors.expireDate,
-					show: errors.expireDate,
-					trigger: 'manual'
-				}"
-				:class="{ error: errors.expireDate}"
-				:disabled="saving"
-				:first-day-of-week="firstDay"
-				:lang="lang"
-				:value="share.expireDate"
-				icon="icon-calendar-dark"
-				type="date"
-				:not-before="dateTomorrow"
-				:not-after="dateMaxEnforced"
-				@update:value="onExpirationChange">
-				{{ t('files_sharing', 'Enter a date') }}
-			</ActionInput>
-
-			<!-- note -->
-			<template v-if="canHaveNote">
+			<template v-if="share.canEdit">
+				<!-- edit permission -->
 				<ActionCheckbox
-					:checked.sync="hasNote"
-					:disabled="saving"
-					@uncheck="queueUpdate('note')">
-					{{ t('files_sharing', 'Note to recipient') }}
+					ref="canEdit"
+					:checked.sync="canEdit"
+					:value="permissionsEdit"
+					:disabled="saving">
+					{{ t('files_sharing', 'Allow editing') }}
 				</ActionCheckbox>
-				<ActionTextEditable v-if="hasNote"
-					ref="note"
+
+				<!-- reshare permission -->
+				<ActionCheckbox
+					ref="canReshare"
+					:checked.sync="canReshare"
+					:value="permissionsShare"
+					:disabled="saving">
+					{{ t('files_sharing', 'Can reshare') }}
+				</ActionCheckbox>
+
+				<!-- expiration date -->
+				<ActionCheckbox :checked.sync="hasExpirationDate"
+					:disabled="config.isDefaultExpireDateEnforced || saving"
+					@uncheck="onExpirationDisable">
+					{{ config.isDefaultExpireDateEnforced
+						? t('files_sharing', 'Expiration date enforced')
+						: t('files_sharing', 'Set expiration date') }}
+				</ActionCheckbox>
+				<ActionInput v-if="hasExpirationDate"
+					ref="expireDate"
 					v-tooltip.auto="{
-						content: errors.note,
-						show: errors.note,
+						content: errors.expireDate,
+						show: errors.expireDate,
 						trigger: 'manual'
 					}"
-					:class="{ error: errors.note}"
+					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:value.sync="share.note"
-					icon="icon-edit"
-					@update:value="debounceQueueUpdate('note')" />
+					:first-day-of-week="firstDay"
+					:lang="lang"
+					:value="share.expireDate"
+					icon="icon-calendar-dark"
+					type="date"
+					:not-before="dateTomorrow"
+					:not-after="dateMaxEnforced"
+					@update:value="onExpirationChange">
+					{{ t('files_sharing', 'Enter a date') }}
+				</ActionInput>
+
+				<!-- note -->
+				<template v-if="canHaveNote">
+					<ActionCheckbox
+						:checked.sync="hasNote"
+						:disabled="saving"
+						@uncheck="queueUpdate('note')">
+						{{ t('files_sharing', 'Note to recipient') }}
+					</ActionCheckbox>
+					<ActionTextEditable v-if="hasNote"
+						ref="note"
+						v-tooltip.auto="{
+							content: errors.note,
+							show: errors.note,
+							trigger: 'manual'
+						}"
+						:class="{ error: errors.note}"
+						:disabled="saving"
+						:value.sync="share.note"
+						icon="icon-edit"
+						@update:value="debounceQueueUpdate('note')" />
+				</template>
 			</template>
 
-			<ActionButton icon="icon-delete" :disabled="saving" @click.prevent="onDelete">
+			<ActionButton v-if="share.canDelete"
+				icon="icon-delete"
+				:disabled="saving"
+				@click.prevent="onDelete">
 				{{ t('files_sharing', 'Unshare') }}
 			</ActionButton>
 		</Actions>
