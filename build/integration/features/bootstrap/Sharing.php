@@ -25,6 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
@@ -54,7 +55,7 @@ trait Sharing {
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
@@ -70,7 +71,7 @@ trait Sharing {
 			$options['auth'] = [$user, $this->regularUser];
 		}
 
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)){
 				$dateModification = $fd['expireDate'];
@@ -104,7 +105,7 @@ trait Sharing {
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function creatingShare($body) {
 		$this->asCreatingAShareWith($this->currentUser, $body);
@@ -187,7 +188,7 @@ trait Sharing {
 
 	/**
 	 * @When /^Updating last share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
 		$share_id = (string) $this->lastShareData->data[0]->id;
@@ -204,7 +205,7 @@ trait Sharing {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)){
 				$dateModification = $fd['expireDate'];
@@ -457,10 +458,10 @@ trait Sharing {
 
 	/**
 	 * @Then /^Share fields of last share match with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function checkShareFields($body){
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 
 			foreach($fd as $field => $value) {
@@ -545,11 +546,11 @@ trait Sharing {
 
 	/**
 	 * @When /^getting sharees for$/
-	 * @param \Behat\Gherkin\Node\TableNode $body
+	 * @param TableNode $body
 	 */
 	public function whenGettingShareesFor($body) {
 		$url = '/apps/files_sharing/api/v1/sharees';
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$parameters = [];
 			foreach ($body->getRowsHash() as $key => $value) {
 				$parameters[] = $key . '=' . $value;
@@ -566,7 +567,7 @@ trait Sharing {
 	 * @Then /^"([^"]*)" sharees returned (are|is empty)$/
 	 * @param string $shareeType
 	 * @param string $isEmpty
-	 * @param \Behat\Gherkin\Node\TableNode|null $shareesList
+	 * @param TableNode|null $shareesList
 	 */
 	public function thenListOfSharees($shareeType, $isEmpty, $shareesList = null) {
 		if ($isEmpty !== 'is empty') {
