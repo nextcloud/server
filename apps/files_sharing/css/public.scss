@@ -1,5 +1,4 @@
 #preview {
-	background: var(--color-main-background);
 	text-align: center;
 }
 
@@ -24,6 +23,12 @@
 #imgframe img {
 	max-height: 100% !important;
 	max-width: 100% !important;
+}
+
+#imgframe audio {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #imgframe .text-preview {
@@ -93,8 +98,10 @@ thead {
 	margin: 0 auto;
 }
 
-#emptycontent.has-disclaimer {
-	margin-top: 10vh;
+#emptycontent {
+	&.has-note {
+		margin-top: 5vh;
+	}
 }
 
 #public-upload #emptycontent h2 {
@@ -144,8 +151,9 @@ thead {
 }
 
 #public-upload #emptycontent li img {
-	vertical-align: text-bottom;
 	margin-right: 5px;
+	position: relative;
+	top: 2px;
 }
 
 #public-upload li span.icon-loading-small {
@@ -153,8 +161,9 @@ thead {
 	margin-right: 7px;
 }
 
-.disclaimer {
-	margin: -20px auto 30px;
+.disclaimer,
+.note {
+	margin: 0 auto 30px;
 	max-width: 400px;
 	text-align: left;
 }
@@ -170,6 +179,7 @@ thead {
 	position: relative;
 	font-weight: 300;
 	font-size: 11px;
+	line-height: 11px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -184,8 +194,27 @@ thead {
 	}
 }
 
+#show-terms-dialog {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+// hide the download entry on the menu
+// on public share when NOT on mobile
+@media only screen and (min-width: $breakpoint-mobile + 1) {
+	#body-public {
+		.header-right {
+			#header-actions-menu {
+				> ul > li#download {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
 // hide the primary on public share on mobile
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 	#body-public {
 		.header-right {
 			#header-primary-action {

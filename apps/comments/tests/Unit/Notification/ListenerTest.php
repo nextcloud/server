@@ -91,6 +91,9 @@ class ListenerTest extends TestCase {
 				[ 'type' => 'user', 'id' => '23452-4333-54353-2342'],
 				[ 'type' => 'user', 'id' => 'yolo'],
 			]);
+		$comment->expects($this->atLeastOnce())
+			->method('getId')
+			->willReturn('1234');
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
@@ -186,6 +189,9 @@ class ListenerTest extends TestCase {
 		$comment->expects($this->once())
 			->method('getMentions')
 			->willReturn([[ 'type' => 'user', 'id' => 'foobar']]);
+		$comment->expects($this->atLeastOnce())
+			->method('getId')
+			->willReturn('1234');
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)

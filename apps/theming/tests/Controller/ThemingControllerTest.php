@@ -123,10 +123,13 @@ class ThemingControllerTest extends TestCase {
 	public function dataUpdateStylesheetSuccess() {
 		return [
 			['name', str_repeat('a', 250), 'Saved'],
-			['url', str_repeat('a', 500), 'Saved'],
+			['url', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['slogan', str_repeat('a', 500), 'Saved'],
 			['color', '#0082c9', 'Saved'],
 			['color', '#0082C9', 'Saved'],
+			['color', '#0082C9', 'Saved'],
+			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 
@@ -175,11 +178,17 @@ class ThemingControllerTest extends TestCase {
 	public function dataUpdateStylesheetError() {
 		return [
 			['name', str_repeat('a', 251), 'The given name is too long'],
-			['url', str_repeat('a', 501), 'The given web address is too long'],
+			['url', 'http://example.com/' . str_repeat('a', 501), 'The given web address is too long'],
+			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
+			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
 			['color', '0082C9', 'The given color is invalid'],
 			['color', '#0082Z9', 'The given color is invalid'],
 			['color', 'Nextcloud', 'The given color is invalid'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
+			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],
+			['privacyUrl', '#0082Z9', 'The given privacy policy address is not a valid URL'],
 		];
 	}
 
@@ -196,7 +205,7 @@ class ThemingControllerTest extends TestCase {
 			->method('set')
 			->with($setting, $value);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($str) {
 				return $str;
@@ -209,7 +218,8 @@ class ThemingControllerTest extends TestCase {
 						'message' => $message,
 					],
 				'status' => 'error',
-			]
+			],
+			Http::STATUS_BAD_REQUEST
 		);
 		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}

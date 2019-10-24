@@ -42,7 +42,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\AppFramework\Http\DataResponse;
 
 /**
  * Class AvatarController

@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Event;
 
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\Event;
 
 class CodesGenerated extends Event {
 
@@ -33,6 +33,7 @@ class CodesGenerated extends Event {
 	private $user;
 
 	public function __construct(IUser $user) {
+		parent::__construct();
 		$this->user = $user;
 	}
 

@@ -24,7 +24,7 @@ Feature: LDAP
     And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
-  Scenario: Test valid configuration with LDAP protoccol and port by logging in
+  Scenario: Test valid configuration with LDAP protocol and port by logging in
     Given modify LDAP configuration
       | ldapHost | ldap://openldap:389 |
     And cookies are reset
@@ -42,8 +42,9 @@ Feature: LDAP
 
   Scenario: Test group filter with one specific group
     Given modify LDAP configuration
-      | ldapGroupFilter | cn=RedGroup |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | cn=RedGroup |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
@@ -55,8 +56,9 @@ Feature: LDAP
 
   Scenario: Test group filter with two specific groups
     Given modify LDAP configuration
-      | ldapGroupFilter | (\|(cn=RedGroup)(cn=GreenGroup)) |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | (\|(cn=RedGroup)(cn=GreenGroup)) |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
@@ -68,8 +70,9 @@ Feature: LDAP
 
   Scenario: Test group filter ruling out a group from a different base
     Given modify LDAP configuration
-      | ldapGroupFilter | (objectClass=groupOfNames) |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | (objectClass=groupOfNames) |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
@@ -102,3 +105,67 @@ Feature: LDAP
       | ldapHost       | foo.bar  |
       | ldapPort       | 2456     |
     Then Expect ServerException on failed web login as "alice"
+
+  Scenario: Test LDAP group membership with intermediate groups not matching filter
+    Given modify LDAP configuration
+      | ldapBaseGroups                | ou=OtherGroups,dc=nextcloud,dc=ci |
+      | ldapGroupFilter               | (&(cn=Gardeners)(objectclass=groupOfNames)) |
+      | ldapNestedGroups              | 1 |
+      | useMemberOfToDetectMembership | 1 |
+      | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
+    And As an "admin"
+    # for population
+    And sending "GET" to "/cloud/groups"
+    And sending "GET" to "/cloud/groups/Gardeners/users"
+    Then the OCS status code should be "200"
+    And the "users" result should match
+      | alice  | 0 |
+      | clara  | 1 |
+      | elisa  | 1 |
+      | gustaf | 1 |
+      | jesper | 1 |
+
+  Scenario: Test LDAP group membership with intermediate groups not matching filter and without memberof
+    Given modify LDAP configuration
+      | ldapBaseGroups                | ou=OtherGroups,dc=nextcloud,dc=ci |
+      | ldapGroupFilter               | (&(cn=Gardeners)(objectclass=groupOfNames)) |
+      | ldapNestedGroups              | 1 |
+      | useMemberOfToDetectMembership | 0 |
+      | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
+    And As an "admin"
+    # for population
+    And sending "GET" to "/cloud/groups"
+    And sending "GET" to "/cloud/groups/Gardeners/users"
+    Then the OCS status code should be "200"
+    And the "users" result should match
+      | alice  | 0 |
+      | clara  | 1 |
+      | elisa  | 1 |
+      | gustaf | 1 |
+      | jesper | 1 |
+
+  Scenario: Test LDAP group membership with intermediate groups not matching filter, numeric group ids
+    Given modify LDAP configuration
+      | ldapBaseGroups                | ou=NumericGroups,dc=nextcloud,dc=ci |
+      | ldapGroupFilter               | (&(cn=2000)(objectclass=groupOfNames)) |
+      | ldapNestedGroups              | 1 |
+      | useMemberOfToDetectMembership | 1 |
+      | ldapUserFilter                | (&(objectclass=inetorgperson)(!(uid=alice))) |
+      | ldapExpertUsernameAttr        | uid |
+      | ldapGroupMemberAssocAttr      | member |
+    And As an "admin"
+    # for population
+    And sending "GET" to "/cloud/groups"
+    And sending "GET" to "/cloud/groups/2000/users"
+    Then the OCS status code should be "200"
+    And the "users" result should match
+      | alice  | 0 |
+      | clara  | 1 |
+      | elisa  | 1 |
+      | gustaf | 1 |
+      | jesper | 1 |
+

@@ -81,6 +81,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private $subMountsUsed = false;
 
 	/**
+	 * The size of the file/folder without any sub mount
+	 *
+	 * @var int
+	 */
+	private $rawSize = 0;
+
+	/**
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
@@ -95,6 +102,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->data = $data;
 		$this->mount = $mount;
 		$this->owner = $owner;
+		$this->rawSize = $this->data['size'] ?? 0;
 	}
 
 	public function offsetSet($offset, $value) {
@@ -175,7 +183,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getName() {
-		return basename($this->getPath());
+		return isset($this->data['name']) ? $this->data['name'] : basename($this->getPath());
 	}
 
 	/**
@@ -194,9 +202,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * @return int
 	 */
-	public function getSize() {
-		$this->updateEntryfromSubMounts();
-		return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
+	public function getSize($includeMounts = true) {
+		if ($includeMounts) {
+			$this->updateEntryfromSubMounts();
+			return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
+		} else {
+			return $this->rawSize;
+		}
 	}
 
 	/**
@@ -389,5 +401,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getChecksum() {
 		return $this->data['checksum'];
+	}
+
+	public function getExtension(): string {
+		return pathinfo($this->getName(), PATHINFO_EXTENSION);
 	}
 }

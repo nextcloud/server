@@ -35,12 +35,11 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userSession;
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 	/** @var Admin */
@@ -53,6 +52,8 @@ class AdminTest extends TestCase {
 	private $groupManager;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
+	/** @var IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	private $subscriptionRegistry;
 
 	public function setUp() {
 		parent::setUp();
@@ -61,11 +62,11 @@ class AdminTest extends TestCase {
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 
 		$this->admin = new Admin(
-			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->userSession, $this->l10nFactory
+			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory, $this->subscriptionRegistry
 		);
 	}
 
@@ -104,6 +105,7 @@ class AdminTest extends TestCase {
 			->willReturn([
 				'updateAvailable' => true,
 				'updateVersion' => '8.1.2',
+				'updateVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'updaterEnabled' => true,
@@ -122,6 +124,11 @@ class AdminTest extends TestCase {
 			->with('admin')
 			->willReturn($group);
 
+		$this->subscriptionRegistry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
 		$params = [
 			'json' => json_encode([
 				'isNewVersionAvailable' => true,
@@ -129,7 +136,8 @@ class AdminTest extends TestCase {
 				'lastChecked' => 'LastCheckedReturnValue',
 				'currentChannel' => Util::getChannel(),
 				'channels' => $channels,
-				'newVersionString' => '8.1.2',
+				'newVersion' => '8.1.2',
+				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
 				'updaterEnabled' => true,
@@ -139,6 +147,7 @@ class AdminTest extends TestCase {
 				'notifyGroups' => [
 					['value' => 'admin', 'label' => 'Administrators'],
 				],
+				'hasValidSubscription' => true,
 			]),
 		];
 

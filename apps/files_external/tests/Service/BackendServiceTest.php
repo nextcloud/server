@@ -23,31 +23,27 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
-use \OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\BackendService;
 use OCP\IConfig;
-use OCP\IL10N;
 
 class BackendServiceTest extends \Test\TestCase {
 
-	/** @var \OCP\IConfig */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-
-	/** @var \OCP\IL10N */
-	protected $l10n;
 
 	protected function setUp() {
 		$this->config = $this->createMock(IConfig::class);
-		$this->l10n = $this->createMock(IL10N::class);
 	}
 
 	/**
 	 * @param string $class
 	 *
-	 * @return \OCA\Files_External\Lib\Backend\Backend
+	 * @return \OCA\Files_External\Lib\Backend\Backend|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getBackendMock($class) {
 		$backend = $this->getMockBuilder(Backend::class)
@@ -61,7 +57,7 @@ class BackendServiceTest extends \Test\TestCase {
 	/**
 	 * @param string $class
 	 *
-	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism
+	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getAuthMechanismMock($class) {
 		$backend = $this->getMockBuilder(AuthMechanism::class)
@@ -73,10 +69,11 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testRegisterBackend() {
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backend = $this->getBackendMock('\Foo\Bar');
 
+		/** @var \OCA\Files_External\Lib\Backend\Backend|\PHPUnit_Framework_MockObject_MockObject $backendAlias */
 		$backendAlias = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -100,11 +97,12 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testBackendProvider() {
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backend1 = $this->getBackendMock('\Foo\Bar');
 		$backend2 = $this->getBackendMock('\Bar\Foo');
 
+		/** @var IBackendProvider|\PHPUnit_Framework_MockObject_MockObject $providerMock */
 		$providerMock = $this->createMock(IBackendProvider::class);
 		$providerMock->expects($this->once())
 			->method('getBackends')
@@ -118,11 +116,12 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testAuthMechanismProvider() {
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backend1 = $this->getAuthMechanismMock('\Foo\Bar');
 		$backend2 = $this->getAuthMechanismMock('\Bar\Foo');
 
+		/** @var IAuthMechanismProvider|\PHPUnit_Framework_MockObject_MockObject $providerMock */
 		$providerMock = $this->createMock(IAuthMechanismProvider::class);
 		$providerMock->expects($this->once())
 			->method('getAuthMechanisms')
@@ -136,18 +135,20 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testMultipleBackendProviders() {
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backend1a = $this->getBackendMock('\Foo\Bar');
 		$backend1b = $this->getBackendMock('\Bar\Foo');
 
 		$backend2 = $this->getBackendMock('\Dead\Beef');
 
+		/** @var IBackendProvider|\PHPUnit_Framework_MockObject_MockObject $provider1Mock */
 		$provider1Mock = $this->createMock(IBackendProvider::class);
 		$provider1Mock->expects($this->once())
 			->method('getBackends')
 			->willReturn([$backend1a, $backend1b]);
 		$service->registerBackendProvider($provider1Mock);
+		/** @var IBackendProvider|\PHPUnit_Framework_MockObject_MockObject $provider2Mock */
 		$provider2Mock = $this->createMock(IBackendProvider::class);
 		$provider2Mock->expects($this->once())
 			->method('getBackends')
@@ -169,7 +170,7 @@ class BackendServiceTest extends \Test\TestCase {
 				['files_external', 'user_mounting_backends', '', 'identifier:\User\Mount\Allowed,identifier_alias']
 			]));
 
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backendAllowed = $this->getBackendMock('\User\Mount\Allowed');
 		$backendAllowed->expects($this->never())
@@ -193,7 +194,7 @@ class BackendServiceTest extends \Test\TestCase {
 	}
 
 	public function testGetAvailableBackends() {
-		$service = new BackendService($this->config, $this->l10n);
+		$service = new BackendService($this->config);
 
 		$backendAvailable = $this->getBackendMock('\Backend\Available');
 		$backendAvailable->expects($this->once())
@@ -214,6 +215,51 @@ class BackendServiceTest extends \Test\TestCase {
 		$availableBackends = $service->getAvailableBackends();
 		$this->assertArrayHasKey('identifier:\Backend\Available', $availableBackends);
 		$this->assertArrayNotHasKey('identifier:\Backend\NotAvailable', $availableBackends);
+	}
+
+	public function invalidConfigPlaceholderProvider() {
+		return [
+			[['@user']],
+			[['$user']],
+			[['hællo']],
+			[['spa ce']],
+			[['yo\o']],
+			[['<script>…</script>']],
+			[['xxyoloxx', 'invÆlid']],
+			[['tautology', 'tautology']],
+			[['tautology2', 'TAUTOLOGY2']],
+		];
+	}
+
+	/**
+	 * @dataProvider invalidConfigPlaceholderProvider
+	 * @expectedException \RuntimeException
+	 */
+	public function testRegisterConfigHandlerInvalid(array $placeholders) {
+		$service = new BackendService($this->config);
+		$mock = $this->createMock(IConfigHandler::class);
+		$cb = function () use ($mock) { return $mock; };
+		foreach ($placeholders as $placeholder) {
+			$service->registerConfigHandler($placeholder, $cb);
+		}
+	}
+
+	public function testConfigHandlers() {
+		$service = new BackendService($this->config);
+		$mock = $this->createMock(IConfigHandler::class);
+		$mock->expects($this->exactly(3))
+			->method('handle');
+		$cb = function () use ($mock) { return $mock; };
+		$service->registerConfigHandler('one', $cb);
+		$service->registerConfigHandler('2', $cb);
+		$service->registerConfigHandler('Three', $cb);
+
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $service->getConfigHandlers();
+
+		foreach ($handlers as $handler) {
+			$handler->handle('Something');
+		}
 	}
 
 }

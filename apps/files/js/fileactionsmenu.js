@@ -10,24 +10,6 @@
 
 (function() {
 
-	var TEMPLATE_MENU =
-		'<ul>' +
-		'{{#each items}}' +
-		'<li>' +
-		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">' +
-			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
-			'{{else}}'+
-				'{{#if iconClass}}' +
-				'<span class="icon {{iconClass}}"></span>' +
-				'{{else}}' +
-				'<span class="no-icon"></span>' +
-				'{{/if}}' +
-			'{{/if}}' +
-			'<span>{{displayName}}</span></a>' +
-		'</li>' +
-		'{{/each}}' +
-		'</ul>';
-
 	/**
 	 * Construct a new FileActionsMenu instance
 	 * @constructs FileActionsMenu
@@ -49,10 +31,7 @@
 		},
 
 		template: function(data) {
-			if (!OCA.Files.FileActionsMenu._TEMPLATE) {
-				OCA.Files.FileActionsMenu._TEMPLATE = Handlebars.compile(TEMPLATE_MENU);
-			}
-			return OCA.Files.FileActionsMenu._TEMPLATE(data);
+			return OCA.Files.Templates['fileactionsmenu'](data);
 		},
 
 		/**
@@ -105,10 +84,7 @@
 			);
 
 			var items = _.filter(actions, function(actionSpec) {
-				return (
-					actionSpec.type === OCA.Files.FileActions.TYPE_DROPDOWN &&
-					(!defaultAction || actionSpec.name !== defaultAction.name)
-				);
+				return !defaultAction || actionSpec.name !== defaultAction.name;
 			});
 			items = _.map(items, function(item) {
 				if (_.isFunction(item.displayName)) {
@@ -120,6 +96,12 @@
 					item = _.extend({}, item);
 					item.iconClass = item.iconClass(fileName, self._context);
 				}
+				if (_.isFunction(item.icon)) {
+					var fileName = self._context.$file.attr('data-file');
+					item = _.extend({}, item);
+					item.icon = item.icon(fileName, self._context);
+				}
+				item.inline = item.type === OCA.Files.FileActions.TYPE_INLINE
 				return item;
 			});
 			items = items.sort(function(actionA, actionB) {
@@ -130,6 +112,7 @@
 				}
 				return orderA - orderB;
 			});
+
 			items = _.map(items, function(item) {
 				item.nameLowerCase = item.name.toLowerCase();
 				return item;

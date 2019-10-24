@@ -126,6 +126,42 @@ class AllConfig implements \OCP\IConfig {
 	}
 
 	/**
+	 * Looks up a boolean system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueBool(string $key, bool $default = false): bool {
+		return (bool) $this->getSystemValue($key, $default);
+	}
+
+	/**
+	 * Looks up an integer system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueInt(string $key, int $default = 0): int {
+		return (int) $this->getSystemValue($key, $default);
+	}
+
+	/**
+	 * Looks up a string system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 16.0.0
+	 */
+	public function getSystemValueString(string $key, string $default = ''): string {
+		return (string) $this->getSystemValue($key, $default);
+	}
+
+	/**
 	 * Looks up a system wide defined value and filters out sensitive data
 	 *
 	 * @param string $key the key of the value, under which it was saved
@@ -447,6 +483,38 @@ class AllConfig implements \OCP\IConfig {
 			$sql .= 'AND to_char(`configvalue`) = ?';
 		} else {
 			$sql .= 'AND `configvalue` = ?';
+		}
+
+		$result = $this->connection->executeQuery($sql, array($appName, $key, $value));
+
+		$userIDs = array();
+		while ($row = $result->fetch()) {
+			$userIDs[] = $row['userid'];
+		}
+
+		return $userIDs;
+	}
+
+	/**
+	 * Determines the users that have the given value set for a specific app-key-pair
+	 *
+	 * @param string $appName the app to get the user for
+	 * @param string $key the key to get the user for
+	 * @param string $value the value to get the user for
+	 * @return array of user IDs
+	 */
+	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$sql  = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
+			'WHERE `appid` = ? AND `configkey` = ? ';
+
+		if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			$sql .= 'AND LOWER(to_char(`configvalue`)) = LOWER(?)';
+		} else {
+			$sql .= 'AND LOWER(`configvalue`) = LOWER(?)';
 		}
 
 		$result = $this->connection->executeQuery($sql, array($appName, $key, $value));

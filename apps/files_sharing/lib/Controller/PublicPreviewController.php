@@ -119,7 +119,9 @@ class PublicPreviewController extends PublicShareController {
 			}
 
 			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
-			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response->cacheFor(3600 * 24);
+			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
@@ -166,7 +168,9 @@ class PublicPreviewController extends PublicShareController {
 			}
 
 			$f = $this->previewManager->getPreview($node, -1, -1, false);
-			return new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response->cacheFor(3600 * 24);
+			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {

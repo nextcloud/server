@@ -42,10 +42,12 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
-		\OCP\Util::addStyle('files_sharing', 'mergedAdditionalStyles');
-		\OCP\Util::addScript('files_sharing', 'additionalScripts');
+		\OCP\Util::addScript('files_sharing', 'dist/additionalScripts');
 	}
 );
+\OC::$server->getEventDispatcher()->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () {
+	\OCP\Util::addScript('files_sharing', 'dist/collaboration');
+});
 
 $config = \OC::$server->getConfig();
 $shareManager = \OC::$server->getShareManager();

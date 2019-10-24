@@ -28,7 +28,6 @@ namespace OCA\FederatedFileSharing\Settings;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
@@ -40,8 +39,6 @@ class Personal implements ISettings {
 	private $userSession;
 	/** @var IL10N */
 	private $l;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 	/** @var \OC_Defaults */
 	private $defaults;
 
@@ -49,13 +46,11 @@ class Personal implements ISettings {
 		FederatedShareProvider $federatedShareProvider, #
 		IUserSession $userSession,
 		IL10N $l,
-		IURLGenerator $urlGenerator,
 		\OC_Defaults $defaults
 	) {
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;
 		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
 	}
 
@@ -65,13 +60,12 @@ class Personal implements ISettings {
 	 */
 	public function getForm() {
 		$cloudID = $this->userSession->getUser()->getCloudId();
-		$url = 'https://nextcloud.com/federation#' . $cloudID;
+		$url = 'https://nextcloud.com/sharing#' . $cloudID;
 
 		$parameters = [
-			'outgoingServer2serverShareEnabled' => $this->federatedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'message_with_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]),
 			'message_without_URL' => $this->l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]),
-			'logoPath' => $this->urlGenerator->imagePath('core', 'logo.svg'),
+			'logoPath' => $this->defaults->getLogo(),
 			'reference' => $url,
 			'cloudId' => $cloudID,
 			'color' => $this->defaults->getColorPrimary(),
@@ -85,7 +79,11 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection() {
-		return 'sharing';
+		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
+			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
+			return 'sharing';
+		}
+		return null;
 	}
 
 	/**

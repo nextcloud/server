@@ -3,10 +3,10 @@ OC.L10N.register(
     {
     "OAuth 2.0 clients" : "Clientes OAuth 2.0",
     "Name" : "Nombre",
-    "Client Identifier" : "Identificador del cliente",
-    "Add client" : "Agregar cliente",
     "Redirection URI" : "URI de redirección",
+    "Client Identifier" : "Identificador del cliente",
     "Secret" : "Secreto",
+    "Add client" : "Agregar cliente",
     "Add" : "Agregar"
 },
 "nplurals=2; plural=(n != 1);");

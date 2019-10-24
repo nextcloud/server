@@ -21,7 +21,7 @@
 
 // start worker once page has loaded
 $(document).ready(function(){
-	$.get( OC.webroot+'/cron.php' );
+	$.get( OC.getRootPath()+'/cron.php' );
 
 	$('.section .icon-info').tooltip({
 		placement: 'right'

@@ -45,6 +45,8 @@ module.exports = function(config) {
 		return [
 			'files',
 			'files_trashbin',
+			'files_versions',
+			'systemtags',
 			{
 				name: 'files_sharing',
 				srcFiles: [
@@ -52,11 +54,10 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'apps/files_sharing/js/app.js',
 					'apps/files_sharing/js/sharedfilelist.js',
-					'apps/files_sharing/js/share.js',
-					'apps/files_sharing/js/sharebreadcrumbview.js',
+					'apps/files_sharing/js/dist/additionalScripts.js',
 					'apps/files_sharing/js/public.js',
-					'apps/files_sharing/js/sharetabview.js',
-					'apps/files_sharing/js/files_drop.js'
+					'apps/files_sharing/js/files_drop.js',
+					'apps/files_sharing/js/templates.js',
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
@@ -66,6 +67,7 @@ module.exports = function(config) {
 					// only test these files, others are not ready and mess
 					// up with the global namespace/classes/state
 					'apps/files_external/js/app.js',
+					'apps/files_external/js/templates.js',
 					'apps/files_external/js/mountsfilelist.js',
 					'apps/files_external/js/settings.js',
 					'apps/files_external/js/statusmanager.js'
@@ -73,50 +75,16 @@ module.exports = function(config) {
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},
 			{
-				name: 'files_versions',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/files_versions/js/versionmodel.js',
-					'apps/files_versions/js/templates.js',
-					'apps/files_versions/js/versioncollection.js',
-					'apps/files_versions/js/versionstabview.js'
-				],
-				testFiles: ['apps/files_versions/tests/js/**/*.js']
-			},
-			{
 				name: 'comments',
 				srcFiles: [
-					// need to enforce loading order...
-					'apps/comments/js/app.js',
-					'apps/comments/js/templates.js',
-					'apps/comments/js/vendor/Caret.js/dist/jquery.caret.min.js',
-					'apps/comments/js/vendor/At.js/dist/js/jquery.atwho.min.js',
-					'apps/comments/js/commentmodel.js',
-					'apps/comments/js/commentcollection.js',
-					'apps/comments/js/commentsummarymodel.js',
-					'apps/comments/js/commentsmodifymenu.js',
-					'apps/comments/js/commentstabview.js',
-					'apps/comments/js/filesplugin.js'
+					'apps/comments/js/comments.js'
 				],
 				testFiles: ['apps/comments/tests/js/**/*.js']
 			},
 			{
-				name: 'systemtags',
-				srcFiles: [
-					// need to enforce loading order...
-					'apps/systemtags/js/app.js',
-					'apps/systemtags/js/systemtagsinfoview.js',
-					'apps/systemtags/js/systemtagsinfoviewtoggleview.js',
-					'apps/systemtags/js/systemtagsfilelist.js',
-					'apps/systemtags/js/filesplugin.js'
-				],
-				testFiles: ['apps/systemtags/tests/js/**/*.js']
-			},
-			{
 				name: 'settings',
 				srcFiles: [
-					'settings/js/apps.js',
-					'core/vendor/marked/marked.min.js'
+					'settings/js/apps.js'
 				]
 			}
 		];
@@ -146,7 +114,6 @@ module.exports = function(config) {
 	// note that the loading order is important that's why they
 	// are specified in a separate file
 	var corePath = 'core/js/';
-	var vendorPath = 'core/vendor/';
 	var coreModule = require('../' + corePath + 'core.json');
 	var testCore = false;
 	var files = [];
@@ -160,16 +127,12 @@ module.exports = function(config) {
 		testCore = true;
 	}
 
+	files.push(corePath + 'tests/html-domparser.js');
+	files.push('core/js/dist/main.js');
 	// core mocks
 	files.push(corePath + 'tests/specHelper.js');
 
 	var srcFile, i;
-	// add vendor library files
-	for (i = 0; i < coreModule.vendor.length; i++) {
-		srcFile = vendorPath + coreModule.vendor[i];
-		files.push(srcFile);
-	}
-
 	// add core library files
 	for (i = 0; i < coreModule.libraries.length; i++) {
 		srcFile = corePath + coreModule.libraries[i];

@@ -38,7 +38,6 @@ class SocialSharingBundle extends Bundle {
 	public function getAppIdentifiers() {
 		return [
 			'socialsharing_twitter',
-			'socialsharing_googleplus',
 			'socialsharing_facebook',
 			'socialsharing_email',
 			'socialsharing_diaspora',

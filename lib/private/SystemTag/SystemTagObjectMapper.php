@@ -154,20 +154,26 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				'systemtagid' => $query->createParameter('tagid'),
 			]);
 
+		$tagsAssigned = [];
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
 				$query->execute();
+				$tagsAssigned[] = $tagId;
 			} catch (UniqueConstraintViolationException $e) {
 				// ignore existing relations
 			}
+		}
+
+		if (empty($tagsAssigned)) {
+			return;
 		}
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
 			MapperEvent::EVENT_ASSIGN,
 			$objectType,
 			$objId,
-			$tagIds
+			$tagsAssigned
 		));
 	}
 
@@ -217,7 +223,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$query->select('*')
 				->setMaxResults(1);
 		} else {
-			$query->select($query->createFunction('COUNT(1)'));
+			$query->select($query->func()->count($query->expr()->literal(1)));
 		}
 
 		$query->from(self::RELATION_TABLE)

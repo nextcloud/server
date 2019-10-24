@@ -28,3 +28,4 @@ $app = new \OCA\Accessibility\AppInfo\Application();
 // 1. create the app
 // 2. generate css route and inject
 $app->injectCss();
+$app->injectJavascript();

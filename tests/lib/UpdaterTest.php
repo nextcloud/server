@@ -24,7 +24,6 @@ namespace Test;
 
 use OC\Installer;
 use OC\Updater;
-use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\ILogger;
 use OC\IntegrityCheck\Checker;
@@ -40,8 +39,6 @@ class UpdaterTest extends TestCase {
 	private $checker;
 	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
 	private $installer;
-	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
-	private $jobList;
 
 	public function setUp() {
 		parent::setUp();
@@ -57,16 +54,12 @@ class UpdaterTest extends TestCase {
 		$this->installer = $this->getMockBuilder(Installer::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->jobList = $this->getMockBuilder(IJobList::class)
-			->disableOriginalConstructor()
-			->getMock();
 
 		$this->updater = new Updater(
 			$this->config,
 			$this->checker,
 			$this->logger,
-			$this->installer,
-			$this->jobList
+			$this->installer
 		);
 	}
 

@@ -133,6 +133,12 @@ class Detection implements IMimeTypeDetector {
 		return $this->mimeTypeAlias;
 	}
 
+	public function getOnlyDefaultAliases() {
+		$this->loadMappings();
+		$this->mimeTypeAlias = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypealiases.dist.json'), true);
+		return $this->mimeTypeAlias;
+	}
+
 	/**
 	 * Add mimetype mappings if they are not yet present
 	 */

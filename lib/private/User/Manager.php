@@ -38,7 +38,9 @@ use OCP\IGroup;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
+use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\UserInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -68,16 +70,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	private $cachedUsers = array();
 
-	/**
-	 * @var \OCP\IConfig $config
-	 */
+	/** @var IConfig */
 	private $config;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher) {
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */
@@ -152,11 +152,15 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User
 	 */
 	protected function getUserObject($uid, $backend, $cacheUser = true) {
+		if ($backend instanceof IGetRealUIDBackend) {
+			$uid = $backend->getRealUID($uid);
+		}
+
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this, $this->config);
+		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -197,7 +201,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @internal
 	 * @param string $loginName
 	 * @param string $password
-	 * @return mixed the User object on success, false otherwise
+	 * @return IUser|false the User object on success, false otherwise
 	 */
 	public function checkPasswordNoLogging($loginName, $password) {
 		$loginName = str_replace("\0", '', $loginName);
@@ -280,6 +284,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		if (!$this->verifyUid($uid)) {
+			return false;
+		}
+
 		$localBackends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof Database) {
@@ -446,7 +454,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countDisabledUsers(): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
+		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
@@ -475,9 +483,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countDisabledUsersOfGroups(array $groups): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(Distinct uid)'))
+		$queryBuilder->select($queryBuilder->createFunction('COUNT(DISTINCT ' . $queryBuilder->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
-			->innerJoin('p', 'group_user', 'g', 'p.userid = g.uid')
+			->innerJoin('p', 'group_user', 'g', $queryBuilder->expr()->eq('p.userid', 'g.uid'))
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
@@ -504,7 +512,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countSeenUsers() {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$queryBuilder->select($queryBuilder->createFunction('COUNT(*)'))
+		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')))
@@ -589,10 +597,24 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 9.1.0
 	 */
 	public function getByEmail($email) {
-		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
+		$userIds = $this->config->getUsersForUserValueCaseInsensitive('settings', 'email', $email);
 
-		return array_map(function($uid) {
+		$users = array_map(function($uid) {
 			return $this->get($uid);
 		}, $userIds);
+
+		return array_values(array_filter($users, function($u) {
+			return ($u instanceof IUser);
+		}));
+	}
+
+	private function verifyUid(string $uid): bool {
+		$appdata = 'appdata_' . $this->config->getSystemValueString('instanceid');
+
+		if ($uid === '.htaccess' || $uid === 'files_external' || $uid === '.ocdata' || $uid === 'owncloud.log' || $uid === 'nextcloud.log' || $uid === $appdata) {
+			return false;
+		}
+
+		return true;
 	}
 }

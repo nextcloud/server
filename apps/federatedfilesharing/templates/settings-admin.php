@@ -2,6 +2,7 @@
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 script('federatedfilesharing', 'settings-admin');
+style('federatedfilesharing', 'settings-admin');
 ?>
 
 <?php if($_['internalOnly'] === false): ?>
@@ -9,10 +10,10 @@ script('federatedfilesharing', 'settings-admin');
 <div id="fileSharingSettings" class="section">
 	<h2>
 		<?php p($l->t('Federated Cloud Sharing'));?>
-		<a target="_blank" rel="noreferrer noopener" class="icon-info svg"
-		   title="<?php p($l->t('Open documentation'));?>"
-		   href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
 	</h2>
+	<a target="_blank" rel="noreferrer noopener" class="icon-info svg"
+	   title="<?php p($l->t('Open documentation'));?>"
+	   href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
 
 	<p class="settings-hint"><?php p($l->t('Adjust how people can share between servers.')); ?></p>
 

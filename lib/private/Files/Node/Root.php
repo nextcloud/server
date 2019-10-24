@@ -282,9 +282,10 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
+	 * @param bool $includeMounts
 	 * @return int
 	 */
-	public function getSize() {
+	public function getSize($includeMounts = true) {
 		return null;
 	}
 
@@ -348,7 +349,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * Returns a view to user's files folder
 	 *
-	 * @param String $userId user ID
+	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
 	 * @throws \OC\User\NoUserException
 	 */

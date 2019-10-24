@@ -144,9 +144,9 @@ class ImageManagerTest extends TestCase {
 			->willReturnOnConsecutiveCalls(0, false);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
-			->with('core', 'logo.png')
-			->willReturn('logo.png');
-		$this->assertEquals('logo.png?v=0', $this->imageManager->getImageUrl('logo'));
+			->with('core', 'logo/logo.png')
+			->willReturn('logo/logo.png');
+		$this->assertEquals('logo/logo.png?v=0', $this->imageManager->getImageUrl('logo'));
 	}
 
 	public function testGetImageUrlAbsolute() {

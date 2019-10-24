@@ -61,7 +61,7 @@ class AddMissingIndices extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->addShareTableIndicies($output);
+		$this->addCoreIndexes($output);
 
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
@@ -74,7 +74,7 @@ class AddMissingIndices extends Command {
 	 * @param OutputInterface $output
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
-	private function addShareTableIndicies(OutputInterface $output) {
+	private function addCoreIndexes(OutputInterface $output) {
 
 		$output->writeln('<info>Check indices of the share table.</info>');
 
@@ -99,7 +99,7 @@ class AddMissingIndices extends Command {
 				$output->writeln('<info>Share table updated successfully.</info>');
 			}
 
-			if (!$table->hasIndex('uid_owner')) {
+			if (!$table->hasIndex('owner_index')) {
 				$output->writeln('<info>Adding additional owner index to the share table, this can take some time...</info>');
 				$table->addIndex(['uid_owner'], 'owner_index');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
@@ -107,7 +107,7 @@ class AddMissingIndices extends Command {
 				$output->writeln('<info>Share table updated successfully.</info>');
 			}
 
-			if (!$table->hasIndex('uid_initiator')) {
+			if (!$table->hasIndex('initiator_index')) {
 				$output->writeln('<info>Adding additional initiator index to the share table, this can take some time...</info>');
 				$table->addIndex(['uid_initiator'], 'initiator_index');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
@@ -116,6 +116,7 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the filecache table.</info>');
 		if ($schema->hasTable('filecache')) {
 			$table = $schema->getTable('filecache');
 			if (!$table->hasIndex('fs_mtime')) {
@@ -124,6 +125,125 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the twofactor_providers table.</info>');
+		if ($schema->hasTable('twofactor_providers')) {
+			$table = $schema->getTable('twofactor_providers');
+			if (!$table->hasIndex('twofactor_providers_uid')) {
+				$output->writeln('<info>Adding additional twofactor_providers_uid index to the twofactor_providers table, this can take some time...</info>');
+				$table->addIndex(['uid'], 'twofactor_providers_uid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Twofactor_providers table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the login_flow_v2 table.</info>');
+		if ($schema->hasTable('login_flow_v2')) {
+			$table = $schema->getTable('login_flow_v2');
+			if (!$table->hasIndex('poll_token')) {
+				$output->writeln('<info>Adding additional indeces to the login_flow_v2 table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					$columns = $index->getColumns();
+					if ($columns === ['poll_token'] ||
+						$columns === ['login_token'] ||
+						$columns === ['timestamp']) {
+						$table->dropIndex($index->getName());
+					}
+				}
+
+				$table->addUniqueIndex(['poll_token'], 'poll_token');
+				$table->addUniqueIndex(['login_token'], 'login_token');
+				$table->addIndex(['timestamp'], 'timestamp');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>login_flow_v2 table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the whats_new table.</info>');
+		if ($schema->hasTable('whats_new')) {
+			$table = $schema->getTable('whats_new');
+			if (!$table->hasIndex('version')) {
+				$output->writeln('<info>Adding version index to the whats_new table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					if ($index->getColumns() === ['version']) {
+						$table->dropIndex($index->getName());
+					}
+				}
+
+				$table->addUniqueIndex(['version'], 'version');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>whats_new table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the cards table.</info>');
+		if ($schema->hasTable('cards')) {
+			$table = $schema->getTable('cards');
+			if (!$table->hasIndex('cards_abid')) {
+				$output->writeln('<info>Adding cards_abid index to the cards table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					if ($index->getColumns() === ['addressbookid']) {
+						$table->dropIndex($index->getName());
+					}
+				}
+
+				$table->addIndex(['addressbookid'], 'cards_abid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>cards table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the cards_properties table.</info>');
+		if ($schema->hasTable('cards_properties')) {
+			$table = $schema->getTable('cards_properties');
+			if (!$table->hasIndex('cards_prop_abid')) {
+				$output->writeln('<info>Adding cards_prop_abid index to the cards_properties table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					if ($index->getColumns() === ['addressbookid']) {
+						$table->dropIndex($index->getName());
+					}
+				}
+
+				$table->addIndex(['addressbookid'], 'cards_prop_abid');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>cards_properties table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the calendarobjects_props table.</info>');
+		if ($schema->hasTable('calendarobjects_props')) {
+			$table = $schema->getTable('calendarobjects_props');
+			if (!$table->hasIndex('calendarobject_calid_index')) {
+				$output->writeln('<info>Adding calendarobject_calid_index index to the calendarobjects_props table, this can take some time...</info>');
+
+				$table->addIndex(['calendarid', 'calendartype'], 'calendarobject_calid_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>calendarobjects_props table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the schedulingobjects table.</info>');
+		if ($schema->hasTable('schedulingobjects')) {
+			$table = $schema->getTable('schedulingobjects');
+			if (!$table->hasIndex('schedulobj_principuri_index')) {
+				$output->writeln('<info>Adding schedulobj_principuri_index index to the schedulingobjects table, this can take some time...</info>');
+
+				$table->addIndex(['principaluri'], 'schedulobj_principuri_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
 			}
 		}
 

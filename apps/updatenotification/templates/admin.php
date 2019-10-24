@@ -9,7 +9,6 @@ declare(strict_types=1);
  * later. See the COPYING file.
  */
 script('updatenotification', 'updatenotification');
-style('updatenotification', 'admin');
 /** @var array $_ */
 ?>
 <div id="updatenotification" data-json="<?php p($_['json']); ?>"></div>

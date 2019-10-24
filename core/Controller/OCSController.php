@@ -97,6 +97,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
+			'extendedSupport' => \OCP\Util::hasExtendedSupport()
 		);
 
 		if($this->userSession->isLoggedIn()) {

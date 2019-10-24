@@ -182,7 +182,7 @@ class BaseTest extends TestCase {
 	 */
 	public function testGenerateGroupParameter($gid) {
 		$this->assertEquals([
-			'type' => 'group',
+			'type' => 'user-group',
 			'id' => $gid,
 			'name' => $gid,
 		], $this->invokePrivate($this->provider, 'generateGroupParameter', [$gid]));

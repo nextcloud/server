@@ -314,11 +314,10 @@ class ConnectionTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider insertIfNotExistsViolatingThrows
-	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 	 *
 	 * @param array $compareKeys
 	 */
-	public function testInsertIfNotExistsViolatingThrows($compareKeys) {
+	public function testInsertIfNotExistsViolatingUnique($compareKeys) {
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[
@@ -334,6 +333,19 @@ class ConnectionTest extends \Test\TestCase {
 			], $compareKeys);
 
 		$this->assertEquals(0, $result);
+	}
+
+	/**
+	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 */
+	public function testUniqueConstraintViolating() {
+		$this->makeTestTable();
+
+		$testQuery = 'INSERT INTO `*PREFIX*table` (`integerfield`, `textfield`) VALUES(?, ?)';
+		$testParams = [1, 'hello'];
+
+		$this->connection->executeUpdate($testQuery, $testParams);
+		$this->connection->executeUpdate($testQuery, $testParams);
 	}
 
 }

@@ -78,7 +78,7 @@ class EncryptAll extends Command {
 	 */
 	protected function forceMaintenanceAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
@@ -105,6 +105,14 @@ class EncryptAll extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if ( !$input->isInteractive() ) {
+			$output->writeln('Invalid TTY.');
+			$output->writeln('If you are trying to execute the command in a Docker ');
+			$output->writeln("container, do not forget to execute 'docker exec' with");
+			$output->writeln("the '-i' and '-t' options.");
+			$output->writeln('');
+			return;
+		}
 
 		if ($this->encryptionManager->isEnabled() === false) {
 			throw new \Exception('Server side encryption is not enabled');

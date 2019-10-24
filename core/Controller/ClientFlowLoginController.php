@@ -36,7 +36,7 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -46,6 +46,8 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ClientFlowLoginController extends Controller {
 	/** @var IUserSession */
@@ -68,6 +70,8 @@ class ClientFlowLoginController extends Controller {
 	private $accessTokenMapper;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	const stateName = 'client.flow.state.token';
 
@@ -84,6 +88,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -96,7 +101,8 @@ class ClientFlowLoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -108,6 +114,7 @@ class ClientFlowLoginController extends Controller {
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->crypto = $crypto;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -131,14 +138,14 @@ class ClientFlowLoginController extends Controller {
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	private function stateTokenForbiddenResponse() {
-		$response = new TemplateResponse(
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'403',
 			[
-				'file' => $this->l10n->t('State token does not match'),
+				'message' => $this->l10n->t('State token does not match'),
 			],
 			'guest'
 		);
@@ -153,7 +160,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $clientIdentifier
 	 *
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
@@ -166,7 +173,7 @@ class ClientFlowLoginController extends Controller {
 		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
 		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
 		if ($clientRequest !== 'true' && $client === null) {
-			return new TemplateResponse(
+			return new StandaloneTemplateResponse(
 				$this->appName,
 				'error',
 				[
@@ -188,7 +195,14 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::stateName, $stateToken);
 
-		return new TemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/authpicker',
 			[
@@ -197,21 +211,25 @@ class ClientFlowLoginController extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
-				'serverHost' => $this->request->getServerHost(),
+				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
 		);
+
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 * @UseSession
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function grantPage($stateToken = '',
 								 $clientIdentifier = '') {
@@ -226,7 +244,14 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		return new TemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/grant',
 			[
@@ -235,39 +260,14 @@ class ClientFlowLoginController extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
-				'serverHost' => $this->request->getServerHost(),
+				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
 			],
 			'guest'
 		);
-	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
-	 * @param string $stateToken
-	 * @param string $clientIdentifier
-	 * @return TemplateResponse
-	 */
-	public function redirectPage($stateToken = '',
-								 $clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
-
-		return new TemplateResponse(
-			$this->appName,
-			'loginflow/redirect',
-			[
-				'urlGenerator' => $this->urlGenerator,
-				'stateToken' => $stateToken,
-				'clientIdentifier' => $clientIdentifier,
-				'oauthState' => $this->session->get('oauth.state'),
-			],
-			'guest'
-		);
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
@@ -345,32 +345,49 @@ class ClientFlowLoginController extends Controller {
 			);
 			$this->session->remove('oauth.state');
 		} else {
-			$serverPostfix = '';
-
-			if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
-				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-			} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
-				$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
-			}
-
-			$protocol = $this->request->getServerProtocol();
-
-			if ($protocol !== "https") {
-				$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
-				$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
-				if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
-					$protocol = 'https';
-				}
-			}
-
-
-			$serverPath = $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
-			$redirectUri = 'nc://login/server:' . $serverPath . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
+			$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
 
 			// Clear the token from the login here
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
+
 		return new Http\RedirectResponse($redirectUri);
+	}
+
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
+		return new Http\RedirectResponse($redirectUri);
+	}
+
+	private function getServerPath(): string {
+		$serverPostfix = '';
+
+		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
+		} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
+		}
+
+		$protocol = $this->request->getServerProtocol();
+
+		if ($protocol !== "https") {
+			$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
+			$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
+			if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
+				$protocol = 'https';
+			}
+		}
+
+		return $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
 	}
 }

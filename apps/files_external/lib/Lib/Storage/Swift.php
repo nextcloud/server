@@ -451,7 +451,7 @@ class Swift extends \OC\Files\Storage\Common {
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
-		$metadata = ['timestamp' => $mtime];
+		$metadata = ['timestamp' => (string)$mtime];
 		if ($this->file_exists($path)) {
 			if ($this->is_dir($path) && $path !== '.') {
 				$path .= '/';

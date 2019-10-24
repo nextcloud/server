@@ -51,6 +51,10 @@
                             maxOccurs="1"/>
                 <xs:element name="activity" type="activity" minOccurs="0"
                             maxOccurs="1"/>
+                <xs:element name="dashboard" type="dashboard"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="fulltextsearch" type="fulltextsearch"
+                            minOccurs="0" maxOccurs="1"/>
                 <xs:element name="navigations" type="navigations" minOccurs="0"
                             maxOccurs="1"/>
                 <xs:element name="contactsmenu" type="contactsmenu" minOccurs="0"
@@ -58,6 +62,10 @@
                 <xs:element name="collaboration" type="collaboration" minOccurs="0"
                             maxOccurs="1" />
                 <xs:element name="sabre" type="sabre" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="trash" type="trash" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="versions" type="versions" minOccurs="0"
                             maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
@@ -644,11 +652,65 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="dashboard">
+        <xs:sequence>
+            <xs:element name="widget" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="fulltextsearch-provider">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="min-version" type="version" use="optional"/>
+                <xs:attribute name="max-version" type="version" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="fulltextsearch">
+        <xs:sequence>
+            <xs:element name="platform" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="provider" type="fulltextsearch-provider" minOccurs="0"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash">
+        <xs:sequence>
+            <xs:element name="backend" type="trash-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="versions">
+        <xs:sequence>
+            <xs:element name="backend" type="versions-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="versions-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:simpleType name="php-class">
         <xs:restriction base="xs:string">
             <xs:pattern
                     value="[a-zA-Z_][0-9a-zA-Z_]*(\\[a-zA-Z_][0-9a-zA-Z_]*)*"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

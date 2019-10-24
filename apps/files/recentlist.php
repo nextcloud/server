@@ -23,7 +23,15 @@
  */
 // Check if we are a user
 OCP\User::checkLoggedIn();
+$config = \OC::$server->getConfig();
+$userSession = \OC::$server->getUserSession();
+
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$isIE = \OCP\Util::isIE();
 
 $tmpl = new OCP\Template('files', 'recentlist', '');
+
+// gridview not available for ie
+$tmpl->assign('showgridview', $showgridview && !$isIE);
 
 $tmpl->printPage();

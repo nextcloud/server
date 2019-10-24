@@ -21,46 +21,15 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
-use OCP\Files\FileInfo;
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\IFile;
-
-class TrashFile extends AbstractTrash implements IFile, ITrash {
-	/** @var string */
-	private $userId;
-
-	public function __construct(string $userId, FileInfo $data) {
-		$this->userId = $userId;
-		parent::__construct($data);
-	}
-
-	public function put($data) {
-		throw new Forbidden();
-	}
-
+class TrashFile extends AbstractTrashFile {
 	public function get() {
-		return $this->data->getStorage()->fopen($this->data->getInternalPath().'.d'.$this->getLastModified(), 'rb');
-	}
-
-	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::delete($this->data->getName(), $this->userId, $this->getLastModified());
+		return $this->data->getStorage()->fopen($this->data->getInternalPath() . '.d' . $this->getLastModified(), 'rb');
 	}
 
 	public function getName(): string {
 		return $this->data->getName() . '.d' . $this->getLastModified();
-	}
-
-	public function setName($name) {
-		throw new Forbidden();
-	}
-
-	public function restore(): bool {
-		return \OCA\Files_Trashbin\Trashbin::restore($this->getName(), $this->data->getName(), $this->getLastModified());
-	}
-
-	public function getOriginalLocation(): string {
-		return $this->data['extraData'];
 	}
 }

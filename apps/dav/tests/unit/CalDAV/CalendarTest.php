@@ -213,21 +213,44 @@ class CalendarTest extends TestCase {
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		], [
-			'privilege' => '{DAV:}write',
-			'principal' => $hasOwnerSet ? 'user1' : 'user2',
-			'protected' => true
+			'privilege' => '{DAV:}read',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+			'protected' => true,
+		], [
+			'privilege' => '{DAV:}read',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-read',
+			'protected' => true,
 		]];
 		if ($uri === BirthdayService::BIRTHDAY_CALENDAR_URI) {
-			$expectedAcl = [[
-				'privilege' => '{DAV:}read',
-				'principal' => $hasOwnerSet ? 'user1' : 'user2',
-				'protected' => true
-			], [
+			$expectedAcl[] = [
 				'privilege' => '{DAV:}write-properties',
 				'principal' => $hasOwnerSet ? 'user1' : 'user2',
 				'protected' => true
-			]];
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+				'protected' => true
+			];
+		} else {
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+				'protected' => true
+			];
 		}
+
+		$expectedAcl[] = [
+			'privilege' => '{DAV:}write-properties',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-read',
+			'protected' => true
+		];
+
 		if ($hasOwnerSet) {
 			$expectedAcl[] = [
 				'privilege' => '{DAV:}read',

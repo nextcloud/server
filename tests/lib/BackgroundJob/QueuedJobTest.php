@@ -8,18 +8,24 @@
 
 namespace Test\BackgroundJob;
 
-class TestQueuedJob extends \OC\BackgroundJob\QueuedJob {
-	private $testCase;
+use OCP\AppFramework\Utility\ITimeFactory;
 
-	/**
-	 * @param QueuedJobTest $testCase
-	 */
-	public function __construct($testCase) {
-		$this->testCase = $testCase;
-	}
+class TestQueuedJob extends \OC\BackgroundJob\QueuedJob {
+	public $ran = false;
+
 
 	public function run($argument) {
-		$this->testCase->markRun();
+		$this->ran = true;
+	}
+}
+
+
+class TestQueuedJobNew extends \OCP\BackgroundJob\QueuedJob {
+	public $ran = false;
+
+
+	public function run($argument) {
+		$this->ran = true;
 	}
 }
 
@@ -28,29 +34,29 @@ class QueuedJobTest extends \Test\TestCase {
 	 * @var DummyJobList $jobList
 	 */
 	private $jobList;
-	/**
-	 * @var \OC\BackgroundJob\TimedJob $job
-	 */
-	private $job;
-
-	private $jobRun = false;
-
-	public function markRun() {
-		$this->jobRun = true;
-	}
 
 	protected function setup() {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
-		$this->job = new TestQueuedJob($this);
-		$this->jobList->add($this->job);
-		$this->jobRun = false;
 	}
 
 	public function testJobShouldBeRemoved() {
-		$this->assertTrue($this->jobList->has($this->job, null));
-		$this->job->execute($this->jobList);
-		$this->assertTrue($this->jobRun);
+		$job = new TestQueuedJob();
+		$this->jobList->add($job);
+
+		$this->assertTrue($this->jobList->has($job, null));
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
+	}
+
+	public function testJobShouldBeRemovedNew() {
+		$job = new TestQueuedJobNew(\OC::$server->query(ITimeFactory::class));
+		$job->setId(42);
+		$this->jobList->add($job);
+
+		$this->assertTrue($this->jobList->has($job, null));
+		$job->execute($this->jobList);
+		$this->assertTrue($job->ran);
 	}
 }

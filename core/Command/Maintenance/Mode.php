@@ -59,7 +59,7 @@ class Mode extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
+		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		if ($input->getOption('on')) {
 			if ($maintenanceMode === false) {
 				$this->config->setSystemValue('maintenance', true);

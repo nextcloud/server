@@ -34,6 +34,7 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class Admin implements ISettings {
@@ -45,25 +46,25 @@ class Admin implements ISettings {
 	private $groupManager;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var IUserSession */
-	private $session;
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var IRegistry */
+	private $subscriptionRegistry;
 
 	public function __construct(
 		IConfig $config,
 		UpdateChecker $updateChecker,
 		IGroupManager $groupManager,
 		IDateTimeFormatter $dateTimeFormatter,
-		IUserSession $session,
-		IFactory $l10nFactory
+		IFactory $l10nFactory,
+		IRegistry $subscriptionRegistry
 	) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;
 		$this->groupManager = $groupManager;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->session = $session;
 		$this->l10nFactory = $l10nFactory;
+		$this->subscriptionRegistry = $subscriptionRegistry;
 	}
 
 	/**
@@ -90,6 +91,12 @@ class Admin implements ISettings {
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
+		$defaultCustomerUpdateServerURLPrefix = 'https://updates.nextcloud.com/customers/';
+
+		$isDefaultUpdateServerURL = $updateServerURL === $defaultUpdateServerURL
+			|| $updateServerURL === substr($updateServerURL, 0, strlen($defaultCustomerUpdateServerURLPrefix));
+
+		$hasValidSubscription = $this->subscriptionRegistry->delegateHasValidSubscription();
 
 		$params = [
 			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
@@ -97,14 +104,16 @@ class Admin implements ISettings {
 			'lastChecked' => $lastUpdateCheck,
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
-			'newVersionString' => empty($updateState['updateVersion']) ? '' : $updateState['updateVersion'],
+			'newVersion' => empty($updateState['updateVersion']) ? '' : $updateState['updateVersion'],
+			'newVersionString' => empty($updateState['updateVersionString']) ? '' : $updateState['updateVersionString'],
 			'downloadLink' => empty($updateState['downloadLink']) ? '' : $updateState['downloadLink'],
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
-			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,
+			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
 			'notifyGroups' => $this->getSelectedGroups($notifyGroups),
+			'hasValidSubscription' => $hasValidSubscription,
 		];
 
 		$params = [

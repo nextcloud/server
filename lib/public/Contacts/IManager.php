@@ -90,7 +90,8 @@ interface IManager {
 	 *
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - for future use. One should always have options!
+	 * @param array $options = array() to define the search behavior
+	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
@@ -154,13 +155,25 @@ interface IManager {
 	public function register(\Closure $callable);
 
 	/**
+	 * Return a list of the user's addressbooks display names
+	 * 
 	 * @return array
 	 * @since 6.0.0
+	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
 	 */
 	public function getAddressBooks();
 
 	/**
+	 * Return a list of the user's addressbooks
+	 * 
+	 * @return IAddressBook[]
+	 * @since 16.0.0
+	 */
+	public function getUserAddressBooks();
+
+	/**
 	 * removes all registered address book instances
+	 * 
 	 * @return void
 	 * @since 6.0.0
 	 */

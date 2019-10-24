@@ -77,23 +77,18 @@ class PostgreSQL extends AbstractDatabase {
 
 			//create the database
 			$this->createDatabase($connection);
-			$query = $connection->prepare("select count(*) FROM pg_class WHERE relname=? limit 1");
-			$query->execute([$this->tablePrefix . "users"]);
-			$tablesSetup = $query->fetchColumn() > 0;
-
 			// the connection to dbname=postgres is not needed anymore
 			$connection->close();
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created');
-			$tablesSetup = false;
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 		}
 
-		// connect to the ownCloud database (dbname=$this->dbname) and check if it needs to be filled
+		// connect to the database (dbname=$this->dbname) and check if it needs to be filled
 		$this->dbUser = $this->config->getValue('dbuser');
 		$this->dbPassword = $this->config->getValue('dbpassword');
 		$connection = $this->connect();
@@ -159,6 +154,10 @@ class PostgreSQL extends AbstractDatabase {
 			// create the user
 			$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
+			if ($this->databaseExists($connection)) {
+				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO '.addslashes($this->dbUser));
+				$query->execute();
+			}
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user');
 			$this->logger->logException($e);

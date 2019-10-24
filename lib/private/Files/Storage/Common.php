@@ -46,6 +46,8 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -54,6 +56,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -69,7 +72,7 @@ use OCP\Lock\LockedException;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage, ILockingStorage {
+abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	use LocalTempFileTrait;
 
@@ -367,7 +370,8 @@ abstract class Common implements Storage, ILockingStorage {
 			$storage = $this;
 		}
 		if (!isset($storage->propagator)) {
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection());
+			$config = \OC::$server->getSystemConfig();
+			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
 		}
 		return $storage->propagator;
 	}
@@ -634,13 +638,39 @@ abstract class Common implements Storage, ILockingStorage {
 	}
 
 	/**
+	 * Check if a storage is the same as the current one, including wrapped storages
+	 *
+	 * @param IStorage $storage
+	 * @return bool
+	 */
+	private function isSameStorage(IStorage $storage): bool {
+		while ($storage->instanceOfStorage(Wrapper::class)) {
+			/**
+			 * @var Wrapper $sourceStorage
+			 */
+			$storage = $storage->getWrapperStorage();
+		}
+
+		return $storage === $this;
+	}
+
+	/**
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage === $this) {
+		if ($this->isSameStorage($sourceStorage)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
+				/**
+				 * @var Jail $sourceStorage
+				 */
+				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
+			}
+
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
 
@@ -713,7 +743,7 @@ abstract class Common implements Storage, ILockingStorage {
 			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e);
+				$logger->logException($e, ['level' => ILogger::INFO]);
 			}
 			throw $e;
 		}
@@ -745,7 +775,7 @@ abstract class Common implements Storage, ILockingStorage {
 			$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e);
+				$logger->logException($e, ['level' => ILogger::INFO]);
 			}
 			throw $e;
 		}
@@ -776,7 +806,7 @@ abstract class Common implements Storage, ILockingStorage {
 		try {
 			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
-			\OC::$server->getLogger()->logException($e);
+			\OC::$server->getLogger()->logException($e, ['level' => ILogger::INFO]);
 			throw $e;
 		}
 	}
@@ -808,5 +838,24 @@ abstract class Common implements Storage, ILockingStorage {
 	 */
 	public function needsPartFile() {
 		return true;
+	}
+
+	/**
+	 * fallback implementation
+	 *
+	 * @param string $path
+	 * @param resource $stream
+	 * @param int $size
+	 * @return int
+	 */
+	public function writeStream(string $path, $stream, int $size = null): int {
+		$target = $this->fopen($path, 'w');
+		if (!$target) {
+			return 0;
+		}
+		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+		fclose($stream);
+		fclose($target);
+		return $count;
 	}
 }

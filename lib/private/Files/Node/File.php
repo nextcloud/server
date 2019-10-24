@@ -119,7 +119,7 @@ class File extends Node implements \OCP\Files\File {
 			$fileInfo = $this->getFileInfo();
 			$this->view->unlink($this->path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path, $fileInfo);
-			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
+			$this->sendHooks(['postDelete'], [$nonExisting]);
 			$this->exists = false;
 			$this->fileInfo = null;
 		} else {
@@ -141,5 +141,9 @@ class File extends Node implements \OCP\Files\File {
 	 */
 	public function getChecksum() {
 		return $this->getFileInfo()->getChecksum();
+	}
+
+	public function getExtension(): string {
+		return $this->getFileInfo()->getExtension();
 	}
 }

@@ -24,10 +24,7 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
-use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
@@ -62,11 +59,37 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 			->with('user123', 'dav', 'generateBirthdayCalendar', 'yes')
 			->will($this->returnValue('yes'));
 
+		$this->birthdayService->expects($this->never())
+			->method('resetForUser')
+			->with('user123');
+
 		$this->birthdayService->expects($this->once())
 			->method('syncUser')
 			->with('user123');
 
 		$this->backgroundJob->run(['userId' => 'user123']);
+	}
+
+	public function testRunAndReset() {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user123', 'dav', 'generateBirthdayCalendar', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->birthdayService->expects($this->once())
+			->method('resetForUser')
+			->with('user123');
+
+		$this->birthdayService->expects($this->once())
+			->method('syncUser')
+			->with('user123');
+
+		$this->backgroundJob->run(['userId' => 'user123', 'purgeBeforeGenerating' => true]);
 	}
 
 	public function testRunGloballyDisabled() {

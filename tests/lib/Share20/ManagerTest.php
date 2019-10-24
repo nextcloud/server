@@ -23,7 +23,6 @@ namespace Test\Share20;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
 use OC\Share20\DefaultShareProvider;
-use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -52,7 +51,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -89,7 +88,7 @@ class ManagerTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
 	protected $rootFolder;
-	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject */
 	protected $eventDispatcher;
 	/** @var  IMailer|\PHPUnit_Framework_MockObject_MockObject */
 	protected $mailer;
@@ -108,7 +107,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcher::class);
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
@@ -546,9 +545,20 @@ class ManagerTest extends \Test\TestCase {
 		$user0 = 'user0';
 		$user2 = 'user1';
 		$group0 = 'group0';
+		$owner = $this->createMock(IUser::class);
+		$owner->method('getUID')
+			->willReturn($user0);
 
 		$file = $this->createMock(File::class);
 		$node = $this->createMock(Node::class);
+		$storage = $this->createMock(Storage\IStorage::class);
+		$storage->method('instanceOfStorage')
+			->with('\OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$file->method('getStorage')
+			->willReturn($storage);
+		$node->method('getStorage')
+			->willReturn($storage);
 
 		$data = [
 			[$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $file, null, $user0, $user0, 31, null, null), 'SharedWith is not a valid user', true],
@@ -580,6 +590,10 @@ class ManagerTest extends \Test\TestCase {
 		$nonShareAble = $this->createMock(Folder::class);
 		$nonShareAble->method('isShareable')->willReturn(false);
 		$nonShareAble->method('getPath')->willReturn('path');
+		$nonShareAble->method('getOwner')
+			->willReturn($owner);
+		$nonShareAble->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonShareAble, $user2, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
@@ -589,6 +603,10 @@ class ManagerTest extends \Test\TestCase {
 		$limitedPermssions->method('isShareable')->willReturn(true);
 		$limitedPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$limitedPermssions->method('getPath')->willReturn('path');
+		$limitedPermssions->method('getOwner')
+			->willReturn($owner);
+		$limitedPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, null, null, null), 'A share requires permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null), 'A share requires permissions', true];
@@ -596,6 +614,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$mount = $this->createMock(MoveableMount::class);
 		$limitedPermssions->method('getMountPoint')->willReturn($mount);
+
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Can’t increase permissions of path', true];
@@ -605,6 +624,10 @@ class ManagerTest extends \Test\TestCase {
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
+		$nonMoveableMountPermssions->method('getOwner')
+			->willReturn($owner);
+		$nonMoveableMountPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
@@ -621,6 +644,10 @@ class ManagerTest extends \Test\TestCase {
 		$allPermssions = $this->createMock(Folder::class);
 		$allPermssions->method('isShareable')->willReturn(true);
 		$allPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
+		$allPermssions->method('getOwner')
+			->willReturn($owner);
+		$allPermssions->method('getStorage')
+			->willReturn($storage);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $allPermssions, $user2, $user0, $user0, 30, null, null), 'Shares need at least read permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 2, null, null), 'Shares need at least read permissions', true];
@@ -628,6 +655,22 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $allPermssions, $user2, $user0, $user0, 31, null, null), null, false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 3, null, null), null, false];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $allPermssions, null, $user0, $user0, 17, null, null), null, false];
+
+
+		$remoteStorage = $this->createMock(Storage\IStorage::class);
+		$remoteStorage->method('instanceOfStorage')
+			->with('\OCA\Files_Sharing\External\Storage')
+			->willReturn(true);
+		$remoteFile = $this->createMock(Folder::class);
+		$remoteFile->method('isShareable')->willReturn(true);
+		$remoteFile->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ ^ \OCP\Constants::PERMISSION_UPDATE);
+		$remoteFile->method('getOwner')
+			->willReturn($owner);
+		$remoteFile->method('getStorage')
+			->willReturn($storage);
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null), null, false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null), null, false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of ', true];
 
 		return $data;
 	}
@@ -1707,8 +1750,6 @@ class ManagerTest extends \Test\TestCase {
 			->with('password')
 			->willReturn('hashed');
 
-		$this->secureRandom->method('getMediumStrengthGenerator')
-			->will($this->returnSelf());
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 
@@ -1818,8 +1859,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())
 			->method('setLinkParent');
 
-		$this->secureRandom->method('getMediumStrengthGenerator')
-			->will($this->returnSelf());
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 
@@ -1947,7 +1986,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->createShare($share);
 	}
 
-	public function testCreateShareOfIncommingFederatedShare() {
+	public function testCreateShareOfIncomingFederatedShare() {
 		$manager = $this->createManagerMock()
 			->setMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
 			->getMock();
@@ -3431,15 +3470,15 @@ class ManagerTest extends \Test\TestCase {
 		$extraProvider = $this->createMock(IShareProvider::class);
 		$factory->setSecondProvider($extraProvider);
 
-		$owner = $this->createMock(IUser::class);
-		$owner->expects($this->once())
+		$nodeOwner = $this->createMock(IUser::class);
+		$nodeOwner->expects($this->once())
 			->method('getUID')
-			->willReturn('owner');
+			->willReturn('user1');
 
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getOwner')
-			->willReturn($owner);
+			->willReturn($nodeOwner);
 		$node->method('getId')
 			->willReturn(42);
 
@@ -3447,10 +3486,17 @@ class ManagerTest extends \Test\TestCase {
 		$file = $this->createMock(File::class);
 		$folder = $this->createMock(Folder::class);
 
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
+
 		$file->method('getParent')
 			->willReturn($folder);
 		$file->method('getPath')
 			->willReturn('/owner/files/folder/file');
+		$file->method('getOwner')
+			->willReturn($owner);
 		$file->method('getId')
 			->willReturn(23);
 		$folder->method('getParent')
@@ -3459,12 +3505,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('/owner/files/folder');
 		$userFolder->method('getById')
 			->with($this->equalTo(42))
-			->willReturn([$file]);
+			->willReturn([12 => $file]);
 		$userFolder->method('getPath')
-			->willReturn('/owner/files');
+			->willReturn('/user1/files');
 
 		$this->userManager->method('userExists')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn(true);
 
 		$this->defaultProvider->method('getAccessList')
@@ -3498,7 +3544,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn($userFolder);
 
 		$expected = [
@@ -3540,26 +3586,33 @@ class ManagerTest extends \Test\TestCase {
 		$extraProvider = $this->createMock(IShareProvider::class);
 		$factory->setSecondProvider($extraProvider);
 
-		$owner = $this->createMock(IUser::class);
-		$owner->expects($this->once())
+		$nodeOwner = $this->createMock(IUser::class);
+		$nodeOwner->expects($this->once())
 			->method('getUID')
-			->willReturn('owner');
+			->willReturn('user1');
 
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())
 			->method('getOwner')
-			->willReturn($owner);
+			->willReturn($nodeOwner);
 		$node->method('getId')
 			->willReturn(42);
 
 		$userFolder = $this->createMock(Folder::class);
 		$file = $this->createMock(File::class);
+
+		$owner = $this->createMock(IUser::class);
+		$owner->expects($this->once())
+			->method('getUID')
+			->willReturn('owner');
 		$folder = $this->createMock(Folder::class);
 
 		$file->method('getParent')
 			->willReturn($folder);
 		$file->method('getPath')
 			->willReturn('/owner/files/folder/file');
+		$file->method('getOwner')
+			->willReturn($owner);
 		$file->method('getId')
 			->willReturn(23);
 		$folder->method('getParent')
@@ -3568,12 +3621,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('/owner/files/folder');
 		$userFolder->method('getById')
 			->with($this->equalTo(42))
-			->willReturn([$file]);
+			->willReturn([42 => $file]);
 		$userFolder->method('getPath')
-			->willReturn('/owner/files');
+			->willReturn('/user1/files');
 
 		$this->userManager->method('userExists')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn(true);
 
 		$this->defaultProvider->method('getAccessList')
@@ -3609,7 +3662,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo('owner'))
+			->with($this->equalTo('user1'))
 			->willReturn($userFolder);
 
 		$expected = [

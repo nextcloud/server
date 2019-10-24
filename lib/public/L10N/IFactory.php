@@ -32,10 +32,11 @@ interface IFactory {
 	 *
 	 * @param string $app
 	 * @param string|null $lang
+	 * @param string|null $locale
 	 * @return \OCP\IL10N
 	 * @since 8.2.0
 	 */
-	public function get($app, $lang = null);
+	public function get($app, $lang = null, $locale = null);
 
 	/**
 	 * Find the best language

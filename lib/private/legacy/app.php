@@ -70,7 +70,7 @@ class OC_App {
 	static private $loadedApps = [];
 	static private $altLogin = [];
 	static private $alreadyRegistered = [];
-	static public $autoDisabledApps = [];
+	const supportedApp = 300;
 	const officialApp = 200;
 
 	/**
@@ -106,7 +106,7 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 			return false;
 		}
 		// Load the enabled apps here
@@ -156,8 +156,7 @@ class OC_App {
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					\OC::$server->getAppManager()->disableApp($app);
-					self::$autoDisabledApps[] = $app;
+					\OC::$server->getAppManager()->disableApp($app, true);
 				}
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
@@ -486,6 +485,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
 	 */
 	public static function getAppPath(string $appId) {
 		if ($appId === null || trim($appId) === '') {
@@ -504,6 +504,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
 		if (($dir = self::findAppInDirectories($appId)) != false) {
@@ -704,6 +705,9 @@ class OC_App {
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
+		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
+		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
@@ -739,6 +743,10 @@ class OC_App {
 				} else {
 					$info['internal'] = false;
 					$info['removable'] = true;
+				}
+
+				if (in_array($app, $supportedApps)) {
+					$info['level'] = self::supportedApp;
 				}
 
 				$appPath = self::getAppPath($app);
@@ -826,7 +834,7 @@ class OC_App {
 	 *
 	 * @return boolean true if compatible, otherwise false
 	 */
-	public static function isAppCompatible(string $ocVersion, array $appInfo): bool {
+	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
 		$requireMin = '';
 		$requireMax = '';
 		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
@@ -854,7 +862,7 @@ class OC_App {
 			return false;
 		}
 
-		if (!empty($requireMax)
+		if (!$ignoreMax && !empty($requireMax)
 			&& version_compare(self::adjustVersionParts($ocVersion, $requireMax), $requireMax, '>')
 		) {
 			return false;
@@ -1090,13 +1098,13 @@ class OC_App {
 	 * @param array $info
 	 * @throws \Exception
 	 */
-	public static function checkAppDependencies(\OCP\IConfig $config, \OCP\IL10N $l, array $info) {
+	public static function checkAppDependencies(\OCP\IConfig $config, \OCP\IL10N $l, array $info, bool $ignoreMax) {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
-		$missing = $dependencyAnalyzer->analyze($info);
+		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
 		if (!empty($missing)) {
 			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
-				$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
+				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',
 					[$info['name'], $missingMsg]
 				)
 			);

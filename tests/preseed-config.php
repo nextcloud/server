@@ -63,6 +63,14 @@ if (getenv('OBJECT_STORE') === 'swift') {
 						'name' => 'default',
 					]
 				],
+				'scope' => [
+					'project' => [
+						'name' => 'service',
+						'domain' => [
+							'name' => 'default',
+						],
+					],
+				],
 				'tenantName' => 'service',
 				'serviceName' => 'swift',
 				'region' => 'regionOne',

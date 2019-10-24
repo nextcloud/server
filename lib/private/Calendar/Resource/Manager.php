@@ -24,52 +24,81 @@
 namespace OC\Calendar\Resource;
 
 use OCP\Calendar\Resource\IBackend;
+use OCP\IServerContainer;
 
 class Manager implements \OCP\Calendar\Resource\IManager {
 
-	/** @var IBackend[] holds all registered resource backends */
+	/** @var IServerContainer */
+	private $server;
+
+	/** @var string[] holds all registered resource backends */
 	private $backends = [];
+
+	/** @var IBackend[] holds all backends that have been initialized already */
+	private $initializedBackends = [];
+
+	/**
+	 * Manager constructor.
+	 *
+	 * @param IServerContainer $server
+	 */
+	public function __construct(IServerContainer $server) {
+		$this->server = $server;
+	}
 
 	/**
 	 * Registers a resource backend
 	 *
-	 * @param IBackend $backend
+	 * @param string $backendClass
 	 * @return void
 	 * @since 14.0.0
 	 */
-	public function registerBackend(IBackend $backend) {
-		$this->backends[$backend->getBackendIdentifier()] = $backend;
+	public function registerBackend(string $backendClass) {
+		$this->backends[$backendClass] = $backendClass;
 	}
 
 	/**
 	 * Unregisters a resource backend
 	 *
-	 * @param IBackend $backend
+	 * @param string $backendClass
 	 * @return void
 	 * @since 14.0.0
 	 */
-	public function unregisterBackend(IBackend $backend) {
-		unset($this->backends[$backend->getBackendIdentifier()]);
+	public function unregisterBackend(string $backendClass) {
+		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
 	/**
 	 * @return IBackend[]
+	 * @throws \OCP\AppFramework\QueryException
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
-		return array_values($this->backends);
+		foreach($this->backends as $backend) {
+			if (isset($this->initializedBackends[$backend])) {
+				continue;
+			}
+
+			$this->initializedBackends[$backend] = $this->server->query($backend);
+		}
+
+		return array_values($this->initializedBackends);
 	}
 
 	/**
 	 * @param string $backendId
+	 * @throws \OCP\AppFramework\QueryException
 	 * @return IBackend|null
 	 */
-	public function getBackend($backendId):IBackend {
-		if (!isset($this->backends[$backendId])) {
-			return null;
+	public function getBackend($backendId) {
+		$backends = $this->getBackends();
+		foreach($backends as $backend) {
+			if ($backend->getBackendIdentifier() === $backendId) {
+				return $backend;
+			}
 		}
 
-		return $this->backends[$backendId];
+		return null;
 	}
 
 	/**
@@ -79,5 +108,6 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 */
 	public function clear() {
 		$this->backends = [];
+		$this->initializedBackends = [];
 	}
 }

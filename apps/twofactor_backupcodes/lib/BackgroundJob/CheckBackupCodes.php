@@ -25,9 +25,10 @@ declare(strict_types=1);
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -45,7 +46,8 @@ class CheckBackupCodes extends QueuedJob {
 	/** @var Manager */
 	private $twofactorManager;
 
-	public function __construct(IUserManager $userManager, IJobList $jobList, Manager $twofactorManager, IRegistry $registry) {
+	public function __construct(ITimeFactory $timeFactory, IUserManager $userManager, IJobList $jobList, Manager $twofactorManager, IRegistry $registry) {
+		parent::__construct($timeFactory);
 		$this->userManager = $userManager;
 		$this->jobList = $jobList;
 		$this->twofactorManager = $twofactorManager;

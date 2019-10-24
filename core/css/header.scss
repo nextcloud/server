@@ -62,7 +62,6 @@
 	height: 100%;
 	box-sizing: border-box;
 	opacity: 1;
-	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	overflow: hidden;
@@ -77,19 +76,22 @@
 
 #header {
 	/* Header menu */
+	$header-menu-entry-height: 44px;
+
 	.header-left > nav > .menu,
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
-		border-radius: 0 0 3px 3px;
+		border-radius: 0 0 var(--border-radius) var(--border-radius);
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;
 		max-width: 350px;
-		max-height: 280px;
-		right: 5px;
+		max-height: $header-menu-entry-height * 7.5; // half entry
+		right: 5px; // relative to parent
 		top: $header-height;
 		margin: 0;
+		-webkit-overflow-scrolling: touch;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -106,6 +108,52 @@
 			position: absolute;
 			pointer-events: none;
 			right: 10px;
+		}
+
+		/* Use by the apps menu and the settings right menu */
+		#apps > ul,
+		&.settings-menu > ul {
+			li {
+				a {
+					display: inline-flex;
+					align-items: center;
+					height: $header-menu-entry-height;
+					color: var(--color-main-text);
+					padding: 10px 12px;
+					box-sizing: border-box;
+					opacity: .7;
+					white-space: nowrap;
+					position: relative;
+					width: 100%;
+					&:hover,
+					&:focus,
+					&:active,
+					&.active {
+						opacity: 1;
+						box-shadow: inset 4px 0 var(--color-primary);
+					}
+					span {
+						display: inline-block;
+						padding-bottom: 0;
+						color: var(--color-main-text);
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						max-width: 110px;
+					}
+					.icon-loading-small {
+						margin-right: 10px;
+						background-size: 16px 16px;
+					}
+					img,
+					svg {
+						opacity: .7;
+						margin-right: 10px;
+						height: 16px;
+						width: 16px;
+					}
+				}
+			}
 		}
 	}
 	.logo {
@@ -212,7 +260,7 @@
 .header-appname {
 	color: var(--color-primary-text);
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: bold;
 	margin: 0;
 	padding: 0;
 	padding-right: 5px;
@@ -265,80 +313,16 @@ nav[role='navigation'] {
 
 #navigation {
 	box-sizing: border-box;
-	* {
-		box-sizing: border-box;
+	.in-header {
+		display: none;
 	}
-	li {
-		display: inline-block;
-	}
-	a {
-		position: relative;
-		display: inline-flex;
-		padding: 10px 12px;
-		height: 40px;
-		align-items: center;
-		span {
-			display: inline-block;
-			padding-bottom: 0;
-			padding-left: 10px;
-			color: var(--color-main-text);
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			max-width: 110px;
-		}
-		svg,
-		span {
-			opacity: .7;
-		}
-		&:hover svg,
-		&:focus svg,
-		&:hover span,
-		&:focus span {
-			opacity: 1;
-		}
-		&.active {
-			svg, span {
-				opacity: 1;
-			}
-		}
-	}
-	.app-icon {
-		margin: 0 auto;
-		padding: 0;
-		max-height: 32px;
-		max-width: 32px;
-	}
-
-	/* loading feedback for apps */
-	.app-loading {
-		.icon-loading-small {
-			display: inline !important;
-			position: absolute;
-			left: 12px;
-			width: 16px;
-			height: 16px;
-		}
-		.app-icon {
-			opacity: 0;
-		}
-	}
-
 }
 
-/* Apps management */
 #apps {
 	max-height: inherit;
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
-	.in-header {
-		display: none;
-	}
-	ul {
-		display: flex;
-		flex-direction: column;
-	}
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -420,37 +404,6 @@ nav[role='navigation'] {
 	}
 }
 
-/* Settings menu */
-#expanddiv {
-	a {
-		display: inline-flex;
-		align-items: center;
-		height: 40px;
-		color: var(--color-main-text);
-		padding: 12px;
-		box-sizing: border-box;
-		opacity: .7;
-		white-space: nowrap;
-
-		.icon-loading-small {
-			margin-right: 9px;
-			background-size: 16px 16px;
-		}
-		img {
-			margin-right: 9px;
-			height: 16px;
-			width: 16px;
-		}
-		&:hover,
-		&:focus,
-		&:active,
-		&.active {
-			opacity: 1;
-			box-shadow: inset 4px 0 var(--color-primary);
-		}
-	}
-}
-
 /* Apps menu */
 #appmenu {
 	display: inline-flex;
@@ -460,6 +413,9 @@ nav[role='navigation'] {
 	li {
 		position: relative;
 		cursor: pointer;
+		margin: 0 2px;
+		display: flex;
+		justify-content: center;
 
 		a {
 			position: relative;
@@ -471,66 +427,118 @@ nav[role='navigation'] {
 			justify-content: center;
 			opacity: .6;
 		}
-	}
 
-	.app-loading {
-		> svg {
-			display: none;
+		/* focused app visual feedback */
+		&:hover a,
+		a:focus,
+		a.active {
+			opacity: 1;
 		}
-		.icon-loading-small-dark {
+
+		&:hover a + span,
+		a:focus + span,
+		&:hover span,
+		&:focus span,
+		a:focus span {
+			display: inline-block;
+			text-overflow: initial;
+			width: auto;
+			overflow: hidden;
+			background-color: var(--color-primary);
+			padding: 0 5px;
+			z-index: 2;
+		}
+
+		/* hidden apps menu */
+		img,
+		.icon-more-white {
+			display: inline-block;
 			width: 20px;
 			height: 20px;
-			display: block !important;
+		}
+
+		/* App title */
+		span {
+			opacity: 0;
+			position: absolute;
+			color: var(--color-primary-text);
+			bottom: 2px;
+			width: calc(100% - 4px);
+			text-align: center;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transition: all var(--animation-quick) ease;
+			pointer-events: none;
+		}
+
+		/* Set up transitions for showing app titles on hover */
+		/* App icon */
+		svg,
+		.icon-more-white {
+			transition: transform var(--animation-quick) ease;
+		}
+
+		/* Triangle */
+		a::before {
+			transition: border var(--animation-quick) ease;
 		}
 	}
 
-	/* focused app visual feedback */
-	li:hover a,
-	li a:focus,
-	li a.active {
-		opacity: 1;
+	/* Show all app titles on hovering app menu area */
+	&:hover {
+		li {
+			/* Move up app icon */
+			svg,
+			.icon-more,
+			.icon-more-white,
+			.icon-loading-small,
+			.icon-loading-small-dark {
+				transform: translateY(-7px);
+			}
+
+			/* Show app title */
+			span {
+				opacity: .6;
+				bottom: 2px;
+				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
+			}
+
+			/* Prominent app title for current and hovered/focused app */
+			&:hover span,
+			&:focus span,
+			.active + span {
+				opacity: 1;
+			}
+
+			/* Smaller triangle because of limited space */
+			a::before {
+				border-width: 5px;
+			}
+		}
 	}
 
-	li:hover a,
+	/* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
 	li a:focus {
-		+ span {
-			display: inline-block;
+		/* Move up app icon */
+		svg,
+		.icon-more,
+		.icon-more-white,
+		.icon-loading-small,
+		.icon-loading-small-dark {
+			transform: translateY(-7px);
 		}
-	}
 
-	li:hover span,
-	li:focus span,
-	li a:focus span {
-		display: inline-block;
-	}
+		/* Show app title */
+		& + span,
+		span {
+			opacity: 1;
+			bottom: 2px;
+		}
 
-	/* hidden apps menu */
-	li img,
-	.icon-more-white {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-	}
-
-	/* app title popup */
-	li span {
-		display: none;
-		position: absolute;
-		overflow: visible;
-		background-color: var(--color-main-background);
-		white-space: nowrap;
-		border: none;
-		border-radius: var(--border-radius);
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-		color: var(--color-text-lighter);
-		width: auto;
-		left: 50%;
-		top: 100%;
-		transform: translateX(-50%);
-		padding: 4px 10px;
-		filter: drop-shadow(0 1px 10px var(--color-box-shadow));
-		z-index: 100;
+		/* Smaller triangle because of limited space */
+		&::before {
+			border-width: 5px;
+		}
 	}
 
 	/* show triangle below active app */
@@ -548,6 +556,7 @@ nav[role='navigation'] {
 		bottom: 0;
 		display: none;
 	}
+
 	/* triangle focus feedback */
 	li a.active::before,
 	li:hover a::before,
@@ -559,15 +568,9 @@ nav[role='navigation'] {
 		z-index: 99;
 	}
 	li:hover a::before,
-	li:hover a::before,
 	li a.active:hover::before,
 	li a:focus::before {
 		z-index: 101;
-	}
-	&.menu-open li:hover a::before,
-	&.menu-open li a.active::before,
-	&.menu-open li:hover span {
-		display: none !important;
 	}
 
 	li.hidden {
@@ -615,20 +618,19 @@ nav[role='navigation'] {
 		background-color: transparent;
 		color: var(--color-primary-text);
 		border: 0;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-pill);
 		height: 34px;
 		width: 0;
 		cursor: pointer;
-		-webkit-transition: all 100ms;
-		transition: all 100ms;
+		transition: width 100ms, opacity 100ms;
 		opacity: .6;
 		&:focus, &:active, &:valid {
 			background-position-x: 6px;
 			color: var(--color-primary-text);
 			width: 155px;
 			cursor: text;
-			background-color: var(--color-primary) !important;
-			border: 1px solid var(--color-primary-text-dark) !important;
+			background-color: transparent !important;
+			border: 1px solid var(--color-primary-text) !important;
 		}
 		&:hover, &:focus, &:active {
 			opacity: 1;
@@ -652,5 +654,23 @@ nav[role='navigation'] {
 		&::-webkit-search-cancel-button {
 			-webkit-appearance: none;
 		}
+	}
+	.icon-search-force-white {
+		@include icon-color('search', 'actions', '#fffffe', 1, true);
+	}
+}
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent,
+header .emptycontent {
+	h2 {
+		font-weight: normal;
+		font-size: 16px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 48px;
+		height: 48px;
+		width: 48px;
 	}
 }

@@ -82,12 +82,8 @@ class SecurityMiddleware extends Middleware {
 	private $isLoggedIn;
 	/** @var bool */
 	private $isAdminUser;
-	/** @var ContentSecurityPolicyManager */
-	private $contentSecurityPolicyManager;
-	/** @var CsrfTokenManager */
-	private $csrfTokenManager;
-	/** @var ContentSecurityPolicyNonceManager */
-	private $cspNonceManager;
+	/** @var bool */
+	private $isSubAdmin;
 	/** @var IAppManager */
 	private $appManager;
 	/** @var IL10N */
@@ -101,9 +97,7 @@ class SecurityMiddleware extends Middleware {
 								string $appName,
 								bool $isLoggedIn,
 								bool $isAdminUser,
-								ContentSecurityPolicyManager $contentSecurityPolicyManager,
-								CsrfTokenManager $csrfTokenManager,
-								ContentSecurityPolicyNonceManager $cspNonceManager,
+								bool $isSubAdmin,
 								IAppManager $appManager,
 								IL10N $l10n
 	) {
@@ -115,9 +109,7 @@ class SecurityMiddleware extends Middleware {
 		$this->logger = $logger;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
-		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
-		$this->csrfTokenManager = $csrfTokenManager;
-		$this->cspNonceManager = $cspNonceManager;
+		$this->isSubAdmin = $isSubAdmin;
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 	}
@@ -143,7 +135,14 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if(!$this->reflector->hasAnnotation('NoAdminRequired') && !$this->isAdminUser) {
+			if($this->reflector->hasAnnotation('SubAdminRequired')
+				&& !$this->isSubAdmin
+				&& !$this->isAdminUser) {
+				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
+			}
+			if(!$this->reflector->hasAnnotation('SubAdminRequired')
+				&& !$this->reflector->hasAnnotation('NoAdminRequired')
+				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
@@ -190,34 +189,6 @@ class SecurityMiddleware extends Middleware {
 		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
 			throw new AppNotEnabledException();
 		}
-	}
-
-	/**
-	 * Performs the default CSP modifications that may be injected by other
-	 * applications
-	 *
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
-	public function afterController($controller, $methodName, Response $response): Response {
-		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
-
-		if (get_class($policy) === EmptyContentSecurityPolicy::class) {
-			return $response;
-		}
-
-		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
-		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
-
-		if($this->cspNonceManager->browserSupportsCspV3()) {
-			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
-		}
-
-		$response->setContentSecurityPolicy($defaultPolicy);
-
-		return $response;
 	}
 
 	/**

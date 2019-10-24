@@ -9,16 +9,17 @@
 		?>
 	</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="referrer" content="never">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<?php if ($theme->getiTunesAppId() !== '') { ?>
 	<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
+	<?php } ?>
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid']!=='files')? $_['application']:$theme->getTitle()); ?>">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 	<link rel="icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
-	<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
+	<link rel="apple-touch-icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 	<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path($_['appid'], 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
 	<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>">
 	<?php emit_css_loading_tags($_); ?>
@@ -27,6 +28,9 @@
 </head>
 <body id="<?php p($_['bodyid']);?>">
 <?php include('layout.noscript.warning.php'); ?>
+<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
+	<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
+<?php }?>
 	<div id="notification-container">
 		<div id="notification"></div>
 	</div>
@@ -51,18 +55,18 @@
 			?>
 		<div class="header-right">
 			<span id="header-primary-action" class="<?php if($template->getActionCount() === 1) {  p($primary->getIcon()); } ?>">
-				<a href="<?php p($primary->getLink()); ?>">
+				<a href="<?php p($primary->getLink()); ?>" class="primary button">
 					<span><?php p($primary->getLabel()) ?></span>
 				</a>
 			</span>
-			<?php if($template->getActionCount()>1) { ?>
+			<?php if($template->getActionCount() > 1) { ?>
 			<div id="header-secondary-action">
 				<span id="header-actions-toggle" class="menutoggle icon-more-white"></span>
 				<div id="header-actions-menu" class="popovermenu menu">
 					<ul>
 						<?php
 							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
-							foreach($template->getOtherActions() as $action) {
+							foreach($others as $action) {
 								print_unescaped($action->render());
 							}
 						?>
@@ -83,7 +87,9 @@
 		if ($_['showSimpleSignUpLink']) {
 			?>
 			<p>
-				<a href="https://nextcloud.com/signup/" target="_blank" rel="noreferrer noopener">Get your own free account</a>
+				<a href="https://nextcloud.com/signup/" target="_blank" rel="noreferrer noopener">
+					<?php p($l->t('Get your own free account')); ?>
+				</a>
 			</p>
 			<?php
 		}

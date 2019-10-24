@@ -54,6 +54,8 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			'cen*ter',
 			'*.leadingwith.port:123',
 			'trailingwith.port*:456',
+			'UPPERCASE.DOMAIN',
+			'lowercase.domain',
 		];
 		return [
 			// empty defaults to false with 8.1
@@ -106,6 +108,9 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			[$trustedHostTestList, '-bad', false],
 			[$trustedHostTestList, '-bad.leading.host', false],
 			[$trustedHostTestList, 'bad..der.leading.host', false],
+			// case sensitivity
+			[$trustedHostTestList, 'uppercase.domain', true],
+			[$trustedHostTestList, 'LOWERCASE.DOMAIN', true],
 		];
 	}
 }

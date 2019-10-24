@@ -110,6 +110,7 @@ class ManageTest extends TestCase {
 			['wArn', 2],
 			['error', 3],
 			['eRr', 3],
+			['fAtAl', 4],
 		];
 	}
 
@@ -135,6 +136,7 @@ class ManageTest extends TestCase {
 			[1, 'Info'],
 			[2, 'Warning'],
 			[3, 'Error'],
+			[4, 'Fatal'],
 		];
 	}
 

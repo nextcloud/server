@@ -45,7 +45,7 @@ OCA = OCA || {};
 		// for example, BaseDN detector needs the port. The port is typically found
 		// by the Port Detector. If BaseDN detector was run first, it will not have
 		// all necessary information. Only after Port Detector was executed…
-		for (var i = 0; i <= detectors.length; i++) {
+		for (var i = 0; i < detectors.length; i++) {
 			model.registerDetector(detectors[i]);
 		}
 
@@ -61,7 +61,7 @@ OCA = OCA || {};
 		var view = new OCA.LDAP.Wizard.WizardView(model);
 		view.init();
 		view.setModel(model);
-		for (var j = 0; j <= tabs.length; j++) {
+		for (var j = 0; j < tabs.length; j++) {
 			view.registerTab(tabs[j], '#ldapWizard' + (j + 2));
 		}
 

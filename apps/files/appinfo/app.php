@@ -34,7 +34,6 @@ $l = \OC::$server->getL10N('files');
 \OC::$server->getSearch()->registerProvider(File::class, array('apps' => array('files')));
 
 $templateManager = \OC_Helper::getFileTemplateManager();
-$templateManager->registerTemplate('text/html', 'core/templates/filetemplates/template.html');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');

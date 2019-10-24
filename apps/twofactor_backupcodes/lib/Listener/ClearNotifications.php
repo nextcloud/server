@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -25,10 +27,11 @@ declare(strict_types=1);
 namespace OCA\TwoFactorBackupCodes\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Notification\IManager;
-use Symfony\Component\EventDispatcher\Event;
 
-class ClearNotifications implements IListener {
+class ClearNotifications implements IEventListener {
 
 	/** @var IManager */
 	private $manager;
@@ -37,7 +40,7 @@ class ClearNotifications implements IListener {
 		$this->manager = $manager;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if (!($event instanceof CodesGenerated)) {
 			return;
 		}

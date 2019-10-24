@@ -181,7 +181,15 @@ class OC_User {
 				// completed before we can safely create the users folder.
 				// For example encryption needs to initialize the users keys first
 				// before we can create the user folder with the skeleton files
-				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
+				OC_Hook::emit(
+					'OC_User',
+					'post_login',
+					[
+						'uid' => $uid,
+						'password' => '',
+						'isTokenLogin' => false,
+					]
+				);
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
 			}
@@ -269,12 +277,8 @@ class OC_User {
 			return $backend->getLogoutUrl();
 		}
 
-		$logoutUrl = $urlGenerator->linkToRouteAbsolute(
-			'core.login.logout',
-			[
-				'requesttoken' => \OCP\Util::callRegister(),
-			]
-		);
+		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
+		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
 
 		return $logoutUrl;
 	}

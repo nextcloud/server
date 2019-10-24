@@ -112,11 +112,11 @@ class CommentPropertiesPlugin extends ServerPlugin {
 				if ($parentPath === '') {
 					$parentPath = '/';
 				}
-				// if we already cached the folder this file is in we know there are no shares for this file
+				// if we already cached the folder this file is in we know there are no comments for this file
 				if (array_search($parentPath, $this->cachedFolders) === false) {
-					return $this->getUnreadCount($node);
-				} else {
 					return 0;
+				} else {
+					return $this->getUnreadCount($node);
 				}
 			}
 		});

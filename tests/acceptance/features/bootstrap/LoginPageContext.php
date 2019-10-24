@@ -58,7 +58,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function loginButton() {
-		return Locator::forThe()->id("submit")->
+		return Locator::forThe()->id("submit-form")->
 				describedAs("Login button in Login page");
 	}
 
@@ -66,7 +66,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'warning wrongPasswordMsg' and normalize-space() = 'Wrong password.']")->
+		return Locator::forThe()->xpath("//*[@class = 'warning wrongPasswordMsg' and normalize-space() = 'Wrong username or password.']")->
 				describedAs("Wrong password message in Login page");
 	}
 
@@ -128,6 +128,15 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	public function iAmLoggedIn() {
 		$this->featureContext->iVisitTheHomePage();
 		$this->iLogInWithUserAndPassword("user0", "123456acb");
+		$this->filesAppContext->iSeeThatTheCurrentPageIsTheFilesApp();
+	}
+
+	/**
+	 * @Given I am logged in as :userName
+	 */
+	public function iAmLoggedInAs($userName) {
+		$this->featureContext->iVisitTheHomePage();
+		$this->iLogInWithUserAndPassword($userName, "123456acb");
 		$this->filesAppContext->iSeeThatTheCurrentPageIsTheFilesApp();
 	}
 

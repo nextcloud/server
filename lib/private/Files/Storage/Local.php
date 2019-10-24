@@ -39,6 +39,7 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\IStorage;
@@ -201,9 +202,9 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		if (!is_null($mtime)) {
-			$result = touch($this->getSourcePath($path), $mtime);
+			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
-			$result = touch($this->getSourcePath($path));
+			$result = @touch($this->getSourcePath($path));
 		}
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
@@ -229,6 +230,18 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+	}
+
+	private function treeContainsBlacklistedFile(string $path): bool {
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		foreach ($iterator as $file) {
+			/** @var \SplFileInfo $file */
+			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function rename($path1, $path2) {
@@ -266,6 +279,10 @@ class Local extends \OC\Files\Storage\Common {
 					$result &= $this->rmdir($path1);
 				}
 				return $result;
+			}
+
+			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
+				throw new ForbiddenException('Invalid path', false);
 			}
 		}
 
@@ -362,6 +379,10 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
+		if (Filesystem::isFileBlacklisted($path)) {
+			throw new ForbiddenException('Invalid path', false);
+		}
+
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
 		if ($this->allowSymlinks || $currentPath === '') {
@@ -461,5 +482,9 @@ class Local extends \OC\Files\Storage\Common {
 		} else {
 			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		return (int)file_put_contents($this->getSourcePath($path), $stream);
 	}
 }

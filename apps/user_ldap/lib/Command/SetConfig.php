@@ -26,6 +26,8 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\ConnectionFactory;
+use OCA\User_LDAP\LDAP;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -83,5 +85,8 @@ class SetConfig extends Command {
 		$configHolder = new Configuration($configID);
 		$configHolder->$key = $value;
 		$configHolder->saveConfiguration();
+
+		$connectionFactory = new ConnectionFactory(new LDAP());
+		$connectionFactory->get($configID)->clearCache();
 	}
 }

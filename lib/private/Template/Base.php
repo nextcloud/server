@@ -107,7 +107,6 @@ class Base {
 	 * Appends a variable
 	 * @param string $key key
 	 * @param mixed $value value
-	 * @return boolean|null
 	 *
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via

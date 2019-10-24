@@ -58,7 +58,11 @@ class ContentSecurityPolicyNonceManager {
 	 */
 	public function getNonce(): string {
 		if($this->nonce === '') {
-			$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			if (empty($this->request->server['CSP_NONCE'])) {
+				$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			} else {
+				$this->nonce = $this->request->server['CSP_NONCE'];
+			}
 		}
 
 		return $this->nonce;
@@ -74,6 +78,8 @@ class ContentSecurityPolicyNonceManager {
 			Request::USER_AGENT_CHROME,
 			// Firefox 45+
 			'/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/(4[5-9]|[5-9][0-9])\.[0-9.]+$/',
+			// Safari 12+
+			'/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/(1[2-9]|[2-9][0-9])\.[0-9]+ Safari\/[0-9.A-Z]+$/',
 		];
 
 		if($this->request->isUserAgent($browserWhitelist)) {

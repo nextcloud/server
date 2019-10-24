@@ -26,10 +26,10 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use Symfony\Component\EventDispatcher\Event;
 use Test\TestCase;
 
 class ClearNotificationsTest extends TestCase {

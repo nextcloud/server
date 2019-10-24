@@ -17,7 +17,7 @@
 			<description>POST invitation</description>
 			<request>
 				<method>POST</method>
-				<ruri>$addressbookpath1:</ruri>
+				<ruri>$addressbookhome1:/addressbook/</ruri>
 				<data>
 					<content-type>text/xml; charset=utf-8</content-type>
 					<filepath>Resource/CardDAV/sharing/read-write/1.xml</filepath>
@@ -31,7 +31,7 @@
 			<description>Shared addressbook exists</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
-				<ruri>$addressbookpath1:/</ruri>
+				<ruri>$addressbookhome2:/addressbook_shared_by_user01/</ruri>
 				<header>
 					<name>Depth</name>
 					<value>0</value>
@@ -62,7 +62,7 @@
 		</test>
 
 		<test name='4a'>
-			<description>Shared calendar exists Depth:1</description>
+			<description>Shared addressbook exists Depth:1</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
 				<ruri>$addressbookhome2:/</ruri>
@@ -100,7 +100,7 @@
 		</test>
 
 		<test name='5'>
-			<description>Original calendar unchanged</description>
+			<description>Original addressbook unchanged</description>
 			<request>
 				<method>PROPFIND</method>
 				<ruri>$addressbookpath1:</ruri>
@@ -126,7 +126,7 @@
 			<description>Sharee creates contact</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<ruri>$addressbookhome2:/addressbook_shared_by_user01/1.vcf</ruri>
 				<data>
 					<content-type>text/vcard; charset=utf-8</content-type>
 					<filepath>Resource/CardDAV/sharing/read-write/6.vcf</filepath>
@@ -171,7 +171,7 @@
 			<description>Sharee sees changed contact</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<ruri>$addressbookhome2:/addressbook_shared_by_user01/1.vcf</ruri>
 				<verify>
 					<callback>addressDataMatch</callback>
 					<arg>
@@ -183,7 +183,7 @@
 		</test>
 
 		<test name='10'>
-			<description>Sharer creates event</description>
+			<description>Sharer creates contact</description>
 			<request>
 				<method>PUT</method>
 				<ruri>$addressbookpath1:/2.vcf</ruri>
@@ -197,10 +197,10 @@
 			</request>
 		</test>
 		<test name='11'>
-			<description>Sharee sees new event</description>
+			<description>Sharee sees new contact</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$addressbookpath1:/2.vcf</ruri>
+				<ruri>$addressbookhome2:/addressbook_shared_by_user01/2.vcf</ruri>
 				<verify>
 					<callback>addressDataMatch</callback>
 					<arg>
@@ -211,10 +211,10 @@
 			</request>
 		</test>
 		<test name='12'>
-			<description>Sharee changes event</description>
+			<description>Sharee changes contact</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$addressbookpath1:/2.vcf</ruri>
+				<ruri>$addressbookhome2:/addressbook_shared_by_user01/2.vcf</ruri>
 				<data>
 					<content-type>text/vcard; charset=utf-8</content-type>
 					<filepath>Resource/CardDAV/sharing/read-write/9.vcf</filepath>
@@ -225,7 +225,7 @@
 			</request>
 		</test>
 		<test name='13'>
-			<description>Sharer sees changed event</description>
+			<description>Sharer sees changed contact</description>
 			<request>
 				<method>GET</method>
 				<ruri>$addressbookpath1:/2.vcf</ruri>
@@ -281,7 +281,7 @@
 				</verify>			</request>
 		</test>
 		<test name='16'>
-			<description>Shared calendar no longer exists Depth:1</description>
+			<description>Shared addressbook no longer exists Depth:1</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
 				<ruri>$addressbookhome2:</ruri>

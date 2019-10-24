@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -22,8 +23,9 @@
 namespace OCA\OAuth2\Controller;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\ExpiredTokenException;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
+use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
@@ -49,25 +51,18 @@ class OauthApiController extends Controller {
 	private $secureRandom;
 	/** @var ITimeFactory */
 	private $time;
+	/** @var Throttler */
+	private $throttler;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ICrypto $crypto
-	 * @param AccessTokenMapper $accessTokenMapper
-	 * @param ClientMapper $clientMapper
-	 * @param TokenProvider $tokenProvider
-	 * @param ISecureRandom $secureRandom
-	 * @param ITimeFactory $time
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								ICrypto $crypto,
 								AccessTokenMapper $accessTokenMapper,
 								ClientMapper $clientMapper,
 								TokenProvider $tokenProvider,
 								ISecureRandom $secureRandom,
-								ITimeFactory $time) {
+								ITimeFactory $time,
+								Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->crypto = $crypto;
 		$this->accessTokenMapper = $accessTokenMapper;
@@ -75,6 +70,7 @@ class OauthApiController extends Controller {
 		$this->tokenProvider = $tokenProvider;
 		$this->secureRandom = $secureRandom;
 		$this->time = $time;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -88,7 +84,7 @@ class OauthApiController extends Controller {
 	 * @param string $client_secret
 	 * @return JSONResponse
 	 */
-	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret) {
+	public function getToken($grant_type, $code, $refresh_token, $client_id, $client_secret): JSONResponse {
 
 		// We only handle two types
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
@@ -163,6 +159,8 @@ class OauthApiController extends Controller {
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
 		$this->accessTokenMapper->update($accessToken);
+
+		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
 
 		return new JSONResponse(
 			[

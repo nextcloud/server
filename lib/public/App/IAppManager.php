@@ -8,6 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Daniel Rudolf <nextcloud.com@daniel-rudolf.de>
  *
  * @license AGPL-3.0
  *
@@ -28,6 +29,7 @@
 namespace OCP\App;
 
 use OCP\IUser;
+use OCP\IGroup;
 
 /**
  * Interface IAppManager
@@ -109,9 +111,10 @@ interface IAppManager {
 	 * Disable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId);
+	public function disableApp($appId, $automaticDisabled = false);
 
 	/**
 	 * Get the directory for the given app.
@@ -122,6 +125,16 @@ interface IAppManager {
 	 * @throws AppPathNotFoundException
 	 */
 	public function getAppPath($appId);
+
+	/**
+	 * Get the web path for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @since 18.0.0
+	 * @throws AppPathNotFoundException
+	 */
+	public function getAppWebPath(string $appId): string;
 
 	/**
 	 * List all apps enabled for a user
@@ -158,4 +171,24 @@ interface IAppManager {
 	 * @since 9.0.0
 	 */
 	public function getAlwaysEnabledApps();
+
+	/**
+	 * @param \OCP\IGroup $group
+	 * @return String[]
+	 * @since 17.0.0
+	 */
+	public function getEnabledAppsForGroup(IGroup $group): array;
+
+	/**
+	 * @return array
+	 * @since 17.0.0
+	 */
+	public function getAutoDisabledApps(): array;
+
+	/**
+	 * @param String $appId
+	 * @return string[]
+	 * @since 17.0.0
+	 */
+	public function getAppRestriction(string $appId): array;
 }

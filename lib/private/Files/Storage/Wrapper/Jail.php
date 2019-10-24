@@ -27,7 +27,9 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
+use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -56,14 +58,22 @@ class Jail extends Wrapper {
 		if ($path === '') {
 			return $this->rootPath;
 		} else {
-			return $this->rootPath . '/' . $path;
+			return Filesystem::normalizePath($this->rootPath . '/' . $path);
 		}
 	}
+
+	/**
+	 * This is separate from Wrapper::getWrapperStorage so we can get the jailed storage consistently even if the jail is inside another wrapper
+	 */
+	public function getUnjailedStorage() {
+		return $this->storage;
+	}
+
 
 	public function getJailedPath($path) {
 		$root = rtrim($this->rootPath, '/') . '/';
 
-		if (strpos($path, $root) !== 0) {
+		if ($path !== $this->rootPath && strpos($path, $root) !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->rootPath));
@@ -513,5 +523,19 @@ class Jail extends Wrapper {
 		}
 		$this->propagator = new JailPropagator($storage, \OC::$server->getDatabaseConnection());
 		return $this->propagator;
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
+			/** @var IWriteStreamStorage $storage */
+			return $storage->writeStream($this->getUnjailedPath($path), $stream, $size);
+		} else {
+			$target = $this->fopen($path, 'w');
+			list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+			fclose($stream);
+			fclose($target);
+			return $count;
+		}
 	}
 }

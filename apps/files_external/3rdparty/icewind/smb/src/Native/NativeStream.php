@@ -48,13 +48,13 @@ class NativeStream implements File {
 	 */
 	public static function wrap($state, $smbStream, $mode, $url) {
 		stream_wrapper_register('nativesmb', NativeStream::class);
-		$context = stream_context_create(array(
-			'nativesmb' => array(
+		$context = stream_context_create([
+			'nativesmb' => [
 				'state'  => $state,
 				'handle' => $smbStream,
 				'url'    => $url
-			)
-		));
+			]
+		]);
 		$fh = fopen('nativesmb://', $mode, false, $context);
 		stream_wrapper_unregister('nativesmb');
 		return $fh;

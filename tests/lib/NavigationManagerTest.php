@@ -217,19 +217,12 @@ class NavigationManagerTest extends TestCase {
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
 		});
-		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function () {
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+			if ($route === 'core.login.logout') {
+				return 'https://example.com/logout';
+			}
 			return '/apps/test/';
 		});
-		$this->urlGenerator
-		     ->expects($this->once())
-		     ->method('linkToRouteAbsolute')
-		     ->with(
-			     'core.login.logout',
-			     [
-				     'requesttoken' => \OCP\Util::callRegister()
-			     ]
-		     )
-		     ->willReturn('https://example.com/logout');
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
@@ -275,7 +268,7 @@ class NavigationManagerTest extends TestCase {
 			'logout' => [
 				'id'      => 'logout',
 				'order'   => 99999,
-				'href'    => 'https://example.com/logout',
+				'href'    => 'https://example.com/logout?requesttoken='. urlencode(\OCP\Util::callRegister()),
 				'icon'    => '/apps/core/img/actions/logout.svg',
 				'name'    => 'Log out',
 				'active'  => false,
@@ -301,7 +294,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['route' => 'test.page.index', 'name' => 'Test']
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test']
+					]
 				]]
 			],
 			'minimalistic-settings' => [
@@ -320,9 +315,11 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
-				]
-				]],
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
+					],
+				]]
+			],
 			'admin' => [
 				array_merge(
 					['settings' => $defaults['settings']],
@@ -340,7 +337,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
+					'navigation' => [
+						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
+					],
 				]],
 				true
 			],
@@ -351,7 +350,9 @@ class NavigationManagerTest extends TestCase {
 					['logout' => $defaults['logout']]
 				),
 				['navigations' => [
-					['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
+					'navigation' => [
+						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
+					],
 				]],
 				true
 			],

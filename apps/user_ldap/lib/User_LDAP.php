@@ -190,9 +190,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch(NotOnLDAP $e) {
-			if($this->ocConfig->getSystemValue('loglevel', ILogger::WARN) === ILogger::DEBUG) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
-			}
+			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap', 'level' => ILogger::DEBUG]);
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
@@ -384,18 +382,21 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	*/
 	public function deleteUser($uid) {
 		if ($this->userPluginManager->canDeleteUser()) {
-			return $this->userPluginManager->deleteUser($uid);
+			$status = $this->userPluginManager->deleteUser($uid);
+			if($status === false) {
+				return false;
+			}
 		}
 
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
 		if((int)$marked === 0) {
 			\OC::$server->getLogger()->notice(
 				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				array('app' => 'user_ldap'));
+				['app' => 'user_ldap']);
 			return false;
 		}
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
-			array('app' => 'user_ldap'));
+			['app' => 'user_ldap']);
 
 		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
 		$this->access->userManager->invalidate($uid);
@@ -508,7 +509,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 */
 	public function setDisplayName($uid, $displayName) {
 		if ($this->userPluginManager->implementsActions(Backend::SET_DISPLAYNAME)) {
-			return $this->userPluginManager->setDisplayName($uid, $displayName);
+			$this->userPluginManager->setDisplayName($uid, $displayName);
+			$this->access->cacheUserDisplayName($uid, $displayName);
+			return $displayName;
 		}
 		return false;
 	}
@@ -615,11 +618,38 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * create new user
 	 * @param string $username username of the new user
 	 * @param string $password password of the new user
-	 * @return bool was the user created?
+	 * @throws \UnexpectedValueException
+	 * @return bool
 	 */
 	public function createUser($username, $password) {
 		if ($this->userPluginManager->implementsActions(Backend::CREATE_USER)) {
-			return $this->userPluginManager->createUser($username, $password);
+			if ($dn = $this->userPluginManager->createUser($username, $password)) {
+				if (is_string($dn)) {
+					// the NC user creation work flow requires a know user id up front
+					$uuid = $this->access->getUUID($dn, true);
+					if(is_string($uuid)) {
+						$this->access->mapAndAnnounceIfApplicable(
+							$this->access->getUserMapper(),
+							$dn,
+							$username,
+							$uuid,
+							true
+						);
+						$this->access->cacheUserExists($username);
+					} else {
+						\OC::$server->getLogger()->warning(
+							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
+							[
+								'app' => 'user_ldap',
+								'userid' => $username,
+							]
+						);
+					}
+				} else {
+					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+				}
+			}
+			return (bool) $dn;
 		}
 		return false;
 	}

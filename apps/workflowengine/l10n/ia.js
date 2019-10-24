@@ -1,7 +1,6 @@
 OC.L10N.register(
     "workflowengine",
     {
-    "Saving failed:" : "Salveguardata falleva:",
     "is" : "es",
     "is not" : "non es",
     "matches" : "corresponde",
@@ -36,11 +35,12 @@ OC.L10N.register(
     "Desktop client" : "Cliente de Scriptorio",
     "is member of" : "es membro de",
     "is not member of" : "non es membro de",
-    "Open documentation" : "Aperir documentation",
     "Add rule" : "Adder regula",
     "Reset" : "Reinitialisar",
     "Save" : "Salveguardar",
     "Saving…" : "Salveguardante...",
+    "Saving failed:" : "Salveguardata falleva:",
+    "Open documentation" : "Aperir documentation",
     "Loading…" : "Cargante..."
 },
 "nplurals=2; plural=(n != 1);");

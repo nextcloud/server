@@ -52,23 +52,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToPublic($service, $add_slash = false) {
-		if ($service === 'files') {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
-		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
-		}
-		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
@@ -101,32 +84,6 @@ class OC_Helper {
 
 		$bytes = round($bytes / 1024, 1);
 		return "$bytes PB";
-	}
-
-	/**
-	 * Make a php file size
-	 * @param int $bytes file size in bytes
-	 * @return string a php parseable file size
-	 *
-	 * Makes 2048 to 2k and 2^41 to 2048G
-	 */
-	public static function phpFileSize($bytes) {
-		if ($bytes < 0) {
-			return "?";
-		}
-		if ($bytes < 1024) {
-			return $bytes . "B";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "K";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "M";
-		}
-		$bytes = round($bytes / 1024, 1);
-		return $bytes . "G";
 	}
 
 	/**
@@ -232,6 +189,7 @@ class OC_Helper {
 	}
 
 	/**
+	 * @deprecated 18.0.0
 	 * @return \OC\Files\Type\TemplateManager
 	 */
 	static public function getFileTemplateManager() {

@@ -30,36 +30,46 @@
 
 namespace OC;
 
+use OC\Avatar\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
+use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
-use OC\Repair\NC14\RepairPendingCronJobs;
+use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
+use OC\Repair\NC16\CleanupCardDAVPhotoCache;
+use OC\Repair\NC16\ClearCollectionsAccessCache;
+use OC\Repair\NC17\SetEnterpriseLogo;
+use OC\Repair\NC17\SwitchUpdateChannel;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
-use OC\Repair\RemoveRootShares;
-use OC\Repair\NC13\RepairInvalidPaths;
-use OC\Repair\SqliteAutoincrement;
-use OC\Repair\RepairMimeTypes;
+use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairInvalidShares;
+use OC\Repair\RepairMimeTypes;
+use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Resources\IManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Repair implements IOutput{
-	/* @var IRepairStep[] */
+class Repair implements IOutput {
+
+	/** @var IRepairStep[] */
 	private $repairSteps;
-	/** @var EventDispatcher */
+
+	/** @var EventDispatcherInterface */
 	private $dispatcher;
+
 	/** @var string */
 	private $currentStep;
 
@@ -67,11 +77,11 @@ class Repair implements IOutput{
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
-	 * @param EventDispatcher $dispatcher
+	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct($repairSteps = [], EventDispatcher $dispatcher = null) {
+	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
 		$this->repairSteps = $repairSteps;
-		$this->dispatcher = $dispatcher;
+		$this->dispatcher  = $dispatcher;
 	}
 
 	/**
@@ -80,6 +90,7 @@ class Repair implements IOutput{
 	public function run() {
 		if (count($this->repairSteps) === 0) {
 			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
+
 			return;
 		}
 		// run each repair step
@@ -130,15 +141,19 @@ class Repair implements IOutput{
 			new RepairMimeTypes(\OC::$server->getConfig()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
+			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
+			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
+			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
+			\OC::$server->query(SwitchUpdateChannel::class),
+			\OC::$server->query(SetEnterpriseLogo::class),
 		];
 	}
 
@@ -150,7 +165,7 @@ class Repair implements IOutput{
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
 		];
 	}
 
@@ -162,12 +177,12 @@ class Repair implements IOutput{
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
-		$config = \OC::$server->getConfig();
-		$steps = [
+		$config     = \OC::$server->getConfig();
+		$steps      = [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
 			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connection, $config),
-			new DropAccountTermsTable($connection),
+			new DropAccountTermsTable($connection)
 		];
 
 		return $steps;

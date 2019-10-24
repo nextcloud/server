@@ -26,6 +26,7 @@ use OCA\OAuth2\Controller\LoginRedirectorController;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -44,6 +45,8 @@ class LoginRedirectorControllerTest extends TestCase {
 	private $session;
 	/** @var LoginRedirectorController */
 	private $loginRedirectorController;
+	/** @var IL10N */
+	private $l;
 
 	public function setUp() {
 		parent::setUp();
@@ -52,13 +55,15 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->l = $this->createMock(IL10N::class);
 
 		$this->loginRedirectorController = new LoginRedirectorController(
 			'oauth2',
 			$this->request,
 			$this->urlGenerator,
 			$this->clientMapper,
-			$this->session
+			$this->session,
+			$this->l
 		);
 	}
 

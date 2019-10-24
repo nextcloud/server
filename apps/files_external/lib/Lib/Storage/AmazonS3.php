@@ -61,10 +61,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var CappedMemoryCache|Result[] */
 	private $objectCache;
 
+	/** @var CappedMemoryCache|bool[] */
+	private $directoryCache;
+
+	/** @var CappedMemoryCache|array */
+	private $filesCache;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
+		$this->directoryCache = new CappedMemoryCache();
+		$this->filesCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -94,6 +102,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	private function clearCache() {
 		$this->objectCache = new CappedMemoryCache();
+		$this->directoryCache = new CappedMemoryCache();
+		$this->filesCache = new CappedMemoryCache();
 	}
 
 	private function invalidateCache($key) {
@@ -105,6 +115,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				unset($this->objectCache[$existingKey]);
 			}
 		}
+		unset($this->directoryCache[$key], $this->filesCache[$key]);
 	}
 
 	/**
@@ -127,6 +138,41 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		return $this->objectCache[$key];
+	}
+
+	/**
+	 * Return true if directory exists
+	 *
+	 * There are no folders in s3. A folder like structure could be archived
+	 * by prefixing files with the folder name.
+	 *
+	 * Implementation from flysystem-aws-s3-v3:
+	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
+	 *
+	 * @param $path
+	 * @return bool
+	 * @throws \Exception
+	 */
+	private function doesDirectoryExist($path) {
+		if (!isset($this->directoryCache[$path])) {
+			// Maybe this isn't an actual key, but a prefix.
+			// Do a prefix listing of objects to determine.
+			try {
+				$result = $this->getConnection()->listObjects([
+					'Bucket' => $this->bucket,
+					'Prefix' => rtrim($path, '/') . '/',
+					'MaxKeys' => 1,
+				]);
+				$this->directoryCache[$path] = $result['Contents'] || $result['CommonPrefixes'];
+			} catch (S3Exception $e) {
+				if ($e->getStatusCode() === 403) {
+					$this->directoryCache[$path] = false;
+				}
+				throw $e;
+			}
+		}
+
+		return $this->directoryCache[$path];
 	}
 
 	/**
@@ -288,7 +334,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				// sub folders
 				if (is_array($result['CommonPrefixes'])) {
 					foreach ($result['CommonPrefixes'] as $prefix) {
-						$files[] = substr(trim($prefix['Prefix'], '/'), strlen($path));
+						$directoryName = trim($prefix['Prefix'], '/');
+						$files[] = substr($directoryName, strlen($path));
+						$this->directoryCache[$directoryName] = true;
 					}
 				}
 				if (is_array($result['Contents'])) {
@@ -301,6 +349,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 							isset($object['Key']) ? $object['Key'] : $object['Prefix']
 						);
 						$files[] = $file;
+
+						// store this information for later usage
+						$this->filesCache[$path . $file] = [
+							'ContentLength' => $object['Size'],
+							'LastModified' => (string)$object['LastModified'],
+						];
 					}
 				}
 			}
@@ -316,20 +370,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		try {
-			$stat = array();
+			$stat = [];
 			if ($this->is_dir($path)) {
 				//folders don't really exist
 				$stat['size'] = -1; //unknown
 				$stat['mtime'] = time() - $this->rescanDelay * 1000;
 			} else {
-				$result = $this->headObject($path);
-
-				$stat['size'] = $result['ContentLength'] ? $result['ContentLength'] : 0;
-				if (isset($result['Metadata']['lastmodified'])) {
-					$stat['mtime'] = strtotime($result['Metadata']['lastmodified']);
-				} else {
-					$stat['mtime'] = strtotime($result['LastModified']);
-				}
+				$stat['size'] = $this->getContentLength($path);
+				$stat['mtime'] = strtotime($this->getLastModified($path));
 			}
 			$stat['atime'] = time();
 
@@ -340,10 +388,59 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * Return content length for object
+	 *
+	 * When the information is already present (e.g. opendir has been called before)
+	 * this value is return. Otherwise a headObject is emitted.
+	 *
+	 * @param $path
+	 * @return int|mixed
+	 */
+	private function getContentLength($path) {
+		if (isset($this->filesCache[$path])) {
+			return $this->filesCache[$path]['ContentLength'];
+		}
+
+		$result = $this->headObject($path);
+		if (isset($result['ContentLength'])) {
+			return $result['ContentLength'];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Return last modified for object
+	 *
+	 * When the information is already present (e.g. opendir has been called before)
+	 * this value is return. Otherwise a headObject is emitted.
+	 *
+	 * @param $path
+	 * @return mixed|string
+	 */
+	private function getLastModified($path) {
+		if (isset($this->filesCache[$path])) {
+			return $this->filesCache[$path]['LastModified'];
+		}
+
+		$result = $this->headObject($path);
+		if (isset($result['LastModified'])) {
+			return $result['LastModified'];
+		}
+
+		return 'now';
+	}
+
 	public function is_dir($path) {
 		$path = $this->normalizePath($path);
+
+		if (isset($this->filesCache[$path])) {
+			return false;
+		}
+
 		try {
-			return $this->isRoot($path) || $this->headObject($path . '/');
+			return $this->isRoot($path) || $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
@@ -358,10 +455,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			if ($this->headObject($path)) {
+			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
 				return 'file';
 			}
-			if ($this->headObject($path . '/')) {
+			if ($this->doesDirectoryExist($path)) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
@@ -588,7 +685,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source);
 			$this->invalidateCache($path);
-			fclose($source);
 
 			unlink($tmpFile);
 			return true;

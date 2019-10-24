@@ -534,6 +534,7 @@ interface IServerContainer extends IContainer {
 	/**
 	 * @return IContentSecurityPolicyManager
 	 * @since 9.0.0
+	 * @deprecated 17.0.0 Use the AddContentSecurityPolicyEvent
 	 */
 	public function getContentSecurityPolicyManager();
 
@@ -584,4 +585,10 @@ interface IServerContainer extends IContainer {
 	 * @since 13.0.0
 	 */
 	public function getRemoteInstanceFactory();
+
+	/**
+	 * @return \OCP\Files\Storage\IStorageFactory
+	 * @since 15.0.0
+	 */
+	public function getStorageFactory();
 }

@@ -100,7 +100,9 @@ class UserManagement extends Action {
 		switch($params['feature']) {
 			case 'enabled':
 				$this->log(
-					$params['value'] === 'true' ? 'User enabled: "%s"' : 'User disabled: "%s"',
+					$params['value'] === true
+						? 'User enabled: "%s"'
+						: 'User disabled: "%s"',
 					['user' => $params['user']->getUID()],
 					[
 						'user',

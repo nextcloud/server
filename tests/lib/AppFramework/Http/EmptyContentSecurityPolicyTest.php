@@ -451,4 +451,19 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy->addAllowedScriptDomain("'self'");
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
+
+	public function testGetPolicyWithReportUri() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';report-uri https://my-report-uri.com";
+
+		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithMultipleReportUri() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';report-uri https://my-report-uri.com https://my-other-report-uri.com";
+
+		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
+		$this->contentSecurityPolicy->addReportTo("https://my-other-report-uri.com");
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
 }

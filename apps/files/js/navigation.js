@@ -62,40 +62,37 @@
 		 * Setup UI events
 		 */
 		_setupEvents: function () {
-			this.$el.on('click', 'li a', _.bind(this._onClickItem, this))
+			this.$el.on('click', 'li a', _.bind(this._onClickItem, this));
 			this.$el.on('click', 'li button', _.bind(this._onClickMenuButton, this));
 
-			var trashElement=$(".nav-trashbin");
-
-			//this div is required to prefetch the icon, otherwise it takes a second to show up
-			trashElement.append("<div class='nav-icon-trashbin-starred'></div>")
-			trashElement.droppable({
-				over: function( event, ui ) {
-					trashElement.addClass('dropzone-background')
+			var trashBinElement = $('.nav-trashbin');
+			trashBinElement.droppable({
+				over: function (event, ui) {
+					trashBinElement.addClass('dropzone-background');
 				},
-				out: function( event, ui ) {
-					trashElement.removeClass('dropzone-background');
+				out: function (event, ui) {
+					trashBinElement.removeClass('dropzone-background');
 				},
-				activate: function( event, ui ) {
-					var elem=trashElement.find("a").first();
-					elem.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
+				activate: function (event, ui) {
+					var element = trashBinElement.find('a').first();
+					element.addClass('nav-icon-trashbin-starred').removeClass('nav-icon-trashbin');
 				},
-				deactivate: function( event, ui ) {
-					var elem=trashElement.find("a").first();
-					elem.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
+				deactivate: function (event, ui) {
+					var element = trashBinElement.find('a').first();
+					element.addClass('nav-icon-trashbin').removeClass('nav-icon-trashbin-starred');
 				},
-				drop: function( event, ui ) {
+				drop: function (event, ui) {
+					trashBinElement.removeClass('dropzone-background');
 
 					var $selectedFiles = $(ui.draggable);
 
-					if (ui.helper.find("tr").size()===1) {
-						var $tr = $selectedFiles.closest('tr');
-						$selectedFiles.trigger("droppedOnTrash", $tr.attr("data-file"), $tr.attr('data-dir'));
-					}else{
-						var item = ui.helper.find("tr");
-						for(var i=0; i<item.length;i++){
-							$selectedFiles.trigger("droppedOnTrash", item[i].getAttribute("data-file"), item[i].getAttribute("data-dir"));
-						}
+					// FIXME: when there are a lot of selected files the helper
+					// contains only a subset of them; the list of selected
+					// files should be gotten from the file list instead to
+					// ensure that all of them are removed.
+					var item = ui.helper.find('tr');
+					for (var i = 0; i < item.length; i++) {
+						$selectedFiles.trigger('droppedOnTrash', item[i].getAttribute('data-file'), item[i].getAttribute('data-dir'));
 					}
 				}
 			});
@@ -154,7 +151,12 @@
 			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {
-				this.$currentContent.trigger(jQuery.Event('show'));
+				this.$currentContent.trigger(jQuery.Event('show', {
+					itemId: itemId,
+					previousItemId: oldItemId,
+					dir: itemDir,
+					view: itemView
+				}));
 				this.$el.trigger(
 					new $.Event('itemChanged', {
 						itemId: itemId,
@@ -217,11 +219,52 @@
 		 */
 		setInitialQuickaccessSettings: function () {
 			var quickAccessKey = this.$quickAccessListKey;
-			var quickAccessMenu = document.getElementById(quickAccessKey)
+			var quickAccessMenu = document.getElementById(quickAccessKey);
 			if (quickAccessMenu) {
 				var list = quickAccessMenu.getElementsByTagName('li');
 				this.QuickSort(list, 0, list.length - 1);
 			}
+
+			var favoritesListElement = $(quickAccessMenu).parent();
+			favoritesListElement.droppable({
+				over: function (event, ui) {
+					favoritesListElement.addClass('dropzone-background');
+				},
+				out: function (event, ui) {
+					favoritesListElement.removeClass('dropzone-background');
+				},
+				activate: function (event, ui) {
+					var element = favoritesListElement.find('a').first();
+					element.addClass('nav-icon-favorites-starred').removeClass('nav-icon-favorites');
+				},
+				deactivate: function (event, ui) {
+					var element = favoritesListElement.find('a').first();
+					element.addClass('nav-icon-favorites').removeClass('nav-icon-favorites-starred');
+				},
+				drop: function (event, ui) {
+					favoritesListElement.removeClass('dropzone-background');
+
+					var $selectedFiles = $(ui.draggable);
+
+					if (ui.helper.find('tr').size() === 1) {
+						var $tr = $selectedFiles.closest('tr');
+						if ($tr.attr("data-favorite")) {
+							return;
+						}
+						$selectedFiles.trigger('droppedOnFavorites', $tr.attr('data-file'));
+					} else {
+						// FIXME: besides the issue described for dropping on
+						// the trash bin, for favoriting it is not possible to
+						// use the data from the helper; due to some bugs the
+						// tags are not always added to the selected files, and
+						// thus that data can not be accessed through the helper
+						// to prevent triggering the favorite action on an
+						// already favorited file (which would remove it from
+						// favorites).
+						OC.Notification.showTemporary(t('files', 'You can only favorite a single file or folder at a time'));
+					}
+				}
+			});
 		},
 
 		/**
@@ -278,8 +321,11 @@
 		 * This method allows easy swapping of elements.
 		 */
 		swap: function (list, j, i) {
-			list[i].before(list[j]);
-			list[j].before(list[i]);
+			var before = function(node, insertNode) {
+				node.parentNode.insertBefore(insertNode, node);
+			}
+			before(list[i], list[j]);
+			before(list[j], list[i]);
 		}
 
 	};

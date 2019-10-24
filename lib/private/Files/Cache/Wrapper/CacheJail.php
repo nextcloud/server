@@ -94,7 +94,7 @@ class CacheJail extends CacheWrapper {
 
 	protected function filterCacheEntry($entry) {
 		$rootLength = strlen($this->getRoot()) + 1;
-		return ($entry['path'] === $this->getRoot()) or (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
+		return $rootLength === 1 || ($entry['path'] === $this->getRoot()) || (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
 	}
 
 	/**
@@ -248,26 +248,14 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * search for files by mimetype
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return array
-	 */
-	public function searchByTag($tag, $userId) {
-		$results = $this->getCache()->searchByTag($tag, $userId);
-		return $this->formatSearchResults($results);
-	}
-
-	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null) {
+	public function correctFolderSize($path, $data = null, $isBackgroundSize = false) {
 		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data);
+			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data, $isBackgroundSize);
 		}
 	}
 

@@ -48,6 +48,15 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function appNavigationSectionItemInFor($caption, $sectionText) {
+		return Locator::forThe()->xpath("//li[normalize-space() = '$caption']/following-sibling::li/a[normalize-space() = '$sectionText']/..")->
+			descendantOf(self::appNavigation())->
+			describedAs($sectionText . " section item of the $caption group in App Navigation");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function appNavigationCurrentSectionItem() {
 		return Locator::forThe()->css(".active")->
 			descendantOf(self::appNavigation())->
@@ -77,6 +86,13 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public function iOpenTheSection($section) {
 		$this->actor->find(self::appNavigationSectionItemFor($section), 10)->click();
+	}
+
+	/**
+	 * @Given I open the :section section of the :caption group
+	 */
+	public function iOpenTheSectionOf($caption, $section) {
+		$this->actor->find(self::appNavigationSectionItemInFor($caption, $section), 10)->click();
 	}
 
 	/**

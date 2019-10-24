@@ -151,7 +151,7 @@ interface ILDAPProvider {
 	/**
 	 * Get the LDAP attribute name for the type of association betweeen users and groups
 	 * @param string $gid group id
-	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber'
+	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber', ''
 	 * @throws \Exception if group id was not found in LDAP
 	 * @since 13.0.0
 	 */

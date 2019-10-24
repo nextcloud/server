@@ -17,6 +17,7 @@ use OC\Files\Storage\Storage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
@@ -44,7 +45,7 @@ class UserMountCacheTest extends TestCase {
 	public function setUp() {
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->userManager = new Manager($this->createMock(IConfig::class));
+		$this->userManager = new Manager($this->createMock(IConfig::class), $this->createMock(EventDispatcherInterface::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');

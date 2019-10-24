@@ -457,6 +457,10 @@ class Crypt {
 	 * @throws DecryptionFailedException
 	 */
 	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0, $position = 0) {
+		if ($keyFileContents == '') {
+			return '';
+		}
+
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
@@ -478,9 +482,15 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function checkSignature($data, $passPhrase, $expectedSignature) {
+		$enforceSignature = !$this->config->getSystemValue('encryption_skip_signature_check', false);
+
 		$signature = $this->createSignature($data, $passPhrase);
-		if (!hash_equals($expectedSignature, $signature)) {
+		$isCorrectHash = hash_equals($expectedSignature, $signature);
+
+		if (!$isCorrectHash && $enforceSignature) {
 			throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
+		} else if (!$isCorrectHash && !$enforceSignature) {
+			$this->logger->info("Signature check skipped", ['app' => 'encryption']);
 		}
 	}
 
@@ -553,11 +563,13 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function hasSignature($catFile, $cipher) {
+		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
-		if ($signaturePosition === false && stripos($cipher, 'ctr') !== false) {
+		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 

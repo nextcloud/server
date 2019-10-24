@@ -8,16 +8,16 @@
  *
  */
 
-if (!OCA.External) {
+if (!OCA.Files_External) {
 	/**
 	 * @namespace
 	 */
-	OCA.External = {};
+	OCA.Files_External = {};
 }
 /**
  * @namespace
  */
-OCA.External.App = {
+OCA.Files_External.App = {
 
 	fileList: null,
 
@@ -26,7 +26,7 @@ OCA.External.App = {
 			return this.fileList;
 		}
 
-		this.fileList = new OCA.External.FileList(
+		this.fileList = new OCA.Files_External.FileList(
 			$el,
 			{
 				fileActions: this._createFileActions()
@@ -67,10 +67,10 @@ OCA.External.App = {
 
 $(document).ready(function() {
 	$('#app-content-extstoragemounts').on('show', function(e) {
-		OCA.External.App.initList($(e.target));
+		OCA.Files_External.App.initList($(e.target));
 	});
 	$('#app-content-extstoragemounts').on('hide', function() {
-		OCA.External.App.removeList();
+		OCA.Files_External.App.removeList();
 	});
 
 	/* Status Manager */
@@ -82,27 +82,27 @@ $(document).ready(function() {
 				if (e.dir === '/') {
 					var mount_point = e.previousDir.split('/', 2)[1];
 					// Every time that we return to / root folder from a mountpoint, mount_point status is rechecked
-					OCA.External.StatusManager.getMountPointList(function() {
-						OCA.External.StatusManager.recheckConnectivityForMount([mount_point], true);
+					OCA.Files_External.StatusManager.getMountPointList(function() {
+						OCA.Files_External.StatusManager.recheckConnectivityForMount([mount_point], true);
 					});
 				}
 			})
 			.on('fileActionsReady', function(e){
 			if ($.isArray(e.$files)) {
-				if (OCA.External.StatusManager.mountStatus === null ||
-						OCA.External.StatusManager.mountPointList === null ||
-						_.size(OCA.External.StatusManager.mountStatus) !== _.size(OCA.External.StatusManager.mountPointList)) {
+				if (OCA.Files_External.StatusManager.mountStatus === null ||
+						OCA.Files_External.StatusManager.mountPointList === null ||
+						_.size(OCA.Files_External.StatusManager.mountStatus) !== _.size(OCA.Files_External.StatusManager.mountPointList)) {
 					// Will be the very first check when the files view will be loaded
-					OCA.External.StatusManager.launchFullConnectivityCheckOneByOne();
+					OCA.Files_External.StatusManager.launchFullConnectivityCheckOneByOne();
 				} else {
 					// When we change between general files view and external files view
-					OCA.External.StatusManager.getMountPointList(function(){
+					OCA.Files_External.StatusManager.getMountPointList(function(){
 						var fileNames = [];
 						$.each(e.$files, function(key, value){
 							fileNames.push(value.attr('data-file'));
 						});
 						// Recheck if launched but work from cache
-						OCA.External.StatusManager.recheckConnectivityForMount(fileNames, false);
+						OCA.Files_External.StatusManager.recheckConnectivityForMount(fileNames, false);
 					});
 				}
 			}

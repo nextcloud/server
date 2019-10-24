@@ -98,7 +98,7 @@ class ProviderTest extends TestCase {
 		return [
 			[[42 => '/FortyTwo.txt'], null, '42', 'FortyTwo.txt', 'FortyTwo.txt'],
 			[['23' => '/Twenty/Three.txt'], null, '23', 'Three.txt', 'Twenty/Three.txt'],
-			['/Foo/Bar.txt', '128', '128', 'Bar.txt', 'Foo/Bar.txt'], // Legacy from ownCloud 8.2 and before
+			['/Foo/Bar.txt', '128', 128, 'Bar.txt', 'Foo/Bar.txt'], // Legacy from ownCloud 8.2 and before
 		];
 	}
 

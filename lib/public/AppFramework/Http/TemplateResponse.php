@@ -37,6 +37,9 @@ namespace OCP\AppFramework\Http;
  */
 class TemplateResponse extends Response {
 
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
+
 	/**
 	 * name of the template
 	 * @var string
@@ -72,10 +75,15 @@ class TemplateResponse extends Response {
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
 	                            $renderAs='user') {
+		parent::__construct();
+
 		$this->templateName = $templateName;
 		$this->appName = $appName;
 		$this->params = $params;
 		$this->renderAs = $renderAs;
+
+		$this->setContentSecurityPolicy(new ContentSecurityPolicy());
+		$this->setFeaturePolicy(new FeaturePolicy());
 	}
 
 

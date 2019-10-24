@@ -105,6 +105,10 @@ class Dispatcher {
 		} catch(\Exception $exception){
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
+		} catch(\Throwable $throwable) {
+			$exception = new \Exception($throwable->getMessage(), $throwable->getCode(), $throwable);
+			$response = $this->middlewareDispatcher->afterException(
+			$controller, $methodName, $exception);
 		}
 
 		$response = $this->middlewareDispatcher->afterController(

@@ -31,7 +31,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginname)
- * @method void setName(string $name)
  * @method string getToken()
  * @method void setType(int $type)
  * @method int getType()
@@ -45,7 +44,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVersion(int $version)
  * @method bool getPasswordInvalid()
  */
-class PublicKeyToken extends Entity implements IToken {
+class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	const VERSION = 2;
 
@@ -197,6 +196,10 @@ class PublicKeyToken extends Entity implements IToken {
 		return parent::getName();
 	}
 
+	public function setName(string $name): void {
+		parent::setName($name);
+	}
+
 	public function getRemember(): int {
 		return parent::getRemember();
 	}
@@ -222,5 +225,9 @@ class PublicKeyToken extends Entity implements IToken {
 
 	public function setPasswordInvalid(bool $invalid) {
 		parent::setPasswordInvalid($invalid);
+	}
+
+	public function wipe(): void {
+		parent::setType(IToken::WIPE_TOKEN);
 	}
 }

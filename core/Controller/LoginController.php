@@ -33,7 +33,8 @@
 
 namespace OC\Core\Controller;
 
-use OC\Authentication\Token\IToken;
+use OC\Authentication\Login\Chain;
+use OC\Authentication\Login\LoginData;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
@@ -44,9 +45,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
@@ -54,7 +55,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Hooks\PublicEmitter;
 use OCP\Util;
 
 class LoginController extends Controller {
@@ -74,27 +74,16 @@ class LoginController extends Controller {
 	private $urlGenerator;
 	/** @var ILogger */
 	private $logger;
-	/** @var Manager */
-	private $twoFactorManager;
 	/** @var Defaults */
 	private $defaults;
 	/** @var Throttler */
 	private $throttler;
+	/** @var Chain */
+	private $loginChain;
+	/** @var IInitialStateService */
+	private $initialStateService;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param ISession $session
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 * @param Manager $twoFactorManager
-	 * @param Defaults $defaults
-	 * @param Throttler $throttler
-	 */
-	public function __construct($appName,
+	public function __construct(?string $appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
@@ -102,9 +91,10 @@ class LoginController extends Controller {
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
-								Manager $twoFactorManager,
 								Defaults $defaults,
-								Throttler $throttler) {
+								Throttler $throttler,
+								Chain $loginChain,
+								IInitialStateService $initialStateService) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -112,9 +102,10 @@ class LoginController extends Controller {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
-		$this->twoFactorManager = $twoFactorManager;
 		$this->defaults = $defaults;
 		$this->throttler = $throttler;
+		$this->loginChain = $loginChain;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -130,8 +121,14 @@ class LoginController extends Controller {
 		}
 		$this->userSession->logout();
 
-		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
-		$response->addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
+			'core.login.showLoginForm',
+			['clear' => true] // this param the the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+		));
+
+		$this->session->set('clearingExecutionContexts', '1');
+		$this->session->close();
+		$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		return $response;
 	}
 
@@ -146,47 +143,41 @@ class LoginController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
-
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
 
-		$parameters = array();
 		$loginMessages = $this->session->get('loginMessages');
-		$errors = [];
-		$messages = [];
 		if (is_array($loginMessages)) {
 			list($errors, $messages) = $loginMessages;
+			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
+			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
 		}
 		$this->session->remove('loginMessages');
-		foreach ($errors as $value) {
-			$parameters[$value] = true;
+
+		if ($user !== null && $user !== '') {
+			$this->initialStateService->provideInitialState('core', 'loginUsername', $user);
+		} else {
+			$this->initialStateService->provideInitialState('core', 'loginUsername', '');
 		}
 
-		$parameters['messages'] = $messages;
-		if ($user !== null && $user !== '') {
-			$parameters['loginName'] = $user;
-			$parameters['user_autofocus'] = false;
-		} else {
-			$parameters['loginName'] = '';
-			$parameters['user_autofocus'] = true;
-		}
+		$this->initialStateService->provideInitialState(
+			'core',
+			'loginAutocomplete',
+			$this->config->getSystemValue('login_form_autocomplete', true) === true
+		);
+
 		if (!empty($redirect_url)) {
-			$parameters['redirect_url'] = $redirect_url;
+			$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
 		}
 
-		$parameters = $this->setPasswordResetParameters($user, $parameters);
-		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
+		$this->initialStateService->provideInitialState(
+			'core',
+			'loginThrottleDelay',
+			$this->throttler->getDelay($this->request->getRemoteAddress())
+		);
 
-		if ($user !== null && $user !== '') {
-			$parameters['loginName'] = $user;
-			$parameters['user_autofocus'] = false;
-		} else {
-			$parameters['loginName'] = '';
-			$parameters['user_autofocus'] = true;
-		}
-
-		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
+		$this->setPasswordResetInitialState($user);
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
@@ -194,53 +185,72 @@ class LoginController extends Controller {
 		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
 		Util::addHeader('meta', ['property' => 'og:url', 'content' => $this->urlGenerator->getAbsoluteURL('/')]);
 		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
-		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core','favicon-touch.png'))]);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png'))]);
 
+		$parameters = [
+			'alt_login' => OC_App::getAlternativeLogIns(),
+		];
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);
 	}
 
 	/**
-	 * Sets the password reset params.
+	 * Sets the password reset state
+	 *
+	 * @param string $username
+	 */
+	private function setPasswordResetInitialState(?string $username): void {
+		if ($username !== null && $username !== '') {
+			$user = $this->userManager->get($username);
+		} else {
+			$user = null;
+		}
+
+		$passwordLink = $this->config->getSystemValue('lost_password_link', '');
+
+		$this->initialStateService->provideInitialState(
+			'core',
+			'loginResetPasswordLink',
+			$passwordLink
+		);
+
+		$this->initialStateService->provideInitialState(
+			'core',
+			'loginCanResetPassword',
+			$this->canResetPassword($passwordLink, $user)
+		);
+	}
+
+	/**
+	 * @param string|null $passwordLink
+	 * @param IUser|null $user
 	 *
 	 * Users may not change their passwords if:
 	 * - The account is disabled
 	 * - The backend doesn't support password resets
 	 * - The password reset function is disabled
 	 *
-	 * @param string $user
-	 * @param array $parameters
-	 * @return array
+	 * @return bool
 	 */
-	private function setPasswordResetParameters(
-		string $user = null, array $parameters): array {
-		if ($user !== null && $user !== '') {
-			$userObj = $this->userManager->get($user);
-		} else {
-			$userObj = null;
+	private function canResetPassword(?string $passwordLink, ?IUser $user): bool {
+		if ($passwordLink === 'disabled') {
+			return false;
 		}
 
-		$parameters['resetPasswordLink'] = $this->config
-			->getSystemValue('lost_password_link', '');
-
-		if (!$parameters['resetPasswordLink'] && $userObj !== null) {
-			$parameters['canResetPassword'] = $userObj->canChangePassword();
-		} else if ($userObj !== null && $userObj->isEnabled() === false) {
-			$parameters['canResetPassword'] = false;
-		} else {
-			$parameters['canResetPassword'] = true;
+		if (!$passwordLink && $user !== null) {
+			return $user->canChangePassword();
 		}
 
-		return $parameters;
+		if ($user !== null && $user->isEnabled() === false) {
+			return false;
+		}
+
+		return true;
 	}
 
-	/**
-	 * @param string $redirectUrl
-	 * @return RedirectResponse
-	 */
-	private function generateRedirect($redirectUrl) {
-		if (!is_null($redirectUrl) && $this->userSession->isLoggedIn()) {
+	private function generateRedirect(?string $redirectUrl): RedirectResponse {
+		if ($redirectUrl !== null && $this->userSession->isLoggedIn()) {
 			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirectUrl));
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -260,106 +270,44 @@ class LoginController extends Controller {
 	 * @param string $user
 	 * @param string $password
 	 * @param string $redirect_url
-	 * @param boolean $remember_login
 	 * @param string $timezone
 	 * @param string $timezone_offset
+	 *
 	 * @return RedirectResponse
 	 */
-	public function tryLogin($user, $password, $redirect_url, $remember_login = true, $timezone = '', $timezone_offset = '') {
-		if(!is_string($user)) {
-			throw new \InvalidArgumentException('Username must be string');
-		}
-
+	public function tryLogin(string $user,
+							 string $password,
+							 string $redirect_url = null,
+							 string $timezone = '',
+							 string $timezone_offset = ''): RedirectResponse {
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the
 		// case when an user has already logged-in, in another tab.
-		if(!$this->request->passesCSRFCheck()) {
+		if (!$this->request->passesCSRFCheck()) {
 			return $this->generateRedirect($redirect_url);
 		}
 
-		if ($this->userManager instanceof PublicEmitter) {
-			$this->userManager->emit('\OC\User', 'preLogin', array($user, $password));
+		$data = new LoginData(
+			$this->request,
+			$user,
+			$password,
+			$redirect_url,
+			$timezone,
+			$timezone_offset
+		);
+		$result = $this->loginChain->process($data);
+		if (!$result->isSuccess()) {
+			return $this->createLoginFailedResponse(
+				$data->getUsername(),
+				$user,
+				$redirect_url,
+				$result->getErrorMessage()
+			);
 		}
 
-		$originalUser = $user;
-
-		$userObj = $this->userManager->get($user);
-
-		if ($userObj !== null && $userObj->isEnabled() === false) {
-			$this->logger->warning('Login failed: \''. $user . '\' disabled' .
-				' (Remote IP: \''. $this->request->getRemoteAddress(). '\')',
-				['app' => 'core']);
-			return $this->createLoginFailedResponse($user, $originalUser,
-				$redirect_url, self::LOGIN_MSG_USERDISABLED);
+		if ($result->getRedirectUrl() !== null) {
+			return new RedirectResponse($result->getRedirectUrl());
 		}
-
-		// TODO: Add all the insane error handling
-		/* @var $loginResult IUser */
-		$loginResult = $this->userManager->checkPasswordNoLogging($user, $password);
-		if ($loginResult === false) {
-			$users = $this->userManager->getByEmail($user);
-			// we only allow login by email if unique
-			if (count($users) === 1) {
-				$previousUser = $user;
-				$user = $users[0]->getUID();
-				if($user !== $previousUser) {
-					$loginResult = $this->userManager->checkPassword($user, $password);
-				}
-			}
-		}
-
-		if ($loginResult === false) {
-			$this->logger->warning('Login failed: \''. $user .
-				'\' (Remote IP: \''. $this->request->getRemoteAddress(). '\')',
-				['app' => 'core']);
-			return $this->createLoginFailedResponse($user, $originalUser,
-				$redirect_url, self::LOGIN_MSG_INVALIDPASSWORD);
-		}
-
-		// TODO: remove password checks from above and let the user session handle failures
-		// requires https://github.com/owncloud/core/pull/24616
-		$this->userSession->completeLogin($loginResult, ['loginName' => $user, 'password' => $password]);
-		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password, IToken::REMEMBER);
-		$this->userSession->updateTokens($loginResult->getUID(), $password);
-
-		// User has successfully logged in, now remove the password reset link, when it is available
-		$this->config->deleteUserValue($loginResult->getUID(), 'core', 'lostpassword');
-
-		$this->session->set('last-password-confirm', $loginResult->getLastLogin());
-
-		if ($timezone_offset !== '') {
-			$this->config->setUserValue($loginResult->getUID(), 'core', 'timezone', $timezone);
-			$this->session->set('timezone', $timezone_offset);
-		}
-
-		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
-			$this->twoFactorManager->prepareTwoFactorLogin($loginResult, $remember_login);
-
-			$providers = $this->twoFactorManager->getProviderSet($loginResult)->getPrimaryProviders();
-			if (count($providers) === 1) {
-				// Single provider, hence we can redirect to that provider's challenge page directly
-				/* @var $provider IProvider */
-				$provider = array_pop($providers);
-				$url = 'core.TwoFactorChallenge.showChallenge';
-				$urlParams = [
-					'challengeProviderId' => $provider->getId(),
-				];
-			} else {
-				$url = 'core.TwoFactorChallenge.selectChallenge';
-				$urlParams = [];
-			}
-
-			if (!is_null($redirect_url)) {
-				$urlParams['redirect_url'] = $redirect_url;
-			}
-
-			return new RedirectResponse($this->urlGenerator->linkToRoute($url, $urlParams));
-		}
-
-		if ($remember_login) {
-			$this->userSession->createRememberMeToken($loginResult);
-		}
-
 		return $this->generateRedirect($redirect_url);
 	}
 
@@ -370,14 +318,15 @@ class LoginController extends Controller {
 	 * @param string $originalUser
 	 * @param string $redirect_url
 	 * @param string $loginMessage
+	 *
 	 * @return RedirectResponse
 	 */
 	private function createLoginFailedResponse(
 		$user, $originalUser, $redirect_url, string $loginMessage) {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
-		$args = !is_null($user) ? ['user' => $originalUser] : [];
-		if (!is_null($redirect_url)) {
+		$args = $user !== null ? ['user' => $originalUser] : [];
+		if ($redirect_url !== null) {
 			$args['redirect_url'] = $redirect_url;
 		}
 		$response = new RedirectResponse(
@@ -395,10 +344,11 @@ class LoginController extends Controller {
 	 * @UseSession
 	 * @BruteForceProtection(action=sudo)
 	 *
+	 * @param string $password
+	 *
+	 * @return DataResponse
 	 * @license GNU AGPL version 3 or any later version
 	 *
-	 * @param string $password
-	 * @return DataResponse
 	 */
 	public function confirmPassword($password) {
 		$loginName = $this->userSession->getLoginName();

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Pembagian terfederasi",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Apakah Anda ingin menambahkan pembagian remote {name} dari {owner}@{remote}?",
     "Remote share" : "Berbagi remote",
     "Remote share password" : "Kata sandi berbagi jarak jauh",
@@ -16,11 +15,10 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Berbagi server ke server tidak diaktifkan pada server ini",
     "Couldn't establish a federated share." : "Tidak dapat mendirikan pembagian terfederasi",
     "Couldn't establish a federated share, maybe the password was wrong." : "Tidak dapat mendirikan pembagian terfederasi, mungkin kata sandi salah.",
-    "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
     "Not allowed to create a federated share with the same user" : "Tidak diizinkan membuat pembagian terfederasi dengan pengguna yang sama",
     "File is already shared with %s" : "Berkas sudah dibagikan dengan %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Berbagi %s gagal, tidak menemukan %s, mungkin peladen saat ini tidak dapat dicapai atau menggunakan sertifikat self-signed.",
     "Could not find share" : "Tidak dapat mencari pembagian",
+    "Federated sharing" : "Pembagian terfederasi",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s (atas nama %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Anda menerima {share} sebagai berbagi jauh dari {user} (atas nama {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s",
@@ -38,12 +36,6 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:",
-    "The mountpoint name contains invalid characters." : "Nama mount point berisi karakter yang tidak sah.",
-    "Not allowed to create a federated share with the owner." : "Tidak diizinkan membuat pembagian terfederasi dengan pemilik.",
-    "Invalid or untrusted SSL certificate" : "Sertifikat SSL tidak sah atau tidak terpercaya",
-    "Could not authenticate to remote share, password might be wrong" : "Tidak dapat mengautentikasi berbagi remote, kata sandi mungkin salah",
-    "Storage not valid" : "Penyimpanan tidak sah",
-    "Couldn't add remote share" : "Tidak dapat menambahkan berbagi remote"
+    "HTML Code:" : "Kode HTML:"
 },
 "nplurals=1; plural=0;");

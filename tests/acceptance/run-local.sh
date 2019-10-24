@@ -189,6 +189,10 @@ composer install
 
 cd ../../
 
+# Link the default Apache directory to the root directory of the Nextcloud
+# server to make possible to run the Nextcloud server on Apache if needed.
+ln --symbolic $(pwd) /var/www/html
+
 INSTALL_AND_CONFIGURE_SERVER_PARAMETERS=""
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	INSTALL_AND_CONFIGURE_SERVER_PARAMETERS+="--nextcloud-server-domain $NEXTCLOUD_SERVER_DOMAIN"

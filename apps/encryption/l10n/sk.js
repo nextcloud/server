@@ -31,6 +31,8 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento súbor nie je možné rozšifrovať, môže ísť o súbor sprístupnený iným používateľom. Požiadajte majiteľa súboru, aby vám ho sprístupnil ešte raz.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento súbor nie je možné prečítať, môže ísť o súbor sprístupnený iným používateľom. Požiadajte majiteľa súboru, aby vám ho sprístupnil ešte raz.",
     "Default encryption module" : "Predvolený šifrovací modul",
+    "Default encryption module for server-side encryption" : "Predvolený šifrovací modul pre šifrovanie na strane servra",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Pre použitie tohoto šifrovacieho modulu musíte povoliť šifrovanie\n\t\t na strane servra v správcovských nastaveniach. Po povolení tento modul zašifruje\n\t\ttransparentne všetky vaše súbory. Šifrovanie je založené na kľúčoch AES 256.\n\t\tModul nezmení existujúce súbory, zašifrované budú iba nové súbory\n\t\tpo povolení šifrovania na strane servra. Šifrovanie nieje možné opätovne\n\t\t vypnúť a prepnúť naspäť do nešifroveného systému.\n\t\tPred rozhodnutím povoliť ifrovanie na strane servra\n\t\tsi prosím prečítajte dokumentáciu aby ste poznali všetky dôsledky.",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Dobrý deň,\n\nAdministrátor povolil šifrovanie na strane servera. Vaše súbory boli zašifrované pomocou hesla '%s'.\n\nPrihláste sa prosím cez webový prehliadač, choďte do sekcie základného šifrovacieho modulu v osobných nastaveniach a zadajte horeuvedené heslo do políčka 'staré prihlasovacie heslo' a vaše súčasné prihlasovacie heslo.\n\n",
     "The share will expire on %s." : "Sprístupnenie vyprší %s.",
     "Cheers!" : "Pekný deň!",
@@ -58,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Povoliť obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
     "Enabled" : "Povolené",
-    "Disabled" : "Zakázané",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Musíte migrovať vaše šifrovacie kľúče zo starého šifrovania (ownCloud <= 8,0) na nové. Spustite „occ encryption:migrate“ alebo sa obráťte na správcu"
+    "Disabled" : "Zakázané"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

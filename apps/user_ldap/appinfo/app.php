@@ -34,23 +34,15 @@
 	return new OCA\User_LDAP\GroupPluginManager();
 });
 
+$app = new \OCA\User_LDAP\AppInfo\Application();
+
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 if(count($configPrefixes) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$ocConfig = \OC::$server->getConfig();
 	$notificationManager = \OC::$server->getNotificationManager();
-	$notificationManager->registerNotifier(function() {
-		return new \OCA\User_LDAP\Notification\Notifier(
-			\OC::$server->getL10NFactory()
-		);
-	}, function() {
-		$l = \OC::$server->getL10N('user_ldap');
-		return [
-			'id' => 'user_ldap',
-			'name' => $l->t('LDAP user and group backend'),
-		];
-	});
+	$notificationManager->registerNotifierService(\OCA\User_LDAP\Notification\Notifier::class);
 	$userSession = \OC::$server->getUserSession();
 
 	$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
@@ -67,6 +59,8 @@ if(count($configPrefixes) > 0) {
 	OC::$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
 
 	\OC::$server->getGroupManager()->addBackend($groupBackend);
+
+	$app->registerBackendDependents();
 }
 
 \OCP\Util::connectHook(

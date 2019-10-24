@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Je třeba zadat název",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
+    "The given web address is not a valid URL" : "Zadaná webová adresa není platná URL",
     "The given legal notice address is too long" : "Daná adresa právního upozornění je příliš dlouhá",
     "The given privacy policy address is too long" : "Daná adresa zásad ochrany osobních údajů je příliš dlouhá",
     "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
@@ -46,14 +47,6 @@ OC.L10N.register(
     "Upload new header logo" : "Nahrát nové logo do hlavičky",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Nahrát novou ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy.",
-    "You are already using a custom theme" : "Již používáte vlastní motiv",
-    "reset to default" : "obnovit výchozí",
-    "Web address" : "Webová adresa",
-    "Web address https://…" : "Webová adresa https://",
-    "There is no error, the file uploaded with success" : "Nenastala žádná chyba, soubor byl úspěšně nahrán",
-    "The uploaded file was only partially uploaded" : "Soubor byl nahrán pouze částečně",
-    "Failed to write file to disk." : "Zápis na disk se nezdařil.",
-    "A PHP extension stopped the file upload." : "Rozšíření PHP zastavilo nahrávání souboru."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

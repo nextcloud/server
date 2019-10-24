@@ -54,6 +54,21 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
+	/**
+	 * @dataProvider providesNodes()
+	 */
+	public function testSeek($expected, $nodes) {
+		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+
+		$offset = floor(strlen($expected) * 0.6);
+		if(fseek($stream, $offset) === -1) {
+			$this->fail('fseek failed');
+		}
+
+		$content = stream_get_contents($stream);
+		$this->assertEquals(substr($expected, $offset), $content);
+	}
+
 	function providesNodes() {
 		$data8k = $this->makeData(8192);
 		$dataLess8k = $this->makeData(8191);

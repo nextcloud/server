@@ -27,6 +27,7 @@ namespace OCA\DAV\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\IGroup;
@@ -415,6 +416,7 @@ class Backend {
 			$currentUser = $owner;
 		}
 
+		$classification = $objectData['classification'] ?? CalDavBackend::CLASSIFICATION_PUBLIC;
 		$object = $this->getObjectNameAndType($objectData);
 		$action = $action . '_' . $object['type'];
 
@@ -434,6 +436,11 @@ class Backend {
 		$users[] = $owner;
 
 		foreach ($users as $user) {
+			if ($classification === CalDavBackend::CLASSIFICATION_PRIVATE && $user !== $owner) {
+				// Private events are only shown to the owner
+				continue;
+			}
+
 			$event->setAffectedUser($user)
 				->setSubject(
 					$user === $currentUser ? $action . '_self' : $action,
@@ -446,7 +453,8 @@ class Backend {
 						],
 						'object' => [
 							'id' => $object['id'],
-							'name' => $object['name'],
+							'name' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $owner ? 'Busy' : $object['name'],
+							'classified' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $owner,
 						],
 					]
 				);

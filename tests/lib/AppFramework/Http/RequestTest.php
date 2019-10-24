@@ -486,6 +486,35 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
 	}
 
+	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a2e:370:7348']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue(['HTTP_X_FORWARDED']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('10.4.0.5', $request->getRemoteAddress());
+	}
+
 	public function testGetRemoteAddressVerifyPriorityHeader() {
 		$this->config
 			->expects($this->at(0))
@@ -517,6 +546,92 @@ class RequestTest extends \Test\TestCase {
 		);
 
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIPv6VerifyPriorityHeader() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['2001:db8:85a3:8d3:1319:8a2e:370:7348']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue([
+				'HTTP_CLIENT_IP',
+				'HTTP_X_FORWARDED_FOR',
+				'HTTP_X_FORWARDED'
+			]));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['192.168.2.0/24']));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->will($this->returnValue(['HTTP_X_FORWARDED_FOR']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.2.99',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithNotMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->will($this->returnValue(['192.168.2.0/24']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.3.99',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
 	/**
@@ -600,15 +715,20 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithProtoValid() {
 		$this->config
-			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+
+				return $default;
+			}));
 
 		$requestHttps = new Request(
 			[
 				'server' => [
-					'HTTP_X_FORWARDED_PROTO' => 'HtTpS'
+					'HTTP_X_FORWARDED_PROTO' => 'HtTpS',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,
@@ -619,7 +739,8 @@ class RequestTest extends \Test\TestCase {
 		$requestHttp = new Request(
 			[
 				'server' => [
-					'HTTP_X_FORWARDED_PROTO' => 'HTTp'
+					'HTTP_X_FORWARDED_PROTO' => 'HTTp',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,
@@ -635,10 +756,10 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithHttpsServerValueOn() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				return $default;
+			}));
 
 		$request = new Request(
 			[
@@ -656,10 +777,10 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithHttpsServerValueOff() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				return $default;
+			}));
 
 		$request = new Request(
 			[
@@ -677,10 +798,10 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithHttpsServerValueEmpty() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				return $default;
+			}));
 
 		$request = new Request(
 			[
@@ -698,10 +819,10 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolDefault() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				return $default;
+			}));
 
 		$request = new Request(
 			[],
@@ -715,15 +836,20 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolBehindLoadBalancers() {
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->will($this->returnValue(''));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+
+				return $default;
+			}));
 
 		$request = new Request(
 			[
 				'server' => [
-					'HTTP_X_FORWARDED_PROTO' => 'https,http,http'
+					'HTTP_X_FORWARDED_PROTO' => 'https,http,http',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,
@@ -910,12 +1036,23 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
+		$this->config
+			->method('getSystemValue')
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+
+				return $default;
+			}));
+
 		$request = new Request(
 			[
 				'server' => [
 					'SERVER_NAME' => 'from.server.name:8080',
 					'HTTP_HOST' => 'from.host.header:8080',
 					'HTTP_X_FORWARDED_HOST' => 'from.forwarded.host:8080',
+					'REMOTE_ADDR' => '1.2.3.4',
 				]
 			],
 			$this->secureRandom,
@@ -928,12 +1065,23 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
+		$this->config
+			->method('getSystemValue')
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+
+				return $default;
+			}));
+
 		$request = new Request(
 			[
 				'server' => [
 					'SERVER_NAME' => 'from.server.name:8080',
 					'HTTP_HOST' => 'from.host.header:8080',
 					'HTTP_X_FORWARDED_HOST' => 'from.forwarded.host2:8080,another.one:9000',
+					'REMOTE_ADDR' => '1.2.3.4',
 				]
 			],
 			$this->secureRandom,
@@ -947,20 +1095,16 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerHostWithOverwriteHost() {
 		$this->config
-			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('overwritehost')
-			->will($this->returnValue('my.overwritten.host'));
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->will($this->returnValue(''));
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('overwritehost')
-			->will($this->returnValue('my.overwritten.host'));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'overwritecondaddr') {
+					return '';
+				} else if ($key === 'overwritehost') {
+					return 'my.overwritten.host';
+				}
+
+				return $default;
+			}));
 
 		$request = new Request(
 			[],
@@ -975,15 +1119,22 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerHostWithTrustedDomain() {
 		$this->config
-			->expects($this->at(3))
 			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue(['my.trusted.host']));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				} else if ($key === 'trusted_domains') {
+					return ['my.trusted.host'];
+				}
+
+				return $default;
+			}));
 
 		$request = new Request(
 			[
 				'server' => [
 					'HTTP_X_FORWARDED_HOST' => 'my.trusted.host',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,
@@ -997,20 +1148,22 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerHostWithUntrustedDomain() {
 		$this->config
-			->expects($this->at(3))
 			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue(['my.trusted.host']));
-		$this->config
-			->expects($this->at(4))
-			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue(['my.trusted.host']));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				} else if ($key === 'trusted_domains') {
+					return ['my.trusted.host'];
+				}
+
+				return $default;
+			}));
 
 		$request = new Request(
 			[
 				'server' => [
 					'HTTP_X_FORWARDED_HOST' => 'my.untrusted.host',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,
@@ -1024,20 +1177,19 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerHostWithNoTrustedDomain() {
 		$this->config
-			->expects($this->at(3))
 			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue([]));
-		$this->config
-			->expects($this->at(4))
-			->method('getSystemValue')
-			->with('trusted_domains')
-			->will($this->returnValue([]));
+			->will($this->returnCallback(function($key, $default) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+				return $default;
+			}));
 
 		$request = new Request(
 			[
 				'server' => [
 					'HTTP_X_FORWARDED_HOST' => 'my.untrusted.host',
+					'REMOTE_ADDR' => '1.2.3.4',
 				],
 			],
 			$this->secureRandom,

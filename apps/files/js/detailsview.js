@@ -96,16 +96,6 @@
 		 * Renders this details view
 		 */
 		render: function() {
-			// remove old instances
-			var $appSidebar = $('#app-sidebar');
-			if ($appSidebar.length === 0) {
-				this.$el.insertAfter($('#app-content'));
-			} else {
-				if ($appSidebar[0] !== this.el) {
-					$appSidebar.replaceWith(this.$el)
-				}
-			}
-			
 			var templateVars = {
 				closeLabel: t('files', 'Close')
 			};
@@ -122,7 +112,8 @@
 			templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {
 				return {
 					tabId: tabView.id,
-					label: tabView.getLabel()
+					label: tabView.getLabel(),
+					tabIcon: tabView.getIcon()
 				};
 			});
 
@@ -172,6 +163,9 @@
 
 			// hide other tabs
 			$tabsContainer.find('.tab').addClass('hidden');
+
+			$tabsContainer.attr('class', 'tabsContainer');
+			$tabsContainer.addClass(tabView.getTabsContainerExtraClasses());
 
 			// tab already rendered ?
 			if (!$tabEl.length) {

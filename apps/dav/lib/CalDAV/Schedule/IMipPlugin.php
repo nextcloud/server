@@ -170,7 +170,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$vevent = $iTipMessage->message->VEVENT;
 
 		$attendee = $this->getCurrentAttendee($iTipMessage);
-		$defaultLang = $this->config->getUserValue($this->userId, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$defaultLang = $this->l10nFactory->findLanguage();
 		$lang = $this->getAttendeeLangOrDefault($defaultLang, $attendee);
 		$l10n = $this->l10nFactory->get('dav', $lang);
 
@@ -225,7 +225,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		);
 
 		$fromEMail = \OCP\Util::getDefaultEmailAddress('invitations-noreply');
-		$fromName = $l10n->t('%s via %s', [$senderName, $this->defaults->getName()]);
+		$fromName = $l10n->t('%1$s via %2$s', [$senderName, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage()
 			->setFrom([$fromEMail => $fromName])
@@ -239,9 +239,42 @@ class IMipPlugin extends SabreIMipPlugin {
 			$meetingAttendeeName, $meetingInviteeName);
 		$this->addBulletList($template, $l10n, $meetingWhen, $meetingLocation,
 			$meetingDescription, $meetingUrl);
-		$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
+
+
+		// Only add response buttons to invitation requests: Fix Issue #11230
+		if (($method == self::METHOD_REQUEST) && $this->getAttendeeRSVP($attendee)) {
+
+			/*
+			** Only offer invitation accept/reject buttons, which link back to the
+			** nextcloud server, to recipients who can access the nextcloud server via
+			** their internet/intranet.  Issue #12156
+			**
+			** The app setting is stored in the appconfig database table.
+			**
+			** For nextcloud servers accessible to the public internet, the default
+			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
+			**
+			** When the nextcloud server is restricted behind a firewall, accessible
+			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
+			** to the email address or email domain, or comma separated list of addresses or domains,
+			** of recipients who can access the server.
+			**
+			** To always deliver URLs, set invitation_link_recipients to "yes".
+			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
+			*/
+
+			$recipientDomain = substr(strrchr($recipient, "@"), 1);
+			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getAppValue('dav', 'invitation_link_recipients', 'yes'))));
+
+			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
+				 || in_array(strtolower($recipient), $invitationLinkRecipients)
+				 || in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
+				$this->addResponseButtons($template, $l10n, $iTipMessage, $lastOccurrence);
+			}
+		}
 
 		$template->addFooter();
+
 		$message->useTemplate($template);
 
 		$attachment = $this->mailer->createAttachment(
@@ -346,6 +379,21 @@ class IMipPlugin extends SabreIMipPlugin {
 	}
 
 	/**
+	 * @param Property|null $attendee
+	 * @return bool
+	 */
+	private function getAttendeeRSVP(Property $attendee = null) {
+		if ($attendee !== null) {
+			$rsvp = $attendee->offsetGet('RSVP');
+			if (($rsvp instanceof Parameter) && (strcasecmp($rsvp->getValue(), 'TRUE') === 0)) {
+				return true;
+			}
+		}
+		// RFC 5545 3.2.17: default RSVP is false
+		return false;
+	}
+
+	/**
 	 * @param IL10N $l10n
 	 * @param Property $dtstart
 	 * @param Property $dtend
@@ -438,16 +486,15 @@ class IMipPlugin extends SabreIMipPlugin {
 		if ($method === self::METHOD_CANCEL) {
 			$template->setSubject('Cancelled: ' . $summary);
 			$template->addHeading($l10n->t('Invitation canceled'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%s« with %s was canceled.', [$summary, $inviteeName]));
+			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was canceled.', [$summary, $inviteeName]));
 		} else if ($method === self::METHOD_REPLY) {
 			$template->setSubject('Re: ' . $summary);
 			$template->addHeading($l10n->t('Invitation updated'), $l10n->t('Hello %s,', [$attendeeName]));
-			$template->addBodyText($l10n->t('The meeting »%s« with %s was updated.', [$summary, $inviteeName]));
+			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was updated.', [$summary, $inviteeName]));
 		} else {
 			$template->setSubject('Invitation: ' . $summary);
-			$template->addHeading($l10n->t('%s invited you to »%s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
+			$template->addHeading($l10n->t('%1$s invited you to »%2$s«', [$inviteeName, $summary]), $l10n->t('Hello %s,', [$attendeeName]));
 		}
-
 	}
 
 	/**
@@ -504,7 +551,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$moreOptionsURL, $l10n->t('More options …')
 		]);
 		$text = $l10n->t('More options at %s', [$moreOptionsURL]);
-		
+
 		$template->addBodyText($html, $text);
 	}
 

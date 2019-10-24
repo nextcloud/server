@@ -22,12 +22,21 @@
  */
 // Check if we are a user
 OCP\User::checkLoggedIn();
+$config = \OC::$server->getConfig();
+$userSession = \OC::$server->getUserSession();
+
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
+$isIE = \OCP\Util::isIE();
 
 $tmpl = new OCP\Template('files_external', 'list', '');
+
+// gridview not available for ie
+$tmpl->assign('showgridview', $showgridview && !$isIE);
 
 /* Load Status Manager */
 \OCP\Util::addStyle('files_external', 'external');
 \OCP\Util::addScript('files_external', 'statusmanager');
+\OCP\Util::addScript('files_external', 'templates');
 \OCP\Util::addScript('files_external', 'rollingqueue');
 
 OCP\Util::addScript('files_external', 'app');

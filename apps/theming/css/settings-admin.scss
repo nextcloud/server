@@ -18,14 +18,16 @@
 
     .theme-undo {
         position: absolute;
-        top: -7px;
-        right: 7px;
+        top: -7px; // input padding
+        right: 4px; // input right margin + border
         cursor: pointer;
         opacity: .3;
         padding: 7px;
         vertical-align: top;
         display: inline-block;
         visibility: hidden;
+        height: 32px; // height of input
+        width: 32px; // height of input
     }
     form.uploadButton {
         width: 411px;

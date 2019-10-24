@@ -52,13 +52,18 @@ interface IServer {
 	public function getTimeZone();
 
 	/**
-	 * @return System
+	 * @return ISystem
 	 */
 	public function getSystem();
 
 	/**
-	 * @param System $system
+	 * @return IOptions
+	 */
+	public function getOptions();
+
+	/**
+	 * @param ISystem $system
 	 * @return bool
 	 */
-	public static function available(System $system);
+	public static function available(ISystem $system);
 }

@@ -47,28 +47,6 @@ class LegacyHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider phpFileSizeProvider
-	 */
-	public function testPhpFileSize($expected, $input)
-	{
-		$result = OC_Helper::phpFileSize($input);
-		$this->assertEquals($expected, $result);
-	}
-
-	public function phpFileSizeProvider()
-	{
-		return array(
-			array('0B', 0),
-			array('1K', 1024),
-			array('9.5M', 10000000),
-			array('1.3G', 1395864371),
-			array('465.7G', 500000000000),
-			array('465661.3G', 500000000000000),
-			array('465661287.3G', 500000000000000000),
-		);
-	}
-
-	/**
 	 * @dataProvider providesComputerFileSize
 	 */
 	function testComputerFileSize($expected, $input) {
@@ -220,44 +198,6 @@ class LegacyHelperTest extends \Test\TestCase {
 			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
 			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
 		);
-	}
-
-	// Url generator methods
-
-	/**
-	 * @small
-	 * test linkToPublic URL construction
-	 */
-	public function testLinkToPublic() {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/s', $result);
-		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/s', $result);
-		$result = \OC_Helper::linkToPublic('files', true);
-		$this->assertEquals('http://localhost/s/', $result);
-
-		$result = \OC_Helper::linkToPublic('other');
-		$this->assertEquals('http://localhost/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', false);
-		$this->assertEquals('http://localhost/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', true);
-		$this->assertEquals('http://localhost/public.php?service=other/', $result);
-
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/owncloud/s', $result);
-		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/owncloud/s', $result);
-		$result = \OC_Helper::linkToPublic('files', true);
-		$this->assertEquals('http://localhost/owncloud/s/', $result);
-
-		$result = \OC_Helper::linkToPublic('other');
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', false);
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
-		$result = \OC_Helper::linkToPublic('other', true);
-		$this->assertEquals('http://localhost/owncloud/public.php?service=other/', $result);
 	}
 
 	/**

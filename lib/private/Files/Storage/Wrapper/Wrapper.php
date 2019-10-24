@@ -32,9 +32,10 @@ namespace OC\Files\Storage\Wrapper;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
 
-class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
+class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -620,5 +621,19 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 */
 	public function needsPartFile() {
 		return $this->getWrapperStorage()->needsPartFile();
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		$storage = $this->getWrapperStorage();
+		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
+			/** @var IWriteStreamStorage $storage */
+			return $storage->writeStream($path, $stream, $size);
+		} else {
+			$target = $this->fopen($path, 'w');
+			list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+			fclose($stream);
+			fclose($target);
+			return $count;
+		}
 	}
 }

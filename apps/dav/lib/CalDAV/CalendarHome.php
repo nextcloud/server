@@ -29,7 +29,6 @@ use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
 use Sabre\CalDAV\Schedule\Inbox;
-use Sabre\CalDAV\Schedule\Outbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -42,6 +41,9 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 	/** @var \OCP\IConfig */
 	private $config;
+
+	/** @var bool */
+	private $returnCachedSubscriptions=false;
 
 	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
 		parent::__construct($caldavBackend, $principalInfo);
@@ -81,7 +83,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
 			$objects[] = new Inbox($this->caldavBackend, $this->principalInfo['uri']);
-			$objects[] = new Outbox($this->principalInfo['uri']);
+			$objects[] = new Outbox($this->config, $this->principalInfo['uri']);
 		}
 
 		// We're adding a notifications node, if it's supported by the backend.
@@ -92,7 +94,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// If the backend supports subscriptions, we'll add those as well,
 		if ($this->caldavBackend instanceof SubscriptionSupport) {
 			foreach ($this->caldavBackend->getSubscriptionsForUser($this->principalInfo['uri']) as $subscription) {
-				$objects[] = new Subscription($this->caldavBackend, $subscription);
+				if ($this->returnCachedSubscriptions) {
+					$objects[] = new CachedSubscription($this->caldavBackend, $subscription);
+				} else {
+					$objects[] = new Subscription($this->caldavBackend, $subscription);
+				}
 			}
 		}
 
@@ -108,7 +114,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Inbox($this->caldavBackend, $this->principalInfo['uri']);
 		}
 		if ($name === 'outbox' && $this->caldavBackend instanceof SchedulingSupport) {
-			return new Outbox($this->principalInfo['uri']);
+			return new Outbox($this->config, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
 			return new \Sabre\CalDAv\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
@@ -124,6 +130,10 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		if ($this->caldavBackend instanceof SubscriptionSupport) {
 			foreach ($this->caldavBackend->getSubscriptionsForUser($this->principalInfo['uri']) as $subscription) {
 				if ($subscription['uri'] === $name) {
+					if ($this->returnCachedSubscriptions) {
+						return new CachedSubscription($this->caldavBackend, $subscription);
+					}
+
 					return new Subscription($this->caldavBackend, $subscription);
 				}
 			}
@@ -141,5 +151,12 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	function calendarSearch(array $filters, $limit=null, $offset=null) {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
+	}
+
+	/**
+	 *
+	 */
+	public function enableCachedSubscriptionsForThisRequest() {
+		$this->returnCachedSubscriptions = true;
 	}
 }

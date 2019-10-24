@@ -50,7 +50,7 @@ class UserPluginManager {
 	}
 
 	/**
-	 * Registers a group plugin that may implement some actions, overriding User_LDAP's user actions.
+	 * Registers a user plugin that may implement some actions, overriding User_LDAP's user actions.
 	 *
 	 * @param ILDAPUserPlugin $plugin
 	 */
@@ -84,7 +84,7 @@ class UserPluginManager {
 	 *
 	 * @param string $username The username of the user to create
 	 * @param string $password The password of the new user
-	 * @return bool
+	 * @return string | false The user DN if user creation was successful.
 	 * @throws \Exception
 	 */
 	public function createUser($username, $password) {

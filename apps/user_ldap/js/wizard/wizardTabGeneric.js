@@ -228,10 +228,12 @@ OCA = OCA || {};
 		 * @param {Array} options
 		 */
 		equipMultiSelect: function($element, options) {
-			$element.empty();
-			for (var i in options) {
-				var name = options[i];
-				$element.append($('<option>').val(name).text(name).attr('title', name));
+			if($element.find('option').length === 0) {
+				$element.empty();
+				for (var i in options) {
+					var name = options[i];
+					$element.append($('<option>').val(name).text(name).attr('title', name));
+				}
 			}
 			if(!$element.hasClass('ldapGroupList')) {
 				$element.multiselect('refresh');
@@ -390,9 +392,9 @@ OCA = OCA || {};
 
 		/**
 		 * @typedef {object} viewSaveInfo
-		 * @property {function} val
-		 * @property {function} attr
-		 * @property {function} is
+		 * @property {Function} val
+		 * @property {Function} attr
+		 * @property {Function} is
 		 */
 
 		/**

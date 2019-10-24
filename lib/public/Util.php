@@ -89,7 +89,19 @@ class Util {
 	public static function getVersion() {
 		return \OC_Util::getVersion();
 	}
-	
+
+	/**
+	 * @since 17.0.0
+	 */
+	public static function hasExtendedSupport(): bool {
+		try {
+			/** @var \OCP\Support\Subscription\IRegistry */
+			$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+			return $subscriptionRegistry->delegateHasExtendedSupport();
+		} catch (AppFramework\QueryException $e) {}
+		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+	}
+
 	/**
 	 * Set current update channel
 	 * @param string $channel
@@ -98,7 +110,7 @@ class Util {
 	public static function setChannel($channel) {
 		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 	}
-	
+
 	/**
 	 * Get current update channel
 	 * @return string
@@ -230,9 +242,14 @@ class Util {
 	 * @param string $service id
 	 * @return string the url
 	 * @since 4.5.0
+	 * @deprecated 15.0.0 - use OCP\IURLGenerator
 	 */
 	public static function linkToPublic($service) {
-		return \OC_Helper::linkToPublic($service);
+		$urlGenerator = \OC::$server->getURLGenerator();
+		if ($service === 'files') {
+			return $urlGenerator->getAbsoluteURL('/s');
+		}
+		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'public.php').'?service='.$service);
 	}
 
 	/**
@@ -356,22 +373,6 @@ class Util {
 	}
 
 	/**
-	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * @since 4.5.0
-	 * @deprecated 9.0.0 Use annotations based on the app framework.
-	 */
-	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
-			exit();
-		}
-
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
-			exit();
-		}
-	}
-
-	/**
 	 * Used to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
@@ -421,6 +422,7 @@ class Util {
 	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
 	 * @since 4.5.0
+	 * @deprecated 15.0.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
@@ -511,7 +513,7 @@ class Util {
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
 			self::$needUpgradeCache=\OC_Util::needUpgrade(\OC::$server->getSystemConfig());
-		}		
+		}
 		return self::$needUpgradeCache;
 	}
 

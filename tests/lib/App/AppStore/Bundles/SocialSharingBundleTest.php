@@ -31,7 +31,6 @@ class SocialSharingBundleTest extends BundleBase {
 		$this->bundleName = 'Social sharing bundle';
 		$this->bundleAppIds = [
 			'socialsharing_twitter',
-			'socialsharing_googleplus',
 			'socialsharing_facebook',
 			'socialsharing_email',
 			'socialsharing_diaspora',

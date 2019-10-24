@@ -37,6 +37,46 @@ class LDAPTest extends TestCase  {
 			->getMock();
 	}
 
+	public function errorProvider() {
+		return [
+			[
+				'ldap_search(): Partial search results returned: Sizelimit exceeded at /srv/http/nextcloud/master/apps/user_ldap/lib/LDAP.php#292',
+				false
+			],
+			[
+				'Some other error', true
+			]
+		];
+	}
+
+	/**
+	 * @param string $errorMessage
+	 * @param bool $passThrough
+	 * @dataProvider errorProvider
+	 */
+	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
+
+		$wasErrorHandlerCalled = false;
+		$errorHandler = function($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
+			$wasErrorHandlerCalled = true;
+		};
+
+		set_error_handler($errorHandler);
+
+		$this->ldap
+			->expects($this->once())
+			->method('invokeLDAPMethod')
+			->with('search', $this->anything(), $this->anything(), $this->anything(), $this->anything(), $this->anything())
+			->willReturnCallback(function() use($errorMessage) {
+				trigger_error($errorMessage);
+			});
+
+		$this->ldap->search('pseudo-resource', 'base', 'filter', []);
+		$this->assertSame($wasErrorHandlerCalled, $passThrough);
+
+		restore_error_handler();
+	}
+
 	public function testModReplace() {
 		$link = $this->createMock(LDAP::class);
 		$userDN = 'CN=user';

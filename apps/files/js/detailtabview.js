@@ -41,12 +41,36 @@
 		},
 
 		/**
+		 * Returns the extra CSS classes used by the tabs container when this
+		 * tab is the selected one.
+		 *
+		 * In general you should not extend this method, as tabs should not
+		 * modify the classes of its container; this is reserved as a last
+		 * resort for very specific cases in which there is no other way to get
+		 * the proper style or behaviour.
+		 *
+		 * @return {String} space-separated CSS classes
+		 */
+		getTabsContainerExtraClasses: function() {
+			return '';
+		},
+
+		/**
 		 * Returns the tab label
 		 *
 		 * @return {String} label
 		 */
 		getLabel: function() {
 			return 'Tab ' + this.id;
+		},
+
+		/**
+		 * Returns the tab label
+		 *
+		 * @return {String}|{null} icon class
+		 */
+		getIcon: function() {
+			return null
 		},
 
 		/**

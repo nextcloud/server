@@ -134,7 +134,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	public function sendShare(ICloudFederationShare $share) {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		$ocmEndPoint = $this->getOCMEndPoint($cloudID->getRemote());
-
 		if (empty($ocmEndPoint)) {
 			return false;
 		}
@@ -142,7 +141,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$client = $this->httpClientService->newClient();
 		try {
 			$response = $client->post($ocmEndPoint . '/shares', [
-				'body' => $share->getShare(),
+				'body' => json_encode($share->getShare()),
+				'headers' => ['content-type' => 'application/json'],
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
@@ -181,7 +181,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$client = $this->httpClientService->newClient();
 		try {
 			$response = $client->post($ocmEndPoint . '/notifications', [
-				'body' => $notification->getMessage(),
+				'body' => json_encode($notification->getMessage()),
+				'headers' => ['content-type' => 'application/json'],
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);

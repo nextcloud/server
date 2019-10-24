@@ -68,7 +68,8 @@ class DataResponseTest extends \Test\TestCase {
 
 		$expectedHeaders = [
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
+			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 		];
 		$expectedHeaders = array_merge($expectedHeaders, $headers);
 

@@ -281,8 +281,6 @@
 				path = path.substr(0, path.length - 1);
 			}
 
-			path = decodeURIComponent(path);
-
 			if (response.propStat.length === 0 || response.propStat[0].status !== 'HTTP/1.1 200 OK') {
 				return null;
 			}
@@ -429,6 +427,9 @@
 		_getSabreException: function(response) {
 			var result = {};
 			var xml = response.xhr.responseXML;
+			if (xml === null) {
+				return result;
+			}
 			var messages = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'message');
 			var exceptions = xml.getElementsByTagNameNS('http://sabredav.org/ns', 'exception');
 			if (messages.length) {
@@ -502,7 +503,7 @@
 
 		/**
 		 * Fetches a flat list of files filtered by a given filter criteria.
-		 * (currently only system tags is supported)
+		 * (currently system tags and circles are supported)
 		 *
 		 * @param {Object} filter filter criteria
 		 * @param {Object} [filter.systemTagIds] list of system tag ids to filter by
@@ -524,7 +525,8 @@
 				properties = options.properties;
 			}
 
-			if (!filter || (!filter.systemTagIds && _.isUndefined(filter.favorite))) {
+			if (!filter ||
+				(!filter.systemTagIds && _.isUndefined(filter.favorite) && !filter.circlesIds) ) {
 				throw 'Missing filter argument';
 			}
 
@@ -549,6 +551,9 @@
 			body +=	'    <oc:filter-rules>\n';
 			_.each(filter.systemTagIds, function(systemTagIds) {
 				body += '        <oc:systemtag>' + escapeHTML(systemTagIds) + '</oc:systemtag>\n';
+			});
+			_.each(filter.circlesIds, function(circlesIds) {
+				body += '        <oc:circle>' + escapeHTML(circlesIds) + '</oc:circle>\n';
 			});
 			if (filter.favorite) {
 				body += '        <oc:favorite>' + (filter.favorite ? '1': '0') + '</oc:favorite>\n';
@@ -839,7 +844,7 @@
 		/**
 		 * Add a file info parser function
 		 *
-		 * @param {OC.Files.Client~parseFileInfo>}
+		 * @param {OC.Files.Client~parseFileInfo} parserFunction
 		 */
 		addFileInfoParser: function(parserFunction) {
 			this._fileInfoParsers.push(parserFunction);

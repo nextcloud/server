@@ -16,10 +16,11 @@ ul { list-style:none; }
 
 body {
 	background-color: #ffffff;
-	font-weight: 400;
-	font-size: .8em;
+	font-weight: normal;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
@@ -56,7 +57,7 @@ em {
 h2,
 h3,
 h4 {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 h2 {
@@ -78,7 +79,7 @@ body {
 }
 
 #header .logo {
-	background-image: url('../img/logo.svg?v=1');
+	background-image: url('../img/logo/logo.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
@@ -95,21 +96,21 @@ body {
 	max-width: 100%;
 	max-height: 200px;
 }
+
 .wrapper {
-	width: 300px;
+	max-width: 100%;
 	margin-top: 10vh;
 }
 
 /* Default FORM */
 form {
 	position: relative;
-	width: 280px;
 	margin: auto;
 	padding: 0;
 }
 form fieldset {
-	margin-bottom: 20px;
-	text-align: left;
+	width: 260px;
+	margin: auto auto 20px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -143,19 +144,78 @@ form #datadirField legend {
 
 /* Buttons and input */
 #submit-wrapper,
-#reset-password-wrapper {
+#reset-password-wrapper,
+#alternative-logins {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
 
-#submit-wrapper .submit-icon {
+#alternative-logins {
+	margin: 30px 15px 20px;
+	display: block;
+	min-width: 260px;
+	max-width: 400px;
+	overflow: hidden;
+}
+
+#alternative-logins a {
+	margin: 10px 5px;
+	display: block;
+	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#alternative-logins a.button::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 0;
+	margin-right: 0;
+	height: 18px;
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+#alternative-logins .button {
+	color: #0082c9;
+	padding: 12px 20px;
+}
+
+@media only screen and (max-width: 1024px) {
+	.wrapper {
+		margin-top: 0;
+	}
+	#alternative-logins {
+		margin: 30px 15px 10px;
+	}
+}
+
+
+#submit-wrapper .submit-icon,
+#reset-password-wrapper .submit-icon {
 	position: absolute;
-	top: 23px;
-	right: 23px;
+	top: 22px;
+	right: 24px;
+	transition: right 100ms ease-in-out;
 	pointer-events: none; /* The submit icon is positioned on the submit button.
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#submit-wrapper {
+	margin: 0 auto;
+}
+
+#submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:focus ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:active ~ .submit-icon.icon-confirm-white {
+	right: 20px;
 }
 
 #reset-password-submit {
@@ -164,18 +224,15 @@ form #datadirField legend {
 	text-overflow: ellipsis;
 }
 
-#reset-password-wrapper .submit-icon {
-	display: none;
-}
-
 #submit-wrapper .icon-loading-small {
 	position: absolute;
 	top: 22px;
-	right: 24px;
+	right: 26px;
 }
 
+
 input, textarea, select, button, div[contenteditable=true] {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 input,
 input:not([type='range']),
@@ -184,13 +241,14 @@ a.button {
 	margin: 5px;
 	padding: 11px 10px 9px;
 	outline: none;
-	border-radius: 3px;
+	border-radius: 3px; /* --border-radius */
 	-webkit-appearance: none;
 }
 input[type='submit'],
 input[type='submit'].icon-confirm,
 input[type='button'],
 button,
+a.button,
 .button,
 select {
 	display: inline-block;
@@ -198,9 +256,10 @@ select {
 	min-width: 25px;
 	padding: 12px;
 	background-color: white;
-	font-weight: 600;
+	font-weight: bold;
 	color: #555;
 	border: none;
+	border-radius: 100px; /* --border-radius-pill */
 	cursor: pointer;
 }
 input[type='text'],
@@ -216,10 +275,20 @@ input[type='email'] {
 	-moz-appearance: textfield;
 	box-sizing: content-box;
 	border: none;
-	font-weight: 300;
+	font-weight: normal;
+}
+input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
+	width: 219px;
+	padding-right: 40px;
+}
+.toggle-password {
+	position: absolute;
+	top: 17px;
+	right: 20px;
 }
 input.login {
-	width: 269px;
+	width: 260px;
+	height: 50px;
 	background-position: right 16px center;
 }
 input[type='submit'],
@@ -227,17 +296,25 @@ input[type='submit'].icon-confirm,
 input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .updateAnyways a.updateAnywaysButton {
 	font-size: 14px;
 	padding: 10px 20px;
 	color: #666 !important;
 	display: inline-block;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 	margin: 15px 5px;
 }
 .updateAnyways a.updateAnywaysButton:hover {
 	color: #222 !important;
+}
+
+/* Get rid of the inside dotted line in Firefox */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
 }
 
 input.primary,
@@ -246,6 +323,7 @@ a.primary {
 	border: 1px solid #fff;
 	background-color: #0082c9;
 	color: #fff;
+	transition: color 100ms ease-in-out;
 }
 
 input.primary:not(:disabled):hover,
@@ -253,8 +331,8 @@ input.primary:not(:disabled):focus,
 button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
-a.primary:not(:disabled):focus{
-	background-color: #17adff;
+a.primary:not(:disabled):focus {
+	color: rgba(255, 255, 255, .8);
 }
 
 /* Checkboxes - white only for login */
@@ -310,12 +388,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-mark-white.svg');
 }
 
-
-/* keep the labels for screen readers but hide them since we use placeholders */
-label.infield {
-	display: none;
-}
-
 /* Password strength meter */
 .strengthify-wrapper {
 	display: inline-block;
@@ -341,9 +413,6 @@ label.infield {
 	top: .8em;
 	float: right;
 }
-#show, #dbpassword-toggle, #personal-show {
-	display: none;
-}
 #show + label, #dbpassword-toggle + label {
 	right: 21px;
 	top: 15px !important;
@@ -364,6 +433,11 @@ label.infield {
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
 	display: none;
+}
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label, #dbpassword-toggle:focus + label, #personal-show:focus + label,
+#show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
+  opacity: 1;
 }
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
@@ -397,7 +471,7 @@ form .warning input[type='checkbox']+label {
 
 .two-factor-provider {
 	display: flex;
-	border-radius: 3px;
+	border-radius: 3px; /* --border-radius */
 	margin: 12px 0;
 	border: 1px solid transparent;
 	text-align: left;
@@ -421,7 +495,7 @@ form .warning input[type='checkbox']+label {
 	margin: 0;
 }
 .two-factor-provider p {
-	font-weight: 300;
+	font-weight: normal;
 }
 .two-factor-icon {
 	width: 100px;
@@ -432,7 +506,7 @@ form .warning input[type='checkbox']+label {
 	width: 100%;
 	padding: 10px;
 	margin: 0 0 5px 0;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 	font-size: 20px;
 }
 .two-factor-primary {
@@ -456,12 +530,12 @@ form .warning input[type='checkbox']+label {
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
-	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
 .lost-password-container #lost-password,
 .lost-password-container #lost-password-back {
 	display: inline-block;
-	font-weight: 300;
+	font-weight: normal;
 	padding: 12px;
 	margin-top: -6px;
 	color: #fff;
@@ -489,7 +563,7 @@ form .warning input[type='checkbox']+label {
 	box-sizing: border-box;
 	background-color: #0082c9;
 	color: white;
-	border-radius: 3px;
+	border-radius: 100px; /* --border-radius-pill */
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
@@ -517,15 +591,20 @@ form #selectDbType label {
 	color:#888;
 	cursor:pointer;
 	border: 1px solid #ddd;
-}
-form #selectDbType label span {
-	cursor: pointer;
 	padding: 10px 17px;
 }
 form #selectDbType label.ui-state-hover,
 form #selectDbType label.ui-state-active {
+	font-weight: normal;
 	color:#000;
-	background-color:#e8e8e8; }
+	background-color:#e8e8e8;
+}
+form #selectDbType .ui-visual-focus {
+	box-shadow: none;
+}
+form #selectDbType label span {
+	display: none;
+}
 
 /* Nicely grouping input field sets */
 .grouptop,
@@ -575,7 +654,7 @@ form #selectDbType label.ui-state-active {
 	color: #fff;
 	text-align: left;
 	word-wrap: break-word;
-	border-radius: 10px;
+	border-radius: 10px; /* --border-radius-large */
 	cursor: default;
 	-moz-user-select: text;
 	-webkit-user-select: text;
@@ -587,6 +666,7 @@ form #selectDbType label.ui-state-active {
 .warning h2,
 .update h2,
 .error h2 {
+	color: #fff;
 	text-align: center;
 }
 
@@ -600,6 +680,10 @@ form #selectDbType label.ui-state-active {
 	width: initial;
 }
 
+.body-login-container p:not(:last-child) {
+    margin-bottom: 12px;
+}
+
 .warning.updateAnyways {
 	text-align: center;
 }
@@ -607,7 +691,7 @@ form #selectDbType label.ui-state-active {
 .warning a,
 .error a {
 	color: #fff !important;
-	font-weight: 600 !important;
+	font-weight: bold !important;
 	opacity: 1;
 }
 .error a.button {
@@ -621,7 +705,6 @@ form #selectDbType label.ui-state-active {
 }
 .error-wide {
 	width: 700px;
-	margin-left: -200px !important;
 	margin-top: 35px;
 }
 .error-wide .button {
@@ -652,7 +735,7 @@ fieldset.update legend + p {
 }
 p.info {
 	margin: 20px auto;
-	text-shadow: 0 0 2px rgba(0, 0, 0, .4); // better readability on bright background
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -803,13 +886,15 @@ footer {
 }
 
 footer .info .entity-name {
-	font-weight: 600;
+	font-weight: bold;
 }
 
 .hidden {
 	display: none;
 }
 
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield,
 .hidden-visually {
 	position: absolute;
 	left:-10000px;
@@ -821,28 +906,4 @@ footer .info .entity-name {
 
 a.legal {
 	font-size: smaller;
-}
-
-/* for low-res screens, use Regular font-weight instead of Light */
-@media (-webkit-max-device-pixel-ratio: 1.3), (max-resolution: 124.8dpi) {
-	@font-face {
-		font-family: 'Open Sans';
-		font-style: normal;
-		font-weight: normal;
-		src: local('Open Sans'), local('OpenSans'), url('../fonts/OpenSans-Regular.woff') format('woff');
-	}
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 300;
-	src: local('Open Sans Light'), local('OpenSans-Light'), url('../fonts/OpenSans-Light.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 600;
-	src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('../fonts/OpenSans-Semibold.woff') format('woff');
 }

@@ -23,23 +23,29 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class VersionRoot implements ICollection {
 
-	/** @var string */
-	private $userId;
+	/** @var IUser */
+	private $user;
 
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(string $userId, IRootFolder $rootFolder) {
-		$this->userId = $userId;
+	/** @var IVersionManager */
+	private $versionManager;
+
+	public function __construct(IUser $user, IRootFolder $rootFolder, IVersionManager $versionManager) {
+		$this->user = $user;
 		$this->rootFolder = $rootFolder;
+		$this->versionManager = $versionManager;
 	}
 
 	public function delete() {
@@ -63,7 +69,7 @@ class VersionRoot implements ICollection {
 	}
 
 	public function getChild($name) {
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$userFolder = $this->rootFolder->getUserFolder($this->user->getUID());
 
 		$fileId = (int)$name;
 		$nodes = $userFolder->getById($fileId);
@@ -78,7 +84,7 @@ class VersionRoot implements ICollection {
 			throw new NotFound();
 		}
 
-		return new VersionCollection($userFolder, $node, $this->userId);
+		return new VersionCollection($userFolder, $node, $this->user, $this->versionManager);
 	}
 
 	public function getChildren(): array {

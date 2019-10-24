@@ -37,7 +37,6 @@ use Test\TestCase;
 /**
  * Class CapabilitiesTest
  *
- * @group DB
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase  {
@@ -74,7 +73,7 @@ class CapabilitiesTest extends TestCase  {
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
-				'color-element' => '#dddddd',
+				'color-element' => '#aaaaaa',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 				'background-plain' => false,

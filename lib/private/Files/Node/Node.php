@@ -28,10 +28,12 @@
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
+use OC\Files\Mount\MoveableMount;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
 class Node implements \OCP\Files\Node {
@@ -103,9 +105,12 @@ class Node implements \OCP\Files\Node {
 	/**
 	 * @param string[] $hooks
 	 */
-	protected function sendHooks($hooks) {
+	protected function sendHooks($hooks, array $args = null) {
+		$args = !empty($args) ? $args : [$this];
+		$dispatcher = \OC::$server->getEventDispatcher();
 		foreach ($hooks as $hook) {
-			$this->root->emit('\OC\Files', $hook, array($this));
+			$this->root->emit('\OC\Files', $hook, $args);
+			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
 		}
 	}
 
@@ -190,12 +195,13 @@ class Node implements \OCP\Files\Node {
 	}
 
 	/**
+	 * @param bool $includeMounts
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getSize() {
-		return $this->getFileInfo()->getSize();
+	public function getSize($includeMounts = true) {
+		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
 	/**
@@ -354,6 +360,10 @@ class Node implements \OCP\Files\Node {
 	public function getChecksum() {
 	}
 
+	public function getExtension(): string {
+		return $this->getFileInfo()->getExtension();
+	}
+
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @throws \OCP\Lock\LockedException
@@ -388,14 +398,14 @@ class Node implements \OCP\Files\Node {
 		$parent = $this->root->get(dirname($targetPath));
 		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
 			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->root->emit('\OC\Files', 'preCopy', [$this, $nonExisting]);
-			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->sendHooks(['preCopy'], [$this, $nonExisting]);
+			$this->sendHooks(['preWrite'], [$nonExisting]);
 			if (!$this->view->copy($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
 			}
 			$targetNode = $this->root->get($targetPath);
-			$this->root->emit('\OC\Files', 'postCopy', [$this, $targetNode]);
-			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			$this->sendHooks(['postCopy'], [$this, $targetNode]);
+			$this->sendHooks(['postWrite'], [$targetNode]);
 			return $targetNode;
 		} else {
 			throw new NotPermittedException('No permission to copy to path ' . $targetPath);
@@ -410,16 +420,23 @@ class Node implements \OCP\Files\Node {
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
-		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
+		if (
+			$parent instanceof Folder and
+			$this->isValidPath($targetPath) and
+			(
+				$parent->isCreatable() ||
+				($parent->getInternalPath() === '' && $parent->getMountPoint() instanceof MoveableMount)
+			)
+		) {
 			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->root->emit('\OC\Files', 'preRename', [$this, $nonExisting]);
-			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->sendHooks(['preRename'], [$this, $nonExisting]);
+			$this->sendHooks(['preWrite'], [$nonExisting]);
 			if (!$this->view->rename($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
 			}
 			$targetNode = $this->root->get($targetPath);
-			$this->root->emit('\OC\Files', 'postRename', [$this, $targetNode]);
-			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			$this->sendHooks(['postRename'], [$this, $targetNode]);
+			$this->sendHooks(['postWrite'], [$targetNode]);
 			$this->path = $targetPath;
 			return $targetNode;
 		} else {

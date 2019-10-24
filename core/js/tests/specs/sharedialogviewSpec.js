@@ -19,7 +19,7 @@
 *
 */
 
-/* global oc_appconfig, sinon */
+/* global sinon, OC */
 describe('OC.Share.ShareDialogView', function() {
 	var $container;
 	var oldConfig;
@@ -41,12 +41,11 @@ describe('OC.Share.ShareDialogView', function() {
 		// horrible parameters
 		$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
 		$container = $('#shareContainer');
-		oldConfig = window.oc_config;
-		window.oc_config = window.oc_config || {};
-		window.oc_config['sharing.maxAutocompleteResults'] = 0;
+		oldConfig = OC.config;
+		OC.config['sharing.maxAutocompleteResults'] = 0;
 		/* jshint camelcase:false */
-		oldAppConfig = _.extend({}, oc_appconfig.core);
-		oc_appconfig.core.enforcePasswordForPublicLink = false;
+		oldAppConfig = _.extend({}, OC.appConfig.core);
+		OC.appConfig.core.enforcePasswordForPublicLink = false;
 
 		fetchStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'fetch');
 		saveLinkShareStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'saveLinkShare');
@@ -89,7 +88,7 @@ describe('OC.Share.ShareDialogView', function() {
 		// triggers rendering
 		shareModel.set({
 			shares: [],
-			linkShare: {isLinkShare: false}
+			linkShares: []
 		});
 
 		autocompleteStub = sinon.stub($.fn, 'autocomplete').callsFake(function() {
@@ -112,9 +111,9 @@ describe('OC.Share.ShareDialogView', function() {
 	});
 	afterEach(function() {
 		OC.currentUser = oldCurrentUser;
-		window.oc_config = oldConfig;
+		OC.config = oldConfig;
 		/* jshint camelcase:false */
-		oc_appconfig.core = oldAppConfig;
+		OC.appConfig.core = oldAppConfig;
 
 		dialog.remove();
 		fetchStub.restore();
@@ -127,35 +126,15 @@ describe('OC.Share.ShareDialogView', function() {
 	describe('Share with link', function() {
 		// TODO: test ajax calls
 		// TODO: test password field visibility (whenever enforced or not)
-		it('update password on focus out', function() {
-			$('#allowShareWithLink').val('yes');
-
-			dialog.model.set('linkShare', {
-				isLinkShare: true
-			});
-			dialog.render();
-
-			// Enable password, enter password and focusout
-			dialog.$el.find('[name=showPassword]').click();
-			dialog.$el.find('.linkPassText').focus();
-			dialog.$el.find('.linkPassText').val('foo');
-			dialog.$el.find('.linkPassText').focusout();
-
-			expect(saveLinkShareStub.calledOnce).toEqual(true);
-			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
-				password: 'foo'
-			});
-		});
 		it('update password on enter', function() {
 			$('#allowShareWithLink').val('yes');
 
-			dialog.model.set('linkShare', {
-				isLinkShare: true
+			dialog.model.set({
+				linkShares: [{
+					id: 123
+				}]
 			});
 			dialog.render();
-
-			// Toggle linkshare
-			dialog.$el.find('.linkCheckbox').click();
 
 			// Enable password and enter password
 			dialog.$el.find('[name=showPassword]').click();
@@ -165,47 +144,70 @@ describe('OC.Share.ShareDialogView', function() {
 
 			expect(saveLinkShareStub.calledOnce).toEqual(true);
 			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
+				cid: 123,
 				password: 'foo'
 			});
 		});
-		it('shows share with link checkbox when allowed', function() {
+		it('update password on submit', function() {
+			$('#allowShareWithLink').val('yes');
+
+			dialog.model.set({
+				linkShares: [{
+					id: 123
+				}]
+			});
+			dialog.render();
+
+			// Enable password and enter password
+			dialog.$el.find('[name=showPassword]').click();
+			dialog.$el.find('.linkPassText').focus();
+			dialog.$el.find('.linkPassText').val('foo');
+			dialog.$el.find('.linkPassText + .icon-confirm').click();
+
+			expect(saveLinkShareStub.calledOnce).toEqual(true);
+			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
+				cid: 123,
+				password: 'foo'
+			});
+		});
+		it('shows add share with link button when allowed', function() {
 			$('#allowShareWithLink').val('yes');
 
 			dialog.render();
 
-			expect(dialog.$el.find('.linkCheckbox').length).toEqual(1);
+			expect(dialog.$el.find('.new-share').length).toEqual(1);
 		});
-		it('does not show share with link checkbox when not allowed', function() {
+		it('does not show add share with link button when not allowed', function() {
 			$('#allowShareWithLink').val('no');
 
 			dialog.render();
 
-			expect(dialog.$el.find('.linkCheckbox').length).toEqual(0);
+			expect(dialog.$el.find('.new-share').length).toEqual(0);
 			expect(dialog.$el.find('.shareWithField').length).toEqual(1);
 		});
 		it('shows populated link share when a link share exists', function() {
 			// this is how the OC.Share class does it...
 			var link = parent.location.protocol + '//' + location.host +
-				OC.generateUrl('/s/') + 'tehtoken';
-			shareModel.set('linkShare', {
-				isLinkShare: true,
-				token: 'tehtoken',
-				link: link,
-				expiration: '',
-				permissions: OC.PERMISSION_READ,
-				stime: 1403884258,
+				OC.generateUrl('/s/') + 'thetoken';
+			shareModel.set({
+				linkShares: [{
+					id: 123,
+					url: link
+				}]
 			});
 
 			dialog.render();
 
-			expect(dialog.$el.find('.linkCheckbox').prop('checked')).toEqual(true);
+			expect(dialog.$el.find('.share-menu .icon-more').length).toEqual(1);
 			expect(dialog.$el.find('.linkText').val()).toEqual(link);
 		});
 		it('autofocus link text when clicked', function() {
 			$('#allowShareWithLink').val('yes');
 
-			dialog.model.set('linkShare', {
-				isLinkShare: true
+			dialog.model.set({
+				linkShares: [{
+					id: 123
+				}]
 			});
 			dialog.render();
 
@@ -347,7 +349,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -362,7 +365,11 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly([], [], false)).toEqual(true);
+			sinon.assert.calledWithExactly(doneStub, [{
+				label: t('core', 'Search globally'),
+				value: {},
+				lookup: true
+			}], [], false, true);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -398,7 +405,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -413,14 +421,20 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bobby',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 		it('single exact match', function() {
@@ -455,7 +469,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true,
 					}
 				}
 			});
@@ -470,17 +485,23 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 		it('mixed matches', function() {
@@ -546,7 +567,8 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -561,7 +583,7 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
@@ -577,6 +599,11 @@ describe('OC.Share.ShareDialogView', function() {
 				}, {
 					'label': 'bobfans',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
@@ -585,13 +612,14 @@ describe('OC.Share.ShareDialogView', function() {
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 		});
 
 		it('capped mixed matches', function() {
-			window.oc_config['sharing.maxAutocompleteResults'] = 3;
+			OC.config['sharing.maxAutocompleteResults'] = 3;
 			var doneStub = sinon.stub();
 			var failStub = sinon.stub();
 
@@ -654,7 +682,8 @@ describe('OC.Share.ShareDialogView', function() {
 						],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -669,7 +698,7 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
@@ -685,6 +714,11 @@ describe('OC.Share.ShareDialogView', function() {
 				}, {
 					'label': 'bobfans',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'fans'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
@@ -693,8 +727,9 @@ describe('OC.Share.ShareDialogView', function() {
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group1'}
 				}],
+				true,
 				true
-			)).toEqual(true);
+			);
 			expect(failStub.called).toEqual(false);
 		});
 
@@ -730,7 +765,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -749,11 +785,18 @@ describe('OC.Share.ShareDialogView', function() {
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
-				}], [{
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}],
+				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
+				false,
+				true
 			)).toEqual(true);
 			expect(failStub.called).toEqual(false);
 
@@ -766,17 +809,23 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(failStub.called).toEqual(false);
 
 			expect(done2Stub.calledOnce).toEqual(true);
-			expect(done2Stub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(fail2Stub.called).toEqual(false);
 		});
 
@@ -812,7 +861,8 @@ describe('OC.Share.ShareDialogView', function() {
 						'groups': [],
 						'remotes': [],
 						'remote_groups': [],
-						'lookup': []
+						'lookup': [],
+						'lookupEnabled': true
 					}
 				}
 			});
@@ -827,17 +877,23 @@ describe('OC.Share.ShareDialogView', function() {
 			);
 
 			expect(doneStub.calledOnce).toEqual(true);
-			expect(doneStub.calledWithExactly(
+			sinon.assert.calledWithExactly(doneStub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(failStub.called).toEqual(false);
 
 			var done2Stub = sinon.stub();
@@ -877,17 +933,23 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(fail2Stub.called).toEqual(false);
 
 			expect(done3Stub.calledOnce).toEqual(true);
-			expect(done3Stub.calledWithExactly(
+			sinon.assert.calledWithExactly(done3Stub,
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
+				},
+				{
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
 				}],
 				[{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}],
-				false
-			)).toEqual(true);
+				false,
+				true
+			);
 			expect(fail3Stub.called).toEqual(false);
 		});
 	});
@@ -895,7 +957,7 @@ describe('OC.Share.ShareDialogView', function() {
 		var showTemporaryNotificationStub;
 
 		beforeEach(function() {
-			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'show');
+			showTemporaryNotificationStub = sinon.stub(OC.Notification, 'showTemporary');
 		});
 
 		afterEach(function() {
@@ -941,7 +1003,8 @@ describe('OC.Share.ShareDialogView', function() {
 							'groups': [],
 							'remotes': [],
 							'remote_groups': [],
-							'lookup': []
+							'lookup': [],
+							'lookupEnabled': true
 						}
 					}
 				});
@@ -950,13 +1013,17 @@ describe('OC.Share.ShareDialogView', function() {
 					{'Content-Type': 'application/json'},
 					jsonData
 				);
-				expect(response.calledWithExactly([{
+				sinon.assert.calledWithExactly(response, [{
 					'label': 'bob',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'user1'}
 				}, {
 					'label': 'bobby',
 					'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
-				}])).toEqual(true);
+				}, {
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}]);
 				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 			});
 
@@ -998,7 +1065,8 @@ describe('OC.Share.ShareDialogView', function() {
 							],
 							'remotes': [],
 							'remote_groups': [],
-							'lookup': []
+							'lookup': [],
+							'lookupEnabled': true
 						}
 					}
 				});
@@ -1007,13 +1075,17 @@ describe('OC.Share.ShareDialogView', function() {
 					{'Content-Type': 'application/json'},
 					jsonData
 				);
-				expect(response.calledWithExactly([{
+				sinon.assert.calledWithExactly(response, [{
 					'label': 'group',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group'}
 				}, {
 					'label': 'group2',
 					'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
-				}])).toEqual(true);
+				}, {
+					label: t('core', 'Search globally'),
+					value: {},
+					lookup: true
+				}]);
 				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 			});
 

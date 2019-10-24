@@ -51,6 +51,14 @@ interface IURLGenerator {
 	public function linkToRouteAbsolute(string $routeName, array $arguments = array()): string;
 
 	/**
+	 * @param string $routeName
+	 * @param array $arguments
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string;
+
+	/**
 	 * Returns an URL for an image or file
 	 * @param string $appName the name of the app
 	 * @param string $file the name of the file

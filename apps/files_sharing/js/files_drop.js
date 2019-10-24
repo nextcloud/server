@@ -9,22 +9,18 @@
  */
 
 (function ($) {
-	var TEMPLATE =
-		'<li data-toggle="tooltip" title="{{name}}" data-name="{{name}}">' +
-		'{{#if isUploading}}' +
-		'<span class="icon-loading-small"></span> {{name}}' +
-		'{{else}}' +
-		'<img src="{{iconSrc}}"/> {{name}}' +
-		'{{/if}}' +
-		'</li>';
+
 	var Drop = {
 		/** @type {Function} **/
 		_template: undefined,
-	
+
+		/** @type {bool} */
+		_uploading: false,
+
 		addFileToUpload: function(e, data) {
 			var errors = [];
 			var output = this.template();
-			
+
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
@@ -34,8 +30,12 @@
 				root: OC.getRootPath() + '/public.php/webdav',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
-			
+
+			// We only process one file at a time 🤷‍♀️
 			var name = data.files[0].name;
+			// removing unwanted characters
+			name = name.replace(/["'#%`]/gm, '');
+
 			try {
 				// FIXME: not so elegant... need to refactor that method to return a value
 				Files.isFileNameValid(name);
@@ -46,13 +46,13 @@
 			}
 			var base = OC.getProtocol() + '://' + OC.getHost();
 			data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
-	
+
 			data.multipart = false;
-	
+
 			if (!data.headers) {
 				data.headers = {};
 			}
-	
+
 			var userName = filesClient.getUserName();
 			var password = filesClient.getPassword();
 			if (userName) {
@@ -60,32 +60,39 @@
 				data.headers['Authorization'] =
 					'Basic ' + btoa(userName + ':' + (password || ''));
 			}
-	
+
 			$('#drop-upload-done-indicator').addClass('hidden');
 			$('#drop-upload-progress-indicator').removeClass('hidden');
 
-			$('#public-upload ul').append(output({isUploading: true, name: data.files[0].name}));
+			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
 			$('[data-toggle="tooltip"]').tooltip();
 			data.submit();
-	
+
 			return true;
 		},
-		
+
 		updateFileItem: function (fileName, fileItem) {
-			$('#public-upload ul li[data-name="' + fileName + '"]').replaceWith(fileItem);
+			$('#drop-uploaded-files li[data-name="' + fileName + '"]').replaceWith(fileItem);
 			$('[data-toggle="tooltip"]').tooltip();
 		},
-		
+
 		initialize: function () {
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
 			var output = this.template();
+			var self = this;
 			$('#public-upload').fileupload({
 				type: 'PUT',
 				dropZone: $('#public-upload'),
 				sequentialUploads: true,
+				start: function(e) {
+					self._uploading = true;
+				},
+				stop: function(e) {
+					self._uploading = false;
+				},
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
 					//we return true to keep trying to upload next file even
@@ -123,6 +130,9 @@
 				e.preventDefault();
 				$('#public-upload #emptycontent input').focus().trigger('click');
 			});
+			window.onbeforeunload = function() {
+				return self.confirmBeforeUnload();
+			}
 		},
 
 		/**
@@ -130,11 +140,14 @@
 		 * @private
 		 */
 		template: function () {
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
+			return OCA.Sharing.Templates['files_drop'];
+		},
+
+		confirmBeforeUnload: function() {
+			if (this._uploading) {
+				return t('files', 'This will stop your current uploads.')
 			}
-			return this._template;
-		}
+		},
 	};
 
 	OCA.FilesSharingDrop = Drop;

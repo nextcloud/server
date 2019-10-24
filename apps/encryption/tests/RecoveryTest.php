@@ -36,8 +36,10 @@ use OCA\Encryption\Recovery;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RecoveryTest extends TestCase {
@@ -54,6 +56,10 @@ class RecoveryTest extends TestCase {
 	 * @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $userSessionMock;
+	/**
+	 * @var MockObject|IUser
+	 */
+	private $user;
 	/**
 	 * @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject
 	 */
@@ -257,32 +263,22 @@ class RecoveryTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		$this->user = $this->createMock(IUser::class);
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
 
-		$this->userSessionMock = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->setMethods([
-				'isLoggedIn',
-				'getUID',
-				'login',
-				'logout',
-				'setUser',
-				'getUser'
-			])
-			->getMock();
-
-		$this->userSessionMock->expects($this->any())->method('getUID')->will($this->returnValue('admin'));
-
+		$this->userSessionMock = $this->createMock(IUserSession::class);
 		$this->userSessionMock->expects($this->any())
-			->method($this->anything())
-			->will($this->returnSelf());
+			->method('getUser')
+			->willReturn($this->user);
+		$this->userSessionMock->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
 
 		$this->cryptMock = $this->getMockBuilder(Crypt::class)->disableOriginalConstructor()->getMock();
-		/** @var \OCP\Security\ISecureRandom $randomMock */
-		$randomMock = $this->createMock(ISecureRandom::class);
 		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)->disableOriginalConstructor()->getMock();
 		$this->configMock = $this->createMock(IConfig::class);
-		/** @var \OCP\Encryption\Keys\IStorage $keyStorageMock */
-		$keyStorageMock = $this->createMock(IStorage::class);
 		$this->fileMock = $this->createMock(IFile::class);
 		$this->viewMock = $this->createMock(View::class);
 
@@ -296,10 +292,8 @@ class RecoveryTest extends TestCase {
 
 		$this->instance = new Recovery($this->userSessionMock,
 			$this->cryptMock,
-			$randomMock,
 			$this->keyManagerMock,
 			$this->configMock,
-			$keyStorageMock,
 			$this->fileMock,
 			$this->viewMock);
 	}

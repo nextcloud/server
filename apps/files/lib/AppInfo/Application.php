@@ -27,9 +27,15 @@
 namespace OCA\Files\AppInfo;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\Collaboration\Resources\Listener;
+use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
+use OCP\Collaboration\Resources\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use \OCP\IContainer;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Capabilities;
@@ -56,40 +62,15 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService('ViewController', function (IContainer $c) use ($server) {
-			return new ViewController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$server->getURLGenerator(),
-				$c->query('L10N'),
-				$server->getConfig(),
-				$server->getEventDispatcher(),
-				$server->getUserSession(),
-				$server->getAppManager(),
-				$server->getRootFolder(),
-				$c->query(Helper::class)
-			);
-		});
-
-		/**
-		 * Core
-		 */
-		$container->registerService('L10N', function(IContainer $c) {
-			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
-		});
-
 		/**
 		 * Services
 		 */
-		$container->registerService('Tagger', function(IContainer $c)  {
-			return $c->query('ServerContainer')->getTagManager()->load('files');
-		});
 		$container->registerService('TagService', function(IContainer $c) use ($server) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),
 				$c->query('ServerContainer')->getActivityManager(),
-				$c->query('Tagger'),
+				$c->query('ServerContainer')->getTagManager()->load('files'),
 				$homeFolder,
 				$server->getEventDispatcher()
 			);
@@ -99,5 +80,17 @@ class Application extends App {
 		 * Register capabilities
 		 */
 		$container->registerCapability(Capabilities::class);
+
+		/**
+		 * Register Collaboration ResourceProvider
+		 */
+		/** @var IManager $resourceManager */
+		$resourceManager = $container->query(IManager::class);
+		$resourceManager->registerResourceProvider(ResourceProvider::class);
+		Listener::register($server->getEventDispatcher());
+
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = $container->query(IEventDispatcher::class);
+		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
 	}
 }

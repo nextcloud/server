@@ -23,7 +23,9 @@
 namespace Test\Accounts;
 
 
+use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -252,6 +254,42 @@ class AccountsManagerTest extends TestCase {
 		if (!empty($result)) {
 			return json_decode($result[0]['data'], true);
 		}
+	}
+
+	public function testGetAccount() {
+		$accountManager = $this->getInstance(['getUser']);
+		/** @var IUser $user */
+		$user = $this->createMock(IUser::class);
+
+		$data = [
+			IAccountManager::PROPERTY_TWITTER =>
+				[
+					'value' => '@twitterhandle',
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_EMAIL =>
+				[
+					'value' => 'test@example.com',
+					'scope' => IAccountManager::VISIBILITY_PUBLIC,
+					'verified' => IAccountManager::VERIFICATION_IN_PROGRESS,
+				],
+			IAccountManager::PROPERTY_WEBSITE =>
+				[
+					'value' => 'https://example.com',
+					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'verified' => IAccountManager::VERIFIED,
+				],
+		];
+		$expected = new Account($user);
+		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::NOT_VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFICATION_IN_PROGRESS);
+		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::VERIFIED);
+
+		$accountManager->expects($this->once())
+			->method('getUser')
+			->willReturn($data);
+		$this->assertEquals($expected, $accountManager->getAccount($user));
 	}
 
 }

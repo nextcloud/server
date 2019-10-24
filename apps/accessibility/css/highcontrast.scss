@@ -1,0 +1,25 @@
+// SCSS variables
+$color-main-text: #000;
+$color-main-background: #fff;
+
+$color-background-dark: darken($color-main-background, 30%);
+$color-background-darker: darken($color-main-background, 30%);
+
+$color-text-maxcontrast: $color-main-text;
+$color-text-light: $color-main-text;
+$color-text-lighter: $color-main-text;
+
+$color-loading-light: #ddd;
+$color-loading-dark: #000;
+
+$color-box-shadow: $color-main-text;
+
+$color-border: darken($color-main-background, 50%);
+$color-border-dark: darken($color-main-background, 50%);
+
+[class^='icon-'], [class*=' icon-'],
+.action,
+#appmenu li a,
+.menutoggle {
+	opacity: 1 !important;
+}

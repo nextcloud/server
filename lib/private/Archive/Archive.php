@@ -120,7 +120,6 @@ abstract class Archive {
 	 * add a folder and all its content
 	 * @param string $path
 	 * @param string $source
-	 * @return boolean|null
 	 */
 	public function addRecursive($path, $source) {
 		$dh = opendir($source);

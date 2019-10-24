@@ -50,15 +50,6 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @return JSONResponse
-	 */
-	public function state() {
-		$user = $this->userSession->getUser();
-		return $this->storage->getBackupCodesState($user);
-	}
-
-	/**
-	 * @NoAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @return JSONResponse

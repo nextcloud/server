@@ -67,7 +67,7 @@ class Check extends Command {
 		// Server
 		$r = $this->updateChecker->getUpdateState();
 		if (isset($r['updateAvailable']) && $r['updateAvailable']) {
-			$output->writeln($r['updateVersion'] . ' is available. Get more information on how to update at '. $r['updateLink'] . '.');
+			$output->writeln($r['updateVersionString'] . ' is available. Get more information on how to update at '. $r['updateLink'] . '.');
 			$updatesAvailableCount += 1;
 		}
 

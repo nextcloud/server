@@ -225,8 +225,8 @@ $CONFIG = array(
 'allow_user_to_change_display_name' => true,
 
 /**
- * Lifetime of the remember login cookie, which is set when the user clicks
- * the ``remember`` checkbox on the login screen.
+ * Lifetime of the remember login cookie. This should be larger than the
+ * session_lifetime. If it is set to 0 remember me is disabled.
  *
  * Defaults to ``60*60*24*15`` seconds (15 days)
  */
@@ -276,18 +276,6 @@ $CONFIG = array(
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
 'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
-
-/**
- * The ``user_backends`` app (which needs to be enabled first) allows you to
- * configure alternate authentication backends. Supported backends are:
- * IMAP (OC_User_IMAP), SMB (OC_User_SMB), and FTP (OC_User_FTP).
- */
-'user_backends' => array(
-	array(
-		'class' => 'OC_User_IMAP',
-		'arguments' => array('{imap.gmail.com:993/imap/ssl}INBOX')
-	)
-),
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
@@ -420,6 +408,26 @@ $CONFIG = array(
  * allows to only send plain text emails.
  */
 'mail_send_plaintext_only' => false,
+
+/**
+ * This depends on ``mail_smtpmode``. Array of additional streams options that
+ * will be passed to underlying Swift mailer implementation.
+ * Defaults to an empty array.
+ */
+'mail_smtpstreamoptions' => array(),
+
+/**
+ * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
+ *
+ * For ``smtp`` the sendmail binary is started with the parameter ``-bs``:
+ *   - Use the SMTP protocol on standard input and output.
+ *
+ * For ``pipe`` the binary is started with the parameters ``-t``:
+ *   - Read message from STDIN and extract recipients.
+ *
+ * Defaults to ``smtp``
+ */
+'mail_sendmailmode' => 'smtp',
 
 /**
  * Proxy Configurations
@@ -645,7 +653,6 @@ $CONFIG = array(
  *   - ``daily``
  *   - ``beta``
  *   - ``stable``
- *   - ``production``
  */
 'updater.release.channel' => 'stable',
 
@@ -655,6 +662,26 @@ $CONFIG = array(
  * Defaults to ``true``
  */
 'has_internet_connection' => true,
+
+/**
+ * Which domains to request to determine the availability of an Internet
+ * connection. If none of these hosts are reachable, the administration panel
+ * will show a warning. Set to an empty list to not do any such checks (warning
+ * will still be shown).
+ *
+ * Defaults to the following domains:
+ *
+ *  - www.nextcloud.com
+ *  - www.startpage.com
+ *  - www.eff.org
+ *  - www.edri.org
+ */
+'connectivity_check_domains' => array(
+	'www.nextcloud.com',
+	'www.startpage.com',
+	'www.eff.org',
+	'www.edri.org'
+),
 
 /**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
@@ -1132,15 +1159,19 @@ $CONFIG = array(
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster
+ *
+ * Authentication works with phpredis version 4.2.1+. See
+ * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
  */
 'redis.cluster' => [
 	'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
 		'localhost:7000',
-		'localhost:7001'
+		'localhost:7001',
 	],
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
-	'failover_mode' => \RedisCluster::FAILOVER_ERROR
+	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
+	'password' => '', // Optional, if not defined no password will be used.
 ],
 
 
@@ -1407,6 +1438,7 @@ $CONFIG = array(
 
 /**
  * Define a default folder for shared files and folders other than root.
+ * Changes to this value will only have effect on new shares.
  *
  * Defaults to ``/``
  */
@@ -1447,6 +1479,17 @@ $CONFIG = array(
  * Defaults to ``false``
  */
 'quota_include_external_storage' => false,
+
+/**
+ * When an external storage is unavailable for some reasons, it will be flagged
+ * as such for 10 minutes. When the trigger is a failed authentication attempt
+ * the delay is higher and can be controlled with this option. The motivation
+ * is to make account lock outs at Active Directories (and compatible) more
+ * unlikely.
+ *
+ * Defaults to ``1800`` (seconds)
+ */
+'external_storage.auth_availability_delay' => 1800,
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
@@ -1499,11 +1542,26 @@ $CONFIG = array(
 /**
  * List of trusted proxy servers
  *
- * If you configure these also consider setting `forwarded_for_headers` which
- * otherwise defaults to `HTTP_X_FORWARDED_FOR` (the `X-Forwarded-For` header).
+ * You may set this to an array containing a combination of
+ * - IPv4 addresses, e.g. `192.168.2.123`
+ * - IPv4 ranges in CIDR notation, e.g. `192.168.2.0/24`
+ * - IPv6 addresses, e.g. `fd9e:21a7:a92c:2323::1`
+ *
+ * _(CIDR notation for IPv6 is currently work in progress and thus not
+ * available as of yet)_
+ *
+ * When an incoming request's `REMOTE_ADDR` matches any of the IP addresses
+ * specified here, it is assumed to be a proxy instead of a client. Thus, the
+ * client IP will be read from the HTTP header specified in
+ * `forwarded_for_headers` instead of from `REMOTE_ADDR`.
+ *
+ * So if you configure `trusted_proxies`, also consider setting
+ * `forwarded_for_headers` which otherwise defaults to `HTTP_X_FORWARDED_FOR`
+ * (the `X-Forwarded-For` header).
+ *
  * Defaults to an empty array.
  */
-'trusted_proxies' => array('203.0.113.45', '198.51.100.128'),
+'trusted_proxies' => array('203.0.113.45', '198.51.100.128', '192.168.2.0/24'),
 
 /**
  * Headers that should be trusted as client IP address in combination with
@@ -1648,4 +1706,14 @@ $CONFIG = array(
  * If this is set to "false" it will not show the link.
  */
 'simpleSignUpLink.shown' => true,
+
+/**
+ * By default autocompletion is enabled for the login form on Nextcloud's login page.
+ * While this is enabled, browsers are allowed to "remember" login names and such.
+ * Some companies require it to be disabled to comply with their security policy.
+ *
+ * Simply set this property to "false", if you want to turn this feature off.
+ */
+
+'login_form_autocomplete' => true,
 );

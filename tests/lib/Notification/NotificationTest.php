@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
@@ -43,6 +44,7 @@ class NotificationTest extends TestCase {
 	protected function dataValidString($maxLength) {
 		$dataSets = [
 			['test1'],
+			['1564'],
 			[str_repeat('a', 1)],
 		];
 		if ($maxLength !== false) {
@@ -53,31 +55,12 @@ class NotificationTest extends TestCase {
 
 	protected function dataInvalidString($maxLength) {
 		$dataSets = [
-			[true],
-			[false],
-			[0],
-			[1],
-			[''],
-			[[]],
+			['']
 		];
 		if ($maxLength !== false) {
 			$dataSets[] = [str_repeat('a', $maxLength + 1)];
-			$dataSets[] = [[str_repeat('a', $maxLength + 1)]];
 		}
 		return $dataSets;
-	}
-
-	protected function dataInvalidInt() {
-		return [
-			[true],
-			[false],
-			[''],
-			['a'],
-			[str_repeat('a', 256)],
-			[[]],
-			[['a']],
-			[[str_repeat('a', 256)]],
-		];
 	}
 
 	public function dataSetApp() {
@@ -107,6 +90,7 @@ class NotificationTest extends TestCase {
 	public function testSetAppInvalid($app) {
 		$this->notification->setApp($app);
 	}
+
 
 	public function dataSetUser() {
 		return $this->dataValidString(64);
@@ -181,48 +165,32 @@ class NotificationTest extends TestCase {
 
 	public function dataSetObject() {
 		return [
-			['a', '21', '21'],
-			[str_repeat('a', 64), 42, '42'],
+			['a', '21'],
+			[str_repeat('a', 64), '42'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSetObject
 	 * @param string $type
-	 * @param int|string $id
-	 * @param string $exptectedId
+	 * @param string $id
 	 */
-	public function testSetObject($type, $id, $exptectedId) {
+	public function testSetObject($type, $id) {
 		$this->assertSame('', $this->notification->getObjectType());
 		$this->assertSame('', $this->notification->getObjectId());
 		$this->assertSame($this->notification, $this->notification->setObject($type, $id));
 		$this->assertSame($type, $this->notification->getObjectType());
-		$this->assertSame($exptectedId, $this->notification->getObjectId());
+		$this->assertSame($id, $this->notification->getObjectId());
 	}
 
 	public function dataSetObjectTypeInvalid() {
 		return $this->dataInvalidString(64);
 	}
 
-	/**
-	 * @dataProvider dataSetObjectTypeInvalid
-	 * @param mixed $type
-	 *
-	 * @expectedException \InvalidArgumentException
-	 * @expectedMessage 'The given object type is invalid'
-	 */
-	public function testSetObjectTypeInvalid($type) {
-		$this->notification->setObject($type, 1337);
-	}
-
 	public function dataSetObjectIdInvalid() {
 		return [
-			[true],
-			[false],
 			[''],
 			[str_repeat('a', 64 + 1)],
-			[[]],
-			[[str_repeat('a', 64 + 1)]],
 		];
 	}
 

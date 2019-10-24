@@ -46,9 +46,6 @@ class DownloadTest extends RequestTestCase {
 		$this->assertEquals(stream_get_contents($response->getBody()), 'bar');
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
-	 */
 	public function testDownloadWriteLocked() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
@@ -57,7 +54,8 @@ class DownloadTest extends RequestTestCase {
 
 		$view->lockFile('/foo.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$this->request($view, $user, 'pass', 'GET', '/foo.txt', 'asd');
+		$result = $this->request($view, $user, 'pass', 'GET', '/foo.txt', 'asd');
+		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
 	public function testDownloadReadLocked() {

@@ -60,6 +60,7 @@ interface ICrypto {
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string plaintext
 	 * @throws \Exception If the HMAC does not match
+	 * @throws \Exception If the decryption failed
 	 * @since 8.0.0
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string;

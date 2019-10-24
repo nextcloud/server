@@ -99,8 +99,7 @@ class Upgrade extends Command {
 					$this->config,
 					\OC::$server->getIntegrityCodeChecker(),
 					$this->logger,
-					$this->installer,
-					\OC::$server->getJobList()
+					$this->installer
 			);
 
 			$dispatcher = \OC::$server->getEventDispatcher();
@@ -181,7 +180,7 @@ class Upgrade extends Command {
 			$dispatcher->addListener('\OC\Repair::info', $repairListener);
 			$dispatcher->addListener('\OC\Repair::warning', $repairListener);
 			$dispatcher->addListener('\OC\Repair::error', $repairListener);
-			
+
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
@@ -191,9 +190,6 @@ class Upgrade extends Command {
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use($output) {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
-			});
-			$updater->listen('\OC\Updater', 'waitForCronToFinish', function () use($output) {
-				$output->writeln('<info>Waiting for cron to finish (checks again in 5 seconds) …</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use($output, $self) {
@@ -268,7 +264,7 @@ class Upgrade extends Command {
 			}
 
 			return self::ERROR_SUCCESS;
-		} else if($this->config->getSystemValue('maintenance', false)) {
+		} else if($this->config->getSystemValueBool('maintenance')) {
 			//Possible scenario: Nextcloud core is updated but an app failed
 			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '

@@ -60,7 +60,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($cachedData['mimetype'], 'text/plain');
 		$this->assertNotEquals($cachedData['parent'], -1); //parent folders should be scanned automatically
 
-		$data = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$data = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->file_put_contents('foo.png', $data);
 		$this->scanner->scanFile('foo.png');
 
@@ -98,7 +98,7 @@ class ScannerTest extends \Test\TestCase {
 
 	private function fillTestFolders() {
 		$textData = "dummy file data\n";
-		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->mkdir('folder');
 		$this->storage->file_put_contents('foo.txt', $textData);
 		$this->storage->file_put_contents('foo.png', $imgData);
@@ -201,6 +201,44 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertNotEquals(-1, $cachedData['size']);
 
 		$this->assertFalse($this->cache->getIncomplete());
+	}
+
+	public function testBackgroundScanNestedIncompleteFolders() {
+		$this->storage->mkdir('folder');
+		$this->scanner->backgroundScan();
+		
+		$this->storage->mkdir('folder/subfolder1');
+		$this->storage->mkdir('folder/subfolder2');
+		
+		$this->storage->mkdir('folder/subfolder1/subfolder3');
+		$this->cache->put('folder', ['size' => -1]);
+		$this->cache->put('folder/subfolder1', ['size' => -1]);
+		
+		// do a scan to get the folders into the cache.
+		$this->scanner->backgroundScan();
+
+		$this->assertTrue($this->cache->inCache('folder/subfolder1/subfolder3'));
+		
+		$this->storage->file_put_contents('folder/subfolder1/bar1.txt', 'foobar');
+		$this->storage->file_put_contents('folder/subfolder1/subfolder3/bar3.txt', 'foobar');
+		$this->storage->file_put_contents('folder/subfolder2/bar2.txt', 'foobar');
+
+		//mark folders as incomplete.
+		$this->cache->put('folder/subfolder1', ['size' => -1]);
+		$this->cache->put('folder/subfolder2', ['size' => -1]);
+		$this->cache->put('folder/subfolder1/subfolder3', ['size' => -1]);
+		
+		$this->scanner->backgroundScan();
+
+		$this->assertTrue($this->cache->inCache('folder/subfolder1/bar1.txt'));
+		$this->assertTrue($this->cache->inCache('folder/subfolder2/bar2.txt'));
+		$this->assertTrue($this->cache->inCache('folder/subfolder1/subfolder3/bar3.txt'));
+
+		//check if folder sizes are correct.
+		$this->assertEquals(18, $this->cache->get('folder')['size']);
+		$this->assertEquals(12, $this->cache->get('folder/subfolder1')['size']);
+		$this->assertEquals(6, $this->cache->get('folder/subfolder1/subfolder3')['size']);
+		$this->assertEquals(6, $this->cache->get('folder/subfolder2')['size']);
 	}
 
 	public function testReuseExisting() {

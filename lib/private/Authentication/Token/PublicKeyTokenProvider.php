@@ -23,8 +23,11 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
+use OC\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -47,6 +50,9 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var ITimeFactory $time */
 	private $time;
 
+	/** @var CappedMemoryCache */
+	private $cache;
+
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
@@ -57,8 +63,13 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->time = $time;
+
+		$this->cache = new CappedMemoryCache();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
@@ -67,21 +78,34 @@ class PublicKeyTokenProvider implements IProvider {
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
-
 		$this->mapper->insert($dbToken);
+
+		// Add the token to the cache
+		$this->cache[$dbToken->getToken()] = $dbToken;
 
 		return $dbToken;
 	}
 
 	public function getToken(string $tokenId): IToken {
-		try {
-			$token = $this->mapper->getToken($this->hashToken($tokenId));
-		} catch (DoesNotExistException $ex) {
-			throw new InvalidTokenException();
+		$tokenHash = $this->hashToken($tokenId);
+
+		if (isset($this->cache[$tokenHash])) {
+			$token = $this->cache[$tokenHash];
+		} else {
+			try {
+				$token = $this->mapper->getToken($this->hashToken($tokenId));
+				$this->cache[$token->getToken()] = $token;
+			} catch (DoesNotExistException $ex) {
+				throw new InvalidTokenException();
+			}
 		}
 
 		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
+		}
+
+		if ($token->getType() === IToken::WIPE_TOKEN) {
+			throw new WipeTokenException($token);
 		}
 
 		return $token;
@@ -98,10 +122,16 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new ExpiredTokenException($token);
 		}
 
+		if ($token->getType() === IToken::WIPE_TOKEN) {
+			throw new WipeTokenException($token);
+		}
+
 		return $token;
 	}
 
-	public function renewSessionToken(string $oldSessionId, string $sessionId) {
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
+		$this->cache->clear();
+
 		$token = $this->getToken($oldSessionId);
 
 		if (!($token instanceof PublicKeyToken)) {
@@ -114,7 +144,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$password = $this->decryptPassword($token->getPassword(), $privateKey);
 		}
 
-		$this->generateToken(
+		$newToken = $this->generateToken(
 			$sessionId,
 			$token->getUID(),
 			$token->getLoginName(),
@@ -125,17 +155,25 @@ class PublicKeyTokenProvider implements IProvider {
 		);
 
 		$this->mapper->delete($token);
+
+		return $newToken;
 	}
 
 	public function invalidateToken(string $token) {
+		$this->cache->clear();
+
 		$this->mapper->invalidate($this->hashToken($token));
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
+		$this->cache->clear();
+
 		$this->mapper->deleteById($uid, $id);
 	}
 
 	public function invalidateOldTokens() {
+		$this->cache->clear();
+
 		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
 		$this->mapper->invalidateOld($olderThan, IToken::DO_NOT_REMEMBER);
@@ -145,6 +183,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function updateToken(IToken $token) {
+		$this->cache->clear();
+
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
 		}
@@ -152,6 +192,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function updateTokenActivity(IToken $token) {
+		$this->cache->clear();
+
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
 		}
@@ -185,6 +227,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
+		$this->cache->clear();
+
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
 		}
@@ -202,6 +246,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
+		$this->cache->clear();
+
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
 		}
@@ -258,8 +304,11 @@ class PublicKeyTokenProvider implements IProvider {
 	/**
 	 * Convert a DefaultToken to a publicKeyToken
 	 * This will also be updated directly in the Database
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function convertToken(DefaultToken $defaultToken, string $token, $password): PublicKeyToken {
+		$this->cache->clear();
+
 		$pkToken = $this->newToken(
 			$token,
 			$defaultToken->getUID(),
@@ -276,6 +325,9 @@ class PublicKeyTokenProvider implements IProvider {
 		return $this->mapper->update($pkToken);
 	}
 
+	/**
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 */
 	private function newToken(string $token,
 							  string $uid,
 							  string $loginName,
@@ -294,7 +346,15 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Generate new key
 		$res = openssl_pkey_new($config);
-		openssl_pkey_export($res, $privateKey);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
 
 		// Extract the public key from $res to $pubKey
 		$publicKey = openssl_pkey_get_details($res);
@@ -319,6 +379,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function markPasswordInvalid(IToken $token, string $tokenId) {
+		$this->cache->clear();
+
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException();
 		}
@@ -328,6 +390,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function updatePasswords(string $uid, string $password) {
+		$this->cache->clear();
+
 		if (!$this->mapper->hasExpiredTokens($uid)) {
 			// Nothing to do here
 			return;
@@ -342,5 +406,11 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
-
+	private function logOpensslError() {
+		$errors = [];
+		while ($error = openssl_error_string()) {
+			$errors[] = $error;
+		}
+		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
+	}
 }

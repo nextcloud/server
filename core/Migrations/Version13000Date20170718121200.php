@@ -176,14 +176,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'length' => 8,
 				'default' => 0,
 			]);
-			$table->addColumn('mtime', 'integer', [
+			$table->addColumn('mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('storage_mtime', 'integer', [
+			$table->addColumn('storage_mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('encrypted', 'integer', [
@@ -523,7 +523,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'authtoken_token_index');
-			$table->addIndex(['last_activity'], 'authtoken_last_activity_index');
+			$table->addIndex(['last_activity'], 'authtoken_last_activity_idx');
 		}
 
 		if (!$schema->hasTable('bruteforce_attempts')) {

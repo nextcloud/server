@@ -65,6 +65,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\ILogger;
 use OCP\IUserManager;
 
@@ -246,11 +247,11 @@ class Filesystem {
 	/**
 	 * Returns the storage factory
 	 *
-	 * @return \OCP\Files\Storage\IStorageFactory
+	 * @return IStorageFactory
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = new StorageFactory();
+			self::$loader = \OC::$server->query(IStorageFactory::class);
 		}
 		return self::$loader;
 	}
@@ -626,7 +627,7 @@ class Filesystem {
 	 * check if the directory should be ignored when scanning
 	 * NOTE: the special directories . and .. would cause never ending recursion
 	 *
-	 * @param String $dir
+	 * @param string $dir
 	 * @return boolean
 	 */
 	static public function isIgnoredDir($dir) {
@@ -812,7 +813,7 @@ class Filesystem {
 			return self::$normalizedPathCache[$cacheKey];
 		}
 
-		if ($path == '') {
+		if ($path === '') {
 			return '/';
 		}
 
@@ -821,38 +822,29 @@ class Filesystem {
 			$path = \OC_Util::normalizeUnicode($path);
 		}
 
-		//no windows style slashes
-		$path = str_replace('\\', '/', $path);
+		//add leading slash, if it is already there we strip it anyway
+		$path = '/' . $path;
 
-		//add leading slash
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
+		$patterns = [
+			'/\\\\/s',          // no windows style slashes
+			'/\/\.(\/\.)?\//s', // remove '/./'
+			'/\/{2,}/s',        // remove squence of slashes
+			'/\/\.$/s',         // remove trailing /.
+		];
 
-		// remove '/./'
-		// ugly, but str_replace() can't replace them all in one go
-		// as the replacement itself is part of the search string
-		// which will only be found during the next iteration
-		while (strpos($path, '/./') !== false) {
-			$path = str_replace('/./', '/', $path);
-		}
-		// remove sequences of slashes
-		$path = preg_replace('#/{2,}#', '/', $path);
+		do {
+			$count = 0;
+			$path = preg_replace($patterns, '/', $path, -1, $count);
+		} while ($count > 0);
 
 		//remove trailing slash
-		if ($stripTrailingSlash and strlen($path) > 1) {
+		if ($stripTrailingSlash && strlen($path) > 1) {
 			$path = rtrim($path, '/');
 		}
 
-		// remove trailing '/.'
-		if (substr($path, -2) == '/.') {
-			$path = substr($path, 0, -2);
-		}
+		self::$normalizedPathCache[$cacheKey] = $path;
 
-		$normalizedPath = $path;
-		self::$normalizedPathCache[$cacheKey] = $normalizedPath;
-
-		return $normalizedPath;
+		return $path;
 	}
 
 	/**

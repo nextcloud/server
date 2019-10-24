@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "comments",
+    {
+    "Comments" : "تبصرې",
+    "You commented" : "تاسې تبصره کړې",
+    "%1$s commented" : "%1$s تبصره کړې",
+    "{author} commented" : "{author} تبصره کړې",
+    "You commented on %1$s" : "تاسې په %1$s تبصره کړې",
+    "You commented on {file}" : "تاسې په {file} فایل تبصره کړې",
+    "%1$s commented on %2$s" : "%1$s په %2$s تبصره کړې",
+    "{author} commented on {file}" : "{author} په {file} فایل تبصره کړې",
+    "<strong>Comments</strong> for files" : "د فایلونو لپاره <strong>تبصرې</strong>",
+    "{user} mentioned you in a comment on “{file}”" : "{user} کارن تاسې په “{file}” فایل په یو تبصره کې یاد کړي یاست",
+    "Edit comment" : "تبصره سمول",
+    "Delete comment" : "تبسره ړنګول",
+    "New comment …" : "نوې تبصره ...",
+    "Post" : "نشرول",
+    "Cancel" : "پرېښودل",
+    "[Deleted user]" : "[کارن اوس نشته]",
+    "No comments yet, start the conversation!" : "تر اوسه تبصره نشته!",
+    "More comments …" : "نورې تبصرې ...",
+    "Save" : "ساتل",
+    "Allowed characters {count} of {max}" : "له {max} تورو څخه {count}",
+    "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
+    "Comment" : "تبصره"
+},
+"nplurals=2; plural=(n != 1);");

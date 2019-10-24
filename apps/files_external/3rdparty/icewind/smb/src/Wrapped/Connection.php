@@ -20,7 +20,7 @@ class Connection extends RawConnection {
 	/** @var Parser */
 	private $parser;
 
-	public function __construct($command, Parser $parser, $env = array()) {
+	public function __construct($command, Parser $parser, $env = []) {
 		parent::__construct($command, $env);
 		$this->parser = $parser;
 	}
@@ -65,8 +65,12 @@ class Connection extends RawConnection {
 		$promptLine = $this->readLine(); //first line is prompt
 		$this->parser->checkConnectionError($promptLine);
 
-		$output = array();
-		$line = $this->readLine();
+		$output = [];
+		if (!$this->isPrompt($promptLine)) {
+			$line = $promptLine;
+		} else {
+			$line = $this->readLine();
+		}
 		if ($line === false) {
 			$this->unknownError($promptLine);
 		}

@@ -35,12 +35,13 @@ return [
 		// Groups
 		['root' => '/cloud', 'name' => 'Groups#getGroups', 'url' => '/groups', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Groups#getGroupsDetails', 'url' => '/groups/details', 'verb' => 'GET'],
-		['root' => '/cloud', 'name' => 'Groups#getGroup', 'url' => '/groups/{groupId}', 'verb' => 'GET'],
-		['root' => '/cloud', 'name' => 'Groups#getGroupUsers', 'url' => '/groups/{groupId}/users', 'verb' => 'GET'],
-		['root' => '/cloud', 'name' => 'Groups#getGroupUsersDetails', 'url' => '/groups/{groupId}/users/details', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Groups#getGroupUsers', 'url' => '/groups/{groupId}/users', 'verb' => 'GET', 'requirements' => ['groupId' => '.+']],
+		['root' => '/cloud', 'name' => 'Groups#getGroupUsersDetails', 'url' => '/groups/{groupId}/users/details', 'verb' => 'GET', 'requirements' => ['groupId' => '.+']],
+		['root' => '/cloud', 'name' => 'Groups#getSubAdminsOfGroup', 'url' => '/groups/{groupId}/subadmins', 'verb' => 'GET', 'requirements' => ['groupId' => '.+']],
 		['root' => '/cloud', 'name' => 'Groups#addGroup', 'url' => '/groups', 'verb' => 'POST'],
+		['root' => '/cloud', 'name' => 'Groups#getGroup', 'url' => '/groups/{groupId}', 'verb' => 'GET', 'requirements' => ['groupId' => '.+']],
+		['root' => '/cloud', 'name' => 'Groups#updateGroup', 'url' => '/groups/{groupId}', 'verb' => 'PUT', 'requirements' => ['groupId' => '.+']],
 		['root' => '/cloud', 'name' => 'Groups#deleteGroup', 'url' => '/groups/{groupId}', 'verb' => 'DELETE', 'requirements' => ['groupId' => '.+']],
-		['root' => '/cloud', 'name' => 'Groups#getSubAdminsOfGroup', 'url' => '/groups/{groupId}/subadmins', 'verb' => 'GET'],
 
 		// Users
 		['root' => '/cloud', 'name' => 'Users#getUsers', 'url' => '/users', 'verb' => 'GET'],
@@ -50,6 +51,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFields', 'url' => '/user/fields', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
+		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#deleteUser', 'url' => '/users/{userId}', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#enableUser', 'url' => '/users/{userId}/enable', 'verb' => 'PUT'],
 		['root' => '/cloud', 'name' => 'Users#disableUser', 'url' => '/users/{userId}/disable', 'verb' => 'PUT'],

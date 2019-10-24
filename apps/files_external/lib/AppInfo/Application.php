@@ -29,6 +29,7 @@
 
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
 use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
 use \OCP\AppFramework\App;
@@ -44,6 +45,7 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 use OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\Auth\Password\UserGlobalAuth;
 use OCA\Files_External\Lib\Auth\Password\UserProvided;
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
@@ -67,7 +69,12 @@ use OCP\Files\Config\IUserMountCache;
  */
 class Application extends App implements IBackendProvider, IAuthMechanismProvider {
 
-	public function __construct(array $urlParams = array()) {
+	/**
+	 * Application constructor.
+	 *
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function __construct(array $urlParams = []) {
 		parent::__construct('files_external', $urlParams);
 
 		$container = $this->getContainer();
@@ -76,18 +83,17 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			return $c->getServer()->query('UserMountCache');
 		});
 
+		/** @var BackendService $backendService */
 		$backendService = $container->query(BackendService::class);
 		$backendService->registerBackendProvider($this);
 		$backendService->registerAuthMechanismProvider($this);
+		$backendService->registerConfigHandler('user', function() use ($container) {
+			return $container->query(UserPlaceholderHandler::class);
+		});
 
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
 		$this->getAuthMechanisms();
-
-		// app developers: do NOT depend on this! it will disappear with oC 9.0!
-		\OC::$server->getEventDispatcher()->dispatch(
-			'OCA\\Files_External::loadAdditionalBackends'
-		);
 	}
 
 	/**
@@ -131,6 +137,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query(LoginCredentials::class),
 			$container->query(UserProvided::class),
 			$container->query(GlobalAuth::class),
+			$container->query(UserGlobalAuth::class),
 
 			// AuthMechanism::SCHEME_OAUTH1 mechanisms
 			$container->query(OAuth1::class),

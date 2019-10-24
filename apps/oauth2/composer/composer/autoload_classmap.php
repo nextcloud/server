@@ -16,5 +16,7 @@ return array(
     'OCA\\OAuth2\\Exceptions\\AccessTokenNotFoundException' => $baseDir . '/../lib/Exceptions/AccessTokenNotFoundException.php',
     'OCA\\OAuth2\\Exceptions\\ClientNotFoundException' => $baseDir . '/../lib/Exceptions/ClientNotFoundException.php',
     'OCA\\OAuth2\\Migration\\SetTokenExpiration' => $baseDir . '/../lib/Migration/SetTokenExpiration.php',
+    'OCA\\OAuth2\\Migration\\Version010401Date20181207190718' => $baseDir . '/../lib/Migration/Version010401Date20181207190718.php',
+    'OCA\\OAuth2\\Migration\\Version010402Date20190107124745' => $baseDir . '/../lib/Migration/Version010402Date20190107124745.php',
     'OCA\\OAuth2\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );

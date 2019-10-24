@@ -38,7 +38,6 @@ use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
-use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
@@ -67,9 +66,6 @@ class Updater extends BasicEmitter {
 	/** @var Installer */
 	private $installer;
 
-	/** @var IJobList */
-	private $jobList;
-
 	private $logLevelNames = [
 		0 => 'Debug',
 		1 => 'Info',
@@ -78,16 +74,20 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
+	/**
+	 * @param IConfig $config
+	 * @param Checker $checker
+	 * @param ILogger $log
+	 * @param Installer $installer
+	 */
 	public function __construct(IConfig $config,
 								Checker $checker,
-								ILogger $log,
-								Installer $installer,
-								IJobList $jobList) {
+								ILogger $log = null,
+								Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;
 		$this->installer = $installer;
-		$this->jobList = $jobList;
 	}
 
 	/**
@@ -104,20 +104,22 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', ILogger::DEBUG);
 
-		$wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 
 		if(!$wasMaintenanceModeEnabled) {
 			$this->config->setSystemValue('maintenance', true);
 			$this->emit('\OC\Updater', 'maintenanceEnabled');
 		}
 
+		// Clear CAN_INSTALL file if not on git
+		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			if (!unlink(\OC::$configDir . '/CAN_INSTALL')) {
+				$this->log->error('Could not cleanup CAN_INSTALL from your config folder. Please remove this file manually.');
+			}
+		}
+
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
-
-		// see https://github.com/nextcloud/server/issues/9992 for potential problem
-		if (version_compare($installedVersion, '14.0.0.9', '>=')) {
-			$this->waitForCronToFinish();
-		}
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 
@@ -254,7 +256,8 @@ class Updater extends BasicEmitter {
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$this->upgradeAppStoreApps(\OC_App::$autoDisabledApps, true);
+		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
 		OC_App::loadApps(['authentication']);
@@ -402,7 +405,7 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app);
+				\OC::$server->getAppManager()->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
 			}
 			// no need to disable any app in case this is a non-core upgrade
@@ -617,12 +620,5 @@ class Updater extends BasicEmitter {
 		});
 
 	}
-	private function waitForCronToFinish() {
-		while ($this->jobList->isAnyJobRunning()) {
-			$this->emit('\OC\Updater', 'waitForCronToFinish');
-			sleep(5);
-		}
-	}
 
 }
-

@@ -28,7 +28,7 @@ describe('OCA.Files.FileActions tests', function() {
 		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
-		$body.append('<table id="filestable"><tbody id="fileList"></tbody></table>');
+		$body.append('<table id="filestable" class="list-container view-grid"><tbody id="fileList"></tbody></table>');
 		// dummy files table
 		fileActions = new OCA.Files.FileActions();
 		fileActions.registerAction({
@@ -716,7 +716,7 @@ describe('OCA.Files.FileActions tests', function() {
 				expect(busyStub.calledWith('testName.txt', true)).toEqual(true);
 				expect(handleDownloadStub.calledOnce).toEqual(true);
 				expect(handleDownloadStub.getCall(0).args[0]).toEqual(
-					OC.webroot + '/remote.php/webdav/subdir/testName.txt'
+					OC.getRootPath() + '/remote.php/webdav/subdir/testName.txt'
 				);
 				busyStub.reset();
 				handleDownloadStub.yield();

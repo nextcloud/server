@@ -259,6 +259,10 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
+		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+		if (is_array($streamingOptions) && !empty($streamingOptions)) {
+			$transport->setStreamOptions($streamingOptions);
+		}
 
 		return $transport;
 	}
@@ -274,10 +278,23 @@ class Mailer implements IMailer {
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
 			default:
-				$binaryPath = '/usr/sbin/sendmail';
+				$sendmail = \OC_Helper::findBinaryPath('sendmail');
+				if ($sendmail === null) {
+					$sendmail = '/usr/sbin/sendmail';
+				}
+				$binaryPath = $sendmail;
 				break;
 		}
 
-		return new \Swift_SendmailTransport($binaryPath . ' -bs');
+		switch ($this->config->getSystemValue('mail_sendmailmode', 'smtp')) {
+			case 'pipe':
+				$binaryParam = ' -t';
+				break;
+			default:
+				$binaryParam = ' -bs';
+				break;
+		}
+
+		return new \Swift_SendmailTransport($binaryPath . $binaryParam);
 	}
 }

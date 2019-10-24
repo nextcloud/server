@@ -136,12 +136,13 @@ interface Node extends FileInfo {
 	/**
 	 * Get the size of the file or folder in bytes
 	 *
+	 * @param bool $includeMounts
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
-	public function getSize();
+	public function getSize($includeMounts = true);
 
 	/**
 	 * Get the Etag of the file or folder

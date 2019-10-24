@@ -50,7 +50,6 @@ use OCP\ILogger;
  * @property string ldapUserDisplayName2
  * @property string ldapUserAvatarRule
  * @property boolean turnOnPasswordChange
- * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
  * @property int|null ldapPagingSize holds an integer
  * @property bool|mixed|void ldapGroupMemberAssocAttr
@@ -61,13 +60,18 @@ use OCP\ILogger;
  * @property string ldapQuotaAttribute
  * @property string ldapQuotaDefault
  * @property string ldapEmailAttribute
+ * @property string ldapExtStorageHomeAttribute
+ * @property string homeFolderNamingRule
+ * @property bool|string ldapNestedGroups
+ * @property string[] ldapBaseGroups
+ * @property string ldapGroupFilter
+ * @property string ldapGroupDisplayName
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
 	private $configPrefix;
 	private $configID;
 	private $configured = false;
-	private $hasPagedResultSupport = true;
 	//whether connection should be kept on __destruct
 	private $dontDestruct = false;
 
@@ -112,9 +116,6 @@ class Connection extends LDAPUtility {
 		$helper = new Helper(\OC::$server->getConfig());
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
-		$this->hasPagedResultSupport =
-			(int)$this->configuration->ldapPagingSize !== 0
-			|| $this->ldap->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
@@ -144,10 +145,6 @@ class Connection extends LDAPUtility {
 	public function __get($name) {
 		if(!$this->configured) {
 			$this->readConfiguration();
-		}
-
-		if($name === 'hasPagedResultSupport') {
-			return $this->hasPagedResultSupport;
 		}
 
 		return $this->configuration->$name;
@@ -678,7 +675,8 @@ class Connection extends LDAPUtility {
 				ILogger::WARN);
 
 			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
-			if($errno !== 0x00 && $errno !== 0x31) {
+			// or (needed for Apple Open Directory:) LDAP_INSUFFICIENT_ACCESS
+			if($errno !== 0 && $errno !== 49 && $errno !== 50) {
 				$this->ldapConnectionRes = null;
 			}
 

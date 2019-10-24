@@ -33,13 +33,13 @@
 
 namespace OCA\Theming;
 
-
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 
 class ThemingDefaults extends \OC_Defaults {
@@ -58,6 +58,9 @@ class ThemingDefaults extends \OC_Defaults {
 	private $util;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var INavigationManager */
+	private $navigationManager;
+
 	/** @var string */
 	private $name;
 	/** @var string */
@@ -95,7 +98,8 @@ class ThemingDefaults extends \OC_Defaults {
 								ICacheFactory $cacheFactory,
 								Util $util,
 								ImageManager $imageManager,
-								IAppManager $appManager
+								IAppManager $appManager,
+								INavigationManager $navigationManager
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -105,6 +109,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
 		$this->appManager = $appManager;
+		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
@@ -171,6 +176,15 @@ class ThemingDefaults extends \OC_Defaults {
 			],
 		];
 
+		$navigation = $this->navigationManager->getAll(INavigationManager::TYPE_GUEST);
+		$guestNavigation = array_map(function($nav) {
+			return [
+				'text' => $nav['name'],
+				'url' => $nav['href']
+			];
+		}, $navigation);
+		$links = array_merge($links, $guestNavigation);
+
 		$legalLinks = ''; $divider = '';
 		foreach($links as $link) {
 			if($link['url'] !== ''
@@ -217,9 +231,9 @@ class ThemingDefaults extends \OC_Defaults {
 
 		if(!$logo || !$logoExists) {
 			if($useSvg) {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.svg');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.svg');
 			} else {
-				$logo = $this->urlGenerator->imagePath('core', 'logo.png');
+				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.png');
 			}
 			return $logo . '?v=' . $cacheBusterCounter;
 		}
@@ -309,7 +323,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return bool|string false if image should not replaced, otherwise the location of the image
 	 */
 	public function replaceImagePath($app, $image) {
-		if($app==='') {
+		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
@@ -320,11 +334,12 @@ class ThemingDefaults extends \OC_Defaults {
 			$customFavicon = null;
 		}
 
+		$route = false;
 		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
-			return $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
 		if ($image === 'favicon-touch.png' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
-			return $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]) . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
 			try {
@@ -333,8 +348,16 @@ class ThemingDefaults extends \OC_Defaults {
 					return false;
 				}
 			} catch (AppPathNotFoundException $e) {}
-			return $this->urlGenerator->linkToRoute('theming.Theming.getManifest') . '?v=' . $cacheBusterValue;
+			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest');
 		}
+		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image )) {
+			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
+		}
+
+		if ($route) {
+			return $route . '?v=' . $cacheBusterValue;
+		}
+
 		return false;
 	}
 

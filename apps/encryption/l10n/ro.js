@@ -21,8 +21,16 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Parola veche nu este cea corectă, încearcă din nou.",
     "The current log-in password was not correct, please try again." : "Parola curentă de autentificare nu este corectă, încearcă din nou.",
     "Private key password successfully updated." : "Parola cheii private a fost actualizată cu succes.",
+    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Cheie privată invalidă pentru aplicația de criptare. Actualizează-ți parola cheii private folosind setările personale pentru a redobândi accesul la fișierele tale criptate.",
+    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplicația de criptare este activată dar cheile nu sunt inițializate, te rugăm, reautentifică-te.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Vă rugăm să abilitați criptarea pe server in setarile de administrator ca să folosiți modul de criptare.",
+    "Encryption app is enabled and ready" : "Aplicația de criptare este activată",
     "Bad Signature" : "Semnătură greșită",
     "Missing Signature" : "Semnătură lipsă",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi decriptat, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Acest fișier nu poate fi citit, probabil este partajat. Cere posesorului fișierului să îl repartajeze cu tine.",
+    "Default encryption module" : "Modulul implicit de criptare",
+    "Default encryption module for server-side encryption" : "Modulul implicit de criptare pentru criptarea pe server",
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
     "Cheers!" : "Noroc!",
     "Enable recovery key" : "Activează cheia de recuperare",
@@ -41,7 +49,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Activează recuperarea parolei:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activarea acestei opțiuni îți va permite să redobândești accesul la fișierele tale criptate în cazul pierderii parolei",
     "Enabled" : "Activat",
-    "Disabled" : "Dezactivat",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Este necesar să migrezi cheile de criptare de la vechiul algoritm (ownCloud <= 8.0) la cel nou. Rulează 'occ encryption:migrate' sau contactează-ți administratorul."
+    "Disabled" : "Dezactivat"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

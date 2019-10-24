@@ -54,7 +54,7 @@ try {
 		list($service) = explode('/', $pathInfo);
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
-	if ($file === null) {
+	if ($file === '') {
 		http_response_code(404);
 		exit;
 	}
@@ -68,7 +68,8 @@ try {
 	OC_App::loadApps(array('filesystem', 'logging'));
 
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
-		throw new Exception('App not installed: ' . $app);
+		http_response_code(404);
+		exit;
 	}
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);

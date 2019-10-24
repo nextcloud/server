@@ -1,0 +1,3 @@
+#webpack bundled files
+js/additionalScripts.js
+js/dist/

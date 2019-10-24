@@ -71,7 +71,13 @@ class Response implements IResponse {
 	 * @return string
 	 */
 	public function getHeader(string $key): string {
-		return $this->response->getHeader($key)[0];
+		$headers = $this->response->getHeader($key);
+
+		if (count($headers) === 0) {
+			return '';
+		}
+
+		return $headers[0];
 	}
 
 	/**

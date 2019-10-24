@@ -29,6 +29,7 @@ use OCA\TwoFactorBackupCodes\Settings\Personal;
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
+use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
@@ -46,6 +47,8 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 
 	/** @var AppManager */
 	private $appManager;
+	/** @var IInitialStateService */
+	private $initialStateService;
 
 	/**
 	 * @param string $appName
@@ -53,11 +56,16 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	 * @param IL10N $l10n
 	 * @param AppManager $appManager
 	 */
-	public function __construct(string $appName, BackupCodeStorage $storage, IL10N $l10n, AppManager $appManager) {
+	public function __construct(string $appName,
+								BackupCodeStorage $storage,
+								IL10N $l10n,
+								AppManager $appManager,
+								IInitialStateService $initialStateService) {
 		$this->appName = $appName;
 		$this->l10n = $l10n;
 		$this->storage = $storage;
 		$this->appManager = $appManager;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -148,6 +156,8 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	 * @return IPersonalProviderSettings
 	 */
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
+		$state = $this->storage->getBackupCodesState($user);
+		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
 		return new Personal();
 	}
 

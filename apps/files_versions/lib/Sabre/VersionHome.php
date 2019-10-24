@@ -20,9 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Sabre;
 
+use OC\User\NoUserException;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IRootFolder;
+use OCP\IUserManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -34,9 +38,26 @@ class VersionHome implements ICollection {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(array $principalInfo, IRootFolder $rootFolder) {
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IVersionManager */
+	private $versionManager;
+
+	public function __construct(array $principalInfo, IRootFolder $rootFolder, IUserManager $userManager, IVersionManager $versionManager) {
 		$this->principalInfo = $principalInfo;
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
+		$this->versionManager = $versionManager;
+	}
+
+	private function getUser() {
+		list(, $name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		$user = $this->userManager->get($name);
+		if (!$user) {
+			throw new NoUserException();
+		}
+		return $user;
 	}
 
 	public function delete() {
@@ -44,8 +65,7 @@ class VersionHome implements ICollection {
 	}
 
 	public function getName(): string {
-		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
-		return $name;
+		return $this->getUser()->getUID();
 	}
 
 	public function setName($name) {
@@ -61,22 +81,22 @@ class VersionHome implements ICollection {
 	}
 
 	public function getChild($name) {
-		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
+		$user = $this->getUser();
 
 		if ($name === 'versions') {
-			return new VersionRoot($userId, $this->rootFolder);
+			return new VersionRoot($user, $this->rootFolder, $this->versionManager);
 		}
 		if ($name === 'restore') {
-			return new RestoreFolder($userId);
+			return new RestoreFolder();
 		}
 	}
 
 	public function getChildren() {
-		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
+		$user = $this->getUser();
 
 		return [
-			new VersionRoot($userId, $this->rootFolder),
-			new RestoreFolder($userId),
+			new VersionRoot($user, $this->rootFolder, $this->versionManager),
+			new RestoreFolder(),
 		];
 	}
 

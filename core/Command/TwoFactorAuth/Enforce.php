@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\TwoFactorAuth;
 
+use function implode;
+use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,17 +60,32 @@ class Enforce extends Command {
 			InputOption::VALUE_NONE,
 			'don\'t enforce two-factor authenticaton'
 		);
+		$this->addOption(
+			'group',
+			null,
+			InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+			'enforce only for the given group(s)'
+		);
+		$this->addOption(
+			'exclude',
+			null,
+			InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+			'exclude mandatory two-factor auth for the given group(s)'
+		);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('on')) {
-			$this->mandatoryTwoFactor->setEnforced(true);
+			$enforcedGroups = $input->getOption('group');
+			$excludedGroups = $input->getOption('exclude');
+			$this->mandatoryTwoFactor->setState(new EnforcementState(true, $enforcedGroups, $excludedGroups));
 		} elseif ($input->getOption('off')) {
-			$this->mandatoryTwoFactor->setEnforced(false);
+			$this->mandatoryTwoFactor->setState(new EnforcementState(false));
 		}
 
-		if ($this->mandatoryTwoFactor->isEnforced()) {
-			$this->writeEnforced($output);
+		$state = $this->mandatoryTwoFactor->getState();
+		if ($state->isEnforced()) {
+			$this->writeEnforced($output, $state);
 		} else {
 			$this->writeNotEnforced($output);
 		}
@@ -77,8 +94,16 @@ class Enforce extends Command {
 	/**
 	 * @param OutputInterface $output
 	 */
-	protected function writeEnforced(OutputInterface $output) {
-		$output->writeln('Two-factor authentication is enforced for all users');
+	protected function writeEnforced(OutputInterface $output, EnforcementState $state) {
+		if (empty($state->getEnforcedGroups())) {
+			$message = 'Two-factor authentication is enforced for all users';
+		} else {
+			$message = 'Two-factor authentication is enforced for members of the group(s) ' . implode(', ', $state->getEnforcedGroups());
+		}
+		if (!empty($state->getExcludedGroups())) {
+			$message .= ', except members of ' . implode(', ', $state->getExcludedGroups());
+		}
+		$output->writeln($message);
 	}
 
 	/**

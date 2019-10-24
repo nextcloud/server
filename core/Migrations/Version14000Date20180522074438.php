@@ -55,6 +55,7 @@ class Version14000Date20180522074438 extends SimpleMigrationStep {
 					'length' => 1,
 				]);
 			$table->setPrimaryKey(['provider_id', 'uid']);
+			$table->addIndex(['uid'], 'twofactor_providers_uid');
 		}
 
 		return $schema;

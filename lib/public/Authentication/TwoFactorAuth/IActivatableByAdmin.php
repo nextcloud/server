@@ -40,7 +40,7 @@ interface IActivatableByAdmin extends IProvider {
 	/**
 	 * Enable this provider for the given user.
 	 *
-	 * @param IUser $user the user to active this provider for
+	 * @param IUser $user the user to activate this provider for
 	 *
 	 * @return void
 	 *

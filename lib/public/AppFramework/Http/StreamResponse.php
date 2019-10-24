@@ -42,6 +42,8 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * @since 8.1.0
 	 */
 	public function __construct ($filePath) {
+		parent::__construct();
+
 		$this->filePath = $filePath;
 	}
 

@@ -21,18 +21,27 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\IConfig;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
+	/** @var ITrashManager */
+	private $trashManager;
 
-	public function __construct(PrincipalBackend\BackendInterface $principalBackend, IConfig $config) {
+	public function __construct(
+		ITrashManager $trashManager,
+		PrincipalBackend\BackendInterface $principalBackend,
+		IConfig $config
+	) {
 		parent::__construct($principalBackend, 'principals/users');
 
+		$this->trashManager = $trashManager;
 		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
@@ -47,12 +56,12 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return INode
 	 */
 	public function getChildForPrincipal(array $principalInfo): TrashHome {
-		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
+		list(, $name) = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
-		return new TrashHome($principalInfo);
+		return new TrashHome($principalInfo, $this->trashManager, $user);
 	}
 
 	public function getName(): string {

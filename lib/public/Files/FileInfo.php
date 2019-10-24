@@ -81,10 +81,11 @@ interface FileInfo {
 	/**
 	 * Get the size in bytes for the file or folder
 	 *
+	 * @param bool $includeMounts whether or not to include the size of any sub mounts, since 16.0.0
 	 * @return int
 	 * @since 7.0.0
 	 */
-	public function getSize();
+	public function getSize($includeMounts = true);
 
 	/**
 	 * Get the last modified date as timestamp for the file or folder
@@ -259,4 +260,12 @@ interface FileInfo {
 	 * @since 9.0.0
 	 */
 	public function getChecksum();
+
+	/**
+	 * Get the extension of the file
+	 *
+	 * @return string
+	 * @since 15.0.0
+	 */
+	public function getExtension(): string;
 }

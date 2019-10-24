@@ -115,7 +115,6 @@ class CSSResourceLocator extends ResourceLocator {
 					return false;
 				}
 			} else {
-				$this->logger->debug('Scss is disabled for '.$root.'/'.$file.', ignoring', ['app' => 'core']);
 				return true;
 			}
 		}

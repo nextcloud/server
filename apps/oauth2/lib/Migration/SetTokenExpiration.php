@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -50,7 +51,7 @@ class SetTokenExpiration implements IRepairStep {
 		$this->tokenProvider = $tokenProvider;
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Update OAuth token expiration times';
 	}
 

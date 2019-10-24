@@ -74,7 +74,8 @@ button.primary:focus,
 }
 
 /* use logos from theme */
-#header .logo {
+#header .logo,
+#firstrunwizard .logo {
 	background-image: url('../img/logo.svg');
 	width: 256px;
 	height: 128px;

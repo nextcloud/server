@@ -21,19 +21,33 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashHome implements ICollection {
+	/** @var ITrashManager */
+	private $trashManager;
 
 	/** @var array */
 	private $principalInfo;
 
-	public function __construct(array $principalInfo) {
+	/** @var IUser */
+	private $user;
+
+	public function __construct(
+		array $principalInfo,
+		ITrashManager $trashManager,
+		IUser $user
+	) {
 		$this->principalInfo = $principalInfo;
+		$this->trashManager = $trashManager;
+		$this->user = $user;
 	}
 
 	public function delete() {
@@ -41,7 +55,7 @@ class TrashHome implements ICollection {
 	}
 
 	public function getName(): string {
-		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		list(, $name) = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 
@@ -58,24 +72,20 @@ class TrashHome implements ICollection {
 	}
 
 	public function getChild($name) {
-		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
-
 		if ($name === 'restore') {
-			return new RestoreFolder($userId);
+			return new RestoreFolder();
 		}
 		if ($name === 'trash') {
-			return new TrashRoot($userId);
+			return new TrashRoot($this->user, $this->trashManager);
 		}
 
 		throw new NotFound();
 	}
 
 	public function getChildren(): array {
-		list(,$userId) = \Sabre\Uri\split($this->principalInfo['uri']);
-
 		return [
-			new RestoreFolder($userId),
-			new TrashRoot($userId),
+			new RestoreFolder(),
+			new TrashRoot($this->user, $this->trashManager)
 		];
 	}
 

@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
@@ -241,6 +242,7 @@ class ApiController extends Controller {
 	 * @param string $mode
 	 * @param string $direction
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function updateFileSorting($mode, $direction) {
 		$allowedMode = ['name', 'size', 'mtime'];
@@ -261,6 +263,8 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function showHiddenFiles($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
@@ -268,14 +272,39 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Toggle default for files grid view
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function showGridView($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+		return new Response();
+	}
+
+	/**
+	 * Get default settings for the grid view
+	 *
+	 * @NoAdminRequired
+	 */
+	public function getGridView() {
+		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
+		return new JSONResponse(['gridview' => $status]);
+	}
+
+	/**
 	 * Toggle default for showing/hiding xxx folder
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show 
-	 * @param bool $key the key of the folder
+	 * @param int $show
+	 * @param string $key the key of the folder
 	 *
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function toggleShowFolder(int $show, string $key) {
 		// ensure the edited key exists
@@ -292,5 +321,18 @@ class ApiController extends Controller {
 		return $response;
 	}
 
+	/**
+	 * Get sorting-order for custom sorting
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string
+	 * @return string
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	public function getNodeType($folderpath) {
+		$node = $this->userFolder->get($folderpath);
+		return $node->getType();
+	}
 
 }

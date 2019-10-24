@@ -8,7 +8,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "401"
 		And there are no duplicate headers
 		And The following headers should be set
-			|WWW-Authenticate|Basic realm="Nextcloud"|
+			|WWW-Authenticate|Basic realm="Nextcloud", charset="UTF-8"|
 
 	Scenario: Unauthenticated call new dav path
 		Given using new dav path
@@ -16,7 +16,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "401"
 		And there are no duplicate headers
 		And The following headers should be set
-			|WWW-Authenticate|Basic realm="Nextcloud"|
+			|WWW-Authenticate|Basic realm="Nextcloud", charset="UTF-8"|
 
 	Scenario: Moving a file
 		Given using old dav path

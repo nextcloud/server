@@ -1,3 +1,4 @@
+@apache
 Feature: app-theming
 
   Scenario: changing the color updates the header color

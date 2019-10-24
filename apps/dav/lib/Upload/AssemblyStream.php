@@ -76,9 +76,6 @@ class AssemblyStream implements \Icewind\Streams\File {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
-		if (count($this->nodes) > 0) {
-			$this->currentStream = $this->getStream($this->nodes[0]);
-		}
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();
 		}, 0);
@@ -86,12 +83,46 @@ class AssemblyStream implements \Icewind\Streams\File {
 	}
 
 	/**
-	 * @param string $offset
+	 * @param int $offset
 	 * @param int $whence
 	 * @return bool
 	 */
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		return false;
+		if ($whence === SEEK_CUR) {
+			$offset = $this->stream_tell() + $offset;
+		} else if ($whence === SEEK_END) {
+			$offset = $this->size + $offset;
+		}
+
+		if ($offset > $this->size) {
+			return false;
+		}
+
+		$nodeIndex = 0;
+		$nodeStart = 0;
+		while (true) {
+			if (!isset($this->nodes[$nodeIndex + 1])) {
+				break;
+			}
+			$node = $this->nodes[$nodeIndex];
+			if ($nodeStart + $node->getSize() > $offset) {
+				break;
+			}
+			$nodeIndex++;
+			$nodeStart += $node->getSize();
+		}
+
+		$stream = $this->getStream($this->nodes[$nodeIndex]);
+		$nodeOffset = $offset - $nodeStart;
+		if(fseek($stream, $nodeOffset) === -1) {
+			return false;
+		}
+		$this->currentNode = $nodeIndex;
+		$this->currentNodeRead = $nodeOffset;
+		$this->currentStream = $stream;
+		$this->pos = $offset;
+
+		return true;
 	}
 
 	/**
@@ -107,7 +138,11 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 */
 	public function stream_read($count) {
 		if (is_null($this->currentStream)) {
-			return '';
+			if ($this->currentNode < count($this->nodes)) {
+				$this->currentStream = $this->getStream($this->nodes[$this->currentNode]);
+			} else {
+				return '';
+			}
 		}
 
 		do {
@@ -169,7 +204,9 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return array
 	 */
 	public function stream_stat() {
-		return [];
+		return [
+			'size' => $this->size,
+		];
 	}
 
 	/**
@@ -191,7 +228,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @return bool
 	 */
 	public function stream_eof() {
-		return $this->pos >= $this->size || $this->currentStream === null;
+		return $this->pos >= $this->size || ($this->currentNode >= count($this->nodes) && $this->currentNode === null);
 	}
 
 	/**
@@ -207,7 +244,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws \Exception
+	 * @throws \BadMethodCallException
 	 */
 	protected function loadContext($name) {
 		$context = stream_context_get_options($this->context);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +58,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param string $appNamespace
 	 */
-	public function registerNamespace($appName, $appNamespace) {
+	public function registerNamespace(string $appName, string $appNamespace): void {
 		// Cut of OCA\ and lowercase
 		$appNamespace = strtolower(substr($appNamespace, strrpos($appNamespace, '\\') + 1));
 		$this->namespaces[$appNamespace] = $appName;
@@ -67,8 +68,21 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appName
 	 * @param DIContainer $container
 	 */
-	public function registerAppContainer($appName, DIContainer $container) {
+	public function registerAppContainer(string $appName, DIContainer $container): void {
 		$this->appContainers[strtolower(App::buildAppNamespace($appName, ''))] = $container;
+	}
+
+	/**
+	 * @param string $appName
+	 * @return DIContainer
+	 * @throws QueryException
+	 */
+	public function getRegisteredAppContainer(string $appName): DIContainer {
+		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName, ''))])) {
+			return $this->appContainers[strtolower(App::buildAppNamespace($appName, ''))];
+		}
+
+		throw new QueryException();
 	}
 
 	/**
@@ -77,7 +91,7 @@ class ServerContainer extends SimpleContainer {
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer($namespace, $sensitiveNamespace) {
+	protected function getAppContainer(string $namespace, string $sensitiveNamespace): DIContainer {
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
@@ -99,13 +113,12 @@ class ServerContainer extends SimpleContainer {
 		throw new QueryException();
 	}
 
-	/**
-	 * @param string $name name of the service to query for
-	 * @return mixed registered service for the given $name
-	 * @throws QueryException if the query could not be resolved
-	 */
-	public function query($name) {
+	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
+
+		if (isset($this[$name])) {
+			return $this[$name];
+		}
 
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
@@ -129,6 +142,6 @@ class ServerContainer extends SimpleContainer {
 			}
 		}
 
-		return parent::query($name);
+		return parent::query($name, $autoload);
 	}
 }

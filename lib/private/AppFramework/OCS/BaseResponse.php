@@ -57,6 +57,8 @@ abstract class BaseResponse extends Response   {
 								$statusMessage = null,
 								$itemsCount = null,
 								$itemsPerPage = null) {
+		parent::__construct();
+
 		$this->format = $format;
 		$this->statusMessage = $statusMessage;
 		$this->itemsCount = $itemsCount;
@@ -69,7 +71,6 @@ abstract class BaseResponse extends Response   {
 		$this->setETag($dataResponse->getETag());
 		$this->setLastModified($dataResponse->getLastModified());
 		$this->setCookies($dataResponse->getCookies());
-		$this->setContentSecurityPolicy(new EmptyContentSecurityPolicy());
 
 		if ($format === 'json') {
 			$this->addHeader(

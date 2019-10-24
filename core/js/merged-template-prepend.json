@@ -1,21 +1,5 @@
 [
-  "jquery.ocdialog.js",
-  "oc-dialogs.js",
-  "js.js",
-  "l10n.js",
-  "octemplate.js",
-  "eventsource.js",
-  "public/appconfig.js",
-  "public/comments.js",
-  "public/whatsnew.js",
-  "config.js",
-  "oc-requesttoken.js",
-  "apps.js",
   "mimetype.js",
   "mimetypelist.js",
-  "oc-backbone.js",
-  "select2-toggleselect.js",
-  "placeholder.js",
-  "jquery.avatar.js",
-  "jquery.contactsmenu.js"
+  "select2-toggleselect.js"
 ]

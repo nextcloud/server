@@ -30,6 +30,8 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share;
 
 class RemotePlugin implements ISearchPlugin {
@@ -41,12 +43,20 @@ class RemotePlugin implements ISearchPlugin {
 	private $cloudIdManager;
 	/** @var IConfig */
 	private $config;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var string */
+	private $userId = '';
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config) {
+	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager, IUserSession $userSession) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
-
+		$this->userManager = $userManager;
+		$user = $userSession->getUser();
+		if ($user !== null) {
+			$this->userId = $user->getUID();
+		}
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
@@ -63,15 +73,36 @@ class RemotePlugin implements ISearchPlugin {
 			}
 			if (isset($contact['CLOUD'])) {
 				$cloudIds = $contact['CLOUD'];
-				if (!is_array($cloudIds)) {
+				if (is_string($cloudIds)) {
 					$cloudIds = [$cloudIds];
 				}
 				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
+					$cloudIdType = '';
+					if (\is_array($cloudId)) {
+						$cloudIdData = $cloudId;
+						$cloudId = $cloudIdData['value'];
+						$cloudIdType = $cloudIdData['type'];
+					}
 					try {
-						list(, $serverUrl) = $this->splitUserRemote($cloudId);
+						list($remoteUser, $serverUrl) = $this->splitUserRemote($cloudId);
 					} catch (\InvalidArgumentException $e) {
 						continue;
+					}
+
+					$localUser = $this->userManager->get($remoteUser);
+					/**
+					 * Add local share if remote cloud id matches a local user ones
+					 */
+					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId() ) {
+						$result['wide'][] = [
+							'label' => $contact['FN'],
+							'uuid' => $contact['UID'],
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_USER,
+								'shareWith' => $remoteUser
+							]
+						];
 					}
 
 					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
@@ -80,6 +111,9 @@ class RemotePlugin implements ISearchPlugin {
 						}
 						$result['exact'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
+							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
+							'type' => $cloudIdType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
@@ -89,6 +123,9 @@ class RemotePlugin implements ISearchPlugin {
 					} else {
 						$result['wide'][] = [
 							'label' => $contact['FN'] . " ($cloudId)",
+							'uuid' => $contact['UID'],
+							'name' => $contact['FN'],
+							'type' => $cloudIdType,
 							'value' => [
 								'shareType' => Share::SHARE_TYPE_REMOTE,
 								'shareWith' => $cloudId,
@@ -106,14 +143,24 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
+		/**
+		 * Add generic share with remote item for valid cloud ids that are not users of the local instance
+		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
-			$result['exact'][] = [
-				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $search,
-				],
-			];
+			try {
+				list($remoteUser, $serverUrl) = $this->splitUserRemote($search);
+				$localUser = $this->userManager->get($remoteUser);
+				if ($localUser === null || $search !== $localUser->getCloudId()) {
+					$result['exact'][] = [
+						'label' => $search,
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareWith' => $search,
+						],
+					];
+				}
+			} catch (\InvalidArgumentException $e) {
+			}
 		}
 
 		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);

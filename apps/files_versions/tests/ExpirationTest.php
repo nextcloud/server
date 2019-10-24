@@ -25,7 +25,9 @@
 namespace OCA\Files_Versions\Tests;
 
 use \OCA\Files_Versions\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ExpirationTest extends \Test\TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
@@ -151,58 +153,27 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 	/**
-	 *
 	 * @param int $time
-	 * @return \OCP\AppFramework\Utility\ITimeFactory
+	 * @return ITimeFactory|MockObject
 	 */
 	private function getMockedTimeFactory($time){
-		$mockedTimeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
-				->disableOriginalConstructor()
-				->setMethods(['getTime'])
-				->getMock()
-		;
-		$mockedTimeFactory->expects($this->any())->method('getTime')->will(
-				$this->returnValue($time)
-		);
+		$mockedTimeFactory = $this->createMock(ITimeFactory::class);
+		$mockedTimeFactory->expects($this->any())
+			->method('getTime')
+			->willReturn($time);
 
 		return $mockedTimeFactory;
 	}
 
 	/**
-	 *
 	 * @param string $returnValue
-	 * @return \OCP\IConfig
+	 * @return IConfig|MockObject
 	 */
 	private function getMockedConfig($returnValue){
-		$mockedConfig = $this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->setMethods(
-					[
-						'setSystemValues',
-						'setSystemValue',
-						'getSystemValue',
-						'getFilteredSystemValue',
-						'deleteSystemValue',
-						'getAppKeys',
-						'setAppValue',
-						'getAppValue',
-						'deleteAppValue',
-						'deleteAppValues',
-						'setUserValue',
-						'getUserValue',
-						'getUserValueForUsers',
-						'getUserKeys',
-						'deleteUserValue',
-						'deleteAllUserValues',
-						'deleteAppFromAllUsers',
-						'getUsersForUserValue'
-					]
-				)
-				->getMock()
-		;
-		$mockedConfig->expects($this->any())->method('getSystemValue')->will(
-				$this->returnValue($returnValue)
-		);
+		$mockedConfig = $this->createMock(IConfig::class);
+		$mockedConfig->expects($this->any())
+			->method('getSystemValue')
+			->willReturn($returnValue);
 
 		return $mockedConfig;
 	}

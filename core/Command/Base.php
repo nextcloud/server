@@ -129,15 +129,19 @@ class Base extends Command implements CompletionAwareInterface {
 	}
 
 	/**
-	 * @return bool
+	 * Throw InterruptedException when interrupted by user
+	 *
+	 * @throws InterruptedException
 	 */
-	protected function hasBeenInterrupted() {
-		// return always false if pcntl_signal functions are not accessible
-		if ($this->php_pcntl_signal) {
-			pcntl_signal_dispatch();
-			return $this->interrupted;
-		} else {
-			return false;
+	protected function abortIfInterrupted() {
+		if ($this->php_pcntl_signal === false) {
+			return;
+		}
+
+		pcntl_signal_dispatch();
+
+		if ($this->interrupted === true) {
+			throw new InterruptedException('Command interrupted by user');
 		}
 	}
 

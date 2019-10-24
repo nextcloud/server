@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use Exception;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -195,8 +196,9 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
+	 * @return IToken
 	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId) {
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
 		$token = $this->getToken($oldSessionId);
 
 		$newToken = new DefaultToken();
@@ -213,6 +215,8 @@ class DefaultTokenProvider implements IProvider {
 		$newToken->setLastActivity($this->time->getTime());
 		$this->mapper->insert($newToken);
 		$this->mapper->delete($token);
+
+		return $newToken;
 	}
 
 	/**

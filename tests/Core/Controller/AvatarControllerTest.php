@@ -53,7 +53,7 @@ use OCP\IUserManager;
  * @package OC\Core\Controller
  */
 class AvatarControllerTest extends \Test\TestCase {
-	/** @var \OC\Core\Controller\AvatarController */
+	/** @var AvatarController */
 	private $avatarController;
 	/** @var IAvatar|\PHPUnit_Framework_MockObject_MockObject */
 	private $avatarMock;
@@ -78,7 +78,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
-	
+
 	protected function setUp() {
 		parent::setUp();
 

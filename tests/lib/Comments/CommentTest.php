@@ -150,15 +150,26 @@ class CommentTest extends TestCase {
 				['foobar', 'barfoo', 'foo@bar.com', 'bar@foo.org@foobar.io', '23452-4333-54353-2342', 'yolo']
 			],
 			[
-			'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
-			]
+				'@@chef is also a valid mention, no matter how strange it looks', ['@chef']
+			],
+			[
+				'Also @"user with spaces" are now supported', ['user with spaces']
+			],
+			[
+				'Also @"guest/0123456789abcdef" are now supported', [], null, ['guest/0123456789abcdef']
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider mentionsProvider
+	 *
+	 * @param string $message
+	 * @param array $expectedUids
+	 * @param string|null $author
+	 * @param array $expectedGuests
 	 */
-	public function testMentions($message, $expectedUids, $author = null) {
+	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = []): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
 		if(!is_null($author)) {
@@ -166,9 +177,15 @@ class CommentTest extends TestCase {
 		}
 		$mentions = $comment->getMentions();
 		while($mention = array_shift($mentions)) {
-			$uid = array_shift($expectedUids);
-			$this->assertSame('user', $mention['type']);
-			$this->assertSame($uid, $mention['id']);
+			if ($mention['type'] === 'user') {
+				$id = array_shift($expectedUids);
+			} else if ($mention['type'] === 'guest') {
+				$id = array_shift($expectedGuests);
+			} else {
+				$this->fail('Unexpected mention type');
+				continue;
+			}
+			$this->assertSame($id, $mention['id']);
 		}
 		$this->assertEmpty($mentions);
 		$this->assertEmpty($expectedUids);

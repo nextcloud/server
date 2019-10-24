@@ -117,7 +117,7 @@ class CleanTagsTest extends \Test\TestCase {
 	 */
 	protected function assertEntryCount($tableName, $expected, $message = '') {
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select($qb->createFunction('COUNT(*)'))
+		$result = $qb->select($qb->func()->count('*'))
 			->from($tableName)
 			->execute();
 

@@ -19,8 +19,8 @@
 *
 */
 
-describe('OCA.External.App tests', function() {
-	var App = OCA.External.App;
+describe('OCA.Files_External.App tests', function() {
+	var App = OCA.Files_External.App;
 	var fileList;
 
 	beforeEach(function() {

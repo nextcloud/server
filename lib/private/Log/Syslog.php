@@ -25,11 +25,11 @@
 
 namespace OC\Log;
 
+use OC\SystemConfig;
 use OCP\ILogger;
-use OCP\IConfig;
 use OCP\Log\IWriter;
 
-class Syslog implements IWriter {
+class Syslog extends LogDetails implements IWriter {
 	protected $levels = [
 		ILogger::DEBUG => LOG_DEBUG,
 		ILogger::INFO => LOG_INFO,
@@ -38,8 +38,9 @@ class Syslog implements IWriter {
 		ILogger::FATAL => LOG_CRIT,
 	];
 
-	public function __construct(IConfig $config) {
-		openlog($config->getSystemValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
+	public function __construct(SystemConfig $config) {
+		parent::__construct($config);
+		openlog($config->getValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {
@@ -54,6 +55,6 @@ class Syslog implements IWriter {
 	 */
 	public function write(string $app, $message, int $level) {
 		$syslog_level = $this->levels[$level];
-		syslog($syslog_level, '{'.$app.'} '.$message);
+		syslog($syslog_level, $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

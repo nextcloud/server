@@ -68,6 +68,7 @@ try {
 		echo "Current user: " . $user['name'] . PHP_EOL;
 		echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
 		echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;
+		echo "If running with 'docker exec' try adding the option '-u " . $configUser['name'] . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
 	}
 

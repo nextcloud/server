@@ -25,6 +25,7 @@
 
 namespace OC\Preview;
 
+use OC\Preview\GeneratorHelper;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -35,6 +36,8 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use OCP\Preview\IVersionedPreviewFile;
+use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -97,7 +100,7 @@ class Generator {
 
 		$this->eventDispatcher->dispatch(
 			IPreview::EVENT,
-			new GenericEvent($file,[
+			new GenericEvent($file, [
 				'width' => $width,
 				'height' => $height,
 				'crop' => $crop,
@@ -114,14 +117,19 @@ class Generator {
 
 		$previewFolder = $this->getPreviewFolder($file);
 
+		$previewVersion = '';
+		if ($file instanceof IVersionedPreviewFile) {
+			$previewVersion = $file->getPreviewVersion() . '-';
+		}
+
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType);
+		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType, $previewVersion);
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
-		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview);
+		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview, $previewVersion);
 
 		// If both width and heigth are -1 we just want the max preview
 		if ($width === -1 && $height === -1) {
@@ -140,9 +148,9 @@ class Generator {
 		// Try to get a cached preview. Else generate (and store) one
 		try {
 			try {
-				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType());
+				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
 			} catch (NotFoundException $e) {
-				$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight);
+				$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 			}
 		} catch (\InvalidArgumentException $e) {
 			throw new NotFoundException();
@@ -160,14 +168,16 @@ class Generator {
 	 * @param ISimpleFolder $previewFolder
 	 * @param File $file
 	 * @param string $mimeType
+	 * @param string $prefix
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, File $file, $mimeType) {
+	private function getMaxPreview(ISimpleFolder $previewFolder, File $file, $mimeType, $prefix) {
 		$nodes = $previewFolder->getDirectoryListing();
 
 		foreach ($nodes as $node) {
-			if (strpos($node->getName(), 'max')) {
+			$name = $node->getName();
+			if (($prefix === '' || strpos($name, $prefix) === 0) && strpos($name, 'max')) {
 				return $node;
 			}
 		}
@@ -178,9 +188,9 @@ class Generator {
 				continue;
 			}
 
-			foreach ($providers as $provider) {
-				$provider = $this->helper->getProvider($provider);
-				if (!($provider instanceof IProvider)) {
+			foreach ($providers as $providerClosure) {
+				$provider = $this->helper->getProvider($providerClosure);
+				if (!($provider instanceof IProviderV2)) {
 					continue;
 				}
 
@@ -205,7 +215,7 @@ class Generator {
 					continue;
 				}
 
-				$path = (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
+				$path = $prefix . (string)$preview->width() . '-' . (string)$preview->height() . '-max.' . $ext;
 				try {
 					$file = $previewFolder->newFile($path);
 					$file->putContent($preview->data());
@@ -222,10 +232,11 @@ class Generator {
 
 	/**
 	 * @param ISimpleFile $file
+	 * @param string $prefix
 	 * @return int[]
 	 */
-	private function getPreviewSize(ISimpleFile $file) {
-		$size = explode('-', $file->getName());
+	private function getPreviewSize(ISimpleFile $file, string $prefix = '') {
+		$size = explode('-', substr($file->getName(), strlen($prefix)));
 		return [(int)$size[0], (int)$size[1]];
 	}
 
@@ -234,10 +245,11 @@ class Generator {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mimeType
+	 * @param string $prefix
 	 * @return string
 	 */
-	private function generatePath($width, $height, $crop, $mimeType) {
-		$path = (string)$width . '-' . (string)$height;
+	private function generatePath($width, $height, $crop, $mimeType, $prefix) {
+		$path = $prefix . (string)$width . '-' . (string)$height;
 		if ($crop) {
 			$path .= '-crop';
 		}
@@ -246,7 +258,6 @@ class Generator {
 		$path .= '.' . $ext;
 		return $path;
 	}
-
 
 
 	/**
@@ -298,19 +309,23 @@ class Generator {
 
 		if ($height !== $maxHeight && $width !== $maxWidth) {
 			/*
-			 * Scale to the nearest power of two
+			 * Scale to the nearest power of four
 			 */
-			$pow2height = 2 ** ceil(log($height) / log(2));
-			$pow2width = 2 ** ceil(log($width) / log(2));
+			$pow4height = 4 ** ceil(log($height) / log(4));
+			$pow4width = 4 ** ceil(log($width) / log(4));
 
-			$ratioH = $height / $pow2height;
-			$ratioW = $width / $pow2width;
+			// Minimum size is 64
+			$pow4height = max($pow4height, 64);
+			$pow4width = max($pow4width, 64);
+
+			$ratioH = $height / $pow4height;
+			$ratioW = $width / $pow4width;
 
 			if ($ratioH < $ratioW) {
-				$width = $pow2width;
+				$width = $pow4width;
 				$height /= $ratioW;
 			} else {
-				$height = $pow2height;
+				$height = $pow4height;
 				$width /= $ratioH;
 			}
 		}
@@ -341,11 +356,12 @@ class Generator {
 	 * @param bool $crop
 	 * @param int $maxWidth
 	 * @param int $maxHeight
+	 * @param string $prefix
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight) {
+	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
 		$preview = $this->helper->getImage($maxPreview);
 
 		if (!$preview->valid()) {
@@ -375,7 +391,7 @@ class Generator {
 		}
 
 
-		$path = $this->generatePath($width, $height, $crop, $preview->dataMimeType());
+		$path = $this->generatePath($width, $height, $crop, $preview->dataMimeType(), $prefix);
 		try {
 			$file = $previewFolder->newFile($path);
 			$file->putContent($preview->data());
@@ -392,12 +408,13 @@ class Generator {
 	 * @param int $height
 	 * @param bool $crop
 	 * @param string $mimeType
+	 * @param string $prefix
 	 * @return ISimpleFile
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop, $mimeType) {
-		$path = $this->generatePath($width, $height, $crop, $mimeType);
+	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop, $mimeType, $prefix) {
+		$path = $this->generatePath($width, $height, $crop, $mimeType, $prefix);
 
 		return $previewFolder->getFile($path);
 	}

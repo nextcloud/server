@@ -30,7 +30,7 @@ $urlGenerator = $_['urlGenerator'];
 <div class="picker-window">
 	<h2><?php p($l->t('Connect to your account')) ?></h2>
 	<p class="info">
-		<?php print_unescaped($l->t('Please log in before granting %s access to your %s account.', [
+		<?php print_unescaped($l->t('Please log in before granting %1$s access to your %2$s account.', [
 								'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
 								\OCP\Util::sanitizeHTML($_['instanceName'])
 							])) ?>
@@ -44,7 +44,7 @@ $urlGenerator = $_['urlGenerator'];
 		</a>
 	</p>
 
-	<fieldset id="app-token-login-field" class="hidden">
+	<form action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.apptokenRedirect')); ?>" method="post" id="app-token-login-field" class="hidden">
 		<p class="grouptop">
 			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Username')) ?>">
 			<label for="user" class="infield"><?php p($l->t('Username')) ?></label>
@@ -53,9 +53,10 @@ $urlGenerator = $_['urlGenerator'];
 			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App token')) ?>">
 			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
 		</p>
-		<input type="hidden" id="serverHost" value="<?php p($_['serverHost']) ?>" />
+		<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
+		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
-	</fieldset>
+	</form>
 </div>
 
 <?php if(empty($_['oauthState'])): ?>

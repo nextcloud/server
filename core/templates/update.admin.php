@@ -3,7 +3,7 @@
 		<?php if ($_['isAppsOnlyUpgrade']) { ?>
 		<h2 class="title"><?php p($l->t('App update required')); ?></h2>
 		<?php } else { ?>
-		<h2 class="title"><?php p($l->t('%s will be updated to version %s',
+		<h2 class="title"><?php p($l->t('%1$s will be updated to version %2$s',
 			array($_['productName'], $_['version']))); ?></h2>
 		<?php } ?>
 		<?php if (!empty($_['appsToUpgrade'])) { ?>

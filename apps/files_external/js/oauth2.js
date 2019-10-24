@@ -4,7 +4,7 @@ $(document).ready(function() {
 		$tr.find('.configuration input.auth-param').attr('disabled', 'disabled').addClass('disabled-success');
 	}
 
-	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
+	OCA.Files_External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
 		if (authMechanism === 'oauth2::oauth2') {
 			var config = $tr.find('.configuration');
 			config.append($(document.createElement('input'))
@@ -43,7 +43,7 @@ $(document).ready(function() {
 										if (result && result.status == 'success') {
 											$(token).val(result.data.token);
 											$(configured).val('true');
-											OCA.External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
+											OCA.Files_External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
 												if (status) {
 													displayGranted($tr);
 												}
@@ -80,7 +80,7 @@ $(document).ready(function() {
 					if (result && result.status == 'success') {
 						$(configured).val('false');
 						$(token).val('false');
-						OCA.External.Settings.mountConfig.saveStorageConfig(tr, function(status) {
+						OCA.Files_External.Settings.mountConfig.saveStorageConfig(tr, function(status) {
 							window.location = result.data.url;
 						});
 					} else {

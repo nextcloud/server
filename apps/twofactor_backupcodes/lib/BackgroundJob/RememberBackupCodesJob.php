@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 
@@ -38,9 +38,6 @@ class RememberBackupCodesJob extends TimedJob {
 
 	/** @var IUserManager */
 	private $userManager;
-
-	/** @var ITimeFactory */
-	private $time;
 
 	/** @var IManager */
 	private $notificationManager;
@@ -53,6 +50,7 @@ class RememberBackupCodesJob extends TimedJob {
 								ITimeFactory $timeFactory,
 								IManager $notificationManager,
 								IJobList $jobList) {
+		parent::__construct($timeFactory);
 		$this->registry = $registry;
 		$this->userManager = $userManager;
 		$this->time = $timeFactory;
@@ -72,7 +70,15 @@ class RememberBackupCodesJob extends TimedJob {
 		}
 
 		$providers = $this->registry->getProviderStates($user);
-		if (isset($providers['backup_codes']) && $providers['backup_codes'] === true) {
+		$state2fa = array_reduce($providers, function(bool $carry, bool $state) {
+			return $carry || $state;
+		}, false);
+
+		/*
+		 * If no provider is active or if the backup codes are already generate
+		 * we can remove the job
+		 */
+		if ($state2fa === false || (isset($providers['backup_codes']) && $providers['backup_codes'] === true)) {
 			// Backup codes already generated lets remove this job
 			$this->jobList->remove(self::class, $argument);
 			return;

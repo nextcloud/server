@@ -79,7 +79,7 @@ class Util {
 	public function elementColor($color) {
 		$l = $this->calculateLuminance($color);
 		if($l>0.8) {
-			return '#dddddd';
+			return '#aaaaaa';
 		}
 		return $color;
 	}
@@ -111,7 +111,7 @@ class Util {
 	public function hexToRGB($color) {
 		$hex = preg_replace("/[^0-9A-Fa-f]/", '', $color);
 		if (strlen($hex) === 3) {
-			$hex = $hex{0} . $hex{0} . $hex{1} . $hex{1} . $hex{2} . $hex{2};
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 		}
 		if (strlen($hex) !== 6) {
 			return 0;
@@ -161,7 +161,7 @@ class Util {
 				}
 			} catch (NotFoundException $e) {}
 		}
-		return \OC::$SERVERROOT . '/core/img/logo.svg';
+		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Util {
 
 	/**
 	 * Check if a custom theme is set in the server configuration
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isAlreadyThemed() {

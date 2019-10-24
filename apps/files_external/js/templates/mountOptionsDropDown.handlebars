@@ -1,0 +1,48 @@
+<div class="popovermenu open">
+	<ul>
+		<li class="optionRow">
+			<span class="menuitem">
+				<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" checked="checked"/>
+				<label for="mountOptionsEncrypt">{{mountOptionsEncryptLabel}}</label>
+			</span>
+		</li>
+		<li class="optionRow">
+			<span class="menuitem">
+				<input id="mountOptionsPreviews" class="checkbox" name="previews" type="checkbox" value="true" checked="checked"/>
+				<label for="mountOptionsPreviews">{{mountOptionsPreviewsLabel}}</label>
+			</span>
+		</li>
+		<li class="optionRow">
+			<span class="menuitem">
+				<input id="mountOptionsSharing" class="checkbox" name="enable_sharing" type="checkbox" value="true"/>
+				<label for="mountOptionsSharing">{{mountOptionsSharingLabel}}</label>
+			</span>
+		</li>
+		<li class="optionRow">
+			<span class="menuitem icon-search">
+				<label for="mountOptionsFilesystemCheck">{{mountOptionsFilesystemCheckLabel}}</label>
+				<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">
+					<option value="0">{{mountOptionsFilesystemCheckOnce}}</option>
+					<option value="1" selected="selected">{{mountOptionsFilesystemCheckDA}}</option>
+				</select>
+			</span>
+		</li>
+		<li class="optionRow">
+			<span class="menuitem">
+				<input id="mountOptionsEncoding" class="checkbox" name="encoding_compatibility" type="checkbox" value="true"/>
+				<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>
+			</span>
+		</li>
+		<li class="optionRow">
+			<span class="menuitem">
+				<input id="mountOptionsReadOnly" class="checkbox" name="readonly" type="checkbox" value="true"/>
+				<label for="mountOptionsReadOnly">{{mountOptionsReadOnlyLabel}}</label>
+			</span>
+		</li>
+		<li class="optionRow persistent">
+			<a href="#" class="menuitem remove icon-delete">
+				<span>{{deleteLabel}}</span>
+			</a>
+		</li>
+	</ul>
+</div>

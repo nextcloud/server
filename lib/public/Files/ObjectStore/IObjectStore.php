@@ -23,6 +23,8 @@
  */
 namespace OCP\Files\ObjectStore;
 
+use OCP\Files\NotFoundException;
+
 /**
  * Interface IObjectStore
  *
@@ -41,6 +43,7 @@ interface IObjectStore {
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
+	 * @throws NotFoundException if file does not exist
 	 * @since 7.0.0
 	 */
 	public function readObject($urn);
@@ -60,4 +63,13 @@ interface IObjectStore {
 	 * @since 7.0.0
 	 */
 	public function deleteObject($urn);
+
+	/**
+	 * Check if an object exists in the object store
+	 *
+	 * @param string $urn
+	 * @return bool
+	 * @since 16.0.0
+	 */
+	public function objectExists($urn);
 }

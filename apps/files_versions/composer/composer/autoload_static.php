@@ -31,6 +31,7 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Events\\CreateVersionEvent' => __DIR__ . '/..' . '/../lib/Events/CreateVersionEvent.php',
         'OCA\\Files_Versions\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Versions\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Versions\\Sabre\\Plugin' => __DIR__ . '/..' . '/../lib/Sabre/Plugin.php',
         'OCA\\Files_Versions\\Sabre\\RestoreFolder' => __DIR__ . '/..' . '/../lib/Sabre/RestoreFolder.php',
         'OCA\\Files_Versions\\Sabre\\RootCollection' => __DIR__ . '/..' . '/../lib/Sabre/RootCollection.php',
         'OCA\\Files_Versions\\Sabre\\VersionCollection' => __DIR__ . '/..' . '/../lib/Sabre/VersionCollection.php',
@@ -38,6 +39,13 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Sabre\\VersionHome' => __DIR__ . '/..' . '/../lib/Sabre/VersionHome.php',
         'OCA\\Files_Versions\\Sabre\\VersionRoot' => __DIR__ . '/..' . '/../lib/Sabre/VersionRoot.php',
         'OCA\\Files_Versions\\Storage' => __DIR__ . '/..' . '/../lib/Storage.php',
+        'OCA\\Files_Versions\\Versions\\BackendNotFoundException' => __DIR__ . '/..' . '/../lib/Versions/BackendNotFoundException.php',
+        'OCA\\Files_Versions\\Versions\\IVersion' => __DIR__ . '/..' . '/../lib/Versions/IVersion.php',
+        'OCA\\Files_Versions\\Versions\\IVersionBackend' => __DIR__ . '/..' . '/../lib/Versions/IVersionBackend.php',
+        'OCA\\Files_Versions\\Versions\\IVersionManager' => __DIR__ . '/..' . '/../lib/Versions/IVersionManager.php',
+        'OCA\\Files_Versions\\Versions\\LegacyVersionsBackend' => __DIR__ . '/..' . '/../lib/Versions/LegacyVersionsBackend.php',
+        'OCA\\Files_Versions\\Versions\\Version' => __DIR__ . '/..' . '/../lib/Versions/Version.php',
+        'OCA\\Files_Versions\\Versions\\VersionManager' => __DIR__ . '/..' . '/../lib/Versions/VersionManager.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

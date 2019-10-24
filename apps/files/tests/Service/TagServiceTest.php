@@ -27,6 +27,7 @@ namespace OCA\Files\Tests\Service;
 use OC\Tags;
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -75,8 +76,7 @@ class TagServiceTest extends \Test\TestCase {
 		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
-		/** @var \OCP\IUser */
-		$user = new \OC\User\User($this->user, null);
+		$user = $this->createMock(IUser::class);
 		/**
 		 * @var \OCP\IUserSession
 		 */

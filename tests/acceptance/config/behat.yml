@@ -15,14 +15,48 @@ default:
         - DialogContext
         - FeatureContext
         - FileListContext
+        - FilePickerContext
         - FilesAppContext
-        - FilesSharingAppContext
+        - FilesAppSharingContext
         - LoginPageContext
         - NotificationContext
+        - PublicShareContext
+        - SearchContext
         - SettingsContext
         - SettingsMenuContext
         - ThemingAppContext
         - UsersSettingsContext
+      filters:
+        tags: "~@apache"
+    apache:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - ActorContext
+        - NextcloudTestServerContext:
+            nextcloudTestServerHelper: NextcloudTestServerLocalApacheHelper
+
+        - AppNavigationContext
+        - AppSettingsContext
+        - AppsManagementContext
+        - CommentsAppContext
+        - ContactsMenuContext
+        - DialogContext
+        - FeatureContext
+        - FileListContext
+        - FilePickerContext
+        - FilesAppContext
+        - FilesAppSharingContext
+        - LoginPageContext
+        - NotificationContext
+        - PublicShareContext
+        - SearchContext
+        - SettingsContext
+        - SettingsMenuContext
+        - ThemingAppContext
+        - UsersSettingsContext
+      filters:
+        tags: "@apache"
   extensions:
     Behat\MinkExtension:
       sessions:
@@ -33,6 +67,9 @@ default:
           selenium2:
             wd_host: %selenium.server%
         Jane:
+          selenium2:
+            wd_host: %selenium.server%
+        Jim:
           selenium2:
             wd_host: %selenium.server%
         Rubeus:

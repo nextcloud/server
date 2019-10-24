@@ -29,9 +29,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\NotFoundException;
 use OCP\App\IAppManager;
 use OCP\IRequest;
+use OC\Template\IconsCacher;
 
 class SvgController extends Controller {
 
@@ -44,20 +44,26 @@ class SvgController extends Controller {
 	/** @var IAppManager */
 	protected $appManager;
 
+	/** @var IconsCacher */
+	private $iconsCacher;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								ITimeFactory $timeFactory,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IconsCacher $iconsCacher) {
 		parent::__construct($appName, $request);
 
 		$this->serverRoot  = \OC::$SERVERROOT;
 		$this->timeFactory = $timeFactory;
 		$this->appManager = $appManager;
+		$this->iconsCacher = $iconsCacher;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * Generate svg from filename with the requested color
 	 *
@@ -74,6 +80,7 @@ class SvgController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * Generate svg from filename with the requested color
 	 *
@@ -91,7 +98,7 @@ class SvgController extends Controller {
 
 		$appRootPath = $this->appManager->getAppPath($app);
 		$appPath = substr($appRootPath, strlen($this->serverRoot));
-		
+
 		if (!$appPath) {
 			return new NotFoundResponse();
 		}
@@ -99,12 +106,12 @@ class SvgController extends Controller {
 		return $this->getSvg($path, $color, $fileName);
 	}
 
-
 	/**
 	 * Generate svg from filename with the requested color
 	 *
 	 * @param string $path
 	 * @param string $color
+	 * @param string $fileName
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
@@ -114,18 +121,11 @@ class SvgController extends Controller {
 
 		$svg = file_get_contents($path);
 
-		if (is_null($svg)) {
+		if ($svg === null) {
 			return new NotFoundResponse();
 		}
 
-		// add fill (fill is not present on black elements)
-		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
-
-		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
-
-		// replace any fill or stroke colors
-		$svg = preg_replace('/stroke="#([a-z0-9]{3,6})"/mi', 'stroke="#' . $color . '"', $svg);
-		$svg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $svg);
+		$svg = $this->iconsCacher->colorizeSvg($svg, $color);
 
 		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 

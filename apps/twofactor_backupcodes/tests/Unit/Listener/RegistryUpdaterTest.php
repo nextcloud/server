@@ -28,8 +28,8 @@ use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\Event;
 use Test\TestCase;
 
 class RegistryUpdaterTest extends TestCase {

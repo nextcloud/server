@@ -82,10 +82,11 @@ interface IManager {
 	 * returns a list of the admin settings
 	 *
 	 * @param string $section the section id for which to load the settings
+	 * @param bool $subAdminOnly only return settings sub admins are supposed to see (since 17.0.0)
 	 * @return array array of IAdmin[] where key is the priority
 	 * @since 9.1.0
 	 */
-	public function getAdminSettings($section): array;
+	public function getAdminSettings($section, bool $subAdminOnly = false): array;
 
 	/**
 	 * returns a list of the personal  settings

@@ -60,7 +60,7 @@ class ProviderFactory implements IProviderFactory {
 	private $shareByCircleProvider = null;
 	/** @var bool */
 	private $circlesAreNotAvailable = false;
-	/** @var \OCA\Spreed\Share\RoomShareProvider */
+	/** @var \OCA\Talk\Share\RoomShareProvider */
 	private $roomShareProvider = null;
 
 	/**
@@ -112,7 +112,7 @@ class ProviderFactory implements IProviderFactory {
 			/*
 			 * TODO: add factory to federated sharing app
 			 */
-			$l = $this->serverContainer->getL10N('federatedfilessharing');
+			$l = $this->serverContainer->getL10N('federatedfilesharing');
 			$addressHandler = new AddressHandler(
 				$this->serverContainer->getURLGenerator(),
 				$l,
@@ -239,7 +239,7 @@ class ProviderFactory implements IProviderFactory {
 			}
 
 			try {
-				$this->roomShareProvider = $this->serverContainer->query('\OCA\Spreed\Share\RoomShareProvider');
+				$this->roomShareProvider = $this->serverContainer->query('\OCA\Talk\Share\RoomShareProvider');
 			} catch (\OCP\AppFramework\QueryException $e) {
 				return null;
 			}

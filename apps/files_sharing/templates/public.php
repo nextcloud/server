@@ -11,13 +11,17 @@
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<?php if (!$_['hideDownload']): ?>
+	<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<?php endif; ?>
 <input type="hidden" name="previewURL" value="<?php p($_['previewURL']) ?>" id="previewURL">
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<input type="hidden" name="hideDownload" value="<?php p($_['hideDownload'] ? 'true' : 'false'); ?>" id="hideDownload">
+<input type="hidden" id="disclaimerText" value="<?php p($_['disclaimer']) ?>">
 <?php
 $upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
 $post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');
@@ -43,6 +47,15 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php endif; ?>
 
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
+	<!-- ONLY if this is a folder, we show the grid toggle button -->
+	<?php if (empty($_['dir']) === false) { ?>
+		<input type="checkbox" class="hidden-visually" id="showgridview"
+			<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+			title="<?php p($l->t('Toggle grid view'))?>"></label>
+	<?php } ?>
+	
+	<!-- files listing -->
 	<div id="files-public-content">
 		<div id="preview">
 			<?php if (isset($_['folder'])): ?>
@@ -58,7 +71,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
 					<div id="imgframe"></div>
 				<?php endif; ?>
-				<?php if ($_['previewURL'] === $_['downloadURL']): ?>
+				<?php if ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
 					<div class="directDownload">
 						<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 							<span class="icon icon-download"></span>
@@ -72,20 +85,34 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php } else { ?>
 	<input type="hidden" id="upload-only-interface" value="1"/>
 	<div id="public-upload">
-		<div id="emptycontent" class="<?php if (!empty($_['disclaimer'])) { ?>has-disclaimer<?php } ?>">
+		<div
+				id="emptycontent"
+				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<div id="displayavatar"><div class="avatardiv"></div></div>
 			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 			<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
-			<?php if (!empty($_['disclaimer'])) { ?>
-				<p class="disclaimer"><?php p($_['disclaimer']); ?></p>
+
+			<?php if (empty($_['note']) === false) { ?>
+				<h3><?php p($l->t('Note')); ?></h3>
+				<p class="note"><?php p($_['note']); ?></p>
 			<?php } ?>
+
 			<input type="file" name="files[]" class="hidden" multiple>
 
 			<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
 			<div id="drop-upload-progress-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploading files…')) ?></div>
 			<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
-			<ul>
-			</ul>
+			<ul id="drop-uploaded-files"></ul>
+
+			<?php if (!empty($_['disclaimer'])) { ?>
+				<div>
+					<?php
+						echo $l->t('By uploading files, you agree to the %1$sterms of service%2$s.', [
+								'<span id="show-terms-dialog">', '</span>'
+						]);
+					?>
+				</div>
+			<?php } ?>
 		</div>
 	</div>
 <?php } ?>

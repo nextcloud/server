@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\User\Backend\IPasswordConfirmationBackend;
 
 class JSConfigHelper {
 
@@ -69,6 +70,9 @@ class JSConfigHelper {
 
 	/** @var CapabilitiesManager */
 	private $capabilitiesManager;
+
+	/** @var array user back-ends excluded from password verification */
+	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	/**
 	 * @param IL10N $l
@@ -106,12 +110,18 @@ class JSConfigHelper {
 
 	public function getConfig() {
 
+		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
-			$userBackend = $this->currentUser->getBackendClassName();
+
+			$backend = $this->currentUser->getBackend();
+			if ($backend instanceof IPasswordConfirmationBackend) {
+				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid);
+			} else if (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
+				$userBackendAllowsPasswordConfirmation = false;
+			}
 		} else {
 			$uid = null;
-			$userBackend = '';
 		}
 
 		// Get the config
@@ -156,12 +166,12 @@ class JSConfigHelper {
 		$capabilities = $this->capabilitiesManager->getCapabilities();
 
 		$array = [
-			"oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackend === 'user_saml'? 'false' : 'true',
+			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			"_oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"".$dataLocation."\"" : 'false',
-			"oc_webroot" => "\"".\OC::$WEBROOT."\"",
-			"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			"_oc_webroot" => "\"".\OC::$WEBROOT."\"",
+			"_oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
@@ -221,7 +231,7 @@ class JSConfigHelper {
 				(string)$this->l->t('Dec.')
 			]),
 			"firstDay" => json_encode($this->l->l('firstday', null)) ,
-			"oc_config" => json_encode([
+			"_oc_config" => json_encode([
 				'session_lifetime'	=> min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 				'session_keepalive'	=> $this->config->getSystemValue('session_keepalive', true),
 				'version'			=> implode('.', \OCP\Util::getVersion()),
@@ -247,7 +257,7 @@ class JSConfigHelper {
 					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing()
 				]
 			]),
-			"oc_defaults" => json_encode([
+			"_theme" => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'title' => $this->defaults->getTitle(),
@@ -261,7 +271,7 @@ class JSConfigHelper {
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
 			]),
-			"oc_capabilities" => json_encode($capabilities),
+			"_oc_capabilities" => json_encode($capabilities),
 		];
 
 		if ($this->currentUser !== null) {

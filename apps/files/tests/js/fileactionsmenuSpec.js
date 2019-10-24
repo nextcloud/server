@@ -113,8 +113,11 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 		it('does not render default actions', function() {
 			expect(menu.$el.find('a[data-action=Testdefault]').length).toEqual(0);
 		});
-		it('does not render inline actions', function() {
-			expect(menu.$el.find('a[data-action=Testinline]').length).toEqual(0);
+		it('render inline actions', function() {
+			expect(menu.$el.find('a[data-action=Testinline]').length).toEqual(1);
+		});
+		it('render inline actions but it is hidden', function() {
+			expect(menu.$el.find('a[data-action=Testinline]').parent().hasClass('hidden')).toEqual(true);
 		});
 		it('only renders actions relevant to the mime type', function() {
 			fileActions.registerAction({
@@ -203,7 +206,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(displayNameStub.calledOnce).toEqual(true);
 			expect(displayNameStub.calledWith(menuContext)).toEqual(true);
-			expect(menu.$el.find('a[data-action=Something]').text()).toEqual('Test');
+			expect(menu.$el.find('a[data-action=Something] span:not(.icon)').text()).toEqual('Test');
 		});
 		it('uses plain iconClass', function() {
 			fileActions.registerAction({
@@ -281,7 +284,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot +
+				OC.getRootPath() +
 				'/remote.php/webdav/subdir/testName.txt'
 			);
 			redirectStub.restore();
@@ -315,7 +318,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot + '/remote.php/webdav/anotherpath/there/testName.txt'
+				OC.getRootPath() + '/remote.php/webdav/anotherpath/there/testName.txt'
 			);
 			redirectStub.restore();
 		});

@@ -62,6 +62,11 @@ class SetupController {
 			$post['dbpass'] = $post['dbpassword'];
 		}
 
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			$this->displaySetupForbidden();
+			return;
+		}
+
 		if(isset($post['install']) AND $post['install']=='true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
@@ -79,6 +84,10 @@ class SetupController {
 		}
 	}
 
+	private function displaySetupForbidden() {
+		\OC_Template::printGuestPage('', 'installation_forbidden');
+	}
+
 	public function display($post) {
 		$defaults = array(
 			'adminlogin' => '',
@@ -92,8 +101,6 @@ class SetupController {
 		);
 		$parameters = array_merge($defaults, $post);
 
-		\OC_Util::addVendorScript('strengthify/jquery.strengthify');
-		\OC_Util::addVendorStyle('strengthify/strengthify');
 		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
@@ -103,12 +110,19 @@ class SetupController {
 			unlink($this->autoConfigFile);
 		}
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+
+		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			if (!unlink(\OC::$configDir.'/CAN_INSTALL')) {
+				\OC_Template::printGuestPage('', 'installation_incomplete');
+			}
+		}
+
 		\OC_Util::redirectToDefaultPage();
 	}
 
 	public function loadAutoConfig($post) {
 		if( file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up ownCloud…', ILogger::INFO);
+			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
 			$AUTOCONFIG = array();
 			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);

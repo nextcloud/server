@@ -56,7 +56,11 @@ class RedisFactory {
 			} else {
 				$readTimeout = null;
 			}
-			$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
+			if (isset($config['password']) && $config['password'] !== '') {
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $config['password']);
+			} else {
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
+			}
 
 			if (isset($config['failover_mode'])) {
 				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
@@ -72,8 +76,10 @@ class RedisFactory {
 			}
 			if (isset($config['port'])) {
 				$port = $config['port'];
-			} else {
+			} else if ($host[0] !== '/') {
 				$port = 6379;
+			} else {
+				$port = null;
 			}
 			if (isset($config['timeout'])) {
 				$timeout = $config['timeout'];

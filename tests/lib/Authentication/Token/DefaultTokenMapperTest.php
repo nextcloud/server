@@ -93,7 +93,7 @@ class DefaultTokenMapperTest extends TestCase {
 
 	private function getNumberOfTokens() {
 		$qb = $this->dbConnection->getQueryBuilder();
-		$result = $qb->select($qb->createFunction('count(*) as `count`'))
+		$result = $qb->select($qb->func()->count('*', 'count'))
 			->from('authtoken')
 			->execute()
 			->fetch();

@@ -16,7 +16,7 @@ README*
 # underscore
 underscore/**
 !underscore/.bower.json
-!underscore/underscore.js
+!underscore/underscore-min.js
 !underscore/LICENSE
 
 # blueimp-md5
@@ -41,42 +41,10 @@ jquery/**
 !jquery/MIT-LICENSE.txt
 
 # jquery-ui
-jquery-ui/themes/base/minified
-jquery-ui/themes/base/images/**
-!jquery-ui/themes/base/images/animated-overlay.gif
-!jquery-ui/themes/base/images/ui-icons_222222_256x240.png
-jquery-ui/themes/base/jquery.ui.*
-jquery-ui/themes/black-tie
-jquery-ui/themes/blitzer
-jquery-ui/themes/cupertino
-jquery-ui/themes/dark-hive
-jquery-ui/themes/dot-luv
-jquery-ui/themes/eggplant
-jquery-ui/themes/excite-bike
-jquery-ui/themes/flick
-jquery-ui/themes/hot-sneaks
-jquery-ui/themes/humanity
-jquery-ui/themes/le-frog
-jquery-ui/themes/mint-choc
-jquery-ui/themes/overcast
-jquery-ui/themes/pepper-grinder
-jquery-ui/themes/redmond
-jquery-ui/themes/smoothness
-jquery-ui/themes/south-street
-jquery-ui/themes/start
-jquery-ui/themes/sunny
-jquery-ui/themes/swanky-purse
-jquery-ui/themes/trontastic
-jquery-ui/themes/ui-darkness
-jquery-ui/themes/ui-lightness
-jquery-ui/themes/vader
-jquery-ui/ui/**
-!jquery-ui/ui/minified/jquery-ui.custom.min.js
-jquery-ui/*.json
+jquery-ui/**
+!jquery-ui/themes/base/jquery-ui.css
+!jquery-ui/jquery-ui.min.js
 !jquery-ui/.bower.json
-jquery-ui/AUTHORS.txt
-jquery-ui/MANIFEST
-jquery-ui/README.md
 
 # jcrop
 jcrop/index.html
@@ -91,7 +59,7 @@ jsTimezoneDetect/jstz.min.js
 # handlebars
 handlebars/**
 !handlebars/.bower.json
-!handlebars/handlebars.min.js
+!handlebars/handlebars.runtime.min.js
 
 # select2
 select2/**
@@ -135,13 +103,11 @@ davclient.js/**
 !davclient.js/lib/client.js
 !davclient.js/LICENSE
 
-# es6-promise
-es6-promise/**
-!es6-promise/.bower.json
-!es6-promise/LICENSE
-!es6-promise/dist
-es6-promise/dist/*
-!es6-promise/dist/es6-promise.js
+# es6-shim
+es6-shim/**
+!es6-shim/.bower.json
+!es6-shim/LICENSE
+!es6-shim/es6-shim.min.js
 
 # base64
 base64/*min.js

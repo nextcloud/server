@@ -48,9 +48,6 @@ class PreviewController extends Controller {
 	/** @var IPreview */
 	private $preview;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
 	/**
 	 * PreviewController constructor.
 	 *
@@ -65,15 +62,13 @@ class PreviewController extends Controller {
 								IRequest $request,
 								IPreview $preview,
 								IRootFolder $root,
-								string $userId,
-								ITimeFactory $timeFactory
+								?string $userId
 	) {
 		parent::__construct($appName, $request);
 
 		$this->preview = $preview;
 		$this->root = $root;
 		$this->userId = $userId;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**

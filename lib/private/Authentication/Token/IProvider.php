@@ -26,8 +26,10 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
 
 interface IProvider {
 
@@ -43,6 +45,7 @@ interface IProvider {
 	 * @param int $type token type
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function generateToken(string $token,
 								  string $uid,
@@ -58,6 +61,7 @@ interface IProvider {
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
+	 * @throws WipeTokenException
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken;
@@ -68,6 +72,7 @@ interface IProvider {
 	 * @param int $tokenId
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
+	 * @throws WipeTokenException
 	 * @return IToken
 	 */
 	public function getTokenById(int $tokenId): IToken;
@@ -78,8 +83,10 @@ interface IProvider {
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * @return IToken The new token
 	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId);
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken;
 
 	/**
 	 * Invalidate (delete) the given session token
@@ -154,6 +161,7 @@ interface IProvider {
 	 * @param string $oldTokenId
 	 * @param string $newTokenId
 	 * @return IToken
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken;
 

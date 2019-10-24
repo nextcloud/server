@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\DataResponse;
@@ -34,6 +35,8 @@ use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
 
@@ -49,18 +52,23 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/** @var IStore */
 	private $credentialStore;
 
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								ISession $session,
 								ISecureRandom $random,
 								IProvider $tokenProvider,
-								IStore $credentialStore) {
+								IStore $credentialStore,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
 		$this->random = $random;
 		$this->tokenProvider = $tokenProvider;
 		$this->credentialStore = $credentialStore;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -91,7 +99,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 
-		$this->tokenProvider->generateToken(
+		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$credentials->getUID(),
 			$credentials->getLoginName(),
@@ -101,8 +109,57 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			IToken::DO_NOT_REMEMBER
 		);
 
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
+
 		return new DataResponse([
 			'apppassword' => $token
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function deleteAppPassword() {
+		if (!$this->session->exists('app_password')) {
+			throw new OCSForbiddenException('no app password in use');
+		}
+
+		$appPassword = $this->session->get('app_password');
+
+		try {
+			$token = $this->tokenProvider->getToken($appPassword);
+		} catch (InvalidTokenException $e) {
+			throw new OCSForbiddenException('could not remove apptoken');
+		}
+
+		$this->tokenProvider->invalidateTokenById($token->getUID(), $token->getId());
+		return new DataResponse();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function rotateAppPassword(): DataResponse {
+		if (!$this->session->exists('app_password')) {
+			throw new OCSForbiddenException('no app password in use');
+		}
+
+		$appPassword = $this->session->get('app_password');
+
+		try {
+			$token = $this->tokenProvider->getToken($appPassword);
+		} catch (InvalidTokenException $e) {
+			throw new OCSForbiddenException('could not rotate apptoken');
+		}
+
+		$newToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$this->tokenProvider->rotate($token, $appPassword, $newToken);
+
+		return new DataResponse([
+			'apppassword' => $newToken,
 		]);
 	}
 }

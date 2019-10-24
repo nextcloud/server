@@ -41,7 +41,7 @@ class AppManagement extends Action {
 	 * @param string[] $groups
 	 */
 	public function enableAppForGroups(string $appName, array $groups) {
-		$this->log('App "%s" enabled for groups: %s',
+		$this->log('App "%1$s" enabled for groups: %2$s',
 			['app' => $appName, 'groups' => implode(', ', $groups)],
 			['app', 'groups']
 		);

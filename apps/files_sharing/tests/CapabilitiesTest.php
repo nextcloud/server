@@ -249,7 +249,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertTrue($result['group_sharing']);
 	}
 
-	public function testFederatedSharingIncomming() {
+	public function testFederatedSharingIncoming() {
 		$map = [
 			['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'yes'],
 		];
@@ -258,7 +258,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertTrue($result['federation']['incoming']);
 	}
 
-	public function testFederatedSharingNoIncomming() {
+	public function testFederatedSharingNoIncoming() {
 		$map = [
 			['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'no'],
 		];

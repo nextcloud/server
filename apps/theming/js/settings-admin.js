@@ -32,7 +32,7 @@ function setThemingValue(setting, value) {
 		hideUndoButton(setting, value);
 		preview(setting, value, response.data.serverCssUrl);
 	}).fail(function(response) {
-		OC.msg.finishedSaving('#theming_settings_msg', response);
+		OC.msg.finishedSaving('#theming_settings_msg', response.responseJSON);
 		$('#theming_settings_loading').hide();
 	});
 }
@@ -43,7 +43,7 @@ function preview(setting, value, serverCssUrl) {
 	var reloadStylesheets = function(cssFile) {
 		var queryString = '?reload=' + new Date().getTime();
 		var url = cssFile + queryString;
-		var old = $('link[href*="' + cssFile.replace("/","\/") + '"]');
+		var old = $('link[href*="' + cssFile + '"]');
 		var stylesheet = $("<link/>", {
 			rel: "stylesheet",
 			type: "text/css",
@@ -159,7 +159,7 @@ $(document).ready(function () {
 				return true;
 			} else {
 				throw t('theming', 'Name cannot be empty');
-			} 
+			}
 		} catch (error) {
 			$('#theming-name').attr('title', error);
 			$('#theming-name').tooltip({placement: 'top', trigger: 'manual'});
@@ -174,7 +174,7 @@ $(document).ready(function () {
 		if (checkName()) {
 			$('#theming-name').tooltip('hide');
 			$('#theming-name').removeClass('error');
-		}  
+		}
 	});
 
 	$('#theming-name').change(function(e) {

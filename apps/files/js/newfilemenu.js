@@ -167,11 +167,11 @@
 				event.preventDefault();
 
 				if (checkInput()) {
-					var newname = $input.val();
+					var newname = $input.val().trim();
 
 					/* Find the right actionHandler that should be called.
 					 * Actions is retrieved by using `actionSpec.id` */
-					action = _.filter(self._menuItems, function(item) {
+					var action = _.filter(self._menuItems, function(item) {
 						return item.id == $target.attr('data-action');
 					}).pop();
 					action.actionHandler(newname);
@@ -210,7 +210,6 @@
 				uploadLabel: t('files', 'Upload file'),
 				items: this._menuItems
 			}));
-			OC.Util.scaleFixForIE8(this.$('.svg'));
 
 			// Trigger upload action also with keyboard navigation on enter
 			this.$el.find('[for="file_upload_start"]').on('keyup', function(event) {

@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
  *
  * @package OCP\Security
  * @since 9.0.0
+ * @deprecated 17.0.0 listen to the AddContentSecurityPolicyEvent to add a policy
  */
 interface IContentSecurityPolicyManager {
 	/**
@@ -46,6 +47,7 @@ interface IContentSecurityPolicyManager {
 	 *
 	 * @param EmptyContentSecurityPolicy $policy
 	 * @since 9.0.0
+	 * @deprecated 17.0.0 listen to the AddContentSecurityPolicyEvent to add a policy
 	 */
 	public function addDefaultPolicy(EmptyContentSecurityPolicy $policy);
 }

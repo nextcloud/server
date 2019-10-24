@@ -54,6 +54,10 @@ class OfflineUser {
 	 */
 	protected $lastLogin;
 	/**
+	 * @var string $foundDeleted the timestamp when the user was detected as unavailable
+	 */
+	protected $foundDeleted;
+	/**
 	 * @var string $email
 	 */
 	protected $email;
@@ -92,7 +96,8 @@ class OfflineUser {
 	 * remove the Delete-flag from the user.
 	 */
 	public function unmark() {
-		$this->config->setUserValue($this->ocName, 'user_ldap', 'isDeleted', '0');
+		$this->config->deleteUserValue($this->ocName, 'user_ldap', 'isDeleted');
+		$this->config->deleteUserValue($this->ocName, 'user_ldap', 'foundDeleted');
 	}
 
 	/**
@@ -170,6 +175,14 @@ class OfflineUser {
 	}
 
 	/**
+	 * getter for the detection timestamp
+	 * @return int
+	 */
+	public function getDetectedOn() {
+		return (int)$this->foundDeleted;
+	}
+
+	/**
 	 * getter for having active shares
 	 * @return bool
 	 */
@@ -181,13 +194,14 @@ class OfflineUser {
 	 * reads the user details
 	 */
 	protected function fetchDetails() {
-		$properties = array (
-			'displayName' => 'user_ldap',
-			'uid'         => 'user_ldap',
-			'homePath'    => 'user_ldap',
-			'email'       => 'settings',
-			'lastLogin'   => 'login'
-		);
+		$properties = [
+			'displayName'  => 'user_ldap',
+			'uid'          => 'user_ldap',
+			'homePath'     => 'user_ldap',
+			'foundDeleted' => 'user_ldap',
+			'email'        => 'settings',
+			'lastLogin'    => 'login',
+		];
 		foreach($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}

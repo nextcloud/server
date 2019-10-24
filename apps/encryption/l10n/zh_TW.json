@@ -56,7 +56,6 @@
     "Enable password recovery:" : "啟用密碼還原:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "您需要搬移您的加密鑰匙從舊版的加密 (ownCloud <= 8.0) 到新版，請執行 'occ encryption:migrate' 或是聯絡系統管理員"
+    "Disabled" : "已停用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

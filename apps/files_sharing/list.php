@@ -21,10 +21,18 @@
  */
 // Check if we are a user
 OCP\User::checkLoggedIn();
+$config = \OC::$server->getConfig();
+$userSession = \OC::$server->getUserSession();
+
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$isIE = \OCP\Util::isIE();
 
 $tmpl = new OCP\Template('files_sharing', 'list', '');
 
-OCP\Util::addScript('files_sharing', 'app');
-OCP\Util::addScript('files_sharing', 'sharedfilelist');
+// gridview not available for ie
+$tmpl->assign('showgridview', $showgridview && !$isIE);
+
+OCP\Util::addScript('files_sharing', 'dist/files_sharing');
+\OC::$server->getEventDispatcher()->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
 
 $tmpl->printPage();

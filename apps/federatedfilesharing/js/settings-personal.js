@@ -28,7 +28,7 @@ $(document).ready(function() {
 	// Clipboard!
 	var clipboard = new Clipboard('.clipboardButton');
 	clipboard.on('success', function(e) {
-		$input = $(e.trigger);
+		var $input = $(e.trigger);
 		$input.tooltip('hide')
 			.attr('data-original-title', t('core', 'Copied!'))
 			.tooltip('fixTitle')
@@ -41,7 +41,7 @@ $(document).ready(function() {
 		}, 3000);
 	});
 	clipboard.on('error', function (e) {
-		$input = $(e.trigger);
+		var $input = $(e.trigger);
 		var actionMsg = '';
 		if (/iPhone|iPad/i.test(navigator.userAgent)) {
 			actionMsg = t('core', 'Not supported!');

@@ -23,6 +23,7 @@
 
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -131,14 +132,14 @@ class Event extends Base {
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
 					];
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event_self':
 				case self::SUBJECT_OBJECT_UPDATE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
 					];
 			}
 		}
@@ -167,5 +168,13 @@ class Event extends Base {
 		}
 
 		throw new \InvalidArgumentException();
+	}
+
+	private function generateClassifiedObjectParameter(array $eventData) {
+		$parameter = $this->generateObjectParameter($eventData);
+		if (!empty($eventData['classified'])) {
+			$parameter['name'] = $this->l->t('Busy');
+		}
+		return $parameter;
 	}
 }

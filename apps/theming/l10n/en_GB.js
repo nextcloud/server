@@ -46,14 +46,6 @@ OC.L10N.register(
     "Upload new header logo" : "Upload new header logo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Upload new favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
-    "You are already using a custom theme" : "You are already using a custom theme",
-    "reset to default" : "reset to default",
-    "Web address" : "Web address",
-    "Web address https://…" : "Web address https://…",
-    "There is no error, the file uploaded with success" : "There is no error, the file uploaded with success",
-    "The uploaded file was only partially uploaded" : "The uploaded file was only partially uploaded",
-    "Failed to write file to disk." : "Failed to write file to disk.",
-    "A PHP extension stopped the file upload." : "A PHP extension stopped the file upload."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color."
 },
 "nplurals=2; plural=(n != 1);");

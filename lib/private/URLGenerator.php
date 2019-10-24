@@ -91,6 +91,19 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
+	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
+		$route = \OC::$server->getRouter()->generate('ocs.'.$routeName, $arguments, false);
+
+		if (strpos($route, '/index.php') === 0) {
+			$route = substr($route, 10);
+		}
+
+		$route = substr($route, 7);
+		$route = '/ocs/v2.php' . $route;
+
+		return $this->getAbsoluteURL($route);
+	}
+
 	/**
 	 * Creates an url
 	 * @param string $app app
@@ -224,13 +237,13 @@ class URLGenerator implements IURLGenerator {
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
-		$separator = $url[0] === '/' ? '' : '/';
+		$separator = strpos($url, '/') === 0 ? '' : '/';
 
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
-		if(substr($url, 0, \strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+		if(\OC::$WEBROOT !== '' && strpos($url, \OC::$WEBROOT) === 0) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}
 

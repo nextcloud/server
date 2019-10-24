@@ -105,6 +105,9 @@ class DecryptAll {
 			$this->output->writeln('maybe the user is not set up in a way that supports this operation: ');
 			foreach ($this->failed as $uid => $paths) {
 				$this->output->writeln('    ' . $uid);
+				foreach ($paths as $path) {
+					$this->output->writeln('        ' . $path);
+				}
 			}
 			$this->output->writeln('');
 		}
@@ -251,6 +254,12 @@ class DecryptAll {
 	 * @return bool
 	 */
 	protected function decryptFile($path) {
+
+		// skip already decrypted files
+		$fileInfo = $this->rootView->getFileInfo($path);
+		if ($fileInfo !== false && !$fileInfo->isEncrypted()) {
+			return true;
+		}
 
 		$source = $path;
 		$target = $path . '.decrypted.' . $this->getTimestamp();

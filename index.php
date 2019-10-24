@@ -3,7 +3,7 @@
  *
  * Your webserver seems to be not configured to use PHP or PHP is not installed. 
  * Please contact your administrator or follow our documentation: 
- * https://docs.nextcloud.com/server/13/admin_manual/installation/source_installation.html 
+ * https://docs.nextcloud.com/server/15/admin_manual/installation/source_installation.html 
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -78,7 +78,7 @@ try {
 		print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
 		print("More details can be found in the webserver log.\n");
 
-		throw $e;
+		throw $ex;
 	}
 	OC_Template::printExceptionErrorPage($ex, 500);
 }

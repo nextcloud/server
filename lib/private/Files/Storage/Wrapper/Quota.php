@@ -83,7 +83,7 @@ class Quota extends Wrapper {
 	 * @return int
 	 */
 	public function free_space($path) {
-		if ($this->quota < 0 || strpos($path, 'cache') === 0) {
+		if ($this->quota < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
 			return $this->storage->free_space($path);
 		} else {
 			$used = $this->getSize($this->sizeRoot);
@@ -209,4 +209,14 @@ class Quota extends Wrapper {
 
 		return parent::mkdir($path);
 	}
+
+	public function touch($path, $mtime = null) {
+		$free = $this->free_space($path);
+		if ($free === 0.0) {
+			return false;
+		}
+
+		return parent::touch($path, $mtime);
+	}
+
 }

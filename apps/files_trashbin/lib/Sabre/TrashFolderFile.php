@@ -23,51 +23,9 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
-use OCP\Files\FileInfo;
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\IFile;
 
-class TrashFolderFile extends AbstractTrash implements IFile, ITrash {
-	/** @var string */
-	private $root;
-
-	/** @var string */
-	private $userId;
-
-	/** @var string */
-	private $location;
-
-	public function __construct(string $root,
-								string $userId,
-								FileInfo $data,
-								string $location) {
-		$this->root = $root;
-		$this->userId = $userId;
-		$this->location = $location;
-		parent::__construct($data);
-	}
-
-	public function put($data) {
-		throw new Forbidden();
-	}
-
+class TrashFolderFile extends AbstractTrashFile {
 	public function get() {
 		return $this->data->getStorage()->fopen($this->data->getInternalPath(), 'rb');
-	}
-
-	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::delete($this->root . '/' . $this->getName(), $this->userId, null);
-	}
-
-	public function setName($name) {
-		throw new Forbidden();
-	}
-
-	public function restore(): bool {
-		return \OCA\Files_Trashbin\Trashbin::restore($this->root . '/' . $this->getName(), $this->data->getName(), null);
-	}
-
-	public function getOriginalLocation(): string {
-		return $this->location . '/' . $this->getFilename();
 	}
 }

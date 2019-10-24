@@ -60,7 +60,7 @@ class Version14000Date20180626223656 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['version']);
+			$table->addUniqueIndex(['version'], 'version');
 			$table->addIndex(['version', 'etag'], 'version_etag_idx');
 		}
 

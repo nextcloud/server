@@ -25,9 +25,9 @@
 namespace OC\App\CodeChecker;
 
 use OC\Hooks\BasicEmitter;
-use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
+use PhpParser\ParserFactory;
 use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -57,7 +57,7 @@ class CodeChecker extends BasicEmitter {
 	public function __construct(ICheck $checkList, $checkMigrationSchema) {
 		$this->checkList = $checkList;
 		$this->checkMigrationSchema = $checkMigrationSchema;
-		$this->parser = new Parser(new Lexer);
+		$this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class CodeChecker extends BasicEmitter {
 		}, $excludedDirectories);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($excludes){
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {

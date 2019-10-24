@@ -20,7 +20,6 @@
  */
 
 script('oauth2', 'oauth2');
-style('oauth2', 'setting-admin');
 
 ?>
 

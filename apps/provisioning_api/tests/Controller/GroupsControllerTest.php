@@ -29,6 +29,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OC\SubAdmin;
+use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -36,26 +37,30 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\UserInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
 
-	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
-	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var Manager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
-	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
-	/** @var AccountManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $accountManager;
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var  SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
+	protected $subAdminManager;
 
-	/** @var GroupsController|PHPUnit_Framework_MockObject_MockObject */
+	/** @var GroupsController|\PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
+
 
 	protected function setUp() {
 		parent::setUp();
@@ -126,6 +131,10 @@ class GroupsControllerTest extends \Test\TestCase {
 		$user
 			->method('getUID')
 			->willReturn($uid);
+		$backendMock = $this->createMock(UserInterface::class);
+		$user
+			->method('getBackend')
+			->willReturn($backendMock);
 		return $user;
 	}
 
@@ -162,6 +171,19 @@ class GroupsControllerTest extends \Test\TestCase {
 				}
 				return false;
 			}));
+	}
+
+	private function useAccountManager() {
+		$this->accountManager->expects($this->any())
+			->method('getUser')
+			->willReturnCallback(function(IUser $user) {
+				return [
+					AccountManager::PROPERTY_PHONE => ['value' => '0800-call-' . $user->getUID()],
+					AccountManager::PROPERTY_ADDRESS => ['value' => 'Holzweg 99, 0601 Herrera, Panama'],
+					AccountManager::PROPERTY_WEBSITE => ['value' => 'https://' . $user->getUid() . '.pa'],
+					AccountManager::PROPERTY_TWITTER => ['value' => '@' . $user->getUID()],
+				];
+			});
 	}
 
 	public function dataGetGroups() {
@@ -453,5 +475,51 @@ class GroupsControllerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->api->deleteGroup('ExistingGroup');
+	}
+
+	public function testGetGroupUsersDetails() {
+		$gid = 'ncg1';
+
+		$this->asAdmin();
+		$this->useAccountManager();
+
+		$users = [
+			'ncu1' => $this->createUser('ncu1'), # regular
+			'ncu2' => $this->createUser('ncu2'), # the zombie
+		];
+		$users['ncu2']->expects($this->atLeastOnce())
+			->method('getHome')
+			->willThrowException(new NoUserException());
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturnCallback(function(string $uid) use ($users) {
+				return isset($users[$uid]) ? $users[$uid] : null;
+			});
+
+		$group = $this->createGroup($gid);
+		$group->expects($this->once())
+			->method('searchUsers')
+			->with('', null, 0)
+			->willReturn(array_values($users));
+
+		$this->groupManager
+			->method('get')
+			->with($gid)
+			->willReturn($group);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([$group]);
+
+		/** @var \PHPUnit_Framework_MockObject_MockObject */
+		$this->subAdminManager->expects($this->any())
+			->method('isSubAdminOfGroup')
+			->willReturn(false);
+		$this->subAdminManager->expects($this->any())
+			->method('getSubAdminsGroups')
+			->willReturn([]);
+
+
+		$this->api->getGroupUsersDetails($gid);
 	}
 }

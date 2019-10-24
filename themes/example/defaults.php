@@ -90,7 +90,7 @@ class OC_Theme {
 	 * @return string short footer
 	 */
 	public function getShortFooter() {
-		$footer = '© 2018 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
+		$footer = '© ' . date('Y') . ' <a href="' . $this->getBaseUrl() . '" target="_blank">' . $this->getEntity() . '</a>' .
 			'<br/>' . $this->getSlogan();
 
 		return $footer;
@@ -101,14 +101,18 @@ class OC_Theme {
 	 * @return string long footer
 	 */
 	public function getLongFooter() {
-		$footer = '© 2017 <a href="'.$this->getBaseUrl().'" target="_blank\">'.$this->getEntity().'</a>'.
+		$footer = '© ' . date('Y') . ' <a href="' . $this->getBaseUrl() . '" target="_blank">' . $this->getEntity() . '</a>' .
 			'<br/>' . $this->getSlogan();
 
 		return $footer;
 	}
 
+	/**
+	 * Generate a documentation link for a given key
+	 * @return string documentation link
+	 */
 	public function buildDocLinkToKey($key) {
-		return $this->getDocBaseUrl() . '/server/12/go.php?to=' . $key;
+		return $this->getDocBaseUrl() . '/server/15/go.php?to=' . $key;
 	}
 
 

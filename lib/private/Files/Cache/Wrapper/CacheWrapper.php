@@ -187,6 +187,12 @@ class CacheWrapper extends Cache {
 		$this->getCache()->move($source, $target);
 	}
 
+	protected function getMoveInfo($path) {
+		/** @var Cache $cache */
+		$cache = $this->getCache();
+		return $cache->getMoveInfo($path);
+	}
+
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->getCache()->moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
@@ -235,26 +241,14 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return ICacheEntry[] file data
-	 */
-	public function searchByTag($tag, $userId) {
-		$results = $this->getCache()->searchByTag($tag, $userId);
-		return array_map(array($this, 'formatCacheEntry'), $results);
-	}
-
-	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null) {
+	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
 		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($path, $data);
+			$this->getCache()->correctFolderSize($path, $data, $isBackgroundScan);
 		}
 	}
 

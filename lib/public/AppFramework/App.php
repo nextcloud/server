@@ -66,11 +66,16 @@ class App {
 
 
 	/**
+	 * @param string $appName
 	 * @param array $urlParams an array with variables extracted from the routes
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
+		try {
+			$this->container = \OC::$server->getRegisteredAppContainer($appName);
+		} catch (QueryException $e) {
+			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
+		}
 	}
 
 	/**

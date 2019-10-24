@@ -29,6 +29,7 @@ namespace Test\AppFramework\DependencyInjection;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use \OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
@@ -40,7 +41,6 @@ class DIContainerTest extends \Test\TestCase {
 
 	/** @var DIContainer|\PHPUnit_Framework_MockObject_MockObject */
 	private $container;
-	private $api;
 
 	protected function setUp(){
 		parent::setUp();
@@ -55,16 +55,9 @@ class DIContainerTest extends \Test\TestCase {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
-
-	public function testProvidesSecurityMiddleware(){
-		$this->assertTrue(isset($this->container['SecurityMiddleware']));
-	}
-
-
 	public function testProvidesMiddlewareDispatcher(){
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
-
 
 	public function testProvidesAppName(){
 		$this->assertTrue(isset($this->container['AppName']));
@@ -78,17 +71,20 @@ class DIContainerTest extends \Test\TestCase {
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IConfig::class)
 		);
-		$security = $this->container['SecurityMiddleware'];
 		$dispatcher = $this->container['MiddlewareDispatcher'];
+		$middlewares = $dispatcher->getMiddlewares();
 
-		$this->assertContains($security, $dispatcher->getMiddlewares());
+		$found = false;
+		foreach ($middlewares as $middleware) {
+			if ($middleware instanceof SecurityMiddleware) {
+				$found = true;
+			}
+		}
+
+		$this->assertTrue($found);
 	}
 
 	public function testInvalidAppClass() {

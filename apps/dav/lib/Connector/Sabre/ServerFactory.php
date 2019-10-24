@@ -180,7 +180,8 @@ class ServerFactory {
 					\OC::$server->getTagManager(),
 					$this->userSession,
 					\OC::$server->getGroupManager(),
-					$userFolder
+					$userFolder,
+					\OC::$server->getAppManager()
 				));
 				// custom properties plugin must be the last one
 				$server->addPlugin(

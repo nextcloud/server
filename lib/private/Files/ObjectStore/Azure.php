@@ -115,4 +115,17 @@ class Azure implements IObjectStore {
 	public function deleteObject($urn) {
 		$this->getBlobClient()->deleteBlob($this->containerName, $urn);
 	}
+
+	public function objectExists($urn) {
+		try {
+			$this->getBlobClient()->getBlobMetadata($this->containerName, $urn);
+			return true;
+		} catch (ServiceException $e) {
+			if ($e->getCode() === 404) {
+				return false;
+			} else {
+				throw $e;
+			}
+		}
+	}
 }

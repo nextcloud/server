@@ -55,38 +55,49 @@ class ShowRemnants extends Command {
 		$this
 			->setName('ldap:show-remnants')
 			->setDescription('shows which users are not available on LDAP anymore, but have remnants in Nextcloud.')
-			->addOption('json', null, InputOption::VALUE_NONE, 'return JSON array instead of pretty table.');
+			->addOption('json', null, InputOption::VALUE_NONE, 'return JSON array instead of pretty table.')
+			->addOption('short-date', null, InputOption::VALUE_NONE, 'show dates in Y-m-d format');
+	}
+
+	protected function formatDate(int $timestamp, string $default, bool $showShortDate) {
+		if (!($timestamp > 0)) {
+			return $default;
+		}
+		if ($showShortDate) {
+			return date('Y-m-d', $timestamp);
+		}
+		return $this->dateFormatter->formatDate($timestamp);
 	}
 
 	/**
-	 * executes the command, i.e. creeates and outputs a table of LDAP users marked as deleted
+	 * executes the command, i.e. creates and outputs a table of LDAP users marked as deleted
 	 *
 	 * {@inheritdoc}
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);
-		$table->setHeaders(array(
+		$table->setHeaders([
 			'Nextcloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
-			'Dir', 'Sharer'));
-		$rows = array();
+			'Detected on', 'Dir', 'Sharer'
+		]);
+		$rows = [];
 		$resultSet = $this->dui->getUsers();
-		foreach($resultSet as $user) {
-			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
-			$lastLogin = ($user->getLastLogin() > 0) ?
-				$this->dateFormatter->formatDate($user->getLastLogin()) : '-';
-			$rows[] = array('ocName'      => $user->getOCName(),
-							'displayName' => $user->getDisplayName(),
-							'uid'         => $user->getUID(),
-							'dn'          => $user->getDN(),
-							'lastLogin'   => $lastLogin,
-							'homePath'    => $user->getHomePath(),
-							'sharer'      => $hAS
-			);
+		foreach ($resultSet as $user) {
+			$rows[] = [
+				'ocName' => $user->getOCName(),
+				'displayName' => $user->getDisplayName(),
+				'uid' => $user->getUID(),
+				'dn' => $user->getDN(),
+				'lastLogin' => $this->formatDate($user->getLastLogin(), '-', (bool)$input->getOption('short-date')),
+				'detectedOn' => $this->formatDate($user->getDetectedOn(), 'unknown', (bool)$input->getOption('short-date')),
+				'homePath' => $user->getHomePath(),
+				'sharer' => $user->getHasActiveShares() ? 'Y' : 'N',
+			];
 		}
 
 		if ($input->getOption('json')) {
-			$output->writeln(json_encode($rows));			
+			$output->writeln(json_encode($rows));
 		} else {
 			$table->setRows($rows);
 			$table->render($output);

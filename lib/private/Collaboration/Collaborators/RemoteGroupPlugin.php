@@ -27,10 +27,8 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
-use OCP\Contacts\IManager;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\IConfig;
 use OCP\Share;
 
 class RemoteGroupPlugin implements ISearchPlugin {
@@ -38,8 +36,6 @@ class RemoteGroupPlugin implements ISearchPlugin {
 
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
-	/** @var IConfig */
-	private $config;
 	/** @var bool */
 	private $enabled = false;
 

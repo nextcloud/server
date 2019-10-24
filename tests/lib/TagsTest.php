@@ -21,6 +21,7 @@
 */
 
 namespace Test;
+use OCP\IUser;
 use OCP\IUserSession;
 
 /**
@@ -49,7 +50,9 @@ class TagsTest extends \Test\TestCase {
 		$userId = $this->getUniqueID('user_');
 		\OC::$server->getUserManager()->createUser($userId, 'pass');
 		\OC_User::setUserId($userId);
-		$this->user = new \OC\User\User($userId, null);
+		$this->user = $this->createMock(IUser::class);
+		$this->user->method('getUID')
+			->willReturn($userId);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
@@ -292,14 +295,19 @@ class TagsTest extends \Test\TestCase {
 		$tagger = $this->tagMgr->load('test');
 		$tagger->tagAs(1, $testTag);
 
+
 		$otherUserId = $this->getUniqueID('user2_');
+		$otherUser = $this->createMock(IUser::class);
+		$otherUser->method('getUID')
+			->willReturn($otherUserId);
+
 		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
 		\OC_User::setUserId($otherUserId);
 		$otherUserSession = $this->createMock(IUserSession::class);
 		$otherUserSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue(new \OC\User\User($otherUserId, null)));
+			->willReturn($otherUser);
 
 		$otherTagMgr = new \OC\TagManager($this->tagMapper, $otherUserSession);
 		$otherTagger = $otherTagMgr->load('test');

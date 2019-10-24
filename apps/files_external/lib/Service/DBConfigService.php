@@ -25,6 +25,7 @@
 
 namespace OCA\Files_External\Service;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -300,12 +301,15 @@ class DBConfigService {
 		if ($key === 'password') {
 			$value = $this->encryptValue($value);
 		}
-		$count = $this->connection->insertIfNotExist('*PREFIX*external_config', [
-			'mount_id' => $mountId,
-			'key' => $key,
-			'value' => $value
-		], ['mount_id', 'key']);
-		if ($count === 0) {
+
+		try {
+			$builder = $this->connection->getQueryBuilder();
+			$builder->insert('external_config')
+				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
+				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
+				->setValue('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
+				->execute();
+		} catch(UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
@@ -321,13 +325,14 @@ class DBConfigService {
 	 * @param string $value
 	 */
 	public function setOption($mountId, $key, $value) {
-
-		$count = $this->connection->insertIfNotExist('*PREFIX*external_options', [
-			'mount_id' => $mountId,
-			'key' => $key,
-			'value' => json_encode($value)
-		], ['mount_id', 'key']);
-		if ($count === 0) {
+		try {
+			$builder = $this->connection->getQueryBuilder();
+			$builder->insert('external_options')
+				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
+				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
+				->setValue('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
+				->execute();
+		} catch(UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
@@ -338,11 +343,16 @@ class DBConfigService {
 	}
 
 	public function addApplicable($mountId, $type, $value) {
-		$this->connection->insertIfNotExist('*PREFIX*external_applicable', [
-			'mount_id' => $mountId,
-			'type' => $type,
-			'value' => $value
-		], ['mount_id', 'type', 'value']);
+		try {
+			$builder = $this->connection->getQueryBuilder();
+			$builder->insert('external_applicable')
+				->setValue('mount_id', $builder->createNamedParameter($mountId))
+				->setValue('type', $builder->createNamedParameter($type))
+				->setValue('value', $builder->createNamedParameter($value))
+				->execute();
+		} catch(UniqueConstraintViolationException $e) {
+			// applicable exists already
+		}
 	}
 
 	public function removeApplicable($mountId, $type, $value) {

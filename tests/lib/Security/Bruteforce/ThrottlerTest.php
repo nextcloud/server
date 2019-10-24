@@ -101,6 +101,27 @@ class ThrottlerTest extends TestCase {
 				true,
 			],
 			[
+				'10.10.10.10',
+				[
+					'whitelist_0' => '10.10.10.11/31',
+				],
+				true,
+			],
+			[
+				'10.10.10.10',
+				[
+					'whitelist_0' => '10.10.10.9/31',
+				],
+				false,
+			],
+			[
+				'10.10.10.10',
+				[
+					'whitelist_0' => '10.10.10.15/29',
+				],
+				true,
+			],
+			[
 				'dead:beef:cafe::1',
 				[
 					'whitelist_0' => '192.168.0.0/16',
@@ -124,6 +145,14 @@ class ThrottlerTest extends TestCase {
 					'whitelist_0' => '192.168.0.0/16',
 					'whitelist_1' => '10.10.10.0/24',
 					'whitelist_2' => 'deaf:cafe::/8'
+				],
+				true,
+			],
+			[
+				'dead:beef:cafe::1111',
+				[
+					'whitelist_0' => 'dead:beef:cafe::1100/123',
+					
 				],
 				true,
 			],

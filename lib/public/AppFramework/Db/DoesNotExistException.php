@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -30,7 +31,7 @@ namespace OCP\AppFramework\Db;
  * entry in the database
  * @since 7.0.0
  */
-class DoesNotExistException extends \Exception {
+class DoesNotExistException extends \Exception implements IMapperException {
 
 	/**
 	 * Constructor

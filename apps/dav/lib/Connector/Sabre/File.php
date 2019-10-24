@@ -36,6 +36,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -50,9 +51,11 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
@@ -140,17 +143,24 @@ class File extends Node implements IFile {
 		list($partStorage) = $this->fileView->resolvePath($this->path);
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
+		$view = \OC\Files\Filesystem::getView();
+
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
-		} else {
+
+			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
+				$needsPartFile = false;
+			}
+		}
+		if (!$needsPartFile) {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 
-			$this->emitPreHooks($exists);
+			if ($view && !$this->emitPreHooks($exists)) {
+				throw new Exception('Could not write to final file, canceled by hook');
+			}
 		}
-
-		$view = \OC\Files\Filesystem::getView();
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
@@ -159,41 +169,74 @@ class File extends Node implements IFile {
 		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
 		try {
 			if (!$needsPartFile) {
-				if ($view && !$this->emitPreHooks($exists)) {
-					throw new Exception('Could not write to final file, canceled by hook');
-				}
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
-			$target = $partStorage->fopen($internalPartPath, 'wb');
-			if ($target === false) {
-				\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
-				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
-				throw new Exception('Could not write file contents');
+			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
+
+				if (!is_resource($data)) {
+					$tmpData = fopen('php://temp', 'r+');
+					if ($data !== null) {
+						fwrite($tmpData, $data);
+						rewind($tmpData);
+					}
+					$data = $tmpData;
+				}
+
+				$isEOF = false;
+				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
+					$isEOF = feof($stream);
+				});
+
+				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+				$result = $count > 0;
+
+				if ($result === false) {
+					$result = $isEOF;
+					if (is_resource($wrappedData)) {
+						$result = feof($wrappedData);
+					}
+				}
+
+			} else {
+				$target = $partStorage->fopen($internalPartPath, 'wb');
+				if ($target === false) {
+					\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
+					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+					throw new Exception('Could not write file contents');
+				}
+				list($count, $result) = \OC_Helper::streamCopy($data, $target);
+				fclose($target);
 			}
-			list($count, $result) = \OC_Helper::streamCopy($data, $target);
-			fclose($target);
 
 			if ($result === false) {
 				$expected = -1;
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
 					$expected = $_SERVER['CONTENT_LENGTH'];
 				}
-				throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				if ($expected !== "0") {
+					throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				}
 			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($count !== $expected) {
-					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			$context = [];
+
+			if ($e instanceof LockedException) {
+				$context['level'] = ILogger::DEBUG;
+			}
+
+			\OC::$server->getLogger()->logException($e, $context);
 			if ($needsPartFile) {
 				$partStorage->unlink($internalPartPath);
 			}
@@ -220,7 +263,7 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->getLogger()->error('renaming part file to final file failed ($run: ' . ( $run ? 'true' : 'false' ) . ', $renameOkay: '  . ( $renameOkay ? 'true' : 'false' ) . ', $fileExists: ' . ( $fileExists ? 'true' : 'false' ) . ')', ['app' => 'webdav']);
+						\OC::$server->getLogger()->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
@@ -247,7 +290,7 @@ class File extends Node implements IFile {
 					$this->header('X-OC-MTime: accepted');
 				}
 			}
-					
+
 			if ($view) {
 				$this->emitPostHooks($exists);
 			}
@@ -264,7 +307,7 @@ class File extends Node implements IFile {
 			}
 
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
+			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
@@ -444,11 +487,10 @@ class File extends Node implements IFile {
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = (int) $_SERVER['CONTENT_LENGTH'];
+				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
-					throw new BadRequest(
-						'expected filesize ' . $expected . ' got ' . $bytesWritten);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $bytesWritten . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 		}
@@ -583,6 +625,9 @@ class File extends Node implements IFile {
 		}
 		if ($e instanceof StorageNotAvailableException) {
 			throw new ServiceUnavailable('Failed to write file contents: ' . $e->getMessage(), 0, $e);
+		}
+		if ($e instanceof NotFoundException) {
+			throw new NotFound('File not found: ' . $e->getMessage(), 0, $e);
 		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);

@@ -37,6 +37,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
 use \OCP\IContainer;
@@ -120,16 +121,9 @@ class Application extends App {
 				$c->query('AppName'),
 				$server->getConfig(),
 				$server->getAppManager(),
-				$c['ControllerMethodReflector'],
+				$server->query(IControllerMethodReflector::class),
 				$server->getShareManager(),
 				$server->getRequest()
-			);
-		});
-
-		$container->registerService('OCSShareAPIMiddleware', function (SimpleContainer $c) use ($server) {
-			return new OCSShareAPIMiddleware(
-				$server->getShareManager(),
-				$server->getL10N($c->query('AppName'))
 			);
 		});
 
@@ -141,7 +135,7 @@ class Application extends App {
 
 		// Execute middlewares
 		$container->registerMiddleWare('SharingCheckMiddleware');
-		$container->registerMiddleWare('OCSShareAPIMiddleware');
+		$container->registerMiddleWare(OCSShareAPIMiddleware::class);
 		$container->registerMiddleWare(ShareInfoMiddleware::class);
 
 		$container->registerService('MountProvider', function (IContainer $c) {

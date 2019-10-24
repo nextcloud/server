@@ -24,12 +24,10 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Settings;
 
-
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Template;
 
 class Personal implements IPersonalProviderSettings {
-
 	public function getBody(): Template {
 		return new Template('twofactor_backupcodes', 'personal');
 	}

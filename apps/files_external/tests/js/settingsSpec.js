@@ -8,7 +8,7 @@
  *
  */
 
-describe('OCA.External.Settings tests', function() {
+describe('OCA.Files_External.Settings tests', function() {
 	var clock;
 	var select2Stub;
 	var select2ApplicableUsers;
@@ -156,7 +156,7 @@ describe('OCA.External.Settings tests', function() {
 
 		beforeEach(function() {
 			var $el = $('#externalStorage');
-			view = new OCA.External.Settings.MountConfigListView($el, {encryptionEnabled: false});
+			view = new OCA.Files_External.Settings.MountConfigListView($el, {encryptionEnabled: false});
 		});
 		afterEach(function() {
 			view = null;
@@ -215,7 +215,7 @@ describe('OCA.External.Settings tests', function() {
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
-				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_external/globalstorages');
+				expect(request.url).toEqual(OC.getRootPath() + '/index.php/apps/files_external/globalstorages');
 				expect(JSON.parse(request.requestBody)).toEqual({
 					backend: '\\OC\\TestBackend',
 					authMechanism: 'mechanism1',

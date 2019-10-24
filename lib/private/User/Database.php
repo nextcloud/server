@@ -59,17 +59,16 @@ namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
-use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -82,11 +81,12 @@ class Database extends ABackend
 	           IGetDisplayNameBackend,
 	           ICheckPasswordBackend,
 	           IGetHomeBackend,
-	           ICountUsersBackend {
+	           ICountUsersBackend,
+	           IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
 	/** @var IDBConnection */
@@ -98,7 +98,7 @@ class Database extends ABackend
 	/**
 	 * \OC\User\Database constructor.
 	 *
-	 * @param EventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param string $table
 	 */
 	public function __construct($eventDispatcher = null, $table = 'users') {
@@ -475,6 +475,15 @@ class Database extends ABackend
 				}
 			}
 		}
-
 	}
+
+	public function getRealUID(string $uid): string {
+		if (!$this->userExists($uid)) {
+			throw new \RuntimeException($uid . ' does not exist');
+		}
+
+		return $this->cache[$uid]['uid'];
+	}
+
+
 }
