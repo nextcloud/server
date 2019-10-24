@@ -417,7 +417,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		) {
 			if ($this->content === false) {
 				throw new \LogicException(
-					'"put" can only be accessed once if not '
+					'"' . strtolower($this->method) . '" can only be accessed once if not '
 					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
