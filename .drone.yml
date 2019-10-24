@@ -83,6 +83,7 @@ steps:
 - name: handlebars
   image: node
   commands:
+    # we use 4.1.0 in our build folder
     - npm install handlebars@4.1.0 -g
     - ./build/compile-handlebars-templates.sh
 
