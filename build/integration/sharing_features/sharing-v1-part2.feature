@@ -115,6 +115,192 @@ Feature: sharing
       | displayname_owner | user0 |
       | mimetype          | text/plain |
 
+  Scenario: getting all shares including subfiles in a directory
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "PARENT/CHILD" of user "user0" is shared with user "user1"
+    And file "PARENT/parent.txt" of user "user0" is shared with user "user2"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT"
+    Then the list of returned shares has 2 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | path                   | /PARENT/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | home::user0 |
+      | file_target            | /CHILD |
+      | share_with             | user1 |
+      | share_with_displayname | user1 |
+      | permissions            | 31 |
+    And share 1 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | path                   | /PARENT/parent.txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | home::user0 |
+      | file_target            | /parent.txt |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+
+  Scenario: getting all shares including subfiles in a directory with received shares
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=/"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | path                   | /textfile0.txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | home::user0 |
+      | file_target            | /textfile0 (2).txt |
+      | share_with             | user1 |
+      | share_with_displayname | user1 |
+
+  Scenario: getting all shares including subfiles in a directory with shares in subdirectories
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "PARENT/CHILD" of user "user0" is shared with user "user1"
+    And file "PARENT/CHILD/child.txt" of user "user0" is shared with user "user2"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | path                   | /PARENT/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | home::user0 |
+      | file_target            | /CHILD |
+      | share_with             | user1 |
+      | share_with_displayname | user1 |
+      | permissions            | 31 |
+
+  Scenario: getting all shares including subfiles in a shared directory with reshares
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "PARENT" of user "user0" is shared with user "user1"
+    And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And file "CHILD" of user "user2" is shared with user "user3"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT"
+    Then the list of returned shares has 2 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | uid_file_owner         | user0 |
+      | displayname_file_owner | user0 |
+      | path                   | /PARENT/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | home::user0 |
+      | file_target            | /CHILD |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+      | permissions            | 31 |
+    And share 1 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user2 |
+      | displayname_owner      | user2 |
+      | uid_file_owner         | user0 |
+      | displayname_file_owner | user0 |
+      | path                   | /PARENT/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | home::user0 |
+      | file_target            | /CHILD |
+      | share_with             | user3 |
+      | share_with_displayname | user3 |
+      | permissions            | 31 |
+
+  Scenario: getting all shares including subfiles in a directory by a resharer
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "PARENT" of user "user0" is shared with user "user1"
+    And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And file "CHILD" of user "user2" is shared with user "user3"
+    When As an "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT (2)"
+    Then the list of returned shares has 2 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | uid_file_owner         | user0 |
+      | displayname_file_owner | user0 |
+      | path                   | /PARENT (2)/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | shared::/PARENT (2) |
+      | file_target            | /CHILD |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+      | permissions            | 31 |
+    And share 1 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user2 |
+      | displayname_owner      | user2 |
+      | uid_file_owner         | user0 |
+      | displayname_file_owner | user0 |
+      | path                   | /PARENT (2)/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | shared::/PARENT (2) |
+      | file_target            | /CHILD |
+      | share_with             | user3 |
+      | share_with_displayname | user3 |
+      | permissions            | 31 |
+
+  Scenario: getting all shares including subfiles in a directory by a resharer after revoking the resharing rights
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "PARENT" of user "user0" is shared with user "user1"
+    And save the last share data as "parent folder"
+    And file "PARENT (2)/CHILD" of user "user1" is shared with user "user2"
+    And file "CHILD" of user "user2" is shared with user "user3"
+    And As an "user0"
+    And restore the last share data from "parent folder"
+    And Updating last share with
+      | permissions | 1 |
+    When As an "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=PARENT (2)"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | uid_file_owner         | user0 |
+      | displayname_file_owner | user0 |
+      | path                   | /PARENT (2)/CHILD |
+      | item_type              | folder |
+      | mimetype               | httpd/unix-directory |
+      | storage_id             | shared::/PARENT (2) |
+      | file_target            | /CHILD |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+      | permissions            | 31 |
+
   Scenario: keep group permissions in sync
     Given As an "admin"
     Given user "user0" exists
