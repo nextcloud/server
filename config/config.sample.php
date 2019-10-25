@@ -520,6 +520,12 @@ $CONFIG = array(
 /**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
  *
+ * Note: Guzzle (the http library used by Nextcloud) is reading the environment
+ * variables HTTP_PROXY (only for cli request), HTTPS_PROXY, and NO_PROXY by default.
+ *
+ * If you configure proxy with Nextcloud any default configuration by Guzzle
+ * is overwritten. Make sure to set ``proxyexclude`` accordingly if necessary.
+ *
  * Defaults to ``''`` (empty string)
  */
 'proxy' => '',
@@ -532,6 +538,16 @@ $CONFIG = array(
  */
 'proxyuserpwd' => '',
 
+/**
+ * List of host names that should not be proxied to.
+ * For example: ``['.mit.edu', 'foo.com']``.
+ *
+ * Hint: Use something like ``explode(',', getenv('NO_PROXY'))`` to sync this
+ * value with the global NO_PROXY option.
+ *
+ * Defaults to empty array.
+ */
+'proxyexclude' => [],
 
 /**
  * Deleted Items (trash bin)
