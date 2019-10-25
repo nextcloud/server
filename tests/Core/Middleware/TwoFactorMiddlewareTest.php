@@ -22,13 +22,18 @@
 
 namespace Test\Core\Middleware;
 
+use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
+use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Authentication\TwoFactorAuth\ProviderSet;
+use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\AppFramework\Http\Request;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
@@ -191,14 +196,13 @@ class TwoFactorMiddlewareTest extends TestCase {
 	public function testBeforeControllerUserAlreadyLoggedIn() {
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector->expects($this->once())
+		$this->reflector
 			->method('hasAnnotation')
-			->with('PublicPage')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
-		$this->userSession->expects($this->once())
+		$this->userSession
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->twoFactorManager->expects($this->once())
@@ -238,6 +242,83 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('redirect/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
+	}
+
+	public function testRequires2FASetupDoneAnnotated() {
+		$user = $this->createMock(IUser::class);
+
+		$this->reflector
+			->method('hasAnnotation')
+			->will($this->returnCallback(function (string $annotation) {
+				return $annotation === 'TwoFactorSetUpDoneRequired';
+			}));
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->willReturn(true);
+		$this->twoFactorManager->expects($this->once())
+			->method('needsSecondFactor')
+			->with($user)
+			->willReturn(false);
+
+		$this->expectException(UserAlreadyLoggedInException::class);
+
+		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->middleware->beforeController($twoFactorChallengeController, 'index');
+	}
+
+	public function dataRequires2FASetupDone() {
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getId')
+			->willReturn('2FAftw');
+
+		return [
+			[[], false, false],
+			[[],  true,  true],
+			[[$provider], false, true],
+			[[$provider], true,  true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataRequires2FASetupDone
+	 */
+	public function testRequires2FASetupDone(array $providers, bool $missingProviders, bool $expectEception) {
+		$user = $this->createMock(IUser::class);
+
+		$this->reflector
+			->method('hasAnnotation')
+			->willReturn(false);
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$providerSet = new ProviderSet($providers, $missingProviders);
+		$this->twoFactorManager->method('getProviderSet')
+			->with($user)
+			->willReturn($providerSet);
+		$this->userSession
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		if ($expectEception) {
+			$this->expectException(TwoFactorAuthRequiredException::class);
+		} else {
+			// hack to make phpunit shut up. Since we don't expect an exception here...
+			$this->assertTrue(true);
+		}
+
+		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->middleware->beforeController($twoFactorChallengeController, 'index');
 	}
 
 }
