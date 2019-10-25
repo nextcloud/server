@@ -404,7 +404,7 @@
     "Dismiss" : "Anuluj",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Link do zresetowania hasła został wysłany na Twój e-mail. Jeśli nie otrzymasz go w rozsądnym czasie, sprawdź katalog ze spamem i kosz.<br>Jeśli nie, skontaktuj się z lokalnym administratorem.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Twoje pliki są szyfrowane. Po zresetowaniu hasła nie będzie możliwości odzyskania danych. <br />Jeśli nie masz pewności, co zrobić, skontaktuj się z administratorem przed kontynuowaniem.<br /> Czy na pewno chcesz kontynuować?",
-    "Sending email …" : "Wysyłanie e-mail…",
+    "Sending email …" : "Wysyłanie e-maila…",
     "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "Zainstalowana wersja {name} jest starsza niż {version}, ze względu na stabilność i wydajność zaleca się aktualizację do nowszej wersji {name}.",
     "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Dostęp do tej strony jest za pośrednictwem protokołu HTTP. Zaleca się skonfigurowanie serwera tak, aby wymagał HTTPS, zgodnie z opisem w <a href=\"{docUrl}\">poradach bezpieczeństwa ↗</a>.",
     "SQLite will be used as database." : "SQLite będzie używane jako baza danych.",
