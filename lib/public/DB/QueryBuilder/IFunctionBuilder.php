@@ -104,7 +104,7 @@ interface IFunctionBuilder {
 	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
-	public function count($count, $alias = '');
+	public function count($count = '', $alias = '');
 
 	/**
 	 * Takes the maximum of all rows in a column
