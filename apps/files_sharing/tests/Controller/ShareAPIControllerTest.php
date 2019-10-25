@@ -833,6 +833,11 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file1)
 			->setId(15);
 
+		$file1UserShareRecipientExpected = [
+			'id' => 15,
+			'share_type' => IShare::TYPE_USER,
+		];
+
 		$file1UserShareOther = \OC::$server->getShareManager()->newShare();
 		$file1UserShareOther->setShareType(IShare::TYPE_USER)
 			->setSharedWith('recipient')
@@ -912,8 +917,8 @@ class ShareAPIControllerTest extends TestCase {
 			'share_type' => IShare::TYPE_EMAIL,
 		];
 
-		$file1RoomShareOwner = \OC::$server->getShareManager()->newShare();
-		$file1RoomShareOwner->setShareType(IShare::TYPE_ROOM)
+		$file1CircleShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1CircleShareOwner->setShareType(IShare::TYPE_CIRCLE)
 			->setSharedWith('recipient')
 			->setSharedBy('initiator')
 			->setShareOwner('currentUser')
@@ -921,8 +926,22 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file1)
 			->setId(423);
 
-		$file1RoomShareOwnerExpected = [
+		$file1CircleShareOwnerExpected = [
 			'id' => 423,
+			'share_type' => IShare::TYPE_CIRCLE,
+		];
+
+		$file1RoomShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1RoomShareOwner->setShareType(IShare::TYPE_ROOM)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(442);
+
+		$file1RoomShareOwnerExpected = [
+			'id' => 442,
 			'share_type' => IShare::TYPE_ROOM,
 		];
 
@@ -933,11 +952,25 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareOwner('currentUser')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($file1)
-			->setId(442);
+			->setId(815);
 
 		$file1RemoteShareOwnerExpected = [
-			'id' => 442,
+			'id' => 815,
 			'share_type' => IShare::TYPE_REMOTE,
+		];
+
+		$file1RemoteGroupShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1RemoteGroupShareOwner->setShareType(IShare::TYPE_REMOTE_GROUP)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(816);
+
+		$file1RemoteGroupShareOwnerExpected = [
+			'id' => 816,
+			'share_type' => IShare::TYPE_REMOTE_GROUP,
 		];
 
 		$file2UserShareOwner = \OC::$server->getShareManager()->newShare();
@@ -947,14 +980,155 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareOwner('currentUser')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($file2)
-			->setId(815);
+			->setId(823);
 
 		$file2UserShareOwnerExpected = [
-			'id' => 815,
+			'id' => 823,
 			'share_type' => IShare::TYPE_USER,
 		];
 
 		$data = [
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareOwner, $file1UserShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1UserShareOwnerExpected,
+					$file1UserShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1UserShareRecipientExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1UserShareRecipientExpected,
+					$file1UserShareInitiatorExpected,
+					$file1UserShareOtherExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareInitiatorExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareRecipientExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+					IShare::TYPE_EMAIL => true,
+					IShare::TYPE_CIRCLE => true,
+					IShare::TYPE_REMOTE => true,
+					IShare::TYPE_REMOTE_GROUP => true,
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
+				]
+			],
 			[
 				[
 					'path' => $folder,
@@ -1177,6 +1351,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$shareProviderExistsMap = [
 			[IShare::TYPE_EMAIL, $extraShareTypes[IShare::TYPE_EMAIL] ?? false],
+			[IShare::TYPE_CIRCLE, $extraShareTypes[IShare::TYPE_CIRCLE] ?? false],
 		];
 
 		$this->shareManager
@@ -1186,6 +1361,10 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->method('outgoingServer2ServerSharesAllowed')
 			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE] ?? false);
+
+		$this->shareManager
+			->method('outgoingServer2ServerGroupSharesAllowed')
+			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE_GROUP] ?? false);
 
 		$this->groupManager
 			->method('isInGroup')
