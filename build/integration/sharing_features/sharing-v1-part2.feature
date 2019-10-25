@@ -20,6 +20,69 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+  Scenario: getting all shares of a file with a received share after revoking the resharing rights
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And Updating last share with
+      | permissions | 1 |
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | path                   | /textfile0 (2).txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | shared::/textfile0 (2).txt |
+      | file_target            | /textfile0.txt |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+
+  Scenario: getting all shares of a file with a received share also reshared after revoking the resharing rights
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And save the last share data as "textfile0.txt from user1"
+    And file "textfile0 (2).txt" of user "user0" is shared with user "user3"
+    And restore the last share data from "textfile0.txt from user1"
+    And Updating last share with
+      | permissions | 1 |
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+    Then the list of returned shares has 2 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | uid_file_owner         | user1 |
+      | displayname_file_owner | user1 |
+      | path                   | /textfile0 (2).txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | shared::/textfile0 (2).txt |
+      | file_target            | /textfile0 (2).txt |
+      | share_with             | user3 |
+      | share_with_displayname | user3 |
+    And share 1 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | path                   | /textfile0 (2).txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | shared::/textfile0 (2).txt |
+      | file_target            | /textfile0.txt |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+
   Scenario: Reshared files can be still accessed if a user in the middle removes it.
     Given user "user0" exists
     And user "user1" exists
@@ -300,6 +363,67 @@ Feature: sharing
       | share_with             | user2 |
       | share_with_displayname | user2 |
       | permissions            | 31 |
+
+  Scenario: getting all shares including subfiles in a directory after moving a received share not reshareable also shared with another user
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And Updating last share with
+      | permissions | 1 |
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user0" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0.txt"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=/FOLDER"
+    Then the list of returned shares has 1 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | path                   | /FOLDER/textfile0.txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | shared::/FOLDER/textfile0.txt |
+      | file_target            | /textfile0.txt |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
+
+  Scenario: getting all shares including subfiles in a directory after moving a share and a received share not reshareable also shared with another user
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And Updating last share with
+      | permissions | 1 |
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user0" moved file "/textfile0.txt" to "/FOLDER/textfile0.txt"
+    And User "user0" moved file "/textfile0 (2).txt" to "/FOLDER/textfile0 (2).txt"
+    When As an "user0"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?subfiles=true&path=/FOLDER"
+    Then the list of returned shares has 2 shares
+    And share 0 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user0 |
+      | displayname_owner      | user0 |
+      | path                   | /FOLDER/textfile0.txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | home::user0 |
+      | file_target            | /textfile0 (2).txt |
+      | share_with             | user1 |
+      | share_with_displayname | user1 |
+    And share 1 is returned with
+      | share_type             | 0 |
+      | uid_owner              | user1 |
+      | displayname_owner      | user1 |
+      | path                   | /FOLDER/textfile0 (2).txt |
+      | item_type              | file |
+      | mimetype               | text/plain |
+      | storage_id             | shared::/FOLDER/textfile0 (2).txt |
+      | file_target            | /textfile0.txt |
+      | share_with             | user2 |
+      | share_with_displayname | user2 |
 
   Scenario: keep group permissions in sync
     Given As an "admin"
