@@ -187,6 +187,12 @@ class Cache implements ICache {
 			$data['storage_mtime'] = $data['mtime'];
 		}
 		$data['permissions'] = (int)$data['permissions'];
+		if (isset($data['creation_time'])) {
+			$data['creation_time'] = (int) $data['creation_time'];
+		}
+		if (isset($data['upload_time'])) {
+			$data['upload_time'] = (int) $data['upload_time'];
+		}
 		return new CacheEntry($data);
 	}
 
@@ -272,7 +278,7 @@ class Cache implements ICache {
 		$data['parent'] = $this->getParentId($file);
 		$data['name'] = basename($file);
 
-		$values = $this->normalizeData($data);
+		[$values, $extensionValues] = $this->normalizeData($data);
 		$values['storage'] = $this->getNumericStorageId();
 
 		try {
@@ -284,7 +290,17 @@ class Cache implements ICache {
 			}
 
 			if ($builder->execute()) {
-				$fileId = (int)$this->connection->lastInsertId('*PREFIX*filecache');
+				$fileId = $builder->getLastInsertId();
+
+				$query = $this->getQueryBuilder();
+				$query->insert('filecache_extended');
+
+				$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+				foreach ($extensionValues as $column => $value) {
+					$query->setValue($column, $query->createNamedParameter($value));
+				}
+				$query->execute();
+
 				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId));
 				return $fileId;
 			}
@@ -319,24 +335,44 @@ class Cache implements ICache {
 			$data['name'] = $this->normalize($data['name']);
 		}
 
-		$values = $this->normalizeData($data);
+		[$values, $extensionValues] = $this->normalizeData($data);
 
-		$query = $this->getQueryBuilder();
+		if (count($values)) {
+			$query = $this->getQueryBuilder();
 
-		$query->update('filecache')
-			->whereFileId($id)
-			->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
-				return $query->expr()->orX(
-					$query->expr()->neq($key, $query->createNamedParameter($value)),
-					$query->expr()->isNull($key)
-				);
-			}, array_keys($values), array_values($values))));
+			$query->update('filecache')
+				->whereFileId($id)
+				->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
+					return $query->expr()->orX(
+						$query->expr()->neq($key, $query->createNamedParameter($value)),
+						$query->expr()->isNull($key)
+					);
+				}, array_keys($values), array_values($values))));
 
-		foreach ($values as $key => $value) {
-			$query->set($key, $query->createNamedParameter($value));
+			foreach ($values as $key => $value) {
+				$query->set($key, $query->createNamedParameter($value));
+			}
+
+			$query->execute();
 		}
 
-		$query->execute();
+		if (count($extensionValues)) {
+			$query = $this->getQueryBuilder();
+			$query->update('filecache_extended')
+				->whereFileId($id)
+				->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
+					return $query->expr()->orX(
+						$query->expr()->neq($key, $query->createNamedParameter($value)),
+						$query->expr()->isNull($key)
+					);
+				}, array_keys($extensionValues), array_values($extensionValues))));
+
+			foreach ($extensionValues as $key => $value) {
+				$query->set($key, $query->createNamedParameter($value));
+			}
+
+			$query->execute();
+		}
 
 		$path = $this->getPathById($id);
 		// path can still be null if the file doesn't exist
@@ -355,6 +391,7 @@ class Cache implements ICache {
 		$fields = [
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
 			'etag', 'permissions', 'checksum', 'storage'];
+		$extensionFields = ['metadata_etag', 'creation_time', 'upload_time'];
 
 		$doNotCopyStorageMTime = false;
 		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
@@ -364,6 +401,7 @@ class Cache implements ICache {
 		}
 
 		$params = [];
+		$extensionParams = [];
 		foreach ($data as $name => $value) {
 			if (array_search($name, $fields) !== false) {
 				if ($name === 'path') {
@@ -385,8 +423,11 @@ class Cache implements ICache {
 				}
 				$params[$name] = $value;
 			}
+			if (array_search($name, $extensionFields) !== false) {
+				$extensionParams[$name] = $value;
+			}
 		}
-		return $params;
+		return [$params, $extensionParams];
 	}
 
 	/**
@@ -461,6 +502,12 @@ class Cache implements ICache {
 			$query->delete('filecache')
 				->whereFileId($entry->getId());
 			$query->execute();
+
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->whereFileId($entry->getId());
+			$query->execute();
+
 			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
 				$this->removeChildren($entry);
 			}
@@ -494,6 +541,11 @@ class Cache implements ICache {
 
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache')
+			->whereParent($entry->getId());
+		$query->execute();
+
+		$query = $this->getQueryBuilder();
+		$query->delete('filecache_extended')
 			->whereParent($entry->getId());
 		$query->execute();
 	}
@@ -574,15 +626,16 @@ class Cache implements ICache {
 				}
 			}
 
-			$query = $this->connection->getQueryBuilder();
+			$query = $this->getQueryBuilder();
 			$query->update('filecache')
 				->set('storage', $query->createNamedParameter($targetStorageId))
 				->set('path', $query->createNamedParameter($targetPath))
 				->set('path_hash', $query->createNamedParameter(md5($targetPath)))
 				->set('name', $query->createNamedParameter(basename($targetPath)))
 				->set('parent', $query->createNamedParameter($newParentId, IQueryBuilder::PARAM_INT))
-				->where($query->expr()->eq('fileid', $query->createNamedParameter($sourceId)));
+				->whereFileId($sourceId);
 			$query->execute();
+
 			$this->connection->commit();
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
@@ -595,7 +648,7 @@ class Cache implements ICache {
 	public function clear() {
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache')
-			->whereStorageId();;
+			->whereStorageId();
 		$query->execute();
 
 		$query = $this->connection->getQueryBuilder();
@@ -705,8 +758,7 @@ class Cache implements ICache {
 	public function searchQuery(ISearchQuery $searchQuery) {
 		$builder = $this->getQueryBuilder();
 
-		$query = $builder->select(['fileid', 'storage', 'path', 'parent', 'name', 'mimetype', 'mimepart', 'size', 'mtime', 'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum'])
-			->from('filecache', 'file');
+		$query = $builder->selectFileCache('file');
 
 		$query->whereStorageId();
 

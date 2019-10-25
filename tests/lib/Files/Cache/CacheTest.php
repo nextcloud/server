@@ -707,6 +707,67 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
+	public function testExtended() {
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$this->cache->put("", $folderData);
+
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'creation_time' => 20];
+		$id1 = $this->cache->put("foo1", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'upload_time' => 30];
+		$this->cache->put("foo2", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'metadata_etag' => 'foo'];
+		$this->cache->put("foo3", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
+		$this->cache->put("foo4", $data);
+
+		$entry = $this->cache->get($id1);
+		$this->assertEquals(20, $entry->getCreationTime());
+		$this->assertEquals(0, $entry->getUploadTime());
+		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$entries = $this->cache->getFolderContents("");
+		$this->assertCount(4, $entries);
+
+		$this->assertEquals("foo1", $entries[0]->getName());
+		$this->assertEquals("foo2", $entries[1]->getName());
+		$this->assertEquals("foo3", $entries[2]->getName());
+		$this->assertEquals("foo4", $entries[3]->getName());
+
+		$this->assertEquals(20, $entries[0]->getCreationTime());
+		$this->assertEquals(0, $entries[0]->getUploadTime());
+		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[1]->getCreationTime());
+		$this->assertEquals(30, $entries[1]->getUploadTime());
+		$this->assertEquals(null, $entries[1]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[2]->getCreationTime());
+		$this->assertEquals(0, $entries[2]->getUploadTime());
+		$this->assertEquals('foo', $entries[2]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[3]->getCreationTime());
+		$this->assertEquals(0, $entries[3]->getUploadTime());
+		$this->assertEquals(null, $entries[3]->getMetadataEtag());
+
+		$this->cache->update($id1, ['upload_time' => 25]);
+
+		$entry = $this->cache->get($id1);
+		$this->assertEquals(20, $entry->getCreationTime());
+		$this->assertEquals(25, $entry->getUploadTime());
+		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$this->cache->put("sub", $folderData);
+
+		$this->cache->move("foo1", "sub/foo1");
+
+		$entries = $this->cache->getFolderContents("sub");
+		$this->assertCount(1, $entries);
+
+		$this->assertEquals(20, $entries[0]->getCreationTime());
+		$this->assertEquals(25, $entries[0]->getUploadTime());
+		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+	}
+
 	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();

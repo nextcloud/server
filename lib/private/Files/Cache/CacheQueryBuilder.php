@@ -32,6 +32,7 @@ use OCP\ILogger;
  */
 class CacheQueryBuilder extends QueryBuilder {
 	private $cache;
+	private $alias = null;
 
 	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, ILogger $logger, Cache $cache) {
 		parent::__construct($connection, $systemConfig, $logger);
@@ -39,10 +40,14 @@ class CacheQueryBuilder extends QueryBuilder {
 		$this->cache = $cache;
 	}
 
-	public function selectFileCache() {
-		$this->select('fileid', 'storage', 'path', 'path_hash', 'parent', 'name', 'mimetype', 'mimepart', 'size', 'mtime',
-			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum')
-			->from('filecache');
+	public function selectFileCache(string $alias = null) {
+		$name = $alias ? $alias : 'filecache';
+		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", 'name', 'mimetype', 'mimepart', 'size', 'mtime',
+			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'metadata_etag', 'creation_time', 'upload_time')
+			->from('filecache', $name)
+			->leftJoin($name, 'filecache_extended', 'fe', $this->expr()->eq("$name.fileid", 'fe.fileid'));
+
+		$this->alias = $name;
 
 		return $this;
 	}
@@ -54,7 +59,14 @@ class CacheQueryBuilder extends QueryBuilder {
 	}
 
 	public function whereFileId(int $fileId) {
-		$this->andWhere($this->expr()->eq('fileid', $this->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		$alias = $this->alias;
+		if ($alias) {
+			$alias .= '.';
+		} else {
+			$alias = '';
+		}
+
+		$this->andWhere($this->expr()->eq("{$alias}fileid", $this->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 		return $this;
 	}
@@ -66,7 +78,14 @@ class CacheQueryBuilder extends QueryBuilder {
 	}
 
 	public function whereParent(int $parent) {
-		$this->andWhere($this->expr()->eq('parent', $this->createNamedParameter($parent, IQueryBuilder::PARAM_INT)));
+		$alias = $this->alias;
+		if ($alias) {
+			$alias .= '.';
+		} else {
+			$alias = '';
+		}
+
+		$this->andWhere($this->expr()->eq("{$alias}parent", $this->createNamedParameter($parent, IQueryBuilder::PARAM_INT)));
 
 		return $this;
 	}
