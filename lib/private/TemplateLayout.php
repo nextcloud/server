@@ -43,6 +43,7 @@ use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\Defaults;
 use OC\AppFramework\Http\Request;
+use OCP\Support\Subscription\IRegistry;
 
 class TemplateLayout extends \OC_Template {
 
@@ -134,7 +135,14 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.public');
 			$this->assign( 'appid', $appId );
 			$this->assign('bodyid', 'body-public');
-			$this->assign('showSimpleSignUpLink', $this->config->getSystemValue('simpleSignUpLink.shown', true) !== false);
+
+			/** @var IRegistry $subscription */
+			$subscription = \OC::$server->query(IRegistry::class);
+			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
+			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
+				$showSimpleSignup = false;
+			}
+			$this->assign('showSimpleSignUpLink', $showSimpleSignup);
 		} else {
 			parent::__construct('core', 'layout.base');
 
