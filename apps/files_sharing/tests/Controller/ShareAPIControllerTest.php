@@ -1093,6 +1093,8 @@ class ShareAPIControllerTest extends TestCase {
 					$file1UserShareOwnerExpected,
 					$file1GroupShareOwnerExpected,
 					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
 				]
 			],
@@ -1113,8 +1115,6 @@ class ShareAPIControllerTest extends TestCase {
 					],
 				],
 				[
-					IShare::TYPE_EMAIL => true,
-					IShare::TYPE_CIRCLE => true,
 					IShare::TYPE_REMOTE => true,
 					IShare::TYPE_REMOTE_GROUP => true,
 				],
@@ -1261,6 +1261,7 @@ class ShareAPIControllerTest extends TestCase {
 					$file1UserShareOwnerExpected,
 					$file1GroupShareOwnerExpected,
 					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
 				]
 			],
@@ -1280,7 +1281,6 @@ class ShareAPIControllerTest extends TestCase {
 					],
 				],
 				[
-					IShare::TYPE_EMAIL => true,
 					IShare::TYPE_REMOTE => true,
 				],
 				[
@@ -1348,15 +1348,6 @@ class ShareAPIControllerTest extends TestCase {
 					return $shares[$node->getName()][$shareType];
 				}
 			));
-
-		$shareProviderExistsMap = [
-			[IShare::TYPE_EMAIL, $extraShareTypes[IShare::TYPE_EMAIL] ?? false],
-			[IShare::TYPE_CIRCLE, $extraShareTypes[IShare::TYPE_CIRCLE] ?? false],
-		];
-
-		$this->shareManager
-			->method('shareProviderExists')
-			->will($this->returnValueMap($shareProviderExistsMap));
 
 		$this->shareManager
 			->method('outgoingServer2ServerSharesAllowed')

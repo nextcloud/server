@@ -628,9 +628,7 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $node, true, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $node, true, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $node, true, -1, 0));
-			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, true, -1, 0));
-			}
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, true, -1, 0));
 			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $node, true, -1, 0));
 			}
@@ -729,16 +727,8 @@ class ShareAPIController extends OCSController {
 		$userShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
 		$groupShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
 		$linkShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
-		if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
-			$mailShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
-		} else {
-			$mailShares = [];
-		}
-		if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_CIRCLE)) {
-			$circleShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_CIRCLE, $path, $reshares, -1, 0);
-		} else {
-			$circleShares = [];
-		}
+		$mailShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
+		$circleShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_CIRCLE, $path, $reshares, -1, 0);
 		$roomShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $path, $reshares, -1, 0);
 
 		$shares = array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares);
