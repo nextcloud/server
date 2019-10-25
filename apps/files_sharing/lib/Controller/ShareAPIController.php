@@ -621,23 +621,12 @@ class ShareAPIController extends OCSController {
 		}
 
 		$nodes = $folder->getDirectoryListing();
-		/** @var \OCP\Share\IShare[] $shares */
-		$shares = [];
-		foreach ($nodes as $node) {
 
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $node, true, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $node, true, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $node, true, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $node, true, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_CIRCLE, $node, true, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $node, true, -1, 0));
-			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $node, true, -1, 0));
-			}
-			if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-				$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE_GROUP, $node, true, -1, 0));
-			}
-		}
+		/** @var \OCP\Share\IShare[] $shares */
+		$shares = array_reduce($nodes, function($carry, $node) {
+			$carry = array_merge($carry, $this->getAllShares($node, true));
+			return $carry;
+		}, []);
 
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
@@ -728,24 +717,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
-		$mailShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
-		$circleShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_CIRCLE, $path, $reshares, -1, 0);
-		$roomShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $path, $reshares, -1, 0);
-
-		$shares = array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares);
-
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
-			$shares = array_merge($shares, $federatedShares);
-		}
-
-		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
-			$shares = array_merge($shares, $federatedShares);
-		}
+		$shares = $this->getAllShares($path, $reshares);
 
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
@@ -1316,6 +1288,43 @@ class ShareAPIController extends OCSController {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get all the shares for the current user
+	 *
+	 * @param Node|null $path
+	 * @param boolean $reshares
+	 * @return void
+	 */
+	private function getAllShares(?Node $path = null, bool $reshares = false) {
+		// Get all shares
+		$userShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
+		$groupShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
+		$linkShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
+
+		// EMAIL SHARES
+		$mailShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_EMAIL, $path, $reshares, -1, 0);
+
+		// CIRCLE SHARES
+		$circleShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_CIRCLE, $path, $reshares, -1, 0);
+
+		// TALK SHARES
+		$roomShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_ROOM, $path, $reshares, -1, 0);
+
+		// FEDERATION
+		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
+		} else {
+			$federatedShares = [];
+		}
+		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
+			$federatedGroupShares = $this->shareManager->getSharesBy($this->currentUser, Share::SHARE_TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
+		} else {
+			$federatedGroupShares = [];
+		}
+
+		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $federatedShares, $federatedGroupShares);
 	}
 
 }
