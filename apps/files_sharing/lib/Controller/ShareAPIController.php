@@ -723,6 +723,10 @@ class ShareAPIController extends OCSController {
 		$resharingRight = false;
 		foreach ($shares as $share) {
 			/** @var IShare $share */
+			if ($share->getSharedWith() === $this->currentUser) {
+				continue;
+			}
+
 			try {
 				$format = $this->formatShare($share, $path);
 				$formatted[] = $format;

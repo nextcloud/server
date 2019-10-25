@@ -1018,7 +1018,6 @@ class ShareAPIControllerTest extends TestCase {
 				],
 				[
 					$file1UserShareOwnerExpected,
-					$file1UserShareRecipientExpected,
 				]
 			],
 			[
@@ -1034,7 +1033,6 @@ class ShareAPIControllerTest extends TestCase {
 				],
 				[
 					$file1UserShareOwnerExpected,
-					$file1UserShareRecipientExpected,
 					$file1UserShareInitiatorExpected,
 					$file1UserShareOtherExpected,
 				]
