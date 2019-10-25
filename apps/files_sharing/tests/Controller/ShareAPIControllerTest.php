@@ -1251,8 +1251,10 @@ class ShareAPIControllerTest extends TestCase {
 						IShare::TYPE_GROUP => [$file1GroupShareOwner],
 						IShare::TYPE_LINK => [$file1LinkShareOwner],
 						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
 						IShare::TYPE_ROOM => [$file1RoomShareOwner],
 						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
 					],
 				],
 				[
@@ -1262,6 +1264,7 @@ class ShareAPIControllerTest extends TestCase {
 					$file1GroupShareOwnerExpected,
 					$file1LinkShareOwnerExpected,
 					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
 				]
 			],
@@ -1276,20 +1279,25 @@ class ShareAPIControllerTest extends TestCase {
 						IShare::TYPE_GROUP => [$file1GroupShareOwner],
 						IShare::TYPE_LINK => [$file1LinkShareOwner],
 						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
 						IShare::TYPE_ROOM => [$file1RoomShareOwner],
 						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
 					],
 				],
 				[
 					IShare::TYPE_REMOTE => true,
+					IShare::TYPE_REMOTE_GROUP => true,
 				],
 				[
 					$file1UserShareOwnerExpected,
 					$file1GroupShareOwnerExpected,
 					$file1LinkShareOwnerExpected,
 					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
 					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
 				]
 			],
 		];
