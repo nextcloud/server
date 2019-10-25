@@ -36,9 +36,9 @@ export default {
 	props: {
 		name: {
 			type: String,
-			default: ''
-		}
-	}
+			default: '',
+		},
+	},
 }
 </script>
 

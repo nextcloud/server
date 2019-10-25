@@ -25,10 +25,12 @@ import Videos from '../models/videos'
 
 export default class Viewer {
 
-	#handlers;
+	#state;
 
 	constructor() {
-		this.#handlers = []
+		this.#state = {}
+		this.#state.file = ''
+		this.#state.handlers = []
 
 		// ! built-in handlers
 		this.registerHandler(Images)
@@ -37,12 +39,68 @@ export default class Viewer {
 		console.debug('OCA.Viewer initialized')
 	}
 
-	get availableHandlers() {
-		return this.#handlers
+	/**
+	 * Get the sidebar state
+	 * DO NOT EDIT properties within
+	 *
+	 * @readonly
+	 * @memberof Sidebar
+	 * @returns {Object} the data state
+	 */
+	get state() {
+		return this.#state
 	}
 
+	/**
+	 * Return the registered handlers
+	 *
+	 * @readonly
+	 * @memberof Viewer
+	 */
+	get availableHandlers() {
+		return this.#state.handlers
+	}
+
+	/**
+	 * Register a new handler
+	 *
+	 * @memberof Viewer
+	 * @param {Object} handler a new unregistered handler
+	 */
 	registerHandler(handler) {
-		this.#handlers.push(handler)
+		this.#state.handlers.push(handler)
+	}
+
+	/**
+	 * Get the current opened file
+	 *
+	 * @memberof Viewer
+	 * @returns {string} the currently opened file
+	 */
+	get file() {
+		return this.#state.file
+	}
+
+	/**
+	 * Open the path into the viewer
+	 *
+	 * @memberof Viewer
+	 * @param {string} path the path to open
+	 */
+	open(path) {
+		if (!path.startsWith('/')) {
+			throw new Error('Please use an absolute path')
+		}
+		this.#state.file = path
+	}
+
+	/**
+	 * Close the opened file
+	 *
+	 * @memberof Viewer
+	 */
+	close() {
+		this.#state.file = ''
 	}
 
 }

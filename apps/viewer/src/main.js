@@ -23,7 +23,7 @@ import Vue from 'vue'
 import ViewerComponent from './views/Viewer'
 import ViewerService from './services/Viewer'
 
-import { generateFilePath } from 'nextcloud-server/dist/router'
+import { generateFilePath } from '@nextcloud/router'
 
 Vue.prototype.t = t
 Vue.prototype.n = n
@@ -61,5 +61,5 @@ export default new Vue({
 	// roots mounted o the same page!
 	// eslint-disable-next-line vue/match-component-file-name
 	name: 'ViewerRoot',
-	render: h => h(ViewerComponent)
+	render: h => h(ViewerComponent),
 })

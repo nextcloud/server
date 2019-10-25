@@ -23,10 +23,4 @@
 
 namespace OCA\Viewer\AppInfo;
 
-$eventDispatcher = \OC::$server->getEventDispatcher();
-$eventDispatcher->addListener(
-	'OCA\Files::loadAdditionalScripts',
-	function() {
-		\OCP\Util::addScript('viewer', 'viewer');
-	}
-);
+\OC::$server->query(\OCA\Viewer\AppInfo\Application::class);
