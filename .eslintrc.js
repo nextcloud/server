@@ -6,7 +6,9 @@ module.exports = {
 		$: true,
 		moment: true,
 		escapeHTML: true,
-		oc_userconfig: true
+		oc_userconfig: true,
+		dayNames: true,
+		firstDay: true
 	},
 	extends: ['nextcloud']
 }
