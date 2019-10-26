@@ -1,6 +1,8 @@
 { "translations": {
     "Dark theme" : "Темна тема",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Темна тема за да ви го олесни гледањето преку намалување на вкупната осветленост. Сеуште е во развој, затоа ве молиме пријавете ги сите проблеми кои ќе ги најдете.",
+    "High contrast mode" : "Режим на висок контраст",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Режим со висок контраст за олеснување на навигацијата. Визуелниот квалитет ќе се намали, но јасноста ќе се зголеми.",
     "Dyslexia font" : "Фонт за дислексија",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic е бесплатен фонт дизајниран за ублажување на некои од честите грешки во читањето предизвикани од дислексија.",
     "Accessibility" : "Достапност",
