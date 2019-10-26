@@ -426,14 +426,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->clientService->expects($this->exactly(4))
 			->method('newClient')
 			->will($this->returnValue($client));
-		$this->urlGenerator->expects($this->at(0))
-			->method('linkToDocs')
-			->with('admin-performance')
-			->willReturn('http://docs.example.org/server/go.php?to=admin-performance');
-		$this->urlGenerator->expects($this->at(1))
-			->method('linkToDocs')
-			->with('admin-security')
-			->willReturn('https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html');
 		$this->checkSetupController
 			->expects($this->once())
 			->method('isPhpOutdated')
@@ -442,26 +434,6 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isOpcacheProperlySetup')
 			->willReturn(false);
-		$this->urlGenerator->expects($this->at(2))
-			->method('linkToDocs')
-			->with('admin-reverse-proxy')
-			->willReturn('reverse-proxy-doc-link');
-		$this->urlGenerator->expects($this->at(3))
-			->method('linkToDocs')
-			->with('admin-code-integrity')
-			->willReturn('http://docs.example.org/server/go.php?to=admin-code-integrity');
-		$this->urlGenerator->expects($this->at(4))
-			->method('linkToDocs')
-			->with('admin-php-opcache')
-			->willReturn('http://docs.example.org/server/go.php?to=admin-php-opcache');
-		$this->urlGenerator->expects($this->at(5))
-			->method('linkToDocs')
-			->with('admin-db-conversion')
-			->willReturn('http://docs.example.org/server/go.php?to=admin-db-conversion');
-		$this->urlGenerator->expects($this->at(6))
-			->method('getAbsoluteURL')
-			->with('index.php/settings/admin')
-			->willReturn('https://server/index.php/settings/admin');
 		$this->checkSetupController
 			->method('hasFreeTypeSupport')
 			->willReturn(false);
@@ -540,6 +512,40 @@ class CheckSetupControllerTest extends TestCase {
 			->method('isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed')
 			->willReturn(true);
 
+		$this->urlGenerator->method('linkToDocs')
+			->willReturnCallback(function(string $key): string {
+				if ($key === 'admin-performance') {
+					return 'http://docs.example.org/server/go.php?to=admin-performance';
+				}
+				if ($key === 'admin-security') {
+					return 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html';
+				}
+				if ($key === 'admin-reverse-proxy') {
+					return 'reverse-proxy-doc-link';
+				}
+				if ($key === 'admin-code-integrity') {
+					return 'http://docs.example.org/server/go.php?to=admin-code-integrity';
+				}
+				if ($key === 'admin-php-opcache') {
+					return 'http://docs.example.org/server/go.php?to=admin-php-opcache';
+				}
+				if ($key === 'admin-db-conversion') {
+					return 'http://docs.example.org/server/go.php?to=admin-db-conversion';
+				}
+				return '';
+			});
+
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturnCallback(function(string $url): string {
+				if ($url === 'index.php/settings/admin') {
+					return 'https://server/index.php/settings/admin';
+				}
+				if ($url === 'index.php') {
+					return 'https://server/index.php';
+				}
+				return '';
+			});
+
 		$expected = new DataResponse(
 			[
 				'isGetenvServerWorking' => true,
@@ -585,6 +591,7 @@ class CheckSetupControllerTest extends TestCase {
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
+				'reverseProxyGeneratedURL' => 'https://server/index.php',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
