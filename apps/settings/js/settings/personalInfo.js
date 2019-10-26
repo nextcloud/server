@@ -369,11 +369,9 @@ $(document).ready(function () {
 });
 
 window.setInterval(function() {
-	$('#localeexample-time').text(moment().format('LTS'));
-	$('#localeexample-date').text(moment().format('L'));
-	$('#localeexample-fdow').text(t('settings', 'Week starts on {fdow}',
-		{fdow: moment().weekday(0).format('dddd')}));
-
-}, 1000);
+	$('#localeexample-time').text(moment().format('LTS'))
+	$('#localeexample-date').text(moment().format('L'))
+	$('#localeexample-fdow').text(t('settings', 'Week starts on {fdow}', { fdow: dayNames[firstDay] }))
+}, 1000)
 
 OC.Settings.updateAvatar = updateAvatar;
