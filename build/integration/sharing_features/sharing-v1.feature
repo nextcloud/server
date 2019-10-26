@@ -305,7 +305,7 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
-  Scenario: getting all shares of a file with a user with resharing rights
+  Scenario: getting all shares of a file with a user with resharing rights but not yourself
     Given user "user0" exists
     And user "user1" exists
     And user "user2" exists
@@ -316,7 +316,7 @@ Feature: sharing
     When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0 (2).txt&reshares=true"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And User "user1" should be included in the response
+    And User "user1" should not be included in the response
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 

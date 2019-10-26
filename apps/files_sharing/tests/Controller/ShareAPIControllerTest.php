@@ -784,6 +784,603 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->getShare(42);
 	}
 
+	public function dataGetShares() {
+		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$file1 = $this->getMockBuilder(File::class)->getMock();
+		$file1->method('getName')
+			->willReturn('file1');
+		$file2 = $this->getMockBuilder(File::class)->getMock();
+		$file2->method('getName')
+			->willReturn('file2');
+
+		$folder->method('getDirectoryListing')
+			->willReturn([$file1, $file2]);
+
+		$file1UserShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1UserShareOwner->setShareType(IShare::TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(4);
+
+		$file1UserShareOwnerExpected = [
+			'id' => 4,
+			'share_type' => IShare::TYPE_USER,
+		];
+
+		$file1UserShareInitiator = \OC::$server->getShareManager()->newShare();
+		$file1UserShareInitiator->setShareType(IShare::TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('currentUser')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(8);
+
+		$file1UserShareInitiatorExpected = [
+			'id' => 8,
+			'share_type' => IShare::TYPE_USER,
+		];
+
+		$file1UserShareRecipient = \OC::$server->getShareManager()->newShare();
+		$file1UserShareRecipient->setShareType(IShare::TYPE_USER)
+			->setSharedWith('currentUser')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(15);
+
+		$file1UserShareRecipientExpected = [
+			'id' => 15,
+			'share_type' => IShare::TYPE_USER,
+		];
+
+		$file1UserShareOther = \OC::$server->getShareManager()->newShare();
+		$file1UserShareOther->setShareType(IShare::TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(16);
+
+		$file1UserShareOtherExpected = [
+			'id' => 16,
+			'share_type' => IShare::TYPE_USER,
+		];
+
+		$file1GroupShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1GroupShareOwner->setShareType(IShare::TYPE_GROUP)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(23);
+
+		$file1GroupShareOwnerExpected = [
+			'id' => 23,
+			'share_type' => IShare::TYPE_GROUP,
+		];
+
+		$file1GroupShareRecipient = \OC::$server->getShareManager()->newShare();
+		$file1GroupShareRecipient->setShareType(IShare::TYPE_GROUP)
+			->setSharedWith('currentUserGroup')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(42);
+
+		$file1GroupShareRecipientExpected = [
+			'id' => 42,
+			'share_type' => IShare::TYPE_GROUP,
+		];
+
+		$file1GroupShareOther = \OC::$server->getShareManager()->newShare();
+		$file1GroupShareOther->setShareType(IShare::TYPE_GROUP)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(108);
+
+		$file1LinkShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1LinkShareOwner->setShareType(IShare::TYPE_LINK)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(415);
+
+		$file1LinkShareOwnerExpected = [
+			'id' => 415,
+			'share_type' => IShare::TYPE_LINK,
+		];
+
+		$file1EmailShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1EmailShareOwner->setShareType(IShare::TYPE_EMAIL)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(416);
+
+		$file1EmailShareOwnerExpected = [
+			'id' => 416,
+			'share_type' => IShare::TYPE_EMAIL,
+		];
+
+		$file1CircleShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1CircleShareOwner->setShareType(IShare::TYPE_CIRCLE)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(423);
+
+		$file1CircleShareOwnerExpected = [
+			'id' => 423,
+			'share_type' => IShare::TYPE_CIRCLE,
+		];
+
+		$file1RoomShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1RoomShareOwner->setShareType(IShare::TYPE_ROOM)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(442);
+
+		$file1RoomShareOwnerExpected = [
+			'id' => 442,
+			'share_type' => IShare::TYPE_ROOM,
+		];
+
+		$file1RemoteShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1RemoteShareOwner->setShareType(IShare::TYPE_REMOTE)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(815);
+
+		$file1RemoteShareOwnerExpected = [
+			'id' => 815,
+			'share_type' => IShare::TYPE_REMOTE,
+		];
+
+		$file1RemoteGroupShareOwner = \OC::$server->getShareManager()->newShare();
+		$file1RemoteGroupShareOwner->setShareType(IShare::TYPE_REMOTE_GROUP)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file1)
+			->setId(816);
+
+		$file1RemoteGroupShareOwnerExpected = [
+			'id' => 816,
+			'share_type' => IShare::TYPE_REMOTE_GROUP,
+		];
+
+		$file2UserShareOwner = \OC::$server->getShareManager()->newShare();
+		$file2UserShareOwner->setShareType(IShare::TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('currentUser')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file2)
+			->setId(823);
+
+		$file2UserShareOwnerExpected = [
+			'id' => 823,
+			'share_type' => IShare::TYPE_USER,
+		];
+
+		$data = [
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareOwner, $file1UserShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1UserShareOwnerExpected,
+					$file1UserShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1UserShareInitiatorExpected,
+					$file1UserShareOtherExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareInitiatorExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareRecipientExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $file1,
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+					IShare::TYPE_REMOTE => true,
+					IShare::TYPE_REMOTE_GROUP => true,
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+					],
+					'file2' => [
+						IShare::TYPE_USER => [$file2UserShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file2UserShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareOwner, $file1UserShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner, $file1UserShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+					'file2' => [
+						IShare::TYPE_USER => [$file2UserShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareInitiatorExpected,
+					$file1UserShareOtherExpected,
+					$file2UserShareOwnerExpected,
+				]
+			],
+			// This might not happen in a real environment, as the combination
+			// of shares does not seem to be possible on a folder without
+			// resharing rights; if the folder has resharing rights then the
+			// share with others would be included too in the results.
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareRecipient, $file1UserShareInitiator, $file1UserShareOther],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareInitiatorExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareRecipient],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareRecipientExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+				]
+			],
+			[
+				[
+					'path' => $folder,
+					'subfiles' => 'true',
+				],
+				[
+					'file1' => [
+						IShare::TYPE_USER => [$file1UserShareOwner],
+						IShare::TYPE_GROUP => [$file1GroupShareOwner],
+						IShare::TYPE_LINK => [$file1LinkShareOwner],
+						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
+						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
+						IShare::TYPE_ROOM => [$file1RoomShareOwner],
+						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+					],
+				],
+				[
+					IShare::TYPE_REMOTE => true,
+					IShare::TYPE_REMOTE_GROUP => true,
+				],
+				[
+					$file1UserShareOwnerExpected,
+					$file1GroupShareOwnerExpected,
+					$file1LinkShareOwnerExpected,
+					$file1EmailShareOwnerExpected,
+					$file1CircleShareOwnerExpected,
+					$file1RoomShareOwnerExpected,
+					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
+				]
+			],
+		];
+
+		return $data;
+	}
+
+	/**
+	 * @dataProvider dataGetShares
+	 */
+	public function testGetShares(array $getSharesParameters, array $shares, array $extraShareTypes, array $expected) {
+		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
+		$ocs = $this->getMockBuilder(ShareAPIController::class)
+			->setConstructorArgs([
+				$this->appName,
+				$this->request,
+				$this->shareManager,
+				$this->groupManager,
+				$this->userManager,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->currentUser,
+				$this->l,
+				$this->config,
+				$this->appManager,
+				$this->serverContainer
+			])->setMethods(['formatShare'])
+			->getMock();
+
+		$ocs->method('formatShare')
+			->will($this->returnCallback(
+				function($share) {
+					return [
+						'id' => $share->getId(),
+						'share_type' => $share->getShareType()
+					];
+				}
+			));
+
+		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$userFolder->method('get')
+			->with('path')
+			->willReturn($getSharesParameters['path']);
+
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$this->shareManager
+			->method('getSharesBy')
+			->will($this->returnCallback(
+				function($user, $shareType, $node) use ($shares) {
+					if (!isset($shares[$node->getName()]) || !isset($shares[$node->getName()][$shareType])) {
+						return [];
+					}
+					return $shares[$node->getName()][$shareType];
+				}
+			));
+
+		$this->shareManager
+			->method('outgoingServer2ServerSharesAllowed')
+			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE] ?? false);
+
+		$this->shareManager
+			->method('outgoingServer2ServerGroupSharesAllowed')
+			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE_GROUP] ?? false);
+
+		$this->groupManager
+			->method('isInGroup')
+			->will($this->returnCallback(
+				function($user, $group) {
+					return $group === 'currentUserGroup';
+				}
+			));
+
+		$result = $ocs->getShares(
+			$getSharesParameters['sharedWithMe'] ?? 'false',
+			$getSharesParameters['reshares'] ?? 'false',
+			$getSharesParameters['subfiles'] ?? 'false',
+			'path'
+		);
+
+		$this->assertEquals($expected, $result->getData());
+	}
+
 	public function testCanAccessShare() {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getShareOwner')->willReturn($this->currentUser);
