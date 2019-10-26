@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "Nomo",
     "Storage type" : "Konserveja tipo",
     "Scope" : "Amplekso",
+    "Open documentation" : "Malfermi la dokumentaron",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ekstera konservejo ebligas al vi surmeti servojn de ekstera konservejo kaj aparatojn, kiel kromajn konservejojn. Vi povas ankaŭ permesi al uzantoj surmeti ilian proprajn eksterajn konservejojn.",
     "Folder name" : "Dosierujnomo",
     "External storage" : "Ekstera konservejo",
