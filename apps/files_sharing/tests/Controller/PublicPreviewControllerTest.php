@@ -39,7 +39,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use Punic\Data;
 use Test\TestCase;
 
 class PublicPreviewControllerTest extends TestCase {
