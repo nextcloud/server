@@ -70,7 +70,15 @@ class SystemConfig {
 						'key' => true,
 						'secret' => true,
 					]
-				]
+				],
+				// S3
+				'key' => true,
+				'secret' => true,
+				// Swift v3
+				'user' => [
+					'name' => true,
+					'password' => true,
+				],
 			],
 		],
 	];
