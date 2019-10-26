@@ -30,6 +30,7 @@ OC.L10N.register(
     "Legal notice" : "Leĝa regularo",
     "Privacy policy" : "Privateca regularo",
     "Adjust the Nextcloud theme" : "Modifi la Nextcloud-etoson",
+    "Open documentation" : "Malfermi la dokumentaron",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Etosoj ebligas facilan ŝanĝon en la fasado de via servilo kaj de subtenataj klientoj. Tion vidos ĉiuj uzantoj.",
     "Name" : "Nomo",
     "Reset to default" : "Restarigi al defaŭltaj agordoj",
