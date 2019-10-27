@@ -27,6 +27,7 @@
     "Operation %s is invalid" : "Operacio %s ne validas",
     "Check %s does not exist" : "Kontrolo %s ne ekzistas",
     "Check %s is invalid" : "Kontrolo %s ne validas",
+    "Check %s is not allowed with this entity" : "La kontrolo %s ne estas permesita kun tiu ento",
     "Check #%s does not exist" : "Kontrolo n-ro %s ne ekzistas",
     "Check %s is invalid or does not exist" : "La kontrolo %s ne validas aŭ ne ekzistas",
     "Workflows" : "Laborfluoj",
