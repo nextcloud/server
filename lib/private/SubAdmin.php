@@ -254,13 +254,22 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		if($this->groupManager->isAdmin($user->getUID())) {
 			return false;
 		}
-		$accessibleGroups = $this->getSubAdminsGroups($subadmin);
-		foreach($accessibleGroups as $accessibleGroup) {
-			if($accessibleGroup->inGroup($user)) {
-				return true;
-			}
-		}
-		return false;
+
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$result = $qb->select('gm.uid')
+			->from('group_admin', 'ga')
+			->join('ga', 'group_admin', 'gm', 'ga.gid = gm.gid')
+			->andWhere($qb->expr()->eq('ga.uid', $qb->createNamedParameter($subadmin->getUID())))
+			->andWhere($qb->expr()->eq('gm.uid', $qb->createNamedParameter($user->getUID())))
+			->setMaxResults(1)
+			->execute();
+		;
+
+		$isUserAccessible = $result->fetch();
+		$result->closeCursor();
+
+		return $isUserAccessible !== false;
 	}
 
 	/**
