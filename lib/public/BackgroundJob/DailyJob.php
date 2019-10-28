@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace OCP\BackgroundJob;
 
-use OCP\ILogger;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 /**
  * @since 18.0.0
@@ -32,22 +32,14 @@ use OCP\ILogger;
  * Base class for a background job that should run once a day as close to
  * midnight as possible
  */
-abstract class DailyJob extends Job {
+abstract class DailyJob extends AtJob {
 
 	/**
 	 * @since 18.0.0
 	 */
-	public function execute($jobList, ILogger $logger = null) {
-		$last = new \DateTime();
-		$last->setTimestamp($this->lastRun);
-		$last->setTime(0,0, 0, 0);
-
-		$now = $this->time->getDateTime();
-		$now->setTime(0,0,0,0);
-
-		$diff = $now->diff($last, true);
-		if ($diff->days >= 1) {
-			parent::execute($jobList, $logger);
-		}
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time, 0, 0);
 	}
+
+
 }
