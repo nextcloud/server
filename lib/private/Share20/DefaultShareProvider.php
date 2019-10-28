@@ -144,9 +144,19 @@ class DefaultShareProvider implements IShareProvider {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
 			$qb->setValue('accepted', $qb->createNamedParameter(IShare::STATUS_PENDING));
+
+			//If an expiration date is set store it
+			if ($share->getExpirationDate() !== null) {
+				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
+			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
+
+			//If an expiration date is set store it
+			if ($share->getExpirationDate() !== null) {
+				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
+			}
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			//set label for public link
 			$qb->setValue('label', $qb->createNamedParameter($share->getLabel()));
