@@ -259,6 +259,8 @@ class Database extends ABackend
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -380,6 +382,8 @@ class Database extends ABackend
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$users = $this->getDisplayNames($search, $limit, $offset);
 		$userIds = array_map(function ($uid) {
 			return (string)$uid;
@@ -485,5 +489,11 @@ class Database extends ABackend
 		return $this->cache[$uid]['uid'];
 	}
 
+	private function fixLimit($limit) {
+		if (is_int($limit) && $limit >= 0) {
+			return $limit;
+		}
 
+		return null;
+	}
 }
