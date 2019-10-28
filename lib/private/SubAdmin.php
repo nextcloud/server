@@ -255,6 +255,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		if ($this->groupManager->isAdmin($user->getUID())) {
 			return false;
 		}
+
 		$accessibleGroups = $this->getSubAdminsGroups($subadmin);
 		foreach ($accessibleGroups as $accessibleGroup) {
 			if ($accessibleGroup->inGroup($user)) {
