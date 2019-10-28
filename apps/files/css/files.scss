@@ -63,6 +63,10 @@
 	}
 }
 
+#filestable.hidden {
+	display: none;
+}
+
 @media only screen and (min-width: $breakpoint-mobile + 1) {
 	#filestable {
 		// floating header
