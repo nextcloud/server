@@ -94,6 +94,7 @@ return array(
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
     'OCP\\BackgroundJob' => $baseDir . '/lib/public/BackgroundJob.php',
+    'OCP\\BackgroundJob\\DailyJob' => $baseDir . '/lib/public/BackgroundJob/DailyJob.php',
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
     'OCP\\BackgroundJob\\IJobList' => $baseDir . '/lib/public/BackgroundJob/IJobList.php',
     'OCP\\BackgroundJob\\Job' => $baseDir . '/lib/public/BackgroundJob/Job.php',
