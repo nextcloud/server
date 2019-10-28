@@ -314,22 +314,12 @@ class User_LDAPTest extends TestCase {
 		$offlineUser->expects($this->once())
 			->method('getHomePath')
 			->willReturn($home);
-		$offlineUser->expects($this->once())
-			->method('getOCName')
-			->willReturn($uid);
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($offlineUser);
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->willReturn($uid);
-
-		$backend->preDeleteUser($user);
 		$result = $backend->deleteUser($uid);
 		$this->assertTrue($result);
 		/** @noinspection PhpUnhandledExceptionInspection */
@@ -836,10 +826,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	
 	public function testGetHomeDeletedUser() {
-		$this->expectException(\OC\User\NoUserException::class);
-
 		$uid = 'newyorker';
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
@@ -869,14 +856,16 @@ class User_LDAPTest extends TestCase {
 			->will($this->returnValue(true));
 
 		$offlineUser = $this->createMock(OfflineUser::class);
-		$offlineUser->expects($this->never())
-			->method('getHomePath');
+		$offlineUser->expects($this->atLeastOnce())
+			->method('getHomePath')
+			->willReturn('');
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($offlineUser);
 
-		$backend->getHome($uid);
+		$result = $backend->getHome($uid);
+		$this->assertFalse($result);
 	}
 
 	public function testGetHomeWithPlugin() {

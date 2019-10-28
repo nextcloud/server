@@ -47,7 +47,6 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
@@ -58,9 +57,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 	/** @var INotificationManager */
 	protected $notificationManager;
-
-	/** @var string */
-	protected $currentUserInDeletionProcess;
 
 	/** @var UserPluginManager */
 	protected $userPluginManager;
@@ -76,20 +72,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
-		$this->registerHooks($userSession);
-	}
-
-	protected function registerHooks(IUserSession $userSession) {
-		$userSession->listen('\OC\User', 'preDelete', [$this, 'preDeleteUser']);
-		$userSession->listen('\OC\User', 'postDelete', [$this, 'postDeleteUser']);
-	}
-
-	public function preDeleteUser(IUser $user) {
-		$this->currentUserInDeletionProcess = $user->getUID();
-	}
-
-	public function postDeleteUser() {
-		$this->currentUserInDeletionProcess = null;
 	}
 
 	/**
@@ -430,21 +412,13 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		// early return path if it is a deleted user
 		$user = $this->access->userManager->get($uid);
-		if($user instanceof OfflineUser) {
-			if($this->currentUserInDeletionProcess !== null
-				&& $this->currentUserInDeletionProcess === $user->getOCName()
-			) {
-				return $user->getHomePath();
-			} else {
-				throw new NoUserException($uid . ' is not a valid user anymore');
-			}
-		} else if ($user === null) {
+		if($user instanceof User || $user instanceof OfflineUser) {
+			$path = $user->getHomePath() ?: false;
+		} else {
 			throw new NoUserException($uid . ' is not a valid user anymore');
 		}
 
-		$path = $user->getHomePath();
 		$this->access->cacheUserHome($uid, $path);
-
 		return $path;
 	}
 
