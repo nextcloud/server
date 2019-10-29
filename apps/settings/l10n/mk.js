@@ -235,7 +235,7 @@ OC.L10N.register(
     "Add group" : "Додади група",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Ќе ја отстраните групата {group}. Корисниците во неа НЕМА да бидат избришани.",
     "Please confirm the group removal " : "Потврди отстранување на група",
-    "An error occured during the request. Unable to proceed." : "Настана грешка во процесот. Не може да продоли.",
+    "An error occured during the request. Unable to proceed." : "Настана грешка во процесот. Не може да продолжи.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Оваа апликација е овозможена но треба да биде надоградена. Ќе бидете пренасочени кон страната за надоградување за 5 секунди.",
     "App update" : "Надградба на апликацијата",
     "Error: This app can not be enabled because it makes the server unstable" : "Грешка: Оваа апликација неможе да се овозможи бидејќи ќе го направи серверот нестабилен",
