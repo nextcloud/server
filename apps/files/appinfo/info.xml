@@ -65,4 +65,8 @@
 		</navigation>
 	</navigations>
 
+	<settings>
+		<personal>OCA\Files\Settings\PersonalSettings</personal>
+	</settings>
+
 </info>
