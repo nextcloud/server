@@ -3,10 +3,10 @@ const path = require('path')
 const merge = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
 
-const core = require('./core/webpack')
-
 const accessibility = require('./apps/accessibility/webpack')
 const comments = require('./apps/comments/webpack')
+const core = require('./core/webpack')
+const files = require('./apps/files/webpack')
 const files_sharing = require('./apps/files_sharing/webpack')
 const files_trashbin = require('./apps/files_trashbin/webpack')
 const files_versions = require('./apps/files_versions/webpack')
@@ -18,14 +18,15 @@ const updatenotifications = require('./apps/updatenotification/webpack')
 const workflowengine = require('./apps/workflowengine/webpack')
 
 const modules = {
-	core,
-	settings,
 	accessibility,
 	comments,
+	core,
+	files,
 	files_sharing,
 	files_trashbin,
 	files_versions,
 	oauth2,
+	settings,
 	systemtags,
 	twofactor_backupscodes,
 	updatenotifications,
@@ -80,7 +81,10 @@ module.exports = []
 				{
 					test: /\.js$/,
 					loader: 'babel-loader',
-					exclude: /node_modules/
+					// automatically detect necessary packages to
+					// transpile in the node_modules folder
+					exclude: /node_modules(?!(\/|\\)(p-finally|p-limit|p-locate|p-queue|p-timeout|p-try)(\/|\\))/
+
 				},
 				{
 					test: /\.(png|jpg|gif)$/,

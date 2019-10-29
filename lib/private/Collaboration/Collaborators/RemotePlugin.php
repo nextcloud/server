@@ -152,10 +152,13 @@ class RemotePlugin implements ISearchPlugin {
 				$localUser = $this->userManager->get($remoteUser);
 				if ($localUser === null || $search !== $localUser->getCloudId()) {
 					$result['exact'][] = [
-						'label' => $search,
+						'label' => $remoteUser . " ($serverUrl)",
+						'uuid' => $remoteUser,
+						'name' => $remoteUser,
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_REMOTE,
 							'shareWith' => $search,
+							'server' => $serverUrl,
 						],
 					];
 				}

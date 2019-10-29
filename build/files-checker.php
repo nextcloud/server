@@ -22,7 +22,6 @@
 $expectedFiles = [
 	'.',
 	'..',
-	'.babelrc.js',
 	'.codecov.yml',
 	'.drone.yml',
 	'.eslintrc.js',
@@ -46,6 +45,7 @@ $expectedFiles = [
 	'autotest-external.sh',
 	'autotest-js.sh',
 	'autotest.sh',
+	'babel.config.js',
 	'build',
 	'CHANGELOG.md',
 	'CODE_OF_CONDUCT.md',
