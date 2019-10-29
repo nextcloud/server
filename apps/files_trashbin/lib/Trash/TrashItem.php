@@ -177,4 +177,16 @@ class TrashItem implements ITrashItem {
 	public function getTitle(): string {
 		return $this->getOriginalLocation();
 	}
+
+	public function getMetadataEtag(): ?string {
+		return $this->fileInfo->getMetadataEtag();
+	}
+
+	public function getCreationTime(): int {
+		return $this->fileInfo->getCreationTime();
+	}
+
+	public function getUploadTime(): int {
+		return $this->fileInfo->getUploadTime();
+	}
 }

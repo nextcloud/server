@@ -268,4 +268,40 @@ interface FileInfo {
 	 * @since 15.0.0
 	 */
 	public function getExtension(): string;
+
+	/**
+	 * Get the metadata etag for the file
+	 *
+	 * Unlike the regular etag, the metadata etag also gets updated on metadata only changes
+	 *
+	 * @return string | null
+	 * @since 18.0.0
+	 */
+	public function getMetadataEtag(): ?string;
+
+	/**
+	 * Get the creation date as unix timestamp
+	 *
+	 * If the creation time is not known, 0 will be returned
+	 *
+	 * creation time is not set automatically by the server and is generally only available
+	 * for files uploaded by the sync clients
+	 *
+	 * @return int
+	 * @since 18.0.0
+	 */
+	public function getCreationTime(): int;
+
+	/**
+	 * Get the upload date as unix timestamp
+	 *
+	 * If the upload time is not known, 0 will be returned
+	 *
+	 * Upload time will be set automatically by the server for files uploaded over DAV
+	 * files created by Nextcloud apps generally do not have an the upload time set
+	 *
+	 * @return int
+	 * @since 18.0.0
+	 */
+	public function getUploadTime(): int;
 }
