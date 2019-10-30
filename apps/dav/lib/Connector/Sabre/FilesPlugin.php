@@ -70,6 +70,9 @@ class FilesPlugin extends ServerPlugin {
 	const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 	const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 	const IS_ENCRYPTED_PROPERTYNAME = '{http://nextcloud.org/ns}is-encrypted';
+	const METADATA_ETAG_PROPERTYNAME = '{http://nextcloud.org/ns}metadata_etag';
+	const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
+	const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 
 	/**
@@ -400,6 +403,14 @@ class FilesPlugin extends ServerPlugin {
 				return new ChecksumList($checksum);
 			});
 
+			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->getCreationTime();
+			});
+
+			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->getUploadTime();
+			});
+
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory) {
@@ -469,6 +480,13 @@ class FilesPlugin extends ServerPlugin {
 				return true;
 			}
 			return false;
+		});
+		$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function($time) use ($node) {
+			if (empty($time)) {
+				return false;
+			}
+			$node->setCreationTime((int) $time);
+			return true;
 		});
 	}
 

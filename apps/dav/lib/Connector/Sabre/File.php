@@ -291,6 +291,19 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$fileInfoUpdate = [
+				'upload_time' => time()
+			];
+
+			// allow sync clients to send the creation time along in a header
+			if (isset($this->request->server['HTTP_X_OC_CTIME'])) {
+				$ctime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_CTIME']);
+				$fileInfoUpdate['creation_time'] = $ctime;
+				$this->header('X-OC-CTime: accepted');
+			}
+
+			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+
 			if ($view) {
 				$this->emitPostHooks($exists);
 			}
