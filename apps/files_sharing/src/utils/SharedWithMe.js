@@ -27,7 +27,7 @@
  * @returns {string} the title
  */
 const shareWithTitle = function(share) {
-	if (share.type === OC.Share.type_GROUP) {
+	if (share.type === OC.Share.SHARE_TYPE_GROUP) {
 		return t(
 			'files_sharing',
 			'Shared with you and the group {group} by {owner}',
@@ -38,7 +38,7 @@ const shareWithTitle = function(share) {
 			undefined,
 			{ escape: false }
 		)
-	} else if (share.type === OC.Share.type_CIRCLE) {
+	} else if (share.type === OC.Share.SHARE_TYPE_CIRCLE) {
 		return t(
 			'files_sharing',
 			'Shared with you and {circle} by {owner}',
@@ -49,7 +49,7 @@ const shareWithTitle = function(share) {
 			undefined,
 			{ escape: false }
 		)
-	} else if (share.type === OC.Share.type_ROOM) {
+	} else if (share.type === OC.Share.SHARE_TYPE_ROOM) {
 		if (this.model.get('reshare').share_with_displayname) {
 			return t(
 				'files_sharing',
