@@ -19,21 +19,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-// Check if we are a user
-OCP\User::checkLoggedIn();
+use OCA\Files\Event\LoadSidebar;
+use OCP\Template;
+use OCP\User;
+use OCP\Util;
+
 $config = \OC::$server->getConfig();
+$eventDispatcher = \OC::$server->getEventDispatcher();
 $userSession = \OC::$server->getUserSession();
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
-$isIE = \OCP\Util::isIE();
+// Check if we are a user
+User::checkLoggedIn();
 
-$tmpl = new OCP\Template('files_sharing', 'list', '');
+// various configs
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$isIE = Util::isIE();
+
+// template
+$tmpl = new Template('files_sharing', 'list', '');
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 
-OCP\Util::addScript('files_sharing', 'dist/files_sharing');
-OCP\Util::addScript('files_sharing', 'dist/files_sharing_tab');
-\OC::$server->getEventDispatcher()->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+Util::addScript('files_sharing', 'dist/files_sharing');
+$eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+$eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
 
+// print output
 $tmpl->printPage();

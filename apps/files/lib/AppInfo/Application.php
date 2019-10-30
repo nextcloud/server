@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,25 +25,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files\AppInfo;
 
-use OCA\Files\Activity\Helper;
+use OCA\Files\Service\TagService;
+use OCP\IContainer;
+use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
+use OCA\Files\Listener\LoadSidebarScript;
 use OCP\AppFramework\App;
-use \OCA\Files\Service\TagService;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use \OCP\IContainer;
-use OCA\Files\Controller\ViewController;
-use OCA\Files\Capabilities;
 
 class Application extends App {
-	public function __construct(array $urlParams=array()) {
-		parent::__construct('files', $urlParams);
+
+	const appID = 'files';
+
+	public function __construct(array $urlParams = []) 	{
+
+		parent::__construct(self::appID, $urlParams);
+
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
@@ -65,7 +72,7 @@ class Application extends App {
 		/**
 		 * Services
 		 */
-		$container->registerService('TagService', function(IContainer $c) use ($server) {
+		$container->registerService('TagService', function (IContainer $c) use ($server) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),
@@ -89,8 +96,12 @@ class Application extends App {
 		$resourceManager->registerResourceProvider(ResourceProvider::class);
 		Listener::register($server->getEventDispatcher());
 
+		/**
+		 * Register Events listeners
+		 */
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = $container->query(IEventDispatcher::class);
-		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+		$eventDispatcher = $container->query(IEventDispatcher::class);
+		$eventDispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+		$eventDispatcher->addServiceListener(LoadSidebar::class, LoadSidebarScript::class);
 	}
 }

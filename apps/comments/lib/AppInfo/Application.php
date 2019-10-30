@@ -34,12 +34,14 @@ use OCP\AppFramework\App;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 
+	const appID = 'comments';
+
 	public function __construct (array $urlParams = array()) {
-		parent::__construct('comments', $urlParams);
+		parent::__construct(self::appID, $urlParams);
+
 		$container = $this->getContainer();
 
 		$container->registerAlias('NotificationsController', Notifications::class);
@@ -51,22 +53,24 @@ class Application extends App {
 	public function register() {
 		$server = $this->getContainer()->getServer();
 
-		/** @var IEventDispatcher $newDispatcher */
-		$dispatcher = $server->query(IEventDispatcher::class);
-		$this->registerSidebarScripts($dispatcher);
-		$this->registerDavEntity($dispatcher);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $server->query(IEventDispatcher::class);
+
+		$this->registerSidebarScripts($eventDispatcher);
+		$this->registerDavEntity($eventDispatcher);
 		$this->registerNotifier();
 		$this->registerCommentsEventHandler();
 
 		$server->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
 	}
 
-	protected function registerSidebarScripts(IEventDispatcher $dispatcher) {
-		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
+	protected function registerSidebarScripts(IEventDispatcher $eventDispatcher) {
+		$eventDispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
+		$eventDispatcher->addServiceListener(LoadSidebar::class, LoadSidebarScript::class);
 	}
 
-	protected function registerDavEntity(IEventDispatcher $dispatcher) {
-		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
+	protected function registerDavEntity(IEventDispatcher $eventDispatcher) {
+		$eventDispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
 			$event->addEntityCollection('files', function($name) {
 				$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 				return !empty($nodes);

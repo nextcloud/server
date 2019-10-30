@@ -32,8 +32,11 @@ use OCP\AppFramework\IAppContainer;
 use OCA\Files_Versions\Capabilities;
 
 class Application extends App {
+
+	const appID = 'files_versions';
+
 	public function __construct(array $urlParams = array()) {
-		parent::__construct('files_versions', $urlParams);
+		parent::__construct(self::appID, $urlParams);
 
 		$container = $this->getContainer();
 
