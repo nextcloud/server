@@ -3685,6 +3685,57 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($expected['users'], $result['users']);
 
 	}
+
+	public function testGetAllShares() {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$this->l10nFactory,
+			$factory,
+			$this->userManager,
+			$this->rootFolder,
+			$this->eventDispatcher,
+			$this->mailer,
+			$this->urlGenerator,
+			$this->defaults
+		);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$share1 = $this->createMock(IShare::class);
+		$share2 = $this->createMock(IShare::class);
+		$share3 = $this->createMock(IShare::class);
+		$share4 = $this->createMock(IShare::class);
+
+		$this->defaultProvider->method('getAllShares')
+			->willReturnCallback(function() use ($share1, $share2) {
+				yield $share1;
+				yield $share2;
+			});
+		$extraProvider->method('getAllShares')
+			->willReturnCallback(function() use ($share3, $share4) {
+				yield $share3;
+				yield $share4;
+			});
+
+		// "yield from", used in "getAllShares()", does not reset the keys, so
+		// "use_keys" has to be disabled to collect all the values while
+		// ignoring the keys returned by the generator.
+		$result = iterator_to_array($manager->getAllShares(), $use_keys = false);
+
+		$expects = [$share1, $share2, $share3, $share4];
+
+		$this->assertSame($expects, $result);
+	}
 }
 
 class DummyFactory implements IProviderFactory {
