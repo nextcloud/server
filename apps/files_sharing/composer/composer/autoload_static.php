@@ -59,6 +59,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Sharing\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Files_Sharing\\ISharedStorage' => __DIR__ . '/..' . '/../lib/ISharedStorage.php',
+        'OCA\\Files_Sharing\\Listener\\LoadSidebarScript' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarScript.php',
         'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/OCSShareAPIMiddleware.php',
         'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareInfoMiddleware.php',
         'OCA\\Files_Sharing\\Middleware\\SharingCheckMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SharingCheckMiddleware.php',
