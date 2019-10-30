@@ -393,6 +393,7 @@ interface IManager {
 	 * be fully itterated.
 	 *
 	 * @return iterable
+	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
 
