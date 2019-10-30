@@ -484,13 +484,6 @@ class LazyRoot implements IRootFolder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMetadataEtag(): ?string {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getCreationTime(): int {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}

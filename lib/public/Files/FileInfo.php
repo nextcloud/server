@@ -270,16 +270,6 @@ interface FileInfo {
 	public function getExtension(): string;
 
 	/**
-	 * Get the metadata etag for the file
-	 *
-	 * Unlike the regular etag, the metadata etag also gets updated on metadata only changes
-	 *
-	 * @return string | null
-	 * @since 18.0.0
-	 */
-	public function getMetadataEtag(): ?string;
-
-	/**
 	 * Get the creation date as unix timestamp
 	 *
 	 * If the creation time is not known, 0 will be returned

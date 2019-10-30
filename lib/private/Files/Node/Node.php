@@ -444,10 +444,6 @@ class Node implements \OCP\Files\Node {
 		}
 	}
 
-	public function getMetadataEtag(): ?string {
-		return $this->getFileInfo()->getMetadataEtag();
-	}
-
 	public function getCreationTime(): int {
 		return $this->getFileInfo()->getCreationTime();
 	}
