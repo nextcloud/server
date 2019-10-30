@@ -30,6 +30,7 @@ use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Notification\Notifier;
 use OCA\Comments\Search\Provider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\EventDispatcher\IEventDispatcher;
