@@ -88,8 +88,8 @@ class Movie extends ProviderV2 {
 		if ($returnCode === 0) {
 			$image = new \OC_Image();
 			$image->loadFromFile($tmpPath);
-			unlink($tmpPath);
 			if ($image->valid()) {
+				unlink($tmpPath);
 				$image->scaleDownToFit($maxX, $maxY);
 
 				return $image;
