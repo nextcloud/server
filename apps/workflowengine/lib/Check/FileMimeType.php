@@ -83,7 +83,7 @@ class FileMimeType extends AbstractStringCheck {
 	 * @param string $mimeType
 	 * @return string
 	 */
-	protected function cacheAndReturnMimeType(string $storageId, string $path, string $mimeType): string {
+	protected function cacheAndReturnMimeType(string $storageId, $path, string $mimeType): string {
 		if ($path !== null && $this->storage->file_exists($path)) {
 			$this->mimeType[$storageId][$path] = $mimeType;
 		}
