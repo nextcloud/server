@@ -548,8 +548,14 @@ class Cache implements ICache {
 	 * @throws \OC\DatabaseException
 	 */
 	private function removeChildren(ICacheEntry $entry) {
-		$subFolders = $this->getSubFolders($entry);
-		foreach ($subFolders as $folder) {
+		$children = $this->getFolderContentsById($entry->getId());
+		$childIds = array_map(function(ICacheEntry $cacheEntry) {
+			return $cacheEntry->getId();
+		}, $children);
+		$childFolders = array_filter($children, function ($child) {
+			return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
+		});
+		foreach ($childFolders as $folder) {
 			$this->removeChildren($folder);
 		}
 
@@ -560,7 +566,7 @@ class Cache implements ICache {
 
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache_extended')
-			->whereParent($entry->getId());
+			->where($query->expr()->in('fileid', $query->createNamedParameter($childIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		$query->execute();
 	}
 

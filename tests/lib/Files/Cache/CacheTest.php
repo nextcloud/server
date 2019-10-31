@@ -773,6 +773,8 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(0, $entry->getCreationTime());
 		$this->assertEquals(25, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$this->cache->remove("sub");
 	}
 
 	protected function tearDown() {
