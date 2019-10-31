@@ -217,4 +217,13 @@ interface IShareProvider {
 	 * @since 12
 	 */
 	public function getAccessList($nodes, $currentAccess);
+
+	/**
+	 * Get all the shares in this provider returned as iterable to reduce memory
+	 * overhead
+	 *
+	 * @return iterable
+	 * @since 18.0.0
+	 */
+	public function getAllShares(): iterable;
 }

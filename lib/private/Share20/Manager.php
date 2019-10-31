@@ -1671,4 +1671,11 @@ class Manager implements IManager {
 		return true;
 	}
 
+	public function getAllShares(): iterable {
+		$providers = $this->factory->getAllProviders();
+
+		foreach ($providers as $provider) {
+			yield from $provider->getAllShares();
+		}
+	}
 }

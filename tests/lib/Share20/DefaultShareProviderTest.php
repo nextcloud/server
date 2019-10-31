@@ -2742,4 +2742,169 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$u5->delete();
 		$g1->delete();
 	}
+
+	public function testGetAllShares() {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'  => $qb->expr()->literal('sharedWith1'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner1'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy1'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget1'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$qb->execute();
+
+		$id1 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'  => $qb->expr()->literal('sharedWith2'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner2'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy2'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(43),
+				'file_target' => $qb->expr()->literal('myTarget2'),
+				'permissions' => $qb->expr()->literal(14),
+			]);
+		$qb->execute();
+
+		$id2 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'token'  => $qb->expr()->literal('token3'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner3'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy3'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(44),
+				'file_target' => $qb->expr()->literal('myTarget3'),
+				'permissions' => $qb->expr()->literal(15),
+			]);
+		$qb->execute();
+
+		$id3 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_EMAIL),
+				'share_with'  => $qb->expr()->literal('shareOwner4'),
+				'token'  => $qb->expr()->literal('token4'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner4'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy4'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(45),
+				'file_target' => $qb->expr()->literal('myTarget4'),
+				'permissions' => $qb->expr()->literal(16),
+			]);
+		$qb->execute();
+
+		$id4 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'token'  => $qb->expr()->literal('token5'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner5'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy5'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(46),
+				'file_target' => $qb->expr()->literal('myTarget5'),
+				'permissions' => $qb->expr()->literal(17),
+			]);
+		$qb->execute();
+
+		$id5 = $qb->getLastInsertId();
+
+		$ownerPath1 = $this->createMock(File::class);
+		$shareOwner1Folder = $this->createMock(Folder::class);
+		$shareOwner1Folder->method('getById')->willReturn([$ownerPath1]);
+
+		$ownerPath2 = $this->createMock(File::class);
+		$shareOwner2Folder = $this->createMock(Folder::class);
+		$shareOwner2Folder->method('getById')->willReturn([$ownerPath2]);
+
+		$ownerPath3 = $this->createMock(File::class);
+		$shareOwner3Folder = $this->createMock(Folder::class);
+		$shareOwner3Folder->method('getById')->willReturn([$ownerPath3]);
+
+		$ownerPath4 = $this->createMock(File::class);
+		$shareOwner4Folder = $this->createMock(Folder::class);
+		$shareOwner4Folder->method('getById')->willReturn([$ownerPath4]);
+
+		$ownerPath5 = $this->createMock(File::class);
+		$shareOwner5Folder = $this->createMock(Folder::class);
+		$shareOwner5Folder->method('getById')->willReturn([$ownerPath5]);
+
+		$this->rootFolder
+			->method('getUserFolder')
+			->will($this->returnValueMap(
+				[
+					['shareOwner1', $shareOwner1Folder],
+					['shareOwner2', $shareOwner2Folder],
+					['shareOwner3', $shareOwner3Folder],
+					['shareOwner4', $shareOwner4Folder],
+					['shareOwner5', $shareOwner5Folder],
+				]
+			));
+
+		$shares = iterator_to_array($this->provider->getAllShares());
+		$this->assertEquals(4, count($shares));
+
+		$share = $shares[0];
+
+		// We fetch the node so the root folder is eventually called
+
+		$this->assertEquals($id1, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals('sharedWith1', $share->getSharedWith());
+		$this->assertEquals('sharedBy1', $share->getSharedBy());
+		$this->assertEquals('shareOwner1', $share->getShareOwner());
+		$this->assertEquals($ownerPath1, $share->getNode());
+		$this->assertEquals(13, $share->getPermissions());
+		$this->assertEquals(null, $share->getToken());
+		$this->assertEquals('myTarget1', $share->getTarget());
+
+		$share = $shares[1];
+
+		$this->assertEquals($id2, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals('sharedWith2', $share->getSharedWith());
+		$this->assertEquals('sharedBy2', $share->getSharedBy());
+		$this->assertEquals('shareOwner2', $share->getShareOwner());
+		$this->assertEquals($ownerPath2, $share->getNode());
+		$this->assertEquals(14, $share->getPermissions());
+		$this->assertEquals(null, $share->getToken());
+		$this->assertEquals('myTarget2', $share->getTarget());
+
+		$share = $shares[2];
+
+		$this->assertEquals($id3, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
+		$this->assertEquals(null, $share->getSharedWith());
+		$this->assertEquals('sharedBy3', $share->getSharedBy());
+		$this->assertEquals('shareOwner3', $share->getShareOwner());
+		$this->assertEquals($ownerPath3, $share->getNode());
+		$this->assertEquals(15, $share->getPermissions());
+		$this->assertEquals('token3', $share->getToken());
+		$this->assertEquals('myTarget3', $share->getTarget());
+
+		$share = $shares[3];
+
+		$this->assertEquals($id5, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
+		$this->assertEquals(null, $share->getSharedWith());
+		$this->assertEquals('sharedBy5', $share->getSharedBy());
+		$this->assertEquals('shareOwner5', $share->getShareOwner());
+		$this->assertEquals($ownerPath5, $share->getNode());
+		$this->assertEquals(17, $share->getPermissions());
+		$this->assertEquals('token5', $share->getToken());
+		$this->assertEquals('myTarget5', $share->getTarget());
+	}
 }
