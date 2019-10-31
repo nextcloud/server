@@ -152,7 +152,9 @@ class TrashbinTest extends \Test\TestCase {
 	 */
 	public function testExpireOldFiles() {
 
-		$currentTime = time();
+		/** @var \OCP\AppFramework\Utility\ITimeFactory $time */
+		$time = \OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class);
+		$currentTime = $time->getTime();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
 
