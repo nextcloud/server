@@ -292,14 +292,16 @@ class Cache implements ICache {
 			if ($builder->execute()) {
 				$fileId = $builder->getLastInsertId();
 
-				$query = $this->getQueryBuilder();
-				$query->insert('filecache_extended');
+				if (count($extensionValues)) {
+					$query = $this->getQueryBuilder();
+					$query->insert('filecache_extended');
 
-				$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
-				foreach ($extensionValues as $column => $value) {
-					$query->setValue($column, $query->createNamedParameter($value));
+					$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+					foreach ($extensionValues as $column => $value) {
+						$query->setValue($column, $query->createNamedParameter($value));
+					}
+					$query->execute();
 				}
-				$query->execute();
 
 				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId));
 				return $fileId;
@@ -357,21 +359,33 @@ class Cache implements ICache {
 		}
 
 		if (count($extensionValues)) {
-			$query = $this->getQueryBuilder();
-			$query->update('filecache_extended')
-				->whereFileId($id)
-				->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
-					return $query->expr()->orX(
-						$query->expr()->neq($key, $query->createNamedParameter($value)),
-						$query->expr()->isNull($key)
-					);
-				}, array_keys($extensionValues), array_values($extensionValues))));
+			try {
+				$query = $this->getQueryBuilder();
+				$query->insert('filecache_extended');
 
-			foreach ($extensionValues as $key => $value) {
-				$query->set($key, $query->createNamedParameter($value));
+				$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
+				foreach ($extensionValues as $column => $value) {
+					$query->setValue($column, $query->createNamedParameter($value));
+				}
+
+				$query->execute();
+			} catch (UniqueConstraintViolationException $e) {
+				$query = $this->getQueryBuilder();
+				$query->update('filecache_extended')
+					->whereFileId($id)
+					->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
+						return $query->expr()->orX(
+							$query->expr()->neq($key, $query->createNamedParameter($value)),
+							$query->expr()->isNull($key)
+						);
+					}, array_keys($extensionValues), array_values($extensionValues))));
+
+				foreach ($extensionValues as $key => $value) {
+					$query->set($key, $query->createNamedParameter($value));
+				}
+
+				$query->execute();
 			}
-
-			$query->execute();
 		}
 
 		$path = $this->getPathById($id);
