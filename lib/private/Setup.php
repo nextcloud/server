@@ -547,7 +547,7 @@ class Setup {
 		$content .= "  Require all denied\n";
 		$content .= "</IfModule>\n";
 		$content .= "<IfModule mod_access_compat.c>\n";
-		$content .= "  Order Allow,Deny";
+		$content .= "  Order Allow,Deny\n";
 		$content .= "  Deny from all\n";
 		$content .= "  Satisfy All\n";
 		$content .= "</IfModule>\n\n";
@@ -555,7 +555,7 @@ class Setup {
 		$content .= "<IfModule !mod_authz_core.c>\n";
 		$content .= "  <IfModule !mod_access_compat.c>\n";
 		$content .= "    <IfModule mod_authz_host.c>\n";
-		$content .= "      Order Allow,Deny";
+		$content .= "      Order Allow,Deny\n";
 		$content .= "      Deny from all\n";
 		$content .= "    <IifModule>\n";
 		$content .= "    Satisfy All\n";
