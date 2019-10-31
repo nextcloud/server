@@ -674,7 +674,10 @@ table tr.summary td {
 	padding-top: 20px;
 }
 .summary .info {
-	margin-left: 35px; /* td has padding of 15, col width is 50 */
+	margin-left: 2px;
+}
+.hiddeninfo {
+	white-space: pre-line;
 }
 
 table.dragshadow {
