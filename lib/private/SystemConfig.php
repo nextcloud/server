@@ -64,7 +64,7 @@ class SystemConfig {
 		],
 		'objectstore' => [
 			'arguments' => [
-				// @Todo: Is this still valid?
+				// Legacy Swift (https://github.com/nextcloud/server/pull/17696#discussion_r341302207)
 				'options' => [
 					'credentials' => [
 						'key' => true,
