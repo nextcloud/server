@@ -96,9 +96,10 @@ class MountProvider implements IMountProvider {
 				/** @var \OCP\Share\IShare $parentShare */
 				$parentShare = $share[0];
 
-				if (($parentShare->getShareType() === IShare::TYPE_GROUP ||
-					$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
-					$parentShare->getShareType() === IShare::TYPE_USER) && $parentShare->getStatus() !== IShare::STATUS_ACCEPTED) {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
+					($parentShare->getShareType() === IShare::TYPE_GROUP ||
+						$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
+						$parentShare->getShareType() === IShare::TYPE_USER)) {
 					continue;
 				}
 
@@ -192,6 +193,7 @@ class MountProvider implements IMountProvider {
 			$superShare->setId($shares[0]->getId())
 				->setShareOwner($shares[0]->getShareOwner())
 				->setNodeId($shares[0]->getNodeId())
+				->setShareType($shares[0]->getShareType())
 				->setTarget($shares[0]->getTarget());
 
 			// use most permissive permissions
