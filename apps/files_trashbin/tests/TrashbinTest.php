@@ -67,7 +67,7 @@ class TrashbinTest extends \Test\TestCase {
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		$application = new \OCA\Files_Sharing\AppInfo\Application();
+		$application = \OC::$server->query(\OCA\Files_Sharing\AppInfo\Application::class);
 		$application->registerMountProviders();
 
 		//disable encryption
