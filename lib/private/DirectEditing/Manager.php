@@ -88,7 +88,9 @@ class Manager implements IManager {
 				$templates = $creator->getTemplates();
 			}
 		}
-		return $templates;
+		$return = [];
+		$return['templates'] =  $templates;
+		return $return;
 	}
 
 	public function create(string $path, string $editorId, string $creatorId, $templateId = null): string {
