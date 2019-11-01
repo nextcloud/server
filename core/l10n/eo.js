@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "Aliro al konto",
     "You are about to grant %1$s access to your %2$s account." : "Vi tuj donos permeson al %1$s aliri al via konto %2$s.",
     "Account connected" : "Konto konektita",
-    "Your client should now be connected! You can close this window." : "Via kliento estas konektita! Vi povas fermi tiun fenestron.",
     "This share is password-protected" : "Tiu kunhavigo estas protektata per pasvorto",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
     "Two-factor authentication" : "Dufaza aŭtentigo",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Kiam oni uzas la surtablan programon por sinkronigi la dosierojn, SQLite-uzo estas malrekomendita.",
     "Wrong password." : "Neĝusta pasvorto.",
     "New Password" : "Nova pasvorto",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "La ligilo por restarigi vian pasvorton estis sendita al via retpoŝtadreso. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon.<br>Se ĝi ne estas tie, pridemandu vian administranton."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "La ligilo por restarigi vian pasvorton estis sendita al via retpoŝtadreso. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon.<br>Se ĝi ne estas tie, pridemandu vian administranton.",
+    "Your client should now be connected! You can close this window." : "Via kliento estas konektita! Vi povas fermi tiun fenestron."
 },
 "nplurals=2; plural=(n != 1);");

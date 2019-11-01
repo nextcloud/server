@@ -365,7 +365,8 @@ OC.L10N.register(
     "Account access" : "Accès au compte",
     "You are about to grant %1$s access to your %2$s account." : "Vous êtes sur le point d'accorder à \"%1$s\" l'accès à votre compte \"%2$s\".",
     "Account connected" : "Compte connecté",
-    "Your client should now be connected! You can close this window." : "Votre client devrait maintenant être connecté ! Vous pouvez fermer cette fenêtre.",
+    "Your client should now be connected!" : "Votre client devrait maintenant être connecté !",
+    "You can close this window." : "Vous pouvez fermer cette fenêtre.",
     "This share is password-protected" : "Ce partage est protégé par mot de passe",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "Two-factor authentication" : "Second facteur d'authentification",
@@ -414,6 +415,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "En particulier si vous utilisez le client de bureau pour synchroniser vos données, l'utilisation de SQLite est déconseillée.",
     "Wrong password." : "Mot de passe incorrect.",
     "New Password" : "Nouveau mot de passe",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Nous avons envoyé un e-mail de réinitialisation de mot de passe à l'adresse e-mail que nous connaissons pour ce compte. Si vous ne le recevez pas dans un délai raisonnable, vérifiez vos dossiers de courrier indésirable/pourriel/spam.<br>S'il n'est pas présent, demandez à votre administrateur local."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Nous avons envoyé un e-mail de réinitialisation de mot de passe à l'adresse e-mail que nous connaissons pour ce compte. Si vous ne le recevez pas dans un délai raisonnable, vérifiez vos dossiers de courrier indésirable/pourriel/spam.<br>S'il n'est pas présent, demandez à votre administrateur local.",
+    "Your client should now be connected! You can close this window." : "Votre client devrait maintenant être connecté ! Vous pouvez fermer cette fenêtre."
 },
 "nplurals=2; plural=(n > 1);");

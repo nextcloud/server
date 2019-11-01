@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "账户访问",
     "You are about to grant %1$s access to your %2$s account." : "您正在授权 %1$s 访问您的 %2$s 账户。",
     "Account connected" : "账号已连接",
-    "Your client should now be connected! You can close this window." : "您的客户端现在应该可以连接了！您可以关闭这个窗口。",
     "This share is password-protected" : "这个共享是被密码保护的",
     "The password is wrong. Try again." : "密码错误。请重试。",
     "Two-factor authentication" : "两步验证",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特别当使用桌面客户端来同步文件时，不鼓励使用 SQLite。",
     "Wrong password." : "密码错误。",
     "New Password" : "新密码",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "我们已将密码重置电子邮件发送到我们已知道的此帐户的电子邮件地址。 如果您未在合理的时间内收到，请检查您的垃圾邮件/垃圾邮件文件夹。<br> 如果不存在，请咨询管理员。"
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "我们已将密码重置电子邮件发送到我们已知道的此帐户的电子邮件地址。 如果您未在合理的时间内收到，请检查您的垃圾邮件/垃圾邮件文件夹。<br> 如果不存在，请咨询管理员。",
+    "Your client should now be connected! You can close this window." : "您的客户端现在应该可以连接了！您可以关闭这个窗口。"
 },
 "nplurals=1; plural=0;");

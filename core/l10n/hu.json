@@ -362,7 +362,6 @@
     "Account access" : "Fiók hozzáférés",
     "You are about to grant %1$s access to your %2$s account." : "Hozzáférést készülsz biztosítani neki:  %1$sehhez a fiókodhoz: %2$s.",
     "Account connected" : "Fiók csatlakoztatva",
-    "Your client should now be connected! You can close this window." : "Az ügyfél már csatlakozhatott! Bezárhatod ezt az ablakot.",
     "This share is password-protected" : "Ez a megosztás jelszóval védett",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Two-factor authentication" : "Kétfaktoros hitelesítés",
@@ -410,6 +409,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Amikor az asztali klienset használja fálj szinkronizációra, akkor az SQLite használata nem ajánlott.",
     "Wrong password." : "Hibás jelszó.",
     "New Password" : "Új jelszó",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Egy jelszó visszaállítási e-mailt küldtünk a fiókban megadott e-mail címre. Ha nem kapja meg belátható időn belül, akkor ellenőrizze a levélszemét mappát.<br>Ha ott sincs, akkor kérdezze meg a helyi rendszergazdát."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Egy jelszó visszaállítási e-mailt küldtünk a fiókban megadott e-mail címre. Ha nem kapja meg belátható időn belül, akkor ellenőrizze a levélszemét mappát.<br>Ha ott sincs, akkor kérdezze meg a helyi rendszergazdát.",
+    "Your client should now be connected! You can close this window." : "Az ügyfél már csatlakozhatott! Bezárhatod ezt az ablakot."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

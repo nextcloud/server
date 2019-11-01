@@ -350,7 +350,6 @@ OC.L10N.register(
     "Account access" : "Konto adgang",
     "You are about to grant %1$s access to your %2$s account." : "Du er ved at tildele %1$s adgang til din %2$s konto.",
     "Account connected" : "Kontoen er tilknyttet",
-    "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",
     "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
     "Two-factor authentication" : "To-faktor autentificering",
@@ -395,6 +394,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Brug af SQLite frarådes især når skrivebordsklienten anvendes til filsynkronisering.",
     "Wrong password." : "Forkert kodeord.",
     "New Password" : "Ny adgangskode",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "En e-post til at nulstille dit kodeord er blevet sendt til e-postadressen for denne konto. Hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis den ikke er der, så spørg din lokale administrator."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "En e-post til at nulstille dit kodeord er blevet sendt til e-postadressen for denne konto. Hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis den ikke er der, så spørg din lokale administrator.",
+    "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue"
 },
 "nplurals=2; plural=(n != 1);");
