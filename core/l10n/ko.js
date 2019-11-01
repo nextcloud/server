@@ -349,7 +349,6 @@ OC.L10N.register(
     "Account access" : "계정 접근",
     "You are about to grant %1$s access to your %2$s account." : "%1$s에서 내 %2$s 계정에 접근하는 것을 허용하려고 합니다.",
     "Account connected" : "계정 연결됨",
-    "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다.",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다.",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
     "Two-factor authentication" : "2단계 인증",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "특히 파일 동기화를 위해 데스크톱 클라이언트를 사용할 예정이면 SQLite를 사용하지 않는 것이 좋습니다.",
     "Wrong password." : "암호가 잘못되었습니다.",
     "New Password" : "새 암호",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "암호 재설정 링크를 이 계정에 연결된 이메일 주소로 보냈습니다. 일정 시간이 지난 후에도 이메일을 받지 못했다면 스팸 메일함을 확인해 보십시오.<br>스팸 메일함에도 링크가 없다면 시스템 관리자에게 문의하십시오."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "암호 재설정 링크를 이 계정에 연결된 이메일 주소로 보냈습니다. 일정 시간이 지난 후에도 이메일을 받지 못했다면 스팸 메일함을 확인해 보십시오.<br>스팸 메일함에도 링크가 없다면 시스템 관리자에게 문의하십시오.",
+    "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다."
 },
 "nplurals=1; plural=0;");

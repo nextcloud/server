@@ -321,7 +321,7 @@ OC.L10N.register(
     "Sharing" : "Paylaşım",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Yönetici olarak paylaşma davranışı ile ilgili ince ayarları yapabilirsiniz. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Allow apps to use the Share API" : "Uygulamalar Paylaşım API kullanabilsin",
-    "Allow users to share via link" : "Kullanıcıların bağlantı ile paylaşabilsin",
+    "Allow users to share via link" : "Kullanıcılar bağlantı ile paylaşabilsin",
     "Allow public uploads" : "Herkes yükleyebilsin",
     "Always ask for a password" : "Her zaman parola sorulsun",
     "Enforce password protection" : "Parola koruması dayatılsın",

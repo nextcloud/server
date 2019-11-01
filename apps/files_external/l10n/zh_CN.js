@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "名称",
     "Storage type" : "存储类型",
     "Scope" : "适用范围",
+    "Open documentation" : "打开文档",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "外部存储插件允许挂载外部的存储服务作为 Nextcloud 的辅助存储设备。您可以设置是否允许挂载用户自己的外部存储服务。",
     "Folder name" : "目录名称",
     "External storage" : "外部存储",

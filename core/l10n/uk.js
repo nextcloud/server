@@ -302,7 +302,6 @@ OC.L10N.register(
     "Account access" : "Доступ до облікового запису",
     "You are about to grant %1$s access to your %2$s account." : "Ви збираєтесь надати %1$s доступ до свого облікового запису %2$s.",
     "Account connected" : "Обліковий запис під’єднано",
-    "Your client should now be connected! You can close this window." : "Тепер ваш клієнт під’єднано. Ви можете закрити це вікно.",
     "This share is password-protected" : "Доступ до цього ресурсу захищений паролем",
     "The password is wrong. Try again." : "Пароль неправильний. Спробуйте ще раз.",
     "Two-factor authentication" : "Двофакторна аутентифікація",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Використання SQLite особливо не рекомендується при синхронізації файлів з використанням клієнта для ПК.",
     "Wrong password." : "Невірний пароль.",
     "New Password" : "Новий пароль",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Посилання для скидання вашого паролю було надіслано на ваш email. Якщо ви не отримали його найближчим часом, перевірте теку зі спамом.<br>Якщо і там немає, спитайте вашого місцевого адміністратора."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Посилання для скидання вашого паролю було надіслано на ваш email. Якщо ви не отримали його найближчим часом, перевірте теку зі спамом.<br>Якщо і там немає, спитайте вашого місцевого адміністратора.",
+    "Your client should now be connected! You can close this window." : "Тепер ваш клієнт під’єднано. Ви можете закрити це вікно."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

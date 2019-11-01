@@ -348,7 +348,6 @@
     "Account access" : "Aðgangur að notandaaðgangi",
     "You are about to grant %1$s access to your %2$s account." : "Þú ert að fara að leyfa \"%1$s\" aðgang að %2$s notandaaðgangnum þínum.",
     "Account connected" : "Aðgangur er tengdur",
-    "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga.",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
     "Two-factor authentication" : "Tveggja-þrepa auðkenning",
@@ -396,6 +395,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Sérstaklega þegar verið er að nota skjáborðsforritið til að samræma skrár, þá er ekki mælt með notkun SQLite.",
     "Wrong password." : "Rangt lykilorð.",
     "New Password" : "Nýtt lykilorð",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Tengillinn til að endurstilla lykilorðið þitt hefur verið sendur á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá ruslpóstmöppuna.<br>Ef hann er ekki þar, spurðu þá kerfisstjórann þinn."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Tengillinn til að endurstilla lykilorðið þitt hefur verið sendur á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá ruslpóstmöppuna.<br>Ef hann er ekki þar, spurðu þá kerfisstjórann þinn.",
+    "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

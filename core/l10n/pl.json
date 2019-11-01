@@ -363,7 +363,6 @@
     "Account access" : "Dostęp do konta",
     "You are about to grant %1$s access to your %2$s account." : "Zamierzasz udzielić dostępu do swojego konta %2$s dla %1$s.",
     "Account connected" : "Połączono z kontem",
-    "Your client should now be connected! You can close this window." : "Aplikacja kliencka powinna być już połączona! Można zamknąć to okno.",
     "This share is password-protected" : "Współdzielenie jest zabezpieczone hasłem",
     "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
     "Two-factor authentication" : "Uwierzytelnianie dwuskładnikowe",
@@ -412,6 +411,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Zwłaszcza przy korzystaniu z klienta desktopowego do synchronizacji plików nie zaleca się używania SQLite.",
     "Wrong password." : "Złe hasło.",
     "New Password" : "Nowe hasło",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wysłaliśmy wiadomość dotyczącą resetowania hasła na adres e-mail przypisany dla tego konta. Jeśli nie otrzymasz go w rozsądnym czasie, sprawdź katalog ze spamem i kosz.<br>Jeśli nie, skontaktuj się z lokalnym administratorem."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wysłaliśmy wiadomość dotyczącą resetowania hasła na adres e-mail przypisany dla tego konta. Jeśli nie otrzymasz go w rozsądnym czasie, sprawdź katalog ze spamem i kosz.<br>Jeśli nie, skontaktuj się z lokalnym administratorem.",
+    "Your client should now be connected! You can close this window." : "Aplikacja kliencka powinna być już połączona! Można zamknąć to okno."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

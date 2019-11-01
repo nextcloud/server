@@ -353,7 +353,6 @@
     "Account access" : "Acesso a conta",
     "You are about to grant %1$s access to your %2$s account." : "Está prestes a permitir a %1$s aceder à sua conta conta %2$s. ",
     "Account connected" : "Conta ligada",
-    "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela.",
     "This share is password-protected" : "Esta partilha é protegida por senha",
     "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
     "Two-factor authentication" : "Autenticação de dois factores",
@@ -396,6 +395,7 @@
     "For larger installations we recommend to choose a different database backend." : "Para instalações maiores, nós recomendamos que escolha uma interface da base de dados diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "O uso de SQLite é desencorajado especialmente se estiver a pensar em dar uso ao cliente desktop para sincronizar os seus ficheiros no seu computador.",
     "Wrong password." : "Palavra-passe errada.",
-    "New Password" : "Nova Palavra-passe"
+    "New Password" : "Nova Palavra-passe",
+    "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

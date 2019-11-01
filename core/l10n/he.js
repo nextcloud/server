@@ -332,7 +332,6 @@ OC.L10N.register(
     "Account access" : "גישה לחשבון",
     "You are about to grant %1$s access to your %2$s account." : "פעולה זו תעניק ל־%1$s גישה לחשבון ה־%2$s שלך.",
     "Account connected" : "חשבון מחובר",
-    "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה.",
     "This share is password-protected" : "שיתוף זה מוגן בססמה",
     "The password is wrong. Try again." : "הססמה שגויה. נא לנסות שוב.",
     "Two-factor authentication" : "אימות דו־שלבי",
@@ -379,6 +378,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "במיוחד כאשר משתמשים במחשב שולחני לסנכרון קבצים השימוש ב SQLite אינו מומלץ.",
     "Wrong password." : "ססמה שגויה.",
     "New Password" : "ססמה חדשה",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "שלחנו הודעת דוא״ל לאיפוס ססמה לכתובת הדוא״ל שאנו מכירים לחשבון זה. אם לא קיבלת את ההודעה תוך זמן סביר, מומלץ לחפש בתיקיות הספאם/זבל שלך.<br>אם היא לא שם כדאי לשאול את מנהל הרשת המקומית."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "שלחנו הודעת דוא״ל לאיפוס ססמה לכתובת הדוא״ל שאנו מכירים לחשבון זה. אם לא קיבלת את ההודעה תוך זמן סביר, מומלץ לחפש בתיקיות הספאם/זבל שלך.<br>אם היא לא שם כדאי לשאול את מנהל הרשת המקומית.",
+    "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

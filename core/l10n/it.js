@@ -365,7 +365,8 @@ OC.L10N.register(
     "Account access" : "Accesso account",
     "You are about to grant %1$s access to your %2$s account." : "Stai per accordare a %1$s l'accesso al tuo account %2$s.",
     "Account connected" : "Account connesso",
-    "Your client should now be connected! You can close this window." : "Il client ora dovrebbe essere connesso! Puoi chiudere questa finestra.",
+    "Your client should now be connected!" : "Il client ora dovrebbe essere connesso!",
+    "You can close this window." : "Puoi chiudere questa finestra.",
     "This share is password-protected" : "Questa condivisione è protetta da password",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
     "Two-factor authentication" : "Autenticazione a due fattori",
@@ -414,6 +415,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "In particolar modo, quando si utilizza il client desktop per la sincronizzazione dei file, l'uso di SQLite è sconsigliato.",
     "Wrong password." : "Password errata.",
     "New Password" : "Nuova password",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Abbiamo inviato un'email di ripristino della password all'indirizzo di posta che conosciamo per questo account. Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Abbiamo inviato un'email di ripristino della password all'indirizzo di posta che conosciamo per questo account. Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale.",
+    "Your client should now be connected! You can close this window." : "Il client ora dovrebbe essere connesso! Puoi chiudere questa finestra."
 },
 "nplurals=2; plural=(n != 1);");

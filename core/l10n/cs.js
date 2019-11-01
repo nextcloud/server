@@ -363,7 +363,6 @@ OC.L10N.register(
     "Account access" : "Přístup k účtu",
     "You are about to grant %1$s access to your %2$s account." : "Chystáte se udělit %1$s přístup ke svému %2$s účtu.",
     "Account connected" : "Účet připojen",
-    "Your client should now be connected! You can close this window." : "Váš klient by nyní měl být připojen. Toto okno už můžete zavřít.",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
     "Two-factor authentication" : "Dvoufaktorové přihlášení",
@@ -411,6 +410,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Obzvláště při používání klientské aplikace pro synchronizaci s desktopem není SQLite doporučeno.",
     "Wrong password." : "Chybné heslo.",
     "New Password" : "Nové heslo",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovení hesla byl odeslán na e-mailovou adresu, uvedenou pro tento účet. Pokud jej v krátké době neobdržíte, zkontrolujte nevyžádanou poštu a koš.<br>Pokud jej nenaleznete, kontaktujte svého správce systému."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovení hesla byl odeslán na e-mailovou adresu, uvedenou pro tento účet. Pokud jej v krátké době neobdržíte, zkontrolujte nevyžádanou poštu a koš.<br>Pokud jej nenaleznete, kontaktujte svého správce systému.",
+    "Your client should now be connected! You can close this window." : "Váš klient by nyní měl být připojen. Toto okno už můžete zavřít."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

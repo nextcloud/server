@@ -158,7 +158,7 @@ OC.L10N.register(
     "Shares" : "Paylaşımlar",
     "Shared with others" : "Diğerleri ile paylaşılan",
     "Shared with you" : "Sizinle paylaşılan",
-    "Shared by link" : "Paylaşım bağlantısı",
+    "Shared by link" : "Bağlantı ile paylaşılmış",
     "Deleted shares" : "Silinmiş paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
