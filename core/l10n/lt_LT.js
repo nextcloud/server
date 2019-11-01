@@ -309,7 +309,6 @@ OC.L10N.register(
     "Account access" : "Paskyros prieiga",
     "You are about to grant %1$s access to your %2$s account." : "Ketinate suteikti %1$s prieigą prie savo %2$s paskyros.",
     "Account connected" : "Paskyra prijungta",
-    "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti.",
     "This share is password-protected" : "Šis viešinys yra apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Two-factor authentication" : "Dviejų žingsnių prisijungimas",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Didesnei sistemai įdiegti rekomenduojame pasirinkti kitą duomenų bazę.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite naudojimas yra nerekomenduotinas, kai duomenų sinchronizacijai naudojamas darbalaukio klientas.",
     "Wrong password." : "Neteisingas slaptažodis.",
-    "New Password" : "Naujas slaptažodis"
+    "New Password" : "Naujas slaptažodis",
+    "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

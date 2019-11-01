@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "Acceso á conta",
     "You are about to grant %1$s access to your %2$s account." : "Está a piques de concederlle a %1$s permiso para acceder á súa conta %2$s.",
     "Account connected" : "Conta conectada",
-    "Your client should now be connected! You can close this window." : "O seu cliente xa debe estar conectado. Pode pechar esta xanela.",
     "This share is password-protected" : "Esta compartición está protexida con contrasinal ",
     "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo. ",
     "Two-factor authentication" : "Autenticación de dous factores",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Concretamente, se emprega o cliente de escritorio para sincronización, desaconséllase o uso de SQLite.",
     "Wrong password." : "Contrasinal incorrecto.",
     "New Password" : "Novo contrasinal",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Foi enviada ao enderezo de correo coñecido para esta conta, a ligazón para restabelecer o seu contrasinal. Se non a recibe nun prazo razoábel de tempo, vexa o seu cartafol de correo lixo.<br>Se non está alí pregúntelle ao administrador local."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Foi enviada ao enderezo de correo coñecido para esta conta, a ligazón para restabelecer o seu contrasinal. Se non a recibe nun prazo razoábel de tempo, vexa o seu cartafol de correo lixo.<br>Se non está alí pregúntelle ao administrador local.",
+    "Your client should now be connected! You can close this window." : "O seu cliente xa debe estar conectado. Pode pechar esta xanela."
 },
 "nplurals=2; plural=(n != 1);");

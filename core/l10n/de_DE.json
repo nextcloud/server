@@ -363,7 +363,8 @@
     "Account access" : "Kontozugriff ",
     "You are about to grant %1$s access to your %2$s account." : "Sie sind dabei, %1$s Zugriff auf Ihr %2$s-Konto zu gewähren.",
     "Account connected" : "Konto verbunden",
-    "Your client should now be connected! You can close this window." : "Ihr Client ist jetzt verbunden! Sie können dieses Fenster schließen.",
+    "Your client should now be connected!" : "Ihr Client sollte nun verbunden sein!",
+    "You can close this window." : "Sie können dieses Fenster schließen.",
     "This share is password-protected" : "Diese Freigabe ist passwortgeschützt",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
@@ -412,6 +413,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Insbesondere bei Nutzung des Desktop-Clients zur Dateisynchronisierung wird vom Einsatz von SQLite abgeraten.",
     "Wrong password." : "Falsches Passwort.",
     "New Password" : "Neues Passwort",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Zurücksetzen des Passworts an die für dieses Konto bekannte E-Mail-Adresse versendet. Sollten Sie diese nicht in Kürze erhalten, prüfen Sie bitte Ihren Spam-Ordner.<br>Wenn Sie keine E-Mail bekommen haben, wenden Sie sich bitte an Ihren lokalen Administrator."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Zurücksetzen des Passworts an die für dieses Konto bekannte E-Mail-Adresse versendet. Sollten Sie diese nicht in Kürze erhalten, prüfen Sie bitte Ihren Spam-Ordner.<br>Wenn Sie keine E-Mail bekommen haben, wenden Sie sich bitte an Ihren lokalen Administrator.",
+    "Your client should now be connected! You can close this window." : "Ihr Client ist jetzt verbunden! Sie können dieses Fenster schließen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

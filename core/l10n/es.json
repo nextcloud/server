@@ -363,7 +363,6 @@
     "Account access" : "Acceso a la cuenta",
     "You are about to grant %1$s access to your %2$s account." : "Estás a punto de conceder a %1$s acceso a tu cuenta %2$s.",
     "Account connected" : "Cuenta conectada",
-    "Your client should now be connected! You can close this window." : "Tu cliente debería estar conectado ahora. Puedes cerrar esta ventana.",
     "This share is password-protected" : "Este elemento compartido está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Vuelve a intentarlo.",
     "Two-factor authentication" : "Verificación en dos pasos",
@@ -412,6 +411,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Se desaconseja encarecidamente usar SQLite si se usa el cliente de escritorio para sincronizar archivos.",
     "Wrong password." : "Contraseña incorrecta.",
     "New Password" : "Contraseña nueva",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Se ha enviado un enlace para restablecer la contraseña a tu correo electrónico. Si no lo recibes en un tiempo razonable, revisa tu carpeta de correo no deseado.<br>Si no está ahí, ponte en contacto con el administrador."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Se ha enviado un enlace para restablecer la contraseña a tu correo electrónico. Si no lo recibes en un tiempo razonable, revisa tu carpeta de correo no deseado.<br>Si no está ahí, ponte en contacto con el administrador.",
+    "Your client should now be connected! You can close this window." : "Tu cliente debería estar conectado ahora. Puedes cerrar esta ventana."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

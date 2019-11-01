@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "Naam",
     "Storage type" : "Opslagtype",
     "Scope" : "Scope",
+    "Open documentation" : "Documentatie openen",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externe opslag laat je externe opslag diensten en apparaten aankoppelen als secundaire Nextcloud opslag. Je kunt ook toestaan dat gebruikers hun eigen externe opslagdiensten aankoppelen.",
     "Folder name" : "Mapnaam",
     "External storage" : "Externe opslag",

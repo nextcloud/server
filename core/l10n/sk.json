@@ -363,7 +363,6 @@
     "Account access" : "Prístup k účtu",
     "You are about to grant %1$s access to your %2$s account." : "Chystáte sa udeliť %1$s prístup k svojmu %2$s účtu.",
     "Account connected" : "Účet pripojený",
-    "Your client should now be connected! You can close this window." : "Váš klient by mal byť pripojený. Toto okno už môžete zatvoriť.",
     "This share is password-protected" : "Toto sprístupnenie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Two-factor authentication" : "Dvojzložkové overovanie",
@@ -412,6 +411,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Najmä pri používaní klientských aplikácií na synchronizáciu s desktopom neodporúčame používať SQLite.",
     "Wrong password." : "Nesprávne heslo.",
     "New Password" : "Nové heslo",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovenie hesla bol odoslaný na e-mailovú adresu uvedenú pre tento účet. Ak ho v krátkej dobe neobdržíte, skontrolujte si priečinok nevyžiadanej pošty a kôš.<br>Ak ho nenájdete, kontaktujte svojho správcu systému."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovenie hesla bol odoslaný na e-mailovú adresu uvedenú pre tento účet. Ak ho v krátkej dobe neobdržíte, skontrolujte si priečinok nevyžiadanej pošty a kôš.<br>Ak ho nenájdete, kontaktujte svojho správcu systému.",
+    "Your client should now be connected! You can close this window." : "Váš klient by mal byť pripojený. Toto okno už môžete zatvoriť."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

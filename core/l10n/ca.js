@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "Accés al compte",
     "You are about to grant %1$s access to your %2$s account." : "Esteu a punt de concedir %1$s accés al vostre compte %2$s.",
     "Account connected" : "Compte connectat",
-    "Your client should now be connected! You can close this window." : "El vostre client ja està connectat! Podeu tancar aquesta finestra.",
     "This share is password-protected" : "Aquesta compartició està protegida amb contrasenya",
     "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
     "Two-factor authentication" : "Autenticació de dos factors",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "L'ús de SQLite és desaconsellat especialment quan es fa servir el client d'escriptori per sincronitzar els fitxers.",
     "Wrong password." : "Contrasenya incorrecta.",
     "New Password" : "Contrasenya nova",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "S'ha enviat un missatge per restablir la contrasenya a la vostra adreça de correu electrònic. Si no el rebeu en un temps raonable comproveu la carpeta de correu brossa. <br>Si no és allà, pregunteu a l'administrador local."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "S'ha enviat un missatge per restablir la contrasenya a la vostra adreça de correu electrònic. Si no el rebeu en un temps raonable comproveu la carpeta de correu brossa. <br>Si no és allà, pregunteu a l'administrador local.",
+    "Your client should now be connected! You can close this window." : "El vostre client ja està connectat! Podeu tancar aquesta finestra."
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,8 +24,8 @@
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Parolanızı sıfırlamak için bağlantıya tıklayın. Parola sıfırlama isteğinde bulunmadıysanız bu e-postayı yoksayabilirsiniz.",
     "Reset your password" : "Parolamı Sıfırla",
     "Nextcloud Server" : "Nextcloud Sunucusu",
-    "Some of your link shares have been removed" : "Bazı bağlantı paylaşımlarınız silindi",
-    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Bir güvenlik açığı nedeniyle bazı bağlantı paylaşımlarınızı silmek zorunda kaldık. ayrıntılı bilgi almak için bağlantıya bakabilirsiniz.",
+    "Some of your link shares have been removed" : "Bazı paylaşım bağlantılarınız silindi",
+    "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Bir güvenlik açığı nedeniyle bazı paylaşım bağlantılarınızı silmek zorunda kaldık. ayrıntılı bilgi almak için bağlantıya bakabilirsiniz.",
     "Preparing update" : "Güncelleme hazırlanıyor",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Onarım adımı:",
@@ -141,7 +141,7 @@
     "Add another link" : "Başka bir bağlantı ekle",
     "Password protection for links is mandatory" : "Bağlantı için parola koruması zorunludur",
     "Share to {name}" : "{name} ile paylaş",
-    "Share link" : "Paylaşma bağlantısı",
+    "Share link" : "Paylaşım bağlantısı",
     "New share link" : "Yeni paylaşım bağlantısı ",
     "Created on {time}" : "{time} zamanında oluşturulmuş",
     "Password protect by Talk" : "Talk tarafından parola koruması",
@@ -363,7 +363,8 @@
     "Account access" : "Hesap erişimi",
     "You are about to grant %1$s access to your %2$s account." : "%1$s için %2$s hesabınıza erişim izni vermek üzeresiniz.",
     "Account connected" : "Hesap bağlandı",
-    "Your client should now be connected! You can close this window." : "İstemcinizin bağlanmış olması gerekir! Bu pencereyi kapatabilirsiniz",
+    "Your client should now be connected!" : "İstemciniz şimdi bağlanmış olmalı!",
+    "You can close this window." : "Bu pencereyi kapatabilirsiniz.",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",
     "Two-factor authentication" : "İki aşamalı kimlik doğrulama",
@@ -412,6 +413,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Wrong password." : "Parola yanlış.",
     "New Password" : "Yeni Parola",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.<br>E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.<br>E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün.",
+    "Your client should now be connected! You can close this window." : "İstemcinizin bağlanmış olması gerekir! Bu pencereyi kapatabilirsiniz"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

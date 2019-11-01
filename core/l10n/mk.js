@@ -325,7 +325,6 @@ OC.L10N.register(
     "Account access" : "Пристап до сметка",
     "You are about to grant %1$s access to your %2$s account." : "Ќе доделите пристап на %1$s во вашата %2$s сметка.",
     "Account connected" : "Сметката е поврзана",
-    "Your client should now be connected! You can close this window." : "Вашиот клиент сега е поврзан! можете да го затворите прозорот.",
     "This share is password-protected" : "Ова споделување е заштитено со лозинка",
     "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
     "Two-factor authentication" : "Двофакторна автентикација",
@@ -373,6 +372,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Особено кога користите клиент на десктоп компјутер за синхронизација на датотеки, SQLite не е препорачливо.",
     "Wrong password." : "Погрешна лозинка.",
     "New Password" : "Нова лозинка",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката.<br>Ако не е таму прашајте го вашиот локален администратор."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката.<br>Ако не е таму прашајте го вашиот локален администратор.",
+    "Your client should now be connected! You can close this window." : "Вашиот клиент сега е поврзан! можете да го затворите прозорот."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
