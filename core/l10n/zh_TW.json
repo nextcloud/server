@@ -359,7 +359,6 @@
     "Account access" : "帳戶存取",
     "You are about to grant %1$s access to your %2$s account." : "您將授權「%1$s」存取您的 %2$s 帳戶",
     "Account connected" : "帳戶已連結",
-    "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗",
     "This share is password-protected" : "此分享受密碼保護",
     "The password is wrong. Try again." : "密碼錯誤，請重試",
     "Two-factor authentication" : "雙因素驗證",
@@ -408,6 +407,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "若使用桌面版程式同步檔案，不建議使用 SQLite",
     "Wrong password." : "密碼錯誤",
     "New Password" : "新密碼",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "我們已將重設密碼的信件寄到這個帳號所對應的信箱。如果你在合理的時間內沒有收到，請至垃圾郵件中檢查，如果還是沒有，請聯絡管理員。"
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "我們已將重設密碼的信件寄到這個帳號所對應的信箱。如果你在合理的時間內沒有收到，請至垃圾郵件中檢查，如果還是沒有，請聯絡管理員。",
+    "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

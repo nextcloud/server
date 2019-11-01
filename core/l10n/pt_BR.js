@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "Acesso à conta",
     "You are about to grant %1$s access to your %2$s account." : "Você irá conceder acesso %1$s à sua conta %2$s.",
     "Account connected" : "Conta conectada",
-    "Your client should now be connected! You can close this window." : "Seu cliente deve estar conectado agora! Você pode fechar esta janela.",
     "This share is password-protected" : "Este compartilhamento é protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Two-factor authentication" : "Autenticação de dois fatores",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "O uso de SQLite é não recomendável especialmente quando se utiliza o cliente de desktop para sincronização de arquivos.",
     "Wrong password." : "Senha incorreta",
     "New Password" : "Nova senha",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Enviamos um e-mail de redefinição de senha para o e-mail desta conta. Se você não recebê-lo dentro de um período de tempo razoável, verifique suas pastas de spam/lixo eletrônico.<br>Se não estiver lá, pergunte ao seu administrador."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Enviamos um e-mail de redefinição de senha para o e-mail desta conta. Se você não recebê-lo dentro de um período de tempo razoável, verifique suas pastas de spam/lixo eletrônico.<br>Se não estiver lá, pergunte ao seu administrador.",
+    "Your client should now be connected! You can close this window." : "Seu cliente deve estar conectado agora! Você pode fechar esta janela."
 },
 "nplurals=2; plural=(n > 1);");

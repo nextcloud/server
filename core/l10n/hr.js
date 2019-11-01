@@ -365,7 +365,6 @@ OC.L10N.register(
     "Account access" : "Pristup računu",
     "You are about to grant %1$s access to your %2$s account." : "Dopustit ćete osobi %1$s pristup vašem računu %2$s.",
     "Account connected" : "Račun povezan",
-    "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor.",
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen zaporkom",
     "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
     "Two-factor authentication" : "Dvofaktorska autentifikacija",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Ako upotrebljavate klijent za sinkronizaciju datoteka, preporučujemo izbjegavanje baze podataka SQLite.",
     "Wrong password." : "Pogrešna zaporka.",
     "New Password" : "Nova zaporka",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Poslali smo poruku e-pošte za resetiranje zaporke na adresu e-pošte koja nam je poznata za ovaj račun. Ako je ne primite u razumnom vremenskom razdoblju, provjerite mape neželjena pošta/smeće.<br>Ako se ne nalazi u tim mapama, obratite se svom lokalnom administratoru."
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Poslali smo poruku e-pošte za resetiranje zaporke na adresu e-pošte koja nam je poznata za ovaj račun. Ako je ne primite u razumnom vremenskom razdoblju, provjerite mape neželjena pošta/smeće.<br>Ako se ne nalazi u tim mapama, obratite se svom lokalnom administratoru.",
+    "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

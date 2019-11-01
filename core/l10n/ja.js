@@ -364,7 +364,6 @@ OC.L10N.register(
     "Account access" : "アカウントによるアクセス許可",
     "You are about to grant %1$s access to your %2$s account." : "%2$s アカウントに あなたのアカウント %1$s へのアクセスを許可",
     "Account connected" : "アカウント接続済",
-    "Your client should now be connected! You can close this window." : "あなたのクライアントは接続されているはずです。 このウィンドウは閉じても構いません。",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが違います。再入力してください",
     "Two-factor authentication" : "二要素認証",
@@ -412,6 +411,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特にデスクトップクライアントをファイル同期に使用する場合，SQLiteは非推奨です.",
     "Wrong password." : "パスワードが間違っています。",
     "New Password" : "新しいパスワード",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするためのメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にメールを受け取れない場合は、スパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合は、サーバー管理者に確認してください。"
+    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするためのメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にメールを受け取れない場合は、スパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合は、サーバー管理者に確認してください。",
+    "Your client should now be connected! You can close this window." : "あなたのクライアントは接続されているはずです。 このウィンドウは閉じても構いません。"
 },
 "nplurals=1; plural=0;");
