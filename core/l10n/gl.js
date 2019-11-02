@@ -365,6 +365,8 @@ OC.L10N.register(
     "Account access" : "Acceso á conta",
     "You are about to grant %1$s access to your %2$s account." : "Está a piques de concederlle a %1$s permiso para acceder á súa conta %2$s.",
     "Account connected" : "Conta conectada",
+    "Your client should now be connected!" : "O seu cliente xa debe estar conectado!",
+    "You can close this window." : "Pode pechar esta xanela.",
     "This share is password-protected" : "Esta compartición está protexida con contrasinal ",
     "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo. ",
     "Two-factor authentication" : "Autenticación de dous factores",
