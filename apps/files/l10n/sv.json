@@ -135,6 +135,8 @@
     "Unlimited" : "Obegränsad",
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "File Management" : "Filhantering",
+    "Error while loading the file data" : "Fel vid inläsning av filens data",
+    "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "%s used" : "%s använt",
     "%s%% of %s used" : "%s%% av %s använt",
     "%1$s of %2$s used" : "%1$s av %2$s använt",

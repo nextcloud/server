@@ -337,6 +337,8 @@ OC.L10N.register(
     "Account access" : "Kontoåtkomst",
     "You are about to grant %1$s access to your %2$s account." : "Du håller på att ge %1$s åtkomst till ditt %2$s konto.",
     "Account connected" : "Konto anslutet",
+    "Your client should now be connected!" : "Din klient ska nu vara ansluten!",
+    "You can close this window." : "Du kan stänga det här fönstret.",
     "This share is password-protected" : "Denna delning är lösenordsskyddad",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
     "Two-factor authentication" : "Tvåfaktorsautentisering",
