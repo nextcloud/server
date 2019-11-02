@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Identifiants de connexion, sauvegarder dans la base de données",
     "Username and password" : "Nom d'utilisateur et mot de passe",
     "Log-in credentials, save in session" : "Identifiants de connexion, sauvegardés pour la session",
+    "Global credentials, user entered" : "Identifiants globaux, utilisateur saisi",
     "User entered, store in database" : "Utilisateur entré, stocker dans la base de données",
     "RSA public key" : "Clé publique RSA",
     "Public key" : "Clé publique",

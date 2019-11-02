@@ -135,6 +135,8 @@
     "Unlimited" : "Unbegrenzt",
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "File Management" : "Dateiverwaltung",
+    "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
+    "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
     "%s used" : " %s verwendet",
     "%s%% of %s used" : "%s%% von %s verwendet",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",

@@ -137,6 +137,8 @@ OC.L10N.register(
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (max. %s)",
     "File Management" : "Gerenciamento de Arquivos",
+    "Error while loading the file data" : "Erro ao carregar os dados do arquivo",
+    "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
     "%s used" : "%s usado",
     "%s%% of %s used" : "%s%% usados de %s",
     "%1$s of %2$s used" : "%1$s usado de %2$s",
