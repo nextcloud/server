@@ -12,7 +12,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> för filer",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
     "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\"",
-    "Files app plugin to add comments to files" : "Filapp-plugin för att lägga till kommentarer till filer",
+    "Files app plugin to add comments to files" : "Filer-appinsticksmodul för att lägga till kommentarer till filer",
     "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Radera kommentar",
     "New comment …" : "Ny kommentar ...",

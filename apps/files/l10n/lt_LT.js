@@ -137,6 +137,7 @@ OC.L10N.register(
     "Unlimited" : "Neribotai",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
     "File Management" : "Failų tvarkymas",
+    "Error while loading the file data" : "Klaida įkeliant failo duomenis",
     "%s used" : "%s panaudota",
     "%s%% of %s used" : "naudojama %s%% iš %s",
     "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
