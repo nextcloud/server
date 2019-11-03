@@ -135,6 +135,8 @@
     "Unlimited" : "Senlima",
     "Upload (max. %s)" : "Alŝuti (maks. %s)",
     "File Management" : "Dosieradministrado",
+    "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
+    "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "%s used" : "%s uzataj",
     "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
