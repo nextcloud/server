@@ -137,6 +137,8 @@ OC.L10N.register(
     "Unlimited" : "Sınırsız",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "File Management" : "Dosya Yönetimi",
+    "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
+    "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "%s used" : "%s kullanılıyor",
     "%s%% of %s used" : "%s%%/%s kullanılmış",
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
