@@ -365,6 +365,8 @@ OC.L10N.register(
     "Account access" : "Aliro al konto",
     "You are about to grant %1$s access to your %2$s account." : "Vi tuj donos permeson al %1$s aliri al via konto %2$s.",
     "Account connected" : "Konto konektita",
+    "Your client should now be connected!" : "Via kliento estas konektita!",
+    "You can close this window." : "Vi povas fermi tiun ĉi fenestron.",
     "This share is password-protected" : "Tiu kunhavigo estas protektata per pasvorto",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
     "Two-factor authentication" : "Dufaza aŭtentigo",
