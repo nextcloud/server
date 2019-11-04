@@ -333,15 +333,21 @@ class Database extends ABackend
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('uid')
-			->from('group_user')
-			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
-			->orderBy('uid', 'ASC');
-
+		$query->select('g.uid')
+			->from('group_user', 'g')
+			->where($query->expr()->eq('g.gid', $query->createNamedParameter($gid)))
+			->orderBy('g.uid', 'ASC');
 		if ($search !== '') {
-			$query->andWhere($query->expr()->like('uid', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
-			)));
+			$query
+				->innerJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'))
+				->andWhere($query->expr()->orX(
+					$query->expr()->iLike('g.uid', $query->createNamedParameter(
+						'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+					)),
+					$query->expr()->iLike('u.displayname', $query->createNamedParameter(
+						'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+					))
+				));
 		}
 
 		if ($limit !== -1) {

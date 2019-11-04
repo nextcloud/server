@@ -25,13 +25,21 @@
 
 namespace Test\Group;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 /**
  * Class Database
  *
  * @group DB
  */
 class DatabaseTest extends Backend {
+
 	private $groups = array();
+
+	/**  @var \PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
+
+	private $userBackend;
 
 	/**
 	 * get a new unique group name
@@ -47,13 +55,22 @@ class DatabaseTest extends Backend {
 
 	protected function setUp() {
 		parent::setUp();
+		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+
 		$this->backend = new \OC\Group\Database();
+		$this->userBackend = new \OC\User\Database($this->eventDispatcher);
+		$this->userBackend->createUser('foobarbaz', '1234');
+		$this->userBackend->createUser('bazbarfoo', '1234');
+		$this->userBackend->createUser('notme', '1234');
 	}
 
 	protected function tearDown() {
 		foreach ($this->groups as $group) {
 			$this->backend->deleteGroup($group);
 		}
+		$this->userBackend->deleteUser('foobarbaz');
+		$this->userBackend->deleteUser('bazbarfoo');
+		$this->userBackend->deleteUser('notme');
 		parent::tearDown();
 	}
 
