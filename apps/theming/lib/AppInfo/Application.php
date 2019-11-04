@@ -1,9 +1,6 @@
 <?php
-declare (strict_types = 1);
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,16 +15,14 @@ declare (strict_types = 1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-use OCA\Accessibility\AppInfo\Application;
+namespace OCA\Theming\AppInfo;
 
-$app = \OC::$server->query(Application::class);
-
-// Separate from the constructor since the route are not initialized before that
-// 1. create the app
-// 2. generate css route and inject
-$app->injectCss();
-$app->injectJavascript();
+class Application extends \OCP\AppFramework\App {
+	public function __construct() {
+		parent::__construct('theming', []);
+	}
+}
