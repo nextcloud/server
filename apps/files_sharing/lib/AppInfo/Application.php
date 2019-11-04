@@ -34,6 +34,7 @@ use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\Listener\LoadAdditionalScripts;
 use OCA\Files_Sharing\Listener\LoadSidebarScript;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;

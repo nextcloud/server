@@ -29,7 +29,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
-class loadAdditionalScripts implements IEventListener {
+class LoadAdditionalScripts implements IEventListener {
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
