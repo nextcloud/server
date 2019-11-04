@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\AppInfo;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\MountProvider;
+use OCA\Files_Sharing\Notification\Notifier;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
@@ -164,6 +165,10 @@ class Application extends App {
 		 * Register capabilities
 		 */
 		$container->registerCapability(Capabilities::class);
+
+		/** @var \OCP\Notification\IManager $notifications */
+		$notifications = $container->query(\OCP\Notification\IManager::class);
+		$notifications->registerNotifierService(Notifier::class);
 	}
 
 	public function registerMountProviders() {
