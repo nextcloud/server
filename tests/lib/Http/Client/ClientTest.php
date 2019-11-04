@@ -113,7 +113,7 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
 			],
-			'timeout' => 30,
+			'timeout' => 600,
 		];
 	}
 
@@ -272,7 +272,7 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
 			],
-			'timeout' => 30,
+			'timeout' => 600,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
@@ -299,7 +299,7 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
 			],
-			'timeout' => 30,
+			'timeout' => 600,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 }
