@@ -38,7 +38,8 @@ namespace OCA\Settings;
 
 use OCA\Settings\AppInfo\Application;
 
-$application = new Application();
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $this->useCollection('root');
 $application->registerRoutes($this, [
 	'resources' => [

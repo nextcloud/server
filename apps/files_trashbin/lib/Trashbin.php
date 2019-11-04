@@ -747,7 +747,8 @@ class Trashbin {
 	 */
 	private static function scheduleExpire($user) {
 		// let the admin disable auto expire
-		$application = new Application();
+		/** @var Application $application */
+		$application = \OC::$server->query(Application::class);
 		$expiration = $application->getContainer()->query('Expiration');
 		if ($expiration->isEnabled()) {
 			\OC::$server->getCommandBus()->push(new Expire($user));
@@ -764,7 +765,8 @@ class Trashbin {
 	 * @return int size of deleted files
 	 */
 	protected static function deleteFiles($files, $user, $availableSpace) {
-		$application = new Application();
+		/** @var Application $application */
+		$application = \OC::$server->query(Application::class);
 		$expiration = $application->getContainer()->query('Expiration');
 		$size = 0;
 
@@ -791,8 +793,8 @@ class Trashbin {
 	 * @return integer[] size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
-		$application = new Application();
-		$expiration = $application->getContainer()->query('Expiration');
+		/** @var Expiration $expiration */
+		$expiration = \OC::$server->query(Expiration::class);
 		$size = 0;
 		$count = 0;
 		foreach ($files as $file) {

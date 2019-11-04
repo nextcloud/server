@@ -727,7 +727,7 @@ class OC {
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
 			OC_App::loadApp('settings');
-			$settings = new \OCA\Settings\AppInfo\Application();
+			$settings = \OC::$server->query(\OCA\Settings\AppInfo\Application::class);
 			$settings->register();
 		}
 

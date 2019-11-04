@@ -62,7 +62,8 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	}
 
 	protected function fixDIForJobs() {
-		$application = new Application();
+		/** @var Application $application */
+		$application = \OC::$server->query(Application::class);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->expiration = $application->getContainer()->query('Expiration');
 	}
