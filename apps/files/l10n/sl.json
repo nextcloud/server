@@ -135,6 +135,8 @@
     "Unlimited" : "Neomejeno",
     "Upload (max. %s)" : "Pošiljanje (omejitev %s)",
     "File Management" : "Upravljanje datotek",
+    "Error while loading the file data" : "Prišlo je do napake med nalaganjem podatkov računa",
+    "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
     "%s used" : "Uporabljeno %s",
     "%s%% of %s used" : "Uporabljeno %s%% od %s",
     "%1$s of %2$s used" : "Uporabljeno %1$s od %2$s",
