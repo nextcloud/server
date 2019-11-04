@@ -793,9 +793,8 @@ class Trashbin {
 	 * @return integer[] size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
-		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
+		/** @var Expiration $expiration */
+		$expiration = \OC::$server->query(Expiration::class);
 		$size = 0;
 		$count = 0;
 		foreach ($files as $file) {
