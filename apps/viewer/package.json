@@ -48,7 +48,10 @@
     "webdav": "^2.10.0"
   },
   "browserslist": [
-    "extends @nextcloud/browserslist-config"
+    "last 2 versions",
+    "ie >= 11",
+    "firefox ESR",
+    "not dead"
   ],
   "engines": {
     "node": "11"
