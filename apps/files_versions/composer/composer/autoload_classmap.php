@@ -17,6 +17,7 @@ return array(
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Files_Versions\\Listener\\LoadSidebarScript' => $baseDir . '/../lib/Listener/LoadSidebarScript.php',
+    'OCA\\Files_Versions\\Listener\\loadAdditionalScripts' => $baseDir . '/../lib/Listener/loadAdditionalScripts.php',
     'OCA\\Files_Versions\\Sabre\\Plugin' => $baseDir . '/../lib/Sabre/Plugin.php',
     'OCA\\Files_Versions\\Sabre\\RestoreFolder' => $baseDir . '/../lib/Sabre/RestoreFolder.php',
     'OCA\\Files_Versions\\Sabre\\RootCollection' => $baseDir . '/../lib/Sabre/RootCollection.php',

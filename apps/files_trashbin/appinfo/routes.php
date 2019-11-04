@@ -5,6 +5,7 @@
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -24,8 +25,7 @@
 
 namespace OCA\Files_Trashbin\AppInfo;
 
-$application = new Application();
-$application->registerRoutes($this, [
+return [
 	'routes' => [
 		[
 			'name' => 'Preview#getPreview',
@@ -33,4 +33,4 @@ $application->registerRoutes($this, [
 			'verb' => 'GET',
 		],
 	],
-]);
+];

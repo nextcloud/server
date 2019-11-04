@@ -36,8 +36,6 @@ use OCA\Files_Sharing\ShareBackend\Folder;
 \OC\Share\Share::registerBackend('folder', Folder::class, 'file');
 
 $application = new \OCA\Files_Sharing\AppInfo\Application();
-$application->registerMountProviders();
-$application->registerEvents();
 
 $config = \OC::$server->getConfig();
 $shareManager = \OC::$server->getShareManager();

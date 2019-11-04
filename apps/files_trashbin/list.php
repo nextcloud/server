@@ -34,5 +34,4 @@ $tmpl = new OCP\Template('files_trashbin', 'index', '');
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
-OCP\Util::addScript('files_trashbin', 'files_trashbin');
 $tmpl->printPage();

@@ -47,9 +47,6 @@ class Hooks {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', Hooks::class, 'copy_hook');
 		\OCP\Util::connectHook('OC_Filesystem', 'rename', Hooks::class, 'pre_renameOrCopy_hook');
 		\OCP\Util::connectHook('OC_Filesystem', 'copy', Hooks::class, 'pre_renameOrCopy_hook');
-
-		$eventDispatcher = \OC::$server->getEventDispatcher();
-		$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', [Hooks::class, 'onLoadFilesAppScripts']);
 	}
 
 	/**
@@ -143,12 +140,5 @@ class Hooks {
 		} else {
 			Storage::setSourcePathAndUser($params['oldpath']);
 		}
-	}
-
-	/**
-	 * Load additional scripts when the files app is visible
-	 */
-	public static function onLoadFilesAppScripts() {
-		\OCP\Util::addScript('files_versions', 'files_versions');
 	}
 }

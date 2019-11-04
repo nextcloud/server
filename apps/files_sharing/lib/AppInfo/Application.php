@@ -40,6 +40,7 @@ use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
@@ -166,10 +167,21 @@ class Application extends App {
 			);
 		});
 
-		/*
+		/**
 		 * Register capabilities
 		 */
 		$container->registerCapability(Capabilities::class);
+
+		/**
+		 * Register mounts providers
+		 */
+		$this->registerMountProviders();
+
+		/**
+		 * Register events
+		 */
+		$this->registerEvents();
+
 	}
 
 	public function registerMountProviders() {
@@ -184,16 +196,12 @@ class Application extends App {
 	 * Register events
 	 */
 	public function registerEvents() {
-		$server = $this->getContainer()->query('ServerContainer');
-		$eventDispatcher = $server->getEventDispatcher();
+		$container = $this->getContainer();
+		$server = $container->getServer();
+		$eventDispatcher = $server->query(IEventDispatcher::class);
 
-		$eventDispatcher->addListener(
-			'OCA\Files::loadAdditionalScripts',
-			function() {
-				\OCP\Util::addScript('files_sharing', 'dist/additionalScripts');
-				\OCP\Util::addStyle('files_sharing', 'icons');
-			}
-		);
+		$eventDispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
+
 		$eventDispatcher->addListener(
 			'\OCP\Collaboration\Resources::loadAdditionalScripts',
 			function () {

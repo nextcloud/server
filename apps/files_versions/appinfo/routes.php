@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -26,8 +27,7 @@
 
 namespace OCA\Files_Versions\AppInfo;
 
-$application = new Application();
-$application->registerRoutes($this, [
+return [
 	'routes' => [
 		[
 			'name' => 'Preview#getPreview',
@@ -35,13 +35,4 @@ $application->registerRoutes($this, [
 			'verb' => 'GET',
 		],
 	],
-]);
-
-/** @var $this \OCP\Route\IRouter */
-$this->create('files_versions_download', 'download.php')
-	->actionInclude('files_versions/download.php');
-$this->create('files_versions_ajax_getVersions', 'ajax/getVersions.php')
-	->actionInclude('files_versions/ajax/getVersions.php');
-$this->create('files_versions_ajax_rollbackVersion', 'ajax/rollbackVersion.php')
-	->actionInclude('files_versions/ajax/rollbackVersion.php');
-
+];

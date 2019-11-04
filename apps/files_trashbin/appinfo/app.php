@@ -8,6 +8,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -25,17 +26,19 @@
  *
  */
 
-// register hooks
-\OCA\Files_Trashbin\Trashbin::registerHooks();
+\OC::$server->query(\OCA\Files_Trashbin\AppInfo\Application::class);
 
-\OCA\Files\App::getNavigationManager()->add(function () {
-	$l = \OC::$server->getL10N('files_trashbin');
-	return [
-		'id' => 'trashbin',
-		'appname' => 'files_trashbin',
-		'script' => 'list.php',
-		'order' => 50,
-		'name' => $l->t('Deleted files'),
-		'classes' => 'pinned',
-	];
-});
+// // register hooks
+// \OCA\Files_Trashbin\Trashbin::registerHooks();
+
+// \OCA\Files\App::getNavigationManager()->add(function () {
+// 	$l = \OC::$server->getL10N('files_trashbin');
+// 	return [
+// 		'id' => 'trashbin',
+// 		'appname' => 'files_trashbin',
+// 		'script' => 'list.php',
+// 		'order' => 50,
+// 		'name' => $l->t('Deleted files'),
+// 		'classes' => 'pinned',
+// 	];
+// });

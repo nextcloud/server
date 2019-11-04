@@ -4,6 +4,7 @@
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0
  *
@@ -25,11 +26,17 @@ namespace OCA\Files_Versions\AppInfo;
 
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\Files_Versions\Capabilities;
+use OCA\Files_Versions\Hooks;
+use OCA\Files_Versions\Listener\LoadAdditionalScripts;
+use OCA\Files_Versions\Listener\LoadSidebarScript;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use OCA\Files_Versions\Capabilities;
+use OCP\EventDispatcher\IEventDispatcher;
 
 class Application extends App {
 
@@ -65,6 +72,10 @@ class Application extends App {
 		});
 
 		$this->registerVersionBackends();
+
+		$this->registerHooks();
+
+		$this->registerEvents();
 	}
 
 	public function registerVersionBackends() {
@@ -100,5 +111,22 @@ class Application extends App {
 		} catch (\Exception $e) {
 			$logger->logException($e);
 		}
+	}
+
+	private function registerHooks() {
+		Hooks::connectHooks();
+	}
+
+	/**
+	 * Register events
+	 */
+	public function registerEvents() {
+		$container = $this->getContainer();
+		$server = $container->getServer();
+		$eventDispatcher = $server->query(IEventDispatcher::class);
+
+
+		$eventDispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
+		$eventDispatcher->addServiceListener(LoadSidebar::class, LoadSidebarScript::class);
 	}
 }

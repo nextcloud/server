@@ -93,7 +93,7 @@ import Template from './templates/template.handlebars';
 					fileInfoModel.trigger('busy', fileInfoModel, false)
 					self.$el.find('.versions').removeClass('hidden')
 					self._toggleLoading(false)
-					OC.Notification.show(t('files_version', 'Failed to revert {file} to revision {timestamp}.',
+					OC.Notification.show(t('files_versions', 'Failed to revert {file} to revision {timestamp}.',
 						{
 							file: versionModel.getFullPath(),
 							timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000)
