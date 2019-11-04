@@ -23,7 +23,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "Cela dosierujo \"{dir}\" ne plu ekzistas",
     "Not enough free space" : "Ne sufiĉe libera spaco",
     "An unknown error has occurred" : "Nekonata eraro okazis",
-    "Uploading …" : "Alŝutante…",
+    "Uploading …" : "Alŝutado…",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} el {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Alŝuto de tiu elemento ne estas subtenata",
     "Target folder does not exist any more" : "La cela dosierujo ne plu ekzistas",
