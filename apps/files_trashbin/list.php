@@ -21,16 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+
+
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
+$eventDispatcher = \OC::$server->getEventDispatcher();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = \OCP\Util::isIE();
 
 $tmpl = new OCP\Template('files_trashbin', 'index', '');
+
+$eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, new LoadAdditionalScriptsEvent());
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);

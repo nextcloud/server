@@ -39,7 +39,6 @@ class LoadSidebarScript implements IEventListener {
 		// entry point for the files plugin and the sidebar scripts
 		// TODO: when properly split, make sure to adapt this script
 		// TODO: and only load the necessary files
-
 		Util::addScript(Application::appID, 'comments');
 	}
 }

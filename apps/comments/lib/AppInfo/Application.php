@@ -49,12 +49,13 @@ class Application extends App {
 
 		$jsSettingsHelper = new JSSettingsHelper($container->getServer());
 		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
+
+		$this->register();
 	}
 
 	public function register() {
-		$server = $this->getContainer()->getServer();
-
-		/** @var IEventDispatcher $eventDispatcher */
+		$container = $this->getContainer();
+		$server = $container->getServer();
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$this->registerSidebarScripts($eventDispatcher);

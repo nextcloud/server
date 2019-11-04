@@ -22,4 +22,3 @@
  */
 
 $application = new \OCA\Comments\AppInfo\Application();
-$application->register();
