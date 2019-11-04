@@ -94,7 +94,7 @@ OC.L10N.register(
     "Add rule" : "Aldoni regulon",
     "Reset" : "Restarigi",
     "Save" : "Konservi",
-    "Saving…" : "Konservante...",
+    "Saving…" : "Konservado...",
     "Group list is empty" : "Gruplisto malplenas",
     "Unable to retrieve the group list" : "Ne eblas ricevi grupliston",
     "Saved" : "Konservita",
@@ -108,7 +108,7 @@ OC.L10N.register(
     "Workflow" : "Laborfluo",
     "Files workflow engine" : "Modulo de dosiera laborfluo",
     "Open documentation" : "Malfermi dokumentaron",
-    "Loading…" : "Ŝargante...",
+    "Loading…" : "Ŝargado...",
     "Tag management" : "Etikeda administrado"
 },
 "nplurals=2; plural=(n != 1);");

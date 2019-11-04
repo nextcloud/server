@@ -20,7 +20,7 @@ OC.L10N.register(
     "What's new?" : "Vad är nytt?",
     "The update check is not yet finished. Please refresh the page." : "Uppdateringskontrollen är inte färdig ännu. Vänligen uppdatera sidan.",
     "Your version is up to date." : "Din version är uppdaterad.",
-    "A non-default update server is in use to be checked for updates:" : "En icke-standard updateringsserver används för att kolla efter uppdateringar:",
+    "A non-default update server is in use to be checked for updates:" : "En icke-standard uppdateringsserver används för att kontrolleras efter uppdateringar:",
     "Update channel:" : "Uppdateringskanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Du kan alltid uppdatera till en nyare version, men du kan aldrig nedgradera till en mer stabil version.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Notera att när en ny version släppts kan det ta lite tid innan den dyker upp här. Vi rullar ut nya versioner till våra användare vid utspridda tillfällen och hoppar ibland över versioner när problem hittas.",
