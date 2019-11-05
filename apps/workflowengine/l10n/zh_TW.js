@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "檢查 %s 無效或不存在",
     "Predefined URLs" : "預定義網址",
     "Files WebDAV" : "檔案 WebDAV",
-    "Sync clients" : "同步客戶端",
     "Android client" : "Android 客戶端",
     "iOS client" : "iOS 客戶端",
     "Desktop client" : "桌面客戶端",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Start" : "開始",
     "End" : "結束",
     "Select timezone…" : "選擇時區...",
+    "Sync clients" : "同步客戶端",
     "Workflow" : "工作流程",
     "Open documentation" : "開啟說明文件",
     "Loading…" : "載入中…"

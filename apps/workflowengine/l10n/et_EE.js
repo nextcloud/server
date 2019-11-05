@@ -16,7 +16,6 @@ OC.L10N.register(
     "Operation %s is invalid" : "Tegevus %s on vigane",
     "Predefined URLs" : "Eelmääratletud URL-id",
     "Files WebDAV" : "WebDAV failid",
-    "Sync clients" : "Kliendiprogrammid",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Töölaua klient",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Start" : "Algus",
     "End" : "Lõpp",
     "Select timezone…" : "Vali ajavöönd",
+    "Sync clients" : "Kliendiprogrammid",
     "Workflow" : "Töövoog",
     "Open documentation" : "Ava dokumentatsioon",
     "Loading…" : "Laadimine..."

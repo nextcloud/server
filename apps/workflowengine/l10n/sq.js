@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Kontrolli %s është i pavlefshëm ose nuk ekziston",
     "Predefined URLs" : "URL të paracaktuara",
     "Files WebDAV" : "Skedarët WebDAV ",
-    "Sync clients" : "Klient të sinkronizuar",
     "Android client" : "Klient Android",
     "iOS client" : "Klient IOS",
     "Desktop client" : "Klient Desktop",
@@ -66,6 +65,7 @@ OC.L10N.register(
     "Start" : "Fillim",
     "End" : "Mbarim",
     "Select timezone…" : "Zgjidh brezin kohorë",
+    "Sync clients" : "Klient të sinkronizuar",
     "Workflow" : "Rrjedha e punëve",
     "Open documentation" : "Dokumentacion i hapur",
     "Loading…" : "Po ngarkohet..."
