@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "%s یا وجود ندارد یا معتبر نیست",
     "Predefined URLs" : "URL از پیش تعریف شده ",
     "Files WebDAV" : "فایل های WebDAV",
-    "Sync clients" : "دستگاه های همگام ",
     "Android client" : "دستگاه های اندروید ",
     "iOS client" : "دستگاه های IOS",
     "Desktop client" : "دستگاه دسکتاپ",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Start" : "شروع",
     "End" : "پایان ",
     "Select timezone…" : "انتخاب منطقه زمانی ",
+    "Sync clients" : "دستگاه های همگام ",
     "Workflow" : "جریان کاری",
     "Open documentation" : "مستندات باز",
     "Loading…" : "در حال بار گزاری"

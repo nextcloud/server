@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "La validación %s es inválida o no existe",
     "Predefined URLs" : "URLs predefinidos",
     "Files WebDAV" : "Archivos WebDAV",
-    "Sync clients" : "Sincronizar clientes",
     "Android client" : "Cliente Android",
     "iOS client" : "Cliente iOS",
     "Desktop client" : "Cliente de escritorio",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Start" : "Inicio",
     "End" : "Fin",
     "Select timezone…" : "Selecciona la zona horaria...",
+    "Sync clients" : "Sincronizar clientes",
     "Workflow" : "Flujo de trabajo",
     "Open documentation" : "Abrir la documentación",
     "Loading…" : "Cargando..."
