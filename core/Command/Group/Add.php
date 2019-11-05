@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,16 +69,17 @@ class Add extends Base {
 			return 1;
 		} else {
 			$group = $this->groupManager->createGroup($gid);
-			if($group === false) {
+			if (!$group instanceof IGroup) {
 				$output->writeln('<error>Could not create group</error>');
 				return 2;
 			}
 			$output->writeln('Created group "' . $group->getGID() . '"');
 
-			$displayName = trim((string) $input->getOption('display-name'));
+			$displayName = trim((string)$input->getOption('display-name'));
 			if ($displayName !== '') {
 				$group->setDisplayName($displayName);
 			}
 		}
+		return 0;
 	}
 }
