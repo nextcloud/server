@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Проверка %s не е валидна или несъществува",
     "Predefined URLs" : "Предефинирани URL-и",
     "Files WebDAV" : "Файлове WebDAV",
-    "Sync clients" : "Синхронизиране на клиенти",
     "Android client" : "Android клиент",
     "iOS client" : "iOS клиент",
     "Desktop client" : "Клиент за настолен компютър",
@@ -65,6 +64,7 @@ OC.L10N.register(
     "Start" : "Начало",
     "End" : "Край",
     "Select timezone…" : "Изберете часови пояс...",
+    "Sync clients" : "Синхронизиране на клиенти",
     "Workflow" : "Работен процес",
     "Open documentation" : "Отвори документация",
     "Loading…" : "Зареждане..."
