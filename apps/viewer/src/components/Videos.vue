@@ -65,7 +65,7 @@ export default {
 
 	data() {
 		return {
-			visibleControls: false
+			visibleControls: false,
 		}
 	},
 
@@ -73,14 +73,14 @@ export default {
 		livePhoto() {
 			return this.fileList.find(file => {
 				// if same filename and extension is allowed
-				return file.href !== this.davPath
-					&& file.name.startsWith(this.name)
-					&& liveExt.indexOf(file.name.split('.')[1]) > -1
+				return file.filename !== this.davPath
+					&& file.basename.startsWith(this.name)
+					&& liveExt.indexOf(file.basename.split('.')[1]) > -1
 			})
 		},
 		livePhotoPath() {
 			return this.livePhoto && this.getPreviewIfAny(this.livePhoto)
-		}
+		},
 	},
 
 	watch: {
@@ -93,7 +93,7 @@ export default {
 			} else if (val === false && old === true) {
 				this.$el.pause()
 			}
-		}
+		},
 	},
 
 	methods: {
@@ -129,9 +129,9 @@ export default {
 
 		// Save video player's volume and mute status
 		saveVolume() {
-			let videoVolume = {
+			const videoVolume = {
 				volume: this.$el.volume,
-				muted: this.$el.muted
+				muted: this.$el.muted,
 			}
 			// try to store volume settings in localStorage for persistent storage
 			try {
@@ -165,8 +165,8 @@ export default {
 		onLoadedMetadata() {
 			this.updateVideoSize()
 			this.restoreVolume()
-		}
-	}
+		},
+	},
 }
 </script>
 

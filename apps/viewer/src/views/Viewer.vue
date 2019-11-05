@@ -22,7 +22,7 @@
 
 <template>
 	<Modal
-		v-if="currentFile.modal"
+		v-if="initiated || currentFile.modal"
 		id="viewer-content"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
 		:view="currentFile.modal"
@@ -40,6 +40,7 @@
 		<!-- ACTIONS -->
 		<template #actions>
 			<ActionButton
+				v-if="OCA.Files && OCA.Files.Sidebar"
 				icon="icon-menu-sidebar-white-forced"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
@@ -104,23 +105,27 @@
 			@error="nextFailed" />
 		<Error
 			v-else-if="nextFile"
-			class="hidden-visually" />
+			class="hidden-visually"
+			:name="nextFile.name" />
 	</Modal>
 </template>
 
 <script>
+import { generateRemoteUrl } from '@nextcloud/router'
+import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
+import isFullscreen from 'nextcloud-vue/dist/Mixins/isFullscreen'
+import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
+import Modal from 'nextcloud-vue/dist/Components/Modal'
 import Vue from 'vue'
 
-import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
-import isFullscreen from 'nextcloud-vue/dist/Mixins/isFullscreen'
-import { generateRemoteUrl } from 'nextcloud-server/dist/router'
-
+import { extractFilePaths, sortCompare } from '../utils/fileUtils'
 import Error from '../components/Error'
-import PreviewUrl from '../mixins/PreviewUrl'
 import File from '../models/file'
-import FileList from '../services/FileList'
-import Modal from 'nextcloud-vue/dist/Components/Modal'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
+import getFileList from '../services/FileList'
+import getFileInfo from '../services/FileInfo'
+import PreviewUrl from '../mixins/PreviewUrl'
+
+import cancelableRequest from '../utils/CancelableRequest'
 
 export default {
 	name: 'Viewer',
@@ -128,12 +133,13 @@ export default {
 	components: {
 		ActionButton,
 		Modal,
-		Error
+		Error,
 	},
 
 	mixins: [isMobile, isFullscreen, PreviewUrl],
 
 	data: () => ({
+		Viewer: OCA.Viewer.state,
 		handlers: OCA.Viewer.availableHandlers,
 
 		components: {},
@@ -148,14 +154,20 @@ export default {
 		fileList: [],
 
 		isLoaded: false,
+		initiated: false,
+
+		// cancellable requests
+		cancelRequestFile: () => {},
+		cancelRequestFolder: () => {},
 
 		shownSidebar: false,
 		sidebarWidth: 0,
 
 		canSwipe: true,
-		failed: false,
 
-		root: generateRemoteUrl(`dav/files/${OC.getCurrentUser().uid}`)
+		standalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
+
+		root: generateRemoteUrl(`dav/files/${OC.getCurrentUser().uid}`),
 	}),
 
 	computed: {
@@ -164,7 +176,10 @@ export default {
 		},
 		hasNext() {
 			return this.fileList.length > 1
-		}
+		},
+		file() {
+			return this.Viewer.file
+		},
 	},
 
 	watch: {
@@ -184,7 +199,18 @@ export default {
 				// first so we can bind the alias to them.
 				this.registerHandlerAlias(handler)
 			}
-		}
+		},
+
+		file: function(path) {
+			// we got a valid path! Load file...
+			if (path.trim() !== '') {
+				console.info('Opening viewer for file ', path)
+				this.openFile(path)
+			} else {
+				// path is empty, closing!
+				this.close()
+			}
+		},
 	},
 
 	beforeMount() {
@@ -203,6 +229,10 @@ export default {
 		})
 
 		window.addEventListener('resize', this.onResize)
+
+		if (this.standalone) {
+			console.debug('No OCA.Files found, viewer is now in standalone mode')
+		}
 	},
 
 	beforeDestroy() {
@@ -213,14 +243,27 @@ export default {
 		/**
 		 * Open the view and display the clicked file
 		 *
-		 * @param {string} fileName the opened file name
-		 * @param {Object} fileInfo the opened file info
+		 * @param {string} path the file path to open
 		 */
-		async openFile(fileName, fileInfo) {
+		async openFile(path) {
+			// cancel any previous requests
+			this.cancelRequestFile()
+			this.cancelRequestFolder()
+
 			// do not open the same file again
-			if (fileName === this.currentFile.name) {
+			if (path === this.currentFile.path) {
 				return
 			}
+
+			// initial loading start
+			this.initiated = true
+			const { request: fileRequest, cancel: cancelRequestFile } = cancelableRequest(getFileInfo)
+			const { request: folderRequest, cancel: cancelRequestFolder } = cancelableRequest(getFileList)
+			this.cancelRequestFile = cancelRequestFile
+			this.cancelRequestFolder = cancelRequestFolder
+
+			// extcrat needed info from path
+			const [dirPath, fileName] = extractFilePaths(path)
 
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
@@ -232,68 +275,58 @@ export default {
 				document.title = `${fileName} - ${OC.theme.title}`
 			}
 
-			// retrieve, sort and store file List
-			let fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, fileName))
+			try {
 
-			let mime = fileList.find(file => file.name === fileName).mimetype
+				// retrieve, sort and store file List
+				let fileInfo = await fileRequest(path)
 
-			// check if part of a group, if so retrieve full files list
-			const group = this.mimeGroups[mime]
-			if (group) {
-				const mimes = this.mimeGroups[group]
-					? this.mimeGroups[group]
-					: [mime]
+				// get original mime
+				let mime = fileInfo.mime
 
-				// retrieve folder list
-				fileList = await FileList(OC.getCurrentUser().uid, this.encodeFilePath(fileInfo.dir, ''))
+				// check if part of a group, if so retrieve full files list
+				const group = this.mimeGroups[mime]
+				if (group) {
+					const mimes = this.mimeGroups[group]
+						? this.mimeGroups[group]
+						: [mime]
 
-				// filter out the unwanted mimes
-				fileList = fileList.filter(file => file.mimetype && mimes.indexOf(file.mimetype) !== -1)
+					// retrieve folder list
+					const fileList = await folderRequest(dirPath)
 
-				// sort like the files list
-				this.fileList = fileList.sort(OCA.Files.App.fileList._sortComparator)
+					// filter out the unwanted mimes
+					const filteredFiles = fileList.filter(file => file.mime && mimes.indexOf(file.mime) !== -1)
 
-				// store current position
-				this.currentIndex = this.fileList.findIndex(file => file.name === fileName)
-			} else {
-				this.currentIndex = 0
-				this.fileList = fileList
-			}
+					// sort like the files list
+					// TODO: implement global sorting API
+					// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
+					this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, 'basename'))
 
-			// get saved fileInfo
-			fileInfo = this.fileList[this.currentIndex]
-
-			// override mimetype if existing alias
-			if (!this.components[mime]) {
-				mime = mime.split('/')[0]
-			}
-
-			if (this.components[mime]) {
-				this.currentFile = new File(fileInfo, mime, this.components[mime])
-				this.updatePreviousNext()
-			} else {
-				console.error(`The following file could not be displayed`, fileName, fileInfo)
-				this.currentFile.failed = true
-			}
-		},
-
-		/**
-		 * Get an url encoded path
-		 *
-		 * @param {string} dir path of the files directory
-		 * @param {string} fileName unencoded file name
-		 * @returns {string} url encoded file path
-		 */
-		encodeFilePath(dir, fileName) {
-			const pathSections = (dir !== '/' ? dir : '').split('/')
-			pathSections.push(fileName)
-			let relativePath = ''
-			pathSections.forEach((section) => {
-				if (section !== '') {
-					relativePath += '/' + encodeURIComponent(section)
+					// store current position
+					this.currentIndex = this.fileList.findIndex(file => file.basename === fileName)
+				} else {
+					this.currentIndex = 0
+					this.fileList = [fileInfo]
 				}
-			})
-			return relativePath
+
+				// get saved fileInfo
+				fileInfo = this.fileList[this.currentIndex]
+
+				// override mimetype if existing alias
+				if (!this.components[mime]) {
+					mime = mime.split('/')[0]
+				}
+
+				// if we have a valid mime, show it!
+				if (this.components[mime]) {
+					this.currentFile = new File(fileInfo, mime, this.components[mime])
+					this.updatePreviousNext()
+				} else {
+					console.error(`The following file could not be displayed`, fileName, fileInfo)
+					this.close()
+				}
+			} catch (error) {
+				console.error(error)
+			}
 		},
 
 		/**
@@ -303,7 +336,7 @@ export default {
 		 */
 		openFileFromList(fileInfo) {
 			// override mimetype if existing alias
-			const mime = fileInfo.mimetype
+			const mime = fileInfo.mime
 			this.currentFile = new File(fileInfo, mime, this.components[mime])
 			this.updatePreviousNext()
 		},
@@ -316,7 +349,7 @@ export default {
 			const next = this.fileList[this.currentIndex + 1]
 
 			if (prev) {
-				const mime = prev.mimetype
+				const mime = prev.mime
 				if (this.components[mime]) {
 					this.previousFile = new File(prev, mime, this.components[mime])
 				}
@@ -326,7 +359,7 @@ export default {
 			}
 
 			if (next) {
-				const mime = next.mimetype
+				const mime = next.mime
 				if (this.components[mime]) {
 					this.nextFile = new File(next, mime, this.components[mime])
 				}
@@ -435,15 +468,20 @@ export default {
 		},
 
 		registerAction({ mime, group }) {
-			// unregistered handler, let's go!
-			OCA.Files.fileActions.registerAction({
-				name: 'view',
-				displayName: t('viewer', 'View'),
-				mime: mime,
-				permissions: OC.PERMISSION_READ,
-				actionHandler: this.openFile
-			})
-			OCA.Files.fileActions.setDefault(mime, 'view')
+			if (!this.standalone) {
+				// unregistered handler, let's go!
+				OCA.Files.fileActions.registerAction({
+					name: 'view',
+					displayName: t('viewer', 'View'),
+					mime: mime,
+					permissions: OC.PERMISSION_READ,
+					actionHandler: (name, { dir }) => {
+						// replace potential leading double slashes
+						OCA.Viewer.open(`${dir}/${name}`.replace(/^\/\//, '/'))
+					},
+				})
+				OCA.Files.fileActions.setDefault(mime, 'view')
+			}
 
 			// register groups
 			if (group) {
@@ -460,10 +498,17 @@ export default {
 		 * Close the viewer
 		 */
 		close() {
+			// reset all properties
+			OCA.Viewer.close()
 			this.currentFile = {}
 			this.currentModal = null
 			this.fileList = []
+			this.initiated = false
 			this.hideAppsSidebar()
+
+			// cancel requests
+			this.cancelRequestFile()
+			this.cancelRequestFolder()
 
 			// restore default
 			document.body.style.overflow = null
@@ -521,7 +566,7 @@ export default {
 
 		showSidebar() {
 			// Open the sidebar sharing tab
-			OCA.Files.App.fileList.showDetailsView(this.currentFile.name)
+			OCA.Files.App.fileList.showDetailsView(this.currentFile.basename)
 			this.showAppsSidebar()
 		},
 
@@ -556,8 +601,8 @@ export default {
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

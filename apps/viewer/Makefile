@@ -34,13 +34,12 @@ test-coverage:
 	npm run test:coverage
 
 test-cypress:
-	echo "Init server for $(app_name)"
-	./cypress/start.sh $(app_name)
+	./cypress/start.sh
 	npm run cypress:gui
-	./cypress/stop.sh $(app_name)
+	./cypress/stop.sh
 
 test-cypress-kill:
-	./cypress/stop.sh $(app_name)
+	./cypress/stop.sh
 
 # Linting
 lint:

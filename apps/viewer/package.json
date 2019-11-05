@@ -33,19 +33,26 @@
     "stylelint": "stylelint src",
     "stylelint:fix": "stylelint src --fix",
     "cypress": "cypress run",
-    "cypress:gui": "cypress open"
+    "cypress:gui": "cypress open",
+    "wait-on": "wait-on -i 500 -t 300000"
   },
   "dependencies": {
+    "@nextcloud/auth": "^0.3.1",
     "@nextcloud/axios": "^0.5.0",
+    "@nextcloud/router": "^0.1.0",
+    "camelcase": "^5.3.1",
     "debounce": "^1.2.0",
     "nextcloud-server": "^0.15.10",
     "nextcloud-vue": "^0.12.7",
     "vue": "^2.6.10",
-    "vue-async-computed": "^3.7.0"
+    "vue-async-computed": "^3.7.0",
+    "webdav": "^2.10.0"
   },
   "browserslist": [
     "last 2 versions",
-    "ie >= 11"
+    "ie >= 11",
+    "firefox ESR",
+    "not dead"
   ],
   "engines": {
     "node": ">=10.0.0"
@@ -55,14 +62,16 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
+    "@nextcloud/browserslist-config": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^3.2.0",
     "cypress": "^3.4.1",
     "cypress-image-snapshot": "^3.1.1",
     "eslint": "^5.16.0",
-    "eslint-config-nextcloud": "0.0.6",
+    "eslint-config-nextcloud": "^0.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^3.0.2",
@@ -73,6 +82,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.2.3",
     "file-loader": "^4.2.0",
+    "jest": "^24.9.0",
     "node-sass": "^4.13.0",
     "sass-loader": "^7.3.1",
     "stylelint": "^8.4.0",

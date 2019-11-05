@@ -1,7 +1,9 @@
+<?php
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,30 +14,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+namespace OCA\Viewer\Event;
 
-import Videos from '../components/Videos'
+use OCP\EventDispatcher\Event;
 
-export default {
-	id: 'videos',
-	group: 'media',
-	mimes: [
-		'video/mpeg',
-		'video/ogg',
-		'video/webm',
-		'video/mp4',
-		'video/x-m4v',
-		'video/x-flv',
-		'video/quicktime',
-	],
-	mimesAliases: {
-		'video/x-matroska': 'video/webm',
-	},
-	component: Videos,
-}
+class LoadViewer extends Event {}

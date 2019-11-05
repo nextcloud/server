@@ -25,48 +25,48 @@ export default {
 	props: {
 		active: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		path: {
 			type: String,
-			required: true
+			required: true,
 		},
 		fileId: {
 			type: Number,
-			required: true
+			required: true,
 		},
 		fileList: {
 			type: Array,
-			default: []
+			default: [],
 		},
 		fileName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		davPath: {
 			type: String,
-			required: true
+			required: true,
 		},
 		mime: {
 			type: String,
-			required: true
+			required: true,
 		},
 		canSwipe: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		loaded: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		sidebarShown: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		isFullScreen: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 
 	data() {
@@ -75,7 +75,7 @@ export default {
 			width: null,
 			naturalHeight: null,
 			naturalWidth: null,
-			isLoaded: false
+			isLoaded: false,
 		}
 	},
 
@@ -85,7 +85,7 @@ export default {
 		},
 		ext() {
 			return this.fileName.split('.')[1]
-		}
+		},
 	},
 
 	watch: {
@@ -102,7 +102,7 @@ export default {
 		sidebarShown: function() {
 			// wait for transition to complete (100ms)
 			setTimeout(this.updateHeightWidth, 150)
-		}
+		},
 	},
 
 	mounted() {
@@ -191,6 +191,6 @@ export default {
 			} else {
 				this.$el.requestFullscreen()
 			}
-		}
-	}
+		},
+	},
 }

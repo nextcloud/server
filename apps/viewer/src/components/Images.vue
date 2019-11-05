@@ -52,14 +52,14 @@ Vue.use(AsyncComputed)
 export default {
 	name: 'Images',
 	mixins: [
-		Mime
+		Mime,
 	],
 	data() {
 		return {
 			dragging: false,
 			shiftX: 0,
 			shiftY: 0,
-			zoomRatio: 1
+			zoomRatio: 1,
 		}
 	},
 	computed: {
@@ -81,7 +81,7 @@ export default {
 			return this.zoomHeight < 100
 				? null
 				: this.zoomWidth + 'px'
-		}
+		},
 	},
 	asyncComputed: {
 		data() {
@@ -93,7 +93,7 @@ export default {
 			default:
 				return this.path
 			}
-		}
+		},
 	},
 	watch: {
 		active: function(val, old) {
@@ -106,7 +106,7 @@ export default {
 			} else if (val === false) {
 				window.removeEventListener('mouseout', this.dragEnd)
 			}
-		}
+		},
 	},
 	methods: {
 		// Updates the dimensions of the modal
@@ -146,8 +146,8 @@ export default {
 			const isZoomIn = event.deltaY < 0
 
 			const newZoomRatio = isZoomIn
-				? Math.min(this.zoomRatio + 0.1, 5)		// prevent too big zoom
-				: Math.max(this.zoomRatio - 0.1, 1)		// prevent too small zoom
+				? Math.min(this.zoomRatio + 0.1, 5) // prevent too big zoom
+				: Math.max(this.zoomRatio - 0.1, 1) // prevent too small zoom
 
 			// do not continue, img is back to its original state
 			if (newZoomRatio === 1) {
@@ -216,8 +216,8 @@ export default {
 			} else {
 				this.zoomRatio = 1.3
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -19,16 +19,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import webdav from 'webdav'
+import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
-export default function(fileInfo, mime, component) {
-	this.path = generateRemoteUrl(`dav/files/${getCurrentUser().uid}${fileInfo.filename}`)
-	this.id = fileInfo.fileid
-	this.name = fileInfo.basename
-	this.hasPreview = fileInfo.hasPreview
-	this.mime = mime
-	this.modal = component
-	this.failed = false
-	this.loaded = false
-}
+// force our axios
+const patcher = webdav.getPatcher()
+patcher.patch('request', axios)
+
+// init webdav client
+const client = webdav.createClient(generateRemoteUrl(`dav/files/${getCurrentUser().uid}`))
+
+export default client

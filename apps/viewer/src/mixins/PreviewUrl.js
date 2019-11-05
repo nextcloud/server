@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateUrl } from 'nextcloud-server/dist/router'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	methods: {
@@ -29,6 +29,6 @@ export default {
 				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
 			return fileInfo.path
-		}
-	}
+		},
+	},
 }
