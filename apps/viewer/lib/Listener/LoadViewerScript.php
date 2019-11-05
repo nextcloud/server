@@ -37,6 +37,6 @@ class LoadViewerScript implements IEventListener {
 			return;
 		}
 
-		Util::addScript(Application::APP_ID, Application::APP_ID);
+		Util::addScript(Application::APP_ID, 'viewer');
 	}
 }

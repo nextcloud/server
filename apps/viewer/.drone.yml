@@ -25,7 +25,7 @@ name: cypress-e2e-testing master
 services:
    # nextcloud server
   - name: server
-    image: nextcloudci/server:server-10
+    image: nextcloudci/server:server-15
     commands:
       # Add app sources to the app directory
       - export BRANCH=$DRONE_TARGET_BRANCH
@@ -37,7 +37,7 @@ services:
       - chown -R www-data:www-data /var/www/html/data
 
        # Install nextcloud, watch logs and run apache
-      - bash /initnc.sh
+      - bash /usr/local/bin/initnc.sh
 
 steps:
   # clone and build the app
@@ -61,6 +61,8 @@ steps:
       LOGIN: login
     commands:
       - WAIT_ON=$CYPRESS_baseUrl$LOGIN
+      # Add app sources to the app directory
+      - echo "Waiting for $WAIT_ON"
       - npm install -g wait-on
       - wait-on -i 500 -t 300000 $WAIT_ON
 
@@ -89,6 +91,7 @@ steps:
       CYPRESS_baseUrl: http://server/index.php/
       LOGIN: login
     commands:
+      - export DEBUG=cypress:*
       - cd /drone/src
       - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER-master
 
@@ -117,6 +120,7 @@ steps:
       CYPRESS_baseUrl: http://server/index.php/
       LOGIN: login
     commands:
+      - export DEBUG=cypress:*
       - cd /drone/src
       - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER-master
 
@@ -145,6 +149,7 @@ steps:
       CYPRESS_baseUrl: http://server/index.php/
       LOGIN: login
     commands:
+      - export DEBUG=cypress:*
       - cd /drone/src
       - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER-master
 
@@ -173,6 +178,7 @@ steps:
       CYPRESS_baseUrl: http://server/index.php/
       LOGIN: login
     commands:
+      - export DEBUG=cypress:*
       - cd /drone/src
       - $(npm bin)/cypress run --record --key $CYPRESS_RECORD_TOKEN --parallel --ci-build-id ci-$DRONE_BUILD_NUMBER-master
 
