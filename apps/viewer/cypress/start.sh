@@ -10,7 +10,8 @@ else
 	dockername="cypress_testing_$appname"
 
 	docker run -p 8000:80 --rm --name $dockername --volume $(pwd):/var/www/html/apps/$appname --env BRANCH=master --detach nextcloudci/server:server-15
-	sleep 10
+	npm i --no-save wait-on
+	npm run wait-on -- http://localhost:8000
 	docker exec --user www-data $dockername php occ app:enable $appname
 	docker exec --user www-data $dockername php occ config:system:set force_language --value en
 fi

@@ -33,7 +33,8 @@
     "stylelint": "stylelint src",
     "stylelint:fix": "stylelint src --fix",
     "cypress": "cypress run",
-    "cypress:gui": "cypress open"
+    "cypress:gui": "cypress open",
+    "wait-on": "wait-on -i 500 -t 300000"
   },
   "dependencies": {
     "@nextcloud/auth": "^0.3.1",
