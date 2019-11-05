@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Cek %s tidak valid atau tidak ada",
     "Predefined URLs" : "URL terdefinisi",
     "Files WebDAV" : "Berkas WebDAV",
-    "Sync clients" : "Klien sync",
     "Android client" : "Klien Android",
     "iOS client" : "Klien iOS",
     "Desktop client" : "Klien desktop",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Start" : "Mulai",
     "End" : "Selesai",
     "Select timezone…" : "Pilih zona waktu...",
+    "Sync clients" : "Klien sync",
     "Workflow" : "Alur kerja",
     "Open documentation" : "Buka dokumentasi",
     "Loading…" : "Memuat..."

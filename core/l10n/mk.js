@@ -325,6 +325,7 @@ OC.L10N.register(
     "Account access" : "Пристап до сметка",
     "You are about to grant %1$s access to your %2$s account." : "Ќе доделите пристап на %1$s во вашата %2$s сметка.",
     "Account connected" : "Сметката е поврзана",
+    "You can close this window." : "Можете да го затворите овој прозорец.",
     "This share is password-protected" : "Ова споделување е заштитено со лозинка",
     "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
     "Two-factor authentication" : "Двофакторна автентикација",
