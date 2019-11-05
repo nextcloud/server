@@ -2,9 +2,10 @@ const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
-const packageJson = require('./package.json')
-const appName = packageJson.name
-const appVersion = JSON.stringify(packageJson.version)
+
+// always use the require(package.json) directly to not create compile issues
+const appName = require('./package.json').name
+const appVersion = JSON.stringify(require('./package.json').version)
 
 module.exports = {
 	entry: path.join(__dirname, 'src', 'main.js'),
