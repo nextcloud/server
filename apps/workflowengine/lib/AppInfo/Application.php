@@ -23,12 +23,14 @@ namespace OCA\WorkflowEngine\AppInfo;
 
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\Event;
 use OCP\Template;
 use OCA\WorkflowEngine\Controller\RequestTime;
 use OCP\WorkflowEngine\IEntity;
+use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
+use OCP\WorkflowEngine\IOperationCompat;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends \OCP\AppFramework\App {
 
@@ -54,7 +56,7 @@ class Application extends \OCP\AppFramework\App {
 	public function registerHooksAndListeners() {
 		$this->dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
-			function() {
+			function () {
 				if (!function_exists('style')) {
 					// This is hacky, but we need to load the template class
 					class_exists(Template::class, true);
@@ -88,15 +90,35 @@ class Application extends \OCP\AppFramework\App {
 				array_map(function (string $eventName) use ($operationClass, $entityClass) {
 					$this->dispatcher->addListener(
 						$eventName,
-						function (GenericEvent $event) use ($eventName, $operationClass, $entityClass) {
+						function ($event) use ($eventName, $operationClass, $entityClass) {
 							$ruleMatcher = $this->manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
 								$entity = $this->getContainer()->query($entityClass);
-								$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 								/** @var IOperation $operation */
 								$operation = $this->getContainer()->query($operationClass);
-								$operation->onEvent($eventName, $event, $ruleMatcher);
+
+								if ($event instanceof Event) {
+									$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
+									$operation->onEvent($eventName, $event, $ruleMatcher);
+								} else if ($entity instanceof IEntityCompat && $operation instanceof IOperationCompat) {
+									// TODO: Remove this block (and the compat classes) in the first major release in 2023
+									$entity->prepareRuleMatcherCompat($ruleMatcher, $eventName, $event);
+									$operation->onEventCompat($eventName, $event, $ruleMatcher);
+								} else {
+									$logger = $this->getContainer()->getServer()->getLogger();
+									$logger->warning(
+										'Cannot handle event {name} of {event} against entity {entity} and operation {operation}',
+										[
+											'app' => self::APP_ID,
+											'name' => $eventName,
+											'event' => get_class($event),
+											'entity' => $entityClass,
+											'operation' => $operationClass,
+										]
+									);
+								}
+
 							} catch (QueryException $e) {
 								// Ignore query exceptions since they might occur when an entity/operation were setup before by an app that is disabled now
 							}

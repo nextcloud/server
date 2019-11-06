@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\Event;
 
 /**
  * Interface IEntity
@@ -72,6 +72,6 @@ interface IEntity {
 	/**
 	 * @since 18.0.0
 	 */
-	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, GenericEvent $event): void;
+	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, Event $event): void;
 
 }
