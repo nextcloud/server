@@ -13,6 +13,8 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\GenericEvent as APIGenericEvent;
 use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -146,7 +148,8 @@ class HookConnectorTest extends TestCase {
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
 		$dispatcherNode = null;
-		$this->eventDispatcher->addListener($expectedEvent, function (GenericEvent $event) use (&$dispatcherCalled, &$dispatcherNode) {
+		$this->eventDispatcher->addListener($expectedEvent, function ($event) use (&$dispatcherCalled, &$dispatcherNode) {
+			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			$dispatcherNode = $event->getSubject();
 		});
@@ -206,7 +209,8 @@ class HookConnectorTest extends TestCase {
 		$dispatcherSourceNode = null;
 		/** @var Node $dispatcherTargetNode */
 		$dispatcherTargetNode = null;
-		$this->eventDispatcher->addListener($expectedEvent, function (GenericEvent $event) use (&$dispatcherSourceNode, &$dispatcherTargetNode, &$dispatcherCalled) {
+		$this->eventDispatcher->addListener($expectedEvent, function ($event) use (&$dispatcherSourceNode, &$dispatcherTargetNode, &$dispatcherCalled) {
+			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			list($dispatcherSourceNode, $dispatcherTargetNode) = $event->getSubject();
 		});
@@ -237,7 +241,8 @@ class HookConnectorTest extends TestCase {
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
 		$dispatcherNode = null;
-		$this->eventDispatcher->addListener('\OCP\Files::postDelete', function (GenericEvent $event) use (&$dispatcherCalled, &$dispatcherNode) {
+		$this->eventDispatcher->addListener('\OCP\Files::postDelete', function ($event) use (&$dispatcherCalled, &$dispatcherNode) {
+			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			$dispatcherNode = $event->getSubject();
 		});
