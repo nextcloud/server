@@ -365,6 +365,8 @@ OC.L10N.register(
     "Account access" : "Prístup k účtu",
     "You are about to grant %1$s access to your %2$s account." : "Chystáte sa udeliť %1$s prístup k svojmu %2$s účtu.",
     "Account connected" : "Účet pripojený",
+    "Your client should now be connected!" : "Váš klient by mal byť pripojený!",
+    "You can close this window." : "Toto okno už môžete zatvoriť.",
     "This share is password-protected" : "Toto sprístupnenie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Two-factor authentication" : "Dvojzložkové overovanie",
