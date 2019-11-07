@@ -32,14 +32,15 @@ class Response {
 	private $requestId;
 
 	/** @var string */
-	private $app;
+	private $appId;
 
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(int $requestId, string $app) {
+	public function __construct(int $requestId,
+				    string $appId) {
 		$this->requestId = $requestId;
-		$this->app = $app;
+		$this->appId = $appId;
 	}
 
 	/**
@@ -54,6 +55,20 @@ class Response {
 	 */
 	public function addJson($data): void {
 		throw new \Exception('Not implemented');
+	}
+
+	/**
+	 * @since 18.0.0
+	 */
+	public function getRequestId(): int {
+		return $this->requestId;
+	}
+
+	/**
+	 * @since 18.0.0
+	 */
+	public function getAppId(): string {
+		return $this->appId;
 	}
 
 }
