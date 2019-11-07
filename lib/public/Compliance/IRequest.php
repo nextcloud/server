@@ -29,6 +29,14 @@ namespace OCP\Compliance;
 interface IRequest {
 
 	/**
+	 * Get the internal type of the request, e.g. 'export_gdpr'
+	 *
+	 * @return string
+	 * @since 18.0.0
+	 */
+	public static function getType(): string;
+
+	/**
 	 * Get the unique ID of this request, used to map responses later on
 	 *
 	 * @return int
