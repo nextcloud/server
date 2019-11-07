@@ -2,8 +2,10 @@
 /* eslint-disable */
 /*
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -85,6 +87,25 @@ const Dialogs = {
 			title,
 			'notice',
 			Dialogs.YES_NO_BUTTONS,
+			callback,
+			modal
+		)
+	},
+	/**
+	 * displays confirmation dialog
+	 * @param {string} text content of dialog
+	 * @param {string} title dialog title
+	 * @param {{type: Int, confirm: String, cancel: String, confirmClasses: String}} buttons text content of buttons
+	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
+	 * @param {boolean} [modal] make the dialog modal
+	 * @returns {Promise}
+	 */
+	confirmDestructive: function(text, title, buttons, callback, modal) {
+		return this.message(
+			text,
+			title,
+			'none',
+			buttons,
 			callback,
 			modal
 		)
@@ -532,6 +553,34 @@ const Dialogs = {
 					text: t('core', 'OK'),
 					click: functionToCall,
 					defaultButton: true
+				}
+				break
+			default:
+				if (typeof(buttons) === 'object') {
+					switch (buttons.type) {
+						case Dialogs.YES_NO_BUTTONS:
+							buttonlist = [{
+								text: buttons.cancel || t('core', 'No'),
+								click: function() {
+									if (callback !== undefined) {
+										callback(false)
+									}
+									$(dialogId).ocdialog('close')
+								}
+							},
+								{
+									text: buttons.confirm || t('core', 'Yes'),
+									click: function() {
+										if (callback !== undefined) {
+											callback(true)
+										}
+										$(dialogId).ocdialog('close')
+									},
+									defaultButton: true,
+									classes: buttons.confirmClasses
+								}]
+							break
+					}
 				}
 				break
 			}

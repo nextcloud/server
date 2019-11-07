@@ -1,7 +1,9 @@
 <!--
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Gary Kim <gary@garykim.dev>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -428,25 +430,55 @@ export default {
 		},
 
 		wipeUserDevices() {
-			this.loading.wipe = true
-			this.loading.all = true
 			let userid = this.user.id
-			return this.$store.dispatch('wipeUserDevices', userid)
-				.then(() => {
-					this.loading.wipe = false
-					this.loading.all = false
-				})
+			OC.dialogs.confirmDestructive(
+				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid: userid }),
+				t('settings', 'Remote wipe of devices'),
+				{
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('settings', 'Wipe {userid}\'s devices', { userid: userid }),
+					confirmClasses: 'error',
+					cancel: t('settings', 'Cancel')
+				},
+				(result) => {
+					if (result) {
+						this.loading.wipe = true
+						this.loading.all = true
+						this.$store.dispatch('wipeUserDevices', userid)
+							.then(() => {
+								this.loading.wipe = false
+								this.loading.all = false
+							})
+					}
+				},
+				true
+			)
 		},
 
 		deleteUser() {
-			this.loading.delete = true
-			this.loading.all = true
 			let userid = this.user.id
-			return this.$store.dispatch('deleteUser', userid)
-				.then(() => {
-					this.loading.delete = false
-					this.loading.all = false
-				})
+			OC.dialogs.confirmDestructive(
+				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid: userid }),
+				t('settings', 'Account deletion'),
+				{
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('settings', 'Delete {userid}\'s account', { userid: userid }),
+					confirmClasses: 'error',
+					cancel: t('settings', 'Cancel')
+				},
+				(result) => {
+					if (result) {
+						this.loading.delete = true
+						this.loading.all = true
+						return this.$store.dispatch('deleteUser', userid)
+							.then(() => {
+								this.loading.delete = false
+								this.loading.all = false
+							})
+					}
+				},
+				true
+			)
 		},
 
 		enableDisableUser() {
