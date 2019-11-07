@@ -128,6 +128,11 @@ class SecurityMiddleware extends Middleware {
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
 
+		/** @suppress PhanUndeclaredClassConstant */
+		if ($controller === \OCA\Talk\Controller\PageController::class && $methodName === 'showCall') {
+			$this->navigationManager->setActiveEntry('spreed');
+		}
+
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
