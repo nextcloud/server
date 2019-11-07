@@ -25,7 +25,10 @@ declare(strict_types=1);
 
 namespace OC\EventDispatcher;
 
+use OC\Broadcast\Events\BroadcastEvent;
+use OCP\Broadcast\Events\IBroadcastEvent;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 use OCP\ILogger;
@@ -73,6 +76,14 @@ class EventDispatcher implements IEventDispatcher {
 	public function dispatch(string $eventName,
 							 Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);
+
+		if ($event instanceof ABroadcastedEvent && !$event->isPropagationStopped()) {
+			// Propagate broadcast
+			$this->dispatch(
+				IBroadcastEvent::class,
+				new BroadcastEvent($event)
+			);
+		}
 	}
 
 	public function dispatchTyped(Event $event): void {

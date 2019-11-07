@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Дељења ће се појавити овде",
     "Restore share" : "Поврати дељење",
     "Something happened. Unable to restore the share." : "Нешто чудно се десило. Дељење не може да се поврати.",
+    "This will stop your current uploads." : "Ово ће да прекине тренутна отпремања.",
     "Move or copy" : "Помери или копирај",
     "Download" : "Преузми",
     "Delete" : "Избриши",
@@ -85,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Фајл или фасцикла су дељени са <strong>другог сервера</strong>",
     "A file or folder has been <strong>shared</strong>" : "Фајл или фасцикла је <strong>дељен</strong>",
     "Wrong share ID, share doesn't exist" : "Погрешна идентификација дељења, дељење не постоји",
-    "could not delete share" : "не могу да обришем дељење",
     "Could not delete share" : "Не могу да обришем дељење",
     "Please specify a file or folder path" : "Молимо одаберите путању до фајла или фасцикле",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
@@ -116,10 +116,10 @@ OC.L10N.register(
     "Share API is disabled" : "API за дељене је искључен",
     "File sharing" : "Дељења фајлова",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Ова апликација омогућава корисницима да деле фајлове унутар Некстклауда. Када се укључи, администратор може да одабере које групе могу да деле фајлове. Такви корисници затим могу да деле фасцикле и фајлове са осталим корисницима и групама унутар Некстклауда. Додатно, ако администратор укључи и могућност за дељење везе, може се користити и спољна веза за дељење са корисницима ван Некстклауда. Администратори такође могу да захтевају лозинке, датум истека и да омогуће дељење између сервера преко веза дељења, као и дељење са мобилних уређаја.\nИскључивањем ове могућности искључује дељене фасцикле и фајлове на серверу за све дељенике, као и на синхронизованим клијентима и мобилним апликацијама. Више информација можете наћи у Некстклауд документацији.",
+    "Sharing" : "Дељење",
     "Link to a file" : "Веза ка фајлу",
     "Shared" : "Подељено",
     "Share" : "Подели",
-    "Sharing" : "Дељење",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Name" : "Назив",
     "Share time" : "Време дељења",
@@ -138,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Одаберите или превуците фајлове",
     "Uploading files…" : "Отпремам фајлове…",
     "Uploaded files:" : "Отпремљени фајлови:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
+    "could not delete share" : "не могу да обришем дељење"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

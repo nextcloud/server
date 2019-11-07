@@ -221,6 +221,32 @@ class AddMissingIndices extends Command {
 			}
 		}
 
+		$output->writeln('<info>Check indices of the calendarobjects_props table.</info>');
+		if ($schema->hasTable('calendarobjects_props')) {
+			$table = $schema->getTable('calendarobjects_props');
+			if (!$table->hasIndex('calendarobject_calid_index')) {
+				$output->writeln('<info>Adding calendarobject_calid_index index to the calendarobjects_props table, this can take some time...</info>');
+
+				$table->addIndex(['calendarid', 'calendartype'], 'calendarobject_calid_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>calendarobjects_props table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the schedulingobjects table.</info>');
+		if ($schema->hasTable('schedulingobjects')) {
+			$table = $schema->getTable('schedulingobjects');
+			if (!$table->hasIndex('schedulobj_principuri_index')) {
+				$output->writeln('<info>Adding schedulobj_principuri_index index to the schedulingobjects table, this can take some time...</info>');
+
+				$table->addIndex(['principaluri'], 'schedulobj_principuri_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
+			}
+		}
+
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}

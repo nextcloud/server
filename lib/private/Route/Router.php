@@ -162,7 +162,6 @@ class Router implements IRouter {
 		if (!isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
 			$this->useCollection('root');
-			require_once __DIR__ . '/../../../settings/routes.php';
 			require_once __DIR__ . '/../../../core/routes.php';
 
 			// Also add the OCS collection
@@ -258,7 +257,9 @@ class Router implements IRouter {
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
+		} else if (substr($url, 0, 10) === '/settings/') {
+			$this->loadRoutes('settings');
+		} else if (substr($url, 0, 6) === '/core/') {
 			\OC::$REQUESTEDAPP = $url;
 			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
@@ -370,7 +371,7 @@ class Router implements IRouter {
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 			if (class_exists($applicationClassName)) {
-				$application = new $applicationClassName();
+				$application = \OC::$server->query($applicationClassName);
 			} else {
 				$application = new App($appName);
 			}

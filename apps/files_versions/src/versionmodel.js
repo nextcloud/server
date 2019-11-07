@@ -8,9 +8,7 @@
  *
  */
 
-/* global moment */
-
-(function () {
+(function() {
 	/**
 	 * @memberof OCA.Versions
 	 */
@@ -20,53 +18,55 @@
 		davProperties: {
 			'size': '{DAV:}getcontentlength',
 			'mimetype': '{DAV:}getcontenttype',
-			'timestamp': '{DAV:}getlastmodified',
+			'timestamp': '{DAV:}getlastmodified'
 		},
 
 		/**
 		 * Restores the original file to this revision
+		 *
+		 * @param {Object} [options] options
+		 * @returns {Promise}
 		 */
-		revert: function (options) {
-			options = options ? _.clone(options) : {};
-			var model = this;
+		revert: function(options) {
+			options = options ? _.clone(options) : {}
+			var model = this
 
-			var client = this.get('client');
+			var client = this.get('client')
 
 			return client.move('/versions/' + this.get('fileId') + '/' + this.get('id'), '/restore/target', true)
-				.done(function () {
+				.done(function() {
 					if (options.success) {
-						options.success.call(options.context, model, {}, options);
+						options.success.call(options.context, model, {}, options)
 					}
-					model.trigger('revert', model, options);
+					model.trigger('revert', model, options)
 				})
-				.fail(function () {
+				.fail(function() {
 					if (options.error) {
-						options.error.call(options.context, model, {}, options);
+						options.error.call(options.context, model, {}, options)
 					}
-					model.trigger('error', model, {}, options);
-				});
+					model.trigger('error', model, {}, options)
+				})
 		},
 
-		getFullPath: function () {
-			return this.get('fullPath');
+		getFullPath: function() {
+			return this.get('fullPath')
 		},
 
-		getPreviewUrl: function () {
-			var url = OC.generateUrl('/apps/files_versions/preview');
+		getPreviewUrl: function() {
+			var url = OC.generateUrl('/apps/files_versions/preview')
 			var params = {
 				file: this.get('fullPath'),
 				version: this.get('id')
-			};
-			return url + '?' + OC.buildQueryString(params);
+			}
+			return url + '?' + OC.buildQueryString(params)
 		},
 
-		getDownloadUrl: function () {
-			return OC.linkToRemoteBase('dav') + '/versions/' + this.get('user') + '/versions/' + this.get('fileId') + '/' + this.get('id');
+		getDownloadUrl: function() {
+			return OC.linkToRemoteBase('dav') + '/versions/' + this.get('user') + '/versions/' + this.get('fileId') + '/' + this.get('id')
 		}
-	});
+	})
 
-	OCA.Versions = OCA.Versions || {};
+	OCA.Versions = OCA.Versions || {}
 
-	OCA.Versions.VersionModel = VersionModel;
-})();
-
+	OCA.Versions.VersionModel = VersionModel
+})()

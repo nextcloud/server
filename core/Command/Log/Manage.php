@@ -62,7 +62,7 @@ class Manage extends Command implements CompletionAwareInterface {
 				'level',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'set the log level [debug, info, warning, error]'
+				'set the log level [debug, info, warning, error, fatal]'
 			)
 			->addOption(
 				'timezone',
@@ -152,6 +152,8 @@ class Manage extends Command implements CompletionAwareInterface {
 		case 'error':
 		case 'err':
 			return 3;
+		case 'fatal':
+			return 4;
 		}
 		throw new \InvalidArgumentException('Invalid log level string');
 	}
@@ -171,6 +173,8 @@ class Manage extends Command implements CompletionAwareInterface {
 			return 'Warning';
 		case 3:
 			return 'Error';
+		case 4:
+			return 'Fatal';
 		}
 		throw new \InvalidArgumentException('Invalid log level number');
 	}
@@ -184,7 +188,7 @@ class Manage extends Command implements CompletionAwareInterface {
 		if ($optionName === 'backend') {
 			return ['file', 'syslog', 'errorlog', 'systemd'];
 		} else if ($optionName === 'level') {
-			return ['debug', 'info', 'warning', 'error'];
+			return ['debug', 'info', 'warning', 'error', 'fatal'];
 		} else if ($optionName === 'timezone') {
 			return \DateTimeZone::listIdentifiers();
 		}

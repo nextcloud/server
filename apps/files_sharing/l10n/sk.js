@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Súbor alebo priečinok bol sprístupnený z <strong>iného servera</strong>",
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>sprístupnený</strong>",
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
-    "could not delete share" : "nie je možné zmazať sprístupnenie",
     "Could not delete share" : "Nie je možné zmazať sprístupnenie",
     "Please specify a file or folder path" : "Zvoľte prosím súbor alebo cestu k priečinku",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
@@ -117,10 +116,10 @@ OC.L10N.register(
     "Share API is disabled" : "API pre sprístupňovanie je zakázané",
     "File sharing" : "Sprístupnenie súborov",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Táto aplikácia umožňuje používateľom si navzájom sprístupňovať súbory v rámci Nextcloud. Ak je zapnutá, správca môže zvoliť, ktoré skupiny môžu súbory sprístupňovať ostatným. Poverení používatelia potom môžu tieto súbory sprístupňovať ostatným používateľom a skupinám v rámci Nextcloud. Navyše, ak správca zapne funkciu sprístupňovania pomocou odkazu, je možné súbory sprístupňovať aj mimo Nextcloud a to pomocou externého odkazu (linku). Správci tiež môžu vynútiť používanie hesiel, dátumov expirácie a zapnúť sprístupňovanie server-server pomocou zdieľaných odkazov. Rovnako aj sprístupňovanie z mobilných zariadení.\nVypnutím tejto funkcie odoberie sprístupnené súbory a priečinky na serveri pre všetkých príjemcov sprístupnenia a taktiež aj na synchronizovaných klientoch (napr. počítačová aplikácia Nextcloud) a mobilných aplikáciách. Viac informácií je k dispozícii v dokumentácii Nextcloud.",
+    "Sharing" : "Sprístupnenie",
     "Link to a file" : "Odkaz na súbor",
     "Shared" : "Sprístupnené",
     "Share" : "Sprístupniť",
-    "Sharing" : "Sprístupnenie",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Name" : "Názov",
     "Share time" : "Čas sprístupnenia",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Vyberte alebo položte súbory",
     "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
+    "could not delete share" : "nie je možné zmazať sprístupnenie"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

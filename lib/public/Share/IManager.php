@@ -385,4 +385,16 @@ interface IManager {
 	 */
 	public function shareProviderExists($shareType);
 
+	/**
+	 * @Internal
+	 *
+	 * Get all the shares as iterable to reduce memory overhead
+	 * Note, since this opens up database cursors the iterable should
+	 * be fully itterated.
+	 *
+	 * @return iterable
+	 * @since 18.0.0
+	 */
+	public function getAllShares(): iterable;
+
 }

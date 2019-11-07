@@ -77,7 +77,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio on jaettu <strong>toiselta palvelimelta</strong>",
     "A file or folder has been <strong>shared</strong>" : "Tiedosto tai kansio on <strong>jaettu</strong>",
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
-    "could not delete share" : "jaon poistaminen epäonnistui",
     "Could not delete share" : "Jaon poistaminen epäonnistui",
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
@@ -103,10 +102,10 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
+    "Sharing" : "Jakaminen",
     "Link to a file" : "Linkki tiedostoon",
     "Shared" : "Jaettu",
     "Share" : "Jaa",
-    "Sharing" : "Jakaminen",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Select or drop files" : "Valitse tai pudota tiedostoja",
     "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
+    "could not delete share" : "jaon poistaminen epäonnistui"
 },
 "nplurals=2; plural=(n != 1);");

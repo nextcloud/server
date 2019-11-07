@@ -15,7 +15,7 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Server-till-server-delning är inte aktiverat på denna server",
     "Couldn't establish a federated share." : "Kunde inte lägga till en federerad utdelning",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunde inte lägga till en federerad utdelning, lösenordet kanske var felaktigt.",
-    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federerad delningsförfrågan sändes, du kommer få en inbjudan. Kolla dina notifieringar.",
+    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federerad delningsförfrågan skickades, du kommer att få en inbjudan. Kontrollera dina aviseringar.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Kunde inte etablera federerad delning, det verkar som servern att federera med är för gammal (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Det är inte tillåtet att skicka federerade gruppdelningar från den här servern.",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "Delning %1$s misslyckades, är redan delad med %2$s",

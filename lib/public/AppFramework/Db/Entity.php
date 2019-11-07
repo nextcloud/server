@@ -24,6 +24,9 @@
 namespace OCP\AppFramework\Db;
 
 
+use function lcfirst;
+use function substr;
+
 /**
  * @method integer getId()
  * @method void setId(integer $id)
@@ -139,16 +142,16 @@ abstract class Entity {
 	 * getter method
 	 * @since 7.0.0
 	 */
-	public function __call($methodName, $args){
-		$attr = lcfirst( substr($methodName, 3) );
-
-		if(strpos($methodName, 'set') === 0){
-			$this->setter($attr, $args);
-		} elseif(strpos($methodName, 'get') === 0) {
-			return $this->getter($attr);
+	public function __call($methodName, $args) {
+		if (strpos($methodName, 'set') === 0) {
+			$this->setter(lcfirst(substr($methodName, 3)), $args);
+		} elseif (strpos($methodName, 'get') === 0) {
+			return $this->getter(lcfirst(substr($methodName, 3)));
+		} elseif (strpos($methodName, 'is') === 0) {
+			return $this->getter(lcfirst(substr($methodName, 2)));
 		} else {
-			throw new \BadFunctionCallException($methodName . 
-					' does not exist');
+			throw new \BadFunctionCallException($methodName .
+				' does not exist');
 		}
 
 	}

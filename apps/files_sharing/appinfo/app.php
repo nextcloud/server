@@ -29,13 +29,14 @@
 
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
+use OCA\Files_Sharing\AppInfo\Application;
 
 \OCA\Files_Sharing\Helper::registerHooks();
 
 \OC\Share\Share::registerBackend('file', File::class);
 \OC\Share\Share::registerBackend('folder', Folder::class, 'file');
 
-$application = new \OCA\Files_Sharing\AppInfo\Application();
+$application = \OC::$server->query(Application::class);
 $application->registerMountProviders();
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
@@ -43,6 +44,7 @@ $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
 		\OCP\Util::addScript('files_sharing', 'dist/additionalScripts');
+		\OCP\Util::addStyle('files_sharing', 'icons');
 	}
 );
 \OC::$server->getEventDispatcher()->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () {

@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "ფაილი ან დირექტორია გაზიარდა <strong>სხვა სერვერიდან</strong>",
     "A file or folder has been <strong>shared</strong>" : "ფაილი ან დირექტორია <strong>გაზიარებულ იქნა</strong>",
     "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
-    "could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Please specify a file or folder path" : "გთხოვთ მიუთითოთ ფაილის ან დირექტორიის მისამართი",
     "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
@@ -88,8 +87,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
     "File sharing" : "ფაილების გაზიარება",
-    "Share" : "გაზიარება",
     "Sharing" : "გაზიარება",
+    "Share" : "გაზიარება",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანები ვერ მოიძებნა",
     "Name" : "სახელი",
     "Share time" : "გაზიარების დრო",
@@ -104,6 +103,7 @@ OC.L10N.register(
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
-    "Uploaded files:" : "ფაილების ატვირთვა:"
+    "Uploaded files:" : "ფაილების ატვირთვა:",
+    "could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა"
 },
 "nplurals=2; plural=(n!=1);");

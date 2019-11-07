@@ -202,7 +202,7 @@ class AppTest extends \Test\TestCase {
 
 	public function testSettingsApp() {
 		$this->container['AppName'] = 'settings';
-		$this->container['OC\Settings\Controller\Foo'] = $this->controller;
+		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())

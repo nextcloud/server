@@ -158,14 +158,15 @@ class Manager implements IProvider {
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
+	 * @return IToken
 	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId) {
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
 		try {
-			$this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			return $this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
-			$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			return $this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		}
 	}
 

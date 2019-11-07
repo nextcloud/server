@@ -129,7 +129,7 @@ class GroupsController extends AUserData {
 	 *
 	 * @param string $groupId
 	 * @return DataResponse
-	 * @throws OCSException	
+	 * @throws OCSException
 	 *
 	 * @deprecated 14 Use getGroupUsers
 	 */
@@ -246,6 +246,28 @@ class GroupsController extends AUserData {
 		}
 		$this->groupManager->createGroup($groupid);
 		return new DataResponse();
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 *
+	 * @param string $groupId
+	 * @param string $key
+	 * @param string $value
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function updateGroup(string $groupId, string $key, string $value): DataResponse {
+		if ($key === 'displayname') {
+			$group = $this->groupManager->get($groupId);
+			if ($group->setDisplayName($value)) {
+				return new DataResponse();
+			}
+
+			throw new OCSException('Not supported by backend', 101);
+		} else {
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
 	}
 
 	/**

@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Një kartelë ose dosje u nda prej një <strong>shërbyesi tjetër</strong>",
     "A file or folder has been <strong>shared</strong>" : "U <strong>nda me të tjerë</strong> një kartelë ose dosje",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
-    "could not delete share" : "ndarja s’u fshi dot",
     "Could not delete share" : "Ndarja s’u fshi dot",
     "Please specify a file or folder path" : "Ju lutemi, tregoni një shteg kartele ose dosjeje",
     "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
@@ -87,8 +86,8 @@ OC.L10N.register(
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
-    "Share" : "shpërndaj",
     "Sharing" : "Ndarje",
+    "Share" : "shpërndaj",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Name" : "Emër",
     "Share time" : "Kohë ndarjeje",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Upload files to %s" : "Ngrako skedarët tek %s",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
-    "Uploaded files:" : "Skedarët e ngarkuar:"
+    "Uploaded files:" : "Skedarët e ngarkuar:",
+    "could not delete share" : "ndarja s’u fshi dot"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,5 +1,5 @@
 <template>
-	<div class="section rule" :style="{ borderLeftColor: operation.color || '' }">
+	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
 		<div class="trigger">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>
@@ -7,35 +7,42 @@
 			</p>
 			<p v-for="(check, index) in rule.checks" :key="index">
 				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check :check="check" :rule="rule" @update="updateRule"
+				<Check :check="check"
+					:rule="rule"
+					@update="updateRule"
 					@remove="removeCheck(check)" />
 			</p>
 			<p>
 				<span />
-				<input v-if="lastCheckComplete" type="button" class="check--add"
-					value="Add a new filter" @click="rule.checks.push({class: null, operator: null, value: null})">
+				<input v-if="lastCheckComplete"
+					type="button"
+					class="check--add"
+					value="Add a new filter"
+					@click="rule.checks.push({class: null, operator: null, value: null})">
 			</p>
 		</div>
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
-			<div class="buttons">
-				<Actions>
-					<ActionButton v-if="rule.id < -1" icon="icon-close" @click="cancelRule">
-						{{ t('workflowengine', 'Cancel rule creation') }}
-					</ActionButton>
-					<ActionButton v-else icon="icon-close" @click="deleteRule">
-						{{ t('workflowengine', 'Remove rule') }}
-					</ActionButton>
-				</Actions>
-			</div>
 			<Operation :operation="operation" :colored="false">
-				<component :is="operation.options" v-if="operation.options" v-model="rule.operation"
+				<component :is="operation.options"
+					v-if="operation.options"
+					v-model="rule.operation"
 					@input="updateOperation" />
 			</Operation>
-			<button v-tooltip="ruleStatus.tooltip" class="status-button icon" :class="ruleStatus.class"
-				@click="saveRule">
-				{{ ruleStatus.title }}
-			</button>
+			<div class="buttons">
+				<button v-tooltip="ruleStatus.tooltip"
+					class="status-button icon"
+					:class="ruleStatus.class"
+					@click="saveRule">
+					{{ ruleStatus.title }}
+				</button>
+				<button v-if="rule.id < -1" @click="cancelRule">
+					{{ t('workflowengine', 'Cancel') }}
+				</button>
+				<button v-else @click="deleteRule">
+					{{ t('workflowengine', 'Delete') }}
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -76,7 +83,7 @@ export default {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
 		ruleStatus() {
-			if (this.error || !this.rule.valid) {
+			if (this.error || !this.rule.valid || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					class: 'icon-close-white invalid',
@@ -154,11 +161,18 @@ export default {
 		background-position: 10px center;
 	}
 
+	.buttons {
+		display: block;
+		button {
+			float: right;
+			height: 34px;
+		}
+	}
+
 	.status-button {
 		transition: 0.5s ease all;
 		display: block;
-		margin: auto;
-		margin-right: 0;
+		margin: 3px 10px 3px auto;
 	}
 	.status-button.primary {
 		padding-left: 32px;
@@ -190,12 +204,6 @@ export default {
 		.action {
 			max-width: 400px;
 			position: relative;
-			.buttons {
-				position: absolute;
-				right: 0;
-				display: flex;
-				z-index: 1;
-			}
 		}
 		.icon-confirm {
 			background-position: right 27px;
@@ -229,6 +237,7 @@ export default {
 		margin: 0;
 		width: 180px;
 		border-radius: var(--border-radius);
+		color: var(--color-text-maxcontrast);
 		font-weight: normal;
 		text-align: left;
 		font-size: 1em;

@@ -86,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "S'ha compartit un fitxer o una carpeta d'un <strong>altre servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
-    "could not delete share" : "no s'ha pogut suprimir la compartició",
     "Could not delete share" : "No s'ha pogut suprimir la compartició",
     "Please specify a file or folder path" : "Si us plau, especifiqueu un camí de fitxer o carpeta",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
@@ -117,10 +116,10 @@ OC.L10N.register(
     "Share API is disabled" : "Compartir l'API està desactivat",
     "File sharing" : "Compartició de fitxers",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Aquesta aplicació permet als usuaris compartir fitxers a Nextcloud. Si està activat, l'administrador pot triar quins grups poden compartir fitxers. Els usuaris aplicables poden compartir fitxers i carpetes amb altres usuaris i grups de Nextcloud. A més, si l’administrador activa la funció d’enllaç compartit, es pot fer servir un enllaç extern per compartir fitxers amb altres usuaris fora de Nextcloud. Els administradors també poden aplicar contrasenyes, dates de caducitat i activar la compartició de servidor a servidor mitjançant enllaços compartits, així com la compartició de dispositius mòbils.\nDesactivant la funcionalitat suprimirà els fitxers compartits i les carpetes del servidor per a tots els destinataris compartits i també per als clients de sincronització i les aplicacions per a mòbils. Podeu trobar més informació a la documentació de Nextcloud.",
+    "Sharing" : "Compartint",
     "Link to a file" : "Enllaça a un fitxer",
     "Shared" : "Compartit",
     "Share" : "Comparteix",
-    "Sharing" : "Compartint",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
     "Name" : "Nom",
     "Share time" : "Temps de compartició",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files…" : "S'està carregant fitxers...",
     "Uploaded files:" : "Fitxers carregats:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "could not delete share" : "no s'ha pogut suprimir la compartició"
 },
 "nplurals=2; plural=(n != 1);");

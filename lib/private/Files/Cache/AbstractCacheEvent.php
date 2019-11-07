@@ -23,7 +23,7 @@ namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICacheEvent;
 use OCP\Files\Storage\IStorage;
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
 
 class AbstractCacheEvent extends Event implements ICacheEvent {
 	protected $storage;

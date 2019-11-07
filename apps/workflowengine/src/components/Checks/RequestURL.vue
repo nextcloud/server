@@ -29,7 +29,9 @@
 			track-by="pattern"
 			group-values="children"
 			group-label="label"
-			:options="options" :multiple="false" :tagging="false"
+			:options="options"
+			:multiple="false"
+			:tagging="false"
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span class="option__icon" :class="props.option.icon" />
@@ -40,9 +42,11 @@
 				<span class="option__title">{{ props.option.label }} {{ props.option.$groupLabel }}</span>
 			</template>
 		</Multiselect>
-		<input v-if="!isPredefined" type="text"
+		<input v-if="!isPredefined"
+			type="text"
 			:value="currentValue.pattern"
-			:placeholder="placeholder" @input="updateCustom">
+			:placeholder="placeholder"
+			@input="updateCustom">
 	</div>
 </template>
 
@@ -133,5 +137,8 @@ export default {
 	}
 }
 </script>
-
-<style scoped src="./../../css/multiselect.css"></style>
+<style scoped>
+	.multiselect, input[type='text'] {
+		width: 100%;
+	}
+</style>

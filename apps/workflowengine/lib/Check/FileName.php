@@ -46,7 +46,7 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 	 * @return string
 	 */
 	protected function getActualValue(): string {
-		return basename($this->path);
+		return $this->path === null ? '' : basename($this->path);
 	}
 
 	/**

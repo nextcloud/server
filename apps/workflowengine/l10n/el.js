@@ -21,7 +21,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Έλεγχος %s δεν είναι έγκυρος ή δεν υπάρχει",
     "Predefined URLs" : "Προορισμένα URLs",
     "Files WebDAV" : "Αρχεία WebDAV",
-    "Sync clients" : "Συγχρονίστε χρήστες",
     "Android client" : "Πελάτης Android",
     "iOS client" : "Πελάτης iOS",
     "Desktop client" : "Πελάτης σταθερού υπολογιστή",
@@ -67,6 +66,7 @@ OC.L10N.register(
     "Start" : "Έναρξη",
     "End" : "Λήξη",
     "Select timezone…" : "Επιλογή ζώνης ώρας...",
+    "Sync clients" : "Συγχρονίστε χρήστες",
     "Workflow" : "Ροή εργασίας",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
     "Loading…" : "Φορτώνει..."

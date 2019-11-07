@@ -165,7 +165,8 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 
 .icon-delete {
 	@include icon-color('delete', 'actions', $color-black, 1, true);
-	&.no-permission {
+	&.no-permission,
+	&.no-hover {
 		&:hover,
 		&:focus {
 			@include icon-color('delete', 'actions', $color-black, 1, true);

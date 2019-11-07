@@ -78,7 +78,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
-    "could not delete share" : "kunne ikke slette ressursen",
     "Could not delete share" : "Kunne ikke slette ressursen",
     "Please specify a file or folder path" : "Oppgi en fil eller mappesti",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
@@ -104,8 +103,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
-    "Share" : "Del",
     "Sharing" : "Deling",
+    "Share" : "Del",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
-    "Uploaded files:" : "Opplastede filer:"
+    "Uploaded files:" : "Opplastede filer:",
+    "could not delete share" : "kunne ikke slette ressursen"
 },
 "nplurals=2; plural=(n != 1);");

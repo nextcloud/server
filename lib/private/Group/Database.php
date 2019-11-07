@@ -49,7 +49,10 @@ use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\IDBConnection;
 
 /**
@@ -61,7 +64,10 @@ class Database extends ABackend
 	           ICountUsersBackend,
 	           ICreateGroupBackend,
 	           IDeleteGroupBackend,
-	           IRemoveFromGroupBackend {
+	           IGetDisplayNameBackend,
+	           IGroupDetailsBackend,
+	           IRemoveFromGroupBackend,
+	           ISetDisplayNameBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
@@ -103,6 +109,7 @@ class Database extends ABackend
 			$builder = $this->dbConn->getQueryBuilder();
 			$result = $builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
+				->setValue('displayname', $builder->createNamedParameter($gid))
 				->execute();
 		} catch(UniqueConstraintViolationException $e) {
 			$result = 0;
@@ -322,7 +329,7 @@ class Database extends ABackend
 	 * @param int $offset
 	 * @return array an array of user ids
 	 */
-	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -337,8 +344,13 @@ class Database extends ABackend
 			)));
 		}
 
-		$query->setMaxResults($limit)
-			->setFirstResult($offset);
+		if ($limit !== -1) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset !== 0) {
+			$query->setFirstResult($offset);
+		}
+
 		$result = $query->execute();
 
 		$users = [];
@@ -391,7 +403,7 @@ class Database extends ABackend
 	 */
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
-		
+
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->createFunction('COUNT(DISTINCT ' . $query->getColumnName('uid') . ')'))
 			->from('preferences', 'p')
@@ -400,11 +412,11 @@ class Database extends ABackend
 			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('enabled')))
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('false'), IQueryBuilder::PARAM_STR))
 			->andWhere($query->expr()->eq('gid', $query->createNamedParameter($gid), IQueryBuilder::PARAM_STR));
-		
+
 		$result = $query->execute();
 		$count = $result->fetchColumn();
 		$result->closeCursor();
-		
+
 		if ($count !== false) {
 			$count = (int)$count;
 		} else {
@@ -412,6 +424,51 @@ class Database extends ABackend
 		}
 
 		return $count;
+	}
+
+	public function getDisplayName(string $gid): string {
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('displayname')
+			->from('groups')
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
+
+		$result = $query->execute();
+		$displayName = $result->fetchColumn();
+		$result->closeCursor();
+
+		return (string) $displayName;
+	}
+
+	public function getGroupDetails(string $gid): array {
+		$displayName = $this->getDisplayName($gid);
+		if ($displayName !== '') {
+			return ['displayName' => $displayName];
+		}
+
+		return [];
+	}
+
+	public function setDisplayName(string $gid, string $displayName): bool {
+		if (!$this->groupExists($gid)) {
+			return false;
+		}
+
+		$this->fixDI();
+
+		$displayName = trim($displayName);
+		if ($displayName === '') {
+			$displayName = $gid;
+		}
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->update('groups')
+			->set('displayname', $query->createNamedParameter($displayName))
+			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)));
+		$query->execute();
+
+		return true;
 	}
 
 }

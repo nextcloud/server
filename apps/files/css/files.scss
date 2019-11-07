@@ -63,6 +63,10 @@
 	}
 }
 
+#filestable.hidden {
+	display: none;
+}
+
 @media only screen and (min-width: $breakpoint-mobile + 1) {
 	#filestable {
 		// floating header
@@ -81,8 +85,9 @@
 }
 
 /* fit app list view heights */
-.app-files #app-content>.viewcontainer {
+.app-files #app-content > .viewcontainer {
 	min-height: 0%;
+	width: 100%;
 }
 
 .app-files #app-content {
@@ -669,7 +674,10 @@ table tr.summary td {
 	padding-top: 20px;
 }
 .summary .info {
-	margin-left: 35px; /* td has padding of 15, col width is 50 */
+	margin-left: 2px;
+}
+.hiddeninfo {
+	white-space: pre-line;
 }
 
 table.dragshadow {

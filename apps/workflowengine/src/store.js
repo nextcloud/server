@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -22,25 +22,26 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'nextcloud-axios'
+import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
 import confirmPassword from 'nextcloud-password-confirmation'
+import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
 		rules: [],
-		scope: OCP.InitialState.loadState('workflowengine', 'scope'),
-		operations: OCP.InitialState.loadState('workflowengine', 'operators'),
+		scope: loadState('workflowengine', 'scope'),
+		operations: loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({
 			checks: {},
 			operators: {}
 		}),
 
-		entities: OCP.InitialState.loadState('workflowengine', 'entities'),
-		events: OCP.InitialState.loadState('workflowengine', 'entities')
+		entities: loadState('workflowengine', 'entities'),
+		events: loadState('workflowengine', 'entities')
 			.map((entity) => entity.events.map(event => {
 				return {
 					id: `${entity.id}::${event.eventName}`,
@@ -48,7 +49,7 @@ const store = new Vuex.Store({
 					...event
 				}
 			})).flat(),
-		checks: OCP.InitialState.loadState('workflowengine', 'checks')
+		checks: loadState('workflowengine', 'checks')
 	},
 	mutations: {
 		addRule(state, rule) {
@@ -70,7 +71,9 @@ const store = new Vuex.Store({
 			plugin = Object.assign(
 				{ color: 'var(--color-primary-element)' },
 				plugin, state.operations[plugin.id] || {})
-			Vue.set(state.operations, plugin.id, plugin)
+			if (typeof state.operations[plugin.id] !== 'undefined') {
+				Vue.set(state.operations, plugin.id, plugin)
+			}
 		}
 	},
 	actions: {
@@ -144,8 +147,12 @@ const store = new Vuex.Store({
 		getEventsForOperation(state) {
 			return (operation) => state.events
 		},
+
 		/**
 		 * Return all available checker plugins for a given entity class
+		 * @param {Object} state the store state
+		 * @param {Object} entity the entity class
+		 * @returns {Array} the available plugins
 		 */
 		getChecksForEntity(state) {
 			return (entity) => {

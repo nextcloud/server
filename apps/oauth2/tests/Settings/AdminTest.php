@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -21,26 +22,38 @@
 
 namespace OCA\OAuth2\Tests\Settings;
 
+use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IInitialStateService;
 use Test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AdminTest extends TestCase {
-	/** @var Admin|\PHPUnit_Framework_MockObject_MockObject */
+
+	/** @var Admin|MockObject */
 	private $admin;
+
+	/** @var IInitialStateService|MockObject */
+	private $initialStateService;
+
+	/** @var ClientMapper|MockObject */
+	private $clientMapper;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->admin = new Admin();
+		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->clientMapper = $this->createMock(ClientMapper::class);
+
+		$this->admin = new Admin($this->initialStateService, $this->clientMapper);
 	}
 
 	public function testGetForm() {
 		$expected = new TemplateResponse(
 			'oauth2',
 			'admin',
-			[
-			],
+			[],
 			''
 		);
 		$this->assertEquals($expected, $this->admin->getForm());

@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -20,8 +20,11 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+
+const scopeValue = loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
+
 const getApiUrl = (url) => {
-	const scopeValue = OCP.InitialState.loadState('workflowengine', 'scope') === 0 ? 'global' : 'user'
 	return OC.linkToOCS('apps/workflowengine/api/v1/workflows', 2) + scopeValue + url + '?format=json'
 }
 

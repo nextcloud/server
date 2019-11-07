@@ -21,13 +21,11 @@
  *
  */
 
-namespace Tests\Settings;
+namespace OCA\Settings\Tests\AppInfo;
 
-use function get_class;
-use OC\Settings\Admin\Sharing;
+use OCA\Settings\Admin\Sharing;
 use OC\Settings\Manager;
-use OC\Settings\Mapper;
-use OC\Settings\Personal\Security;
+use OCA\Settings\Personal\Security;
 use OC\Settings\Section;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -35,7 +33,6 @@ use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
-use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use Test\TestCase;
 

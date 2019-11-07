@@ -76,7 +76,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Failas ar aplankas buvo pradėtas bendrinti iš <strong>kito serverio</strong>",
     "A file or folder has been <strong>shared</strong>" : "Failas ar aplankas buvo <strong>pasidalintas</strong>",
     "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
-    "could not delete share" : "nepavyko nustoti dalintis duomenimis",
     "Could not delete share" : "Nepavyko nustoti dalintis duomenimis",
     "Please specify a file or folder path" : "Nurodykite kelią iki duomenų",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
@@ -102,10 +101,13 @@
     "Add to your Nextcloud" : "Pridėti į jūsų NextCloud",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "File sharing" : "Failų pasidalinimas",
+    "Copy to clipboard" : "Kopijuoti į iškarpinę",
+    "Cancel" : "Atsisakyti",
+    "No elements found." : "Nerasta jokių elementų.",
+    "Sharing" : "Bendrinimas",
     "Link to a file" : "Nuoroda į failą",
     "Shared" : "Pasidalinta",
     "Share" : "Dalintis",
-    "Sharing" : "Bendrinimas",
     "No entries found in this folder" : "Šiame aplanke įrašų nerasta",
     "Name" : "Pavadinimas",
     "Share time" : "Bendrinimo laikas",
@@ -124,6 +126,7 @@
     "Select or drop files" : "Pasirinkite arba vilkite failus",
     "Uploading files…" : "Įkeliami failai…",
     "Uploaded files:" : "Įkelti failai:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
+    "could not delete share" : "nepavyko nustoti dalintis duomenimis"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

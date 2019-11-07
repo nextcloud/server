@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Fail või kaust jagati <strong>teisest serverist</strong>",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
-    "could not delete share" : "ei saanud jagamist eemaldada",
     "Could not delete share" : "Ei saanud jagamist eemaldada",
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
@@ -87,8 +86,8 @@ OC.L10N.register(
     "Direct link" : "Otsene link",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
-    "Share" : "Jaga",
     "Sharing" : "Jagamine",
+    "Share" : "Jaga",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Upload files to %s" : "Laadi failid %s",
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine…",
-    "Uploaded files:" : "Üleslaetud failid:"
+    "Uploaded files:" : "Üleslaetud failid:",
+    "could not delete share" : "ei saanud jagamist eemaldada"
 },
 "nplurals=2; plural=(n != 1);");

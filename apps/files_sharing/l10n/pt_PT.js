@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Um ficheiro ou pasta foi partilhado a partir de <strong>outro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Foi <strong>partilhado</strong> um ficheiro ou uma pasta",
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
-    "could not delete share" : "Não foi possível eliminar a partilha",
     "Could not delete share" : "Não foi possível eliminar a partilha",
     "Please specify a file or folder path" : "Por favor, especifique um ficheiro ou caminho de pasta",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, ficheiro/pasta não existe",
@@ -89,8 +88,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Share API is disabled" : "A partilha de API está desativada",
     "File sharing" : "Partilha de ficheiro",
-    "Share" : "Partilhar",
     "Sharing" : "Partilha",
+    "Share" : "Partilhar",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Name" : "Nome",
     "Share time" : "Hora da Partilha",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Upload files to %s" : "Enviar ficheiros para %s",
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploading files…" : "A enviar ficheiros...",
-    "Uploaded files:" : "Ficheiros enviados:"
+    "Uploaded files:" : "Ficheiros enviados:",
+    "could not delete share" : "Não foi possível eliminar a partilha"
 },
 "nplurals=2; plural=(n != 1);");

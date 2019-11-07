@@ -79,7 +79,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "<strong>다른 서버</strong>에서 파일이나 폴더를 공유함",
     "A file or folder has been <strong>shared</strong>" : "파일이나 폴더가 <strong>공유됨</strong>",
     "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
-    "could not delete share" : "공유를 삭제할 수 없음",
     "Could not delete share" : "공유를 삭제할 수 없음",
     "Please specify a file or folder path" : "파일이나 폴더 경로를 지정하십시오",
     "Wrong path, file/folder doesn't exist" : "잘못된 경로, 파일/폴더가 존재하지 않음",
@@ -110,10 +109,10 @@ OC.L10N.register(
     "Share API is disabled" : "공유 API가 비활성화됨",
     "File sharing" : "파일 공유",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "이 앱을 사용하여 Nextcloud 내에서 사용자간 파일을 공유할 수 있습니다. 앱을 활성화하면 관리자가 파일 공유를 허용할 그룹을 지정할 수 있습니다. 공유가 허용된 사용자는 Nextcloud 내의 다른 사용자나 그룹과 파일이나 폴더를 공유할 수 있습니다. 추가로 관리자가 링크 공유 기능을 활성화하면 Nextcloud 외부 사용자와 파일을 공유할 수 있는 외부 링크가 생성됩니다. 관리자는 암호나 만료 날짜 사용을 강제할 수 있으며, 공유 링크로 서버간 공유 기능이나 모바일 장치에서 공유를 활성화할 수 있습니다.\n공유 기능을 비활성화하면 서버에 있는 모든 공유된 파일이나 폴더를 삭제하며, 동기화 클라이언트나 모바일 앱에도 적용됩니다. 자세한 정보를 보려면 Nextcloud 문서를 참조하십시오.",
+    "Sharing" : "공유",
     "Link to a file" : "파일로 향한 링크",
     "Shared" : "공유됨",
     "Share" : "공유",
-    "Sharing" : "공유",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Name" : "이름",
     "Share time" : "공유 시간",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
+    "could not delete share" : "공유를 삭제할 수 없음"
 },
 "nplurals=1; plural=0;");

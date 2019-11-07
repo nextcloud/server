@@ -69,7 +69,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Ένα αρχείο ή φάκελος διαμοιράστηκε από <strong>έναν άλλο διακομιστή</strong>",
     "A file or folder has been <strong>shared</strong>" : "Ένα αρχείο ή φάκελος <strong>διαμοιράστηκε</strong>",
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
-    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου",
     "Could not delete share" : "Αδυναμία διαγραφής κοινόχρηστου φακέλου",
     "Please specify a file or folder path" : "Παρακαλώ καθορίστε την διαδρομή για το αρχείο ή τον φάκελο",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
@@ -94,8 +93,8 @@ OC.L10N.register(
     "Direct link" : "Άμεσος σύνδεσμος",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
-    "Share" : "Διαμοιρασμός",
     "Sharing" : "Διαμοιρασμός",
+    "Share" : "Διαμοιρασμός",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Name" : "Όνομα",
     "Share time" : "Χρόνος διαμοιρασμού",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Note" : "Σημείωση",
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
-    "Uploaded files:" : "Αποστολή αρχείων:"
+    "Uploaded files:" : "Αποστολή αρχείων:",
+    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου"
 },
 "nplurals=2; plural=(n != 1);");

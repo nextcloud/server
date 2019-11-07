@@ -18,8 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OCA\WorkflowEngine\AppInfo\Application;
 
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 ?>
-<div id="<?php p(\OCA\WorkflowEngine\AppInfo\Application::APP_ID); ?>"></div>
+<div id="<?php p(Application::APP_ID); ?>"></div>

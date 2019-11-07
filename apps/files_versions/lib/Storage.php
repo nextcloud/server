@@ -850,8 +850,8 @@ class Storage {
 	 * @return Expiration
 	 */
 	protected static function getExpiration(){
-		if (is_null(self::$application)) {
-			self::$application = new Application();
+		if (self::$application === null) {
+			self::$application = \OC::$server->query(Application::class);
 		}
 		return self::$application->getContainer()->query(Expiration::class);
 	}

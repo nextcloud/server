@@ -21,8 +21,9 @@
   -->
 
 <template>
-	<MultiselectTag v-model="newValue" :multiple="false"
-		label="Select a tag"
+	<MultiselectTag v-model="newValue"
+		:multiple="false"
+		:label="t('workflowengine', 'Select a tag')"
 		@input="update" />
 </template>
 

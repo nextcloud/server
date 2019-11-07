@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares will show up here" : "Здесь будут показаны общие ресурсы",
     "Restore share" : "Восстановить ресурсы общего доступа",
     "Something happened. Unable to restore the share." : "Не удалось восстановить общий ресурс.",
+    "This will stop your current uploads." : "Это остановит ваши текущие загрузки.",
     "Move or copy" : "Переместить или копировать",
     "Download" : "Скачать",
     "Delete" : "Удалить",
@@ -85,7 +86,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Общий доступ к файлу или каталогу предоставлен <strong>с другого сервера</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Опубликован</strong> файл или каталог",
     "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
-    "could not delete share" : "не удалось удалить общий ресурс",
     "Could not delete share" : "Не удалось удалить общий ресурс",
     "Please specify a file or folder path" : "Укажите путь к файлу или каталогу",
     "Wrong path, file/folder doesn't exist" : "Неверный путь, файл или каталог не существует",
@@ -116,10 +116,10 @@ OC.L10N.register(
     "Share API is disabled" : "API общего доступа отключён",
     "File sharing" : "Обмен файлами",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Это приложение позволяет пользователям обмениваться файлами в Nextcloud. Если приложение включено, администратор может выбрать, какие группы пользователей могут предоставлять общий доступ к  файлам, после чего такие пользователи, могут обмениваться файлами и папками с другими пользователями и группами в Nextcloud. Кроме того, если администратор задействовал модуль предоставления общего доступа, то для обмена файлами с другими пользователями, не являющимися пользователями Nextcloud может использоваться внешняя ссылка. Администраторы могут также задавать обязательное использование паролей  для получения доступа к общему ресурсу, обязательное назначение срока действия ссылки, разрешать межсерверный обмен файлами с помощью ссылок и предоставление общего доступа с мобильных устройств.\nПри отключении этой функции для всех  пользователей будет отключён совместный доступ к файлам и папкам на сервере, в том числе и при использовании приложений для синхронизации и мобильных приложений. Дополнительная информация доступна в документации Nextcloud.",
+    "Sharing" : "Общий доступ",
     "Link to a file" : "Ссылка на файл",
     "Shared" : "Опубликованное",
     "Share" : "Поделиться",
-    "Sharing" : "Общий доступ",
     "No entries found in this folder" : "В этой папке ничего нет",
     "Name" : "Имя",
     "Share time" : "Дата публикации",
@@ -138,6 +138,7 @@ OC.L10N.register(
     "Select or drop files" : "Выберите или перетащите файлы",
     "Uploading files…" : "Файлы передаются на сервер…",
     "Uploaded files:" : "Отправленные файлы:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
+    "could not delete share" : "не удалось удалить общий ресурс"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

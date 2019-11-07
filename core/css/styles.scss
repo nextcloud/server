@@ -88,7 +88,8 @@ ul {
 body {
 	background-color: var(--color-main-background);
 	font-weight: normal;
-	font-size: .8em;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
 	font-family: var(--font-face);
 	color: var(--color-main-text);
@@ -895,6 +896,9 @@ code {
 					white-space: pre;
 					text-overflow: ellipsis;
 				}
+				&__last {
+					white-space: pre;
+				}
 			}
 		}
 		.filesize, .date {
@@ -1196,7 +1200,8 @@ div.crumb {
 		// Some sane max-width for each folder name
 		max-width: 200px;
 
-		&.icon-home {
+		&.icon-home,
+		&.icon-delete {
 			// Hide home text
 			text-indent: -9999px;
 		}

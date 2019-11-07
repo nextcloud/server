@@ -17,7 +17,8 @@ ul { list-style:none; }
 body {
 	background-color: #ffffff;
 	font-weight: normal;
-	font-size: .8em;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	color: #000;
@@ -295,6 +296,8 @@ input[type='submit'].icon-confirm,
 input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .updateAnyways a.updateAnywaysButton {
 	font-size: 14px;
@@ -702,7 +705,6 @@ form #selectDbType label span {
 }
 .error-wide {
 	width: 700px;
-	margin-left: -200px !important;
 	margin-top: 35px;
 }
 .error-wide .button {

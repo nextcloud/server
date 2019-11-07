@@ -25,6 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
@@ -54,7 +55,7 @@ trait Sharing {
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
@@ -70,7 +71,7 @@ trait Sharing {
 			$options['auth'] = [$user, $this->regularUser];
 		}
 
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)){
 				$dateModification = $fd['expireDate'];
@@ -104,7 +105,7 @@ trait Sharing {
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function creatingShare($body) {
 		$this->asCreatingAShareWith($this->currentUser, $body);
@@ -187,7 +188,7 @@ trait Sharing {
 
 	/**
 	 * @When /^Updating last share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
 		$share_id = (string) $this->lastShareData->data[0]->id;
@@ -204,7 +205,7 @@ trait Sharing {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)){
 				$dateModification = $fd['expireDate'];
@@ -218,8 +219,6 @@ trait Sharing {
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
-
-		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	public function createShare($user,
@@ -459,10 +458,10 @@ trait Sharing {
 
 	/**
 	 * @Then /^Share fields of last share match with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $body
+	 * @param TableNode|null $body
 	 */
 	public function checkShareFields($body){
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 
 			foreach($fd as $field => $value) {
@@ -478,6 +477,114 @@ trait Sharing {
 					Assert::fail("$field" . " doesn't have value " . "$value");
 				}
 			}
+		}
+	}
+
+	/**
+	 * @Then the list of returned shares has :count shares
+	 */
+	public function theListOfReturnedSharesHasShares(int $count) {
+		$this->theHTTPStatusCodeShouldBe('200');
+		$this->theOCSStatusCodeShouldBe('100');
+
+		$returnedShares = $this->getXmlResponse()->data[0];
+
+		Assert::assertEquals($count, count($returnedShares->element));
+	}
+
+	/**
+	 * @Then share :count is returned with
+	 *
+	 * @param int $number
+	 * @param TableNode $body
+	 */
+	public function shareXIsReturnedWith(int $number, TableNode $body) {
+		$this->theHTTPStatusCodeShouldBe('200');
+		$this->theOCSStatusCodeShouldBe('100');
+
+		if (!($body instanceof TableNode)) {
+			return;
+		}
+
+		$returnedShare = $this->getXmlResponse()->data[0];
+		if ($returnedShare->element) {
+			$returnedShare = $returnedShare->element[$number];
+		}
+
+		$defaultExpectedFields = [
+			'id' => 'A_NUMBER',
+			'permissions' => '19',
+			'stime' => 'A_NUMBER',
+			'parent' => '',
+			'expiration' => '',
+			'token' => '',
+			'storage' => 'A_NUMBER',
+			'item_source' => 'A_NUMBER',
+			'file_source' => 'A_NUMBER',
+			'file_parent' => 'A_NUMBER',
+			'mail_send' => '0'
+		];
+		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
+
+		if (!array_key_exists('uid_file_owner', $expectedFields) &&
+				array_key_exists('uid_owner', $expectedFields)) {
+			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
+		}
+		if (!array_key_exists('displayname_file_owner', $expectedFields) &&
+				array_key_exists('displayname_owner', $expectedFields)) {
+			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
+		}
+
+		if (array_key_exists('share_type', $expectedFields) &&
+				$expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */ &&
+				array_key_exists('share_with', $expectedFields)) {
+			if ($expectedFields['share_with'] === 'private_conversation') {
+				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
+			} else {
+				$expectedFields['share_with'] = FeatureContext::getTokenForIdentifier($expectedFields['share_with']);
+			}
+		}
+
+		foreach ($expectedFields as $field => $value) {
+			$this->assertFieldIsInReturnedShare($field, $value, $returnedShare);
+		}
+	}
+
+	/**
+	 * @return SimpleXMLElement
+	 */
+	private function getXmlResponse(): \SimpleXMLElement {
+		return simplexml_load_string($this->response->getBody());
+	}
+
+	/**
+	 * @param string $field
+	 * @param string $contentExpected
+	 * @param \SimpleXMLElement $returnedShare
+	 */
+	private function assertFieldIsInReturnedShare(string $field, string $contentExpected, \SimpleXMLElement $returnedShare){
+		if ($contentExpected === 'IGNORE') {
+			return;
+		}
+
+		if (!array_key_exists($field, $returnedShare)) {
+			Assert::fail("$field was not found in response");
+		}
+
+		if ($field === 'expiration' && !empty($contentExpected)){
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+		}
+
+		if ($contentExpected === 'A_NUMBER') {
+			Assert::assertTrue(is_numeric((string)$returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
+		} else if ($contentExpected === 'A_TOKEN') {
+			// A token is composed by 15 characters from
+			// ISecureRandom::CHAR_HUMAN_READABLE.
+			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+		} else if (strpos($contentExpected, 'REGEXP ') === 0) {
+			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
+		} else {
+			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");
 		}
 	}
 
@@ -547,11 +654,11 @@ trait Sharing {
 
 	/**
 	 * @When /^getting sharees for$/
-	 * @param \Behat\Gherkin\Node\TableNode $body
+	 * @param TableNode $body
 	 */
 	public function whenGettingShareesFor($body) {
 		$url = '/apps/files_sharing/api/v1/sharees';
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$parameters = [];
 			foreach ($body->getRowsHash() as $key => $value) {
 				$parameters[] = $key . '=' . $value;
@@ -568,7 +675,7 @@ trait Sharing {
 	 * @Then /^"([^"]*)" sharees returned (are|is empty)$/
 	 * @param string $shareeType
 	 * @param string $isEmpty
-	 * @param \Behat\Gherkin\Node\TableNode|null $shareesList
+	 * @param TableNode|null $shareesList
 	 */
 	public function thenListOfSharees($shareeType, $isEmpty, $shareesList = null) {
 		if ($isEmpty !== 'is empty') {

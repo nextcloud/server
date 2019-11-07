@@ -10,7 +10,6 @@
         "psr-4": {
             "OC\\": "lib/private",
             "OC\\Core\\": "core/",
-            "OC\\Settings\\": "settings/",
             "OCP\\": "lib/public"
         }
     },
