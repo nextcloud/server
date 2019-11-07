@@ -11,6 +11,16 @@ $footer-height: 65px;
 			ul li {
 				min-width: 270px;
 			}
+			#header-actions-toggle {
+				background-color: transparent;
+				border-color: transparent;
+
+				&:hover,
+				&:focus,
+				&:active {
+					opacity: 1;
+				}
+			}
 			#save-external-share {
 				form {
 					display: flex;
