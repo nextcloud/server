@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
+use OCP\IConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -35,6 +36,8 @@ use OCP\IUserSession;
 
 class HelpController extends Controller {
 
+	/** @var IConfig */
+	private $config;
 	/** @var INavigationManager */
 	private $navigationManager;
 	/** @var IUserSession */
@@ -44,8 +47,13 @@ class HelpController extends Controller {
 
 	/** @var string */
 	private $userId;
+	
+	/**
+	* @param IConfig $config
+	*/
 
 	public function __construct(
+		IConfig $config,
 		string $appName,
 		IRequest $request,
 		INavigationManager $navigationManager,
@@ -54,6 +62,7 @@ class HelpController extends Controller {
 		IGroupManager $groupManager
 	) {
 		parent::__construct($appName, $request);
+		$this->config = $config;
 		$this->navigationManager = $navigationManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->userId = $userId;
@@ -67,15 +76,35 @@ class HelpController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function help(string $mode = 'user'): TemplateResponse {
-		$this->navigationManager->setActiveEntry('help');
+		define('TRANSLATED_LANGUAGES', array(
+			'de',
+			'en',
+			'fr',
+			'pt_BR',
+		));
 
+		$this->navigationManager->setActiveEntry('help');
+		
 		if(!isset($mode) || $mode !== 'admin') {
 			$mode = 'user';
 		}
+		
+		if($mode == 'user') {
+			$userConfLang = $this->config->getUserValue($this->userId, 'core', 'lang');
 
-		$documentationUrl = $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->linkTo('core', 'doc/' . $mode . '/index.html')
-		);
+			if (in_array($userConfLang, TRANSLATED_LANGUAGES)) {
+				$lang = $userConfLang;
+			} else {
+				$lang = 'en';
+			}
+			$documentationUrl = $this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->linkTo('core', 'doc/' . $lang . '/' . $mode . '/index.html')
+			);
+		} else {
+			$documentationUrl = $this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->linkTo('core', 'doc/' . $mode . '/index.html')
+			);
+		}
 
 		$urlUserDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'user']);
 		$urlAdminDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'admin']);
