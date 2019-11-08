@@ -178,6 +178,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Shared" : "Geteilt",
     "Share" : "Teilen",
+    "Shared with" : "Geteilt mit",
     "Shared with you and the group {group} by {owner}" : "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
     "Shared with you and {circle} by {owner}" : "Geteilt mit Ihnen und {circle} von {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Von {owner} mit Ihnen und der Unterhaltung {conversation} geteilt",
