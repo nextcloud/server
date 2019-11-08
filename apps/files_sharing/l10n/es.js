@@ -178,6 +178,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Escriba una nota para el recurso compartido del destinatario",
     "Shared" : "Compartido",
     "Share" : "Compartir",
+    "Shared with" : "Compartido con",
     "Shared with you and the group {group} by {owner}" : "Compartido contigo y con el grupo {group} por {owner}",
     "Shared with you and {circle} by {owner}" : "Compartido contigo y {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Compartido contigo y con la conversación {conversation} por {owner}",
