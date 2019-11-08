@@ -21,6 +21,9 @@
  */
 
 const isNumber = function(num) {
+	if (!num) {
+		return false
+	}
 	return Number(num).toString() === num.toString()
 }
 
