@@ -89,10 +89,12 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 
 const genFileInfo = function(obj) {
 	const fileInfo = {}
+
 	Object.keys(obj).forEach(key => {
 		const data = obj[key]
+
 		// flatten object if any
-		if (typeof data === 'object') {
+		if (!!data && typeof data === 'object') {
 			Object.assign(fileInfo, genFileInfo(data))
 		} else {
 			// format key and add it to the fileInfo
