@@ -209,6 +209,7 @@ OC.L10N.register(
     "Resend welcome email" : "Volver a enviar correo de bienvenida",
     "{size} used" : "{size} usados",
     "Cancel" : "Cancelar",
+    "Account deletion" : "Eliminación de la cuenta",
     "Welcome mail sent!" : "¡Correo de bienvenida enviado!",
     "Display name" : "Nombre para mostrar",
     "Email" : "Correo electrónico",
