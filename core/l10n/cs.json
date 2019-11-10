@@ -284,6 +284,8 @@
     "Account access" : "Přístup k účtu",
     "You are about to grant %1$s access to your %2$s account." : "Chystáte se udělit %1$s přístup ke svému %2$s účtu.",
     "Account connected" : "Účet připojen",
+    "Your client should now be connected!" : "Váš klient by nyní měl být připojen!",
+    "You can close this window." : "Toto okno je možné zavřít",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
     "Two-factor authentication" : "Dvoufaktorové přihlášení",
