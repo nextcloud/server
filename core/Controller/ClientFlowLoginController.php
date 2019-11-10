@@ -6,6 +6,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Russell Ault <russell@auksnest.ca>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -337,9 +338,16 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setTokenId($generatedToken->getId());
 			$this->accessTokenMapper->insert($accessToken);
 
+			if (parse_url($client->getRedirectUri(), PHP_URL_QUERY)) {
+				$redirectUriSeparator = '&';
+			} else {
+				$redirectUriSeparator = '?';
+			}
+
 			$redirectUri = sprintf(
-				'%s?state=%s&code=%s',
+				'%s%sstate=%s&code=%s',
 				$client->getRedirectUri(),
+				$redirectUriSeparator,
 				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);
