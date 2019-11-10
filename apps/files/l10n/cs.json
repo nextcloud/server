@@ -135,6 +135,8 @@
     "Unlimited" : "Neomezeně",
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "File Management" : "Správa souboru",
+    "Error while loading the file data" : "Chyba při načítání dat souboru",
+    "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "%s used" : "%s použito",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
     "Settings" : "Nastavení",
