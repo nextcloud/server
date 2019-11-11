@@ -95,7 +95,7 @@ class App {
 				}
 			}
 
-			if (!$setUpViaQuery) {
+			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
 				\OC::$server->getLogger()->logException($e, [
 					'app' => $appName,
 				]);
