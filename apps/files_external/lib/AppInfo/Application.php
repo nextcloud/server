@@ -32,6 +32,7 @@ namespace OCA\Files_External\AppInfo;
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
 use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
+use OCA\Files_External\Service\DBConfigService;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use \OCA\Files_External\Service\BackendService;
@@ -63,6 +64,8 @@ use OCA\Files_External\Lib\Backend\DAV;
 use OCA\Files_External\Lib\Backend\FTP;
 use OCA\Files_External\Lib\Backend\Local;
 use OCP\Files\Config\IUserMountCache;
+use OCP\IUser;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -94,6 +97,20 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
 		$this->getAuthMechanisms();
+	}
+
+	public function registerListeners() {
+		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$dispatcher->addListener(
+			IUser::class . '::postDelete',
+			function (GenericEvent $event) {
+				/** @var IUser $user */
+				$user = $event->getSubject();
+				/** @var DBConfigService $config */
+				$config = $this->getContainer()->query(DBConfigService::class);
+				$config->modifyMountsOnUserDelete($user->getUID());
+			}
+		);
 	}
 
 	/**
