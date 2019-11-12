@@ -123,7 +123,7 @@ OC.L10N.register(
     "Scope" : "Rozsah",
     "Open documentation" : "Otevřít dokumentaci",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externí úložiště umožňuje připojit úložiště externích služeb a zařízení jako vedlejší úložná zařízení pro Nextcloud. Je také možné umožnit uživatelům připojovat jejich vlastní externí úložiště.",
-    "Folder name" : "Název adresáře",
+    "Folder name" : "Název složky",
     "External storage" : "Externí úložiště",
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",

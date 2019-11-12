@@ -61,7 +61,7 @@ OC.L10N.register(
     "Delete" : "Smazat",
     "Reset" : "Obnovit",
     "No files in here" : "Žádné soubory",
-    "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Size" : "Velikost",
     "Modified" : "Upraveno"
 },
