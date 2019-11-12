@@ -42,6 +42,9 @@
 		/** @type {boolean} **/
 		showPending: false,
 
+		/** @type {boolean} **/
+		hasPasswordChanged: false,
+
 		/** @type {string} **/
 		password: '',
 
@@ -323,6 +326,7 @@
 					password: '',
 					cid: shareId
 				});
+				this.hasPasswordChanged = false
 			} else {
 				if (!OC.Util.isIE()) {
 					$li.find('.linkPassText').focus();
@@ -331,8 +335,13 @@
 		},
 
 		onPasswordKeyUp: function(event) {
-			if(event.keyCode === 13) {
+			var $element = $(event.target);
+			var $li = $element.closest('li[data-share-id]');
+			var shareId = $li.data('share-id');
+			if (event.keyCode === 13) {
 				this.onPasswordEntered(event);
+			} else {
+				this.hasPasswordChanged = shareId
 			}
 		},
 
@@ -367,6 +376,8 @@
 			$loading
 				.removeClass('hidden')
 				.addClass('inlineblock');
+			
+			this.hasPasswordChanged = false
 
 			this.model.saveLinkShare({
 				password: password,
@@ -656,6 +667,10 @@
 				}
 			}
 
+			this.$el.on('beforeHide', function() {
+				this.onMenuhide()
+			}.bind(this));
+
 			this.$el.html(linkShareTemplate({
 				linkShares: linkShares,
 				shareAllowed: true,
@@ -691,6 +706,15 @@
 
 			if (!haspassword && isPasswordEnabledByDefault) {
 				$menu.find('.linkPassText').focus();
+			}
+		},
+
+		onMenuhide: function() {
+			if (this.hasPasswordChanged) {
+				var shareId = this.hasPasswordChanged
+				var target = this.$el.find('li[data-share-id=' + shareId + '] #linkPassText-' + shareId);
+				console.debug('Force saving password for share number ', shareId)
+				this.onPasswordEntered({ target: target })
 			}
 		},
 
