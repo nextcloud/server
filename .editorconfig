@@ -11,7 +11,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.php]
-indent_size = 8
+indent_size = 4
 
 [*.md]
 trim_trailing_whitespace = false
