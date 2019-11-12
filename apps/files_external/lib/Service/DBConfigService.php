@@ -114,6 +114,30 @@ class DBConfigService {
 		return $this->getMountsFromQuery($query);
 	}
 
+	public function modifyMountsOnUserDelete(string $uid) {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['a.mount_id', $builder->func()->count('a.mount_id', 'count')])
+			->from('external_applicable', 'a')
+			->rightJoin('a', 'external_applicable', 'b', $builder->expr()->eq('a.mount_id', 'b.mount_id'))
+			->where($builder->expr()->andX( // mounts for user
+					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
+					$builder->expr()->eq('a.value', $builder->createNamedParameter($uid))
+				)
+			)
+			->groupBy(['a.mount_id']);
+		$stmt = $query->execute();
+		$result = $stmt->fetchAll();
+		$stmt->closeCursor();
+
+		foreach ($result as $row) {
+			if((int)$row['count'] > 1) {
+				$this->removeApplicable($row['mount_id'], self::APPLICABLE_TYPE_USER, $uid);
+			} else {
+				$this->removeMount($row['mount_id']);
+			}
+		}
+	}
+
 	/**
 	 * Get admin defined mounts
 	 *
