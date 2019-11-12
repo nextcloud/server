@@ -59,9 +59,9 @@
 				class="supported icon-checkmark-color">
 				{{ t('settings', 'Supported') }}</span>
 			<span v-if="app.level === 200"
-				v-tooltip.auto="t('settings', 'Official apps are developed by and within the community. They offer central functionality and are ready for production use.')"
+				v-tooltip.auto="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
 				class="official icon-checkmark">
-				{{ t('settings', 'Official') }}</span>
+				{{ t('settings', 'Featured') }}</span>
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</div>
 
