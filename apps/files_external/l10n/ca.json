@@ -119,6 +119,7 @@
     "Name" : "Nom",
     "Storage type" : "Tipus d'emmagatzematge",
     "Scope" : "Abast",
+    "Open documentation" : "Obre la documentació",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "L’emmagatzematge extern us permet muntar serveis i dispositius d’emmagatzematge externs com a dispositius d’emmagatzematge secundaris de Nextcloud. També podeu permetre als usuaris muntar els seus propis serveis d’emmagatzematge extern.",
     "Folder name" : "Nom de la carpeta",
     "External storage" : "Emmagatzematge extern",

@@ -21,7 +21,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
-    "Update channel:" : "Aktualizovat kanál:",
+    "Update channel:" : "Kanál aktualizací:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté ale nelze vrátit zpět na starší, stabilnější verzi.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Všimněte si, že po vydání nové verze může chvíli trvat, než se zde objeví. Distribuujeme nové verze průběžně rozložené v čase mezi naše uživatele a pokud  jsou nalezeny problémy někdy danou verzi přeskočíme.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
