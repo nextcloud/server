@@ -135,6 +135,8 @@
     "Unlimited" : "Il·limitat",
     "Upload (max. %s)" : "Càrrega (màx. %s)",
     "File Management" : "Gestió de fitxers",
+    "Error while loading the file data" : "S'ha produït un error mentre es carregava la informació de l'arxiu",
+    "Unable to change the favourite state of the file" : "No s'ha pogut canviar l'estat de favorit de l'arxiu",
     "%s used" : "%s utilitzat",
     "%s%% of %s used" : "Usat%s%% de %s ",
     "%1$s of %2$s used" : "%1$s de %2$s utilitzat",
