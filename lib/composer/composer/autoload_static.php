@@ -893,6 +893,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Cache\\AbstractCacheEvent' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/AbstractCacheEvent.php',
         'OC\\Files\\Cache\\Cache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Cache.php',
         'OC\\Files\\Cache\\CacheEntry' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheEntry.php',
+        'OC\\Files\\Cache\\CacheQueryBuilder' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheQueryBuilder.php',
         'OC\\Files\\Cache\\FailedCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FailedCache.php',
         'OC\\Files\\Cache\\HomeCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomeCache.php',
         'OC\\Files\\Cache\\HomePropagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomePropagator.php',

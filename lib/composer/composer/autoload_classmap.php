@@ -864,6 +864,7 @@ return array(
     'OC\\Files\\Cache\\AbstractCacheEvent' => $baseDir . '/lib/private/Files/Cache/AbstractCacheEvent.php',
     'OC\\Files\\Cache\\Cache' => $baseDir . '/lib/private/Files/Cache/Cache.php',
     'OC\\Files\\Cache\\CacheEntry' => $baseDir . '/lib/private/Files/Cache/CacheEntry.php',
+    'OC\\Files\\Cache\\CacheQueryBuilder' => $baseDir . '/lib/private/Files/Cache/CacheQueryBuilder.php',
     'OC\\Files\\Cache\\FailedCache' => $baseDir . '/lib/private/Files/Cache/FailedCache.php',
     'OC\\Files\\Cache\\HomeCache' => $baseDir . '/lib/private/Files/Cache/HomeCache.php',
     'OC\\Files\\Cache\\HomePropagator' => $baseDir . '/lib/private/Files/Cache/HomePropagator.php',
