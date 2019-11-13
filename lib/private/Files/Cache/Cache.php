@@ -441,7 +441,7 @@ class Cache implements ICache {
 				$extensionParams[$name] = $value;
 			}
 		}
-		return [$params, $extensionParams];
+		return [$params, array_filter($extensionParams)];
 	}
 
 	/**
