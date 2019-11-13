@@ -33,6 +33,9 @@ namespace Tests\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\AppFramework\Http;
 use OCP\ICache;
 use OCP\Files\File;
@@ -46,6 +49,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AvatarControllerTest
@@ -78,6 +82,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
+	/** @var IAccountManager|MockObject */
+	private $accountManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -92,6 +98,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
+		$this->accountManager = $this->createMock(IAccountManager::class);
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
@@ -106,7 +113,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->logger,
 			'userid',
-			$this->timeFactory
+			$this->timeFactory,
+			$this->accountManager
 		);
 
 		// Configure userMock
@@ -135,6 +143,39 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		//Comment out until JS is fixed
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public function testAvatarNotPublic() {
+		$account = $this->createMock(IAccount::class);
+		$this->accountManager->method('getAccount')
+			->with($this->userMock)
+			->willReturn($account);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$account->method('getProperty')
+			->with(IAccountManager::PROPERTY_AVATAR)
+			->willReturn($property);
+
+		$property->method('getScope')
+			->willReturn(IAccountManager::VISIBILITY_PRIVATE);
+
+		$controller = new AvatarController(
+			'core',
+			$this->request,
+			$this->avatarManager,
+			$this->cache,
+			$this->l,
+			$this->userManager,
+			$this->rootFolder,
+			$this->logger,
+			null,
+			$this->timeFactory,
+			$this->accountManager
+		);
+
+		$result = $controller->getAvatar('userId', 128);
+
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $result->getStatus());
 	}
 
 	/**

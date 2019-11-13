@@ -80,18 +80,6 @@ class AvatarController extends Controller {
 	/** @var IAccountManager */
 	private $accountManager;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IAvatarManager $avatarManager
-	 * @param ICache $cache
-	 * @param IL10N $l10n
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param ILogger $logger
-	 * @param string $userId
-	 * @param TimeFactory $timeFactory
-	 */
 	public function __construct($appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
@@ -137,7 +125,7 @@ class AvatarController extends Controller {
 
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
-			return $this->return404();
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		$account = $this->accountManager->getAccount($user);
@@ -145,7 +133,7 @@ class AvatarController extends Controller {
 
 		if ($scope !== IAccountManager::VISIBILITY_PUBLIC && $this->userId === null) {
 			// Public avatar access is not allowed
-			return $this->return404();
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		try {
@@ -157,17 +145,11 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatarFile->getMimeType()]
 			);
 		} catch (\Exception $e) {
-			return $this->return404();
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		// Cache for 30 minutes
 		$resp->cacheFor(1800);
-		return $resp;
-	}
-
-	private function return404(): Http\Response {
-		$resp = new Http\Response();
-		$resp->setStatus(Http::STATUS_NOT_FOUND);
 		return $resp;
 	}
 
