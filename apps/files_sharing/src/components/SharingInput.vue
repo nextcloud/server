@@ -122,16 +122,16 @@ export default {
 				return t('files_sharing', 'Resharing is not allowed')
 			}
 			if (!allowRemoteSharing && allowMailSharing) {
-				return t('files_sharing', 'Name or email address...')
+				return t('files_sharing', 'Name or email address…')
 			}
 			if (allowRemoteSharing && !allowMailSharing) {
-				return t('files_sharing', 'Name or federated cloud ID...')
+				return t('files_sharing', 'Name or federated cloud ID…')
 			}
 			if (allowRemoteSharing && allowMailSharing) {
-				return t('files_sharing', 'Name, federated cloud ID or email address...')
+				return t('files_sharing', 'Name, federated cloud ID or email address…')
 			}
 
-			return 	t('files_sharing', 'Name...')
+			return 	t('files_sharing', 'Name…')
 		},
 
 		isValidQuery() {
@@ -147,7 +147,7 @@ export default {
 
 		noResultText() {
 			if (this.loading) {
-				return t('files_sharing', 'Searching...')
+				return t('files_sharing', 'Searching…')
 			}
 			return t('files_sharing', 'No elements found.')
 		}
