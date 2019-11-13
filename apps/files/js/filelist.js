@@ -613,7 +613,7 @@
 			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
-				OCA.Files.Sidebar.activeTab = tabId;
+				OCA.Files.Sidebar.setActiveTab(tabId);
 			}
 		},
 
@@ -630,7 +630,7 @@
 			}
 
 			if (!fileName) {
-				OCA.Files.Sidebar.file = null
+				OCA.Files.Sidebar.close()
 				return
 			} else if (typeof fileName !== 'string') {
 				fileName = ''
@@ -644,7 +644,7 @@
 			var path = model.attributes.path + '/' + model.attributes.name
 
 			// open sidebar and set file
-			OCA.Files.Sidebar.file = path.replace('//', '/')
+			OCA.Files.Sidebar.open(path.replace('//', '/'))
 		},
 
 		/**

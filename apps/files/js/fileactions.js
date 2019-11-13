@@ -708,7 +708,7 @@
 					// close sidebar on delete
 					const path = context.dir + '/' + fileName
 					if (OCA.Files.Sidebar && OCA.Files.Sidebar.file === path) {
-						OCA.Files.Sidebar.file = undefined
+						OCA.Files.Sidebar.close()
 					}
 				}
 			});
