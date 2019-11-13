@@ -1201,4 +1201,25 @@ class FileTest extends TestCase {
 
 		$this->assertEquals('new content', $view->file_get_contents('root/file.txt'));
 	}
+
+	public function testPutLockExpired() {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$path = 'test-locking.txt';
+		$info = new \OC\Files\FileInfo(
+			'/' . $this->user . '/files/' . $path,
+			$this->getMockStorage(),
+			null,
+			['permissions' => \OCP\Constants::PERMISSION_ALL],
+			null
+		);
+
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		// don't lock before the PUT to simulate an expired shared lock
+		$this->assertNotEmpty($file->put($this->getStream('test data')));
+
+		// afterMethod unlocks
+		$view->unlockFile($path, ILockingProvider::LOCK_SHARED);
+	}
 }
