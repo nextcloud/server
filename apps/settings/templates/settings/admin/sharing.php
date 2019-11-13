@@ -38,7 +38,7 @@
 		<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
 	</p>
 
-	<p id="internalShareSettings" class="indent" <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
+	<p id="internalShareSettings" class="indent <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
 		<input type="checkbox" name="shareapi_default_internal_expire_date" id="shareapiDefaultInternalExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareDefaultInternalExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="shareapiDefaultInternalExpireDate"><?php p($l->t('Set default expiration date for non-link shares'));?></label><br/>
