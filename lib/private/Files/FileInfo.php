@@ -408,10 +408,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function getCreationTime(): int {
-		return $this->data['creation_time'];
+		return (int) $this->data['creation_time'];
 	}
 
 	public function getUploadTime(): int {
-		return $this->data['upload_time'];
+		return (int) $this->data['upload_time'];
 	}
 }
