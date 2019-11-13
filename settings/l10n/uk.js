@@ -99,8 +99,6 @@ OC.L10N.register(
     "Enforce two-factor authentication" : "Примусова двофакторна аутентифікація",
     "Limit to groups" : "Обмежити групами",
     "Save changes" : "Зберегти зміни",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
-    "Official" : "Офіційні",
     "Update to {version}" : "Оновити до {version}",
     "Remove" : "Видалити",
     "Disable" : "Вимкнути",
@@ -307,6 +305,8 @@ OC.L10N.register(
     "Locale" : "Регіональні станадрти",
     "Current password" : "Поточний пароль",
     "Change password" : "Змінити пароль",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
+    "Official" : "Офіційні",
     "Store credentials" : "Зберігати облікові дані"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

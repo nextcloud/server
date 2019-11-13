@@ -80,8 +80,6 @@
     "Install Client" : "დააყენეთ კლიენტი",
     "Unlimited" : "ულიმიტო",
     "Limit to groups" : "ლიმიტი ჯგუფებზე",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "ოფიციალური აპლიკაციები განვითარებულია და მოქცეულია ჩვენს საზოგადოებაში. ისინი გთავაზობენ ცენტრალურ ფუნქციონირებას და საწარმოო გამოყენებისათვის მზადყოფნაში არიან.",
-    "Official" : "ოფიციალური",
     "Remove" : "წაშლა",
     "Disable" : "გამორთვა",
     "All" : "ყველა",
@@ -252,6 +250,8 @@
     "Help translate" : "თარგმნის დახმარება",
     "Current password" : "მიმდინარე პაროლი",
     "Change password" : "პაროლის შეცვლა",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "ოფიციალური აპლიკაციები განვითარებულია და მოქცეულია ჩვენს საზოგადოებაში. ისინი გთავაზობენ ცენტრალურ ფუნქციონირებას და საწარმოო გამოყენებისათვის მზადყოფნაში არიან.",
+    "Official" : "ოფიციალური",
     "Store credentials" : "უფლებამოსილებანის შენახვა",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
     "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში."

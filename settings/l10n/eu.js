@@ -83,8 +83,6 @@ OC.L10N.register(
     "Limit to groups" : "Taldeetara mugatu",
     "Excluded groups" : "Baztertu taldeak",
     "Save changes" : "Gorde aldaketak",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikazio ofizialak komunitateak eta komunitatean garatzen dira. Funtzionalak dira eta produkziorako gertu daude.",
-    "Official" : "Ofiziala",
     "Remove" : "Ezabatu",
     "Disable" : "Ez-gaitu",
     "All" : "Denak",
@@ -355,6 +353,8 @@ OC.L10N.register(
     "Yoruba" : "Jorubera",
     "Zulu (South Africa)" : "Zuluera (Hego Afrika)",
     "Zulu" : "Zuluera",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikazio ofizialak komunitateak eta komunitatean garatzen dira. Funtzionalak dira eta produkziorako gertu daude.",
+    "Official" : "Ofiziala",
     "Store credentials" : "Gorde kredentzialak",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko."

@@ -99,8 +99,6 @@
     "Nextcloud settings" : "Ρυθμίσεις Nextcloud ",
     "Limit to groups" : "Όριο στις ομάδες",
     "Save changes" : "Αποθήκευση αλλαγών",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Οι επίσημες εφαρμογές αναπτύσσονται μέσα από την κοινότητα. Προσφέρουν κεντρική λειτουργικότητα και είναι έτοιμες για παραγωγική χρήση. ",
-    "Official" : "Επίσημο",
     "by" : "από",
     "Remove" : "Αφαίρεση",
     "Disable" : "Απενεργοποίηση",
@@ -309,6 +307,8 @@
     "German (Luxembourg)" : "Γερμανικά (Λουξεμβούργο)",
     "German (Switzerland)" : "Γερμανικά (Ελβετία)",
     "German" : "Γερμανικά",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Οι επίσημες εφαρμογές αναπτύσσονται μέσα από την κοινότητα. Προσφέρουν κεντρική λειτουργικότητα και είναι έτοιμες για παραγωγική χρήση. ",
+    "Official" : "Επίσημο",
     "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά."

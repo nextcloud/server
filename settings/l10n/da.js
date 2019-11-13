@@ -97,7 +97,6 @@ OC.L10N.register(
     "Limit to groups" : "Begræns til grupper",
     "Excluded groups" : "Ekskluderede grupper",
     "Save changes" : "Gem ændringer",
-    "Official" : "Officiel",
     "by" : "af",
     "Update to {version}" : "Opdateret til {version}",
     "Remove" : "Fjern",
@@ -293,6 +292,7 @@ OC.L10N.register(
     "Help translate" : "Hjælp med oversættelsen",
     "Current password" : "Nuværende adgangskode",
     "Change password" : "Skift kodeord",
+    "Official" : "Officiel",
     "Store credentials" : "Gem brugeroplysninger"
 },
 "nplurals=2; plural=(n != 1);");

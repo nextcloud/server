@@ -135,6 +135,8 @@
     "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File Management" : "Bestandsbeheer",
+    "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
+    "Unable to change the favourite state of the file" : "Niet mogelijk om voorkeurtoestand van het bestand te wijzigen",
     "%s used" : "%s gebruikt",
     "%s%% of %s used" : "%s%% van %s gebruikt",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
