@@ -288,6 +288,8 @@ OC.L10N.register(
     "Account access" : "Account toegang",
     "You are about to grant %1$s access to your %2$s account." : "Je staat op het punt om %1$s toegang te verlenen to je %2$s account.",
     "Account connected" : "Account verbonden",
+    "Your client should now be connected!" : "Je client zou nu moeten verbonden zijn!",
+    "You can close this window." : "Je mag dit venster sluiten.",
     "This share is password-protected" : "Deze share is wachtwoordbeveiligd",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
     "Two-factor authentication" : "Tweefactor authenticatie",
