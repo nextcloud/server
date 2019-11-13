@@ -111,8 +111,6 @@ OC.L10N.register(
     "Save changes" : "Simpan perubahan",
     "This app is supported via your current Nextcloud subscription." : "Aplikasi ini didukung dengan langganan Nextcloud Anda saat ini.",
     "Supported" : "Didukung",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
-    "Official" : "Resmi",
     "by" : "oleh",
     "Update to {version}" : "Perbarui ke {version}",
     "Remove" : "Hapus",
@@ -423,6 +421,8 @@ OC.L10N.register(
     "Ukrainian" : "Ukraina",
     "Welsh (United Kingdom)" : "Welsh (Britania Raya)",
     "Zulu (South Africa)" : "Zulu (Afrika Selatan)",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
+    "Official" : "Resmi",
     "Store credentials" : "Simpan kredensial"
 },
 "nplurals=1; plural=0;");

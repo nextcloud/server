@@ -82,8 +82,6 @@ OC.L10N.register(
     "Unlimited" : "Neribotai",
     "Nextcloud settings" : "Nextcloud nustatymai",
     "Save changes" : "Įrašyti pakeitimus",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
-    "Official" : "Oficiali",
     "Remove" : "Šalinti",
     "Disable" : "Išjungti",
     "All" : "Viskas",
@@ -352,6 +350,8 @@ OC.L10N.register(
     "Ukrainian" : "Ukrainiečių",
     "Vietnamese (Vietnam)" : "Vietnamiečių (Vietnamas)",
     "Vietnamese" : "Vietnamiečių",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
+    "Official" : "Oficiali",
     "Store credentials" : "Išsaugoti prisijungimo duomenis",
     "Follow us on Google+" : "Sekite mus Google+"
 },

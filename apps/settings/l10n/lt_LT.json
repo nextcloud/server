@@ -80,8 +80,6 @@
     "Unlimited" : "Neribotai",
     "Nextcloud settings" : "Nextcloud nustatymai",
     "Save changes" : "Įrašyti pakeitimus",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
-    "Official" : "Oficiali",
     "Remove" : "Šalinti",
     "Disable" : "Išjungti",
     "All" : "Viskas",
@@ -350,6 +348,8 @@
     "Ukrainian" : "Ukrainiečių",
     "Vietnamese (Vietnam)" : "Vietnamiečių (Vietnamas)",
     "Vietnamese" : "Vietnamiečių",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
+    "Official" : "Oficiali",
     "Store credentials" : "Išsaugoti prisijungimo duomenis",
     "Follow us on Google+" : "Sekite mus Google+"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"

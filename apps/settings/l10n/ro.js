@@ -99,7 +99,6 @@ OC.L10N.register(
     "Limit to groups" : "Limitează pentru grupuri",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Forțarea autentificării cu doi factori poate fi setată doar pentru anumite grupuri.",
     "Save changes" : "Salvează modificările",
-    "Official" : "Oficial",
     "Disable" : "Dezactivați",
     "All" : "Toate ",
     "Visit website" : "Viziteaza pagina web",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "Croatian" : "Croatian",
     "Czech (Czech Republic)" : "Chehă (Republica Chehă)",
     "Czech" : "Chehă",
+    "Official" : "Oficial",
     "Store credentials" : "Stochează datele de autentificare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

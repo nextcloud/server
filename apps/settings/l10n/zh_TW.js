@@ -83,8 +83,6 @@ OC.L10N.register(
     "Install Client" : "安裝客戶端程式",
     "Unlimited" : "無限制",
     "Limit to groups" : "限制給特定群組",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方應用程序是由社區內部和內部開發的。 它們提供核心功能，並可在正式成品使用。",
-    "Official" : "官方",
     "Remove" : "移除",
     "Disable" : "停用",
     "All" : "所有",
@@ -250,6 +248,8 @@ OC.L10N.register(
     "Locale" : "所在地",
     "Current password" : "目前密碼",
     "Change password" : "變更密碼",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方應用程序是由社區內部和內部開發的。 它們提供核心功能，並可在正式成品使用。",
+    "Official" : "官方",
     "Store credentials" : "儲存帳密",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 已經在一個 webcron 服務中註冊，每 15 分鐘將會透過 HTTP 呼叫 cron.php",
     "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php"
