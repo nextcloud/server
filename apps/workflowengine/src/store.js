@@ -37,7 +37,7 @@ const store = new Vuex.Store({
 
 		plugins: Vue.observable({
 			checks: {},
-			operators: {}
+			operators: {},
 		}),
 
 		entities: loadState('workflowengine', 'entities'),
@@ -46,10 +46,10 @@ const store = new Vuex.Store({
 				return {
 					id: `${entity.id}::${event.eventName}`,
 					entity,
-					...event
+					...event,
 				}
 			})).flat(),
-		checks: loadState('workflowengine', 'checks')
+		checks: loadState('workflowengine', 'checks'),
 	},
 	mutations: {
 		addRule(state, rule) {
@@ -74,7 +74,7 @@ const store = new Vuex.Store({
 			if (typeof state.operations[plugin.id] !== 'undefined') {
 				Vue.set(state.operations, plugin.id, plugin)
 			}
-		}
+		},
 	},
 	actions: {
 		async fetchRules(context) {
@@ -99,13 +99,13 @@ const store = new Vuex.Store({
 				events,
 				name: '', // unused in the new ui, there for legacy reasons
 				checks: [],
-				operation: rule.operation || ''
+				operation: rule.operation || '',
 			})
 		},
 		updateRule(context, rule) {
 			context.commit('updateRule', {
 				...rule,
-				events: typeof rule.events === 'string' ? JSON.parse(rule.events) : rule.events
+				events: typeof rule.events === 'string' ? JSON.parse(rule.events) : rule.events,
 			})
 		},
 		removeRule(context, rule) {
@@ -130,7 +130,7 @@ const store = new Vuex.Store({
 		setValid(context, { rule, valid }) {
 			rule.valid = valid
 			context.commit('updateRule', rule)
-		}
+		},
 	},
 	getters: {
 		getRules(state) {
@@ -164,8 +164,8 @@ const store = new Vuex.Store({
 						return obj
 					}, {})
 			}
-		}
-	}
+		},
+	},
 })
 
 export default store

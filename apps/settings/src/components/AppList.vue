@@ -105,7 +105,7 @@ import pLimit from 'p-limit'
 export default {
 	name: 'AppList',
 	components: {
-		AppItem
+		AppItem,
 	},
 	mixins: [PrefixMixin],
 	props: ['category', 'app', 'search'],
@@ -123,7 +123,7 @@ export default {
 			return this.hasPendingUpdate && ['installed', 'updates'].includes(this.category)
 		},
 		apps() {
-			let apps = this.$store.getters.getAllApps
+			const apps = this.$store.getters.getAllApps
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
 					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name
@@ -183,20 +183,20 @@ export default {
 			return (this.category === 'app-bundles')
 		},
 		allBundlesEnabled() {
-			let self = this
+			const self = this
 			return function(id) {
 				return self.bundleApps(id).filter(app => !app.active).length === 0
 			}
 		},
 		bundleToggleText() {
-			let self = this
+			const self = this
 			return function(id) {
 				if (self.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all')
 				}
 				return t('settings', 'Enable all')
 			}
-		}
+		},
 	},
 	methods: {
 		toggleBundle(id) {
@@ -206,7 +206,7 @@ export default {
 			return this.enableBundle(id)
 		},
 		enableBundle(id) {
-			let apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map(app => app.id)
 			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
 				.catch((error) => {
 					console.error(error)
@@ -214,7 +214,7 @@ export default {
 				})
 		},
 		disableBundle(id) {
-			let apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map(app => app.id)
 			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
 				.catch((error) => {
 					OC.Notification.show(error)
@@ -226,7 +226,7 @@ export default {
 				.filter(app => app.update)
 				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id }))
 				)
-		}
-	}
+		},
+	},
 }
 </script>

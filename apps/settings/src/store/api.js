@@ -77,5 +77,5 @@ export default {
 	},
 	delete(url, data) {
 		return axios.delete(sanitize(url), { data: data })
-	}
+	},
 }

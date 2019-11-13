@@ -33,18 +33,18 @@ const RequestChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is') },
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') }
+			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestURL
+		component: RequestURL,
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
 		name: t('workflowengine', 'Request time'),
 		operators: [
 			{ operator: 'in', name: t('workflowengine', 'between') },
-			{ operator: '!in', name: t('workflowengine', 'not between') }
+			{ operator: '!in', name: t('workflowengine', 'not between') },
 		],
-		component: RequestTime
+		component: RequestTime,
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
@@ -53,19 +53,19 @@ const RequestChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is') },
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') }
+			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestUserAgent
+		component: RequestUserAgent,
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
 		name: t('workflowengine', 'User group membership'),
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
-			{ operator: '!is', name: t('workflowengine', 'is not member of') }
+			{ operator: '!is', name: t('workflowengine', 'is not member of') },
 		],
-		component: RequestUserGroup
-	}
+		component: RequestUserGroup,
+	},
 ]
 
 export default RequestChecks

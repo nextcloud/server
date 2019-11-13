@@ -80,13 +80,13 @@ import { generateUrl } from '@nextcloud/router'
 export default {
 	name: 'App',
 	components: {
-		OAuthItem
+		OAuthItem,
 	},
 	props: {
 		clients: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data: function() {
 		return {
@@ -94,8 +94,8 @@ export default {
 				name: '',
 				redirectUri: '',
 				errorMsg: '',
-				error: false
-			}
+				error: false,
+			},
 		}
 	},
 	methods: {
@@ -112,7 +112,7 @@ export default {
 				generateUrl('apps/oauth2/clients'),
 				{
 					name: this.newClient.name,
-					redirectUri: this.newClient.redirectUri
+					redirectUri: this.newClient.redirectUri,
 				}
 			).then(response => {
 				this.clients.push(response.data)
@@ -123,7 +123,7 @@ export default {
 				this.newClient.error = true
 				this.newClient.errorMsg = reason.response.data.message
 			})
-		}
-	}
+		},
+	},
 }
 </script>

@@ -77,62 +77,62 @@ export default {
 	components: {
 		LoginForm,
 		ResetPassword,
-		UpdatePassword
+		UpdatePassword,
 	},
 	props: {
 		username: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		redirectUrl: {
-			type: String
+			type: String,
 		},
 		errors: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		messages: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		throttleDelay: {
-			type: Number
+			type: Number,
 		},
 		canResetPassword: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		resetPasswordLink: {
-			type: String
+			type: String,
 		},
 		resetPasswordTarget: {
-			type: String
+			type: String,
 		},
 		invertedColors: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		autoCompleteAllowed: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		directLogin: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			loading: false,
 			user: this.username,
-			resetPassword: false
+			resetPassword: false,
 		}
 	},
 	methods: {
 		passwordResetFinished() {
 			this.resetPasswordTarget = ''
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -25,7 +25,7 @@ import { addScript, addStyle } from './legacy-loader'
 import {
 	ajaxConnectionLostHandler,
 	processAjaxError,
-	registerXHRForErrorProcessing
+	registerXHRForErrorProcessing,
 } from './xhr-error'
 import Apps from './apps'
 import { AppConfig, appConfig } from './appconfig'
@@ -37,11 +37,11 @@ import {
 	dirname,
 	encodePath,
 	isSamePath,
-	joinPaths
+	joinPaths,
 } from '@nextcloud/paths'
 import {
 	build as buildQueryString,
-	parse as parseQueryString
+	parse as parseQueryString,
 } from './query-string'
 import Config from './config'
 import {
@@ -54,7 +54,7 @@ import {
 	PERMISSION_READ,
 	PERMISSION_SHARE,
 	PERMISSION_UPDATE,
-	TAG_FAVORITE
+	TAG_FAVORITE,
 } from './constants'
 import ContactsMenu from './contactsmenu'
 import { currentUser, getCurrentUser } from './currentuser'
@@ -66,22 +66,22 @@ import {
 	getHost,
 	getHostName,
 	getPort,
-	getProtocol
+	getProtocol,
 } from './host'
 import {
-	getToken as getRequestToken
+	getToken as getRequestToken,
 } from './requesttoken'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
-	unregisterMenu
+	unregisterMenu,
 } from './menu'
 import { isUserAdmin } from './admin'
 import L10N, {
 	getCanonicalLocale,
 	getLanguage,
-	getLocale
+	getLocale,
 } from './l10n'
 
 import {
@@ -92,7 +92,7 @@ import {
 	linkTo,
 	linkToOCS,
 	linkToRemote,
-	linkToRemoteBase
+	linkToRemoteBase,
 } from './routing'
 import msg from './msg'
 import Notification from './notification'
@@ -270,7 +270,7 @@ export default {
 	 * @deprecated since 8.2, use OC.getRootPath() instead
 	 * @see OC#getRootPath
 	 */
-	webroot
+	webroot,
 }
 
 // Keep the request token prop in sync

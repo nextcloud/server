@@ -27,15 +27,15 @@ $.widget('oc.ocdialog', {
 		height: 'auto',
 		closeButton: true,
 		closeOnEscape: true,
-		modal: false
+		modal: false,
 	},
 	_create: function() {
-		var self = this
+		const self = this
 
 		this.originalCss = {
 			display: this.element[0].style.display,
 			width: this.element[0].style.width,
-			height: this.element[0].style.height
+			height: this.element[0].style.height,
 		}
 
 		this.originalTitle = this.element.attr('title')
@@ -45,7 +45,7 @@ $.widget('oc.ocdialog', {
 			.attr({
 				// Setting tabIndex makes the div focusable
 				tabIndex: -1,
-				role: 'dialog'
+				role: 'dialog',
 			})
 			.insertBefore(this.element)
 		this.$dialog.append(this.element.detach())
@@ -53,7 +53,7 @@ $.widget('oc.ocdialog', {
 
 		this.$dialog.css({
 			display: 'inline-block',
-			position: 'fixed'
+			position: 'fixed',
 		})
 
 		this.enterCallback = null
@@ -92,7 +92,7 @@ $.widget('oc.ocdialog', {
 					self.$buttonrow
 					&& self.$buttonrow.find($(event.target)).length === 0
 				) {
-					var $button = self.$buttonrow.find('button.primary')
+					const $button = self.$buttonrow.find('button.primary')
 					if ($button && !$button.prop('disabled')) {
 						$button.trigger('click')
 					}
@@ -111,13 +111,13 @@ $.widget('oc.ocdialog', {
 		this._trigger('open')
 	},
 	_setOption: function(key, value) {
-		var self = this
+		const self = this
 		switch (key) {
 		case 'title':
 			if (this.$title) {
 				this.$title.text(value)
 			} else {
-				var $title = $('<h2 class="oc-dialog-title">'
+				const $title = $('<h2 class="oc-dialog-title">'
 						+ value
 						+ '</h2>')
 				this.$title = $title.prependTo(this.$dialog)
@@ -128,7 +128,7 @@ $.widget('oc.ocdialog', {
 			if (this.$buttonrow) {
 				this.$buttonrow.empty()
 			} else {
-				var $buttonrow = $('<div class="oc-dialog-buttonrow" />')
+				const $buttonrow = $('<div class="oc-dialog-buttonrow" />')
 				this.$buttonrow = $buttonrow.appendTo(this.$dialog)
 			}
 			if (value.length === 1) {
@@ -139,7 +139,7 @@ $.widget('oc.ocdialog', {
 				this.$buttonrow.addClass('threebuttons')
 			}
 			$.each(value, function(idx, val) {
-				var $button = $('<button>').text(val.text)
+				const $button = $('<button>').text(val.text)
 				if (val.classes) {
 					$button.addClass(val.classes)
 				}
@@ -166,7 +166,7 @@ $.widget('oc.ocdialog', {
 			break
 		case 'closeButton':
 			if (value) {
-				var $closeButton = $('<a class="oc-dialog-close"></a>')
+				const $closeButton = $('<a class="oc-dialog-close"></a>')
 				this.$dialog.prepend($closeButton)
 				$closeButton.on('click', function() {
 					self.close()
@@ -193,7 +193,7 @@ $.widget('oc.ocdialog', {
 		$.Widget.prototype._setOptions.apply(this, arguments)
 	},
 	_setSizes: function() {
-		var lessHeight = 0
+		let lessHeight = 0
 		if (this.$title) {
 			lessHeight += this.$title.outerHeight(true)
 		}
@@ -201,7 +201,7 @@ $.widget('oc.ocdialog', {
 			lessHeight += this.$buttonrow.outerHeight(true)
 		}
 		this.element.css({
-			'height': 'calc(100% - ' + lessHeight + 'px)'
+			'height': 'calc(100% - ' + lessHeight + 'px)',
 		})
 	},
 	_createOverlay: function() {
@@ -209,7 +209,7 @@ $.widget('oc.ocdialog', {
 			return
 		}
 
-		var self = this
+		const self = this
 		this.overlay = $('<div>')
 			.addClass('oc-dialog-dim')
 			.appendTo($('#content'))
@@ -243,7 +243,7 @@ $.widget('oc.ocdialog', {
 	},
 	close: function() {
 		this._destroyOverlay()
-		var self = this
+		const self = this
 		// Ugly hack to catch remaining keyup events.
 		setTimeout(function() {
 			self._trigger('close', self)
@@ -266,5 +266,5 @@ $.widget('oc.ocdialog', {
 		this.element.removeClass('oc-dialog-content')
 			.css(this.originalCss).detach().insertBefore(this.$dialog)
 		this.$dialog.remove()
-	}
+	},
 })

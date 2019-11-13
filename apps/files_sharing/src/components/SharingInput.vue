@@ -61,7 +61,7 @@ export default {
 	name: 'SharingInput',
 
 	components: {
-		Multiselect
+		Multiselect,
 	},
 
 	mixins: [ShareTypes, ShareRequests],
@@ -70,26 +70,26 @@ export default {
 		shares: {
 			type: Array,
 			default: () => [],
-			required: true
+			required: true,
 		},
 		linkShares: {
 			type: Array,
 			default: () => [],
-			required: true
+			required: true,
 		},
 		fileInfo: {
 			type: Object,
 			default: () => {},
-			required: true
+			required: true,
 		},
 		reshare: {
 			type: Share,
-			default: null
+			default: null,
 		},
 		canReshare: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	data() {
@@ -99,7 +99,7 @@ export default {
 			query: '',
 			recommendations: [],
 			ShareSearch: OCA.Sharing.ShareSearch.state,
-			suggestions: []
+			suggestions: [],
 		}
 	},
 
@@ -151,7 +151,7 @@ export default {
 				return t('files_sharing', 'Searching …')
 			}
 			return t('files_sharing', 'No elements found.')
-		}
+		},
 	},
 
 	mounted() {
@@ -190,8 +190,8 @@ export default {
 					itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
 					search,
 					lookup,
-					perPage: this.config.maxAutocompleteResults
-				}
+					perPage: this.config.maxAutocompleteResults,
+				},
 			})
 
 			if (request.data.ocs.meta.statuscode !== 100) {
@@ -224,7 +224,7 @@ export default {
 				lookupEntry.push({
 					isNoUser: true,
 					displayName: t('files_sharing', 'Search globally'),
-					lookup: true
+					lookup: true,
 				})
 			}
 
@@ -255,8 +255,8 @@ export default {
 			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees_recommended', {
 				params: {
 					format: 'json',
-					itemType: this.fileInfo.type
-				}
+					itemType: this.fileInfo.type,
+				},
 			})
 
 			if (request.data.ocs.meta.statuscode !== 100) {
@@ -382,7 +382,7 @@ export default {
 				isNoUser: !result.uuid,
 				displayName: result.name || result.label,
 				desc,
-				icon: this.shareTypeToIcon(result.value.shareType)
+				icon: this.shareTypeToIcon(result.value.shareType),
 			}
 		},
 
@@ -417,7 +417,7 @@ export default {
 				const share = await this.createShare({
 					path,
 					shareType: value.shareType,
-					shareWith: value.shareWith
+					shareWith: value.shareWith,
 				})
 				this.$emit('add:share', share)
 
@@ -433,8 +433,8 @@ export default {
 			} finally {
 				this.loading = false
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

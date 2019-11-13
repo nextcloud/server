@@ -83,6 +83,6 @@ export const hasAppTranslations = appId => {
 export const getAppTranslations = appId => {
 	return {
 		translations: window._oc_l10n_registry_translations[appId] || {},
-		pluralFunction: window._oc_l10n_registry_plural_functions[appId]
+		pluralFunction: window._oc_l10n_registry_plural_functions[appId],
 	}
 }

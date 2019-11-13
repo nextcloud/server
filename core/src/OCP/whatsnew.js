@@ -14,14 +14,14 @@ import OC from '../OC/index'
 
 export function query(options) {
 	options = options || {}
-	var dismissOptions = options.dismiss || {}
+	const dismissOptions = options.dismiss || {}
 	$.ajax({
 		type: 'GET',
 		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew?format=json',
 		success: options.success || function(data, statusText, xhr) {
 			onQuerySuccess(data, statusText, xhr, dismissOptions)
 		},
-		error: options.error || onQueryError
+		error: options.error || onQueryError,
 	})
 }
 
@@ -32,7 +32,7 @@ export function dismiss(version, options) {
 		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew',
 		data: { version: encodeURIComponent(version) },
 		success: options.success || onDismissSuccess,
-		error: options.error || onDismissError
+		error: options.error || onDismissError,
 	})
 	// remove element immediately
 	$('.whatsNewPopover').remove()
@@ -46,12 +46,12 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 		return
 	}
 
-	var item, menuItem, text, icon
+	let item, menuItem, text, icon
 
-	var div = document.createElement('div')
+	const div = document.createElement('div')
 	div.classList.add('popovermenu', 'open', 'whatsNewPopover', 'menu-left')
 
-	var list = document.createElement('ul')
+	const list = document.createElement('ul')
 
 	// header
 	item = document.createElement('li')
@@ -74,8 +74,8 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	list.appendChild(item)
 
 	// Highlights
-	for (var i in data['ocs']['data']['whatsNew']['regular']) {
-		var whatsNewTextItem = data['ocs']['data']['whatsNew']['regular'][i]
+	for (const i in data['ocs']['data']['whatsNew']['regular']) {
+		const whatsNewTextItem = data['ocs']['data']['whatsNew']['regular'][i]
 		item = document.createElement('li')
 
 		menuItem = document.createElement('span')

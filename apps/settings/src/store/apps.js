@@ -28,7 +28,7 @@ const state = {
 	categories: [],
 	updateCount: 0,
 	loading: {},
-	loadingList: false
+	loadingList: false,
 }
 
 const mutations = {
@@ -65,24 +65,24 @@ const mutations = {
 			appId = [appId]
 		}
 		appId.forEach((_id) => {
-			let app = state.apps.find(app => app.id === _id)
+			const app = state.apps.find(app => app.id === _id)
 			app.error = error
 		})
 	},
 
 	clearError(state, { appId, error }) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.error = null
 	},
 
 	enableApp(state, { appId, groups }) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
 	},
 
 	disableApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find(app => app.id === appId)
 		app.active = false
 		app.groups = []
 		if (app.removable) {
@@ -100,8 +100,8 @@ const mutations = {
 	},
 
 	updateApp(state, appId) {
-		let app = state.apps.find(app => app.id === appId)
-		let version = app.update
+		const app = state.apps.find(app => app.id === appId)
+		const version = app.update
 		app.update = null
 		app.version = version
 		state.updateCount--
@@ -133,7 +133,7 @@ const mutations = {
 		} else {
 			Vue.set(state.loading, id, false)
 		}
-	}
+	},
 }
 
 const getters = {
@@ -150,7 +150,7 @@ const getters = {
 	},
 	getUpdateCount(state) {
 		return state.updateCount
-	}
+	},
 }
 
 const actions = {
@@ -197,7 +197,7 @@ const actions = {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
-									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable')
+									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable'),
 								})
 							}
 						})
@@ -207,7 +207,7 @@ const actions = {
 					context.commit('stopLoading', 'install')
 					context.commit('setError', {
 						appId: apps,
-						error: error.response.data.data.message
+						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
@@ -233,7 +233,7 @@ const actions = {
 					context.commit('stopLoading', 'install')
 					context.commit('setError', {
 						appId: apps,
-						error: error.response.data.data.message
+						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
@@ -320,7 +320,7 @@ const actions = {
 				return false
 			})
 			.catch((error) => context.commit('API_FAILURE', error))
-	}
+	},
 
 }
 

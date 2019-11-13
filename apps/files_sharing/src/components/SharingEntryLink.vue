@@ -316,11 +316,11 @@ export default {
 		ActionLink,
 		ActionText,
 		ActionTextEditable,
-		Avatar
+		Avatar,
 	},
 
 	directives: {
-		Tooltip
+		Tooltip,
 	},
 
 	mixins: [SharesMixin],
@@ -328,8 +328,8 @@ export default {
 	props: {
 		canReshare: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
 
 	data() {
@@ -341,7 +341,7 @@ export default {
 			publicUploadRValue: OC.PERMISSION_READ,
 			publicUploadWValue: OC.PERMISSION_CREATE,
 
-			ExternalLinkActions: OCA.Sharing.ExternalLinkActions.state
+			ExternalLinkActions: OCA.Sharing.ExternalLinkActions.state,
 		}
 	},
 
@@ -366,7 +366,7 @@ export default {
 			if (this.share && this.share.id) {
 				if (!this.isShareOwner && this.share.ownerDisplayName) {
 					return t('files_sharing', 'Shared via link by {initiator}', {
-						initiator: this.share.ownerDisplayName
+						initiator: this.share.ownerDisplayName,
 					})
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
@@ -393,7 +393,7 @@ export default {
 						? this.config.defaultExpirationDateString
 						: moment().format('YYYY-MM-DD')
 					: ''
-			}
+			},
 		},
 
 		dateMaxEnforced() {
@@ -414,7 +414,7 @@ export default {
 				// TODO: directly save after generation to make sure the share is always protected
 				this.share.password = enabled ? await this.generatePassword() : ''
 				this.share.newPassword = this.share.password
-			}
+			},
 		},
 
 		/**
@@ -452,7 +452,7 @@ export default {
 				this.share.permissions = enabled
 					? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
 					: OC.PERMISSION_READ
-			}
+			},
 		},
 
 		// if newPassword exists, but is empty, it means
@@ -510,7 +510,7 @@ export default {
 
 		isPasswordPolicyEnabled() {
 			return typeof this.config.passwordPolicy === 'object'
-		}
+		},
 	},
 
 	methods: {
@@ -519,7 +519,7 @@ export default {
 		 */
 		async onNewLinkShare() {
 			const shareDefaults = {
-				share_type: OC.Share.SHARE_TYPE_LINK
+				share_type: OC.Share.SHARE_TYPE_LINK,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -588,7 +588,7 @@ export default {
 					path,
 					shareType: OC.Share.SHARE_TYPE_LINK,
 					password: share.password,
-					expireDate: share.expireDate
+					expireDate: share.expireDate,
 					// we do not allow setting the publicUpload
 					// before the share creation.
 					// Todo: We also need to fix the createShare method in
@@ -747,8 +747,8 @@ export default {
 			// but is incomplete as not pushed to server
 			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
-		}
-	}
+		},
+	},
 
 }
 </script>

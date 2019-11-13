@@ -32,7 +32,7 @@ const FileChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is') },
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') }
+			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
 		placeholder: (check) => {
 			if (check.operator === 'matches' || check.operator === '!matches') {
@@ -40,7 +40,7 @@ const FileChecks = [
 			}
 			return 'filename.txt'
 		},
-		validate: stringValidator
+		validate: stringValidator,
 	},
 
 	{
@@ -50,9 +50,9 @@ const FileChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is') },
 			{ operator: '!is', name: t('workflowengine', 'is not') },
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') }
+			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: FileMimeType
+		component: FileMimeType,
 	},
 
 	{
@@ -62,10 +62,10 @@ const FileChecks = [
 			{ operator: 'less', name: t('workflowengine', 'less') },
 			{ operator: '!greater', name: t('workflowengine', 'less or equals') },
 			{ operator: '!less', name: t('workflowengine', 'greater or equals') },
-			{ operator: 'greater', name: t('workflowengine', 'greater') }
+			{ operator: 'greater', name: t('workflowengine', 'greater') },
 		],
 		placeholder: (check) => '5 MB',
-		validate: (check) => check.value ? check.value.match(/^[0-9]+[ ]?[kmgt]?b$/i) !== null : false
+		validate: (check) => check.value ? check.value.match(/^[0-9]+[ ]?[kmgt]?b$/i) !== null : false,
 	},
 
 	{
@@ -75,7 +75,7 @@ const FileChecks = [
 			{ operator: 'matchesIPv4', name: t('workflowengine', 'matches IPv4') },
 			{ operator: '!matchesIPv4', name: t('workflowengine', 'does not match IPv4') },
 			{ operator: 'matchesIPv6', name: t('workflowengine', 'matches IPv6') },
-			{ operator: '!matchesIPv6', name: t('workflowengine', 'does not match IPv6') }
+			{ operator: '!matchesIPv6', name: t('workflowengine', 'does not match IPv6') },
 		],
 		placeholder: (check) => {
 			if (check.operator === 'matchesIPv6' || check.operator === '!matchesIPv6') {
@@ -88,7 +88,7 @@ const FileChecks = [
 				return validateIPv6(check.value)
 			}
 			return validateIPv4(check.value)
-		}
+		},
 	},
 
 	{
@@ -96,10 +96,10 @@ const FileChecks = [
 		name: t('workflowengine', 'File system tag'),
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is tagged with') },
-			{ operator: '!is', name: t('workflowengine', 'is not tagged with') }
+			{ operator: '!is', name: t('workflowengine', 'is not tagged with') },
 		],
-		component: FileSystemTag
-	}
+		component: FileSystemTag,
+	},
 ]
 
 export default FileChecks

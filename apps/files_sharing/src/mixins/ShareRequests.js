@@ -29,7 +29,7 @@ import Share from '../models/Share'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1', 2) + 'shares'
 const headers = {
-	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 }
 
 export default {
@@ -109,6 +109,6 @@ export default {
 				const message = error.response.data.ocs.meta.message
 				throw new Error(`${property}, ${message}`)
 			}
-		}
-	}
+		},
+	},
 }

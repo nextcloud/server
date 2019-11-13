@@ -29,7 +29,7 @@
 	 *
 	 * This toggle view must be explicitly rendered before it is used.
 	 */
-	var SystemTagsInfoViewToggleView = OC.Backbone.View.extend(
+	const SystemTagsInfoViewToggleView = OC.Backbone.View.extend(
 		/** @lends OC.Backbone.View.prototype */ {
 
 			tagName: 'span',
@@ -37,7 +37,7 @@
 			className: 'tag-label',
 
 			events: {
-				'click': 'click'
+				'click': 'click',
 			},
 
 			/**
@@ -88,7 +88,7 @@
 				this.$el.html(this.template())
 
 				return this
-			}
+			},
 
 		})
 

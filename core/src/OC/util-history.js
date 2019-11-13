@@ -46,7 +46,7 @@ export default {
 	 * @param {boolean} [replace=false] whether to replace instead of pushing
 	 */
 	_pushState: function(params, url, replace) {
-		var strParams
+		let strParams
 		if (typeof (params) === 'string') {
 			strParams = params
 		} else {
@@ -57,10 +57,10 @@ export default {
 			url = url || location.pathname + '?' + strParams
 			// Workaround for bug with SVG and window.history.pushState on Firefox < 51
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=652991
-			var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+			const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 			if (isFirefox && parseInt(navigator.userAgent.split('/').pop()) < 51) {
-				var patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]')
-				for (var i = 0, ii = patterns.length, pattern; i < ii; i++) {
+				const patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]')
+				for (let i = 0, ii = patterns.length, pattern; i < ii; i++) {
 					pattern = patterns[i]
 					// eslint-disable-next-line no-self-assign
 					pattern.style.fill = pattern.style.fill
@@ -127,8 +127,8 @@ export default {
 	 * @returns {string}
 	 */
 	_parseHashQuery: function() {
-		var hash = window.location.hash
-		var pos = hash.indexOf('?')
+		const hash = window.location.hash
+		const pos = hash.indexOf('?')
 		if (pos >= 0) {
 			return hash.substr(pos + 1)
 		}
@@ -150,8 +150,8 @@ export default {
 	 * @returns {Object} map of parameters
 	 */
 	parseUrlQuery: function() {
-		var query = this._parseHashQuery()
-		var params
+		const query = this._parseHashQuery()
+		let params
 		// try and parse from URL hash first
 		if (query) {
 			params = OC.parseQueryString(this._decodeQuery(query))
@@ -166,7 +166,7 @@ export default {
 			this._cancelPop = false
 			return
 		}
-		var params
+		let params
 		if (!this._handlers.length) {
 			return
 		}
@@ -176,8 +176,8 @@ export default {
 		} else if (!params) {
 			params = this.parseUrlQuery() || {}
 		}
-		for (var i = 0; i < this._handlers.length; i++) {
+		for (let i = 0; i < this._handlers.length; i++) {
 			this._handlers[i](params)
 		}
-	}
+	},
 }

@@ -19,12 +19,12 @@ export default {
 	props: {
 		preview: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		selected: {
 			type: String,
-			default: null
-		}
+			default: null,
+		},
 	},
 	computed: {
 		checked: {
@@ -33,8 +33,8 @@ export default {
 			},
 			set(checked) {
 				this.$emit('select', checked ? this.preview.id : '')
-			}
-		}
-	}
+			},
+		},
+	},
 }
 </script>

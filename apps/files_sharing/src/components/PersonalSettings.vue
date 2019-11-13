@@ -39,7 +39,7 @@ export default {
 	name: 'PersonalSettings',
 	data() {
 		return {
-			accepting: true
+			accepting: true,
 		}
 	},
 	mounted() {
@@ -50,10 +50,10 @@ export default {
 			axios.put(
 				generateUrl('/apps/files_sharing/settings/defaultAccept'),
 				{
-					accept: this.accepting
+					accept: this.accepting,
 				}
 			)
-		}
-	}
+		},
+	},
 }
 </script>

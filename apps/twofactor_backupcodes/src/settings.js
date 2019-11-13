@@ -11,5 +11,5 @@ store.replaceState(initialState)
 
 const View = Vue.extend(PersonalSettings)
 new View({
-	store
+	store,
 }).$mount('#twofactor-backupcodes-settings')

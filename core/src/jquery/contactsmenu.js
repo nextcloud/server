@@ -38,14 +38,14 @@ const entryTemplate = require('./contactsmenu/jquery_entry.handlebars')
 
 $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 	// 0 - user, 4 - email, 6 - remote
-	var allowedTypes = [0, 4, 6]
+	const allowedTypes = [0, 4, 6]
 	if (allowedTypes.indexOf(shareType) === -1) {
 		return
 	}
 
-	var $div = this
+	const $div = this
 	appendTo.append(LIST)
-	var $list = appendTo.find('div.contactsmenu-popover')
+	const $list = appendTo.find('div.contactsmenu-popover')
 
 	$div.click(function() {
 		if (!$list.hasClass('hidden')) {
@@ -66,46 +66,46 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 			method: 'POST',
 			data: {
 				shareType: shareType,
-				shareWith: shareWith
-			}
+				shareWith: shareWith,
+			},
 		}).then(function(data) {
 			$list.find('ul').find('li').addClass('hidden')
 
-			var actions
+			let actions
 			if (!data.topAction) {
 				actions = [{
 					hyperlink: '#',
-					title: t('core', 'No action available')
+					title: t('core', 'No action available'),
 				}]
 			} else {
 				actions = [data.topAction].concat(data.actions)
 			}
 
 			actions.forEach(function(action) {
-				var template = entryTemplate
+				const template = entryTemplate
 				$list.find('ul').append(template(action))
 			})
 		}, function(jqXHR) {
 			$list.find('ul').find('li').addClass('hidden')
 
-			var title
+			let title
 			if (jqXHR.status === 404) {
 				title = t('core', 'No action available')
 			} else {
 				title = t('core', 'Error fetching contact actions')
 			}
 
-			var template = entryTemplate
+			const template = entryTemplate
 			$list.find('ul').append(template({
 				hyperlink: '#',
-				title: title
+				title: title,
 			}))
 		})
 	})
 
 	$(document).click(function(event) {
-		var clickedList = ($list.has(event.target).length > 0)
-		var clickedTarget = ($div.has(event.target).length > 0)
+		const clickedList = ($list.has(event.target).length > 0)
+		let clickedTarget = ($div.has(event.target).length > 0)
 
 		$div.each(function() {
 			if ($(this).is(event.target)) {

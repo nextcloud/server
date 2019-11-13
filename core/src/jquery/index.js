@@ -48,8 +48,8 @@ import './css/jquery.ocdialog.scss'
  */
 $.ajaxSetup({
 	contents: {
-		script: false
-	}
+		script: false,
+	},
 })
 
 /**

@@ -36,12 +36,12 @@ export default {
 		fileInfo: {
 			type: Object,
 			default: () => {},
-			required: true
+			required: true,
 		},
 		share: {
 			type: Share,
-			default: null
-		}
+			default: null,
+		},
 	},
 
 	data() {
@@ -75,8 +75,8 @@ export default {
 				SHARE_TYPE_CIRCLE: OC.Share.SHARE_TYPE_CIRCLE,
 				SHARE_TYPE_GUEST: OC.Share.SHARE_TYPE_GUEST,
 				SHARE_TYPE_REMOTE_GROUP: OC.Share.SHARE_TYPE_REMOTE_GROUP,
-				SHARE_TYPE_ROOM: OC.Share.SHARE_TYPE_ROOM
-			}
+				SHARE_TYPE_ROOM: OC.Share.SHARE_TYPE_ROOM,
+			},
 		}
 	},
 
@@ -94,7 +94,7 @@ export default {
 				this.share.note = enabled
 					? t('files_sharing', 'Enter a note for the share recipient')
 					: ''
-			}
+			},
 		},
 
 		dateTomorrow() {
@@ -123,14 +123,14 @@ export default {
 					? window.monthNamesShort		// provided by nextcloud
 					: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'],
 				placeholder: {
-					date: 'Select Date' // TODO: Translate
-				}
+					date: 'Select Date', // TODO: Translate
+				},
 			}
 		},
 
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
-		}
+		},
 
 	},
 
@@ -217,7 +217,7 @@ export default {
 					try {
 						await this.updateShare(this.share.id, {
 							property,
-							value
+							value,
 						})
 
 						// clear any previous errors
@@ -276,6 +276,6 @@ export default {
 		 */
 		debounceQueueUpdate: debounce(function(property) {
 			this.queueUpdate(property)
-		}, 500)
-	}
+		}, 500),
+	},
 }

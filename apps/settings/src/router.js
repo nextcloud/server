@@ -55,9 +55,9 @@ export default new Router({
 				{
 					path: ':selectedGroup(.*)',
 					name: 'group',
-					component: Users
-				}
-			]
+					component: Users,
+				},
+			],
 		},
 		{
 			path: '/:index(index.php/)?settings/apps',
@@ -73,11 +73,11 @@ export default new Router({
 						{
 							path: ':id',
 							name: 'apps-details',
-							component: Apps
-						}
-					]
-				}
-			]
-		}
-	]
+							component: Apps,
+						},
+					],
+				},
+			],
+		},
+	],
 })

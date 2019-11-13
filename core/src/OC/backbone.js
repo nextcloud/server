@@ -27,7 +27,7 @@ const Backbone = VendorBackbone.noConflict()
 // Patch Backbone for DAV
 Object.assign(Backbone, {
 	davCall,
-	davSync: davSync(Backbone)
+	davSync: davSync(Backbone),
 })
 
 export default Backbone

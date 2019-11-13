@@ -48,41 +48,41 @@ let uuid = 0
 export default {
 	name: 'MultiselectTag',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		value: {
 			type: [String, Array],
-			default: null
+			default: null,
 		},
 		disabled: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		multiple: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			inputValObjects: [],
-			tags: []
+			tags: [],
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-input-text-' + this.uuid
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputValObjects = this.getValueObject()
-		}
+		},
 	},
 	beforeCreate: function() {
 		this.uuid = uuid.toString()
@@ -124,7 +124,7 @@ export default {
 				return t('systemtags', '%s (restricted)').replace('%s', displayName)
 			}
 			return displayName
-		}
-	}
+		},
+	},
 }
 </script>

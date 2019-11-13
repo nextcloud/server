@@ -39,34 +39,34 @@ import axios from '@nextcloud/axios'
 
 const groups = []
 const status = {
-	isLoading: false
+	isLoading: false,
 }
 
 export default {
 	name: 'RequestUserGroup',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		value: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		check: {
 			type: Object,
-			default: () => { return {} }
-		}
+			default: () => { return {} },
+		},
 	},
 	data() {
 		return {
 			groups: groups,
-			status: status
+			status: status,
 		}
 	},
 	computed: {
 		currentValue() {
 			return this.groups.find(group => group.id === this.value) || null
-		}
+		},
 	},
 	async mounted() {
 		if (this.groups.length === 0) {
@@ -87,7 +87,7 @@ export default {
 				response.data.ocs.data.groups.reduce((obj, item) => {
 					obj.push({
 						id: item,
-						displayname: item
+						displayname: item,
 					})
 					return obj
 				}, []).forEach((group) => this.addGroup(group))
@@ -101,8 +101,8 @@ export default {
 			if (index === -1) {
 				this.groups.push(group)
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 <style scoped>

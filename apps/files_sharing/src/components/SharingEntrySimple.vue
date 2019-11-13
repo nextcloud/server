@@ -43,28 +43,28 @@ export default {
 	name: 'SharingEntrySimple',
 
 	components: {
-		Actions
+		Actions,
 	},
 
 	directives: {
-		Tooltip
+		Tooltip,
 	},
 
 	props: {
 		title: {
 			type: String,
 			default: '',
-			required: true
+			required: true,
 		},
 		tooltip: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		subtitle: {
 			type: String,
-			default: ''
-		}
-	}
+			default: '',
+		},
+	},
 
 }
 </script>

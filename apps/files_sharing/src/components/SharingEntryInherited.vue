@@ -68,7 +68,7 @@ export default {
 		ActionLink,
 		ActionText,
 		Avatar,
-		SharingEntrySimple
+		SharingEntrySimple,
 	},
 
 	mixins: [SharesMixin],
@@ -76,17 +76,17 @@ export default {
 	props: {
 		share: {
 			type: Share,
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	computed: {
 		fileTargetUrl() {
 			return generateUrl('/f/{fileid}', {
-				fileid: this.share.fileSource
+				fileid: this.share.fileSource,
 			})
-		}
-	}
+		},
+	},
 }
 </script>
 

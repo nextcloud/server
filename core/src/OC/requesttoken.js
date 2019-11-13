@@ -35,6 +35,6 @@ export const setToken = newToken => {
 	token = newToken
 
 	emit('csrf-token-update', {
-		token
+		token,
 	})
 }

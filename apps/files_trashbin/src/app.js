@@ -30,9 +30,9 @@ OCA.Trashbin.App = {
 			host: OC.getHost(),
 			port: OC.getPort(),
 			root: OC.linkToRemoteBase('dav') + '/trashbin/' + OC.getCurrentUser().uid,
-			useHTTPS: OC.getProtocol() === 'https'
+			useHTTPS: OC.getProtocol() === 'https',
 		})
-		var urlParams = OC.Util.History.parseUrlQuery()
+		const urlParams = OC.Util.History.parseUrlQuery()
 		this.fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
 				fileActions: this._createFileActions(),
@@ -43,28 +43,28 @@ OCA.Trashbin.App = {
 					{
 						name: 'restore',
 						displayName: t('files_trashbin', 'Restore'),
-						iconClass: 'icon-history'
+						iconClass: 'icon-history',
 					},
 					{
 						name: 'delete',
 						displayName: t('files_trashbin', 'Delete permanently'),
-						iconClass: 'icon-delete'
-					}
+						iconClass: 'icon-delete',
+					},
 				],
 				client: this.client,
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 	},
 
 	_createFileActions: function() {
-		var client = this.client
-		var fileActions = new OCA.Files.FileActions()
+		const client = this.client
+		const fileActions = new OCA.Files.FileActions()
 		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename, context) {
-			var dir = context.fileList.getCurrentDirectory()
+			const dir = context.fileList.getCurrentDirectory()
 			context.fileList.changeDirectory(OC.joinPaths(dir, filename))
 		})
 
@@ -78,10 +78,10 @@ OCA.Trashbin.App = {
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-history',
 			actionHandler: function(filename, context) {
-				var fileList = context.fileList
-				var tr = fileList.findFileEl(filename)
+				const fileList = context.fileList
+				const tr = fileList.findFileEl(filename)
 				fileList.showFileBusyState(tr, true)
-				var dir = context.fileList.getCurrentDirectory()
+				const dir = context.fileList.getCurrentDirectory()
 				client.move(OC.joinPaths('trash', dir, filename), OC.joinPaths('restore', filename), true)
 					.then(
 						fileList._removeCallback.bind(fileList, [filename]),
@@ -90,7 +90,7 @@ OCA.Trashbin.App = {
 							OC.Notification.show(t('files_trashbin', 'Error while restoring file from trashbin'))
 						}
 					)
-			}
+			},
 		})
 
 		fileActions.registerAction({
@@ -100,18 +100,18 @@ OCA.Trashbin.App = {
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-delete',
 			render: function(actionSpec, isDefault, context) {
-				var $actionLink = fileActions._makeActionLink(actionSpec, context)
+				const $actionLink = fileActions._makeActionLink(actionSpec, context)
 				$actionLink.attr('original-title', t('files_trashbin', 'Delete permanently'))
 				$actionLink.children('img').attr('alt', t('files_trashbin', 'Delete permanently'))
 				context.$file.find('td:last').append($actionLink)
 				return $actionLink
 			},
 			actionHandler: function(filename, context) {
-				var fileList = context.fileList
+				const fileList = context.fileList
 				$('.tipsy').remove()
-				var tr = fileList.findFileEl(filename)
+				const tr = fileList.findFileEl(filename)
 				fileList.showFileBusyState(tr, true)
-				var dir = context.fileList.getCurrentDirectory()
+				const dir = context.fileList.getCurrentDirectory()
 				client.remove(OC.joinPaths('trash', dir, filename))
 					.then(
 						fileList._removeCallback.bind(fileList, [filename]),
@@ -120,15 +120,15 @@ OCA.Trashbin.App = {
 							OC.Notification.show(t('files_trashbin', 'Error while removing file from trashbin'))
 						}
 					)
-			}
+			},
 		})
 		return fileActions
-	}
+	},
 }
 
 $(document).ready(function() {
 	$('#app-content-trashbin').one('show', function() {
-		var App = OCA.Trashbin.App
+		const App = OCA.Trashbin.App
 		App.initialize($('#app-content-trashbin'))
 		// force breadcrumb init
 		// App.fileList.changeDirectory(App.fileList.getCurrentDirectory(), false, true);

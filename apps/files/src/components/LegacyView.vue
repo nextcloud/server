@@ -29,19 +29,19 @@ export default {
 	props: {
 		component: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		fileInfo: {
 			type: Object,
 			default: () => {},
-			required: true
-		}
+			required: true,
+		},
 	},
 	watch: {
 		fileInfo(fileInfo) {
 			// update the backbone model FileInfo
 			this.setFileInfo(fileInfo)
-		}
+		},
 	},
 	mounted() {
 		// append the backbone element and set the FileInfo
@@ -51,8 +51,8 @@ export default {
 	methods: {
 		setFileInfo(fileInfo) {
 			this.component.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
-		}
-	}
+		},
+	},
 }
 </script>
 <style>

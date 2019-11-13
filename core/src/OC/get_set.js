@@ -28,7 +28,7 @@ export const get = context => name => {
 	const namespaces = name.split('.')
 	const tail = namespaces.pop()
 
-	for (var i = 0; i < namespaces.length; i++) {
+	for (let i = 0; i < namespaces.length; i++) {
 		context = context[namespaces[i]]
 		if (!context) {
 			return false

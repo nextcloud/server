@@ -43,7 +43,7 @@ function call(method, endpoint, options) {
 		url: OC.linkToOCS('apps/provisioning_api/api/v1', 2) + 'config/apps' + endpoint,
 		data: options.data || {},
 		success: options.success,
-		error: options.error
+		error: options.error,
 	})
 }
 
@@ -79,7 +79,7 @@ export function getKeys(app, options) {
 export function getValue(app, key, defaultValue, options) {
 	options = options || {}
 	options.data = {
-		defaultValue: defaultValue
+		defaultValue: defaultValue,
 	}
 
 	call('get', '/' + app + '/' + key, options)
@@ -97,7 +97,7 @@ export function getValue(app, key, defaultValue, options) {
 export function setValue(app, key, value, options) {
 	options = options || {}
 	options.data = {
-		value: value
+		value: value,
 	}
 
 	call('post', '/' + app + '/' + key, options)

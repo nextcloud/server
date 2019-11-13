@@ -59,10 +59,10 @@ import valueMixin from '../../mixins/valueMixin'
 export default {
 	name: 'RequestUserAgent',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		valueMixin
+		valueMixin,
 	],
 	data() {
 		return {
@@ -71,8 +71,8 @@ export default {
 				{ pattern: 'android', label: t('workflowengine', 'Android client'), icon: 'icon-phone' },
 				{ pattern: 'ios', label: t('workflowengine', 'iOS client'), icon: 'icon-phone' },
 				{ pattern: 'desktop', label: t('workflowengine', 'Desktop client'), icon: 'icon-desktop' },
-				{ pattern: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' }
-			]
+				{ pattern: 'mail', label: t('workflowengine', 'Thunderbird & Outlook addons'), icon: 'icon-mail' },
+			],
 		}
 	},
 	computed: {
@@ -90,7 +90,7 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom user agent'),
-				pattern: ''
+				pattern: '',
 			}
 		},
 		currentValue() {
@@ -100,9 +100,9 @@ export default {
 			return {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom user agent'),
-				pattern: this.newValue
+				pattern: this.newValue,
 			}
-		}
+		},
 	},
 	methods: {
 		validateRegex(string) {
@@ -120,8 +120,8 @@ export default {
 		updateCustom(event) {
 			this.newValue = event.target.value
 			this.$emit('input', this.newValue)
-		}
-	}
+		},
+	},
 }
 </script>
 <style scoped>

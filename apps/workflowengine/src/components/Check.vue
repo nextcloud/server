@@ -51,20 +51,20 @@ export default {
 	components: {
 		ActionButton,
 		Actions,
-		Multiselect
+		Multiselect,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
 	props: {
 		check: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		rule: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -72,7 +72,7 @@ export default {
 			currentOption: null,
 			currentOperator: null,
 			options: [],
-			valid: true
+			valid: true,
 		}
 	},
 	computed: {
@@ -92,12 +92,12 @@ export default {
 				return this.currentOption.placeholder(this.check)
 			}
 			return ''
-		}
+		},
 	},
 	watch: {
 		'check.operator': function() {
 			this.validate()
-		}
+		},
 	},
 	mounted() {
 		this.options = Object.values(this.checks)
@@ -127,8 +127,8 @@ export default {
 			this.check.invalid = !this.validate()
 
 			this.$emit('update', this.check)
-		}
-	}
+		},
+	},
 }
 </script>
 

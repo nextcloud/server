@@ -44,8 +44,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		// Make sure we have a mountpoint
 		if (!document.getElementById('app-sidebar')) {
-			var contentElement = document.getElementById('content')
-			var sidebarElement = document.createElement('div')
+			const contentElement = document.getElementById('content')
+			const sidebarElement = document.createElement('div')
 			sidebarElement.id = 'app-sidebar'
 			contentElement.appendChild(sidebarElement)
 		}
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	const AppSidebar = new Vue({
 		// eslint-disable-next-line vue/match-component-file-name
 		name: 'SidebarRoot',
-		render: h => h(SidebarView)
+		render: h => h(SidebarView),
 	})
 	AppSidebar.$mount('#app-sidebar')
 })

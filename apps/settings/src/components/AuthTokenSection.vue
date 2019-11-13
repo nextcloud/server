@@ -66,21 +66,21 @@ export default {
 	name: 'AuthTokenSection',
 	components: {
 		AuthTokenSetupDialogue,
-		AuthTokenList
+		AuthTokenList,
 	},
 	props: {
 		tokens: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		canCreateToken: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			baseUrl: OC.generateUrl('/settings/personal/authtokens')
+			baseUrl: OC.generateUrl('/settings/personal/authtokens'),
 		}
 	},
 	methods: {
@@ -88,7 +88,7 @@ export default {
 			console.debug('creating a new app token', name)
 
 			const data = {
-				name
+				name,
 			}
 			return axios.post(this.baseUrl, data)
 				.then(resp => resp.data)
@@ -172,8 +172,8 @@ export default {
 				console.error('could not wipe app token', err)
 				OC.Notification.showTemporary(t('core', 'Error while wiping the device with the token'))
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

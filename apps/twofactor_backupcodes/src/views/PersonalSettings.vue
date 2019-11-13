@@ -50,7 +50,7 @@ export default {
 	name: 'PersonalSettings',
 	data() {
 		return {
-			generatingCodes: false
+			generatingCodes: false,
 		}
 	},
 	computed: {
@@ -83,7 +83,7 @@ export default {
 		},
 		haveCodes() {
 			return this.codes && this.codes.length > 0
-		}
+		},
 	},
 	methods: {
 		generateBackupCodes: function() {
@@ -112,8 +112,8 @@ export default {
 
 		printCodes: function() {
 			print(this.getPrintData(this.codes))
-		}
-	}
+		},
+	},
 }
 </script>
 

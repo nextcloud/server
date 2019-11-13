@@ -127,7 +127,7 @@ export const initCore = () => {
 			watch: true,
 			//  set edge < 16 as incompatible
 			onlyLegacy: !(/Edge\/([0-9]{2})\./i.test(navigator.userAgent)
-				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16)
+				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16),
 		})
 	}
 
@@ -212,7 +212,7 @@ export const initCore = () => {
 			element: document.getElementById('app-content'),
 			disable: 'right',
 			maxPosition: 300, // $navigation-width
-			minDragDistance: 100
+			minDragDistance: 100,
 		})
 
 		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none" tabindex="0"></div>')

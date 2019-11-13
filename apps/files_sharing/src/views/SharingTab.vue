@@ -114,7 +114,7 @@ export default {
 		SharingInput,
 		SharingLinkList,
 		SharingList,
-		Tab
+		Tab,
 	},
 
 	mixins: [ShareTypes],
@@ -123,8 +123,8 @@ export default {
 		fileInfo: {
 			type: Object,
 			default: () => {},
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	data() {
@@ -139,7 +139,7 @@ export default {
 			sharedWithMe: {},
 			shares: [],
 			linkShares: [],
-			sections: OCA.Sharing.ShareTabSections.getSections()
+			sections: OCA.Sharing.ShareTabSections.getSections(),
 		}
 	},
 
@@ -176,14 +176,14 @@ export default {
 		canReshare() {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_SHARE)
 				|| !!(this.reshare && this.reshare.hasSharePermission)
-		}
+		},
 	},
 
 	watch: {
 		fileInfo() {
 			this.resetState()
 			this.getShares()
-		}
+		},
 	},
 
 	beforeMount() {
@@ -209,15 +209,15 @@ export default {
 					params: {
 						format,
 						path,
-						reshares: true
-					}
+						reshares: true,
+					},
 				})
 				const fetchSharedWithMe = axios.get(shareUrl, {
 					params: {
 						format,
 						path,
-						shared_with_me: true
-					}
+						shared_with_me: true,
+					},
 				})
 
 				// wait for data
@@ -254,7 +254,7 @@ export default {
 		updateExpirationSubtitle(share) {
 			const expiration = moment(share.expireDate).unix()
 			this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'Expires {relativetime}', {
-				relativetime: OC.Util.relativeModifiedDate(expiration * 1000)
+				relativetime: OC.Util.relativeModifiedDate(expiration * 1000),
 			}))
 
 			// share have expired
@@ -301,7 +301,7 @@ export default {
 				this.sharedWithMe = {
 					displayName,
 					title,
-					user
+					user,
 				}
 				this.reshare = share
 
@@ -329,8 +329,8 @@ export default {
 			} else {
 				this.shares.unshift(share)
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

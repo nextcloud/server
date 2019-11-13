@@ -25,16 +25,16 @@ export default {
 	name: 'SvgFilterMixin',
 	data() {
 		return {
-			filterId: ''
+			filterId: '',
 		}
 	},
 	computed: {
 		filterUrl() {
 			return `url(#${this.filterId})`
-		}
+		},
 	},
 	mounted() {
 		this.filterId = 'invertIconApps' + Math.floor((Math.random() * 100)) + new Date().getSeconds() + new Date().getMilliseconds()
-	}
+	},
 }
 </script>

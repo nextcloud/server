@@ -68,7 +68,7 @@ export const linkToOCS = (service, version) => {
  */
 export const generateUrl = (url, params, options) => {
 	const defaultOptions = {
-		escape: true
+		escape: true,
 	}
 	const allOptions = options || {}
 	_.defaults(allOptions, defaultOptions)
@@ -77,7 +77,7 @@ export const generateUrl = (url, params, options) => {
 		vars = vars || []
 		return text.replace(/{([^{}]*)}/g,
 			function(a, b) {
-				var r = (vars[b])
+				const r = (vars[b])
 				if (allOptions.escape) {
 					return (typeof r === 'string' || typeof r === 'number') ? encodeURIComponent(r) : encodeURIComponent(a)
 				} else {

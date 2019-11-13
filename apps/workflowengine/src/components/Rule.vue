@@ -58,16 +58,16 @@ import Operation from './Operation'
 export default {
 	name: 'Rule',
 	components: {
-		Operation, Check, Event, Actions, ActionButton
+		Operation, Check, Event, Actions, ActionButton,
 	},
 	directives: {
-		Tooltip
+		Tooltip,
 	},
 	props: {
 		rule: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -76,7 +76,7 @@ export default {
 			error: null,
 			dirty: this.rule.id < 0,
 			checking: false,
-			originalRule: null
+			originalRule: null,
 		}
 	},
 	computed: {
@@ -88,7 +88,7 @@ export default {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					class: 'icon-close-white invalid',
-					tooltip: { placement: 'bottom', show: true, content: this.error }
+					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
 			if (!this.dirty || this.checking) {
@@ -100,7 +100,7 @@ export default {
 		lastCheckComplete() {
 			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
 			return typeof lastCheck === 'undefined' || lastCheck.class !== null
-		}
+		},
 	},
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
@@ -161,8 +161,8 @@ export default {
 				this.$delete(this.rule.checks, index)
 			}
 			this.$store.dispatch('updateRule', this.rule)
-		}
-	}
+		},
+	},
 }
 </script>
 

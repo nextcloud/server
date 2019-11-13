@@ -24,36 +24,36 @@ export default {
 	props: {
 		user: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		settings: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		groups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		subAdminsGroups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		quotaOptions: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		showConfig: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		languages: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		externalActions: {
 			type: Array,
-			default: () => []
-		}
+			default: () => [],
+		},
 	},
 	computed: {
 		/* GROUPS MANAGEMENT */
@@ -69,7 +69,7 @@ export default {
 			return this.groups.map((group) => {
 				// clone object because we don't want
 				// to edit the original groups
-				let groupClone = Object.assign({}, group)
+				const groupClone = Object.assign({}, group)
 
 				// two settings here:
 				// 1. user NOT in group but no permission to add
@@ -95,7 +95,7 @@ export default {
 			if (quota > 0) {
 				quota = Math.min(100, Math.round(this.user.quota.used / quota * 100))
 			} else {
-				var usedInGB = this.user.quota.used / (10 * Math.pow(2, 30))
+				const usedInGB = this.user.quota.used / (10 * Math.pow(2, 30))
 				// asymptotic curve approaching 50% at 10GB to visualize used stace with infinite quota
 				quota = 95 * (1 - (1 / (usedInGB + 1)))
 			}
@@ -105,8 +105,8 @@ export default {
 		userQuota() {
 			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
-				let humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
-				let userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
+				const humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
+				const userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
 				return userQuota || { id: humanQuota, label: humanQuota }
 			} else if (this.user.quota.quota === 'default') {
 				// default quota is replaced by the proper value on load
@@ -122,12 +122,12 @@ export default {
 
 		/* LANGUAGE */
 		userLanguage() {
-			let availableLanguages = this.languages[0].languages.concat(this.languages[1].languages)
-			let userLang = availableLanguages.find(lang => lang.code === this.user.language)
+			const availableLanguages = this.languages[0].languages.concat(this.languages[1].languages)
+			const userLang = availableLanguages.find(lang => lang.code === this.user.language)
 			if (typeof userLang !== 'object' && this.user.language !== '') {
 				return {
 					code: this.user.language,
-					name: this.user.language
+					name: this.user.language,
 				}
 			} else if (this.user.language === '') {
 				return false
@@ -147,7 +147,7 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
 			}
 			return t('settings', 'Never')
-		}
+		},
 	},
 	methods: {
 		/**
@@ -163,9 +163,9 @@ export default {
 				{
 					user: user,
 					size: size,
-					version: oc_userconfig.avatar.version
+					version: oc_userconfig.avatar.version,
 				}
 			)
-		}
-	}
+		},
+	},
 }

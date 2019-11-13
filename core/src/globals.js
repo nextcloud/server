@@ -99,7 +99,7 @@ const setDeprecatedProp = (global, cb, msg) => {
 			}
 
 			return cb()
-		}
+		},
 	})
 }
 

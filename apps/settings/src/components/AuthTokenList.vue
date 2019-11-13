@@ -47,22 +47,22 @@ import AuthToken from './AuthToken'
 export default {
 	name: 'AuthTokenList',
 	components: {
-		AuthToken
+		AuthToken,
 	},
 	props: {
 		tokens: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		sortedTokens() {
 			return this.tokens.slice().sort((t1, t2) => {
-				var ts1 = parseInt(t1.lastActivity, 10)
-				var ts2 = parseInt(t2.lastActivity, 10)
+				const ts1 = parseInt(t1.lastActivity, 10)
+				const ts2 = parseInt(t2.lastActivity, 10)
 				return ts2 - ts1
 			})
-		}
+		},
 	},
 	methods: {
 		toggleScope(token, scope, value) {
@@ -80,8 +80,8 @@ export default {
 		onWipe(token) {
 			// Just pass it on
 			this.$emit('wipe', token)
-		}
-	}
+		},
+	},
 }
 </script>
 

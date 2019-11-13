@@ -30,7 +30,7 @@
 /**
  * @type {TypeDefinition[]}
  **/
-let types = {}
+const types = {}
 
 /**
  * Those translations will be used by the vue component but they should be shipped with the server
@@ -47,7 +47,7 @@ export const l10nProjects = () => {
 		t('core', 'Failed to create a project'),
 		t('core', 'Failed to add the item to the project'),
 		t('core', 'Connect items to a project to make them easier to find'),
-		t('core', 'Type to search for existing projects')
+		t('core', 'Type to search for existing projects'),
 	]
 }
 
@@ -75,5 +75,5 @@ export default {
 	getLink(type, id) {
 		/* TODO: Allow action to be executed instead of href as well */
 		return typeof types[type] !== 'undefined' ? types[type].link(id) : ''
-	}
+	},
 }

@@ -51,7 +51,9 @@
 				</p>
 			</div>
 		</div>
-		<p class="text-center"><a :href="defaultPageUrl">{{ t('core', 'Cancel') }}</a></p>
+		<p class="text-center">
+			<a :href="defaultPageUrl">{{ t('core', 'Cancel') }}</a>
+		</p>
 	</div>
 </template>
 
@@ -67,19 +69,19 @@ import logger from '../../logger'
 const recommended = {
 	calendar: {
 		description: t('core', 'Schedule work & meetings, synced with all your devices.'),
-		icon: imagePath('core', 'places/calendar.svg')
+		icon: imagePath('core', 'places/calendar.svg'),
 	},
 	contacts: {
 		description: t('core', 'Keep your colleagues and friends in one place without leaking their private info.'),
-		icon: imagePath('core', 'places/contacts.svg')
+		icon: imagePath('core', 'places/contacts.svg'),
 	},
 	mail: {
 		description: t('core', 'Simple email app nicely integrated with Files, Contacts and Calendar.'),
-		icon: imagePath('core', 'actions/mail.svg')
+		icon: imagePath('core', 'actions/mail.svg'),
 	},
 	talk: {
-		description: t('core', 'Screensharing, online meetings and web conferencing – on desktop and with mobile apps.')
-	}
+		description: t('core', 'Screensharing, online meetings and web conferencing – on desktop and with mobile apps.'),
+	},
 }
 const recommendedIds = Object.keys(recommended)
 const defaultPageUrl = loadState('core', 'defaultPageUrl')
@@ -91,13 +93,13 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl
+			defaultPageUrl,
 		}
 	},
 	computed: {
 		recommendedApps() {
 			return this.apps.filter(app => recommendedIds.includes(app.id))
-		}
+		},
 	},
 	mounted() {
 		return axios.get(generateUrl('settings/apps/list'))
@@ -159,8 +161,8 @@ export default {
 				return ''
 			}
 			return recommended[appId].description
-		}
-	}
+		},
+	},
 }
 </script>
 
