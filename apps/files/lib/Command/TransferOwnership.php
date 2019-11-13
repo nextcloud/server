@@ -32,6 +32,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\FileInfo;
 use OCP\Files\IHomeStorage;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -76,7 +77,10 @@ class TransferOwnership extends Command {
 	/** @var string */
 	private $finalTarget;
 
-	public function __construct(IUserManager $userManager, IManager $shareManager, IMountManager $mountManager) {
+	public function __construct(IUserManager $userManager,
+								IManager $shareManager,
+								IMountManager $mountManager,
+								IRootFolder $rootFolder) {
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 		$this->mountManager = $mountManager;
@@ -174,6 +178,15 @@ class TransferOwnership extends Command {
 	 */
 	protected function analyse(OutputInterface $output) {
 		$view = new View();
+
+		$output->writeln('Validating quota');
+		$size = $view->getFileInfo($this->sourcePath, false)->getSize(false);
+		$freeSpace = $view->free_space($this->destinationUser . '/files/');
+		if ($size > $freeSpace) {
+			$output->writeln('<error>Target user does not have enough free space available</error>');
+			throw new \Exception('Execution terminated');
+		}
+
 		$output->writeln("Analysing files of $this->sourceUser ...");
 		$progress = new ProgressBar($output);
 		$progress->start();
@@ -207,7 +220,6 @@ class TransferOwnership extends Command {
 			}
 			throw new \Exception('Execution terminated.');
 		}
-
 	}
 
 	/**
