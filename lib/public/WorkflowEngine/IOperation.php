@@ -23,7 +23,7 @@
 
 namespace OCP\WorkflowEngine;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\Event;
 
 /**
  * Interface IOperation
@@ -99,5 +99,5 @@ interface IOperation {
 	 *
 	 * @since 18.0.0
 	 */
-	public function onEvent(string $eventName, GenericEvent $event, IRuleMatcher $ruleMatcher): void;
+	public function onEvent(string $eventName, Event $event, IRuleMatcher $ruleMatcher): void;
 }
