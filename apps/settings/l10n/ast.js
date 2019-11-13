@@ -75,8 +75,6 @@ OC.L10N.register(
     "Install Client" : "Instalar veceru",
     "Unlimited" : "Non llendáu",
     "Limit to groups" : "Llendar a grupos",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
-    "Official" : "Oficial",
     "Remove" : "Desaniciar",
     "Disable" : "Desactivar",
     "All" : "Toos",
@@ -113,6 +111,7 @@ OC.L10N.register(
     "Copy" : "Copiar",
     "New password" : "Contraseña nueva",
     "{size} used" : "{size} usaos",
+    "Cancel" : "Encaboxar",
     "Email" : "Corréu-e",
     "Quota" : "Cuota",
     "Language" : "Llingua",
@@ -200,7 +199,6 @@ OC.L10N.register(
     "Remove image" : "Desaniciar imaxe",
     "png or jpg, max. 20 MB" : "png o jpg, máximu 20 MB",
     "Picture provided by original account" : "Semeya fornida pola cuenta orixinal",
-    "Cancel" : "Encaboxar",
     "Full name" : "Nome completu",
     "No display name set" : "Nun s'afitó'l nome p'amosar",
     "Your email address" : "Direición de corréu-e",
@@ -216,6 +214,8 @@ OC.L10N.register(
     "Help translate" : "Ayúdanos nes traducciones",
     "Current password" : "Contraseña actual",
     "Change password" : "Camudar contraseña",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
+    "Official" : "Oficial",
     "Store credentials" : "Atroxar credenciales"
 },
 "nplurals=2; plural=(n != 1);");

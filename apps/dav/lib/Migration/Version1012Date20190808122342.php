@@ -38,7 +38,7 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @since 13.0.0
+	 * @since 17.0.0
 	 */
 	public function changeSchema(IOutput $output,
 								 \Closure $schemaClosure,
@@ -112,5 +112,7 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 
 			return $schema;
 		}
+
+		return null;
 	}
 }

@@ -111,8 +111,6 @@ OC.L10N.register(
     "Save changes" : "Simpan perubahan",
     "This app is supported via your current Nextcloud subscription." : "Aplikasi ini didukung dengan langganan Nextcloud Anda saat ini.",
     "Supported" : "Didukung",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
-    "Official" : "Resmi",
     "by" : "oleh",
     "Update to {version}" : "Perbarui ke {version}",
     "Remove" : "Hapus",
@@ -193,6 +191,7 @@ OC.L10N.register(
     "Enable user" : "Aktifkan pengguna",
     "Resend welcome email" : "Kirim ulang email selamat datang",
     "{size} used" : "{size} digunakan",
+    "Cancel" : "Batal",
     "Welcome mail sent!" : "Surat selamat datang terkirim!",
     "Display name" : "Nama tampilan",
     "Email" : "Surel",
@@ -326,7 +325,6 @@ OC.L10N.register(
     "Remove image" : "Hapus gambar",
     "png or jpg, max. 20 MB" : "png atau jpg, maks. 20 MB",
     "Picture provided by original account" : "Gambar disediakan oleh akun asli",
-    "Cancel" : "Batal",
     "Choose as profile picture" : "Pilih sebagai gambar profil",
     "Details" : "Detil",
     "You are a member of the following groups:" : "Anda adalah seorang anggota dari grup berikut ini:",
@@ -423,6 +421,8 @@ OC.L10N.register(
     "Ukrainian" : "Ukraina",
     "Welsh (United Kingdom)" : "Welsh (Britania Raya)",
     "Zulu (South Africa)" : "Zulu (Afrika Selatan)",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
+    "Official" : "Resmi",
     "Store credentials" : "Simpan kredensial"
 },
 "nplurals=1; plural=0;");

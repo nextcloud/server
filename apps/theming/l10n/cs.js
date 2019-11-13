@@ -28,6 +28,7 @@ OC.L10N.register(
     "Legal notice" : "Právní upozornění",
     "Privacy policy" : "Zásady soukromí",
     "Adjust the Nextcloud theme" : "Upravit motiv vzhledu Nextcloud",
+    "Open documentation" : "Otevřít dokumentaci",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Motivy umožňují jednoduché přizpůsobení vzhledu vaší instance a podporovaných klientů. Tato přizpůsobení uvidí všichni uživatelé.",
     "Name" : "Název",
     "Reset to default" : "Obnovit výchozí",

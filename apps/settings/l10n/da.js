@@ -97,7 +97,6 @@ OC.L10N.register(
     "Limit to groups" : "Begræns til grupper",
     "Excluded groups" : "Ekskluderede grupper",
     "Save changes" : "Gem ændringer",
-    "Official" : "Officiel",
     "by" : "af",
     "Update to {version}" : "Opdateret til {version}",
     "Remove" : "Fjern",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "Enable user" : "Aktiver bruger",
     "Resend welcome email" : "Send velkomstemail igen",
     "{size} used" : "{size} brugt",
+    "Cancel" : "Annuller",
     "Welcome mail sent!" : "Velkomstemail sendt!",
     "Display name" : "Vist navn",
     "Email" : "E-mail",
@@ -270,7 +270,6 @@ OC.L10N.register(
     "Remove image" : "Fjern billede",
     "png or jpg, max. 20 MB" : "png eller jpg, max. 20 MB",
     "Picture provided by original account" : "Billede leveret af den oprindelige konto",
-    "Cancel" : "Annuller",
     "Choose as profile picture" : "Vælg et profilbillede",
     "Details" : "Detaljer",
     "You are a member of the following groups:" : "Du er medlem af følgende grupper:",
@@ -293,6 +292,7 @@ OC.L10N.register(
     "Help translate" : "Hjælp med oversættelsen",
     "Current password" : "Nuværende adgangskode",
     "Change password" : "Skift kodeord",
+    "Official" : "Officiel",
     "Store credentials" : "Gem brugeroplysninger"
 },
 "nplurals=2; plural=(n != 1);");

@@ -79,8 +79,6 @@
     "Install Client" : "Instalar el cliente",
     "Unlimited" : "Ilimitado",
     "Limit to groups" : "Limitar a grupos",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
-    "Official" : "Oficial",
     "Remove" : "Eliminar",
     "Disable" : "Deshabilitar",
     "All" : "Todos",
@@ -122,6 +120,7 @@
     "Copied!" : "¡Credenciales!",
     "Copy" : "Copiar",
     "New password" : "Nueva contraseña",
+    "Cancel" : "Cancelar",
     "Email" : "Correo electrónico",
     "Group admin for" : "Administrador del grupo para",
     "Quota" : "Cuota",
@@ -218,7 +217,6 @@
     "Remove image" : "Eliminar imagen",
     "png or jpg, max. 20 MB" : "png o jpg max. 20 MB",
     "Picture provided by original account" : "Imagen proporcionadoa por la cuenta original ",
-    "Cancel" : "Cancelar",
     "Choose as profile picture" : "Seleccionar como foto del perfil",
     "Full name" : "Nombre completo",
     "No display name set" : "No se ha establecido el nombre a desplegar",
@@ -237,6 +235,8 @@
     "Help translate" : "Ayude a traducir",
     "Current password" : "Contraseña actual",
     "Change password" : "Cambiar contraseña",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
+    "Official" : "Oficial",
     "Store credentials" : "Almacenar credenciales",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

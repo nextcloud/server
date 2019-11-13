@@ -90,7 +90,7 @@ class PersonalInfo implements ISettings {
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		$lookupServerUploadEnabled = false;
 		if($federatedFileSharingEnabled) {
-			$federatedFileSharing = new Application();
+			$federatedFileSharing = \OC::$server->query(Application::class);
 			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}

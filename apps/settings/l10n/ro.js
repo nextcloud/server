@@ -99,7 +99,6 @@ OC.L10N.register(
     "Limit to groups" : "Limitează pentru grupuri",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Forțarea autentificării cu doi factori poate fi setată doar pentru anumite grupuri.",
     "Save changes" : "Salvează modificările",
-    "Official" : "Oficial",
     "Disable" : "Dezactivați",
     "All" : "Toate ",
     "Visit website" : "Viziteaza pagina web",
@@ -141,6 +140,7 @@ OC.L10N.register(
     "You do not have permissions to see the details of this user" : "Nu aveți permisiuni pentru a vedea detaliile acestui utilizator",
     "New password" : "Noua parolă",
     "{size} used" : "{size} folosită",
+    "Cancel" : "Anulare",
     "Email" : "Email",
     "Quota" : "Cotă",
     "Language" : "Limba",
@@ -210,7 +210,6 @@ OC.L10N.register(
     "Select from Files" : "Selectează din fișiere",
     "Remove image" : "Înlătură imagine",
     "png or jpg, max. 20 MB" : "png sau jpg, max. 20 MB",
-    "Cancel" : "Anulare",
     "Choose as profile picture" : "Alege ca imagine de profil",
     "Details" : "Detalii",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Utilizezi <strong>%1$s</strong> din <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "Croatian" : "Croatian",
     "Czech (Czech Republic)" : "Chehă (Republica Chehă)",
     "Czech" : "Chehă",
+    "Official" : "Oficial",
     "Store credentials" : "Stochează datele de autentificare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

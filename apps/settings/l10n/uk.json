@@ -97,8 +97,6 @@
     "Enforce two-factor authentication" : "Примусова двофакторна аутентифікація",
     "Limit to groups" : "Обмежити групами",
     "Save changes" : "Зберегти зміни",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
-    "Official" : "Офіційні",
     "Update to {version}" : "Оновити до {version}",
     "Remove" : "Видалити",
     "Disable" : "Вимкнути",
@@ -161,6 +159,7 @@
     "Enable user" : "Увімкнути користувача",
     "Resend welcome email" : "Відправити запрошення ще раз",
     "{size} used" : "{size} використано",
+    "Cancel" : "Відмінити",
     "Welcome mail sent!" : "Запрошення надіслано!",
     "Display name" : "Ім'я для відображення",
     "Email" : "E-mail",
@@ -281,7 +280,6 @@
     "Remove image" : "Видалити зображення",
     "png or jpg, max. 20 MB" : "png або jpg, макс. 20 МБ",
     "Picture provided by original account" : "Картинка надана оригінальним обліковим записом",
-    "Cancel" : "Відмінити",
     "Choose as profile picture" : "Обрати як зображення для профілю",
     "Details" : "Деталі",
     "You are a member of the following groups:" : "Ви є членом наступних груп:",
@@ -305,6 +303,8 @@
     "Locale" : "Регіональні станадрти",
     "Current password" : "Поточний пароль",
     "Change password" : "Змінити пароль",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
+    "Official" : "Офіційні",
     "Store credentials" : "Зберігати облікові дані"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

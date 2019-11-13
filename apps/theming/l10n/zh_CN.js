@@ -30,6 +30,7 @@ OC.L10N.register(
     "Legal notice" : "法律声明",
     "Privacy policy" : "隐私政策",
     "Adjust the Nextcloud theme" : "调整 Nextcloud 主题",
+    "Open documentation" : "打开文档",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "主题使得方便地定制您的实例的外观和体验成为可能。所有用户都可以使用。",
     "Name" : "名字",
     "Reset to default" : "重置为默认设置",

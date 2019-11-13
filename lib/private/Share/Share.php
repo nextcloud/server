@@ -84,9 +84,6 @@ class Share extends Constants {
 					'collectionOf' => $collectionOf,
 					'supportedFileExtensions' => $supportedFileExtensions
 				);
-				if(count(self::$backendTypes) === 1) {
-					Util::addScript('core', 'dist/share_backend');
-				}
 				return true;
 			}
 			\OCP\Util::writeLog('OCP\Share',

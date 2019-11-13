@@ -71,7 +71,9 @@ const store = new Vuex.Store({
 			plugin = Object.assign(
 				{ color: 'var(--color-primary-element)' },
 				plugin, state.operations[plugin.id] || {})
-			Vue.set(state.operations, plugin.id, plugin)
+			if (typeof state.operations[plugin.id] !== 'undefined') {
+				Vue.set(state.operations, plugin.id, plugin)
+			}
 		}
 	},
 	actions: {

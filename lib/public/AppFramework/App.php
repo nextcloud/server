@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework;
 use OC\AppFramework\Routing\RouteConfig;
+use OC\ServerContainer;
 use OCP\Route\IRouter;
 
 
@@ -51,8 +52,8 @@ class App {
 	private $container;
 
 	/**
-	 * Turns an app id into a namespace by convetion. The id is split at the
-	 * underscores, all parts are camelcased and reassembled. e.g.:
+	 * Turns an app id into a namespace by convention. The id is split at the
+	 * underscores, all parts are CamelCased and reassembled. e.g.:
 	 * some_app_id -> OCA\SomeAppId
 	 * @param string $appId the app id
 	 * @param string $topNamespace the namespace which should be prepended to
@@ -71,6 +72,36 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
+		if (\OC::$server->getConfig()->getSystemValueBool('debug')) {
+			$applicationClassName = get_class($this);
+			$e = new \RuntimeException('App class ' . $applicationClassName . ' is not setup via query() but directly');
+			$setUpViaQuery = false;
+
+			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
+
+			foreach ($e->getTrace() as $step) {
+				if (isset($step['class'], $step['function'], $step['args'][0]) &&
+					$step['class'] === ServerContainer::class &&
+					$step['function'] === 'query' &&
+					$step['args'][0] === $applicationClassName) {
+					$setUpViaQuery = true;
+					break;
+				} else if (isset($step['class'], $step['function'], $step['args'][0]) &&
+					$step['class'] === ServerContainer::class &&
+					$step['function'] === 'getAppContainer' &&
+					$step['args'][1] === $classNameParts[1]) {
+					$setUpViaQuery = true;
+					break;
+				}
+			}
+
+			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
+				\OC::$server->getLogger()->logException($e, [
+					'app' => $appName,
+				]);
+			}
+		}
+
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
 		} catch (QueryException $e) {

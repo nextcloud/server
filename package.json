@@ -23,8 +23,9 @@
   ],
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
+    "@babel/polyfill": "^7.7.0",
     "@chenfengyuan/vue-qrcode": "^1.0.1",
+    "@nextcloud/auth": "^0.3.1",
     "@nextcloud/axios": "^0.5.0",
     "@nextcloud/event-bus": "^0.2.1",
     "@nextcloud/initial-state": "^0.2.0",
@@ -37,9 +38,10 @@
     "clipboard": "^2.0.4",
     "css-vars-ponyfill": "^2.1.2",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
+    "debounce": "^1.2.0",
     "dompurify": "^2.0.7",
     "escape-html": "^1.0.3",
-    "handlebars": "^4.4.5",
+    "handlebars": "^4.5.1",
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm3",
     "jquery": "2.1.4",
     "jquery-migrate": "^1.4.1",
@@ -53,12 +55,14 @@
     "nextcloud-router": "0.0.9",
     "nextcloud-vue": "^0.12.7",
     "nextcloud-vue-collections": "^0.6.0",
+    "p-queue": "^6.1.0",
     "query-string": "^5.1.1",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "toastify-js": "^1.6.1",
     "underscore": "^1.9.1",
+    "url-search-params-polyfill": "^7.0.0",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
     "vue-click-outside": "^1.0.7",
@@ -71,9 +75,10 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-env": "^7.7.1",
     "@nextcloud/browserslist-config": "^1.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
@@ -96,13 +101,16 @@
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
-    "vue-loader": "^15.7.1",
+    "vue-loader": "^15.7.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-merge": "^4.2.2"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
-  ]
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

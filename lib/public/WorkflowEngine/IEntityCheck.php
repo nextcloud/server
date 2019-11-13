@@ -24,9 +24,6 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
-
-use OCP\Files\Storage\IStorage;
-
 /**
  * Interface IFileCheck
  *

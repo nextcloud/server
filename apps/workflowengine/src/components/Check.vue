@@ -11,6 +11,7 @@
 		<Multiselect v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
+			class="comparator"
 			label="name"
 			track-by="operator"
 			:allow-empty="false"
@@ -21,6 +22,7 @@
 			v-model="check.value"
 			:disabled="!currentOption"
 			:check="check"
+			class="option"
 			@input="updateCheck"
 			@valid="(valid=true) && validate()"
 			@invalid="(valid=false) && validate()" />
@@ -30,9 +32,10 @@
 			:class="{ invalid: !valid }"
 			:disabled="!currentOption"
 			:placeholder="valuePlaceholder"
+			class="option"
 			@input="updateCheck">
 		<Actions v-if="deleteVisible || !currentOption">
-			<ActionButton icon="icon-delete" @click="$emit('remove')" />
+			<ActionButton icon="icon-close" @click="$emit('remove')" />
 		</Actions>
 	</div>
 </template>
@@ -73,17 +76,16 @@ export default {
 		}
 	},
 	computed: {
-		Checks() {
+		checks() {
 			return this.$store.getters.getChecksForEntity(this.rule.entity)
 		},
 		operators() {
 			if (!this.currentOption) { return [] }
-			return this.Checks[this.currentOption.class].operators
+			return this.checks[this.currentOption.class].operators
 		},
 		currentComponent() {
 			if (!this.currentOption) { return [] }
-			const currentComponent = this.Checks[this.currentOption.class].component
-			return currentComponent
+			return this.checks[this.currentOption.class].component
 		},
 		valuePlaceholder() {
 			if (this.currentOption && this.currentOption.placeholder) {
@@ -98,8 +100,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.options = Object.values(this.Checks)
-		this.currentOption = this.Checks[this.check.class]
+		this.options = Object.values(this.checks)
+		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 	},
 	methods: {
@@ -111,13 +113,8 @@ export default {
 		},
 		validate() {
 			if (this.currentOption && this.currentOption.validate) {
-				if (this.currentOption.validate(this.check)) {
-					this.valid = true
-				} else {
-					this.valid = false
-				}
+				this.valid = !!this.currentOption.validate(this.check)
 			}
-			this.$store.dispatch('setValid', { rule: this.rule, valid: this.rule.valid && this.valid })
 			return this.valid
 		},
 		updateCheck() {
@@ -128,7 +125,7 @@ export default {
 			this.check.operator = this.currentOperator.operator
 
 			if (!this.validate()) {
-				return
+				this.check.invalid = !this.valid
 			}
 			this.$emit('update', this.check)
 		}
@@ -142,13 +139,29 @@ export default {
 		flex-wrap: wrap;
 		width: 100%;
 		padding-right: 20px;
-		& > *:not(.icon-delete) {
+		& > *:not(.close) {
 			width: 180px;
+		}
+		& > .comparator {
+			min-width: 130px;
+			width: 130px;
+		}
+		& > .option {
+			min-width: 230px;
+			width: 230px;
 		}
 		& > .multiselect,
 		& > input[type=text] {
 			margin-right: 5px;
 			margin-bottom: 5px;
+		}
+
+		.multiselect::v-deep .multiselect__content-wrapper li>span,
+		.multiselect::v-deep .multiselect__single {
+			display: block;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 	}
 	input[type=text] {
@@ -157,13 +170,11 @@ export default {
 	::placeholder {
 		font-size: 10px;
 	}
-	.icon-delete {
+	button.action-item.action-item--single.icon-close {
+		height: 44px;
+		width: 44px;
 		margin-top: -5px;
 		margin-bottom: -5px;
-	}
-	button.action-item.action-item--single.icon-delete {
-		height: 34px;
-		width: 34px;
 	}
 	.invalid {
 		border: 1px solid var(--color-error) !important;

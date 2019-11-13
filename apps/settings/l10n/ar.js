@@ -54,7 +54,6 @@ OC.L10N.register(
     "Install Client" : "تنصيب العميل",
     "Unlimited" : "غير محدود",
     "Save changes" : "حفظ التعديلات",
-    "Official" : "رسمي",
     "Remove" : "حذف",
     "Disable" : "إيقاف",
     "All" : "الكل",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "Copy" : "نسخ",
     "New password" : "كلمات سر جديدة",
     "Delete user" : "احذف المستخدم",
+    "Cancel" : "الغاء",
     "Welcome mail sent!" : "تم إرسال بريد الترحيب!",
     "Display name" : "الاسم المعروض",
     "Email" : "البريد الإلكترونى",
@@ -173,7 +173,6 @@ OC.L10N.register(
     "Select from Files" : "إختر مِن بين الملفات",
     "Remove image" : "إزالة الصورة",
     "png or jpg, max. 20 MB" : "نسق png أو jpg و حجم أقصاه 20 م.ب",
-    "Cancel" : "الغاء",
     "Choose as profile picture" : "اختر صورة للملف الشخصي ",
     "Details" : "التفاصيل",
     "Full name" : "الإسم الكامل",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Spanish" : "الإسبانية",
     "Tachelhit" : "تاشلحيت",
     "Zulu" : "الزولو",
+    "Official" : "رسمي",
     "Follow us on Google+" : "تابعونا على Google+"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -19,7 +19,6 @@
  *
  */
 use OCA\WorkflowEngine\AppInfo\Application;
-style(Application::APP_ID, 'multiselect');
 
 /** @var array $_ */
 /** @var \OCP\IL10N $l */

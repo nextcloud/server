@@ -20,10 +20,31 @@
 	if (!OCA.Sharing) {
 		OCA.Sharing = {}
 	}
+
+	OC.Share = _.extend(OC.Share || {}, {	
+		SHARE_TYPE_USER: 0,	
+		SHARE_TYPE_GROUP: 1,	
+		SHARE_TYPE_LINK: 3,	
+		SHARE_TYPE_EMAIL: 4,	
+		SHARE_TYPE_REMOTE: 6,	
+		SHARE_TYPE_CIRCLE: 7,	
+		SHARE_TYPE_GUEST: 8,	
+		SHARE_TYPE_REMOTE_GROUP: 9,	
+		SHARE_TYPE_ROOM: 10
+	})
+
 	/**
 	 * @namespace
 	 */
 	OCA.Sharing.Util = {
+	
+		/**	
+		 * Regular expression for splitting parts of remote share owners:	
+		 * "user@example.com/path/to/owncloud"	
+		 * "user@anotherexample.com@example.com/path/to/owncloud	
+		 */	
+		_REMOTE_OWNER_REGEXP: new RegExp('^([^@]*)@(([^@]*)@)?([^/]*)([/](.*)?)?$'),
+
 		/**
 		 * Initialize the sharing plugin.
 		 *
@@ -195,7 +216,7 @@
 					// do not open sidebar if permission is set and equal to 0
 					var permissions = parseInt(context.$file.data('share-permissions'), 10)
 					if (isNaN(permissions) || permissions > 0) {
-						fileList.showDetailsView(fileName, 'shareTabView')
+						fileList.showDetailsView(fileName, 'sharing')
 					}
 				},
 				render: function(actionSpec, isDefault, context) {
@@ -209,39 +230,8 @@
 				}
 			})
 
-			var shareTab = new OCA.Sharing.ShareTabView('shareTabView', { order: -20 })
-			// detect changes and change the matching list entry
-			shareTab.on('sharesChanged', function(shareModel) {
-				var fileInfoModel = shareModel.fileInfoModel
-				var $tr = fileList.findFileEl(fileInfoModel.get('name'))
-
-				// We count email shares as link share
-				var hasLinkShares = shareModel.hasLinkShares()
-				shareModel.get('shares').forEach(function(share) {
-					if (share.share_type === OC.Share.SHARE_TYPE_EMAIL) {
-						hasLinkShares = true
-					}
-				})
-
-				OCA.Sharing.Util._updateFileListDataAttributes(fileList, $tr, shareModel)
-				if (!OCA.Sharing.Util._updateFileActionIcon($tr, shareModel.hasUserShares(), hasLinkShares)) {
-					// remove icon, if applicable
-					OC.Share.markFileAsShared($tr, false, false)
-				}
-
-				// FIXME: this is too convoluted. We need to get rid of the above updates
-				// and only ever update the model and let the events take care of rerendering
-				fileInfoModel.set({
-					shareTypes: shareModel.getShareTypes(),
-					// in case markFileAsShared decided to change the icon,
-					// we need to modify the model
-					// (FIXME: yes, this is hacky)
-					icon: $tr.attr('data-icon')
-				})
-			})
-			fileList.registerTabView(shareTab)
-
-			var breadCrumbSharingDetailView = new OCA.Sharing.ShareBreadCrumbView({ shareTab: shareTab })
+			// register share breadcrumbs component
+			var breadCrumbSharingDetailView = new OCA.Sharing.ShareBreadCrumbView()
 			fileList.registerBreadCrumbDetailView(breadCrumbSharingDetailView)
 		},
 
@@ -276,13 +266,226 @@
 		 * @returns {boolean} true if the icon was set, false otherwise
 		 */
 		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShares) {
+			console.info('object');
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
 			if (hasUserShares || hasLinkShares || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
-				OC.Share.markFileAsShared($tr, true, hasLinkShares)
+				OCA.Sharing.Util._markFileAsShared($tr, true, hasLinkShares)
 				return true
 			}
 			return false
+		},
+
+		/**
+		 * Marks/unmarks a given file as shared by changing its action icon
+		 * and folder icon.
+		 *
+		 * @param $tr file element to mark as shared
+		 * @param hasShares whether shares are available
+		 * @param hasLink whether link share is available
+		 */
+		_markFileAsShared: function($tr, hasShares, hasLink) {
+			var action = $tr.find('.fileactions .action[data-action="Share"]')
+			var type = $tr.data('type')
+			var icon = action.find('.icon')
+			var message, recipients, avatars
+			var ownerId = $tr.attr('data-share-owner-id')
+			var owner = $tr.attr('data-share-owner')
+			var mountType = $tr.attr('data-mounttype')
+			var shareFolderIcon
+			var iconClass = 'icon-shared'
+			action.removeClass('shared-style')
+			// update folder icon
+			if (type === 'dir' && (hasShares || hasLink || ownerId)) {
+				if (typeof mountType !== 'undefined' && mountType !== 'shared-root' && mountType !== 'shared') {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-' + mountType)
+				} else if (hasLink) {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-public')
+				} else {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-shared')
+				}
+				$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')')
+				$tr.attr('data-icon', shareFolderIcon)
+			} else if (type === 'dir') {
+				var isEncrypted = $tr.attr('data-e2eencrypted')
+				// FIXME: duplicate of FileList._createRow logic for external folder,
+				// need to refactor the icon logic into a single code path eventually
+				if (isEncrypted === 'true') {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted')
+					$tr.attr('data-icon', shareFolderIcon)
+				} else if (mountType && mountType.indexOf('external') === 0) {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-external')
+					$tr.attr('data-icon', shareFolderIcon)
+				} else {
+					shareFolderIcon = OC.MimeType.getIconUrl('dir')
+					// back to default
+					$tr.removeAttr('data-icon')
+				}
+				$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')')
+			}
+			// update share action text / icon
+			if (hasShares || ownerId) {
+				recipients = $tr.data('share-recipient-data')
+				action.addClass('shared-style')
+
+				avatars = '<span>' + t('core', 'Shared') + '</span>'
+				// even if reshared, only show "Shared by"
+				if (ownerId) {
+					message = t('core', 'Shared by')
+					avatars = OCA.Sharing.Util._formatRemoteShare(ownerId, owner, message)
+				} else if (recipients) {
+					avatars = OCA.Sharing.Util._formatShareList(recipients)
+				}
+				action.html(avatars).prepend(icon)
+
+				if (ownerId || recipients) {
+					var avatarElement = action.find('.avatar')
+					avatarElement.each(function() {
+						$(this).avatar($(this).data('username'), 32)
+					})
+					action.find('span[title]').tooltip({ placement: 'top' })
+				}
+			} else {
+				action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon)
+			}
+			if (hasLink) {
+				iconClass = 'icon-public'
+			}
+			icon.removeClass('icon-shared icon-public').addClass(iconClass)
+		},
+		/**	
+		 * Format a remote address	
+		 *	
+		* @param {String} shareWith userid, full remote share, or whatever	
+		* @param {String} shareWithDisplayName	
+		* @param {String} message	
+		* @returns {String} HTML code to display	
+		*/	
+		_formatRemoteShare: function(shareWith, shareWithDisplayName, message) {	
+			var parts = OCA.Sharing.Util._REMOTE_OWNER_REGEXP.exec(shareWith)	
+			if (!parts) {	
+				// display avatar of the user	
+				var avatar = '<span class="avatar" data-username="' + escapeHTML(shareWith) + '" title="' + message + ' ' + escapeHTML(shareWithDisplayName) + '"></span>'	
+				var hidden = '<span class="hidden-visually">' + message + ' ' + escapeHTML(shareWithDisplayName) + '</span> '	
+				return avatar + hidden	
+			}	
+
+			var userName = parts[1]	
+			var userDomain = parts[3]	
+			var server = parts[4]	
+			var tooltip = message + ' ' + userName	
+			if (userDomain) {	
+				tooltip += '@' + userDomain	
+			}	
+			if (server) {	
+				if (!userDomain) {	
+					userDomain = '…'	
+				}	
+				tooltip += '@' + server	
+			}	
+
+			var html = '<span class="remoteAddress" title="' + escapeHTML(tooltip) + '">'	
+			html += '<span class="username">' + escapeHTML(userName) + '</span>'	
+			if (userDomain) {	
+				html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>'	
+			}	
+			html += '</span> '	
+			return html	
+		},	
+		/**	
+		 * Loop over all recipients in the list and format them using	
+		 * all kind of fancy magic.	
+		 *	
+		* @param {Object} recipients array of all the recipients	
+		* @returns {String[]} modified list of recipients	
+		*/	
+		_formatShareList: function(recipients) {	
+			var _parent = this	
+			recipients = _.toArray(recipients)	
+			recipients.sort(function(a, b) {	
+				return a.shareWithDisplayName.localeCompare(b.shareWithDisplayName)	
+			})	
+			return $.map(recipients, function(recipient) {	
+				return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('core', 'Shared with'))	
+			})	
+		},
+		
+		/**	
+		 * Marks/unmarks a given file as shared by changing its action icon	
+		 * and folder icon.	
+		 *	
+		* @param $tr file element to mark as shared	
+		* @param hasShares whether shares are available	
+		* @param hasLink whether link share is available	
+		*/	
+		markFileAsShared: function($tr, hasShares, hasLink) {	
+			var action = $tr.find('.fileactions .action[data-action="Share"]')	
+			var type = $tr.data('type')	
+			var icon = action.find('.icon')	
+			var message, recipients, avatars	
+			var ownerId = $tr.attr('data-share-owner-id')	
+			var owner = $tr.attr('data-share-owner')	
+			var mountType = $tr.attr('data-mounttype')	
+			var shareFolderIcon	
+			var iconClass = 'icon-shared'	
+			action.removeClass('shared-style')	
+			// update folder icon	
+			if (type === 'dir' && (hasShares || hasLink || ownerId)) {	
+				if (typeof mountType !== 'undefined' && mountType !== 'shared-root' && mountType !== 'shared') {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-' + mountType)	
+				} else if (hasLink) {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-public')	
+				} else {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-shared')	
+				}	
+				$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')')	
+				$tr.attr('data-icon', shareFolderIcon)	
+			} else if (type === 'dir') {	
+				var isEncrypted = $tr.attr('data-e2eencrypted')	
+				// FIXME: duplicate of FileList._createRow logic for external folder,	
+				// need to refactor the icon logic into a single code path eventually	
+				if (isEncrypted === 'true') {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-encrypted')	
+					$tr.attr('data-icon', shareFolderIcon)	
+				} else if (mountType && mountType.indexOf('external') === 0) {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir-external')	
+					$tr.attr('data-icon', shareFolderIcon)	
+				} else {	
+					shareFolderIcon = OC.MimeType.getIconUrl('dir')	
+					// back to default	
+					$tr.removeAttr('data-icon')	
+				}	
+				$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')')	
+			}	
+			// update share action text / icon	
+			if (hasShares || ownerId) {	
+				recipients = $tr.data('share-recipient-data')	
+				action.addClass('shared-style')	
+
+				avatars = '<span>' + t('core', 'Shared') + '</span>'	
+				// even if reshared, only show "Shared by"	
+				if (ownerId) {	
+					message = t('core', 'Shared by')	
+					avatars = this._formatRemoteShare(ownerId, owner, message)	
+				} else if (recipients) {	
+					avatars = this._formatShareList(recipients)	
+				}	
+				action.html(avatars).prepend(icon)	
+
+				if (ownerId || recipients) {	
+					var avatarElement = action.find('.avatar')	
+					avatarElement.each(function() {	
+						$(this).avatar($(this).data('username'), 32)	
+					})	
+					action.find('span[title]').tooltip({ placement: 'top' })	
+				}	
+			} else {	
+				action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon)	
+			}	
+			if (hasLink) {	
+				iconClass = 'icon-public'	
+			}	
+			icon.removeClass('icon-shared icon-public').addClass(iconClass)	
 		},
 
 		/**

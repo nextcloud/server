@@ -302,6 +302,7 @@ class Manager implements IManager {
 			/* Check if this is an incoming share */
 			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_CIRCLE, $userMountPoint, -1, 0));
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
 
 			/** @var \OCP\Share\IShare[] $incomingShares */
@@ -1671,4 +1672,11 @@ class Manager implements IManager {
 		return true;
 	}
 
+	public function getAllShares(): iterable {
+		$providers = $this->factory->getAllProviders();
+
+		foreach ($providers as $provider) {
+			yield from $provider->getAllShares();
+		}
+	}
 }

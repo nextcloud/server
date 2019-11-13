@@ -121,8 +121,6 @@ OC.L10N.register(
     "Save changes" : "Lưu thay đổi",
     "This app is supported via your current Nextcloud subscription." : "Ứng dụng này được hỗ trợ thông qua thuê bao Nextcloud hiện tại của bạn.",
     "Supported" : "Đã hỗ trợ",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Các ứng dụng chính thức được phát triển bởi và trong cộng đồng. Họ cung cấp chức năng trung tâm và sẵn sàng để sử dụng sản xuất.",
-    "Official" : "Chính thức",
     "by" : "bởi",
     "Update to {version}" : "Cập nhật tới {version}",
     "Remove" : "Xóa",
@@ -193,6 +191,7 @@ OC.L10N.register(
     "Enable user" : "Kích hoạt người dùng",
     "Resend welcome email" : "Gửi lại email chào mừng",
     "{size} used" : "{size} đã sử dụng",
+    "Cancel" : "Hủy",
     "Welcome mail sent!" : "Thư chào mừng đã được gửi!",
     "Display name" : "Tên hiển thị",
     "Email" : "Email",
@@ -254,10 +253,11 @@ OC.L10N.register(
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Upload new" : "Tải lên",
     "Remove image" : "Xóa ",
-    "Cancel" : "Hủy",
     "Your email address" : "Email của bạn",
     "Help translate" : "Hỗ trợ dịch thuật",
     "Current password" : "Mật khẩu cũ",
-    "Change password" : "Đổi mật khẩu"
+    "Change password" : "Đổi mật khẩu",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Các ứng dụng chính thức được phát triển bởi và trong cộng đồng. Họ cung cấp chức năng trung tâm và sẵn sàng để sử dụng sản xuất.",
+    "Official" : "Chính thức"
 },
 "nplurals=1; plural=0;");

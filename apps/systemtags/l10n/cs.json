@@ -1,5 +1,6 @@
 { "translations": {
     "Tags" : "Štítky",
+    "Tag name is empty" : "Název štítku je prázdný",
     "Update" : "Aktualizovat",
     "Create" : "Vytvořit",
     "Select tag…" : "Zvolit štítek…",
@@ -58,7 +59,7 @@
     "Delete" : "Smazat",
     "Reset" : "Obnovit",
     "No files in here" : "Žádné soubory",
-    "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Size" : "Velikost",
     "Modified" : "Upraveno"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
