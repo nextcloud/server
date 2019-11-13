@@ -82,8 +82,6 @@ OC.L10N.register(
     "Install Client" : "Instalar cliente",
     "Unlimited" : "Ilimitado",
     "Limit to groups" : "Limitado a grupos",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "As apps oficiais são desenvolvidas de e para a comunidade. Oferecem um repositório central de funcionalidades e estão preparadas para uso em produção.",
-    "Official" : "Oficial",
     "Remove" : "Remover",
     "Disable" : "Desativar",
     "All" : "Todos",
@@ -253,6 +251,8 @@ OC.L10N.register(
     "Help translate" : "Ajude a traduzir",
     "Current password" : "Palavra-passe atual",
     "Change password" : "Alterar palavra-passe",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "As apps oficiais são desenvolvidas de e para a comunidade. Oferecem um repositório central de funcionalidades e estão preparadas para uso em produção.",
+    "Official" : "Oficial",
     "Store credentials" : "Armazenar credenciais",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos."

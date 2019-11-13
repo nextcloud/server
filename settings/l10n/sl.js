@@ -86,8 +86,6 @@ OC.L10N.register(
     "Excluded groups" : "Izločene skupine",
     "Save changes" : "Shrani spremembe",
     "Supported" : "Podprto",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Uradne programe razvijajo posamezniki, ki sodelujejo s skupnostjo. Paketi vključujejo osrednje zmožnosti programa, uporaba pa je namenjena tudi končnim uporabnikom.",
-    "Official" : "Uradno",
     "Update to {version}" : "Posodobi na različico {version}",
     "Remove" : "Odstrani",
     "Disable" : "Onemogoči",
@@ -504,6 +502,8 @@ OC.L10N.register(
     "Swahili" : "Svahili",
     "Tonga (Tonga)" : "Tonga (Tonga)",
     "Tonga" : "Tonga",
+    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Uradne programe razvijajo posamezniki, ki sodelujejo s skupnostjo. Paketi vključujejo osrednje zmožnosti programa, uporaba pa je namenjena tudi končnim uporabnikom.",
+    "Official" : "Uradno",
     "Store credentials" : "Shrani poverila",
     "Follow us on Google+" : "Sledite nam na Google+"
 },
