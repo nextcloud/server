@@ -64,6 +64,7 @@ use OCA\Files_External\Lib\Backend\DAV;
 use OCA\Files_External\Lib\Backend\FTP;
 use OCA\Files_External\Lib\Backend\Local;
 use OCP\Files\Config\IUserMountCache;
+use OCP\IGroup;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -109,6 +110,16 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				/** @var DBConfigService $config */
 				$config = $this->getContainer()->query(DBConfigService::class);
 				$config->modifyMountsOnUserDelete($user->getUID());
+			}
+		);
+		$dispatcher->addListener(
+			IGroup::class . '::postDelete',
+			function (GenericEvent $event) {
+				/** @var IGroup $group */
+				$group = $event->getSubject();
+				/** @var DBConfigService $config */
+				$config = $this->getContainer()->query(DBConfigService::class);
+				$config->modifyMountsOnGroupDelete($group->getGID());
 			}
 		);
 	}
