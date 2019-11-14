@@ -224,7 +224,7 @@ OC.L10N.register(
     "Help" : "Pomoc",
     "Access forbidden" : "Prístup odmietnutý",
     "File not found" : "Súbor nenájdený",
-    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokument nebol nájdený na servri.  Je možné že zdieľanie bolo vymazané alebo expirovalo?",
+    "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Na serveri sa nepodarilo nájsť dokument. Je možné, že bolo zrušené sprístupnenie alebo skončila jeho platnosť.",
     "Back to %s" : "Späť na %s",
     "Error" : "Chyba",
     "Internal Server Error" : "Vnútorná chyba servera",

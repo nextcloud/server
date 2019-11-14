@@ -123,6 +123,8 @@ OC.L10N.register(
     "Save changes" : "Spara ändringar",
     "This app is supported via your current Nextcloud subscription." : "Den här appen stöds via din nuvarande Nextcloud-prenumeration.",
     "Supported" : "Stöds",
+    "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Utvalda appar utvecklas av och inom gemenskapen. De erbjuder central funktionalitet och är redo för produktionsanvändning.",
+    "Featured" : "Utvalda",
     "by" : "av",
     "Update to {version}" : "Uppdatera till {version}",
     "Remove" : "Ta bort",
