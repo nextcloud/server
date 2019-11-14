@@ -49,7 +49,6 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
-use OCP\IContainer;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\IContainer;
 use OCP\IGroup;

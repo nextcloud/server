@@ -71,9 +71,8 @@ abstract class TestCase extends \Test\TestCase {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		$application = new Application();
-		$application->registerMountProviders();
-
+		new Application();
+		
 		// reset backend
 		\OC_User::clearBackends();
 		\OC::$server->getGroupManager()->clearBackends();
