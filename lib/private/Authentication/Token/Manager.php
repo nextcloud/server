@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
@@ -60,15 +61,29 @@ class Manager implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
-		return $this->publicKeyTokenProvider->generateToken(
-			$token,
-			$uid,
-			$loginName,
-			$password,
-			$name,
-			$type,
-			$remember
-		);
+		try {
+			return $this->publicKeyTokenProvider->generateToken(
+				$token,
+				$uid,
+				$loginName,
+				$password,
+				$name,
+				$type,
+				$remember
+			);
+		} catch (UniqueConstraintViolationException $e) {
+			// It's rare, but if two requests of the same session (e.g. env-based SAML)
+			// try to create the session token they might end up here at the same time
+			// because we use the session ID as token and the db token is created anew
+			// with every request.
+			//
+			// If the UIDs match, then this should be fine.
+			$existing = $this->getToken($token);
+			if ($existing->getUID() !== $uid) {
+				throw new \Exception('Token conflict handled, but UIDs do not match. This should not happen', 0, $e);
+			}
+			return $existing;
+		}
 	}
 
 	/**
