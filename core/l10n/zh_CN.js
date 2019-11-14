@@ -288,6 +288,8 @@ OC.L10N.register(
     "Account access" : "账户访问",
     "You are about to grant %1$s access to your %2$s account." : "您正在授权 %1$s 访问您的 %2$s 账户。",
     "Account connected" : "账号已连接",
+    "Your client should now be connected!" : "您的客户端现在应该可以连接了！",
+    "You can close this window." : "您可以关闭此窗口。",
     "This share is password-protected" : "这个共享是被密码保护的",
     "The password is wrong. Try again." : "密码错误。请重试。",
     "Two-factor authentication" : "两步验证",
