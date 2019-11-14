@@ -91,9 +91,9 @@ export default {
 				}
 			}
 			if (!this.dirty || this.checking) {
-				return { title: 'Active', class: 'icon icon-checkmark' }
+				return { title: t('workflowengine', 'Active'), class: 'icon icon-checkmark' }
 			}
-			return { title: 'Save', class: 'icon-confirm-white primary' }
+			return { title: t('workflowengine', 'Save'), class: 'icon-confirm-white primary' }
 
 		},
 		lastCheckComplete() {
@@ -185,6 +185,9 @@ export default {
 		background-color: var(--color-warning);
 		color: #fff;
 		border: none;
+	}
+	.status-button.icon-checkmark {
+		border: 1px solid var(--color-success);
 	}
 
 	.flow-icon {

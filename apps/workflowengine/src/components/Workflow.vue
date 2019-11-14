@@ -1,13 +1,21 @@
 <template>
 	<div id="workflowengine">
 		<div class="section">
-			<h2>{{ t('workflowengine', 'Workflows') }}</h2>
+			<h2>{{ t('workflowengine', 'Available actions') }}</h2>
 
 			<transition-group name="slide" tag="div" class="actions">
 				<Operation v-for="operation in getMainOperations"
 					:key="operation.id"
 					:operation="operation"
 					@click.native="createNewRule(operation)" />
+
+				<a :key="'add'" :href="appstoreUrl" class="actions__item colored more">
+					<div class="icon icon-add" />
+					<div class="actions__item__description">
+						<h3>{{ t('workflowengine', 'More actions') }}</h3>
+						<small>{{ t('workflowengine', 'Browse the app store') }}</small>
+					</div>
+				</a>
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
@@ -17,6 +25,10 @@
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
 				</button>
 			</div>
+
+			<h2 class="configured-flows">
+				{{ t('workflowengine', 'Configured flows') }}
+			</h2>
 		</div>
 
 		<transition-group v-if="rules.length > 0" name="slide">
@@ -29,6 +41,7 @@
 import Rule from './Rule'
 import Operation from './Operation'
 import { mapGetters, mapState } from 'vuex'
+import { loadState } from '@nextcloud/initial-state'
 
 const ACTION_LIMIT = 3
 
@@ -40,7 +53,9 @@ export default {
 	},
 	data() {
 		return {
-			showMoreOperations: false
+			showMoreOperations: false,
+			appstoreUrl: '/index.php/settings/apps/workflow',
+			scope: loadState('workflowengine', 'scope')
 		}
 	},
 	computed: {
@@ -77,6 +92,11 @@ export default {
 	}
 	.section {
 		max-width: 100vw;
+
+		h2.configured-flows {
+			margin-top: 30px;
+			margin-bottom: 0;
+		}
 	}
 	.actions {
 		display: flex;
@@ -125,5 +145,11 @@ export default {
 		max-height: 0;
 		padding-top: 0;
 		padding-bottom: 0;
+	}
+
+	@import "./../styles/operation";
+
+	.actions__item.more {
+		background-color: var(--color-background-dark);
 	}
 </style>
