@@ -310,7 +310,7 @@ OC.L10N.register(
     "Can delete" : "Lahko izbriše",
     "Access control" : "Nadzor dostopa",
     "Error while sharing" : "Napaka med omogočanjem souporabe",
-    "Share details could not be loaded for this item." : "Podrobnosti souporabe za te predmet ni mogoče naložiti.",
+    "Share details could not be loaded for this item." : "Podrobnosti souporabe za ta predmet ni mogoče naložiti.",
     "No users or groups found for {search}" : "Ni najdenih uporabnikov ali skupin, skladnih z iskalnim nizom {search}",
     "No users found for {search}" : "Ni najdenih uporabnikov, skladnih z iskalnim nizom {search}",
     "An error occurred. Please try again" : "Prišlo je do napake. Poskusite znova.",
