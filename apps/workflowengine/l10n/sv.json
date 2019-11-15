@@ -30,6 +30,7 @@
     "Check #%s does not exist" : "Kontroll av #%s existerar inte",
     "Check %s is invalid or does not exist" : "Kontroll av %s är ogiltig eller existerar inte",
     "Workflows" : "Arbetsflöden",
+    "Nextcloud workflow engine" : "Nextcloud arbetsflödesmotor",
     "Select a filter" : "Välj ett filter",
     "Select a comparator" : "Välj en jämförelse",
     "Select a file type" : "Välj en filtyp",
