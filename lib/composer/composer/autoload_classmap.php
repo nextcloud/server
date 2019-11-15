@@ -886,6 +886,7 @@ return array(
     'OC\\DB\\SQLiteMigrator' => $baseDir . '/lib/private/DB/SQLiteMigrator.php',
     'OC\\DB\\SQLiteSessionInit' => $baseDir . '/lib/private/DB/SQLiteSessionInit.php',
     'OC\\DB\\SchemaWrapper' => $baseDir . '/lib/private/DB/SchemaWrapper.php',
+    'OC\\DB\\SetTransactionIsolationLevel' => $baseDir . '/lib/private/DB/SetTransactionIsolationLevel.php',
     'OC\\Dashboard\\DashboardManager' => $baseDir . '/lib/private/Dashboard/DashboardManager.php',
     'OC\\DatabaseException' => $baseDir . '/lib/private/DatabaseException.php',
     'OC\\DatabaseSetupException' => $baseDir . '/lib/private/DatabaseSetupException.php',
