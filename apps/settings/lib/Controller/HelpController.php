@@ -50,7 +50,7 @@ class HelpController extends Controller {
 		IRequest $request,
 		INavigationManager $navigationManager,
 		IURLGenerator $urlGenerator,
-		string $userId,
+		?string $userId,
 		IGroupManager $groupManager
 	) {
 		parent::__construct($appName, $request);
