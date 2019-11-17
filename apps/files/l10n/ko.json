@@ -24,6 +24,7 @@
     "Error when assembling chunks, status code {status}" : "조각을 모으는 중 오류 발생, 상태 코드 {status}",
     "Actions" : "작업",
     "Rename" : "이름 바꾸기",
+    "Delete folder" : "폴더 삭제",
     "Disconnect storage" : "저장소 연결 해제",
     "Unshare" : "공유 해제",
     "Could not load info for file \"{file}\"" : "파일 \"{file}\"의 정보를 가져올 수 없음",
