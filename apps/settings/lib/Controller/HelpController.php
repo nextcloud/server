@@ -47,6 +47,11 @@ class HelpController extends Controller {
 
 	/** @var string */
 	private $userId;
+
+	private const TRANSLATED_LANGUAGES = [
+		'en',
+		'fr',
+    ];
 	
 	/**
 	* @param IConfig $config
@@ -76,13 +81,6 @@ class HelpController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function help(string $mode = 'user'): TemplateResponse {
-		define('TRANSLATED_LANGUAGES', array(
-			'de',
-			'en',
-			'fr',
-			'pt_BR',
-		));
-
 		$this->navigationManager->setActiveEntry('help');
 		
 		if(!isset($mode) || $mode !== 'admin') {
