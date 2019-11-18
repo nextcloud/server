@@ -245,7 +245,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 						->setAffectedUser($shareWith)
 						->setObject('remote_share', (int)$shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
-					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
 				} else {
 					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
 					foreach ($groupMembers as $user) {
@@ -256,7 +256,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 							->setAffectedUser($user->getUID())
 							->setObject('remote_share', (int)$shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
-						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
 					}
 				}
 				return $shareId;
@@ -333,13 +333,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param $sharedByFederatedId
 	 * @param $name
 	 */
-	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name) {
+	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner) {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)
 			->setDateTime(new \DateTime())
 			->setObject('remote_share', $shareId)
-			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/')]);
+			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/'), $sharedBy, $owner]);
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
