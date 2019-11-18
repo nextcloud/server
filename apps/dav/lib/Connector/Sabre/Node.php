@@ -201,6 +201,14 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $this->fileView->putFileInfo($this->path, array('etag' => $etag));
 	}
 
+	public function setCreationTime(int $time) {
+		return $this->fileView->putFileInfo($this->path, array('creation_time' => $time));
+	}
+
+	public function setUploadTime(int $time) {
+		return $this->fileView->putFileInfo($this->path, array('upload_time' => $time));
+	}
+
 	/**
 	 * Returns the size of the node, in bytes
 	 *

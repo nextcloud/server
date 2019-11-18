@@ -44,7 +44,7 @@ class Version17000Date20190514105811 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		if(!$schema->hasTable('filecache_extended')) {
 			$table = $schema->createTable('filecache_extended');
-			$table->addColumn('fileid', Type::INTEGER, [
+			$table->addColumn('fileid', Type::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
