@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Ομόσποσνδος διαμοιρασμός",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
     "Remote share" : "Απομακρυσμένος κοινόχρηστος φάκελος",
     "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Το αρχείο είναι ήδη κοινόχρηστο με %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %1$s απέτυχε, αδύνατη η εύρεση του %2$s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί αυτό-υπογεγραμμένο πιστοποιητικό.",
     "Could not find share" : "Αδυναμία εύρεσης κοινόχρηστου",
+    "Federated sharing" : "Ομόσποσνδος διαμοιρασμός",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s",
@@ -39,8 +39,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Διαμοιραστείτε το ώστε οι φίλοι σας να μπορούν να διαμοιράζονται αρχεία με εσάς:",
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
-    "HTML Code:" : "Κώδικας HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %s απέτυχε, δεν ήταν δυνατή η εύρεση του %s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί πιστοποιητικό που έχει υπογράψει αυτόματα."
+    "HTML Code:" : "Κώδικας HTML:"
 },
 "nplurals=2; plural=(n != 1);");

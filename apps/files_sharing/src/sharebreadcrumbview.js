@@ -1,5 +1,3 @@
-/* global Handlebars, OC */
-
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -23,7 +21,7 @@
  */
 
 (function() {
-	'use strict';
+	'use strict'
 
 	var BreadCrumbView = OC.Backbone.View.extend({
 		tagName: 'span',
@@ -32,72 +30,47 @@
 		},
 		_dirInfo: undefined,
 
-		/** @type OCA.Sharing.ShareTabView */
-		_shareTab: undefined,
-
-		initialize: function(options) {
-			this._shareTab = options.shareTab;
-		},
-
 		render: function(data) {
-			this._dirInfo = data.dirInfo || null;
+			this._dirInfo = data.dirInfo || null
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
-				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0;
-				this.$el.removeClass('shared icon-public icon-shared');
+				var isShared = data.dirInfo && data.dirInfo.shareTypes && data.dirInfo.shareTypes.length > 0
+				this.$el.removeClass('shared icon-public icon-shared')
 				if (isShared) {
-					this.$el.addClass('shared');
+					this.$el.addClass('shared')
 					if (data.dirInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) !== -1) {
-						this.$el.addClass('icon-public');
+						this.$el.addClass('icon-public')
 					} else {
-						this.$el.addClass('icon-shared');
+						this.$el.addClass('icon-shared')
 					}
 				} else {
-					this.$el.addClass('icon-shared');
+					this.$el.addClass('icon-shared')
 				}
-				this.$el.show();
-				this.delegateEvents();
+				this.$el.show()
+				this.delegateEvents()
 			} else {
-				this.$el.removeClass('shared icon-public icon-shared');
-				this.$el.hide();
+				this.$el.removeClass('shared icon-public icon-shared')
+				this.$el.hide()
 			}
 
-			return this;
+			return this
 		},
 		_onClick: function(e) {
-			e.preventDefault();
+			e.preventDefault()
 
-			var fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo);
-			var self = this;
+			var fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)
+			var self = this
 			fileInfoModel.on('change', function() {
 				self.render({
 					dirInfo: self._dirInfo
-				});
-			});
-			this._shareTab.on('sharesChanged', function(shareModel) {
-				var shareTypes = [];
-				var shares = shareModel.getSharesWithCurrentItem();
+				})
+			})
 
-				for(var i = 0; i < shares.length; i++) {
-					if (shareTypes.indexOf(shares[i].share_type) === -1) {
-						shareTypes.push(shares[i].share_type);
-					}
-				}
-
-				if (shareModel.hasLinkShares()) {
-					shareTypes.push(OC.Share.SHARE_TYPE_LINK);
-				}
-
-				// Since the dirInfo isn't updated we need to do this dark hackery
-				self._dirInfo.shareTypes = shareTypes;
-
-				self.render({
-					dirInfo: self._dirInfo
-				});
-			});
-			OCA.Files.App.fileList.showDetailsView(fileInfoModel, 'shareTabView');
+			var path = fileInfoModel.attributes.path + '/' + fileInfoModel.attributes.name
+			OCA.Files.Sidebar.file = path
+			OCA.Files.Sidebar.activeTab = 'sharing'
 		}
-	});
+	})
 
-	OCA.Sharing.ShareBreadCrumbView = BreadCrumbView;
-})();
+	OCA.Sharing.ShareBreadCrumbView = BreadCrumbView
+})()

@@ -103,7 +103,7 @@ class PreviewController extends Controller {
 			}
 
 			$pathParts = pathinfo($file->getName());
-			$extension = $pathParts['extension'];
+			$extension = $pathParts['extension'] ?? '';
 			$fileName = $pathParts['filename'];
 			/*
 			 * Files in the root of the trashbin are timetamped.

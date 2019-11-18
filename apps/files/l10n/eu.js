@@ -135,9 +135,9 @@ OC.L10N.register(
     "Unlimited" : "Mugarik gabe",
     "Upload (max. %s)" : "Kargatu (max. %s)",
     "File Management" : "Fitxategi-kudeaketa",
-    "%s of %s used" : "%s / %s(e)tik erabilita",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s(e)tik erabilita",
     "%s used" : "%s erabilita",
+    "%s%% of %s used" : "%s%% / %s erabilita",
+    "%1$s of %2$s used" : "%1$s / %2$s(e)tik erabilita",
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
@@ -160,7 +160,6 @@ OC.L10N.register(
     "Deleted shares" : "Ezabatutako partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
-    "Target folder" : "Helburuko karpeta",
     "File handling" : "Fitxategien kudeaketa",
     "Maximum upload size" : "Karga daitekeen gehienezko tamaina",
     "max. possible: " : "max, posiblea:",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPMrekin 5 minutu pasa daitezke aldaketak aplikatu arte.",
     "Missing permissions to edit from here." : "Hemen editatzeko baimenik ez duzu.",
     "Cancel upload" : "Karga bertan behera utzita",
-    "%1$s of %2$s used" : "%1$s / %2$s(e)tik erabilita"
+    "%s of %s used" : "%s / %s(e)tik erabilita",
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s(e)tik erabilita"
 },
 "nplurals=2; plural=(n != 1);");

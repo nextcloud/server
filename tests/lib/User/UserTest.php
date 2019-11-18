@@ -676,14 +676,8 @@ class UserTest extends TestCase {
 		$config->expects($this->any())
 			->method('getUserValue')
 			->willReturn('foo@bar.com');
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with(
-				'foo',
-				'settings',
-				'email',
-				'foo@bar.com'
-			);
+		$config->expects($this->never())
+			->method('setUserValue');
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 		$user->setEMailAddress('foo@bar.com');
@@ -741,14 +735,8 @@ class UserTest extends TestCase {
 		$config->expects($this->any())
 			->method('getUserValue')
 			->willReturn('23 TB');
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with(
-				'foo',
-				'files',
-				'quota',
-				'23 TB'
-			);
+		$config->expects($this->never())
+			->method('setUserValue');
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 		$user->setQuota('23 TB');

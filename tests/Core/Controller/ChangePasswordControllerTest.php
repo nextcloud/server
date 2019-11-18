@@ -22,7 +22,7 @@
 namespace Tests\Core\Controller;
 
 use OC\HintException;
-use OC\Settings\Controller\ChangePasswordController;
+use OCA\Settings\Controller\ChangePasswordController;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;

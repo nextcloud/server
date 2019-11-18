@@ -201,7 +201,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Talk application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Spreed\Share\Helper\DeletedShareAPIController
+	 * @return \OCA\Talk\Share\Helper\DeletedShareAPIController
 	 * @throws QueryException
 	 */
 	private function getRoomShareHelper() {
@@ -209,6 +209,6 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Spreed\Share\Helper\DeletedShareAPIController');
+		return $this->serverContainer->query('\OCA\Talk\Share\Helper\DeletedShareAPIController');
 	}
 }

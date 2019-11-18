@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Deiling milli þjóna (skýjasambandssameign)",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
     "Remote share" : "Fjartengd sameign",
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %1$s mistókst, gat ekki fundið %2$s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",
     "Could not find share" : "Gat ekki fundið sameign",
+    "Federated sharing" : "Deiling milli þjóna (skýjasambandssameign)",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Þú tókst við \"%3$s\" sem fjartengdri sameign frá %1$s (fyrir hönd %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Þú tókst við {share} sem fjartengdri sameign frá {user} (fyrir hönd {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Þú tókst við \"%3$s\" sem fjartengdri sameign frá %1$s",
@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
-    "HTML Code:" : "HTML-kóði:",
-    "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki."
+    "HTML Code:" : "HTML-kóði:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

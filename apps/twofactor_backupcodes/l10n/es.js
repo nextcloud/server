@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "función",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ha ocurrido un error mientras se generaban los códigos de respaldo.",
     "{name} backup codes" : "Códigos de respaldo {name}",
@@ -14,15 +15,13 @@ OC.L10N.register(
     "Generate backup codes" : "Generar códigos de respaldo",
     "You created two-factor backup codes for your account" : "Has creado códigos de respaldo para la verificación en dos pasos de tu cuenta",
     "Second-factor backup codes" : "Códigos de respaldo para verificación en dos pasos",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Asegúrate de hacerlo para usarlos en caso de pérdida de acceso del segundo paso",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Asegúrate de hacerlo para acceder a tu cuenta en caso de pérdida del segundo paso",
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usar código de respaldo",
     "Two factor backup codes" : "Códigos de respaldo de la verificación en dos pasos",
     "A two-factor auth backup codes provider" : "Un proveedor de códigos respaldo para verificación en dos pasos",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno de los códigos de respaldo que guardaste cuando activaste la verificación en dos pasos.",
     "Submit" : "Enviar",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Se han generado los códigos de respaldo. Estás usando {{used}} de {{total}}.",
-    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
     "activated" : "activado",
     "updated" : "actualizado",
     "mounted" : "montado",
@@ -32,6 +31,8 @@ OC.L10N.register(
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "destruido",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Códigos de respaldo de Nextcloud",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Asegúrate de hacerlo para usarlos en caso de pérdida de acceso del segundo paso"
 },
 "nplurals=2; plural=(n != 1);");

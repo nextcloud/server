@@ -58,6 +58,12 @@
 		 */
 		$fileList: null,
 
+		$header: null,
+		headers: [],
+
+		$footer: null,
+		footers: [],
+
 		/**
 		 * @type OCA.Files.BreadCrumb
 		 */
@@ -262,6 +268,8 @@
 			this.$container = options.scrollContainer || $(window);
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('#fileList');
+			this.$header = $el.find('#filelist-header');
+			this.$footer = $el.find('#filelist-footer');
 
 			if (!_.isUndefined(this._filesConfig)) {
 				this._filesConfig.on('change:showhidden', function() {
@@ -408,6 +416,46 @@
 
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
+
+			this.initHeadersAndFooters()
+		},
+
+		initHeadersAndFooters: function() {
+			this.headers.sort(function(a, b) {
+				return a.order - b.order;
+			})
+			this.footers.sort(function(a, b) {
+				return a.order - b.order;
+			})
+			var uniqueIds = [];
+			var self = this;
+			this.headers.forEach(function(header) {
+				if (header.id) {
+					if (uniqueIds.indexOf(header.id) !== -1) {
+						return
+					}
+					uniqueIds.push(header.id)
+				}
+				self.$header.append(header.el)
+
+				setTimeout(function() {
+					header.render(self)
+				}, 0)
+			})
+
+			uniqueIds = [];
+			this.footers.forEach(function(footer) {
+				if (footer.id) {
+					if (uniqueIds.indexOf(footer.id) !== -1) {
+						return
+					}
+					uniqueIds.push(footer.id)
+				}
+				self.$footer.append(footer.el)
+				setTimeout(function() {
+					footer.render(self)
+				}, 0)
+			})
 		},
 
 		/**
@@ -562,11 +610,11 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
+			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
-				this._detailsView.selectTab(tabId);
+				OCA.Files.Sidebar.setActiveTab(tabId);
 			}
-			OC.Apps.showAppSidebar(this._detailsView.$el);
 		},
 
 		/**
@@ -575,48 +623,28 @@
 		 * @param {string|OCA.Files.FileInfoModel} fileName file name from the current list or a FileInfoModel object
 		 * @param {boolean} [show=true] whether to open the sidebar if it was closed
 		 */
-		_updateDetailsView: function(fileName, show) {
-			if (!this._detailsView) {
+		_updateDetailsView: function(fileName) {
+			if (!(OCA.Files && OCA.Files.Sidebar)) {
+				console.error('No sidebar available');
 				return;
-			}
-
-			// show defaults to true
-			show = _.isUndefined(show) || !!show;
-			var oldFileInfo = this._detailsView.getFileInfo();
-			if (oldFileInfo) {
-				// TODO: use more efficient way, maybe track the highlight
-				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.get('id')).removeClass('highlighted');
-				oldFileInfo.off('change', this._onSelectedModelChanged, this);
 			}
 
 			if (!fileName) {
-				this._detailsView.setFileInfo(null);
-				if (this._currentFileModel) {
-					this._currentFileModel.off();
-				}
-				this._currentFileModel = null;
-				OC.Apps.hideAppSidebar(this._detailsView.$el);
-				return;
+				OCA.Files.Sidebar.close()
+				return
+			} else if (typeof fileName !== 'string') {
+				fileName = ''
 			}
 
-			if (show && this._detailsView.$el.hasClass('disappear')) {
-				OC.Apps.showAppSidebar(this._detailsView.$el);
-			}
+			// this is the old (terrible) way of getting the context.
+			// don't use it anywhere else. Just provide the full path
+			// of the file to the sidebar service
+			var tr = this.findFileEl(fileName)
+			var model = this.getModelForFile(tr)
+			var path = model.attributes.path + '/' + model.attributes.name
 
-			if (fileName instanceof OCA.Files.FileInfoModel) {
-				var model = fileName;
-			} else {
-				var $tr = this.findFileEl(fileName);
-				var model = this.getModelForFile($tr);
-				$tr.addClass('highlighted');
-			}
-
-			this._currentFileModel = model;
-
-			this._replaceDetailsViewElementIfNeeded();
-
-			this._detailsView.setFileInfo(model);
-			this._detailsView.$el.scrollTop(0);
+			// open sidebar and set file
+			OCA.Files.Sidebar.open(path.replace('//', '/'))
 		},
 
 		/**
@@ -652,8 +680,6 @@
 			});
 
 			this.breadcrumb._resize();
-
-			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
 		},
 
 		/**
@@ -672,8 +698,13 @@
 			this.$showGridView.next('#view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-				
+
 			$('.list-container').toggleClass('view-grid', show);
+			if (show) {
+				// If switching into grid view from list view, too few files might be displayed
+				// Try rendering the next page
+				this._onScroll();
+			}
 		},
 
 		/**
@@ -825,7 +856,7 @@
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
-				if (!this._detailsView || $(event.target).is('.nametext, .name') || $(event.target).closest('.nametext').length) {
+				if (!this._detailsView || $(event.target).is('.nametext, .name, .thumbnail') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
 					if (!renaming) {
@@ -836,8 +867,6 @@
 						var action = this.fileActions.getDefault(mime,type, permissions);
 						if (action) {
 							event.preventDefault();
-							// also set on global object for legacy apps
-							window.FileActions.currentFile = this.fileActions.currentFile;
 							action(filename, {
 								$file: $tr,
 								fileList: this,
@@ -862,8 +891,6 @@
 					var permissions = this.fileActions.getCurrentPermissions();
 					var action = this.fileActions.get(mime, type, permissions)['Details'];
 					if (action) {
-						// also set on global object for legacy apps
-						window.FileActions.currentFile = this.fileActions.currentFile;
 						action(filename, {
 							$file: $tr,
 							fileList: this,
@@ -897,7 +924,16 @@
 		 * Event handler for when selecting/deselecting all files
 		 */
 		_onClickSelectAll: function(e) {
-			var checked = $(e.target).prop('checked');
+			var hiddenFiles = this.$fileList.find('tr.hidden');
+			var checked = e.target.checked;
+
+			if (hiddenFiles.length > 0) {
+				// set indeterminate alongside checked
+				e.target.indeterminate = checked;
+			} else {
+				e.target.indeterminate = false
+			}
+
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
@@ -907,7 +943,7 @@
 					// a search will automatically hide the unwanted rows
 					// let's only select the matches
 					var fileData = this.files[i];
-					var fileRow = this.$fileList.find('[data-id=' + fileData.id + ']');
+					var fileRow = this.$fileList.find('tr[data-id=' + fileData.id + ']');
 					// do not select already selected ones
 					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
 						this._selectedFiles[fileData.id] = fileData;
@@ -917,7 +953,6 @@
 			} else {
 				// if we have some hidden row, then we're in a search
 				// Let's only deselect the visible ones
-				var hiddenFiles = this.$fileList.find('tr.hidden');
 				if (hiddenFiles.length > 0) {
 					var visibleFiles = this.$fileList.find('tr:not(.hidden)');
 					var self = this;
@@ -1011,7 +1046,7 @@
 				if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 					self.move(files, targetPath, disableLoadingState);
 				}
-				self.dirInfo.dirLastCopiedTo = targetPath; 
+				self.dirInfo.dirLastCopiedTo = targetPath;
 			}, false, "httpd/unix-directory", true, actions, dialogDir);
 			event.preventDefault();
 		},
@@ -1135,7 +1170,7 @@
 			}
 			title += this.appName;
 			// Sets the page title with the " - Nextcloud" suffix as in templates
-			window.document.title = title + ' - ' + oc_defaults.title;
+			window.document.title = title + ' - ' + OC.theme.title;
 
 			return true;
 		},
@@ -1349,6 +1384,13 @@
 					return OC.MimeType.getIconUrl('dir-external');
 				} else if (fileInfo.mountType !== undefined && fileInfo.mountType !== '') {
 					return OC.MimeType.getIconUrl('dir-' + fileInfo.mountType);
+				} else if (fileInfo.shareTypes && (
+					fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) > -1
+					|| fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_EMAIL) > -1)
+				) {
+					return OC.MimeType.getIconUrl('dir-public')
+				} else if (fileInfo.shareTypes && fileInfo.shareTypes.length > 0) {
+					return OC.MimeType.getIconUrl('dir-shared')
 				}
 				return OC.MimeType.getIconUrl('dir');
 			}
@@ -1534,13 +1576,16 @@
 
 			try {
 				var maxContrastHex = window.getComputedStyle(document.documentElement)
-					.getPropertyValue('--color-text-maxcontrast')
+					.getPropertyValue('--color-text-maxcontrast').trim()
+				if (maxContrastHex.length < 4) {
+					throw Error();
+				}
 				var maxContrast = parseInt(maxContrastHex.substring(1, 3), 16)
 			} catch(error) {
 				var maxContrast = OCA.Accessibility
 					&& OCA.Accessibility.theme === 'themedark'
-						? '130'
-						: '118'
+						? 130
+						: 118
 			}
 
 			// size column
@@ -1797,7 +1842,7 @@
 		 * @return permission value as integer
 		 */
 		getDirectoryPermissions: function() {
-			return parseInt(this.$el.find('#permissions').val(), 10);
+			return this && this.dirInfo && this.dirInfo.permissions ? this.dirInfo.permissions : parseInt(this.$el.find('#permissions').val(), 10);
 		},
 		/**
 		 * Changes the current directory and reload the file list.
@@ -2030,7 +2075,7 @@
 			this.breadcrumb.setDirectoryInfo(this.dirInfo);
 
 			if (this.dirInfo.permissions) {
-				this.setDirectoryPermissions(this.dirInfo.permissions);
+				this._updateDirectoryPermissions();
 			}
 
 			result.sort(this._sortComparator);
@@ -2181,12 +2226,9 @@
 			img.src = previewURL;
 		},
 
-		/**
-		 * @deprecated
-		 */
-		setDirectoryPermissions: function(permissions) {
-			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
-			this.$el.find('#permissions').val(permissions);
+		_updateDirectoryPermissions: function() {
+			var isCreatable = (this.dirInfo.permissions & OC.PERMISSION_CREATE) !== 0 && this.$el.find('#free_space').val() !== '0';
+			this.$el.find('#permissions').val(this.dirInfo.permissions);
 			this.$el.find('.creatable').toggleClass('hidden', !isCreatable);
 			this.$el.find('.notCreatable').toggleClass('hidden', isCreatable);
 		},
@@ -2732,7 +2774,7 @@
 		 *
 		 * @since 8.2
 		 */
-		createFile: function(name) {
+		createFile: function(name, options) {
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
@@ -2756,7 +2798,8 @@
 				)
 				.done(function() {
 					// TODO: error handling / conflicts
-					self.addAndFetchFileInfo(targetPath, '', {scrollTo: true}).then(function(status, data) {
+					options = _.extend({scrollTo: true}, options || {});
+					self.addAndFetchFileInfo(targetPath, '', options).then(function(status, data) {
 						deferred.resolve(status, data);
 					}, function() {
 						OC.Notification.show(t('files', 'Could not create file "{file}"',
@@ -3260,11 +3303,15 @@
 		},
 
 		/**
-		 * Returns whether all files are selected
-		 * @return true if all files are selected, false otherwise
+		 * Are all files selected?
+		 *
+		 * @returns {Boolean} all files are selected
 		 */
 		isAllSelected: function() {
-			return this.$el.find('.select-all').prop('checked');
+			var checkbox = this.$el.find('.select-all')
+			var checked = checkbox.prop('checked')
+			var indeterminate = checkbox.prop('indeterminate')
+			return checked && !indeterminate;
 		},
 
 		/**
@@ -3340,6 +3387,7 @@
 					&& !self.$el.is(dropTarget) // dropped on list directly
 					&& !self.$el.has(dropTarget).length // dropped inside list
 					&& !dropTarget.is(self.$container) // dropped on main container
+					&& !self.$el.parent().is(dropTarget) // drop on the parent container (#app-content) since the main container might not have the full height
 					) {
 					e.preventDefault();
 					return false;
@@ -3515,9 +3563,9 @@
 			var _this = this;
 			var $scrollContainer = this.$container;
 			if ($scrollContainer[0] === window) {
-				// need to use "body" to animate scrolling
+				// need to use "html" to animate scrolling
 				// when the scroll container is the window
-				$scrollContainer = $('body');
+				$scrollContainer = $('html');
 			}
 			$scrollContainer.animate({
 				// Scrolling to the top of the new element
@@ -3593,8 +3641,10 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			if (this._detailsView) {
-				this._detailsView.addTabView(tabView);
+			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			const name = tabView.getLabel()
+			if (name) {
+				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab(name, tabView, true))
 			}
 		},
 
@@ -3602,8 +3652,9 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			if (this._detailsView) {
-				this._detailsView.addDetailView(detailView);
+			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			if (detailView.el) {
+				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}
 		},
 
@@ -3629,6 +3680,18 @@
 			}
 
 			return null;
+		},
+
+		registerHeader: function(header) {
+			this.headers.push(
+				_.defaults(header, { order: 0 })
+			);
+		},
+
+		registerFooter: function(footer) {
+			this.footers.push(
+				_.defaults(footer, { order: 0 })
+			);
 		}
 	};
 

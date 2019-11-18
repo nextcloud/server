@@ -103,7 +103,7 @@
 		var innerTagA = document.createElement('A');
 		innerTagA.setAttribute("href", url);
 		innerTagA.setAttribute("class", "nav-icon-files svg");
-		innerTagA.innerHTML = appName;
+		innerTagA.innerHTML = _.escape(appName);
 
 		var length = listLIElements.length + 1;
 		var innerTagLI = document.createElement('li');

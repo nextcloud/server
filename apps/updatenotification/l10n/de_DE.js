@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Weitere Informationen zur Aktualisierung.",
-    "Update notifications" : "Update-Benachrichtigungen",
     "Channel updated" : "Kanal aktualisiert",
+    "Update notifications" : "Update-Benachrichtigungen",
     "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden um auf verfügbare Aktualisierungen zu prüfen.",
     "Please check the Nextcloud and server log files for errors." : "Bitte überprüfe die Server- und Nextcloud-Logdateien auf Fehler.",
     "Update to %1$s is available." : "Aktualisierung auf %1$s ist verfügbar.",
@@ -35,10 +35,10 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Die Verbindung zum Appstore konnte nicht aufgebaut werden oder der Appstore hat keine Apps zurück geliefert. Suchen Sie selbst nach den Updates oder stellen Sie sicher, dass ihr Server Zugriff auf das Internet hat und eine Verbindung zum Appstore aufbauen kann. ",
     "<strong>All</strong> apps have an update for this version available" : "Für <strong>alle</strong> Apps steht eine Aktualisierung zur Verfügung",
     "View changelog" : "Liste der Änderungen anschauen",
+    "Enterprise" : "Version für Unternehmen",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Für den Einsatz in Unternehmen. Stellt immer die neueste Patch-Version bereit, wird jedoch nicht sofort auf die nächste Hauptversion aktualisiert. Diese Aktualisierung wird durchgeführt, sobald die Nextcloud GmbH zusätzliche Vorbereitungen und Tests für umfangreiche und unternehmenskritische Software-Verteilungen durchgeführt hat. Dieser Kanal steht nur Kunden zur Verfügung und enthält das Nextcloud Firmen-Paket .",
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Die aktuellste stabile Version. Diese ist für den regelmäßigen Gebrauch geeignet und wird immer auf die letzte Hauptversion aktualisiert.",
-    "Production" : "Produktion",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Bietet immer den aktuellsten Patchstand, aktualisiert jedoch nicht sofort auf die nächste Hauptversion. Diese Aktualisierung erfolgt üblicherweise mit der zweiten kleineren Aktualisierung (x.0.2) und nur, wenn sich die Instanz bereits auf der letzten kleineren Aktualsierungsversion befindet.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Für <strong>%n</strong> App steht keine Aktualisierung für diese Version zur Verfügung","Für <strong>%n</strong> Apps stehen keine Aktualisierungen für diese Version zur Verfügung"],
@@ -46,6 +46,7 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>Produktion</strong> bietet immer die neuesten Patch-Stände an, jedoch nicht sofort die nächste Hauptversion. Diese Aktualisierung erfolgt normalerweise nach der zweiten kleineren Aktualisierung (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stabil</strong> ist die aktuellste stabile Version. Die stabile Version ist für den normalen Gebrauch gedacht und wird jeweils auf die aktuelle Hauptversion aktualisiert.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Beta</strong> bietet eine Vorabversion an und dient zum Testen von neuen Funktionen. Nicht für den Einsatz in Produktivumgebungen geeignet.",
-    "Could not start updater, please try the manual update" : "Der Updater konnte nicht gestartet werden, bitte versuchen Sie ein manuelles Update"
+    "Production" : "Produktion",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Bietet immer den aktuellsten Patchstand, aktualisiert jedoch nicht sofort auf die nächste Hauptversion. Diese Aktualisierung erfolgt üblicherweise mit der zweiten kleineren Aktualisierung (x.0.2) und nur, wenn sich die Instanz bereits auf der letzten kleineren Aktualsierungsversion befindet."
 },
 "nplurals=2; plural=(n != 1);");

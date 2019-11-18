@@ -156,12 +156,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
-			$this->root->emit('\OC\Files', 'preCreate', array($nonExisting));
-			$this->view->mkdir($fullPath);
+			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
+			if(!$this->view->mkdir($fullPath)) {
+				throw new NotPermittedException('Could not create folder');
+			}
 			$node = new Folder($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'postWrite', array($node));
-			$this->root->emit('\OC\Files', 'postCreate', array($node));
+			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		} else {
 			throw new NotPermittedException('No create permission for folder');
@@ -177,16 +177,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
-			$this->root->emit('\OC\Files', 'preCreate', array($nonExisting));
-			$this->view->touch($fullPath);
+			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
+			if (!$this->view->touch($fullPath)) {
+				throw new NotPermittedException('Could not create path');
+			}
 			$node = new File($this->root, $this->view, $fullPath);
-			$this->root->emit('\OC\Files', 'postWrite', array($node));
-			$this->root->emit('\OC\Files', 'postCreate', array($node));
+			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
-		} else {
-			throw new NotPermittedException('No create permission for path');
 		}
+		throw new NotPermittedException('No create permission for path');
 	}
 
 	/**
@@ -300,6 +299,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}));
 
 		if (count($mountsContainingFile) === 0) {
+			if ($user === $this->getAppDataDirectoryName()) {
+				return $this->getByIdInRootMount((int) $id);
+			}
 			return [];
 		}
 
@@ -328,6 +330,47 @@ class Folder extends Node implements \OCP\Files\Folder {
 		});
 	}
 
+	protected function getAppDataDirectoryName(): string {
+		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		return 'appdata_' . $instanceId;
+	}
+
+	/**
+	 * In case the path we are currently in is inside the appdata_* folder,
+	 * the original getById method does not work, because it can only look inside
+	 * the user's mount points. But the user has no mount point for the root storage.
+	 *
+	 * So in that case we directly check the mount of the root if it contains
+	 * the id. If it does we check if the path is inside the path we are working
+	 * in.
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	protected function getByIdInRootMount(int $id): array {
+		$mount = $this->root->getMount('');
+		$cacheEntry = $mount->getStorage()->getCache($this->path)->get($id);
+		if (!$cacheEntry) {
+			return [];
+		}
+
+		$absolutePath = '/' . ltrim($cacheEntry->getPath(), '/');
+		$currentPath = rtrim($this->path, '/') . '/';
+
+		if (strpos($absolutePath, $currentPath) !== 0) {
+			return [];
+		}
+
+		return [$this->root->createNode(
+			$absolutePath, new \OC\Files\FileInfo(
+				$absolutePath,
+				$mount->getStorage(),
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount
+		))];
+	}
+
 	public function getFreeSpace() {
 		return $this->view->free_space($this->path);
 	}
@@ -338,7 +381,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
-			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
+			$this->sendHooks(['postDelete'], [$nonExisting]);
 			$this->exists = false;
 		} else {
 			throw new NotPermittedException('No delete permission for path');
@@ -380,6 +423,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 		// Search in batches of 500 entries
 		$searchLimit = 500;
 		$results = [];
+		$searchResultCount = 0;
+		$count = 0;
 		do {
 			$searchResult = $this->recentSearch($searchLimit, $offset, $storageIds, $folderMimetype);
 
@@ -388,6 +433,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 				break;
 			}
 
+			$searchResultCount += count($searchResult);
+
 			$parseResult = $this->recentParse($searchResult, $mountMap, $mimetypeLoader);
 
 			foreach ($parseResult as $result) {
@@ -395,7 +442,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 			}
 
 			$offset += $searchLimit;
-		} while (count($results) < $limit);
+			$count++;
+		} while (count($results) < $limit && ($searchResultCount < (3 * $limit) || $count < 5));
 
 		return array_slice($results, 0, $limit);
 	}
@@ -434,8 +482,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, $result));
 
 		return array_values(array_filter($files, function (Node $node) {
+			$cacheEntry = $node->getMountPoint()->getStorage()->getCache()->get($node->getId());
+			if (!$cacheEntry) {
+				return false;
+			}
 			$relative = $this->getRelativePath($node->getPath());
-			return $relative !== null && $relative !== '/';
+			return $relative !== null && $relative !== '/'
+				&& ($cacheEntry->getPermissions() & \OCP\Constants::PERMISSION_READ) === \OCP\Constants::PERMISSION_READ;
 		}));
 	}
 

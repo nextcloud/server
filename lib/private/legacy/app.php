@@ -55,6 +55,7 @@ use OC\App\Platform;
 use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
+use OC\ServerNotAvailableException;
 use OCP\App\ManagerEvent;
 use OCP\ILogger;
 
@@ -70,7 +71,7 @@ class OC_App {
 	static private $loadedApps = [];
 	static private $altLogin = [];
 	static private $alreadyRegistered = [];
-	static public $autoDisabledApps = [];
+	const supportedApp = 300;
 	const officialApp = 200;
 
 	/**
@@ -153,11 +154,13 @@ class OC_App {
 			try {
 				self::requireAppFile($app);
 			} catch (Throwable $ex) {
+				if($ex instanceof ServerNotAvailableException) {
+					throw $ex;
+				}
 				\OC::$server->getLogger()->logException($ex);
 				if (!\OC::$server->getAppManager()->isShipped($app)) {
 					// Only disable apps which are not shipped
-					\OC::$server->getAppManager()->disableApp($app);
-					self::$autoDisabledApps[] = $app;
+					\OC::$server->getAppManager()->disableApp($app, true);
 				}
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
@@ -486,6 +489,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
 	 */
 	public static function getAppPath(string $appId) {
 		if ($appId === null || trim($appId) === '') {
@@ -504,6 +508,7 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
+	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
 		if (($dir = self::findAppInDirectories($appId)) != false) {
@@ -704,6 +709,9 @@ class OC_App {
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
+		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
+		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
@@ -739,6 +747,10 @@ class OC_App {
 				} else {
 					$info['internal'] = false;
 					$info['removable'] = true;
+				}
+
+				if (in_array($app, $supportedApps)) {
+					$info['level'] = self::supportedApp;
 				}
 
 				$appPath = self::getAppPath($app);

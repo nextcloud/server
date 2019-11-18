@@ -76,7 +76,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
-    "could not delete share" : "kunne ikke slette ressursen",
     "Could not delete share" : "Kunne ikke slette ressursen",
     "Please specify a file or folder path" : "Oppgi en fil eller mappesti",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
@@ -96,16 +95,14 @@
     "Could not lock path" : "Kunne ikke låse sti",
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
-    "Cannot increase permissions" : "Kan ikke øke tillatelser",
     "shared by %s" : "delt av %s",
     "Download all files" : "Last ned alle filer",
     "Direct link" : "Direkte lenke",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
-    "file" : "fil",
-    "Share" : "Del",
     "Sharing" : "Deling",
+    "Share" : "Del",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",
@@ -124,6 +121,6 @@
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files…" : "Laster opp filer…",
     "Uploaded files:" : "Opplastede filer:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Deling av %s mislyktes på grunn av at serveren ikke tillater deling av filtypen %s"
+    "could not delete share" : "kunne ikke slette ressursen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -47,8 +47,8 @@ $principalBackend = new Principal(
 	\OC::$server->getGroupManager(),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
-	\OC::$server->getConfig(),
 	\OC::$server->getAppManager(),
+	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();

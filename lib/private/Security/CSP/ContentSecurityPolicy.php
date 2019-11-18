@@ -54,6 +54,8 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	/**
 	 * @param boolean $evalScriptAllowed
+	 *
+	 * @deprecated 17.0.0 Unsafe eval should not be used anymore.
 	 */
 	public function setEvalScriptAllowed(bool $evalScriptAllowed) {
 		$this->evalScriptAllowed = $evalScriptAllowed;
@@ -222,6 +224,15 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	public function setAllowedWorkerSrcDomains(array $allowedWorkerSrcDomains) {
 		$this->allowedWorkerSrcDomains = $allowedWorkerSrcDomains;
 	}
+
+	public function getAllowedFormActionDomains(): array {
+		return $this->allowedFormActionDomains;
+	}
+
+	public function setAllowedFormActionDomains(array $allowedFormActionDomains): void {
+		$this->allowedFormActionDomains = $allowedFormActionDomains;
+	}
+
 
 	public function getReportTo(): array {
 		return $this->reportTo;

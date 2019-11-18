@@ -26,6 +26,7 @@ namespace OC\Authentication\Token;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
 
 class Manager implements IProvider {
 
@@ -108,11 +109,14 @@ class Manager implements IProvider {
 	 *
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 * @return IToken
 	 */
 	public function getToken(string $tokenId): IToken {
 		try {
 			return $this->publicKeyTokenProvider->getToken($tokenId);
+		} catch (WipeTokenException $e) {
+			throw $e;
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch(InvalidTokenException $e) {
@@ -143,6 +147,8 @@ class Manager implements IProvider {
 			return $this->publicKeyTokenProvider->getTokenById($tokenId);
 		} catch (ExpiredTokenException $e) {
 			throw $e;
+		} catch (WipeTokenException $e) {
+			throw $e;
 		} catch (InvalidTokenException $e) {
 			return $this->defaultTokenProvider->getTokenById($tokenId);
 		}
@@ -152,14 +158,15 @@ class Manager implements IProvider {
 	 * @param string $oldSessionId
 	 * @param string $sessionId
 	 * @throws InvalidTokenException
+	 * @return IToken
 	 */
-	public function renewSessionToken(string $oldSessionId, string $sessionId) {
+	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
 		try {
-			$this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			return $this->publicKeyTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $e) {
-			$this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			return $this->defaultTokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		}
 	}
 
@@ -201,6 +208,7 @@ class Manager implements IProvider {
 	 * @param string $newTokenId
 	 * @return IToken
 	 * @throws InvalidTokenException
+	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
 		if ($token instanceof DefaultToken) {

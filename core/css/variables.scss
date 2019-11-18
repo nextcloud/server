@@ -40,6 +40,7 @@ $color-background-dark: nc-darken($color-main-background, 7%) !default;
 $color-background-darker: nc-darken($color-main-background, 14%) !default;
 
 $color-primary: #0082c9 !default;
+$color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
 $color-primary-text: #ffffff !default;
 // do not use nc-darken/lighten in case of overriding because
 // primary-text is independent of color-main-text
@@ -79,9 +80,10 @@ $border-radius-large: 10px !default;
 // Pill-style button, value is large so big buttons also have correct roundness
 $border-radius-pill: 100px !default;
 
-$font-face: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif !default;
+$font-face: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
 
 $animation-quick: 100ms;
+$animation-slow: 300ms;
 
 // various structure data
 $header-height: 50px;
@@ -91,5 +93,5 @@ $sidebar-max-width: 500px;
 $list-min-width: 200px;
 $list-max-width: 300px;
 
-// mobile
-$breakpoint-mobile: 768px;
+// mobile. Keep in sync with core/js/js.js
+$breakpoint-mobile: 1024px;

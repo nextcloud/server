@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "accessibility",
+    {
+    "Dark theme" : "Mørkt tema",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Et mørkt tema for å lette på øynene ved å redusere lysstyrken. Den er fortsatt under utvikling, vennligst rapporter feilene som du finner.",
+    "High contrast mode" : "Høykontrast-modus",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast modus for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
+    "Dyslexia font" : "Dysleksi skrifttype",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic er en gratis skrifttype egnet for å minske de mest vanligste lesefeilene som dysleksi forårsaker.",
+    "Accessibility" : "Tilgjengelighet",
+    "Accessibility options for nextcloud" : "Tilgjengelighetsvalg for nextcloud",
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Gir muligheten for flere tilgjengelighetsvalg for å gjøre det lettere å bruke Nextcloud",
+    "Web Content Accessibility Guidelines" : "Retningslinjer for tilgjengelighet på nettsider",
+    "our issue tracker" : "vår problemsporer",
+    "our design team" : "vårt designteam",
+    "Enable" : "Aktiver",
+    "High contrast theme" : "Høykontrast-tema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast tema for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
+    "Dark theme (beta)" : "Mørkt tema (beta)",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic er en gratis skrifttype egnet for å minske de mest vanligste lesefeilene som dysleksi forårsaker. Fonten var laget av Abelardo Gonzalez, som publiserte den gjennom en \"Åpen kildekode\" lisens.",
+    "Provides multiple accessibilities options to ease your use of nextcloud" : "Gir muligheten for flere tilgjengelighetsvalg for å gjøre det lettere å bruke Nextcloud",
+    "Themes" : "Temaer",
+    "Fonts" : "Skrifttyper",
+    "enabled" : "aktivert"
+},
+"nplurals=2; plural=(n != 1);");

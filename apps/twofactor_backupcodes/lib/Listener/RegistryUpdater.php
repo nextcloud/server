@@ -27,9 +27,10 @@ namespace OCA\TwoFactorBackupCodes\Listener;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-class RegistryUpdater implements IListener {
+class RegistryUpdater implements IEventListener {
 
 	/** @var IRegistry */
 	private $registry;
@@ -42,9 +43,10 @@ class RegistryUpdater implements IListener {
 		$this->provider = $provider;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if ($event instanceof CodesGenerated) {
 			$this->registry->enableProviderFor($this->provider, $event->getUser());
 		}
 	}
+
 }

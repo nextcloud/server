@@ -65,6 +65,9 @@ trait S3ConnectionTrait {
 		$this->params = $params;
 	}
 
+	public function getBucket() {
+		return $this->bucket;
+	}
 
 	/**
 	 * Returns the connection
@@ -72,7 +75,7 @@ trait S3ConnectionTrait {
 	 * @return S3Client connected client
 	 * @throws \Exception if connection could not be made
 	 */
-	protected function getConnection() {
+	public function getConnection() {
 		if (!is_null($this->connection)) {
 			return $this->connection;
 		}

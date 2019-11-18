@@ -198,7 +198,7 @@ class OC_Util {
 
 		\OC\Files\Filesystem::initMountManager();
 
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
+		$prevLogging = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
 				/** @var \OC\Files\Storage\Common $storage */
@@ -273,7 +273,8 @@ class OC_Util {
 		});
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
+
+		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
 		//check if we are using an object storage
 		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
@@ -1256,6 +1257,18 @@ class OC_Util {
 			$content = false;
 		}
 
+		if (strpos($url, 'https:') === 0) {
+			$url = 'http:' . substr($url, 6);
+		} else {
+			$url = 'https:' . substr($url, 5);
+		}
+
+		try {
+			$fallbackContent = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+		} catch (\Exception $e) {
+			$fallbackContent = false;
+		}
+
 		// cleanup
 		@unlink($testFile);
 
@@ -1263,7 +1276,7 @@ class OC_Util {
 		 * If the content is not equal to test content our .htaccess
 		 * is working as required
 		 */
-		return $content !== $testContent;
+		return $content !== $testContent && $fallbackContent !== $testContent;
 	}
 
 	/**

@@ -315,6 +315,31 @@ class Encryption extends Wrapper {
 		return $result;
 
 	}
+	
+	/**
+	 * stream_read_block
+	 *
+	 * This function is a wrapper for function stream_read.
+	 * It calls stream read until the requested $blockSize was received or no remaining data is present.
+	 * This is required as stream_read only returns smaller chunks of data when the stream fetches from a
+	 * remote storage over the internet and it does not care about the given $blockSize.
+	 *
+	 * @param int $blockSize Length of requested data block in bytes
+	 * @return string Data fetched from stream.
+	 */
+	private function stream_read_block(int $blockSize): string {
+		$remaining = $blockSize;
+		$data = '';
+
+		do {
+			$chunk = parent::stream_read($remaining);
+			$chunk_len = strlen($chunk);
+			$data .= $chunk;
+			$remaining -= $chunk_len;
+		} while (($remaining > 0) && ($chunk_len > 0));
+
+		return $data;
+	}
 
 	public function stream_write($data) {
 		$length = 0;
@@ -470,7 +495,7 @@ class Encryption extends Wrapper {
 		// don't try to fill the cache when trying to write at the end of the unencrypted file when it coincides with new block
 		if ($this->cache === '' && !($this->position === $this->unencryptedSize && ($this->position % $this->unencryptedBlockSize) === 0)) {
 			// Get the data from the file handle
-			$data = parent::stream_read($this->util->getBlockSize());
+			$data = $this->stream_read_block($this->util->getBlockSize());
 			$position = (int)floor($this->position/$this->unencryptedBlockSize);
 			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
 			if($numberOfChunks === $position) {
@@ -495,7 +520,7 @@ class Encryption extends Wrapper {
 	 * read first block to skip the header
 	 */
 	protected function skipHeader() {
-		parent::stream_read($this->headerSize);
+		$this->stream_read_block($this->headerSize);
 	}
 
 	/**

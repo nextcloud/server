@@ -62,7 +62,7 @@ OC.L10N.register(
     "App secret" : "アプリシークレット",
     "OAuth2" : "OAuth2",
     "Client ID" : "クライアントID",
-    "Client secret" : "クライアント秘密キー",
+    "Client secret" : "クライアント秘密鍵",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "テナント名",
     "Identity endpoint URL" : "認証エンドポイントURL",
@@ -103,6 +103,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "秘密鍵でSFTPログイン",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共有",
+    "Show hidden files" : "隠しファイルを表示",
     "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
@@ -128,8 +129,6 @@ OC.L10N.register(
     "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "いくつかの設定済み外部マウントポイントに接続できませんでした。詳細情報は赤い行をクリックしてください",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\"はインストールされていません。 %s のマウントは不可能です。システム管理者にインストールを依頼してください。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
 },
 "nplurals=1; plural=0;");

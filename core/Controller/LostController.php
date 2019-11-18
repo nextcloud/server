@@ -32,6 +32,7 @@
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Exception\ResetPasswordException;
 use OC\HintException;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -40,6 +41,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\IInitialStateService;
 use OCP\ILogger;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
@@ -50,6 +52,9 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use function array_filter;
+use function count;
+use function reset;
 
 /**
  * Class LostController
@@ -85,6 +90,8 @@ class LostController extends Controller {
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var IInitialStateService */
+	private $initialStateService;
 
 	/**
 	 * @param string $appName
@@ -115,7 +122,8 @@ class LostController extends Controller {
 								ITimeFactory $timeFactory,
 								ICrypto $crypto,
 								ILogger $logger,
-								Manager $twoFactorManager) {
+								Manager $twoFactorManager,
+								IInitialStateService $initialStateService) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -130,6 +138,7 @@ class LostController extends Controller {
 		$this->crypto = $crypto;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -161,13 +170,15 @@ class LostController extends Controller {
 				'guest'
 			);
 		}
+		$this->initialStateService->provideInitialState('core', 'resetPasswordUser', $userId);
+		$this->initialStateService->provideInitialState('core', 'resetPasswordTarget',
+			$this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', ['userId' => $userId, 'token' => $token])
+		);
 
 		return new TemplateResponse(
 			'core',
-			'lostpassword/resetpassword',
-			array(
-				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
-			),
+			'login',
+			[],
 			'guest'
 		);
 	}
@@ -183,8 +194,12 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
+		$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
+		if ($encryptedToken === null) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
+
 		try {
-			$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
 			$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
 			$decryptedToken = $this->crypto->decrypt($encryptedToken, $mailAddress.$this->config->getSystemValue('secret'));
 		} catch (\Exception $e) {
@@ -245,11 +260,11 @@ class LostController extends Controller {
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
-		} catch (\Exception $e) {
+		} catch (ResetPasswordException $e) {
 			// Ignore the error since we do not want to leak this info
-			$this->logger->logException($e, [
-				'level' => ILogger::WARN
-			]);
+			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
 		}
 
 		$response = new JSONResponse($this->success());
@@ -309,16 +324,15 @@ class LostController extends Controller {
 
 	/**
 	 * @param string $input
-	 * @throws \Exception
+	 * @throws ResetPasswordException
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	protected function sendEmail($input) {
 		$user = $this->findUserByIdOrMail($input);
 		$email = $user->getEMailAddress();
 
 		if (empty($email)) {
-			throw new \Exception(
-				$this->l10n->t('Could not send reset email because there is no email address for this username. Please contact your administrator.')
-			);
+			throw new ResetPasswordException('Could not send reset e-mail since there is no email for username ' . $input);
 		}
 
 		// Generate the token. It is stored encrypted in the database with the
@@ -364,39 +378,34 @@ class LostController extends Controller {
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
 		} catch (\Exception $e) {
-			throw new \Exception($this->l10n->t(
-				'Couldn\'t send reset email. Please contact your administrator.'
-			));
+			// Log the exception and continue
+			$this->logger->logException($e);
 		}
 	}
 
 	/**
 	 * @param string $input
 	 * @return IUser
-	 * @throws \InvalidArgumentException
+	 * @throws ResetPasswordException
 	 */
 	protected function findUserByIdOrMail($input) {
-		$userNotFound = new \InvalidArgumentException(
-			$this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.')
-		);
-
 		$user = $this->userManager->get($input);
 		if ($user instanceof IUser) {
 			if (!$user->isEnabled()) {
-				throw $userNotFound;
+				throw new ResetPasswordException('User is disabled');
 			}
 
 			return $user;
 		}
 
-		$users = \array_filter($this->userManager->getByEmail($input), function (IUser $user) {
+		$users = array_filter($this->userManager->getByEmail($input), function (IUser $user) {
 			return $user->isEnabled();
 		});
 
-		if (\count($users) === 1) {
-			return $users[0];
+		if (count($users) === 1) {
+			return reset($users);
 		}
 
-		throw $userNotFound;
+		throw new ResetPasswordException('Could not find user');
 	}
 }

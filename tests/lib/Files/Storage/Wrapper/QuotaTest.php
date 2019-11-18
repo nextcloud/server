@@ -213,4 +213,9 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->mkdir('foobar'));
 	}
+
+	public function testNoTouchQuotaZero() {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertFalse($instance->touch('foobar'));
+	}
 }

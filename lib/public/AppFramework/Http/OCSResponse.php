@@ -59,6 +59,8 @@ class OCSResponse extends Response {
 	public function __construct($format, $statuscode, $message,
 								$data=[], $itemscount='',
 								$itemsperpage='') {
+		parent::__construct();
+
 		$this->format = $format;
 		$this->statuscode = $statuscode;
 		$this->message = $message;

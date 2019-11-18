@@ -55,15 +55,39 @@
 	position: relative;
 	width: 100%;
 	min-width: 250px;
+	display: flex;
+	flex-direction: column;
 	// hide table if emptycontent is not hidden
 	#emptycontent:not(.hidden) ~ & {
 		display: none;
 	}
 }
 
+#filestable.hidden {
+	display: none;
+}
+
+@media only screen and (min-width: $breakpoint-mobile + 1) {
+	#filestable {
+		// floating header
+		thead {
+			position: -webkit-sticky;
+			position: sticky;
+			// header + breadcrumbs
+			top: $header-height;
+			padding-top: 40px;
+			// under breadcrumbs, over file list
+			z-index: 55;
+			display: block;
+			background-color: var(--color-main-background-translucent);
+		}
+	}
+}
+
 /* fit app list view heights */
-.app-files #app-content>.viewcontainer {
+.app-files #app-content > .viewcontainer {
 	min-height: 0%;
+	width: 100%;
 }
 
 .app-files #app-content {
@@ -262,11 +286,8 @@ table th.column-last, table td.column-last {
 }
 
 /* Multiselect bar */
-#filestable.multiselect {
-	top: 51px;
-}
 table.multiselect thead {
-	position: fixed;
+	@include position('sticky');
 	top: 94px;
 	z-index: 55;
 	-moz-box-sizing: border-box;
@@ -275,9 +296,8 @@ table.multiselect thead {
 }
 
 table.multiselect thead th {
-	background-color: var(--color-main-background);
+	background-color: var(--color-main-background-translucent);
 	font-weight: bold;
-	border-bottom: 0;
 }
 
 #app-content.with-app-sidebar table.multiselect thead{
@@ -426,6 +446,7 @@ table td.selection {
 /* File checkboxes */
 #fileList tr td.selection>.selectCheckBox + label:before {
 	opacity: 0.3;
+	margin-right: 0;
 }
 
 /* Show checkbox with full opacity when hovering, checked, or selected */
@@ -544,8 +565,15 @@ a.action > img {
 		opacity: .3;
 		&.action-share {
 			padding: 17px 14px;
-			> span:not(.icon) {
-				display: none;
+			&.permanent:not(.shared-style) .icon-shared + span {
+				/* hide text of the share action */
+				/* .hidden-visually for accessbility */
+				position: absolute;
+				left:-10000px;
+				top: auto;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
 			}
 			.avatar {
 				display: inline-block;
@@ -646,7 +674,10 @@ table tr.summary td {
 	padding-top: 20px;
 }
 .summary .info {
-	margin-left: 35px; /* td has padding of 15, col width is 50 */
+	margin-left: 2px;
+}
+.hiddeninfo {
+	white-space: pre-line;
 }
 
 table.dragshadow {
@@ -756,6 +787,14 @@ table.dragshadow td.size {
 	background-color: transparent;
 	z-index:1;
 
+	> a[href='#'] {
+		// if no link is set, no mouse feedback
+		box-shadow: none !important;
+		&, * {
+			cursor: default !important;
+		}
+	}
+
 	.quota-container {
 		height: 5px;
 		border-radius: var(--border-radius);
@@ -783,7 +822,7 @@ table.dragshadow td.size {
 		tr {
 			display: block;
 			border-bottom: 1px solid var(--color-border);
-			background-color: var(--color-main-background);
+			background-color: var(--color-main-background-translucent);
 			th {
 				width: auto;
 				border: none;
@@ -1048,6 +1087,16 @@ table.dragshadow td.size {
 	#showgridview:focus + & {
 		opacity: 1;
 	}
+}
+
+/**
+ * Make sure the hidden input is always
+ * on the visible scrolled area of the
+ * page to avoid scrolling to top when focusing
+ */
+#showgridview {
+	position: fixed;
+	top: 0;
 }
 
 /* Adjustments for link share page */

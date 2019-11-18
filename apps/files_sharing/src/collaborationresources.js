@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -20,20 +20,23 @@
  *
  */
 
-import Vue from 'vue';
-import { PopoverMenu } from 'nextcloud-vue';
-import ClickOutside from 'vue-click-outside';
-import { VTooltip } from 'v-tooltip';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { Tooltip, PopoverMenu } from 'nextcloud-vue'
+import ClickOutside from 'vue-click-outside'
 
-Vue.prototype.t = t;
+import View from './views/CollaborationView'
 
-Vue.component('PopoverMenu', PopoverMenu);
-Vue.directive('ClickOutside', ClickOutside);
-Vue.directive('Tooltip', VTooltip);
+Vue.prototype.t = t
+Tooltip.options.defaultHtml = false
 
-import View from './views/CollaborationView';
+// eslint-disable-next-line vue/match-component-file-name
+Vue.component('PopoverMenu', PopoverMenu)
+Vue.directive('ClickOutside', ClickOutside)
+Vue.directive('Tooltip', Tooltip)
+Vue.use(Vuex)
 
 export {
 	Vue,
 	View
-};
+}

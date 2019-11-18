@@ -242,6 +242,7 @@ class ApiController extends Controller {
 	 * @param string $mode
 	 * @param string $direction
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function updateFileSorting($mode, $direction) {
 		$allowedMode = ['name', 'size', 'mtime'];
@@ -262,6 +263,8 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function showHiddenFiles($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
@@ -274,6 +277,8 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function showGridView($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
@@ -295,10 +300,11 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show 
-	 * @param bool $key the key of the folder
+	 * @param int $show
+	 * @param string $key the key of the folder
 	 *
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function toggleShowFolder(int $show, string $key) {
 		// ensure the edited key exists

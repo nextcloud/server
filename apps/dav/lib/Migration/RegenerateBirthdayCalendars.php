@@ -22,18 +22,13 @@
  */
 namespace OCA\DAV\Migration;
 
-use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
+use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RegenerateBirthdayCalendars implements IRepairStep {
-
-	/** @var IUserManager */
-	private $userManager;
 
 	/** @var IJobList */
 	private $jobList;
@@ -42,14 +37,11 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	private $config;
 
 	/**
-	 * @param IUserManager $userManager,
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IUserManager $userManager,
-								IJobList $jobList,
+	public function __construct(IJobList $jobList,
 								IConfig $config) {
-		$this->userManager = $userManager;
 		$this->jobList = $jobList;
 		$this->config = $config;
 	}
@@ -72,12 +64,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 		}
 
 		$output->info('Adding background jobs to regenerate birthday calendar');
-		$this->userManager->callForAllUsers(function(IUser $user) {
-			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => $user->getUID(),
-				'purgeBeforeGenerating' => true
-			]);
-		});
+		$this->jobList->add(RegisterRegenerateBirthdayCalendars::class);
 
 		// if all were done, no need to redo the repair during next upgrade
 		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');

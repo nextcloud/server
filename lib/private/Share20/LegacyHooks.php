@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,24 +22,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Share20;
 
 use OCP\Files\File;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share;
 
 class LegacyHooks {
-	/** @var EventDispatcher */
+
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
 	/**
 	 * LegacyHooks constructor.
 	 *
-	 * @param EventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
-	public function __construct(EventDispatcher $eventDispatcher) {
+	public function __construct(EventDispatcherInterface $eventDispatcher) {
 		$this->eventDispatcher = $eventDispatcher;
 
 		$this->eventDispatcher->addListener('OCP\Share::preUnshare', [$this, 'preUnshare']);

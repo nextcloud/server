@@ -22,20 +22,14 @@
 
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
-use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
-use OCA\DAV\Migration\RefreshWebcalJobRegistrar;
+use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCA\DAV\Migration\RegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class RegenerateBirthdayCalendarsTest extends TestCase {
-
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
-	private $userManager;
 
 	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
@@ -43,18 +37,17 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var RefreshWebcalJobRegistrar */
+	/** @var RegenerateBirthdayCalendars */
 	private $migration;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->migration = new RegenerateBirthdayCalendars($this->userManager,
-			$this->jobList, $this->config);
+		$this->migration = new RegenerateBirthdayCalendars($this->jobList,
+			$this->config);
 	}
 
 	public function testGetName() {
@@ -75,39 +68,9 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->method('info')
 			->with('Adding background jobs to regenerate birthday calendar');
 
-		$this->userManager->expects($this->once())
-			->method('callForAllUsers')
-			->will($this->returnCallback(function($closure) {
-				$user1 = $this->createMock(IUser::class);
-				$user1->method('getUID')->will($this->returnValue('uid1'));
-				$user2 = $this->createMock(IUser::class);
-				$user2->method('getUID')->will($this->returnValue('uid2'));
-				$user3 = $this->createMock(IUser::class);
-				$user3->method('getUID')->will($this->returnValue('uid3'));
-
-				$closure($user1);
-				$closure($user2);
-				$closure($user3);
-			}));
-
 		$this->jobList->expects($this->at(0))
 			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid1',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid2',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(2))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid3',
-				'purgeBeforeGenerating' => true
-			]);
+			->with(RegisterRegenerateBirthdayCalendars::class);
 
 		$this->config->expects($this->at(1))
 			->method('setAppValue')
@@ -127,8 +90,8 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->method('info')
 			->with('Repair step already executed');
 
-		$this->userManager->expects($this->never())
-			->method('callForAllUsers');
+		$this->jobList->expects($this->never())
+			->method('add');
 
 		$this->migration->run($output);
 	}

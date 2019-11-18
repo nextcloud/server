@@ -25,20 +25,12 @@ class SessionMiddlewareTest extends \Test\TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
 
-	/** @var Request */
-	private $request;
-
 	/** @var Controller */
 	private $controller;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = new Request(
-			[],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-			$this->getMockBuilder(IConfig::class)->getMock()
-		);
 		$this->reflector = new ControllerMethodReflector();
 		$this->controller = $this->createMock(Controller::class);
 	}
@@ -50,7 +42,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$session = $this->getSessionMock(0);
 
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
+		$middleware = new SessionMiddleware($this->reflector, $session);
 		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
@@ -61,7 +53,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$session = $this->getSessionMock(1);
 
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
+		$middleware = new SessionMiddleware($this->reflector, $session);
 		$middleware->afterController($this->controller, __FUNCTION__, new Response());
 	}
 
@@ -69,7 +61,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$session = $this->getSessionMock(1);
 
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
+		$middleware = new SessionMiddleware($this->reflector, $session);
 		$middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
@@ -77,7 +69,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$session = $this->getSessionMock(0);
 
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->request, $this->reflector, $session);
+		$middleware = new SessionMiddleware($this->reflector, $session);
 		$middleware->afterController($this->controller, __FUNCTION__, new Response());
 	}
 

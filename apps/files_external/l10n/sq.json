@@ -109,8 +109,6 @@
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
-    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Disa nga pikat e jashtme të formësuara të montimit s’janë të lidhura. Ju lutemi, klikoni në shigjetën(at) e kuqe për më tepër të dhëna",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" nuk është instaluar.Montimi i %s nuk është i mundur.Ju lutem kërkojini administratorit të sistemit tuaj ta instalojë."
+    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

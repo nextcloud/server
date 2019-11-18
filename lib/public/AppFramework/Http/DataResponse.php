@@ -52,6 +52,8 @@ class DataResponse extends Response {
 	 */
 	public function __construct($data=array(), $statusCode=Http::STATUS_OK,
 	                            array $headers=array()) {
+		parent::__construct();
+
 		$this->data = $data;
 		$this->setStatus($statusCode);
 		$this->setHeaders(array_merge($this->getHeaders(), $headers));

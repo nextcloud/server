@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OC\IntegrityCheck;
 
+use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -34,6 +35,7 @@ use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use OC\IntegrityCheck\Iterator\ExcludeFoldersByPathFilterIterator;
 use OCP\App\IAppManager;
+use OCP\Files\IMimeTypeDetector;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -67,6 +69,8 @@ class Checker {
 	private $appManager;
 	/** @var ITempManager */
 	private $tempManager;
+	/** @var IMimeTypeDetector */
+	private $mimeTypeDetector;
 
 	/**
 	 * @param EnvironmentHelper $environmentHelper
@@ -76,6 +80,7 @@ class Checker {
 	 * @param ICacheFactory $cacheFactory
 	 * @param IAppManager $appManager
 	 * @param ITempManager $tempManager
+	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
@@ -83,7 +88,8 @@ class Checker {
 								IConfig $config = null,
 								ICacheFactory $cacheFactory,
 								IAppManager $appManager = null,
-								ITempManager $tempManager) {
+								ITempManager $tempManager,
+								IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -91,6 +97,7 @@ class Checker {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
 		$this->tempManager = $tempManager;
+		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	/**
@@ -190,6 +197,14 @@ class Checker {
 				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
 				if(\count($explodedArray) === 2) {
 					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
+					continue;
+				}
+			}
+			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
+				$oldMimetypeList = new GenerateMimetypeFileBuilder();
+				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
+				if($newFile === file_get_contents($filename)) {
+					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
 					continue;
 				}
 			}

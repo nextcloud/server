@@ -19,13 +19,7 @@
  *
  */
 
-$dispatcher = \OC::$server->getEventDispatcher();
+use OCA\LookupServerConnector\AppInfo\Application;
 
-$dispatcher->addListener('OC\AccountManager::userUpdated', function(\Symfony\Component\EventDispatcher\GenericEvent $event) {
-	/** @var \OCP\IUser $user */
-	$user = $event->getSubject();
-
-	/** @var \OCA\LookupServerConnector\UpdateLookupServer $updateLookupServer */
-	$updateLookupServer = \OC::$server->query(\OCA\LookupServerConnector\UpdateLookupServer::class);
-	$updateLookupServer->userUpdated($user);
-});
+$app = \OC::$server->query(Application::class);
+$app->register();

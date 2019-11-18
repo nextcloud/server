@@ -50,6 +50,7 @@ use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\IUserManager;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCA\Files_External\Config\UserContext;
 
 /**
  * Class to configure mount.json globally and for users
@@ -107,7 +108,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::substitutePlaceholdersInConfig($option);
+				$option = self::substitutePlaceholdersInConfig($option, $uid);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -116,7 +117,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, true);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::substitutePlaceholdersInConfig($uid, $option);
+				$option = self::substitutePlaceholdersInConfig($option, $uid);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -211,16 +212,20 @@ class OC_Mount_Config {
 
 	/**
 	 * @param mixed $input
+	 * @param string|null $userId
 	 * @return mixed
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 16.0.0
 	 */
-	public static function substitutePlaceholdersInConfig($input) {
+	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
 		/** @var BackendService $backendService */
 		$backendService = self::$app->getContainer()->query(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
+			}
 			$input = $handler->handle($input);
 		}
 		return $input;
@@ -287,12 +292,10 @@ class OC_Mount_Config {
 		$result = true;
 		if(is_array($option)) {
 			foreach ($option as $optionItem) {
-				if(is_array($optionItem)) {
-					$result = $result && self::arePlaceholdersSubstituted($option);
-				}
+				$result = $result && self::arePlaceholdersSubstituted($optionItem);
 			}
 		} else if (is_string($option)) {
-			if (strpos($option, '$') !== false) {
+			if (strpos(rtrim($option, '$'), '$') !== false) {
 				$result = false;
 			}
 		}

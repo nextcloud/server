@@ -107,8 +107,6 @@ OC.L10N.register(
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
-    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Beberapa mount point eksternal tidak terhubung. Klik barisan merah untuk informasi selanjutnya",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" tidak terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem anda untuk memasangnya."
+    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal"
 },
 "nplurals=1; plural=0;");

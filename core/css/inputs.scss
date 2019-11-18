@@ -52,7 +52,7 @@ div[contenteditable=true],
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
-	color: var(--color-text-lighter);
+	color: var(--color-main-text);
 	border: 1px solid var(--color-border-dark);
 	outline: none;
 	border-radius: var(--border-radius);
@@ -114,6 +114,11 @@ div[contenteditable=true],
 			color: var(--color-primary-text-dark);
 			cursor: default;
 		}
+	}
+
+	&.error {
+		background-color: var(--color-error) !important;
+		border-color: var(--color-error);
 	}
 }
 
@@ -309,8 +314,10 @@ select,
 }
 
 /* Radio & Checkboxes */
+$checkbox-radio-size: 14px;
 $color-checkbox-radio-disabled: nc-darken($color-main-background, 27%);
 $color-checkbox-radio-border: nc-darken($color-main-background, 47%);
+$color-checkbox-radio-white: #fff;
 
 input {
 	&[type='checkbox'],
@@ -333,12 +340,11 @@ input {
 			+ label:before {
 				content: '';
 				display: inline-block;
-				height: 12px;
-				width: 12px;
+				height: $checkbox-radio-size;
+				width: $checkbox-radio-size;
 				vertical-align: middle;
 				border-radius: 50%;
-				margin: 3px;
-				margin-top: 1px;
+				margin: 0 6px 3px 3px;
 				border: 1px solid $color-checkbox-radio-border;
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
@@ -364,17 +370,17 @@ input {
 			// Detail description below label of checkbox or radio button
 			& + label ~ em {
 				display: inline-block;
-				margin-left: 18px;
+				margin-left: 25px;
 			}
 			& + label ~ em:last-of-type {
-				margin-bottom: 12px;
+				margin-bottom: $checkbox-radio-size;
 			}
 		}
 		&.checkbox {
 			+ label:before {
 				border-radius: 1px;
-				height: 10px;
-				width: 10px;
+				height: $checkbox-radio-size;
+				width: $checkbox-radio-size;
 				box-shadow: none !important;
 				background-position: center;
 			}
@@ -387,7 +393,6 @@ input {
 		}
 
 		/* We do not use the nc-darken function as this is not supposed to be changed */
-		$color-checkbox-radio-white: #fff;
 		&.radio--white,
 		&.checkbox--white {
 			+ label:before,
@@ -933,4 +938,10 @@ label.infield {
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+
+::placeholder,
+::-ms-input-placeholder,
+::-webkit-input-placeholder {
+	color: var(--color-text-maxcontrast);
 }

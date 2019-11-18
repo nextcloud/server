@@ -89,22 +89,22 @@ class OC_Response {
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
 			. 'font-src \'self\' data:; '
-			. 'media-src *; ' 
+			. 'media-src *; '
 			. 'connect-src *; '
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
 		header('Content-Security-Policy:' . $policy);
-		header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
 		if(getenv('modHeadersAvailable') !== 'true') {
-			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
-			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
-			header('X-Download-Options: noopen'); // https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
-			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
 			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
+			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+			header('X-Download-Options: noopen'); // https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
+			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
+			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}
 

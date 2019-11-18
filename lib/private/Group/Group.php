@@ -30,8 +30,10 @@
 
 namespace OC\Group;
 
+use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OC\Hooks\PublicEmitter;
+use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
@@ -86,9 +88,32 @@ class Group implements IGroup {
 
 	public function getDisplayName() {
 		if (is_null($this->displayName)) {
+			foreach ($this->backends as $backend) {
+				if ($backend instanceof IGetDisplayNameBackend) {
+					$displayName = $backend->getDisplayName($this->gid);
+					if (trim($displayName) !== '') {
+						$this->displayName = $displayName;
+						return $this->displayName;
+					}
+				}
+			}
 			return $this->gid;
 		}
 		return $this->displayName;
+	}
+
+	public function setDisplayName(string $displayName): bool {
+		$displayName = trim($displayName);
+		if ($displayName !== '') {
+			foreach ($this->backends as $backend) {
+				if (($backend instanceof ISetDisplayNameBackend)
+					&& $backend->setDisplayName($this->gid, $displayName)) {
+					$this->displayName = $displayName;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

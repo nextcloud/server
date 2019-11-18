@@ -30,6 +30,7 @@
 !/apps/user_ldap
 !/apps/oauth2
 !/apps/provisioning_api
+!/apps/settings
 !/apps/systemtags
 !/apps/testing
 !/apps/admin_audit

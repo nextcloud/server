@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Здружено дељење",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
     "Remote share" : "Удаљено дељење",
     "Remote share password" : "Лозинка удаљеног дељења",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Фајл је већ дељен са %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %1$s није успело, не могу да нађем %2$s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
     "Could not find share" : "Не могу да пронађем дељење",
+    "Federated sharing" : "Здружено дељење",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Примили сте \"%3$s\" као удаљено дељење од %1$s (у име %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Примили сте {share} као удаљено дељење од {user} (у име {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Примили сте \"%3$s\" као удаљено дељење од %1$s",
@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Поделите да би Ваши пријатељи могли да деле са Вама:",
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
-    "HTML Code:" : "ХТМЛ кôд:",
-    "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %s није успело, не могу да нађем %s, можда сервер тренутно није доступан или користи самопотписани сертификат."
+    "HTML Code:" : "ХТМЛ кôд:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

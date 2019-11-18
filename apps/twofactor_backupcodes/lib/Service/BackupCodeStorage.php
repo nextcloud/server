@@ -27,6 +27,7 @@ use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\IHasher;
@@ -46,13 +47,13 @@ class BackupCodeStorage {
 	/** @var ISecureRandom */
 	private $random;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	public function __construct(BackupCodeMapper $mapper,
 								ISecureRandom $random,
 								IHasher $hasher,
-								EventDispatcherInterface $eventDispatcher) {
+								IEventDispatcher $eventDispatcher) {
 		$this->mapper = $mapper;
 		$this->hasher = $hasher;
 		$this->random = $random;
@@ -71,7 +72,7 @@ class BackupCodeStorage {
 
 		$uid = $user->getUID();
 		foreach (range(1, min([$number, 20])) as $i) {
-			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_HUMAN_READABLE);
 
 			$dbCode = new BackupCode();
 			$dbCode->setUserId($uid);

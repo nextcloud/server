@@ -35,6 +35,7 @@ use OC\User\Backend;
 use OC\User\Session;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
@@ -342,9 +343,27 @@ class User_LDAPTest extends TestCase {
 		$this->pluginManager->expects($this->once())
 			->method('deleteUser')
 			->with('uid')
-			->willReturn('result');
+			->willReturn(true);
 
-		$this->assertEquals($this->backend->deleteUser('uid'),'result');
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('uid', 'user_ldap', 'isDeleted', 0)
+			->willReturn(1);
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('unmap')
+			->with('uid');
+
+		$this->access->expects($this->atLeastOnce())
+			->method('getUserMapper')
+			->willReturn($mapper);
+
+		$this->userManager->expects($this->once())
+			->method('invalidate')
+			->with('uid');
+
+		$this->assertEquals(true, $this->backend->deleteUser('uid'));
 	}
 
 	/**
@@ -1391,16 +1410,38 @@ class User_LDAPTest extends TestCase {
 	}
 
 	public function testSetDisplayNameWithPlugin() {
+		$newDisplayName = 'J. Baker';
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::SET_DISPLAYNAME)
 			->willReturn(true);
 		$this->pluginManager->expects($this->once())
 			->method('setDisplayName')
-			->with('uid','displayName')
-			->willReturn('result');
+			->with('uid', $newDisplayName)
+			->willReturn($newDisplayName);
+		$this->access->expects($this->once())
+			->method('cacheUserDisplayName');
 
-		$this->assertEquals($this->backend->setDisplayName('uid', 'displayName'),'result');
+		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
+	}
+
+	/**
+	 * @expectedException \OC\HintException
+	 */
+	public function testSetDisplayNameErrorWithPlugin() {
+		$newDisplayName = 'J. Baker';
+		$this->pluginManager->expects($this->once())
+			->method('implementsActions')
+			->with(Backend::SET_DISPLAYNAME)
+			->willReturn(true);
+		$this->pluginManager->expects($this->once())
+			->method('setDisplayName')
+			->with('uid', $newDisplayName)
+			->willThrowException(new HintException('something happned'));
+		$this->access->expects($this->never())
+			->method('cacheUserDisplayName');
+
+		$this->backend->setDisplayName('uid', $newDisplayName);
 	}
 
 	public function testSetDisplayNameFailing() {
@@ -1408,21 +1449,37 @@ class User_LDAPTest extends TestCase {
 			->method('implementsActions')
 			->with(Backend::SET_DISPLAYNAME)
 			->willReturn(false);
+		$this->access->expects($this->never())
+			->method('cacheUserDisplayName');
 
 		$this->assertFalse($this->backend->setDisplayName('uid', 'displayName'));
 	}
 
 	public function testCreateUserWithPlugin() {
+		$uid = 'alien6372';
+		$uuid = '123-2345-36756-123-2345234-4431';
+		$pwd = 'passwørd';
+
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::CREATE_USER)
 			->willReturn(true);
 		$this->pluginManager->expects($this->once())
 			->method('createUser')
-			->with('uid','password')
+			->with($uid, $pwd)
 			->willReturn('result');
 
-		$this->assertEquals($this->backend->createUser('uid', 'password'),true);
+		$this->access->expects($this->atLeastOnce())
+			->method('getUUID')
+			->willReturn($uuid);
+		$this->access->expects($this->once())
+			->method('mapAndAnnounceIfApplicable')
+			->with($this->isInstanceOf(AbstractMapping::class), $this->anything(), $uid, $uuid, true);
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($this->createMock(AbstractMapping::class));
+
+		$this->assertEquals($this->backend->createUser($uid, $pwd),true);
 	}
 
 	public function testCreateUserFailing() {

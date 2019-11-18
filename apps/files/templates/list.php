@@ -19,6 +19,7 @@
 	<input type="hidden" class="max_human_file_size"
 		   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
 </div>
+<div id="filelist-header"></div>
 
 <div id="emptycontent" class="hidden">
 	<div class="icon-folder"></div>
@@ -68,6 +69,7 @@
 	<tfoot>
 	</tfoot>
 </table>
+<div id="filelist-footer"></div>
 <input type="hidden" name="dir" id="dir" value="" />
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />

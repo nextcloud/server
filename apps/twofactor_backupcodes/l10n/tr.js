@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "işlev",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
     "{name} backup codes" : "{name} yedek kodları",
@@ -14,15 +15,13 @@ OC.L10N.register(
     "Generate backup codes" : "Yedek kodları oluştur",
     "You created two-factor backup codes for your account" : "İki aşamalı kimlik doğrulama için yedek kodlarınızı oluşturdunuz",
     "Second-factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın.",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "İki aşamalı kimlik doğrulamayı etkinleştirdiniz ancak henüz yedek kodlarını üretmediniz. Bu kodlar herhangi bir nedenle ikinci aşamayı kullanamadığınızda hesabınıza erişebilmenizi sağlar.",
     "Backup code" : "Yedek kod",
     "Use backup code" : "Yedek kodu kullan",
     "Two factor backup codes" : "İki aşamalı kimlik doğrulama yedek kodları",
     "A two-factor auth backup codes provider" : "İki aşamalı kimlik doğrulaması için yedek kodlar sağlayıcısı",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "İki aşamalı kimlik doğrulamasını ayarlarken yedek kodlarından birini kullanın.",
     "Submit" : "Gönder",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Yedek kodları oluşturuldu. {{used}} / {{total}} kod kullanılıyor.",
-    "Nextcloud backup codes" : "Nextcloud yedek kodları",
     "activated" : "etkinleştirildi",
     "updated" : "güncellendi",
     "mounted" : "bağlandı",
@@ -32,6 +31,8 @@ OC.L10N.register(
     "beforeUpdate" : "guncellenmedenOnce",
     "beforeDestroy" : "yokEdilmedenOnce",
     "destroyed" : "yokEdildi",
-    "beforeMount" : "baglanmadanOnce"
+    "beforeMount" : "baglanmadanOnce",
+    "Nextcloud backup codes" : "Nextcloud yedek kodları",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın."
 },
 "nplurals=2; plural=(n > 1);");

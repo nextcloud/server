@@ -215,8 +215,8 @@ function execute_tests {
 			fi
 		fi
 		echo "Waiting for MySQL initialisation ..."
-		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-			echo "[ERROR] Waited 600 seconds, no response" >&2
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
 			exit 1
 		fi
 	fi
@@ -251,8 +251,8 @@ function execute_tests {
 
 		echo "Waiting for MySQL(utf8mb4) initialisation ..."
 
-		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-			echo "[ERROR] Waited 600 seconds, no response" >&2
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
 			exit 1
 		fi
 		sleep 1
@@ -275,20 +275,30 @@ function execute_tests {
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
-			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-				echo "[ERROR] Waited 600 seconds, no response" >&2
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+				echo "[ERROR] Waited 300 seconds, no response" >&2
 				exit 1
 			fi
 
 			echo "MariaDB is up."
 
 		else
-			if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
-				echo "Your mysql binary is not provided by MariaDB"
-				echo "To use the docker container set the USEDOCKER environment variable"
-				exit -1
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
+					echo "Your mysql binary is not provided by MariaDB"
+					echo "To use the docker container set the USEDOCKER environment variable"
+					exit -1
+				fi
+				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			else
+				DATABASEHOST=mariadb
 			fi
-			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+		fi
+
+		echo "Waiting for MariaDB initialisation ..."
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
+			exit 1
 		fi
 
 		#Reset _DB to mysql since that is what we use internally

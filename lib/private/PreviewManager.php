@@ -35,7 +35,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IPreview;
-use OCP\Preview\IProvider;
+use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PreviewManager implements IPreview {
@@ -53,6 +53,9 @@ class PreviewManager implements IPreview {
 
 	/** @var Generator */
 	private $generator;
+	
+	/** @var GeneratorHelper */
+	private $helper;
 
 	/** @var bool */
 	protected $providerListDirty = false;
@@ -85,11 +88,13 @@ class PreviewManager implements IPreview {
 								IRootFolder $rootFolder,
 								IAppData $appData,
 								EventDispatcherInterface $eventDispatcher,
+								GeneratorHelper $helper,
 								$userId) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->helper = $helper;
 		$this->userId = $userId;
 	}
 
@@ -97,7 +102,7 @@ class PreviewManager implements IPreview {
 	 * In order to improve lazy loading a closure can be registered which will be
 	 * called in case preview providers are actually requested
 	 *
-	 * $callable has to return an instance of \OCP\Preview\IProvider
+	 * $callable has to return an instance of \OCP\Preview\IProvider or \OCP\Preview\IProviderV2
 	 *
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param \Closure $callable
@@ -141,34 +146,6 @@ class PreviewManager implements IPreview {
 	public function hasProviders() {
 		$this->registerCoreProviders();
 		return !empty($this->providers);
-	}
-
-	/**
-	 * return a preview of a file
-	 *
-	 * @param string $file The path to the file where you want a thumbnail from
-	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
-	 * @return \OCP\IImage
-	 * @deprecated 11 Use getPreview
-	 */
-	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
-		try {
-			$userRoot = $this->rootFolder->getUserFolder($this->userId)->getParent();
-			$node = $userRoot->get($file);
-			if (!($file instanceof File)) {
-				throw new NotFoundException();
-			}
-
-			$preview = $this->getPreview($node, $maxX, $maxY);
-		} catch (\Exception $e) {
-			return new \OC_Image();
-		}
-
-		$previewImage = new \OC_Image();
-		$previewImage->loadFromData($preview->getContent());
-		return $previewImage;
 	}
 
 	/**
@@ -255,9 +232,9 @@ class PreviewManager implements IPreview {
 
 		foreach ($this->providers as $supportedMimeType => $providers) {
 			if (preg_match($supportedMimeType, $file->getMimetype())) {
-				foreach ($providers as $closure) {
-					$provider = $closure();
-					if (!($provider instanceof IProvider)) {
+				foreach ($providers as $providerClosure) {
+					$provider = $this->helper->getProvider($providerClosure);
+					if (!($provider instanceof IProviderV2)) {
 						continue;
 					}
 

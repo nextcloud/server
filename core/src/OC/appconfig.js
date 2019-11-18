@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
@@ -18,56 +19,54 @@
  *
  */
 
-import OCP from '../OCP/index';
+ import { getValue, setValue, getApps, getKeys, deleteKey } from '../OCP/appconfig'
 
-import {getValue, setValue, getApps, getKeys, deleteKey} from '../OCP/appconfig'
+export const appConfig = window.oc_appconfig || {}
 
 /**
  * @namespace
  * @deprecated 16.0.0 Use OCP.AppConfig instead
  */
-const AppConfig = {
+export const AppConfig = {
 	/**
 	 * @deprecated Use OCP.AppConfig.getValue() instead
 	 */
-	getValue: function (app, key, defaultValue, callback) {
+	getValue: function(app, key, defaultValue, callback) {
 		getValue(app, key, defaultValue, {
 			success: callback
-		});
+		})
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.setValue() instead
 	 */
-	setValue: function (app, key, value) {
-		setValue(app, key, value);
+	setValue: function(app, key, value) {
+		setValue(app, key, value)
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.getApps() instead
 	 */
-	getApps: function (callback) {
+	getApps: function(callback) {
 		getApps({
 			success: callback
-		});
+		})
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.getKeys() instead
 	 */
-	getKeys: function (app, callback) {
+	getKeys: function(app, callback) {
 		getKeys(app, {
 			success: callback
-		});
+		})
 	},
 
 	/**
 	 * @deprecated Use OCP.AppConfig.deleteKey() instead
 	 */
-	deleteKey: function (app, key) {
-		deleteKey(app, key);
+	deleteKey: function(app, key) {
+		deleteKey(app, key)
 	}
 
-};
-
-export default AppConfig;
+}

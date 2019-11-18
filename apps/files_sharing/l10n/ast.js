@@ -50,7 +50,6 @@ OC.L10N.register(
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
     "A file or folder was shared from <strong>another server</strong>" : "Compartióse un ficheru o carpeta dende <strong>otru sirvidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartióse</strong> un ficheru o direutoriu",
-    "could not delete share" : "nun pudo desaniciase la compartición",
     "Could not delete share" : "Nun pudo desaniciase la compartición",
     "Could not create share" : "Nun pudo crease la compartición",
     "invalid permissions" : "permisos non válidos",
@@ -62,7 +61,6 @@ OC.L10N.register(
     "Not a directory" : "Nun ye un direutoriu",
     "Could not lock path" : "Nun pudo bloquiase'l camín",
     "Can't change permissions for public share links" : "Nun puen camudase los permisos pa los enllaces de comparticiones públiques",
-    "Cannot increase permissions" : "Nun puen aumentase los permisos",
     "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
     "Sharing" : "Compartiendo",
@@ -79,6 +77,7 @@ OC.L10N.register(
     "Download %s" : "Descargar %s",
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
-    "Uploaded files:" : "Ficheros xubíos:"
+    "Uploaded files:" : "Ficheros xubíos:",
+    "could not delete share" : "nun pudo desaniciase la compartición"
 },
 "nplurals=2; plural=(n != 1);");

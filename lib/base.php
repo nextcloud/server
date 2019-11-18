@@ -292,7 +292,7 @@ class OC {
 
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
-			OC_Util::addScript('maintenance-check');
+			OC_Util::addScript('dist/maintenance');
 			OC_Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
@@ -652,30 +652,35 @@ class OC {
 		if (!defined('OC_CONSOLE')) {
 			$errors = OC_Util::checkServer(\OC::$server->getSystemConfig());
 			if (count($errors) > 0) {
-				if (self::$CLI) {
-					// Convert l10n string into regular string for usage in database
-					$staticErrors = [];
-					foreach ($errors as $error) {
-						echo $error['error'] . "\n";
-						echo $error['hint'] . "\n\n";
-						$staticErrors[] = [
-							'error' => (string)$error['error'],
-							'hint' => (string)$error['hint'],
-						];
-					}
-
-					try {
-						\OC::$server->getConfig()->setAppValue('core', 'cronErrors', json_encode($staticErrors));
-					} catch (\Exception $e) {
-						echo('Writing to database failed');
-					}
-					exit(1);
-				} else {
+				if (!self::$CLI) {
 					http_response_code(503);
 					OC_Util::addStyle('guest');
-					OC_Template::printGuestPage('', 'error', array('errors' => $errors));
-					exit;
+					try {
+						OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+						exit;
+					} catch (\Exception $e) {
+						// In case any error happens when showing the error page, we simply fall back to posting the text.
+						// This might be the case when e.g. the data directory is broken and we can not load/write SCSS to/from it.
+					}
 				}
+
+				// Convert l10n string into regular string for usage in database
+				$staticErrors = [];
+				foreach ($errors as $error) {
+					echo $error['error'] . "\n";
+					echo $error['hint'] . "\n\n";
+					$staticErrors[] = [
+						'error' => (string)$error['error'],
+						'hint' => (string)$error['hint'],
+					];
+				}
+
+				try {
+					\OC::$server->getConfig()->setAppValue('core', 'cronErrors', json_encode($staticErrors));
+				} catch (\Exception $e) {
+					echo('Writing to database failed');
+				}
+				exit(1);
 			} elseif (self::$CLI && \OC::$server->getConfig()->getSystemValue('installed', false)) {
 				\OC::$server->getConfig()->deleteAppValue('core', 'cronErrors');
 			}
@@ -717,10 +722,12 @@ class OC {
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
+		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
-			$settings = new \OC\Settings\Application();
+			OC_App::loadApp('settings');
+			$settings = \OC::$server->query(\OCA\Settings\AppInfo\Application::class);
 			$settings->register();
 		}
 
@@ -846,6 +853,30 @@ class OC {
 	private static function registerAccountHooks() {
 		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->getLogger());
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
+	}
+
+	private static function registerAppRestrictionsHooks() {
+		$groupManager = self::$server->query(\OCP\IGroupManager::class);
+		$groupManager->listen ('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+			$appManager = self::$server->getAppManager();
+			$apps = $appManager->getEnabledAppsForGroup($group);
+			foreach ($apps as $appId) {
+				$restrictions = $appManager->getAppRestriction($appId);
+				if (empty($restrictions)) {
+					continue;
+				}
+				$key = array_search($group->getGID(), $restrictions);
+				unset($restrictions[$key]);
+				$restrictions = array_values($restrictions);
+				if (empty($restrictions)) {
+					$appManager->disableApp($appId);
+				}
+				else{
+					$appManager->enableAppForGroups($appId, $restrictions);
+				}
+
+			}
+		});
 	}
 
 	private static function registerResourceCollectionHooks() {

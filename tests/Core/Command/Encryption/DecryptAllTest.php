@@ -148,7 +148,7 @@ class DecryptAllTest extends TestCase {
 			->willReturn('user1');
 
 		if ($encryptionEnabled) {
-			$this->config->expects($this->at(0))
+			$this->config->expects($this->at(1))
 				->method('setAppValue')
 				->with('core', 'encryption_enabled', 'no');
 			$this->questionHelper->expects($this->once())
@@ -160,7 +160,7 @@ class DecryptAllTest extends TestCase {
 					->with($this->consoleInput, $this->consoleOutput, 'user1');
 			} else {
 				$this->decryptAll->expects($this->never())->method('decryptAll');
-				$this->config->expects($this->at(1))
+				$this->config->expects($this->at(2))
 					->method('setAppValue')
 					->with('core', 'encryption_enabled', 'yes');
 			}
@@ -194,12 +194,12 @@ class DecryptAllTest extends TestCase {
 			$this->questionHelper
 		);
 
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->at(1))
 			->method('setAppValue')
 			->with('core', 'encryption_enabled', 'no');
 
 		// make sure that we enable encryption again after a exception was thrown
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('setAppValue')
 			->with('core', 'encryption_enabled', 'yes');
 

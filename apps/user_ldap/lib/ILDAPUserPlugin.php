@@ -40,7 +40,7 @@ interface ILDAPUserPlugin {
 	 *
 	 * @param string $uid The UID of the user to create
 	 * @param string $password The password of the new user
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function createUser($uid, $password);
 

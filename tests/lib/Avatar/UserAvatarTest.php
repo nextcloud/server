@@ -223,8 +223,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('getUserValue');
 
-		// One on remove and once on setting the new avatar
-		$this->user->expects($this->exactly(2))->method('triggerChange');
+		$this->user->expects($this->exactly(1))->method('triggerChange');
 
 		$this->avatar->set($image->data());
 	}
@@ -235,7 +234,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#0082c9"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:279px;font-family:\'Nunito\';text-anchor:middle;fill:#fff">A</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">A</text>
 		</svg>';
 		$this->assertEquals($avatar, $svg);
 	}

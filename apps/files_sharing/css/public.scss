@@ -25,6 +25,12 @@
 	max-width: 100% !important;
 }
 
+#imgframe audio {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #imgframe .text-preview {
 	display: inline-block;
 	position: relative;
@@ -195,7 +201,7 @@ thead {
 
 // hide the download entry on the menu
 // on public share when NOT on mobile
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: $breakpoint-mobile + 1) {
 	#body-public {
 		.header-right {
 			#header-actions-menu {

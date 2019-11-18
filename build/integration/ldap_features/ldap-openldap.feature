@@ -42,8 +42,9 @@ Feature: LDAP
 
   Scenario: Test group filter with one specific group
     Given modify LDAP configuration
-      | ldapGroupFilter | cn=RedGroup |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | cn=RedGroup |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
@@ -55,8 +56,9 @@ Feature: LDAP
 
   Scenario: Test group filter with two specific groups
     Given modify LDAP configuration
-      | ldapGroupFilter | (\|(cn=RedGroup)(cn=GreenGroup)) |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | (\|(cn=RedGroup)(cn=GreenGroup)) |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"
@@ -68,8 +70,9 @@ Feature: LDAP
 
   Scenario: Test group filter ruling out a group from a different base
     Given modify LDAP configuration
-      | ldapGroupFilter | (objectClass=groupOfNames) |
-      | ldapBaseGroups  | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci  |
+      | ldapGroupFilter          | (objectClass=groupOfNames) |
+      | ldapGroupMemberAssocAttr | member |
+      | ldapBaseGroups           | ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci |
     And As an "admin"
     And sending "GET" to "/cloud/groups"
     Then the OCS status code should be "200"

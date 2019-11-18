@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Compartició federada",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir la compartició remota {nom} des de {owner}@{remote}?",
     "Remote share" : "Compartició remota",
     "Remote share password" : "Contrasenya de compartició remota",
@@ -19,11 +18,12 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "S'ha enviat la sol·licitud de participació federada, rebreu una invitació. Comproveu les vostres notificacions.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "No s’ha pogut establir una acció compartida federada, sembla que el servidor amb el qual s’ha federat és massa antic (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "No es permet enviar de grups de compartits federats des d'aquest servidor.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Ha fallat la compartició %1$s, perquè aquest element ja està compartit amb %2$s",
+    "Sharing %1$s failed, because this item is already shared with %2$s" : "No s'ha pogut compartir %1$s, perquè aquest element ja està compartit amb %2$s",
     "Not allowed to create a federated share with the same user" : "No està permés crear una compartició federada amb el mateix usuari",
     "File is already shared with %s" : "El fitxer ja està compartit amb %s",
-    "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ha fallat la compartició %1$s, no s'ha pogut trobar %2$s, el servidor no es pot accedir actualment o fa servir un certificat auto-signat.",
+    "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ha fallat la compartició %1$s, no s'ha pogut trobar %2$s, potser el servidor és inaccessible actualment o fa servir un certificat auto-signat.",
     "Could not find share" : "No s'ha pogut trobar la compartició",
+    "Federated sharing" : "Compartició federada",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Heu rebut \"/%3$s\" com una compartició remota des de %1$s (de part de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Heu rebut {share} com un recompte remot de {user} (en nom de {nom})",
     "You received \"%3$s\" as a remote share from %1$s" : "Heu rebut \"/%3$s\" com una compartició remota de %1$s",
@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Compartiu-lo perquè els vostres amics us puguin compartir fitxers:",
     "Add to your website" : "Afegiu a la vostra pàgina web",
     "Share with me via Nextcloud" : "Comparteix amb mi mitjançant Nextcloud",
-    "HTML Code:" : "Codi HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Ha fallat en compartir %s, perquè l'element ja està compartit amb %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ha fallat la compartició %s, no s'ha pogut trobar%s, el servidor no es pot accedir actualment o fa servir un certificat auto-signat."
+    "HTML Code:" : "Codi HTML:"
 },
 "nplurals=2; plural=(n != 1);");

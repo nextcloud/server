@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Compartición federada",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota {name} de {owner}@{remote}?",
     "Remote share" : "Compartición remota",
     "Remote share password" : "Contraseña de compartición remota",
@@ -19,13 +18,13 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Nun s'almite crear un recursu compartíu federáu col mesmu usuariu",
     "File is already shared with %s" : "El ficheru yá ta compartíu con %s",
     "Could not find share" : "Nun pudo alcontrase la compartición",
+    "Federated sharing" : "Compartición federada",
     "Accept" : "Aceutar",
     "Decline" : "Refugar",
     "Federated Cloud Sharing" : "Compartición de ñube federada",
     "Open documentation" : "Abrir documentación",
     "Federated Cloud" : "Ñube federada",
     "Your Federated Cloud ID:" : "La to ID de ñube federada:",
-    "HTML Code:" : "Códigu HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Falló la compartición de %s porque esti elementu yá ta compartíu con %s"
+    "HTML Code:" : "Códigu HTML:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "联合云共享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote} 的远程共享 {name} 吗？",
     "Remote share" : "远程共享",
     "Remote share password" : "远程共享密码",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "文件已经共享与 %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %1$s 失败，无法找到 %2$s，可能该服务器当前无法访问或者使用了自签名证书。",
     "Could not find share" : "没有发现共享",
+    "Federated sharing" : "联合云共享",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "您收到“%3$s\"做为远程共享从”%1$s（代表\"%2$s）",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "您得到 {share} 是从 {user} 做为远程共享（代替 {behalf} ）",
     "You received \"%3$s\" as a remote share from %1$s" : "您从“%1$s\"得到\"%3$s\"做为远程共享",
@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码：",
-    "Sharing %s failed, because this item is already shared with %s" : "共享 %s 失败，因为它已经共享给 %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %s 失败，无法找到 %s，可能该服务器当前无法访问或者使用自签名证书。"
+    "HTML Code:" : "HTML 代码："
 },
 "nplurals=1; plural=0;");

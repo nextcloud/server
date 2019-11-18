@@ -33,7 +33,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use OC\Settings\BackgroundJobs\VerifyUserData;
+use OCA\Settings\BackgroundJobs\VerifyUserData;
 
 /**
  * Class AccountManager

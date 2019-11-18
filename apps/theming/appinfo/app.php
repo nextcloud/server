@@ -25,7 +25,9 @@
  *
  */
 
-$app = new \OCP\AppFramework\App('theming');
+use OCA\Theming\AppInfo\Application;
+
+$app = \OC::$server->query(Application::class);
 $app->getContainer()->registerCapability(\OCA\Theming\Capabilities::class);
 
 $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(

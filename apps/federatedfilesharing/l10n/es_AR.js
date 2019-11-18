@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Elementos compartidos federados",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Elemento compartido remoto",
     "Remote share password" : "Contraseña del elemento compartido remoto",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "No está permitido crear un elelmento compartido federado con el mismo usuario",
     "File is already shared with %s" : "El archivo ya ha sido compartido con %s",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
+    "Federated sharing" : "Elementos compartidos federados",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Usted ha recibido {share} como un elemento compartido remoto de {user} (de parte de {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s",
@@ -39,8 +39,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Compártalo para que sus amigos puedan compartir archivos con usted. ",
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Se presentó una falla al compartir %s, porque este elemento ya se encuentra compartido con  %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Se presentó una falla al compartir  %s, no fue posible encontrar %s, tal vez el servidor no está alcanzable o usa un certificado auto-firmado."
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");

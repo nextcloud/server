@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federated sharing",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share" : "Remote share",
     "Remote share password" : "Remote share password",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Not allowed to create a federated share with the same user",
     "File is already shared with %s" : "File is already shared with %s",
     "Could not find share" : "Could not find share",
+    "Federated sharing" : "Federated sharing",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "You received {share} as a remote share from {user} (on behalf of {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "You received \"%3$s\" as a remote share from %1$s",
@@ -43,8 +43,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
-    "HTML Code:" : "HTML Code:",
-    "Sharing %s failed, because this item is already shared with %s" : "Sharing %s failed, because this item is already shared with %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate."
+    "HTML Code:" : "HTML Code:"
 },
 "nplurals=2; plural=(n != 1);");

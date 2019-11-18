@@ -26,6 +26,7 @@ use OCA\Files_Sharing\Controller\PublicPreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -37,16 +38,17 @@ use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Punic\Data;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PublicPreviewControllerTest extends TestCase {
 
 	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
 	private $previewManager;
-
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
 
 	/** @var PublicPreviewController */
 	private $controller;
@@ -56,6 +58,12 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(1337);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->controller = new PublicPreviewController(
 			'files_sharing',

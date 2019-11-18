@@ -67,7 +67,7 @@ class TrashbinTest extends \Test\TestCase {
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		$application = new \OCA\Files_Sharing\AppInfo\Application();
+		$application = \OC::$server->query(\OCA\Files_Sharing\AppInfo\Application::class);
 		$application->registerMountProviders();
 
 		//disable encryption
@@ -76,7 +76,9 @@ class TrashbinTest extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		//configure trashbin
 		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', \OCA\Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
-		$config->setSystemValue('trashbin_retention_obligation', 'auto, 2');
+		/** @var \OCA\Files_Trashbin\Expiration $expiration */
+		$expiration = \OC::$server->query(\OCA\Files_Trashbin\Expiration::class);
+		$expiration->setRetentionObligation('auto, 2');
 
 		// register hooks
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
@@ -94,7 +96,9 @@ class TrashbinTest extends \Test\TestCase {
 			$user->delete();
 		}
 
-		\OC::$server->getConfig()->setSystemValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
+		/** @var \OCA\Files_Trashbin\Expiration $expiration */
+		$expiration = \OC::$server->query(\OCA\Files_Trashbin\Expiration::class);
+		$expiration->setRetentionObligation(self::$rememberRetentionObligation);
 
 		\OC_Hook::clear();
 
@@ -152,7 +156,9 @@ class TrashbinTest extends \Test\TestCase {
 	 */
 	public function testExpireOldFiles() {
 
-		$currentTime = time();
+		/** @var \OCP\AppFramework\Utility\ITimeFactory $time */
+		$time = \OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class);
+		$currentTime = $time->getTime();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
 
@@ -684,9 +690,9 @@ class TrashbinForTesting extends \OCA\Files_Trashbin\Trashbin {
 	 * @param OCP\Files\FileInfo[] $files
 	 * @param integer $limit
 	 */
-	public function dummyDeleteExpiredFiles($files, $limit) {
+	public function dummyDeleteExpiredFiles($files) {
 		// dummy value for $retention_obligation because it is not needed here
-		return parent::deleteExpiredFiles($files, TrashbinTest::TEST_TRASHBIN_USER1, $limit, 0);
+		return parent::deleteExpiredFiles($files, TrashbinTest::TEST_TRASHBIN_USER1);
 	}
 
 	/**

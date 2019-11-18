@@ -97,7 +97,7 @@ class UserAvatar extends Avatar {
 
 		$this->validateAvatar($img);
 
-		$this->remove();
+		$this->remove(true);
 		$type = $this->getAvatarImageType($img);
 		$file = $this->folder->newFile('avatar.' . $type);
 		$file->putContent($data);
@@ -193,7 +193,7 @@ class UserAvatar extends Avatar {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function remove() {
+	public function remove(bool $silent = false) {
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
@@ -203,7 +203,9 @@ class UserAvatar extends Avatar {
 			$avatar->delete();
 		}
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
-		$this->user->triggerChange('avatar', '');
+		if(!$silent) {
+			$this->user->triggerChange('avatar', '');
+		}
 	}
 
 	/**
@@ -312,11 +314,6 @@ class UserAvatar extends Avatar {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function userChanged($feature, $oldValue, $newValue) {
-		// We only change the avatar on display name changes
-		if ($feature !== 'displayName') {
-			return;
-		}
-
 		// If the avatar is not generated (so an uploaded image) we skip this
 		if (!$this->folder->fileExists('generated')) {
 			return;

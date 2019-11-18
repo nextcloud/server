@@ -2,8 +2,8 @@ OC.L10N.register(
     "updatenotification",
     {
     "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte informace o tom, jak aktualizovat.",
-    "Update notifications" : "Aktualizovat oznámení",
     "Channel updated" : "Kanál aktualizován",
+    "Update notifications" : "Aktualizovat oznámení",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl %d dní dosažitelný pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Podívejte se po chybách v záznamu událostí Nextcloud a serveru.",
     "Update to %1$s is available." : "Je dostupná aktualizace na %1$s.",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
-    "Update channel:" : "Aktualizovat kanál:",
+    "Update channel:" : "Kanál aktualizací:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté ale nelze vrátit zpět na starší, stabilnější verzi.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Všimněte si, že po vydání nové verze může chvíli trvat, než se zde objeví. Distribuujeme nové verze průběžně rozložené v čase mezi naše uživatele a pokud  jsou nalezeny problémy někdy danou verzi přeskočíme.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupné aktualizace:",
@@ -35,10 +35,10 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nedaří se spojit s katalogem aplikací nebo tento nevrátil vůbec žádné aktualizace. Vyhledejte aktualizace ručně nebo ověřte, zda má váš server přístup k Internetu a může se spojit s katalogem.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všehny</strong> aplikace mají k dispozici aktualizaci pro tuto verzi",
     "View changelog" : "Zobrazit souhrn změn",
+    "Enterprise" : "Podnikové",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pro podnikové nasazení. Poskytuje vždy nejnovější opravy, ale nebude hned aktualizováno na další hlavní vydání. K tomu dojde až Nextcloud GmbH dokončí další zodolnění a testování pro velká a kritická nasazení. Tento kanál je k dispozici pouze zákazníkům a poskytuje balíček Nextcloud Enterprise.",
     "Stable" : "Stabilní",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",
-    "Production" : "Produkční",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2) a pouze pokud je instance už na nejnovější podverzi.",
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"],
@@ -46,6 +46,7 @@ OC.L10N.register(
     "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>produkční</strong> vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2).",
     "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>stable</strong> je nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi.",
     "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>beta</strong> je pouze předprodukční verze pro zkoušení nových funkcí, ne pro produkční nasazení.",
-    "Could not start updater, please try the manual update" : "Nepodařilo se spustit aktualizátor, zkuste ruční aktualizaci"
+    "Production" : "Produkční",
+    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2) a pouze pokud je instance už na nejnovější podverzi."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

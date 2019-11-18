@@ -45,6 +45,7 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 use OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\Auth\Password\UserGlobalAuth;
 use OCA\Files_External\Lib\Auth\Password\UserProvided;
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
@@ -93,12 +94,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
 		$this->getAuthMechanisms();
-
-		// don't remove this, as app loading order might be a side effect and
-		// querying the service from the server not reliable
-		\OC::$server->getEventDispatcher()->dispatch(
-			'OCA\\Files_External::loadAdditionalBackends'
-		);
 	}
 
 	/**
@@ -142,6 +137,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query(LoginCredentials::class),
 			$container->query(UserProvided::class),
 			$container->query(GlobalAuth::class),
+			$container->query(UserGlobalAuth::class),
 
 			// AuthMechanism::SCHEME_OAUTH1 mechanisms
 			$container->query(OAuth1::class),

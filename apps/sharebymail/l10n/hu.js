@@ -29,17 +29,6 @@ OC.L10N.register(
     "Share by mail" : "Küldés e-mailben",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Segítségével személyre szabott megosztási linket hozhatsz létre egy fájlhoz vagy mappához az e-mail cím beleírásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Enforce password protection" : "Jelszóvédelem kényszerítése",
-    "Sharing %s failed, this item is already shared with %s" : "%s megosztás sikertelen, mert már meg van osztva vele: %s",
-    "%s shared »%s« with you" : "%s megosztotta Önnel: »%s«.",
-    "%s shared »%s« with you." : "%s megosztotta veled ezt: »%s«.",
-    "%s via %s" : "%s ezen keresztül: %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s megosztotta ezt: »%s« veled.\nMár meg is kellett kapj egy e-mailt a hozzáférési linkkel.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%smegosztotta ezt:  »%s«   veled. Már meg is kellett kapj egy e-mailt a hozzáférési linkkel.",
-    "Password to access »%s« shared to you by %s" : "Jelszó ehhez: »%s« megosztva veled általa: %s",
-    "It is protected with the following password: %s" : "A következő jelszóval védve: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Épp megosztottad ezt: »%s«  vele: %s. A megosztás már el is lett küldve a fogadónak. A%s rendszergazdája által meghatározott biztonsági szabályok miatt minden megosztást jelszóval kell védeni és a jelszót nem lehet közvetlenül elküldeni. Ezért a jelszót magadnak kell továbbítanod a fogadónak.",
-    "Password to access »%s« shared with %s" : "Jelszó ehhez: »%s« megosztva vele: %s",
-    "This is the password: %s" : "Ez a jelszó: %s"
+    "Enforce password protection" : "Jelszóvédelem kényszerítése"
 },
 "nplurals=2; plural=(n != 1);");

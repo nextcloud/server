@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Liit-jagamine",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share" : "Kaugjagamine",
     "Remote share password" : "Kaugjagamise parool",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Liitjagamise loomine sama kasutajaga ei ole lubatud.",
     "File is already shared with %s" : "Fail on juba jagatud kasutajaga %s",
     "Could not find share" : "Jagamist ei leitud",
+    "Federated sharing" : "Liit-jagamine",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s (%2$s nimel)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sa said kaugjagatud faili  {share} kasjutajalt  {user} ({behalf} nimel)",
     "You received \"%3$s\" as a remote share from %1$s" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s",
@@ -41,8 +41,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Jaga seda, et su sõbrad saaksid sinuga faile jagada:",
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextcloudi",
-    "HTML Code:" : "HTML kood:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s jagamine ebaõnnestus, ei suutnud %s leida, ehk ei ole server kättesaadav või kasutab ise allkirjastatud sertifikaati."
+    "HTML Code:" : "HTML kood:"
 },
 "nplurals=2; plural=(n != 1);");

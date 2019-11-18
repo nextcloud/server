@@ -30,6 +30,7 @@ use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use Test\TestCase;
@@ -112,21 +113,12 @@ class NotifierTest extends TestCase {
 			->method('getObjectId')
 			->willReturn($versionNotification);
 
-		if ($exception) {
-			$this->notificationManager->expects($this->once())
-				->method('markProcessed')
-				->with($notification);
-		} else {
-			$this->notificationManager->expects($this->never())
-				->method('markProcessed');
-		}
-
 		try {
 			self::invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, $versionInstalled]);
 			$this->assertFalse($exception);
 		} catch (\Exception $e) {
 			$this->assertTrue($exception);
-			$this->assertInstanceOf('InvalidArgumentException', $e);
+			$this->assertInstanceOf(AlreadyProcessedException::class, $e);
 		}
 	}
 }

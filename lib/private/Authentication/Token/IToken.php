@@ -30,6 +30,7 @@ interface IToken extends JsonSerializable {
 
 	const TEMPORARY_TOKEN = 0;
 	const PERMANENT_TOKEN = 1;
+	const WIPE_TOKEN = 2;
 	const DO_NOT_REMEMBER = 0;
 	const REMEMBER = 1;
 

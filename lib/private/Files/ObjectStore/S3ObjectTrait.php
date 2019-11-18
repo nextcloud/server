@@ -61,6 +61,7 @@ trait S3ObjectTrait {
 		}
 		$opts = [
 			'http' => [
+				'protocol_version'  => 1.1,
 				'header' => $headers
 			]
 		];
@@ -90,7 +91,7 @@ trait S3ObjectTrait {
 		try {
 			$uploader->upload();
 		} catch (S3MultipartUploadException $e) {
-			// This is an emty file so just touch it then
+			// This is an empty file so just touch it then
 			if ($count === 0 && feof($countStream)) {
 				$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
 				$uploader->upload();

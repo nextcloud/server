@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federatutako partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}k partekatzen duen {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share" : "Urruneko partekatzea",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
@@ -10,8 +9,8 @@ OC.L10N.register(
     "Copy" : "Kopiatu",
     "Copied!" : "Kopiatua!",
     "Not supported!" : "Euskarririk ez!",
-    "Press ⌘-C to copy." : "Kopiatzeko, sakatu ⌘-C",
-    "Press Ctrl-C to copy." : "Kopiatzeko, sakatu Ctrl+C",
+    "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
+    "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
     "Invalid Federated Cloud ID" : "Federatutako Hodei ID ezegokia",
     "Server to server sharing is not enabled on this server" : "Zerbitzaritik zerbitzarirako elkarbanaketa ez dago gaituta zerbitzari honetan",
     "Couldn't establish a federated share." : "Ezin izan da urruneko partekatze federatua gehitu.",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Ezin da erabiltzaile berdinarekin federatutako partekatzea sortu.",
     "File is already shared with %s" : "Fitxategia 1%s-rekin partekatua dago iada",
     "Could not find share" : "Ezin da partekatzea topatu",
+    "Federated sharing" : "Federatutako partekatzea",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu ( 3%2$s-en ordez)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user}-en {share} urruneko partekatze bezala jaso duzu ({behalf} ordez)",
     "You received \"%3$s\" as a remote share from %1$s" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu",
@@ -41,8 +41,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Partekatu zure lagunek fitxategiak zurekin partekatzeko:",
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
-    "HTML Code:" : "HTML kodea:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s elkarbanatzeak huts egin du, dagoeneko %s erabiltzailearekin elkarbanatuta dagoelako",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "1%s partekatzeak huts egin du, ezin da 1%s topatu, agian zerbitzaria ez dago erabilgarri edo berak sinatutako ziurtagiria erabiltzen du."
+    "HTML Code:" : "HTML kodea:"
 },
 "nplurals=2; plural=(n != 1);");

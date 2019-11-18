@@ -36,6 +36,8 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
+use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
@@ -131,6 +133,18 @@ class Manager {
 	public function getProvider(IUser $user, string $challengeProviderId) {
 		$providers = $this->getProviderSet($user)->getProviders();
 		return $providers[$challengeProviderId] ?? null;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return IActivatableAtLogin[]
+	 * @throws Exception
+	 */
+	public function getLoginSetupProviders(IUser $user): array {
+		$providers = $this->providerLoader->getProviders($user);
+		return array_filter($providers, function(IProvider $provider) {
+			return ($provider instanceof IActivatableAtLogin);
+		});
 	}
 
 	/**

@@ -77,7 +77,6 @@
     "A file or folder was shared from <strong>another server</strong>" : "Egy fájl vagy mappa meg lett osztva egy <strong>másik szerverről</strong>",
     "A file or folder has been <strong>shared</strong>" : "Egy fájl vagy mappa <strong>megosztva</strong>",
     "Wrong share ID, share doesn't exist" : "Hibás megosztás ID, a megosztás nem létezik",
-    "could not delete share" : "a megosztás nem törölhető",
     "Could not delete share" : "A megosztás nem törölhető",
     "Please specify a file or folder path" : "Adj meg egy fájl vagy mappa útvonalat",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
@@ -99,15 +98,14 @@
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Talk jelszó megosztásának küldése nem sikerült mert a Nextcloud Talk nem engedélyezett",
-    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket",
     "shared by %s" : "megosztotta %s",
     "Download all files" : "Összes fájl letöltése",
     "Direct link" : "Közvetlen hivatkozás",
     "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
-    "Share" : "Megosztás",
     "Sharing" : "Megosztás",
+    "Share" : "Megosztás",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Name" : "Név",
     "Share time" : "A megosztás időpontja",
@@ -127,6 +125,6 @@
     "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s megosztása sikertelen, mert a háttér rendszer nem engedélyezi a következő típusú megosztásokat: %s"
+    "could not delete share" : "a megosztás nem törölhető"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

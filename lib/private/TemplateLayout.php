@@ -43,6 +43,7 @@ use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\Defaults;
 use OC\AppFramework\Http\Request;
+use OCP\Support\Subscription\IRegistry;
 
 class TemplateLayout extends \OC_Template {
 
@@ -113,6 +114,8 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('themingInvertMenu', $util->invertTextColor(\OC::$server->getThemingDefaults()->getColorPrimary()));
 			} catch (\OCP\AppFramework\QueryException $e) {
 				$this->assign('themingInvertMenu', false);
+			} catch (\OCP\AutoloadNotAllowedException $e) {
+				$this->assign('themingInvertMenu', false);
 			}
 
 		} else if ($renderAs === 'error') {
@@ -132,7 +135,14 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.public');
 			$this->assign( 'appid', $appId );
 			$this->assign('bodyid', 'body-public');
-			$this->assign('showSimpleSignUpLink', $this->config->getSystemValue('simpleSignUpLink.shown', true) !== false);
+
+			/** @var IRegistry $subscription */
+			$subscription = \OC::$server->query(IRegistry::class);
+			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
+			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
+				$showSimpleSignup = false;
+			}
+			$this->assign('showSimpleSignUpLink', $showSimpleSignup);
 		} else {
 			parent::__construct('core', 'layout.base');
 
@@ -140,7 +150,6 @@ class TemplateLayout extends \OC_Template {
 		// Send the language and the locale to our layouts
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
-		$localeLang = \OC::$server->getL10NFactory()->findLanguageFromLocale('lib', $locale);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
@@ -162,7 +171,7 @@ class TemplateLayout extends \OC_Template {
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
-					\OC::$server->getL10N('lib', $localeLang ?: $lang),
+					\OC::$server->getL10N('lib'),
 					\OC::$server->query(Defaults::class),
 					\OC::$server->getAppManager(),
 					\OC::$server->getSession(),

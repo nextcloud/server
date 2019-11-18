@@ -436,7 +436,7 @@ class User {
 			if (!empty($oldName) && $user instanceof \OC\User\User) {
 				// if it was empty, it would be a new record, not a change emitting the trigger could
 				// potentially cause a UniqueConstraintViolationException, depending on some factors.
-				$user->triggerChange('displayName', $displayName);
+				$user->triggerChange('displayName', $displayName, $oldName);
 			}
 		}
 		return $displayName;
@@ -584,10 +584,26 @@ class User {
 			//not set, nothing left to do;
 			return false;
 		}
+
 		if(!$this->image->loadFromBase64(base64_encode($avatarImage))) {
 			return false;
 		}
-		return $this->setOwnCloudAvatar();
+
+		// use the checksum before modifications
+		$checksum = md5($this->image->data());
+
+		if($checksum === $this->config->getUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', '')) {
+			return true;
+		}
+
+		$isSet = $this->setOwnCloudAvatar();
+
+		if($isSet) {
+			// save checksum only after successful setting
+			$this->config->setUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', $checksum);
+		}
+
+		return $isSet;
 	}
 
 	/**
@@ -599,8 +615,10 @@ class User {
 			$this->log->log('avatar image data from LDAP invalid for '.$this->dn, ILogger::ERROR);
 			return false;
 		}
+
+
 		//make sure it is a square and not bigger than 128x128
-		$size = min(array($this->image->width(), $this->image->height(), 128));
+		$size = min([$this->image->width(), $this->image->height(), 128]);
 		if(!$this->image->centerCrop($size)) {
 			$this->log->log('croping image for avatar failed for '.$this->dn, ILogger::ERROR);
 			return false;

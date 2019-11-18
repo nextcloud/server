@@ -102,6 +102,7 @@ OC.L10N.register(
     "Request timeout (seconds)" : "Tiemo de vida de la solicitud (segudos)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "El soporte para cURL en PHP no se encuentra habilitado o instalado. El montaje de %s no es posible. Por favor solicita a tu administador su instalación. ",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "El soporte para FTP en PHP no se encuentra habilitado o instalado. El montaje de %s no es posible. Por favor solicita a tu administador su instalación. ",
+    "No external storage configured or you don't have the permission to configure them" : "No se ha configurado almacenamiento externo o no tienes permiso para configurarlo",
     "Name" : "Nombre",
     "Storage type" : "Tipo de almacenamiento",
     "Scope" : "Alcance",
@@ -112,8 +113,6 @@ OC.L10N.register(
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algunos de los puntos de montaje externos configurados no se encuentran conectados. Por favor has click en los renglon(es) en rojo para más información",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" no se encuentra instalado. El montaje de %s no es posible. Por favor solicita a tu administrador su instalación.  "
+    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
 },
 "nplurals=2; plural=(n != 1);");

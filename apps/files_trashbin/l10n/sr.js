@@ -21,9 +21,6 @@ OC.L10N.register(
     "Name" : "Назив",
     "Actions" : "Радње",
     "Deleted" : "Обрисано",
-    "Delete" : "Обриши",
-    "Couldn't delete %s permanently" : "Не могу заувек да обришем %s",
-    "Couldn't restore %s" : "Не могу да вратим %s",
-    "Error" : "Грешка"
+    "Delete" : "Обриши"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

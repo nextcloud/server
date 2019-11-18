@@ -29,7 +29,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 \OC_App::loadApps(['dav']);
 
-$app = new Application();
+/** @var Application $app */
+$app = \OC::$server->query(Application::class);
 $app->registerHooks();
 
 \OC::$server->registerService('CardDAVSyncService', function() use ($app) {
@@ -108,3 +109,6 @@ $calendarManager->register(function() use ($calendarManager, $app) {
 		$app->setupCalendarProvider($calendarManager, $user->getUID());
 	}
 });
+
+$app->registerNotifier();
+$app->registerCalendarReminders();

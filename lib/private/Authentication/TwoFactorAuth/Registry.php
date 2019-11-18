@@ -30,20 +30,19 @@ use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Registry implements IRegistry {
 
 	/** @var ProviderUserAssignmentDao */
 	private $assignmentDao;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	public function __construct(ProviderUserAssignmentDao $assignmentDao,
-								EventDispatcherInterface $dispatcher) {
+								IEventDispatcher $dispatcher) {
 		$this->assignmentDao = $assignmentDao;
 		$this->dispatcher = $dispatcher;
 	}

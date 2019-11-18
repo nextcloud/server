@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Združené sprístupňovanie",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
     "Remote share" : "Vzdialené úložisko",
     "Remote share password" : "Heslo k vzdialenému úložisku",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Nie je možné vytvoriť združené sprístupnenie so sebou samým",
     "File is already shared with %s" : "Súbor je už sprístupnený používateľovi %s",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
+    "Federated sharing" : "Združené sprístupňovanie",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s (v mene %2$s) ",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržali ste {share} ako vzdialené zdieľanie od {user} (v mene {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s",
@@ -45,8 +45,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Zdieľajte to, aby mohli vaši priatelia zdieľať súbory s vami:",
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, because this item is already shared with %s" : "Sprístupnenie %s zlyhalo, pretože táto položka už je prístupná pre %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %s zlyhalo, %s sa nepodarilo nájsť, server nie je pravdepodobne dostupný alebo používa vlastnoručne podpísaný certifikát."
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

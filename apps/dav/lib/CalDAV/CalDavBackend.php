@@ -192,7 +192,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 								ISecureRandom $random,
 								ILogger $logger,
 								EventDispatcherInterface $dispatcher,
-								$legacyEndpoint = false) {
+								bool $legacyEndpoint = false) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
@@ -739,7 +739,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				throw new DAV\Exception('The ' . $sccs . ' property must be of type: \Sabre\CalDAV\Property\SupportedCalendarComponentSet');
 			}
 			$values['components'] = implode(',',$properties[$sccs]->getValue());
+		} else if (isset($properties['components'])) {
+			// Allow to provide components internally without having
+			// to create a SupportedCalendarComponentSet object
+			$values['components'] = $properties['components'];
 		}
+
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
 			$values['transparent'] = (int) ($properties[$transp]->getValue() === 'transparent');
@@ -1130,7 +1135,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function updateCalendarObject($calendarId, $objectUri, $calendarData, $calendarType=self::CALENDAR_TYPE_CALENDAR) {
 		$extraData = $this->getDenormalizedData($calendarData);
-
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
 				->set('calendardata', $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB))

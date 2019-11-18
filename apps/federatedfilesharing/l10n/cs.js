@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federované sdílení",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share" : "Vzdálené sdílení",
     "Remote share password" : "Heslo ke vzdálenému sdílení",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Soubor je už sdílen s %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %1$s se nezdařilo, %2$s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
     "Could not find share" : "Nedaří se nalézt sdílení",
+    "Federated sharing" : "Federované sdílení",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s (jménem %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržel(a) jste {share} jako vzdálené sdílení od {user} (jménem {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s",
@@ -42,16 +42,14 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
     "Allow users on this server to send shares to groups on other servers" : "Povolit uživatelům na tomto serveru zasílat sdílení skupinám na ostatních serverech",
     "Allow users on this server to receive group shares from other servers" : "Povolit uživatelům na tomto serveru přijímat skupinová sdílení z jiných serverů",
-    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři",
-    "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře",
+    "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři kontaktů",
+    "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře kontaktů",
     "Federated Cloud" : "Sdružený cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. sdruženého cloudu. Má podobu person@cloud.example.com",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it so your friends can share files with you:" : "Nasdílejte to, aby mohli vaši přátelé sdílet soubory s vámi:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
-    "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, because this item is already shared with %s" : "Sdílení položky %s se nezdařilo, protože položka už je s uživatelem %s sdílena",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %s selhalo, %s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát."
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

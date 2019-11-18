@@ -61,11 +61,12 @@ interface IContainer {
 	 * Look up a service for a given name in the container.
 	 *
 	 * @param string $name
+	 * @param bool $autoload Should we try to autoload the service. If we are trying to resolve built in types this makes no sense for example
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
 	 */
-	public function query($name);
+	public function query(string $name, bool $autoload = true);
 
 	/**
 	 * A value is stored in the container with it's corresponding name

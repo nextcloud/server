@@ -108,9 +108,8 @@ OC.L10N.register(
     "Unlimited" : "Onbeperkte",
     "Upload (max. %s)" : "Oplaai (maks. %s)",
     "File Management" : "Lêerbestuur",
-    "%s of %s used" : "%s van %s gebruik",
-    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruik",
     "%s used" : "%s gebruik",
+    "%1$s of %2$s used" : "%1$s van %2$s gebruik",
     "Settings" : "Instellings",
     "Show hidden files" : "Vertoon verborge lêers ",
     "WebDAV" : "WebDAV",
@@ -129,12 +128,12 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "Target folder" : "Teikengids",
     "File handling" : "Lêerhantering",
     "Maximum upload size" : "Maksimum oplaaigrootte",
     "max. possible: " : "maks. moontlik:",
     "Save" : "Stoor",
     "Cancel upload" : "Kanselleer oplaai",
-    "%1$s of %2$s used" : "%1$s van %2$s gebruik"
+    "%s of %s used" : "%s van %s gebruik",
+    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruik"
 },
 "nplurals=2; plural=(n != 1);");

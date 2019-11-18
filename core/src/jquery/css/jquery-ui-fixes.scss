@@ -115,6 +115,9 @@
 .ui-state-error-text .ui-icon {
 	background-image: url('images/ui-icons_ffd27a_256x240.png');
 }
+.ui-icon.ui-icon-none {
+	display: none;
+}
 
 /* Misc visuals
 ----------------------------------*/
@@ -225,3 +228,9 @@
 	border: 1px solid var(--color-primary-text);
 }
 
+
+/* DRAGGABLE */
+.ui-draggable-handle,
+.ui-selectable {
+	touch-action: pan-y;
+}

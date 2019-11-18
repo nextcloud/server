@@ -115,10 +115,6 @@ class FailedCache implements ICache {
 		return [];
 	}
 
-	public function searchByTag($tag, $userId) {
-		return [];
-	}
-
 	public function searchQuery(ISearchQuery $query) {
 		return [];
 	}

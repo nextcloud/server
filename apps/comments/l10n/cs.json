@@ -26,8 +26,6 @@
     "Error occurred while posting comment" : "Došlo k chybě při zveřejňování komentáře",
     "_%n unread comment_::_%n unread comments_" : ["%n nepřečtený komentář","%n nepřečtené komentáře","%n nepřečtených komentářů","%n nepřečtených komentářů"],
     "_1 new comment_::_{unread} new comments_" : ["Jeden nový komentář","{unread} nové komentáře","{unread} nových komentářů","{unread} nové komentáře"],
-    "Comment" : "Komentář",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v „%s“, v komentáři od uživatele, který byl později smazán",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s vás zmínil(a) v komentáři u %2$s"
+    "Comment" : "Komentář"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

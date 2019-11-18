@@ -76,4 +76,12 @@ class FunctionBuilder implements IFunctionBuilder {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		return new QueryFunction('COUNT(' . $this->helper->quoteColumnName($count) . ')' . $alias);
 	}
+
+	public function max($field) {
+		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($field) . ')');
+	}
+
+	public function min($field) {
+		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($field) . ')');
+	}
 }

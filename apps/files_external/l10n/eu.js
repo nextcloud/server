@@ -5,6 +5,7 @@ OC.L10N.register(
     "System" : "Sistema",
     "Grant access" : "Baimendu sarrera",
     "Generate keys" : "Sortu gakoak",
+    "Error generating key pair" : "Errorea gako bikotea sortzean",
     "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko.",
     "(group)" : "(taldea)",
     "Enable encryption" : "Gaitu zifratzea",

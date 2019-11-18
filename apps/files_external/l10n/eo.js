@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Ensalutaj akreditiloj, konservi en datumbazo",
     "Username and password" : "Uzantnomo kaj pasvorto",
     "Log-in credentials, save in session" : "Ensalutaj akreditiloj, konservi en seanco",
+    "Global credentials, user entered" : "Ĝeneralaj akreditiloj, tajpitaj de la uzanto",
     "User entered, store in database" : "Entajpita de uzanto, konservi en datumbazo",
     "RSA public key" : "Publika RSA-ŝlosilo",
     "Public key" : "Publika ŝlosilo",
@@ -103,6 +104,8 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP kun sekretoŝlosila ensaluto",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Kunhavigi",
+    "Show hidden files" : "Montri kaŝitajn dosierojn",
+    "Timeout" : "Eltempiĝo",
     "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Username as share" : "Uzantonmo kiel kunhavo",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -118,6 +121,7 @@ OC.L10N.register(
     "Name" : "Nomo",
     "Storage type" : "Konserveja tipo",
     "Scope" : "Amplekso",
+    "Open documentation" : "Malfermi la dokumentaron",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ekstera konservejo ebligas al vi surmeti servojn de ekstera konservejo kaj aparatojn, kiel kromajn konservejojn. Vi povas ankaŭ permesi al uzantoj surmeti ilian proprajn eksterajn konservejojn.",
     "Folder name" : "Dosierujnomo",
     "External storage" : "Ekstera konservejo",
@@ -128,8 +132,6 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Iuj agorditaj eksteraj surmetingoj ne estas konektitaj. Bv. alklaki la ruĝa(j)n vico(j)n por pli da informoj",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ ne estas instalita. Surmetado de %s ne eblas. Bv. vidi kun via administranto."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
 },
 "nplurals=2; plural=(n != 1);");

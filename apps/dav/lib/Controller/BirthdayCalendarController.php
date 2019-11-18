@@ -93,7 +93,7 @@ class BirthdayCalendarController extends Controller {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
 		// add background job for each user
-		$this->userManager->callForAllUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function(IUser $user) {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
 				'userId' => $user->getUID(),
 			]);

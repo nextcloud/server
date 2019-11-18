@@ -129,13 +129,6 @@ class CustomPropertiesBackend implements BackendInterface {
 			return;
 		}
 
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-		) {
-			// note: pre-fetching only supported for depth <= 1
-			$this->loadChildrenProperties($node, $requestedProps);
-		}
-
 		$props = $this->getProperties($node, $requestedProps);
 		foreach ($props as $propName => $propValue) {
 			$propFind->set($propName, $propValue);

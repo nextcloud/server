@@ -254,7 +254,12 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatch')
-			->with('OCA\Files_Sharing::loadAdditionalScripts');
+			->with(
+				'OCA\Files_Sharing::loadAdditionalScripts',
+				$this->callback(function($event) use ($share) {
+					return $event->getArgument('share') === $share;
+				})
+			);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -374,7 +379,12 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatch')
-			->with('OCA\Files_Sharing::loadAdditionalScripts');
+			->with(
+				'OCA\Files_Sharing::loadAdditionalScripts',
+				$this->callback(function($event) use ($share) {
+					return $event->getArgument('share') === $share;
+				})
+			);
 
 		$this->l10n->expects($this->any())
 			->method('t')

@@ -209,4 +209,14 @@ class Quota extends Wrapper {
 
 		return parent::mkdir($path);
 	}
+
+	public function touch($path, $mtime = null) {
+		$free = $this->free_space($path);
+		if ($free === 0.0) {
+			return false;
+		}
+
+		return parent::touch($path, $mtime);
+	}
+
 }

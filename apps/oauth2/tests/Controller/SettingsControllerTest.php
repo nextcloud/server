@@ -144,47 +144,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals([], $result->getData());
 	}
 
-	public function testGetClients() {
-		$client1 = new Client();
-		$client1->setId(123);
-		$client1->setName('My Client Name');
-		$client1->setRedirectUri('https://example.com/');
-		$client1->setSecret('MySecret');
-		$client1->setClientIdentifier('MyClientIdentifier');
-
-		$client2 = new Client();
-		$client2->setId(42);
-		$client2->setName('My Client Name2');
-		$client2->setRedirectUri('https://example.com/2');
-		$client2->setSecret('MySecret2');
-		$client2->setClientIdentifier('MyClientIdentifier2');
-
-		$this->clientMapper->method('getClients')
-			->willReturn([$client1, $client2]);
-
-		$result = $this->settingsController->getClients();
-		$this->assertInstanceOf(JSONResponse::class, $result);
-
-		$data = $result->getData();
-
-		$this->assertSame([
-			[
-				'id' => 123,
-				'name' => 'My Client Name',
-				'redirectUri' => 'https://example.com/',
-				'clientId' => 'MyClientIdentifier',
-				'clientSecret' => 'MySecret',
-			],
-			[
-				'id' => 42,
-				'name' => 'My Client Name2',
-				'redirectUri' => 'https://example.com/2',
-				'clientId' => 'MyClientIdentifier2',
-				'clientSecret' => 'MySecret2',
-			],
-		], $data);
-	}
-
 	public function testInvalidRedirectUri() {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 

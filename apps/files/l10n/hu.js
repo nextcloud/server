@@ -135,9 +135,8 @@ OC.L10N.register(
     "Unlimited" : "Korlátlan",
     "Upload (max. %s)" : "Feltöltés (max.: %s)",
     "File Management" : "Fájlkezelés",
-    "%s of %s used" : "%s / %s használt",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s használt",
     "%s used" : "%s használt",
+    "%1$s of %2$s used" : "%1$s a %2$s-ból használva",
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "WebDAV" : "WebDAV",
@@ -160,7 +159,6 @@ OC.L10N.register(
     "Deleted shares" : "Törölt megosztások",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
-    "Target folder" : "Célmappa",
     "File handling" : "Fájlkezelés",
     "Maximum upload size" : "Maximális feltölthető fájlméret",
     "max. possible: " : "max. lehetséges: ",
@@ -168,6 +166,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
     "Cancel upload" : "Feltöltés megszakítása",
-    "%1$s of %2$s used" : "%1$s a %2$s-ból használva"
+    "%s of %s used" : "%s / %s használt",
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s használt"
 },
 "nplurals=2; plural=(n != 1);");

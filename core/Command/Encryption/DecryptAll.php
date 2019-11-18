@@ -132,6 +132,15 @@ class DecryptAll extends Command {
 			return;
 		}
 
+		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		if ($isMaintenanceModeEnabled) {
+			$output->writeln("Maintenance mode must be disabled when starting decryption,");
+			$output->writeln("in order to load the relevant encryption modules correctly.");
+			$output->writeln("Your instance will automatically be put to maintenance mode");
+			$output->writeln("during the actual decryption of the files.");
+			return;
+		}
+
 		try {
 			if ($this->encryptionManager->isEnabled() === true) {
 				$output->write('Disable server side encryption... ');

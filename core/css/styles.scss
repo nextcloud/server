@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
  * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019, Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,6 +24,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	font-family: inherit;
 	vertical-align: baseline;
 	cursor: default;
+	scrollbar-color: var(--color-border-dark) transparent;
+	scrollbar-width: thin;
 }
 
 html, body {
@@ -85,7 +88,8 @@ ul {
 body {
 	background-color: var(--color-main-background);
 	font-weight: normal;
-	font-size: .8em;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
 	font-family: var(--font-face);
 	color: var(--color-main-text);
@@ -146,7 +150,7 @@ body {
 /* SCROLLING */
 
 ::-webkit-scrollbar {
-	width: 9px;
+	width: 6px;
 	height: 5px;
 }
 
@@ -155,9 +159,18 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--color-background-darker);
+	background: var(--color-border-dark);
 	border-radius: var(--border-radius);
 }
+
+
+/* SELECTION */
+
+::selection {
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-text);
+}
+
 
 /* CONTENT ------------------------------------------------------------------ */
 
@@ -763,8 +776,8 @@ code {
 		background-color: var(--color-background-dark);
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
-		position: absolute;
-		top: 4px;
+		position: relative;
+		top: -5px;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
@@ -880,8 +893,11 @@ code {
 				display: flex;
 				&__first {
 					overflow: hidden;
-					white-space: nowrap;
+					white-space: pre;
 					text-overflow: ellipsis;
+				}
+				&__last {
+					white-space: pre;
 				}
 			}
 		}
@@ -1184,7 +1200,8 @@ div.crumb {
 		// Some sane max-width for each folder name
 		max-width: 200px;
 
-		&.icon-home {
+		&.icon-home,
+		&.icon-delete {
 			// Hide home text
 			text-indent: -9999px;
 		}

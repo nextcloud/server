@@ -161,7 +161,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$this->rmObjects($path);
+		if (!$this->rmObjects($path)) {
+			return false;
+		}
 
 		$this->getCache()->remove($path);
 
@@ -172,11 +174,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$children = $this->getCache()->getFolderContents($path);
 		foreach ($children as $child) {
 			if ($child['mimetype'] === 'httpd/unix-directory') {
-				$this->rmObjects($child['path']);
+				if (!$this->rmObjects($child['path'])) {
+					return false;
+				}
 			} else {
-				$this->unlink($child['path']);
+				if(!$this->unlink($child['path'])) {
+					return false;
+				}
 			}
 		}
+
+		return true;
 	}
 
 	public function unlink($path) {
@@ -223,7 +231,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 * @param int $fileId the fileid
 	 * @return null|string the unified resource name used to identify the object
 	 */
-	protected function getURN($fileId) {
+	public function getURN($fileId) {
 		if (is_numeric($fileId)) {
 			return $this->objectPrefix . $fileId;
 		}
@@ -410,10 +418,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		$stream = fopen('php://temp', 'r+');
-		fwrite($stream, $data);
-		rewind($stream);
-		return $this->writeStream($path, $stream, strlen($data)) > 0;
+		$handle = $this->fopen($path, 'w+');
+		fwrite($handle, $data);
+		fclose($handle);
+		return true;
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
@@ -475,5 +483,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 
 		return $size;
+	}
+
+	public function getObjectStore(): IObjectStore {
+		return $this->objectStore;
 	}
 }

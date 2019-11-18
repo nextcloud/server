@@ -184,6 +184,11 @@ class IconsCacher {
 	 * @return string
 	 */
 	public function colorizeSvg($svg, $color): string {
+		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
+			// Prevent not-sane colors from being written into the SVG
+			$color = '000';
+		}
+
 		// add fill (fill is not present on black elements)
 		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/mi';
 		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
@@ -233,6 +238,9 @@ class IconsCacher {
 		}
 	}
 
+	/**
+	 * Add the icons cache css into the header
+	 */
 	public function injectCss() {
 		$mtime = $this->timeFactory->getTime();
 		$file = $this->getCachedList();

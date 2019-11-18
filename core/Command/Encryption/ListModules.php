@@ -24,6 +24,7 @@ namespace OC\Core\Command\Encryption;
 
 use OC\Core\Command\Base;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,12 +32,20 @@ class ListModules extends Base {
 	/** @var IManager */
 	protected $encryptionManager;
 
+	/** @var IConfig */
+	protected $config;
+
 	/**
 	 * @param IManager $encryptionManager
+	 * @param IConfig $config
 	 */
-	public function __construct(IManager $encryptionManager) {
+	public function __construct(
+		IManager $encryptionManager,
+		IConfig $config
+	) {
 		parent::__construct();
 		$this->encryptionManager = $encryptionManager;
+		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -49,6 +58,13 @@ class ListModules extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		if ($isMaintenanceModeEnabled) {
+			$output->writeln("Maintenance mode must be disabled when listing modules");
+			$output->writeln("in order to list the relevant encryption modules correctly.");
+			return;
+		}
+
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
 		$defaultEncryptionModuleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 

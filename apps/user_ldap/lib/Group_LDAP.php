@@ -42,10 +42,11 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\GroupInterface;
 use OCP\ILogger;
 
-class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP {
+class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
 
 	/**
@@ -109,7 +110,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$members = $this->access->connection->getFromCache($cacheKeyMembers);
 		if(!is_null($members)) {
 			$this->cachedGroupMembers[$gid] = $members;
-			$isInGroup = in_array($userDN, $members);
+			$isInGroup = in_array($userDN, $members, true);
 			$this->access->connection->writeToCache($cacheKey, $isInGroup);
 			return $isInGroup;
 		}
@@ -129,7 +130,6 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
 		$members = $this->_groupMembers($groupDN);
-		$members = array_keys($members); // uids are returned as keys
 		if(!is_array($members) || count($members) === 0) {
 			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
@@ -1134,8 +1134,17 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if ($this->groupPluginManager->implementsActions(GroupInterface::CREATE_GROUP)) {
 			if ($dn = $this->groupPluginManager->createGroup($gid)) {
 				//updates group mapping
-				$this->access->dn2ocname($dn, $gid, false);
-				$this->access->connection->writeToCache("groupExists".$gid, true);
+				$uuid = $this->access->getUUID($dn, false);
+				if(is_string($uuid)) {
+					$this->access->mapAndAnnounceIfApplicable(
+						$this->access->getGroupMapper(),
+						$dn,
+						$gid,
+						$uuid,
+						false
+					);
+					$this->access->connection->writeToCache("groupExists" . $gid, true);
+				}
 			}
 			return $dn != null;
 		}
@@ -1221,4 +1230,29 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		return $connection->getConnectionResource();
 	}
 
+	/**
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function getDisplayName(string $gid): string {
+		if ($this->groupPluginManager instanceof IGetDisplayNameBackend) {
+			return $this->groupPluginManager->getDisplayName($gid);
+		}
+
+		$cacheKey = 'group_getDisplayName' . $gid;
+		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
+			return $displayName;
+		}
+
+		$displayName = $this->access->readAttribute(
+			$this->access->groupname2dn($gid),
+			$this->access->connection->ldapGroupDisplayName);
+
+		if ($displayName && (count($displayName) > 0)) {
+			$displayName = $displayName[0];
+			$this->access->connection->writeToCache($cacheKey, $displayName);
+			return $displayName;
+		}
+
+		return '';
+	}
 }

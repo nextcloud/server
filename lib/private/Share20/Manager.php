@@ -62,7 +62,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCP\Share\IShareProvider;
 use OCP\Share;
@@ -96,7 +96,7 @@ class Manager implements IManager {
 	private $rootFolder;
 	/** @var CappedMemoryCache */
 	private $sharingDisabledForUsersCache;
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 	/** @var LegacyHooks */
 	private $legacyHooks;
@@ -122,7 +122,7 @@ class Manager implements IManager {
 	 * @param IProviderFactory $factory
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
-	 * @param EventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $eventDispatcher
 	 * @param IMailer $mailer
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Defaults $defaults
@@ -139,7 +139,7 @@ class Manager implements IManager {
 			IProviderFactory $factory,
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
-			EventDispatcher $eventDispatcher,
+			EventDispatcherInterface $eventDispatcher,
 			IMailer $mailer,
 			IURLGenerator $urlGenerator,
 			\OC_Defaults $defaults
@@ -269,11 +269,13 @@ class Manager implements IManager {
 
 		// And you can't share your rootfolder
 		if ($this->userManager->userExists($share->getSharedBy())) {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getSharedBy())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			$userFolderPath = $userFolder->getPath();
 		} else {
-			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
+			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			$userFolderPath = $userFolder->getPath();
 		}
-		if ($sharedPath === $share->getNode()->getPath()) {
+		if ($userFolderPath === $share->getNode()->getPath()) {
 			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
@@ -288,15 +290,37 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
-		/*
-		 * Quick fix for #23536
-		 * Non moveable mount points do not have update and delete permissions
-		 * while we 'most likely' do have that on the storage.
-		 */
-		$permissions = $share->getNode()->getPermissions();
+		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
+		$permissions = 0;
 		$mount = $share->getNode()->getMountPoint();
-		if (!($mount instanceof MoveableMount)) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		if (!$isFederatedShare && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+			// When it's a reshare use the parent share permissions as maximum
+			$userMountPointId = $mount->getStorageRootId();
+			$userMountPoints = $userFolder->getById($userMountPointId);
+			$userMountPoint = array_shift($userMountPoints);
+
+			/* Check if this is an incoming share */
+			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_GROUP, $userMountPoint, -1, 0));
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_CIRCLE, $userMountPoint, -1, 0));
+			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_ROOM, $userMountPoint, -1, 0));
+
+			/** @var \OCP\Share\IShare[] $incomingShares */
+			if (!empty($incomingShares)) {
+				foreach ($incomingShares as $incomingShare) {
+					$permissions |= $incomingShare->getPermissions();
+				}
+			}
+		} else {
+			/*
+			 * Quick fix for #23536
+			 * Non moveable mount points do not have update and delete permissions
+			 * while we 'most likely' do have that on the storage.
+			 */
+			$permissions = $share->getNode()->getPermissions();
+			if (!($mount instanceof MoveableMount)) {
+				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			}
 		}
 
 		// Check that we do not share with more permissions than we have
@@ -1290,8 +1314,7 @@ class Manager implements IManager {
 	}
 
 	protected function checkExpireDate($share) {
-		if ($share->getExpirationDate() !== null &&
-			$share->getExpirationDate() <= new \DateTime()) {
+		if ($share->isExpired()) {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
@@ -1430,6 +1453,9 @@ class Manager implements IManager {
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
 			$nodes = $userFolder->getById($path->getId());
 			$path = array_shift($nodes);
+			if ($path->getOwner() === null) {
+				return [];
+			}
 			$owner = $path->getOwner()->getUID();
 		}
 
@@ -1646,4 +1672,11 @@ class Manager implements IManager {
 		return true;
 	}
 
+	public function getAllShares(): iterable {
+		$providers = $this->factory->getAllProviders();
+
+		foreach ($providers as $provider) {
+			yield from $provider->getAllShares();
+		}
+	}
 }

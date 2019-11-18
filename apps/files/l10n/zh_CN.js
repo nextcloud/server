@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "复制",
     "Choose target folder" : "选择目标文件夹",
     "Open" : "打开",
+    "Delete file" : "删除文件",
+    "Delete folder" : "删除文件夹",
     "Disconnect storage" : "断开存储的连接",
     "Unshare" : "取消共享",
     "Could not load info for file \"{file}\"" : "无法加载文件 \"{file}\" 的信息",
@@ -135,9 +137,9 @@ OC.L10N.register(
     "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 （最大 %s）",
     "File Management" : "文件管理",
-    "%s of %s used" : "%s 已使用 (共 %s)",
-    "%1$s%% of %2$s used" : "%1$s %2$s 中 %% 已使用",
     "%s used" : "%s 已使用",
+    "%s%% of %s used" : "%s中%s%%已使用",
+    "%1$s of %2$s used" : "%1$s已用，总计%2$s",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
     "WebDAV" : "WebDAV",
@@ -160,7 +162,6 @@ OC.L10N.register(
     "Deleted shares" : "已删除的共享",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
-    "Target folder" : "目标目录",
     "File handling" : "文件处理",
     "Maximum upload size" : "最大上传大小",
     "max. possible: " : "最大允许：",
@@ -168,6 +169,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效。",
     "Missing permissions to edit from here." : "没有权限编辑。",
     "Cancel upload" : "取消上传",
-    "%1$s of %2$s used" : "%1$s已用，总计%2$s"
+    "%s of %s used" : "%s 已使用 (共 %s)",
+    "%1$s%% of %2$s used" : "%2$s 中%1$s %% 已使用"
 },
 "nplurals=1; plural=0;");

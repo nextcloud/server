@@ -62,9 +62,10 @@ namespace OCP {
 		/**
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
-		 * @param array $options Options to define the output format
-		 * 	- types boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+		 * @param array $options Options to define the output format and search behavior
+		 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
 		 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+		 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 		 * @return array an array of contacts which are arrays of key-value-pairs
 		 *  example result:
 		 *  [

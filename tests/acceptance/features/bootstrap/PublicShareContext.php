@@ -202,11 +202,14 @@ class PublicShareContext implements Context, ActorAwareInterface {
 		// download item should not be shown in the menu (although it will be in
 		// the DOM).
 		PHPUnit_Framework_Assert::assertFalse(
-				$this->actor->find(self::downloadItemInShareMenu())->isVisible());
+				$this->actor->find(self::downloadItemInShareMenu())->isVisible(),
+				"Download item in share menu is visible");
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::directLinkItemInShareMenu())->isVisible());
+				$this->actor->find(self::directLinkItemInShareMenu())->isVisible(),
+				"Direct link item in share menu is not visible");
 		PHPUnit_Framework_Assert::assertTrue(
-				$this->actor->find(self::saveItemInShareMenu())->isVisible());
+				$this->actor->find(self::saveItemInShareMenu())->isVisible(),
+				"Save item in share menu is not visible");
 	}
 
 	/**

@@ -353,12 +353,15 @@ class Manager implements IManager {
 			return $access;
 		}
 
-		$access = false;
+		$access = null;
+		// Access is granted when a user can access all resources
 		foreach ($collection->getResources() as $resource) {
-			if ($resource->canAccess($user)) {
-				$access = true;
+			if (!$resource->canAccess($user)) {
+				$access = false;
 				break;
 			}
+
+			$access = true;
 		}
 
 		$this->cacheAccessForCollection($collection, $user, $access);
@@ -431,7 +434,7 @@ class Manager implements IManager {
 			->values([
 				'user_id' => $query->createNamedParameter($userId),
 				'collection_id' => $query->createNamedParameter($collection->getId()),
-				'access' => $query->createNamedParameter($access),
+				'access' => $query->createNamedParameter($access, IQueryBuilder::PARAM_BOOL),
 			]);
 		try {
 			$query->execute();
@@ -459,6 +462,14 @@ class Manager implements IManager {
 		foreach ($resource->getCollections() as $collection) {
 			$this->invalidateAccessCacheForCollection($collection);
 		}
+	}
+
+	public function invalidateAccessCacheForAllCollections(): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->delete(self::TABLE_ACCESS_CACHE)
+			->where($query->expr()->neq('collection_id', $query->createNamedParameter(0)));
+		$query->execute();
 	}
 
 	public function invalidateAccessCacheForCollection(ICollection $collection): void {

@@ -1,6 +1,4 @@
-/* global t */
-
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -30,22 +28,26 @@ import humanFileSize from '../Util/human-file-size'
 
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
-	let tz = [], x = 0, y = -1, n = 0, code, c;
+	let tz = []
+	let x = 0
+	let y = -1
+	let n = 0
+	let c
 
 	while (x < t.length) {
-		c = t.charAt(x);
+		c = t.charAt(x)
 		// only include the dot in strings
-		var m = ((!n && c === '.') || (c >= '0' && c <= '9'));
+		var m = ((!n && c === '.') || (c >= '0' && c <= '9'))
 		if (m !== n) {
 			// next chunk
-			y++;
-			tz[y] = '';
-			n = m;
+			y++
+			tz[y] = ''
+			n = m
 		}
-		tz[y] += c;
-		x++;
+		tz[y] += c
+		x++
 	}
-	return tz;
+	return tz
 }
 
 /**
@@ -64,17 +66,17 @@ export default {
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
 	 * @param  {string} string file size in human readable format
-	 * @return {number} or null if string could not be parsed
+	 * @returns {number} or null if string could not be parsed
 	 *
 	 *
 	 */
-	computerFileSize: function (string) {
+	computerFileSize: function(string) {
 		if (typeof string !== 'string') {
-			return null;
+			return null
 		}
 
-		var s = string.toLowerCase().trim();
-		var bytes = null;
+		var s = string.toLowerCase().trim()
+		var bytes = null
 
 		var bytesArray = {
 			'b': 1,
@@ -88,164 +90,165 @@ export default {
 			't': 1024 * 1024 * 1024 * 1024,
 			'pb': 1024 * 1024 * 1024 * 1024 * 1024,
 			'p': 1024 * 1024 * 1024 * 1024 * 1024
-		};
+		}
 
-		var matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i);
+		var matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
 		if (matches !== null) {
-			bytes = parseFloat(s);
+			bytes = parseFloat(s)
 			if (!isFinite(bytes)) {
-				return null;
+				return null
 			}
 		} else {
-			return null;
+			return null
 		}
 		if (matches[5]) {
-			bytes = bytes * bytesArray[matches[5]];
+			bytes = bytes * bytesArray[matches[5]]
 		}
 
-		bytes = Math.round(bytes);
-		return bytes;
+		bytes = Math.round(bytes)
+		return bytes
 	},
 
 	/**
-	 * @param timestamp
-	 * @param format
+	 * @param {string|number} timestamp timestamp
+	 * @param {string} format date format, see momentjs docs
 	 * @returns {string} timestamp formatted as requested
 	 */
-	formatDate: function (timestamp, format) {
-		format = format || "LLL";
-		return moment(timestamp).format(format);
+	formatDate: function(timestamp, format) {
+		format = format || 'LLL'
+		return moment(timestamp).format(format)
 	},
 
 	/**
-	 * @param timestamp
+	 * @param {string|number} timestamp timestamp
 	 * @returns {string} human readable difference from now
 	 */
-	relativeModifiedDate: function (timestamp) {
-		var diff = moment().diff(moment(timestamp));
+	relativeModifiedDate: function(timestamp) {
+		var diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {
-			return t('core', 'seconds ago');
+			return t('core', 'seconds ago')
 		}
-		return moment(timestamp).fromNow();
+		return moment(timestamp).fromNow()
 	},
 
 	/**
 	 * Returns whether this is IE
 	 *
-	 * @return {bool} true if this is IE, false otherwise
+	 * @returns {bool} true if this is IE, false otherwise
 	 */
-	isIE: function () {
-		return $('html').hasClass('ie');
+	isIE: function() {
+		return $('html').hasClass('ie')
 	},
 
 	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
-	 * @return {int} width of scrollbar
+	 * @returns {int} width of scrollbar
 	 */
-	getScrollBarWidth: function () {
+	getScrollBarWidth: function() {
 		if (this._scrollBarWidth) {
-			return this._scrollBarWidth;
+			return this._scrollBarWidth
 		}
 
-		var inner = document.createElement('p');
-		inner.style.width = "100%";
-		inner.style.height = "200px";
+		var inner = document.createElement('p')
+		inner.style.width = '100%'
+		inner.style.height = '200px'
 
-		var outer = document.createElement('div');
-		outer.style.position = "absolute";
-		outer.style.top = "0px";
-		outer.style.left = "0px";
-		outer.style.visibility = "hidden";
-		outer.style.width = "200px";
-		outer.style.height = "150px";
-		outer.style.overflow = "hidden";
-		outer.appendChild(inner);
+		var outer = document.createElement('div')
+		outer.style.position = 'absolute'
+		outer.style.top = '0px'
+		outer.style.left = '0px'
+		outer.style.visibility = 'hidden'
+		outer.style.width = '200px'
+		outer.style.height = '150px'
+		outer.style.overflow = 'hidden'
+		outer.appendChild(inner)
 
-		document.body.appendChild(outer);
-		var w1 = inner.offsetWidth;
-		outer.style.overflow = 'scroll';
-		var w2 = inner.offsetWidth;
+		document.body.appendChild(outer)
+		var w1 = inner.offsetWidth
+		outer.style.overflow = 'scroll'
+		var w2 = inner.offsetWidth
 		if (w1 === w2) {
-			w2 = outer.clientWidth;
+			w2 = outer.clientWidth
 		}
 
-		document.body.removeChild(outer);
+		document.body.removeChild(outer)
 
-		this._scrollBarWidth = (w1 - w2);
+		this._scrollBarWidth = (w1 - w2)
 
-		return this._scrollBarWidth;
+		return this._scrollBarWidth
 	},
 
 	/**
 	 * Remove the time component from a given date
 	 *
 	 * @param {Date} date date
-	 * @return {Date} date with stripped time
+	 * @returns {Date} date with stripped time
 	 */
-	stripTime: function (date) {
+	stripTime: function(date) {
 		// FIXME: likely to break when crossing DST
 		// would be better to use a library like momentJS
-		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 	},
 
 	/**
 	 * Compare two strings to provide a natural sort
-	 * @param a first string to compare
-	 * @param b second string to compare
-	 * @return -1 if b comes before a, 1 if a comes before b
+	 * @param {string} a first string to compare
+	 * @param {string} b second string to compare
+	 * @returns {number} -1 if b comes before a, 1 if a comes before b
 	 * or 0 if the strings are identical
 	 */
-	naturalSortCompare: function (a, b) {
-		var x;
-		var aa = chunkify(a);
-		var bb = chunkify(b);
+	naturalSortCompare: function(a, b) {
+		var x
+		var aa = chunkify(a)
+		var bb = chunkify(b)
 
 		for (x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
-				var aNum = Number(aa[x]), bNum = Number(bb[x]);
+				var aNum = Number(aa[x]); var bNum = Number(bb[x])
 				// note: == is correct here
+				/* eslint-disable-next-line */
 				if (aNum == aa[x] && bNum == bb[x]) {
-					return aNum - bNum;
+					return aNum - bNum
 				} else {
 					// Note: This locale setting isn't supported by all browsers but for the ones
 					// that do there will be more consistency between client-server sorting
-					return aa[x].localeCompare(bb[x], OC.getLanguage());
+					return aa[x].localeCompare(bb[x], OC.getLanguage())
 				}
 			}
 		}
-		return aa.length - bb.length;
+		return aa.length - bb.length
 	},
 
 	/**
 	 * Calls the callback in a given interval until it returns true
-	 * @param {function} callback
+	 * @param {function} callback function to call on success
 	 * @param {integer} interval in milliseconds
 	 */
-	waitFor: function (callback, interval) {
-		var internalCallback = function () {
+	waitFor: function(callback, interval) {
+		var internalCallback = function() {
 			if (callback() !== true) {
-				setTimeout(internalCallback, interval);
+				setTimeout(internalCallback, interval)
 			}
-		};
+		}
 
-		internalCallback();
+		internalCallback()
 	},
 
 	/**
 	 * Checks if a cookie with the given name is present and is set to the provided value.
 	 * @param {string} name name of the cookie
 	 * @param {string} value value of the cookie
-	 * @return {boolean} true if the cookie with the given name has the given value
+	 * @returns {boolean} true if the cookie with the given name has the given value
 	 */
-	isCookieSetToValue: function (name, value) {
-		var cookies = document.cookie.split(';');
+	isCookieSetToValue: function(name, value) {
+		var cookies = document.cookie.split(';')
 		for (var i = 0; i < cookies.length; i++) {
-			var cookie = cookies[i].split('=');
+			var cookie = cookies[i].split('=')
 			if (cookie[0].trim() === name && cookie[1].trim() === value) {
-				return true;
+				return true
 			}
 		}
-		return false;
+		return false
 	}
 }

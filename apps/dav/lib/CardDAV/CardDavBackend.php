@@ -814,7 +814,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
 			if ($limit>0) {
-				$query .= " `LIMIT` " . (int)$limit;
+				$query .= " LIMIT " . (int)$limit;
 			}
 
 			// Fetching all changes
@@ -903,9 +903,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int $addressBookId
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
+	 * @param array $options = array() to define the search behavior
+	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped, otherwise they are
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
-	public function search($addressBookId, $pattern, $searchProperties) {
+	public function search($addressBookId, $pattern, $searchProperties, $options = array()) {
 		$query = $this->db->getQueryBuilder();
 		$query2 = $this->db->getQueryBuilder();
 
@@ -919,7 +921,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			if(\array_key_exists('escape_like_param', $options) && $options['escape_like_param'] === false) {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter($pattern)));
+			} else {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			}
 		}
 
 		$query->select('c.carddata', 'c.uri')->from($this->dbCardsTable, 'c')

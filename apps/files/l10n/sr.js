@@ -33,6 +33,8 @@ OC.L10N.register(
     "Copy" : "Копирај",
     "Choose target folder" : "Одаберите одредишну фасциклу",
     "Open" : "Отвори",
+    "Delete file" : "Обриши фајл",
+    "Delete folder" : "Обриши фасциклу",
     "Disconnect storage" : "Искључи складиште",
     "Unshare" : "Укини дељење",
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла \"{file}\"",
@@ -135,9 +137,9 @@ OC.L10N.register(
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "File Management" : "Управљање фајловима",
-    "%s of %s used" : "%s од %s искоришћено",
-    "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено",
     "%s used" : "%s искоришћено",
+    "%s%% of %s used" : "%s%% од %s искоришћено",
+    "%1$s of %2$s used" : "Заузето %1$s од %2$s",
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
     "WebDAV" : "ВебДАВ",
@@ -160,7 +162,6 @@ OC.L10N.register(
     "Deleted shares" : "Обрисана дељења",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
-    "Target folder" : "Одредишна фасцикла",
     "File handling" : "Руковање фајловима",
     "Maximum upload size" : "Највећа величина отпремања",
     "max. possible: " : "највише могуће:",
@@ -168,6 +169,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ако користите PHP-FPM, промене се могу применити и тек после 5 минута.",
     "Missing permissions to edit from here." : "Недостају дозволе да се мења одавде.",
     "Cancel upload" : "Откажи отпремање",
-    "%1$s of %2$s used" : "Заузето %1$s од %2$s"
+    "%s of %s used" : "%s од %s искоришћено",
+    "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

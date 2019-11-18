@@ -134,20 +134,6 @@ class ShareTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @param boolean|string $token
-	 * @return array
-	 */
-	protected function getShareByValidToken($token) {
-		$row = \OCP\Share::getShareByToken($token);
-		$this->assertInternalType(
-			'array',
-			$row,
-			"Failed asserting that a share for token $token exists."
-		);
-		return $row;
-	}
-
 	public function testGetItemSharedWithUser() {
 		\OC_User::setUserId($this->user1->getUID());
 
@@ -234,35 +220,6 @@ class ShareTest extends \Test\TestCase {
 			}
 		}
 		$this->assertEmpty($expected, 'did not found all expected values');
-	}
-
-	/**
-	 * @dataProvider checkPasswordProtectedShareDataProvider
-	 * @param $expected
-	 * @param $item
-	 */
-	public function testCheckPasswordProtectedShare($expected, $item) {
-		\OC::$server->getSession()->set('public_link_authenticated', '100');
-		$result = \OC\Share\Share::checkPasswordProtectedShare($item);
-		$this->assertEquals($expected, $result);
-	}
-
-	function checkPasswordProtectedShareDataProvider() {
-		return array(
-			array(true, array()),
-			array(true, array('share_with' => null)),
-			array(true, array('share_with' => '')),
-			array(true, array('share_with' => '1234567890', 'share_type' => '1')),
-			array(true, array('share_with' => '1234567890', 'share_type' => 1)),
-			array(true, array('share_with' => '1234567890', 'share_type' => '3', 'id' => '100')),
-			array(true, array('share_with' => '1234567890', 'share_type' => 3, 'id' => '100')),
-			array(true, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 100)),
-			array(true, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 100)),
-			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => '101')),
-			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => '101')),
-			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 101)),
-			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 101)),
-		);
 	}
 
 	/**

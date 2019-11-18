@@ -24,10 +24,7 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
-use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {

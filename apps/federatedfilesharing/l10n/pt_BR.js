@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Compartilhamento federado",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Deseja adicionar o compartilhamento remoto {name} de {owner}@{remote}?",
     "Remote share" : "Compartilhamento remoto",
     "Remote share password" : "Senha do compartilhamento remoto",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "File is already shared with %s" : "O arquivo já é compartilhado com %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "O compartilhamento%1$s falhou, não pude encontrar %2$s, talvez o servidor esteja inacessível ou usa um certificado auto-assinado.",
     "Could not find share" : "Não foi possível encontrar o compartilhamento",
+    "Federated sharing" : "Compartilhamento federado",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %1$s ( em nome de %2$s )",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Você recebeu {share} como um compartilhamento remoto do {user} (em nome de {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "Você recebeu \"%3$s\" como um compartilhamento remoto de %1$s",
@@ -45,13 +45,11 @@ OC.L10N.register(
     "Search global and public address book for users" : "Procurar por usuários em catálogo de endereços global e público",
     "Allow users to publish their data to a global and public address book" : "Permitir que os usuários publiquem seus dados em um catálogo de endereços global e público",
     "Federated Cloud" : "Nuvem Federada",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer pessoa que use Nextcloud ou outros servidores compatíveis com o Open Cloud Mesh (OCM)! Basta colocar sua ID da nuvem federada na caixa de diálogo de compartilhamento. Algo como person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer pessoa que use Nextcloud ou outros servidores compatíveis com o Open Cloud Mesh (OCM)! Basta colocar sua ID de nuvem federada na caixa de diálogo de compartilhamento. Algo como person@cloud.example.com",
     "Your Federated Cloud ID:" : "Sua ID de Nuvem Federada:",
-    "Share it so your friends can share files with you:" : "Compartilhe e seus amigos poderão compartilhar arquivos com você:",
+    "Share it so your friends can share files with you:" : "Compartilhe para que seus amigos possam compartilhar arquivos com você:",
     "Add to your website" : "Adicione ao seu website",
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
-    "HTML Code:" : "Código HTML:",
-    "Sharing %s failed, because this item is already shared with %s" : "Compartilhamento %s falhou porque este item já está compartilhado com %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Compartilhamento %s falhou, não foi possível encontrar %s. Talvez o servidor esteja inacessível ou esteja sendo utilizado um certificado de auto-assinatura"
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n > 1);");

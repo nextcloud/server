@@ -72,6 +72,7 @@
     "Log-in credentials, save in database" : "Přihlašovací údaje, ukládat v databázi",
     "Username and password" : "Uživatelské jméno a heslo",
     "Log-in credentials, save in session" : "Přihlašovací údaje, ukládat v sezení",
+    "Global credentials, user entered" : "Globální přihlašovací údaje, zadané uživatelem",
     "User entered, store in database" : "Uživatel zadán, uložit v databázi",
     "RSA public key" : "RSA veřejný klíč",
     "Public key" : "Veřejný klíč",
@@ -101,6 +102,8 @@
     "SFTP with secret key login" : "SFTP login s tajným klíčem",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Sdílet",
+    "Show hidden files" : "Zobrazit skryté soubory",
+    "Timeout" : "Časový limit",
     "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
     "Username as share" : "Uživatelské jméno jako sdílená složka",
     "OpenStack Object Storage" : "OpenStack objektové úložiště",
@@ -116,8 +119,9 @@
     "Name" : "Název",
     "Storage type" : "Typ úložiště",
     "Scope" : "Rozsah",
+    "Open documentation" : "Otevřít dokumentaci",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externí úložiště umožňuje připojit úložiště externích služeb a zařízení jako vedlejší úložná zařízení pro Nextcloud. Je také možné umožnit uživatelům připojovat jejich vlastní externí úložiště.",
-    "Folder name" : "Název adresáře",
+    "Folder name" : "Název složky",
     "External storage" : "Externí úložiště",
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",
@@ -126,8 +130,6 @@
     "Add storage" : "Přidat úložiště",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Některá z nastavených vzdálených úložišť nejsou připojena. Pro více informací prosím klikněte na červenou šipku(y)",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ není nainstalováno. Není možné připojit %s. Požádejte správce systému o instalaci."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

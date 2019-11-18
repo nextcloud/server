@@ -41,12 +41,12 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Një <strong>event</strong> në kalendar u modifikua",
     "A calendar <strong>todo</strong> was modified" : "Një kalendar <strong>todo<strong> u modifikua",
     "Contact birthdays" : "Ditëlindjet e kontakteve",
+    "Where:" : "Ku:",
+    "Description:" : "Përshkrimi:",
     "Invitation canceled" : "Ftesa u anullua",
     "Hello %s," : "Përshëndetje %s,",
     "Invitation updated" : "Ftesa u përditësua",
     "When:" : "Kur:",
-    "Where:" : "Ku:",
-    "Description:" : "Përshkrimi:",
     "Link:" : "Link:",
     "Accept" : "Prano",
     "Decline" : "Refuzo",
@@ -59,10 +59,6 @@ OC.L10N.register(
     "Tentative" : "Tentativë",
     "Save" : "Ruaj",
     "Your attendance was updated successfully." : "Pjesëmarrja juaj u përditësua me sukses.",
-    "Send invitations to attendees" : "Dërgo ftesa tek pjesëmarrësit",
-    "%s via %s" : "%s nëpërmjet %s",
-    "The meeting »%s« with %s was canceled." : "Takimi »%s« me %s u anullua.",
-    "The meeting »%s« with %s was updated." : "Takimi »%s« me %s u përditësua.",
-    "%s invited you to »%s«" : "%s ju ftoi juve tek %s"
+    "Send invitations to attendees" : "Dërgo ftesa tek pjesëmarrësit"
 },
 "nplurals=2; plural=(n != 1);");

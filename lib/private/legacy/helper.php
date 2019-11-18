@@ -189,6 +189,7 @@ class OC_Helper {
 	}
 
 	/**
+	 * @deprecated 18.0.0
 	 * @return \OC\Files\Type\TemplateManager
 	 */
 	static public function getFileTemplateManager() {
@@ -585,8 +586,13 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
-
+		return [
+			'free' => $free,
+			'used' => $used,
+			'total' => $total,
+			'relative' => $relative,
+			'quota' => $quota
+		];
 	}
 
 	/**

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "조각을 모으는 중 오류 발생, 상태 코드 {status}",
     "Actions" : "작업",
     "Rename" : "이름 바꾸기",
+    "Delete folder" : "폴더 삭제",
     "Disconnect storage" : "저장소 연결 해제",
     "Unshare" : "공유 해제",
     "Could not load info for file \"{file}\"" : "파일 \"{file}\"의 정보를 가져올 수 없음",
@@ -118,7 +119,6 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "파일이나 폴더가 <strong>복원됨</strong>",
     "Unlimited" : "무제한",
     "Upload (max. %s)" : "업로드(최대 %s)",
-    "%s of %s used" : "%s/%s 사용함",
     "%s used" : "%s 사용함",
     "Settings" : "설정",
     "Show hidden files" : "숨김 파일 보이기",
@@ -139,13 +139,13 @@ OC.L10N.register(
     "Shared by link" : "링크로 공유됨",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "Target folder" : "대상 폴더",
     "File handling" : "파일 처리",
     "Maximum upload size" : "최대 업로드 크기",
     "max. possible: " : "최대 가능:",
     "Save" : "저장",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM을 사용 중이면 변경 사항이 적용되는 데 최대 5분 정도 걸릴 수 있습니다.",
     "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
-    "Cancel upload" : "업로드 취소"
+    "Cancel upload" : "업로드 취소",
+    "%s of %s used" : "%s/%s 사용함"
 },
 "nplurals=1; plural=0;");

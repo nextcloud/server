@@ -231,8 +231,14 @@ class RefreshWebcalJobTest extends TestCase {
 	public function runLocalURLDataProvider():array {
 		return [
 			['localhost/foo.bar'],
+			['localHost/foo.bar'],
+			['random-host/foo.bar'],
 			['[::1]/bla.blub'],
+			['[::]/bla.blub'],
 			['192.168.0.1'],
+			['172.16.42.1'],
+			['[fdf8:f53b:82e4::53]/secret.ics'],
+			['[fe80::200:5aee:feaa:20a2]/secret.ics'],
 			['10.0.0.1'],
 			['another-host.local'],
 			['service.localhost'],

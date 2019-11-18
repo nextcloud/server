@@ -26,7 +26,7 @@ class MSOffice2003 extends Office {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/application\/vnd.ms-.*/';
 	}
 }

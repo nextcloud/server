@@ -27,10 +27,16 @@ Class ResourcePrincipalBackendTest extends AbstractPrincipalBackendTest {
 	public function setUp() {
 		parent::setUp();
 
-		$this->principalBackend = new ResourcePrincipalBackend($this->dbConnection,
-			$this->userSession, $this->groupManager, $this->logger);
-		$this->expectedDbTable = 'calendar_resources';
+		$this->principalBackend = new ResourcePrincipalBackend(self::$realDatabase,
+			$this->userSession, $this->groupManager, $this->logger, $this->proxyMapper);
+
+		$this->mainDbTable = 'calendar_resources';
+		$this->metadataDbTable = 'calendar_resources_md';
+		$this->foreignKey = 'resource_id';
+
 		$this->principalPrefix = 'principals/calendar-resources';
 		$this->expectedCUType = 'RESOURCE';
+
+		$this->createTestDatasetInDb();
 	}
 }

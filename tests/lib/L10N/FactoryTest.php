@@ -441,7 +441,7 @@ class FactoryTest extends TestCase {
 			[null, 'de', [\OC::$SERVERROOT . '/core/l10n/de.json']],
 			['core', 'ru', [\OC::$SERVERROOT . '/core/l10n/ru.json']],
 			['lib', 'ru', [\OC::$SERVERROOT . '/lib/l10n/ru.json']],
-			['settings', 'de', [\OC::$SERVERROOT . '/settings/l10n/de.json']],
+			['settings', 'de', [\OC::$SERVERROOT . '/apps/settings/l10n/de.json']],
 			['files', 'de', [\OC::$SERVERROOT . '/apps/files/l10n/de.json']],
 			['files', '_lang_never_exists_', []],
 			['_app_never_exists_', 'de', [\OC::$SERVERROOT . '/core/l10n/de.json']],
@@ -464,7 +464,7 @@ class FactoryTest extends TestCase {
 			[null, \OC::$SERVERROOT . '/core/l10n/'],
 			['core', \OC::$SERVERROOT . '/core/l10n/'],
 			['lib', \OC::$SERVERROOT . '/lib/l10n/'],
-			['settings', \OC::$SERVERROOT . '/settings/l10n/'],
+			['settings', \OC::$SERVERROOT . '/apps/settings/l10n/'],
 			['files', \OC::$SERVERROOT . '/apps/files/l10n/'],
 			['_app_never_exists_', \OC::$SERVERROOT . '/core/l10n/'],
 		];

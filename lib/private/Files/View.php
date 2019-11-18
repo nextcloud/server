@@ -49,6 +49,7 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\User;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\EmptyFileNameException;
@@ -565,7 +566,12 @@ class View {
 			$hooks[] = 'create';
 			$hooks[] = 'write';
 		}
-		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		try {
+			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::INFO, 'message' => 'Error while setting modified time']);
+			$result = false;
+		}
 		if (!$result) {
 			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
@@ -1718,6 +1724,13 @@ class View {
 		// reverse the array so we start with the storage this view is in
 		// which is the most likely to contain the file we're looking for
 		$mounts = array_reverse($mounts);
+
+		// put non shared mounts in front of the shared mount
+		// this prevent unneeded recursion into shares
+		usort($mounts, function(IMountPoint $a, IMountPoint $b) {
+			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
+		});
+
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount\MountPoint $mount
@@ -1920,7 +1933,7 @@ class View {
 		if ($mount) {
 			try {
 				$storage = $mount->getStorage();
-				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$storage->acquireLock(
 						$mount->getInternalPath($absolutePath),
 						$type,
@@ -1961,7 +1974,7 @@ class View {
 		if ($mount) {
 			try {
 				$storage = $mount->getStorage();
-				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$storage->changeLock(
 						$mount->getInternalPath($absolutePath),
 						$type,

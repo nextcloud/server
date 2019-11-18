@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -29,27 +29,27 @@ use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
 
-	/** @var ProviderUserAssignmentDao|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ProviderUserAssignmentDao|MockObject */
 	private $dao;
+
+	/** @var IEventDispatcher|MockObject */
+	private $dispatcher;
 
 	/** @var Registry */
 	private $registry;
-
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
-	private $dispatcher;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->dao = $this->createMock(ProviderUserAssignmentDao::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->registry = new Registry($this->dao, $this->dispatcher);
 	}

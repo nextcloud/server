@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Federated-Sharing",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
     "Remote share" : "Externe Freigabe",
     "Remote share password" : "Passwort für die externe Freigabe",
@@ -24,10 +23,11 @@ OC.L10N.register(
     "File is already shared with %s" : "Datei wird bereits geteilt mit %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %1$s fehlgeschlagen, da %2$s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie empfingen \"%3$s\" als eine externe Freigabe von \"%1$s\" (im Auftrag von %2$s)",
-    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie empfingen {share} als eine externe Freigabe von {user} (im Auftrag von {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Sie empfingen \"%3$s\" als eine externe Freigabe von \"%1$s\"",
-    "You received {share} as a remote share from {user}" : "Sie empfingen {share} als eine externe Freigabe von {user} ",
+    "Federated sharing" : "Federated-Sharing",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" (im Auftrag von %2$s) empfangen",
+    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie haben {share} als externe Freigabe von {user} (im Auftrag von {behalf}) empfangen",
+    "You received \"%3$s\" as a remote share from %1$s" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" empfangen",
+    "You received {share} as a remote share from {user}" : "Sie haben {share} als externe Freigabe von {user} empfangen",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe %s",
@@ -47,11 +47,9 @@ OC.L10N.register(
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
-    "Share it so your friends can share files with you:" : "Teilen SIe es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
+    "Share it so your friends can share files with you:" : "Teilen Sie es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
-    "HTML Code:" : "HTML-Code:",
-    "Sharing %s failed, because this item is already shared with %s" : "Die Freigabe von %s ist fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat."
+    "HTML Code:" : "HTML-Code:"
 },
 "nplurals=2; plural=(n != 1);");

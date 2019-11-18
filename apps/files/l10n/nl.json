@@ -31,6 +31,8 @@
     "Copy" : "Kopiëren",
     "Choose target folder" : "Kies doelmap…",
     "Open" : "Openen",
+    "Delete file" : "Verwijderen bestand",
+    "Delete folder" : "Verwijderen map",
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
     "Could not load info for file \"{file}\"" : "Kon geen informatie laden voor bestand \"{file}\"",
@@ -96,7 +98,7 @@
     "Added to favorites" : "Toevoegen aan favorieten",
     "Removed from favorites" : "Verwijderen uit favorieten",
     "You added {file} to your favorites" : "Je voegde {file} toe aan favorieten",
-    "You removed {file} from your favorites" : "Je verwijderde {file} van favorieten",
+    "You removed {file} from your favorites" : "Je verwijderde {file} uit je favorieten",
     "File changes" : "Bestandswijzigingen",
     "Created by {user}" : "Gecreëerd door {user}",
     "Changed by {user}" : "Gewijzigd door {user}",
@@ -133,9 +135,11 @@
     "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "File Management" : "Bestandsbeheer",
-    "%s of %s used" : "%s van %s gebruikt",
-    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt",
+    "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
+    "Unable to change the favourite state of the file" : "Niet mogelijk om voorkeurtoestand van het bestand te wijzigen",
     "%s used" : "%s gebruikt",
+    "%s%% of %s used" : "%s%% van %s gebruikt",
+    "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
     "WebDAV" : "WebDAV",
@@ -158,7 +162,6 @@
     "Deleted shares" : "Verwijderde shares",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
-    "Target folder" : "Doelmap",
     "File handling" : "Bestand afhandeling",
     "Maximum upload size" : "Maximale bestandsgrootte voor uploads",
     "max. possible: " : "max. mogelijk: ",
@@ -166,6 +169,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Met PHP-FPM kan het 5 minuten duren voordat wijzigingen zijn doorgevoerd.",
     "Missing permissions to edit from here." : "Ontbrekende rechten om vanaf hier te bewerken.",
     "Cancel upload" : "Stop upload",
-    "%1$s of %2$s used" : "%1$s van %2$s gebruikt"
+    "%s of %s used" : "%s van %s gebruikt",
+    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

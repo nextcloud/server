@@ -77,7 +77,7 @@ kbd {
 
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-#app-navigation {
+#app-navigation:not(.vue) {
 	width: $navigation-width;
 	position: fixed;
 	top: $header-height;
@@ -358,6 +358,10 @@ kbd {
 			height: 44px;
 			margin: 0;
 			z-index: 110;
+
+			/* Needed for IE11; otherwise the button appears to the right of the
+			 * link. */
+			left: 0;
 		}
 		&:before {
 			position: absolute;
@@ -588,7 +592,7 @@ kbd {
 
 /**
  * !Important. We are defining the minimum requirement we want for flex
- * Just before the mobile breakpoint we have $breakpoint-mobile (768px) - $navigation-width
+ * Just before the mobile breakpoint we have $breakpoint-mobile (1024px) - $navigation-width
  * -> 468px. In that case we want 200px for the list and 268px for the content
  */
 $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
@@ -707,7 +711,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 }
 
 
-.settings-button {
+#app-settings-header .settings-button {
 	display: block;
 	height: 44px;
 	width: 100%;
@@ -728,9 +732,12 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	color: var(--color-main-text);
 	opacity: .57;
 
-	&.opened,
+	&.opened {
+		border-top: solid 1px var(--color-border);
+	}
 	&:hover,
-	&:focus {
+	&:focus,
+	&.opened {
 		background-color: var(--color-main-background);
 		opacity: 1;
 		box-shadow: inset 4px 0 var(--color-primary);
@@ -1118,7 +1125,6 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 	.app-content-list-item {
 		position: relative;
 		height: 68px;
-		border-top: 1px solid var(--color-border);
 		cursor: pointer;
 		padding: 10px 7px;
 		display: flex;

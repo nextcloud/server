@@ -195,6 +195,9 @@ class NotifierTest extends TestCase {
 			->expects($this->any())
 			->method('getMentions')
 			->willReturn([['type' => 'user', 'id' => 'you']]);
+		$this->comment->expects($this->atLeastOnce())
+			->method('getId')
+			->willReturn('1234');
 
 		$this->commentsManager
 			->expects($this->once())
@@ -539,7 +542,7 @@ class NotifierTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException \OCP\Notification\AlreadyProcessedException
 	 */
 	public function testPrepareUnresolvableFileID() {
 		$displayName = 'Huraga';

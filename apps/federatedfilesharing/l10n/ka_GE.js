@@ -1,7 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "ფედერალური გაზიარება",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "გსურთ დაამატოთ {owner}@{remote}-ის დისტანცური გაზიარება {name}?",
     "Remote share" : "დისტანციური გაზიარება",
     "Remote share password" : "დისტანციური გაზიარების პაროლი",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "იმავე მომხმარებელთან ფედერალური გაზიარება ვერ შეიქმნება",
     "File is already shared with %s" : "ფაილი უკვე გაზიარებულია მომხმარებელთან %s ",
     "Could not find share" : "გაზიარება ვერ იქნა ნაპოვნი",
+    "Federated sharing" : "ფედერალური გაზიარება",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "თქვენ მიიღეთ გაზიარება {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user} (სახელით {behalf})",
     "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s",
@@ -42,8 +42,6 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "გააზიარეთ, რომ თქვენმა მეგობრებმაც შეძლონ ფაილების გაზიარება თქვენთან:",
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
-    "HTML Code:" : "HTML კოდი:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s-ს გაზიარება არ მოხერხდა, ეს ობიექტი %s მომხმარებელთან უკვე გაზიარებულია",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s-ის გაზიარება ვერ მოხერხდა, ვერ ვოპოვეთ %s, ალბათ სერვერი ახლა მიუწვდომელია ან იყენებს თავის ხელმოწერილ სერტიფიკატს."
+    "HTML Code:" : "HTML კოდი:"
 },
 "nplurals=2; plural=(n!=1);");

@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\AppInfo;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\MountProvider;
+use OCA\Files_Sharing\Notification\Notifier;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
@@ -127,13 +128,6 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService('OCSShareAPIMiddleware', function (SimpleContainer $c) use ($server) {
-			return new OCSShareAPIMiddleware(
-				$server->getShareManager(),
-				$server->getL10N($c->query('AppName'))
-			);
-		});
-
 		$container->registerService(ShareInfoMiddleware::class, function () use ($server) {
 			return new ShareInfoMiddleware(
 				$server->getShareManager()
@@ -142,7 +136,7 @@ class Application extends App {
 
 		// Execute middlewares
 		$container->registerMiddleWare('SharingCheckMiddleware');
-		$container->registerMiddleWare('OCSShareAPIMiddleware');
+		$container->registerMiddleWare(OCSShareAPIMiddleware::class);
 		$container->registerMiddleWare(ShareInfoMiddleware::class);
 
 		$container->registerService('MountProvider', function (IContainer $c) {
@@ -171,6 +165,10 @@ class Application extends App {
 		 * Register capabilities
 		 */
 		$container->registerCapability(Capabilities::class);
+
+		/** @var \OCP\Notification\IManager $notifications */
+		$notifications = $container->query(\OCP\Notification\IManager::class);
+		$notifications->registerNotifierService(Notifier::class);
 	}
 
 	public function registerMountProviders() {

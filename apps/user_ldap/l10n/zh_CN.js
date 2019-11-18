@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "清除映射失败。",
+    "Failed to clear the mappings." : "无法清除映射。",
     "Failed to delete the server configuration" : "未能删除服务器配置",
     "Invalid configuration: Anonymous binding is not allowed." : "配置无效：不允许匿名绑定。",
     "Valid configuration, connection established!" : "配置有效，连接成功！",
@@ -12,7 +12,6 @@ OC.L10N.register(
     "No data specified" : "未指定数据",
     " Could not set configuration %s" : " 无法设定配置文件 %s",
     "Action does not exist" : "操作不存在",
-    "LDAP user and group backend" : "LDAP 用户和组后端",
     "Renewing …" : "更新...",
     "Very weak password" : "非常弱的密码",
     "Weak password" : "弱密码",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "该组框被禁用，因为 LDAP/AD 服务器不支持 memberOf。",
     "Password change rejected. Hint: " : "密码更改出错。提示：",
     "Please login with the new password" : "请使用新密码登录",
+    "LDAP User backend" : "LDAP 用户后端",
     "Your password will expire tomorrow." : "您的密码将在明天过期",
     "Your password will expire today." : "您的明码将在今天过期",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["您的密码会在%n天后过期"],
@@ -65,6 +65,7 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "无法检测到用户的显示名称属性。请在高级 LDAP 设置中指定。",
     "Could not find the desired feature" : "无法找到所需的功能",
     "Invalid Host" : "无效的主机",
+    "LDAP user and group backend" : "LDAP 用户和组后端",
     "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "这个应用能够让管理员们将一个基于LDAP的用户目录与Nextcloud连接起来",
     "This application enables administrators to connect Nextcloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into Nextcloud from a directory with the appropriate queries and filters.\n\nA user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation." : "本应用启用功能使管理员可将 Nextcloud 与基于 LDAP 的用户目录连接，进行身份验证以及提供用户、群组和用户属性。管理员可配置此程序通过 LDAP 接口连接至一个或多个 LDAP 或 Active Directory 目录。通过适当的查询和筛选，可将以下属性从目录导入 Nextcloud: 用户磁盘配额、电子邮箱、头像、所属群组以及更多。\n\n用户可以用其LDAP或AD中的身份登录 Nextcloud, 并根据 LDAP 或 AD 服务的身份验证获得访问权限。Nextcloud 仅使用身份验证随后为用户身份使用会话，但不会储存LDAP或AD的密码。您可从 LDAP 用户及群组后台文档中获取更多信息。",
     "Test Configuration" : "测试配置",

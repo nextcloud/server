@@ -89,7 +89,19 @@ class Util {
 	public static function getVersion() {
 		return \OC_Util::getVersion();
 	}
-	
+
+	/**
+	 * @since 17.0.0
+	 */
+	public static function hasExtendedSupport(): bool {
+		try {
+			/** @var \OCP\Support\Subscription\IRegistry */
+			$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+			return $subscriptionRegistry->delegateHasExtendedSupport();
+		} catch (AppFramework\QueryException $e) {}
+		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+	}
+
 	/**
 	 * Set current update channel
 	 * @param string $channel
@@ -98,7 +110,7 @@ class Util {
 	public static function setChannel($channel) {
 		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 	}
-	
+
 	/**
 	 * Get current update channel
 	 * @return string
@@ -361,22 +373,6 @@ class Util {
 	}
 
 	/**
-	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * @since 4.5.0
-	 * @deprecated 9.0.0 Use annotations based on the app framework.
-	 */
-	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
-			exit();
-		}
-
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
-			exit();
-		}
-	}
-
-	/**
 	 * Used to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
@@ -517,7 +513,7 @@ class Util {
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
 			self::$needUpgradeCache=\OC_Util::needUpgrade(\OC::$server->getSystemConfig());
-		}		
+		}
 		return self::$needUpgradeCache;
 	}
 

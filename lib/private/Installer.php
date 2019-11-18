@@ -129,6 +129,11 @@ class Installer {
 		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
 		\OC_App::registerAutoloading($appId, $basedir);
 
+		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', false);
+		if ($previousVersion) {
+			OC_App::executeRepairSteps($appId, $info['repair-steps']['pre-migration']);
+		}
+
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
 			if (\OC::$server->getConfig()->getAppValue($info['id'], 'installed_version') === null) {
@@ -139,6 +144,9 @@ class Installer {
 		} else {
 			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
 			$ms->migrate();
+		}
+		if ($previousVersion) {
+			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
 		}
 
 		\OC_App::setupBackgroundJobs($info['background-jobs']);

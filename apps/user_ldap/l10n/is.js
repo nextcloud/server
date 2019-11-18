@@ -11,7 +11,6 @@ OC.L10N.register(
     "No data specified" : "Engin gögn tiltekin",
     " Could not set configuration %s" : "Gat ekki sett uppsetningu %s",
     "Action does not exist" : "Aðgerð er ekki til",
-    "LDAP user and group backend" : "LDAP notandi og bakendi hóps",
     "Renewing …" : "Endurnýja …",
     "Very weak password" : "Mjög veikt lykilorð",
     "Weak password" : "Veikt lykilorð",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "_%s user found_::_%s users found_" : ["%s notandi fannst","%s notendur fundust"],
     "Could not find the desired feature" : "Gat ekki fundið eiginleika sem óskað var eftir",
     "Invalid Host" : "Ógild vél",
+    "LDAP user and group backend" : "LDAP notandi og bakendi hóps",
     "Test Configuration" : "Prófa uppsetningu",
     "Help" : "Hjálp",
     "Only from these groups:" : "Aðeins úr þessum hópum:",
@@ -97,6 +97,7 @@ OC.L10N.register(
     "Quota Field" : "Gagnasvið fyrir kvóta",
     "Quota Default" : "Sjálfgefinn kvóti",
     "Email Field" : "Gagnasvið fyrir netfang",
-    "Internal Username" : "Innra notandanafn"
+    "Internal Username" : "Innra notandanafn",
+    "UUID Attribute for Groups:" : "UUID-eigindi fyrir hópa:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

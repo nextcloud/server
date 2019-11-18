@@ -145,7 +145,7 @@ describe('OC.SetupChecks tests', function() {
 
 	describe('checkWOFF2Loading', function() {
 		it('should fail with another response status code than the expected one', function(done) {
-			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
 
 			suite.server.requests[0].respond(302);
 
@@ -159,7 +159,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with the expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/Nunito-Regular.woff2'), 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
 
 			suite.server.requests[0].respond(200);
 
@@ -230,7 +230,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -282,7 +282,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -335,7 +335,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -386,7 +386,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: false,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -435,7 +435,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
@@ -484,7 +484,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -534,7 +534,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -583,7 +583,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -632,7 +632,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -673,7 +673,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({data: {serverHasInternetConnection: false}})
+				JSON.stringify({data: {serverHasInternetConnectionProblems: true}})
 			);
 
 			async.done(function( data, s, x ){
@@ -702,7 +702,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					phpSupported: {eol: true, version: '5.4.0'},
@@ -752,7 +752,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -778,7 +778,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -802,7 +802,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -852,7 +852,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -902,7 +902,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -951,7 +951,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -1403,7 +1403,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="https://docs.example.org/admin-security">security tips ↗</a>.',
+				msg: 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -1418,7 +1418,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'Content-Type': 'application/json'
 			},
-			JSON.stringify({data: {serverHasInternetConnection: false}})
+			JSON.stringify({data: {serverHasInternetConnectionProblems: true}})
 		);
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{

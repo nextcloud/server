@@ -41,7 +41,7 @@ if (isset($_GET['offset'])) {
 
 $groups = [];
 foreach (\OC::$server->getGroupManager()->search($pattern, $limit, $offset) as $group) {
-	$groups[$group->getGID()] = $group->getGID();
+	$groups[$group->getGID()] = $group->getDisplayName();
 }
 
 $users = [];

@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
     "A file or folder has been <strong>shared</strong>" : "A file or folder has been <strong>shared</strong>",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
-    "could not delete share" : "could not delete share",
     "Could not delete share" : "Could not delete share",
     "Please specify a file or folder path" : "Please specify a file or folder path",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
@@ -83,14 +82,13 @@ OC.L10N.register(
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
     "Can't change permissions for public share links" : "Can't change permissions for public share links",
-    "Cannot increase permissions" : "Cannot increase permissions",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
-    "Share" : "Share",
     "Sharing" : "Sharing",
+    "Share" : "Share",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",
@@ -106,6 +104,6 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploading files…" : "Uploading files…",
     "Uploaded files:" : "Uploaded files:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sharing %s failed because the back end does not allow shares from type %s"
+    "could not delete share" : "could not delete share"
 },
 "nplurals=2; plural=(n != 1);");

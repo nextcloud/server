@@ -1,13 +1,14 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
-    "Update notifications" : "Frissítési értesítés",
     "Channel updated" : "Csatorna frissítve",
+    "Update notifications" : "Frissítési értesítés",
     "The update server could not be reached since %d days to check for new updates." : "A frissítési szerver  %d napja nem elérhető a frissítések kereséséhez.",
     "Please check the Nextcloud and server log files for errors." : "Kérlek nézd meg a Nextcloud és a szervernaplókat a hibák miatt.",
     "Update to %1$s is available." : "%1$s frissítés elérhető.",
     "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
     "Update for {app} to version %s is available." : "{app} %s verzió frissítése elérhető",
     "Update notification" : "Frissítési értesítés",
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Megjeleníti a Nextcloud frissítéseiről szóló értesítéseket és SSO hozzáférést nyújt a frissítésekhez.",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Az általad futtatott verziót már nem karban tartott. Kérlek frissítsd egy támogatott verzióra amint lehetséges.",
     "Apps missing updates" : "Alkalmazások frissítés nélkül",
     "View in store" : "Nézze meg a boltban",
@@ -33,7 +34,6 @@
     "View changelog" : "Változásnapló megjelenítése",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"],
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mindig frissíthetsz az újabb verzióra vagy kísérleti csatornára, de visszafelé sosem frissíthetsz egy jóval stabilabb verzióra.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Béta</strong>, egy előzetes verzió kizárólag az új funkciók tesztelésére, nem élő környezetbe.",
-    "Could not start updater, please try the manual update" : "Nem sikerült elindítani a frissítőt, kérlek próbáld a manuális frissítést"
+    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>Béta</strong>, egy előzetes verzió kizárólag az új funkciók tesztelésére, nem élő környezetbe."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

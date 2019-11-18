@@ -91,6 +91,28 @@ interface ISearchRequest {
 	 */
 	public function getSearch(): string;
 
+	/**
+	 * Set the searched string.
+	 *
+	 * @param string $search
+	 *
+	 * @since 17.0.0
+	 *
+	 * @return ISearchRequest
+	 */
+	public function setSearch(string $search): ISearchRequest;
+
+	/**
+	 * Extends the searched string.
+	 *
+	 * @since 17.0.0
+	 *
+	 * @param string $search
+	 *
+	 * @return ISearchRequest
+	 */
+	public function addSearch(string $search): ISearchRequest;
+
 
 	/**
 	 * Get the value of an option (as string).
@@ -321,6 +343,26 @@ interface ISearchRequest {
 	 */
 	public function getFields(): array;
 
+
+
+	/**
+	 * Add a MUST search on an extra field
+	 *
+	 * @param ISearchRequestSimpleQuery $query
+	 *
+	 * @return ISearchRequest
+	 * @since 17.0.0
+	 */
+	public function addSimpleQuery(ISearchRequestSimpleQuery $query): ISearchRequest;
+
+
+	/**
+	 * Get the list of queries on extra field.
+	 *
+	 * @return ISearchRequestSimpleQuery[]
+	 * @since 17.0.0
+	 */
+	public function getSimpleQueries(): array;
 
 }
 

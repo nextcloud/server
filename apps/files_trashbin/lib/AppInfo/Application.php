@@ -23,6 +23,7 @@
 
 namespace OCA\Files_Trashbin\AppInfo;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
@@ -45,12 +46,7 @@ class Application extends App {
 		/*
 		 * Register expiration
 		 */
-		$container->registerService('Expiration', function($c) {
-			return  new Expiration(
-				$c->query('ServerContainer')->getConfig(),
-				$c->query(ITimeFactory::class)
-			);
-		});
+		$container->registerAlias('Expiration', Expiration::class);
 
 		/*
 		 * Register $principalBackend for the DAV collection
@@ -61,8 +57,8 @@ class Application extends App {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getShareManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getAppManager()
+				\OC::$server->getAppManager(),
+				\OC::$server->query(ProxyMapper::class)
 			);
 		});
 

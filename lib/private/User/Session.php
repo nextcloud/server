@@ -50,6 +50,7 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -113,6 +114,8 @@ class Session implements IUserSession, Emitter {
 
 	/** @var ILogger */
 	private $logger;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
 	/**
 	 * @param Manager $manager
@@ -131,7 +134,8 @@ class Session implements IUserSession, Emitter {
 								IConfig $config,
 								ISecureRandom $random,
 								ILockdownManager $lockdownManager,
-								ILogger $logger) {
+								ILogger $logger,
+								IEventDispatcher $dispatcher) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFactory = $timeFactory;
@@ -140,6 +144,7 @@ class Session implements IUserSession, Emitter {
 		$this->random = $random;
 		$this->lockdownManager = $lockdownManager;
 		$this->logger = $logger;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -310,6 +315,29 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getImpersonatingUserID(): ?string {
+
+		return $this->session->get('oldUserId');
+
+	}
+
+	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
+		if ($useCurrentUser === false) {
+			$this->session->remove('oldUserId');
+			return;
+		}
+
+		$currentUser = $this->getUser();
+
+		if ($currentUser === null) {
+			throw new \OC\User\NoUserException();
+		}
+		$this->session->set('oldUserId', $currentUser->getUID());
+
+	}
+	/**
 	 * set the token id
 	 *
 	 * @param int|null $token that was used to log in
@@ -369,6 +397,14 @@ class Session implements IUserSession, Emitter {
 			$this->setToken(null);
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
+
+		$postLoginEvent = new OC\User\Events\PostLoginEvent(
+			$user,
+			$loginDetails['password'],
+			$isToken
+		);
+		$this->dispatcher->dispatch(OC\User\Events\PostLoginEvent::class, $postLoginEvent);
+
 		$this->manager->emit('\OC\User', 'postLogin', [
 			$user,
 			$loginDetails['password'],
@@ -825,7 +861,7 @@ class Session implements IUserSession, Emitter {
 
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
 			return false;
 		} catch (InvalidTokenException $ex) {
@@ -834,7 +870,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->setMagicInCookie($user->getUID(), $newToken);
-		$token = $this->tokenProvider->getToken($sessionId);
 
 		//login
 		$this->setUser($user);

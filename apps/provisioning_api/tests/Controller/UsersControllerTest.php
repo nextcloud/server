@@ -33,13 +33,14 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
 use OC\Accounts\AccountManager;
+use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCP\App\IAppManager;
 use OCP\Mail\IEMailTemplate;
-use OC\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OC\SubAdmin;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCP\AppFramework\Http\DataResponse;
@@ -54,6 +55,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -85,6 +87,8 @@ class UsersControllerTest extends TestCase {
 	private $federatedFileSharingFactory;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
+	/** @var RemoteWipe|MockObject */
+	private $remoteWipe;
 
 	protected function setUp() {
 		parent::setUp();
@@ -101,6 +105,7 @@ class UsersControllerTest extends TestCase {
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->federatedFileSharingFactory = $this->createMock(FederatedFileSharingFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -116,7 +121,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -356,7 +362,10 @@ class UsersControllerTest extends TestCase {
 			->with('adminUser')
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData());
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData()
+		));
 	}
 
 	public function testAddUserSuccessfulWithDisplayName() {
@@ -374,7 +383,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe
 			])
 			->setMethods(['editUser'])
 			->getMock();
@@ -413,7 +423,149 @@ class UsersControllerTest extends TestCase {
 			->method('editUser')
 			->with('NewUser', 'display', 'DisplayNameOfTheNewUser');
 
-		$this->assertEquals([], $api->addUser('NewUser', 'PasswordOfTheNewUser', 'DisplayNameOfTheNewUser')->getData());
+		$this->assertTrue(key_exists(
+			'id',
+			$api->addUser('NewUser', 'PasswordOfTheNewUser', 'DisplayNameOfTheNewUser')->getData()
+		));
+	}
+
+	public function testAddUserSuccessfulGenerateUserID() {
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(function($appid, $key, $default) {
+				if($key === 'newUser.generateUserID') {
+					return 'yes';
+				}
+				return null;
+			});
+		$this->userManager
+			->expects($this->any())
+			->method('userExists')
+			->with($this->anything())
+			->will($this->returnValue(false));
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->with($this->anything(), 'PasswordOfTheNewUser');
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with($this->stringStartsWith('Successful addUser call with userid: '), ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+		$this->secureRandom->expects($this->any())
+			->method('generate')
+			->with(10)
+			->willReturnCallback(function() { return (string)rand(1000000000, 9999999999); });
+
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('', 'PasswordOfTheNewUser')->getData()
+		));
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 111
+	 * @expectedExceptionMessage Could not create non-existing user id
+	 */
+	public function testAddUserFailedToGenerateUserID() {
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(function($appid, $key, $default) {
+				if($key === 'newUser.generateUserID') {
+					return 'yes';
+				}
+				return null;
+			});
+		$this->userManager
+			->expects($this->any())
+			->method('userExists')
+			->with($this->anything())
+			->will($this->returnValue(true));
+		$this->userManager
+			->expects($this->never())
+			->method('createUser');
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+
+		$this->api->addUser('', 'PasswordOfTheNewUser')->getData();
+	}
+
+	/**
+	 * @expectedException \OCP\AppFramework\OCS\OCSException
+	 * @expectedExceptionCode 110
+	 * @expectedExceptionMessage Required email address was not provided
+	 */
+	public function testAddUserEmailRequired() {
+		$this->config
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(function($appid, $key, $default) {
+				if($key === 'newUser.requireEmail') {
+					return 'yes';
+				}
+				return null;
+			});
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->will($this->returnValue(false));
+		$this->userManager
+			->expects($this->never())
+			->method('createUser');
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', 'PasswordOfTheNewUser')->getData()
+		));
 	}
 
 	public function testAddUserExistingGroup() {
@@ -471,7 +623,10 @@ class UsersControllerTest extends TestCase {
 				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
 			);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
+		$this->assertTrue(key_exists(
+			'id',
+				$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData()
+		));
 	}
 
 	/**
@@ -689,7 +844,10 @@ class UsersControllerTest extends TestCase {
 			)
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData()
+		));
 	}
 
 	/**
@@ -2516,7 +2674,7 @@ class UsersControllerTest extends TestCase {
 	/**
 	 * @expectedException \OCP\AppFramework\OCS\OCSException
 	 * @expectedExceptionCode 105
-	 * @expectedExceptionMessage Cannot remove user from this group as this is the only remaining group you are a SubAdmin of
+	 * @expectedExceptionMessage Not viable to remove user from the last group you are SubAdmin of
 	 */
 	public function testRemoveFromGroupAsSubAdminFromLastSubAdminGroup() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2961,7 +3119,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -3024,7 +3183,8 @@ class UsersControllerTest extends TestCase {
 				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->federatedFileSharingFactory,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->remoteWipe,
 			])
 			->setMethods(['getUserData'])
 			->getMock();

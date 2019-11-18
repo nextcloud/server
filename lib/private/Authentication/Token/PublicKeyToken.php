@@ -44,7 +44,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVersion(int $version)
  * @method bool getPasswordInvalid()
  */
-class PublicKeyToken extends Entity implements INamedToken {
+class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	const VERSION = 2;
 
@@ -225,5 +225,9 @@ class PublicKeyToken extends Entity implements INamedToken {
 
 	public function setPasswordInvalid(bool $invalid) {
 		parent::setPasswordInvalid($invalid);
+	}
+
+	public function wipe(): void {
+		parent::setType(IToken::WIPE_TOKEN);
 	}
 }

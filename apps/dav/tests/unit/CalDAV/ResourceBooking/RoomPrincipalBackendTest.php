@@ -27,10 +27,16 @@ Class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
 	public function setUp() {
 		parent::setUp();
 
-		$this->principalBackend = new RoomPrincipalBackend($this->dbConnection,
-			$this->userSession, $this->groupManager, $this->logger);
-		$this->expectedDbTable = 'calendar_rooms';
+		$this->principalBackend = new RoomPrincipalBackend(self::$realDatabase,
+			$this->userSession, $this->groupManager, $this->logger, $this->proxyMapper);
+
+		$this->mainDbTable = 'calendar_rooms';
+		$this->metadataDbTable = 'calendar_rooms_md';
+		$this->foreignKey = 'room_id';
+
 		$this->principalPrefix = 'principals/calendar-rooms';
 		$this->expectedCUType = 'ROOM';
+
+		$this->createTestDatasetInDb();
 	}
 }

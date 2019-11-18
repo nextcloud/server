@@ -22,7 +22,6 @@ OC.L10N.register(
     "Save" : "ساتل",
     "Allowed characters {count} of {max}" : "له {max} تورو څخه {count}",
     "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
-    "Comment" : "تبصره",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s تاسې په  “%2$s” باندې تبصره کې یاد کړي یاست"
+    "Comment" : "تبصره"
 },
 "nplurals=2; plural=(n != 1);");

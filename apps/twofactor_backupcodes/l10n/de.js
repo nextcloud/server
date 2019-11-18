@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "Funktion",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ein Fehler ist bei der Erstellung Deiner Backup-Codes aufgetreten",
     "{name} backup codes" : "{name} Backup-Codes",
@@ -14,15 +15,13 @@ OC.L10N.register(
     "Generate backup codes" : "Backup-Codes erzeugen",
     "You created two-factor backup codes for your account" : "Du hast Zwei-Faktor Sicherungs-Codes für Dein Konto erstellt",
     "Second-factor backup codes" : "Zweitfaktor-Backup-Codes",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du hast die Zwei-Faktor-Authentifizierung aktiviert, aber noch keine Backup-Codes generiert. Bitte hole dies für den Fall, dass Du den Zugriff auf Deinen zweiten Faktor verlierst, nach.",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du hast die Zwei-Faktor-Authentifizierung aktiviert, aber noch keine Backup-Codes erzeugt. Diese werden für den Fall benötigt, dass du den Zugriff auf Ihren zweiten Faktor verloren hast.",
     "Backup code" : "Backup-Code",
     "Use backup code" : "Backup-Code verwenden",
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Verwende einen der Backup-Codes, den Du bei der Einrichtung der Zwei-Faktor-Authentifizierung gespeichert hast.",
     "Submit" : "Übermitteln",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erstellt. {{used}} von {{total}} Codes wurden benutzt.",
-    "Nextcloud backup codes" : "Nextcloud-Backup-Codes",
     "activated" : "Aktiviert",
     "updated" : "Aktualisiert",
     "mounted" : "Eingebunden",
@@ -32,6 +31,8 @@ OC.L10N.register(
     "beforeUpdate" : "beforeUpdate",
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "Vernichtet",
-    "beforeMount" : "beforeMount"
+    "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Nextcloud-Backup-Codes",
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du hast die Zwei-Faktor-Authentifizierung aktiviert, aber noch keine Backup-Codes generiert. Bitte hole dies für den Fall, dass Du den Zugriff auf Deinen zweiten Faktor verlierst, nach."
 },
 "nplurals=2; plural=(n != 1);");

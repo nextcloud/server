@@ -1,5 +1,4 @@
 import './versionmodel'
-import './templates'
 import './versioncollection'
 import './versionstabview'
 import './filesplugin'

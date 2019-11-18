@@ -8,7 +8,9 @@
     "%1$s commented on %2$s" : "%1$s %2$s-en iruzkin du",
     "{author} commented on {file}" : "{author}-(e)k {file}-en iruzkin du",
     "<strong>Comments</strong> for files" : "Fitxategientzako <strong>iruzkinak",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : " “{file}” fitxategian ezabatu izan den erabiltzaile batek aipatu zaitu",
     "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”",
+    "Files app plugin to add comments to files" : "Fitxategiei iruzkinak gehitzeko fitxategien aplikazioaren plugina",
     "Edit comment" : "Iruzkina editatu",
     "Delete comment" : "Ezabatu iruzkina",
     "New comment …" : "Iruzkin berria...",
@@ -20,10 +22,10 @@
     "Save" : "Gorde",
     "Allowed characters {count} of {max}" : "Onartutako karaktereak {max}-tik {count}",
     "Error occurred while retrieving comment with ID {id}" : "Errorea gertatu da {id} ID-a duen iruzkina berreskuratzerakoan",
-    "Error occurred while updating comment with id {id}" : "Akats bat gertatu da {id} id duen iruzkina aldatzerakoan",
-    "Error occurred while posting comment" : "Akats bat gertatu da iruzkina bidaltzerakoan",
+    "Error occurred while updating comment with id {id}" : "Errore bat gertatu da {id} id-a duen iruzkina aldatzerakoan",
+    "Error occurred while posting comment" : "Errore bat gertatu da iruzkina bidaltzerakoan",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"],
-    "Comment" : "Iruzkina",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s-(e)k aipatu zaitu iruzkinean “%2$s”"
+    "_1 new comment_::_{unread} new comments_" : ["Iruzkin berri 1","{unread} iruzkin berri"],
+    "Comment" : "Iruzkina"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -183,7 +183,7 @@ class Storage {
 		$eventDispatcher = \OC::$server->getEventDispatcher();
 		$fileInfo = $files_view->getFileInfo($filename);
 		$id = $fileInfo->getId();
-		$nodes = \OC::$server->getRootFolder()->getById($id);
+		$nodes = \OC::$server->getRootFolder()->getUserFolder($uid)->getById($id);
 		foreach ($nodes as $node) {
 			$event = new CreateVersionEvent($node);
 			$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
@@ -850,8 +850,8 @@ class Storage {
 	 * @return Expiration
 	 */
 	protected static function getExpiration(){
-		if (is_null(self::$application)) {
-			self::$application = new Application();
+		if (self::$application === null) {
+			self::$application = \OC::$server->query(Application::class);
 		}
 		return self::$application->getContainer()->query(Expiration::class);
 	}
