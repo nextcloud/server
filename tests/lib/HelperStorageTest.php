@@ -26,6 +26,7 @@ class HelperStorageTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->user = $this->getUniqueID('user_');
+		\OC_User::useBackend('dummy');
 		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 
 		$this->storage = \OC\Files\Filesystem::getStorage('/');
