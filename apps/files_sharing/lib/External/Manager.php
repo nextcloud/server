@@ -155,7 +155,7 @@ class Manager {
 		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
 
-		if (!$accepted) {
+		if ($accepted !== IShare::STATUS_ACCEPTED)  {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,

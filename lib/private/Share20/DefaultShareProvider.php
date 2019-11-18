@@ -355,6 +355,7 @@ class DefaultShareProvider implements IShareProvider {
 				->execute();
 
 			$data = $stmt->fetch();
+			$stmt->closeCursor();
 
 			/*
 			 * Check if there already is a user specific group share.
