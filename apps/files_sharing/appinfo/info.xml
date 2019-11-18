@@ -9,7 +9,7 @@
 Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.
 
 	</description>
-	<version>1.10.0</version>
+	<version>1.10.1</version>
 	<licence>agpl</licence>
 	<author>Michael Gapczynski</author>
 	<author>Bjoern Schiessle</author>
@@ -36,6 +36,7 @@ Turning the feature off removes shared files and folders on the server for all s
 		<post-migration>
 			<step>OCA\Files_Sharing\Migration\OwncloudGuestShareType</step>
 			<step>OCA\Files_Sharing\Migration\SetPasswordColumn</step>
+			<step>OCA\Files_Sharing\Migration\SetAcceptedStatus</step>
 		</post-migration>
 	</repair-steps>
 

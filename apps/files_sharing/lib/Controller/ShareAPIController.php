@@ -947,6 +947,38 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 * @throws OCSNotFoundException
+	 * @throws OCSException
+	 * @throws OCSBadRequestException
+	 */
+	public function acceptShare(string $id): DataResponse {
+		try {
+			$share = $this->getShareById($id);
+		} catch (ShareNotFound $e) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		if (!$this->canAccessShare($share)) {
+			throw new OCSNotFoundException($this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		try {
+			$this->shareManager->acceptShare($share, $this->currentUser);
+		} catch (GenericShareException $e) {
+			$code = $e->getCode() === 0 ? 403 : $e->getCode();
+			throw new OCSException($e->getHint(), $code);
+		} catch (\Exception $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
+		}
+
+		return new DataResponse();
+	}
+
+	/**
 	 * Does the user have read permission on the share
 	 *
 	 * @param \OCP\Share\IShare $share the share to check
@@ -1078,8 +1110,8 @@ class ShareAPIController extends OCSController {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function canDeleteShareFromSelf(\OCP\Share\IShare $share): bool {
-		if ($share->getShareType() !== Share::SHARE_TYPE_GROUP &&
-			$share->getShareType() !== Share::SHARE_TYPE_ROOM
+		if ($share->getShareType() !== IShare::TYPE_GROUP &&
+			$share->getShareType() !== IShare::TYPE_ROOM
 		) {
 			return false;
 		}

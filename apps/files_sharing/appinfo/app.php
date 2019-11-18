@@ -38,6 +38,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 
 $application = \OC::$server->query(Application::class);
 $application->registerMountProviders();
+$application->register();
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(

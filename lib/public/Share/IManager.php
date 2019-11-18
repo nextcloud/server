@@ -54,6 +54,7 @@ interface IManager {
 	 * Update a share.
 	 * The target of the share can't be changed this way: use moveShare
 	 * The share can't be removed this way (permission 0): use deleteShare
+	 * The state can't be changed this way: use acceptShare
 	 *
 	 * @param IShare $share
 	 * @return IShare The share object
@@ -61,6 +62,17 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function updateShare(IShare $share);
+
+	/**
+	 * Accept a share.
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @return IShare The share object
+	 * @throws \InvalidArgumentException
+	 * @since 18.0.0
+	 */
+	public function acceptShare(IShare $share, string $recipientId): IShare;
 
 	/**
 	 * Delete a share

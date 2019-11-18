@@ -44,6 +44,7 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share;
+use OCP\Share\IShare;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -151,10 +152,10 @@ class Manager {
 	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted=false, $user = null, $remoteId = -1, $parent = -1) {
 
 		$user = $user ? $user : $this->uid;
-		$accepted = $accepted ? 1 : 0;
+		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
 
-		if (!$accepted) {
+		if ($accepted !== IShare::STATUS_ACCEPTED)  {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,

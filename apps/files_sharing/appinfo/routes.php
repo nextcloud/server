@@ -73,6 +73,11 @@ return [
 			'url'  => '/api/v1/shares/{id}',
 			'verb' => 'DELETE',
 		],
+		[
+			'name' => 'ShareAPI#acceptShare',
+			'url'  => '/api/v1/shares/pending/{id}',
+			'verb' => 'POST',
+		],
 		/*
 		 * Deleted Shares
 		 */
