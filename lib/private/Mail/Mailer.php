@@ -131,7 +131,7 @@ class Mailer implements IMailer {
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
 		$class = $this->config->getSystemValue('mail_template_class', '');
 
-		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
+		if (interface_exists("OCP\Mail\IEMailTemplate") && $class !== '' && class_exists($class) && is_a($class, IEMailTemplate::class, true)) {
 			return new $class(
 				$this->defaults,
 				$this->urlGenerator,

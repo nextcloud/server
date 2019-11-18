@@ -54,9 +54,6 @@ use OCP\Util;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use function array_filter;
-use function count;
-use function reset;
 
 /**
  * Class LostController
@@ -121,7 +118,7 @@ class LostController extends Controller {
 								Defaults $defaults,
 								IL10N $l10n,
 								IConfig $config,
-								ISession $session,								
+								ISession $session,
 								ISecureRandom $secureRandom,
 								$defaultMailAddress,
 								IManager $encryptionManager,
@@ -214,12 +211,11 @@ class LostController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function showNewPasswordForm($user = null) : Http\Response {
-
 		$parameters = [];
+		$renewPasswordMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
 
-		$renewPasswordMessages = $this->session->get('loginMessages');
 		if (is_array($renewPasswordMessages)) {
 			[$errors, $messages] = $renewPasswordMessages;
 		}
@@ -261,8 +257,7 @@ class LostController extends Controller {
 		}
 		
 		$parameters = $this->setPasswordResetParameters($userObj, $parameters);
-		// the administrator_email value, if set in confif.php makes possible mailto:// and customized messages in front pages
-		$parameters['administrator_email'] = $this->config->getSystemValue('administrator_email',null);
+		$parameters['administrator_email'] = $this->config->getSystemValue('administrator_email');
 		$parameters['login_form_autocomplete'] = 'on';
 		$parameters['throttle_delay'] = $this->throttler->getDelay($this->request->getRemoteAddress());
 
@@ -444,13 +439,12 @@ class LostController extends Controller {
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
-
-		$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
-			'link' => $link,
-		]);
-
 		if(empty($action) || $action === 'RESET') {
+			$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
+			$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
+				'link' => $link,
+			]);
+	
 			$emailTemplate->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
 			$emailTemplate->addHeader();
 			$emailTemplate->addHeading($this->l10n->t('Password reset'));
@@ -466,6 +460,9 @@ class LostController extends Controller {
 				false
 			);
 		} else if($action === 'NEW'){
+			$emailTemplate = $this->mailer->createEMailTemplate('core.NewPassword', [				
+			]);
+	
 			$emailTemplate->setSubject($this->l10n->t('%s activate and choose a password', [$this->defaults->getName()]));
 			$emailTemplate->addHeader();
 			$emailTemplate->addHeading($this->l10n->t('Activate and choose a password'));
@@ -511,21 +508,19 @@ class LostController extends Controller {
 			$this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.')
 		);
 
+		// get the only IUser object with its Uid or Email as $input and with isEnabled()
 		$user = $this->userManager->get($input);
-		if ($user instanceof IUser) {
-			if (!$user->isEnabled()) {
-				throw $userNotFound;
-			}
 
-			return $user;
+		if(is_null($user)) {
+			$users = \array_filter($this->userManager->getByEmail($input), function (IUser $user) {
+				if( $user->isEnabled() )
+					return $user;
+			});
+			$user = \reset($users);
 		}
 
-		$users = array_filter($this->userManager->getByEmail($input), function (IUser $user) {
-			return $user->isEnabled();
-		});
-
-		if (count($users) === 1) {
-			return reset($users);
+		if ($user instanceof IUser && $user->isEnabled()) {
+			return $user;
 		}
 
 		throw $userNotFound;
@@ -548,7 +543,7 @@ class LostController extends Controller {
 
 		if ($parameters['resetPasswordLink'] === 'disabled') {
 			$parameters['canResetPassword'] = false;
-		} else if (!$parameters['resetPasswordLink'] && $userObj !== null) {
+		} else if ($userObj !== null && !$parameters['resetPasswordLink']) {
 			$parameters['canResetPassword'] = $userObj->canChangePassword();
 		} else if ($userObj !== null && $userObj->isEnabled() === false) {
 			$parameters['canResetPassword'] = false;

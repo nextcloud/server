@@ -126,6 +126,7 @@ class NewUserMailHelper {
 			'userid' => $userId,
 			'instancename' => $this->themingDefaults->getName(),
 			'resetTokenGenerated' => $generatePasswordResetToken,
+			'emailAddress' => $user->getEMailAddress(),
 		]);
 
 		$emailTemplate->setSubject($l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
