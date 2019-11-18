@@ -13,7 +13,7 @@ OC.L10N.register(
     "Removed system tag {systemtag}" : "Odstranjena je sistemska oznaka {systemtag}",
     "Removed system tag %1$s" : "Odstranjena je sistemska oznaka %1$s",
     "%1$s created system tag %2$s" : "Uporabnik %1$s je ustvaril sistemsko oznako %2$s",
-    "%1$s deleted system tag %2$s" : "Uporabnik %1$s je izbrisal sistemsko oznako %2$s",
+    "%1$s deleted system tag %2$s" : "Uporabnik %1$s izbriše sistemsko oznako %2$s",
     "%1$s updated system tag %3$s to %2$s" : "Uporabnik %1$s je posodobil sistemsko oznako %3$s za %2$s",
     "You added system tag %2$s to %1$s" : "Datoteki %1$s je dodana oznaka %2$s.",
     "You added system tag {systemtag} to {file}" : "Datoteki {file} je dodana oznaka {systemtag}",
