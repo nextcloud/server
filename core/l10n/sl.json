@@ -213,7 +213,7 @@
     "Storage & database" : "Shramba in podatkovna zbirka",
     "Data folder" : "Podatkovna mapa",
     "Configure the database" : "Nastavi podatkovno zbirko",
-    "Only %s is available." : "Le %s je na voljo.",
+    "Only %s is available." : "Na voljo je le %s.",
     "Install and activate additional PHP modules to choose other database types." : "Namestite in omogočite dodatne module PHP za izbor drugih vrst podatkovnih zbirk.",
     "For more details check out the documentation." : "Za več podrobnosti preverite dokumentacijo.",
     "Database user" : "Uporabnik podatkovne zbirke",
