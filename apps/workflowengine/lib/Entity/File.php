@@ -24,8 +24,11 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Entity;
 
+use OCA\WorkflowEngine\AppInfo\Application;
+use OCP\EventDispatcher\Event;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\GenericEntityEvent;
@@ -40,12 +43,15 @@ class File implements IEntity {
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var IRootFolder */
-	private $root;
+	protected $root;
+	/** @var ILogger */
+	protected $logger;
 
-	public function __construct(IL10N $l10n, IURLGenerator $urlGenerator, IRootFolder $root) {
+	public function __construct(IL10N $l10n, IURLGenerator $urlGenerator, IRootFolder $root, ILogger $logger) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
+		$this->logger = $logger;
 	}
 
 	public function getName(): string {
@@ -59,20 +65,20 @@ class File implements IEntity {
 	public function getEvents(): array {
 		$namespace = '\OCP\Files::';
 		return [
-			new GenericEntityEvent($this->l10n->t('File created'), $namespace . 'postCreate' ),
-			new GenericEntityEvent($this->l10n->t('File updated'), $namespace . 'postWrite' ),
-			new GenericEntityEvent($this->l10n->t('File renamed'), $namespace . 'postRename' ),
-			new GenericEntityEvent($this->l10n->t('File deleted'), $namespace . 'postDelete' ),
-			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch' ),
-			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy' ),
-			new GenericEntityEvent($this->l10n->t('Tag assigned'), MapperEvent::EVENT_ASSIGN ),
+			new GenericEntityEvent($this->l10n->t('File created'), $namespace . 'postCreate'),
+			new GenericEntityEvent($this->l10n->t('File updated'), $namespace . 'postWrite'),
+			new GenericEntityEvent($this->l10n->t('File renamed'), $namespace . 'postRename'),
+			new GenericEntityEvent($this->l10n->t('File deleted'), $namespace . 'postDelete'),
+			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch'),
+			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy'),
+			new GenericEntityEvent($this->l10n->t('Tag assigned'), MapperEvent::EVENT_ASSIGN),
 		];
 	}
 
-	/**
-	 * @since 18.0.0
-	 */
-	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, GenericEvent $event): void {
+	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, Event $event): void {
+		if (!$event instanceof GenericEvent && !$event instanceof MapperEvent) {
+			return;
+		}
 		switch ($eventName) {
 			case 'postCreate':
 			case 'postWrite':
@@ -85,11 +91,11 @@ class File implements IEntity {
 				$ruleMatcher->setEntitySubject($this, $event->getSubject()[1]);
 				break;
 			case MapperEvent::EVENT_ASSIGN:
-				if(!$event instanceof MapperEvent || $event->getObjectType() !== 'files') {
+				if (!$event instanceof MapperEvent || $event->getObjectType() !== 'files') {
 					break;
 				}
 				$nodes = $this->root->getById((int)$event->getObjectId());
-				if(is_array($nodes) && !empty($nodes)) {
+				if (is_array($nodes) && !empty($nodes)) {
 					$node = array_shift($nodes);
 					$ruleMatcher->setEntitySubject($this, $node);
 				}

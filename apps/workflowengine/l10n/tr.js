@@ -37,7 +37,7 @@ OC.L10N.register(
     "Select a filter" : "Bir süzgeç seçin",
     "Select a comparator" : "Bir karşılaştırıcı seçin",
     "Select a file type" : "Bir dosya türü seçin",
-    "e.g. httpd/unix-directory" : "örnek e.g. httpd/unix-directory",
+    "e.g. httpd/unix-directory" : "örnek httpd/unix-directory",
     "Images" : "Görseller",
     "Office documents" : "Office belgeleri",
     "PDF documents" : "PDF belgeleri",

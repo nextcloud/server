@@ -25,6 +25,7 @@ OC.L10N.register(
     "iOS client" : "Odjemalec za iOS",
     "Desktop client" : "Odjemalec za namizne računalnike",
     "Thunderbird & Outlook addons" : "Razširitve za Thunderbird in Outlook",
+    "Cancel" : "Prekliči",
     "File name" : "Ime datoteke",
     "is" : "je",
     "is not" : "ni",

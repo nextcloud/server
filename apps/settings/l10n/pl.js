@@ -123,6 +123,8 @@ OC.L10N.register(
     "Save changes" : "Zapisz zmiany",
     "This app is supported via your current Nextcloud subscription." : "Ta aplikacja jest obsługiwana za pośrednictwem bieżącej subskrypcji Nextcloud.",
     "Supported" : "Wspierany",
+    "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Polecane aplikacje są tworzone przez społeczność. Oferują główną funkcjonalność i są gotowe do użycia w produkcji.",
+    "Featured" : "Polecane",
     "by" : "przez",
     "Update to {version}" : "Aktualizuj do {version}",
     "Remove" : "Usuń",

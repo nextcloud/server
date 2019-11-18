@@ -121,6 +121,8 @@
     "Save changes" : "Salvar mudanças",
     "This app is supported via your current Nextcloud subscription." : "Este aplicativo é suportado pela sua assinatura atual do Nextcloud.",
     "Supported" : "Suportado",
+    "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Os aplicativos em destaque são desenvolvidos pela comunidade. Eles oferecem funcionalidade central e estão prontos para uso em produção.",
+    "Featured" : "Destaques",
     "by" : "por",
     "Update to {version}" : "Atualizar para {version}",
     "Remove" : "Excluir",
