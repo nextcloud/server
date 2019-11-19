@@ -392,7 +392,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[(string) $groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}
