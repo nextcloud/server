@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %1$s mislukt, kon %2$s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf-ondertekend certificaat.",
     "Could not find share" : "Kon share niet vinden",
     "Federated sharing" : "Gefedereerd delens",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"%3$s\" als een extern deel verzoek van %1$s (namens %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Je ontving {share} als een extern deel verzoek van {user} (namens {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Je ontving \"%3$s\" als een extern deel verzoek van %1$s",
     "You received {share} as a remote share from {user}" : "Je ontving {share} als een extren share verzoek van {user}",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Je ontving \"%3$s\" als een extern deel verzoek van %1$s (namens %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Je ontving \"%3$s\" als een extern deel verzoek van %1$s"
 },
 "nplurals=2; plural=(n != 1);");

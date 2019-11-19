@@ -20,9 +20,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Fail on juba jagatud kasutajaga %s",
     "Could not find share" : "Jagamist ei leitud",
     "Federated sharing" : "Liit-jagamine",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s (%2$s nimel)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sa said kaugjagatud faili  {share} kasjutajalt  {user} ({behalf} nimel)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s",
     "You received {share} as a remote share from {user}" : "Sa said kaugjagatud faili {file} kasutajalt {user}",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
@@ -41,6 +39,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Jaga seda, et su sõbrad saaksid sinuga faile jagada:",
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextcloudi",
-    "HTML Code:" : "HTML kood:"
+    "HTML Code:" : "HTML kood:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s (%2$s nimel)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Sa said kaugjagatud faili \"%3$s\" kasutajalt %1$s"
 },
 "nplurals=2; plural=(n != 1);");

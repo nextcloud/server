@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %1$s fehlgeschlagen, da %2$s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Federated sharing" : "Federated-Sharing",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" (im Auftrag von %2$s) empfangen",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sie haben {share} als externe Freigabe von {user} (im Auftrag von {behalf}) empfangen",
-    "You received \"%3$s\" as a remote share from %1$s" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" empfangen",
     "You received {share} as a remote share from {user}" : "Sie haben {share} als externe Freigabe von {user} empfangen",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Teilen Sie es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
-    "HTML Code:" : "HTML-Code:"
+    "HTML Code:" : "HTML-Code:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" (im Auftrag von %2$s) empfangen",
+    "You received \"%3$s\" as a remote share from %1$s" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" empfangen"
 },
 "nplurals=2; plural=(n != 1);");
