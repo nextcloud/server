@@ -385,6 +385,8 @@ return array(
     'OCP\\Search\\Provider' => $baseDir . '/lib/public/Search/Provider.php',
     'OCP\\Search\\Result' => $baseDir . '/lib/public/Search/Result.php',
     'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => $baseDir . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
+    'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => $baseDir . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',
+    'OCP\\Security\\Events\\ValidatePasswordPolicyEvent' => $baseDir . '/lib/public/Security/Events/ValidatePasswordPolicyEvent.php',
     'OCP\\Security\\FeaturePolicy\\AddFeaturePolicyEvent' => $baseDir . '/lib/public/Security/FeaturePolicy/AddFeaturePolicyEvent.php',
     'OCP\\Security\\IContentSecurityPolicyManager' => $baseDir . '/lib/public/Security/IContentSecurityPolicyManager.php',
     'OCP\\Security\\ICredentialsManager' => $baseDir . '/lib/public/Security/ICredentialsManager.php',

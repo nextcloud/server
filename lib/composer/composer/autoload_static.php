@@ -414,6 +414,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Search\\Provider' => __DIR__ . '/../../..' . '/lib/public/Search/Provider.php',
         'OCP\\Search\\Result' => __DIR__ . '/../../..' . '/lib/public/Search/Result.php',
         'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
+        'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',
+        'OCP\\Security\\Events\\ValidatePasswordPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/ValidatePasswordPolicyEvent.php',
         'OCP\\Security\\FeaturePolicy\\AddFeaturePolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/FeaturePolicy/AddFeaturePolicyEvent.php',
         'OCP\\Security\\IContentSecurityPolicyManager' => __DIR__ . '/../../..' . '/lib/public/Security/IContentSecurityPolicyManager.php',
         'OCP\\Security\\ICredentialsManager' => __DIR__ . '/../../..' . '/lib/public/Security/ICredentialsManager.php',
