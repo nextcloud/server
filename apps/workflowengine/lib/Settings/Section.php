@@ -54,7 +54,7 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getName() {
-		return $this->l->t('Workflows');
+		return $this->l->t('Flow');
 	}
 
 	/**
