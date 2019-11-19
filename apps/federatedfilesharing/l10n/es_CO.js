@@ -21,9 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "El archivo ya ha sido compartido con %s",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Federated sharing" : "Elementos compartidos",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Has recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Has recibido {share} como un elemento compartido remoto de {user} (de parte de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Has recibido \"%3$s\" como un elemento compartido remoto de %1$s",
     "You received {share} as a remote share from {user}" : "Recibiste {share} como un elemento compartido remoto de {user}",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Add to your website" : "Agregar a tu sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Has recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Has recibido \"%3$s\" como un elemento compartido remoto de %1$s"
 },
 "nplurals=2; plural=(n != 1);");

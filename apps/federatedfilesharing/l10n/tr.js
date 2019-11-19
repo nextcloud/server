@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s paylaşılamadı. %2$s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Federated sharing" : "Birleşik paylaşım",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%2$s adına)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user} kullanıcısından {share} uzak paylaşımını aldınız ( {behalf} adına)",
-    "You received \"%3$s\" as a remote share from %1$s" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız",
     "You received {share} as a remote share from {user}" : "{user} kullanıcısından {share} uzak paylaşımını aldınız",
     "Accept" : "Kabul Et",
     "Decline" : "Reddet",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
-    "HTML Code:" : "HTML Kodu:"
+    "HTML Code:" : "HTML Kodu:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%2$s adına)",
+    "You received \"%3$s\" as a remote share from %1$s" : "%1$s kullanıcısından \"%3$s\" uzak paylaşımını aldınız"
 },
 "nplurals=2; plural=(n > 1);");

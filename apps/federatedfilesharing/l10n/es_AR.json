@@ -17,9 +17,7 @@
     "File is already shared with %s" : "El archivo ya ha sido compartido con %s",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Federated sharing" : "Elementos compartidos federados",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Usted ha recibido {share} como un elemento compartido remoto de {user} (de parte de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s",
     "You received {share} as a remote share from {user}" : "Usted recibió {share} como un elemento compartido remoto de {user}",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",
@@ -37,6 +35,8 @@
     "Share it so your friends can share files with you:" : "Compártalo para que sus amigos puedan compartir archivos con usted. ",
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s (de parte de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Usted ha recibido \"%3$s\" como un elemento compartido remoto de %1$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

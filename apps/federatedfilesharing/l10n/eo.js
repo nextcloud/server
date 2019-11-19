@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de  %1$s malsukcesis, ne eblis trovi %2$s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon.",
     "Could not find share" : "Ne eblis trovi kunhavon",
     "Federated sharing" : "Federa kunhavado",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s (nome de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vi ricevis „{share}“ kiel foran kunhavon el {user} (nome de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s",
     "You received {share} as a remote share from {user}" : "Vi ricevis „{share}“ kiel foran kunhavon el {user}",
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Kunhavigu ĝin, por ke viaj amikoj povu kunhavigi dosierojn kun vi:",
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
-    "HTML Code:" : "HTML-kodo:"
+    "HTML Code:" : "HTML-kodo:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s (nome de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s"
 },
 "nplurals=2; plural=(n != 1);");

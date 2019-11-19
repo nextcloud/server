@@ -55,6 +55,7 @@ OC.L10N.register(
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Skupinové pole bylo vypnuto, protože LDAP / AD server nepodporuje memberOf.",
     "Password change rejected. Hint: " : "Změna hesla zamítnuta. Nápověda: ",
     "Please login with the new password" : "Přihlaste se pomocí nového hesla",
+    "LDAP User backend" : "Podpůrná vrstva pro LDAP uživatele",
     "Your password will expire tomorrow." : "Platnost hesla zítra skončí.",
     "Your password will expire today." : "Platnost hesla dnes končí.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Platnost hesla skončí za %n den.","Platnost hesla skončí za %n dny.","Platnost hesla skončí za %n dnů.","Platnost hesla skončí za %n dny."],

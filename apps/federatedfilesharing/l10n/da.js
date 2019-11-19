@@ -21,9 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Filen deles allerede med %s",
     "Could not find share" : "Kan ikke finde deling",
     "Federated sharing" : "Datafællesskabsdeling",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du modtog \"/%3$s\" som en ekstern deling fra %1$s (på vegne af %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du modtog {share} som en ekstern deling fra {user} (på vegne af {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Du modtog \"%3$s\" som en ekstern deling fra %1$s",
     "You received {share} as a remote share from {user}" : "Du modtog {share} som en ekstern deling fra {user}",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
@@ -42,6 +40,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Del så dine venner kan dele filer med dig:",
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
-    "HTML Code:" : "HTMLkode:"
+    "HTML Code:" : "HTMLkode:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du modtog \"/%3$s\" som en ekstern deling fra %1$s (på vegne af %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Du modtog \"%3$s\" som en ekstern deling fra %1$s"
 },
 "nplurals=2; plural=(n != 1);");

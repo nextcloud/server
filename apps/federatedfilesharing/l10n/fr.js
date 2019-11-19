@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %1$s a échoué, impossible de trouver %2$s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Could not find share" : "Impossible de trouver le partage",
     "Federated sharing" : "Partage fédéré",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vous avez reçu {share} comme partage distant de la part de {user} (de la part de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s",
     "You received {share} as a remote share from {user}" : "Vous avez reçu {share} comme partage distant de la part de {user}",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
-    "HTML Code:" : "Code HTML :"
+    "HTML Code:" : "Code HTML :",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s"
 },
 "nplurals=2; plural=(n > 1);");

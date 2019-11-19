@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось предоставить доступ к «%1$s», не удалось найти %2$s. Возможно, сервер недоступен или использует самоподписанный сертификат.",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Federated sharing" : "Общий доступ из федеративного хранилища",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вам предоставили общий доступ к ресурсу «%3$s»  расположенному на сервере %1$s (от имени %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вы получили «{share}» в качестве удалённого ресурса от {user} (от имени {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Вы получили «%3$s» в качестве удалённого ресурса из %1$s",
     "You received {share} as a remote share from {user}" : "Вы получили {share} в качестве удалённого ресурса от {user}",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Сообщите его друзьям, чтобы они могли поделиться с вами файлами:",
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
-    "HTML Code:" : "HTML код:"
+    "HTML Code:" : "HTML код:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вам предоставили общий доступ к ресурсу «%3$s»  расположенному на сервере %1$s (от имени %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Вы получили «%3$s» в качестве удалённого ресурса из %1$s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
