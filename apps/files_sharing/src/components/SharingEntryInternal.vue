@@ -106,7 +106,7 @@ export default {
 		height: 32px;
 		line-height: 32px;
 		font-size: 18px;
-		background-color: var(--color-text-maxcontrast);
+		background-color: rgb(0, 130, 201);
 		border-radius: 50%;
 		flex-shrink: 0;
 	}
