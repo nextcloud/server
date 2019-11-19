@@ -21,9 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Failas jau yra bendrinamas su %s",
     "Could not find share" : "Nepavyko rasti bendrinamų duomenų",
     "Federated sharing" : "Federacinis bendrinimas",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s (%2$s vardu) esantis kitame serveryje",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Gavote galimybę peržiūrėti duomenis \"{share}\", kuriuos pasidalino {user} ({behalf} vardu) esantis kitame serveryje",
-    "You received \"%3$s\" as a remote share from %1$s" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s",
     "You received {share} as a remote share from {user}" : "Gavote galimybę peržiūrėti duomenis \"{share}\", kuriuos pasidalino {user}",
     "Accept" : "Priimti",
     "Decline" : "Atmesti",
@@ -37,6 +35,8 @@ OC.L10N.register(
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
-    "HTML Code:" : "HTML kodas:"
+    "HTML Code:" : "HTML kodas:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s (%2$s vardu) esantis kitame serveryje",
+    "You received \"%3$s\" as a remote share from %1$s" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

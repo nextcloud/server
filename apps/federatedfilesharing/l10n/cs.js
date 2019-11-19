@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %1$s se nezdařilo, %2$s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
     "Could not find share" : "Nedaří se nalézt sdílení",
     "Federated sharing" : "Federované sdílení",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s (jménem %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržel(a) jste {share} jako vzdálené sdílení od {user} (jménem {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s",
     "You received {share} as a remote share from {user}" : "Obdržel(a) jste {share} jako vzdálené sdílení od {user}",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
@@ -50,6 +48,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Nasdílejte to, aby mohli vaši přátelé sdílet soubory s vámi:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
-    "HTML Code:" : "HTML kód:"
+    "HTML Code:" : "HTML kód:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s (jménem %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Obdržel(a) jste %3$s jako vzdálené sdílení od %1$s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
