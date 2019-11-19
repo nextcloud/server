@@ -91,6 +91,8 @@ class ShareTest extends TestCase {
 			'testGroup',
 			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
 		);
+		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER3);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
@@ -176,14 +178,14 @@ class ShareTest extends TestCase {
 		$share = $shares[0];
 		$this->assertSame('/test.txt' ,$share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
-		
+
 		\OC\Files\Filesystem::rename('test.txt', 'new test.txt');
 
 		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_GROUP);
 		$share = $shares[0];
 		$this->assertSame('/new test.txt' ,$share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
-		
+
 		$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
 		$this->shareManager->updateShare($share);
 
