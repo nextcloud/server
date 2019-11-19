@@ -3,6 +3,10 @@
 		<div class="section">
 			<h2>{{ t('workflowengine', 'Available actions') }}</h2>
 
+			<p v-if="scope === 0" class="settings-hint">
+				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own actions, checkout the development documentation') }}</a>
+			</p>
+
 			<transition-group name="slide" tag="div" class="actions">
 				<Operation v-for="operation in getMainOperations"
 					:key="operation.id"
