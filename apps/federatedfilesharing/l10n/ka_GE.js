@@ -20,9 +20,7 @@ OC.L10N.register(
     "File is already shared with %s" : "ფაილი უკვე გაზიარებულია მომხმარებელთან %s ",
     "Could not find share" : "გაზიარება ვერ იქნა ნაპოვნი",
     "Federated sharing" : "ფედერალური გაზიარება",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "თქვენ მიიღეთ გაზიარება {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user} (სახელით {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s",
     "You received {share} as a remote share from {user}" : "თქვენ მიიღეთ {share} როგორც დისტანციური გაზიარება მომხმარებლისგან {user}",
     "Accept" : "მიღება",
     "Decline" : "უარყოფა",
@@ -42,6 +40,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "გააზიარეთ, რომ თქვენმა მეგობრებმაც შეძლონ ფაილების გაზიარება თქვენთან:",
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
-    "HTML Code:" : "HTML კოდი:"
+    "HTML Code:" : "HTML კოდი:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s"
 },
 "nplurals=2; plural=(n!=1);");

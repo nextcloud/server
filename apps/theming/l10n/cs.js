@@ -10,6 +10,7 @@ OC.L10N.register(
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
     "The given web address is not a valid URL" : "Zadaná webová adresa není platná URL",
     "The given legal notice address is too long" : "Daná adresa právního upozornění je příliš dlouhá",
+    "The given legal notice address is not a valid URL" : "Daná adresa právního upozornění není platnou URL adresou",
     "The given privacy policy address is too long" : "Daná adresa zásad ochrany osobních údajů je příliš dlouhá",
     "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
     "The given color is invalid" : "Zadaná barva není platná",

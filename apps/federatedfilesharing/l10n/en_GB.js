@@ -21,9 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "File is already shared with %s",
     "Could not find share" : "Could not find share",
     "Federated sharing" : "Federated sharing",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "You received {share} as a remote share from {user} (on behalf of {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "You received \"%3$s\" as a remote share from %1$s",
     "You received {share} as a remote share from {user}" : "You received {share} as a remote share from {user}",
     "Accept" : "Accept",
     "Decline" : "Decline",
@@ -43,6 +41,8 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "You received \"%3$s\" as a remote share from %1$s"
 },
 "nplurals=2; plural=(n != 1);");

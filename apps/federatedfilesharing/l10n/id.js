@@ -19,9 +19,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Berkas sudah dibagikan dengan %s",
     "Could not find share" : "Tidak dapat mencari pembagian",
     "Federated sharing" : "Pembagian terfederasi",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s (atas nama %2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Anda menerima {share} sebagai berbagi jauh dari {user} (atas nama {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s",
     "You received {share} as a remote share from {user}" : "Anda menerima {share} sebagai berbagi jauh dari {user}",
     "Accept" : "Terima",
     "Decline" : "Tolak",
@@ -36,6 +34,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:"
+    "HTML Code:" : "Kode HTML:",
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s (atas nama %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Anda menerima \"%3$s\" sebagai berbagi jauh dari %1$s"
 },
 "nplurals=1; plural=0;");
