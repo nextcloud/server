@@ -357,8 +357,8 @@ $CONFIG = array(
 'mail_smtptimeout' => 10,
 
 /**
- * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` or
- * ``tls``, or leave empty for no encryption.
+ * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` for SSL/TLS or
+ * ``tls`` for STARTTLS, or leave empty for no encryption.
  *
  * Defaults to ``''`` (empty string)
  */
