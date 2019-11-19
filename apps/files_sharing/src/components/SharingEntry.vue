@@ -40,15 +40,31 @@
 					{{ t('files_sharing', 'Allow editing') }}
 				</ActionCheckbox>
 
+				<!-- create permission -->
+				<ActionCheckbox
+					ref="canCreate"
+					:checked.sync="canCreate"
+					:value="permissionsCreate"
+					:disabled="saving">
+					{{ t('files_sharing', 'Allow creating') }}
+				</ActionCheckbox>
 				<!-- reshare permission -->
 				<ActionCheckbox
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
 					:disabled="saving">
-					{{ t('files_sharing', 'Can reshare') }}
+					{{ t('files_sharing', 'Allow resharing') }}
 				</ActionCheckbox>
 
+				<!-- delete permission -->
+				<ActionCheckbox
+					ref="canDelete"
+					:checked.sync="canDelete"
+					:value="permissionsDelete"
+					:disabled="saving">
+					{{ t('files_sharing', 'Allow deleting') }}
+				</ActionCheckbox>
 				<!-- expiration date -->
 				<ActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultExpireDateEnforced || saving"
@@ -142,6 +158,8 @@ export default {
 	data() {
 		return {
 			permissionsEdit: OC.PERMISSION_UPDATE,
+			permissionsCreate: OC.PERMISSION_CREATE,
+			permissionsDelete: OC.PERMISSION_DELETE,
 			permissionsRead: OC.PERMISSION_READ,
 			permissionsShare: OC.PERMISSION_SHARE,
 		}
@@ -197,7 +215,31 @@ export default {
 				return this.share.hasUpdatePermission
 			},
 			set: function(checked) {
-				this.updatePermissions(checked, this.canReshare)
+				this.updatePermissions({ isEditChecked: checked })
+			},
+		},
+
+		/**
+		 * Can the sharee create the shared file ?
+		 */
+		canCreate: {
+			get: function() {
+				return this.share.hasCreatePermission
+			},
+			set: function(checked) {
+				this.updatePermissions({ isCreateChecked: checked })
+			},
+		},
+
+		/**
+		 * Can the sharee delete the shared file ?
+		 */
+		canDelete: {
+			get: function() {
+				return this.share.hasDeletePermission
+			},
+			set: function(checked) {
+				this.updatePermissions({ isDeleteChecked: checked })
 			},
 		},
 
@@ -209,7 +251,7 @@ export default {
 				return this.share.hasSharePermission
 			},
 			set: function(checked) {
-				this.updatePermissions(this.canEdit, checked)
+				this.updatePermissions({ isReshareChecked: checked })
 			},
 		},
 
@@ -238,9 +280,11 @@ export default {
 	},
 
 	methods: {
-		updatePermissions(isEditChecked, isReshareChecked) {
+		updatePermissions({ isEditChecked = this.canEdit, isCreateChecked = this.canCreate, isDeleteChecked = this.canDelete, isReshareChecked = this.canReshare } = {}) {
 			// calc permissions if checked
 			const permissions = this.permissionsRead
+				| (isCreateChecked ? this.permissionsCreate : 0)
+				| (isDeleteChecked ? this.permissionsDelete : 0)
 				| (isEditChecked ? this.permissionsEdit : 0)
 				| (isReshareChecked ? this.permissionsShare : 0)
 
@@ -248,7 +292,6 @@ export default {
 			this.queueUpdate('permissions')
 		},
 	},
-
 }
 </script>
 
