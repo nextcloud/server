@@ -44,7 +44,7 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetSection() {
-		$this->assertSame('workflow', $this->admin->getSection());
+		$this->assertSame('server', $this->admin->getSection());
 	}
 
 	public function testGetPriority() {
