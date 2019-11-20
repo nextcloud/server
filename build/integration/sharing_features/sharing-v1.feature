@@ -7,7 +7,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And As an "user0"
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -21,7 +21,7 @@ Feature: sharing
     And user "user1" exists
     And group "sharing-group" exists
     And As an "user0"
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | sharing-group |
       | shareType | 1 |
@@ -35,8 +35,9 @@ Feature: sharing
     And group "sharing-group" exists
     And user "user1" belongs to group "sharing-group"
     And file "welcome.txt" of user "user0" is shared with group "sharing-group"
+    And user "user1" accepts last share
     And As an "user0"
-    Then sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Then creating a share with
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -119,7 +120,7 @@ Feature: sharing
       | expireDate | +3 days |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -148,11 +149,11 @@ Feature: sharing
     When creating a share with
       | path | FOLDER |
       | shareType | 3 |
-    And Updating last share with 
+    And Updating last share with
       | password | publicpw |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -184,7 +185,7 @@ Feature: sharing
       | permissions | 7 |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -248,7 +249,7 @@ Feature: sharing
       | publicUpload | true |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -311,6 +312,7 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0 (2).txt&reshares=true"

@@ -112,6 +112,39 @@ trait Sharing {
 	}
 
 	/**
+	 * @When /^accepting last share$/
+	 */
+	public function acceptingLastShare() {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
+		$this->sendingToWith("POST", $url, null);
+
+		$this->theHTTPStatusCodeShouldBe('200');
+	}
+
+	/**
+	 * @When /^user "([^"]*)" accepts last share$/
+	 *
+	 * @param string $user
+	 */
+	public function userAcceptsLastShare(string $user) {
+		// "As userXXX" and "user userXXX accepts last share" steps are not
+		// expected to be used in the same scenario, but restore the user just
+		// in case.
+		$previousUser = $this->currentUser;
+
+		$this->currentUser = $user;
+
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
+		$this->sendingToWith("POST", $url, null);
+
+		$this->currentUser = $previousUser;
+
+		$this->theHTTPStatusCodeShouldBe('200');
+	}
+
+	/**
 	 * @Then /^Public shared file "([^"]*)" can be downloaded$/
 	 */
 	public function checkPublicSharedFile($filename) {
