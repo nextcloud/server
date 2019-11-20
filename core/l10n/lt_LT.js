@@ -118,6 +118,7 @@ OC.L10N.register(
     "Search contacts …" : "Ieškoti adresatų…",
     "No contacts found" : "Adresatų nerasta",
     "Show all contacts …" : "Rodyti visus adresatus...",
+    "Install the Contacts app" : "Įdiegti adresatų programėlę",
     "Loading your contacts …" : "Įkeliami jūsų adresatai…",
     "Looking for {term} …" : "Ieškoma {term} ...",
     "No" : "Ne",

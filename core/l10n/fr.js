@@ -355,7 +355,7 @@ OC.L10N.register(
     "Send" : "Envoyer",
     "Allow upload and editing" : "Autoriser l'envoi et l'édition",
     "Read only" : "Lecture seule",
-    "File drop (upload only)" : "Dépôt de fichier (téléversement uniquement)",
+    "File drop (upload only)" : "Dépôt de fichier (envoi uniquement)",
     "Expiration date enforced" : "Date d'expiration forcée",
     "Set expiration date" : "Spécifier une date d'expiration",
     "Expiration" : "Expiration",

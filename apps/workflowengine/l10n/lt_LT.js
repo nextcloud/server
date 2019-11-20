@@ -19,6 +19,7 @@ OC.L10N.register(
     "Operation %s does not exist" : "Operacijos %s nėra",
     "Operation %s is invalid" : "Neteisinga %s operacija",
     "Check %s is invalid or does not exist" : "%s neteisingas arba neegzistuoja",
+    "Workflows" : "Darbo eigos",
     "PDF documents" : "PDF dokumentai",
     "Predefined URLs" : "Iš anksto apibrėžti URL adresai",
     "Files WebDAV" : "WebDAV failai",
