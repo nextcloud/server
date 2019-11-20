@@ -67,11 +67,16 @@ class VersionCheckTest extends \Test\TestCase {
 
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(time()));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getAppValue')
 			->with('core', 'lastupdateResult')
 			->will($this->returnValue(json_encode($expectedResult)));
@@ -92,30 +97,35 @@ class VersionCheckTest extends \Test\TestCase {
 
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(0));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(6))
+			->expects($this->at(7))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', json_encode($expectedResult));
 
@@ -140,30 +150,35 @@ class VersionCheckTest extends \Test\TestCase {
 	public function testCheckWithInvalidXml() {
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(0));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(6))
+			->expects($this->at(7))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', '[]');
 
@@ -190,25 +205,30 @@ class VersionCheckTest extends \Test\TestCase {
 
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(0));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
@@ -235,30 +255,35 @@ class VersionCheckTest extends \Test\TestCase {
 
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(0));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(6))
+			->expects($this->at(7))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', json_encode($expectedResult));
 
@@ -285,25 +310,30 @@ class VersionCheckTest extends \Test\TestCase {
 
 		$this->config
 			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(true);
+		$this->config
+			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue(0));
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
 			->willReturnArgument(1);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
@@ -323,5 +353,15 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
+	}
+
+	public function testNoInternet() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(false);
+
+		$this->assertFalse($this->updater->check());
 	}
 }
