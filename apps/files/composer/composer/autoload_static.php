@@ -49,8 +49,10 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
         'OCA\\Files\\Event\\LoadAdditionalScriptsEvent' => __DIR__ . '/..' . '/../lib/Event/LoadAdditionalScriptsEvent.php',
         'OCA\\Files\\Event\\LoadSidebar' => __DIR__ . '/..' . '/../lib/Event/LoadSidebar.php',
+        'OCA\\Files\\Exception\\TransferOwnershipException' => __DIR__ . '/..' . '/../lib/Exception/TransferOwnershipException.php',
         'OCA\\Files\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files\\Listener\\LegacyLoadAdditionalScriptsAdapter' => __DIR__ . '/..' . '/../lib/Listener/LegacyLoadAdditionalScriptsAdapter.php',
+        'OCA\\Files\\Service\\OwnershipTransferService' => __DIR__ . '/..' . '/../lib/Service/OwnershipTransferService.php',
         'OCA\\Files\\Service\\TagService' => __DIR__ . '/..' . '/../lib/Service/TagService.php',
     );
 
