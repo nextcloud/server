@@ -37,6 +37,7 @@ require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Files_versions
@@ -325,6 +326,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -393,6 +395,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -442,6 +445,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -509,6 +513,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -653,6 +658,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$versions = $this->createAndCheckVersions(
 			\OC\Files\Filesystem::getView(),
@@ -823,6 +829,7 @@ class VersioningTest extends \Test\TestCase {
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER2);
 

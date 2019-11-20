@@ -34,6 +34,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
 /**
@@ -72,7 +73,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		$application = new Application();
 		$application->registerMountProviders();
-		
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC::$server->getGroupManager()->clearBackends();
@@ -240,6 +241,8 @@ abstract class TestCase extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions($permissions);
 		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$share = $this->shareManager->updateShare($share);
 
 		return $share;
 	}

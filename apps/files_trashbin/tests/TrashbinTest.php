@@ -227,7 +227,8 @@ class TrashbinTest extends \Test\TestCase {
 			->setSharedBy(self::TEST_TRASHBIN_USER1)
 			->setSharedWith(self::TEST_TRASHBIN_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		\OC::$server->getShareManager()->createShare($share);
+		$share = \OC::$server->getShareManager()->createShare($share);
+		\OC::$server->getShareManager()->acceptShare($share, self::TEST_TRASHBIN_USER2);
 
 		// delete them so that they end up in the trash bin
 		\OC\Files\Filesystem::unlink($folder . 'user1-1.txt');
