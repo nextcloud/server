@@ -7,7 +7,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And As an "user0"
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -21,7 +21,7 @@ Feature: sharing
     And user "user1" exists
     And group "sharing-group" exists
     And As an "user0"
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | sharing-group |
       | shareType | 1 |
@@ -36,7 +36,7 @@ Feature: sharing
     And user "user1" belongs to group "sharing-group"
     And file "welcome.txt" of user "user0" is shared with group "sharing-group"
     And As an "user0"
-    Then sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Then creating a share with
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |

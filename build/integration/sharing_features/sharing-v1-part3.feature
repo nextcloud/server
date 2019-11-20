@@ -120,7 +120,7 @@ Feature: sharing
     And user "user1" exists
     And assure user "user0" is disabled
     And As an "user0"
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -339,7 +339,7 @@ Feature: sharing
     And user "user0" belongs to group "sharing-group"
     And file "welcome.txt" of user "user0" is shared with group "sharing-group"
     And Deleting last share
-    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    When creating a share with
       | path | welcome.txt |
       | shareWith | sharing-group |
       | shareType | 1 |

@@ -18,7 +18,7 @@ Feature: comments
     Given user "user0" exists
     Given user "12345" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | 12345 |
       | shareType | 0 |
@@ -68,7 +68,7 @@ Feature: comments
     Given user "user1" exists
     Given As an "user0"
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -90,7 +90,7 @@ Feature: comments
     Given user "user0" exists
     Given user "user1" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -135,7 +135,7 @@ Feature: comments
     Given user "user0" exists
     Given user "user1" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -163,7 +163,7 @@ Feature: comments
     Given user "user0" exists
     Given user "user1" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
@@ -192,7 +192,7 @@ Feature: comments
     Given user "user0" exists
     Given user "user1" exists
     Given User "user0" uploads file "data/textfile.txt" to "/myFileToComment.txt"
-    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+    Given as "user0" creating a share with
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
