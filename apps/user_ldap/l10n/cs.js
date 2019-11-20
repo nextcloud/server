@@ -173,7 +173,7 @@ OC.L10N.register(
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Ponechte prázné pro výchozí uživatelskou kvótu. Jinak uveďte LDAP / AD atribut.",
     "Quota Default" : "Výchozí kvóta",
     "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Přepsat výchozí kvótu pro LDAP uživatele, kteří nemají kvótu nastavenou v poli kvóty.",
-    "Email Field" : "Pole e-mailu",
+    "Email Field" : "Kolonka e-mail",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Nastavit e-mail uživatele na základě LDAP atributu. Ponechte prázdné pro výchozí chování.",
     "User Home Folder Naming Rule" : "Pravidlo pojmenování domovské složky uživatele",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr.",

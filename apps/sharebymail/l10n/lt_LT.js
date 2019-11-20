@@ -1,8 +1,8 @@
 OC.L10N.register(
     "sharebymail",
     {
-    "Shared with %1$s" : "Pasidalinta su %1$s",
-    "Shared with {email}" : "Pasidalinta su {email}",
+    "Shared with %1$s" : "Bendrinama su %1$s",
+    "Shared with {email}" : "Bendrinama su {email}",
     "Shared with %1$s by %2$s" : "%2$s pasidalino su %1$s",
     "Shared with {email} by {actor}" : "{actor} pasidalino su {email}",
     "Unshared from %1$s" : "Nebesidalinama su %1$s",
@@ -44,9 +44,9 @@ OC.L10N.register(
     "This is the password:" : "Štai yra slaptažodis:",
     "You can choose a different password at any time in the share dialog." : "Dalinimosi dialoge bet kuriuo metu galite pasirinkti kitą slaptažodį.",
     "Could not find share" : "Nepavyko rasti viešinio",
-    "Share by mail" : "Pasidalinti el. paštu",
+    "Share by mail" : "Bendrinimas el. paštu",
     "Share provider which allows you to share files by mail" : "Pasidalinimo teikėjas, kuris leidžia dalintis failais el. paštu",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia vartotojams pasidalinti asmenine nuoroda į failą ar aplanką, siunčiant el. paštu.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia naudotojams bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą.",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
     "Enforce password protection" : "Apsaugoti slaptažodžiu",
     "Password to access »%1$s« shared with %2$s" : "Slaptažodis prieigai prie „%1$s“ pasidalintas su %2$s"

@@ -45,7 +45,7 @@ OC.L10N.register(
     "Remove background image" : "Rimuovi immagine di sfondo",
     "Advanced options" : "Opzioni avanzate",
     "Legal notice link" : "Collegamento avviso legale",
-    "Privacy policy link" : "Collegamento criterii di riservatezza",
+    "Privacy policy link" : "Collegamento criteri di riservatezza",
     "Header logo" : "Logo dell'intestazione",
     "Upload new header logo" : "Carica nuovo logo dell'intestazione",
     "Favicon" : "Favicon",
