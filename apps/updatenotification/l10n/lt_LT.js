@@ -11,6 +11,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Yra prieinamas {app} atnaujinimas į versiją %s.",
     "Update notification" : "Atnaujinimų pranešimas",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Jūsų naudojama versija daugiau nebeprižiūrima. Esant galimybei, kaip įmanoma greičiau atnaujinkite į palaikomą versiją.",
+    "View in store" : "Rodyti parduotuvėje",
     "Open updater" : "Atverti atnaujinimo programą",
     "Download now" : "Atsisiųsti dabar",
     "What's new?" : "Kas naujo?",
