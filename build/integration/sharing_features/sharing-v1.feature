@@ -119,7 +119,7 @@ Feature: sharing
       | expireDate | +3 days |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -148,11 +148,11 @@ Feature: sharing
     When creating a share with
       | path | FOLDER |
       | shareType | 3 |
-    And Updating last share with 
+    And Updating last share with
       | password | publicpw |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -184,7 +184,7 @@ Feature: sharing
       | permissions | 7 |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
@@ -248,7 +248,7 @@ Feature: sharing
       | publicUpload | true |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with

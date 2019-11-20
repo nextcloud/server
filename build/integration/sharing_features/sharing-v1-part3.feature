@@ -143,11 +143,11 @@ Feature: sharing
     And Deleting last share
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Getting info of last share 
+    And Getting info of last share
     And the OCS status code should be "404"
     And the HTTP status code should be "200"
     And As an "user1"
-    And Getting info of last share 
+    And Getting info of last share
     And the OCS status code should be "404"
     And the HTTP status code should be "200"
 
