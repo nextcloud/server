@@ -121,7 +121,7 @@ OC.L10N.register(
     "Excluded groups" : "Exkluderade grupper",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "När grupper väljs/exkluderas används följande logik för att avgöra om en användare har 2FA påtvingad: Om inga grupper väljs är 2FA aktiverat för alla förutom medlemmar i exkluderade grupper. Om grupper väljs är 2FA aktiverat för alla medlemmar i dessa grupper. Om en användare är medlem i både en vald och exkluderad grupp, har den valda företräde och 2FA påtvingas.",
     "Save changes" : "Spara ändringar",
-    "This app is supported via your current Nextcloud subscription." : "Den här appen stöds via din nuvarande Nextcloud-prenumeration.",
+    "This app is supported via your current Nextcloud subscription." : "Den här appen stöds via ditt nuvarande Nextcloud-abonnemang.",
     "Supported" : "Stöds",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Utvalda appar utvecklas av och inom gemenskapen. De erbjuder central funktionalitet och är redo för produktionsanvändning.",
     "Featured" : "Utvalda",

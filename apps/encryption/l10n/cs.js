@@ -25,7 +25,7 @@ OC.L10N.register(
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Odhlaste se a znovu přihlaste.",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Pokud chcete používat šifrovací modul, zapněte šifrování na straně serveru v nastavení pro správu.",
     "Encryption app is enabled and ready" : "Aplikace šifrování je již povolena a připravena",
-    "Bad Signature" : "Špatný podpis",
+    "Bad Signature" : "Nesprávný podpis",
     "Missing Signature" : "Chybějící podpis",
     "one-time password for server-side-encryption" : "jednorázové heslo pro šifrování na straně serveru",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nepodařilo dešifrovat, pravděpodobně je sdílený. Požádejte prosím majitele souboru, aby jej s vámi znovu sdílel.",

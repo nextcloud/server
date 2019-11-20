@@ -342,7 +342,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Escludi gruppi dalla condivisione",
     "These groups will still be able to receive shares, but not to initiate them." : "Questi gruppi saranno in grado di ricevere condivisioni, ma non iniziarle.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Consenti il completamento del nome utente nella finestra di condivisione. Se è disabilitata, è necessario digitare il nome utente completo o l'indirizzo di posta.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file nascosto)",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file è nascosto)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Questo testo sarà mostrato sulla pagina di caricamento del collegamento pubblico quando l'elenco dei file è nascosto.",
     "Default share permissions" : "Permessi predefiniti di condivisione",
     "Personal" : "Personale",
