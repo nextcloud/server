@@ -74,12 +74,14 @@ export default {
 	display: flex;
 	align-items: center;
 	height: 44px;
+	margin-top: 10px;
 	&__desc {
 		padding: 8px;
 		line-height: 1.2em;
 		position: relative;
 		flex: 1 1;
 		min-width: 0;
+		margin-top: 15px;
 		h5 {
 			white-space: nowrap;
 			text-overflow: ellipsis;
