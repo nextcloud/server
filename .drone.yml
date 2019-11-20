@@ -129,12 +129,12 @@ steps:
   commands:
     - git submodule update --init
 - name: litmus-v1
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v1/script.sh
 - name: litmus-v2
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -157,7 +157,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-new-endpoint
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -181,7 +181,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-old-endpoint
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -205,7 +205,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-new-endpoint
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -229,7 +229,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-old-endpoint
-  image: nextcloudci/litmus-php7.2:1
+  image: nextcloudci/litmus-php7.3:litmus-php7.3-1
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -252,8 +252,8 @@ steps:
   image: docker:git
   commands:
     - git submodule update --init
-- name: sqlite-php7.0-samba-native
-  image: nextcloudci/samba-native-php7.1:1
+- name: sqlite-php7.3-samba-native
+  image: nextcloudci/samba-native-php7.3:samba-native-php7.3-1
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -262,8 +262,8 @@ steps:
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-- name: sqlite-php7.0-samba-non-native
-  image: nextcloudci/samba-non-native-php7.1:1
+- name: sqlite-php7.3-samba-non-native
+  image: nextcloudci/samba-non-native-php7.3:samba-non-native-php7.3-1
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -283,15 +283,15 @@ trigger:
 
 ---
 kind: pipeline
-name: sqlite-php7.1-webdav-apache
+name: sqlite-php7.3-webdav-apache
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: sqlite-php7.0-webdav-apache
-  image: nextcloudci/webdav-apache-php7.1:1
+- name: sqlite-php7.3-webdav-apache
+  image: nextcloudci/webdav-apache-php7.3:webdav-apache-php7.3-3
   commands:
     - apache2
     - ./autotest-external.sh sqlite webdav-apachedrone
@@ -2235,7 +2235,7 @@ steps:
   commands:
     - git submodule update --init
 - name: memcache-memcached
-  image: nextcloudci/php7.1-memcached:1
+  image: nextcloudci/php7.3-memcached:php7.3-memcached-2
   commands:
     - phpenmod xdebug
     - service memcached restart
