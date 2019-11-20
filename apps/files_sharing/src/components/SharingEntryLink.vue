@@ -735,15 +735,13 @@ export default {
 .sharing-entry {
 	display: flex;
 	align-items: center;
-	height: 44px;
-	margin-top: 10px;
+	min-height: 44px;
 	&__desc {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 8px;
 		line-height: 1.2em;
-		margin-top: 15px;
 	}
 
 	&:not(.sharing-entry--share) &__actions {
