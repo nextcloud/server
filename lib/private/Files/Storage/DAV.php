@@ -35,6 +35,7 @@ namespace OC\Files\Storage;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
+use OCP\Files\ForbiddenException;
 use OCP\ILogger;
 use Psr\Http\Message\ResponseInterface;
 use Icewind\Streams\CallbackWrapper;
@@ -829,6 +830,7 @@ class DAV extends Common {
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
+	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
 		\OC::$server->getLogger()->logException($e, ['app' => 'files_external', 'level' => ILogger::DEBUG]);
@@ -842,6 +844,9 @@ class DAV extends Common {
 			} else if ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
+			} else if ($e->getHttpStatus() === Http::STATUS_FORBIDDEN){
+				// The operation is forbidden. Fail somewhat gracefully
+				throw new ForbiddenException(get_class($e) . ':' . $e->getMessage());
 			}
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 		} else if ($e instanceof ClientException) {
