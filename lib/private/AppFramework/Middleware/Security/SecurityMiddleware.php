@@ -116,12 +116,18 @@ class SecurityMiddleware extends Middleware {
 	 * @param Controller $controller the controller
 	 * @param string $methodName the name of the method
 	 * @throws SecurityException when a security check fails
+	 *
+	 * @suppress PhanUndeclaredClassConstant
 	 */
 	public function beforeController($controller, $methodName) {
 
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
+
+		if ($controller === \OCA\Talk\Controller\PageController::class && $methodName === 'showCall') {
+			$this->navigationManager->setActiveEntry('spreed');
+		}
 
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
