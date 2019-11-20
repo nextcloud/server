@@ -151,3 +151,4 @@ clover.xml
 # Tests - dependencies
 tests/acceptance/composer.lock
 tests/acceptance/vendor/
+config/config-sagis-test.php

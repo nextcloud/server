@@ -42,6 +42,8 @@ use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
+use OCP\ISession;
+use OC\Security\Bruteforce\Throttler;
 
 /**
  * Class LostControllerTest
@@ -80,6 +82,10 @@ class LostControllerTest extends \Test\TestCase {
 	private $logger;
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	private $twofactorManager;
+	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
+	private $session;
+	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	private $throttler;
 
 	protected function setUp() {
 		parent::setUp();
@@ -132,6 +138,9 @@ class LostControllerTest extends \Test\TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->twofactorManager = $this->createMock(Manager::class);
+		$this->session = $this->createMock(ISession::class);
+		$this->throttler = $this->createMock(Throttler::class);
+	
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -140,6 +149,7 @@ class LostControllerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10n,
 			$this->config,
+			$this->session,
 			$this->secureRandom,
 			'lostpassword-noreply@localhost',
 			$this->encryptionManager,
@@ -147,7 +157,8 @@ class LostControllerTest extends \Test\TestCase {
 			$this->timeFactory,
 			$this->crypto,
 			$this->logger,
-			$this->twofactorManager
+			$this->twofactorManager,
+			$this->throttler
 		);
 	}
 
@@ -807,7 +818,7 @@ class LostControllerTest extends \Test\TestCase {
 			->method('getByEmail')
 			->willReturn([$user1, $user2]);
 
-		$this->logger->expects($this->exactly(1))
+		$this->logger->expects($this->exactly(0))
 			->method('logException');
 
 		// request password reset for test@example.com

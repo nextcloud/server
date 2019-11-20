@@ -438,9 +438,10 @@ class LostController extends Controller {
 		$tokenValue = $this->timeFactory->getTime() .':'. $token;
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
-
+		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
+		
 		if(empty($action) || $action === 'RESET') {
-			$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
+			
 			$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
 				'link' => $link,
 			]);
@@ -460,7 +461,8 @@ class LostController extends Controller {
 				false
 			);
 		} else if($action === 'NEW'){
-			$emailTemplate = $this->mailer->createEMailTemplate('core.NewPassword', [				
+			$emailTemplate = $this->mailer->createEMailTemplate('core.NewPassword', [
+				'link' => $link,
 			]);
 	
 			$emailTemplate->setSubject($this->l10n->t('%s activate and choose a password', [$this->defaults->getName()]));
