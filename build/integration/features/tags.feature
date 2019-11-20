@@ -121,6 +121,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | 12345 |
       | shareType | 0 |
+    Given user "12345" accepts last share
     When "12345" adds the tag "MySuperAwesomeTagName" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "201"
     And "/myFileToTag.txt" shared by "user0" has the following tags
@@ -148,6 +149,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     When "user0" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     When "user1" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "403"
@@ -165,6 +167,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     When "user1" adds the tag "MySuperAwesomeTagName" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "201"
     And "/myFileToTag.txt" shared by "user0" has the following tags
@@ -181,6 +184,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     When "user0" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     When "user1" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "412"
@@ -196,6 +200,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     When "user0" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     When "admin" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "201"
@@ -214,6 +219,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     When "user0" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     When "admin" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Then The response should have a status code "201"
@@ -234,6 +240,7 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given "user0" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     When "user1" removes the tag "MyFirstTag" from "/myFileToTag.txt" shared by "user0"
@@ -265,10 +272,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     When "user1" removes the tag "MyFirstTag" from "/myFileToTag.txt" shared by "user0"
@@ -289,10 +298,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     When "admin" removes the tag "MyFirstTag" from "/myFileToTag.txt" shared by "user0"
@@ -312,10 +323,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Given As "user0" remove all shares from the file named "/myFileToTag.txt"
@@ -332,10 +345,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     When "user1" removes the tag "MyFirstTag" from "/myFileToTag.txt" shared by "user0"
@@ -357,10 +372,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     When "admin" removes the tag "MyFirstTag" from "/myFileToTag.txt" shared by "user0"
@@ -380,10 +397,12 @@ Feature: tags
       | path | myFileToTag.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    Given user "user1" accepts last share
     Given as "user0" creating a share with
       | path | myFileToTag.txt |
       | shareWith | admin |
       | shareType | 0 |
+    Given user "admin" accepts last share
     Given "admin" adds the tag "MyFirstTag" to "/myFileToTag.txt" shared by "user0"
     Given "user0" adds the tag "MySecondTag" to "/myFileToTag.txt" shared by "user0"
     Given As "user0" remove all shares from the file named "/myFileToTag.txt"

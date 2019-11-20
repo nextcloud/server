@@ -35,6 +35,7 @@ Feature: sharing
     And group "sharing-group" exists
     And user "user1" belongs to group "sharing-group"
     And file "welcome.txt" of user "user0" is shared with group "sharing-group"
+    And user "user1" accepts last share
     And As an "user0"
     Then creating a share with
       | path | welcome.txt |
@@ -311,6 +312,7 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
     And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0 (2).txt&reshares=true"

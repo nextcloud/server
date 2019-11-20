@@ -22,6 +22,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | 12345 |
       | shareType | 0 |
+    Given user "12345" accepts last share
     When "12345" posts a comment with content "A comment from another user" on the file named "/myFileToComment.txt" it should return "201"
     Then As "12345" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     And the response should contain a property "oc:parentId" with value "0"
@@ -72,6 +73,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    And user "user1" accepts last share
     Given "user1" posts a comment with content "My first comment" on the file named "/myFileToComment.txt" it should return "201"
     When As "user1" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     Then the response should contain a property "oc:parentId" with value "0"
@@ -94,6 +96,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    And user "user1" accepts last share
     Given "user1" posts a comment with content "My first comment" on the file named "/myFileToComment.txt" it should return "201"
     When As "user1" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     Then the response should contain a property "oc:parentId" with value "0"
@@ -139,6 +142,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    And user "user1" accepts last share
     Given "user1" posts a comment with content "My first comment" on the file named "/myFileToComment.txt" it should return "201"
     When As "user0" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     Then the response should contain a property "oc:parentId" with value "0"
@@ -167,6 +171,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    And user "user1" accepts last share
     When "user1" posts a comment with content "My first comment" on the file named "/myFileToComment.txt" it should return "201"
     Then As "user0" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     And the response should contain a property "oc:parentId" with value "0"
@@ -196,6 +201,7 @@ Feature: comments
       | path | myFileToComment.txt |
       | shareWith | user1 |
       | shareType | 0 |
+    And user "user1" accepts last share
     Given "user1" posts a comment with content "My first comment" on the file named "/myFileToComment.txt" it should return "201"
     When As "user0" load all the comments of the file named "/myFileToComment.txt" it should return "207"
     Then the response should contain a property "oc:parentId" with value "0"
