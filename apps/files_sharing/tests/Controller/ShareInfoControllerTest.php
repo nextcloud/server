@@ -173,9 +173,6 @@ class ShareInfoControllerTest extends TestCase {
 			->with($share, 'pass')
 			->willReturn(true);
 
-		$this->controller->expects($this->once())
-			->method('addROWrapper');
-
 		$expected = new JSONResponse([
 			'id' => 42,
 			'parentId' => 41,
@@ -285,7 +282,7 @@ class ShareInfoControllerTest extends TestCase {
 							'parentId' => 43,
 							'mtime' => 1339,
 							'name' => 'file',
-							'permissions' => 9,
+							'permissions' => 1,
 							'mimetype' => 'mime/type',
 							'size' => 3,
 							'type' => 'file',
