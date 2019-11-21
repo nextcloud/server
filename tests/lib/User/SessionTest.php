@@ -258,9 +258,8 @@ class SessionTest extends \Test\TestCase {
 			->method('prepareUserLogin');
 
 		$this->dispatcher->expects($this->once())
-			->method('dispatch')
+			->method('dispatchTyped')
 			->with(
-				PostLoginEvent::class,
 				$this->callback(function(PostLoginEvent $e) {
 					return $e->getUser()->getUID() === 'foo' &&
 						$e->getPassword() === 'bar' &&
