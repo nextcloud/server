@@ -1,9 +1,9 @@
 <?php
 
-// Show warning if a PHP version below 7.1 is used,
-if (version_compare(PHP_VERSION, '7.1') === -1) {
+// Show warning if a PHP version below 7.2 is used,
+if (version_compare(PHP_VERSION, '7.2') === -1) {
 	http_response_code(500);
-	echo 'This version of Nextcloud requires at least PHP 7.1<br/>';
+	echo 'This version of Nextcloud requires at least PHP 7.2<br/>';
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
 	exit(-1);
 }
