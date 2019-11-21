@@ -30,6 +30,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Node\Folder;
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
@@ -39,7 +40,9 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\SabrePluginEvent;
 use Sabre\DAV\Auth\Plugin;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	/** @var IConfig */
@@ -58,6 +61,8 @@ class ServerFactory {
 	private $request;
 	/** @var IPreview  */
 	private $previewManager;
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	/**
 	 * @param IConfig $config
@@ -77,7 +82,8 @@ class ServerFactory {
 		IMountManager $mountManager,
 		ITagManager $tagManager,
 		IRequest $request,
-		IPreview $previewManager
+		IPreview $previewManager,
+		EventDispatcherInterface $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -87,6 +93,7 @@ class ServerFactory {
 		$this->tagManager = $tagManager;
 		$this->request = $request;
 		$this->previewManager = $previewManager;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -134,7 +141,7 @@ class ServerFactory {
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
-			
+
 			/** @var \OC\Files\View $view */
 			$view = $viewCallBack($server);
 			if ($userFolder instanceof Folder && $userFolder->getPath() === $view->getRoot()) {
@@ -195,6 +202,18 @@ class ServerFactory {
 				);
 			}
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin());
+
+			// Load dav plugins from apps
+			$event = new SabrePluginEvent($server);
+			$this->eventDispatcher->dispatch($event);
+			$pluginManager = new PluginManager(
+				\OC::$server,
+				\OC::$server->getAppManager()
+			);
+			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
+				$server->addPlugin($appPlugin);
+			}
+
 		}, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 		return $server;
 	}

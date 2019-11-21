@@ -67,7 +67,8 @@ abstract class RequestTestCase extends TestCase {
 			$this->getMockBuilder(IRequest::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			\OC::$server->getPreviewManager()
+			\OC::$server->getPreviewManager(),
+			\OC::$server->getEventDispatcher()
 		);
 	}
 
