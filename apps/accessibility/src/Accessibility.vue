@@ -118,9 +118,10 @@ export default {
 		 */
 		async selectItem(type, id) {
 			try {
+				const isDelete = id === ''
 				await axios({
 					url: generateOcsUrl('apps/accessibility/api/v1/config', 2) + type,
-					method: id === '' ? 'DELETE' : 'POST',
+					method: isDelete ? 'DELETE' : 'PUT',
 					data: {
 						value: id
 					}

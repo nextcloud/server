@@ -102,16 +102,8 @@ class ConfigController extends OCSController {
 	public function setConfig(string $key, $value): DataResponse {
 		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
 
-			if ($value === false) {
-				$this->config->deleteUserValue($this->userId, $this->appName, $key);
-				$userValues = $this->config->getUserKeys($this->userId, $this->appName);
-
-				// remove hash if no settings selected
-				if (count($userValues) === 1 && $userValues[0] === 'icons-css') {
-					$this->config->deleteUserValue($this->userId, $this->appName, 'icons-css');
-				}
-
-				return new DataResponse();
+			if ($value === false || $value === '') {
+				throw new OCSBadRequestException('Invalid value: ' . $value);
 			}
 
 			$themes = $this->accessibilityProvider->getThemes();
@@ -128,6 +120,32 @@ class ConfigController extends OCSController {
 			}
 
 			throw new OCSBadRequestException('Invalid value: ' . $value);
+		}
+
+		throw new OCSBadRequestException('Invalid key: ' . $key);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Unset theme or font config
+	 *
+	 * @param string $key theme or font
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	public function deleteConfig(string $key): DataResponse {
+		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
+
+			$this->config->deleteUserValue($this->userId, $this->appName, $key);
+			$userValues = $this->config->getUserKeys($this->userId, $this->appName);
+
+			// remove hash if no settings selected
+			if (count($userValues) === 1 && $userValues[0] === 'icons-css') {
+				$this->config->deleteUserValue($this->userId, $this->appName, 'icons-css');
+			}
+
+			return new DataResponse();
 		}
 
 		throw new OCSBadRequestException('Invalid key: ' . $key);
