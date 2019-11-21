@@ -20,7 +20,7 @@ class ConfigTest extends TestCase {
 	/** @var string */
 	private $randomTmpDir;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->randomTmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
@@ -29,7 +29,7 @@ class ConfigTest extends TestCase {
 		$this->config = new \OC\Config($this->randomTmpDir, 'testconfig.php');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unlink($this->configFile);
 		parent::tearDown();
 	}

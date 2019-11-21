@@ -29,7 +29,7 @@ class ClientTest extends \Test\TestCase {
 	/** @var array */
 	private $defaultRequestOptions;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->guzzleClient = $this->getMockBuilder(\GuzzleHttp\Client::class)

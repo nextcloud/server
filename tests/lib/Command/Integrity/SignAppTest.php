@@ -39,7 +39,7 @@ class SignAppTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->checker = $this->createMock(Checker::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);

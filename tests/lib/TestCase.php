@@ -108,7 +108,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		});
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
@@ -134,7 +134,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	protected function onNotSuccessfulTest(\Throwable $t) {
+	protected function onNotSuccessfulTest(\Throwable $t): void {
 		$this->restoreAllServices();
 
 		// restore database connection
@@ -147,7 +147,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		parent::onNotSuccessfulTest($t);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->restoreAllServices();
 
 		// restore database connection
@@ -238,7 +238,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		);
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
 			// so we need the database again

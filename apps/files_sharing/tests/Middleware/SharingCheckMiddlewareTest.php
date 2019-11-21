@@ -59,7 +59,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	/** @var  IRequest | \PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);

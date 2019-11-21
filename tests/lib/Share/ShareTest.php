@@ -67,7 +67,7 @@ class ShareTest extends \Test\TestCase {
 	/** @var IUserManager */
 	protected $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->groupManager = \OC::$server->getGroupManager();
@@ -113,7 +113,7 @@ class ShareTest extends \Test\TestCase {
 		$this->dateInFuture = date($dateFormat, $now + 20 * 60);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);

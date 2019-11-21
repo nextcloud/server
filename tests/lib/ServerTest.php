@@ -38,7 +38,7 @@ class ServerTest extends \Test\TestCase {
 	protected $server;
 
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$config = new \OC\Config(\OC::$configDir);
 		$this->server = new \OC\Server('', $config);

@@ -60,7 +60,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	const GROUP_ID = 'test_group';
 	const GROUP_ID2 = 'test_group2';
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->globalStoragesService = $this->service;

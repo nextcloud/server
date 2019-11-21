@@ -53,7 +53,7 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationFactory;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->getMockBuilder('OCP\BackgroundJob\IJobList')->getMock();

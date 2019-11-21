@@ -48,7 +48,7 @@ class QuerySearchHelperTest extends TestCase {
 	/** @var  integer */
 	private $numericStorageId;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
@@ -83,7 +83,7 @@ class QuerySearchHelperTest extends TestCase {
 			->where($this->builder->expr()->eq('storage', new Literal($this->numericStorageId)));
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();

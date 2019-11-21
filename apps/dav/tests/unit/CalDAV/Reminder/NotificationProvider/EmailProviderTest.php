@@ -61,7 +61,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->mailer = $this->createMock(IMailer::class);

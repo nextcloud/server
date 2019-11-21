@@ -41,7 +41,7 @@ class ShareInfoMiddlewareTest extends TestCase {
 	/** @var ShareInfoMiddleware */
 	private $middleware;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(ShareManager::class);

@@ -38,7 +38,7 @@ class LimiterTest extends TestCase {
 	/** @var Limiter */
 	private $limiter;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

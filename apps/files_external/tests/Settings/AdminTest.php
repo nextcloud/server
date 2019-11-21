@@ -43,7 +43,7 @@ class AdminTest extends TestCase {
 	/** @var GlobalAuth|\PHPUnit_Framework_MockObject_MockObject */
 	private $globalAuth;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->globalStoragesService = $this->createMock(GlobalStoragesService::class);

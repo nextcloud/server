@@ -64,7 +64,7 @@ class ManagerTest extends TestCase {
 	/** @var MockObject|L10N */
 	protected $l;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();
@@ -91,7 +91,7 @@ class ManagerTest extends TestCase {
 		$this->clearTables();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->clearTables();
 		parent::tearDown();
 	}

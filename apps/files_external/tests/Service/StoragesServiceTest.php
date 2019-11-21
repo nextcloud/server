@@ -92,7 +92,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $mountCache;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
 		self::$hookCalls = array();
@@ -175,7 +175,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			->willReturn($containerMock);
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\OC_Mount_Config::$skipTest = false;
 		self::$hookCalls = array();
 		if ($this->dbConfig) {

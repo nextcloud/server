@@ -48,7 +48,7 @@ class LoginRedirectorControllerTest extends TestCase {
 	/** @var IL10N */
 	private $l;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

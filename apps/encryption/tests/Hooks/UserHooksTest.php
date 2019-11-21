@@ -333,7 +333,7 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($userHooks->setPassphrase($this->params));
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->loggerMock = $this->createMock(ILogger::class);
 		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)

@@ -60,7 +60,7 @@ class PermissionsTest extends TestCase {
 	/** @var Cache */
 	private $ownerCache;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -115,7 +115,7 @@ class PermissionsTest extends TestCase {
 		$this->sharedCacheRestrictedShare = $this->sharedStorageRestrictedShare->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->sharedCache) {
 			$this->sharedCache->clear();
 		}

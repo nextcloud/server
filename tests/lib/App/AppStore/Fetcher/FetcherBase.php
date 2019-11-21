@@ -56,7 +56,7 @@ abstract class FetcherBase extends TestCase {
 	/** @var string */
 	protected $endpoint;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);

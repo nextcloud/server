@@ -51,7 +51,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	/** @var AvatarManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $avatarManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);

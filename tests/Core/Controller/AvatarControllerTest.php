@@ -79,7 +79,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->avatarManager = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
@@ -121,7 +121,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 	}
 

@@ -42,7 +42,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 	 */
 	private $oldAllowedBackends;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
 			->disableOriginalConstructor()

@@ -51,7 +51,7 @@ class CheckerTest extends TestCase {
 	/** @var \OC\Files\Type\Detection|\PHPUnit_Framework_MockObject_MockObject */
 	private $mimeTypeDetector;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);

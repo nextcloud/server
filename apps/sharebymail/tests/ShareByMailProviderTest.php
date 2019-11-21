@@ -97,7 +97,7 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  CapabilitiesManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $capabilitiesManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -174,10 +174,10 @@ class ShareByMailProviderTest extends TestCase {
 
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		$this->connection->getQueryBuilder()->delete('share')->execute();
 
-		return parent::tearDown();
+		parent::tearDown();
 	}
 
 	public function testCreate() {

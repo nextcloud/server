@@ -36,7 +36,7 @@ class SetupTest extends \Test\TestCase {
 	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
 	protected $installer;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(SystemConfig::class);

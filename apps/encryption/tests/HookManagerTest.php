@@ -57,7 +57,7 @@ class HookManagerTest extends TestCase {
 	/**
 	 *
 	 */
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		// have to make instance static to preserve data between tests
 		self::$instance = new HookManager();

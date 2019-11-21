@@ -96,7 +96,7 @@ class FilesPluginTest extends TestCase {
 	 */
 	private $previewManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()

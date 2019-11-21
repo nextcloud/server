@@ -32,7 +32,7 @@ class CertificateTest extends \Test\TestCase {
 	/** @var Certificate That contains an expired certificate */
 	protected $expiredCertificate;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$goodCertificate = file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt');

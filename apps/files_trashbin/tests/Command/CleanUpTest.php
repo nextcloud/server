@@ -61,7 +61,7 @@ class CleanUpTest extends TestCase {
 	/** @var string  */
 	protected $user0 = 'user0';
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
 			->disableOriginalConstructor()->getMock();

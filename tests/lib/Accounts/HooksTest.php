@@ -45,7 +45,7 @@ class HooksTest extends TestCase  {
 	/** @var  Hooks | \PHPUnit_Framework_MockObject_MockObject */
 	private $hooks;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);

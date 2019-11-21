@@ -51,7 +51,7 @@ class ActionProviderStoreTest extends TestCase {
 	/** @var ActionProviderStore */
 	private $actionProviderStore;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);

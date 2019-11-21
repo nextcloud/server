@@ -36,7 +36,7 @@ class SignCoreTest extends TestCase {
 	/** @var SignCore */
 	private $signCore;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->checker = $this->createMock(Checker::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);

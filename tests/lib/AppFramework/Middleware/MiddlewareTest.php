@@ -43,7 +43,7 @@ class MiddlewareTest extends \Test\TestCase {
 	/** @var Response */
 	private $response;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->middleware = new ChildMiddleware();

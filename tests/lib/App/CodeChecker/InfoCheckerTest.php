@@ -29,7 +29,7 @@ class InfoCheckerTest extends TestCase {
 	/** @var InfoChecker */
 	protected $infoChecker;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		\OC::$APPSROOTS[] = [
 			'path' => \OC::$SERVERROOT . '/tests/apps',
 			'url' => '/apps-test',
@@ -37,12 +37,12 @@ class InfoCheckerTest extends TestCase {
 		];
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// remove last element
 		array_pop(\OC::$APPSROOTS);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->infoChecker = new InfoChecker();
 	}

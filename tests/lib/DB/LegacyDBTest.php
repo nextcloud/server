@@ -21,7 +21,7 @@ class LegacyDBTest extends \Test\TestCase {
 	protected static $schema_file;
 	protected $test_prefix;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		self::$schema_file = \OC::$server->getTempManager()->getTemporaryFile();
 	}
 
@@ -56,7 +56,7 @@ class LegacyDBTest extends \Test\TestCase {
 	 */
 	private $text_table;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$dbFile = \OC::$SERVERROOT.'/tests/data/db_structure.xml';
@@ -76,7 +76,7 @@ class LegacyDBTest extends \Test\TestCase {
 		$this->text_table = $this->test_prefix.'text_table';
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		OC_DB::removeDBStructure(self::$schema_file);
 		unlink(self::$schema_file);
 

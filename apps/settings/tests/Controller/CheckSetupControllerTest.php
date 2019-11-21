@@ -87,7 +87,7 @@ class CheckSetupControllerTest extends TestCase {
 	 */
 	private $dirsToRemove = [];
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)

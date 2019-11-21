@@ -41,7 +41,7 @@ class DummyGetResponsePluginTest extends TestCase {
 	/** @var DummyGetResponsePlugin */
 	private $dummyGetResponsePlugin;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->dummyGetResponsePlugin = new DummyGetResponsePlugin();

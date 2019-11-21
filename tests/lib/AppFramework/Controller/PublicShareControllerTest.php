@@ -47,7 +47,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 	private $controller;
 
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

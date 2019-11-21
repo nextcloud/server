@@ -33,7 +33,7 @@ class VersionCheckTest extends \Test\TestCase {
 	/** @var VersionCheck | \PHPUnit_Framework_MockObject_MockObject*/
 	private $updater;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()

@@ -21,7 +21,7 @@ class ManagerTest extends TestCase {
 	/** @var IDBConnection */
 	private $connection;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();

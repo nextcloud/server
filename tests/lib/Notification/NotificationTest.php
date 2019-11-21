@@ -35,7 +35,7 @@ class NotificationTest extends TestCase {
 	/** @var IValidator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $validator;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->validator = $this->createMock(IValidator::class);
 		$this->notification = new Notification($this->validator);

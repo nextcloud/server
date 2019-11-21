@@ -33,7 +33,7 @@ class ActionFactoryTest extends TestCase {
 	/** @var ActionFactory */
 	private $actionFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->actionFactory = new ActionFactory();

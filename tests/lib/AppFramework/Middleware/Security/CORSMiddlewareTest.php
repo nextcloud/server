@@ -34,7 +34,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	/** @var Controller */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(Session::class);

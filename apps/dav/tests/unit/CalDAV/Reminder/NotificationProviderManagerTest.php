@@ -41,7 +41,7 @@ class NotificationProviderManagerTest extends TestCase {
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->providerManager = new NotificationProviderManager();

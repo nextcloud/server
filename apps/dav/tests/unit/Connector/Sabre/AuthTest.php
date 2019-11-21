@@ -60,7 +60,7 @@ class AuthTest extends TestCase {
 	/** @var Throttler */
 	private $throttler;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();

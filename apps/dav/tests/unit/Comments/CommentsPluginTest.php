@@ -54,7 +54,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	/** @var CommentsPluginImplementation */
 	private $plugin;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()

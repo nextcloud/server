@@ -68,7 +68,7 @@ class ApiControllerTest extends TestCase {
 	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
 	private $userFolder;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)

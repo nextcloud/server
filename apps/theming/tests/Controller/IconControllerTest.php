@@ -61,7 +61,7 @@ class IconControllerTest extends TestCase {
 	/** @var ImageManager */
 	private $imageManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->iconBuilder = $this->createMock(IconBuilder::class);

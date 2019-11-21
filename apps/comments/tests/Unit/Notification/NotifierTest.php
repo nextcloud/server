@@ -62,7 +62,7 @@ class NotifierTest extends TestCase {
 	/** @var string */
 	protected $lc = 'tlh_KX';
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10nFactory = $this->createMock(IFactory::class);

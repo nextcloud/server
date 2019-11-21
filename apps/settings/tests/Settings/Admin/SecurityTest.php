@@ -44,7 +44,7 @@ class SecurityTest extends TestCase {
 	/** @var IInitialStateService|MockObject */
 	private $initialState;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();

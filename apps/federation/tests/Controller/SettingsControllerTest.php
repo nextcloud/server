@@ -45,7 +45,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCA\Federation\TrustedServers */
 	private $trustedServers;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();

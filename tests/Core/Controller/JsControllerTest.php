@@ -48,7 +48,7 @@ class JsControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */

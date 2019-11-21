@@ -44,7 +44,7 @@ class ThrottlerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);

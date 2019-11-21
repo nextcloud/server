@@ -34,7 +34,7 @@ class AppleProvisioningNodeTest extends TestCase {
 	/** @var AppleProvisioningNode */
 	private $node;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

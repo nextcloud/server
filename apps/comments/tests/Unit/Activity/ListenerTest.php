@@ -63,7 +63,7 @@ class ListenerTest extends TestCase {
 	/** @var IShareHelper|\PHPUnit_Framework_MockObject_MockObject */
 	protected $shareHelper;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IManager::class);

@@ -90,7 +90,7 @@ class UsersControllerTest extends TestCase {
 	/** @var RemoteWipe|MockObject */
 	private $remoteWipe;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);

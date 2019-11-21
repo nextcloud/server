@@ -67,7 +67,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->getMockBuilder(Tree::class)
@@ -90,7 +90,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		);
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		$connection = \OC::$server->getDatabaseConnection();
 		$deleteStatement = $connection->prepare(
 			'DELETE FROM `*PREFIX*properties`' .

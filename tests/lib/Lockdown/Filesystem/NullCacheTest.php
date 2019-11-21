@@ -34,7 +34,7 @@ class NulLCacheTest extends \Test\TestCase {
 	/** @var NullCache */
 	private $cache;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->cache = new NullCache();

@@ -58,7 +58,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 	/** @var ClientFlowLoginV2Controller */
 	private $controller;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

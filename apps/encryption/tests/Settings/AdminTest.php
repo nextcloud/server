@@ -50,7 +50,7 @@ class AdminTest extends TestCase {
 	/** @var ISession */
 	private $session;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();

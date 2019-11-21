@@ -38,7 +38,7 @@ class AdminTest extends TestCase {
 	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $gsConfig;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->gsConfig = $this->createMock(IConfig::class);

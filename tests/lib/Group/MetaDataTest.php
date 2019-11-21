@@ -34,7 +34,7 @@ class MetaDataTest extends \Test\TestCase {
 	/** @var bool */
 	private $isAdmin = true;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()

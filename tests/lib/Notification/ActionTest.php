@@ -30,7 +30,7 @@ class ActionTest extends TestCase {
 	/** @var IAction */
 	protected $action;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->action = new Action();
 	}

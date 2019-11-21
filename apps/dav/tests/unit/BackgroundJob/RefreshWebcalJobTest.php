@@ -56,7 +56,7 @@ class RefreshWebcalJobTest extends TestCase {
 	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);

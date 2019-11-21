@@ -36,7 +36,7 @@ class HooksTest extends TestCase {
 	/** @var  Hooks */
 	private $hooks;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')

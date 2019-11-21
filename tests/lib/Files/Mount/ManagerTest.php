@@ -22,7 +22,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	private $manager;
 
-	protected function setup() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->manager = new \OC\Files\Mount\Manager();
 	}

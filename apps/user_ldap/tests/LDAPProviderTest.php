@@ -43,7 +43,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class LDAPProviderTest extends \Test\TestCase {
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 	}
 	

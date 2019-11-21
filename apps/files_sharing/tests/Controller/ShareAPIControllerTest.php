@@ -100,7 +100,7 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
 	private $serverContainer;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
 			->expects($this->any())

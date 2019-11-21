@@ -58,7 +58,7 @@ class DirectHomeTest extends TestCase {
 	/** @var DirectHome */
 	private $directHome;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->directMapper = $this->createMock(DirectMapper::class);

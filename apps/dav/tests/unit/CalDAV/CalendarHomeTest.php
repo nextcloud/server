@@ -39,7 +39,7 @@ class CalendarHomeTest extends TestCase {
 	/** @var CalendarHome */
 	private $calendarHome;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->backend = $this->createMock(CalDavBackend::class);

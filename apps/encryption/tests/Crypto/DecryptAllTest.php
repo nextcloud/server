@@ -53,7 +53,7 @@ class DecryptAllTest extends TestCase {
 	/** @var QuestionHelper | \PHPUnit_Framework_MockObject_MockObject  */
 	protected $questionHelper;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->util = $this->getMockBuilder(Util::class)

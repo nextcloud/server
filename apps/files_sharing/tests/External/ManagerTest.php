@@ -78,7 +78,7 @@ class ManagerTest extends TestCase {
 	private $user;
 	private $testMountProvider;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->uid = $this->getUniqueID('user');

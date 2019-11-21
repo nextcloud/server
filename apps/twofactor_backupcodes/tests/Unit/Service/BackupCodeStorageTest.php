@@ -50,7 +50,7 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var BackupCodeStorage */
 	private $storage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(BackupCodeMapper::class);

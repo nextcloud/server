@@ -28,7 +28,7 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	/** @var ExcludeFileByNameFilterIterator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filter;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->filter = $this->getMockBuilder(ExcludeFileByNameFilterIterator::class)
 			->disableOriginalConstructor()

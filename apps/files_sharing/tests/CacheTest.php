@@ -62,7 +62,7 @@ class CacheTest extends TestCase {
 	/** @var \OCP\Share\IManager */
 	protected $shareManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -128,7 +128,7 @@ class CacheTest extends TestCase {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if($this->sharedCache) {
 			$this->sharedCache->clear();
 		}

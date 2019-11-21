@@ -35,7 +35,7 @@ class CryptoWrappingTest extends TestCase {
 	/** @var \OC\Session\CryptoSessionData */
 	protected $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->wrappedSession = $this->getMockBuilder(ISession::class)

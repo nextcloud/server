@@ -63,7 +63,7 @@ class ApiTest extends TestCase {
 	/** @var string */
 	private $subsubfolder;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
@@ -88,7 +88,7 @@ class ApiTest extends TestCase {
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if($this->view instanceof \OC\Files\View) {
 			$this->view->unlink($this->filename);
 			$this->view->deleteAll($this->folder);

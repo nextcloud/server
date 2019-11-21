@@ -10,7 +10,7 @@
 namespace Test\Memcache;
 
 class RedisTest extends Cache {
-	static public function setUpBeforeClass() {
+	static public function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		if (!\OC\Memcache\Redis::isAvailable()) {
@@ -44,7 +44,7 @@ class RedisTest extends Cache {
 		}
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
 	}

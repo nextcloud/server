@@ -72,7 +72,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
 	const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -106,7 +106,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->cleanUpBackend();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		$this->cleanUpBackend();
 		parent::tearDown();
 	}

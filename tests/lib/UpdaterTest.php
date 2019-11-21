@@ -40,7 +40,7 @@ class UpdaterTest extends TestCase {
 	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
 	private $installer;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()

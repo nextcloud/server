@@ -41,7 +41,7 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $notificationManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->storage = \OC::$server->query(BackupCodeStorage::class);

@@ -49,7 +49,7 @@ class ServicesTest extends TestCase  {
 	/** @var \OCP\AppFramework\IAppContainer */
 	protected $container;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->app = new App('theming');
 		$this->container = $this->app->getContainer();

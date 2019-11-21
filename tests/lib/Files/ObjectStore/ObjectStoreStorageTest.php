@@ -38,7 +38,7 @@ class ObjectStoreStorageTest extends Storage {
 	 */
 	private $objectStorage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$baseStorage = new Temporary();
@@ -47,7 +47,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->instance = new ObjectStoreStorageOverwrite($config);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if (is_null($this->instance)) {
 			return;
 		}

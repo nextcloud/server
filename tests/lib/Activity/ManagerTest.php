@@ -44,7 +44,7 @@ class ManagerTest extends TestCase {
 	/** @var IValidator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $validator;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

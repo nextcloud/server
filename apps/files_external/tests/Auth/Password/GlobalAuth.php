@@ -45,7 +45,7 @@ class GlobalAuthTest extends TestCase {
 	 */
 	private $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->credentialsManager = $this->createMock(ICredentialsManager::class);

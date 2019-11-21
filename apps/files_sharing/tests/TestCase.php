@@ -68,7 +68,7 @@ abstract class TestCase extends \Test\TestCase {
 	/** @var \OCP\Files\IRootFolder */
 	protected $rootFolder;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		$application = new Application();
@@ -107,7 +107,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getGroupManager()->addBackend($groupBackend);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		//login as user1
@@ -120,7 +120,7 @@ abstract class TestCase extends \Test\TestCase {
 		$this->rootFolder = \OC::$server->getRootFolder();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('share');
 		$qb->execute();
@@ -128,7 +128,7 @@ abstract class TestCase extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
 		if ($user !== null) { $user->delete(); }

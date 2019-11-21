@@ -31,7 +31,7 @@ class RequestTest extends \Test\TestCase {
 	/** @var CsrfTokenManager */
 	protected $csrfTokenManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		if (in_array('fakeinput', stream_get_wrappers())) {
@@ -45,7 +45,7 @@ class RequestTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		stream_wrapper_unregister('fakeinput');
 		parent::tearDown();
 	}

@@ -44,7 +44,7 @@ class SharedMountTest extends TestCase {
 	/** @var IUserManager */
 	private $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->folder = '/folder_share_storage_test';
@@ -62,7 +62,7 @@ class SharedMountTest extends TestCase {
 		$this->userManager = \OC::$server->getUserManager();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->view) {
 			if ($this->view->file_exists($this->folder)) {
 				$this->view->unlink($this->folder);

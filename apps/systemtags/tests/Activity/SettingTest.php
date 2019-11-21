@@ -29,7 +29,7 @@ class SettingTest extends TestCase {
 	/** @var Setting */
 	private $setting;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->l = $this->createMock(IL10N::class);
 

@@ -46,7 +46,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	/** @var CloudIdManager */
 	private $cloudIdManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)

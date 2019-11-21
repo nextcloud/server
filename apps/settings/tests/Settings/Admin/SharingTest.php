@@ -42,7 +42,7 @@ class SharingTest extends TestCase {
 	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();

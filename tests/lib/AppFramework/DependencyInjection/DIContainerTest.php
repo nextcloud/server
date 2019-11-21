@@ -41,7 +41,7 @@ class DIContainerTest extends \Test\TestCase {
 	/** @var DIContainer|\PHPUnit_Framework_MockObject_MockObject */
 	private $container;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
 			->setMethods(['isAdminUser'])

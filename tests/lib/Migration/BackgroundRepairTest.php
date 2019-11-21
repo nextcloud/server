@@ -68,7 +68,7 @@ class BackgroundRepairTest extends TestCase {
 	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject $dispatcher  */
 	private $dispatcher;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->getMockBuilder('OC\BackgroundJob\JobList')

@@ -35,7 +35,7 @@ class ManagerTest extends TestCase {
 	/** @var ArrayCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $arrayCache;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(ILogger::class);

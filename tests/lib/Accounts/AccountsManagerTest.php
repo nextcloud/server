@@ -51,7 +51,7 @@ class AccountsManagerTest extends TestCase {
 	/** @var string accounts table name */
 	private $table = 'accounts';
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->disableOriginalConstructor()->getMock();
@@ -59,7 +59,7 @@ class AccountsManagerTest extends TestCase {
 		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->table)->execute();

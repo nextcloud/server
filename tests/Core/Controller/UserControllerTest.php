@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase {
 	/** @var UserController */
 	private $controller;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);

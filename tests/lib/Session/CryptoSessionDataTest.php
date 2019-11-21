@@ -30,7 +30,7 @@ class CryptoSessionDataTest extends Session {
 	/** @var \OCP\ISession */
 	protected $wrappedSession;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->wrappedSession = new \OC\Session\Memory($this->getUniqueID());

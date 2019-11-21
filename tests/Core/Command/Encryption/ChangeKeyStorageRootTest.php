@@ -63,7 +63,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/** @var \OCP\UserInterface |  \PHPUnit_Framework_MockObject_MockObject */
 	protected $userInterface;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->getMockBuilder(View::class)->getMock();

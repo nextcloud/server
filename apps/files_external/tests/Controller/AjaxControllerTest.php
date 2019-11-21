@@ -48,7 +48,7 @@ class AjaxControllerTest extends TestCase {
 	/** @var AjaxController */
 	private $ajaxController;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->rsa = $this->getMockBuilder('\\OCA\\Files_External\\Lib\\Auth\\PublicKey\\RSA')
 			->disableOriginalConstructor()

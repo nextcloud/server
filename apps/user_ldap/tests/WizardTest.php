@@ -42,7 +42,7 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class WizardTest extends TestCase {
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap

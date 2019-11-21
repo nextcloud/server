@@ -29,7 +29,7 @@ class VersionParserTest extends TestCase  {
 	/** @var VersionParser */
 	private $versionParser;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->versionParser = new VersionParser();
 	}

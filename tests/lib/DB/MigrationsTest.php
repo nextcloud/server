@@ -36,7 +36,7 @@ class MigrationsTest extends \Test\TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject | IDBConnection $db */
 	private $db;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->db = $this->createMock(Connection::class);

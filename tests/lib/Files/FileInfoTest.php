@@ -23,7 +23,7 @@ class FileInfoTest extends TestCase {
 
 	private $config;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->createUser('foo', 'foo');
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();

@@ -38,7 +38,7 @@ class ShareTest extends TestCase {
 
 	private static $tempStorage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
@@ -56,7 +56,7 @@ class ShareTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);

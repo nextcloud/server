@@ -47,7 +47,7 @@ class ScannerTest extends \Test\TestCase {
 	 */
 	private $userBackend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userBackend = new \Test\Util\User\Dummy();
@@ -55,7 +55,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->loginAsUser();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->logout();
 		\OC::$server->getUserManager()->removeBackend($this->userBackend);
 		parent::tearDown();

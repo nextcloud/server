@@ -78,7 +78,7 @@ class AccessTest extends TestCase {
 	/** @var Access */
 	private $access;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->connection = $this->createMock(Connection::class);
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);

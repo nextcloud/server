@@ -37,7 +37,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 	private static $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->storage = new \OC\Files\Storage\Temporary(array());
@@ -68,7 +68,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		\OC_Hook::clear('OC_Filesystem');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();
 		}

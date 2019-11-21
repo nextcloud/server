@@ -40,7 +40,7 @@ class ManagerTest extends TestCase {
 	/** @var ILogger|MockObject */
 	protected $logger;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->validator = $this->createMock(IValidator::class);
 		$this->logger = $this->createMock(ILogger::class);

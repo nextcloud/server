@@ -32,7 +32,7 @@ class AccessTokenMapperTest extends TestCase {
 	/** @var AccessTokenMapper */
 	private $accessTokenMapper;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection());
 	}

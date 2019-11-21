@@ -48,7 +48,7 @@ class CleanupTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject | IRootFolder */
 	protected $rootFolder;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')

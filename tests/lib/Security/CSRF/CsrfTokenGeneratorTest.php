@@ -27,7 +27,7 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 	/** @var \OC\Security\CSRF\CsrfTokenGenerator */
 	private $csrfTokenGenerator;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->random = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();

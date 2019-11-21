@@ -35,7 +35,7 @@ class OCSTest extends TestCase {
 	/** @var IInstanceFactory */
 	private $instanceFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->instanceFactory = new InstanceFactory(new ArrayCache(), $this->getClientService());

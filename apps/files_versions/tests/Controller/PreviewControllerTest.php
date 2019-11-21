@@ -64,7 +64,7 @@ class PreviewControllerTest extends TestCase {
 	/** @var IVersionManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $versionManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);

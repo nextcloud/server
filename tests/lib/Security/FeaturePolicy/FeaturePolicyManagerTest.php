@@ -42,7 +42,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	/** @var FeaturePolicyManager */
 	private $manager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
 		$this->manager = new FeaturePolicyManager($this->dispatcher);

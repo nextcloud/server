@@ -40,7 +40,7 @@ use OCP\Share\IShare;
  */
 class SharedStorageTest extends TestCase {
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
 		$this->folder = '/folder_share_storage_test';
@@ -55,7 +55,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->view) {
 			if ($this->view->file_exists($this->folder)) {
 				$this->view->unlink($this->folder);

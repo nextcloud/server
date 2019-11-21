@@ -40,7 +40,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	 * Run this function before the actual test to either set or initialize the
 	 * db. After this the db can be accessed by using $this->db
 	 */
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = $this->getMockBuilder(

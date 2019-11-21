@@ -35,7 +35,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/** @var SecureRandom */
 	protected $rng;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->rng = new \OC\Security\SecureRandom();
 	}

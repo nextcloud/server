@@ -35,7 +35,7 @@ class CalDAVSettingsTest extends TestCase {
 	/** @var CalDAVSettings */
 	private $settings;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);

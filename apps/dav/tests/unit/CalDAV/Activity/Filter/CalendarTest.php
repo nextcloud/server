@@ -37,7 +37,7 @@ class CalendarTest extends TestCase {
 	/** @var IFilter|\PHPUnit_Framework_MockObject_MockObject */
 	protected $filter;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->url = $this->createMock(IURLGenerator::class);
 		$l = $this->createMock(IL10N::class);

@@ -44,7 +44,7 @@ class AppConfigControllerTest extends TestCase {
 	/** @var IAppConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $appConfig;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);

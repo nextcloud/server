@@ -53,7 +53,7 @@ class TestEnableMasterKey extends TestCase {
 	/** @var  \Symfony\Component\Console\Input\InputInterface | \PHPUnit_Framework_MockObject_MockObject */
 	protected $input;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->util = $this->getMockBuilder(Util::class)

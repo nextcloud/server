@@ -20,7 +20,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/** @var \OC\LargeFileHelper */
 	protected $helper;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = new \OC\LargeFileHelper();
 	}

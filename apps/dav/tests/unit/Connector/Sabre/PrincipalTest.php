@@ -65,7 +65,7 @@ class PrincipalTest extends TestCase {
 	/** @var ProxyMapper | \PHPUnit_Framework_MockObject_MockObject */
 	private $proxyMapper;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);

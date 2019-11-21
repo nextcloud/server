@@ -46,7 +46,7 @@ class LockingTest extends TestCase {
 	private $ownerUid;
 	private $recipientUid;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->userBackend = new \Test\Util\User\Dummy();
@@ -74,7 +74,7 @@ class LockingTest extends TestCase {
 		$this->assertTrue(Filesystem::file_exists('bar.txt'));
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\OC::$server->getUserManager()->removeBackend($this->userBackend);
 		parent::tearDown();
 	}

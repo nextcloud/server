@@ -50,7 +50,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	 */
 	protected $globalStoragesService;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache);
