@@ -739,20 +739,24 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			if ($result === false) {
 				\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
 					$this->access->connection->ldapHost, ILogger::DEBUG);
+				$uid = false;
+			} else {
+				$uid = $result[0];
 			}
-			$uid = $result[0];
 		} else {
 			// just in case
 			$uid = $userDN;
 		}
 
-		if(isset($this->cachedGroupsByMember[$uid])) {
-			$groups = array_merge($groups, $this->cachedGroupsByMember[$uid]);
-		} else {
-			$groupsByMember = array_values($this->getGroupsByMember($uid));
-			$groupsByMember = $this->access->nextcloudGroupNames($groupsByMember);
-			$this->cachedGroupsByMember[$uid] = $groupsByMember;
-			$groups = array_merge($groups, $groupsByMember);
+		if($uid !== false) {
+			if (isset($this->cachedGroupsByMember[$uid])) {
+				$groups = array_merge($groups, $this->cachedGroupsByMember[$uid]);
+			} else {
+				$groupsByMember = array_values($this->getGroupsByMember($uid));
+				$groupsByMember = $this->access->nextcloudGroupNames($groupsByMember);
+				$this->cachedGroupsByMember[$uid] = $groupsByMember;
+				$groups = array_merge($groups, $groupsByMember);
+			}
 		}
 
 		if($primaryGroup !== false) {
