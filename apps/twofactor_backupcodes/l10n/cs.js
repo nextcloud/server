@@ -10,6 +10,7 @@ OC.L10N.register(
     "Print backup codes" : "Vytisknout záložní kódy",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Záložní kódy byly vytvořeny. Využito {used} z {total} kódů.",
     "Regenerate backup codes" : "Vytvořit nové záložní kódy",
+    "_icon-loading-small_::_generate-backup-codes_" : ["ikona-nacitani-mala","ikony-nacitani-male","ikon-nacitani-malych","vytvorit-zalozni-kody"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Pokud necháte vytvořit nové záložní kódy, staré budou automaticky zneplatněny.",
     "Generate backup codes" : "Vytvořit záložní kódy",
     "You created two-factor backup codes for your account" : "Vytvořili jste záložní kódy dvoufázového ověření pro váš účet",
