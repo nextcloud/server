@@ -65,6 +65,7 @@ class HelpController extends Controller {
 	 *
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 */
 	public function help(string $mode = 'user'): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');
