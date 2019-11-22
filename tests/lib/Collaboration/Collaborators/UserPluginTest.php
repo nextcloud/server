@@ -414,8 +414,8 @@ class UserPluginTest extends TestCase {
 				$this->groupManager->expects($this->exactly(2))
 					->method('getUserGroupIds')
 					->withConsecutive(
-						$this->user,
-						$singleUser
+						[$this->user],
+						[$singleUser]
 					)
 					->willReturn($groupResponse);
 			} else {

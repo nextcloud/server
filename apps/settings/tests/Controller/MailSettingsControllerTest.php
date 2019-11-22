@@ -172,7 +172,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$response = $this->mailController->sendTestMail();
-		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
 }
