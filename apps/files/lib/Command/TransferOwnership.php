@@ -155,7 +155,10 @@ class TransferOwnership extends Command {
 		$this->collectUsersShares($output);
 
 		// transfer the files
-		$this->transfer($output);
+		if($this->transfer($output) === false) {
+			$output->writeln('<error>File transfer failed</error>');
+			return 1;
+		}
 
 		// restore the shares
 		$this->restoreShares($output);
@@ -259,7 +262,9 @@ class TransferOwnership extends Command {
 			$view->mkdir($this->finalTarget);
 			$this->finalTarget = $this->finalTarget . '/' . basename($this->sourcePath);
 		}
-		$view->rename($this->sourcePath, $this->finalTarget);
+		if ($view->rename($this->sourcePath, $this->finalTarget) === false) {
+			return false;
+		}
 		if (!is_dir("$this->sourceUser/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$this->sourceUser/files");
