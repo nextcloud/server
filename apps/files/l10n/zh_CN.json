@@ -135,6 +135,8 @@
     "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 （最大 %s）",
     "File Management" : "文件管理",
+    "Error while loading the file data" : "加载文件数据时出错",
+    "Unable to change the favourite state of the file" : "无法更改文件的收藏状态",
     "%s used" : "%s 已使用",
     "%s%% of %s used" : "%s中%s%%已使用",
     "%1$s of %2$s used" : "%1$s已用，总计%2$s",
