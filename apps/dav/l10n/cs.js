@@ -63,7 +63,7 @@ OC.L10N.register(
     "Where: %s" : "Kde: %s",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "Invitation canceled" : "Pozvánka zrušena",
-    "Hello %s," : "Dobrý den %s,",
+    "Hello %s," : "Zdravím %s,",
     "The meeting »%1$s« with %2$s was canceled." : "Setkání „%1$s“ sc%2$s bylo zrušeno.",
     "Invitation updated" : "Pozvánka aktualizována",
     "The meeting »%1$s« with %2$s was updated." : "Setkání „%1$s“ s %2$s bylo zrušeno.",
