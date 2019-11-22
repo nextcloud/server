@@ -9,11 +9,11 @@
 namespace Test\Traits;
 
 use OC\Encryption\EncryptionWrapper;
+use OC\Files\Filesystem;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
-use OC\Files\Filesystem;
 
 /**
  * Enables encryption

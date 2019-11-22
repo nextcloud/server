@@ -9,10 +9,10 @@
 
 namespace Test\DB;
 
-use \Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use \Doctrine\DBAL\Schema\Schema;
-use \Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaConfig;
 use OCP\IConfig;
 
 /**

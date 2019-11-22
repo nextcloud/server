@@ -26,9 +26,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share20;
 
 use OC\CapabilitiesManager;
+use OC\Share20\Exception\ProviderException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
@@ -37,9 +39,8 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
-use OCP\Share\IProviderFactory;
-use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
+use OCP\Share\IProviderFactory;
 
 /**
  * Class ProviderFactory

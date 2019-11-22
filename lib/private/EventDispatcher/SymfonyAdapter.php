@@ -25,9 +25,9 @@ declare(strict_types=1);
 
 namespace OC\EventDispatcher;
 
-use OCP\ILogger;
 use function is_callable;
 use OCP\EventDispatcher\Event;
+use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

@@ -27,8 +27,8 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Notification;
 
 use OCP\Files\IRootFolder;
-use OCP\IL10N;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;

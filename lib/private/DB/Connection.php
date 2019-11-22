@@ -30,13 +30,13 @@
 
 namespace OC\DB;
 
+use Doctrine\Common\EventManager;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
+use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\Cache\QueryCacheProfile;
-use Doctrine\Common\EventManager;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;

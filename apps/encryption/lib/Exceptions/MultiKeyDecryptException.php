@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Encryption\Exceptions;
 
 use OCP\Encryption\Exceptions\GenericEncryptionException;

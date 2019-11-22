@@ -24,8 +24,8 @@
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use DOMElement;
-use Sabre\DAV\Server;
 use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\DAV\Server;
 
 class PasswordLoginForbidden extends NotAuthenticated {
 

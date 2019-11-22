@@ -26,7 +26,6 @@ namespace Test\AppFramework\Db;
 
 use OCP\AppFramework\Db\Entity;
 
-
 /**
  * @method integer getId()
  * @method void setId(integer $id)

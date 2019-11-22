@@ -20,7 +20,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\Core\Command\Db;
 
 use OC\DB\SchemaWrapper;

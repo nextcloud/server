@@ -25,7 +25,6 @@
  *
  */
 
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Cache;

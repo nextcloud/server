@@ -61,11 +61,11 @@
  *
  */
 
+use OC\AppFramework\Http\Request;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
-use OC\AppFramework\Http\Request;
 
 class OC_Util {
 	public static $scripts = array();

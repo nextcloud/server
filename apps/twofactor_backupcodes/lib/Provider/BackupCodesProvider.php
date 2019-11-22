@@ -162,4 +162,3 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	}
 
 }
-

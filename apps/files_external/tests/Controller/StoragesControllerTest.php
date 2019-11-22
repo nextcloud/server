@@ -22,16 +22,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Tests\Controller;
 
+use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
-use \OCP\AppFramework\Http;
 
-use \OCA\Files_External\Controller\GlobalStoragesController;
-use \OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\AppFramework\Http;
 
 abstract class StoragesControllerTest extends \Test\TestCase {
 

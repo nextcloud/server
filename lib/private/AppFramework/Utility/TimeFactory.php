@@ -27,7 +27,6 @@ namespace OC\AppFramework\Utility;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 
-
 /**
  * Needed to mock calls to time()
  */

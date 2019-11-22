@@ -22,14 +22,13 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\Core\Migrations;
 
 use Closure;
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version17000Date20190514105811 extends SimpleMigrationStep {
 

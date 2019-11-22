@@ -22,16 +22,16 @@
 namespace Test\IntegrityCheck;
 
 use OC\IntegrityCheck\Checker;
+use OC\IntegrityCheck\Helpers\AppLocator;
+use OC\IntegrityCheck\Helpers\EnvironmentHelper;
+use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
+use OCP\App\IAppManager;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Test\TestCase;
-use OC\IntegrityCheck\Helpers\EnvironmentHelper;
-use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\IntegrityCheck\Helpers\AppLocator;
-use OCP\IConfig;
-use OCP\ICacheFactory;
-use OCP\App\IAppManager;
 
 class CheckerTest extends TestCase {
 	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */

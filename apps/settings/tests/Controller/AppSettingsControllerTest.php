@@ -27,19 +27,19 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
 use OCA\Settings\Controller\AppSettingsController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
+use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-use OCP\IRequest;
-use OCP\IL10N;
-use OCP\IConfig;
-use OCP\INavigationManager;
-use OCP\App\IAppManager;
 
 /**
  * Class AppSettingsControllerTest

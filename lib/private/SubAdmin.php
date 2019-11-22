@@ -30,11 +30,11 @@ namespace OC;
 
 use OC\Hooks\PublicEmitter;
 use OCP\Group\ISubAdmin;
-use OCP\IUser;
-use OCP\IUserManager;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
 

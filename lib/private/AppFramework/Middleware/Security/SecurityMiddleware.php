@@ -28,31 +28,30 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
+use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
-use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
-use OCP\INavigationManager;
-use OCP\IURLGenerator;
-use OCP\IRequest;
 use OCP\ILogger;
-use OCP\AppFramework\Controller;
+use OCP\INavigationManager;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Util;
-use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 
 /**
  * Used to do all the authentication and checking stuff for a controller method

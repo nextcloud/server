@@ -23,9 +23,9 @@
 
 namespace OCA\User_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\Migration\UUIDFixInsert;
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Migration\UUIDFixInsert;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;

@@ -25,7 +25,7 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
+use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;

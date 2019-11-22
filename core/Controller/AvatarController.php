@@ -25,6 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
@@ -37,8 +38,8 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
 use OCP\ICache;
-use OCP\ILogger;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;

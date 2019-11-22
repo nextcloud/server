@@ -26,10 +26,10 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
-use OC\Files\Storage\Wrapper\Quota;
-use OCP\Files\ForbiddenException;
 use OC\Files\FileInfo;
+use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\ForbiddenException;
 
 class TestViewDirectory extends \OC\Files\View {
 

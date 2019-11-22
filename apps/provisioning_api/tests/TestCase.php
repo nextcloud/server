@@ -25,9 +25,9 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IGroupManager;
 
 abstract class TestCase extends \Test\TestCase {
 

@@ -27,7 +27,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\AmazonS3;
+use OCA\Files_External\Lib\Storage\AmazonS3;
 
 /**
  * Class Amazons3Test

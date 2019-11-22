@@ -24,14 +24,14 @@ declare (strict_types = 1);
 
 namespace OC\Template;
 
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OC\Files\AppData\Factory;
 
 class IconsCacher {
 

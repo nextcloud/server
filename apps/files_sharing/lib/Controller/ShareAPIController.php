@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files\Helper;
+use OCA\Files_Sharing\External\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -41,24 +42,23 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IUserManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
-use OCP\Files\IRootFolder;
+use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share;
-use OCP\Share\IManager;
-use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\GenericShareException;
-use OCP\Lock\ILockingProvider;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
-use OCA\Files_Sharing\External\Storage;
 
 /**
  * Class Share20OCS

@@ -21,13 +21,13 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 use OCP\IUser;
-use OCA\Files_External\Lib\Auth\AuthMechanism;
-use OCA\Files_External\Lib\StorageConfig;
 use OCP\Security\ICredentialsManager;
-use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**
  * User provided Global Username and Password

@@ -50,4 +50,3 @@ class CopyDirectoryTest extends Storage {
 		$this->instance = new CopyDirectoryStorage([]);
 	}
 }
-

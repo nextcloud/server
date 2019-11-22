@@ -29,9 +29,9 @@ use OC\User\Manager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\IGroupLDAP;
+use OCA\User_LDAP\IUserLDAP;
 use OCP\IConfig;
 use OCP\IServerContainer;
-use OCA\User_LDAP\IUserLDAP;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

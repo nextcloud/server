@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use DateTimeZone;
@@ -40,11 +41,11 @@ use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\FreeBusyGenerator;
 use Sabre\VObject\ITip;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-use Sabre\VObject\FreeBusyGenerator;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 

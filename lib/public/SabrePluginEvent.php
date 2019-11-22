@@ -25,8 +25,8 @@ namespace OCP;
 
 
 use OCP\AppFramework\Http;
-use Sabre\DAV\Server;
 use OCP\EventDispatcher\Event;
+use Sabre\DAV\Server;
 
 /**
  * @since 8.2.0

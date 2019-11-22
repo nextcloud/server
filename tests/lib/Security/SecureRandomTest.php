@@ -8,7 +8,7 @@
 
 namespace Test\Security;
 
-use \OC\Security\SecureRandom;
+use OC\Security\SecureRandom;
 
 class SecureRandomTest extends \Test\TestCase {
 

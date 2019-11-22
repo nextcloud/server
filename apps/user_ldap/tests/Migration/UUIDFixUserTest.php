@@ -23,8 +23,8 @@
 
 namespace OCA\User_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\User_Proxy;
 
 /**

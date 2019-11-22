@@ -23,17 +23,18 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
-use OCP\IUser;
 use OCP\Notification\INotification;
-use OCP\AppFramework\Utility\ITimeFactory;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Property;
 

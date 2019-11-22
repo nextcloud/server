@@ -27,7 +27,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCP\FullTextSearch\Service;
 
 
@@ -62,4 +61,3 @@ interface IProviderService {
 
 
 }
-

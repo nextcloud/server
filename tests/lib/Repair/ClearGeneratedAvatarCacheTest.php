@@ -23,10 +23,10 @@
 
 namespace Test\Repair;
 
-use OCP\IConfig;
-use OCP\Migration\IOutput;
 use OC\Avatar\AvatarManager;
 use OC\Repair\ClearGeneratedAvatarCache;
+use OCP\IConfig;
+use OCP\Migration\IOutput;
 
 class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 

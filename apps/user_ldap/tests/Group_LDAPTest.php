@@ -32,13 +32,13 @@
 
 namespace OCA\User_LDAP\Tests;
 
-use OCA\User_LDAP\GroupPluginManager;
-use OCP\GroupInterface;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
+use OCP\GroupInterface;
 use Test\TestCase;
 
 /**

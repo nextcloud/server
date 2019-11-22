@@ -24,11 +24,11 @@
 namespace OC\Core\Command\Maintenance;
 
 use OC\Core\Command\Maintenance\Mimetype\UpdateJS;
+use OCP\Files\IMimeTypeDetector;
 use OCP\ICacheFactory;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-use OCP\Files\IMimeTypeDetector;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateTheme extends UpdateJS {
 

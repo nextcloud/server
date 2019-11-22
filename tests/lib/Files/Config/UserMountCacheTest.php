@@ -10,10 +10,10 @@ namespace Test\Files\Config;
 
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Storage;
 use OC\Log;
 use OC\User\Manager;
 use OCP\Files\Config\ICachedMountInfo;
-use OC\Files\Storage\Storage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;

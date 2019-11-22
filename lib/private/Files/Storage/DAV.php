@@ -35,19 +35,19 @@ namespace OC\Files\Storage;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
-use OCP\Files\ForbiddenException;
-use OCP\ILogger;
-use Psr\Http\Message\ResponseInterface;
 use Icewind\Streams\CallbackWrapper;
-use OC\Files\Filesystem;
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 use OCP\Util;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
@@ -864,4 +864,3 @@ class DAV extends Common {
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 }
-

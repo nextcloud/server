@@ -157,4 +157,3 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$this->assertCount(0, $this->getShares(), 'Orphaned shares deleted');
 	}
 }
-

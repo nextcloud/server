@@ -28,10 +28,10 @@ namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OCP\IUser;
-use OCP\SystemTag\ISystemTagManager;
-use OCP\SystemTag\TagNotFoundException;
-use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 
 class SystemTagNodeTest extends \Test\TestCase {

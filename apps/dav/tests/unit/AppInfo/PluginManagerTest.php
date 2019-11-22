@@ -23,9 +23,9 @@
 namespace OCA\DAV\Tests\unit\AppInfo;
 
 use OC\App\AppManager;
-use Test\TestCase;
 use OC\ServerContainer;
 use OCA\DAV\AppInfo\PluginManager;
+use Test\TestCase;
 
 /**
  * Class PluginManagerTest

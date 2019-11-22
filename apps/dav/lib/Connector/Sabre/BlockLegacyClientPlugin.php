@@ -24,8 +24,8 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
-use Sabre\HTTP\RequestInterface;
 use Sabre\DAV\ServerPlugin;
+use Sabre\HTTP\RequestInterface;
 
 /**
  * Class BlockLegacyClientPlugin is used to detect old legacy sync clients and

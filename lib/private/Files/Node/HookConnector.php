@@ -22,9 +22,9 @@
 
 namespace OC\Files\Node;
 
-use OCP\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Files\FileInfo;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

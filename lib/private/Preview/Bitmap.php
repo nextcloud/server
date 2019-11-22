@@ -26,9 +26,9 @@
 namespace OC\Preview;
 
 use Imagick;
+use OCP\Files\File;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 /**
  * Creates a PNG preview using ImageMagick via the PECL extension

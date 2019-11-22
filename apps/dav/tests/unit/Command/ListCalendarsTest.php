@@ -28,7 +28,6 @@ use OCP\IUserManager;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
-
 /**
  * Class ListCalendarsTest
  *

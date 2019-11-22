@@ -126,4 +126,3 @@ interface IWidgetConfig {
 
 
 }
-

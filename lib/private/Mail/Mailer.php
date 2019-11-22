@@ -31,11 +31,11 @@ use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\ILogger;
 use OCP\Mail\IMessage;
 
 /**

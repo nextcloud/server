@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -112,4 +113,3 @@ class FutureFileTest extends \Test\TestCase {
 		return new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
 	}
 }
-

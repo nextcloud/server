@@ -24,14 +24,14 @@ declare (strict_types = 1);
 
 namespace OC\Core\Controller;
 
+use OC\Template\IconsCacher;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\App\IAppManager;
 use OCP\IRequest;
-use OC\Template\IconsCacher;
 
 class SvgController extends Controller {
 

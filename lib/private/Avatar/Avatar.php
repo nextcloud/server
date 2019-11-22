@@ -32,12 +32,12 @@ declare(strict_types=1);
 
 namespace OC\Avatar;
 
+use Imagick;
 use OC\Color;
+use OC_Image;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\ILogger;
-use OC_Image;
-use Imagick;
 
 /**
  * This class gets and sets users avatars.

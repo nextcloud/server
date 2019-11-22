@@ -33,7 +33,6 @@ namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\Response;
 
-
 /**
  * Middleware is used to provide hooks before or after controller methods and
  * deal with possible exceptions raised in the controller methods.

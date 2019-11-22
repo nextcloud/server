@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
@@ -29,7 +28,6 @@ use OC\AppFramework\Http\Dispatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
-
 
 function rrmdir($directory) {
 	$files = array_diff(scandir($directory), array('.','..'));

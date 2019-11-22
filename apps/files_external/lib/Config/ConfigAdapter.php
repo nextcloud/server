@@ -26,18 +26,18 @@
 
 namespace OCA\Files_External\Config;
 
+use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
+use OCA\Files_External\Lib\PersonalMount;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Migration\StorageMigrator;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage;
 use OCP\Files\Storage\IStorageFactory;
-use OCA\Files_External\Lib\PersonalMount;
-use OCP\Files\Config\IMountProvider;
-use OCP\IUser;
-use OCA\Files_External\Service\UserStoragesService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCA\Files_External\Lib\StorageConfig;
-use OC\Files\Storage\FailedStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IUser;
 
 /**
  * Make the old files_external config work with the new public mount config api

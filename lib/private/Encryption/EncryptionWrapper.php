@@ -21,15 +21,14 @@
  *
  */
 
-
 namespace OC\Encryption;
 
 
-use OC\Memcache\ArrayCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
-use OCP\Files\Mount\IMountPoint;
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
 

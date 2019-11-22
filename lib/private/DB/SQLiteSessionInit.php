@@ -24,9 +24,9 @@
 
 namespace OC\DB;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
-use Doctrine\Common\EventSubscriber;
 
 class SQLiteSessionInit implements EventSubscriber {
 	/**

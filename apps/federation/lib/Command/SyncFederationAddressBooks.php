@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Federation\Command;
 
 use Symfony\Component\Console\Command\Command;

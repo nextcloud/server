@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace OCA\Encryption\Migration;
 
 

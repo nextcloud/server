@@ -33,11 +33,11 @@ namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IUser;
+use OCP\IConfig;
 use OCP\IGroup;
+use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
-use OCP\IConfig;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

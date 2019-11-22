@@ -27,14 +27,13 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCP\Dashboard;
 
 
-use OCP\Dashboard\Model\WidgetSetup;
-use OCP\Dashboard\Model\WidgetTemplate;
 use OCP\Dashboard\Model\IWidgetConfig;
 use OCP\Dashboard\Model\IWidgetRequest;
+use OCP\Dashboard\Model\WidgetSetup;
+use OCP\Dashboard\Model\WidgetTemplate;
 
 /**
  * Interface IDashboardWidget
@@ -144,4 +143,3 @@ interface IDashboardWidget {
 	public function requestWidget(IWidgetRequest $request);
 
 }
-

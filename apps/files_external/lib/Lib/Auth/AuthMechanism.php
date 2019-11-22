@@ -24,11 +24,11 @@
 
 namespace OCA\Files_External\Lib\Auth;
 
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\VisibilityTrait;
-use \OCA\Files_External\Lib\IdentifierTrait;
-use \OCA\Files_External\Lib\FrontendDefinitionTrait;
-use \OCA\Files_External\Lib\StorageModifierTrait;
+use OCA\Files_External\Lib\FrontendDefinitionTrait;
+use OCA\Files_External\Lib\IdentifierTrait;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageModifierTrait;
+use OCA\Files_External\Lib\VisibilityTrait;
 
 /**
  * Authentication mechanism

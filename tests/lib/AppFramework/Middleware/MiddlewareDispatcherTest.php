@@ -21,16 +21,14 @@
  *
  */
 
-
 namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Middleware;
 use OCP\IConfig;
-
 
 // needed to test ordering
 class TestMiddleware extends Middleware {

@@ -24,13 +24,13 @@ namespace OCA\Files_External\Lib\Backend;
 
 use Icewind\SMB\BasicAuth;
 use Icewind\SMB\KerberosAuth;
-use \OCP\IL10N;
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\Password\Password;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\StorageConfig;
 
-use \OCA\Files_External\Lib\Auth\Password\Password;
+use OCP\IL10N;
 use OCP\IUser;
 
 class SMB extends Backend {

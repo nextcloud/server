@@ -39,9 +39,9 @@ use function array_merge;
 use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
+use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
-use OCP\ILogger;
 use OCP\Support\CrashReport\IRegistry;
 
 /**

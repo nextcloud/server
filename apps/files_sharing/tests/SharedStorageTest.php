@@ -28,10 +28,10 @@
 
 namespace OCA\Files_Sharing\Tests;
 
-use OCA\Files_Sharing\SharedStorage;
-use OCP\Share\IShare;
 use OC\Files\View;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\NotFoundException;
+use OCP\Share\IShare;
 
 /**
  * Class SharedStorageTest

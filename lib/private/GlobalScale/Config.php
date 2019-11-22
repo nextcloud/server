@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace OC\GlobalScale;
 
 

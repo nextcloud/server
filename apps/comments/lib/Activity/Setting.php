@@ -97,4 +97,3 @@ class Setting implements ISetting {
 		return false;
 	}
 }
-

@@ -22,13 +22,13 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
-use \OCP\IL10N;
-use \OCP\IUser;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCP\ISession;
-use \OCP\Security\ICredentialsManager;
-use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCP\IL10N;
+use OCP\ISession;
+use OCP\IUser;
+use OCP\Security\ICredentialsManager;
 
 /**
  * Username and password from login credentials, saved in DB

@@ -29,9 +29,9 @@
 
 namespace OC\Files\Mount;
 
-use \OC\Files\Filesystem;
-use OC\Files\Storage\StorageFactory;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ILogger;
 

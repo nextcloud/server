@@ -28,6 +28,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\Files\AppData\Factory;
@@ -35,6 +36,7 @@ use OC\L10N\L10N;
 use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -52,7 +54,6 @@ use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Test\TestCase;
-use OCA\Theming\ThemingDefaults;
 
 class ThemingControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */

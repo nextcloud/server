@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace Test\AppFramework\Db;
 
 
@@ -206,4 +205,3 @@ class ArgumentIterator {
 		}
 	}
 }
-

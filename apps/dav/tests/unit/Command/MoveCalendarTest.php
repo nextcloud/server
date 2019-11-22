@@ -31,7 +31,6 @@ use OCP\Share\IManager;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
-
 /**
  * Class MoveCalendarTest
  *

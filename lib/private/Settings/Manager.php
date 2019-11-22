@@ -37,9 +37,9 @@ use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
-use OCP\Settings\ISettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
+use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 
 class Manager implements IManager {

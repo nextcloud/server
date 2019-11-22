@@ -45,4 +45,3 @@ class AddCleanupUpdaterBackupsJob implements IRepairStep {
 		$this->jobList->add(BackgroundCleanupUpdaterBackupsJob::class);
 	}
 }
-

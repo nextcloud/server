@@ -39,11 +39,10 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OCP\Share;
 use OCP\Share\IShare;
-
 
 abstract class Node implements \Sabre\DAV\INode {
 

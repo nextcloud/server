@@ -25,8 +25,8 @@
 
 namespace OC\AppFramework\Routing;
 
-use \OC\AppFramework\App;
-use \OC\AppFramework\DependencyInjection\DIContainer;
+use OC\AppFramework\App;
+use OC\AppFramework\DependencyInjection\DIContainer;
 
 class RouteActionHandler {
 	private $controllerName;

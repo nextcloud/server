@@ -20,7 +20,6 @@
  *
  */
 
-
 namespace OCA\Federation;
 
 

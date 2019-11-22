@@ -30,8 +30,8 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\IIconSection;
+use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\ISettings;
 
 trait CommonSettingsTrait  {

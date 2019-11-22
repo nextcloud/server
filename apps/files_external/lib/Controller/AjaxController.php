@@ -29,11 +29,11 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\AppFramework\Http\JSONResponse;
-use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {

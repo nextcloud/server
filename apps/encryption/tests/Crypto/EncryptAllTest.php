@@ -24,7 +24,6 @@
  *
  */
 
-
 namespace OCA\Encryption\Tests\Crypto;
 
 

@@ -24,10 +24,10 @@
 
 namespace OCA\User_LDAP\Migration;
 
+use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Group_Proxy;
 use OCP\IConfig;
 
 class UUIDFixUser extends UUIDFix {

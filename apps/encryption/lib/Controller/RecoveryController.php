@@ -28,10 +28,10 @@ namespace OCA\Encryption\Controller;
 use OCA\Encryption\Recovery;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
 
 class RecoveryController extends Controller {
 	/**

@@ -23,11 +23,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit;
 
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Server;
 use OCP\IRequest;
-use OCA\DAV\AppInfo\PluginManager;
 
 /**
  * Class ServerTest

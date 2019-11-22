@@ -24,8 +24,8 @@
 
 namespace Test\Avatar;
 
-use OC\Avatar\UserAvatar;
 use OC\Avatar\AvatarManager;
+use OC\Avatar\UserAvatar;
 use OC\User\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;

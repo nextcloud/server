@@ -24,15 +24,14 @@
  *
  */
 
-
 namespace OCA\Federation\Tests\BackgroundJob;
 
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\GetSharedSecret;
-use OCA\Files_Sharing\Tests\TestCase;
 use OCA\Federation\TrustedServers;
+use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;

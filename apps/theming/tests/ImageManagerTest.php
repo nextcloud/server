@@ -21,19 +21,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use Test\TestCase;
-use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
 
 class ImageManagerTest extends TestCase {
 

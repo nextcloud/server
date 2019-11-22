@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace OCP\GlobalScale;
 
 /**

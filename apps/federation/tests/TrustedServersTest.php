@@ -25,7 +25,6 @@
  *
  */
 
-
 namespace OCA\Federation\Tests;
 
 

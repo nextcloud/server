@@ -21,14 +21,13 @@
  *
  */
 
-
 namespace Test\AppFramework\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use \OCP\IDBConnection;
-use \OCP\AppFramework\Db\Entity;
-use \OCP\AppFramework\Db\Mapper;
+use OCP\IDBConnection;
 
 /**
  * @method integer getId()

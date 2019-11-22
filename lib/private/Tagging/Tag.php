@@ -23,7 +23,7 @@
 
 namespace OC\Tagging;
 
-use \OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\Entity;
 
 /**
  * Class to represent a tag.

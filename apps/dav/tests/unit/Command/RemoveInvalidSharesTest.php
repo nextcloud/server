@@ -19,12 +19,11 @@
  *
  */
 
-
 namespace OCA\DAV\Tests\Unit\Command;
 
 
-use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\Command\RemoveInvalidShares;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Migration\IOutput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

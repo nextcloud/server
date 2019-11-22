@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace OCP\Files;
 
 use OC\Hooks\Emitter;
@@ -43,4 +42,3 @@ interface IRootFolder extends Folder, Emitter {
 	 */
 	public function getUserFolder($userId);
 }
-

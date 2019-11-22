@@ -36,8 +36,8 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\Result;
-use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
+use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;

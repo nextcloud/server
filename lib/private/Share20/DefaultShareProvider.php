@@ -27,29 +27,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
+use OC\Share20\Exception\BackendError;
+use OC\Share20\Exception\InvalidShare;
+use OC\Share20\Exception\ProviderException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\IDBConnection;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareHelper;
 use OCP\Share\IShareProvider;
-use OC\Share20\Exception\InvalidShare;
-use OC\Share20\Exception\ProviderException;
-use OCP\Share\Exceptions\ShareNotFound;
-use OC\Share20\Exception\BackendError;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IGroup;
-use OCP\IGroupManager;
-use OCP\IUserManager;
-use OCP\Files\IRootFolder;
-use OCP\IDBConnection;
-use OCP\Files\Node;
 
 /**
  * Class DefaultShareProvider

@@ -19,14 +19,13 @@
  *
  */
 
-
 namespace OCA\ShareByMail\AppInfo;
 
 
+use OCA\ShareByMail\Capabilities;
 use OCA\ShareByMail\Settings;
 use OCP\AppFramework\App;
 use OCP\Util;
-use OCA\ShareByMail\Capabilities;
 
 class Application extends App {
 

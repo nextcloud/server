@@ -23,9 +23,9 @@
 
 namespace OCA\Group_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\Migration\UUIDFixGroup;
-use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Group_Proxy;
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Migration\UUIDFixGroup;
 use OCA\User_LDAP\Tests\Migration\AbstractUUIDFixTest;
 
 /**

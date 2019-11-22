@@ -23,10 +23,10 @@
 
 namespace OCA\Settings\Tests\AppInfo;
 
-use OCA\Settings\Admin\Sharing;
 use OC\Settings\Manager;
-use OCA\Settings\Personal\Security;
 use OC\Settings\Section;
+use OCA\Settings\Admin\Sharing;
+use OCA\Settings\Personal\Security;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;

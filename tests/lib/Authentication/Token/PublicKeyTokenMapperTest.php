@@ -25,9 +25,9 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC;
+use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
-use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;

@@ -27,9 +27,9 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
-use OC\Files\View;
 use OCP\IRequest;
 use Sabre\HTTP\Request;
 use Test\TestCase;

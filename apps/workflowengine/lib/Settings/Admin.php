@@ -32,5 +32,3 @@ class Admin extends ASettings {
 		return IManager::SCOPE_ADMIN;
 	}
 }
-
-

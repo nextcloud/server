@@ -5,10 +5,10 @@ namespace Test\AppFramework\Routing;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
+use OC\Route\Router;
 use OCP\ILogger;
 use OCP\Route\IRouter;
 use PHPUnit\Framework\MockObject\MockObject;
-use OC\Route\Router;
 
 class RoutingTest extends \Test\TestCase
 {

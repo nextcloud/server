@@ -26,8 +26,8 @@ namespace OCA\TwoFactorBackupCodes\Migration;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version1002Date20170607113030 extends SimpleMigrationStep {
 

@@ -25,12 +25,12 @@
 
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OCP\IUser;
-use OCP\IUserManager;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\IUser;
+use OCP\IUserManager;
 
 class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 

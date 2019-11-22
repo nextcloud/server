@@ -26,12 +26,12 @@
 
 namespace OCA\Files_External\Service;
 
-use OCP\Files\Config\IUserMountCache;
-use \OCP\IUserSession;
-use \OC\Files\Filesystem;
-
+use OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+
+use OCP\Files\Config\IUserMountCache;
+use OCP\IUserSession;
 
 /**
  * Service class to manage user external storages

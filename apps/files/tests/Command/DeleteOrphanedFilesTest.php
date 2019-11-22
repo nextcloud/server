@@ -132,4 +132,3 @@ class DeleteOrphanedFilesTest extends TestCase {
 		}
 	}
 }
-

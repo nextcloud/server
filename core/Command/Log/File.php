@@ -24,7 +24,7 @@
 
 namespace OC\Core\Command\Log;
 
-use \OCP\IConfig;
+use OCP\IConfig;
 
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;

@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace OCA\ShareByMail;
 
 
