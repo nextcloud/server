@@ -45,6 +45,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Xml\Service;
 use Test\TestCase;
 
 /**
@@ -126,6 +127,7 @@ class FilesPluginTest extends TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		$this->server->httpResponse = $response;
+		$this->server->xml = new Service();
 
 		$this->plugin->initialize($this->server);
 	}
