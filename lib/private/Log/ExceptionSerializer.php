@@ -94,8 +94,8 @@ class ExceptionSerializer {
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
 		if (isset($traceLine['args'])) {
 			$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
-			$traceLine['args'] = ['*** sensitive parameters replaced ***'];
 		}
+		$traceLine['args'] = ['*** sensitive parameters replaced ***'];
 		return $traceLine;
 	}
 
