@@ -365,7 +365,7 @@ OC.L10N.register(
     "Share link" : "Megosztás hivatkozással",
     "New share link" : "Új megosztási hivatkozás",
     "Created on {time}" : "Létrehozva ekkor: {time}",
-    "Password protect by Talk" : "Talk által védett jelszó",
+    "Password protect by Talk" : "Beszélgetés által védett jelszó",
     "Could not unshare" : "Nem sikerült visszavonni a megosztást",
     "Shared with you and the group {group} by {owner}" : "{owner} megosztotta Önnel és ezzel a csoporttal: {group}",
     "Shared with you and {circle} by {owner}" : "{owner} megosztotta Önnel és ezzel a csoporttal: {circle}",

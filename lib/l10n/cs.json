@@ -250,7 +250,7 @@
     "Cannot set expiration date. Expiration date is in the past" : "Takové datum skončení platnosti nelze nastavit – je třeba, aby bylo v budoucnosti a ne minulosti…",
     "Sharing failed, because the user %s is the original sharer" : "Sdílení položky se nezdařilo, protože uživatel %s je původním vlastníkem",
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Sdílení položky %1$s se nezdařilo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %2$s povolena.",
-    "Sharing %s failed, because resharing is not allowed" : "Sdílení položky %s se nezdařilo, protože znovu-sdílení není povoleno",
+    "Sharing %s failed, because resharing is not allowed" : "%s nejde sdílet, protože vám bylo nasdíleno s tím, že není umožněno sdílet dále dalším",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Sdílení položky %1$s se nezdařilo, protože úložiště sdílení %2$s nenalezla zdroj",
     "Sharing %s failed, because the file could not be found in the file cache" : "Sdílení položky %s selhalo, protože soubor nebyl nalezen ve vyrovnávací paměti"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
