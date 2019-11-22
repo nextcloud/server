@@ -332,7 +332,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.gif'));
 
 		//Create request return
-		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => filesize(\OC::$SERVERROOT.'/tests/data/testimage.gif')];
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [filesize(\OC::$SERVERROOT.'/tests/data/testimage.gif')]];
 		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);

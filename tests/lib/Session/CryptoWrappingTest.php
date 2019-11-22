@@ -52,6 +52,9 @@ class CryptoWrappingTest extends TestCase {
 		$this->crypto->expects($this->any())
 			->method('decrypt')
 			->willReturnCallback(function ($input) {
+				if ($input === '') {
+					return '';
+				}
 				return substr($input, 1, -1);
 			});
 
