@@ -150,7 +150,7 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
@@ -189,12 +189,12 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())
@@ -233,12 +233,12 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())
