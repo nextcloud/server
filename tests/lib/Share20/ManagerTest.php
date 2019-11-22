@@ -336,7 +336,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->defaultProvider
 			->method('delete')
-			->withConsecutive($share3, $share2, $share1);
+			->withConsecutive([$share3], [$share2], [$share1]);
 
 		$this->eventDispatcher->expects($this->at(0))
 			->method('dispatch')
@@ -427,7 +427,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider
 			->expects($this->exactly(3))
 			->method('delete')
-			->withConsecutive($child1, $child2, $child3);
+			->withConsecutive([$child1], [$child2], [$child3]);
 
 		$result = self::invokePrivate($manager, 'deleteChildren', [$share]);
 		$this->assertSame($shares, $result);

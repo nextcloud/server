@@ -194,7 +194,7 @@ class FileTest extends TestCase {
 		} else {
 			$storage->expects($this->once())
 				->method('writeStream')
-				->will($this->returnValue(false));
+				->will($this->returnValue(0));
 		}
 
 		$view->expects($this->any())

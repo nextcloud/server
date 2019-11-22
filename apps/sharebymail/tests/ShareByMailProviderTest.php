@@ -503,7 +503,7 @@ class ShareByMailProviderTest extends TestCase {
 	 * @param string newSendPasswordByTalk
 	 * @param bool sendMail
 	 */
-	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, string $originalSendPasswordByTalk, string $newSendPasswordByTalk, bool $sendMail) {
+	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, $originalSendPasswordByTalk, $newSendPasswordByTalk, bool $sendMail) {
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
