@@ -142,12 +142,14 @@ $invert: luma($color-primary) > 0.6;
 	#theming-preview {
 		background-image: $image-login-background;
 		background-color: $color-primary;
+		background-color: linear-gradient(40deg, $color-primary 0%, rgba(28,175,255,1) 100%);
 	}
 } @else {
-	  #theming-preview {
-		  background-image: $image-login-background;
-		  background-color: $color-primary;
-	  }
+	#theming-preview {
+		background-image: $image-login-background;
+		background-color: $color-primary;
+		background-color: linear-gradient(40deg, $color-primary 0%, rgba(28,175,255,1) 100%);
+	}
 }
 
 @if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
@@ -207,6 +209,7 @@ input.primary,
 	#body-login, #firstrunwizard .firstrunwizard-header, #theming-preview {
 		background-image: none !important;
 		background-color: $color-primary;
+		background-color: linear-gradient(40deg, $color-primary 0%, rgba(28,175,255,1) 100%);
 	}
 	#body-login {
 
@@ -218,6 +221,7 @@ input.primary,
 } @else {
 	#body-login {
 		background-color: $color-primary;
+		background-color: linear-gradient(40deg, $color-primary 0%, rgba(28,175,255,1) 100%);
 	}
 }
 

@@ -25,9 +25,10 @@ body {
 	text-align: center;
 	background-color: #0082c9;
 	background-image: url('../img/background.png?v=2');
+	background-image: url('../img/background.png?v=2'), linear-gradient(40deg, #0082c9 0%, rgba(28,175,255,1) 100%);
 	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-repeat: repeat;
+	background-size: 275px, contain;
 	background-attachment: fixed; /* fix background gradient */
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
@@ -524,22 +525,24 @@ form .warning input[type='checkbox']+label {
 #remember_login {
 	margin: 18px 5px 0 16px !important;
 }
-.remember-login-container,
 .lost-password-container {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
-	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
-.lost-password-container #lost-password,
-.lost-password-container #lost-password-back {
+#lost-password,
+#lost-password-back,
+#reset-password-wrapper + a {
 	display: inline-block;
-	font-weight: normal;
+	font-weight: normal !important;
 	padding: 12px;
-	margin-top: -6px;
 	color: #fff;
 	cursor: pointer;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
+}
+#lost-password {
+	margin-top: -6px;
 }
 #forgot-password {
 	padding: 11px;
