@@ -175,7 +175,10 @@ abstract class LockingProvider extends TestCase {
 
 	public function testLockedExceptionHasPathForShared() {
 		try {
-			$this->testSharedLockAfterExclusive();
+			$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+			$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
+			$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+
 			$this->fail('Expected locked exception');
 		} catch (LockedException $e) {
 			$this->assertEquals('foo', $e->getPath());
@@ -184,7 +187,10 @@ abstract class LockingProvider extends TestCase {
 
 	public function testLockedExceptionHasPathForExclusive() {
 		try {
-			$this->testExclusiveLockAfterShared();
+			$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+			$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
+			$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+
 			$this->fail('Expected locked exception');
 		} catch (LockedException $e) {
 			$this->assertEquals('foo', $e->getPath());
