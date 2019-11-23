@@ -316,7 +316,7 @@ OC.L10N.register(
     "conversation" : "pokalbis",
     "shared by {sharer}" : "bendrina {sharer}",
     "Can reshare" : "Gali pakartotinai dalintis",
-    "Can edit" : "Galima redaguoti",
+    "Can edit" : "Gali redaguoti",
     "Can create" : "Galima kurti nauja",
     "Can change" : "Galima keisti",
     "Can delete" : "Galima trinti",
