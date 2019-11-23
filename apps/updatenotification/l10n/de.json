@@ -30,7 +30,7 @@
     "Checked on {lastCheckedDate}" : "Geprüft am {lastCheckedDate}",
     "Checking apps for compatible updates" : "Es werden alle Apps auf kompatible Aktualisierungen geprüft",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Bitte stelle sicher, dass in der \"config.php\"-Datei die Variable <samp>appstoreenabled</samp> nicht auf \"false\" steht.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Die Verbindung zum Appstore konnte nicht aufgebaut werden oder der Appstore hat keine Apps zurück geliefert. Suche selbst nach den Updates oder stelle sicher, dass Dein Server Zugriff auf das Internet hat und eine Verbindung zum Appstore aufbauen kann. ",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Die Verbindung zum Appstore konnte nicht aufgebaut werden oder der Appstore hat keine Apps zurück geliefert. Suche selbst nach Updates oder stelle sicher, dass Dein Server Zugriff auf das Internet hat und eine Verbindung zum Appstore aufbauen kann. ",
     "<strong>All</strong> apps have an update for this version available" : "Für <strong>alle</strong> Apps steht eine Aktualisierung zur Verfügung",
     "View changelog" : "Liste der Änderungen anschauen",
     "Enterprise" : "Version für Unternehmen",
