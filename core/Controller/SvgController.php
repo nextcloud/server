@@ -90,12 +90,6 @@ class SvgController extends Controller {
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getSvgFromApp(string $app, string $fileName, string $color = 'ffffff') {
-
-		if ($app === 'settings') {
-			$path = $this->serverRoot . "/settings/img/$fileName.svg";
-			return $this->getSvg($path, $color, $fileName);
-		}
-
 		$appRootPath = $this->appManager->getAppPath($app);
 		$appPath = substr($appRootPath, strlen($this->serverRoot));
 
