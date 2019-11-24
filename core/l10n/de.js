@@ -19,7 +19,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "Dein Anmelde-Token ist ungültig oder abgelaufen",
     "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Couldn't reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
-    "Couldn't reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da das Token abgelaufen ist",
+    "Couldn't reset password because the token is expired" : "Das Passwort konnte aufgrund eines abgelaufenen Tokens nicht zurückgesetzt werden",
     "%s password reset" : "%s-Passwort zurücksetzen",
     "Password reset" : "Passwort zurücksetzen",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicke zum Zurücksetzen des Passworts auf die folgende Schaltfläche. Wenn Du das Zurücksetzen des Passworts nicht angefordert hast, ignoriere diese E-Mail.",
