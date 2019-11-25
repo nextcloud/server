@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -26,7 +27,6 @@ use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 
 class DataFingerprint extends Command {
 

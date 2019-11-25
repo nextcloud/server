@@ -27,13 +27,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
-use OCA\Theming\Util;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;

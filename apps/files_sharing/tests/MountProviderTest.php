@@ -33,8 +33,8 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * @group DB
@@ -381,4 +381,3 @@ class MountProviderTest extends \Test\TestCase {
 		}
 	}
 }
-

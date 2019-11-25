@@ -26,10 +26,10 @@ namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 use OCA\DAV\CalDAV\Activity\Provider\Base;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IGroupManager;
 use Test\TestCase;
 
 class BaseTest extends TestCase {

@@ -42,7 +42,6 @@
  *
  */
 
-
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;

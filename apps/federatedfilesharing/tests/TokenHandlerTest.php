@@ -22,7 +22,6 @@
  *
  */
 
-
 namespace OCA\FederatedFileSharing\Tests;
 
 

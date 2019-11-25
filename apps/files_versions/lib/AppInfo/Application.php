@@ -25,14 +25,14 @@ namespace OCA\Files_Versions\AppInfo;
 
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
+use OCA\Files_Versions\Hooks;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
-use OCA\Files_Versions\Hooks;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;

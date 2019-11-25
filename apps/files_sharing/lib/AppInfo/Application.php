@@ -29,24 +29,24 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
+use OC\AppFramework\Utility\SimpleContainer;
+use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
+use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCP\AppFramework\App;
-use OC\AppFramework\Utility\SimpleContainer;
-use OCA\Files_Sharing\Controller\ExternalSharesController;
-use OCA\Files_Sharing\Controller\ShareController;
-use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\Federation\ICloudIdManager;
-use \OCP\IContainer;
+use OCP\IContainer;
 use OCP\IGroup;
 use OCP\IServerContainer;
-use OCA\Files_Sharing\Capabilities;
-use OCA\Files_Sharing\External\Manager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {

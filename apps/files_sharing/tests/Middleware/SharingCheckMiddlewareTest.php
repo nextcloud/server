@@ -27,13 +27,13 @@
 namespace OCA\Files_Sharing\Middleware;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\Files\NotFoundException;
-use OCP\AppFramework\Utility\IControllerMethodReflector;
-use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share\IManager;

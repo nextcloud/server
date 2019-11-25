@@ -23,7 +23,6 @@
  *
  */
 
-
 namespace OCA\Settings\BackgroundJobs;
 
 

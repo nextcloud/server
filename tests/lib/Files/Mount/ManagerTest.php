@@ -8,7 +8,7 @@
 
 namespace Test\Files\Mount;
 
-use \OC\Files\Storage\Temporary;
+use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
 	public function getId() {

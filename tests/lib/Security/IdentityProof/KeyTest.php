@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Security\IdentityProof;
 
 use OC\Security\IdentityProof\Key;

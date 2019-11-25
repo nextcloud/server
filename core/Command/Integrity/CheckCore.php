@@ -23,8 +23,8 @@
 
 namespace OC\Core\Command\Integrity;
 
-use OC\IntegrityCheck\Checker;
 use OC\Core\Command\Base;
+use OC\IntegrityCheck\Checker;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

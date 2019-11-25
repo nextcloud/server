@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\AppFramework\DependencyInjection;
 
 use OC\AppFramework\DependencyInjection\DIContainer;

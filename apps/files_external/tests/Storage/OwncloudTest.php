@@ -26,7 +26,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\OwnCloud;
+use OCA\Files_External\Lib\Storage\OwnCloud;
 
 /**
  * Class OwnCloudTest

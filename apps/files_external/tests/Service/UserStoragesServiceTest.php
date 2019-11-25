@@ -23,14 +23,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Tests\Service;
 
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
 
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
-use OCA\Files_External\Lib\StorageConfig;
 use OCP\IUserSession;
 use Test\Traits\UserTrait;
 

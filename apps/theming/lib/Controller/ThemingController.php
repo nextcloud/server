@@ -35,11 +35,13 @@ namespace OCA\Theming\Controller;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
@@ -49,10 +51,8 @@ use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCA\Theming\Util;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\App\IAppManager;
 
 /**
  * Class ThemingController

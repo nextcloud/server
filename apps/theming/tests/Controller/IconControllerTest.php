@@ -23,25 +23,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 
 use OC\Files\SimpleFS\SimpleFile;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCA\Theming\Controller\IconController;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use Test\TestCase;
-use OCA\Theming\Util;
-use OCA\Theming\Controller\IconController;
-use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
-
 
 class IconControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */

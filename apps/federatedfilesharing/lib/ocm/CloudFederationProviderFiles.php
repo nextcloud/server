@@ -23,9 +23,9 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
-use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;

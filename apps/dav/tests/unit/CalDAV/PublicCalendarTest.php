@@ -24,8 +24,8 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\PublicCalendar;
 use OCP\IConfig;
 use Sabre\VObject\Reader;
 

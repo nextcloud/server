@@ -14,6 +14,7 @@
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Mail\Message;
+use OC\User\User;
 use OCA\Settings\Controller\MailSettingsController;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
@@ -22,7 +23,6 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OC\User\User;
 
 /**
  * @package Tests\Settings\Controller

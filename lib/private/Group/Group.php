@@ -30,14 +30,14 @@
 
 namespace OC\Group;
 
+use OC\Hooks\PublicEmitter;
+use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
-use OC\Hooks\PublicEmitter;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
-use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\IUserManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

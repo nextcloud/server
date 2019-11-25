@@ -31,29 +31,29 @@
 
 namespace OC\Core\Controller;
 
+use function array_filter;
+use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Exception\ResetPasswordException;
 use OC\HintException;
-use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use \OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\ILogger;
-use \OCP\IURLGenerator;
-use \OCP\IRequest;
-use \OCP\IL10N;
-use \OCP\IConfig;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use function array_filter;
-use function count;
 use function reset;
 
 /**

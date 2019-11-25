@@ -28,7 +28,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\FTP;
+use OCA\Files_External\Lib\Storage\FTP;
 
 /**
  * Class FtpTest

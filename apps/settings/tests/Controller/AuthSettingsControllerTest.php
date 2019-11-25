@@ -22,8 +22,8 @@
 namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;

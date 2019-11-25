@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Provisioning_API\Tests\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;

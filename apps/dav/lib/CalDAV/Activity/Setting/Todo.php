@@ -97,4 +97,3 @@ class Todo implements ISetting {
 		return false;
 	}
 }
-

@@ -22,13 +22,13 @@
 
 namespace Test\Core\Middleware;
 
+use OC\AppFramework\Http\Request;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Middleware\TwoFactorMiddleware;
-use OC\AppFramework\Http\Request;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Utility\IControllerMethodReflector;

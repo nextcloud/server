@@ -24,10 +24,10 @@
 namespace Test\Lockdown\Filesystem;
 
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\FileInfo;
 use OC\ForbiddenException;
 use OC\Lockdown\Filesystem\NullCache;
 use OC\Lockdown\Filesystem\NullStorage;
-use OC\Files\FileInfo;
 use OCP\Files\Storage;
 use Test\TestCase;
 

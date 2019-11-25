@@ -28,13 +28,13 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
-use OCP\IConfig;
 
 class Admin implements ISettings {
 

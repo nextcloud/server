@@ -19,16 +19,15 @@
  *
  */
 
-
 namespace OCA\DAV\Tests\unit\Upload;
 
 
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\ChunkingPlugin;
+use OCA\DAV\Upload\FutureFile;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
-use OCA\DAV\Upload\FutureFile;
-use OCA\DAV\Connector\Sabre\Directory;
 
 class ChunkingPluginTest extends TestCase {
 

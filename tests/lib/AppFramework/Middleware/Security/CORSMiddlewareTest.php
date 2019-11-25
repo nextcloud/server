@@ -9,13 +9,12 @@
  * @copyright Bernhard Posselt 2014
  */
 
-
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
-use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Controller;

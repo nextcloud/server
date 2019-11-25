@@ -22,10 +22,10 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\Auth\Builtin;
-use \OCA\Files_External\Lib\MissingDependency;
-use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\Auth\Builtin;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\MissingDependency;
 
 /**
  * Legacy compatibility for OC_Mount_Config::registerBackend()

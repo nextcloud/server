@@ -19,16 +19,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CalDAV\InvitationResponse;
 
+use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
-use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\RootCollection;
 use OCP\SabrePluginEvent;
 use Sabre\DAV\Auth\Plugin;
-use OCA\DAV\AppInfo\PluginManager;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {

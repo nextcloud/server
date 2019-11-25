@@ -31,9 +31,9 @@ use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
+use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudIdManager;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -41,7 +41,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
-
 
 /**
  * Class RequestHandlerController

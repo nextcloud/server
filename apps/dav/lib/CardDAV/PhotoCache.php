@@ -21,14 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\IAppData;
-use OCP\ILogger;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ILogger;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;

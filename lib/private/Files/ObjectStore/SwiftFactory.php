@@ -31,15 +31,15 @@ use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICache;
 use OCP\ILogger;
-use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Auth\Token;
+use OpenStack\Common\Error\BadResponseError;
+use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\Identity\v2\Models\Catalog;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
 use OpenStack\Identity\v3\Service as IdentityV3Service;
-use OpenStack\OpenStack;
-use OpenStack\Common\Transport\Utils as TransportUtils;
-use Psr\Http\Message\RequestInterface;
 use OpenStack\ObjectStore\v1\Models\Container;
+use OpenStack\OpenStack;
+use Psr\Http\Message\RequestInterface;
 
 class SwiftFactory {
 	private $cache;

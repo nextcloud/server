@@ -23,13 +23,13 @@
 
 namespace Test\Template;
 
+use OC\SystemConfig;
 use OC\Template\JSCombiner;
+use OC\Template\JSResourceLocator;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
-use OCP\IURLGenerator;
-use OC\SystemConfig;
 use OCP\ILogger;
-use OC\Template\JSResourceLocator;
+use OCP\IURLGenerator;
 
 class JSResourceLocatorTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */

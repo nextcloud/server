@@ -28,8 +28,8 @@
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;

@@ -30,8 +30,8 @@
 
 namespace OC;
 
-use OCP\ILogger;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\ITempManager;
 
 class TempManager implements ITempManager {

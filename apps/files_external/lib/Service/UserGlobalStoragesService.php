@@ -23,10 +23,10 @@
 
 namespace OCA\Files_External\Service;
 
+use OCA\Files_External\Lib\StorageConfig;
 use OCP\Files\Config\IUserMountCache;
-use \OCP\IUserSession;
-use \OCP\IGroupManager;
-use \OCA\Files_External\Lib\StorageConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 
 /**
  * Service class to read global storages applicable to the user

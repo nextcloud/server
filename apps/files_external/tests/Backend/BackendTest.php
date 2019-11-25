@@ -23,7 +23,7 @@
 
 namespace OCA\Files_External\Tests\Backend;
 
-use \OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class BackendTest extends \Test\TestCase {

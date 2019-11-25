@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Utility;
 
-use \OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 
 /**
  * Reads and parses annotations from doc comments

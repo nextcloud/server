@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;

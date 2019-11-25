@@ -24,7 +24,6 @@
  *
  */
 
-
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\Federation\CloudIdManager;

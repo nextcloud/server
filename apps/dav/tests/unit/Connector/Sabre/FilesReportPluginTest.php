@@ -26,24 +26,24 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\App\IAppManager;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
+use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
-use OCP\SystemTag\ISystemTagObjectMapper;
-use OC\Files\View;
-use OCP\Files\Folder;
-use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTagManager;
-use OCP\ITags;
-use OCP\Files\FileInfo;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\ResponseInterface;

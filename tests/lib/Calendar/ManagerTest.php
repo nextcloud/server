@@ -23,9 +23,9 @@
 
 namespace Test\Calendar;
 
-use \OC\Calendar\Manager;
+use OC\Calendar\Manager;
 use OCP\Calendar\ICalendar;
-use \Test\TestCase;
+use Test\TestCase;
 
 class ManagerTest extends TestCase {
 

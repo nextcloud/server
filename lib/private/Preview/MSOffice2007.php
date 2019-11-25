@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Preview;
 
 //.docx, .dotx, .xlsx, .xltx, .pptx, .potx, .ppsx

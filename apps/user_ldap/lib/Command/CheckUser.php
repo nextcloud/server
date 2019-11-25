@@ -24,15 +24,15 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCA\User_LDAP\User_Proxy;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\User_Proxy;
 
 class CheckUser extends Command {
 	/** @var User_Proxy */

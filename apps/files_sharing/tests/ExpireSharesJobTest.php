@@ -216,4 +216,3 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 }
-

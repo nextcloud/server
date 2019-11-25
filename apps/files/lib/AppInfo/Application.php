@@ -24,21 +24,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files\AppInfo;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
+use OCA\Files\Controller\ViewController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
+use OCA\Files\Service\TagService;
 use OCP\AppFramework\App;
-use \OCA\Files\Service\TagService;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use \OCP\IContainer;
-use OCA\Files\Controller\ViewController;
-use OCA\Files\Capabilities;
+use OCP\IContainer;
 
 class Application extends App {
 	public function __construct(array $urlParams=array()) {

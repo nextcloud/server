@@ -21,7 +21,7 @@
 
 namespace Test\IntegrityCheck\Iterator;
 
-use \OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
+use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use Test\TestCase;
 
 class ExcludeFileByNameFilterIteratorTest extends TestCase {

@@ -23,15 +23,15 @@
 
 namespace OCA\User_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\LDAP;
-use Test\TestCase;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Migration\UUIDFixUser;
-use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\User_Proxy;
 use OCP\IConfig;
+use Test\TestCase;
 
 abstract class AbstractUUIDFixTest extends TestCase {
 	/** @var  Helper|\PHPUnit_Framework_MockObject_MockObject */

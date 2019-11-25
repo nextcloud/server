@@ -24,6 +24,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Upload;
 
 use Sabre\DAV\File;
@@ -159,4 +160,3 @@ class AssemblyStreamTest extends \Test\TestCase {
 		return $node;
 	}
 }
-

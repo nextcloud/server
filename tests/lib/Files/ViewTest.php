@@ -10,8 +10,8 @@ namespace Test\Files;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
-use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
 use OC\Files\Stream\Quota;
 use OC\Files\View;
@@ -23,8 +23,8 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share;
 use OCP\Util;
-use Test\TestMoveableMountPoint;
 use Test\HookHelper;
+use Test\TestMoveableMountPoint;
 use Test\Traits\UserTrait;
 
 class TemporaryNoTouch extends Temporary {

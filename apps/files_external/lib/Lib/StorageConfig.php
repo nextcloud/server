@@ -27,9 +27,9 @@
 
 namespace OCA\Files_External\Lib;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Backend\Backend;
 
 /**
  * External storage configuration

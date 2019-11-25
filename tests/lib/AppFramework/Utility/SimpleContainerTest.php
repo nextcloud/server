@@ -20,10 +20,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
-
 
 interface TestInterface {}
 

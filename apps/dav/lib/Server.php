@@ -30,14 +30,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV;
 
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
-use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\Comments\CommentsPlugin;
+use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
@@ -49,12 +52,12 @@ use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin;
-use OCA\DAV\Connector\Sabre\SharesPlugin;
-use OCA\DAV\DAV\PublicAuth;
-use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
-use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
@@ -63,10 +66,8 @@ use OCP\IRequest;
 use OCP\SabrePluginEvent;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
-use OCA\DAV\Connector\Sabre\TagsPlugin;
 use Sabre\DAV\UUIDUtil;
 use SearchDAV\DAV\SearchPlugin;
-use OCA\DAV\AppInfo\PluginManager;
 
 class Server {
 

@@ -30,22 +30,22 @@
 
 namespace OCA\Files\Controller;
 
-use OCP\AppFramework\Http;
+use OC\Files\Node\Node;
+use OCA\Files\Service\TagService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\Http\Response;
-use OCA\Files\Service\TagService;
 use OCP\IPreview;
-use OCP\Share\IManager;
-use OC\Files\Node\Node;
+use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use Sabre\VObject\Property\Boolean;
 
 /**

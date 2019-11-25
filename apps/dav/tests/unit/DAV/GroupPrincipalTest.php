@@ -33,7 +33,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
 

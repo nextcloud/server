@@ -34,11 +34,10 @@
 
 namespace OCP\AppFramework;
 
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
-
 
 /**
  * Base class to inherit your controllers from

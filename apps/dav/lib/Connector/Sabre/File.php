@@ -62,10 +62,10 @@ use OCP\Share\IManager;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
-use Sabre\DAV\Exception\NotFound;
 
 class File extends Node implements IFile {
 

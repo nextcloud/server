@@ -21,8 +21,8 @@
 
 namespace Test\Files\Type;
 
-use \OC\Files\Type\Loader;
-use \OCP\IDBConnection;
+use OC\Files\Type\Loader;
+use OCP\IDBConnection;
 
 class LoaderTest extends \Test\TestCase {
 	/** @var IDBConnection */

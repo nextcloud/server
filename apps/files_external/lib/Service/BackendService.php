@@ -25,12 +25,12 @@
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
-use \OCP\IConfig;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Lib\Config\IBackendProvider;
-use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCP\IConfig;
 
 /**
  * Service class to manage backend definitions

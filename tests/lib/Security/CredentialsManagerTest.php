@@ -21,11 +21,11 @@
 
 namespace Test\Security;
 
+use OC\Security\CredentialsManager;
 use OC\SystemConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
-use \OCP\Security\ICrypto;
-use \OCP\IDBConnection;
-use \OC\Security\CredentialsManager;
+use OCP\Security\ICrypto;
 
 class CredentialsManagerTest extends \Test\TestCase {
 

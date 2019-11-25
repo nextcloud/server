@@ -31,7 +31,7 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ILDAPWrapper;
-use \OCA\User_LDAP\Wizard;
+use OCA\User_LDAP\Wizard;
 use Test\TestCase;
 
 /**

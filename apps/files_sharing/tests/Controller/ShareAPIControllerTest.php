@@ -24,33 +24,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
-use OCP\IL10N;
-use OCA\Files_Sharing\Controller\ShareAPIController;
-use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
-use OCP\IUserManager;
-use OCP\IServerContainer;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\Files\IRootFolder;
+use OCP\IUserManager;
 use OCP\Lock\LockedException;
+use OCP\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IManager;
-use OCP\Share;
-use Test\TestCase;
 use OCP\Share\IShare;
+use Test\TestCase;
 
 /**
  * Class ShareAPIControllerTest

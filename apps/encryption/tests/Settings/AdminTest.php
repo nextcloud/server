@@ -27,11 +27,11 @@ namespace OCA\Encryption\Tests\Settings;
 use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\IL10N;
-use OCP\ILogger;
 use Test\TestCase;
 
 class AdminTest extends TestCase {

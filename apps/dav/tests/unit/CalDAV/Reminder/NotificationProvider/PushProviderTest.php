@@ -22,19 +22,20 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
+use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use OCP\AppFramework\Utility\ITimeFactory;
 use Test\TestCase;
 
 class PushProviderTest extends AbstractNotificationProviderTest {

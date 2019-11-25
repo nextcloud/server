@@ -25,7 +25,7 @@ use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
-use \OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Interface ICloudFederationProvider

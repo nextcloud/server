@@ -8,7 +8,7 @@
 
 namespace Test\Files\Cache;
 
-use \OC\Files\Filesystem as Filesystem;
+use OC\Files\Filesystem as Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 

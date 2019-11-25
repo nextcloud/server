@@ -25,9 +25,9 @@
 namespace OCP\Share;
 
 use OCP\Files\Folder;
+use OCP\Files\Node;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Files\Node;
 
 /**
  * Interface IShareProvider

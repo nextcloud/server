@@ -28,8 +28,8 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
 
 class CacheWrapper extends Cache {

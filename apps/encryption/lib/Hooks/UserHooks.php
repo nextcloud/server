@@ -28,18 +28,18 @@ namespace OCA\Encryption\Hooks;
 
 
 use OC\Files\Filesystem;
-use OCP\Encryption\Exceptions\GenericEncryptionException;
-use OCP\IUserManager;
-use OCP\Util as OCUtil;
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
-use OCA\Encryption\Crypto\Crypt;
-use OCA\Encryption\Users\Setup;
-use OCP\ILogger;
-use OCP\IUserSession;
-use OCA\Encryption\Util;
-use OCA\Encryption\Session;
 use OCA\Encryption\Recovery;
+use OCA\Encryption\Session;
+use OCA\Encryption\Users\Setup;
+use OCA\Encryption\Util;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Util as OCUtil;
 
 class UserHooks implements IHook {
 

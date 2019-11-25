@@ -27,7 +27,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\FullTextSearch\Model;
 
 
@@ -35,7 +34,6 @@ use JsonSerializable;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexDocument;
-
 
 /**
  * Class IndexDocument
@@ -997,4 +995,3 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	}
 
 }
-

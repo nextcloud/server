@@ -20,7 +20,6 @@
  *
  */
 
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;

@@ -26,6 +26,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\User;
@@ -33,6 +34,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
+use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -44,7 +46,6 @@ use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
-use OCP\Files\FileInfo;
 
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>

@@ -30,8 +30,8 @@
 
 namespace OCA\Files_Trashbin\Tests;
 
-use OC\Files\Storage\Temporary;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Temporary;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;

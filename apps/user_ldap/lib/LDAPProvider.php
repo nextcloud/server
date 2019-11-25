@@ -27,10 +27,10 @@
 namespace OCA\User_LDAP;
 
 
-use OCP\LDAP\ILDAPProvider;
-use OCP\LDAP\IDeletionFlagSupport;
-use OCP\IServerContainer;
 use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCP\IServerContainer;
+use OCP\LDAP\IDeletionFlagSupport;
+use OCP\LDAP\ILDAPProvider;
 
 /**
  * LDAP provider for pulic access to the LDAP backend.

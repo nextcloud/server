@@ -25,14 +25,14 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Configuration;
 
 class ShowConfig extends Command {
 	/** @var \OCA\User_LDAP\Helper */

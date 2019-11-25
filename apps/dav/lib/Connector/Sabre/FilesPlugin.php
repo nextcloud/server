@@ -35,19 +35,19 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\AppFramework\Http\Request;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IPreview;
+use OCP\IRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
-use \Sabre\DAV\PropFind;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\PropPatch;
 use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
-use \Sabre\HTTP\RequestInterface;
-use \Sabre\HTTP\ResponseInterface;
-use OCP\Files\StorageNotAvailableException;
-use OCP\IConfig;
-use OCP\IRequest;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class FilesPlugin extends ServerPlugin {
 

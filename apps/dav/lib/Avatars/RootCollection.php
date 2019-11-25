@@ -22,10 +22,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Avatars;
 
 use Sabre\DAVACL\AbstractPrincipalCollection;
-
 
 class RootCollection extends AbstractPrincipalCollection {
 

@@ -80,4 +80,3 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 	}
 }
-

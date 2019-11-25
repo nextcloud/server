@@ -22,11 +22,12 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 class BackendTest extends TestCase {

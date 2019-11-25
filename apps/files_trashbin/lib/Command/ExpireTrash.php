@@ -23,11 +23,11 @@
 
 namespace OCA\Files_Trashbin\Command;
 
-use OCP\IUser;
-use OCP\IUserManager;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\IUser;
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;

@@ -97,4 +97,3 @@ class FileRestored implements ISetting {
 		return false;
 	}
 }
-

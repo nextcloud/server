@@ -36,13 +36,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC;
 
+use OC\AppFramework\Http\Request;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\Defaults;
-use OC\AppFramework\Http\Request;
 use OCP\Support\Subscription\IRegistry;
 
 class TemplateLayout extends \OC_Template {

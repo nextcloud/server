@@ -618,4 +618,3 @@ class AppTest extends \Test\TestCase {
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }
-

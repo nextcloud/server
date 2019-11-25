@@ -21,20 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CalDAV\Publishing;
 
-use Sabre\DAV\PropFind;
+use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCP\IConfig;
+use OCP\IURLGenerator;
+use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
-use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
-use OCA\DAV\CalDAV\Calendar;
-use OCP\IURLGenerator;
-use OCP\IConfig;
 
 class PublishPlugin extends ServerPlugin {
 	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';

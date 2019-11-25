@@ -27,7 +27,7 @@
 
 namespace Test\Util\User;
 
-use \OC\User\Backend;
+use OC\User\Backend;
 
 /**
  * dummy user backend, does not keep state, only for testing use

@@ -25,14 +25,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\View;
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
-use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\ILogger;

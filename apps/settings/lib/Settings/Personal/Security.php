@@ -36,13 +36,13 @@ use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
-use OCP\IConfig;
 
 class Security implements ISettings {
 

@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Security\Bruteforce;
 
 use OC\Security\Bruteforce\Capabilities;

@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\PermissionsMask;
@@ -36,9 +37,8 @@ use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage;
 use OCP\IConfig;
-use Test\HookHelper;
-use OC\Files\Filesystem;
 use OCP\Lock\ILockingProvider;
+use Test\HookHelper;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;

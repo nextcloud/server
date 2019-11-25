@@ -57,15 +57,15 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Share\IShareProvider;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use OCP\Share\IShareProvider;
-use OCP\Share;
 
 /**
  * This class is the communication hub for all sharing related operations.

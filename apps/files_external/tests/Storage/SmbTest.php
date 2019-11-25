@@ -30,7 +30,7 @@ namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Notify\Change;
 use OC\Files\Notify\RenameChange;
-use \OCA\Files_External\Lib\Storage\SMB;
+use OCA\Files_External\Lib\Storage\SMB;
 use OCP\Files\Notify\IChange;
 
 /**

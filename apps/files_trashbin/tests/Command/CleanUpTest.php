@@ -23,17 +23,16 @@
  *
  */
 
-
 namespace OCA\Files_Trashbin\Tests\Command;
 
 
+use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
+use OCP\Files\IRootFolder;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
-use OC\User\Manager;
-use OCP\Files\IRootFolder;
 
 /**
  * Class CleanUpTest

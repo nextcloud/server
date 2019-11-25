@@ -13,8 +13,8 @@ namespace Test\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
-use OCP\Security\ISecureRandom;
 use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 
 /**
  * Class RequestTest

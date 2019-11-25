@@ -20,7 +20,6 @@
  *
  */
 
-
 namespace OCA\DAV\Tests\Unit\Avatars;
 
 
