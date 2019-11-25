@@ -64,48 +64,6 @@ class DirectEditingController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
-	 */
-	public function get(): DataResponse {
-		$this->eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this->directEditingManager));
-
-		$capabilities = [
-			'editors' => [],
-			'creators' => []
-		];
-
-		/**
-		 * @var string $id
-		 * @var IEditor $editor
-		 */
-		foreach ($this->directEditingManager->getEditors() as $id => $editor) {
-			$capabilities['editors'][$id] = [
-				'name' => $editor->getName(),
-				'mimetypes' => $editor->getMimetypes(),
-				'optionalMimetypes' => $editor->getMimetypesOptional(),
-				'secure' => $editor->isSecure(),
-			];
-			/** @var ACreateEmpty|ACreateFromTemplate $creator */
-			foreach ($editor->getCreators() as $creator) {
-				$id = $creator->getId();
-				$capabilities['creators'][$id] = [
-					'id' => $id,
-					'name' => $creator->getName(),
-					'extension' => $creator->getExtension(),
-					'templates' => false
-				];
-				if ($creator instanceof ACreateFromTemplate) {
-					$capabilities['creators'][$id]['templates'] = true;
-				}
-
-			}
-		}
-		return new DataResponse($capabilities);
-	}
-
-	/**
-	 * @NoAdminRequired
 	 */
 	public function create(string $path, string $editorId, string $creatorId, string $templateId = null): DataResponse {
 		$this->eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this->directEditingManager));

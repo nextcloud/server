@@ -25,7 +25,11 @@
 
 namespace OCA\Files;
 
+use OC\DirectEditing\Manager;
 use OCP\Capabilities\ICapability;
+use OCP\DirectEditing\ACreateEmpty;
+use OCP\DirectEditing\ACreateFromTemplate;
+use OCP\DirectEditing\IEditor;
 use OCP\IConfig;
 
 /**
@@ -42,8 +46,9 @@ class Capabilities implements ICapability {
 	 *
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, Manager $manager) {
 		$this->config = $config;
+		$this->directEditingManager = $manager;
 	}
 
 	/**
@@ -56,7 +61,43 @@ class Capabilities implements ICapability {
 			'files' => [
 				'bigfilechunking' => true,
 				'blacklisted_files' => $this->config->getSystemValue('blacklisted_files', ['.htaccess']),
+				'directEditing' => $this->getDirectEditingCapabilitites()
 			],
 		];
+	}
+
+	private function getDirectEditingCapabilitites() {
+		$capabilities = [
+			'editors' => [],
+			'creators' => []
+		];
+
+		/**
+		 * @var string $id
+		 * @var IEditor $editor
+		 */
+		foreach ($this->directEditingManager->getEditors() as $id => $editor) {
+			$capabilities['editors'][$id] = [
+				'name' => $editor->getName(),
+				'mimetypes' => $editor->getMimetypes(),
+				'optionalMimetypes' => $editor->getMimetypesOptional(),
+				'secure' => $editor->isSecure(),
+			];
+			/** @var ACreateEmpty|ACreateFromTemplate $creator */
+			foreach ($editor->getCreators() as $creator) {
+				$id = $creator->getId();
+				$capabilities['creators'][$id] = [
+					'id' => $id,
+					'name' => $creator->getName(),
+					'extension' => $creator->getExtension(),
+					'templates' => false
+				];
+				if ($creator instanceof ACreateFromTemplate) {
+					$capabilities['creators'][$id]['templates'] = true;
+				}
+
+			}
+		}
+		return $capabilities;
 	}
 }

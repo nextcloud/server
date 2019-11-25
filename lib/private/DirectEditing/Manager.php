@@ -32,6 +32,8 @@ use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
 use \OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
+use OCP\DirectEditing\RegisterDirectEditorEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -47,7 +49,7 @@ class Manager implements IManager {
 	public const TABLE_TOKENS = 'direct_edit';
 
 	/** @var IEditor[] */
-	private $editors;
+	private $editors = [];
 
 	/** @var IDBConnection */
 	private $connection;
@@ -62,12 +64,15 @@ class Manager implements IManager {
 		ISecureRandom $random,
 		IDBConnection $connection,
 		IUserSession $userSession,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->random = $random;
 		$this->connection = $connection;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->rootFolder = $rootFolder;
+		$eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this));
+
 	}
 
 	public function registerDirectEditor(IEditor $directEditor): void {

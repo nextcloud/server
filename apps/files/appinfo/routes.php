@@ -100,11 +100,6 @@ $application->registerRoutes(
 		],
 		'ocs' => [
 			[
-				'name' => 'DirectEditing#get',
-				'url' => '/api/v1/directEditing',
-				'verb' => 'GET'
-			],
-			[
 				'name' => 'DirectEditing#templates',
 				'url' => '/api/v1/directEditing/templates/{editorId}/{creatorId}',
 				'verb' => 'GET'
