@@ -64,15 +64,12 @@ class Manager implements IManager {
 		ISecureRandom $random,
 		IDBConnection $connection,
 		IUserSession $userSession,
-		IRootFolder $rootFolder,
-		IEventDispatcher $eventDispatcher
+		IRootFolder $rootFolder
 	) {
 		$this->random = $random;
 		$this->connection = $connection;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->rootFolder = $rootFolder;
-		$eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this));
-
 	}
 
 	public function registerDirectEditor(IEditor $directEditor): void {

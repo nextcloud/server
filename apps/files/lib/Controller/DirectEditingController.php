@@ -66,7 +66,7 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function create(string $path, string $editorId, string $creatorId, string $templateId = null): DataResponse {
-		$this->eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this->directEditingManager));
+		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
 			$token = $this->directEditingManager->create($path, $editorId, $creatorId, $templateId);
@@ -83,7 +83,7 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function open(int $fileId, string $editorId = null): DataResponse {
-		$this->eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this->directEditingManager));
+		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
 			$token = $this->directEditingManager->open($fileId, $editorId);
@@ -102,7 +102,7 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function templates(string $editorId, string $creatorId): DataResponse {
-		$this->eventDispatcher->dispatch(RegisterDirectEditorEvent::class, new RegisterDirectEditorEvent($this->directEditingManager));
+		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
 			return new DataResponse($this->directEditingManager->getTemplates($editorId, $creatorId));

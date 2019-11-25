@@ -30,6 +30,8 @@ use OCP\Capabilities\ICapability;
 use OCP\DirectEditing\ACreateEmpty;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
+use OCP\DirectEditing\RegisterDirectEditorEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 
 /**
@@ -38,17 +40,25 @@ use OCP\IConfig;
  * @package OCA\Files
  */
 class Capabilities implements ICapability {
+
 	/** @var IConfig */
 	protected $config;
+
+	/** @var Manager */
+	protected $directEditingManager;
+
+	/** @var IEventDispatcher */
+	protected $eventDispatcher;
 
 	/**
 	 * Capabilities constructor.
 	 *
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, Manager $manager) {
+	public function __construct(IConfig $config, Manager $manager, IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
 		$this->directEditingManager = $manager;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -66,7 +76,9 @@ class Capabilities implements ICapability {
 		];
 	}
 
-	private function getDirectEditingCapabilitites() {
+	private function getDirectEditingCapabilitites(): array {
+		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
+
 		$capabilities = [
 			'editors' => [],
 			'creators' => []

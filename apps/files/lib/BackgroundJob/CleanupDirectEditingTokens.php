@@ -7,7 +7,7 @@ use OCP\DirectEditing\IManager;
 
 class CleanupDirectEditingTokens extends TimedJob {
 
-	const INTERVAL_MINUTES = 15 * 60;
+	private const INTERVAL_MINUTES = 15 * 60;
 
 	/**
 	 * @var IManager

@@ -50,44 +50,42 @@ class Version18000Date20191014105105 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		if (!$schema->hasTable('direct_edit')) {
-			$table = $schema->createTable('direct_edit');
+		$table = $schema->createTable('direct_edit');
 
-			$table->addColumn('id', Type::BIGINT, [
-				'autoincrement' => true,
-				'notnull' => true,
-			]);
-			$table->addColumn('editor_id', Type::STRING, [
-				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('token', Type::STRING, [
-				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('file_id', Type::BIGINT, [
-				'notnull' => true,
-			]);
-			$table->addColumn('user_id', Type::STRING, [
-				'notnull' => false,
-				'length' => 64,
-			]);
-			$table->addColumn('share_id', Type::BIGINT, [
-				'notnull' => false
-			]);
-			$table->addColumn('timestamp', Type::BIGINT, [
-				'notnull' => true,
-				'length' => 20,
-				'unsigned' => true,
-			]);
-			$table->addColumn('accessed', Type::BOOLEAN, [
-				'notnull' => true,
-				'default' => false
-			]);
+		$table->addColumn('id', Type::BIGINT, [
+			'autoincrement' => true,
+			'notnull' => true,
+		]);
+		$table->addColumn('editor_id', Type::STRING, [
+			'notnull' => true,
+			'length' => 64,
+		]);
+		$table->addColumn('token', Type::STRING, [
+			'notnull' => true,
+			'length' => 64,
+		]);
+		$table->addColumn('file_id', Type::BIGINT, [
+			'notnull' => true,
+		]);
+		$table->addColumn('user_id', Type::STRING, [
+			'notnull' => false,
+			'length' => 64,
+		]);
+		$table->addColumn('share_id', Type::BIGINT, [
+			'notnull' => false
+		]);
+		$table->addColumn('timestamp', Type::BIGINT, [
+			'notnull' => true,
+			'length' => 20,
+			'unsigned' => true,
+		]);
+		$table->addColumn('accessed', Type::BOOLEAN, [
+			'notnull' => true,
+			'default' => false
+		]);
 
-			$table->setPrimaryKey(['id']);
-			$table->addIndex(['token']);
-		}
+		$table->setPrimaryKey(['id']);
+		$table->addIndex(['token']);
 
 		return $schema;
 	}

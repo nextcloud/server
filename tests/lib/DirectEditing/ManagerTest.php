@@ -7,7 +7,6 @@ use OC\Files\Node\File;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\DirectEditing\ACreateEmpty;
 use OCP\DirectEditing\IEditor;
 use OCP\DirectEditing\IToken;
@@ -16,6 +15,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CreateEmpty extends ACreateEmpty {
@@ -82,9 +82,25 @@ class ManagerTest extends TestCase {
 	 */
 	private $editor;
 	/**
-	 * @var \PHPUnit\Framework\MockObject\MockObject
+	 * @var MockObject|ISecureRandom
 	 */
 	private $random;
+	/**
+	 * @var IDBConnection
+	 */
+	private $connection;
+	/**
+	 * @var MockObject|IUserSession
+	 */
+	private $userSession;
+	/**
+	 * @var MockObject|IRootFolder
+	 */
+	private $rootFolder;
+	/**
+	 * @var MockObject|Folder
+	 */
+	private $userFolder;
 
 	protected function setUp() {
 		parent::setUp();

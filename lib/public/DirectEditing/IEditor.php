@@ -56,7 +56,7 @@ interface IEditor {
 	 * A list of mimetypes that should open the editor by default
 	 *
 	 * @since 18.0.0
-	 * @return array
+	 * @return string[]
 	 */
 	public function getMimetypes(): array;
 
@@ -64,7 +64,7 @@ interface IEditor {
 	 * A list of mimetypes that can be opened in the editor optionally
 	 *
 	 * @since 18.0.0
-	 * @return array
+	 * @return string[]
 	 */
 	public function getMimetypesOptional(): array;
 
@@ -72,7 +72,7 @@ interface IEditor {
 	 * Return a list of file creation options to be presented to the user
 	 *
 	 * @since 18.0.0
-	 * @return array of ICreateFromTemplate|ICreateEmpty
+	 * @return ACreateFromTemplate[]|ACreateEmpty[]
 	 */
 	public function getCreators(): array;
 

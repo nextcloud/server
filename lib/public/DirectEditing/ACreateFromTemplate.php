@@ -32,7 +32,7 @@ abstract class ACreateFromTemplate extends ACreateEmpty {
 	 * List of available templates for the create from template action
 	 *
 	 * @since 18.0.0
-	 * @return array
+	 * @return ATemplate[]
 	 */
 	abstract public function getTemplates(): array;
 
