@@ -161,7 +161,7 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
-	public function testAddToken() {
+	public function XtestAddToken() {
 		$this->dbHandler->addServer('server1');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
@@ -182,7 +182,7 @@ class DbHandlerTest extends TestCase {
 		);
 	}
 
-	public function testAddSharedSecret() {
+	public function XtestAddSharedSecret() {
 		$this->dbHandler->addServer('server1');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
