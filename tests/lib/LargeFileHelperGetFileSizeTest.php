@@ -37,7 +37,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeViaCurl($filename, $fileSize) {
+	public function XtestGetFileSizeViaCurl($filename, $fileSize) {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
 				'The PHP curl extension is required for this test.'
