@@ -212,7 +212,7 @@ class UserHooksTest extends TestCase {
 		];
 	}
 
-	public function testSetPassphrase() {
+	public function XtestSetPassphrase() {
 		$this->sessionMock->expects($this->once())
 			->method('getPrivateKey')
 			->willReturn(true);
@@ -301,7 +301,7 @@ class UserHooksTest extends TestCase {
 		$this->invokePrivate($this->instance, 'passwordResetUsers', [[]]);
 	}
 
-	public function testSetPasswordNoUser() {
+	public function XtestSetPasswordNoUser() {
 
 		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
