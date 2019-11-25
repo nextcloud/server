@@ -128,7 +128,7 @@ OC.L10N.register(
     "Update to {version}" : "Aktualizovat na {version}",
     "An error occurred." : "Došlo k chybě.",
     "Please reload the page." : "Načtěte stránku znovu.",
-    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizace nebyla úspěšná. Další informace <a href=\"{url}\">se dočtete v komentáři na diskuzním fóru</a>, pojednávajícím o tomto problému.",
+    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizace nebyla úspěšná. Další informace <a href=\"{url}\">se dočtete v příspěvku na diskuzním fóru</a>, pojednávajícím o tomto problému.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Aktualizace nebyla úspěšná. Nahlaste problém <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">komunitě kolem Nextcloud</a>",
     "Continue to Nextcloud" : "Pokračovat do Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekundu.","Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekundy.","Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekund.","Aktualizace byla úspěšná. Přesměrování do Nextcloud za %n sekundy."],

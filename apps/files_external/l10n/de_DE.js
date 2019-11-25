@@ -128,7 +128,7 @@ OC.L10N.register(
     "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
-    "Click to recheck the configuration" : "Hier klicken um die Konfiguration erneut zu prüfen",
+    "Click to recheck the configuration" : "Hier klicken, um die Konfiguration erneut zu prüfen",
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",

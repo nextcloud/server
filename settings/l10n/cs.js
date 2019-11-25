@@ -262,7 +262,7 @@ OC.L10N.register(
     "Issued By" : "Vydal",
     "Valid until %s" : "Platný do %s",
     "Import root certificate" : "Import kořenového certifikátu",
-    "Administrator documentation" : "Dokumentace pro správu",
+    "Administrator documentation" : "Dokumentace pro správce",
     "Documentation" : "Dokumentace",
     "Forum" : "Diskuzní fórum",
     "None" : "Žádné",

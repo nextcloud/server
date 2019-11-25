@@ -273,7 +273,7 @@ OC.L10N.register(
     "Skip to navigation of app" : "Zum Navigationsbereich der App springen",
     "More apps" : "Weitere Apps",
     "More" : "Mehr",
-    "More apps menu" : "Weitere-Apps-Menü",
+    "More apps menu" : "Weitere Apps-Menü",
     "Search" : "Suche",
     "Reset search" : "Suche zurücksetzen",
     "Contacts" : "Kontakte",
