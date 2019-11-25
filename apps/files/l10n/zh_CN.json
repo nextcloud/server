@@ -71,7 +71,7 @@
     "New" : "新建",
     "Select file range" : "选择文件范围",
     "{used} of {quota} used" : "已使用 {used} / {quota}",
-    "{used} used" : "{used} 已使用",
+    "{used} used" : "已使用 {used} 存储空间",
     "\"{name}\" is an invalid file name." : "\"{name}\" 是一个无效的文件名。",
     "File name cannot be empty." : "文件名不能为空。",
     "\"/\" is not allowed inside a file name." : "文件名不能包含“/”",

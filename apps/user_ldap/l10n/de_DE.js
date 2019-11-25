@@ -132,7 +132,7 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktieren Sie Ihren Systemadministrator und bitten Sie um die Installation des Moduls.",
     "Connection Settings" : "Verbindungseinstellungen",
     "Configuration Active" : "Konfiguration aktiv",
-    "When unchecked, this configuration will be skipped." : "Wenn nicht angehakt, wird diese Konfiguration übersprungen.",
+    "When unchecked, this configuration will be skipped." : "Konfiguration wird übersprungen, wenn nicht angehakt.",
     "Backup (Replica) Host" : "Backup-Host (Kopie)",
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Geben Sie einen optionalen Backup-Host an. Es muss sich um eine Kopie des Haupt-LDAP/AD-Servers handeln.",
     "Backup (Replica) Port" : "Port des Backup-Hosts (Kopie)",
