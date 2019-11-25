@@ -110,7 +110,7 @@ OC.L10N.register(
     "Moved by {user}" : "Verschoben durch {user}",
     "\"remote user\"" : "„Externer Benutzer“",
     "You created {file}" : "Sie haben {file} erstellt",
-    "You created an encrypted file in {file}" : "Sie haben die verschlüsselte Datei in {file} erstellt",
+    "You created an encrypted file in {file}" : "Sie haben eine verschlüsselte Datei in {file} erstellt",
     "{user} created {file}" : "{user} hat {file} erstellt",
     "{user} created an encrypted file in {file}" : "{user} hat eine verschlüsselte Datei in {file} erstellt",
     "{file} was created in a public folder" : "{file} wurde in einem öffentlichen Ordner erstellt",
