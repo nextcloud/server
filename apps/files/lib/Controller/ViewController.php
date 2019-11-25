@@ -275,8 +275,8 @@ class ViewController extends Controller {
 
 		$params                                = [];
 		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
-		$params['owner']                       = $storageInfo['owner'];
-		$params['ownerDisplayName']            = $storageInfo['ownerDisplayName'];
+		$params['owner']                       = $storageInfo['owner'] ?? '';
+		$params['ownerDisplayName']            = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic']                    = false;
 		$params['allowShareWithLink']          = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
 		$params['defaultFileSorting']          = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
