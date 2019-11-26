@@ -35,7 +35,6 @@ namespace OCA\Files_Sharing\Controller;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files\Helper;
-use OCA\Files_Sharing\External\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -641,9 +640,14 @@ class ShareAPIController extends OCSController {
 
 		// filter out duplicate shares
 		$known = [];
-		return array_filter($shares, function($share) use (&$known) {
-			if (in_array($share->getId(), $known)) {
-				return false;
+
+
+		$formatted = $miniFormatted = [];
+		$resharingRight = false;
+		$known = [];
+		foreach ($shares as $share) {
+			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->currentUser) {
+				continue;
 			}
 
 			try {
@@ -673,7 +677,6 @@ class ShareAPIController extends OCSController {
 	 * The getShares function.
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 *
 	 * @param string $shared_with_me
 	 * @param string $reshares
@@ -762,7 +765,9 @@ class ShareAPIController extends OCSController {
 			try {
 				/** @var IShare $share */
 				$format = $this->formatShare($share, $node);
-				$formatted[] = $format;
+				if ($share->getSharedWith() !== $this->currentUser) {
+					$formatted[] = $format;
+				}
 
 				// let's also build a list of shares created
 				// by the current user only, in case
@@ -773,7 +778,7 @@ class ShareAPIController extends OCSController {
 
 				// check if one of those share is shared with me
 				// and if I have resharing rights on it
-				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $path)) {
+				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $node)) {
 					$resharingRight = true;
 				}
 			} catch (InvalidPathException | NotFoundException $e) {
@@ -1479,7 +1484,6 @@ class ShareAPIController extends OCSController {
 	 * @throws InvalidPathException
 	 */
 	private function shareProviderResharingRights(string $userId, IShare $share, $node): bool {
-
 		if ($share->getShareOwner() === $userId) {
 			return true;
 		}
