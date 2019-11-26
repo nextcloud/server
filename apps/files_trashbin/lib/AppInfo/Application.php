@@ -58,7 +58,8 @@ class Application extends App {
 				\OC::$server->getShareManager(),
 				\OC::$server->getUserSession(),
 				\OC::$server->getAppManager(),
-				\OC::$server->query(ProxyMapper::class)
+				\OC::$server->query(ProxyMapper::class),
+				\OC::$server->getConfig()
 			);
 		});
 
