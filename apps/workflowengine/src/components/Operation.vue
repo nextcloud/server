@@ -5,7 +5,7 @@
 			<h3>{{ operation.name }}</h3>
 			<small>{{ operation.description }}</small>
 			<button v-if="colored">
-				{{ t('workflowengine', 'Create a new rule') }}
+				{{ t('workflowengine', 'Add new flow') }}
 			</button>
 		</div>
 		<div class="actions__item_options">

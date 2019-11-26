@@ -1,10 +1,10 @@
 <template>
 	<div id="workflowengine">
 		<div class="section">
-			<h2>{{ t('workflowengine', 'Available actions') }}</h2>
+			<h2>{{ t('workflowengine', 'Available flows') }}</h2>
 
 			<p v-if="scope === 0" class="settings-hint">
-				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own actions, checkout the development documentation') }}</a>
+				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
 			</p>
 
 			<transition-group name="slide" tag="div" class="actions">
@@ -16,7 +16,7 @@
 				<a :key="'add'" :href="appstoreUrl" class="actions__item colored more">
 					<div class="icon icon-add" />
 					<div class="actions__item__description">
-						<h3>{{ t('workflowengine', 'More actions') }}</h3>
+						<h3>{{ t('workflowengine', 'More flows') }}</h3>
 						<small>{{ t('workflowengine', 'Browse the app store') }}</small>
 					</div>
 				</a>
@@ -30,8 +30,11 @@
 				</button>
 			</div>
 
-			<h2 class="configured-flows">
+			<h2 v-if="scope === 0" class="configured-flows">
 				{{ t('workflowengine', 'Configured flows') }}
+			</h2>
+			<h2 v-else class="configured-flows">
+				{{ t('workflowengine', 'Your flows') }}
 			</h2>
 		</div>
 
@@ -98,7 +101,7 @@ export default {
 		max-width: 100vw;
 
 		h2.configured-flows {
-			margin-top: 30px;
+			margin-top: 50px;
 			margin-bottom: 0;
 		}
 	}
