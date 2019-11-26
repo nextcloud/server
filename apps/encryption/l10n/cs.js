@@ -43,7 +43,7 @@ OC.L10N.register(
     "Enable recovery key" : "Povolit záchranný klíč",
     "Disable recovery key" : "Vypnout záchranný klíč",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla.",
-    "Recovery key password" : "Heslo klíče pro obnovu",
+    "Recovery key password" : "Heslo ke klíči pro obnovu",
     "Repeat recovery key password" : "Zopakovat heslo záchranného klíče",
     "Change recovery key password:" : "Změna hesla klíče pro obnovu:",
     "Old recovery key password" : "Staré heslo záchranného klíče",
