@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -82,8 +83,8 @@ class Store implements IStore {
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException
 	 */
-	public function getLoginCredentials() {
-		if (is_null($this->tokenProvider)) {
+	public function getLoginCredentials(): ICredentials {
+		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();
 		}
 
