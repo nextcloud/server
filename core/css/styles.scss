@@ -87,6 +87,7 @@ ul {
 
 body {
 	background-color: var(--color-main-background);
+	background-color: linear-gradient(40deg, var(--color-main-background) 0%, rgba(28,175,255,1) 100%);
 	font-weight: normal;
 	/* bring the default font size up to 14px */
 	font-size: .875em;

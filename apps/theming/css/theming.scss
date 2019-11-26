@@ -7,6 +7,19 @@
 	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
 }
 
+@mixin faded-background {
+	background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+}
+
+@mixin faded-background-image {
+	@if ($color-primary == #0082C9) {
+		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	} @else {
+		@include faded-background;
+		background-size: contain;
+	}
+}
+
 $has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
 $invert: luma($color-primary) > 0.6;
 
@@ -115,6 +128,10 @@ $invert: luma($color-primary) > 0.6;
 	background-image: $image-logo;
 }
 
+#body-user #header, #body-settings #header, #body-public #header {
+	@include faded-background;
+}
+
 /* override styles for login screen in guest.css */
 @if ($has-custom-logo) {
 	// custom logo
@@ -142,12 +159,14 @@ $invert: luma($color-primary) > 0.6;
 	#theming-preview {
 		background-image: $image-login-background;
 		background-color: $color-primary;
+		@include faded-background-image;
 	}
 } @else {
-	  #theming-preview {
-		  background-image: $image-login-background;
-		  background-color: $color-primary;
-	  }
+	#theming-preview {
+		background-image: $image-login-background;
+		background-color: $color-primary;
+		@include faded-background-image;
+	}
 }
 
 @if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
@@ -217,7 +236,7 @@ input.primary,
 	}
 } @else {
 	#body-login {
-		background-color: $color-primary;
+		@include faded-background-image;
 	}
 }
 
