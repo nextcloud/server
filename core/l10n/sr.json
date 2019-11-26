@@ -286,6 +286,8 @@
     "Account access" : "Приступ налогу",
     "You are about to grant %1$s access to your %2$s account." : "Управо ћете одобрити %1$s приступ Вашем %2$s налогу.",
     "Account connected" : "Налог повезан",
+    "Your client should now be connected!" : "Ваш клијент сада треба да је повезан!",
+    "You can close this window." : "Можете затворити овај прозор.",
     "This share is password-protected" : "Ово дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Two-factor authentication" : "Двофакторска провера идентитета",

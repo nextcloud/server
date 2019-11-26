@@ -135,6 +135,8 @@
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "File Management" : "Управљање фајловима",
+    "Error while loading the file data" : "Грешка при учитавању података фајла",
+    "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
     "%s used" : "%s искоришћено",
     "%s%% of %s used" : "%s%% од %s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
