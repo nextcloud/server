@@ -222,7 +222,7 @@ OC.L10N.register(
     "Apps" : "Applications",
     "Admin" : "Administration",
     "Help" : "Aide",
-    "Access forbidden" : "Accès interdit",
+    "Access forbidden" : "Accès non autorisé",
     "File not found" : "Fichier non trouvé",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Le document n'a pas pu être trouvé sur le serveur. Peut-être que le partage a été supprimé ou est expiré ?",
     "Back to %s" : "Retour à %s",
