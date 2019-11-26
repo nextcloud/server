@@ -656,6 +656,9 @@ a.action > img {
 	/* add whitespace to bottom of files list to correctly show dropdowns */
 	height: 250px;
 }
+#filestable .filesummary {
+	width: 100%;
+}
 /* Less whitespace needed on link share page
  * as there is a footer and action menus have fewer entries.
  */
