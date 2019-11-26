@@ -102,12 +102,9 @@ class Capabilities implements ICapability {
 					'id' => $id,
 					'name' => $creator->getName(),
 					'extension' => $creator->getExtension(),
-					'templates' => false
+					'templates' => $creator instanceof ACreateFromTemplate,
+					'mimetype' => $creator->getMimetype()
 				];
-				if ($creator instanceof ACreateFromTemplate) {
-					$capabilities['creators'][$id]['templates'] = true;
-				}
-
 			}
 		}
 		return $capabilities;

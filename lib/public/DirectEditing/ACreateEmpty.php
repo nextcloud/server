@@ -60,6 +60,14 @@ abstract class ACreateEmpty {
 	abstract public function getExtension(): string;
 
 	/**
+	 * Mimetype of the resulting created file
+	 *
+	 * @since 18.0.0
+	 * @return string
+	 */
+	abstract public function getMimetype(): string;
+
+	/**
 	 * Add content when creating empty files
 	 *
 	 * @since 18.0.0

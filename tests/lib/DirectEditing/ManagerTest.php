@@ -31,6 +31,10 @@ class CreateEmpty extends ACreateEmpty {
 	public function getExtension(): string {
 		return '.txt';
 	}
+
+	 public function getMimetype(): string {
+		return 'text/plain';
+	}
 }
 
 class Editor implements IEditor {
