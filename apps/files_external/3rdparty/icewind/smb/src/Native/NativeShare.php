@@ -68,7 +68,7 @@ class NativeShare extends AbstractShare {
 
 	private function buildUrl($path) {
 		$this->verifyPath($path);
-		$url = sprintf('smb://%s/%s', $this->server->getHost(), $this->name);
+		$url = str_replace('[USER]', $this->server->getAuth()->getUserName(), sprintf('smb://%s/%s', $this->server->getHost(), $this->name));
 		if ($path) {
 			$path = trim($path, '/');
 			$url .= '/';
