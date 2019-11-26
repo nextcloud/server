@@ -735,7 +735,7 @@ export default {
 .sharing-entry {
 	display: flex;
 	align-items: center;
-	height: 44px;
+	min-height: 44px;
 	&__desc {
 		display: flex;
 		flex-direction: column;

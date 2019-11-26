@@ -73,7 +73,7 @@ export default {
 .sharing-entry {
 	display: flex;
 	align-items: center;
-	height: 44px;
+	min-height: 44px;
 	&__desc {
 		padding: 8px;
 		line-height: 1.2em;
