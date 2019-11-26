@@ -229,7 +229,7 @@ OC.L10N.register(
     "Error" : "Błąd",
     "Internal Server Error" : "Błąd wewnętrzny serwera",
     "The server was unable to complete your request." : "Serwer nie mógł zakończyć żądania.",
-    "If this happens again, please send the technical details below to the server administrator." : "Jeśli to się powtórzy, wyślij poniższe szczegóły techniczne administratorowi serwera.",
+    "If this happens again, please send the technical details below to the server administrator." : "Jeśli to się powtórzy, prześlij poniższe szczegóły techniczne do administratora serwera.",
     "More details can be found in the server log." : "Więcej szczegółów można znaleźć w logu serwera.",
     "Technical details" : "Szczegóły techniczne",
     "Remote Address: %s" : "Adres zdalny: %s",

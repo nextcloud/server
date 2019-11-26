@@ -24,7 +24,9 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %1$s није успело, не могу да нађем %2$s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
     "Could not find share" : "Не могу да пронађем дељење",
     "Federated sharing" : "Здружено дељење",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Примили сте „%3$s“ као удаљено дељење од %4$s (%1$s) (у име %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Примили сте {share} као удаљено дељење од {user} (у име {behalf})",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Примили сте „%3$s“ као удаљено дељење од %4$s (%1$s) ",
     "You received {share} as a remote share from {user}" : "Примили сте {share} као удаљено дељење од {user}",
     "Accept" : "Прихвати",
     "Decline" : "Одбиј",
@@ -49,7 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Примили сте \"%3$s\" као удаљено дељење од %1$s (у име %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Примили сте \"%3$s\" као удаљено дељење од %1$s"
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Примили сте „%3$s“ као удаљено дељење од %1$s (у име %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Примили сте „%3$s“ као удаљено дељење од %1$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

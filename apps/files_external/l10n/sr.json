@@ -119,6 +119,7 @@
     "Name" : "Назив",
     "Storage type" : "Тип складишта",
     "Scope" : "Опсег",
+    "Open documentation" : "Отвори документацију",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Спољно складиште Вам омогућава да монтирате сервисе и уређаје који нуде спољна складишта, и да се виде као Некстклауд уређају за складиштење. Такође можете дозволити корисницима да сами монтирају њихова сопствене сервисе спољних складишта.",
     "Folder name" : "Назив фасцикле",
     "External storage" : "Спољашње складиште",
