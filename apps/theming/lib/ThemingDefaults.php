@@ -287,8 +287,8 @@ class ThemingDefaults extends \OC_Defaults {
 		];
 
 		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
-		$variables['image-logoheader'] = "'".$this->imageManager->getImageUrl('logoheader')."'";
-		$variables['image-favicon'] = "'".$this->imageManager->getImageUrl('favicon')."'";
+		$variables['image-logoheader'] = "url('".$this->imageManager->getImageUrl('logoheader')."')";
+		$variables['image-favicon'] = "url('".$this->imageManager->getImageUrl('favicon')."')";
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
 		$variables['image-login-plain'] = 'false';
 
