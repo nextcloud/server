@@ -100,6 +100,7 @@ class Capabilities implements ICapability {
 				$id = $creator->getId();
 				$capabilities['creators'][$id] = [
 					'id' => $id,
+					'editor' => $editor->getId(),
 					'name' => $creator->getName(),
 					'extension' => $creator->getExtension(),
 					'templates' => $creator instanceof ACreateFromTemplate,
