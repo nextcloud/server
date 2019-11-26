@@ -65,6 +65,9 @@ class PrincipalTest extends TestCase {
 	/** @var ProxyMapper | \PHPUnit_Framework_MockObject_MockObject */
 	private $proxyMapper;
 
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	public function setUp() {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -72,6 +75,7 @@ class PrincipalTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
@@ -79,7 +83,8 @@ class PrincipalTest extends TestCase {
 			$this->shareManager,
 			$this->userSession,
 			$this->appManager,
-			$this->proxyMapper
+			$this->proxyMapper,
+			$this->config
 		);
 		parent::setUp();
 	}
@@ -403,11 +408,6 @@ class PrincipalTest extends TestCase {
 		$this->connector->setGroupMemberSet('principals/users/foo/calendar-proxy-write', ['principals/users/bar']);
 	}
 
-
-
-
-
-
 	public function testUpdatePrincipal() {
 		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
 	}
@@ -430,6 +430,11 @@ class PrincipalTest extends TestCase {
 			->will($this->returnValue($sharingEnabled));
 
 		if ($sharingEnabled) {
+			$this->config->expects($this->once())
+				->method('getAppValue')
+				->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+				->willReturn('yes');
+
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->will($this->returnValue($groupsOnly));
@@ -446,6 +451,8 @@ class PrincipalTest extends TestCase {
 					->will($this->returnValue(['group1', 'group2', 'group5']));
 			}
 		} else {
+			$this->config->expects($this->never())
+				->method('getAppValue');
 			$this->shareManager->expects($this->never())
 				->method('shareWithGroupMembersOnly');
 			$this->groupManager->expects($this->never())
@@ -518,6 +525,11 @@ class PrincipalTest extends TestCase {
 			->method('shareAPIEnabled')
 			->will($this->returnValue(true));
 
+		$this->config->expects($this->exactly(2))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+			->willReturn('yes');
+
 		$this->shareManager->expects($this->exactly(2))
 			->method('shareWithGroupMembersOnly')
 			->will($this->returnValue(false));
@@ -537,6 +549,78 @@ class PrincipalTest extends TestCase {
 				'principals/users/user3',
 			], $this->connector->searchPrincipals('principals/users',
 			['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => 'user@example.com']));
+	}
+
+	public function testSearchPrincipalWithEnumerationDisabledDisplayname() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->will($this->returnValue(true));
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+			->willReturn('no');
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 2'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 22'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar123'));
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')->will($this->returnValue('user4'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 222'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar456'));
+
+		$this->userManager->expects($this->at(0))
+			->method('searchDisplayName')
+			->with('User 2')
+			->will($this->returnValue([$user2, $user3, $user4]));
+
+		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'User 2']));
+	}
+
+	public function testSearchPrincipalWithEnumerationDisabledEmail() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->will($this->returnValue(true));
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
+			->willReturn('no');
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 2'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 22'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar123'));
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')->will($this->returnValue('user4'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 222'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar456'));
+
+		$this->userManager->expects($this->at(0))
+			->method('getByEmail')
+			->with('user2@foo.bar')
+			->will($this->returnValue([$user2, $user3, $user4]));
+
+		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
 
 	public function testFindByUriSharingApiDisabled() {
