@@ -608,7 +608,7 @@
 				$comment.find('.avatar-name-wrapper').each(function() {
 					var $this = $(this)
 					var $inserted = $this.parent()
-					var userId = $this.find('.avatar').data('username')
+					var userId = $this.find('.avatar').data('username').toString()
 					if (userId.indexOf(' ') !== -1) {
 						$inserted.html('@"' + userId + '"')
 					} else {

@@ -107,7 +107,7 @@ class AutoCompleteController extends Controller {
 		foreach ($results as $type => $subResult) {
 			foreach ($subResult as $result) {
 				$output[] = [
-					'id' => $result['value']['shareWith'],
+					'id' => (string) $result['value']['shareWith'],
 					'label' => $result['label'],
 					'source' => $type,
 				];
