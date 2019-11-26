@@ -34,7 +34,7 @@
 	return new OCA\User_LDAP\GroupPluginManager();
 });
 
-$app = new \OCA\User_LDAP\AppInfo\Application();
+$app = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
