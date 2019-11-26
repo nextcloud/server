@@ -41,8 +41,6 @@ $(document).ready(function() {
 		$('#dbname').attr('pattern','[0-9a-zA-Z$_-.]+');
 	});
 
-	$('input[checked]').trigger('click');
-
 	$('#showAdvanced').click(function(e) {
 		e.preventDefault();
 		$('#datadirContent').slideToggle(250);

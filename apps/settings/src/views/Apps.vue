@@ -31,7 +31,10 @@
 			</ul>
 		</AppNavigation>
 		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
-			<AppList :category="category" :app="currentApp" :search="searchQuery" />
+			<AppList v-if="!loadingList"
+				:category="category"
+				:app="currentApp"
+				:search="searchQuery" />
 		</AppContent>
 		<AppSidebar v-if="id && currentApp" @close="hideAppDetails">
 			<AppDetails :category="category" :app="currentApp" />
@@ -134,12 +137,20 @@ export default {
 					text: t('settings', 'Your apps')
 				},
 				{
+					id: 'app-category-recommended',
+					classes: [],
+					router: { name: 'apps-category', params: { category: 'recommended' } },
+					icon: 'icon-category-installed',
+					text: t('settings', 'Recommended apps')
+				},
+				{
 					id: 'app-category-enabled',
 					classes: [],
 					icon: 'icon-category-enabled',
 					router: { name: 'apps-category', params: { category: 'enabled' } },
 					text: t('settings', 'Active apps')
-				}, {
+				},
+				{
 					id: 'app-category-disabled',
 					classes: [],
 					icon: 'icon-category-disabled',
