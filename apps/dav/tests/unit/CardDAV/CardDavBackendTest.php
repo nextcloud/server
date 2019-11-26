@@ -395,7 +395,7 @@ class CardDavBackendTest extends TestCase {
 		// create a card
 		$uri0 = $this->getUniqueID('card');
 		$this->backend->createCard($bookId, $uri0, $this->vcardTest0);
-		
+
 		// create another card with same uid
 		$uri1 = $this->getUniqueID('card');
 		$this->expectException(BadRequest::class);
