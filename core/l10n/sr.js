@@ -372,7 +372,7 @@ OC.L10N.register(
     "Password protect by Talk" : "Заштити лозинком преко Talk-а",
     "Could not unshare" : "Не могу да укинем дељење",
     "Shared with you and the group {group} by {owner}" : "{owner} дели са вама и са групом {group}.",
-    "Shared with you and {circle} by {owner}" : "Дељемп са Вама и кругом {circle} од стране корисника {owner}",
+    "Shared with you and {circle} by {owner}" : "Дељено са Вама и кругом {circle} од стране корисника {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} поделио са Вама и у разговору {conversation}",
     "Shared with you in a conversation by {owner}" : "{owner} поделио са Вама у разговору",
     "Shared with you by {owner}" : "{owner} дели са вама",
