@@ -186,6 +186,8 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('o.*')
+			->selectAlias('s.type', 'scope_type')
+			->selectAlias('s.value', 'scope_actor_id')
 			->from('flow_operations', 'o')
 			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
 			->where($query->expr()->eq('s.type', $query->createParameter('scope')));
