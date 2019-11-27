@@ -94,6 +94,13 @@ class RuleMatcher implements IRuleMatcher {
 		$this->entity = $entity;
 	}
 
+	public function getEntity(): IEntity {
+		if($this->entity === null) {
+			throw new \LogicException('Entity was not set yet');
+		}
+		return $this->entity;
+	}
+
 	public function getFlows(bool $returnFirstMatchingOperationOnly = true): array {
 		if(!$this->operation) {
 			throw new RuntimeException('Operation is not set');

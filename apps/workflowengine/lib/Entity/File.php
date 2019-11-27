@@ -32,13 +32,19 @@ use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Share\IManager as ShareManager;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
+use OCP\WorkflowEngine\EntityContext\IDisplayText;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
-class File implements IEntity {
+class File implements IEntity, IDisplayText {
+
+	private const EVENT_NAMESPACE = '\OCP\Files::';
 
 	/** @var IL10N */
 	protected $l10n;
@@ -54,21 +60,28 @@ class File implements IEntity {
 	protected $event;
 	/** @var ShareManager */
 	private $shareManager;
+	/** @var IUserSession */
+	private $userSession;
+	/** @var ISystemTagManager */
+	private $tagManager;
 
-	private const EVENT_NAMESPACE = '\OCP\Files::';
 
 	public function __construct(
 		IL10N $l10n,
 		IURLGenerator $urlGenerator,
 		IRootFolder $root,
 		ILogger $logger,
-		ShareManager $shareManager
+		ShareManager $shareManager,
+		IUserSession $userSession,
+		ISystemTagManager $tagManager
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
 		$this->logger = $logger;
 		$this->shareManager = $shareManager;
+		$this->userSession = $userSession;
+		$this->tagManager = $tagManager;
 	}
 
 	public function getName(): string {
@@ -145,5 +158,53 @@ class File implements IEntity {
 				break;
 		}
 		throw new NotFoundException();
+	}
+
+	public function getDisplayText(int $verbosity = 0): string {
+		$user = $this->userSession->getUser();
+		try {
+			$node = $this->getNode();
+		} catch (NotFoundException $e) {
+			return '';
+		}
+
+		$options = [
+			$user ? $user->getDisplayName() : $this->t('Someone'),
+			$node->getName()
+		];
+
+		switch ($this->eventName) {
+			case self::EVENT_NAMESPACE . 'postCreate':
+				return $this->l10n->t('%s created %s', $options);
+			case self::EVENT_NAMESPACE . 'postWrite':
+				return $this->l10n->t('%s modified %s', $options);
+			case self::EVENT_NAMESPACE . 'postDelete':
+				return $this->l10n->t('%s deleted %s', $options);
+			case self::EVENT_NAMESPACE . 'postTouch':
+				return $this->l10n->t('%s accessed %s', $options);
+			case self::EVENT_NAMESPACE . 'postRename':
+				return $this->l10n->t('%s renamed %s', $options);
+			case self::EVENT_NAMESPACE . 'postCopy':
+				return $this->l10n->t('%s copied %s', $options);
+			case MapperEvent::EVENT_ASSIGN:
+				$tagNames = [];
+				if($this->event instanceof MapperEvent) {
+					$tagIDs = $this->event->getTags();
+					$tagObjects = $this->tagManager->getTagsByIds($tagIDs);
+					foreach ($tagObjects as $systemTag) {
+						/** @var ISystemTag $systemTag */
+						if($systemTag->isUserVisible()) {
+							$tagNames[] = $systemTag->getName();
+						}
+					}
+				}
+				$filename = array_pop($options);
+				$tagString = implode(', ', $tagNames);
+				if($tagString === '') {
+					return '';
+				}
+				array_push($options, $tagString, $filename);
+				return $this->l10n->t('%s assigned %s to %s', $options);
+		}
 	}
 }

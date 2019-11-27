@@ -67,4 +67,13 @@ interface IRuleMatcher extends IFileCheck {
 	 * @since 18.0.0
 	 */
 	public function setEntity(IEntity $entity): void;
+
+	/**
+	 * returns the entity which might provide more information, depending on
+	 * the interfaces it implements
+	 *
+	 * @return IEntity
+	 * @since 18.0.0
+	 */
+	public function getEntity(): IEntity;
 }
