@@ -25,6 +25,7 @@ namespace OCA\Files\Controller;
 
 
 use Exception;
+use OCA\Files\Service\DirectEditingService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -52,14 +53,27 @@ class DirectEditingController extends OCSController {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var DirectEditingService */
+	private $directEditingService;
+
 	public function __construct($appName, IRequest $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge,
-								IEventDispatcher $eventDispatcher, IURLGenerator $urlGenerator, IManager $manager, ILogger $logger) {
+								IEventDispatcher $eventDispatcher, IURLGenerator $urlGenerator, IManager $manager, DirectEditingService $directEditingService, ILogger $logger) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
 
 		$this->eventDispatcher = $eventDispatcher;
 		$this->directEditingManager = $manager;
+		$this->directEditingService = $directEditingService;
 		$this->logger = $logger;
 		$this->urlGenerator = $urlGenerator;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function info(): DataResponse {
+		$response = new DataResponse($this->directEditingService->getDirectEditingCapabilitites());
+		$response->setETag($this->directEditingService->getDirectEditingETag());
+		return $response;
 	}
 
 	/**

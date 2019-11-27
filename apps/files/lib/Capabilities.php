@@ -26,6 +26,7 @@
 namespace OCA\Files;
 
 use OC\DirectEditing\Manager;
+use OCA\Files\Service\DirectEditingService;
 use OCP\Capabilities\ICapability;
 use OCP\DirectEditing\ACreateEmpty;
 use OCP\DirectEditing\ACreateFromTemplate;
@@ -33,6 +34,7 @@ use OCP\DirectEditing\IEditor;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 
 /**
  * Class Capabilities
@@ -44,21 +46,21 @@ class Capabilities implements ICapability {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var Manager */
-	protected $directEditingManager;
+	/** @var DirectEditingService */
+	protected $directEditingService;
 
-	/** @var IEventDispatcher */
-	protected $eventDispatcher;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * Capabilities constructor.
 	 *
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, Manager $manager, IEventDispatcher $eventDispatcher) {
+	public function __construct(IConfig $config, DirectEditingService $directEditingService, IURLGenerator $urlGenerator) {
 		$this->config = $config;
-		$this->directEditingManager = $manager;
-		$this->eventDispatcher = $eventDispatcher;
+		$this->directEditingService = $directEditingService;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -71,43 +73,13 @@ class Capabilities implements ICapability {
 			'files' => [
 				'bigfilechunking' => true,
 				'blacklisted_files' => $this->config->getSystemValue('blacklisted_files', ['.htaccess']),
-				'directEditing' => $this->getDirectEditingCapabilitites()
+				'directEditing' => [
+					'url' => $this->urlGenerator->linkToOCSRouteAbsolute('files.DirectEditing.info'),
+					'etag' => $this->directEditingService->getDirectEditingETag()
+				]
 			],
 		];
 	}
 
-	private function getDirectEditingCapabilitites(): array {
-		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
-		$capabilities = [
-			'editors' => [],
-			'creators' => []
-		];
-
-		/**
-		 * @var string $id
-		 * @var IEditor $editor
-		 */
-		foreach ($this->directEditingManager->getEditors() as $id => $editor) {
-			$capabilities['editors'][$id] = [
-				'name' => $editor->getName(),
-				'mimetypes' => $editor->getMimetypes(),
-				'optionalMimetypes' => $editor->getMimetypesOptional(),
-				'secure' => $editor->isSecure(),
-			];
-			/** @var ACreateEmpty|ACreateFromTemplate $creator */
-			foreach ($editor->getCreators() as $creator) {
-				$id = $creator->getId();
-				$capabilities['creators'][$id] = [
-					'id' => $id,
-					'editor' => $editor->getId(),
-					'name' => $creator->getName(),
-					'extension' => $creator->getExtension(),
-					'templates' => $creator instanceof ACreateFromTemplate,
-					'mimetype' => $creator->getMimetype()
-				];
-			}
-		}
-		return $capabilities;
-	}
 }
