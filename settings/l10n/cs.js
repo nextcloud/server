@@ -387,7 +387,7 @@ OC.L10N.register(
     "Not supported!" : "Nepodporováno!",
     "Press ⌘-C to copy." : "Zkopírujete stisknutím ⌘-C.",
     "Press Ctrl-C to copy." : "Zkopírujete stisknutím Ctrl-C.",
-    "Error while loading browser sessions and device tokens" : "Chyba při načítání sezení prohlížeče a tokenů přístroje",
+    "Error while loading browser sessions and device tokens" : "Chyba při načítání tokenů zařízení a relací prohlížečů",
     "Afrikaans (Namibia)" : "afrikánština (Namibie)",
     "Afrikaans (South Africa)" : "afrikánština (Jihoafrická republika)",
     "Afrikaans" : "afrikánština",

@@ -22,6 +22,7 @@ OC.L10N.register(
     "Tag assigned" : "Tagg tilldelad",
     "Operation #%s does not exist" : "Operationen #%s existerar inte",
     "Entity %s does not exist" : "Objekt 1%s finns inte",
+    "Entity %s is invalid" : "Entitet %s är ogiltig",
     "No events are chosen." : "Inga händelser valda",
     "Entity %s has no event %s" : "Objekt 1%s har ingen händelse 1%s",
     "Operation %s does not exist" : "Operationen %s existerar inte",
@@ -108,6 +109,7 @@ OC.L10N.register(
     "Select timezone…" : "Välj tidszon...",
     "Sync clients" : "Synkroniseringsklienter",
     "Workflow" : "Arbetsflöde",
+    "Files workflow engine" : "Arbetsflödesmotor för Filer",
     "Open documentation" : "Öppna dokumentation",
     "Loading…" : "Laddar...",
     "Tag management" : "Tagghantering"
