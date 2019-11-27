@@ -199,9 +199,6 @@ input.primary,
 
 @if ($invert) {
 	#body-login {
-		.body-login-container {
-			background-color: $color-main-background;
-		}
 		#submit-wrapper .icon-confirm-white {
 			background-image: url('../../../core/img/actions/confirm.svg');
 		}
