@@ -289,7 +289,7 @@ class LoginController extends Controller {
 
 		$data = new LoginData(
 			$this->request,
-			$user,
+			trim($user),
 			$password,
 			$redirect_url,
 			$timezone,
