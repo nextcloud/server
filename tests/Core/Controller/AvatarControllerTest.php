@@ -121,7 +121,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		parent::tearDown();
 	}
 

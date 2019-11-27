@@ -98,12 +98,12 @@ class NotifierTest extends TestCase {
 		$this->assertEquals($this->notifier->getName(), 'Calendar');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Notification not from this app
-	 */
+	
 	public function testPrepareWrongApp(): void
 	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Notification not from this app');
+
 		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
@@ -116,11 +116,11 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Unknown subject
-	 */
+	
 	public function testPrepareWrongSubject() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Unknown subject');
+
 		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 

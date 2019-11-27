@@ -76,7 +76,7 @@ class UserTest extends \Test\TestCase {
 	/** @var User */
 	protected $user;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = $this->createMock(Connection::class);
@@ -1114,10 +1114,10 @@ class UserTest extends \Test\TestCase {
 		$this->assertFalse($this->user->getHomePath());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
+		$this->expectException(\Exception::class);
+
 		$this->connection->expects($this->any())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))

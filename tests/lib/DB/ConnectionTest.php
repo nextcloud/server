@@ -42,12 +42,12 @@ class ConnectionTest extends \Test\TestCase {
 		}
 	}
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		parent::tearDown();
 		$this->connection->dropTable('table');
 	}
@@ -157,10 +157,10 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
 	}
 
-	/**
-	 * @expectedException \OCP\PreConditionNotMetException
-	 */
+	
 	public function testSetValuesOverWritePreconditionFailed() {
+		$this->expectException(\OCP\PreConditionNotMetException::class);
+
 		$this->makeTestTable();
 		$this->connection->setValues('table', [
 			'integerfield' => 1
@@ -335,10 +335,10 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertEquals(0, $result);
 	}
 
-	/**
-	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
-	 */
+	
 	public function testUniqueConstraintViolating() {
+		$this->expectException(\Doctrine\DBAL\Exception\UniqueConstraintViolationException::class);
+
 		$this->makeTestTable();
 
 		$testQuery = 'INSERT INTO `*PREFIX*table` (`integerfield`, `textfield`) VALUES(?, ?)';

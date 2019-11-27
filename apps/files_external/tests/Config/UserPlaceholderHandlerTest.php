@@ -50,7 +50,7 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 	/** @var UserPlaceholderHandler */
 	protected $handler;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);

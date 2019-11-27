@@ -62,7 +62,7 @@ class AdminSettingsControllerTest extends TestCase {
 	/** @var string */
 	private $adminUid = 'lololo';
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -87,7 +87,7 @@ class AdminSettingsControllerTest extends TestCase {
 		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		\OC::$server->getUserManager()->get($this->adminUid)->delete();
 
 		parent::tearDown();

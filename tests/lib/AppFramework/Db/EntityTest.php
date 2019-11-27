@@ -129,25 +129,25 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
+	
 	public function testCallShouldOnlyWorkForGetterSetter(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->something();
 	}
 
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
+	
 	public function testGetterShouldFailIfAttributeNotDefined(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->getTest();
 	}
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
+	
 	public function testSetterShouldFailIfAttributeNotDefined(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->setTest();
 	}
 
@@ -245,10 +245,10 @@ class EntityTest extends \Test\TestCase {
 		$this->assertThat($entity->isAnotherBool(), new IsType(IsType::TYPE_BOOL));
 	}
 
-	/**
-	 * @expectedException BadFunctionCallException
-	 */
+	
 	public function testIsGetterShoudFailForOtherType() {
+		$this->expectException(\BadFunctionCallException::class);
+
 		$entity = new TestEntity();
 		$entity->setName('hello');
 		$this->assertThat($entity->isName(), new IsType(IsType::TYPE_BOOL));

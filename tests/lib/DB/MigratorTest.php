@@ -102,10 +102,10 @@ class MigratorTest extends \Test\TestCase {
 		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
 	}
 
-	/**
-	 * @expectedException \OC\DB\MigrationException
-	 */
+	
 	public function testDuplicateKeyUpgrade() {
+		$this->expectException(\OC\DB\MigrationException::class);
+
 		if ($this->isSQLite()) {
 			$this->markTestSkipped('sqlite does not throw errors when creating a new key on existing data');
 		}

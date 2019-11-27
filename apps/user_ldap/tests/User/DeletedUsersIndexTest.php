@@ -48,7 +48,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 	/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject */
 	protected $mapping;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
@@ -63,7 +63,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		$this->dui = new DeletedUsersIndex($this->config, $this->db, $this->mapping);
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		$this->config->deleteAppFromAllUsers('user_ldap');
 		parent::tearDown();
 	}

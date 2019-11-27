@@ -37,10 +37,10 @@ class LargeFileHelperTest extends TestCase {
 		);
 	}
 
-	/**
-	* @expectedException \UnexpectedValueException
-	*/
+	
 	public function testFormatUnsignedIntegerStringException() {
+		$this->expectException(\UnexpectedValueException::class);
+
 		$this->helper->formatUnsignedInteger('900ABCD254740993');
 	}
 }

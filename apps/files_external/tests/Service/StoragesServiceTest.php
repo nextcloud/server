@@ -92,7 +92,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $mountCache;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
 		self::$hookCalls = array();
@@ -175,7 +175,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			->willReturn($containerMock);
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		\OC_Mount_Config::$skipTest = false;
 		self::$hookCalls = array();
 		if ($this->dbConfig) {
@@ -252,10 +252,10 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
+	
 	public function testNonExistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -334,10 +334,10 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertCount($expectedCountAfterDeletion, $storages, "expected $expectedCountAfterDeletion storages, got " . json_encode($storages));
 	}
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
+	
 	public function testDeleteUnexistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
 		$this->service->removeStorage(255);
 	}
 

@@ -45,7 +45,7 @@ class ShareInfoControllerTest extends TestCase {
 	private $shareManager;
 
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(ShareManager::class);

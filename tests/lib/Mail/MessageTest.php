@@ -31,7 +31,7 @@ class MessageTest extends TestCase {
 		);
 	}
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->swiftMessage = $this->getMockBuilder('\Swift_Message')

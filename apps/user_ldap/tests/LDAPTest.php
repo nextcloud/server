@@ -30,7 +30,7 @@ class LDAPTest extends TestCase  {
 	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
 	private $ldap;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->ldap = $this->getMockBuilder(LDAP::class)
 			->setMethods(['invokeLDAPMethod'])

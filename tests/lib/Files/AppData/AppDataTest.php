@@ -42,7 +42,7 @@ class AppDataTest extends \Test\TestCase {
 	/** @var IAppData */
 	private $appData;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);

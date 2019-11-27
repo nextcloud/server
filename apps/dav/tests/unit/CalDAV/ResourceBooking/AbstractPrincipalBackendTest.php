@@ -64,7 +64,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var string */
 	protected $expectedCUType;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);

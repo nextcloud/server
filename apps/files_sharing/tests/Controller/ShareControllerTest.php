@@ -532,10 +532,10 @@ class ShareControllerTest extends \Test\TestCase {
 		self::assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testShowShareInvalid() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();

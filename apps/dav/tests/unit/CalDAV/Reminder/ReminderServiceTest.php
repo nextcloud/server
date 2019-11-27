@@ -184,7 +184,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-    public function setUp(): void {
+    protected function setUp(): void {
 		parent::setUp();
 
         $this->backend = $this->createMock(Backend::class);

@@ -61,7 +61,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userId = $this->getUniqueID();
@@ -87,7 +87,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->rootFolder = \OC::$server->getRootFolder();
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		if ($this->trashEnabled) {
 			$appManager = \OC::$server->getAppManager();
 			$appManager->enableApp('files_trashbin');

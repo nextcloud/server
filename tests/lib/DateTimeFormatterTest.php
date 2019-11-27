@@ -175,10 +175,10 @@ class DateTimeFormatterTest extends TestCase {
 		$this->assertEquals($expected, (string) $this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	function testFormatDateWithInvalidTZ() {
+		$this->expectException(\Exception::class);
+
 		$this->formatter->formatDate(1350129205, 'long', new \DateTimeZone('Mordor/Barad-dûr'));
 	}
 }

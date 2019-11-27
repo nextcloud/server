@@ -113,10 +113,11 @@ class BaseTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGenerateObjectParameterThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param mixed $eventData
 	 */
 	public function testGenerateObjectParameterThrows($eventData) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);
 	}
 

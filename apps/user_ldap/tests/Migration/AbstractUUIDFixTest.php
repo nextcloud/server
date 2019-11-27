@@ -58,7 +58,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 	/** @var bool */
 	protected $isUser = true;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->ldap = $this->createMock(LDAP::class);

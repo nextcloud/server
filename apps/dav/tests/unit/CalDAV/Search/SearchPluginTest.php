@@ -36,7 +36,7 @@ class SearchPluginTest extends TestCase {
 	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */
 	protected $plugin;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(\Sabre\DAV\Server::class);

@@ -339,10 +339,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareDifferentApp() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->folder
 			->expects($this->never())
 			->method('getById');
@@ -376,10 +376,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareNotFound() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->folder
 			->expects($this->never())
 			->method('getById');
@@ -414,10 +414,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareDifferentSubject() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
@@ -477,10 +477,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareNotFiles() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
@@ -541,10 +541,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	/**
-	 * @expectedException \OCP\Notification\AlreadyProcessedException
-	 */
+	
 	public function testPrepareUnresolvableFileID() {
+		$this->expectException(\OCP\Notification\AlreadyProcessedException::class);
+
 		$displayName = 'Huraga';
 
 		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */

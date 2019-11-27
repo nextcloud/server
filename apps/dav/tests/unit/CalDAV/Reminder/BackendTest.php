@@ -42,7 +42,7 @@ class BackendTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$query = self::$realDatabase->getQueryBuilder();

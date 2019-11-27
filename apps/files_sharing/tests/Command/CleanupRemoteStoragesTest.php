@@ -110,7 +110,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$this->command = new CleanupRemoteStorages($this->connection);
 	}
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		$storageQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$storageQuery->delete('storages')
 			->where($storageQuery->expr()->eq('id', $storageQuery->createParameter('id')));

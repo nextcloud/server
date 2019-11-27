@@ -103,9 +103,10 @@ class ObjectTreeTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider copyDataProvider
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent) {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$view = $this->createMock(View::class);
 		$view->expects($this->never())
 			->method('verifyPath');
@@ -268,10 +269,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\InvalidPath
-	 */
+	
 	public function testGetNodeForPathInvalidPath() {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+
 		$path = '/foo\bar';
 
 

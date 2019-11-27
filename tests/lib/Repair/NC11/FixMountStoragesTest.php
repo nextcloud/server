@@ -43,7 +43,7 @@ class FixMountStoragesTest extends TestCase {
 	/** @var FixMountStorages */
 	private $repair;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = \OC::$server->getDatabaseConnection();

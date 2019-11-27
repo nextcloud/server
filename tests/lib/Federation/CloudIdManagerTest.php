@@ -71,9 +71,10 @@ class CloudIdManagerTest extends TestCase {
 	 *
 	 * @param string $cloudId
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidCloudId($cloudId) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->cloudIdManager->resolveCloudId($cloudId);
 	}
 

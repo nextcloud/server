@@ -397,11 +397,11 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSBadRequestException
-	 * @expectedExceptionMessage Missing itemType
-	 */
+	
 	public function testSearchNoItemType() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
+		$this->expectExceptionMessage('Missing itemType');
+
 		$this->sharees->search('', null, 1, 10, [], false);
 	}
 

@@ -144,10 +144,10 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testDeleteTagNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		// assuming the tag existed at the time the node was created,
 		// but got deleted concurrently in the database
 		$tag = new SystemTag(1, 'Test', true, true);

@@ -94,10 +94,10 @@ class ControllerTest extends \Test\TestCase {
 		$this->controller = new ChildController($this->app, $request);
 	}
 
-	/**
-	 * @expectedException \DomainException
-	 */
+	
 	public function testFormatResonseInvalidFormat() {
+		$this->expectException(\DomainException::class);
+
 		$this->controller->buildResponse(null, 'test');
 	}
 

@@ -620,10 +620,10 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
+	
 	public function testExpireNonexistingUser() {
+		$this->expectException(\OC\User\NoUserException::class);
+
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
 		\OC_Util::setupFS(self::TEST_VERSIONS_USER);

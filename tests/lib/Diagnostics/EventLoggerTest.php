@@ -29,7 +29,7 @@ class EventLoggerTest extends TestCase {
 	/** @var \OC\Diagnostics\EventLogger */
 	private $logger;
 	
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = new EventLogger();

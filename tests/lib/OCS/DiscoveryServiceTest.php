@@ -39,7 +39,7 @@ class DiscoveryServiceTest extends TestCase {
 	/** @var  IDiscoveryService */
 	private $discoveryService;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->cacheFactory = $this->getMockBuilder(ICacheFactory::class)->getMock();

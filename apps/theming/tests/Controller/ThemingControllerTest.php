@@ -83,7 +83,7 @@ class ThemingControllerTest extends TestCase {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);

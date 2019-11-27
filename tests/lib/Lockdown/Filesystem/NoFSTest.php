@@ -34,7 +34,7 @@ use Test\Traits\UserTrait;
 class NoFSTest extends \Test\TestCase {
 	use UserTrait;
 
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		$token = new DefaultToken();
 		$token->setScope([
 			'filesystem' => true
@@ -43,7 +43,7 @@ class NoFSTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 		$token = new DefaultToken();
 		$token->setScope([

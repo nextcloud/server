@@ -46,10 +46,10 @@ class RegistryTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	/**
-	 * @expectedException \OCP\Support\Subscription\Exception\AlreadyRegisteredException
-	 */
+	
 	public function testDoubleRegistration() {
+		$this->expectException(\OCP\Support\Subscription\Exception\AlreadyRegisteredException::class);
+
 		/* @var ISubscription $subscription1 */
 		$subscription1 = $this->createMock(ISubscription::class);
 		/* @var ISubscription $subscription2 */
