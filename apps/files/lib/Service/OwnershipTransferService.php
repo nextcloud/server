@@ -91,7 +91,7 @@ class OwnershipTransferService {
 		Filesystem::initMountPoints($destinationUid);
 
 		$view = new View();
-		if (!$view->is_dir($sourcePath)) {
+		if (!($view->is_dir($sourcePath) || $view->is_file($sourcePath))) {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
 

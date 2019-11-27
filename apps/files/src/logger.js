@@ -22,7 +22,16 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
-export default getLoggerBuilder()
-	.setApp('files')
-	.setUid(getCurrentUser().uid)
-	.build()
+const getLogger = user => {
+	if (user === null) {
+		return getLoggerBuilder()
+			.setApp('files')
+			.build()
+	}
+	return getLoggerBuilder()
+		.setApp('files')
+		.setUid(user.uid)
+		.build()
+}
+
+export default getLogger(getCurrentUser())
