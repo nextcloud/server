@@ -80,7 +80,7 @@ steps:
   commands:
     - git submodule update --init
 - name: handlebars
-  image: node:lts
+  image: node:10
   commands:
     - npm i
     - ./build/compile-handlebars-templates.sh
