@@ -206,6 +206,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Encryption\\Keys\\IStorage' => __DIR__ . '/../../..' . '/lib/public/Encryption/Keys/IStorage.php',
         'OCP\\EventDispatcher\\ABroadcastedEvent' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/ABroadcastedEvent.php',
         'OCP\\EventDispatcher\\Event' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/Event.php',
+        'OCP\\EventDispatcher\\GenericEvent' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/GenericEvent.php',
         'OCP\\EventDispatcher\\IEventDispatcher' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventDispatcher.php',
         'OCP\\EventDispatcher\\IEventListener' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventListener.php',
         'OCP\\Federation\\Exceptions\\ActionNotSupportedException' => __DIR__ . '/../../..' . '/lib/public/Federation/Exceptions/ActionNotSupportedException.php',

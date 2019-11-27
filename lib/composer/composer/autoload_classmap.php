@@ -177,6 +177,7 @@ return array(
     'OCP\\Encryption\\Keys\\IStorage' => $baseDir . '/lib/public/Encryption/Keys/IStorage.php',
     'OCP\\EventDispatcher\\ABroadcastedEvent' => $baseDir . '/lib/public/EventDispatcher/ABroadcastedEvent.php',
     'OCP\\EventDispatcher\\Event' => $baseDir . '/lib/public/EventDispatcher/Event.php',
+    'OCP\\EventDispatcher\\GenericEvent' => $baseDir . '/lib/public/EventDispatcher/GenericEvent.php',
     'OCP\\EventDispatcher\\IEventDispatcher' => $baseDir . '/lib/public/EventDispatcher/IEventDispatcher.php',
     'OCP\\EventDispatcher\\IEventListener' => $baseDir . '/lib/public/EventDispatcher/IEventListener.php',
     'OCP\\Federation\\Exceptions\\ActionNotSupportedException' => $baseDir . '/lib/public/Federation/Exceptions/ActionNotSupportedException.php',

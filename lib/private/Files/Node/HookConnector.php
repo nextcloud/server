@@ -24,10 +24,10 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\FileInfo;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class HookConnector {
 	/**
