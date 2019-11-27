@@ -33,7 +33,7 @@
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
-					<Avatar #avatar
+					<Avatar
 						:user="sharedWithMe.user"
 						:display-name="sharedWithMe.displayName"
 						class="sharing-entry__avatar"
@@ -61,6 +61,9 @@
 				:shares="shares"
 				:file-info="fileInfo" />
 
+			<!-- inherited shares -->
+			<SharingInherited v-if="!loading" :file-info="fileInfo" />
+
 			<!-- internal link copy -->
 			<SharingEntryInternal :file-info="fileInfo" />
 
@@ -82,11 +85,11 @@
 </template>
 
 <script>
+import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
-import Tab from 'nextcloud-vue/dist/Components/AppSidebarTab'
 import Avatar from 'nextcloud-vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
-import { CollectionList } from 'nextcloud-vue-collections'
+import Tab from 'nextcloud-vue/dist/Components/AppSidebarTab'
 
 import { shareWithTitle } from '../utils/SharedWithMe'
 import Share from '../models/Share'
@@ -95,6 +98,7 @@ import SharingEntryInternal from '../components/SharingEntryInternal'
 import SharingEntrySimple from '../components/SharingEntrySimple'
 import SharingInput from '../components/SharingInput'
 
+import SharingInherited from './SharingInherited'
 import SharingLinkList from './SharingLinkList'
 import SharingList from './SharingList'
 
@@ -106,6 +110,7 @@ export default {
 		CollectionList,
 		SharingEntryInternal,
 		SharingEntrySimple,
+		SharingInherited,
 		SharingInput,
 		SharingLinkList,
 		SharingList,
