@@ -2248,7 +2248,7 @@ steps:
   commands:
     - git submodule update --init
 - name: memcache-memcached
-  image: nextcloudci/php7.3-memcached:php7.3-memcached-2
+  image: nextcloudci/php7.3-memcached:php7.3-memcached-3
   commands:
     - phpenmod xdebug
     - service memcached restart
