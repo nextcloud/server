@@ -252,10 +252,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 
-	
-	public function testNonExistingStorage() {
-		$this->expectException(\OCA\Files_External\NotFoundException::class);
-
+	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -263,6 +260,12 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storage->setBackend($backend);
 		$storage->setAuthMechanism($authMechanism);
 		$this->service->updateStorage($storage);
+	}
+
+	public function testNonExistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
+		$this->ActualNonExistingStorageTest();
 	}
 
 	public function deleteStorageDataProvider() {
@@ -334,11 +337,14 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertCount($expectedCountAfterDeletion, $storages, "expected $expectedCountAfterDeletion storages, got " . json_encode($storages));
 	}
 
-	
+	protected function actualDeletedUnexistingStorageTest() {
+		$this->service->removeStorage(255);
+	}
+
 	public function testDeleteUnexistingStorage() {
 		$this->expectException(\OCA\Files_External\NotFoundException::class);
 
-		$this->service->removeStorage(255);
+		$this->actualDeletedUnexistingStorageTest();
 	}
 
 	public function testCreateStorage() {
