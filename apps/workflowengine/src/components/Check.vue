@@ -124,9 +124,8 @@ export default {
 			this.check.class = this.currentOption.class
 			this.check.operator = this.currentOperator.operator
 
-			if (!this.validate()) {
-				this.check.invalid = !this.valid
-			}
+			this.check.invalid = !this.validate()
+
 			this.$emit('update', this.check)
 		}
 	}

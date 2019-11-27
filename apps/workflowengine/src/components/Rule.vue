@@ -36,10 +36,10 @@
 					@click="saveRule">
 					{{ ruleStatus.title }}
 				</button>
-				<button v-if="rule.id < -1" @click="cancelRule">
+				<button v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
 				</button>
-				<button v-else @click="deleteRule">
+				<button v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
 				</button>
 			</div>
@@ -75,7 +75,8 @@ export default {
 			checks: [],
 			error: null,
 			dirty: this.rule.id < 0,
-			checking: false
+			checking: false,
+			originalRule: null
 		}
 	},
 	computed: {
@@ -91,15 +92,18 @@ export default {
 				}
 			}
 			if (!this.dirty || this.checking) {
-				return { title: 'Active', class: 'icon icon-checkmark' }
+				return { title: t('workflowengine', 'Active'), class: 'icon icon-checkmark' }
 			}
-			return { title: 'Save', class: 'icon-confirm-white primary' }
+			return { title: t('workflowengine', 'Save'), class: 'icon-confirm-white primary' }
 
 		},
 		lastCheckComplete() {
 			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
 			return typeof lastCheck === 'undefined' || lastCheck.class !== null
 		}
+	},
+	mounted() {
+		this.originalRule = JSON.parse(JSON.stringify(this.rule))
 	},
 	methods: {
 		async updateOperation(operation) {
@@ -128,6 +132,7 @@ export default {
 				await this.$store.dispatch('pushUpdateRule', this.rule)
 				this.dirty = false
 				this.error = null
+				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 			} catch (e) {
 				console.error('Failed to save operation')
 				this.error = e.response.data.ocs.meta.message
@@ -142,7 +147,13 @@ export default {
 			}
 		},
 		cancelRule() {
-			this.$store.dispatch('removeRule', this.rule)
+			if (this.rule.id < 0) {
+				this.$store.dispatch('removeRule', this.rule)
+			} else {
+				this.$store.dispatch('updateRule', this.originalRule)
+				this.originalRule = JSON.parse(JSON.stringify(this.rule))
+				this.dirty = false
+			}
 		},
 		async removeCheck(check) {
 			const index = this.rule.checks.findIndex(item => item === check)
@@ -185,6 +196,9 @@ export default {
 		background-color: var(--color-warning);
 		color: #fff;
 		border: none;
+	}
+	.status-button.icon-checkmark {
+		border: 1px solid var(--color-success);
 	}
 
 	.flow-icon {
