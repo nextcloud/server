@@ -589,6 +589,7 @@ class View {
 	/**
 	 * @param string $path
 	 * @return mixed
+	 * @throws LockedException
 	 */
 	public function file_get_contents($path) {
 		return $this->basicOperation('file_get_contents', $path, array('read'));
@@ -640,7 +641,7 @@ class View {
 	 * @param string $path
 	 * @param string|resource $data
 	 * @return bool|mixed
-	 * @throws \Exception
+	 * @throws LockedException
 	 */
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
@@ -739,6 +740,7 @@ class View {
 	 * @param string $path2 target path
 	 *
 	 * @return bool|mixed
+	 * @throws LockedException
 	 */
 	public function rename($path1, $path2) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
@@ -962,6 +964,7 @@ class View {
 	 * @param string $path
 	 * @param string $mode 'r' or 'w'
 	 * @return resource
+	 * @throws LockedException
 	 */
 	public function fopen($path, $mode) {
 		$mode = str_replace('b', '', $mode); // the binary flag is a windows only feature which we do not support
@@ -1117,7 +1120,7 @@ class View {
 	 * @param array $hooks (optional)
 	 * @param mixed $extraParam (optional)
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws LockedException
 	 *
 	 * This method takes requests for basic filesystem functions (e.g. reading & writing
 	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
@@ -1919,7 +1922,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
-	 * @throws \OCP\Lock\LockedException if the path is already locked
+	 * @throws LockedException if the path is already locked
 	 */
 	private function lockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -1939,9 +1942,9 @@ class View {
 						$this->lockingProvider
 					);
 				}
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				// rethrow with the a human-readable path
-				throw new \OCP\Lock\LockedException(
+				throw new LockedException(
 					$this->getPathRelativeToFiles($absolutePath),
 					$e
 				);
@@ -1959,7 +1962,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
-	 * @throws \OCP\Lock\LockedException if the path is already locked
+	 * @throws LockedException if the path is already locked
 	 */
 	public function changeLock($path, $type, $lockMountPoint = false) {
 		$path = Filesystem::normalizePath($path);
@@ -1980,15 +1983,15 @@ class View {
 						$this->lockingProvider
 					);
 				}
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				try {
 					// rethrow with the a human-readable path
-					throw new \OCP\Lock\LockedException(
+					throw new LockedException(
 						$this->getPathRelativeToFiles($absolutePath),
 						$e
 					);
 				} catch (\InvalidArgumentException $e) {
-					throw new \OCP\Lock\LockedException(
+					throw new LockedException(
 						$absolutePath,
 						$e
 					);
@@ -2007,6 +2010,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	private function unlockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -2038,6 +2042,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	public function lockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -2064,6 +2069,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	public function unlockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);

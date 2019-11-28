@@ -28,6 +28,7 @@ namespace OC\Files\Node;
 
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
+use OCP\Lock\LockedException;
 
 class File extends Node implements \OCP\Files\File {
 	/**
@@ -42,7 +43,8 @@ class File extends Node implements \OCP\Files\File {
 
 	/**
 	 * @return string
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
+	 * @throws LockedException
 	 */
 	public function getContent() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_READ)) {
@@ -57,8 +59,9 @@ class File extends Node implements \OCP\Files\File {
 
 	/**
 	 * @param string|resource $data
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 * @throws \OCP\Files\GenericFileException
+	 * @throws LockedException
 	 */
 	public function putContent($data) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
@@ -76,7 +79,8 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @param string $mode
 	 * @return resource
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
+	 * @throws LockedException
 	 */
 	public function fopen($mode) {
 		$preHooks = array();
@@ -113,6 +117,11 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
+	/**
+	 * @throws NotPermittedException
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\NotFoundException
+	 */
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(array('preDelete'));

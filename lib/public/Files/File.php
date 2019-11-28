@@ -33,6 +33,8 @@
 
 namespace OCP\Files;
 
+use OCP\Lock\LockedException;
+
 /**
  * Interface File
  *
@@ -44,7 +46,8 @@ interface File extends Node {
 	 * Get the content of the file as string
 	 *
 	 * @return string
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
+	 * @throws LockedException
 	 * @since 6.0.0
 	 */
 	public function getContent();
@@ -53,8 +56,9 @@ interface File extends Node {
 	 * Write to the file from string data
 	 *
 	 * @param string|resource $data
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\GenericFileException
+	 * @throws NotPermittedException
+	 * @throws GenericFileException
+	 * @throws LockedException
 	 * @since 6.0.0
 	 */
 	public function putContent($data);
@@ -72,7 +76,8 @@ interface File extends Node {
 	 *
 	 * @param string $mode
 	 * @return resource
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
+	 * @throws LockedException
 	 * @since 6.0.0
 	 */
 	public function fopen($mode);

@@ -33,6 +33,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Lock\LockedException;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
@@ -75,6 +76,7 @@ class Node implements \OCP\Files\Node {
 	 *
 	 * @param string $path path
 	 * @return string non-existing node class
+	 * @throws \Exception
 	 */
 	protected function createNonExistingNode($path) {
 		throw new \Exception('Must be implemented by subclasses');
@@ -117,6 +119,8 @@ class Node implements \OCP\Files\Node {
 	/**
 	 * @param int $permissions
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	protected function checkPermissions($permissions) {
 		return ($this->getPermissions() & $permissions) === $permissions;
@@ -127,7 +131,9 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $mtime
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
@@ -366,7 +372,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function lock($type) {
 		$this->view->lockFile($this->path, $type);
@@ -374,7 +380,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function changeLock($type) {
 		$this->view->changeLock($this->path, $type);
@@ -382,7 +388,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function unlock($type) {
 		$this->view->unlockFile($this->path, $type);
@@ -390,8 +396,10 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException if copy not allowed or failed
 	 * @return \OC\Files\Node\Node
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException if copy not allowed or failed
 	 */
 	public function copy($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
@@ -414,8 +422,11 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException if move not allowed or failed
 	 * @return \OC\Files\Node\Node
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException if move not allowed or failed
+	 * @throws LockedException
 	 */
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
