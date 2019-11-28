@@ -47,7 +47,7 @@ class DatabaseTest extends Backend {
 		return $user;
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -55,7 +55,7 @@ class DatabaseTest extends Backend {
 		$this->backend=new \OC\User\Database($this->eventDispatcher);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if(!isset($this->users)) {
 			return;
 		}
@@ -82,11 +82,11 @@ class DatabaseTest extends Backend {
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 
-	/**
-	 * @expectedException \OC\HintException
-	 * @expectedExceptionMessage password change failed
-	 */
+	
 	public function testVerifyPasswordEventFail() {
+		$this->expectException(\OC\HintException::class);
+		$this->expectExceptionMessage('password change failed');
+
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 

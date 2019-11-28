@@ -45,7 +45,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 	/** @var IOutput */
 	private $outputMock;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->outputMock = $this->createMock(IOutput::class);

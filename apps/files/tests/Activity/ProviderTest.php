@@ -55,7 +55,7 @@ class ProviderTest extends TestCase {
 	/** @var IEventMerger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $eventMerger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -136,10 +136,10 @@ class ProviderTest extends TestCase {
 		$this->assertSame('link-' . $id, $result['link']);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testGetFileThrows() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);
 	}

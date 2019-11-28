@@ -33,7 +33,7 @@ class RedirectResponseTest extends \Test\TestCase {
 	 */
 	protected $response;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new RedirectResponse('/url');
 	}

@@ -58,7 +58,7 @@ class SecurityTest extends TestCase {
 	/** @var Security */
 	private $section;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->initialStateService = $this->createMock(IInitialStateService::class);

@@ -39,7 +39,7 @@ class TokenHandlerTest extends \Test\TestCase {
 	/** @var int */
 	private $expectedTokenLength = 15;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->getMock();

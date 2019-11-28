@@ -74,7 +74,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	/** @var ClientFlowLoginController */
 	private $clientFlowLoginController;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

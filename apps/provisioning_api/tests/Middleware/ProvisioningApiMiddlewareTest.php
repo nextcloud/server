@@ -35,7 +35,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
 	private $reflector;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->reflector = $this->createMock(IControllerMethodReflector::class);

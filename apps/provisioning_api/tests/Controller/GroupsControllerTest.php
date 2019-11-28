@@ -62,7 +62,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $api;
 
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -284,11 +284,11 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 403
-	 */
+	
 	public function testGetGroupAsIrrelevantSubadmin() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionCode(403);
+
 		$group = $this->createGroup('group');
 		$otherGroup = $this->createGroup('otherGroup');
 		$this->asSubAdminOfGroup($otherGroup);
@@ -329,23 +329,23 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 404
-	 * @expectedExceptionMessage The requested group could not be found
-	 */
+	
 	public function testGetGroupNonExisting() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionMessage('The requested group could not be found');
+		$this->expectExceptionCode(404);
+
 		$this->asUser();
 
 		$this->api->getGroup($this->getUniqueID());
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 101
-	 * @expectedExceptionMessage Group does not exist
-	 */
+	
 	public function testGetSubAdminsOfGroupsNotExists() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionMessage('Group does not exist');
+		$this->expectExceptionCode(101);
+
 		$this->api->getSubAdminsOfGroup('NonExistingGroup');
 	}
 
@@ -387,20 +387,20 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals([], $result->getData());
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 101
-	 * @expectedExceptionMessage Invalid group name
-	 */
+	
 	public function testAddGroupEmptyGroup() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionMessage('Invalid group name');
+		$this->expectExceptionCode(101);
+
 		$this->api->addGroup('');
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 102
-	 */
+	
 	public function testAddGroupExistingGroup() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionCode(102);
+
 		$this->groupManager
 			->method('groupExists')
 			->with('ExistingGroup')
@@ -437,19 +437,19 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 101
-	 */
+	
 	public function testDeleteGroupNonExisting() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionCode(101);
+
 		$this->api->deleteGroup('NonExistingGroup');
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\OCS\OCSException
-	 * @expectedExceptionCode 102
-	 */
+	
 	public function testDeleteAdminGroup() {
+		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectExceptionCode(102);
+
 		$this->groupManager
 			->method('groupExists')
 			->with('admin')

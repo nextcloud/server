@@ -36,7 +36,7 @@ class CapabilitiesTest extends TestCase {
 	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
 	private $throttler;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

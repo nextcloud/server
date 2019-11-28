@@ -41,7 +41,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var ProviderUserAssignmentDao */
 	private $dao;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dbConn = OC::$server->getDatabaseConnection();

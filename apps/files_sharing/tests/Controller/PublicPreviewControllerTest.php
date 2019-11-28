@@ -54,7 +54,7 @@ class PublicPreviewControllerTest extends TestCase {
 	/** @var PublicPreviewController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->previewManager = $this->createMock(IPreview::class);

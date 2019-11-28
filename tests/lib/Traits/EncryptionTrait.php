@@ -23,8 +23,8 @@ trait EncryptionTrait {
 	abstract protected function registerStorageWrapper($name, $wrapper);
 
 	// from phpunit
-	abstract protected function markTestSkipped($reason = '');
-	abstract protected function assertTrue($condition, $message = '');
+	abstract protected function markTestSkipped(string $message = ''): void;
+	abstract protected function assertTrue($condition, string $message = ''): void;
 
 	private $encryptionWasEnabled;
 

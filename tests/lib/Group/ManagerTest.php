@@ -40,7 +40,7 @@ class ManagerTest extends TestCase {
 	/** @var ILogger|MockObject */
 	protected $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
@@ -409,7 +409,7 @@ class ManagerTest extends TestCase {
 		$this->assertCount(2, $groups);
 
 		foreach ($groups as $group) {
-			$this->assertInternalType('string', $group);
+			$this->assertIsString($group);
 		}
 	}
 

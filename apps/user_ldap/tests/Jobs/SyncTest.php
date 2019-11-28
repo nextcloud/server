@@ -69,7 +69,7 @@ class SyncTest extends TestCase {
 	/** @var AccessFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $accessFactory;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->helper = $this->createMock(Helper::class);

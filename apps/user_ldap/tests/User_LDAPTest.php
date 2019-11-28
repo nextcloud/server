@@ -76,7 +76,7 @@ class User_LDAPTest extends TestCase {
 	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		\OC_User::clearBackends();
@@ -787,10 +787,10 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($dataDir.'/susannah/', $result);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testGetHomeNoPath() {
+		$this->expectException(\Exception::class);
+
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
 		$this->prepareMockForUserExists();
 
@@ -836,10 +836,10 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
+	
 	public function testGetHomeDeletedUser() {
+		$this->expectException(\OC\User\NoUserException::class);
+
 		$uid = 'newyorker';
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
@@ -1280,11 +1280,11 @@ class User_LDAPTest extends TestCase {
 			   }));
 	}
 
-	/**
-	 * @expectedException \OC\HintException
-	 * @expectedExceptionMessage Password fails quality checking policy
-	 */
+	
 	public function testSetPasswordInvalid() {
+		$this->expectException(\OC\HintException::class);
+		$this->expectExceptionMessage('Password fails quality checking policy');
+
 		$this->prepareAccessForSetPassword($this->access);
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
@@ -1324,11 +1324,11 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?
-	 */
+	
 	public function testSetPasswordWithInvalidUser() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?');
+
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -1425,10 +1425,10 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
 	}
 
-	/**
-	 * @expectedException \OC\HintException
-	 */
+	
 	public function testSetDisplayNameErrorWithPlugin() {
+		$this->expectException(\OC\HintException::class);
+
 		$newDisplayName = 'J. Baker';
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')

@@ -112,7 +112,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var ICloudFederationShare|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationShare;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')

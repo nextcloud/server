@@ -65,7 +65,7 @@ class PrincipalTest extends TestCase {
 	/** @var ProxyMapper | \PHPUnit_Framework_MockObject_MockObject */
 	private $proxyMapper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
@@ -209,11 +209,11 @@ class PrincipalTest extends TestCase {
 		$this->assertSame([], $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception
-	 * @expectedExceptionMessage Principal not found
-	 */
+	
 	public function testGetGroupMemberSetEmpty() {
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectExceptionMessage('Principal not found');
+
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -334,11 +334,11 @@ class PrincipalTest extends TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception
-	 * @expectedExceptionMessage Principal not found
-	 */
+	
 	public function testGetGroupMembershipEmpty() {
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectExceptionMessage('Principal not found');
+
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -348,11 +348,11 @@ class PrincipalTest extends TestCase {
 		$this->connector->getGroupMembership('principals/users/foo');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception
-	 * @expectedExceptionMessage Setting members of the group is not supported yet
-	 */
+	
 	public function testSetGroupMembership() {
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectExceptionMessage('Setting members of the group is not supported yet');
+
 		$this->connector->setGroupMemberSet('principals/users/foo', ['foo']);
 	}
 

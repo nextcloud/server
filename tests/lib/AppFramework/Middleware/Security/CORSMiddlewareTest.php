@@ -34,7 +34,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	/** @var Controller */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(Session::class);
@@ -102,9 +102,10 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @CORS
-	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
 	public function testCorsIgnoredIfWithCredentialsHeaderPresent() {
+		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+
 		$request = new Request(
 			[
 				'server' => [
@@ -171,9 +172,10 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @CORS
-	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
 	public function testCORSShouldFailIfPasswordLoginIsForbidden() {
+		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',
@@ -196,9 +198,10 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @CORS
-	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
 	public function testCORSShouldNotAllowCookieAuth() {
+		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',
@@ -251,11 +254,11 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage A regular exception
-	 */
+	
 	public function testAfterExceptionWithRegularException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('A regular exception');
+
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',

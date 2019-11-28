@@ -40,7 +40,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 	/** @var RegenerateBirthdayCalendars */
 	private $migration;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->createMock(IJobList::class);

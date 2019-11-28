@@ -62,7 +62,7 @@ class UserPluginTest extends TestCase {
 	/** @var  IUser|\PHPUnit_Framework_MockObject_MockObject */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -414,8 +414,8 @@ class UserPluginTest extends TestCase {
 				$this->groupManager->expects($this->exactly(2))
 					->method('getUserGroupIds')
 					->withConsecutive(
-						$this->user,
-						$singleUser
+						[$this->user],
+						[$singleUser]
 					)
 					->willReturn($groupResponse);
 			} else {

@@ -52,7 +52,7 @@ class InvitationResponseControllerTest extends TestCase {
 	/** @var InvitationResponseServer|\PHPUnit_Framework_MockObject_MockObject */
 	private $responseServer;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dbConnection = $this->createMock(IDBConnection::class);

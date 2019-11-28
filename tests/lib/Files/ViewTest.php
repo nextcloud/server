@@ -85,7 +85,7 @@ class ViewTest extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Storage */
 	private $tempStorage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		\OC_Hook::clear();
 
@@ -109,7 +109,7 @@ class ViewTest extends \Test\TestCase {
 		$this->tempStorage = null;
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
@@ -242,10 +242,10 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testGetPathNotExisting() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		$storage1 = $this->getTestStorage();
 		Filesystem::mount($storage1, [], '/');
 
@@ -1049,9 +1049,10 @@ class ViewTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider tooLongPathDataProvider
-	 * @expectedException \OCP\Files\InvalidPathException
 	 */
 	public function testTooLongPath($operation, $param0 = null) {
+		$this->expectException(\OCP\Files\InvalidPathException::class);
+
 
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
@@ -1242,10 +1243,11 @@ class ViewTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider directoryTraversalProvider
-	 * @expectedException \Exception
 	 * @param string $root
 	 */
 	public function testConstructDirectoryTraversalException($root) {
+		$this->expectException(\Exception::class);
+
 		new View($root);
 	}
 
@@ -1289,17 +1291,16 @@ class ViewTest extends \Test\TestCase {
 		$this->assertNull($view->getRelativePath(null));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testNullAsRoot() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		new View(null);
 	}
 
 	/**
 	 * e.g. reading from a folder that's being renamed
 	 *
-	 * @expectedException \OCP\Lock\LockedException
 	 *
 	 * @dataProvider dataLockPaths
 	 *
@@ -1307,6 +1308,8 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $pathPrefix
 	 */
 	public function testReadFromWriteLockedPath($rootPath, $pathPrefix) {
+		$this->expectException(\OCP\Lock\LockedException::class);
+
 		$rootPath = str_replace('{folder}', 'files', $rootPath);
 		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
 
@@ -1339,7 +1342,6 @@ class ViewTest extends \Test\TestCase {
 	/**
 	 * e.g. writing a file that's being downloaded
 	 *
-	 * @expectedException \OCP\Lock\LockedException
 	 *
 	 * @dataProvider dataLockPaths
 	 *
@@ -1347,6 +1349,8 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $pathPrefix
 	 */
 	public function testWriteToReadLockedFile($rootPath, $pathPrefix) {
+		$this->expectException(\OCP\Lock\LockedException::class);
+
 		$rootPath = str_replace('{folder}', 'files', $rootPath);
 		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
 
@@ -1507,11 +1511,12 @@ class ViewTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider pathRelativeToFilesProviderExceptionCases
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage $absolutePath must be relative to "files"
 	 * @param string $path
 	 */
 	public function testGetPathRelativeToFilesWithInvalidArgument($path) {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('$absolutePath must be relative to "files"');
+
 		$view = new View();
 		$view->getPathRelativeToFiles($path);
 	}
@@ -2141,9 +2146,10 @@ class ViewTest extends \Test\TestCase {
 	 * simulate a failed copy operation.
 	 * We expect that we catch the exception, free the lock and re-throw it.
 	 *
-	 * @expectedException \Exception
 	 */
 	public function testLockFileCopyException() {
+		$this->expectException(\Exception::class);
+
 		$view = new View('/' . $this->user . '/files/');
 
 		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */

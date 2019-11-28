@@ -34,7 +34,7 @@ class ServerTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 

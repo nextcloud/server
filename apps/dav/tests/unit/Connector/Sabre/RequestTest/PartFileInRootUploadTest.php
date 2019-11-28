@@ -35,7 +35,7 @@ use OCP\IConfig;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class PartFileInRootUploadTest extends UploadTest {
-	protected function setUp() {
+	protected function setUp(): void {
 		$config = \OC::$server->getConfig();
 		$mockConfig = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
@@ -53,8 +53,8 @@ class PartFileInRootUploadTest extends UploadTest {
 		parent::setUp();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->restoreService('AllConfig');
-		return parent::tearDown();
+		parent::tearDown();
 	}
 }

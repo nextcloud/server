@@ -131,11 +131,11 @@ XML;
 		);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage {http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter
-	 */
+	
 	public function testRequiresCompFilter() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter');
+
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -158,11 +158,11 @@ XML;
 		$this->parse($xml);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage The {http://nextcloud.com/ns}filter element is required for this request
-	 */
+	
 	public function testRequiresFilter() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('The {http://nextcloud.com/ns}filter element is required for this request');
+
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -176,11 +176,11 @@ XML;
 		$this->parse($xml);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage {http://nextcloud.com/ns}search-term is required for this request
-	 */
+	
 	public function testNoSearchTerm() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('{http://nextcloud.com/ns}search-term is required for this request');
+
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -204,11 +204,11 @@ XML;
 		$this->parse($xml);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request
-	 */
+	
 	public function testCompOnly() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request');
+
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">

@@ -41,7 +41,7 @@ class NavigationManagerTest extends TestCase {
 	/** @var \OC\NavigationManager */
 	protected $navigationManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appManager        = $this->createMock(AppManager::class);

@@ -50,7 +50,7 @@ class ManagerTest extends TestCase  {
 	/** @var ILogger|MockObject */
 	private $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
@@ -219,10 +219,10 @@ class ManagerTest extends TestCase  {
 	}
 
 
-	/**
-	 * @expectedException \RuntimeException
-	 */
+	
 	public function testGetSystemKeyFailure() {
+		$this->expectException(\RuntimeException::class);
+
 		$manager = $this->getManager(['retrieveKey']);
 
 		/** @var Key|\PHPUnit_Framework_MockObject_MockObject $key */

@@ -84,7 +84,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)->disableOriginalConstructor()->getMock();

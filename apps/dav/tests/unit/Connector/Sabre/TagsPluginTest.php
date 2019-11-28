@@ -70,7 +70,7 @@ class TagsPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->getMockBuilder(Tree::class)

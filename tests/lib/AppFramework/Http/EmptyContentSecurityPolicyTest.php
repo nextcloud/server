@@ -21,7 +21,7 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	/** @var EmptyContentSecurityPolicy */
 	private $contentSecurityPolicy;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->contentSecurityPolicy = new EmptyContentSecurityPolicy();
 	}

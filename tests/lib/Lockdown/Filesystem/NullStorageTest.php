@@ -36,7 +36,7 @@ class NullStorageTest extends TestCase  {
 	/** @var NullStorage */
 	private $storage;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->storage = new NullStorage([]);

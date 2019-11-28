@@ -53,7 +53,7 @@ class CryptTest extends TestCase {
 	/** @var Crypt */
 	private $crypt;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->getMockBuilder(ILogger::class)
@@ -132,9 +132,10 @@ class CryptTest extends TestCase {
 	/**
 	 * test generateHeader with invalid key format
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testGenerateHeaderInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->crypt->generateHeader('unknown');
 	}
 
@@ -252,9 +253,10 @@ class CryptTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestHasSignatureFail
-	 * @expectedException \OCP\Encryption\Exceptions\GenericEncryptionException
 	 */
 	public function testHasSignatureFail($cipher) {
+		$this->expectException(\OCP\Encryption\Exceptions\GenericEncryptionException::class);
+
 		$data = 'encryptedContent00iv001234567890123456xx';
 		$this->invokePrivate($this->crypt, 'hasSignature', array($data, $cipher));
 	}
@@ -371,9 +373,10 @@ class CryptTest extends TestCase {
 	/**
 	 * test exception if cipher is unknown
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testGetKeySizeFailure() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->invokePrivate($this->crypt, 'getKeySize', ['foo']);
 	}
 

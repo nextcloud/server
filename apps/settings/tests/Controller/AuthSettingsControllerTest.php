@@ -61,7 +61,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private $remoteWipe;
 	private $uid = 'jane';
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

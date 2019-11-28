@@ -85,7 +85,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject * */
 	private $appManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
@@ -603,10 +603,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	/**
-	 * @expectedException \OCP\SystemTag\TagNotFoundException
-	 */
+	
 	public function testProcessFilterRulesInvisibleTagAsUser() {
+		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->will($this->returnValue(false));

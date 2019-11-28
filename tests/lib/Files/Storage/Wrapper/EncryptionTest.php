@@ -108,7 +108,7 @@ class EncryptionTest extends Storage {
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		parent::setUp();
 
@@ -284,13 +284,17 @@ class EncryptionTest extends Storage {
 			->method('getCache')
 			->with($path)
 			->willReturn($fileEntry);
-		$fileEntry->expects($this->any())
-			->method('get')
-			->with($metaData['fileid']);
+		if ($metaData !== null) {
+			$fileEntry->expects($this->any())
+				->method('get')
+				->with($metaData['fileid']);
+		}
 
 		$this->instance->expects($this->any())->method('getCache')->willReturn($cache);
-		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
-			->with($path, 0)->willReturn($expected['size']);
+		if ($expected !== null) {
+			$this->instance->expects($this->any())->method('verifyUnencryptedSize')
+				->with($path, 0)->willReturn($expected['size']);
+		}
 
 		$result = $this->instance->getMetaData($path);
 		if(isset($expected['encrypted'])) {
@@ -300,7 +304,12 @@ class EncryptionTest extends Storage {
 				$this->assertSame($expected['encryptedVersion'], $result['encryptedVersion']);
 			}
 		}
-		$this->assertSame($expected['size'], $result['size']);
+
+		if ($expected !== null) {
+			$this->assertSame($expected['size'], $result['size']);
+		} else {
+			$this->assertSame(null, $result);
+		}
 	}
 
 	public function dataTestGetMetaData() {

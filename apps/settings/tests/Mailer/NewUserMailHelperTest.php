@@ -57,7 +57,7 @@ class NewUserMailHelperTest extends TestCase {
 	/** @var \OCA\Settings\Mailer\NewUserMailHelper */
 	private $newUserMailHelper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->defaults = $this->createMock(Defaults::class);

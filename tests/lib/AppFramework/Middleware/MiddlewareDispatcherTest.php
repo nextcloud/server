@@ -113,7 +113,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 	 */
 	private $dispatcher;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dispatcher = new MiddlewareDispatcher();

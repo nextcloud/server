@@ -97,7 +97,7 @@ class AppManagerTest extends TestCase {
 	/** @var IAppManager */
 	protected $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -248,10 +248,11 @@ class AppManagerTest extends TestCase {
 	 *
 	 * @param string $type
 	 *
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage test can't be enabled for groups.
 	 */
 	public function testEnableAppForGroupsForbiddenTypes($type) {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('test can\'t be enabled for groups.');
+
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')
 			->willReturn('group1');

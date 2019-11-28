@@ -28,7 +28,7 @@ class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
 	private $detection;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
 			\OC::$server->getURLGenerator(),

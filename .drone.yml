@@ -52,7 +52,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -94,22 +94,27 @@ steps:
   commands:
     - git submodule update --init
 - name: syntax-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - composer install
     - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
 - name: syntax-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
   commands:
     - composer install
     - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
-- name: phan
-  image: nextcloudci/php7.2:php7.2-12
+- name: syntax-php7.4
+  image: nextcloudci/php7.4:2
   commands:
     - composer install
-    - composer require --dev "phan/phan:0.11.1"
-    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
-    - php ./build/.phan/plugin-checker.php
+    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+#- name: phan
+#  image: nextcloudci/php7.2:php7.2-13
+#  commands:
+#    - composer install
+#    - composer require --dev "phan/phan:0.11.1"
+#    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
+#    - php ./build/.phan/plugin-checker.php
 
 trigger:
   branch:
@@ -323,11 +328,15 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-php7.2
-  image: nextcloudci/php7.2:php7.2-11
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+- name: nodb-php7.4
+  image: nextcloudci/php7.4:2
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
@@ -353,11 +362,15 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
+  commands:
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+- name: sqlite-php7.4
+  image: nextcloudci/php7.4:2
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
@@ -383,7 +396,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.1-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
@@ -418,7 +431,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.2-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
@@ -452,7 +465,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.3-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
@@ -486,7 +499,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.4-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
@@ -521,7 +534,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
@@ -557,7 +570,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
@@ -589,7 +602,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
@@ -621,7 +634,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql5.6-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
@@ -655,7 +668,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
   commands:
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -690,7 +703,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=10 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -724,7 +737,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=11 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
@@ -759,7 +772,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.2
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
 
@@ -794,7 +807,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.3
-  image: nextcloudci/php7.3:php7.3-1
+  image: nextcloudci/php7.3:php7.3-4
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
 
@@ -2041,7 +2054,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-codecov
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -2070,7 +2083,7 @@ steps:
   commands:
     - git submodule update --init
 - name: db-codecov
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
@@ -2099,7 +2112,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
@@ -2130,7 +2143,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.2:php7.2-12
+  image: nextcloudci/php7.2:php7.2-13
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
@@ -2235,7 +2248,7 @@ steps:
   commands:
     - git submodule update --init
 - name: memcache-memcached
-  image: nextcloudci/php7.3-memcached:php7.3-memcached-2
+  image: nextcloudci/php7.3-memcached:php7.3-memcached-3
   commands:
     - phpenmod xdebug
     - service memcached restart
@@ -2262,7 +2275,7 @@ trigger:
 #  commands:
 #    - git submodule update --init
 #- name: memcache-redis-cluster
-#  image: nextcloudci/php7.2:php7.2-12
+#  image: nextcloudci/php7.2:php7.2-13
 #  commands:
 #    - phpenmod xdebug
 #    - sleep 20

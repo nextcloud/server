@@ -45,7 +45,7 @@ class NavigationControllerTest extends TestCase {
 	/** @var NavigationController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

@@ -38,7 +38,7 @@ use OCA\Files_External\Lib\Storage\SFTP_Key;
 class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
@@ -52,7 +52,7 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir('/');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->rmdir('/');
 		}
@@ -60,10 +60,10 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
+	
 	public function testInvalidAddressShouldThrowException() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		// I'd use example.com for this, but someone decided to break the spec and make it resolve
 		$this->instance->assertHostAddressValid('notarealaddress...');
 	}
@@ -72,24 +72,24 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->assertHostAddressValid('localhost'));
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
+	
 	public function testNegativePortNumberShouldThrowException() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->instance->assertPortNumberValid('-1');
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
+	
 	public function testNonNumericalPortNumberShouldThrowException() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->instance->assertPortNumberValid('a');
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testHighPortNumberShouldThrowException() { 
+	
+	public function testHighPortNumberShouldThrowException() {
+		$this->expectException(\InvalidArgumentException::class);
+ 
 		$this->instance->assertPortNumberValid('65536');
 	}
 

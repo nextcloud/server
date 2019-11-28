@@ -53,7 +53,7 @@ class RootCollectionTest extends \Test\TestCase {
 	/** @var \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->getMockBuilder(IUser::class)
@@ -106,17 +106,17 @@ class RootCollectionTest extends \Test\TestCase {
 		});
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testCreateFile() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->createFile('foo');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testCreateDirectory() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->createDirectory('foo');
 	}
 
@@ -126,18 +126,18 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertTrue($etc instanceof EntityTypeCollectionImplementation);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildInvalid() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->prepareForInitCollections();
 		$this->collection->getChild('robots');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+	
 	public function testGetChildNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->getChild('files');
 	}
 
@@ -150,10 +150,10 @@ class RootCollectionTest extends \Test\TestCase {
 		}
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+	
 	public function testGetChildrenNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->getChildren();
 	}
 
@@ -167,17 +167,17 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->collection->childExists('robots'));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 */
+	
 	public function testChildExistsNoAuth() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+
 		$this->collection->childExists('files');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDelete() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->delete();
 	}
 
@@ -185,10 +185,10 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertSame('comments', $this->collection->getName());
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testSetName() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->collection->setName('foobar');
 	}
 

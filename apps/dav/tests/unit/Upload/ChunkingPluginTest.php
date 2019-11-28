@@ -51,7 +51,7 @@ class ChunkingPluginTest extends TestCase {
 	/** @var ResponseInterface | \PHPUnit_Framework_MockObject_MockObject */
 	private $response;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
@@ -141,11 +141,11 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Chunks on server do not sum up to 4 but to 3 bytes
-	 */
+	
 	public function testBeforeMoveSizeIsWrong() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
+
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')

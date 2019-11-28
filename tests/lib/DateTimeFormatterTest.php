@@ -18,7 +18,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	static protected $defaultTimeZone;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		self::$defaultTimeZone = date_default_timezone_get();
 		date_default_timezone_set('UTC');
@@ -27,12 +27,12 @@ class DateTimeFormatterTest extends TestCase {
 		self::$oneYear = self::$oneDay * 365;
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		date_default_timezone_set(self::$defaultTimeZone);
 		parent::tearDownAfterClass();
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->formatter = new \OC\DateTimeFormatter(new \DateTimeZone('UTC'), \OC::$server->getL10N('lib', 'en'));
 	}
@@ -175,10 +175,10 @@ class DateTimeFormatterTest extends TestCase {
 		$this->assertEquals($expected, (string) $this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	function testFormatDateWithInvalidTZ() {
+		$this->expectException(\Exception::class);
+
 		$this->formatter->formatDate(1350129205, 'long', new \DateTimeZone('Mordor/Barad-dûr'));
 	}
 }

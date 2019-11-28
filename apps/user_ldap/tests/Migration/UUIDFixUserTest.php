@@ -34,7 +34,7 @@ use OCA\User_LDAP\User_Proxy;
  * @group DB
  */
 class UUIDFixUserTest extends AbstractUUIDFixTest {
-	public function setUp() {
+	protected function setUp(): void {
 		$this->isUser = true;
 		parent::setUp();
 

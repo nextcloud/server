@@ -46,7 +46,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
@@ -81,10 +81,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertEquals($tag, $node->getSystemTag());
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
-	 */
+	
 	public function testSetName() {
+		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+
 		$this->getTagNode()->setName('2');
 	}
 
@@ -198,10 +198,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Conflict
-	 */
+	
 	public function testUpdateTagAlreadyExists() {
+		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
+
 		$tag = new SystemTag(1, 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -218,10 +218,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->update('Renamed', true, true);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testUpdateTagNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$tag = new SystemTag(1, 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -286,10 +286,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testDeleteTagNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$tag = new SystemTag(1, 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')

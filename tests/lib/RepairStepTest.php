@@ -39,7 +39,7 @@ class RepairTest extends TestCase {
 	/** @var string[] */
 	private $outputArray;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = new EventDispatcher();
 		$this->repair = new \OC\Repair([], $dispatcher);

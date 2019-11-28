@@ -43,7 +43,7 @@ class NotifierTest extends TestCase {
 	/** @var IL10N|MockObject */
 	protected $l;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->createMock(IL10N::class);
@@ -64,10 +64,10 @@ class NotifierTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareWrongApp() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
@@ -79,10 +79,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareWrongSubject() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())

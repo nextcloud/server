@@ -53,7 +53,7 @@ class HookConnectorTest extends TestCase {
 	 */
 	private $userId;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->userId = $this->getUniqueID();
 		$this->createUser($this->userId, 'pass');
@@ -71,7 +71,7 @@ class HookConnectorTest extends TestCase {
 		$this->eventDispatcher = \OC::$server->getEventDispatcher();
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Util::tearDownFS();

@@ -39,7 +39,7 @@ class SecurityFilterTest extends TestCase {
 	/** @var SecurityFilter */
 	private $filter;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);

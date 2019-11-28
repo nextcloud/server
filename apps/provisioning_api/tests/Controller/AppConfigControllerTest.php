@@ -44,7 +44,7 @@ class AppConfigControllerTest extends TestCase {
 	/** @var IAppConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $appConfig;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -332,10 +332,11 @@ class AppConfigControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataVerifyAppIdThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param string $app
 	 */
 	public function testVerifyAppIdThrows($app) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyAppId', [$app]);
 	}
@@ -377,12 +378,13 @@ class AppConfigControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataVerifyConfigKeyThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
 	 */
 	public function testVerifyConfigKeyThrows($app, $key, $value) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key, $value]);
 	}

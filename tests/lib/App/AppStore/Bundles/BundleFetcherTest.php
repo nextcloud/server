@@ -36,7 +36,7 @@ class BundleFetcherTest extends TestCase {
 	/** @var BundleFetcher */
 	private $bundleFetcher;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10n = $this->createMock(IL10N::class);
@@ -69,11 +69,11 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage Bundle with specified identifier does not exist
-	 */
+	
 	public function testGetBundleByIdentifierWithException() {
+		$this->expectException(\BadMethodCallException::class);
+		$this->expectExceptionMessage('Bundle with specified identifier does not exist');
+
 		$this->bundleFetcher->getBundleByIdentifier('NotExistingBundle');
 	}
 

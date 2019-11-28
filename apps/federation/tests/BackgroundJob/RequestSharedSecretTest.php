@@ -73,7 +73,7 @@ class RequestSharedSecretTest extends TestCase {
 	/** @var  RequestSharedSecret */
 	private $requestSharedSecret;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->httpClientService = $this->createMock(IClientService::class);

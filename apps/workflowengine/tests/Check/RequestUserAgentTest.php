@@ -34,7 +34,7 @@ class RequestUserAgentTest extends TestCase {
 	/** @var RequestUserAgent */
 	protected $check;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

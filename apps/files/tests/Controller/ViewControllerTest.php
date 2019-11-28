@@ -76,7 +76,7 @@ class ViewControllerTest extends TestCase {
 	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
 	private $activityHelper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();

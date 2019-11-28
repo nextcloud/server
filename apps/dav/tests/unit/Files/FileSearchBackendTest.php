@@ -72,7 +72,7 @@ class FileSearchBackendTest extends TestCase {
 	/** @var Directory|\PHPUnit_Framework_MockObject_MockObject */
 	private $davFolder;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
@@ -258,10 +258,10 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testSearchInvalidProp() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->willReturn($this->davFolder);
@@ -295,10 +295,10 @@ class FileSearchBackendTest extends TestCase {
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testSearchNonFolder() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$davNode = $this->createMock(File::class);
 
 		$this->tree->expects($this->any())

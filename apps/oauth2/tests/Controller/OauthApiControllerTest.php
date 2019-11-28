@@ -61,7 +61,7 @@ class OauthApiControllerTest extends TestCase {
 	/** @var OauthApiController */
 	private $oauthApiController;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

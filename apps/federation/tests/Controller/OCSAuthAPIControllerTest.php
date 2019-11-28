@@ -67,7 +67,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var int simulated timestamp */
 	private $currentTime = 1234567;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

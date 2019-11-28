@@ -43,7 +43,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appData = $this->createMock(IAppData::class);

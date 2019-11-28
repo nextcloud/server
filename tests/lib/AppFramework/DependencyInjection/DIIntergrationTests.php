@@ -56,7 +56,7 @@ class DIIntergrationTests extends TestCase {
 	/** @var ServerContainer */
 	private $server;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = new ServerContainer();

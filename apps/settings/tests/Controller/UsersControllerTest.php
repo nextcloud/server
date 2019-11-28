@@ -74,7 +74,7 @@ class UsersControllerTest extends \Test\TestCase {
 	/** @var  IEncryptionModule  | \PHPUnit_Framework_MockObject_MockObject */
 	private $encryptionModule;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -353,7 +353,6 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $setDisplayNameResult
 	 * @param bool $canChangeEmail
 	 *
-	 * @expectedException \OC\ForbiddenException
 	 */
 	public function testSaveUserSettingsException($data,
 												  $oldEmailAddress,
@@ -361,6 +360,8 @@ class UsersControllerTest extends \Test\TestCase {
 												  $setDisplayNameResult,
 												  $canChangeEmail
 	) {
+		$this->expectException(\OC\ForbiddenException::class);
+
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
 

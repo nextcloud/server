@@ -42,7 +42,7 @@ class StorageTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->util = $this->getMockBuilder('OC\Encryption\Util')

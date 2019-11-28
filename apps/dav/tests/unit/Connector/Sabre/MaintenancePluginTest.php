@@ -39,18 +39,18 @@ class MaintenancePluginTest extends TestCase {
 	/** @var MaintenancePlugin */
 	private $maintenancePlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->maintenancePlugin = new MaintenancePlugin($this->config);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
-	 * @expectedExceptionMessage System in maintenance mode.
-	 */
+	
 	public function testMaintenanceMode() {
+		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
+		$this->expectExceptionMessage('System in maintenance mode.');
+
 		$this->config
 			->expects($this->exactly(1))
 			->method('getSystemValueBool')

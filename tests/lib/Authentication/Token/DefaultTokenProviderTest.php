@@ -53,7 +53,7 @@ class DefaultTokenProviderTest extends TestCase {
 	/** @var int */
 	private $time;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(DefaultTokenMapper::class);
@@ -159,10 +159,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->assertEquals('passme', $actual);
 	}
 
-	/**
-	 * @expectedException \OC\Authentication\Exceptions\PasswordlessTokenException
-	 */
+	
 	public function testGetPasswordPasswordLessToken() {
+		$this->expectException(\OC\Authentication\Exceptions\PasswordlessTokenException::class);
+
 		$token = 'token1234';
 		$tk = new DefaultToken();
 		$tk->setPassword(null);
@@ -170,10 +170,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($tk, $token);
 	}
 
-	/**
-	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
-	 */
+	
 	public function testGetPasswordDeletesInvalidToken() {
+		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
+
 		$token = 'token1234';
 		$tk = new DefaultToken();
 		$tk->setPassword('someencryptedvalue');
@@ -222,10 +222,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->assertEquals('encryptedpassword', $token->getPassword());
 	}
 
-	/**
-	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
-	 */
+	
 	public function testSetPasswordInvalidToken() {
+		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
+
 		$token = $this->createMock(IToken::class);
 		$tokenId = 'token123';
 		$password = '123456';

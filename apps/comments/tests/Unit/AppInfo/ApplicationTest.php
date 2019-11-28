@@ -35,13 +35,13 @@ use Test\TestCase;
  * @package OCA\Comments\Tests\Unit\AppInfo
  */
 class ApplicationTest extends TestCase {
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		\OC::$server->getUserManager()->createUser('dummy', '456');
 		\OC::$server->getUserSession()->setUser(\OC::$server->getUserManager()->get('dummy'));
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC::$server->getUserManager()->get('dummy')->delete();
 		parent::tearDown();
 	}

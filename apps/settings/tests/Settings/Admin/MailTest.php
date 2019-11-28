@@ -34,7 +34,7 @@ class MailTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 

@@ -46,7 +46,7 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 
 	protected $childMap = [];
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
@@ -92,17 +92,17 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		$this->assertTrue($ec instanceof EntityCollectionImplemantation);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildException() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->collection->getChild('17');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
-	 */
+	
 	public function testGetChildren() {
+		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+
 		$this->collection->getChildren();
 	}
 }

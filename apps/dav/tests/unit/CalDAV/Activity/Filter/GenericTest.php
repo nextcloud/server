@@ -56,7 +56,7 @@ class GenericTest extends TestCase {
 	public function testGetIdentifier($filterClass) {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
-		$this->assertInternalType('string', $filter->getIdentifier());
+		$this->assertIsString($filter->getIdentifier());
 	}
 
 	/**
@@ -66,7 +66,7 @@ class GenericTest extends TestCase {
 	public function testGetName($filterClass) {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
-		$this->assertInternalType('string', $filter->getName());
+		$this->assertIsString($filter->getName());
 	}
 
 	/**
@@ -77,7 +77,7 @@ class GenericTest extends TestCase {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$priority = $filter->getPriority();
-		$this->assertInternalType('int', $filter->getPriority());
+		$this->assertIsInt($filter->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
 		$this->assertLessThanOrEqual(100, $priority);
 	}
@@ -89,7 +89,7 @@ class GenericTest extends TestCase {
 	public function testGetIcon($filterClass) {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
-		$this->assertInternalType('string', $filter->getIcon());
+		$this->assertIsString($filter->getIcon());
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
 
@@ -100,7 +100,7 @@ class GenericTest extends TestCase {
 	public function testFilterTypes($filterClass) {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
-		$this->assertInternalType('array', $filter->filterTypes([]));
+		$this->assertIsArray($filter->filterTypes([]));
 	}
 
 	/**
@@ -110,6 +110,6 @@ class GenericTest extends TestCase {
 	public function testAllowedApps($filterClass) {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
-		$this->assertInternalType('array', $filter->allowedApps());
+		$this->assertIsArray($filter->allowedApps());
 	}
 }

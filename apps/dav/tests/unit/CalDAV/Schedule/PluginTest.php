@@ -36,7 +36,7 @@ class PluginTest extends TestCase  {
 	/** @var Server|\PHPUnit_Framework_MockObject_MockObject */
 	private $server;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(Server::class);

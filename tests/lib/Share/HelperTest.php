@@ -122,9 +122,10 @@ class HelperTest extends \Test\TestCase {
 	 * @dataProvider dataTestSplitUserRemoteError
 	 *
 	 * @param string $id
-	 * @expectedException \OC\HintException
 	 */
 	public function testSplitUserRemoteError($id) {
+		$this->expectException(\OC\HintException::class);
+
 		\OC\Share\Helper::splitUserRemote($id);
 	}
 

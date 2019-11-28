@@ -46,7 +46,7 @@ class SecurityProviderTest extends TestCase {
 	/** @var SecurityProvider */
 	private $provider;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10n = $this->createMock(IFactory::class);

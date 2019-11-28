@@ -83,7 +83,7 @@ class LoginControllerTest extends TestCase {
 	/** @var IInitialStateService|MockObject */
 	private $initialStateService;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->userManager = $this->createMock(\OC\User\Manager::class);

@@ -45,7 +45,7 @@ class EntityCollectionTest extends \Test\TestCase {
 	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
@@ -89,10 +89,10 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->assertTrue($node instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildException() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')

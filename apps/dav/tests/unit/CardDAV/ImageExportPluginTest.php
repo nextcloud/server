@@ -53,7 +53,7 @@ class ImageExportPluginTest extends TestCase {
 	/** @var PhotoCache|\PHPUnit_Framework_MockObject_MockObject */
 	private $cache;
 
-	function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(RequestInterface::class);

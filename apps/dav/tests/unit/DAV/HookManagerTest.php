@@ -46,7 +46,7 @@ class HookManagerTest extends TestCase {
 	/** @var  EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject  */
 	private $eventDispatcher;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);

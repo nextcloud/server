@@ -48,7 +48,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	/** @var ContentSecurityPolicyNonceManager|MockObject */
 	private $cspNonceManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->controller = $this->createMock(Controller::class);

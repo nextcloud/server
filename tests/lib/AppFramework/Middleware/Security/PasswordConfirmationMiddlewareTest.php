@@ -49,7 +49,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);

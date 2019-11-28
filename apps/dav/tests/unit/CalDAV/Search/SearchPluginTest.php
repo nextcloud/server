@@ -26,6 +26,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Search;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Search\SearchPlugin;
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
+use Sabre\Xml\Service;
 use Test\TestCase;
 
 class SearchPluginTest extends TestCase {
@@ -35,12 +36,13 @@ class SearchPluginTest extends TestCase {
 	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */
 	protected $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(\Sabre\DAV\Server::class);
 		$this->server->tree = $this->createMock(\Sabre\DAV\Tree::class);
 		$this->server->httpResponse = $this->createMock(\Sabre\HTTP\Response::class);
+		$this->server->xml = new Service();
 
 		$this->plugin = new SearchPlugin();
 		$this->plugin->initialize($this->server);
@@ -62,6 +64,7 @@ class SearchPluginTest extends TestCase {
 		$server->expects($this->at(0))
 			->method('on')
 			->with('report', [$plugin, 'report']);
+		$server->xml = new Service();
 
 		$plugin->initialize($server);
 
@@ -93,6 +96,11 @@ class SearchPluginTest extends TestCase {
 			->method('getHTTPDepth')
 			->with(2)
 			->will($this->returnValue(2));
+		$this->server
+			->method('getHTTPPrefer')
+			->willReturn([
+				'return' => null
+			]);
 		$calendarHome->expects($this->at(0))
 			->method('calendarSearch')
 			->will($this->returnValue([]));

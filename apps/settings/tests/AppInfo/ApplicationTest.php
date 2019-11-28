@@ -54,7 +54,7 @@ class ApplicationTest extends TestCase {
 	/** @var IAppContainer */
 	protected $container;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->app = new Application();
 		$this->container = $this->app->getContainer();

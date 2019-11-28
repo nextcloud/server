@@ -15,7 +15,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 	 */
 	private $sourceStorage;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->sourceStorage = new \OC\Files\Storage\Temporary(array());
 		$this->sourceStorage->mkdir('foo');
@@ -25,7 +25,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 		));
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		// test that nothing outside our jail is touched
 		$contents = array();
 		$dh = $this->sourceStorage->opendir('');

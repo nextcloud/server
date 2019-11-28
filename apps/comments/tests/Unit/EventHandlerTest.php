@@ -40,7 +40,7 @@ class EventHandlerTest extends TestCase {
 	/** @var NotificationListener|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationListener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityListener = $this->getMockBuilder(ActivityListener::class)

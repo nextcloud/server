@@ -53,7 +53,7 @@ class UpdateTest extends TestCase {
 	/** @var \OC\Encryption\File | \PHPUnit_Framework_MockObject_MockObject */
 	private $fileHelper;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->getMockBuilder(View::class)

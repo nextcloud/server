@@ -39,7 +39,7 @@ class ManageTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$config = $this->config = $this->getMockBuilder(IConfig::class)
@@ -87,17 +87,17 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testValidateBackend() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testValidateTimezone() {
+		$this->expectException(\Exception::class);
+
 		// this might need to be changed when humanity colonises Mars
 		self::invokePrivate($this->command, 'validateTimezone', ['Mars/OlympusMons']);
 	}
@@ -123,10 +123,10 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testConvertLevelStringInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'convertLevelString', ['abc']);
 	}
 
@@ -149,10 +149,10 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testConvertLevelNumberInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		self::invokePrivate($this->command, 'convertLevelNumber', [11]);
 	}
 

@@ -50,7 +50,7 @@ class IconsCacherTest extends \Test\TestCase {
 	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $timeFactory;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

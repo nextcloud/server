@@ -36,7 +36,7 @@ class CheckBackupCodeTest extends TestCase {
 	/** @var CheckBackupCodes */
 	private $checkBackupsCodes;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = $this->createMock(IJobList::class);

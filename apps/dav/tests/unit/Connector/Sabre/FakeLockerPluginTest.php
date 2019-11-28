@@ -44,7 +44,7 @@ class FakeLockerPluginTest extends TestCase {
 	/** @var FakeLockerPlugin */
 	private $fakeLockerPlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->fakeLockerPlugin = new FakeLockerPlugin();
 	}

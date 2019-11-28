@@ -41,7 +41,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	/** @var MailSettingsController */
 	private $mailController;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->createMock(IL10N::class);
@@ -172,7 +172,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$response = $this->mailController->sendTestMail();
-		$this->assertSame(Http::STATUS_OK, $response->getStatus(), $response->getData());
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
 }

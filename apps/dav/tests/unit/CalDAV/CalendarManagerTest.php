@@ -45,7 +45,7 @@ class CalendarManagerTest extends \Test\TestCase {
 	/** @var CalendarManager */
 	private $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->backend = $this->createMock(CalDavBackend::class);
 		$this->l10n = $this->createMock(IL10N::class);

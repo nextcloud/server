@@ -40,7 +40,7 @@ class UpdaterTest extends \Test\TestCase {
 	 */
 	protected $updater;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->loginAsUser();
@@ -50,7 +50,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->cache = $this->storage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		Filesystem::clearMounts();
 
 		$this->logout();
