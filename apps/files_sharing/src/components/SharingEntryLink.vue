@@ -380,6 +380,28 @@ export default {
 		},
 
 		/**
+		 * Does the current share have an expiration date
+		 * @returns {boolean}
+		 */
+		hasExpirationDate: {
+			get: function() {
+				return this.config.isDefaultExpireDateEnforced || !!this.share.expireDate
+			},
+			set: function(enabled) {
+				this.share.expireDate = enabled
+					? this.config.defaultExpirationDateString !== ''
+						? this.config.defaultExpirationDateString
+						: moment().format('YYYY-MM-DD')
+					: ''
+			}
+		},
+
+		dateMaxEnforced() {
+			return this.config.isDefaultExpireDateEnforced
+				&& moment().add(1 + this.config.defaultExpireDate, 'days')
+		},
+
+		/**
 		 * Is the current share password protected ?
 		 * @returns {boolean}
 		 */

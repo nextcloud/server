@@ -1743,7 +1743,8 @@ class ManagerTest extends \Test\TestCase {
 			->with($path);
 		$manager->expects($this->once())
 			->method('validateExpirationDate')
-			->with($share);
+			->with($share)
+			->willReturn($share);
 		$manager->expects($this->once())
 			->method('verifyPassword')
 			->with('password');

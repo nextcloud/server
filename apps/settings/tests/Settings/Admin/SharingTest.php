@@ -131,6 +131,21 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
 			->willReturn(Constants::PERMISSION_ALL);
+		$this->config
+			->expects($this->at(14))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_internal_expire_date', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(15))
+			->method('getAppValue')
+			->with('core', 'shareapi_internal_expire_after_n_days', '7')
+			->willReturn('7');
+		$this->config
+			->expects($this->at(16))
+			->method('getAppValue')
+			->with('core', 'shareapi_enforce_internal_expire_date', 'no')
+			->willReturn('no');
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -152,7 +167,10 @@ class SharingTest extends TestCase {
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
 				'enableLinkPasswordByDefault'     => 'yes',
 				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', []),
+				'shareDefaultInternalExpireDateSet' => 'no',
+				'shareInternalExpireAfterNDays' => '7',
+				'shareInternalEnforceExpireDate' => 'no',
 			],
 			''
 		);
@@ -231,6 +249,21 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
 			->willReturn(Constants::PERMISSION_ALL);
+		$this->config
+			->expects($this->at(14))
+			->method('getAppValue')
+			->with('core', 'shareapi_default_internal_expire_date', 'no')
+			->willReturn('no');
+		$this->config
+			->expects($this->at(15))
+			->method('getAppValue')
+			->with('core', 'shareapi_internal_expire_after_n_days', '7')
+			->willReturn('7');
+		$this->config
+			->expects($this->at(16))
+			->method('getAppValue')
+			->with('core', 'shareapi_enforce_internal_expire_date', 'no')
+			->willReturn('no');
 
 
 		$expected = new TemplateResponse(
@@ -253,7 +286,10 @@ class SharingTest extends TestCase {
 				'publicShareDisclaimerText'       => 'Lorem ipsum',
 				'enableLinkPasswordByDefault'     => 'yes',
 				'shareApiDefaultPermissions'      => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', [])
+				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', []),
+				'shareDefaultInternalExpireDateSet' => 'no',
+				'shareInternalExpireAfterNDays' => '7',
+				'shareInternalEnforceExpireDate' => 'no',
 			],
 			''
 		);

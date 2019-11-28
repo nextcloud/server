@@ -86,6 +86,10 @@ $(document).ready(function(){
 		$("#setDefaultExpireDate").toggleClass('hidden', !this.checked);
 	});
 
+	$('#shareapiDefaultInternalExpireDate').change(function() {
+		$("#setDefaultInternalExpireDate").toggleClass('hidden', !this.checked);
+	});
+
 	$('#publicShareDisclaimer').change(function() {
 		$("#publicShareDisclaimerText").toggleClass('hidden', !this.checked);
 		if(!this.checked) {

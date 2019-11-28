@@ -213,6 +213,28 @@ export default {
 			set: function(checked) {
 				this.updatePermissions(this.canEdit, checked)
 			}
+		},
+
+		/**
+		 * Does the current share have an expiration date
+		 * @returns {boolean}
+		 */
+		hasExpirationDate: {
+			get: function() {
+				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
+			},
+			set: function(enabled) {
+				this.share.expireDate = enabled
+					? this.config.defaultInternalExpirationDateString !== ''
+						? this.config.defaultInternalExpirationDateString
+						: moment().format('YYYY-MM-DD')
+					: ''
+			}
+		},
+
+		dateMaxEnforced() {
+			return this.config.isDefaultInternalExpireDateEnforced
+				&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
 		}
 
 	},

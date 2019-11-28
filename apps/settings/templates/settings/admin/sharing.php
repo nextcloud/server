@@ -37,6 +37,22 @@
 			   value="1" <?php if ($_['shareAPIEnabled'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
 	</p>
+
+	<p id="internalShareSettings" class="indent <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
+		<input type="checkbox" name="shareapi_default_internal_expire_date" id="shareapiDefaultInternalExpireDate" class="checkbox"
+			   value="1" <?php if ($_['shareDefaultInternalExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
+		<label for="shareapiDefaultInternalExpireDate"><?php p($l->t('Set default expiration date for non-link shares'));?></label><br/>
+	</p>
+	<p id="setDefaultInternalExpireDate" class="double-indent <?php if ($_['shareDefaultInternalExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') p('hidden');?>">
+		<?php p($l->t( 'Expire after ' )); ?>
+		<input type="text" name='shareapi_internal_expire_after_n_days' id="shareapiInternalExpireAfterNDays" placeholder="<?php p('7')?>"
+			   value='<?php p($_['shareInternalExpireAfterNDays']) ?>' />
+		<?php p($l->t( 'days' )); ?>
+		<input type="checkbox" name="shareapi_internal_enforce_expire_date" id="shareapiInternalEnforceExpireDate" class="checkbox"
+			   value="1" <?php if ($_['shareInternalEnforceExpireDate'] === 'yes') print_unescaped('checked="checked"'); ?> />
+		<label for="shareapiInternalEnforceExpireDate"><?php p($l->t('Enforce expiration date'));?></label><br/>
+	</p>
+
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 		<input type="checkbox" name="shareapi_allow_links" id="allowLinks" class="checkbox"
 			   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
@@ -56,7 +72,7 @@
 
 		<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
-		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date'));?></label><br/>
+		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date for link shares'));?></label><br/>
 
 	</p>
 	<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') p('hidden');?>">
