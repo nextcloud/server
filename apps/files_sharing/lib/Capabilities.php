@@ -112,6 +112,11 @@ class Capabilities implements ICapability {
 			'expire_date' => ['enabled' => true]
 		];
 
+		// Sharee searches
+		$res['sharee'] = [
+			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false)
+		];
+
 		return [
 			'files_sharing' => $res,
 		];
