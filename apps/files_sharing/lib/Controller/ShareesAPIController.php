@@ -207,6 +207,14 @@ class ShareesAPIController extends OCSController {
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
+		// In global scale mode we always search the loogup server
+		if ($this->config->getSystemValueBool('gs.enabled', false)) {
+			$lookup = true;
+			$this->result['lookupEnabled'] = true;
+		} else {
+			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
+		}
+
 		list($result, $hasMoreResults) = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
@@ -214,7 +222,6 @@ class ShareesAPIController extends OCSController {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
 		$this->result = array_merge($this->result, $result);
-		$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		$response = new DataResponse($this->result);
 
 		if ($hasMoreResults) {
