@@ -152,6 +152,32 @@ class Manager implements IManager {
 		return $operations;
 	}
 
+	public function getAllConfiguredScopesForOperation(string $operationClass): array {
+		static $scopesByOperation = [];
+		if (isset($scopesByOperation[$operationClass])) {
+			return $scopesByOperation[$operationClass];
+		}
+
+		$query = $this->connection->getQueryBuilder();
+
+		$query->selectDistinct('s.type')
+			->addSelect('s.value')
+			->from('flow_operations', 'o')
+			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
+			->where($query->expr()->eq('o.class', $query->createParameter('operationClass')));
+
+		$query->setParameters(['operationClass' => $operationClass]);
+		$result = $query->execute();
+
+		$scopesByOperation[$operationClass] = [];
+		while ($row = $result->fetch()) {
+			$scope = new ScopeContext($row['type'], $row['value']);
+			$scopesByOperation[$operationClass][$scope->getHash()] = $scope;
+		}
+
+		return $scopesByOperation[$operationClass];
+	}
+
 	public function getAllOperations(ScopeContext $scopeContext): array {
 		if(isset($this->operations[$scopeContext->getHash()])) {
 			return $this->operations[$scopeContext->getHash()];
@@ -160,6 +186,8 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('o.*')
+			->selectAlias('s.type', 'scope_type')
+			->selectAlias('s.value', 'scope_actor_id')
 			->from('flow_operations', 'o')
 			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
 			->where($query->expr()->eq('s.type', $query->createParameter('scope')));

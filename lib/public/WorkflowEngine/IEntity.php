@@ -74,4 +74,12 @@ interface IEntity {
 	 */
 	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, Event $event): void;
 
+	/**
+	 * returns whether the provided user id is allowed to run a flow against
+	 * the known context
+	 *
+	 * @since 18.0.0
+	 */
+	public function isLegitimatedForUserId(string $userId): bool;
+
 }

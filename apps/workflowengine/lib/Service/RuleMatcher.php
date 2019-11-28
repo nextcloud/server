@@ -36,7 +36,9 @@ use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityCheck;
 use OCP\WorkflowEngine\IFileCheck;
 use OCP\WorkflowEngine\IManager;
+use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use RuntimeException;
 
 class RuleMatcher implements IRuleMatcher {
 
@@ -52,8 +54,17 @@ class RuleMatcher implements IRuleMatcher {
 	protected $fileInfo = [];
 	/** @var IL10N */
 	protected $l;
+	/** @var IOperation */
+	protected $operation;
+	/** @var IEntity */
+	protected $entity;
 
-	public function __construct(IUserSession $session, IServerContainer $container, IL10N $l, Manager $manager) {
+	public function __construct(
+		IUserSession $session,
+		IServerContainer $container,
+		IL10N $l,
+		Manager $manager
+	) {
 		$this->session = $session;
 		$this->manager = $manager;
 		$this->container = $container;
@@ -65,9 +76,36 @@ class RuleMatcher implements IRuleMatcher {
 		$this->fileInfo['path'] = $path;
 	}
 
-
 	public function setEntitySubject(IEntity $entity, $subject): void {
 		$this->contexts[get_class($entity)] = [$entity, $subject];
+	}
+
+	public function setOperation(IOperation $operation): void {
+		if($this->operation !== null) {
+			throw new RuntimeException('This method must not be called more than once');
+		}
+		$this->operation = $operation;
+	}
+
+	public function setEntity(IEntity $entity): void {
+		if($this->entity !== null) {
+			throw new RuntimeException('This method must not be called more than once');
+		}
+		$this->entity = $entity;
+	}
+
+	public function getEntity(): IEntity {
+		if($this->entity === null) {
+			throw new \LogicException('Entity was not set yet');
+		}
+		return $this->entity;
+	}
+
+	public function getFlows(bool $returnFirstMatchingOperationOnly = true): array {
+		if(!$this->operation) {
+			throw new RuntimeException('Operation is not set');
+		}
+		return $this->getMatchingOperations(get_class($this->operation), $returnFirstMatchingOperationOnly);
 	}
 
 	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
@@ -80,6 +118,17 @@ class RuleMatcher implements IRuleMatcher {
 		$operations = [];
 		foreach ($scopes as $scope) {
 			$operations = array_merge($operations, $this->manager->getOperations($class, $scope));
+		}
+
+		$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
+		foreach ($additionalScopes as $hash => $scopeCandidate) {
+			/** @var ScopeContext $scopeCandidate */
+			if ($scopeCandidate->getScope() !== IManager::SCOPE_USER) {
+				continue;
+			}
+			if ($this->entity->isLegitimatedForUserId($scopeCandidate->getScopeId())) {
+				$operations = array_merge($operations, $this->manager->getOperations($class, $scopeCandidate));
+			}
 		}
 
 		$matches = [];
@@ -117,7 +166,7 @@ class RuleMatcher implements IRuleMatcher {
 
 		if ($checkInstance instanceof IFileCheck) {
 			if (empty($this->fileInfo)) {
-				throw new \RuntimeException('Must set file info before running the check');
+				throw new RuntimeException('Must set file info before running the check');
 			}
 			$checkInstance->setFileInfo($this->fileInfo['storage'], $this->fileInfo['path']);
 		} elseif ($checkInstance instanceof IEntityCheck) {

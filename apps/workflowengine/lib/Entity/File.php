@@ -24,19 +24,27 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Entity;
 
-use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\Share\IManager as ShareManager;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
+use OCP\WorkflowEngine\EntityContext\IDisplayText;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
-class File implements IEntity {
+class File implements IEntity, IDisplayText {
+
+	private const EVENT_NAMESPACE = '\OCP\Files::';
 
 	/** @var IL10N */
 	protected $l10n;
@@ -46,12 +54,34 @@ class File implements IEntity {
 	protected $root;
 	/** @var ILogger */
 	protected $logger;
+	/** @var string */
+	protected $eventName;
+	/** @var Event */
+	protected $event;
+	/** @var ShareManager */
+	private $shareManager;
+	/** @var IUserSession */
+	private $userSession;
+	/** @var ISystemTagManager */
+	private $tagManager;
 
-	public function __construct(IL10N $l10n, IURLGenerator $urlGenerator, IRootFolder $root, ILogger $logger) {
+
+	public function __construct(
+		IL10N $l10n,
+		IURLGenerator $urlGenerator,
+		IRootFolder $root,
+		ILogger $logger,
+		ShareManager $shareManager,
+		IUserSession $userSession,
+		ISystemTagManager $tagManager
+	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
 		$this->root = $root;
 		$this->logger = $logger;
+		$this->shareManager = $shareManager;
+		$this->userSession = $userSession;
+		$this->tagManager = $tagManager;
 	}
 
 	public function getName(): string {
@@ -63,14 +93,13 @@ class File implements IEntity {
 	}
 
 	public function getEvents(): array {
-		$namespace = '\OCP\Files::';
 		return [
-			new GenericEntityEvent($this->l10n->t('File created'), $namespace . 'postCreate'),
-			new GenericEntityEvent($this->l10n->t('File updated'), $namespace . 'postWrite'),
-			new GenericEntityEvent($this->l10n->t('File renamed'), $namespace . 'postRename'),
-			new GenericEntityEvent($this->l10n->t('File deleted'), $namespace . 'postDelete'),
-			new GenericEntityEvent($this->l10n->t('File accessed'), $namespace . 'postTouch'),
-			new GenericEntityEvent($this->l10n->t('File copied'), $namespace . 'postCopy'),
+			new GenericEntityEvent($this->l10n->t('File created'), self::EVENT_NAMESPACE . 'postCreate'),
+			new GenericEntityEvent($this->l10n->t('File updated'), self::EVENT_NAMESPACE . 'postWrite'),
+			new GenericEntityEvent($this->l10n->t('File renamed'), self::EVENT_NAMESPACE . 'postRename'),
+			new GenericEntityEvent($this->l10n->t('File deleted'), self::EVENT_NAMESPACE . 'postDelete'),
+			new GenericEntityEvent($this->l10n->t('File accessed'), self::EVENT_NAMESPACE . 'postTouch'),
+			new GenericEntityEvent($this->l10n->t('File copied'), self::EVENT_NAMESPACE . 'postCopy'),
 			new GenericEntityEvent($this->l10n->t('Tag assigned'), MapperEvent::EVENT_ASSIGN),
 		];
 	}
@@ -79,27 +108,104 @@ class File implements IEntity {
 		if (!$event instanceof GenericEvent && !$event instanceof MapperEvent) {
 			return;
 		}
-		switch ($eventName) {
-			case 'postCreate':
-			case 'postWrite':
-			case 'postDelete':
-			case 'postTouch':
-				$ruleMatcher->setEntitySubject($this, $event->getSubject());
-				break;
-			case 'postRename':
-			case 'postCopy':
-				$ruleMatcher->setEntitySubject($this, $event->getSubject()[1]);
-				break;
+		$this->eventName = $eventName;
+		$this->event = $event;
+		try {
+			$node = $this->getNode();
+			$ruleMatcher->setEntitySubject($this, $node);
+			$ruleMatcher->setFileInfo($node->getStorage(), $node->getPath());
+		} catch (NotFoundException $e) {
+			// pass
+		}
+	}
+
+	public function isLegitimatedForUserId(string $uid): bool {
+		try {
+			$node = $this->getNode();
+			if($node->getOwner()->getUID() === $uid) {
+				return true;
+			}
+			$acl = $this->shareManager->getAccessList($node, true, true);
+			return array_key_exists($uid, $acl['users']);
+		} catch (NotFoundException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	protected function getNode(): Node {
+		if (!$this->event instanceof GenericEvent && !$this->event instanceof MapperEvent) {
+			throw new NotFoundException();
+		}
+		switch ($this->eventName) {
+			case self::EVENT_NAMESPACE . 'postCreate':
+			case self::EVENT_NAMESPACE . 'postWrite':
+			case self::EVENT_NAMESPACE . 'postDelete':
+			case self::EVENT_NAMESPACE . 'postTouch':
+				return $this->event->getSubject();
+			case self::EVENT_NAMESPACE . 'postRename':
+			case self::EVENT_NAMESPACE . 'postCopy':
+				return $this->event->getSubject()[1];
 			case MapperEvent::EVENT_ASSIGN:
-				if (!$event instanceof MapperEvent || $event->getObjectType() !== 'files') {
-					break;
+				if (!$this->event instanceof MapperEvent || $this->event->getObjectType() !== 'files') {
+					throw new NotFoundException();
 				}
-				$nodes = $this->root->getById((int)$event->getObjectId());
+				$nodes = $this->root->getById((int)$this->event->getObjectId());
 				if (is_array($nodes) && !empty($nodes)) {
-					$node = array_shift($nodes);
-					$ruleMatcher->setEntitySubject($this, $node);
+					return array_shift($nodes);
 				}
 				break;
+		}
+		throw new NotFoundException();
+	}
+
+	public function getDisplayText(int $verbosity = 0): string {
+		$user = $this->userSession->getUser();
+		try {
+			$node = $this->getNode();
+		} catch (NotFoundException $e) {
+			return '';
+		}
+
+		$options = [
+			$user ? $user->getDisplayName() : $this->t('Someone'),
+			$node->getName()
+		];
+
+		switch ($this->eventName) {
+			case self::EVENT_NAMESPACE . 'postCreate':
+				return $this->l10n->t('%s created %s', $options);
+			case self::EVENT_NAMESPACE . 'postWrite':
+				return $this->l10n->t('%s modified %s', $options);
+			case self::EVENT_NAMESPACE . 'postDelete':
+				return $this->l10n->t('%s deleted %s', $options);
+			case self::EVENT_NAMESPACE . 'postTouch':
+				return $this->l10n->t('%s accessed %s', $options);
+			case self::EVENT_NAMESPACE . 'postRename':
+				return $this->l10n->t('%s renamed %s', $options);
+			case self::EVENT_NAMESPACE . 'postCopy':
+				return $this->l10n->t('%s copied %s', $options);
+			case MapperEvent::EVENT_ASSIGN:
+				$tagNames = [];
+				if($this->event instanceof MapperEvent) {
+					$tagIDs = $this->event->getTags();
+					$tagObjects = $this->tagManager->getTagsByIds($tagIDs);
+					foreach ($tagObjects as $systemTag) {
+						/** @var ISystemTag $systemTag */
+						if($systemTag->isUserVisible()) {
+							$tagNames[] = $systemTag->getName();
+						}
+					}
+				}
+				$filename = array_pop($options);
+				$tagString = implode(', ', $tagNames);
+				if($tagString === '') {
+					return '';
+				}
+				array_push($options, $tagString, $filename);
+				return $this->l10n->t('%s assigned %s to %s', $options);
 		}
 	}
 }

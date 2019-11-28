@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace OCP\WorkflowEngine;
 
+use RuntimeException;
+
 /**
  * Class IRuleMatcher
  *
@@ -33,7 +35,45 @@ namespace OCP\WorkflowEngine;
  */
 interface IRuleMatcher extends IFileCheck {
 	/**
+	 * This method is left for backwards compatibility and easier porting of
+	 * apps. Please use 'getFlows' instead (and setOperation if you implement
+	 * an IComplexOperation).
+	 *
 	 * @since 18.0.0
+	 * @deprecated 18.0.0
 	 */
 	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array;
+
+	/**
+	 * @throws RuntimeException
+	 * @since 18.0.0
+	 */
+	public function getFlows(bool $returnFirstMatchingOperationOnly = true): array;
+
+	/**
+	 * this method can only be called once and is typically called by the
+	 * Flow engine, unless for IComplexOperations.
+	 *
+	 * @throws RuntimeException
+	 * @since 18.0.0
+	 */
+	public function setOperation(IOperation $operation): void;
+
+	/**
+	 * this method can only be called once and is typically called by the
+	 * Flow engine, unless for IComplexOperations.
+	 *
+	 * @throws RuntimeException
+	 * @since 18.0.0
+	 */
+	public function setEntity(IEntity $entity): void;
+
+	/**
+	 * returns the entity which might provide more information, depending on
+	 * the interfaces it implements
+	 *
+	 * @return IEntity
+	 * @since 18.0.0
+	 */
+	public function getEntity(): IEntity;
 }
