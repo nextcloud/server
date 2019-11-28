@@ -198,12 +198,12 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * detect mimetype based on both filename and content
-	 *
+	 * detect mimetype only based on the content of file
 	 * @param string $path
 	 * @return string
+	 * @since 18.0.0
 	 */
-	public function detect($path) {
+	public function detectContent(string $path): string {
 		$this->loadMappings();
 
 		if (@is_dir($path)) {
@@ -211,9 +211,7 @@ class Detection implements IMimeTypeDetector {
 			return "httpd/unix-directory";
 		}
 
-		$mimeType = $this->detectPath($path);
-
-		if ($mimeType === 'application/octet-stream' and function_exists('finfo_open')
+		if (function_exists('finfo_open')
 			and function_exists('finfo_file') and $finfo = finfo_open(FILEINFO_MIME)
 		) {
 			$info = @strtolower(finfo_file($finfo, $path));
@@ -225,7 +223,7 @@ class Detection implements IMimeTypeDetector {
 
 		}
 		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
-		if (!$isWrapped and $mimeType === 'application/octet-stream' && function_exists("mime_content_type")) {
+		if (!$isWrapped and function_exists("mime_content_type")) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
 		}
@@ -246,6 +244,22 @@ class Detection implements IMimeTypeDetector {
 
 		}
 		return $mimeType;
+	}
+
+	/**
+	 * detect mimetype based on both filename and content
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function detect($path) {
+		$mimeType = $this->detectPath($path);
+
+		if ($mimeType !== 'application/octet-stream') {
+			return $mimeType;
+		}
+
+		return $this->detectContent($path);
 	}
 
 	/**
