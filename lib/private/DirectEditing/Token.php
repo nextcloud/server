@@ -62,7 +62,7 @@ class Token implements IToken {
 	}
 
 	public function hasBeenAccessed(): bool {
-		return $this->data['accessed'] === '1';
+		return (bool) $this->data['accessed'];
 	}
 
 	public function getEditor(): string {
