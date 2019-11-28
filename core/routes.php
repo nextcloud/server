@@ -118,7 +118,8 @@ $application->registerRoutes($this, [
 
 		['root' => '/collaboration', 'name' => 'CollaborationResources#removeResource', 'url' => '/resources/collections/{collectionId}', 'verb' => 'DELETE'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
-		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
+		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST']
+
 	],
 ]);
 

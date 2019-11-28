@@ -199,6 +199,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
 
+		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
+
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
 
