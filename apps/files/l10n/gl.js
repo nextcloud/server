@@ -68,7 +68,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n ficheiro","%n ficheiros"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluíndo %n agachado","incluíndo %n agochados"],
-    "You don’t have permission to upload or create files here" : "Non ten permisos para enviar ou crear ficheiros aquí.",
+    "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n ficheiro","Enviando %n ficheiros"],
     "New" : "Novo",
     "Select file range" : "Seleccionar o intervalo de ficheiros ",
