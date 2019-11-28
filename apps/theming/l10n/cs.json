@@ -14,7 +14,7 @@
     "The given slogan is too long" : "Zadaný slogan je příliš dlouhý",
     "The given color is invalid" : "Zadaná barva není platná",
     "The file was uploaded" : "Soubor byl nahrán",
-    "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Nahrávaný soubor přesahuje nastavení upload_max_filesize v php.ini",
+    "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Velikost nahrávaného souboru překračuje limit nastavení direktivou upload_max_filesize v php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Nahraný soubor překračuje nastavení MAX_FILE_SIZE, která byla zadána ve HTML formuláři",
     "The file was only partially uploaded" : "Soubor byl nahrán pouze z části",
     "No file was uploaded" : "Nebyl nahrán žádný soubor",
