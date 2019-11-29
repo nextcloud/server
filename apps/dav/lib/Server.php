@@ -149,7 +149,7 @@ class Server {
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
-			$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), \OC::$server->getLogger()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin());
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
