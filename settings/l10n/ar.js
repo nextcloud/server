@@ -155,12 +155,11 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "Sharing" : "مشاركة",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",
+    "Expire after " : "ينتهي بعد",
+    "days" : "أيام",
     "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط",
     "Allow public uploads" : "السماح بالرفع للعامة ",
     "Always ask for a password" : "أطلب دائما كلمة السر",
-    "Set default expiration date" : "تعيين تاريخ إنتهاء الصلاحية الإفتراضية",
-    "Expire after " : "ينتهي بعد",
-    "days" : "أيام",
     "Allow resharing" : "السماح بإعادة المشاركة ",
     "Personal" : "شخصي",
     "Administration" : "الإدارة",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Tachelhit" : "تاشلحيت",
     "Zulu" : "الزولو",
     "Official" : "رسمي",
+    "Set default expiration date" : "تعيين تاريخ إنتهاء الصلاحية الإفتراضية",
     "Follow us on Google+" : "تابعونا على Google+"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

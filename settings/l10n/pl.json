@@ -326,14 +326,13 @@
     "Sharing" : "Udostępnianie",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Jako administrator możesz zoptymalizować ustawienia udostępniania. Szczegółowe informacje znajdziesz w dokumentacji.",
     "Allow apps to use the Share API" : "Zezwalaj aplikacjom na korzystanie z API udostępniania",
+    "Expire after " : "Wygaś po ",
+    "days" : "dniach",
+    "Enforce expiration date" : "Wymuszaj datę wygaśnięcia",
     "Allow users to share via link" : "Zezwalaj użytkownikom na udostępnianie za pośrednictwem linku",
     "Allow public uploads" : "Zezwalaj na publiczne wysyłanie",
     "Always ask for a password" : "Zawsze pytaj o hasło",
     "Enforce password protection" : "Wymuszaj zabezpieczenie hasłem",
-    "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
-    "Expire after " : "Wygaś po ",
-    "days" : "dniach",
-    "Enforce expiration date" : "Wymuszaj datę wygaśnięcia",
     "Allow resharing" : "Zezwalaj na ponowne udostępnianie",
     "Allow sharing with groups" : "Zezwalaj na udostępnianie grupom",
     "Restrict users to only share with users in their groups" : "Ogranicz użytkownikom możliwość udostępniania, pozwól tylko w swoich grupach",
@@ -825,6 +824,7 @@
     "Store credentials" : "Zapisz poświadczenia",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Użyj cron.php, który jest zarejestrowany w usłudze webcron, aby wywoływać cron.php co 15 minut przez HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 15 minut.",
+    "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
     "Follow us on Google+" : "Bądź z nami na Google+"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

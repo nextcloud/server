@@ -231,14 +231,13 @@ OC.L10N.register(
     "Sharing" : "Διαμοιρασμός",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Ως διαχειριστής μπορείτε να ρυθμίσετε λεπτομερώς την συμπεριφορά διαμοιρασμού.\nΠαρακαλούμε ανατρέξτε στην τεκμηρίωση για περισσότερες πληροφορίες.",
     "Allow apps to use the Share API" : "Επιτρέπει την χρήση του API διαμοιρασμού σε εφαρμογές ",
+    "Expire after " : "Λήξη μετά από",
+    "days" : "ημέρες",
+    "Enforce expiration date" : "Επιβολή της ημερομηνίας λήξης",
     "Allow users to share via link" : "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μέσω συνδέσμου",
     "Allow public uploads" : "Επιτρέπεται το κοινόχρηστο ανέβασμα",
     "Always ask for a password" : "Ερώτηση συνθηματικού πάντα",
     "Enforce password protection" : "Επιβολή προστασίας με κωδικό",
-    "Set default expiration date" : "Ορισμός ερήμην ημερομηνίας λήξης",
-    "Expire after " : "Λήξη μετά από",
-    "days" : "ημέρες",
-    "Enforce expiration date" : "Επιβολή της ημερομηνίας λήξης",
     "Allow resharing" : "Επιτρέπεται ο επαναδιαμοιρασμός",
     "Allow sharing with groups" : "Να επιτρέπεται ο διαμοιρασμός με ομάδες",
     "Restrict users to only share with users in their groups" : "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μόνο με χρήστες που ανήκουν στις ομάδες τους",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "Official" : "Επίσημο",
     "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
+    "Set default expiration date" : "Ορισμός ερήμην ημερομηνίας λήξης"
 },
 "nplurals=2; plural=(n != 1);");

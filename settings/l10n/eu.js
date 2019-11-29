@@ -234,14 +234,13 @@ OC.L10N.register(
     "Sharing" : "Partekatzea",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Admin bezala partekatze portaerak zehazki konfigura daitezke. Dokumentazioaikusi informazio gehiagorako. ",
     "Allow apps to use the Share API" : "Baimendu aplikazioak partekatzeko APIa erabiltzeko",
+    "Expire after " : "Iraungia honen ondoren",
+    "days" : "egun",
+    "Enforce expiration date" : "Betearazi iraungitze-data",
     "Allow users to share via link" : "Baimendu erabiltzaileak esteken bidez partekatzea",
     "Allow public uploads" : "Baimendu igoera publikoak",
     "Always ask for a password" : "Beti eskatu pasahitza",
     "Enforce password protection" : "Betearazi pasahitzaren babesa",
-    "Set default expiration date" : "Ezarri iraungitze-data lehenetsia",
-    "Expire after " : "Iraungia honen ondoren",
-    "days" : "egun",
-    "Enforce expiration date" : "Betearazi iraungitze-data",
     "Allow resharing" : "Baimendu birpartekatzea",
     "Allow sharing with groups" : "Onartu taldeekin partekatzen",
     "Restrict users to only share with users in their groups" : "Mugatu partekatzeak taldeko erabiltzaileetara",
@@ -357,6 +356,7 @@ OC.L10N.register(
     "Official" : "Ofiziala",
     "Store credentials" : "Gorde kredentzialak",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko.",
+    "Set default expiration date" : "Ezarri iraungitze-data lehenetsia"
 },
 "nplurals=2; plural=(n != 1);");

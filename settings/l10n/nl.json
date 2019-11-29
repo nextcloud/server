@@ -318,14 +318,13 @@
     "Sharing" : "Delen",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Als beheerder kun je gedetailleerde regels voor delen instellen. Bekijk de documentatie voor meer informatie.",
     "Allow apps to use the Share API" : "Apps toestaan de Share API te gebruiken",
+    "Expire after " : "Vervalt na",
+    "days" : "dagen",
+    "Enforce expiration date" : "Het kiezen van een vervaldatum verplichten",
     "Allow users to share via link" : "Sta gebruikers toe om te delen via een link",
     "Allow public uploads" : "Sta publieke uploads toe",
     "Always ask for a password" : "Vraag altijd naar een wachtwoord",
     "Enforce password protection" : "Dwing wachtwoordbeveiliging af",
-    "Set default expiration date" : "Stel standaard vervaldatum in",
-    "Expire after " : "Vervalt na",
-    "days" : "dagen",
-    "Enforce expiration date" : "Het kiezen van een vervaldatum verplichten",
     "Allow resharing" : "Laat gebruikers de met hen gedeelde bestanden opnieuw delen",
     "Allow sharing with groups" : "Sta delen met groepen toe",
     "Restrict users to only share with users in their groups" : "Laat gebruikers alleen delen met andere gebruikers in hun groepen",
@@ -817,6 +816,7 @@
     "Store credentials" : "Opslaan inloggegevens",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is geregistreerd bij een webcron service om elke 15 minuten cron.php over http aan te roepen.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Gebruik de systeemcron service om cron.php elke 15 minuten aan te roepen.",
+    "Set default expiration date" : "Stel standaard vervaldatum in",
     "Follow us on Google+" : "Volg ons op Google+"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

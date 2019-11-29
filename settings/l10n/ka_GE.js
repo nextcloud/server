@@ -204,14 +204,13 @@ OC.L10N.register(
     "Sharing" : "გაზიარება",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "როგორც ადმინისტრატორს შეგიძლიათ გაზიარების ქცევის კორექტირება. დამატებითი ინფორმაციისთვის იხილეთ დოკუმენტაცია.",
     "Allow apps to use the Share API" : "დაუშვი აპლიკაციების უფლება  Share API –ზე",
+    "Expire after " : "ვადის ამოწურვა",
+    "days" : "დღე",
+    "Enforce expiration date" : "ვადის ამოწურვის თარიღის იძულება",
     "Allow users to share via link" : "მიეცით მოხმარებლებს ბმულით გაზიარების უფლება",
     "Allow public uploads" : "საქვეყნო ატვირთების დაშვება",
     "Always ask for a password" : "ყოველთვის მოხდეს პაროლის მოთხოვნა",
     "Enforce password protection" : "პროლით დაცვის იძულება",
-    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი",
-    "Expire after " : "ვადის ამოწურვა",
-    "days" : "დღე",
-    "Enforce expiration date" : "ვადის ამოწურვის თარიღის იძულება",
     "Allow resharing" : "ხელახალი გაზიარების დაშვება",
     "Allow sharing with groups" : "ჯგუფებთან გაზიარების მხარდაჭერა",
     "Restrict users to only share with users in their groups" : "შეზღუდეთ მომხმარებლები გააზიარონ მომხმარებლებთან, რომლებიც მიეკუთვნებიან მათ ჯგუფებს",
@@ -256,6 +255,7 @@ OC.L10N.register(
     "Official" : "ოფიციალური",
     "Store credentials" : "უფლებამოსილებანის შენახვა",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში."
+    "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში.",
+    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
 },
 "nplurals=2; plural=(n!=1);");

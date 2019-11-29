@@ -194,13 +194,12 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Sharing" : "Partajare",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
-    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link",
-    "Allow public uploads" : "Permite încărcări publice",
-    "Enforce password protection" : "Impune protecția prin parolă",
-    "Set default expiration date" : "Setează data implicită de expirare",
     "Expire after " : "Expiră după",
     "days" : "zile",
     "Enforce expiration date" : "Impune data de expirare",
+    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link",
+    "Allow public uploads" : "Permite încărcări publice",
+    "Enforce password protection" : "Impune protecția prin parolă",
     "Allow resharing" : "Permite repartajarea",
     "Allow sharing with groups" : "Permite partajarea cu grupuri",
     "Exclude groups from sharing" : "Exclude grupuri de la partajare",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "Czech (Czech Republic)" : "Chehă (Republica Chehă)",
     "Czech" : "Chehă",
     "Official" : "Oficial",
-    "Store credentials" : "Stochează datele de autentificare"
+    "Store credentials" : "Stochează datele de autentificare",
+    "Set default expiration date" : "Setează data implicită de expirare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

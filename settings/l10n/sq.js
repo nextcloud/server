@@ -200,14 +200,13 @@ OC.L10N.register(
     "Sharing" : "Ndarje me të tjerët",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Si admin ju mund të rregulloni mirë sjelljen e ndarjes. Ju lutem shih dokumentacionin për më shumë informacion.",
     "Allow apps to use the Share API" : "Lejoni aplikacionet të përdorin API Share",
+    "Expire after " : "Skadon pas ",
+    "days" : "ditësh",
+    "Enforce expiration date" : "Detyro datë skadimi",
     "Allow users to share via link" : "Lejoji përdoruesit të ndajnë me të tjerët përmes lidhjesh",
     "Allow public uploads" : "Lejo ngarkime publike",
     "Always ask for a password" : "Gjithmonë pyet për një fjalëkalim",
     "Enforce password protection" : "Detyro mbrojtje me fjalëkalim",
-    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi",
-    "Expire after " : "Skadon pas ",
-    "days" : "ditësh",
-    "Enforce expiration date" : "Detyro datë skadimi",
     "Allow resharing" : "Lejo rindarje",
     "Allow sharing with groups" : "Lejoni ndarje me grupe",
     "Restrict users to only share with users in their groups" : "Përdoruesve kufizoju të ndajnë gjëra vetëm me përdorues në grupin e tyre",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Official" : "Zyrtare",
     "Store credentials" : "Depozitoji kredencialet",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta.",
+    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi"
 },
 "nplurals=2; plural=(n != 1);");
