@@ -37,7 +37,8 @@ use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 
 class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
-	private $backends = array();
+	private $backends = [];
+	/** @var User_LDAP */
 	private $refBackend = null;
 
 	/**
@@ -49,9 +50,14 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @param INotificationManager $notificationManager
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig,
-		INotificationManager $notificationManager, IUserSession $userSession,
-								UserPluginManager $userPluginManager) {
+	public function __construct(
+		array $serverConfigPrefixes,
+		ILDAPWrapper $ldap,
+		IConfig $ocConfig,
+		INotificationManager $notificationManager,
+		IUserSession $userSession,
+		UserPluginManager $userPluginManager
+	) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
@@ -105,13 +111,13 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 					&& method_exists($this->getAccess($prefix), $method)) {
 					$instance = $this->getAccess($prefix);
 				}
-				$result = call_user_func_array(array($instance, $method), $parameters);
+				$result = call_user_func_array([$instance, $method], $parameters);
 				if($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
 					$userExists = call_user_func_array(
-						array($this->backends[$prefix], 'userExists'),
-						array($uid)
+						[$this->backends[$prefix], 'userExistsOnLDAP'],
+						[$uid]
 					);
 					if(!$userExists) {
 						$this->writeToCache($cacheKey, null);
@@ -170,7 +176,22 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return boolean
 	 */
 	public function userExists($uid) {
-		return $this->handleRequest($uid, 'userExists', array($uid));
+		$existsOnLDAP = false;
+		$existsLocally = $this->handleRequest($uid, 'userExists', array($uid));
+		if($existsLocally) {
+			$existsOnLDAP = $this->userExistsOnLDAP($uid);
+		}
+		if($existsLocally && !$existsOnLDAP) {
+			try {
+				$user = $this->getLDAPAccess($uid)->userManager->get($uid);
+				if($user instanceof User) {
+					$user->markUser();
+				}
+			} catch (\Exception $e) {
+				// ignore
+			}
+		}
+		return $existsLocally;
 	}
 
 	/**
