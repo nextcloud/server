@@ -26,6 +26,7 @@ namespace OCA\WorkflowEngine\Entity;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -38,11 +39,12 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\EntityContext\IDisplayText;
+use OCP\WorkflowEngine\EntityContext\IUrl;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
-class File implements IEntity, IDisplayText {
+class File implements IEntity, IDisplayText, IUrl {
 
 	private const EVENT_NAMESPACE = '\OCP\Files::';
 
@@ -206,6 +208,16 @@ class File implements IEntity, IDisplayText {
 				}
 				array_push($options, $tagString, $filename);
 				return $this->l10n->t('%s assigned %s to %s', $options);
+		}
+	}
+
+	public function getUrl(): string {
+		try {
+			return $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $this->getNode()->getId()]);
+		} catch (InvalidPathException $e) {
+			return '';
+		} catch (NotFoundException $e) {
+			return '';
 		}
 	}
 }
