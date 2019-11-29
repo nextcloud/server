@@ -298,14 +298,13 @@ OC.L10N.register(
     "Sharing" : "Sprístupňovanie",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Ako administrátor môžete nastaviť správanie sprístupňovania. Pre viac informácií pozrite dokumentáciu.",
     "Allow apps to use the Share API" : "Povoliť aplikáciám používať API pre sprístupňovanie",
+    "Expire after " : "Platnosť do",
+    "days" : "dni",
+    "Enforce expiration date" : "Vynútiť dátum expirácie",
     "Allow users to share via link" : "Povoliť používateľom sprístupňovanie obsahu pomocou odkazov",
     "Allow public uploads" : "Povoliť verejné nahrávanie súborov",
     "Always ask for a password" : "Vždy vyžadovať heslo",
     "Enforce password protection" : "Vynútiť ochranu heslom",
-    "Set default expiration date" : "Nastaviť predvolený dátum expirácie",
-    "Expire after " : "Platnosť do",
-    "days" : "dni",
-    "Enforce expiration date" : "Vynútiť dátum expirácie",
     "Allow resharing" : "Povoliť sprístupňovanie ďalej",
     "Allow sharing with groups" : "Povoliť sprístupnenie so skupinami",
     "Restrict users to only share with users in their groups" : "Povoliť používateľom sprístupňovanie obsahu len v rámci ich skupiny",
@@ -357,6 +356,7 @@ OC.L10N.register(
     "Official" : "Oficiálny",
     "Store credentials" : "Ukladať prihlasovacie údaje",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je zaregistrované v službe webcron a zavolá cron.php každých 15 minút cez HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Použiť systémovú službu cron na spúšťanie súboru cron.php každých 15 minút."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Použiť systémovú službu cron na spúšťanie súboru cron.php každých 15 minút.",
+    "Set default expiration date" : "Nastaviť predvolený dátum expirácie"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

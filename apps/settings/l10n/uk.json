@@ -255,14 +255,13 @@
     "Sharing" : "Спільний доступ",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Як адміністратор ви можете точно налаштувати поведінку спільного використання. Будь ласка, перегляньте документацію для отримання додаткової інформації.",
     "Allow apps to use the Share API" : "Дозволити програмам використовувати API спільного доступу",
+    "Expire after " : "Скінчиться через",
+    "days" : "днів",
+    "Enforce expiration date" : "Термін дії обов'язковий",
     "Allow users to share via link" : "Дозволити користувачам ділитися через посилання",
     "Allow public uploads" : "Дозволити публічне завантаження",
     "Always ask for a password" : "Завжди запитувати пароль",
     "Enforce password protection" : "Захист паролем обов'язковий",
-    "Set default expiration date" : "Встановити термін дії за замовчуванням",
-    "Expire after " : "Скінчиться через",
-    "days" : "днів",
-    "Enforce expiration date" : "Термін дії обов'язковий",
     "Allow resharing" : "Дозволити перевідкривати спільний доступ",
     "Allow sharing with groups" : "Дозволити спільне використання групами",
     "Restrict users to only share with users in their groups" : "Дозволити користувачам відкривати спільний доступ лише для користувачів з їхньої групи",
@@ -305,6 +304,7 @@
     "Change password" : "Змінити пароль",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
     "Official" : "Офіційні",
-    "Store credentials" : "Зберігати облікові дані"
+    "Store credentials" : "Зберігати облікові дані",
+    "Set default expiration date" : "Встановити термін дії за замовчуванням"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -197,14 +197,13 @@ OC.L10N.register(
     "Sharing" : "Jagamine",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Administraatorina saate jagamise valikuid täpselt seadistada. Lisateavet leiad dokumentatsioonist.",
     "Allow apps to use the Share API" : "Luba rakendustel kasutada Share API-t",
+    "Expire after " : "Aegu pärast",
+    "days" : "päeva",
+    "Enforce expiration date" : "Sunnitud aegumise kuupäev",
     "Allow users to share via link" : "Luba kasutajatel lingiga jagamist ",
     "Allow public uploads" : "Luba avalikud üleslaadimised",
     "Always ask for a password" : "Alati küsi parooli",
     "Enforce password protection" : "Sunni parooliga kaitsmine",
-    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
-    "Expire after " : "Aegu pärast",
-    "days" : "päeva",
-    "Enforce expiration date" : "Sunnitud aegumise kuupäev",
     "Allow resharing" : "Luba edasijagamine",
     "Allow sharing with groups" : "Luba gruppidega jagamine",
     "Restrict users to only share with users in their groups" : "Luba kasutajatel jagada kasutajatega ainult oma grupi piires",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Official" : "Ametlik",
     "Store credentials" : "Säilita kasutajaandmed",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel.",
+    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
 },
 "nplurals=2; plural=(n != 1);");

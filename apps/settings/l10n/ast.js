@@ -177,14 +177,13 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Sharing" : "Compartiendo",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
+    "Expire after " : "Caduca dempués de",
+    "days" : "díes",
+    "Enforce expiration date" : "Facer cumplir la data de caducidá",
     "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz",
     "Allow public uploads" : "Permitir xubes públiques",
     "Always ask for a password" : "Pidir siempres la contraseña",
     "Enforce password protection" : "Ameyora la proteición por contraseña.",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Expire after " : "Caduca dempués de",
-    "days" : "díes",
-    "Enforce expiration date" : "Facer cumplir la data de caducidá",
     "Allow resharing" : "Permitir re-compartición",
     "Allow sharing with groups" : "Permiri compartición con grupos",
     "Restrict users to only share with users in their groups" : "Restrinxir a los usuarios a compartir namái con otros usuarios nos sos grupos",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Change password" : "Camudar contraseña",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
     "Official" : "Oficial",
-    "Store credentials" : "Atroxar credenciales"
+    "Store credentials" : "Atroxar credenciales",
+    "Set default expiration date" : "Afitar la data d'espiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");
