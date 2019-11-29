@@ -199,14 +199,13 @@
     "Sharing" : "分享",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "系統管理員可以微調分享行為，請查閱說明文件以獲得更多資訊。",
     "Allow apps to use the Share API" : "允許 apps 使用分享 API",
+    "Expire after " : "在什麼時候過期",
+    "days" : "天",
+    "Enforce expiration date" : "強制分享連結設定到期日",
     "Allow users to share via link" : "允許使用者透過連結分享",
     "Allow public uploads" : "允許公開上傳",
     "Always ask for a password" : "總是詢問密碼",
     "Enforce password protection" : "強制分享連結使用密碼保護",
-    "Set default expiration date" : "設定預設到期日",
-    "Expire after " : "在什麼時候過期",
-    "days" : "天",
-    "Enforce expiration date" : "強制分享連結設定到期日",
     "Allow resharing" : "允許轉貼分享",
     "Allow sharing with groups" : "允許與群組分享",
     "Restrict users to only share with users in their groups" : "限制使用者只能分享給群組裡的其他使用者",
@@ -250,6 +249,7 @@
     "Official" : "官方",
     "Store credentials" : "儲存帳密",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 已經在一個 webcron 服務中註冊，每 15 分鐘將會透過 HTTP 呼叫 cron.php",
-    "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php"
+    "Use system cron service to call the cron.php file every 15 minutes." : "使用系統的 cron 服務來每隔 15 分鐘呼叫 cron.php",
+    "Set default expiration date" : "設定預設到期日"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

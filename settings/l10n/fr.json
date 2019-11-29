@@ -322,14 +322,13 @@
     "Sharing" : "Partage",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "En tant qu'administrateur, vous pouvez affiner le comportement de partage. Veuillez consulter la documentation pour plus d'informations.",
     "Allow apps to use the Share API" : "Autoriser les applications à utiliser l'API de partage",
+    "Expire after " : "Expiration après ",
+    "days" : "jours",
+    "Enforce expiration date" : "Imposer la date d'expiration",
     "Allow users to share via link" : "Autoriser les utilisateurs à partager par lien",
     "Allow public uploads" : "Autoriser les téléversements publics",
     "Always ask for a password" : "Toujours demander un mot de passe",
     "Enforce password protection" : "Imposer la protection renforcée du mot de passe",
-    "Set default expiration date" : "Indiquer une date d'expiration par défaut",
-    "Expire after " : "Expiration après ",
-    "days" : "jours",
-    "Enforce expiration date" : "Imposer la date d'expiration",
     "Allow resharing" : "Autoriser le repartage",
     "Allow sharing with groups" : "Autoriser le partage avec les groupes",
     "Restrict users to only share with users in their groups" : "N'autoriser les partages qu'entre membres de mêmes groupes",
@@ -723,6 +722,7 @@
     "Store credentials" : "Enregistrer les identifiants",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php est enregistré à un service webcron pour exécuter cron.php toutes les 15 minutes par HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Utiliser le service cron du système pour appeler le fichier cron.php toutes les 15 minutes.",
+    "Set default expiration date" : "Indiquer une date d'expiration par défaut",
     "Follow us on Google+" : "Nous suivre sur Google+"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

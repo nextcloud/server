@@ -326,14 +326,13 @@
     "Sharing" : "Paylaşım",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Yönetici olarak paylaşma davranışı ile ilgili ince ayarları yapabilirsiniz. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Allow apps to use the Share API" : "Uygulamalar Paylaşım API kullanabilsin",
+    "Expire after " : "Kullanım süresi",
+    "days" : "gün sonra dolsun",
+    "Enforce expiration date" : "Son kullanma tarihi dayatılsın",
     "Allow users to share via link" : "Kullanıcılar bağlantı ile paylaşabilsin",
     "Allow public uploads" : "Herkes yükleyebilsin",
     "Always ask for a password" : "Her zaman parola sorulsun",
     "Enforce password protection" : "Parola koruması dayatılsın",
-    "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
-    "Expire after " : "Kullanım süresi",
-    "days" : "gün sonra dolsun",
-    "Enforce expiration date" : "Son kullanma tarihi dayatılsın",
     "Allow resharing" : "Yeniden paylaşılabilsin",
     "Allow sharing with groups" : "Gruplar ile paylaşılabilsin",
     "Restrict users to only share with users in their groups" : "Kullanıcılar, yalnız kendi gruplarındaki kullanıcılarla paylaşabilsin",
@@ -825,6 +824,7 @@
     "Store credentials" : "Kimlik bilgileri kaydedilsin",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php, HTTP üzerinden 15 dakikada bir yürütülmesi için webcron hizmetine kaydedildi.",
     "Use system cron service to call the cron.php file every 15 minutes." : "15 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
+    "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
     "Follow us on Google+" : "Bizi Google+ üzerinde izleyin"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

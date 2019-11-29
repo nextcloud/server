@@ -205,14 +205,13 @@ OC.L10N.register(
     "Sharing" : "Partilha",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador pode afinar o comportamento de partilha. Por favor veja a documentação para mais informação.",
     "Allow apps to use the Share API" : "Permitir que os utilizadores usem a API de partilha",
+    "Expire after " : "Expira após",
+    "days" : "dias",
+    "Enforce expiration date" : "Forçar a data de expiração",
     "Allow users to share via link" : "Permitir que os utilizadores partilhem através do link",
     "Allow public uploads" : "Permitir Envios Públicos",
     "Always ask for a password" : "Pedir sempre a senha",
     "Enforce password protection" : "Forçar proteção por palavra-passe",
-    "Set default expiration date" : "Especificar a data padrão de expiração",
-    "Expire after " : "Expira após",
-    "days" : "dias",
-    "Enforce expiration date" : "Forçar a data de expiração",
     "Allow resharing" : "Permitir repartilha",
     "Allow sharing with groups" : "Permitir partilha com grupos.",
     "Restrict users to only share with users in their groups" : "Restringe os utilizadores só a partilhar com utilizadores do seu grupo",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Official" : "Oficial",
     "Store credentials" : "Armazenar credenciais",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos.",
+    "Set default expiration date" : "Especificar a data padrão de expiração"
 },
 "nplurals=2; plural=(n != 1);");

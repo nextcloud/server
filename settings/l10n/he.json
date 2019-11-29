@@ -252,14 +252,13 @@
     "Sharing" : "שיתוף",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "כמנהל יש לך אפשרות לכוונן את התנהגות השיתוף. נא לעיין בתיעוד לפרטים נוספים.",
     "Allow apps to use the Share API" : "לאפשר ליישום להשתמש ב־API השיתוף",
+    "Expire after " : "פג אחרי",
+    "days" : "ימים",
+    "Enforce expiration date" : "חייב תאריך תפוגה",
     "Allow users to share via link" : "אפשר למשתמשים לשתף באמצעות קישור",
     "Allow public uploads" : "אפשר העלאות ציבוריות",
     "Always ask for a password" : "תמיד לבקש ססמה",
     "Enforce password protection" : "חייב הגנת סיסמא",
-    "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
-    "Expire after " : "פג אחרי",
-    "days" : "ימים",
-    "Enforce expiration date" : "חייב תאריך תפוגה",
     "Allow resharing" : "לאפשר שיתוף מחדש",
     "Allow sharing with groups" : "מאפשר שיתוף עם קבוצות",
     "Restrict users to only share with users in their groups" : "הגבלת משתמשים לשתף רק עם משתמשים בקבוצה שלהם",
@@ -458,6 +457,7 @@
     "Store credentials" : "שמירת אישורים",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
+    "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
     "Follow us on Google+" : "לעקוב אחרינו ב־Google+‎"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }
