@@ -200,7 +200,7 @@ class Detection implements IMimeTypeDetector {
 		if (strpos($fileName, '.') > 0) {
 
 			// remove versioning extension: name.v1508946057 and transfer extension: name.ocTransferId2057600214.part
-			$fileName = preg_replace('!((\.v\d+)|((.ocTransferId\d+)?.part))$!', '', $fileName);
+			$fileName = preg_replace('!((\.v\d+)|((\.ocTransferId\d+)?\.part))$!', '', $fileName);
 
 			//try to guess the type by the file extension
 			$extension = strtolower(strrchr($fileName, '.'));
@@ -225,45 +225,47 @@ class Detection implements IMimeTypeDetector {
 			return 'httpd/unix-directory';
 		}
 
-		$mimeType = 'application/octet-stream';
 		if (function_exists('finfo_open')
 			&& function_exists('finfo_file')
 			&& $finfo = finfo_open(FILEINFO_MIME)) {
-			$info = @strtolower(finfo_file($finfo, $path));
+			$info = @finfo_file($finfo, $path);
 			finfo_close($finfo);
 			if ($info) {
+				$info = strtolower($info);
 				$mimeType = strpos($info, ';') !== false ? substr($info, 0, strpos($info, ';')) : $info;
-				return empty($mimeType) ? 'application/octet-stream' : $mimeType;
+				return $this->getSecureMimeType($mimeType);
 			}
-
 		}
 
 		if (strpos($path, '://') !== false && strpos($path, 'file://') === 0) {
 			// Is the file wrapped in a stream?
-			return $mimeType;
+			return 'application/octet-stream';
 		}
 
 		if (function_exists('mime_content_type')) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
+			if ($mimeType !== false) {
+				return $this->getSecureMimeType($mimeType);
+			}
 		}
-		if ($mimeType === 'application/octet-stream' && \OC_Helper::canExecute('file')) {
+
+		if (\OC_Helper::canExecute('file')) {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
-			$fp = popen("file -b --mime-type $path 2>/dev/null", 'r');
-			$reply = fgets($fp);
+			$fp = popen("test -f $path && file -b --mime-type $path", 'r');
+			$mimeType = fgets($fp);
 			pclose($fp);
 
-			//trim the newline
-			$mimeType = trim($reply);
-
-			if (empty($mimeType)) {
-				$mimeType = 'application/octet-stream';
+			if ($mimeType !== false) {
+				//trim the newline
+				$mimeType = trim($mimeType);
+				return $this->getSecureMimeType($mimeType);
 			}
 
 		}
-		return $mimeType;
+		return 'application/octet-stream';
 	}
 
 	/**
