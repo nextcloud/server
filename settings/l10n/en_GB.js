@@ -211,14 +211,13 @@ OC.L10N.register(
     "Sharing" : "Sharing",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "As admin you can fine-tune the sharing behavior. Please see the documentation for more information.",
     "Allow apps to use the Share API" : "Allow apps to use the Share API",
+    "Expire after " : "Expire after ",
+    "days" : "days",
+    "Enforce expiration date" : "Enforce expiry date",
     "Allow users to share via link" : "Allow users to share via link",
     "Allow public uploads" : "Allow public uploads",
     "Always ask for a password" : "Always ask for a password",
     "Enforce password protection" : "Enforce password protection",
-    "Set default expiration date" : "Set default expiry date",
-    "Expire after " : "Expire after ",
-    "days" : "days",
-    "Enforce expiration date" : "Enforce expiry date",
     "Allow resharing" : "Allow resharing",
     "Allow sharing with groups" : "Allow sharing with groups",
     "Restrict users to only share with users in their groups" : "Restrict users to only share with users in their groups",
@@ -265,6 +264,7 @@ OC.L10N.register(
     "Official" : "Official",
     "Store credentials" : "Store credentials",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Use system cron service to call the cron.php file every 15 minutes."
+    "Use system cron service to call the cron.php file every 15 minutes." : "Use system cron service to call the cron.php file every 15 minutes.",
+    "Set default expiration date" : "Set default expiry date"
 },
 "nplurals=2; plural=(n != 1);");

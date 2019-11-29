@@ -318,14 +318,13 @@
     "Sharing" : "Общий доступ",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Администратор может тонко настроить поведение механизма предоставления общего доступа. Обратитесь к документации для получения дополнительной информации.",
     "Allow apps to use the Share API" : "Позволить приложениям использовать API общего доступа",
+    "Expire after " : "Истечение через",
+    "days" : "дней",
+    "Enforce expiration date" : "Срок действия обязателен",
     "Allow users to share via link" : "Разрешить пользователям публикации через ссылки",
     "Allow public uploads" : "Разрешить открытые/публичные загрузки",
     "Always ask for a password" : "Всегда запрашивать пароль",
     "Enforce password protection" : "Защита паролем обязательна",
-    "Set default expiration date" : "Установить дату истечения по умолчанию",
-    "Expire after " : "Истечение через",
-    "days" : "дней",
-    "Enforce expiration date" : "Срок действия обязателен",
     "Allow resharing" : "Разрешить повторное открытие общего доступа",
     "Allow sharing with groups" : "Разрешить делиться с группами",
     "Restrict users to only share with users in their groups" : "Запретить делиться с пользователями из других групп",
@@ -817,6 +816,7 @@
     "Store credentials" : "Сохранить учётные данные",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php зарегистрирован в службе webcron и будет вызываться каждые 15 минут по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Использовать системный cron для вызова файла cron.php каждые 15 минут.",
+    "Set default expiration date" : "Установить дату истечения по умолчанию",
     "Follow us on Google+" : "Следите за нашими новостями в Google+"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

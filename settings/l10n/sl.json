@@ -265,14 +265,13 @@
     "Sharing" : "Souporaba",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Skrbnik lahko prilagodi možnosti souporabe. Več podrobnosti je zapisanih v dokumentaciji.",
     "Allow apps to use the Share API" : "Dovoli programom uporabo vmesnika API souporabe",
+    "Expire after " : "Povezava naj poteče po",
+    "days" : "dneh.",
+    "Enforce expiration date" : "Vsili datum preteka",
     "Allow users to share via link" : "Uporabnikom dovoli omogočanje souporabe s povezavami",
     "Allow public uploads" : "Dovoli javno pošiljanje datotek v oblak",
     "Always ask for a password" : "Vedno zahtevaj za geslo",
     "Enforce password protection" : "Vsili zaščito z geslom",
-    "Set default expiration date" : "Samodejno nastavi datuma poteka",
-    "Expire after " : "Povezava naj poteče po",
-    "days" : "dneh.",
-    "Enforce expiration date" : "Vsili datum preteka",
     "Allow resharing" : "Dovoli nadaljnjo souporabo",
     "Allow sharing with groups" : "Dovoli souporabo s skupinami",
     "Restrict users to only share with users in their groups" : "Uporabnikom dovoli omogočanje souporabe le znotraj njihove skupine",
@@ -635,6 +634,7 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Uradne programe razvijajo posamezniki, ki sodelujejo s skupnostjo. Paketi vključujejo osrednje zmožnosti programa, uporaba pa je namenjena tudi končnim uporabnikom.",
     "Official" : "Uradno",
     "Store credentials" : "Shrani poverila",
+    "Set default expiration date" : "Samodejno nastavi datuma poteka",
     "Follow us on Google+" : "Sledite nam na Google+"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

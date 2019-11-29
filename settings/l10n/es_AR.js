@@ -197,14 +197,13 @@ OC.L10N.register(
     "Sharing" : "Compartiendo",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador, usted puede hacer ajustes finos al comportamiento de compartir. Favor de consultar la documentación para más información. ",
     "Allow apps to use the Share API" : "Permitir que las aplicaciones usen el API para Compartir",
+    "Expire after " : "Expirar después de",
+    "days" : "días",
+    "Enforce expiration date" : "Forzar fecha de expiración",
     "Allow users to share via link" : "Permitir a los usuarios compartir mediante links",
     "Allow public uploads" : "Permitir cargas públicas",
     "Always ask for a password" : "Siempre pedir una contraseña",
     "Enforce password protection" : "Forzar protección de contraseñas",
-    "Set default expiration date" : "Establecer la fecha de expiración predeterminada",
-    "Expire after " : "Expirar después de",
-    "days" : "días",
-    "Enforce expiration date" : "Forzar fecha de expiración",
     "Allow resharing" : "Permitir volver a compartir",
     "Allow sharing with groups" : "Permitir compartir con grupos",
     "Restrict users to only share with users in their groups" : "Limitar a los usuarios a sólo compartir con otros usuarios en sus grupos",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
     "Official" : "Oficial",
     "Store credentials" : "Almacenar credenciales",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. "
+    "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. ",
+    "Set default expiration date" : "Establecer la fecha de expiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

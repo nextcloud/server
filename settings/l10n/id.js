@@ -296,14 +296,13 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
     "Sharing" : "Berbagi",
     "Allow apps to use the Share API" : "Izinkan aplikasi untuk menggunakan API Pembagian",
+    "Expire after " : "Kadaluarsa setelah ",
+    "days" : "hari",
+    "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
     "Allow public uploads" : "Izinkan unggahan publik",
     "Always ask for a password" : "Selalu tanya kata sandi",
     "Enforce password protection" : "Berlakukan perlindungan sandi",
-    "Set default expiration date" : "Atur tanggal kadaluarsa default",
-    "Expire after " : "Kadaluarsa setelah ",
-    "days" : "hari",
-    "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Allow resharing" : "Izinkan pembagian ulang",
     "Allow sharing with groups" : "Izinkan pembagian dengan grup",
     "Restrict users to only share with users in their groups" : "Batasi pengguna untuk hanya membagikan dengan pengguna didalam grup mereka",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Zulu (South Africa)" : "Zulu (Afrika Selatan)",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
     "Official" : "Resmi",
-    "Store credentials" : "Simpan kredensial"
+    "Store credentials" : "Simpan kredensial",
+    "Set default expiration date" : "Atur tanggal kadaluarsa default"
 },
 "nplurals=1; plural=0;");

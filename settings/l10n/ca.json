@@ -322,14 +322,13 @@
     "Sharing" : "S'està compartint",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Com a administrador, podeu afinar els ajustaments per compartir fitxers. Si us plau, per més informació llegiu la documentació.",
     "Allow apps to use the Share API" : "Permet que les aplicacions utilitzin l'API de compartir",
+    "Expire after " : "Caduca després de ",
+    "days" : "dies",
+    "Enforce expiration date" : "Força la data de caducitat",
     "Allow users to share via link" : "Permet als usuaris compartir mitjançant enllaços",
     "Allow public uploads" : "Permet càrregues públiques",
     "Always ask for a password" : "Demana sempre una contrasenya",
     "Enforce password protection" : "Força la protecció amb contrasenya",
-    "Set default expiration date" : "Estableix la data de caducitat per defecte",
-    "Expire after " : "Caduca després de ",
-    "days" : "dies",
-    "Enforce expiration date" : "Força la data de caducitat",
     "Allow resharing" : "Permet compartir de nou",
     "Allow sharing with groups" : "Permetre compartir amb grups",
     "Restrict users to only share with users in their groups" : "Restringeix als usuaris a compartir només amb usuaris del seu grup",
@@ -821,6 +820,7 @@
     "Store credentials" : "Emmagatzema les credencials",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php està registrat en un servei webcron per cridar cron.php cada 15 minuts mitjançant HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Utilitza el servei del sistema cron per cridar al fitxer cron.php cada 15 minuts.",
+    "Set default expiration date" : "Estableix la data de caducitat per defecte",
     "Follow us on Google+" : "Seguiu-nos a Google+"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

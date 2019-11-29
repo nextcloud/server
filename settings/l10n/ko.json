@@ -269,14 +269,13 @@
     "Sharing" : "공유",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "관리자로 공유 행동을 미세 조정할 수 있습니다. 더 많은 정보를 보려면 문서를 참조하십시오.",
     "Allow apps to use the Share API" : "앱에서 공유 API를 사용할 수 있도록 허용",
+    "Expire after " : "다음 날짜 후 만료",
+    "days" : "일",
+    "Enforce expiration date" : "만료 날짜 강제",
     "Allow users to share via link" : "사용자별 링크 공유 허용",
     "Allow public uploads" : "공개 업로드 허용",
     "Always ask for a password" : "항상 암호 묻기",
     "Enforce password protection" : "암호 보호 강제",
-    "Set default expiration date" : "기본 만료 날짜 설정",
-    "Expire after " : "다음 날짜 후 만료",
-    "days" : "일",
-    "Enforce expiration date" : "만료 날짜 강제",
     "Allow resharing" : "재공유 허용",
     "Allow sharing with groups" : "그룹과 공유 허용",
     "Restrict users to only share with users in their groups" : "그룹 내 사용자끼리만 공유할 수 있도록 허용",
@@ -329,6 +328,7 @@
     "Official" : "공식",
     "Store credentials" : "인증 정보 저장",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다."
+    "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다.",
+    "Set default expiration date" : "기본 만료 날짜 설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

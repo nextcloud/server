@@ -326,14 +326,13 @@
     "Sharing" : "Dela",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Som administratör kan du fininställa delningsbeteendet. Vänligen se dokumentationen för mer information.",
     "Allow apps to use the Share API" : "Tillåt applikationer att använda API för delning",
+    "Expire after " : "Förfaller efter",
+    "days" : "dagar",
+    "Enforce expiration date" : "Tillämpa förfallodatum",
     "Allow users to share via link" : "Tillåt användare att dela via länk",
     "Allow public uploads" : "Tillåt offentlig uppladdning",
     "Always ask for a password" : "Fråga alltid efter lösenord",
     "Enforce password protection" : "Tillämpa lösenordskydd",
-    "Set default expiration date" : "Ställ in standardutgångsdatum",
-    "Expire after " : "Förfaller efter",
-    "days" : "dagar",
-    "Enforce expiration date" : "Tillämpa förfallodatum",
     "Allow resharing" : "Tillåt vidaredelning",
     "Allow sharing with groups" : "Tillåt delning med grupper",
     "Restrict users to only share with users in their groups" : "Begränsa användare till att enbart kunna dela med användare i deras grupper",
@@ -825,6 +824,7 @@
     "Store credentials" : "Lagra inloggningsuppgifter",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php är registrerat hos en webcron-tjänst att köra cron.php varje kvart över HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Använd systemets cron-tjänst för att anropa cron.php varje kvart.",
+    "Set default expiration date" : "Ställ in standardutgångsdatum",
     "Follow us on Google+" : "Följ oss på Google+"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
