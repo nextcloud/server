@@ -256,8 +256,12 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldContainOnlyComments($number) {
-		if (count($this->response) !== (int)$number) {
-			throw new \Exception("Found more comments than $number (" . count($this->response) . ")");
+		$count = 0;
+		if ($this->response !== null) {
+			$count = count($this->response);
+		}
+		if ($count !== (int)$number) {
+			throw new \Exception("Found more comments than $number (" . $count . ")");
 		}
 	}
 
