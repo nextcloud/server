@@ -499,18 +499,7 @@ class User_LDAPTest extends TestCase {
 		$this->prepareMockForUserExists();
 
 		$user = $this->createMock(User::class);
-		$user->expects($this->any())
-			->method('getDN')
-			->willReturn('dnOfRoland,dc=test');
 
-		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($user);
@@ -535,31 +524,17 @@ class User_LDAPTest extends TestCase {
 			->willReturn('45673458748');
 
 		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
-		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($mapper);
-		$this->access->expects($this->once())
-			->method('getUserDnByUuid')
-			->willThrowException(new \Exception());
 
 		$user = $this->createMock(User::class);
-		$user->expects($this->any())
-			->method('getDN')
-			->willReturn('dnOfFormerUser,dc=test');
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($user);
 
-		//test for deleted user
-		$this->assertFalse($backend->userExists('formerUser'));
+		//test for deleted user – always returns true as long as we have the user in DB
+		$this->assertTrue($backend->userExists('formerUser'));
 	}
 
 	public function testUserExistsForNeverExisting() {
@@ -646,8 +621,8 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn($user);
 
-		//test for deleted user
-		$this->assertFalse(\OC::$server->getUserManager()->userExists('formerUser'));
+		//test for deleted user – always returns true as long as we have the user in DB
+		$this->assertTrue(\OC::$server->getUserManager()->userExists('formerUser'));
 	}
 
 	public function testUserExistsPublicAPIForNeverExisting() {
@@ -777,7 +752,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($dataDir.'/susannah/', $result);
 	}
 
-	
+
 	public function testGetHomeNoPath() {
 		$this->expectException(\Exception::class);
 
@@ -1101,7 +1076,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn(42);
 
 		$this->assertEquals($this->backend->countUsers(),42);
-	}	
+	}
 
 	public function testLoginName2UserNameSuccess() {
 		$loginName = 'Alice';
@@ -1269,7 +1244,7 @@ class User_LDAPTest extends TestCase {
 			   }));
 	}
 
-	
+
 	public function testSetPasswordInvalid() {
 		$this->expectException(\OC\HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
@@ -1283,7 +1258,7 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
 	}
-	
+
 	public function testSetPasswordValid() {
 		$this->prepareAccessForSetPassword($this->access);
 
@@ -1313,7 +1288,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
 
-	
+
 	public function testSetPasswordWithInvalidUser() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?');
@@ -1414,7 +1389,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
 	}
 
-	
+
 	public function testSetDisplayNameErrorWithPlugin() {
 		$this->expectException(\OC\HintException::class);
 
