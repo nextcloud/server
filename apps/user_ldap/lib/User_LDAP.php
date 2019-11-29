@@ -297,6 +297,12 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if(is_null($user)) {
 			return false;
 		}
+		$uid = $user instanceof User ? $user->getUsername() : $user->getOCName();
+		$cacheKey = 'userExistsOnLDAP' . $uid;
+		$userExists = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($userExists)) {
+			return (bool)$userExists;
+		}
 
 		$dn = $user->getDN();
 		//check if user really still exists by reading its entry
@@ -304,18 +310,22 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			try {
 				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
 				if (!$uuid) {
+					$this->access->connection->writeToCache($cacheKey, false);
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
 				if ($newDn === $dn || !is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+					$this->access->connection->writeToCache($cacheKey, false);
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
+				$this->access->connection->writeToCache($cacheKey, true);
 				return true;
 			} catch (ServerNotAvailableException $e) {
 				throw $e;
 			} catch (\Exception $e) {
+				$this->access->connection->writeToCache($cacheKey, false);
 				return false;
 			}
 		}
@@ -324,6 +334,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$user->unmark();
 		}
 
+		$this->access->connection->writeToCache($cacheKey, true);
 		return true;
 	}
 
@@ -346,15 +357,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				$this->access->connection->ldapHost, ILogger::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
-		} else if($user instanceof OfflineUser) {
-			//express check for users marked as deleted. Returning true is
-			//necessary for cleanup
-			return true;
 		}
 
-		$result = $this->userExistsOnLDAP($user);
-		$this->access->connection->writeToCache('userExists'.$uid, $result);
-		return $result;
+		$this->access->connection->writeToCache('userExists'.$uid, true);
+		return true;
 	}
 
 	/**
