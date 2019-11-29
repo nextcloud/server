@@ -37,14 +37,19 @@ trait TFileCheck {
 	/** @var string */
 	protected $path;
 
+	/** @var bool */
+	protected $isDir;
+
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
+	 * @param bool $isDir
 	 * @since 18.0.0
 	 */
-	public function setFileInfo(IStorage $storage, string $path) {
+	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void {
 		$this->storage = $storage;
 		$this->path = $path;
+		$this->isDir = $isDir;
 	}
 
 	/**
