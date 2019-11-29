@@ -101,93 +101,24 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 			return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, 'httpd/unix-directory');
 		}
 
-		if ($this->isWebDAVRequest()) {
+		if ($this->storage->file_exists($this->path)) {
+			$path = $this->storage->getLocalFile($this->path);
+			$mimeType = $this->mimeTypeDetector->detectContent($path);
+			return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, $mimeType);
+		}
+
+		if ($this->isWebDAVRequest() || $this->isPublicWebDAVRequest()) {
 			// Creating a folder
 			if ($this->request->getMethod() === 'MKCOL') {
-				return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, 'httpd/unix-directory');
-			}
-
-			if ($this->request->getMethod() === 'PUT' || $this->request->getMethod() === 'MOVE') {
-				if ($this->request->getMethod() === 'MOVE') {
-					$mimeType = $this->mimeTypeDetector->detectPath($this->path);
-				} else {
-					$path = $this->request->getPathInfo();
-					$mimeType = $this->mimeTypeDetector->detectPath($path);
-				}
-				return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, $mimeType);
-			}
-		} else if ($this->isPublicWebDAVRequest()) {
-			if ($this->request->getMethod() === 'PUT') {
-				$path = $this->request->getPathInfo();
-				if (strpos($path, '/webdav/') === 0) {
-					$path = substr($path, strlen('/webdav'));
-				}
-				$path = $this->path . $path;
-				$mimeType = $this->mimeTypeDetector->detectPath($path);
-				return $this->cacheAndReturnMimeType($this->storage->getId(), $path, $mimeType);
+				return 'httpd/unix-directory';
 			}
 		}
 
-		if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
-			$files = $this->request->getUploadedFile('files');
-			if (isset($files['type'][0])) {
-				$mimeType = $files['type'][0];
-				if ($mimeType === 'application/octet-stream') {
-					// Maybe not...
-					$mimeTypeTest = $this->mimeTypeDetector->detectPath($files['name'][0]);
-					if ($mimeTypeTest !== 'application/octet-stream' && $mimeTypeTest !== false) {
-						$mimeType = $mimeTypeTest;
-					} else {
-						$mimeTypeTest = $this->mimeTypeDetector->detect($files['tmp_name'][0]);
-						if ($mimeTypeTest !== 'application/octet-stream' && $mimeTypeTest !== false) {
-							$mimeType = $mimeTypeTest;
-						}
-					}
-				}
-				return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, $mimeType);
-			}
-		}
-
-		$mimeType = $this->storage->getMimeType($this->path);
-		if ($mimeType === 'application/octet-stream') {
-			$mimeType = $this->detectMimetypeFromPath();
-		}
-
-		return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, $mimeType);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function detectMimetypeFromPath() {
-		$mimeType = $this->mimeTypeDetector->detectPath($this->path);
-		if ($mimeType !== 'application/octet-stream' && $mimeType !== false) {
-			return $mimeType;
-		}
-
-		if ($this->storage->instanceOfStorage('\OC\Files\Storage\Local')
-			|| $this->storage->instanceOfStorage('\OC\Files\Storage\Home')
-			|| $this->storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')) {
-			$localFile = $this->storage->getLocalFile($this->path);
-			if ($localFile !== false) {
-				$mimeType = $this->mimeTypeDetector->detect($localFile);
-				if ($mimeType !== false) {
-					return $mimeType;
-				}
-			}
-
-			return 'application/octet-stream';
-		} else {
-			$handle = $this->storage->fopen($this->path, 'r');
-			$data = fread($handle, 8024);
-			fclose($handle);
-			$mimeType = $this->mimeTypeDetector->detectString($data);
-			if ($mimeType !== false) {
-				return $mimeType;
-			}
-
-			return 'application/octet-stream';
-		}
+		// We do not cache this, as the file did not exist yet.
+		// In case it does in the future, we will check with detectContent()
+		// again to get the real mimetype of the content, rather than
+		// guessing it from the path.
+		return $this->mimeTypeDetector->detectPath($this->path);
 	}
 
 	/**
