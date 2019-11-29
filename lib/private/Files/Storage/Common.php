@@ -535,7 +535,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			}
 		}
 
-		if (isset($fileName[255])) {
+		// 255 characters is the limit on common file systems (ext/xfs)
+		// oc_filecache has a 250 char length limit for the filename
+		if (isset($fileName[250])) {
 			throw new FileNameTooLongException();
 		}
 
