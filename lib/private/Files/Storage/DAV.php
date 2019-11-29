@@ -34,7 +34,6 @@
 namespace OC\Files\Storage;
 
 use Exception;
-use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
@@ -45,6 +44,8 @@ use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\IClientService;
+use OCP\ICertificateManager;
 use OCP\ILogger;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -79,8 +80,10 @@ class DAV extends Common {
 	protected $client;
 	/** @var ArrayCache */
 	protected $statCache;
-	/** @var \OCP\Http\Client\IClientService */
+	/** @var IClientService */
 	protected $httpClientService;
+	/** @var ICertificateManager */
+	protected $certManager;
 
 	/**
 	 * @param array $params
@@ -111,13 +114,9 @@ class DAV extends Common {
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$certManager = \OC::$server->getCertificateManager();
-				if (is_null($certManager)) { //no user
-					$certManager = \OC::$server->getCertificateManager(null);
-				}
-				$certPath = $certManager->getAbsoluteBundlePath();
-				if (file_exists($certPath)) {
-					$this->certPath = $certPath;
+				$this->certManager = \OC::$server->getCertificateManager();
+				if (is_null($this->certManager)) { //no user
+					$this->certManager = \OC::$server->getCertificateManager(null);
 				}
 			}
 			$this->root = $params['root'] ?? '/';
@@ -150,8 +149,15 @@ class DAV extends Common {
 
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
-		if ($this->secure === true && $this->certPath) {
-			$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+
+		if($this->secure === true) {
+			$certPath = $this->certManager->getAbsoluteBundlePath();
+			if (file_exists($certPath)) {
+				$this->certPath = $certPath;
+			}
+			if ($this->certPath) {
+				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+			}
 		}
 	}
 
