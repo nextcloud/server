@@ -288,6 +288,8 @@ OC.L10N.register(
     "Account access" : "Pristup računu",
     "You are about to grant %1$s access to your %2$s account." : "Dopustit ćete osobi %1$s pristup vašem računu %2$s.",
     "Account connected" : "Račun povezan",
+    "Your client should now be connected!" : "Vaš klijent sada bi trebao biti povezan!",
+    "You can close this window." : "Možete zatvoriti ovaj prozor.",
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen zaporkom",
     "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
     "Two-factor authentication" : "Dvofaktorska autentifikacija",
