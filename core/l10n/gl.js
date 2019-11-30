@@ -216,7 +216,7 @@ OC.L10N.register(
     "New in" : "Novo en",
     "View changelog" : "Ver o rexistro de cambios",
     "No action available" : "Non hai accións dispoñíbeis",
-    "Error fetching contact actions" : "Produciuse un erro ao obter as accións do contacto",
+    "Error fetching contact actions" : "Produciuse un erro ao recuperar as accións do contacto",
     "Personal" : "Persoal",
     "Users" : "Usuarios",
     "Apps" : "Aplicacións",
