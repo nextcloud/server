@@ -95,7 +95,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.2.3",
     "exports-loader": "^0.7.0",
-    "file-loader": "^4.3.0",
+    "file-loader": "^5.0.2",
     "handlebars-loader": "^1.7.1",
     "node-sass": "^4.13.0",
     "sass-loader": "^7.3.1",
