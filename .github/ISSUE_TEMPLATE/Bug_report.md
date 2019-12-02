@@ -34,7 +34,7 @@ Tell us what happens instead
 
 ### Server configuration
 
-**Operating system**:
+**Operating system:**
 
 **Web server:**
 
