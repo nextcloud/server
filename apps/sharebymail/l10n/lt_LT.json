@@ -17,7 +17,6 @@
     "You unshared %1$s from %2$s by mail" : "El. paštu nebesidalinate %1$s su %2$s",
     "You unshared {file} from {email} by mail" : "El. paštu nebesidalinate {file} su {email} ",
     "%3$s unshared %1$s from %2$s by mail" : "%3$s el. paštu nebesidalina %1$s su %2$s",
-    "{actor} unshared {file} from {email} by mail" : "{actor} el. paštu nebesidalina {file} su {email} ",
     "Password to access %1$s was sent to %2s" : "Slaptažodis, skirtas prieigai prie %1$s, buvo išsiųstas į %2s",
     "Password to access {file} was sent to {email}" : "Slaptažodis, skirtas prieigai prie {file}, buvo išsiųstas į {email}",
     "Password to access %1$s was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie %1$s ",
