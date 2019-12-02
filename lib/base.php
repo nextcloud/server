@@ -760,9 +760,6 @@ class OC {
 		 * FIXME: Should not be in here at all :see_no_evil:
 		 */
 		if (!OC::$CLI
-			// overwritehost is always trusted, workaround to not have to make
-			// \OC\AppFramework\Http\Request::getOverwriteHost public
-			&& self::$server->getConfig()->getSystemValue('overwritehost') === ''
 			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 			&& self::$server->getConfig()->getSystemValue('installed', false)
 		) {
