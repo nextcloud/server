@@ -69,6 +69,11 @@ class TrustedDomainHelper {
 	 * have been configured
 	 */
 	public function isTrustedDomain($domainWithPort) {
+		// overwritehost is always trusted
+		if ($this->config->getSystemValue('overwritehost') !== '') {
+			return true;
+		}
+
 		$domain = $this->getDomainWithoutPort($domainWithPort);
 
 		// Read trusted domains from config
