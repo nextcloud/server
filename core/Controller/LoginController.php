@@ -284,6 +284,7 @@ class LoginController extends Controller {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
+		$user = trim($user);
 
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the
