@@ -195,6 +195,7 @@
     "Connection to server lost" : "Forbindelsen til serveren er tabt",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Der opstod et problem med at hente siden, prøver igen om %n sekund","Der opstod et problem med at hente siden, prøver igen om %n sekunder"],
     "Show details" : "Vis detaljer",
+    "Hide details" : "Skjul detaljer",
     "Rename project" : "Omdøb projekt",
     "Failed to rename the project" : "Kunne ikke omdøbe projektet",
     "Failed to create a project" : "Kunne ikke oprette projekt",
