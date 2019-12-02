@@ -759,15 +759,18 @@ class ShareAPIController extends OCSController {
 
 		$shares = $this->getSharesFromNode($viewer, $node, $reShares);
 
-		$formatted = $miniFormatted = [];
+		$known = $formatted = $miniFormatted = [];
 		$resharingRight = false;
 		foreach ($shares as $share) {
+			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->currentUser) {
+				continue;
+			}
+
+			$known[] = $share->getId();
 			try {
 				/** @var IShare $share */
 				$format = $this->formatShare($share, $node);
-				if ($share->getSharedWith() !== $this->currentUser) {
-					$formatted[] = $format;
-				}
+				$formatted[] = $format;
 
 				// let's also build a list of shares created
 				// by the current user only, in case
