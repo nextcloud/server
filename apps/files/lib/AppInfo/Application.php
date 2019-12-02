@@ -35,6 +35,7 @@ use OCA\Files\Controller\ApiController;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
+use OCA\Files\Notification\Notifier;
 use OCA\Files\Service\TagService;
 use OCP\AppFramework\App;
 use OCP\Collaboration\Resources\IManager;
@@ -42,8 +43,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 
 class Application extends App {
+
+	public const APP_ID = 'files';
+
 	public function __construct(array $urlParams=array()) {
-		parent::__construct('files', $urlParams);
+		parent::__construct(self::APP_ID, $urlParams);
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
@@ -71,7 +75,7 @@ class Application extends App {
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),
 				$c->query('ServerContainer')->getActivityManager(),
-				$c->query('ServerContainer')->getTagManager()->load('files'),
+				$c->query('ServerContainer')->getTagManager()->load(self::APP_ID),
 				$homeFolder,
 				$server->getEventDispatcher()
 			);
@@ -93,5 +97,9 @@ class Application extends App {
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = $container->query(IEventDispatcher::class);
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+
+		/** @var \OCP\Notification\IManager $notifications */
+		$notifications = $container->query(\OCP\Notification\IManager::class);
+		$notifications->registerNotifierService(Notifier::class);
 	}
 }

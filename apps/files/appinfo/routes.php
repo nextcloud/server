@@ -119,7 +119,22 @@ $application->registerRoutes(
 				'url' => '/api/v1/directEditing/create',
 				'verb' => 'POST'
 			],
-		]
+			[
+				'name' => 'TransferOwnership#transfer',
+				'url' => '/api/v1/transferownership',
+				'verb' => 'POST',
+			],
+			[
+				'name' => 'TransferOwnership#accept',
+				'url' => '/api/v1/transferownership/{id}',
+				'verb' => 'POST',
+			],
+			[
+				'name' => 'TransferOwnership#reject',
+				'url' => '/api/v1/transferownership/{id}',
+				'verb' => 'DELETE',
+			],
+		],
 	]
 );
 

@@ -486,7 +486,7 @@ const Dialogs = {
 			// Hence this is one of the approach to get the choose button.
 			var getOcDialog = self.$filePicker.closest('.oc-dialog')
 			var buttonEnableDisable = getOcDialog.find('.primary')
-			if (self.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 && !self.$filePicker.data('.allowDirectoryChooser')) {
+			if (self.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || self.$filePicker.data('allowDirectoryChooser')) {
 				buttonEnableDisable.prop('disabled', false)
 			} else {
 				buttonEnableDisable.prop('disabled', true)
@@ -1213,7 +1213,7 @@ const Dialogs = {
 		var getOcDialog = (event.target).closest('.oc-dialog')
 		var buttonEnableDisable = $('.primary', getOcDialog)
 		this._changeButtonsText(type, dir.split(/[/]+/).pop())
-		if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1) {
+		if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
 			buttonEnableDisable.prop('disabled', false)
 		} else {
 			buttonEnableDisable.prop('disabled', true)
