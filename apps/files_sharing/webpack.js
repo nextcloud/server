@@ -3,9 +3,10 @@ const path = require('path');
 module.exports = {
 	entry: {
 		'additionalScripts': path.join(__dirname, 'src', 'additionalScripts.js'),
-		'files_sharing': path.join(__dirname, 'src', 'files_sharing.js'),
-		'files_sharing_tab': path.join(__dirname, 'src', 'files_sharing_tab.js'),
 		'collaboration': path.join(__dirname, 'src', 'collaborationresourceshandler.js'),
+		'files_sharing_tab': path.join(__dirname, 'src', 'files_sharing_tab.js'),
+		'files_sharing': path.join(__dirname, 'src', 'files_sharing.js'),
+		'main': path.join(__dirname, 'src', 'index.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js/dist/'),

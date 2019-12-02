@@ -45,6 +45,8 @@ return array(
     'OCA\\Files_Sharing\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Sharing\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Files_Sharing\\ISharedStorage' => $baseDir . '/../lib/ISharedStorage.php',
+    'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
+    'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => $baseDir . '/../lib/Middleware/OCSShareAPIMiddleware.php',
     'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => $baseDir . '/../lib/Middleware/ShareInfoMiddleware.php',
     'OCA\\Files_Sharing\\Middleware\\SharingCheckMiddleware' => $baseDir . '/../lib/Middleware/SharingCheckMiddleware.php',

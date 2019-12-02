@@ -19,10 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
+
 // Check if we are a user
 OCP\User::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
+$eventDispatcher = \OC::$server->getEventDispatcher();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = \OCP\Util::isIE();
@@ -32,8 +36,9 @@ $tmpl = new OCP\Template('files_sharing', 'list', '');
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 
-OCP\Util::addScript('files_sharing', 'dist/files_sharing');
-OCP\Util::addScript('files_sharing', 'dist/files_sharing_tab');
-\OC::$server->getEventDispatcher()->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+// fire script events
+$eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+$eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, new LoadAdditionalScriptsEvent());
+$eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
 
 $tmpl->printPage();
