@@ -5,7 +5,6 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -21,7 +20,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -33,45 +32,24 @@ use OCP\IUser;
 /**
  * @since 18.0.0
  */
-class PostLoginEvent extends Event {
+class UserLoggedOutEvent extends Event {
 
-	/** @var IUser */
+	/** @var IUser|null */
 	private $user;
-
-	/** @var string */
-	private $password;
-
-	/** @var bool */
-	private $isTokenLogin;
 
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user, string $password, bool $isTokenLogin) {
+	public function __construct(IUser $user = null) {
 		parent::__construct();
 		$this->user = $user;
-		$this->password = $password;
-		$this->isTokenLogin = $isTokenLogin;
 	}
 
 	/**
 	 * @since 18.0.0
 	 */
-	public function getUser(): IUser {
+	public function getUser(): ?IUser {
 		return $this->user;
 	}
 
-	/**
-	 * @since 18.0.0
-	 */
-	public function getPassword(): string {
-		return $this->password;
-	}
-
-	/**
-	 * @since 18.0.0
-	 */
-	public function isTokenLogin(): bool {
-		return $this->isTokenLogin;
-	}
 }

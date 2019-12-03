@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -36,19 +37,23 @@ namespace OC\User;
 
 use OC\Accounts\AccountManager;
 use OC\Files\Cache\Storage;
-use OC\Hooks\Emitter;
 use OC_Helper;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class User implements IUser {
+
 	/** @var string */
 	private $uid;
 
@@ -57,14 +62,9 @@ class User implements IUser {
 
 	/** @var UserInterface|null */
 	private $backend;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
 
 	/** @var bool */
 	private $enabled;
-
-	/** @var Emitter|Manager */
-	private $emitter;
 
 	/** @var string */
 	private $home;
@@ -72,7 +72,7 @@ class User implements IUser {
 	/** @var int */
 	private $lastLogin;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
 	/** @var IAvatarManager */
@@ -81,20 +81,26 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
+	public function __construct(string $uid,
+								?UserInterface $backend,
+								IEventDispatcher $eventDispatcher = null,
+								IConfig $config = null,
+								$urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
-		$this->dispatcher = $dispatcher;
-		$this->emitter = $emitter;
-		if(is_null($config)) {
+		if($config === null) {
 			$config = \OC::$server->getConfig();
 		}
+		$this->eventDispatcher = $eventDispatcher ?? \OC::$server->query(IEventDispatcher::class);
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
 		$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 		$this->enabled = ($enabled === 'true');
 		$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
-		if (is_null($this->urlGenerator)) {
+		if ($this->urlGenerator === null) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
 	}
@@ -200,10 +206,8 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
-		$this->dispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preDelete', array($this));
-		}
+		$this->eventDispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
+
 		// get the home now because it won't return it after user deletion
 		$homePath = $this->getHome();
 		$result = $this->backend->deleteUser($this->uid);
@@ -245,10 +249,7 @@ class User implements IUser {
 			$accountManager = \OC::$server->query(AccountManager::class);
 			$accountManager->deleteUser($this);
 
-			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postDelete', array($this));
-			}
+			$this->eventDispatcher->dispatchTyped(new UserDeletedEvent($this));
 		}
 		return !($result === false);
 	}
@@ -261,26 +262,22 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
-		$this->dispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
-			'password' => $password,
-			'recoveryPassword' => $recoveryPassword,
-		]));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
-		}
-		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
-			$result = $this->backend->setPassword($this->uid, $password);
-			$this->dispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
-				'password' => $password,
-				'recoveryPassword' => $recoveryPassword,
-			]));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
-			}
-			return !($result === false);
-		} else {
+		$this->eventDispatcher->dispatchTyped(new BeforePasswordUpdatedEvent(
+			$this,
+			$password,
+			$recoveryPassword
+		));
+		if (!$this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			return false;
 		}
+
+		$result = $this->backend->setPassword($this->uid, $password);
+		$this->eventDispatcher->dispatchTyped(new PasswordUpdatedEvent(
+			$this,
+			$password,
+			$recoveryPassword
+		));
+		return !($result === false);
 	}
 
 	/**
@@ -459,7 +456,9 @@ class User implements IUser {
 	private function removeProtocolFromUrl($url) {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
+		}
+
+		if (strpos($url, 'http://') === 0) {
 			return substr($url, strlen('http://'));
 		}
 
@@ -467,13 +466,7 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
-		$this->dispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
-			'feature' => $feature,
-			'value' => $value,
-			'oldValue' => $oldValue,
-		]));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
-		}
+		$this->eventDispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
 	}
+
 }

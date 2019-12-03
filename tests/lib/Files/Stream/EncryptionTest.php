@@ -49,7 +49,7 @@ class EncryptionTest extends \Test\TestCase {
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename'])
-			->setConstructorArgs([new View(), new \OC\User\Manager($config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $groupManager, $config, $arrayCache])
+			->setConstructorArgs([new View(), new \OC\User\Manager($config, $this->createMock(IEventDispatcher::class)), $groupManager, $config, $arrayCache])
 			->getMock();
 		$util->expects($this->any())
 			->method('getUidAndFilename')

@@ -30,6 +30,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -65,7 +66,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->globalStoragesService = $this->service;
 
-		$this->user = new \OC\User\User(self::USER_ID, null, \OC::$server->getEventDispatcher());
+		$this->user = new \OC\User\User(self::USER_ID, null, \OC::$server->query(IEventDispatcher::class));
 		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession

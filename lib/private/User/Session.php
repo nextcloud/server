@@ -62,7 +62,12 @@ use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
+use OCP\User\Events\BeforeUserLoggedOutEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
+use OCP\User\Events\UserLoggedOutEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -400,16 +405,11 @@ class Session implements IUserSession, Emitter {
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
 
-		$this->dispatcher->dispatchTyped(new PostLoginEvent(
+		$this->dispatcher->dispatchTyped(new UserLoggedInEvent(
 			$user,
 			$loginDetails['password'],
 			$isToken
 		));
-		$this->manager->emit('\OC\User', 'postLogin', [
-			$user,
-			$loginDetails['password'],
-			$isToken,
-		]);
 		if($this->isLoggedIn()) {
 			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;
@@ -438,10 +438,7 @@ class Session implements IUserSession, Emitter {
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
 		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
-
-		if ($this->manager instanceof PublicEmitter) {
-			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
-		}
+		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($user, $password));
 
 		try {
 			$isTokenPassword = $this->isTokenPassword($password);
@@ -841,7 +838,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
 		$this->session->regenerateId();
-		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
+		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
@@ -883,7 +880,7 @@ class Session implements IUserSession, Emitter {
 		} catch (PasswordlessTokenException $ex) {
 			// Ignore
 		}
-		$this->manager->emit('\OC\User', 'postRememberedLogin', [$user, $password]);
+		$this->dispatcher->dispatchTyped(new UserLoggedInWithCookieEvent($user, $password));
 		return true;
 	}
 
@@ -900,9 +897,9 @@ class Session implements IUserSession, Emitter {
 	 * logout the user from the session
 	 */
 	public function logout() {
-		$this->manager->emit('\OC\User', 'logout');
 		$user = $this->getUser();
-		if (!is_null($user)) {
+		$this->dispatcher->dispatchTyped(new BeforeUserLoggedOutEvent($user));
+		if ($user !== null) {
 			try {
 				$this->tokenProvider->invalidateToken($this->session->getId());
 			} catch (SessionNotAvailableException $ex) {
@@ -914,7 +911,7 @@ class Session implements IUserSession, Emitter {
 		$this->setToken(null);
 		$this->unsetMagicInCookie();
 		$this->session->clear();
-		$this->manager->emit('\OC\User', 'postLogout');
+		$this->dispatcher->dispatchTyped(new UserLoggedOutEvent($user));
 	}
 
 	/**

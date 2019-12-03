@@ -12,6 +12,7 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
 
@@ -45,7 +46,7 @@ class IntegrationTest extends \Test\TestCase {
 
 		\OC_Hook::clear('OC_Filesystem');
 
-		$user = new User($this->getUniqueID('user'), new \Test\Util\User\Dummy, \OC::$server->getEventDispatcher());
+		$user = new User(self::getUniqueID('user'), new \Test\Util\User\Dummy, \OC::$server->query(IEventDispatcher::class));
 		$this->loginAsUser($user->getUID());
 
 		$this->view = new View();

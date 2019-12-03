@@ -50,6 +50,7 @@ use OC\Files\Storage\Storage;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
@@ -1308,9 +1309,8 @@ class View {
 		$owner = $this->userManager->get($ownerId);
 		if ($owner instanceof IUser) {
 			return $owner;
-		} else {
-			return new User($ownerId, null, \OC::$server->getEventDispatcher());
 		}
+		return new User($ownerId, null, \OC::$server->query(IEventDispatcher::class));
 	}
 
 	/**

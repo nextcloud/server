@@ -43,10 +43,9 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\User\Backend\IGetRealUIDBackend;
-use OCP\User\Events\CreateUserEvent;
+use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
@@ -66,33 +65,25 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OC\User
  */
 class Manager extends PublicEmitter implements IUserManager {
-	/**
-	 * @var \OCP\UserInterface[] $backends
-	 */
+
+	/** @var UserInterface[] $backends */
 	private $backends = array();
 
-	/**
-	 * @var \OC\User\User[] $cachedUsers
-	 */
+	/** @var User[] $cachedUsers */
 	private $cachedUsers = array();
 
 	/** @var IConfig */
 	private $config;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $oldDispatcher,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$this->dispatcher = $oldDispatcher;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
-			/** @var \OC\User\User $user */
+			/** @var User $user */
 			unset($cachedUsers[$user->getUID()]);
 		});
 		$this->eventDispatcher = $eventDispatcher;
@@ -100,7 +91,8 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\UserInterface[]
+	 *
+	 * @return UserInterface[]
 	 */
 	public function getBackends() {
 		return $this->backends;
@@ -109,7 +101,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * register a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 */
 	public function registerBackend($backend) {
 		$this->backends[] = $backend;
@@ -118,7 +110,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 */
 	public function removeBackend($backend) {
 		$this->cachedUsers = array();
@@ -139,7 +131,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get a user by user id
 	 *
 	 * @param string $uid
-	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
+	 *
+	 * @return User|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid) {
 		if (is_null($uid) || $uid === '' || $uid === false) {
@@ -160,9 +153,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get or construct the user object
 	 *
 	 * @param string $uid
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 * @param bool $cacheUser If false the newly created user object will not be cached
-	 * @return \OC\User\User
+	 *
+	 * @return User
 	 */
 	protected function getUserObject($uid, $backend, $cacheUser = true) {
 		if ($backend instanceof IGetRealUIDBackend) {
@@ -173,7 +167,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -238,7 +232,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 *
+	 * @return User[]
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = array();
@@ -253,8 +248,8 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		uasort($users, function ($a, $b) {
 			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
+			 * @var User $a
+			 * @var User $b
 			 */
 			return strcasecmp($a->getUID(), $b->getUID());
 		});
@@ -267,7 +262,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 *
+	 * @return User[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = array();
@@ -282,8 +278,8 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		usort($users, function ($a, $b) {
 			/**
-			 * @var \OC\User\User $a
-			 * @var \OC\User\User $b
+			 * @var User $a
+			 * @var User $b
 			 */
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
@@ -365,15 +361,13 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \InvalidArgumentException($l->t('The username is already being used'));
 		}
 
-		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
-		$this->eventDispatcher->dispatchTyped(new CreateUserEvent($uid, $password));
+		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if($state === false) {
 			throw new \InvalidArgumentException($l->t('Could not create user'));
 		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
-			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 		}
 		return $user;

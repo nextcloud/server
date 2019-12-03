@@ -29,9 +29,8 @@ use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @group DB
@@ -175,7 +174,7 @@ class SessionTest extends \Test\TestCase {
 				'getUser'
 			])
 			->getMock();
-		$user = new User('sepp', null, $this->createMock(EventDispatcherInterface::class));
+		$user = new User('sepp', null, $this->createMock(IEventDispatcher::class));
 		$userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($isLoggedIn ? $user : null));
@@ -230,7 +229,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -264,7 +262,7 @@ class SessionTest extends \Test\TestCase {
 		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function(PostLoginEvent $e) {
+				$this->callback(function(UserLoggedInEvent $e) {
 					return $e->getUser()->getUID() === 'foo' &&
 						$e->getPassword() === 'bar' &&
 						$e->isTokenLogin() === false;
@@ -296,7 +294,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -329,7 +326,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -572,7 +568,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -661,7 +656,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -725,7 +719,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -777,7 +770,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(IEventDispatcher::class)
 			])
 			->getMock();
@@ -815,8 +807,8 @@ class SessionTest extends \Test\TestCase {
 
 	public function testActiveUserAfterSetSession() {
 		$users = array(
-			'foo' => new User('foo', null, $this->createMock(EventDispatcherInterface::class)),
-			'bar' => new User('bar', null, $this->createMock(EventDispatcherInterface::class))
+			'foo' => new User('foo', null, $this->createMock(IEventDispatcher::class)),
+			'bar' => new User('bar', null, $this->createMock(IEventDispatcher::class))
 		);
 
 		$manager = $this->getMockBuilder('\OC\User\Manager')

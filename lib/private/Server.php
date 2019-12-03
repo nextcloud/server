@@ -163,6 +163,19 @@ use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Share\IShareHelper;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserCreatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
+use OCP\User\Events\BeforeUserLoggedOutEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
+use OCP\User\Events\UserLoggedOutEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -380,8 +393,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$defaultTokenProvider = null;
 			}
 
-			$dispatcher = $c->getEventDispatcher();
-
+			$symfonyDispatcher = $c->getEventDispatcher();
+			/** @var IEventDispatcher $eventDispatcher */
+			$eventDispatcher = $c->query(IEventDispatcher::class);
 			$userSession = new \OC\User\Session(
 				$manager,
 				$session,
@@ -393,48 +407,129 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->query(IEventDispatcher::class)
 			);
-			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
-				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
+
+			// Convert new, typed events to legacy Symfony events and hooks
+			$eventDispatcher->addListener(BeforeUserCreatedEvent::class, function(BeforeUserCreatedEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'preCreateUser', [$event->getUid(), $event->getPassword()]);
+				\OC_Hook::emit('OC_User', 'pre_createUser', [
+					'run' => true,
+					'uid' => $event->getUid(),
+					'password' => $event->getPassword(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_createUser', array('uid' => $user->getUID(), 'password' => $password));
+			$eventDispatcher->addListener(UserCreatedEvent::class, function(UserCreatedEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'postCreateUser', [$event->getUser(), $event->getPassword()]);
+				\OC_Hook::emit('OC_User', 'post_createUser', [
+					'uid' => $event->getUid(),
+					'password' => $event->getPassword(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'preDelete', function ($user) use ($dispatcher) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'pre_deleteUser', array('run' => true, 'uid' => $user->getUID()));
-				$dispatcher->dispatch('OCP\IUser::preDelete', new GenericEvent($user));
+			$eventDispatcher->addListener(BeforePasswordUpdatedEvent::class, function(BeforePasswordUpdatedEvent $event) use ($symfonyDispatcher, $c) {
+				$symfonyDispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($event->getUser(), [
+					'password' => $event->getPassword(),
+					'recoveryPassword' => $event->getRecoveryPassword(),
+				]));
+				$c->getUserManager()->emit('\OC\User', 'preSetPassword', [
+					$event->getUser(),
+					$event->getPassword(),
+					$event->getRecoveryPassword()
+				]);
 			});
-			$userSession->listen('\OC\User', 'postDelete', function ($user) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
+			$eventDispatcher->addListener(PasswordUpdatedEvent::class, function(PasswordUpdatedEvent $event) use ($symfonyDispatcher, $c) {
+				$symfonyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($event->getUser(), [
+					'password' => $event->getPassword(),
+					'recoveryPassword' => $event->getRecoveryPassword(),
+				]));
+				$c->getUserManager()->emit('\OC\User', 'postSetPassword', [
+					$event->getUser(),
+					$event->getPassword(),
+					$event->getRecoveryPassword()
+				]);
+				\OC_Hook::emit('OC_User', 'post_setPassword', [
+					'run' => true,
+					'uid' => $event->getUser()->getUID(),
+					'password' => $event->getPassword(),
+					'recoveryPassword' => $event->getRecoveryPassword(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			$eventDispatcher->addListener(BeforeUserDeletedEvent::class, function(BeforeUserDeletedEvent $event) use ($symfonyDispatcher, $c) {
+				$symfonyDispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($event->getUser()));
+				$c->getUserManager()->emit('\OC\User', 'preDelete', [$event->getUser()]);
+				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $event->getUser()->getUID()]);
 			});
-			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			$eventDispatcher->addListener(UserDeletedEvent::class, function(UserDeletedEvent $event) use ($symfonyDispatcher, $c) {
+				$symfonyDispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($event->getUser()));
+				$c->getUserManager()->emit('\OC\User', 'postDelete', [$event->getUser()]);
+				\OC_Hook::emit('OC_User', 'post_deleteUser', ['uid' => $event->getUser()->getUID()]);
 			});
-			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
-				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
+			$eventDispatcher->addListener(UserChangedEvent::class, function(UserChangedEvent $event) use ($c, $symfonyDispatcher) {
+				$symfonyDispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($event->getUser(), [
+					'feature' => $event->getFeature(),
+					'value' => $event->getValue(),
+					'oldValue' => $event->getOldValue(),
+				]));
+				$c->getUserManager()->emit('\OC\User', 'changeUser', [
+					$event->getUser(),
+					$event->getFeature(),
+					$event->getValue(),
+					$event->getOldValue(),
+				]);
+				\OC_Hook::emit('OC_User', 'changeUser', [
+					'run' => true,
+					'user' => $event->getUser(),
+					'feature' => $event->getFeature(),
+					'value' => $event->getValue(),
+					'old_value' => $event->getOldValue(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'postLogin', function ($user, $password, $isTokenLogin) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'isTokenLogin' => $isTokenLogin));
+			$eventDispatcher->addListener(BeforeUserLoggedInEvent::class, function(BeforeUserLoggedInEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'preLogin', [
+					$event->getUsername(),
+					$event->getPassword(),
+				]);
+				\OC_Hook::emit('OC_User', 'pre_login', [
+					'run' => true,
+					'uid' => $event->getUsername(),
+					'password' => $event->getPassword(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+			$eventDispatcher->addListener(UserLoggedInEvent::class, function(UserLoggedInEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'postLogin', [
+					$event->getUser(),
+					$event->getPassword(),
+					$event->isTokenLogin(),
+				]);
+				\OC_Hook::emit('OC_User', 'post_login', [
+					'run' => true,
+					'uid' => $event->getUser()->getUID(),
+					'password' => $event->getPassword(),
+					'isTokenLogin' => $event->isTokenLogin(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'logout', function () {
-				\OC_Hook::emit('OC_User', 'logout', array());
+			$eventDispatcher->addListener(BeforeUserLoggedInWithCookieEvent::class, function(BeforeUserLoggedInWithCookieEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'preRememberedLogin', [
+					$event->getUsername(),
+				]);
 			});
-			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
-				/** @var $user \OC\User\User */
-				\OC_Hook::emit('OC_User', 'changeUser', array('run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue));
+			$eventDispatcher->addListener(UserLoggedInWithCookieEvent::class, function(UserLoggedInWithCookieEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'postRememberedLogin', [
+					$event->getUser(),
+					$event->getPassword(),
+				]);
+				\OC_Hook::emit('OC_User', 'post_login', [
+					'run' => true,
+					'uid' => $event->getUser()->getUID(),
+					'password' => $event->getPassword(),
+				]);
 			});
+			$eventDispatcher->addListener(BeforeUserLoggedOutEvent::class, function(BeforeUserLoggedOutEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'logout');
+				\OC_Hook::emit('OC_User', 'logout', []);
+			});
+			$eventDispatcher->addListener(UserLoggedOutEvent::class, function(UserLoggedOutEvent $event) use ($c) {
+				$c->getUserManager()->emit('\OC\User', 'postLogout');
+			});
+
 			return $userSession;
 		});
 		$this->registerAlias(\OCP\IUserSession::class, \OC\User\Session::class);
@@ -1848,6 +1943,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @return EventDispatcherInterface
 	 * @since 8.2.0
+	 * @deprecated inject or query \OCP\EventDispatcher\IEventDispatcher instead
 	 */
 	public function getEventDispatcher() {
 		return $this->query(\OC\EventDispatcher\SymfonyAdapter::class);
