@@ -943,8 +943,16 @@ span.version {
 	.section {
 		cursor: pointer;
 	}
+
 	.app-list-move {
 		transition: transform 1s;
+	}
+	#app-list-update-all {
+		margin-left: 10px;
+	}
+	.counter {
+		padding-left: $header-height - 10px;
+		margin: 10px;
 	}
 	&.installed {
 		.apps-list-container {
@@ -969,6 +977,7 @@ span.version {
 			&.selected {
 				background-color: var(--color-background-dark);
 			}
+
 		}
 		.groups-enable {
 			margin-top: 0;
