@@ -49,6 +49,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => __DIR__ . '/..' . '/../lib/DeleteOrphanedSharesJob.php',
         'OCA\\Files_Sharing\\Exceptions\\BrokenPath' => __DIR__ . '/..' . '/../lib/Exceptions/BrokenPath.php',
         'OCA\\Files_Sharing\\Exceptions\\S2SException' => __DIR__ . '/..' . '/../lib/Exceptions/S2SException.php',
+        'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => __DIR__ . '/..' . '/../lib/Exceptions/SharingRightsException.php',
         'OCA\\Files_Sharing\\ExpireSharesJob' => __DIR__ . '/..' . '/../lib/ExpireSharesJob.php',
         'OCA\\Files_Sharing\\External\\Cache' => __DIR__ . '/..' . '/../lib/External/Cache.php',
         'OCA\\Files_Sharing\\External\\Manager' => __DIR__ . '/..' . '/../lib/External/Manager.php',

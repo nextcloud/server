@@ -119,8 +119,6 @@ import ActionInput from 'nextcloud-vue/dist/Components/ActionInput'
 import ActionTextEditable from 'nextcloud-vue/dist/Components/ActionTextEditable'
 import Tooltip from 'nextcloud-vue/dist/Directives/Tooltip'
 
-// eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
 
 export default {
