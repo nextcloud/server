@@ -125,11 +125,6 @@ class QuerySearchHelper {
 	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
 		$this->validateComparison($comparison);
 
-		// "owner" search is done by limiting the storages queries and should not be put in the sql
-		if ($comparison->getField() === 'owner') {
-			return null;
-		}
-
 		list($field, $value, $type) = $this->getOperatorFieldAndValue($comparison);
 		if (isset($operatorMap[$type])) {
 			$queryOperator = $operatorMap[$type];
