@@ -228,7 +228,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
@@ -271,7 +275,7 @@ class SessionTest extends \Test\TestCase {
 		$this->assertEquals($user, $userSession->getUser());
 	}
 
-	
+
 	public function testLoginValidPasswordDisabled() {
 		$this->expectException(\OC\User\LoginException::class);
 
@@ -290,10 +294,12 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
-
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -321,7 +327,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
@@ -404,7 +414,7 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
-	
+
 	public function testLogClientInNoTokenPasswordWith2fa() {
 		$this->expectException(\OC\Authentication\Exceptions\PasswordLoginForbiddenException::class);
 
@@ -508,7 +518,7 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
-	
+
 	public function testLogClientInNoTokenPasswordNo2fa() {
 		$this->expectException(\OC\Authentication\Exceptions\PasswordLoginForbiddenException::class);
 
@@ -560,7 +570,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -645,7 +659,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -705,7 +723,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -753,7 +775,11 @@ class SessionTest extends \Test\TestCase {
 		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
 		$manager = $this->getMockBuilder(Manager::class)
 			->setMethods($mockedManagerMethods)
-			->setConstructorArgs([$this->config, $this->createMock(EventDispatcherInterface::class)])
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(IEventDispatcher::class)
+			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
 			//override, otherwise tests will fail because of setcookie()
@@ -973,7 +999,7 @@ class SessionTest extends \Test\TestCase {
 		$this->assertFalse($userSession->createSessionToken($request, $uid, $loginName, $password));
 	}
 
-	
+
 	public function testTryTokenLoginWithDisabledUser() {
 		$this->expectException(\OC\User\LoginException::class);
 

@@ -33,12 +33,15 @@ namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Events\CreateUserEvent;
+use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -72,17 +75,24 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/** @var IConfig */
 	private $config;
+
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher) {
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
+	public function __construct(IConfig $config,
+								EventDispatcherInterface $oldDispatcher,
+								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$this->dispatcher = $dispatcher;
+		$this->dispatcher = $oldDispatcher;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */
 			unset($cachedUsers[$user->getUID()]);
 		});
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -349,6 +359,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
+		$this->eventDispatcher->dispatchTyped(new CreateUserEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if($state === false) {
 			throw new \InvalidArgumentException($l->t('Could not create user'));
@@ -356,6 +367,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
+			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 		}
 		return $user;
 	}
@@ -460,11 +472,11 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
-		
+
 		$result = $queryBuilder->execute();
 		$count = $result->fetchColumn();
 		$result->closeCursor();
-		
+
 		if ($count !== false) {
 			$count = (int)$count;
 		} else {
@@ -494,7 +506,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $queryBuilder->execute();
 		$count = $result->fetchColumn();
 		$result->closeCursor();
-		
+
 		if ($count !== false) {
 			$count = (int)$count;
 		} else {

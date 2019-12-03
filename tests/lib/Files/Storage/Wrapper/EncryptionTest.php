@@ -14,6 +14,7 @@ use OC\User\Manager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
@@ -131,7 +132,7 @@ class EncryptionTest extends Storage {
 
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
@@ -568,7 +569,7 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs(
 				[
 					new View(),
-					new Manager($this->config, $this->createMock(EventDispatcherInterface::class)),
+					new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)),
 					$this->groupManager,
 					$this->config,
 					$this->arrayCache
@@ -637,7 +638,7 @@ class EncryptionTest extends Storage {
 			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')

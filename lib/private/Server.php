@@ -317,9 +317,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('LazyRootFolder', \OCP\Files\IRootFolder::class);
 
-		$this->registerService(\OC\User\Manager::class, function (Server $c) {
-			return new \OC\User\Manager($c->getConfig(), $c->getEventDispatcher());
-		});
 		$this->registerAlias('UserManager', \OC\User\Manager::class);
 		$this->registerAlias(\OCP\IUserManager::class, \OC\User\Manager::class);
 
