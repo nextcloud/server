@@ -561,6 +561,7 @@ return array(
     'OC\\Authentication\\Exceptions\\LoginRequiredException' => $baseDir . '/lib/private/Authentication/Exceptions/LoginRequiredException.php',
     'OC\\Authentication\\Exceptions\\PasswordLoginForbiddenException' => $baseDir . '/lib/private/Authentication/Exceptions/PasswordLoginForbiddenException.php',
     'OC\\Authentication\\Exceptions\\PasswordlessTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/PasswordlessTokenException.php',
+    'OC\\Authentication\\Exceptions\\TokenPasswordExpiredException' => $baseDir . '/lib/private/Authentication/Exceptions/TokenPasswordExpiredException.php',
     'OC\\Authentication\\Exceptions\\TwoFactorAuthRequiredException' => $baseDir . '/lib/private/Authentication/Exceptions/TwoFactorAuthRequiredException.php',
     'OC\\Authentication\\Exceptions\\UserAlreadyLoggedInException' => $baseDir . '/lib/private/Authentication/Exceptions/UserAlreadyLoggedInException.php',
     'OC\\Authentication\\Exceptions\\WipeTokenException' => $baseDir . '/lib/private/Authentication/Exceptions/WipeTokenException.php',
