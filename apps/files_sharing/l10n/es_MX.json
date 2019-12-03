@@ -1,11 +1,11 @@
 { "translations": {
-    "Shared with others" : "Compartido con otros",
     "Shared with you" : "Compartido contigo",
-    "Shared by link" : "Compartido por liga",
     "Nothing shared with you yet" : "Nada ha sido compartido contigo aún",
     "Files and folders others share with you will show up here" : "Los archivos y carpetas que sean compartidos contigo se mostrarán aquí",
+    "Shared with others" : "Compartido con otros",
     "Nothing shared yet" : "Nada compartido aún",
     "Files and folders you share will show up here" : "Los archivos y carpetas que compartas se mostrarán aquí",
+    "Shared by link" : "Compartido por liga",
     "No shared links" : "No hay ligas compartidas",
     "Files and folders you share by link will show up here" : "Los archivos y carpetas que compartas por ligas se mostrarán aquí",
     "Download" : "Descargar",
