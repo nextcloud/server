@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Shared with others",
     "Shared with you" : "Shared with you",
-    "Shared by link" : "Shared by link",
     "Nothing shared with you yet" : "Nothing shared with you yet",
     "Files and folders others share with you will show up here" : "Files and folders others share with you will show up here",
+    "Shared with others" : "Shared with others",
     "Nothing shared yet" : "Nothing shared yet",
     "Files and folders you share will show up here" : "Files and folders you share will show up here",
+    "Shared by link" : "Shared by link",
     "No shared links" : "No shared links",
     "Files and folders you share by link will show up here" : "Files and folders you share by link will show up here",
     "Download" : "Download",
