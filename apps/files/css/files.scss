@@ -1215,3 +1215,25 @@ table.dragshadow td.size {
 #gallery-button {
 	display: none;
 }
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+
+	h3 {
+		width: 100%;
+		padding: 0 18px;
+	}
+
+	.systemTagsInputFieldContainer {
+		flex: 1 1 80%;
+		min-width: 0;
+		margin: 0 12px;
+	}
+}
+
