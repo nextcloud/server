@@ -119,7 +119,7 @@ class Notifier implements INotifier {
 		$notification->addParsedAction($approveAction)
 			->addParsedAction($disapproveAction)
 			->setRichSubject(
-				$l->t('Incomming file transfer from {user}'),
+				$l->t('Incoming file transfer from {user}'),
 				[
 					'user' => [
 						'type' => 'user',
@@ -127,7 +127,7 @@ class Notifier implements INotifier {
 						'name' => $param['sourceUser'],
 					],
 				])
-			->setParsedSubject(str_replace('{user}', $param['sourceUser'], $l->t('Incomming file transfer from {user}')))
+			->setParsedSubject(str_replace('{user}', $param['sourceUser'], $l->t('Incoming file transfer from {user}')))
 			->setRichMessage(
 				$l->t('Do you want to accept {path}?'),
 				[
@@ -147,7 +147,8 @@ class Notifier implements INotifier {
 		$param = $notification->getSubjectParameters();
 
 		$notification->setRichSubject($l->t('File transfer failed'))
-			->setParsedSubject(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['targetUser']], $l->t('Your transfer of {path} to {user} failed.')))
+			->setParsedSubject($l->t('File transfer failed'))
+
 			->setRichMessage(
 				$l->t('Your transfer of {path} to {user} failed.'),
 				[
@@ -162,7 +163,7 @@ class Notifier implements INotifier {
 						'name' => $param['targetUser'],
 					],
 				])
-				->setParsedMessage($l->t('File transfer failed'));
+			->setParsedMessage(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['targetUser']], $l->t('Your transfer of {path} to {user} failed.')));
 		return $notification;
 	}
 
@@ -171,7 +172,8 @@ class Notifier implements INotifier {
 		$param = $notification->getSubjectParameters();
 
 		$notification->setRichSubject($l->t('File transfer failed'))
-			->setParsedSubject(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['sourceUser']], $l->t('The transfer of {path} from {user} failed.')))
+			->setParsedSubject($l->t('File transfer failed'))
+
 			->setRichMessage(
 				$l->t('The transfer of {path} from {user} failed.'),
 				[
@@ -186,7 +188,7 @@ class Notifier implements INotifier {
 						'name' => $param['sourceUser'],
 					],
 				])
-			->setParsedMessage($l->t('File transfer failed'));
+			->setParsedMessage(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['sourceUser']], $l->t('The transfer of {path} from {user} failed.')));
 
 		return $notification;
 	}
@@ -196,7 +198,8 @@ class Notifier implements INotifier {
 		$param = $notification->getSubjectParameters();
 
 		$notification->setRichSubject($l->t('File transfer done'))
-			->setParsedSubject(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['targetUser']], $l->t('Your transfer of {path} to {user} has completed.')))
+			->setParsedSubject($l->t('File transfer done'))
+
 			->setRichMessage(
 				$l->t('Your transfer of {path} to {user} has completed.'),
 				[
@@ -211,7 +214,7 @@ class Notifier implements INotifier {
 						'name' => $param['targetUser'],
 					],
 				])
-			->setParsedMessage($l->t('File transfer done'));
+			->setParsedMessage(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['targetUser']], $l->t('Your transfer of {path} to {user} has completed.')));
 
 		return $notification;
 	}
@@ -221,7 +224,8 @@ class Notifier implements INotifier {
 		$param = $notification->getSubjectParameters();
 
 		$notification->setRichSubject($l->t('File transfer done'))
-			->setParsedSubject(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['sourceUser']], $l->t('The transfer of {path} from {user} has completed.')))
+			->setParsedSubject($l->t('File transfer done'))
+
 			->setRichMessage(
 				$l->t('The transfer of {path} from {user} has completed.'),
 				[
@@ -236,7 +240,7 @@ class Notifier implements INotifier {
 						'name' => $param['sourceUser'],
 					],
 				])
-			->setParsedMessage($l->t('File transfer done'));
+			->setParsedMessage(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['sourceUser']], $l->t('The transfer of {path} from {user} has completed.')));
 
 		return $notification;
 	}
