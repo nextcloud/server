@@ -71,6 +71,7 @@ interface ISearchQuery {
 	 * Whether or not the search should be limited to the users home storage
 	 *
 	 * @return bool
+	 * @since 18.0.0
 	 */
 	public function limitToHome(): bool;
 }
