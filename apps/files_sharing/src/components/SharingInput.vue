@@ -23,6 +23,7 @@
 <template>
 	<Multiselect ref="multiselect"
 		class="sharing-input"
+		:clear-on-select="false"
 		:disabled="!canReshare"
 		:hide-selected="true"
 		:internal-search="false"
@@ -176,10 +177,12 @@ export default {
 		 * @param {string} search the search query
 		 * @param {boolean} [lookup=false] search on lookup server
 		 */
-		async getSuggestions(search, lookup) {
+		async getSuggestions(search, lookup = false) {
 			this.loading = true
-			lookup = lookup || false
-			console.info(search, lookup)
+
+			if (OC.getCapabilities().files_sharing.sharee.query_lookup_default === true) {
+				lookup = true
+			}
 
 			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
 				params: {
@@ -215,8 +218,9 @@ export default {
 				.sort((a, b) => a.shareType - b.shareType)
 
 			// lookup clickable entry
+			// show if enabled and not already requested
 			const lookupEntry = []
-			if (data.lookupEnabled) {
+			if (data.lookupEnabled && !lookup) {
 				lookupEntry.push({
 					isNoUser: true,
 					displayName: t('files_sharing', 'Search globally'),
@@ -388,8 +392,17 @@ export default {
 		 */
 		async addShare(value) {
 			if (value.lookup) {
-				return this.getSuggestions(this.query, true)
+				await this.getSuggestions(this.query, true)
+
+				// focus the input again
+				this.$nextTick(() => {
+					this.$refs.multiselect.$el.querySelector('.multiselect__input').focus()
+				})
+				return true
 			}
+
+			// TODO: reset the search string when done
+			// https://github.com/shentao/vue-multiselect/issues/633
 
 			// handle externalResults from OCA.Sharing.ShareSearch
 			if (value.handler) {
