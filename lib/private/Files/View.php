@@ -9,19 +9,19 @@
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author karakayasemi <karakayasemi@itu.edu.tr>
  * @author Klaas Freitag <freitag@owncloud.com>
+ * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Luke Policinski <lpolicinski@gmail.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Petr Svoboda <weits666@gmail.com>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
- * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -38,7 +38,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

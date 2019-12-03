@@ -10,18 +10,22 @@
  * @author Benjamin Diele <benjamin@diele.be>
  * @author bline <scottbeck@gmail.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Lyonel Vincent <lyonel@ezix.org>
  * @author Mario Kolling <mario.kolling@serpro.gov.br>
+ * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
+ * @author Peter Kubica <peter@kubica.ch>
  * @author Ralph Krimmel <rkrimme1@gwdg.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author root <root@localhost.localdomain>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -37,7 +41,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

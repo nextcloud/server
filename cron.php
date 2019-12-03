@@ -6,6 +6,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Damjan Georgievski <gdamjan@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -30,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

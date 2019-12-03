@@ -3,10 +3,13 @@
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mario Danic <mario@lovelyhq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Russell Ault <russell@auksnest.ca>
+ * @author RussellAult <RussellAult@users.noreply.github.com>
+ * @author Sergej Nikolaev <kinolaev@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 

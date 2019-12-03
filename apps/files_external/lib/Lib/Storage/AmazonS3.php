@@ -6,6 +6,8 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christopher T. Johnson <ctjctj@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author enoch <lanxenet@hotmail.com>
  * @author Johan Björk <johanimon@gmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Martin Mattel <martin.mattel@diemattels.at>
@@ -14,6 +16,7 @@
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -29,7 +32,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

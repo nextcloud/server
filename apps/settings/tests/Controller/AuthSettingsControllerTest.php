@@ -1,8 +1,17 @@
 <?php
 /**
- * @author Christoph Wurst <christoph@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Fabrizio Steiner <fabrizio.steiner@gmail.com>
+ * @author Greta Doci <gretadoci@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sergej Nikolaev <kinolaev@gmail.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

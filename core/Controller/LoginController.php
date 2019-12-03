@@ -4,16 +4,14 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author justin-sleep <justin@quarterfull.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Sandro Lutz <sandro.lutz@temparus.ch>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Ujjwal Bhardwaj <ujjwalb1996@gmail.com>
+ * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Rayn0r <andrew@ilpss8.myfirewall.org>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

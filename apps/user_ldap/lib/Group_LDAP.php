@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Alex Weirig <alex.weirig@technolink.lu>
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
+ * @author Alex Weirig <alex.weirig@technolink.lu>
  * @author alexweirig <alex.weirig@technolink.lu>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Andreas Pflug <dev@admin4.org>
@@ -17,6 +17,7 @@
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -35,7 +36,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

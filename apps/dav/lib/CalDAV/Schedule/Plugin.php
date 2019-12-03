@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -19,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 

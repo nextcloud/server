@@ -6,16 +6,19 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@owncloud.com>
- * @author Frank Isemann <frank@isemann.name>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Dan Callahan <dan.callahan@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author François Kubler <francois@kubler.org>
+ * @author Frank Isemann <frank@isemann.name>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author KB7777 <k.burkowski@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robert Scheck <robert@fedoraproject.org>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sean Comeau <sean@ftlnetworks.ca>
@@ -35,7 +38,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

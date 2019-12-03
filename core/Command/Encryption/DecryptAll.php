@@ -4,9 +4,11 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author davitol <dtoledo@solidgear.es>
+ * @author Evgeny Golyshev <eugulixes@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Marius Blüm <marius@lineone.io>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ruben Homs <ruben@homs.codes>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -22,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

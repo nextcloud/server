@@ -2,13 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author Daniel Tygel <dtygel@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 

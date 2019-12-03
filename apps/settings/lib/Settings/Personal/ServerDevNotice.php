@@ -2,7 +2,8 @@
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

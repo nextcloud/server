@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -9,6 +11,8 @@ declare(strict_types=1);
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author fabian <fabian@web2.0-apps.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -16,8 +20,6 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Loki3000 <github@labcms.ru>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nishiki <nishiki@yaegashi.fr>
  * @author Robin Appelman <robin@icewind.nl>
@@ -38,7 +40,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
