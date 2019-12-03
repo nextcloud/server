@@ -527,6 +527,9 @@
 					case 'restore':
 						this._onClickRestoreSelected(ev);
 						break;
+					case 'tags':
+						this._onClickTagSelected(ev);
+						break;
 				}
 		},
 		/**
@@ -1085,6 +1088,112 @@
 			}
 			this.do_delete(files);
 			event.preventDefault();
+		},
+
+        /**
+		 * CUSTOM CODE
+		 * Event handler for when clicking on "Tags" for the selected files
+         */
+        _onClickTagSelected: function(event) {
+            var self = this;
+            event.preventDefault();
+            var commonTags = [];
+
+            var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
+            var tagCollections=[];
+            var fetchTagPromises = [];
+
+
+            selectedFiles.forEach(function(fileId) {
+            	var deferred = new $.Deferred();
+            	var tagCollection =  new OC.SystemTags.SystemTagsMappingCollection([], {
+                    objectType: 'files',
+                    objectId: fileId});
+                tagCollections.push(tagCollection);
+                tagCollection.fetch({
+					success: function(){
+						deferred.resolve('success');
+						},
+					error: function() {deferred.resolve('failed');}
+				})
+                fetchTagPromises.push(deferred);
+            });
+            if (!self._inputView) {
+                self._inputView = new OC.SystemTags.SystemTagsInputField({
+                    multiple: true,
+                    allowActions: true,
+                    allowCreate: true,
+                    isAdmin: OC.isUserAdmin(),
+                });
+                self._inputView.on('select', self._onSelectTag, self);
+                self._inputView.on('deselect', self._onDeselectTag, self);
+                self._inputView.render();
+                self.tagsContainer = $('<tr id="tag_multiple_files_container"><th colspan="4"></th></tr>');
+               // console.log('inputView',self._inputView, self._inputView.$el,'tag container', self.tagsContainer);
+                self.tagsContainer.children()[0].append(self._inputView.$el.context);
+                $('#app-content-files>#filestable>thead').append(self.tagsContainer);
+
+            }
+            self._inputView.$el.addClass('icon-loading');
+            self.tagsContainer.show();
+			Promise.all(fetchTagPromises).then(function() {
+				//find tags which are common to all selected files
+                commonTags =_.intersection.apply(null, tagCollections.map(function (tagCollection) {return tagCollection.getTagIds();}));
+                self._inputView.setValues(commonTags);
+                self._inputView.$el.removeClass('icon-loading');
+                $(document).on('click',function(ev){
+                    	self._onClickDocument(ev);
+                });
+			});
+		},
+
+		_onClickDocument: function(ev) {
+          if(!$(ev.target).closest('#editor_container').length) {
+          	this._inputView.setValues([]);
+          	this.tagsContainer.hide();
+              $(document).unbind('click', this._onClickDocument);
+          }
+
+	  },
+
+        /**
+		 * Custom code
+		 * Set tag for all selected files
+         * @param tagModel
+         * @private
+         */
+		_onSelectTag: function(tagModel) {
+        	console.log('selected',tagModel.attributes);
+        	var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
+			if (!_.isArray(selectedFiles)) {
+				console.log('selected files - no array!', selectedFiles);
+			}
+            selectedFiles.forEach(function(fileId) {
+                $.ajax({
+                    url: OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagModel.attributes.id,
+                    type: 'PUT',
+                });
+			});
+
+		},
+        /**
+		 * remove tag from all selected files
+         * @param tagId
+         * @private
+         */
+		_onDeselectTag: function(tagId) {
+            var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
+            console.log('removing tag', tagId, 'for files', selectedFiles, this.getSelectedFiles())
+            if (!_.isArray(selectedFiles)) {
+                console.log('selected files - no array!', selectedFiles);
+            }
+            selectedFiles.forEach(function(fileId) {
+            	console.log('remove tag route',OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagId)
+                $.ajax({
+                    url: OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagId,
+                    type: 'DELETE'
+                });
+            });
 		},
 
 		/**

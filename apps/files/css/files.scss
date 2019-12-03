@@ -1138,3 +1138,15 @@ table.dragshadow td.size {
 #gallery-button {
 	display: none;
 }
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+
+	td {
+		padding: 0 0.5em 0 0.5em;
+	}
+}
+

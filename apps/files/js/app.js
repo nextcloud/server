@@ -102,6 +102,11 @@
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
 						},
+                        {   name: 'tags',
+                            displayName:  'Tags',
+                            iconClass: 'icon-tag'
+
+                        }
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
