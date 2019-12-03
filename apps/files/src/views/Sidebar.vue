@@ -199,6 +199,8 @@ export default {
 		defaultAction() {
 			return this.fileInfo
 				&& OCA.Files && OCA.Files.App && OCA.Files.App.fileList
+				&& OCA.Files.App.fileList.fileActions
+				&& OCA.Files.App.fileList.fileActions.getDefaultFileAction
 				&& OCA.Files.App.fileList
 					.fileActions.getDefaultFileAction(this.fileInfo.mimetype, this.fileInfo.type, OC.PERMISSION_READ)
 
@@ -239,7 +241,7 @@ export default {
 					})
 				} catch (error) {
 					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data')
+					console.error('Error while loading the file data', error)
 				}
 			}
 		}
