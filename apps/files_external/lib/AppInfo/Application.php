@@ -30,6 +30,7 @@
 namespace OCA\Files_External\AppInfo;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
+use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -63,6 +64,9 @@ use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\Config\IUserMountCache;
+use OCP\IGroup;
+use OCP\IUser;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -94,6 +98,30 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
 		$this->getAuthMechanisms();
+	}
+
+	public function registerListeners() {
+		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$dispatcher->addListener(
+			IUser::class . '::postDelete',
+			function (GenericEvent $event) {
+				/** @var IUser $user */
+				$user = $event->getSubject();
+				/** @var DBConfigService $config */
+				$config = $this->getContainer()->query(DBConfigService::class);
+				$config->modifyMountsOnUserDelete($user->getUID());
+			}
+		);
+		$dispatcher->addListener(
+			IGroup::class . '::postDelete',
+			function (GenericEvent $event) {
+				/** @var IGroup $group */
+				$group = $event->getSubject();
+				/** @var DBConfigService $config */
+				$config = $this->getContainer()->query(DBConfigService::class);
+				$config->modifyMountsOnGroupDelete($group->getGID());
+			}
+		);
 	}
 
 	/**

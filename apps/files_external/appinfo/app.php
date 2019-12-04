@@ -34,6 +34,8 @@ require_once __DIR__ . '/../3rdparty/autoload.php';
 
 // register Application object singleton
 \OC_Mount_Config::$app = \OC::$server->query(\OCA\Files_External\AppInfo\Application::class);
+\OC_Mount_Config::$app->registerListeners();
+
 $appContainer = \OC_Mount_Config::$app->getContainer();
 
 \OCA\Files\App::getNavigationManager()->add(function () {
