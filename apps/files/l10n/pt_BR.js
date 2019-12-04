@@ -138,7 +138,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Envio (max. %s)",
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
-    "Incomming file transfer from {user}" : "Recebida uma transferência de arquivo de {user}",
     "Do you want to accept {path}?" : "Deseja aceitar {path}?",
     "File transfer failed" : "Erro na transferência do arquivo",
     "Your transfer of {path} to {user} failed." : "Erro na transferência de {path} para {user}.",
