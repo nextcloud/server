@@ -50,6 +50,7 @@ use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
+use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
 
@@ -325,20 +326,16 @@ class Storage {
 	 * @param int $revision revision timestamp
 	 * @return bool
 	 */
-	public static function rollback($file, $revision) {
+	public static function rollback(string $file, int $revision, IUser $user) {
 
 		// add expected leading slash
-		$file = '/' . ltrim($file, '/');
-		list($uid, $filename) = self::getUidAndFilename($file);
-		if ($uid === null || trim($filename, '/') === '') {
-			return false;
-		}
+		$filename = '/' . ltrim($file, '/');
 
 		// Fetch the userfolder to trigger view hooks
-		$userFolder = \OC::$server->getUserFolder($uid);
+		$userFolder = \OC::$server->getUserFolder($user->getUID());
 
-		$users_view = new View('/'.$uid);
-		$files_view = new View('/'. User::getUser().'/files');
+		$users_view = new View('/'.$user->getUID());
+		$files_view = new View('/'. $user->getUID().'/files');
 
 		$versionCreated = false;
 
@@ -374,7 +371,7 @@ class Storage {
 		// rollback
 		if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
 			$files_view->touch($file, $revision);
-			Storage::scheduleExpire($uid, $file);
+			Storage::scheduleExpire($user->getUID(), $file);
 
 			$node = $userFolder->get($file);
 
