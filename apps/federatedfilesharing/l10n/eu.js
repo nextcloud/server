@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Nirekin partekatu #Nextcloud Federatutako Hodei IDa erabiliz, 1%s ikusi",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Nirekin partekatu #Nextcloud Federatutako Hodei IDa erabiliz, ",
     "Sharing" : "Partekatzea",
+    "Federated file sharing" : "Fitxategien partekatze federatua",
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Open documentation" : "Ireki dokumentazioa",
     "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu",
