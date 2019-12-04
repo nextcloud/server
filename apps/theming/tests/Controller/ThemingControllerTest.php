@@ -765,6 +765,9 @@ class ThemingControllerTest extends TestCase {
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'text/svg');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
@@ -793,6 +796,9 @@ class ThemingControllerTest extends TestCase {
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'image/png');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
