@@ -364,6 +364,13 @@
 
 			this.$el.on('show', this._onResize);
 
+			// reload files list on share accept
+			$('body').on('OCA.Notification.Action', function(eventObject) {
+				if (eventObject.notification.app === 'files_sharing' && eventObject.action.type === 'POST') {
+					self.reload()
+				}
+			});
+
 			this.updateSearch();
 
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
