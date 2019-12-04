@@ -320,7 +320,7 @@ const actions = {
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(OC.linkToOCS(`cloud/groups/${gid}`, 2))
+			return api.delete(OC.linkToOCS(`cloud/groups/${encodeURIComponent(gid)}`, 2))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }))
