@@ -135,6 +135,7 @@ Vagrantfile
 
 # Tests - auto-generated files
 /data-autotest
+/tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
 /tests/karma-coverage
