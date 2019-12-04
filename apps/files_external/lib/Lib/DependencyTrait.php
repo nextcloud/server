@@ -37,4 +37,3 @@ trait DependencyTrait {
 	}
 
 }
-

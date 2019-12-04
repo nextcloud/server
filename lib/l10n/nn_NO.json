@@ -11,7 +11,6 @@
     "Users" : "Brukarar",
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
-    "Authentication error" : "Feil i autentisering",
-    "%s shared »%s« with you" : "%s delte «%s» med deg"
+    "Authentication error" : "Feil i autentisering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

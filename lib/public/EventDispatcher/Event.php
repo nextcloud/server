@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCP\EventDispatcher;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Contracts\EventDispatcher\Event as SymfonyEvent;
 
 /**
  * Base event class for the event dispatcher service
@@ -35,6 +35,20 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *
  * @since 17.0.0
  */
-class Event extends GenericEvent {
+class Event extends SymfonyEvent {
+
+	/**
+	 * Compatibility constructor
+	 *
+	 * In Nextcloud 17.0.0 this event class used a now deprecated/removed Symfony base
+	 * class that had a constructor (with default arguments). To lower the risk of
+	 * a breaking change (PHP won't allow parent constructor calls if there is none),
+	 * this empty constructor's only purpose is to hopefully not break existing sub-
+	 * classes of this class.
+	 *
+	 * @since 18.0.0
+	 */
+	public function __construct() {
+	}
 
 }

@@ -41,10 +41,10 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
-use OCP\Files\Cache\ICacheEntry;
 
 class Encryption extends Wrapper {
 

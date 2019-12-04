@@ -28,15 +28,15 @@
 
 namespace OCA\Files_External\Service;
 
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCP\Files\Config\IUserMountCache;
-use \OCP\Files\StorageNotAvailableException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
 /**

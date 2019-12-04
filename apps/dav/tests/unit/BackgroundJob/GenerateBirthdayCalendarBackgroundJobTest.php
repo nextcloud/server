@@ -38,7 +38,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 	/** @var \OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob */
 	private $backgroundJob;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->birthdayService = $this->createMock(BirthdayService::class);

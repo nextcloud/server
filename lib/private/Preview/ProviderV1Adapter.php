@@ -36,11 +36,11 @@ class ProviderV1Adapter implements IProviderV2 {
 	}
 
 	public function getMimeType(): string {
-		return $this->providerV1->getMimeType();
+		return (string)$this->providerV1->getMimeType();
 	}
 
 	public function isAvailable(FileInfo $file): bool {
-		return $this->providerV1->isAvailable($file);
+		return (bool)$this->providerV1->isAvailable($file);
 	}
 
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {

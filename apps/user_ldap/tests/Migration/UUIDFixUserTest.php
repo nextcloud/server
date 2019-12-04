@@ -23,8 +23,8 @@
 
 namespace OCA\User_LDAP\Tests\Migration;
 
-use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Migration\UUIDFixUser;
 use OCA\User_LDAP\User_Proxy;
 
 /**
@@ -34,7 +34,7 @@ use OCA\User_LDAP\User_Proxy;
  * @group DB
  */
 class UUIDFixUserTest extends AbstractUUIDFixTest {
-	public function setUp() {
+	protected function setUp(): void {
 		$this->isUser = true;
 		parent::setUp();
 

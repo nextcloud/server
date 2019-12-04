@@ -115,8 +115,6 @@ OC.L10N.register(
     "Available for" : "Διαθέσιμο για",
     "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
-    "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Μερικά από τα διαμορφωμένα εξωτερικά σημεία προσάρτησης δεν είναι συνδεδεμένα. Παρακαλούμε κάντε κλικ στο κόκκινο βέλος(οι) για περισσότερες πληροφορίες",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" δεν είναι εγκατεστημένο. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλούμε ζητήστε τον διαχειριστή του συστήματός σας να το εγκαταστήσει. "
+    "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,10 +26,10 @@ namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 use OCA\DAV\CalDAV\Activity\Provider\Base;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IGroupManager;
 use Test\TestCase;
 
 class BaseTest extends TestCase {
@@ -43,7 +43,7 @@ class BaseTest extends TestCase {
 	/** @var IProvider|Base|\PHPUnit_Framework_MockObject_MockObject */
 	protected $provider;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -113,10 +113,11 @@ class BaseTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGenerateObjectParameterThrows
-	 * @expectedException \InvalidArgumentException
 	 * @param mixed $eventData
 	 */
 	public function testGenerateObjectParameterThrows($eventData) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);
 	}
 

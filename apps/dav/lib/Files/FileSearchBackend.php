@@ -45,10 +45,10 @@ use Sabre\DAV\Exception\NotFound;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
-use SearchDAV\Query\Query;
 use SearchDAV\Query\Literal;
 use SearchDAV\Query\Operator;
 use SearchDAV\Query\Order;
+use SearchDAV\Query\Query;
 
 class FileSearchBackend implements ISearchBackend {
 	/** @var CachingTree */

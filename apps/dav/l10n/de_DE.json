@@ -41,6 +41,7 @@
     "A <strong>calendar</strong> was modified" : "Ein <strong>Kalender</strong> wurde bearbeitet",
     "A calendar <strong>event</strong> was modified" : "Ein Kalender-<strong>Ereignis</strong> wurde bearbeitet",
     "A calendar <strong>todo</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde bearbeitet",
+    "Death of %s" : "Todestag von %s",
     "Contact birthdays" : "Geburtstage von Kontakten",
     "Calendar:" : "Kalender:",
     "Date:" : "Datum:",
@@ -95,10 +96,7 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Die Einträge werden nicht sofort angezeigt. Nach der Aktivierung wird es ein wenig dauern bis zur Anzeige.",
     "Send notifications for events" : "Sende Benachrichtigungen für Ereignisse",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Benachrichtigungen werden von Hintergrundjobs erstellt, sodass diese häufig genug ausgeführt werden müssen.",
-    "%s via %s" : "%s über %s",
-    "The meeting »%s« with %s was canceled." : "Der Termin »%s« mit %s wurde abgesagt.",
-    "The meeting »%s« with %s was updated." : "Der Termin »%s« mit %s wurde aktualisiert.",
-    "%s invited you to »%s«" : "%s hat Sie zu »%s« eingeladen",
+    "Enable notifications for events via push" : "Benachrichtigungen für Ereignisse per Push aktivieren",
     "Please make sure to properly set up the email settings above." : "Stellen Sie sicher, dass die obigen E-Mail-Einstellungen korrekt sind."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

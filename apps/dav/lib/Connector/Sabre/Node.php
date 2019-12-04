@@ -39,11 +39,10 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OCP\Share;
 use OCP\Share\IShare;
-
 
 abstract class Node implements \Sabre\DAV\INode {
 
@@ -199,6 +198,14 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	public function setETag($etag) {
 		return $this->fileView->putFileInfo($this->path, array('etag' => $etag));
+	}
+
+	public function setCreationTime(int $time) {
+		return $this->fileView->putFileInfo($this->path, array('creation_time' => $time));
+	}
+
+	public function setUploadTime(int $time) {
+		return $this->fileView->putFileInfo($this->path, array('upload_time' => $time));
 	}
 
 	/**

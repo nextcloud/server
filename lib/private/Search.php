@@ -25,9 +25,9 @@
  */
 
 namespace OC;
+use OCP\ISearch;
 use OCP\Search\PagedProvider;
 use OCP\Search\Provider;
-use OCP\ISearch;
 
 /**
  * Provide an interface to all search providers

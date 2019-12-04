@@ -26,10 +26,10 @@ namespace OC\Files\AppData;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\SimpleFS\SimpleFolder;
+use OC\SystemConfig;
+use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
-use OCP\Files\Folder;
-use OC\SystemConfig;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;

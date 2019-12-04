@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "انتخاب همه",
     "Name" : "نام",
     "Deleted" : "حذف شده",
-    "Delete" : "حذف",
-    "Couldn't delete %s permanently" : "%s را نمی توان برای همیشه حذف کرد",
-    "Couldn't restore %s" : "%s را نمی توان بازگرداند",
-    "Error" : "خطا"
+    "Delete" : "حذف"
 },
 "nplurals=2; plural=(n > 1);");

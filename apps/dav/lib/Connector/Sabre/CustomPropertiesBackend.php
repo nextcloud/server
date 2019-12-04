@@ -27,12 +27,12 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\ServiceUnavailable;
 
 class CustomPropertiesBackend implements BackendInterface {
 

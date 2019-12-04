@@ -44,7 +44,7 @@ class BackendTest extends TestCase {
 	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);

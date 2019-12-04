@@ -72,7 +72,7 @@ class BackupCodeStorage {
 
 		$uid = $user->getUID();
 		foreach (range(1, min([$number, 20])) as $i) {
-			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_HUMAN_READABLE);
 
 			$dbCode = new BackupCode();
 			$dbCode->setUserId($uid);

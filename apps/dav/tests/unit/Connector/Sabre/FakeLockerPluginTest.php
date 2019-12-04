@@ -23,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
@@ -43,7 +44,7 @@ class FakeLockerPluginTest extends TestCase {
 	/** @var FakeLockerPlugin */
 	private $fakeLockerPlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->fakeLockerPlugin = new FakeLockerPlugin();
 	}

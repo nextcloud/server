@@ -42,7 +42,7 @@ class TagsTest extends \Test\TestCase {
 	/** @var \OCP\ITagManager */
 	protected $tagMgr;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		\OC_User::clearBackends();
@@ -65,7 +65,7 @@ class TagsTest extends \Test\TestCase {
 
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$conn = \OC::$server->getDatabaseConnection();
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');

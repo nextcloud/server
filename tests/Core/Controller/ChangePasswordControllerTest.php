@@ -19,11 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Tests\Core\Controller;
 
 use OC\HintException;
-use OC\Settings\Controller\ChangePasswordController;
 use OC\User\Session;
+use OCA\Settings\Controller\ChangePasswordController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
@@ -48,7 +49,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	/** @var ChangePasswordController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(\OC\User\Manager::class);

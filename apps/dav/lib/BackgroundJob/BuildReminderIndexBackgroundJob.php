@@ -21,12 +21,13 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\BackgroundJob;
 
-use OCP\BackgroundJob\QueuedJob;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IDBConnection;
 use OCP\ILogger;
 
@@ -66,6 +67,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 								ILogger $logger,
 								IJobList $jobList,
 								ITimeFactory $timeFactory) {
+		parent::__construct($timeFactory);
 		$this->db = $db;
 		$this->reminderService = $reminderService;
 		$this->logger = $logger;

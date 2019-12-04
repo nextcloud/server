@@ -22,16 +22,16 @@
 namespace Test\IntegrityCheck;
 
 use OC\IntegrityCheck\Checker;
+use OC\IntegrityCheck\Helpers\AppLocator;
+use OC\IntegrityCheck\Helpers\EnvironmentHelper;
+use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
+use OCP\App\IAppManager;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Test\TestCase;
-use OC\IntegrityCheck\Helpers\EnvironmentHelper;
-use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\IntegrityCheck\Helpers\AppLocator;
-use OCP\IConfig;
-use OCP\ICacheFactory;
-use OCP\App\IAppManager;
 
 class CheckerTest extends TestCase {
 	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */
@@ -51,7 +51,7 @@ class CheckerTest extends TestCase {
 	/** @var \OC\Files\Type\Detection|\PHPUnit_Framework_MockObject_MockObject */
 	private $mimeTypeDetector;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
@@ -82,11 +82,11 @@ class CheckerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Exception message
-	 */
+	
 	public function testWriteAppSignatureOfNotExistingApp() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Exception message');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')
@@ -107,11 +107,11 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
-	 */
+	
 	public function testWriteAppSignatureWrongPermissions() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
@@ -480,11 +480,11 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Exception message
-	 */
+	
 	public function testWriteCoreSignatureWithException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Exception message');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')
@@ -504,11 +504,11 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
-	 */
+	
 	public function testWriteCoreSignatureWrongPermissions() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')

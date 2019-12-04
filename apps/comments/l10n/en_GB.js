@@ -26,8 +26,6 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Error occurred while updating comment with id {id}",
     "Error occurred while posting comment" : "Error occurred while posting comment",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
-    "Comment" : "Comment",
-    "You were mentioned on “%s”, in a comment by a user that has since been deleted" : "You were mentioned on “%s”, in a comment by a user that has since been deleted",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s mentioned you in a comment on “%2$s”"
+    "Comment" : "Comment"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,7 +27,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCP\FullTextSearch\Model;
 
 
@@ -139,4 +138,3 @@ interface IRunner {
 
 
 }
-

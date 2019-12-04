@@ -161,7 +161,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$this->rmObjects($path);
+		if (!$this->rmObjects($path)) {
+			return false;
+		}
 
 		$this->getCache()->remove($path);
 
@@ -172,11 +174,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$children = $this->getCache()->getFolderContents($path);
 		foreach ($children as $child) {
 			if ($child['mimetype'] === 'httpd/unix-directory') {
-				$this->rmObjects($child['path']);
+				if (!$this->rmObjects($child['path'])) {
+					return false;
+				}
 			} else {
-				$this->unlink($child['path']);
+				if(!$this->unlink($child['path'])) {
+					return false;
+				}
 			}
 		}
+
+		return true;
 	}
 
 	public function unlink($path) {

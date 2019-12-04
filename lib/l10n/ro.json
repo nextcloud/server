@@ -30,7 +30,7 @@
     "in a few seconds" : "în câteva secunde",
     "seconds ago" : "secunde în urmă",
     "File name is a reserved word" : "Numele fișierului este un cuvânt rezervat",
-    "File name contains at least one invalid character" : "Numele fișierului conține măcar un caracter invalid",
+    "File name contains at least one invalid character" : "Numele fișierului conține cel puțin un caracter invalid",
     "File name is too long" : "Numele fișierului este prea lung",
     "Dot files are not allowed" : "Fișierele care încep cu caracterul punct nu sunt permise",
     "Empty filename is not allowed" : "Nu este permis fișier fără nume",
@@ -127,17 +127,6 @@
     "Verify" : "Verifică",
     "Sharing %s failed, because the file does not exist" : "Partajarea %s a eșuat deoarece fișierul nu există",
     "Sharing %s failed, because you can not share with yourself" : "Partajarea %s a eșuat deoarece nu-l poți partaja cu tine însuți",
-    "Sharing %s failed, because the user %s does not exist" : "Partajarea %s a eșuat deoarece utilizatorul %s nu există",
-    "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Partajarea %s a eșuat deoarece utilizatorul %s nu face parte din niciunul din grupurile din care %s face parte",
-    "Sharing %s failed, because this item is already shared with %s" : "Partajarea %s a eșuat deoarece acest element este deja partajat cu %s",
-    "Sharing %s failed, because this item is already shared with user %s" : "Partajarea %s a eșuat deoarece acest element este deja partajat cu utilizatorul %s",
-    "Sharing %s failed, because the group %s does not exist" : "Partajarea %s a eșuat deoarece grupul %s nu există",
-    "Sharing %s failed, because %s is not a member of the group %s" : "Partajarea %s a eșuat deoarce %s nu face parte din grupul %s",
-    "Not allowed to create a federated share with the same user" : "Nu este permisă crearea unei partajări federalizate cu acelaşi utilizator",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Partajarea %s a eşuat, nu pot găsi %s, poate serverul nu poate fi contactat.",
-    "Share type %s is not valid for %s" : "Tipul partajării %s nu este valid pentru %s",
-    "%s shared »%s« with you" : "%s Partajat »%s« cu tine de",
-    "%s shared »%s« with you." : "%s a partajat »%s« cu tine.",
-    "%s via %s" : "%s via %s"
+    "Not allowed to create a federated share with the same user" : "Nu este permisă crearea unei partajări federalizate cu acelaşi utilizator"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

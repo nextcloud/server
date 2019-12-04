@@ -122,7 +122,6 @@
     "Click to recheck the configuration" : "יש ללחוץ כאן כדי לבדוק את ההגדרות מחדש",
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
-    "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "חלק מנקודות העיגון החיצוניות שהוגדרו אינן מחוברות. יש ללחוץ על השורה/ות האדומה/ות למידע נוסף"
+    "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -18,7 +18,6 @@
     "Application is not enabled" : "অ্যাপ্লিকেসনটি সক্রিয় নয়",
     "Authentication error" : "অনুমোদন ঘটিত সমস্যা",
     "Token expired. Please reload page." : "টোকেন মেয়াদোত্তীর্ণ। দয়া করে পৃষ্ঠাটি পূনরায় লোড করুন।",
-    "Sharing %s failed, because the file does not exist" : "%s ভাগাভাগি ব্যার্থ, কারণ ফাইলটি নেই",
-    "%s shared »%s« with you" : "%s আপনার সাথে »%s« ভাগাভাগি করেছে"
+    "Sharing %s failed, because the file does not exist" : "%s ভাগাভাগি ব্যার্থ, কারণ ফাইলটি নেই"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

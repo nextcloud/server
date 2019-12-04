@@ -22,8 +22,8 @@
 
 namespace OCA\Files_Versions;
 
-use \OCP\IConfig;
-use \OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 
 class Expiration {
 

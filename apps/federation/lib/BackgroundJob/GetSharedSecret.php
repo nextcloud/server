@@ -27,14 +27,13 @@
  *
  */
 
-
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
-use OC\BackgroundJob\JobList;
 use OC\BackgroundJob\Job;
+use OC\BackgroundJob\JobList;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;

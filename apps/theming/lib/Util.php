@@ -25,13 +25,13 @@
 
 namespace OCA\Theming;
 
+use Leafo\ScssPhp\Compiler;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
-use Leafo\ScssPhp\Compiler;
 
 class Util {
 

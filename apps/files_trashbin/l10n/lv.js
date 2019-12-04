@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Atzīmēt visu",
     "Name" : "Nosaukums",
     "Deleted" : "Dzēsts",
-    "Delete" : "Dzēst",
-    "Couldn't delete %s permanently" : "Nevarēja pilnībā izdzēst %s",
-    "Couldn't restore %s" : "Nevarēja atjaunot %s",
-    "Error" : "Kļūda"
+    "Delete" : "Dzēst"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

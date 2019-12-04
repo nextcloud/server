@@ -25,10 +25,10 @@ import OC from '../OC/index'
 /**
  * Format an UNIX timestamp to a human understandable format
  * @param {number} timestamp UNIX timestamp
- * @return {string} Human readable format
+ * @returns {string} Human readable format
  * @deprecated 16.0.0 use OC.Util.formatDate instead
  */
-export default function formatDate (timestamp) {
+export default function formatDate(timestamp) {
 	console.warn('formatDate is deprecated, use OC.Util.formatDate instead')
-	return OC.Util.formatDate(timestamp);
+	return OC.Util.formatDate(timestamp)
 }

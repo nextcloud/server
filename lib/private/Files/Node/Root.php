@@ -33,11 +33,11 @@ namespace OC\Files\Node;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Hooks\PublicEmitter;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OC\Hooks\PublicEmitter;
-use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUserManager;
 

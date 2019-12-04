@@ -24,19 +24,6 @@
  * @namespace OCP.InitialState
  */
 
-export function loadState (app, key) {
-	const elem = document.querySelector(`#initial-state-${app}-${key}`);
-	if (elem === null) {
-		const msg = `Could not find initial state ${key} of ${app}`
-		console.debug(msg);
-		throw new Error(msg);
-	}
+import { loadState as load } from '@nextcloud/initial-state'
 
-	try {
-		return JSON.parse(atob(elem.value));
-	} catch (e) {
-		const msg = `Could not parse initial state ${key} of ${app}`
-		console.debug(msg);
-		throw new Error(msg);
-	}
-}
+export const loadState = load

@@ -24,8 +24,8 @@
 
 namespace OCP\Encryption;
 
-use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 
 /**
  * This class provides access to files encryption apps.

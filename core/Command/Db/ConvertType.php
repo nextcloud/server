@@ -33,11 +33,11 @@ namespace OC\Core\Command\Db;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
-use OC\DB\MigrationService;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
+use OC\DB\MigrationService;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -382,6 +382,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			case Type::BLOB:
 			case Type::TEXT:
 				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
+				break;
+			case Type::BOOLEAN:
+				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_BOOL;
 				break;
 			default:
 				$this->columnTypes[$tableName][$columnName] = false;

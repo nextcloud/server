@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Compartido con otros",
     "Shared with you" : "Compartido contigo",
-    "Shared by link" : "Compartido por liga",
     "Nothing shared with you yet" : "Nada ha sido compartido contigo aún",
     "Files and folders others share with you will show up here" : "Los archivos y carpetas que sean compartidos contigo se mostrarán aquí",
+    "Shared with others" : "Compartido con otros",
     "Nothing shared yet" : "Nada compartido aún",
     "Files and folders you share will show up here" : "Los archivos y carpetas que compartas se mostrarán aquí",
+    "Shared by link" : "Compartido por liga",
     "No shared links" : "No hay ligas compartidas",
     "Files and folders you share by link will show up here" : "Los archivos y carpetas que compartas por ligas se mostrarán aquí",
     "Download" : "Descargar",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Un archivo o carpeta fue compartido desde <strong>otro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "could not delete share" : "no fue posible borrar el elemento compartido",
     "Could not delete share" : "No fue posible borrar el elemento compartido",
     "Please specify a file or folder path" : "Por favor especifica un archivo o ruta de carpeta",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
@@ -87,8 +86,8 @@ OC.L10N.register(
     "Direct link" : "Liga directa",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Share API is disabled" : "El API para compartir está deshabilitado",
-    "Share" : "Compartir",
     "Sharing" : "Compartiendo",
+    "Share" : "Compartir",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Name" : "Nombre",
     "Share time" : "Compartido desde",
@@ -104,6 +103,6 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Se presentó  una falla al compartir %s, porque el backend no permite elementos compartidos de tipo %s"
+    "could not delete share" : "no fue posible borrar el elemento compartido"
 },
 "nplurals=2; plural=(n != 1);");

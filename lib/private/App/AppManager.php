@@ -13,6 +13,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Daniel Rudolf <nextcloud.com@daniel-rudolf.de>
  *
  * @license AGPL-3.0
  *
@@ -401,6 +402,21 @@ class AppManager implements IAppManager {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
 		}
 		return $appPath;
+	}
+
+	/**
+	 * Get the web path for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @throws AppPathNotFoundException if app path can't be found
+	 */
+	public function getAppWebPath(string $appId): string {
+		$appWebPath = \OC_App::getAppWebPath($appId);
+		if($appWebPath === false) {
+			throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+		}
+		return $appWebPath;
 	}
 
 	/**

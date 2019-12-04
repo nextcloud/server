@@ -24,11 +24,11 @@
 
 namespace OCA\Files_Versions\BackgroundJob;
 
+use OCA\Files_Versions\AppInfo\Application;
+use OCA\Files_Versions\Expiration;
+use OCA\Files_Versions\Storage;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCA\Files_Versions\AppInfo\Application;
-use OCA\Files_Versions\Storage;
-use OCA\Files_Versions\Expiration;
 
 class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 

@@ -29,10 +29,10 @@ namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
-use OCA\User_LDAP\User\Manager;
-use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
+use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCP\Image;
 

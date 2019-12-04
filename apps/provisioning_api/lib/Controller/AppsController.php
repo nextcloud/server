@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
-use \OC_App;
+use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;

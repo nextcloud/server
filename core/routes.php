@@ -34,7 +34,8 @@
 
 use OC\Core\Application;
 
-$application = new Application();
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		['name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'],
@@ -107,6 +108,7 @@ $application->registerRoutes($this, [
 		['root' => '/core', 'name' => 'WhatsNew#get', 'url' => '/whatsnew', 'verb' => 'GET'],
 		['root' => '/core', 'name' => 'WhatsNew#dismiss', 'url' => '/whatsnew', 'verb' => 'POST'],
 		['root' => '/core', 'name' => 'AppPassword#getAppPassword', 'url' => '/getapppassword', 'verb' => 'GET'],
+		['root' => '/core', 'name' => 'AppPassword#rotateAppPassword', 'url' => '/apppassword/rotate', 'verb' => 'POST'],
 		['root' => '/core', 'name' => 'AppPassword#deleteAppPassword', 'url' => '/apppassword', 'verb' => 'DELETE'],
 
 		['root' => '/collaboration', 'name' => 'CollaborationResources#searchCollections', 'url' => '/resources/collections/search/{filter}', 'verb' => 'GET'],
@@ -116,7 +118,8 @@ $application->registerRoutes($this, [
 
 		['root' => '/collaboration', 'name' => 'CollaborationResources#removeResource', 'url' => '/resources/collections/{collectionId}', 'verb' => 'DELETE'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
-		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
+		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST']
+
 	],
 ]);
 

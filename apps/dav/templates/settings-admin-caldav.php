@@ -93,4 +93,10 @@ script('dav', [
 		<br>
 		<em><?php p($l->t('Notifications will be send through background jobs, so these need to happen often enough.')); ?></em>
 	</p>
+	<p>
+		<input type="checkbox" name="caldav_send_reminders_notifications_push" id="caldavSendRemindersNotificationsPush" class="checkbox"
+			<?php ($_['send_reminders_notifications_push'] === 'yes') ? print_unescaped('checked="checked"') : null ?>
+			<?php ($_['send_reminders_notifications'] === 'yes') ? null : print_unescaped('disabled="disabled"') ?> />
+		<label for="caldavSendRemindersNotificationsPush"><?php p($l->t('Enable notifications for events via push')); ?></label>
+	</p>
 </form>

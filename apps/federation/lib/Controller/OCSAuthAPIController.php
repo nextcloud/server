@@ -26,7 +26,6 @@
  *
  */
 
-
 namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;

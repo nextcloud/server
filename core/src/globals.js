@@ -1,3 +1,4 @@
+/* eslint-disable nextcloud/no-deprecations */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -19,7 +20,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {initCore} from './init'
+import { initCore } from './init'
+
+import _ from 'underscore'
+import $ from 'jquery'
+import 'jquery-migrate/dist/jquery-migrate.min'
+// TODO: switch to `jquery-ui` package and import widgets and effects individually
+//       `jquery-ui-dist` is used as a workaround for the issue of missing effects
+import 'jquery-ui-dist/jquery-ui'
+import 'jquery-ui-dist/jquery-ui.css'
+import 'jquery-ui-dist/jquery-ui.theme.css'
+// END TODO
+import autosize from 'autosize'
+import Backbone from 'backbone'
+import 'bootstrap/js/dist/tooltip'
+import './Polyfill/tooltip'
+import ClipboardJS from 'clipboard'
+import dav from 'davclient.js'
+import DOMPurify from 'dompurify'
+import Handlebars from 'handlebars'
+import 'jcrop/js/jquery.Jcrop'
+import 'jcrop/css/jquery.Jcrop.css'
+import jstimezonedetect from 'jstimezonedetect'
+import marked from 'marked'
+import md5 from 'blueimp-md5'
+import moment from 'moment'
+import 'select2'
+import 'select2/select2.css'
+import 'snap.js/dist/snap'
+import 'strengthify'
+import 'strengthify/strengthify.css'
+
+import OC from './OC/index'
+import OCP from './OCP/index'
+import OCA from './OCA/index'
+import escapeHTML from 'escape-html'
+import formatDate from './Util/format-date'
+import { getToken as getRequestToken } from './OC/requesttoken'
+import getURLParameter from './Util/get-url-parameter'
+import humanFileSize from './Util/human-file-size'
+import relativeModifiedDate from './Util/relative-modified-date'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
@@ -28,14 +68,18 @@ const warnIfNotTesting = function() {
 }
 
 /**
+ * Mark a function as deprecated and automatically
+ * warn if used!
  *
  * @param {Function} func the library to deprecate
  * @param {String} funcName the name of the library
+ * @param {Int} version the version this gets removed
+ * @returns {function}
  */
-const deprecate = (func, funcName) => {
+const deprecate = (func, funcName, version) => {
 	const oldFunc = func
 	const newFunc = function() {
-		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud 19.`)
+		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud ${version}.`)
 		return oldFunc.apply(this, arguments)
 	}
 	Object.assign(newFunc, oldFunc)
@@ -59,66 +103,25 @@ const setDeprecatedProp = (global, cb, msg) => {
 	})
 }
 
-import _ from 'underscore'
-import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min'
-// TODO: switch to `jquery-ui` package and import widgets and effects individually
-//       `jquery-ui-dist` is used as a workaround for the issue of missing effects
-import 'jquery-ui-dist/jquery-ui'
-import 'jquery-ui-dist/jquery-ui.css'
-import 'jquery-ui-dist/jquery-ui.theme.css'
-// END TODO
-import autosize from 'autosize'
-import Backbone from 'backbone'
-import 'bootstrap/js/dist/tooltip'
-import './Polyfill/tooltip'
-import ClipboardJS from 'clipboard'
-import cssVars from 'css-vars-ponyfill'
-import dav from 'davclient.js'
-import DOMPurify from 'dompurify'
-import Handlebars from 'handlebars'
-import 'jcrop/js/jquery.Jcrop'
-import 'jcrop/css/jquery.Jcrop.css'
-import jstimezonedetect from 'jstimezonedetect'
-import marked from 'marked'
-import md5 from 'blueimp-md5'
-import moment from 'moment'
-import 'Select2'
-import 'Select2/select2.css'
-import 'snap.js/dist/snap'
-import 'strengthify'
-import 'strengthify/strengthify.css'
-
-import OC from './OC/index'
-import OCP from './OCP/index'
-import OCA from './OCA/index'
-import escapeHTML from './Util/escapeHTML'
-import formatDate from './Util/format-date'
-import {getToken as getRequestToken} from './OC/requesttoken'
-import getURLParameter from './Util/get-url-parameter'
-import humanFileSize from './Util/human-file-size'
-import relative_modified_date from './Util/relative-modified-date'
-
 window['_'] = _
 window['$'] = $
-window['autosize'] = autosize
-window['Backbone'] = Backbone
-window['Clipboard'] = ClipboardJS
-window['ClipboardJS'] = ClipboardJS
-window['cssVars'] = cssVars
+setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('Clipboard', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('ClipboardJS', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window['dav'] = dav
-window['DOMPurify'] = DOMPurify
-window['Handlebars'] = Handlebars
-window['jstimezonedetect'] = jstimezonedetect
-window['jstz'] = jstimezonedetect
+setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, ship your own')
+setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('jstimezonedetect', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('jstz', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 window['jQuery'] = $
-window['marked'] = deprecate(marked, 'marked')
-window['md5'] = md5
-window['moment'] = moment
+window['marked'] = deprecate(marked, 'marked', 19)
+setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
 window['OC'] = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
-setDeprecatedProp('oc_appswebroots', ()  => OC.appswebroots, 'use OC.appswebroots instead')
+setDeprecatedProp('oc_appswebroots', () => OC.appswebroots, 'use OC.appswebroots instead')
 setDeprecatedProp('oc_capabilities', OC.getCapabilities, 'use OC.getCapabilities instead')
 setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead')
 setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
@@ -130,12 +133,12 @@ setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead'
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead')
 window['OCP'] = OCP
 window['OCA'] = OCA
-window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML')
-window['formatDate'] = deprecate(formatDate, 'formatDate')
-window['getURLParameter'] = deprecate(getURLParameter, 'getURLParameter')
-window['humanFileSize'] = deprecate(humanFileSize, 'humanFileSize')
-window['relative_modified_date'] = deprecate(relative_modified_date, 'relative_modified_date')
-$.fn.select2 = deprecate($.fn.select2, 'select2')
+window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML', 19)
+window['formatDate'] = deprecate(formatDate, 'formatDate', 19)
+window['getURLParameter'] = deprecate(getURLParameter, 'getURLParameter', 19)
+window['humanFileSize'] = deprecate(humanFileSize, 'humanFileSize', 19)
+window['relative_modified_date'] = deprecate(relativeModifiedDate, 'relative_modified_date', 19)
+$.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string
@@ -145,7 +148,7 @@ $.fn.select2 = deprecate($.fn.select2, 'select2')
  * @param {number} [count] number to replace %n with
  * @return {string}
  */
-window.t = _.bind(OC.L10N.translate, OC.L10N);
+window.t = _.bind(OC.L10N.translate, OC.L10N)
 
 /**
  * translate a string
@@ -156,4 +159,4 @@ window.t = _.bind(OC.L10N.translate, OC.L10N);
  * @param [vars] map of placeholder key to value
  * @return {string} Translated string
  */
-window.n = _.bind(OC.L10N.translatePlural, OC.L10N);
+window.n = _.bind(OC.L10N.translatePlural, OC.L10N)

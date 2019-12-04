@@ -22,7 +22,6 @@
  *
  */
 
-
 namespace OCA\Encryption\Tests\Crypto;
 
 
@@ -54,7 +53,7 @@ class DecryptAllTest extends TestCase {
 	/** @var QuestionHelper | \PHPUnit_Framework_MockObject_MockObject  */
 	protected $questionHelper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->util = $this->getMockBuilder(Util::class)

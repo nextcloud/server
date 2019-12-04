@@ -27,13 +27,11 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\FullTextSearch\Model;
 
 
 use JsonSerializable;
 use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
-
 
 /**
  * @since 17.0.0

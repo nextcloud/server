@@ -22,6 +22,7 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
@@ -29,11 +30,11 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
+use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Mail\IAttachment;
 use OCP\Mail\IMessage;
 use Sabre\VObject\Component\VCalendar;
 use Test\TestCase;
@@ -60,7 +61,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mailer = $this->createMock(IMailer::class);

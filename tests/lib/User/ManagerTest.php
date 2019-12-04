@@ -11,6 +11,7 @@ namespace Test\User;
 use OC\AllConfig;
 use OC\User\Database;
 use OC\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -28,18 +29,21 @@ class ManagerTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private $oldDispatcher;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->oldDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	public function testGetBackends() {
 		$userDummyBackend = $this->createMock(\Test\Util\User\Dummy::class);
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($userDummyBackend);
 		$this->assertEquals([$userDummyBackend], $manager->getBackends());
 		$dummyDatabaseBackend = $this->createMock(Database::class);
@@ -58,7 +62,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertTrue($manager->userExists('foo'));
@@ -74,14 +78,14 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
 
 	public function testUserExistsNoBackends() {
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
@@ -105,7 +109,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -129,7 +133,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('userExists');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -156,7 +160,7 @@ class ManagerTest extends TestCase {
 				}
 			}));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$user = $manager->checkPassword('foo', 'bar');
@@ -175,7 +179,7 @@ class ManagerTest extends TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->checkPassword('foo', 'bar'));
@@ -193,7 +197,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals('foo', $manager->get('foo')->getUID());
@@ -209,7 +213,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(false));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals(null, $manager->get('foo'));
@@ -227,7 +231,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals('bLeNdEr', $manager->get('bLeNdEr')->getUID());
@@ -245,7 +249,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$result = $manager->search('fo');
@@ -279,7 +283,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -333,7 +337,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->expectException(\InvalidArgumentException::class, $exception);
@@ -360,17 +364,17 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$user = $manager->createUser('foo', 'bar');
 		$this->assertEquals('foo', $user->getUID());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testCreateUserSingleBackendExists() {
+		$this->expectException(\Exception::class);
+
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
@@ -387,7 +391,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$manager->createUser('foo', 'bar');
@@ -408,23 +412,23 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('userExists');
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
 	public function testCreateUserNoBackends() {
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Could not create user
-	 */
+
 	public function testCreateUserFromBackendWithBackendError() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Could not create user');
+
 		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		/** @var \Test\Util\User\Dummy|\PHPUnit_Framework_MockObject_MockObject $backend */
@@ -435,14 +439,14 @@ class ManagerTest extends TestCase {
 			->with('MyUid', 'MyPassword')
 			->willReturn(false);
 
-		$manager = new Manager($config, $this->dispatcher);
+		$manager = new Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testCreateUserTwoBackendExists() {
+		$this->expectException(\Exception::class);
+
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit_Framework_MockObject_MockObject $backend1
 		 */
@@ -475,7 +479,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -483,7 +487,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersNoBackend() {
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 
 		$result = $manager->countUsers();
 		$this->assertTrue(is_array($result));
@@ -508,7 +512,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->will($this->returnValue('Mock_Test_Util_User_Dummy'));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$result = $manager->countUsers();
@@ -549,7 +553,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->will($this->returnValue('Mock_Test_Util_User_Dummy'));
 
-		$manager = new \OC\User\Manager($this->config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -650,21 +654,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteUser() {
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$config
-				->expects($this->at(0))
-				->method('getUserValue')
-				->with('foo', 'core', 'enabled')
-				->will($this->returnValue(true));
-		$config
-				->expects($this->at(1))
-				->method('getUserValue')
-				->with('foo', 'login', 'lastLogin')
-				->will($this->returnValue(0));
-
-		$manager = new \OC\User\Manager($config, $this->dispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->eventDispatcher);
 		$backend = new \Test\Util\User\Dummy();
 
 		$manager->registerBackend($backend);
@@ -698,7 +688,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('uid2'))
 			->will($this->returnValue(true));
 
-		$manager = new \OC\User\Manager($config, $this->dispatcher);
+		$manager = new \OC\User\Manager($config, $this->oldDispatcher, $this->eventDispatcher);
 		$manager->registerBackend($backend);
 
 		$users = $manager->getByEmail('test@example.com');

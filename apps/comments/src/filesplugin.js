@@ -8,20 +8,18 @@
  *
  */
 
-/* global Handlebars */
-
 (function() {
 
 	_.extend(OC.Files.Client, {
 		PROPERTY_COMMENTS_UNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread'
-	});
+	})
 
-	OCA.Comments = _.extend({}, OCA.Comments);
+	OCA.Comments = _.extend({}, OCA.Comments)
 	if (!OCA.Comments) {
 		/**
 		 * @namespace
 		 */
-		OCA.Comments = {};
+		OCA.Comments = {}
 	}
 
 	/**
@@ -38,43 +36,43 @@
 				count: count,
 				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
 				iconUrl: OC.imagePath('core', 'actions/comment')
-			});
+			})
 		},
 
 		attach: function(fileList) {
-			var self = this;
+			var self = this
 			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
-				return;
+				return
 			}
 
-			fileList.registerTabView(new OCA.Comments.CommentsTabView('commentsTabView'));
+			fileList.registerTabView(new OCA.Comments.CommentsTabView('commentsTabView'))
 
-			var oldGetWebdavProperties = fileList._getWebdavProperties;
+			var oldGetWebdavProperties = fileList._getWebdavProperties
 			fileList._getWebdavProperties = function() {
-				var props = oldGetWebdavProperties.apply(this, arguments);
-				props.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD);
-				return props;
-			};
+				var props = oldGetWebdavProperties.apply(this, arguments)
+				props.push(OC.Files.Client.PROPERTY_COMMENTS_UNREAD)
+				return props
+			}
 
 			fileList.filesClient.addFileInfoParser(function(response) {
-				var data = {};
-				var props = response.propStat[0].properties;
-				var commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD];
+				var data = {}
+				var props = response.propStat[0].properties
+				var commentsUnread = props[OC.Files.Client.PROPERTY_COMMENTS_UNREAD]
 				if (!_.isUndefined(commentsUnread) && commentsUnread !== '') {
-					data.commentsUnread = parseInt(commentsUnread, 10);
+					data.commentsUnread = parseInt(commentsUnread, 10)
 				}
-				return data;
-			});
+				return data
+			})
 
-			fileList.$el.addClass('has-comments');
-			var oldCreateRow = fileList._createRow;
+			fileList.$el.addClass('has-comments')
+			var oldCreateRow = fileList._createRow
 			fileList._createRow = function(fileData) {
-				var $tr = oldCreateRow.apply(this, arguments);
+				var $tr = oldCreateRow.apply(this, arguments)
 				if (fileData.commentsUnread) {
-					$tr.attr('data-comments-unread', fileData.commentsUnread);
+					$tr.attr('data-comments-unread', fileData.commentsUnread)
 				}
-				return $tr;
-			};
+				return $tr
+			}
 
 			// register "comment" action for reading comments
 			fileList.fileActions.registerAction({
@@ -94,35 +92,35 @@
 				permissions: OC.PERMISSION_READ,
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				render: function(actionSpec, isDefault, context) {
-					var $file = context.$file;
-					var unreadComments = $file.data('comments-unread');
+					var $file = context.$file
+					var unreadComments = $file.data('comments-unread')
 					if (unreadComments) {
-						var $actionLink = $(self._formatCommentCount(unreadComments));
-						context.$file.find('a.name>span.fileactions').append($actionLink);
-						return $actionLink;
+						var $actionLink = $(self._formatCommentCount(unreadComments))
+						context.$file.find('a.name>span.fileactions').append($actionLink)
+						return $actionLink
 					}
-					return '';
+					return ''
 				},
 				actionHandler: function(fileName, context) {
-					context.$file.find('.action-comment').tooltip('hide');
+					context.$file.find('.action-comment').tooltip('hide')
 					// open sidebar in comments section
-					context.fileList.showDetailsView(fileName, 'commentsTabView');
+					context.fileList.showDetailsView(fileName, 'comments')
 				}
-			});
+			})
 
 			// add attribute to "elementToFile"
-			var oldElementToFile = fileList.elementToFile;
+			var oldElementToFile = fileList.elementToFile
 			fileList.elementToFile = function($el) {
-				var fileInfo = oldElementToFile.apply(this, arguments);
-				var commentsUnread = $el.data('comments-unread');
+				var fileInfo = oldElementToFile.apply(this, arguments)
+				var commentsUnread = $el.data('comments-unread')
 				if (commentsUnread) {
-					fileInfo.commentsUnread = commentsUnread;
+					fileInfo.commentsUnread = commentsUnread
 				}
-				return fileInfo;
-			};
+				return fileInfo
+			}
 		}
-	};
+	}
 
-})();
+})()
 
-OC.Plugins.register('OCA.Files.FileList', OCA.Comments.FilesPlugin);
+OC.Plugins.register('OCA.Files.FileList', OCA.Comments.FilesPlugin)

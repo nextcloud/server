@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Shared with others",
     "Shared with you" : "Shared with you",
-    "Shared by link" : "Shared by link",
     "Nothing shared with you yet" : "Nothing shared with you yet",
     "Files and folders others share with you will show up here" : "Files and folders others share with you will show up here",
+    "Shared with others" : "Shared with others",
     "Nothing shared yet" : "Nothing shared yet",
     "Files and folders you share will show up here" : "Files and folders you share will show up here",
+    "Shared by link" : "Shared by link",
     "No shared links" : "No shared links",
     "Files and folders you share by link will show up here" : "Files and folders you share by link will show up here",
     "Download" : "Download",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
     "A file or folder has been <strong>shared</strong>" : "A file or folder has been <strong>shared</strong>",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
-    "could not delete share" : "could not delete share",
     "Could not delete share" : "Could not delete share",
     "Please specify a file or folder path" : "Please specify a file or folder path",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
@@ -88,8 +87,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
-    "Share" : "Share",
     "Sharing" : "Sharing",
+    "Share" : "Share",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",
@@ -105,6 +104,6 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploading files…" : "Uploading files…",
     "Uploaded files:" : "Uploaded files:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Sharing %s failed because the back end does not allow shares from type %s"
+    "could not delete share" : "could not delete share"
 },
 "nplurals=2; plural=(n != 1);");

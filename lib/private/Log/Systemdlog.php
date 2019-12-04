@@ -24,8 +24,8 @@ namespace OC\Log;
 
 use OC\HintException;
 use OC\SystemConfig;
-use OCP\ILogger;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Log\IWriter;
 
 // The following fields are understood by systemd/journald, see

@@ -99,6 +99,7 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse
@@ -125,6 +126,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @UseSession
+	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $redirect_url
@@ -175,6 +177,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @UseSession
+	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @UserRateThrottle(limit=5, period=100)
 	 *

@@ -27,16 +27,17 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
+use OCA\Files_External\Lib\Auth\Password\UserGlobalAuth;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCP\ILogger;
-use \OCP\IRequest;
-use \OCP\IL10N;
-use \OCP\AppFramework\Http\DataResponse;
-use \OCP\AppFramework\Http;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserSession;
 
 /**
@@ -156,7 +157,7 @@ class UserGlobalStoragesController extends StoragesController {
 		try {
 			$storage = $this->service->getStorage($id);
 			$authMechanism = $storage->getAuthMechanism();
-			if ($authMechanism instanceof IUserProvided) {
+			if ($authMechanism instanceof IUserProvided || $authMechanism instanceof  UserGlobalAuth) {
 				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
 				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
 			} else {

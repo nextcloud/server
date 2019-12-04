@@ -154,20 +154,26 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				'systemtagid' => $query->createParameter('tagid'),
 			]);
 
+		$tagsAssigned = [];
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
 				$query->execute();
+				$tagsAssigned[] = $tagId;
 			} catch (UniqueConstraintViolationException $e) {
 				// ignore existing relations
 			}
+		}
+
+		if (empty($tagsAssigned)) {
+			return;
 		}
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
 			MapperEvent::EVENT_ASSIGN,
 			$objectType,
 			$objId,
-			$tagIds
+			$tagsAssigned
 		));
 	}
 

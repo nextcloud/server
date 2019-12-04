@@ -23,7 +23,7 @@
 
 namespace OCA\Files_External\Tests;
 
-use \OCA\Files_External\Lib\DefinitionParameter as Param;
+use OCA\Files_External\Lib\DefinitionParameter as Param;
 
 class DefinitionParameterTest extends \Test\TestCase {
 

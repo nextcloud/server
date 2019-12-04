@@ -9,11 +9,11 @@
 namespace Test\Traits;
 
 use OC\Encryption\EncryptionWrapper;
+use OC\Files\Filesystem;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
-use OC\Files\Filesystem;
 
 /**
  * Enables encryption
@@ -23,8 +23,8 @@ trait EncryptionTrait {
 	abstract protected function registerStorageWrapper($name, $wrapper);
 
 	// from phpunit
-	abstract protected function markTestSkipped($reason = '');
-	abstract protected function assertTrue($condition, $message = '');
+	abstract protected function markTestSkipped(string $message = ''): void;
+	abstract protected function assertTrue($condition, string $message = ''): void;
 
 	private $encryptionWasEnabled;
 

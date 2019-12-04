@@ -71,7 +71,7 @@ class UserPlugin implements ISearchPlugin {
 			foreach ($userGroups as $userGroup) {
 				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $limit, $offset);
 				foreach ($usersTmp as $uid => $userDisplayName) {
-					$users[$uid] = $userDisplayName;
+					$users[(string) $uid] = $userDisplayName;
 				}
 			}
 		} else {
@@ -80,7 +80,7 @@ class UserPlugin implements ISearchPlugin {
 
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
-					$users[$user->getUID()] = $user->getDisplayName();
+					$users[(string) $user->getUID()] = $user->getDisplayName();
 				}
 			}
 		}
@@ -94,6 +94,7 @@ class UserPlugin implements ISearchPlugin {
 		$foundUserById = false;
 		$lowerSearch = strtolower($search);
 		foreach ($users as $uid => $userDisplayName) {
+			$uid = (string) $uid;
 			if (strtolower($uid) === $lowerSearch || strtolower($userDisplayName) === $lowerSearch) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;

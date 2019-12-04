@@ -24,6 +24,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -65,7 +66,7 @@ class SharesPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->createMock(Tree::class);

@@ -22,9 +22,9 @@
 
 namespace OCA\Files_External\Tests\Backend;
 
-use \OCA\Files_External\Lib\Backend\LegacyBackend;
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\MissingDependency;
+use OCA\Files_External\Lib\Backend\LegacyBackend;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\MissingDependency;
 
 class LegacyBackendTest extends \Test\TestCase {
 

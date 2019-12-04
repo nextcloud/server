@@ -25,11 +25,11 @@ namespace OCA\DAV\CalDAV\BirthdayCalendar;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCP\IConfig;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCP\IConfig;
 
 /**
  * Class EnablePlugin

@@ -2,6 +2,7 @@
 declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,8 +26,8 @@ namespace OCA\Accessibility\Controller;
 use OCA\Accessibility\AccessibilityProvider;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -83,6 +84,7 @@ class ConfigController extends OCSController {
 	 */
 	public function getConfig(): DataResponse {
 		return new DataResponse([
+			'highcontrast' => $this->config->getUserValue($this->userId, $this->appName, 'highcontrast', false),
 			'theme' => $this->config->getUserValue($this->userId, $this->appName, 'theme', false),
 			'font' => $this->config->getUserValue($this->userId, $this->appName, 'font', false)
 		]);
@@ -98,26 +100,19 @@ class ConfigController extends OCSController {
 	 * @throws Exception
 	 */
 	public function setConfig(string $key, $value): DataResponse {
-		if ($key === 'theme' || $key === 'font') {
+		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
 
-			if ($value === false) {
-				$this->config->deleteUserValue($this->userId, $this->appName, $key);
-				$userValues = $this->config->getUserKeys($this->userId, $this->appName);
-
-				// remove hash if no settings selected
-				if (count($userValues) === 1 && $userValues[0] === 'icons-css') {
-					$this->config->deleteUserValue($this->userId, $this->appName, 'icons-css');
-				}
-
-				return new DataResponse();
+			if ($value === false || $value === '') {
+				throw new OCSBadRequestException('Invalid value: ' . $value);
 			}
 
 			$themes = $this->accessibilityProvider->getThemes();
+			$highcontrast = array($this->accessibilityProvider->getHighContrast());
 			$fonts  = $this->accessibilityProvider->getFonts();
 
 			$availableOptions = array_map(function($option) {
 				return $option['id'];
-			}, array_merge($themes, $fonts));
+			}, array_merge($themes, $highcontrast, $fonts));
 
 			if (in_array($value, $availableOptions)) {
 				$this->config->setUserValue($this->userId, $this->appName, $key, $value);
@@ -125,6 +120,32 @@ class ConfigController extends OCSController {
 			}
 
 			throw new OCSBadRequestException('Invalid value: ' . $value);
+		}
+
+		throw new OCSBadRequestException('Invalid key: ' . $key);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Unset theme or font config
+	 *
+	 * @param string $key theme or font
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	public function deleteConfig(string $key): DataResponse {
+		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
+
+			$this->config->deleteUserValue($this->userId, $this->appName, $key);
+			$userValues = $this->config->getUserKeys($this->userId, $this->appName);
+
+			// remove hash if no settings selected
+			if (count($userValues) === 1 && $userValues[0] === 'icons-css') {
+				$this->config->deleteUserValue($this->userId, $this->appName, 'icons-css');
+			}
+
+			return new DataResponse();
 		}
 
 		throw new OCSBadRequestException('Invalid key: ' . $key);

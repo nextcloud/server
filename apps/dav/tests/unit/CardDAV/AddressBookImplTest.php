@@ -24,7 +24,6 @@
  *
  */
 
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 
@@ -56,7 +55,7 @@ class AddressBookImplTest extends TestCase {
 	/** @var  VCard | \PHPUnit_Framework_MockObject_MockObject */
 	private $vCard;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->addressBookInfo = [

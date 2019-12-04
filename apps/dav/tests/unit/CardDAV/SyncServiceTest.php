@@ -113,6 +113,10 @@ class SyncServiceTest extends TestCase {
 			'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n"
 		]);
 
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
 		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
 

@@ -67,4 +67,3 @@ interface ISystemTag {
 	public function isUserAssignable(): bool;
 
 }
-

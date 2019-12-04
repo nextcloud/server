@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Tests\DAV;
 
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -44,7 +45,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	/** @var CustomPropertiesBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $backend;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tree = $this->createMock(Tree::class);

@@ -45,11 +45,11 @@ namespace OCA\User_LDAP;
 
 use OC\HintException;
 use OC\Hooks\PublicEmitter;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
-use OCA\User_LDAP\Mapping\AbstractMapping;
-use OC\ServerNotAvailableException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;

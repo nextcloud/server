@@ -6,6 +6,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Russell Ault <russell@auksnest.ca>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -196,7 +197,11 @@ class ClientFlowLoginController extends Controller {
 		$this->session->set(self::stateName, $stateToken);
 
 		$csp = new Http\ContentSecurityPolicy();
-		$csp->addAllowedFormActionDomain('nc://*');
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
 
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
@@ -241,7 +246,11 @@ class ClientFlowLoginController extends Controller {
 		}
 
 		$csp = new Http\ContentSecurityPolicy();
-		$csp->addAllowedFormActionDomain('nc://*');
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
 
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
@@ -329,9 +338,16 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setTokenId($generatedToken->getId());
 			$this->accessTokenMapper->insert($accessToken);
 
-			$redirectUri = sprintf(
-				'%s?state=%s&code=%s',
-				$client->getRedirectUri(),
+			$redirectUri = $client->getRedirectUri();
+			
+			if (parse_url($redirectUri, PHP_URL_QUERY)) {
+				$redirectUri .= '&';
+			} else {
+				$redirectUri .= '?';
+			}
+
+			$redirectUri .= sprintf(
+				'state=%s&code=%s',
 				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);

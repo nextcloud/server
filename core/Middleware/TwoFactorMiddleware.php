@@ -88,6 +88,16 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
+		if ($controller instanceof TwoFactorChallengeController
+			&& $this->userSession->getUser() !== null
+			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
+			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
+
+			if (!($providers->getProviders() === [] && !$providers->isProviderMissing())) {
+				throw new TwoFactorAuthRequiredException();
+			}
+		}
+
 		if ($controller instanceof ALoginSetupController
 			&& $this->userSession->getUser() !== null
 			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {

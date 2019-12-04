@@ -67,4 +67,3 @@ trait LegacyDependencyCheckPolyfill {
 	}
 
 }
-

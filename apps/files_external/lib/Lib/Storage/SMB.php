@@ -44,6 +44,7 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
 use Icewind\SMB\System;
 use Icewind\Streams\CallbackWrapper;
@@ -55,6 +56,7 @@ use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
+use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
@@ -105,7 +107,14 @@ class SMB extends Common implements INotifyStorage {
 			$this->logger = \OC::$server->getLogger();
 		}
 
-		$serverFactory = new ServerFactory();
+		$options = new Options();
+		if (isset($params['timeout'])) {
+			$timeout = (int)$params['timeout'];
+			if ($timeout > 0) {
+				$options->setTimeout($timeout);
+			}
+		}
+		$serverFactory = new ServerFactory($options);
 		$this->server = $serverFactory->createServer($params['host'], $auth);
 		$this->share = $this->server->getShare(trim($params['share'], '/'));
 
@@ -160,7 +169,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo
-	 * @throws StorageNotAvailableException
+	 * @throws StorageAuthException
 	 */
 	protected function getFileInfo($path) {
 		try {
@@ -170,9 +179,24 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
-			$this->logger->logException($e, ['message' => 'Error while getting file info']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$this->throwUnavailable($e);
+		} catch (ForbiddenException $e) {
+			// with php-smbclient, this exceptions is thrown when the provided password is invalid.
+			// Possible is also ForbiddenException with a different error code, so we check it.
+			if($e->getCode() === 1) {
+				$this->throwUnavailable($e);
+			}
+			throw $e;
 		}
+	}
+
+	/**
+	 * @param \Exception $e
+	 * @throws StorageAuthException
+	 */
+	protected function throwUnavailable(\Exception $e) {
+		$this->logger->logException($e, ['message' => 'Error while getting file info']);
+		throw new StorageAuthException($e->getMessage(), $e);
 	}
 
 	/**

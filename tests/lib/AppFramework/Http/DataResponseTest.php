@@ -21,13 +21,11 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
 
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http;
-
+use OCP\AppFramework\Http\DataResponse;
 
 class DataResponseTest extends \Test\TestCase {
 
@@ -36,7 +34,7 @@ class DataResponseTest extends \Test\TestCase {
 	 */
 	private $response;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new DataResponse();
 	}

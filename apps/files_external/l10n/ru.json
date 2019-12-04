@@ -72,6 +72,7 @@
     "Log-in credentials, save in database" : "Учётные данные, хранить в базе данных",
     "Username and password" : "Имя пользователя и пароль",
     "Log-in credentials, save in session" : "Учётные данные, хранить в сессии",
+    "Global credentials, user entered" : "Глобальные учетные данные, введенные пользователем",
     "User entered, store in database" : "Указанные пользователем, хранить в базе данных",
     "RSA public key" : "Открытый ключ RSA",
     "Public key" : "Открытый ключ",
@@ -102,6 +103,7 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Общий ресурс",
     "Show hidden files" : "Показать скрытые файлы",
+    "Timeout" : "Тайм-аут",
     "SMB / CIFS using OC login" : "SMB / CIFS с использованием логина OC",
     "Username as share" : "Имя пользователя в качестве имени общего ресурса",
     "OpenStack Object Storage" : "Хранилище объектов OpenStack",
@@ -127,8 +129,6 @@
     "Add storage" : "Добавить хранилище",
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации нажмите на красную строку(и)",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "«%s» не установлен, монтирование %s невозможно. Обратитесь к вашему системному администратору."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

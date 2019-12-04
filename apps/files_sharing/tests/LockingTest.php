@@ -46,7 +46,7 @@ class LockingTest extends TestCase {
 	private $ownerUid;
 	private $recipientUid;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userBackend = new \Test\Util\User\Dummy();
@@ -74,15 +74,15 @@ class LockingTest extends TestCase {
 		$this->assertTrue(Filesystem::file_exists('bar.txt'));
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		\OC::$server->getUserManager()->removeBackend($this->userBackend);
 		parent::tearDown();
 	}
 
-	/**
-	 * @expectedException \OCP\Lock\LockedException
-	 */
+	
 	public function testLockAsRecipient() {
+		$this->expectException(\OCP\Lock\LockedException::class);
+
 		$this->loginAsUser($this->ownerUid);
 
 		Filesystem::initMountPoints($this->recipientUid);

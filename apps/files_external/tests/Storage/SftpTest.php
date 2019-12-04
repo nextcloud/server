@@ -28,7 +28,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\SFTP;
+use OCA\Files_External\Lib\Storage\SFTP;
 
 /**
  * Class SftpTest
@@ -45,7 +45,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
@@ -58,7 +58,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir('/');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->rmdir('/');
 		}

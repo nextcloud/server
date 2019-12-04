@@ -25,14 +25,14 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Reminder;
 
-use \DateTime;
+use DateTime;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
-use OCP\IURLGenerator;
 
 /**
  * Class Notifier

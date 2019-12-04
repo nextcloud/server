@@ -8,7 +8,7 @@
 
 namespace Test\Files\Mount;
 
-use \OC\Files\Storage\Temporary;
+use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
 	public function getId() {
@@ -22,7 +22,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	private $manager;
 
-	protected function setup() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->manager = new \OC\Files\Mount\Manager();
 	}

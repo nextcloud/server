@@ -24,5 +24,5 @@ declare(strict_types=1);
  *
  */
 
-$app = new \OCA\AdminAudit\AppInfo\Application();
+$app = \OC::$server->query(\OCA\AdminAudit\AppInfo\Application::class);
 $app->register();

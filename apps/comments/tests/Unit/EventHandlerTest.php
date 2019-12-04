@@ -23,11 +23,11 @@
 
 namespace OCA\Comments\Tests\Unit\Notification;
 
+use OCA\Comments\Activity\Listener as ActivityListener;
 use OCA\Comments\EventHandler;
+use OCA\Comments\Notification\Listener as NotificationListener;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
-use OCA\Comments\Activity\Listener as ActivityListener;
-use OCA\Comments\Notification\Listener as NotificationListener;
 use Test\TestCase;
 
 class EventHandlerTest extends TestCase {
@@ -40,7 +40,7 @@ class EventHandlerTest extends TestCase {
 	/** @var NotificationListener|\PHPUnit_Framework_MockObject_MockObject */
 	protected $notificationListener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityListener = $this->getMockBuilder(ActivityListener::class)

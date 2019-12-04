@@ -21,14 +21,12 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
 
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
-
 
 class ResponseTest extends \Test\TestCase {
 
@@ -37,7 +35,7 @@ class ResponseTest extends \Test\TestCase {
 	 */
 	private $childResponse;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 		$this->childResponse = new Response();
 	}

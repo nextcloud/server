@@ -140,11 +140,11 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$calendar->propPatch($propPatch);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 * @expectedExceptionMessage Calendar object not found
-	 */
+	
 	public function testGetChild() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+		$this->expectExceptionMessage('Calendar object not found');
+
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -235,11 +235,11 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$this->assertInstanceOf(CachedSubscriptionObject::class, $res[1]);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
-	 * @expectedExceptionMessage Creating objects in cached subscription is not allowed
-	 */
+	
 	public function testCreateFile() {
+		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectExceptionMessage('Creating objects in cached subscription is not allowed');
+
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',

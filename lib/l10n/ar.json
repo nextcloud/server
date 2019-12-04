@@ -128,10 +128,6 @@
     "Verifying …" : "عملية التحقق جارية …",
     "Verify" : "التحقق",
     "Sharing %s failed, because the file does not exist" : "فشلت مشاركة %s فالملف غير موجود",
-    "Sharing %s failed, because you can not share with yourself" : "فشلت مشاركة %s لأنك لايمكنك المشاركة مع نفسك",
-    "Sharing %s failed, because the user %s does not exist" : "فشلت مشاركة %s لأن المستخدم %s غير موجود",
-    "Share type %s is not valid for %s" : "مشاركة النوع %s غير صالحة لـ %s",
-    "%s shared »%s« with you" : "%s شارك »%s« معك",
-    "%s via %s" : "%s عبر %s"
+    "Sharing %s failed, because you can not share with yourself" : "فشلت مشاركة %s لأنك لايمكنك المشاركة مع نفسك"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

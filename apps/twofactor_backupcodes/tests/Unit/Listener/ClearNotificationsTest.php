@@ -40,7 +40,7 @@ class ClearNotificationsTest extends TestCase {
 	/** @var ClearNotifications */
 	private $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->notificationManager = $this->createMock(IManager::class);

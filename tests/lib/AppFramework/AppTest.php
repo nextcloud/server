@@ -21,7 +21,6 @@
  *
  */
 
-
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
@@ -29,7 +28,6 @@ use OC\AppFramework\Http\Dispatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
-
 
 function rrmdir($directory) {
 	$files = array_diff(scandir($directory), array('.','..'));
@@ -58,7 +56,7 @@ class AppTest extends \Test\TestCase {
 	private $controllerMethod;
 	private $appPath;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', array());
@@ -123,7 +121,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		rrmdir($this->appPath);
 		parent::tearDown();
 	}
@@ -202,7 +200,7 @@ class AppTest extends \Test\TestCase {
 
 	public function testSettingsApp() {
 		$this->container['AppName'] = 'settings';
-		$this->container['OC\Settings\Controller\Foo'] = $this->controller;
+		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())

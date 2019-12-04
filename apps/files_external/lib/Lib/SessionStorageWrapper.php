@@ -22,8 +22,8 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OC\Files\Storage\Wrapper\PermissionsMask;
-use \OCP\Constants;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OCP\Constants;
 
 /**
  * Wrap Storage in PermissionsMask for session ephemeral use
@@ -40,4 +40,3 @@ class SessionStorageWrapper extends PermissionsMask {
 	}
 
 }
-

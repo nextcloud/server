@@ -36,7 +36,7 @@ class SetupTest extends \Test\TestCase {
 	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
 	protected $installer;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(SystemConfig::class);
@@ -120,11 +120,11 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $result);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Supported databases are not properly configured.
-	 */
+	
 	public function testGetSupportedDatabaseException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Supported databases are not properly configured.');
+
 		$this->config
 			->expects($this->once())
 			->method('getValue')

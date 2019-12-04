@@ -157,15 +157,14 @@
     "Deleted shares" : "Törölt megosztások",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
-    "Target folder" : "Célmappa",
     "File handling" : "Fájlkezelés",
     "Maximum upload size" : "Maximális feltölthető fájlméret",
     "max. possible: " : "max. lehetséges: ",
     "Save" : "Mentés",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
-    "%s of %s used" : "%s / %s használt",
     "Cancel upload" : "Feltöltés megszakítása",
+    "%s of %s used" : "%s / %s használt",
     "%1$s%% of %2$s used" : "%1$s%% / %2$s használt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

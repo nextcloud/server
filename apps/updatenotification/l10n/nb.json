@@ -28,7 +28,6 @@
     "Checking apps for compatible updates" : "Kontrollerer programmer for kompatible oppdateringer",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Alle</strong> apper har en oppdatering tilgjengelig for denne versjonen",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  app har ingen oppdatering tilgjengelig for denne versjonen","<strong>%n</strong> apper har ingen oppdatering tilgjengelig for denne versjonen"],
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal.",
-    "Could not start updater, please try the manual update" : "Kunne ikke starte oppdateringen, prøv å oppdatere manuelt"
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kan alltid oppdatere til en nyere versjon / eksperimentell kanal. Men du kan aldri nedgradere til en mer stabil kanal."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

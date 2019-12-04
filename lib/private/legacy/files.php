@@ -177,10 +177,21 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$fileSize = \OC\Files\Filesystem::filesize($file);
-						$fileTime = \OC\Files\Filesystem::filemtime($file);
-						$fh = \OC\Files\Filesystem::fopen($file, 'r');
-						$streamer->addFileFromStream($fh, basename($file), $fileSize, $fileTime);
+						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$file = $userFolder->get($file);
+						if($file instanceof \OC\Files\Node\File) {
+							$fh = $file->fopen('r');
+							$fileSize = $file->getSize();
+							$fileTime = $file->getMTime();
+						} else {
+							// File is not a file? …
+							\OC::$server->getLogger()->debug(
+								'File given, but no Node available. Name {file}',
+								[ 'app' => 'files', 'file' => $file ]
+							);
+							continue;
+						}
+						$streamer->addFileFromStream($fh, $file->getName(), $fileSize, $fileTime);
 						fclose($fh);
 					} elseif (\OC\Files\Filesystem::is_dir($file)) {
 						$streamer->addDirRecursive($file);

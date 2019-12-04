@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
  * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019, Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -86,8 +87,10 @@ ul {
 
 body {
 	background-color: var(--color-main-background);
+	background-color: linear-gradient(40deg, var(--color-main-background) 0%, rgba(28,175,255,1) 100%);
 	font-weight: normal;
-	font-size: .8em;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
 	font-family: var(--font-face);
 	color: var(--color-main-text);
@@ -774,8 +777,8 @@ code {
 		background-color: var(--color-background-dark);
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
-		position: absolute;
-		top: 4px;
+		position: relative;
+		top: -5px;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
@@ -891,8 +894,11 @@ code {
 				display: flex;
 				&__first {
 					overflow: hidden;
-					white-space: nowrap;
+					white-space: pre;
 					text-overflow: ellipsis;
+				}
+				&__last {
+					white-space: pre;
 				}
 			}
 		}
@@ -1195,7 +1201,8 @@ div.crumb {
 		// Some sane max-width for each folder name
 		max-width: 200px;
 
-		&.icon-home {
+		&.icon-home,
+		&.icon-delete {
 			// Hide home text
 			text-indent: -9999px;
 		}

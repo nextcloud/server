@@ -23,9 +23,9 @@ declare(strict_types=1);
 
 namespace OC\Preview;
 
+use OCP\Files\File;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension

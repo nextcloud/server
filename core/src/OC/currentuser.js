@@ -31,6 +31,6 @@ export const currentUser = rawUid !== undefined ? rawUid : false
 export const getCurrentUser = () => {
 	return {
 		uid: currentUser,
-		displayName,
+		displayName
 	}
 }

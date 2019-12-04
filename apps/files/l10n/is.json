@@ -157,15 +157,14 @@
     "Deleted shares" : "Eyddar sameignir",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
-    "Target folder" : "Markmappa",
     "File handling" : "Meðhöndlun skráar",
     "Maximum upload size" : "Hámarksstærð innsendingar",
     "max. possible: " : "hámark mögulegt: ",
     "Save" : "Vista",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Með PHP-FPM getur það tekið 5 mínútur fyrir breytingar að verða virkar.",
     "Missing permissions to edit from here." : "Vantar heimildir til að breyta einhverju héðan.",
-    "%s of %s used" : "%s af %s notað",
     "Cancel upload" : "Hætta við innsendingu",
+    "%s of %s used" : "%s af %s notað",
     "%1$s%% of %2$s used" : "%1$s%% af %2$s notað"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

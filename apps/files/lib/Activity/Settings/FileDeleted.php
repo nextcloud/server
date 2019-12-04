@@ -97,4 +97,3 @@ class FileDeleted implements ISetting {
 		return false;
 	}
 }
-

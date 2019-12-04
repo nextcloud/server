@@ -27,13 +27,11 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\FullTextSearch\Model;
 
 
 use JsonSerializable;
 use OCP\FullTextSearch\Model\IDocumentAccess;
-
 
 /**
  * Class IDocumentAccess
@@ -362,4 +360,3 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 		];
 	}
 }
-

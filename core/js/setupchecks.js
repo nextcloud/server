@@ -634,7 +634,7 @@
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}

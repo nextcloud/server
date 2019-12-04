@@ -23,7 +23,7 @@
 
 namespace OC\User;
 
-use \OCP\UserInterface;
+use OCP\UserInterface;
 
 /**
  * Abstract base class for user management. Provides methods for querying backend

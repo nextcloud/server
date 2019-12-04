@@ -19,4 +19,6 @@
  *
  */
 
-$app = new \OCA\ShareByMail\AppInfo\Application();
+use OCA\ShareByMail\AppInfo\Application;
+
+$app = \OC::$server->query(Application::class);

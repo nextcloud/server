@@ -47,6 +47,7 @@
   RewriteRule ^\.well-known/host-meta /public.php?service=host-meta [QSA,L]
   RewriteRule ^\.well-known/host-meta\.json /public.php?service=host-meta-json [QSA,L]
   RewriteRule ^\.well-known/webfinger /public.php?service=webfinger [QSA,L]
+  RewriteRule ^\.well-known/nodeinfo /public.php?service=nodeinfo [QSA,L]
   RewriteRule ^\.well-known/carddav /remote.php/dav/ [R=301,L]
   RewriteRule ^\.well-known/caldav /remote.php/dav/ [R=301,L]
   RewriteRule ^remote/(.*) remote.php [QSA,L]

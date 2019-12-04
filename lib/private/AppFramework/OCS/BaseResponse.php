@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http;

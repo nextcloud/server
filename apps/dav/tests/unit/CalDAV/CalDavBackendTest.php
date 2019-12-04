@@ -33,10 +33,10 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IConfig;
 use OCP\IL10N;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
-use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class CalDavBackendTest
@@ -279,11 +279,11 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Calendar object with uid already exists in this calendar collection.
-	 */
+	
 	public function testMultipleCalendarObjectsWithSameUID() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
+
 		$calendarId = $this->createTestCalendar();
 
 		$calData = <<<'EOD'

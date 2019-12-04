@@ -28,12 +28,12 @@
 
 namespace OC\AppFramework\Utility;
 
-use ReflectionClass;
-use ReflectionException;
 use Closure;
-use Pimple\Container;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
+use Pimple\Container;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class SimpleContainer

@@ -35,7 +35,7 @@ class LoggedInCheckCommandTest extends ALoginCommandTest {
 	/** @var ILogger|MockObject */
 	private $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);

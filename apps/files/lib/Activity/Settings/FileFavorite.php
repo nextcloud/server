@@ -97,4 +97,3 @@ class FileFavorite implements ISetting {
 		return false;
 	}
 }
-

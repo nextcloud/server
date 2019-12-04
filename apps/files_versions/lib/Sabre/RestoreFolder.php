@@ -30,7 +30,6 @@ use Sabre\DAV\ICollection;
 use Sabre\DAV\IMoveTarget;
 use Sabre\DAV\INode;
 
-
 class RestoreFolder implements ICollection, IMoveTarget {
 	public function createFile($name, $data = null) {
 		throw new Forbidden();

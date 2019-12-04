@@ -20,12 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CalDAV\Search\Xml\Filter;
 
+use OCA\DAV\CalDAV\Search\SearchPlugin;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
-use OCA\DAV\CalDAV\Search\SearchPlugin;
 
 class LimitFilter implements XmlDeserializable {
 

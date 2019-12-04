@@ -24,8 +24,8 @@ namespace OC\Core\Controller;
 
 use Exception;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;

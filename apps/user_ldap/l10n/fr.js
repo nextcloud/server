@@ -56,7 +56,7 @@ OC.L10N.register(
     "Password change rejected. Hint: " : "La modification du mot de passe a été rejetée. Indice :",
     "Please login with the new password" : "Veuillez vous connecter avec le nouveau mot de passe",
     "LDAP User backend" : "Infrastructure utilisateur LDAP",
-    "Your password will expire tomorrow." : "Votre mot de passe va expirer demain.",
+    "Your password will expire tomorrow." : "Votre mot de passe expirera demain",
     "Your password will expire today." : "Votre mot de passe va expirer aujourd'hui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Votre mot de passe va expirer dans %n jour.","Votre mot de passe va expirer dans %n jours."],
     "LDAP / AD integration" : "Intégration LDAP/AD",

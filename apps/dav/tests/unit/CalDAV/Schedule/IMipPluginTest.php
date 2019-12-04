@@ -36,6 +36,8 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
@@ -48,7 +50,7 @@ use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
 
-        public function setUp() {
+		protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
@@ -70,7 +72,13 @@ class IMipPluginTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 
+		$this->userManager = $this->createMock(IUserManager::class);
+
 		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')
+			->will($this->returnCallback(function($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->willReturn($l10n);
 
@@ -91,7 +99,7 @@ class IMipPluginTest extends TestCase {
 		$defaults->method('getName')
 			->will($this->returnValue('Instance Name 123'));
 
-		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, 'user123');
+		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
 	}
 
 	public function testDelivery() {
@@ -121,6 +129,28 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
+	public function testDeliveryWithNoCommonName() {
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+
+		$message = $this->_testMessage();
+		$message->senderName = null;
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getDisplayName')->willReturn('Mr. Wizard');
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user123')
+			->willReturn($user);
+
+		$this->_expectSend();
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
 	/**
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
@@ -139,7 +169,7 @@ class IMipPluginTest extends TestCase {
 
 		if ($expectsMail) {
 			$this->assertEquals('1.1', $message->getScheduleStatus());
- 		} else {
+		} else {
 			$this->assertEquals(false, $message->getScheduleStatus());
 		}
 	}
@@ -201,12 +231,13 @@ class IMipPluginTest extends TestCase {
 		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
 		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ] );
 		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:'.$recipient;
 		return $message;
 	}
 
 
-        private function _expectSend( $recipient = 'frodo@hobb.it', $expectSend = true, $expectButtons = true ) {
+	private function _expectSend( $recipient = 'frodo@hobb.it', $expectSend = true, $expectButtons = true ) {
 
 		// if the event is in the past, we skip out
 		if (!$expectSend) {
@@ -224,7 +255,10 @@ class IMipPluginTest extends TestCase {
 			->with([$recipient => null]);
 		$this->mailMessage->expects($this->once())
 			->method('setReplyTo')
-			->with(['gandalf@wiz.ard' => null]);
+			->with(['gandalf@wiz.ard' => 'Mr. Wizard']);
+		$this->mailMessage->expects($this->once())
+			->method('setFrom')
+			->with(['invitations-noreply@localhost' => 'Mr. Wizard via Instance Name 123']);
 		$this->mailer
 			->expects($this->once())
 			->method('send');

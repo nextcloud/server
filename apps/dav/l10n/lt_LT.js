@@ -39,9 +39,9 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Jūs sąraše {calendar} išsprendėte užduotį {todo}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} sąraše {calendar} vėl pradėjo užduotį {todo}",
     "You reopened todo {todo} in list {calendar}" : "Jūs sąraše {calendar} vėl pradėjote užduotį {todo}",
-    "A <strong>calendar</strong> was modified" : "<strong>Kalendorius</strong> buvo pakeistas",
-    "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo pakeistas",
-    "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo pakeista",
+    "A <strong>calendar</strong> was modified" : "<strong>Kalendorius</strong> buvo modifikuotas",
+    "A calendar <strong>event</strong> was modified" : "Kalendoriaus <strong>įvykis</strong> buvo modifikuotas",
+    "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo modifikuota",
     "Contact birthdays" : "Adresatų gimtadieniai",
     "Calendar:" : "Kalendorius:",
     "Date:" : "Data:",
@@ -72,8 +72,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Save" : "Įrašyti",
     "Calendar server" : "Kalendoriaus serveris",
-    "%s via %s" : "%s per %s",
-    "The meeting »%s« with %s was canceled." : "Susikimas „%s“ su  %s atšauktas.",
-    "%s invited you to »%s«" : "%s pakvietė jus į »%s«"
+    "Send invitations to attendees" : "Siųsti pakvietimus kviestiniams",
+    "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Įsitikinkite, kad tinkamai nusistatėte {emailopen}el. pašto serverį{linkclose}.",
+    "Please make sure to properly set up the email settings above." : "Įsitikinkite, kad aukščiau tinkamai nusistatėte el. pašto nustatymus."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

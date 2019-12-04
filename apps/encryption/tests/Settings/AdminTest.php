@@ -27,11 +27,11 @@ namespace OCA\Encryption\Tests\Settings;
 use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\IL10N;
-use OCP\ILogger;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -50,7 +50,7 @@ class AdminTest extends TestCase {
 	/** @var ISession */
 	private $session;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();

@@ -44,7 +44,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
@@ -54,20 +54,6 @@ class SettingsControllerTest extends TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
 
 		$this->controller = new SettingsController('twofactor_backupcodes', $this->request, $this->storage, $this->userSession);
-	}
-
-	public function testState() {
-		$user = $this->getMockBuilder(IUser::class)->getMock();
-
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->will($this->returnValue($user));
-		$this->storage->expects($this->once())
-			->method('getBackupCodesState')
-			->with($user)
-			->will($this->returnValue('state'));
-
-		$this->assertEquals('state', $this->controller->state());
 	}
 
 	public function testCreateCodes() {

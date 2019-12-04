@@ -86,7 +86,7 @@ class ManagerTest extends \Test\TestCase {
 	/** @var Manager */
 	protected $manager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->access = $this->createMock(Access::class);

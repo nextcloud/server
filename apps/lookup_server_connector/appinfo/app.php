@@ -19,5 +19,7 @@
  *
  */
 
-$app = new \OCA\LookupServerConnector\AppInfo\Application();
+use OCA\LookupServerConnector\AppInfo\Application;
+
+$app = \OC::$server->query(Application::class);
 $app->register();

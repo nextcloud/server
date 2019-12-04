@@ -27,7 +27,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\Dashboard;
 
 
@@ -36,7 +35,6 @@ use OCP\Dashboard\IDashboardManager;
 use OCP\Dashboard\Model\IWidgetConfig;
 use OCP\Dashboard\Service\IEventsService;
 use OCP\Dashboard\Service\IWidgetsService;
-
 
 /**
  * Class DashboardManager
@@ -145,4 +143,3 @@ class DashboardManager implements IDashboardManager {
 	}
 
 }
-

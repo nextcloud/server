@@ -24,14 +24,14 @@ declare (strict_types = 1);
 
 namespace OC\Core\Controller;
 
+use OC\Template\IconsCacher;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\App\IAppManager;
 use OCP\IRequest;
-use OC\Template\IconsCacher;
 
 class SvgController extends Controller {
 
@@ -90,12 +90,6 @@ class SvgController extends Controller {
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	public function getSvgFromApp(string $app, string $fileName, string $color = 'ffffff') {
-
-		if ($app === 'settings') {
-			$path = $this->serverRoot . "/settings/img/$fileName.svg";
-			return $this->getSvg($path, $color, $fileName);
-		}
-
 		$appRootPath = $this->appManager->getAppPath($app);
 		$appPath = substr($appRootPath, strlen($this->serverRoot));
 

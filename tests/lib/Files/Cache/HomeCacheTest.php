@@ -66,7 +66,7 @@ class HomeCacheTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = new DummyUser('foo', \OC::$server->getTempManager()->getTemporaryFolder());

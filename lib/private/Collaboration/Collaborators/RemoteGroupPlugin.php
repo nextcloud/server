@@ -57,11 +57,15 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		$resultType = new SearchResultType('remote_groups');
 
 		if ($this->enabled && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
+			list($remoteGroup, $serverUrl) = $this->splitGroupRemote($search);
 			$result['exact'][] = [
-				'label' => $search,
+				'label' => $remoteGroup . " ($serverUrl)",
+				'guid' => $remoteGroup,
+				'name' => $remoteGroup,
 				'value' => [
 					'shareType' => Share::SHARE_TYPE_REMOTE_GROUP,
 					'shareWith' => $search,
+					'server' => $serverUrl,
 				],
 			];
 		}
@@ -69,6 +73,22 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);
 
 		return true;
+	}
+
+	/**
+	 * split group and remote from federated cloud id
+	 *
+	 * @param string $address federated share address
+	 * @return array [user, remoteURL]
+	 * @throws \InvalidArgumentException
+	 */
+	public function splitGroupRemote($address) {
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId($address);
+			return [$cloudId->getUser(), $cloudId->getRemote()];
+		} catch (\InvalidArgumentException $e) {
+			throw new \InvalidArgumentException('Invalid Federated Cloud ID', 0, $e);
+		}
 	}
 
 }

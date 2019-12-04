@@ -21,6 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share20;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -58,6 +59,8 @@ class Share implements \OCP\Share\IShare {
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
+	/** @var int */
+	private $status;
 	/** @var string */
 	private $note = '';
 	/** @var \DateTime */
@@ -321,6 +324,21 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setStatus(int $status): IShare {
+		$this->status = $status;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getStatus(): int {
+		return $this->status;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function setNote($note) {
 		$this->note = $note;
 		return $this;
@@ -366,6 +384,14 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getExpirationDate() {
 		return $this->expireDate;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isExpired() {
+		return $this->getExpirationDate() !== null &&
+			$this->getExpirationDate() <= new \DateTime();
 	}
 
 	/**

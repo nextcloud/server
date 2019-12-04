@@ -50,7 +50,7 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var BackupCodeStorage */
 	private $storage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(BackupCodeMapper::class);
@@ -67,7 +67,7 @@ class BackupCodeStorageTest extends TestCase {
 		$user->method('getUID')->willReturn('fritz');
 		$this->random->expects($this->exactly($number))
 			->method('generate')
-			->with(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+			->with(16, ISecureRandom::CHAR_HUMAN_READABLE)
 			->will($this->returnValue('CODEABCDEF'));
 		$this->hasher->expects($this->exactly($number))
 			->method('hash')

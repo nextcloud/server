@@ -22,7 +22,7 @@
 
 namespace OCA\Files_External\Tests;
 
-use \OCA\Files_External\Lib\MissingDependency;
+use OCA\Files_External\Lib\MissingDependency;
 
 class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 

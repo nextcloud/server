@@ -21,21 +21,18 @@
  *
  */
 
-namespace Tests\Settings;
+namespace OCA\Settings\Tests\AppInfo;
 
-use function get_class;
-use OC\Settings\Admin\Sharing;
 use OC\Settings\Manager;
-use OC\Settings\Mapper;
-use OC\Settings\Personal\Security;
 use OC\Settings\Section;
+use OCA\Settings\Admin\Sharing;
+use OCA\Settings\Personal\Security;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
-use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use Test\TestCase;
 
@@ -54,7 +51,7 @@ class ManagerTest extends TestCase {
 	/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
 	private $container;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);
@@ -122,7 +119,7 @@ class ManagerTest extends TestCase {
 		$this->url->expects($this->exactly(3))
 			->method('imagePath')
 			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
+				['core', 'actions/user.svg', '1'],
 				['settings', 'password.svg', '2'],
 				['core', 'clients/phone.svg', '3'],
 			]);
@@ -181,7 +178,7 @@ class ManagerTest extends TestCase {
 		$this->url->expects($this->exactly(3))
 			->method('imagePath')
 			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
+				['core', 'actions/user.svg', '1'],
 				['settings', 'password.svg', '2'],
 				['core', 'clients/phone.svg', '3'],
 			]);
@@ -244,15 +241,24 @@ class ManagerTest extends TestCase {
 		$section->expects($this->once())
 			->method('getPriority')
 			->willReturn(16);
-		$this->container->expects($this->once())
+		$section2 = $this->createMock(Security\Authtokens::class);
+		$section2->expects($this->once())
+			->method('getPriority')
+			->willReturn(100);
+		$this->container->expects($this->at(0))
 			->method('query')
 			->with(Security::class)
 			->willReturn($section);
+		$this->container->expects($this->at(1))
+			->method('query')
+			->with(Security\Authtokens::class)
+			->willReturn($section2);
 
 		$settings = $this->manager->getPersonalSettings('security');
 
 		$this->assertEquals([
-			16 => [$section]
+			16 => [$section],
+			100 => [$section2],
 		], $settings);
 	}
 
@@ -273,7 +279,7 @@ class ManagerTest extends TestCase {
 		$this->url->expects($this->exactly(9))
 			->method('imagePath')
 			->willReturnMap([
-				['core', 'actions/info.svg', '1'],
+				['core', 'actions/user.svg', '1'],
 				['settings', 'password.svg', '2'],
 				['core', 'clients/phone.svg', '3'],
 				['settings', 'admin.svg', '0'],

@@ -23,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Federation\Tests;
 
 use OC\OCS\DiscoveryService;
@@ -37,7 +38,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | DiscoveryService */
 	private $discoveryService;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->discoveryService = $this->getMockBuilder(DiscoveryService::class)

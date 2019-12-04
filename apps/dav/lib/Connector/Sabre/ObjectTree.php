@@ -29,11 +29,11 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\FileInfo;
 use OC\Files\Storage\FailedStorage;
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
-use OCA\DAV\Connector\Sabre\Exception\FileLocked;
-use OC\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;

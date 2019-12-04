@@ -22,12 +22,40 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Settings;
 
+use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IInitialStateService;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 
+	/** @var IInitialStateService */
+	private $initialStateService;
+
+	/** @var ClientMapper */
+	private $clientMapper;
+
+	public function __construct(IInitialStateService $initialStateService,
+								ClientMapper $clientMapper) {
+		$this->initialStateService = $initialStateService;
+		$this->clientMapper = $clientMapper;
+	}
+
 	public function getForm(): TemplateResponse {
+		$clients = $this->clientMapper->getClients();
+		$result = [];
+
+		foreach ($clients as $client) {
+			$result[] = [
+				'id' => $client->getId(),
+				'name' => $client->getName(),
+				'redirectUri' => $client->getRedirectUri(),
+				'clientId' => $client->getClientIdentifier(),
+				'clientSecret' => $client->getSecret(),
+			];
+		}
+		$this->initialStateService->provideInitialState('oauth2', 'clients', $result);
+
 		return new TemplateResponse(
 			'oauth2',
 			'admin',

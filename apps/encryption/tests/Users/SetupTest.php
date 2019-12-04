@@ -24,7 +24,6 @@
  *
  */
 
-
 namespace OCA\Encryption\Tests\Users;
 
 
@@ -49,7 +48,7 @@ class SetupTest extends TestCase {
 	 */
 	private $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$logMock = $this->createMock(ILogger::class);
 		$userSessionMock = $this->getMockBuilder(IUserSession::class)

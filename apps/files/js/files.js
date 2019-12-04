@@ -336,7 +336,7 @@
 		 * - JS periodically checks for this cookie and then knows when the download has started to call the callback
 		 *
 		 * @param {string} url download URL
-		 * @param {function} callback function to call once the download has started
+		 * @param {Function} callback function to call once the download has started
 		 */
 		handleDownload: function(url, callback) {
 			var randomToken = Math.random().toString(36).substring(2),

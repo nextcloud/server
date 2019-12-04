@@ -44,13 +44,13 @@ class DBConfigServiceTest extends TestCase {
 
 	private $mounts = [];
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->dbConfig = new DBConfigService($this->connection, \OC::$server->getCrypto());
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		foreach ($this->mounts as $mount) {
 			$this->dbConfig->removeMount($mount);
 		}

@@ -24,6 +24,7 @@ namespace OCA\ShareByMail;
 use OC\CapabilitiesManager;
 use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
+use OC\Share20\Share;
 use OC\User\NoUserException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
@@ -41,7 +42,6 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use OC\Share20\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
@@ -1166,4 +1166,29 @@ class ShareByMailProvider implements IShareProvider {
 		return ['public' => $mail];
 	}
 
+	public function getAllShares(): iterable {
+		$qb = $this->dbConnection->getQueryBuilder();
+
+		$qb->select('*')
+			->from('share')
+			->where(
+				$qb->expr()->orX(
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share\IShare::TYPE_EMAIL))
+				)
+			);
+
+		$cursor = $qb->execute();
+		while($data = $cursor->fetch()) {
+			try {
+				$share = $this->createShareObject($data);
+			} catch (InvalidShare $e) {
+				continue;
+			} catch (ShareNotFound $e) {
+				continue;
+			}
+
+			yield $share;
+		}
+		$cursor->closeCursor();
+	}
 }

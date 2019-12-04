@@ -25,16 +25,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\PublicCalendar;
+use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -71,7 +72,7 @@ class PublicCalendarRootTest extends TestCase {
 	/** @var ILogger */
 	private $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$db = \OC::$server->getDatabaseConnection();
@@ -107,7 +108,7 @@ class PublicCalendarRootTest extends TestCase {
 			$this->l10n, $this->config);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		if (is_null($this->backend)) {

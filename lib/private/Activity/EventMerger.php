@@ -111,7 +111,8 @@ class EventMerger implements IEventMerger {
 
 			$event->setRichSubject($newSubject, $parameters)
 				->setParsedSubject($parsedSubject)
-				->setChildEvent($previousEvent);
+				->setChildEvent($previousEvent)
+				->setTimestamp(max($event->getTimestamp(), $previousEvent->getTimestamp()));
 		} catch (\UnexpectedValueException $e) {
 			return $event;
 		}

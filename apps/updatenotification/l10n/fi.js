@@ -28,7 +28,6 @@ OC.L10N.register(
     "Stable" : "Vakaa",
     "Beta" : "Beta",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Voit aina päivittää uudempaan versioon tai kokeellisen jakelukanavan versioon. Et voi kuitenkaan palata aiempaan, vakaan julkaisukanavan versioon.",
-    "Could not start updater, please try the manual update" : "Ei voitu aloittaa päivitystä, kokeile päivittämistä manuaalisesti",
     "Production" : "Tuotanto"
 },
 "nplurals=2; plural=(n != 1);");

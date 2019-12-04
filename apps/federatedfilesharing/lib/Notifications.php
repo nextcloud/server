@@ -22,7 +22,6 @@
  *
  */
 
-
 namespace OCA\FederatedFileSharing;
 
 use OCP\AppFramework\Http;

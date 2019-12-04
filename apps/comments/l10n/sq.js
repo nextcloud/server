@@ -24,7 +24,6 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Ndodhi një gabim teksa përditësohej komenti me id {id}",
     "Error occurred while posting comment" : "Ndodhi një gabim teksa postohej komenti",
     "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],
-    "Comment" : "Koment",
-    "%1$s mentioned you in a comment on “%2$s”" : "%1$s ju ka përmendur në një koment në “%2$s”"
+    "Comment" : "Koment"
 },
 "nplurals=2; plural=(n != 1);");

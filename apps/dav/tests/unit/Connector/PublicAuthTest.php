@@ -24,6 +24,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCP\IRequest;
@@ -53,7 +54,7 @@ class PublicAuthTest extends \Test\TestCase {
 	/** @var string */
 	private $oldUser;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->session = $this->getMockBuilder(ISession::class)
@@ -76,7 +77,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->oldUser = \OC_User::getUser();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC_User::setIncognitoMode(false);
 
 		// Set old user

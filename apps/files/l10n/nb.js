@@ -157,15 +157,14 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
-    "Target folder" : "Målmappe",
     "File handling" : "Filhåndtering",
     "Maximum upload size" : "Grense for opplasting",
     "max. possible: " : "maks mulige:",
     "Save" : "Lagre",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta 5 minutter før endringene trer i kraft.",
     "Missing permissions to edit from here." : "Manglende rettigheter til å redigere herfra.",
-    "%s of %s used" : "%s av %s brukt",
     "Cancel upload" : "Avbryt opplasting",
+    "%s of %s used" : "%s av %s brukt",
     "%1$s%% of %2$s used" : "%1$s%% av %2$s brukt"
 },
 "nplurals=2; plural=(n != 1);");

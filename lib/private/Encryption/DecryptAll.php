@@ -24,12 +24,11 @@
  *
  */
 
-
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\View;
-use \OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IEncryptionModule;
 use OCP\IUserManager;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;

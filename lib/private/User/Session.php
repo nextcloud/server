@@ -61,6 +61,7 @@ use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use OCP\User\Events\PostLoginEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -315,6 +316,29 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getImpersonatingUserID(): ?string {
+
+		return $this->session->get('oldUserId');
+
+	}
+
+	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
+		if ($useCurrentUser === false) {
+			$this->session->remove('oldUserId');
+			return;
+		}
+
+		$currentUser = $this->getUser();
+
+		if ($currentUser === null) {
+			throw new \OC\User\NoUserException();
+		}
+		$this->session->set('oldUserId', $currentUser->getUID());
+
+	}
+	/**
 	 * set the token id
 	 *
 	 * @param int|null $token that was used to log in
@@ -375,13 +399,11 @@ class Session implements IUserSession, Emitter {
 			$firstTimeLogin = $user->updateLastLoginTimestamp();
 		}
 
-		$postLoginEvent = new OC\User\Events\PostLoginEvent(
+		$this->dispatcher->dispatchTyped(new PostLoginEvent(
 			$user,
 			$loginDetails['password'],
 			$isToken
-		);
-		$this->dispatcher->dispatch(OC\User\Events\PostLoginEvent::class, $postLoginEvent);
-
+		));
 		$this->manager->emit('\OC\User', 'postLogin', [
 			$user,
 			$loginDetails['password'],
@@ -838,7 +860,7 @@ class Session implements IUserSession, Emitter {
 
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
 			return false;
 		} catch (InvalidTokenException $ex) {
@@ -847,7 +869,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->setMagicInCookie($user->getUID(), $newToken);
-		$token = $this->tokenProvider->getToken($sessionId);
 
 		//login
 		$this->setUser($user);

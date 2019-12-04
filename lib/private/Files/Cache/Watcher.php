@@ -85,7 +85,7 @@ class Watcher implements IWatcher {
 		if (is_null($cachedEntry)) {
 			$cachedEntry = $this->cache->get($path);
 		}
-		if ($this->needsUpdate($path, $cachedEntry)) {
+		if ($cachedEntry === false || $this->needsUpdate($path, $cachedEntry)) {
 			$this->update($path, $cachedEntry);
 			return true;
 		} else {
@@ -105,7 +105,7 @@ class Watcher implements IWatcher {
 		} else {
 			$this->scanner->scanFile($path);
 		}
-		if ($cachedData['mimetype'] === 'httpd/unix-directory') {
+		if (is_array($cachedData) && $cachedData['mimetype'] === 'httpd/unix-directory') {
 			$this->cleanFolder($path);
 		}
 		if ($this->cache instanceof Cache) {

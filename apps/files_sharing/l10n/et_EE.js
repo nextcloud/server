@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Teistega jagatud",
     "Shared with you" : "Sinuga jagatud",
-    "Shared by link" : "Jagatud lingiga",
     "Nothing shared with you yet" : "Sinuga pole veel midagi jagatud",
     "Files and folders others share with you will show up here" : "Siin näidatakse faile ja kaustasid, mida teised on sulle jaganud",
+    "Shared with others" : "Teistega jagatud",
     "Nothing shared yet" : "Midagi pole veel jagatud",
     "Files and folders you share will show up here" : "Siin kuvatakse faile ja kaustasid, mida sa oled teistega jaganud",
+    "Shared by link" : "Jagatud lingiga",
     "No shared links" : "Jagatud linke pole",
     "Files and folders you share by link will show up here" : "Siin kuvatakse faile ja kaustasid, mida sa jagad lingiga",
     "Download" : "Lae alla",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Fail või kaust jagati <strong>teisest serverist</strong>",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
-    "could not delete share" : "ei saanud jagamist eemaldada",
     "Could not delete share" : "Ei saanud jagamist eemaldada",
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
@@ -87,8 +86,8 @@ OC.L10N.register(
     "Direct link" : "Otsene link",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
-    "Share" : "Jaga",
     "Sharing" : "Jagamine",
+    "Share" : "Jaga",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
@@ -104,6 +103,6 @@ OC.L10N.register(
     "Select or drop files" : "Vali või lohista failid",
     "Uploading files…" : "Failide üleslaadimine…",
     "Uploaded files:" : "Üleslaetud failid:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "%s jagamine ebaõnnestus sest server ei luba %s tüüpi jagamisi"
+    "could not delete share" : "ei saanud jagamist eemaldada"
 },
 "nplurals=2; plural=(n != 1);");

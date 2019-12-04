@@ -24,10 +24,10 @@ namespace OC\Collaboration\Resources;
 
 
 use Doctrine\DBAL\Exception\ConstraintViolationException;
-use OCP\Collaboration\Resources\IManager;
-use OCP\Collaboration\Resources\ResourceException;
 use OCP\Collaboration\Resources\ICollection;
+use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;
+use OCP\Collaboration\Resources\ResourceException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;

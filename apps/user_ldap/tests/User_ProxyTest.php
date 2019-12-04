@@ -49,7 +49,7 @@ class User_ProxyTest extends TestCase  {
 	/** @var UserPluginManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userPluginManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);

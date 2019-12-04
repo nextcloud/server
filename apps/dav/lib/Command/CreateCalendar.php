@@ -21,6 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -80,7 +81,8 @@ class CreateCalendar extends Command {
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
-			\OC::$server->query(ProxyMapper::class)
+			\OC::$server->query(ProxyMapper::class),
+			\OC::$server->getConfig()
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();

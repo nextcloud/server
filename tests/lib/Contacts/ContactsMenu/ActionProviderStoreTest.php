@@ -51,7 +51,7 @@ class ActionProviderStoreTest extends TestCase {
 	/** @var ActionProviderStore */
 	private $actionProviderStore;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);
@@ -115,10 +115,10 @@ class ActionProviderStoreTest extends TestCase {
 		$this->assertInstanceOf(EMailProvider::class, $providers[0]);
 	}
 
-	/**
-	 * @expectedException Exception
-	 */
+	
 	public function testGetProvidersWithQueryException() {
+		$this->expectException(\Exception::class);
+
 		$user = $this->createMock(IUser::class);
 		$this->appManager->expects($this->once())
 			->method('getEnabledAppsForUser')

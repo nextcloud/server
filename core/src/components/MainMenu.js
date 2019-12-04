@@ -77,10 +77,6 @@ export const setUp = () => {
 			$app = $app.closest('a')
 		}
 
-		// trigger redirect
-		// needed for ie, but also works for every browser
-		window.location = $app.href
-
 		if (event.which === 1 && !event.ctrlKey && !event.metaKey && $app.parent('#more-apps').length === 0) {
 			$app.find('svg').remove()
 			$app.find('div').remove() // prevent odd double-clicks
@@ -89,6 +85,9 @@ export const setUp = () => {
 					? 'icon-loading-small'
 					: 'icon-loading-small-dark'
 			))
+			// trigger redirect
+			// needed for ie, but also works for every browser
+			window.location = $app.attr('href')
 		} else {
 			// Close navigation when opening app in
 			// a new tab

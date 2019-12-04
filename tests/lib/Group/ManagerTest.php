@@ -20,13 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace Test\Group;
 
 use OC\Group\Database;
 use OC\User\Manager;
+use OCP\GroupInterface;
 use OCP\ILogger;
 use OCP\IUser;
-use OCP\GroupInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -39,7 +40,7 @@ class ManagerTest extends TestCase {
 	/** @var ILogger|MockObject */
 	protected $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
@@ -190,6 +191,7 @@ class ManagerTest extends TestCase {
 			->method('createGroup')
 			->will($this->returnCallback(function () use (&$backendGroupCreated) {
 				$backendGroupCreated = true;
+				return true;
 			}));
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
@@ -197,6 +199,35 @@ class ManagerTest extends TestCase {
 
 		$group = $manager->createGroup('group1');
 		$this->assertEquals('group1', $group->getGID());
+	}
+
+	public function testCreateFailure() {
+		/**@var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP |
+			GroupInterface::REMOVE_FROM_GOUP |
+			GroupInterface::COUNT_USERS |
+			GroupInterface::CREATE_GROUP |
+			GroupInterface::DELETE_GROUP |
+			GroupInterface::GROUP_DETAILS
+		);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('createGroup')
+			->willReturn(false);
+		$backend->expects($this->once())
+			->method('getGroupDetails')
+			->willReturn([]);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
+		$manager->addBackend($backend);
+
+		$group = $manager->createGroup('group1');
+		$this->assertEquals(null, $group);
 	}
 
 	public function testCreateExists() {
@@ -378,7 +409,7 @@ class ManagerTest extends TestCase {
 		$this->assertCount(2, $groups);
 
 		foreach ($groups as $group) {
-			$this->assertInternalType('string', $group);
+			$this->assertIsString($group);
 		}
 	}
 

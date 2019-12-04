@@ -36,21 +36,21 @@
  *
  */
 
+use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
-use OCA\Files_External\Config\UserPlaceholderHandler;
-use phpseclib\Crypt\AES;
-use \OCA\Files_External\AppInfo\Application;
-use \OCA\Files_External\Lib\Backend\LegacyBackend;
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCP\Files\StorageNotAvailableException;
-use OCA\Files_External\Service\BackendService;
-use OCA\Files_External\Lib\Auth\Builtin;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCP\IUserManager;
-use OCA\Files_External\Service\GlobalStoragesService;
-use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Config\UserContext;
+use OCA\Files_External\Config\UserPlaceholderHandler;
+use OCA\Files_External\Lib\Auth\Builtin;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\LegacyBackend;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IUserManager;
+use phpseclib\Crypt\AES;
 
 /**
  * Class to configure mount.json globally and for users

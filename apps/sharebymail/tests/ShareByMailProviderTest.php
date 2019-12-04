@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace OCA\ShareByMail\Tests;
 
 
@@ -98,7 +97,7 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  CapabilitiesManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $capabilitiesManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -175,10 +174,10 @@ class ShareByMailProviderTest extends TestCase {
 
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$this->connection->getQueryBuilder()->delete('share')->execute();
 
-		return parent::tearDown();
+		parent::tearDown();
 	}
 
 	public function testCreate() {
@@ -306,10 +305,10 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testCreateFailed() {
+		$this->expectException(\Exception::class);
+
 		$this->share->expects($this->once())->method('getSharedWith')->willReturn('user1');
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
@@ -349,10 +348,10 @@ class ShareByMailProviderTest extends TestCase {
 
 	}
 
-	/**
-	 * @expectedException \OC\HintException
-	 */
+	
 	public function testCreateMailShareFailed() {
+		$this->expectException(\OC\HintException::class);
+
 		$this->share->expects($this->any())->method('getToken')->willReturn('token');
 		$this->share->expects($this->once())->method('setToken')->with('token');
 		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
@@ -504,7 +503,7 @@ class ShareByMailProviderTest extends TestCase {
 	 * @param string newSendPasswordByTalk
 	 * @param bool sendMail
 	 */
-	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, string $originalSendPasswordByTalk, string $newSendPasswordByTalk, bool $sendMail) {
+	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, $originalSendPasswordByTalk, $newSendPasswordByTalk, bool $sendMail) {
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
@@ -573,10 +572,10 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-	/**
-	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
-	 */
+	
 	public function testGetShareByIdFailed() {
+		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+
 		$instance = $this->getInstance(['createShareObject']);
 
 		$itemSource = 11;
@@ -658,10 +657,10 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-	/**
-	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
-	 */
+	
 	public function testGetShareByTokenFailed() {
+		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+
 
 		$itemSource = 11;
 		$itemType = 'file';
@@ -775,10 +774,10 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($token, $result['token']);
 	}
 
-	/**
-	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
-	 */
+	
 	public function testGetRawShareFailed() {
+		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';

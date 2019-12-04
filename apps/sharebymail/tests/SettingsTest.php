@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace OCA\ShareByMail\Tests;
 
 
@@ -35,7 +34,7 @@ class SettingsTest extends TestCase  {
 	/** @var  SettingsManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $settingsManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)

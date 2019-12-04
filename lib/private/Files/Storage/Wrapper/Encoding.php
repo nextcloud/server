@@ -23,9 +23,9 @@
 
 namespace OC\Files\Storage\Wrapper;
 
+use OC\Cache\CappedMemoryCache;
 use OCP\Files\Storage\IStorage;
 use OCP\ICache;
-use OC\Cache\CappedMemoryCache;
 
 /**
  * Encoding wrapper that deals with file names that use unsupported encodings like NFD.

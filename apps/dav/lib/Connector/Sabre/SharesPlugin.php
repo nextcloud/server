@@ -25,11 +25,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
-use \Sabre\DAV\PropFind;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use Sabre\DAV\PropFind;
 
 /**
  * Sabre Plugin to provide share-related properties

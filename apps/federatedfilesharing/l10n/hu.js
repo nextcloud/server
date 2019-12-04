@@ -21,9 +21,7 @@ OC.L10N.register(
     "File is already shared with %s" : "Fájl már megosztva vele: %s",
     "Could not find share" : "A megosztás nem található",
     "Federated sharing" : "Egyesített megosztás",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s (%2$s nevében)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Kaptál egy távoli megosztást: {share}, innen: {user} ({behalf} nevében)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s",
     "You received {share} as a remote share from {user}" : "Kaptál egy távoli megosztást: {share}, innen: {user}",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
@@ -46,7 +44,7 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s megosztása nem sikerült, mert %s nem található, lehetséges, hogy a szerver jelenleg nem érhető el vagy ön-aláírt tanúsítványt használ."
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s (%2$s nevében)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Kaptál egy távoli megosztást: \"%3$s\", innen: %1$s"
 },
 "nplurals=2; plural=(n != 1);");

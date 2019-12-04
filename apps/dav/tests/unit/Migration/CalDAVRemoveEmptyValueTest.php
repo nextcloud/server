@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Tests\Unit\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -88,7 +89,7 @@ CREATED:20151214T091032Z
 END:VEVENT
 END:VCALENDAR';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);

@@ -75,4 +75,3 @@ interface ISetting {
 	 */
 	public function isDefaultEnabledMail();
 }
-

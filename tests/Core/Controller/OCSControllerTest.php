@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
@@ -47,7 +48,7 @@ class OCSControllerTest extends TestCase {
 	/** @var OCSController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

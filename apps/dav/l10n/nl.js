@@ -43,6 +43,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "Een <strong>agenda</strong> is aangepast",
     "A calendar <strong>event</strong> was modified" : "Een agenda <strong>gebeurtenis</strong> is aangepast",
     "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
+    "Death of %s" : "Dood van %s",
     "Contact birthdays" : "Verjaardagen",
     "Calendar:" : "Agenda",
     "Date:" : "Datum",
@@ -97,10 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Hierdoor zullen ze niet meteen beschikbaar zijn na het inschakelen maar zullen na een tijdje verschijnen.",
     "Send notifications for events" : "Versturen meldingen voor afspraken",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden.",
-    "%s via %s" : "%s via %s",
-    "The meeting »%s« with %s was canceled." : "De vergadering »%s« met %s is geannuleerd.",
-    "The meeting »%s« with %s was updated." : "De vergadering »%s« met %s is bijgewerkt.",
-    "%s invited you to »%s«" : "%s heeft je uitgenodigd voor »%s«",
+    "Enable notifications for events via push" : "Inschakelen push-melding voor afspraken",
     "Please make sure to properly set up the email settings above." : "Zorg ervoor dat je de bovenstaande e-mailinstellingen correct instelt."
 },
 "nplurals=2; plural=(n != 1);");

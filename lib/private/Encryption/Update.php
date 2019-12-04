@@ -25,8 +25,8 @@
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
-use \OC\Files\Mount;
-use \OC\Files\View;
+use OC\Files\Mount;
+use OC\Files\View;
 
 /**
  * update encrypted files, e.g. because a file was shared

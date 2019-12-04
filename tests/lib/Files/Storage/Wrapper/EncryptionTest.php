@@ -14,6 +14,7 @@ use OC\User\Manager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
@@ -108,7 +109,7 @@ class EncryptionTest extends Storage {
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		parent::setUp();
 
@@ -131,7 +132,7 @@ class EncryptionTest extends Storage {
 
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
@@ -284,13 +285,17 @@ class EncryptionTest extends Storage {
 			->method('getCache')
 			->with($path)
 			->willReturn($fileEntry);
-		$fileEntry->expects($this->any())
-			->method('get')
-			->with($metaData['fileid']);
+		if ($metaData !== null) {
+			$fileEntry->expects($this->any())
+				->method('get')
+				->with($metaData['fileid']);
+		}
 
 		$this->instance->expects($this->any())->method('getCache')->willReturn($cache);
-		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
-			->with($path, 0)->willReturn($expected['size']);
+		if ($expected !== null) {
+			$this->instance->expects($this->any())->method('verifyUnencryptedSize')
+				->with($path, 0)->willReturn($expected['size']);
+		}
 
 		$result = $this->instance->getMetaData($path);
 		if(isset($expected['encrypted'])) {
@@ -300,7 +305,12 @@ class EncryptionTest extends Storage {
 				$this->assertSame($expected['encryptedVersion'], $result['encryptedVersion']);
 			}
 		}
-		$this->assertSame($expected['size'], $result['size']);
+
+		if ($expected !== null) {
+			$this->assertSame($expected['size'], $result['size']);
+		} else {
+			$this->assertSame(null, $result);
+		}
 	}
 
 	public function dataTestGetMetaData() {
@@ -559,7 +569,7 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs(
 				[
 					new View(),
-					new Manager($this->config, $this->createMock(EventDispatcherInterface::class)),
+					new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)),
 					$this->groupManager,
 					$this->config,
 					$this->arrayCache
@@ -628,7 +638,7 @@ class EncryptionTest extends Storage {
 			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')

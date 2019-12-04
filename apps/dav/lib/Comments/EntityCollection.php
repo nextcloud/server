@@ -193,4 +193,3 @@ class EntityCollection extends RootCollection implements IProperties {
 		return [self::PROPERTY_NAME_READ_MARKER => $marker];
 	}
 }
-

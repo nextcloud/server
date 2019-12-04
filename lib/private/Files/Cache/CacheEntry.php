@@ -109,6 +109,18 @@ class CacheEntry implements ICacheEntry, \ArrayAccess {
 		return isset($this->data['encrypted']) && $this->data['encrypted'];
 	}
 
+	public function getMetadataEtag(): ?string {
+		return $this->data['metadata_etag'];
+	}
+
+	public function getCreationTime(): ?int {
+		return $this->data['creation_time'];
+	}
+
+	public function getUploadTime(): ?int {
+		return $this->data['upload_time'];
+	}
+
 	public function getData() {
 		return $this->data;
 	}

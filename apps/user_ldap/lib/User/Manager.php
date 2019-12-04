@@ -29,8 +29,8 @@ namespace OCA\User_LDAP\User;
 
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;

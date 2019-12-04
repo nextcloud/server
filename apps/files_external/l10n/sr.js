@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Акредитиви за пријаву, чувани у бази",
     "Username and password" : "Корисничко име и лозинка",
     "Log-in credentials, save in session" : "Акредитиви за пријаву, чувани у сесији",
+    "Global credentials, user entered" : "Глобални акредитиви, корисник унео",
     "User entered, store in database" : "Корисник уноси, чува се у бази",
     "RSA public key" : "RSA јавни кључ",
     "Public key" : "Јавни кључ",
@@ -104,6 +105,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Дели",
     "Show hidden files" : "Прикажи скривене фајлове",
+    "Timeout" : "Истек времена",
     "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву",
     "Username as share" : "Корисничко име као дељење",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -119,6 +121,7 @@ OC.L10N.register(
     "Name" : "Назив",
     "Storage type" : "Тип складишта",
     "Scope" : "Опсег",
+    "Open documentation" : "Отвори документацију",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Спољно складиште Вам омогућава да монтирате сервисе и уређаје који нуде спољна складишта, и да се виде као Некстклауд уређају за складиштење. Такође можете дозволити корисницима да сами монтирају њихова сопствене сервисе спољних складишта.",
     "Folder name" : "Назив фасцикле",
     "External storage" : "Спољашње складиште",
@@ -129,8 +132,6 @@ OC.L10N.register(
     "Add storage" : "Додај складиште",
     "Advanced settings" : "Напредне поставке",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Неке од конфигурисаних спољашњих тачака монтирања нису повезане. Кликните на црвени ред(ове) за више информација",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "„%s“ није инсталиран. Монтирање %s није могуће. Затражите од вашег администратора система да га инсталира."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

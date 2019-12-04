@@ -25,8 +25,8 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Http;
 
-use OCP\IRequest;
 use OC\Streamer;
+use OCP\IRequest;
 
 /**
  * Public library to send several files in one zip archive.

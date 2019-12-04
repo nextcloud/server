@@ -253,7 +253,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		return $this->handleRequest($uid, 'canChangeAvatar', array($uid));
+		return $this->handleRequest($uid, 'canChangeAvatar', [$uid], true);
 	}
 
 	/**

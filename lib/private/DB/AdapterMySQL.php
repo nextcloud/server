@@ -22,7 +22,6 @@
  *
  */
 
-
 namespace OC\DB;
 
 class AdapterMySQL extends Adapter {

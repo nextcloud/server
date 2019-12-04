@@ -30,7 +30,7 @@ namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Notify\Change;
 use OC\Files\Notify\RenameChange;
-use \OCA\Files_External\Lib\Storage\SMB;
+use OCA\Files_External\Lib\Storage\SMB;
 use OCP\Files\Notify\IChange;
 
 /**
@@ -46,7 +46,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 	 */
 	protected $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
@@ -62,7 +62,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir('/');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->rmdir('');
 		}

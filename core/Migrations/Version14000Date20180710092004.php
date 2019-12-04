@@ -26,8 +26,8 @@ namespace OC\Core\Migrations;
 
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version14000Date20180710092004 extends SimpleMigrationStep {
 

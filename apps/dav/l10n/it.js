@@ -43,6 +43,7 @@ OC.L10N.register(
     "A <strong>calendar</strong> was modified" : "Un <strong>calendario</strong> è stato modificato",
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario è stato modificato",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
+    "Death of %s" : "Morte di %s",
     "Contact birthdays" : "Date di nascita dei contatti",
     "Calendar:" : "Calendario:",
     "Date:" : "Data:",
@@ -89,7 +90,7 @@ OC.L10N.register(
     "Save" : "Salva",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
     "Calendar server" : "Server di calendari",
-    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installa anche {calendarappstoreopen}l'app Calendario{linkclose}, o {calendardocopen}connetti il tuo desktop e mobile per la sicronizzazione ↗{linkclose}.",
+    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installa anche {calendarappstoreopen}l'applicazione Calendario{linkclose}, o {calendardocopen}connetti il tuo desktop e mobile per la sicronizzazione ↗{linkclose}.",
     "Send invitations to attendees" : "Invia gli inviti ai partecipanti",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Assicurati di configurare correttamente {emailopen}il server di posta{linkclose}.",
     "Automatically generate a birthday calendar" : "Genera automaticamente un calendario dei compleanni",
@@ -97,10 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Per cui non saranno disponibili immediatamente dopo l'abilitazione, ma saranno mostrati dopo qualche istante.",
     "Send notifications for events" : "Invia notifiche per eventi",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Le notifiche saranno inviate tramite operazioni in background, per cui devono verificarsi abbastanza spesso.",
-    "%s via %s" : "%s tramite %s",
-    "The meeting »%s« with %s was canceled." : "L'incontro «%s» con %s è stato annullato.",
-    "The meeting »%s« with %s was updated." : "L'incontro «%s» con %s è stato aggiornato.",
-    "%s invited you to »%s«" : "%s ti ha invitato a «%s»",
+    "Enable notifications for events via push" : "Abilita notifiche per eventi tramite push",
     "Please make sure to properly set up the email settings above." : "Assicurati di configurare correttamente le impostazioni di posta sopra."
 },
 "nplurals=2; plural=(n != 1);");

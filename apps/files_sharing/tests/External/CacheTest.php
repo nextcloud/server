@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
@@ -55,7 +56,7 @@ class CacheTest extends TestCase {
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->cloudIdManager = new CloudIdManager();
@@ -82,7 +83,7 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();
 		}

@@ -22,9 +22,9 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OCP\IUser;
-use \OCP\Files\Storage;
-use \OCP\Files\StorageNotAvailableException;
+use OCP\Files\Storage;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IUser;
 
 /**
  * Trait for objects that can modify StorageConfigs and wrap Storages
@@ -65,4 +65,3 @@ trait StorageModifierTrait {
 	}
 
 }
-

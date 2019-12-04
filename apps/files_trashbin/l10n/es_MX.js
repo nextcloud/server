@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Seleccionar todo",
     "Name" : "Nombre",
     "Deleted" : "Borrado",
-    "Delete" : "Borrar",
-    "Couldn't delete %s permanently" : "No fue posible eliminar %s permanentemente",
-    "Couldn't restore %s" : "No fue posible restaurar %s",
-    "Error" : "Error"
+    "Delete" : "Borrar"
 },
 "nplurals=2; plural=(n != 1);");

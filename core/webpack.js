@@ -10,7 +10,8 @@ module.exports = [
 		},
 		output: {
 			filename: '[name].js',
-			path: path.resolve(__dirname, 'js/dist')
+			path: path.resolve(__dirname, 'js/dist'),
+			jsonpFunction: 'webpackJsonpCore'
 		},
 		module: {
 			rules: [
@@ -30,7 +31,6 @@ module.exports = [
 	},
 	{
 		entry: {
-			share_backend: path.resolve(__dirname, 'js/merged-share-backend.js'),
 			systemtags: path.resolve(__dirname, 'js/systemtags/merged-systemtags.js')
 		},
 		output: {

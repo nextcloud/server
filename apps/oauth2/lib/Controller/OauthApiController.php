@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Security\Bruteforce\Throttler;
 use OCA\OAuth2\Db\AccessTokenMapper;

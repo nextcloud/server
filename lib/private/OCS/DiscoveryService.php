@@ -22,7 +22,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\OCS;
 
 use OCP\AppFramework\Http;

@@ -51,10 +51,10 @@ class AddressBookTest extends TestCase {
 		$c->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteFromGroup() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
@@ -73,10 +73,10 @@ class AddressBookTest extends TestCase {
 		$c->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testPropPatch() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [

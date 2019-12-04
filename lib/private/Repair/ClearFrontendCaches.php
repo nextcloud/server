@@ -23,11 +23,11 @@
 
 namespace OC\Repair;
 
+use OC\Template\JSCombiner;
+use OC\Template\SCSSCacher;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 
 class ClearFrontendCaches implements IRepairStep {
 

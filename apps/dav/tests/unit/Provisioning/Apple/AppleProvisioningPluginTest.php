@@ -59,7 +59,7 @@ class AppleProvisioningPluginTest extends TestCase {
 	/** @var AppleProvisioningPlugin */
 	protected $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(\Sabre\DAV\Server::class);

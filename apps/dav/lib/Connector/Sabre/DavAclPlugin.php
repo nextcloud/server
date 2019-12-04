@@ -23,11 +23,11 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
-use \Sabre\DAV\PropFind;
-use OCA\DAV\CardDAV\AddressBook;
+use Sabre\DAV\PropFind;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 

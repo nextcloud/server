@@ -40,8 +40,8 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -77,7 +77,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->controller = $this->createMock(Controller::class);
@@ -256,9 +256,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @PublicPage
-	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException
 	 */
 	public function testCsrfCheck(){
+		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException::class);
+
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
@@ -300,9 +301,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @PublicPage
-	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException
 	 */
 	public function testFailCsrfCheck(){
+		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException::class);
+
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
@@ -317,9 +319,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @PublicPage
 	 * @StrictCookieRequired
-	 * @expectedException \OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException
 	 */
 	public function testStrictCookieRequiredCheck() {
+		$this->expectException(\OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException::class);
+
 		$this->request->expects($this->never())
 			->method('passesCSRFCheck');
 		$this->request->expects($this->once())

@@ -22,7 +22,7 @@
 
 namespace OCA\Files_External\Lib\Auth;
 
-use \OCP\IL10N;
+use OCP\IL10N;
 
 /**
  * Null authentication mechanism

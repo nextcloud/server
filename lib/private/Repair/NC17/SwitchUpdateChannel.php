@@ -26,6 +26,7 @@ use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Support\Subscription\IRegistry;
+
 /**
  * @deprecated - can be removed in 18
  */

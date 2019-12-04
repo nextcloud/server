@@ -95,7 +95,6 @@ OC.L10N.register(
     "Deleted files" : "Ficheros desaniciaos",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "Nuevu testu ficheru.txt",
-    "Target folder" : "Carpeta oxetivu",
     "File handling" : "Alministración de ficheros",
     "Maximum upload size" : "Tamañu máximu de xubida",
     "max. possible: " : "máx. posible:",

@@ -1,4 +1,5 @@
 { "translations": {
+    "function" : "功能",
     "_" : "_",
     "An error occurred while generating your backup codes" : "生成备用码时出错",
     "{name} backup codes" : "{name} 备用码",
@@ -19,8 +20,6 @@
     "A two-factor auth backup codes provider" : "一个两步验证备用码提供者",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置两步验证时使用您保存的其中一个备用码",
     "Submit" : "提交",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "备用码已经生成。已经使用了 {{used}} (共 {{total}}) 个备用码。",
-    "Nextcloud backup codes" : "Nextcloud 备用码",
     "activated" : "已激活",
     "updated" : "已更新",
     "mounted" : "已挂载",
@@ -31,6 +30,7 @@
     "beforeDestroy" : "销毁前",
     "destroyed" : "已销毁",
     "beforeMount" : "挂载前",
+    "Nextcloud backup codes" : "Nextcloud 备用码",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

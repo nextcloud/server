@@ -27,7 +27,7 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\AmazonS3;
+use OCA\Files_External\Lib\Storage\AmazonS3;
 
 /**
  * Class Amazons3Test
@@ -40,7 +40,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = include('files_external/tests/config.amazons3.php');
@@ -50,7 +50,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 		$this->instance = new AmazonS3($this->config);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->rmdir('');
 		}

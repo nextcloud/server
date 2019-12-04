@@ -27,32 +27,21 @@ namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
-use OCP\IRequest;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\IRequest;
 use OCP\ISession;
 
 class SessionMiddleware extends Middleware {
 
-	/**
-	 * @var IRequest
-	 */
-	private $request;
-
-	/**
-	 * @var ControllerMethodReflector
-	 */
+	/** @var ControllerMethodReflector */
 	private $reflector;
 
-	/**
-	 * @param IRequest $request
-	 * @param ControllerMethodReflector $reflector
-	 */
-	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								ISession $session
-) {
-		$this->request = $request;
+	/** @var ISession */
+	private $session;
+
+	public function __construct(ControllerMethodReflector $reflector,
+								ISession $session) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 	}

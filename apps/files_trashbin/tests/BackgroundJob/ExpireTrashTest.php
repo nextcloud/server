@@ -24,7 +24,7 @@
 
 namespace OCA\Files_Trashbin\Tests\BackgroundJob;
  
-use \OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
+use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUserManager;
 

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "Funktion",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Beim Erstellen Ihrer Backup-Codes ist ein Fehler aufgetreten",
     "{name} backup codes" : "{name} Backup-Codes",
@@ -21,8 +22,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Verwenden Sie einen der Backup-Codes, den Sie bei der Einrichtung der Zwei-Faktor-Authentifizierung gespeichert haben.",
     "Submit" : "Übermitteln",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Backup-Codes wurden erzeugt. {{used}} von {{total}} Codes wurden benutzt.",
-    "Nextcloud backup codes" : "Nextcloud Backup-Codes",
     "activated" : "Aktiviert",
     "updated" : "Aktualisiert",
     "mounted" : "Eingebunden",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "beforeDestroy" : "beforeDestroy",
     "destroyed" : "Vernichtet",
     "beforeMount" : "beforeMount",
+    "Nextcloud backup codes" : "Nextcloud Backup-Codes",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Sie haben die Zwei-Faktor-Authentifizierung aktiviert, aber noch keine Backup-Codes generiert. Bitte holen Sie dies für den Fall, dass Sie den Zugriff auf Ihren zweiten Faktor verlieren, nach."
 },
 "nplurals=2; plural=(n != 1);");

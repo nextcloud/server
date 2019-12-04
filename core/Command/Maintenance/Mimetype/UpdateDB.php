@@ -22,13 +22,13 @@
 
 namespace OC\Core\Command\Maintenance\Mimetype;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateDB extends Command {
 

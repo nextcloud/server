@@ -21,21 +21,19 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
 
-use OCP\AppFramework\Http\StreamResponse;
-use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http;
-
+use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\Http\StreamResponse;
 
 class StreamResponseTest extends \Test\TestCase {
 
 	/** @var IOutput */
 	private $output;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->output = $this->getMockBuilder('OCP\\AppFramework\\Http\\IOutput')
 			->disableOriginalConstructor()

@@ -44,7 +44,7 @@ class ManagerTest extends TestCase {
 	/** @var IValidator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $validator;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -75,10 +75,10 @@ class ManagerTest extends TestCase {
 		$this->assertNotEmpty($consumers);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testGetConsumersInvalidConsumer() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->activityManager->registerConsumer(function() {
 			return new \stdClass();
 		});
@@ -98,13 +98,14 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \UnexpectedValueException
 	 * @dataProvider getUserFromTokenThrowInvalidTokenData
 	 *
 	 * @param string $token
 	 * @param array $users
 	 */
 	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
+		$this->expectException(\UnexpectedValueException::class);
+
 		$this->mockRSSToken($token, $token, $users);
 		self::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
@@ -163,37 +164,37 @@ class ManagerTest extends TestCase {
 			->willReturn($mockUser);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+	
 	public function testPublishExceptionNoApp() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+	
 	public function testPublishExceptionNoType() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test');
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+	
 	public function testPublishExceptionNoAffectedUser() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type');
 		$this->activityManager->publish($event);
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
+	
 	public function testPublishExceptionNoSubject() {
+		$this->expectException(\BadMethodCallException::class);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type')

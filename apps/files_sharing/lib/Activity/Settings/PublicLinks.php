@@ -97,4 +97,3 @@ class PublicLinks implements ISetting {
 		return false;
 	}
 }
-

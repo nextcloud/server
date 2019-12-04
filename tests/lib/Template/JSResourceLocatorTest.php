@@ -23,13 +23,13 @@
 
 namespace Test\Template;
 
+use OC\SystemConfig;
 use OC\Template\JSCombiner;
+use OC\Template\JSResourceLocator;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
-use OCP\IURLGenerator;
-use OC\SystemConfig;
 use OCP\ILogger;
-use OC\Template\JSResourceLocator;
+use OCP\IURLGenerator;
 
 class JSResourceLocatorTest extends \Test\TestCase {
 	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
@@ -43,7 +43,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appData = $this->createMock(IAppData::class);

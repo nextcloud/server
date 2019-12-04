@@ -25,7 +25,7 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
+use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
@@ -40,7 +40,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	protected $userSession;
 	protected $server;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)

@@ -24,10 +24,10 @@
 
 namespace OC\Core\Controller;
 
-use \OCP\AppFramework\Controller;
-use \OCP\AppFramework\Http\JSONResponse;
-use \OCP\IRequest;
-use \OCP\IUserManager;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
+use OCP\IUserManager;
 
 class UserController extends Controller {
 	/**

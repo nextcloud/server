@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
@@ -63,7 +64,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var string */
 	protected $expectedCUType;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -72,7 +73,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 
 		$query->delete('calendar_resources')->execute();

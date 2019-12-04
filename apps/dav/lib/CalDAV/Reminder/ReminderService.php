@@ -22,9 +22,10 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CalDAV\Reminder;
 
-use \DateTimeImmutable;
+use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroup;

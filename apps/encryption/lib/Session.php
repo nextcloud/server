@@ -26,7 +26,7 @@
 namespace OCA\Encryption;
 
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
-use \OCP\ISession;
+use OCP\ISession;
 
 class Session {
 

@@ -23,8 +23,8 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
-use \Sabre\HTTP\RequestInterface;
-use \Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * Copies the "Etag" header to "OC-Etag" after any request.

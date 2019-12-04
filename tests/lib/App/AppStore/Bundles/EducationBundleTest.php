@@ -24,7 +24,7 @@ namespace Test\App\AppStore\Bundles;
 use OC\App\AppStore\Bundles\EducationBundle;
 
 class EducationBundleTest extends BundleBase {
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->bundle = new EducationBundle($this->l10n);
 		$this->bundleIdentifier = 'EducationBundle';

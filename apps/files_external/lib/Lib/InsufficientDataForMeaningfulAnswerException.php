@@ -24,7 +24,7 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OCP\Files\StorageNotAvailableException;
+use OCP\Files\StorageNotAvailableException;
 
 /**
  * Authentication mechanism or backend has insufficient data

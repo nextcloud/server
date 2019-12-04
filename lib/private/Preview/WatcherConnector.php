@@ -21,11 +21,12 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Preview;
 
 use OC\SystemConfig;
-use OCP\Files\Node;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 
 class WatcherConnector {
 

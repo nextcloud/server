@@ -43,7 +43,7 @@ class CalendarTest extends TestCase {
 	/** @var IConfig */
 	protected $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -73,10 +73,10 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteFromGroup() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');

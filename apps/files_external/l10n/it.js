@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Credenziali di accesso, salva nel database",
     "Username and password" : "Nome utente e password",
     "Log-in credentials, save in session" : "Credenziali di accesso, salva nella sessione",
+    "Global credentials, user entered" : "Credenziali globali, inserite dall'utente",
     "User entered, store in database" : "Inserite dall'utente, salva nel database",
     "RSA public key" : "Chiave pubblica RSA",
     "Public key" : "Chiave pubblica",
@@ -104,6 +105,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Condividi",
     "Show hidden files" : "Mostra i file nascosti",
+    "Timeout" : "Tempo scaduto",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Username as share" : "Nome utente come condivisione",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -119,6 +121,7 @@ OC.L10N.register(
     "Name" : "Nome",
     "Storage type" : "Tipo di archiviazione",
     "Scope" : "Ambito",
+    "Open documentation" : "Apri la documentazione",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Archiviazione esterna ti consente di montare servizi di archiviazione esterna e dispositivi come dispositivi di archiviazione secondari di Nextcloud. Puoi anche permettere agli utenti di montare i propri servizi di archiviazione esterna.",
     "Folder name" : "Nome della cartella",
     "External storage" : "Archiviazione esterna",
@@ -129,8 +132,6 @@ OC.L10N.register(
     "Add storage" : "Aggiungi archiviazione",
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alcuni dei punti di mount esterni configurati non sono connessi. Fai clic sulle righe rosse per ulteriori informazioni",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" non è installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali."
 },
 "nplurals=2; plural=(n != 1);");

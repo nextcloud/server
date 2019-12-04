@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -29,7 +30,7 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
  * @since 12
  */
 interface IStore {
-	
+
 	/**
 	 * Get login credentials of the currently logged in user
 	 *
@@ -38,6 +39,6 @@ interface IStore {
 	 * @throws CredentialsUnavailableException
 	 * @return ICredentials the login credentials of the current user
 	 */
-	public function getLoginCredentials();
-	
+	public function getLoginCredentials(): ICredentials;
+
 }

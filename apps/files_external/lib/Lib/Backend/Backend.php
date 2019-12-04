@@ -23,14 +23,14 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\VisibilityTrait;
-use \OCA\Files_External\Lib\FrontendDefinitionTrait;
-use \OCA\Files_External\Lib\PriorityTrait;
-use \OCA\Files_External\Lib\DependencyTrait;
-use \OCA\Files_External\Lib\StorageModifierTrait;
-use \OCA\Files_External\Lib\IdentifierTrait;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DependencyTrait;
+use OCA\Files_External\Lib\FrontendDefinitionTrait;
+use OCA\Files_External\Lib\IdentifierTrait;
+use OCA\Files_External\Lib\PriorityTrait;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageModifierTrait;
+use OCA\Files_External\Lib\VisibilityTrait;
 
 /**
  * Storage backend
@@ -164,4 +164,3 @@ class Backend implements \JsonSerializable {
 	}
 
 }
-

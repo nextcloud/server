@@ -50,17 +50,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允许用户通过电子邮件地址来共享文件或文件夹的个性化链接。",
     "Send password by mail" : "通过电子邮件发送密码",
     "Enforce password protection" : "强制密码保护",
-    "Sharing %s failed, this item is already shared with %s" : "共享 %s 失败，该项目已经共享于 %s",
-    "%s shared »%s« with you" : "%s 共享 »%s« 给您",
-    "%s shared »%s« with you." : "%s 与您共享 »%s« ",
-    "%s via %s" : "%s通过%s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s与您共享了%s\n访问链接已另外以邮件方式发送到您的邮箱\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s与您共享了%s。访问链接已另外以邮件方式发送到您的邮箱。",
-    "Password to access »%s« shared to you by %s" : "使用密码访问 »%s«，由 %s 共享给您",
-    "It is protected with the following password: %s" : "已被已下密码保护：%s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您与 %s 共享 »%s« 已发送给收件人。由于 %s 管理员定义的安全策略，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
-    "Password to access »%s« shared with %s" : "使用密码访问 »%s« ，由 %s 共享",
-    "This is the password: %s" : "这是密码：%s",
     "Password to access »%1$s« shared with %2$s" : "用于访问与 %2$s 共享的 »%1$s« 的密码"
 },
 "nplurals=1; plural=0;");

@@ -31,7 +31,7 @@ class MailerTest extends TestCase {
 	/** @var Mailer */
 	private $mailer;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -126,10 +126,10 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testSendInvalidMailException() {
+		$this->expectException(\Exception::class);
+
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message->expects($this->once())

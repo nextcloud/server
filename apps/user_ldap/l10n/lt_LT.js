@@ -34,7 +34,7 @@ OC.L10N.register(
     "More than 1,000 directory entries available." : "Yra prieinama daugiau nei 1000 katalogo įrašų. ",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Įvyko klaida.  Patikrinkite DN šąką, taip pat sujungimo nustatymus ir prisijungimo duomenis.",
     "Do you really want to delete the current Server Configuration?" : "Ar tikrai norite ištrinti dabartinę serverio konfigūraciją?",
-    "Confirm Deletion" : "Patvirtinkite trynimą",
+    "Confirm Deletion" : "Patvirtinkite ištrynimą",
     "Mappings cleared successfully!" : "Susiejimai pašalinti sėkmingai!",
     "Error while clearing the mappings." : "Klaida šalinant susiejimus.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Anoniminis prisijungimas neleidžiamas. Pateikite naudotojo DN ir slaptažodį.",

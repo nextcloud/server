@@ -357,8 +357,8 @@ $CONFIG = array(
 'mail_smtptimeout' => 10,
 
 /**
- * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` or
- * ``tls``, or leave empty for no encryption.
+ * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` for SSL/TLS or
+ * ``tls`` for STARTTLS, or leave empty for no encryption.
  *
  * Defaults to ``''`` (empty string)
  */
@@ -1479,6 +1479,17 @@ $CONFIG = array(
  * Defaults to ``false``
  */
 'quota_include_external_storage' => false,
+
+/**
+ * When an external storage is unavailable for some reasons, it will be flagged
+ * as such for 10 minutes. When the trigger is a failed authentication attempt
+ * the delay is higher and can be controlled with this option. The motivation
+ * is to make account lock outs at Active Directories (and compatible) more
+ * unlikely.
+ *
+ * Defaults to ``1800`` (seconds)
+ */
+'external_storage.auth_availability_delay' => 1800,
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and

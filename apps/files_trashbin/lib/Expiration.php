@@ -23,8 +23,8 @@
 
 namespace OCA\Files_Trashbin;
 
-use \OCP\IConfig;
-use \OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 
 class Expiration {
 
@@ -49,7 +49,11 @@ class Expiration {
 
 	public function __construct(IConfig $config,ITimeFactory $timeFactory){
 		$this->timeFactory = $timeFactory;
-		$this->retentionObligation = $config->getSystemValue('trashbin_retention_obligation', 'auto');
+		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
+	}
+
+	public function setRetentionObligation(string $obligation) {
+		$this->retentionObligation = $obligation;
 
 		if ($this->retentionObligation !== 'disabled') {
 			$this->parseRetentionObligation();

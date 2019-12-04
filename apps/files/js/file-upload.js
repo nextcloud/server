@@ -242,6 +242,10 @@ OC.FileUpload.prototype = {
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
 			chunkFolderPromise = $.Deferred().resolve().promise();
+			var mtime = this.getFile().lastModified;
+			if (mtime) {
+				data.headers['X-OC-Mtime'] = mtime / 1000;
+			}
 		}
 
 		// wait for creation of the required directory before uploading
@@ -727,11 +731,11 @@ OC.Uploader.prototype = _.extend({
 	 *
 	 * @param {array} selection of files to upload
 	 * @param {object} callbacks - object with several callback methods
-	 * @param {function} callbacks.onNoConflicts
-	 * @param {function} callbacks.onSkipConflicts
-	 * @param {function} callbacks.onReplaceConflicts
-	 * @param {function} callbacks.onChooseConflicts
-	 * @param {function} callbacks.onCancel
+	 * @param {Function} callbacks.onNoConflicts
+	 * @param {Function} callbacks.onSkipConflicts
+	 * @param {Function} callbacks.onReplaceConflicts
+	 * @param {Function} callbacks.onChooseConflicts
+	 * @param {Function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks) {
 		var fileList = this.fileList;

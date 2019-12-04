@@ -45,7 +45,7 @@ class GlobalAuthTest extends TestCase {
 	 */
 	private $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->credentialsManager = $this->createMock(ICredentialsManager::class);
@@ -105,10 +105,10 @@ class GlobalAuthTest extends TestCase {
 		], $storage->getBackendOptions());
 	}
 
-	/**
-	 * @expectedException \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException
-	 */
+	
 	public function testNoCredentialsPersonal() {
+		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
+
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');
 

@@ -29,8 +29,8 @@ namespace OC\Encryption\Keys;
 use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OCP\Encryption\Keys\IStorage;
 use OC\User\NoUserException;
+use OCP\Encryption\Keys\IStorage;
 
 class Storage implements IStorage {
 

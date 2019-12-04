@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -24,14 +24,16 @@ import OC from '../OC/index'
 
 /**
  * Takes an absolute timestamp and return a string with a human-friendly relative date
+ *
  * @param {number} timestamp A Unix timestamp
  * @deprecated use OC.Util.relativeModifiedDate instead but beware the argument value
+ * @returns {string}
  */
-export default function relative_modified_date (timestamp) {
-	console.warn('relative_modified_date is deprecated, use OC.Util.relativeModifiedDate instead')
+export default function relativeModifiedDate(timestamp) {
+	console.warn('relativeModifiedDate is deprecated, use OC.Util.relativeModifiedDate instead')
 	/*
 	 Were multiplying by 1000 to bring the timestamp back to its original value
 	 per https://github.com/owncloud/core/pull/10647#discussion_r16790315
 	  */
-	return OC.Util.relativeModifiedDate(timestamp * 1000);
+	return OC.Util.relativeModifiedDate(timestamp * 1000)
 }

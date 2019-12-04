@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "სხვასთან გაზიარებული",
     "Shared with you" : "თქვენთან გაზიარებული",
-    "Shared by link" : "ბმულით გაზიარებული",
     "Nothing shared with you yet" : "თქვენთან ჯერ არაფერია გაზიარებული",
     "Files and folders others share with you will show up here" : "აქ გამოჩნდება ფაილები და დირექტორიები, რომლებსაც სხვები თქვენთან აზიარებენ",
+    "Shared with others" : "სხვასთან გაზიარებული",
     "Nothing shared yet" : "ჯერ არაფერი გაზიარებულა",
     "Files and folders you share will show up here" : "აქ გამოჩნდება ფაილები და დირექტორიები რომლებსაც აზიარებთ თქვენ",
+    "Shared by link" : "ბმულით გაზიარებული",
     "No shared links" : "გაზიარებული ბმულები არაა",
     "Files and folders you share by link will show up here" : "აქ გამოჩნდება ფაილები და დირექტორიები რომლებსაც ბმულით აზიარებთ თქვენ",
     "Download" : "ჩამოტვირთვა",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "ფაილი ან დირექტორია გაზიარდა <strong>სხვა სერვერიდან</strong>",
     "A file or folder has been <strong>shared</strong>" : "ფაილი ან დირექტორია <strong>გაზიარებულ იქნა</strong>",
     "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
-    "could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა",
     "Please specify a file or folder path" : "გთხოვთ მიუთითოთ ფაილის ან დირექტორიის მისამართი",
     "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
@@ -88,8 +87,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
     "File sharing" : "ფაილების გაზიარება",
-    "Share" : "გაზიარება",
     "Sharing" : "გაზიარება",
+    "Share" : "გაზიარება",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანები ვერ მოიძებნა",
     "Name" : "სახელი",
     "Share time" : "გაზიარების დრო",
@@ -105,6 +104,6 @@ OC.L10N.register(
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploading files…" : "ფაილების ატვირთვა...",
     "Uploaded files:" : "ფაილების ატვირთვა:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "გაზიარება %s არ მოხერხდა, რადგანაც ბექენდი არ იღებს გაზიარებებს ტიპით %s"
+    "could not delete share" : "გაზიარების გაუქმება ვერ მოხერხდა"
 },
 "nplurals=2; plural=(n!=1);");

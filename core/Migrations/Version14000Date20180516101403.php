@@ -24,8 +24,8 @@
 namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version14000Date20180516101403 extends SimpleMigrationStep {
 

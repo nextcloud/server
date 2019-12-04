@@ -25,17 +25,17 @@ namespace OCA\UpdateNotification\Tests\Notification;
 
 
 use OC\Installer;
+use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
-use Test\TestCase;
-use OC\Updater\VersionCheck;
 use OCP\Notification\INotification;
-use OCP\IGroup;
+use Test\TestCase;
 
 class BackgroundJobTest extends TestCase {
 
@@ -52,7 +52,7 @@ class BackgroundJobTest extends TestCase {
 	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
 	protected $installer;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);

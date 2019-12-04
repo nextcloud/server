@@ -1,10 +1,9 @@
 OC.L10N.register(
     "accessibility",
     {
-    "High contrast theme" : "تم با وضوح بالا",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "یک تم با وضوح بالا برای آسان نمودن راهبری شما\nکیفیت بصری کاهش خاهد یافت تا وضوح افزایش یابد.",
     "Dark theme" : "تم تاریک",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "تم تاریک برای با کاهش نور و نیز شفافیت برای راحتی بیشتر چشمان شما در استفاده از نکست کلود تعبیه دیده شده است و این امکان در حال توسعه می باشد،به همین دلیل هرگونه ایراد پیش آمده را گزارش دهید.",
+    "High contrast mode" : "حالت کنتراست بالا",
     "Dyslexia font" : "فونت Dyslexia",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "اپن دیسلکسیک یک فونت و نمایه رایگان است که طراحی شده برای خواندن بعضی ایراد های دیسلکسیا",
     "Accessibility" : "در دسترس بودن",
@@ -14,6 +13,8 @@ OC.L10N.register(
     "our issue tracker" : "دنبال کننده مساله ها",
     "our design team" : "تیم طراحی ما",
     "Enable" : "فعال",
+    "High contrast theme" : "تم با وضوح بالا",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "یک تم با وضوح بالا برای آسان نمودن راهبری شما\nکیفیت بصری کاهش خاهد یافت تا وضوح افزایش یابد.",
     "Dark theme (beta)" : "تم تاریک (بتا)",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDuslexis یک فونت رایگان است که طراحی شده برای کم کردن زحمت خواندن خطاهای معمول رخ داده توسط duslexia.  طرح حروف بوسیله آبرلاردو گنزالز Abelardo Gonzalez ایجاد شده است که به صورت متن باز منتشر گریده است.",
     "Provides multiple accessibilities options to ease your use of nextcloud" : "فراهم کردن چندین گزینه دسترسی را، برای سهولت استفاده ی شما در nextcloud.",

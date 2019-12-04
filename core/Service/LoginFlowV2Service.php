@@ -131,10 +131,6 @@ class LoginFlowV2Service {
 			return false;
 		}
 
-		if ($data->getStarted() !== 0) {
-			return false;
-		}
-
 		$data->setStarted(1);
 		$this->mapper->update($data);
 

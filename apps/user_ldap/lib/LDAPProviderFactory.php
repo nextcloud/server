@@ -25,10 +25,10 @@
 
 namespace OCA\User_LDAP;
 
-use OCP\LDAP\ILDAPProviderFactory;
-use OCP\IServerContainer;
-use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCP\IServerContainer;
+use OCP\LDAP\ILDAPProviderFactory;
 
 class LDAPProviderFactory implements ILDAPProviderFactory {
 	/**

@@ -35,7 +35,12 @@ return [
 		[
 			'name' => 'Config#setConfig',
 			'url'  => '/api/v1/config/{key}',
-			'verb' => 'POST',
+			'verb' => 'PUT',
+		],
+		[
+			'name' => 'Config#deleteConfig',
+			'url'  => '/api/v1/config/{key}',
+			'verb' => 'DELETE',
 		],
     ]
 ];

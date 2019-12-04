@@ -58,4 +58,16 @@ interface IEventDispatcher {
 	 */
 	public function dispatch(string $eventName, Event $event): void;
 
+	/**
+	 * Dispatch a typed event
+	 *
+	 * Only use this with subclasses of ``\OCP\EventDispatcher\Event``.
+	 * The object's class will determine the event name.
+	 *
+	 * @param Event $event
+	 *
+	 * @since 18.0.0
+	 */
+	public function dispatchTyped(Event $event): void;
+
 }

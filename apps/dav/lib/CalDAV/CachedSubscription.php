@@ -21,6 +21,7 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
@@ -107,9 +108,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 		return parent::getOwner();
 	}
 
-	/**
-	 *
-	 */
+	
 	public function delete() {
 		$this->caldavBackend->deleteSubscription($this->calendarInfo['id']);
 	}

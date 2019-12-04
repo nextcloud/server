@@ -50,6 +50,7 @@
 	z-index: 2000;
 	height: $header-height;
 	background-color: var(--color-primary);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, rgba(28,175,255,1) 100%);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -444,7 +445,6 @@ nav[role='navigation'] {
 			text-overflow: initial;
 			width: auto;
 			overflow: hidden;
-			background-color: var(--color-primary);
 			padding: 0 5px;
 			z-index: 2;
 		}

@@ -108,7 +108,6 @@ OC.L10N.register(
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
-    "Target folder" : "Заагч хавтас",
     "File handling" : "файлтай харьцах",
     "Maximum upload size" : "хамгийн их байршуулах хэмжээ",
     "max. possible: " : "боломжтой хамгийн их хэмжээ",

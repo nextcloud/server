@@ -25,6 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -148,6 +149,13 @@ class JSConfigHelper {
 		}
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
+		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
+		if ($defaultInternalExpireDateEnabled) {
+			$defaultInternalExpireDate = (int) $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_internal_enforce_expire_date', 'no') === 'yes';
+		}
+
 		$countOfDataLocation = 0;
 		$dataLocation = str_replace(\OC::$SERVERROOT .'/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
 		if($countOfDataLocation !== 1 || !$this->groupManager->isAdmin($uid)) {
@@ -254,7 +262,10 @@ class JSConfigHelper {
 					'resharingAllowed' => \OC\Share\Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing()
+					'allowGroupSharing' => \OC::$server->getShareManager()->allowGroupSharing(),
+					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
+					'defaultInternalExpireDate' => $defaultInternalExpireDate,
+					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
 				]
 			]),
 			"_theme" => json_encode([

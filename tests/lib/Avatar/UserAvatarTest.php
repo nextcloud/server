@@ -31,7 +31,7 @@ class UserAvatarTest extends \Test\TestCase {
 	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->folder = $this->createMock(SimpleFolder::class);
@@ -223,8 +223,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('getUserValue');
 
-		// One on remove and once on setting the new avatar
-		$this->user->expects($this->exactly(2))->method('triggerChange');
+		$this->user->expects($this->exactly(1))->method('triggerChange');
 
 		$this->avatar->set($image->data());
 	}

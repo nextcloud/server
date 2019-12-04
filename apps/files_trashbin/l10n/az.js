@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Hamısıı seç",
     "Name" : "Ad",
     "Deleted" : "Silinib",
-    "Delete" : "Sil",
-    "Couldn't delete %s permanently" : "Həmişəlik silmək olmaz %s-i",
-    "Couldn't restore %s" : "Geri qaytarila bilmədi  %s",
-    "Error" : "Səhv"
+    "Delete" : "Sil"
 },
 "nplurals=2; plural=(n != 1);");

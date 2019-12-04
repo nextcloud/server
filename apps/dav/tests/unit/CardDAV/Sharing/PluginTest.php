@@ -25,9 +25,9 @@
 namespace OCA\DAV\Tests\unit\CardDAV\Sharing;
 
 
+use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\Plugin;
-use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
@@ -44,7 +44,7 @@ class PluginTest extends TestCase {
 	/** @var IShareable | \PHPUnit_Framework_MockObject_MockObject */
 	private $book;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		
 		/** @var Auth | \PHPUnit_Framework_MockObject_MockObject $authBackend */

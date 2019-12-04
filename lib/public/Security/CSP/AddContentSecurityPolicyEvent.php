@@ -40,6 +40,7 @@ class AddContentSecurityPolicyEvent extends Event {
 	 * @since 17.0.0
 	 */
 	public function __construct(ContentSecurityPolicyManager $policyManager) {
+		parent::__construct();
 		$this->policyManager = $policyManager;
 	}
 

@@ -39,7 +39,7 @@ class ConverterTest extends  TestCase {
 	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
 	private $accountManager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->accountManager = $this->createMock(AccountManager::class);

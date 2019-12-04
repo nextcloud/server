@@ -36,12 +36,12 @@ use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\UserInterface;
-use \OCP\IUserBackend;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

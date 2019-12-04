@@ -19,10 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CardDAV\Xml;
 
-use Sabre\Xml\XmlSerializable;
 use Sabre\Xml\Writer;
+use Sabre\Xml\XmlSerializable;
 
 class Groups implements XmlSerializable {
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';

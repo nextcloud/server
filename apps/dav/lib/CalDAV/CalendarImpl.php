@@ -23,8 +23,8 @@
 
 namespace OCA\DAV\CalDAV;
 
-use OCP\Constants;
 use OCP\Calendar\ICalendar;
+use OCP\Constants;
 
 class CalendarImpl implements ICalendar {
 

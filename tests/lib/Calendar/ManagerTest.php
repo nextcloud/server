@@ -23,16 +23,16 @@
 
 namespace Test\Calendar;
 
-use \OC\Calendar\Manager;
+use OC\Calendar\Manager;
 use OCP\Calendar\ICalendar;
-use \Test\TestCase;
+use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
 	/** @var Manager */
 	private $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->manager = new Manager();

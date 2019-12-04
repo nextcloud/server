@@ -1,17 +1,17 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Διαμοιρασμένα με άλλους",
     "Shared with you" : "Διαμοιρασμένα με εσάς",
-    "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
-    "Deleted shares" : "Διαγραμμένα κοινόχρηστα",
-    "Shares" : "Κοινόχρηστα",
     "Nothing shared with you yet" : "Κανένα αρχείο δεν έχει διαμοιραστεί ακόμα με εσάς.",
     "Files and folders others share with you will show up here" : "Τα αρχεία και οι φάκελοι που άλλοι διαμοιράζονται με εσάς θα εμφανιστούν εδώ",
+    "Shared with others" : "Διαμοιρασμένα με άλλους",
     "Nothing shared yet" : "Δεν έχει διαμοιραστεί τίποτα μέχρι στιγμής",
     "Files and folders you share will show up here" : "Τα αρχεία και οι φάκελοι που διαμοιράζεστε θα εμφανιστούν εδώ",
+    "Shared by link" : "Διαμοιρασμένα μέσω συνδέσμου",
     "No shared links" : "Κανένας διαμοιρασμένος σύνδεσμος",
     "Files and folders you share by link will show up here" : "Τα αρχεία και οι φάκελοι που διαμοιράζεστε μέσω συνδέσμου θα εμφανιστούνε εδώ",
+    "Deleted shares" : "Διαγραμμένα κοινόχρηστα",
+    "Shares" : "Κοινόχρηστα",
     "Shares will show up here" : "Τα κοινόχρηστα θα εμφανιστούν εδώ",
     "Move or copy" : "Μετακίνηση ή αντιγραφή",
     "Download" : "Λήψη",
@@ -69,7 +69,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Ένα αρχείο ή φάκελος διαμοιράστηκε από <strong>έναν άλλο διακομιστή</strong>",
     "A file or folder has been <strong>shared</strong>" : "Ένα αρχείο ή φάκελος <strong>διαμοιράστηκε</strong>",
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
-    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου",
     "Could not delete share" : "Αδυναμία διαγραφής κοινόχρηστου φακέλου",
     "Please specify a file or folder path" : "Παρακαλώ καθορίστε την διαδρομή για το αρχείο ή τον φάκελο",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
@@ -94,8 +93,8 @@ OC.L10N.register(
     "Direct link" : "Άμεσος σύνδεσμος",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
-    "Share" : "Διαμοιρασμός",
     "Sharing" : "Διαμοιρασμός",
+    "Share" : "Διαμοιρασμός",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Name" : "Όνομα",
     "Share time" : "Χρόνος διαμοιρασμού",
@@ -112,6 +111,6 @@ OC.L10N.register(
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
     "Uploading files…" : "Αποστολή αρχείων ...",
     "Uploaded files:" : "Αποστολή αρχείων:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %s"
+    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου"
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,7 +22,7 @@
 
 namespace OCA\Files_External\Lib;
 
-use \OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\BackendService;
 
 /**
  * Trait to implement priority mechanics for a configuration class
@@ -58,4 +58,3 @@ trait PriorityTrait {
 	}
 
 }
-

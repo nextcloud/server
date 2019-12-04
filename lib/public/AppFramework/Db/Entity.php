@@ -24,6 +24,9 @@
 namespace OCP\AppFramework\Db;
 
 
+use function lcfirst;
+use function substr;
+
 /**
  * @method integer getId()
  * @method void setId(integer $id)
@@ -84,7 +87,7 @@ abstract class Entity {
 		return $this->_fieldTypes;
 	}
 
-	
+
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 * @since 7.0.0
@@ -112,7 +115,7 @@ abstract class Entity {
 			$this->$name = $args[0];
 
 		} else {
-			throw new \BadFunctionCallException($name . 
+			throw new \BadFunctionCallException($name .
 				' is not a valid attribute');
 		}
 	}
@@ -126,7 +129,7 @@ abstract class Entity {
 		if(property_exists($this, $name)){
 			return $this->$name;
 		} else {
-			throw new \BadFunctionCallException($name . 
+			throw new \BadFunctionCallException($name .
 				' is not a valid attribute');
 		}
 	}
@@ -134,25 +137,37 @@ abstract class Entity {
 
 	/**
 	 * Each time a setter is called, push the part after set
-	 * into an array: for instance setId will save Id in the 
+	 * into an array: for instance setId will save Id in the
 	 * updated fields array so it can be easily used to create the
 	 * getter method
 	 * @since 7.0.0
 	 */
-	public function __call($methodName, $args){
-		$attr = lcfirst( substr($methodName, 3) );
-
-		if(strpos($methodName, 'set') === 0){
-			$this->setter($attr, $args);
-		} elseif(strpos($methodName, 'get') === 0) {
-			return $this->getter($attr);
+	public function __call($methodName, $args) {
+		if (strpos($methodName, 'set') === 0) {
+			$this->setter(lcfirst(substr($methodName, 3)), $args);
+		} elseif (strpos($methodName, 'get') === 0) {
+			return $this->getter(lcfirst(substr($methodName, 3)));
+		} elseif ($this->isGetterForBoolProperty($methodName)) {
+			return $this->getter(lcfirst(substr($methodName, 2)));
 		} else {
-			throw new \BadFunctionCallException($methodName . 
-					' does not exist');
+			throw new \BadFunctionCallException($methodName .
+				' does not exist');
 		}
 
 	}
 
+	/**
+	 * @param string $methodName
+	 * @return bool
+	 * @since 18.0.0
+	 */
+	protected function isGetterForBoolProperty(string $methodName): bool {
+		if (strpos($methodName, 'is') === 0) {
+			$fieldName = lcfirst(substr($methodName, 2));
+			return isset($this->_fieldTypes[$fieldName]) && strpos($this->_fieldTypes[$fieldName], 'bool') === 0;
+		}
+		return false;
+	}
 
 	/**
 	 * Mark am attribute as updated
@@ -165,7 +180,7 @@ abstract class Entity {
 
 
 	/**
-	 * Transform a database columnname to a property 
+	 * Transform a database columnname to a property
 	 * @param string $columnName the name of the column
 	 * @return string the property name
 	 * @since 7.0.0

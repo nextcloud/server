@@ -37,7 +37,7 @@ abstract class BundleBase extends TestCase {
 	/** @var array */
 	protected $bundleAppIds;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->method('t')

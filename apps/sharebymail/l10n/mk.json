@@ -39,17 +39,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
     "Enforce password protection" : "Задолжителна заштита со лозинка",
-    "Sharing %s failed, this item is already shared with %s" : "Споделувањето на %s е неуспешно, бидејќи истото веќе е споделено со %s",
-    "%s shared »%s« with you" : "%s сподели »%s« со вас",
-    "%s shared »%s« with you." : "%s сподели »%s« со вас.",
-    "%s via %s" : "%s преку %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s сподели »%s« со вас.\nЌе добиете порака за линк за пристап.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s сподели  »%s« со вас. Ќе добиете порака за линк за пристап.",
-    "Password to access »%s« shared to you by %s" : "Лозинката за пристап до »%s« е споделена со вас од %s",
-    "It is protected with the following password: %s" : "Заштитено е со следнава лозинка: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вие ја споделивте »%s« со %s. Споделувањето веќе е испратено до примачот. Поради безбедносни причини дефинирани од администраторот на %s секое споделување треба да биде заштитено со лозинка и лозинката не смее да се испраќаa директно на примачот. Затоа треба оваа лозинка да му ја препратите на примачот.",
-    "Password to access »%s« shared with %s" : "Лозинката за пристап до »%s« е споделена со %s",
-    "This is the password: %s" : "Ова е лозинката: %s",
     "Password to access »%1$s« shared with %2$s" : "Лозинката за пристап до »%1$s« е споделена со %2$s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

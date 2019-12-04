@@ -148,15 +148,14 @@
     "Deleted shares" : "Διαγραμμένα κοινόχρηστα",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "Target folder" : "Φάκελος προορισμού",
     "File handling" : "Διαχείριση αρχείων",
     "Maximum upload size" : "Μέγιστο μέγεθος μεταφόρτωσης",
     "max. possible: " : "μέγιστο δυνατό: ",
     "Save" : "Αποθήκευση",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει επεξεργασία από εδώ.",
-    "%s of %s used" : "%s από %s σε χρήση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
+    "%s of %s used" : "%s από %s σε χρήση",
     "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

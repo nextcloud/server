@@ -56,6 +56,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\CalendarManager' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarManager.php',
         'OCA\\DAV\\CalDAV\\CalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarObject.php',
         'OCA\\DAV\\CalDAV\\CalendarRoot' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarRoot.php',
+        'OCA\\DAV\\CalDAV\\ICSExportPlugin\\ICSExportPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php',
         'OCA\\DAV\\CalDAV\\InvitationResponse\\InvitationResponseServer' => __DIR__ . '/..' . '/../lib/CalDAV/InvitationResponse/InvitationResponseServer.php',
         'OCA\\DAV\\CalDAV\\Outbox' => __DIR__ . '/..' . '/../lib/CalDAV/Outbox.php',
         'OCA\\DAV\\CalDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/Plugin.php',

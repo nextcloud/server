@@ -25,7 +25,7 @@
 
 namespace OC\Core\Command\Background;
 
-use \OCP\IConfig;
+use OCP\IConfig;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

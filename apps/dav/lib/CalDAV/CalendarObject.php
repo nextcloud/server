@@ -22,7 +22,6 @@
  *
  */
 
-
 namespace OCA\DAV\CalDAV;
 
 

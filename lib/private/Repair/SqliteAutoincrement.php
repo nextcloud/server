@@ -24,10 +24,10 @@
 namespace OC\Repair;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Schema\SchemaDiff;
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\SchemaDiff;
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\TableDiff;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -98,4 +98,3 @@ class SqliteAutoincrement implements IRepairStep {
 		$this->connection->commit();
 	}
 }
-

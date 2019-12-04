@@ -1,8 +1,6 @@
 OC.L10N.register(
     "accessibility",
     {
-    "High contrast theme" : "Þema með mikil birtuskil",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Þema með mikil birtuskil til að auðvelda vafur. Sjónræn gæði minnka en skýrleiki eykst",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Dökkt þema til að minnka álag á augun meðal annars með því að minnka heildarljósmagn og birtustig. Þetta er enn í þróun þannig að gott væri ef þú tilkynntir alla galla sem þú rekst á.",
     "Dyslexia font" : "Dyslexia letur",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic eru frjálsar leturgerðir sem eru hannaðar til að ráða bug á eða minnka vægi ýmissa villna sem stafa af lesblindu (dyslexia).",
@@ -13,6 +11,8 @@ OC.L10N.register(
     "our issue tracker" : "villuskráningin okkar",
     "our design team" : "hönnunarteymið okkar",
     "Enable" : "Virkja",
+    "High contrast theme" : "Þema með mikil birtuskil",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Þema með mikil birtuskil til að auðvelda vafur. Sjónræn gæði minnka en skýrleiki eykst",
     "Dark theme (beta)" : "Dökkt þema (beta-prófunarútgáfa)"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

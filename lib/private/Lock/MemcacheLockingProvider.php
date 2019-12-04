@@ -23,9 +23,9 @@ declare(strict_types=1);
 
 namespace OC\Lock;
 
+use OCP\IMemcache;
 use OCP\IMemcacheTTL;
 use OCP\Lock\LockedException;
-use OCP\IMemcache;
 
 class MemcacheLockingProvider extends AbstractLockingProvider {
 	/**

@@ -25,7 +25,7 @@ namespace Test\AppFramework\Db;
 
 
 use OCP\AppFramework\Db\Entity;
-
+use PHPUnit\Framework\Constraint\IsType;
 
 /**
  * @method integer getId()
@@ -38,25 +38,35 @@ use OCP\AppFramework\Db\Entity;
  * @method void setEmail(string $email)
  * @method string getPreName()
  * @method void setPreName(string $preName)
+ * @method bool getTrueOrFalse()
+ * @method bool isTrueOrFalse()
+ * @method void setTrueOrFalse(bool $trueOrFalse)
+ * @method bool getAnotherBool()
+ * @method bool isAnotherBool()
+ * @method void setAnotherBool(bool $anotherBool)
  */
 class TestEntity extends Entity {
 	protected $name;
 	protected $email;
 	protected $testId;
 	protected $preName;
+	protected $trueOrFalse;
+	protected $anotherBool;
 
-	public function __construct($name=null){
+	public function __construct($name = null) {
 		$this->addType('testId', 'integer');
+		$this->addType('trueOrFalse', 'bool');
+		$this->addType('anotherBool', 'boolean');
 		$this->name = $name;
 	}
-};
+}
 
 
 class EntityTest extends \Test\TestCase {
 
 	private $entity;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 		$this->entity = new TestEntity();
 	}
@@ -73,7 +83,7 @@ class EntityTest extends \Test\TestCase {
 
 	public function testFromRow(){
 		$row = array(
-			'pre_name' => 'john', 
+			'pre_name' => 'john',
 			'email' => 'john@something.com'
 		);
 		$this->entity = TestEntity::fromRow($row);
@@ -93,21 +103,21 @@ class EntityTest extends \Test\TestCase {
 
 	public function testColumnToPropertyNoReplacement(){
 		$column = 'my';
-		$this->assertEquals('my', 
+		$this->assertEquals('my',
 			$this->entity->columnToProperty($column));
 	}
 
 
 	public function testColumnToProperty(){
 		$column = 'my_attribute';
-		$this->assertEquals('myAttribute', 
+		$this->assertEquals('myAttribute',
 			$this->entity->columnToProperty($column));
 	}
 
 
 	public function testPropertyToColumnNoReplacement(){
 		$property = 'my';
-		$this->assertEquals('my', 
+		$this->assertEquals('my',
 			$this->entity->propertyToColumn($property));
 	}
 
@@ -119,26 +129,25 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
+	
 	public function testCallShouldOnlyWorkForGetterSetter(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->something();
 	}
 
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
+	
 	public function testGetterShouldFailIfAttributeNotDefined(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->getTest();
 	}
 
-	/**
-	 * @expectedException \BadFunctionCallException
-	 */
-
+	
 	public function testSetterShouldFailIfAttributeNotDefined(){
+		$this->expectException(\BadFunctionCallException::class);
+
 		$this->entity->setTest();
 	}
 
@@ -208,7 +217,9 @@ class EntityTest extends \Test\TestCase {
 		$entity = new TestEntity();
 		$this->assertEquals(array(
 			'id' => 'integer',
-			'testId' => 'integer'
+			'testId' => 'integer',
+			'trueOrFalse' => 'bool',
+			'anotherBool' => 'boolean',
 		), $entity->getFieldTypes());
 	}
 
@@ -226,5 +237,20 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals(0, count($entity->getUpdatedFields()));
 	}
 
+	public function testIsGetter() {
+		$entity = new TestEntity();
+		$entity->setTrueOrFalse(false);
+		$entity->setAnotherBool(false);
+		$this->assertThat($entity->isTrueOrFalse(), new IsType(IsType::TYPE_BOOL));
+		$this->assertThat($entity->isAnotherBool(), new IsType(IsType::TYPE_BOOL));
+	}
 
+	
+	public function testIsGetterShoudFailForOtherType() {
+		$this->expectException(\BadFunctionCallException::class);
+
+		$entity = new TestEntity();
+		$entity->setName('hello');
+		$this->assertThat($entity->isName(), new IsType(IsType::TYPE_BOOL));
+	}
 }

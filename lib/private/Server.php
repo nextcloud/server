@@ -199,6 +199,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
 		$this->registerAlias('ContactsManager', \OCP\Contacts\IManager::class);
 
+		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
+
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
 
@@ -298,7 +300,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getLogger(),
 				$this->getUserManager()
 			);
-			$connector = new HookConnector($root, $view);
+			$connector = new HookConnector($root, $view, $c->getEventDispatcher());
 			$connector->viewToNode();
 
 			$previewConnector = new \OC\Preview\WatcherConnector($root, $c->getSystemConfig());
@@ -315,9 +317,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('LazyRootFolder', \OCP\Files\IRootFolder::class);
 
-		$this->registerService(\OC\User\Manager::class, function (Server $c) {
-			return new \OC\User\Manager($c->getConfig(), $c->getEventDispatcher());
-		});
 		$this->registerAlias('UserManager', \OC\User\Manager::class);
 		$this->registerAlias(\OCP\IUserManager::class, \OC\User\Manager::class);
 
@@ -597,14 +596,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('Search', \OCP\ISearch::class);
 
-		$this->registerService(\OC\Security\RateLimiting\Limiter::class, function (Server $c) {
-			return new \OC\Security\RateLimiting\Limiter(
-				$this->getUserSession(),
-				$this->getRequest(),
-				new \OC\AppFramework\Utility\TimeFactory(),
-				$c->query(\OC\Security\RateLimiting\Backend\IBackend::class)
-			);
-		});
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
 			return new \OC\Security\RateLimiting\Backend\MemoryCache(
 				$this->getMemCacheFactory(),
@@ -1193,14 +1184,6 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
-
-		$this->registerService(\OC\Security\IdentityProof\Manager::class, function (Server $c) {
-			return new \OC\Security\IdentityProof\Manager(
-				$c->query(\OC\Files\AppData\Factory::class),
-				$c->getCrypto(),
-				$c->getConfig()
-			);
-		});
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
 

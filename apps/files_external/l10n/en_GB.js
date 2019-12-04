@@ -123,8 +123,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
-    "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Some of the configured external mount points are not connected. Please click on the red row(s) for more information",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it."
+    "Allow users to mount external storage" : "Allow users to mount external storage"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,8 +26,8 @@ namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Auto-generated migration step: Please modify to your needs!

@@ -23,11 +23,6 @@
 return [
 	'routes' => [
 		[
-			'name' => 'settings#state',
-			'url' => '/settings/state',
-			'verb' => 'GET'
-		],
-		[
 			'name' => 'settings#createCodes',
 			'url' => '/settings/create',
 			'verb' => 'POST'

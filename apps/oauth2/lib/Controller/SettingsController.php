@@ -103,22 +103,4 @@ class SettingsController extends Controller {
 		$this->clientMapper->delete($client);
 		return new JSONResponse([]);
 	}
-
-	public function getClients(): JSONResponse {
-		$clients = $this->clientMapper->getClients();
-
-		$result = [];
-
-		foreach ($clients as $client) {
-			$result[] = [
-				'id' => $client->getId(),
-				'name' => $client->getName(),
-				'redirectUri' => $client->getRedirectUri(),
-				'clientId' => $client->getClientIdentifier(),
-				'clientSecret' => $client->getSecret(),
-			];
-		}
-
-		return new JSONResponse($result);
-	}
 }

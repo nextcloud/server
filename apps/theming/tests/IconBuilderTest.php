@@ -23,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests;
 
 use OC\Files\AppData\AppData;
@@ -53,7 +54,7 @@ class IconBuilderTest extends TestCase {
 	/** @var IAppManager */
 	protected $appManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);

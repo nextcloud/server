@@ -54,7 +54,7 @@ class RememberBackupCodesJobTest extends TestCase {
 	/** @var RememberBackupCodesJob */
 	private $job;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->registry = $this->createMock(IRegistry::class);

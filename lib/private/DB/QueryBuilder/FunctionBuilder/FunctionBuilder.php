@@ -72,8 +72,25 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction($this->helper->quoteColumnName($x) . ' - ' . $this->helper->quoteColumnName($y));
 	}
 
-	public function count($count, $alias = '') {
+	public function count($count = '', $alias = '') {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
-		return new QueryFunction('COUNT(' . $this->helper->quoteColumnName($count) . ')' . $alias);
+		$quotedName = $count === '' ? '*' : $this->helper->quoteColumnName($count);
+		return new QueryFunction('COUNT(' . $quotedName . ')' . $alias);
+	}
+
+	public function max($field) {
+		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($field) . ')');
+	}
+
+	public function min($field) {
+		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($field) . ')');
+	}
+
+	public function greatest($x, $y) {
+		return new QueryFunction('GREATEST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	}
+
+	public function least($x, $y) {
+		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 }

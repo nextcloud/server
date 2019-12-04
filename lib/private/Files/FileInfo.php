@@ -406,4 +406,12 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function getExtension(): string {
 		return pathinfo($this->getName(), PATHINFO_EXTENSION);
 	}
+
+	public function getCreationTime(): int {
+		return (int) $this->data['creation_time'];
+	}
+
+	public function getUploadTime(): int {
+		return (int) $this->data['upload_time'];
+	}
 }

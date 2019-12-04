@@ -47,9 +47,9 @@ use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IUserSession;
+use OCP\Share;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use OCP\Share;
 
 class Application extends App {
 

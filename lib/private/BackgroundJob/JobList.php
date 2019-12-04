@@ -30,9 +30,9 @@ namespace OC\BackgroundJob;
 
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\AutoloadNotAllowedException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;

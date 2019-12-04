@@ -701,4 +701,3 @@ class Crypt {
 		}
 	}
 }
-

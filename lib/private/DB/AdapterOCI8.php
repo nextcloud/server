@@ -23,7 +23,6 @@
  *
  */
 
-
 namespace OC\DB;
 
 class AdapterOCI8 extends Adapter {

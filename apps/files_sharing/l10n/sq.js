@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Të ndara me të tjerët",
     "Shared with you" : "Të ndara me ju",
-    "Shared by link" : "Të ndara me lidhje",
     "Nothing shared with you yet" : "Ende pa ndarë gjë me ju",
     "Files and folders others share with you will show up here" : "Këtu do të shfaqen kartelat dhe dosjet që të jerët ndajnë me ju",
+    "Shared with others" : "Të ndara me të tjerët",
     "Nothing shared yet" : "Ende pa ndarë gjë",
     "Files and folders you share will show up here" : "Këtu do të shfaqen kartelat dhe dosjet që ndani me të tjerët",
+    "Shared by link" : "Të ndara me lidhje",
     "No shared links" : "Pa lidhje ndarjesh",
     "Files and folders you share by link will show up here" : "Këtu do të shfaqen kartelat dhe dosjet që ndani përmes lidhjesh",
     "Download" : "Shkarko",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Një kartelë ose dosje u nda prej një <strong>shërbyesi tjetër</strong>",
     "A file or folder has been <strong>shared</strong>" : "U <strong>nda me të tjerë</strong> një kartelë ose dosje",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
-    "could not delete share" : "ndarja s’u fshi dot",
     "Could not delete share" : "Ndarja s’u fshi dot",
     "Please specify a file or folder path" : "Ju lutemi, tregoni një shteg kartele ose dosjeje",
     "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
@@ -87,8 +86,8 @@ OC.L10N.register(
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
-    "Share" : "shpërndaj",
     "Sharing" : "Ndarje",
+    "Share" : "shpërndaj",
     "No entries found in this folder" : "S’u gjetën zëra në këtë dosje",
     "Name" : "Emër",
     "Share time" : "Kohë ndarjeje",
@@ -104,6 +103,6 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploading files…" : "Skedarët po ngarkohen...",
     "Uploaded files:" : "Skedarët e ngarkuar:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s"
+    "could not delete share" : "ndarja s’u fshi dot"
 },
 "nplurals=2; plural=(n != 1);");

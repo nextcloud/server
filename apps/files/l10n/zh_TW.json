@@ -157,15 +157,14 @@
     "Deleted shares" : "已刪除的分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
-    "Target folder" : "目標資料夾",
     "File handling" : "檔案處理",
     "Maximum upload size" : "上傳限制",
     "max. possible: " : "最大允許：",
     "Save" : "儲存",
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "如果使用 PHP-FPM ，此設定值需要5分鐘左右才會生效。",
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
-    "%s of %s used" : "在 %s 中使用了%s ",
     "Cancel upload" : "取消上傳",
+    "%s of %s used" : "在 %s 中使用了%s ",
     "%1$s%% of %2$s used" : "在%2$s使用了%1$s%%"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -25,11 +25,11 @@ import OC from '../OC/index'
 export default {
 	data() {
 		return {
-			OC,
+			OC
 		}
 	},
 	methods: {
 		t: L10n.translate.bind(L10n),
-		n: L10n.translatePlural.bind(L10n),
-	},
+		n: L10n.translatePlural.bind(L10n)
+	}
 }

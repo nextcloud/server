@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Vali kõik",
     "Name" : "Nimi",
     "Deleted" : "Kustutatud",
-    "Delete" : "Kustuta",
-    "Couldn't delete %s permanently" : "%s jäädavalt kustutamine ebaõnnestus",
-    "Couldn't restore %s" : "%s ei saa taastada",
-    "Error" : "Viga"
+    "Delete" : "Kustuta"
 },
 "nplurals=2; plural=(n != 1);");

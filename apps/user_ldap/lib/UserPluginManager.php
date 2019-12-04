@@ -207,4 +207,3 @@ class UserPluginManager {
 		throw new \Exception('No plugin implements deleteUser in this LDAP Backend.');
 	}
 }
-

@@ -20,13 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files\Tests\BackgroundJob;
 
-use OCP\IUser;
-use Test\TestCase;
-use OCP\IConfig;
-use OCP\IUserManager;
 use OCA\Files\BackgroundJob\ScanFiles;
+use OCP\IConfig;
+use OCP\IUser;
+use OCP\IUserManager;
+use Test\TestCase;
 
 /**
  * Class ScanFilesTest
@@ -41,7 +42,7 @@ class ScanFilesTest extends TestCase {
 	/** @var ScanFiles */
 	private $scanFiles;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -59,6 +60,11 @@ class ScanFilesTest extends TestCase {
 	public function testRunWithoutUsers() {
 		$this->config
 				->expects($this->at(0))
+				->method('getSystemValueBool')
+				->with('files_no_background_scan', false)
+				->will($this->returnValue(false));
+		$this->config
+				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
 				->will($this->returnValue(50));
@@ -73,7 +79,7 @@ class ScanFilesTest extends TestCase {
 				->with('', 500)
 				->will($this->returnValue([]));
 		$this->config
-				->expects($this->at(1))
+				->expects($this->at(2))
 				->method('setAppValue')
 				->with('files', 'cronjob_scan_files', 500);
 
@@ -84,6 +90,11 @@ class ScanFilesTest extends TestCase {
 		$fakeUser = $this->createMock(IUser::class);
 		$this->config
 				->expects($this->at(0))
+				->method('getSystemValueBool')
+				->with('files_no_background_scan', false)
+				->will($this->returnValue(false));
+		$this->config
+				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
 				->will($this->returnValue(50));
@@ -95,7 +106,7 @@ class ScanFilesTest extends TestCase {
 						$fakeUser
 				]));
 		$this->config
-				->expects($this->at(1))
+				->expects($this->at(2))
 				->method('setAppValue')
 				->with('files', 'cronjob_scan_files', 550);
 		$this->scanFiles
@@ -109,6 +120,11 @@ class ScanFilesTest extends TestCase {
 	public function testRunWithUsersAndOffsetAtEndOfUserList() {
 		$this->config
 				->expects($this->at(0))
+				->method('getSystemValueBool')
+				->with('files_no_background_scan', false)
+				->will($this->returnValue(false));
+		$this->config
+				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
 				->will($this->returnValue(50));
@@ -123,7 +139,7 @@ class ScanFilesTest extends TestCase {
 				->with('', 500)
 				->will($this->returnValue([]));
 		$this->config
-				->expects($this->at(1))
+				->expects($this->at(2))
 				->method('setAppValue')
 				->with('files', 'cronjob_scan_files', 500);
 		$this->scanFiles

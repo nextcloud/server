@@ -24,9 +24,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен или користи недоверлив сертификат.",
     "Could not find share" : "Неможе да се пронајде споделувањето",
     "Federated sharing" : "Федерирано споделување",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вие добивте \"%3$s\" како далечинско споделување од %1$s (во име на%2$s)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вие добивте {share} како далечинско споделување од {user} (во име на {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Вие добивте \"%3$s\"како далечинско споделување од %1$s",
     "You received {share} as a remote share from {user}" : "Вие добивте {share} како далечинско споделување од {user}",
     "Accept" : "Прифати",
     "Decline" : "Одбиј",
@@ -51,7 +49,7 @@ OC.L10N.register(
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене преку Nextcloud",
     "HTML Code:" : "HTML код:",
-    "Sharing %s failed, because this item is already shared with %s" : "Споделувањето на %s е неуспешно, бидејќи истото веќе е споделено со %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %s е неуспешно, неможе да се пронајде %s, можеби серверот моментално не е достапен или користи недоверлив сертификат."
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вие добивте \"%3$s\" како далечинско споделување од %1$s (во име на%2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Вие добивте \"%3$s\"како далечинско споделување од %1$s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

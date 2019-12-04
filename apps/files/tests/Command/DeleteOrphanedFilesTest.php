@@ -55,7 +55,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 	 */
 	private $user1;
 
-	protected function setup() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -68,7 +68,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->command = new DeleteOrphanedFiles($this->connection);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$userManager = \OC::$server->getUserManager();
 		$user1 = $userManager->get($this->user1);
 		if($user1) {
@@ -132,4 +132,3 @@ class DeleteOrphanedFilesTest extends TestCase {
 		}
 	}
 }
-

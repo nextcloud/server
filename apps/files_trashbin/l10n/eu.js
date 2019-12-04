@@ -14,9 +14,6 @@ OC.L10N.register(
     "Name" : "Izena",
     "Actions" : "Ekintzak",
     "Deleted" : "Ezabatuta",
-    "Delete" : "Ezabatu",
-    "Couldn't delete %s permanently" : "Ezin izan da %s betirako ezabatu",
-    "Couldn't restore %s" : "Ezin izan da %s berreskuratu",
-    "Error" : "Errorea"
+    "Delete" : "Ezabatu"
 },
 "nplurals=2; plural=(n != 1);");

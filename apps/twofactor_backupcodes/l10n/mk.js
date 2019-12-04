@@ -9,6 +9,7 @@ OC.L10N.register(
     "Print backup codes" : "Печати ги резевните кодови",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервни кодови се генерирани. Искористени се {used} од {total} кодови.",
     "Regenerate backup codes" : "Генерирај повторно резервни кодови",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Доколку генерирате повторно резервни кодови, старите кодови нема да бидат во употреба.",
     "Generate backup codes" : "Генерирај резервни кодови",
     "You created two-factor backup codes for your account" : "Вие креиравте резервни кодови за двофакторна автентификација на вашата сметка",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Провајдер за резервни кодови за двофакторна автентификација",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористи еден од резервните кодови што ги зачувавте кога активиравте двофакторна автентикација.",
     "Submit" : "Испрати",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Резервни кодови се генерирани. Искористени се {{used}} од {{total}} кодови.",
     "Nextcloud backup codes" : "Nextcloud резервни кодови",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Вие имате активирано двофакторна автентикација но немате генерирано резервни кодови за пристап. Генерирајте кодови и зачувајте ги на безбедно место за да не го изгубите пристапот до вашата сметка."
 },

@@ -270,4 +270,3 @@ class Config {
 		}
 	}
 }
-

@@ -32,7 +32,7 @@ class ClientMapperTest extends TestCase {
 	/** @var ClientMapper */
 	private $clientMapper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->clientMapper = new ClientMapper(\OC::$server->getDatabaseConnection());
 	}
@@ -48,10 +48,10 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByIdentifier('MyAwesomeClientIdentifier'));
 	}
 
-	/**
-	 * @expectedException \OCA\OAuth2\Exceptions\ClientNotFoundException
-	 */
+	
 	public function testGetByIdentifierNotExisting() {
+		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+
 		$this->clientMapper->getByIdentifier('MyTotallyNotExistingClient');
 	}
 
@@ -66,10 +66,10 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByUid($client->getId()));
 	}
 
-	/**
-	 * @expectedException \OCA\OAuth2\Exceptions\ClientNotFoundException
-	 */
+	
 	public function testGetByUidNotExisting() {
+		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+
 		$this->clientMapper->getByUid(1234);
 	}
 

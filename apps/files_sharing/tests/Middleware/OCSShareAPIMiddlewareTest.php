@@ -21,6 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Sharing\Tests\Middleware;
 
 use OCA\Files_Sharing\Controller\ShareAPIController;
@@ -43,7 +44,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	/** @var OCSShareAPIMiddleware */
 	private $middleware;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(IManager::class);

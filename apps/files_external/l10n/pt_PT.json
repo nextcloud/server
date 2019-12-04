@@ -112,8 +112,6 @@
     "Available for" : "Disponível para ",
     "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
-    "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alguns dos pontos de montagem externos configurados não estão conectados. Por favor, clique na fila vermelha para mais informação",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" não está instalado. Não é possível montar %s. Por favor peça ao seu administrador que o instale."
+    "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

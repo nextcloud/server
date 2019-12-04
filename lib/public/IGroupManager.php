@@ -75,7 +75,7 @@ interface IGroupManager {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup
+	 * @return \OCP\IGroup|null
 	 * @since 8.0.0
 	 */
 	public function get($gid);
@@ -89,7 +89,7 @@ interface IGroupManager {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup
+	 * @return \OCP\IGroup|null
 	 * @since 8.0.0
 	 */
 	public function createGroup($gid);

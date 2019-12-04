@@ -20,7 +20,6 @@
  *
  */
 
-
 namespace OC\Migration;
 
 

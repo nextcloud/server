@@ -75,4 +75,6 @@ interface ITrashItem extends FileInfo {
 	 * @since 15.0.0
 	 */
 	public function getUser(): IUser;
+
+	public function getTitle(): string;
 }

@@ -50,4 +50,24 @@ class DummyUserSession implements IUserSession {
 	public function isLoggedIn() {
 		return !is_null($this->user);
 	}
+
+	/**
+	 * get getImpersonatingUserID
+	 *
+	 * @return string|null
+	 * @since 17.0.0
+	 */
+	public function getImpersonatingUserID() : ?string {
+		return null;
+	}
+
+	/**
+	 * set setImpersonatingUserID
+	 *
+	 * @since 17.0.0
+	 */
+	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
+		//no OP
+	}
+
 }

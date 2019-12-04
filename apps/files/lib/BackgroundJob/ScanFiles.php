@@ -97,6 +97,10 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 	 * @throws \Exception
 	 */
 	protected function run($argument) {
+		if ($this->config->getSystemValueBool('files_no_background_scan', false)) {
+			return;
+		}
+		
 		$offset = $this->config->getAppValue('files', 'cronjob_scan_files', 0);
 		$users = $this->userManager->search('', self::USERS_PER_SESSION, $offset);
 		if (!count($users)) {

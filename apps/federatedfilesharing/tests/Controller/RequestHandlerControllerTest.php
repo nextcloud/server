@@ -32,8 +32,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\AppFramework\Http;
 use OC\Federation\CloudIdManager;
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
@@ -112,7 +112,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var ICloudFederationShare|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationShare;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')

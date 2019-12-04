@@ -20,6 +20,7 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AbstractProvider;
@@ -27,10 +28,10 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
-use Test\TestCase;
+use OCP\L10N\IFactory as L10NFactory;
 use Sabre\VObject\Component\VCalendar;
+use Test\TestCase;
 
 abstract class AbstractNotificationProviderTest extends TestCase {
 
@@ -67,7 +68,7 @@ abstract class AbstractNotificationProviderTest extends TestCase {
 	 */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(ILogger::class);

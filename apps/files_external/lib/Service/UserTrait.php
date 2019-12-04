@@ -22,8 +22,8 @@
 
 namespace OCA\Files_External\Service;
 
-use \OCP\IUserSession;
-use \OCP\IUser;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Trait for getting user information in a service
@@ -72,4 +72,3 @@ trait UserTrait {
 		return $this;
 	}
 }
-

@@ -47,7 +47,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $calDavBackend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->resourceManager = $this->createMock(IResourceManager::class);
@@ -59,7 +59,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 			$this->calDavBackend);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->delete('calendar_resources')->execute();
 		$query->delete('calendar_resources_md')->execute();

@@ -26,7 +26,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Controller;

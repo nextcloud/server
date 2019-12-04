@@ -47,7 +47,7 @@ class RemoteWipeActivityListenerTests extends TestCase {
 	/** @var IEventListener */
 	private $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IActivityManager::class);

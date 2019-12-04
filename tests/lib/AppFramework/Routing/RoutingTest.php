@@ -5,10 +5,10 @@ namespace Test\AppFramework\Routing;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
+use OC\Route\Router;
 use OCP\ILogger;
 use OCP\Route\IRouter;
 use PHPUnit\Framework\MockObject\MockObject;
-use OC\Route\Router;
 
 class RoutingTest extends \Test\TestCase
 {
@@ -122,11 +122,11 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
 	}
 
-	/**
-	 * @expectedException \UnexpectedValueException
-	 */
+	
 	public function testSimpleRouteWithBrokenName()
 	{
+		$this->expectException(\UnexpectedValueException::class);
+
 		$routes = array('routes' => array(
 			array('name' => 'folders_open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete')
 		));
@@ -144,10 +144,10 @@ class RoutingTest extends \Test\TestCase
 		$config->register();
 	}
 
-	/**
-	 * @expectedException \UnexpectedValueException
-	 */
+	
 	public function testSimpleOCSRouteWithBrokenName() {
+		$this->expectException(\UnexpectedValueException::class);
+
 		$routes = ['ocs' => [
 			['name' => 'folders_open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
 		]];

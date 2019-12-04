@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "funktion",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Ett fel uppstod vid skapandet av nya återställningsnycklar",
     "{name} backup codes" : "{name} återställningsnycklar",
@@ -21,14 +22,13 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Återställningsnycklar för tvåfaktorautentisering",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Använd en av återställningsnycklarna du sparade när du konfigurerar tvåfaktorsautentisering.",
     "Submit" : "Skicka",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Återställningsnycklarna har skapats. {{used}} av {{total}} nycklar har använts.",
-    "Nextcloud backup codes" : "Nextcloud återställningsnycklar",
     "activated" : "aktiverad",
     "updated" : "uppdaterad",
     "mounted" : "monterad",
     "deactivated" : "inaktiverad",
     "created" : "skapad",
     "destroyed" : "förstörd",
+    "Nextcloud backup codes" : "Nextcloud återställningsnycklar",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor."
 },
 "nplurals=2; plural=(n != 1);");

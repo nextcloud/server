@@ -23,11 +23,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Preview;
 
+use OCP\Files\File;
 use OCP\IImage;
 use OCP\ILogger;
-use OCP\Files\File;
 
 abstract class Office extends ProviderV2 {
 	private $cmd;

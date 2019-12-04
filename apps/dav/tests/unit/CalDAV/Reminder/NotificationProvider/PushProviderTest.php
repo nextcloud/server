@@ -22,19 +22,20 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\IUser;
+use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use OCP\AppFramework\Utility\ITimeFactory;
 use Test\TestCase;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
@@ -60,9 +61,10 @@ class PushProviderTest extends AbstractNotificationProviderTest {
     /** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
     private $timeFactory;
 
-    public function setUp() {
+    protected function setUp(): void {
         parent::setUp();
 
+        $this->config = $this->createMock(IConfig::class);
         $this->manager = $this->createMock(IManager::class);
         $this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -80,7 +82,38 @@ class PushProviderTest extends AbstractNotificationProviderTest {
     	$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
 	}
 
+	public function testNotSend(): void {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'sendEventRemindersPush', 'no')
+			->willReturn('no');
+
+		$this->manager->expects($this->never())
+			->method('createNotification');
+		$this->manager->expects($this->never())
+			->method('notify');
+
+		$user1 = $this->createMock(IUser::class);
+		$user1->method('getUID')
+			->willReturn('uid1');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')
+			->willReturn('uid2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')
+			->willReturn('uid3');
+
+		$users = [$user1, $user2, $user3];
+
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+	}
+
     public function testSend(): void {
+    	$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'sendEventRemindersPush', 'no')
+			->willReturn('yes');
+
     	$user1 = $this->createMock(IUser::class);
     	$user1->method('getUID')
 			->willReturn('uid1');

@@ -24,8 +24,8 @@
  */
 
 namespace OCA\DAV\Connector\Sabre;
-use Sabre\HTTP\ResponseInterface;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * Class DummyGetResponsePlugin is a plugin used to not show a "Not implemented"

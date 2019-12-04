@@ -24,8 +24,8 @@
  */
 
 namespace OC\Files\ObjectStore;
-use \OC\Files\Cache\Scanner;
-use \OC\Files\Storage\Storage;
+use OC\Files\Cache\Scanner;
+use OC\Files\Storage\Storage;
 
 class NoopScanner extends Scanner {
 

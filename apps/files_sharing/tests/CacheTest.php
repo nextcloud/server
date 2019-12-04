@@ -33,6 +33,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Share\IShare;
 
 /**
  * Class CacheTest
@@ -61,7 +62,7 @@ class CacheTest extends TestCase {
 	/** @var \OCP\Share\IManager */
 	protected $shareManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -103,7 +104,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		$node = $rootFolder->get('container/shared single file.txt');
 		$share = $this->shareManager->newShare();
@@ -112,7 +115,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE));
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		// login as user2
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -123,7 +128,7 @@ class CacheTest extends TestCase {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if($this->sharedCache) {
 			$this->sharedCache->clear();
 		}
@@ -313,6 +318,8 @@ class CacheTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
@@ -396,7 +403,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		\OC_Util::tearDownFS();
 
@@ -427,7 +436,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -454,7 +465,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		list($sourceStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
@@ -489,7 +502,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);

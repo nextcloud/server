@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace OCP\SystemTag;
 
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
 
 /**
  * Class MapperEvent

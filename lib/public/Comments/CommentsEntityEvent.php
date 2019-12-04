@@ -22,7 +22,7 @@
 
 namespace OCP\Comments;
 
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
 
 /**
  * Class CommentsEntityEvent

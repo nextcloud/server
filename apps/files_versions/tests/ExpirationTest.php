@@ -24,7 +24,7 @@
 
 namespace OCA\Files_Versions\Tests;
 
-use \OCA\Files_Versions\Expiration;
+use OCA\Files_Versions\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;

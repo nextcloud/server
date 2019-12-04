@@ -36,8 +36,8 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
-use OCP\Preview\IVersionedPreviewFile;
 use OCP\Preview\IProviderV2;
+use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

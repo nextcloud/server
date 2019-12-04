@@ -38,12 +38,12 @@ class UpdaterTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_updater_test';
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		\OCA\Files_Sharing\Helper::registerHooks();
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
@@ -56,7 +56,7 @@ class UpdaterTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/' . $this->filename, $this->data);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->view) {
 			$this->view->unlink($this->filename);
 			$this->view->deleteAll($this->folder);

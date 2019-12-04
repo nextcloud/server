@@ -13,9 +13,6 @@ OC.L10N.register(
     "Select all" : "Kies alle",
     "Name" : "Naam",
     "Deleted" : "Geskrap",
-    "Delete" : "Skrap",
-    "Couldn't delete %s permanently" : "Kon nie %s permanent skrap nie",
-    "Couldn't restore %s" : "Kon nie %s herstel nie",
-    "Error" : "Fout"
+    "Delete" : "Skrap"
 },
 "nplurals=2; plural=(n != 1);");

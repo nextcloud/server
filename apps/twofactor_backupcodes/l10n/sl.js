@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "funkcija",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Prišlo je do namako med ustvarjanjem varnostnih kok",
     "{name} backup codes" : "Varnostne kode {name}",
@@ -13,14 +14,13 @@ OC.L10N.register(
     "Generate backup codes" : "Ustvari rezervne šifre",
     "You created two-factor backup codes for your account" : "Za račun so uspešno ustvarjene dvo-stopenjske varnostne kode",
     "Second-factor backup codes" : "Varnostne kode druge stopnje",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Uporabljajo se za obnovitev dostopa do računa v primeru neveljavnosti kode druge stopnje.",
     "Backup code" : "Varnostna koda",
     "Use backup code" : "Uporabi varnostno kodo",
     "Two factor backup codes" : "Dvostopenjske varnostne kode",
     "A two-factor auth backup codes provider" : "Ponudnik varnostnih kod za dvostopenjsko overitev",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uporabite eno izmed varnostnih kod, ki ste jo shranili pri nastavljanju dvostopenjske overitve",
     "Submit" : "Pošlji",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Varnostne kode so bile uspešno ustvarjene. Uporabljeno je {{used}} od skupno {{total}}.",
-    "Nextcloud backup codes" : "Varnostne kode Nextcloud",
     "activated" : "omogočeno",
     "updated" : "posodobljeno",
     "mounted" : "priklopljeno",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "beforeDestroy" : "pred uničenjem",
     "destroyed" : "uničeno",
     "beforeMount" : "pred priklapljanjem",
+    "Nextcloud backup codes" : "Varnostne kode Nextcloud",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

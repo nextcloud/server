@@ -1,6 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
+    "function" : "funkcja",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "{name} backup codes" : "Kody kopii zapasowej {name}",
@@ -21,8 +22,6 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Dostawca dwuskładnikowych kodów zapasowych ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
     "Submit" : "Prześlij",
-    "Backup codes have been generated. {{used}} of {{total}} codes have been used." : "Kody zapasowe zostały wygenerowane. {{used}} z {{total}} kodów zostało wykorzystanych.",
-    "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
     "activated" : "aktowowane",
     "updated" : "zaktualizowane",
     "mounted" : "zamontowane",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "beforeDestroy" : "przed zniszczeniem",
     "destroyed" : "zniszczone",
     "beforeMount" : "przed zamontowaniem",
+    "Nextcloud backup codes" : "Kody zapasowe Nextcloud",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Włączyłeś uwierzytelnianie dwuskładnikowe, ale jeszcze nie wygenerowałeś kodów zapasowych. Pamiętaj, aby to zrobić na wypadek utraty dostępu do drugiego składnika."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

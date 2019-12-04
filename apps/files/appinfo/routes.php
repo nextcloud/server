@@ -29,7 +29,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files\AppInfo;
 
-$application = new Application();
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $application->registerRoutes(
 	$this,
 	[
@@ -91,7 +92,49 @@ $application->registerRoutes(
 				'url' => '/api/v1/quickaccess/get/NodeType',
 				'verb' => 'GET',
 			],
-		]
+			[
+				'name' => 'DirectEditingView#edit',
+				'url' => '/directEditing/{token}',
+				'verb' => 'GET'
+			],
+		],
+		'ocs' => [
+			[
+				'name' => 'DirectEditing#info',
+				'url' => '/api/v1/directEditing',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'DirectEditing#templates',
+				'url' => '/api/v1/directEditing/templates/{editorId}/{creatorId}',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'DirectEditing#open',
+				'url' => '/api/v1/directEditing/open',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'DirectEditing#create',
+				'url' => '/api/v1/directEditing/create',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'TransferOwnership#transfer',
+				'url' => '/api/v1/transferownership',
+				'verb' => 'POST',
+			],
+			[
+				'name' => 'TransferOwnership#accept',
+				'url' => '/api/v1/transferownership/{id}',
+				'verb' => 'POST',
+			],
+			[
+				'name' => 'TransferOwnership#reject',
+				'url' => '/api/v1/transferownership/{id}',
+				'verb' => 'DELETE',
+			],
+		],
 	]
 );
 

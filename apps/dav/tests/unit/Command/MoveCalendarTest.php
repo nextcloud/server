@@ -31,7 +31,6 @@ use OCP\Share\IManager;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
-
 /**
  * Class MoveCalendarTest
  *
@@ -60,7 +59,7 @@ class MoveCalendarTest extends TestCase {
 	/** @var MoveCalendar */
 	private $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -90,12 +89,13 @@ class MoveCalendarTest extends TestCase {
 	/**
 	 * @dataProvider dataExecute
 	 *
-	 * @expectedException InvalidArgumentException
 	 * @param $userOriginExists
 	 * @param $userDestinationExists
 	 */
 	public function testWithBadUserOrigin($userOriginExists, $userDestinationExists)
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -116,12 +116,12 @@ class MoveCalendarTest extends TestCase {
 		]);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.
-	 */
+	
 	public function testMoveWithInexistantCalendar()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.');
+
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -144,12 +144,12 @@ class MoveCalendarTest extends TestCase {
 		]);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage User <user2> already has a calendar named <personal>.
-	 */
+	
 	public function testMoveWithExistingDestinationCalendar()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('User <user2> already has a calendar named <personal>.');
+
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')

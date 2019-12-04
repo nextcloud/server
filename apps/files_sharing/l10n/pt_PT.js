@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with others" : "Partilhado com terceiros",
     "Shared with you" : "Partilhado consigo ",
-    "Shared by link" : "Partilhado por hiperligação",
     "Nothing shared with you yet" : "Ainda não foi partilhado nada consigo",
     "Files and folders others share with you will show up here" : "Os ficheiros e pastas que terceiros partilham consigo, serão mostrados aqui",
+    "Shared with others" : "Partilhado com terceiros",
     "Nothing shared yet" : "Ainda não foi partilhado nada",
     "Files and folders you share will show up here" : "Os ficheiros e as pastas que partilha serão mostrados aqui",
+    "Shared by link" : "Partilhado por hiperligação",
     "No shared links" : "Sem hiperligações partilhadas",
     "Files and folders you share by link will show up here" : "Os ficheiros e as pastas que partilha com esta hiperligação, serão mostrados aqui",
     "Download" : "Transferir",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Um ficheiro ou pasta foi partilhado a partir de <strong>outro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "Foi <strong>partilhado</strong> um ficheiro ou uma pasta",
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
-    "could not delete share" : "Não foi possível eliminar a partilha",
     "Could not delete share" : "Não foi possível eliminar a partilha",
     "Please specify a file or folder path" : "Por favor, especifique um ficheiro ou caminho de pasta",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, ficheiro/pasta não existe",
@@ -89,8 +88,8 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Share API is disabled" : "A partilha de API está desativada",
     "File sharing" : "Partilha de ficheiro",
-    "Share" : "Partilhar",
     "Sharing" : "Partilha",
+    "Share" : "Partilhar",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Name" : "Nome",
     "Share time" : "Hora da Partilha",
@@ -106,6 +105,6 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploading files…" : "A enviar ficheiros...",
     "Uploaded files:" : "Ficheiros enviados:",
-    "Sharing %s failed because the back end does not allow shares from type %s" : "A partilha de %s falhou porque \"back end\" não permite partilhas do tipo %s"
+    "could not delete share" : "Não foi possível eliminar a partilha"
 },
 "nplurals=2; plural=(n != 1);");

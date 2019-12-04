@@ -23,12 +23,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Tests\Controller;
 
-use \OCA\Files_External\Controller\UserStoragesController;
+use OCA\Files_External\Controller\UserStoragesController;
 use OCA\Files_External\Lib\StorageConfig;
-use \OCP\AppFramework\Http;
-use \OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\BackendService;
+use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -41,7 +42,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 	 */
 	private $oldAllowedBackends;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
 			->disableOriginalConstructor()

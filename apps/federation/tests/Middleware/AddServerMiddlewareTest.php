@@ -23,7 +23,6 @@
  *
  */
 
-
 namespace OCA\Federation\Tests\Middleware;
 
 
@@ -49,7 +48,7 @@ class AddServerMiddlewareTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | SettingsController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();

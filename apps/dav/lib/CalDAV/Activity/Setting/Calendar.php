@@ -97,4 +97,3 @@ class Calendar implements ISetting {
 		return false;
 	}
 }
-

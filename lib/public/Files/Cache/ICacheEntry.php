@@ -132,4 +132,28 @@ interface ICacheEntry {
 	 * @since 9.0.0
 	 */
 	public function isEncrypted();
+
+	/**
+	 * Get the metadata etag for the file
+	 *
+	 * @return string | null
+	 * @since 18.0.0
+	 */
+	public function getMetadataEtag(): ?string;
+
+	/**
+	 * Get the last modified date as unix timestamp
+	 *
+	 * @return int | null
+	 * @since 18.0.0
+	 */
+	public function getCreationTime(): ?int;
+
+	/**
+	 * Get the last modified date as unix timestamp
+	 *
+	 * @return int | null
+	 * @since 18.0.0
+	 */
+	public function getUploadTime(): ?int;
 }

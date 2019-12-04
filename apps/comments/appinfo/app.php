@@ -21,5 +21,4 @@
  *
  */
 
-$application = new \OCA\Comments\AppInfo\Application();
-$application->register();
+\OC::$server->query(\OCA\Comments\AppInfo\Application::class);

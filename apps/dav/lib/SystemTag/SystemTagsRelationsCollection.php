@@ -25,13 +25,13 @@
 
 namespace OCA\DAV\SystemTag;
 
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\SystemTagsEntityEvent;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
-use OCP\IUserSession;
-use OCP\IGroupManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagsRelationsCollection extends SimpleCollection {

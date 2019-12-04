@@ -43,7 +43,7 @@ class ShareRecipientSorterTest extends TestCase {
 	/** @var  ShareRecipientSorter */
 	protected $sorter;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = $this->createMock(IManager::class);

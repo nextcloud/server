@@ -24,8 +24,8 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
-use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__ . '/../Bootstrap.php';

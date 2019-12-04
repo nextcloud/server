@@ -48,17 +48,6 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet als usuaris compartir un enllaç personalitzat a un fitxer o carpeta introduïnt una adreça de correu electrònic.",
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
     "Enforce password protection" : "Força la protecció amb contrasenya",
-    "Sharing %s failed, this item is already shared with %s" : "No s'ha pogut compartir %s, aquest element ja està compartit amb %s",
-    "%s shared »%s« with you" : "%s us ha compartit »%s«",
-    "%s shared »%s« with you." : "%s us ha compartit »%s«.",
-    "%s via %s" : "%s via %s",
-    "%s shared »%s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%s us ha compartit »%s«.\nHauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.\n",
-    "%s shared »%s« with you. You should have already received a separate mail with a link to access it." : "%s us ha compartit »%s«. Hauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.",
-    "Password to access »%s« shared to you by %s" : "%s us ha compartit la contrasenya per accedir a »%s«",
-    "It is protected with the following password: %s" : "Està protegit amb la següent contrasenya: %s",
-    "You just shared »%s« with %s. The share was already send to the recipient. Due to the security policies defined by the administrator of %s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabeu de compartir »%s« amb %s. La compartició ja s'ha enviat al destinatari. A causa de les polítiques de seguretat definides per l'administrador de %s, cada compartició ha de ser protegida per contrasenya i no es permet enviar la contrasenya directament al destinatari. Per tant, li heu de reenviar la contrasenya manualment.",
-    "Password to access »%s« shared with %s" : "S'ha compartit la contrasenya per accedir a «%s» amb %s",
-    "This is the password: %s" : "La contrasenya és la següent: %s",
     "Password to access »%1$s« shared with %2$s" : "S'ha compartit la contrasenya per accedir a «%1$s» amb %2$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

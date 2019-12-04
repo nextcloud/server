@@ -323,11 +323,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		switch ($name) {
 			case 'CONTENT_TYPE' :
 			case 'CONTENT_LENGTH' :
-				if (isset($this->server[$name])) {
-					return $this->server[$name];
-				}
-				break;
-			case 'REMOTE_ADDR' :
+			case 'REMOTE_ADDR':
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
 				}
@@ -857,6 +853,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server host
 	 */
 	public function getInsecureServerHost(): string {
+		if ($this->fromTrustedProxy() && $this->getOverwriteHost() !== null) {
+			return $this->getOverwriteHost();
+		}
+
 		$host = 'localhost';
 		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
@@ -872,6 +872,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				$host = $this->server['SERVER_NAME'];
 			}
 		}
+
 		return $host;
 	}
 

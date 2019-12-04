@@ -15,16 +15,16 @@ use OC\Group\Group;
 use OC\User\User;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\IAppConfig;
-use OCP\IConfig;
-use OCP\IURLGenerator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -97,7 +97,7 @@ class AppManagerTest extends TestCase {
 	/** @var IAppManager */
 	protected $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -248,10 +248,11 @@ class AppManagerTest extends TestCase {
 	 *
 	 * @param string $type
 	 *
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage test can't be enabled for groups.
 	 */
 	public function testEnableAppForGroupsForbiddenTypes($type) {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('test can\'t be enabled for groups.');
+
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')
 			->willReturn('group1');
@@ -385,6 +386,7 @@ class AppManagerTest extends TestCase {
 			'lookup_server_connector',
 			'oauth2',
 			'provisioning_api',
+			'settings',
 			'test1',
 			'test3',
 			'twofactor_backupcodes',
@@ -412,6 +414,7 @@ class AppManagerTest extends TestCase {
 			'lookup_server_connector',
 			'oauth2',
 			'provisioning_api',
+			'settings',
 			'test1',
 			'test3',
 			'twofactor_backupcodes',
@@ -439,6 +442,7 @@ class AppManagerTest extends TestCase {
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'settings' => ['id' => 'settings'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'workflowengine' => ['id' => 'workflowengine'],
 			'oauth2' => ['id' => 'oauth2'],
@@ -485,6 +489,7 @@ class AppManagerTest extends TestCase {
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
+			'settings' => ['id' => 'settings'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'workflowengine' => ['id' => 'workflowengine'],
@@ -528,6 +533,7 @@ class AppManagerTest extends TestCase {
 			'lookup_server_connector',
 			'oauth2',
 			'provisioning_api',
+			'settings',
 			'test1',
 			'test3',
 			'twofactor_backupcodes',

@@ -22,10 +22,10 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
-use \OCP\IL10N;
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
-use \OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
+use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCP\IL10N;
 
 class AmazonS3 extends Backend {
 

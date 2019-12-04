@@ -10,6 +10,7 @@ namespace Test\Files;
 
 use OC\Files\Filesystem;
 use OCP\Share;
+use OCA\Files_Sharing\AppInfo\Application;
 
 /**
  * Class EtagTest
@@ -28,12 +29,13 @@ class EtagTest extends \Test\TestCase {
 	 */
 	private $userBackend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		\OC_Hook::clear('OC_Filesystem', 'setup');
-		$application = new \OCA\Files_Sharing\AppInfo\Application();
-		$application->registerMountProviders();
+		// init files sharing
+		new Application();
+		
 		\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
 		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
@@ -46,7 +48,7 @@ class EtagTest extends \Test\TestCase {
 		\OC_User::useBackend($this->userBackend);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC::$server->getConfig()->setSystemValue('datadirectory', $this->datadir);
 
 		$this->logout();

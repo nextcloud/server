@@ -23,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -32,6 +33,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -44,6 +46,7 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
+
 /**
  * iMIP handler.
  *
@@ -90,6 +93,9 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var Defaults */
 	private $defaults;
 
+	/** @var IUserManager */
+	private $userManager;
+
 	const MAX_DATE = '2038-01-01';
 
 	const METHOD_REQUEST = 'request';
@@ -111,7 +117,8 @@ class IMipPlugin extends SabreIMipPlugin {
 	public function __construct(IConfig $config, IMailer $mailer, ILogger $logger,
 								ITimeFactory $timeFactory, L10NFactory $l10nFactory,
 								IURLGenerator $urlGenerator, Defaults $defaults,
-								ISecureRandom $random, IDBConnection $db, $userId) {
+								ISecureRandom $random, IDBConnection $db, IUserManager $userManager,
+								$userId) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -123,6 +130,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->random = $random;
 		$this->db = $db;
 		$this->defaults = $defaults;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -165,6 +173,15 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$senderName = $iTipMessage->senderName ?: null;
 		$recipientName = $iTipMessage->recipientName ?: null;
+
+		if ($senderName === null || empty(trim($senderName))) {
+			$user = $this->userManager->get($this->userId);
+			if ($user) {
+				// getDisplayName automatically uses the uid
+				// if no display-name is set
+				$senderName = $user->getDisplayName();
+			}
+		}
 
 		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;

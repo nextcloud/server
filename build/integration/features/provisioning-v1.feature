@@ -337,6 +337,7 @@ Feature: provisioning
 			| files_versions |
 			| lookup_server_connector |
 			| provisioning_api |
+			| settings |
 			| sharebymail |
 			| systemtags |
 			| theming |

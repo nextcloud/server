@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Utility;
 
-use \OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 
 /**
  * Reads and parses annotations from doc comments
@@ -72,13 +72,10 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		}
 
 		foreach ($reflection->getParameters() as $param) {
-			// extract type information from PHP 7 scalar types and prefer them
-			// over phpdoc annotations
-			if (method_exists($param, 'getType')) {
-				$type = $param->getType();
-				if ($type !== null) {
-					$this->types[$param->getName()] = (string) $type;
-				}
+			// extract type information from PHP 7 scalar types and prefer them over phpdoc annotations
+			$type = $param->getType();
+			if ($type instanceof \ReflectionNamedType) {
+				$this->types[$param->getName()] = $type->getName();
 			}
 
 			$default = null;

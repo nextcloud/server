@@ -31,29 +31,29 @@
 
 namespace OC\Core\Controller;
 
+use function array_filter;
+use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Exception\ResetPasswordException;
 use OC\HintException;
-use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use \OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\ILogger;
-use \OCP\IURLGenerator;
-use \OCP\IRequest;
-use \OCP\IL10N;
-use \OCP\IConfig;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use function array_filter;
-use function count;
 use function reset;
 
 /**
@@ -194,8 +194,12 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
+		$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
+		if ($encryptedToken === null) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
+
 		try {
-			$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
 			$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
 			$decryptedToken = $this->crypto->decrypt($encryptedToken, $mailAddress.$this->config->getSystemValue('secret'));
 		} catch (\Exception $e) {

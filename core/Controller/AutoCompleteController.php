@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OCP\AppFramework\OCSController as Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController as Controller;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
@@ -107,7 +107,7 @@ class AutoCompleteController extends Controller {
 		foreach ($results as $type => $subResult) {
 			foreach ($subResult as $result) {
 				$output[] = [
-					'id' => $result['value']['shareWith'],
+					'id' => (string) $result['value']['shareWith'],
 					'label' => $result['label'],
 					'source' => $type,
 				];

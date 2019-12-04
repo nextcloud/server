@@ -22,7 +22,7 @@
 
 namespace OCA\Files_External\Lib\Config;
 
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 
 /**
  * Provider of external storage auth mechanisms
