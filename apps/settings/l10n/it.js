@@ -142,6 +142,8 @@ OC.L10N.register(
     "Admin documentation" : "Documentazione di amministrazione",
     "Developer documentation" : "Documentazione dello sviluppatore",
     "Update to {update}" : "Aggiorna a {update}",
+    "{counter} apps have an update available" : "{counter} applicazioni hanno un aggiornamento disponibile",
+    "Update all" : "Aggiorna tutto",
     "Results from other categories" : "Risultati da altre categorie",
     "No apps found for your version" : "Nessuna applicazione trovata per la tua versione",
     "Disable all" : "Disabilita tutto",

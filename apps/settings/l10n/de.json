@@ -140,6 +140,8 @@
     "Admin documentation" : "Dokumentation für Administratoren",
     "Developer documentation" : "Dokumentation für Entwickler",
     "Update to {update}" : "Aktualisieren auf {update}",
+    "{counter} apps have an update available" : "Für {counter} Apps ist ein Update erhältlich",
+    "Update all" : "Alle aktualisieren",
     "Results from other categories" : "Ergebnisse aus anderen Kategorien",
     "No apps found for your version" : "Es wurden keine Apps für Deine Version gefunden",
     "Disable all" : "Alle deaktivieren",

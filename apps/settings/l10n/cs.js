@@ -142,6 +142,8 @@ OC.L10N.register(
     "Admin documentation" : "Dokumentace pro správce",
     "Developer documentation" : "Dokumentace pro vývojáře",
     "Update to {update}" : "Aktualizovat na {update}",
+    "{counter} apps have an update available" : "pro {counter} aplikací je k dispozici aktualizace",
+    "Update all" : "Aktualizovat vše",
     "Results from other categories" : "Výsledky z ostatních kategorií",
     "No apps found for your version" : "Nebyly nalezeny aplikace pro vaši verzi",
     "Disable all" : "Zakázat vše",

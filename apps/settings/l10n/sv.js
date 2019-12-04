@@ -142,6 +142,8 @@ OC.L10N.register(
     "Admin documentation" : "Administratörsdokumentation",
     "Developer documentation" : "Utvecklardokumentation",
     "Update to {update}" : "Uppdatera till {update}",
+    "{counter} apps have an update available" : "{counter} appar har en uppdatering tillgänglig",
+    "Update all" : "Uppdatera alla",
     "Results from other categories" : "Resultat från andra kategorier",
     "No apps found for your version" : "Inga appar funna för din version",
     "Disable all" : "Inaktivera alla",
