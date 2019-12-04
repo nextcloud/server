@@ -158,6 +158,15 @@ script('core', [
 		</fieldset>
 	<?php endif ?>
 
+	<fieldset>
+		<p class="info">
+			<input type="checkbox" id="install-recommended-apps" name="install-recommended-apps" class="checkbox checkbox--white" checked>
+			<label for="install-recommended-apps">
+				<?php p($l->t( 'Install recommended apps' )); ?>
+			</label>
+		</p>
+	</fieldset>
+
 	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>"></div>

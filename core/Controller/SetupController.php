@@ -31,6 +31,7 @@ namespace OC\Core\Controller;
 
 use OC\Setup;
 use OCP\ILogger;
+use function urlencode;
 
 class SetupController {
 	/** @var Setup */
@@ -76,7 +77,7 @@ class SetupController {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			} else {
-				$this->finishSetup();
+				$this->finishSetup(isset($post['install-recommended-apps']));
 			}
 		} else {
 			$options = array_merge($opts, $post);
@@ -105,7 +106,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	public function finishSetup() {
+	private function finishSetup(bool $installRecommended) {
 		if( file_exists( $this->autoConfigFile )) {
 			unlink($this->autoConfigFile);
 		}
@@ -117,6 +118,12 @@ class SetupController {
 			}
 		}
 
+		if ($installRecommended) {
+			$urlGenerator = \OC::$server->getURLGenerator();
+			$location = $urlGenerator->getAbsoluteURL('/index.php/settings/apps/recommended?download&returnTo=' . urlencode(\OC_Util::getDefaultPageUrl()));
+			header('Location: ' . $location);
+			exit();
+		}
 		\OC_Util::redirectToDefaultPage();
 	}
 

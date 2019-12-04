@@ -96,9 +96,11 @@
 </template>
 
 <script>
+import pLimit from 'p-limit'
+
 import AppItem from './AppList/AppItem'
 import PrefixMixin from './PrefixMixin'
-import pLimit from 'p-limit'
+import recommended from '../recommendedApps'
 
 export default {
 	name: 'AppList',
@@ -129,26 +131,26 @@ export default {
 					return OC.Util.naturalSortCompare(sortStringA, sortStringB)
 				})
 
-			if (this.category === 'installed') {
+			switch (this.category) {
+			case 'installed':
 				return apps.filter(app => app.installed)
-			}
-			if (this.category === 'enabled') {
+			case 'recommended':
+				return apps.filter(app => recommended.includes(app.id))
+			case 'enabled':
 				return apps.filter(app => app.active && app.installed)
-			}
-			if (this.category === 'disabled') {
+			case 'disabled':
 				return apps.filter(app => !app.active && app.installed)
-			}
-			if (this.category === 'app-bundles') {
+			case 'app-bundles':
 				return apps.filter(app => app.bundles)
-			}
-			if (this.category === 'updates') {
+			case 'updates':
 				return apps.filter(app => app.update)
+			default:
+				// filter app store categories
+				return apps.filter(app => {
+					return app.appstore && app.category !== undefined
+							&& (app.category === this.category || app.category.indexOf(this.category) > -1)
+				})
 			}
-			// filter app store categories
-			return apps.filter(app => {
-				return app.appstore && app.category !== undefined
-					&& (app.category === this.category || app.category.indexOf(this.category) > -1)
-			})
 		},
 		bundles() {
 			return this.$store.getters.getServerData.bundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
@@ -175,7 +177,7 @@ export default {
 			return !this.useListView && !this.useBundleView
 		},
 		useListView() {
-			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates')
+			return ['installed', 'recommended', 'enabled', 'disabled', 'updates'].includes(this.category)
 		},
 		useBundleView() {
 			return (this.category === 'app-bundles')
@@ -194,6 +196,24 @@ export default {
 				}
 				return t('settings', 'Enable all')
 			}
+		}
+	},
+	mounted() {
+		if (this.category === 'recommended' && 'download' in this.$route.query) {
+			const limit = pLimit(1)
+			const installing = this.apps
+				.filter(app => !app.active && app.canInstall)
+				.map(app => limit(() => this.$store.dispatch('enableApp', { appId: app.id, groups: [] })))
+			console.debug(`installing ${installing.length} recommended apps`)
+			Promise.all(installing)
+				.then(() => {
+					console.info('recommended apps installed')
+
+					if ('returnTo' in this.$route.query) {
+						window.location = this.$route.query.returnTo
+					}
+				})
+				.catch(e => console.error('could not install recommended apps', e))
 		}
 	},
 	methods: {
