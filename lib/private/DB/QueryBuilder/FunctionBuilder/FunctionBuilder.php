@@ -85,4 +85,12 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function min($field) {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($field) . ')');
 	}
+
+	public function greatest($x, $y) {
+		return new QueryFunction('GREATEST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	}
+
+	public function least($x, $y) {
+		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	}
 }

@@ -81,6 +81,17 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
+	public function testSizePropagationNoNegative() {
+		$paths = ['', 'foo', 'foo/bar'];
+		$oldInfos = $this->getFileInfos($paths);
+		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), -100);
+		$newInfos = $this->getFileInfos($paths);
+
+		foreach ($oldInfos as $i => $oldInfo) {
+			$this->assertEquals(-1, $newInfos[$i]->getSize());
+		}
+	}
+
 	public function testBatchedPropagation() {
 		$this->storage->mkdir('foo/baz');
 		$this->storage->mkdir('asd');
