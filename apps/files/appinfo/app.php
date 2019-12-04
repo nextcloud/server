@@ -26,6 +26,9 @@
  */
 
 use OC\Search\Provider\File;
+use OCA\Files\AppInfo\Application;
+
+$app = \OC::$server->query(Application::class);
 
 // required for translation purpose
 // t('Files')

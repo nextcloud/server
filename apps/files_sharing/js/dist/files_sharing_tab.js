@@ -1096,5 +1096,5 @@ var kt=function(){function t(){!function(t,e){if(!(t instanceof e))throw new Typ
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-window.OCA&&window.OCA.Sharing&&Object.assign(window.OCA.Sharing,{ShareSearch:new wt}),window.OCA&&window.OCA.Sharing&&Object.assign(window.OCA.Sharing,{ExternalLinkActions:new Mt}),Object.assign(window.OCA.Sharing,{ShareTabSections:new kt}),window.addEventListener("DOMContentLoaded",(function(){OCA.Files&&OCA.Files.Sidebar&&OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab("sharing",gt))}))}]);
+window.OCA.Sharing||(window.OCA.Sharing={}),Object.assign(window.OCA.Sharing,{ShareSearch:new wt}),Object.assign(window.OCA.Sharing,{ExternalLinkActions:new Mt}),Object.assign(window.OCA.Sharing,{ShareTabSections:new kt}),window.addEventListener("DOMContentLoaded",(function(){OCA.Files&&OCA.Files.Sidebar&&OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab("sharing",gt))}))}]);
 //# sourceMappingURL=files_sharing_tab.js.map

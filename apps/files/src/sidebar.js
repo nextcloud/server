@@ -31,11 +31,11 @@ Vue.use(VueClipboard)
 Vue.prototype.t = t
 
 window.addEventListener('DOMContentLoaded', () => {
+
 	// Init Sidebar Service
 	if (!window.OCA.Files) {
 		window.OCA.Files = {}
 	}
-
 	Object.assign(window.OCA.Files, { Sidebar: new Sidebar() })
 	Object.assign(window.OCA.Files.Sidebar, { Tab })
 
