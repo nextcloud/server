@@ -215,6 +215,9 @@ class OwnershipTransferService {
 		return $shares;
 	}
 
+	/**
+	 * @throws TransferOwnershipException
+	 */
 	protected function transferFiles(string $sourceUid,
 									 string $sourcePath,
 									 string $finalTarget,
@@ -228,7 +231,9 @@ class OwnershipTransferService {
 			$view->mkdir($finalTarget);
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
-		$view->rename($sourcePath, $finalTarget);
+		if ($view->rename($sourcePath, $finalTarget) === false) {
+			throw new TransferOwnershipException("Could not transfer files", 1);
+		}
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$sourceUid/files");
