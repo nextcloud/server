@@ -27,14 +27,14 @@
 
 namespace OCA\Files\AppInfo;
 
-use OCA\Files\Activity\Helper;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
-use OCA\Files\Controller\ViewController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
+use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Service\TagService;
 use OCP\AppFramework\App;
@@ -97,6 +97,7 @@ class Application extends App {
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = $container->query(IEventDispatcher::class);
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
+		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 
 		/** @var \OCP\Notification\IManager $notifications */
 		$notifications = $container->query(\OCP\Notification\IManager::class);

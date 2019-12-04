@@ -199,6 +199,8 @@ export default {
 		defaultAction() {
 			return this.fileInfo
 				&& OCA.Files && OCA.Files.App && OCA.Files.App.fileList
+				&& OCA.Files.App.fileList.fileActions
+				&& OCA.Files.App.fileList.fileActions.getDefaultFileAction
 				&& OCA.Files.App.fileList
 					.fileActions.getDefaultFileAction(this.fileInfo.mimetype, this.fileInfo.type, OC.PERMISSION_READ)
 
@@ -239,7 +241,7 @@ export default {
 					})
 				} catch (error) {
 					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data')
+					console.error('Error while loading the file data', error)
 				}
 			}
 		}
@@ -272,11 +274,42 @@ export default {
 				}
 			})
 		},
+
 		getPreviewIfAny(fileInfo) {
 			if (fileInfo.hasPreview) {
 				return OC.generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
-			return OCA.Files.App.fileList._getIconUrl(fileInfo)
+			return this.getIconUrl(fileInfo)
+		},
+
+		/**
+		 * Copied from https://github.com/nextcloud/server/blob/16e0887ec63591113ee3f476e0c5129e20180cde/apps/files/js/filelist.js#L1377
+		 * TODO: We also need this as a standalone library
+		 *
+		 * @param {Object} fileInfo the fileinfo
+		 * @returns {string} Url to the icon for mimeType
+		 */
+		getIconUrl(fileInfo) {
+			var mimeType = fileInfo.mimetype || 'application/octet-stream'
+			if (mimeType === 'httpd/unix-directory') {
+				// use default folder icon
+				if (fileInfo.mountType === 'shared' || fileInfo.mountType === 'shared-root') {
+					return OC.MimeType.getIconUrl('dir-shared')
+				} else if (fileInfo.mountType === 'external-root') {
+					return OC.MimeType.getIconUrl('dir-external')
+				} else if (fileInfo.mountType !== undefined && fileInfo.mountType !== '') {
+					return OC.MimeType.getIconUrl('dir-' + fileInfo.mountType)
+				} else if (fileInfo.shareTypes && (
+					fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_LINK) > -1
+					|| fileInfo.shareTypes.indexOf(OC.Share.SHARE_TYPE_EMAIL) > -1)
+				) {
+					return OC.MimeType.getIconUrl('dir-public')
+				} else if (fileInfo.shareTypes && fileInfo.shareTypes.length > 0) {
+					return OC.MimeType.getIconUrl('dir-shared')
+				}
+				return OC.MimeType.getIconUrl('dir')
+			}
+			return OC.MimeType.getIconUrl(mimeType)
 		},
 
 		tabComponent(tab) {
