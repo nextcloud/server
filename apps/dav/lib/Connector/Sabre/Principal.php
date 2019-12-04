@@ -40,6 +40,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -79,6 +80,9 @@ class Principal implements BackendInterface {
 	/** @var ProxyMapper */
 	private $proxyMapper;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * Principal constructor.
 	 *
@@ -88,6 +92,7 @@ class Principal implements BackendInterface {
 	 * @param IUserSession $userSession
 	 * @param IAppManager $appManager
 	 * @param ProxyMapper $proxyMapper
+	 * @param IConfig $config
 	 * @param string $principalPrefix
 	 */
 	public function __construct(IUserManager $userManager,
@@ -96,6 +101,7 @@ class Principal implements BackendInterface {
 								IUserSession $userSession,
 								IAppManager $appManager,
 								ProxyMapper $proxyMapper,
+								IConfig $config,
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -105,6 +111,7 @@ class Principal implements BackendInterface {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 		$this->proxyMapper = $proxyMapper;
+		$this->config = $config;
 	}
 
 	use PrincipalProxyTrait {
@@ -240,6 +247,8 @@ class Principal implements BackendInterface {
 			return [];
 		}
 
+		$allowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
 		$restrictGroups = false;
@@ -257,6 +266,12 @@ class Principal implements BackendInterface {
 				case '{http://sabredav.org/ns}email-address':
 					$users = $this->userManager->getByEmail($value);
 
+					if (!$allowEnumeration) {
+						$users = \array_filter($users, static function(IUser $user) use ($value) {
+							return $user->getEMailAddress() === $value;
+						});
+					}
+
 					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {
@@ -273,6 +288,12 @@ class Principal implements BackendInterface {
 
 				case '{DAV:}displayname':
 					$users = $this->userManager->searchDisplayName($value);
+
+					if (!$allowEnumeration) {
+						$users = \array_filter($users, static function(IUser $user) use ($value) {
+							return $user->getDisplayName() === $value;
+						});
+					}
 
 					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
