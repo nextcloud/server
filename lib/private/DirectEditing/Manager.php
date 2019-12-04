@@ -36,6 +36,7 @@ use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUserSession;
@@ -103,25 +104,21 @@ class Manager implements IManager {
 		foreach ($creators as $creator) {
 			if ($creator->getId() === $creatorId) {
 				$creator->create($file, $creatorId, $templateId);
-				return $this->createToken($editorId, $file);
+				return $this->createToken($editorId, $file, $path);
 			}
 		}
 		throw new \RuntimeException('No creator found');
 	}
 
-	public function open(int $fileId, string $editorId = null): string {
-		$file = $this->rootFolder->getUserFolder($this->userId)->getById($fileId);
-		if (count($file) === 0 || !($file[0] instanceof File) || $file === null) {
-			throw new NotFoundException();
-		}
+	public function open(string $filePath, string $editorId = null): string {
 		/** @var File $file */
-		$file = $file[0];
+		$file = $this->rootFolder->getUserFolder($this->userId)->get($filePath);
 
 		if ($editorId === null) {
 			$editorId = $this->findEditorForFile($file);
 		}
 
-		return $this->createToken($editorId, $file);
+		return $this->createToken($editorId, $file, $filePath);
 	}
 
 	private function findEditorForFile(File $file) {
@@ -212,7 +209,7 @@ class Manager implements IManager {
 		\OC_User::setUserId($userId);
 	}
 
-	public function createToken($editorId, File $file, IShare $share = null): string {
+	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {
 		$token = $this->random->generate(64, ISecureRandom::CHAR_HUMAN_READABLE);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_TOKENS)
@@ -220,6 +217,7 @@ class Manager implements IManager {
 				'token' => $query->createNamedParameter($token),
 				'editor_id' => $query->createNamedParameter($editorId),
 				'file_id' => $query->createNamedParameter($file->getId()),
+				'file_path' => $query->createNamedParameter($filePath),
 				'user_id' => $query->createNamedParameter($this->userId),
 				'share_id' => $query->createNamedParameter($share !== null ? $share->getId(): null),
 				'timestamp' => $query->createNamedParameter(time())
@@ -228,9 +226,23 @@ class Manager implements IManager {
 		return $token;
 	}
 
-	public function getFileForToken($userId, $fileId) {
+	/**
+	 * @param $userId
+	 * @param $fileId
+	 * @param null $filePath
+	 * @return Node
+	 * @throws NotFoundException
+	 */
+	public function getFileForToken($userId, $fileId, $filePath = null): Node {
 		$userFolder = $this->rootFolder->getUserFolder($userId);
-		return $userFolder->getById($fileId)[0];
+		if ($filePath !== null) {
+			return $userFolder->get($filePath);
+		}
+		$files = $userFolder->getById($fileId);
+		if (count($files) === 0) {
+			throw new NotFoundException('File nound found by id ' . $fileId);
+		}
+		return $files[0];
 	}
 
 }
