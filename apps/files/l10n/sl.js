@@ -47,7 +47,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Mapa ni na voljo. Preverite dnevnik in stopite v stik s skrbnikom sistema.",
     "Could not move \"{file}\", target exists" : "Datoteke »{file}« ni mogoče premakniti, ker na ciljnem mestu z istim imenom že obstaja.",
     "Could not move \"{file}\"" : "Datoteke »{file}« ni mogoče premakniti",
-    "copy" : "kopiraj",
+    "copy" : "kopija",
     "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja.",
     "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
     "Copied {origin} inside {destination}" : "Kopirano {origin} v {destination}",
