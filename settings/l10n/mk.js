@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Migration in progress. Please wait until the migration is finished" : "Миграцијата е во тек. Ве молиме почекајте додека миграцијата заврши",
     "Migration started …" : "Миграцијата е започнаа ...",
-    "Saved" : "Снимено",
+    "Saved" : "Зачувано",
     "Not saved" : "Не е зачувано",
     "Sending…" : "Испраќа…",
     "Email sent" : "Е-порака пратена",
@@ -70,7 +70,7 @@ OC.L10N.register(
     "Wrong admin recovery password. Please check the password and try again." : "Погрешна лозинка за поврат на администраторот. Ве молам проверете ја лозинката и пробајте повторно.",
     "Backend doesn't support password change, but the user's encryption key was updated." : "Позадината не подржува промена на лозинката, но корисничкиот клуч за енкрипција е ажуриран.",
     "installing and updating apps via the app store or Federated Cloud Sharing" : "инсталирање и ажурирање на апликации преку продавницата за апликации или Федерално споделување на облак",
-    "Federated Cloud Sharing" : "Федерирано клауд споделување",
+    "Federated Cloud Sharing" : "Федеретивно споделување",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cURL користи застарена %1$s верзија (%2$s). Ве молиме ажурирајте го вашиот оперативен систем или можностите како %3$s нема да работат безбедно.",
     "Invalid SMTP password." : "Грешна SMTP лозинка.",
     "Email setting test" : "Тест за параметри на е-пошта",

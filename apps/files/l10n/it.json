@@ -136,6 +136,7 @@
     "Upload (max. %s)" : "Carica (massimo %s)",
     "Accept" : "Accetta",
     "Decline" : "Rifiuta",
+    "Incoming file transfer from {user}" : "Trasferimento file in ingressso da {user}",
     "Do you want to accept {path}?" : "Vuoi accettare {path}?",
     "File transfer failed" : "Trasferimento file non riuscito",
     "Your transfer of {path} to {user} failed." : "Il tuo trasferimento di {path} a {user} non è riuscito.",
