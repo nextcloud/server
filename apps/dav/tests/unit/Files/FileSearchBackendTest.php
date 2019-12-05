@@ -35,7 +35,9 @@ use OCA\DAV\Files\FileSearchBackend;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
@@ -307,5 +309,82 @@ class FileSearchBackendTest extends TestCase {
 
 		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, '{DAV:}displayname', 'foo');
 		$this->search->search($query);
+	}
+
+	public function testSearchLimitOwnerBasic() {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		/** @var ISearchQuery|null $receivedQuery */
+		$receivedQuery = null;
+		$this->searchFolder
+			->method('search')
+			->will($this->returnCallback(function ($query) use (&$receivedQuery) {
+				$receivedQuery = $query;
+				return [
+					new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
+				];
+			}));
+
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
+		$this->search->search($query);
+
+		$this->assertNotNull($receivedQuery);
+		$this->assertTrue($receivedQuery->limitToHome());
+
+		/** @var ISearchBinaryOperator $operator */
+		$operator = $receivedQuery->getSearchOperation();
+		$this->assertInstanceOf(ISearchBinaryOperator::class, $operator);
+		$this->assertEquals(ISearchBinaryOperator::OPERATOR_AND, $operator->getType());
+		$this->assertEmpty($operator->getArguments());
+	}
+
+	public function testSearchLimitOwnerNested() {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		/** @var ISearchQuery|null $receivedQuery */
+		$receivedQuery = null;
+		$this->searchFolder
+			->method('search')
+			->will($this->returnCallback(function ($query) use (&$receivedQuery) {
+				$receivedQuery = $query;
+				return [
+					new \OC\Files\Node\Folder($this->rootFolder, $this->view, '/test/path')
+				];
+			}));
+
+		$query = $this->getBasicQuery(\SearchDAV\Query\Operator::OPERATION_EQUAL, FilesPlugin::OWNER_ID_PROPERTYNAME, $this->user->getUID());
+		$query->where = new \SearchDAV\Query\Operator(
+			\SearchDAV\Query\Operator::OPERATION_AND,
+			[
+				new \SearchDAV\Query\Operator(
+					\SearchDAV\Query\Operator::OPERATION_EQUAL,
+					[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new \SearchDAV\Query\Literal('image/png')]
+				),
+				new \SearchDAV\Query\Operator(
+					\SearchDAV\Query\Operator::OPERATION_EQUAL,
+					[new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, true), new \SearchDAV\Query\Literal($this->user->getUID())]
+				)
+			]
+		);
+		$this->search->search($query);
+
+		$this->assertNotNull($receivedQuery);
+		$this->assertTrue($receivedQuery->limitToHome());
+
+		/** @var ISearchBinaryOperator $operator */
+		$operator = $receivedQuery->getSearchOperation();
+		$this->assertInstanceOf(ISearchBinaryOperator::class, $operator);
+		$this->assertEquals(ISearchBinaryOperator::OPERATOR_AND, $operator->getType());
+		$this->assertCount(2, $operator->getArguments());
+
+		/** @var ISearchBinaryOperator $operator */
+		$operator = $operator->getArguments()[1];
+		$this->assertInstanceOf(ISearchBinaryOperator::class, $operator);
+		$this->assertEquals(ISearchBinaryOperator::OPERATOR_AND, $operator->getType());
+		$this->assertEmpty($operator->getArguments());
 	}
 }

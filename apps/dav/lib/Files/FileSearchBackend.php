@@ -119,6 +119,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, true, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
+			new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, false),
 
 			// select only properties
 			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
@@ -126,7 +127,6 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, false, true, false),
 			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
@@ -169,10 +169,12 @@ class FileSearchBackend implements ISearchBackend {
 			return new SearchResult($davNode, $path);
 		}, $results);
 
-		// Sort again, since the result from multiple storages is appended and not sorted
-		usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
-			return $this->sort($a, $b, $search->orderBy);
-		});
+		if (!$query->limitToHome()) {
+			// Sort again, since the result from multiple storages is appended and not sorted
+			usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
+				return $this->sort($a, $b, $search->orderBy);
+			});
+		}
 
 		// If a limit is provided use only return that number of files
 		if ($search->limit->maxResults !== 0) {
@@ -267,11 +269,29 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param Query $query
 	 * @return ISearchQuery
 	 */
-	private function transformQuery(Query $query) {
+	private function transformQuery(Query $query): ISearchQuery {
 		// TODO offset
 		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		return new SearchQuery($this->transformSearchOperation($query->where), (int)$limit->maxResults, 0, $orders, $this->user);
+
+		$limitHome = false;
+		$ownerProp = $this->extractWhereValue($query->where, FilesPlugin::OWNER_ID_PROPERTYNAME, Operator::OPERATION_EQUAL);
+		if ($ownerProp !== null) {
+			if ($ownerProp === $this->user->getUID()) {
+				$limitHome = true;
+			} else {
+				throw new \InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
+			}
+		}
+
+		return new SearchQuery(
+			$this->transformSearchOperation($query->where),
+			(int)$limit->maxResults,
+			0,
+			$orders,
+			$this->user,
+			$limitHome
+		);
 	}
 
 	/**
@@ -358,6 +378,54 @@ class FileSearchBackend implements ISearchBackend {
 				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;
+		}
+	}
+
+	/**
+	 * Get a specific property from the were clause
+	 */
+	private function extractWhereValue(Operator &$operator, string $propertyName, string $comparison, bool $acceptableLocation = true): ?string {
+		switch ($operator->type) {
+			case Operator::OPERATION_AND:
+			case Operator::OPERATION_OR:
+			case Operator::OPERATION_NOT:
+				foreach ($operator->arguments as &$argument) {
+					$value = $this->extractWhereValue($argument, $propertyName, $comparison, $acceptableLocation && $operator->type === Operator::OPERATION_AND);
+					if ($value !== null) {
+						return $value;
+					}
+				}
+				return null;
+			case Operator::OPERATION_EQUAL:
+			case Operator::OPERATION_GREATER_OR_EQUAL_THAN:
+			case Operator::OPERATION_GREATER_THAN:
+			case Operator::OPERATION_LESS_OR_EQUAL_THAN:
+			case Operator::OPERATION_LESS_THAN:
+			case Operator::OPERATION_IS_LIKE:
+				if ($operator->arguments[0]->name === $propertyName) {
+					if ($operator->type === $comparison) {
+						if ($acceptableLocation) {
+							if ($operator->arguments[1] instanceof Literal) {
+								$value = $operator->arguments[1]->value;
+
+								// to remove the comparison from the query, we replace it with an empty AND
+								$operator = new Operator(Operator::OPERATION_AND);
+
+								return $value;
+							} else {
+								throw new \InvalidArgumentException("searching by '$propertyName' is only allowed with a literal value");
+							}
+						} else{
+							throw new \InvalidArgumentException("searching by '$propertyName' is not allowed inside a '{DAV:}or' or '{DAV:}not'");
+						}
+					} else {
+						throw new \InvalidArgumentException("searching by '$propertyName' is only allowed inside a '$comparison'");
+					}
+				} else {
+					return null;
+				}
+			default:
+				return null;
 		}
 	}
 }
