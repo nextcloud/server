@@ -1163,10 +1163,9 @@
          * @private
          */
 		_onSelectTag: function(tagModel) {
-        	console.log('selected',tagModel.attributes);
         	var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
 			if (!_.isArray(selectedFiles)) {
-				console.log('selected files - no array!', selectedFiles);
+				return;
 			}
             selectedFiles.forEach(function(fileId) {
                 $.ajax({
@@ -1182,10 +1181,9 @@
          * @private
          */
 		_onDeselectTag: function(tagId) {
-            var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
-            console.log('removing tag', tagId, 'for files', selectedFiles, this.getSelectedFiles())
+            var selectedFiles = _.pluck(this.getSelectedFiles(),'id');
             if (!_.isArray(selectedFiles)) {
-                console.log('selected files - no array!', selectedFiles);
+                return;
             }
             selectedFiles.forEach(function(fileId) {
             	console.log('remove tag route',OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagId)
