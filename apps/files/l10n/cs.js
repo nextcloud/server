@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "Accept" : "Přijmout",
     "Decline" : "Odmítnout",
+    "Incoming file transfer from {user}" : "Příchozí převedení souborů od {user}",
     "Do you want to accept {path}?" : "Chcete přijmout {path}?",
     "File transfer failed" : "Převedení souboru se nezdařilo",
     "Your transfer of {path} to {user} failed." : "Převedení {path} na {user} se nezdařilo.",
