@@ -2566,6 +2566,7 @@
 		 * @return {Object} new row element
 		 */
 		updateRow: function($tr, fileInfo, options) {
+			$tr.find('[data-original-title]').tooltip('hide');
 			this.files.splice($tr.index(), 1);
 			$tr.remove();
 			options = _.extend({silent: true}, options);
