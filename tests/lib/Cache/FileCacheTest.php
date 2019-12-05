@@ -95,6 +95,15 @@ class FileCacheTest extends TestCache {
 		\OC_User::setUserId($this->user);
 		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
 
+		if ($this->instance) {
+			$this->instance->clear();
+			$this->instance = null;
+		}
+
+		//tear down the users dir aswell
+		$user = \OC::$server->getUserManager()->get('test');
+		$user->delete();
+
 		// Restore the original mount point
 		\OC\Files\Filesystem::clearMounts();
 		\OC\Files\Filesystem::mount($this->storage, array(), '/');
