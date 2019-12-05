@@ -123,7 +123,7 @@ class Application extends App {
 	 *
 	 * @return FederatedShareProvider
 	 */
-	protected function getFederatedShareProvider() {
+	public function getFederatedShareProvider() {
 		if ($this->federatedShareProvider === null) {
 			$this->initFederatedShareProvider();
 		}
