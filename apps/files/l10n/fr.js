@@ -145,6 +145,7 @@ OC.L10N.register(
     "No directory selected" : "Aucun dossier sélectionné",
     "Target user" : "Utilisateur cible",
     "Submit" : "Envoyer",
+    "Invalid path selected" : "Chemin sélectionné non valide",
     "Error while loading the file data" : "Erreur lors du chargement du fichier de données",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",
     "%s used" : "%s utilisés",

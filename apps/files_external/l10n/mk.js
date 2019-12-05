@@ -97,6 +97,7 @@ OC.L10N.register(
     "Storage type" : "Вид на складиште",
     "Scope" : "Опсег",
     "Open documentation" : "Отвори ја документацијата",
+    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Надворешното складирање ви овозможува да ги монтирате услугите и уредите за надворешно складирање како секундарни уреди за складирање на Nextcloud. Вие исто така може да им дозволите на корисниците да монтираат свои услуги за надворешно складирање.",
     "Folder name" : "Име на папка",
     "External storage" : "External storage",
     "Authentication" : "Автентикација",
