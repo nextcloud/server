@@ -32,7 +32,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
-use OCA\FederatedFileSharing\OCM\CloudFederationProvider;
+use OCA\FederatedFileSharing\Notifier;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
 use OCP\AppFramework\App;
 use OCP\GlobalScale\IConfig;
@@ -99,6 +99,23 @@ class Application extends App {
 				$server->getCloudFederationProviderManager()
 			);
 		});
+
+		// register events listeners
+		$eventDispatcher = $server->getEventDispatcher();
+		$manager = $server->getNotificationManager();
+		$federatedShareProvider = $this->getFederatedShareProvider();
+
+		$manager->registerNotifierService(Notifier::class);
+		
+		$eventDispatcher->addListener(
+			'OCA\Files::loadAdditionalScripts',
+			function() use ($federatedShareProvider) {
+				if ($federatedShareProvider->isIncomingServer2serverShareEnabled()) {
+					\OCP\Util::addScript('federatedfilesharing', 'external');
+				}
+			}
+		);
+
 	}
 
 	/**
@@ -106,7 +123,7 @@ class Application extends App {
 	 *
 	 * @return FederatedShareProvider
 	 */
-	public function getFederatedShareProvider() {
+	protected function getFederatedShareProvider() {
 		if ($this->federatedShareProvider === null) {
 			$this->initFederatedShareProvider();
 		}
