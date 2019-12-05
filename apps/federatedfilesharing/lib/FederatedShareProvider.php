@@ -98,7 +98,7 @@ class FederatedShareProvider implements IShareProvider {
 	private $cloudFederationProviderManager;
 
 	/** @var array list of supported share types */
-	private $supportedShareType = [\OCP\Share::SHARE_TYPE_REMOTE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE];
+	private $supportedShareType = [IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE];
 
 	/**
 	 * DefaultShareProvider constructor.
