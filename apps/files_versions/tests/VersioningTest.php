@@ -37,6 +37,7 @@ require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\Share\IShare;
 
 /**
@@ -55,6 +56,8 @@ class VersioningTest extends \Test\TestCase {
 	 * @var \OC\Files\View
 	 */
 	private $rootView;
+	private $user1;
+	private $user2;
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -102,6 +105,13 @@ class VersioningTest extends \Test\TestCase {
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
 			$this->rootView->mkdir(self::USERS_VERSIONS_ROOT);
 		}
+
+		$this->user1 = $this->createMock(IUser::class);
+		$this->user1->method('getUID')
+			->willReturn(self::TEST_VERSIONS_USER);
+		$this->user2 = $this->createMock(IUser::class);
+		$this->user2->method('getUID')
+			->willReturn(self::TEST_VERSIONS_USER2);
 	}
 
 	protected function tearDown(): void {
@@ -130,7 +140,7 @@ class VersioningTest extends \Test\TestCase {
 		$startTime = 5000000;
 
 		$testClass = new VersionStorageToTest();
-		list($deleted, $size) = $testClass->callProtectedGetExpireList($startTime, $versions);
+		[$deleted, $size] = $testClass->callProtectedGetExpireList($startTime, $versions);
 
 		// we should have deleted 16 files each of the size 1
 		$this->assertEquals($sizeOfAllDeletedFiles, $size);
@@ -670,12 +680,54 @@ class VersioningTest extends \Test\TestCase {
 
 		$firstVersion = current($versions);
 
-		$this->assertFalse(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version']), 'Revert did not happen');
+		$this->assertFalse(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version'], $this->user2), 'Revert did not happen');
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		\OC::$server->getShareManager()->deleteShare($share);
 		$this->assertEquals('test file', $file->getContent(), 'File content has not changed');
+	}
+
+	public function testRestoreMovedShare() {
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
+		$node = $userHome->newFolder('folder');
+		$file = $node->newFile('test.txt');
+
+		$userHome2 = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER2);
+		$userHome2->newFolder('subfolder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedBy(self::TEST_VERSIONS_USER)
+			->setSharedWith(self::TEST_VERSIONS_USER2)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$share = \OC::$server->getShareManager()->createShare($share);
+		$shareManager = \OC::$server->getShareManager();
+		$shareManager->acceptShare($share, self::TEST_VERSIONS_USER2);
+
+		$share->setTarget("subfolder/folder");
+		$shareManager->moveShare($share, self::TEST_VERSIONS_USER2);
+
+		$versions = $this->createAndCheckVersions(
+			\OC\Files\Filesystem::getView(),
+			'folder/test.txt'
+		);
+
+		$file->putContent('test file');
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER2);
+
+		$firstVersion = current($versions);
+
+		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('folder/test.txt', $firstVersion['version'], $this->user1));
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		\OC::$server->getShareManager()->deleteShare($share);
+		$this->assertEquals('version 2', $file->getContent(), 'File content has not changed');
 	}
 
 	/**
@@ -738,7 +790,7 @@ class VersioningTest extends \Test\TestCase {
 		$params = array();
 		$this->connectMockHooks('rollback', $params);
 
-		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2));
+		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2, $this->user1));
 		$expectedParams = array(
 			'path' => '/sub/test.txt',
 		);
@@ -873,7 +925,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		// need to scan for the versions
-		list($rootStorage,) = $this->rootView->resolvePath(self::TEST_VERSIONS_USER . '/files_versions');
+		[$rootStorage,] = $this->rootView->resolvePath(self::TEST_VERSIONS_USER . '/files_versions');
 		$rootStorage->getScanner()->scan('files_versions');
 
 		$versions = \OCA\Files_Versions\Storage::getVersions(
