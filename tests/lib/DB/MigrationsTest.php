@@ -60,7 +60,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
 	}
 
-	
+
 	public function testExecuteUnknownStep() {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Version 20170130180000 is unknown.');
@@ -68,7 +68,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	
+
 	public function testUnknownApp() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App not found');
@@ -76,7 +76,7 @@ class MigrationsTest extends \Test\TestCase {
 		$migrationService = new MigrationService('unknown-bloody-app', $this->db);
 	}
 
-	
+
 	public function testExecuteStepWithUnknownClass() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Migration step \'X\' is unknown');
@@ -341,7 +341,7 @@ class MigrationsTest extends \Test\TestCase {
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 26));
+			->willReturn(\str_repeat('a', 25));
 
 		$table->expects($this->once())
 			->method('getColumns')
@@ -375,7 +375,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongTableName() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -400,7 +400,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithDefault() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -453,7 +453,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongPrimaryWithName() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -496,7 +496,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongColumnName() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -530,7 +530,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongIndexName() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -567,7 +567,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongForeignKeyName() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -607,7 +607,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
 	}
 
-	
+
 	public function testEnsureOracleIdentifierLengthLimitTooLongSequenceName() {
 		$this->expectException(\InvalidArgumentException::class);
 

@@ -31,7 +31,7 @@ use OCP\IDBConnection;
 
 class TransferOwnershipMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'user_transfer_ownership', TransferOwnership::class);
+		parent::__construct($db, 'user_transfer_owner', TransferOwnership::class);
 	}
 
 	public function getById(int $id): TransferOwnership {
