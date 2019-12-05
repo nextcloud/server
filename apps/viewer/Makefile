@@ -57,8 +57,7 @@ stylelint-fix:
 
 # Cleaning
 clean:
-	rm -f js/viewer.js
-	rm -f js/viewer.js.map
+	rm -rf js/
 
 clean-dev:
 	rm -rf node_modules
