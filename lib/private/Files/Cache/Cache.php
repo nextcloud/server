@@ -797,6 +797,10 @@ class Cache implements ICache {
 			$query->andWhere($searchExpr);
 		}
 
+		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
+			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));
+		}
+
 		$this->querySearchHelper->addSearchOrdersToQuery($query, $searchQuery->getOrder());
 
 		if ($searchQuery->getLimit()) {
