@@ -30,10 +30,11 @@ export default {
 		 * @returns {string}
 		 */
 		previewpath() {
-			if (this.hasPreview) {
-				return generateUrl(`/core/preview?fileId=${this.fileid}&x=${screen.width}&y=${screen.height}&a=true`)
-			}
-			return this.davPath
+			return this.getPreviewIfAny({
+				fileid: this.fileid,
+				hasPreview: this.hasPreview,
+				davPath: this.davPath,
+			})
 		},
 		/**
 		 * Absolute dav remote path of the file
@@ -41,6 +42,24 @@ export default {
 		 */
 		davPath() {
 			return generateRemoteUrl(`dav/files/${getCurrentUser().uid}${this.filename}`)
+		},
+	},
+	methods: {
+		/**
+		 * Return the preview url if the file have an existing
+		 * preview or the absolute dav remote path if none.
+		 *
+		 * @param {Object} data destructuring object
+		 * @param {string} data.fileid the file id
+		 * @param {boolean} data.hasPreview have the file an existing preview ?
+		 * @param {string} data.davPath the absolute dav path
+		 * @returns {String} the absolute url
+		 */
+		getPreviewIfAny({ fileid, hasPreview, davPath }) {
+			if (hasPreview) {
+				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
+			}
+			return davPath
 		},
 	},
 }

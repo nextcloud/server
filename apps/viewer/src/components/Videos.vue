@@ -57,6 +57,7 @@ import Mime from '../mixins/Mime'
 import PreviewUrl from '../mixins/PreviewUrl'
 
 const liveExt = ['jpg', 'jpeg', 'png']
+const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
 
 export default {
 	name: 'Videos',
@@ -73,9 +74,15 @@ export default {
 		livePhoto() {
 			return this.fileList.find(file => {
 				// if same filename and extension is allowed
-				return file.filename !== this.davPath
-					&& file.basename.startsWith(this.basename)
-					&& liveExt.indexOf(file.basename.split('.')[1]) > -1
+				console.info(
+					file.filename,
+					file.filename !== this.filename,
+					file.basename.startsWith(this.basename),
+					liveExtRegex.exec(file.basename)
+				)
+				return file.filename !== this.filename
+					&& file.basename.startsWith(this.name)
+					&& liveExtRegex.test(file.basename)
 			})
 		},
 		livePhotoPath() {
@@ -91,7 +98,7 @@ export default {
 
 			// the item was playing before and is now hidden
 			} else if (val === false && old === true) {
-				console.info(val);
+				console.info(val)
 				this.$el.pause()
 			}
 		},

@@ -30,7 +30,7 @@
 		:spread-navigation="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
-		:title="currentFile.name"
+		:title="currentFile.basename"
 		:enable-swipe="canSwipe"
 		:size="isMobile || isFullscreen ? 'full' : 'large'"
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
@@ -60,7 +60,7 @@
 		<Error
 			v-else-if="previousFile"
 			class="hidden-visually"
-			:name="previousFile.name" />
+			:name="previousFile.basename" />
 
 		<!-- CURRENT -->
 		<component
@@ -79,7 +79,7 @@
 			@error="currentFailed" />
 		<Error
 			v-else
-			:name="currentFile.name" />
+			:name="currentFile.basename" />
 
 		<!-- NEXT -->
 		<component
@@ -94,7 +94,7 @@
 		<Error
 			v-else-if="nextFile"
 			class="hidden-visually"
-			:name="nextFile.name" />
+			:name="nextFile.basename" />
 	</Modal>
 </template>
 

@@ -21,6 +21,7 @@
  */
 import debounce from 'debounce'
 import PreviewUrl from '../mixins/PreviewUrl'
+import parsePath from 'path-parse'
 
 export default {
 	inheritAttrs: false,
@@ -96,10 +97,10 @@ export default {
 
 	computed: {
 		name() {
-			return this.basename.split('.')[0]
+			return parsePath(this.basename).name
 		},
 		ext() {
-			return this.basename.split('.')[1]
+			return parsePath(this.basename).ext
 		},
 	},
 

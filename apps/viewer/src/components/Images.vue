@@ -54,6 +54,13 @@ export default {
 	mixins: [
 		Mime,
 	],
+	props: {
+		// file etag, used for cache reset
+		etag: {
+			type: String,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			dragging: false,
@@ -83,6 +90,7 @@ export default {
 				: this.zoomWidth + 'px'
 		},
 	},
+
 	asyncComputed: {
 		data() {
 			switch (this.mime) {
@@ -124,7 +132,7 @@ export default {
 		 * @returns {String}
 		 */
 		async getBase64FromImage() {
-			const file = await axios.get(this.path)
+			const file = await axios.get(this.davPath)
 			return `data:${this.mime};base64,${btoa(file.data)}`
 		},
 
