@@ -127,7 +127,7 @@ class Application extends \OCP\AppFramework\App {
 							}
 						}
 					);
-				}, $eventNames);
+				}, $eventNames ?? []);
 			}
 		}
 	}
