@@ -127,7 +127,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 			);
 
 		$disapproveAction = $notification->createAction()
-			->setParsedLabel($l->t('Decline'))
+			->setParsedLabel($l->t('Reject'))
 			->setPrimary(false)
 			->setLink(
 				$this->urlGenerator->getAbsoluteURL(
