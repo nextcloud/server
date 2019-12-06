@@ -39,6 +39,7 @@ OC.L10N.register(
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Domeinua",
     "API key" : "APIaren gakoa",
+    "Global credentials" : "Kredentzial globalak",
     "Username and password" : "Erabiltzaile-izena eta pasahitza",
     "Log-in credentials, save in session" : "Saioa hasteko kredentzialak, gorde saioan",
     "RSA public key" : "RSA gako publikoa",

@@ -235,6 +235,7 @@ OC.L10N.register(
     "All languages" : "Všechny jazyky",
     "Password change is disabled because the master key is disabled" : "Změna hesla je vypnutá protože je vypnutý hlavní klíč",
     "Your apps" : "Vaše aplikace",
+    "Recommended apps" : "Doporučené aplikace",
     "Active apps" : "Aktivní aplikace",
     "Disabled apps" : "Vypnuté aplikace",
     "Updates" : "Aktualizace",

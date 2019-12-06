@@ -136,6 +136,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "File Management" : "Skráastjórnun",
     "%s used" : "%s notað",
+    "%s%% of %s used" : "%s%% af %s notað",
     "%1$s of %2$s used" : "%1$s af %2$s notað",
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
