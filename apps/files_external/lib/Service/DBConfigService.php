@@ -128,10 +128,10 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['a.mount_id', $builder->func()->count('a.mount_id', 'count')])
 			->from('external_applicable', 'a')
-			->rightJoin('a', 'external_applicable', 'b', $builder->expr()->eq('a.mount_id', 'b.mount_id'))
+			->leftJoin('a', 'external_applicable', 'b', $builder->expr()->eq('a.mount_id', 'b.mount_id'))
 			->where($builder->expr()->andX(
-				$builder->expr()->eq('a.type', $builder->createNamedParameter($applicableType, IQueryBuilder::PARAM_INT)),
-				$builder->expr()->eq('a.value', $builder->createNamedParameter($applicableId))
+				$builder->expr()->eq('b.type', $builder->createNamedParameter($applicableType, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->eq('b.value', $builder->createNamedParameter($applicableId))
 			)
 			)
 			->groupBy(['a.mount_id']);
