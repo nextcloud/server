@@ -8,7 +8,7 @@ all: dev-setup lint build-js-production test
 dev-setup: clean clean-dev npm-init
 
 npm-init:
-	npm install
+	npm ci
 
 npm-update:
 	npm update
