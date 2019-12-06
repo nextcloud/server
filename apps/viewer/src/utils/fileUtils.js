@@ -87,6 +87,13 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 		: -fileInfo1[key].localeCompare(fileInfo2[key], OC.getLanguage())
 }
 
+/**
+ * Generate a fileinfo object based on the full dav properties
+ * It will flatten everything and put all keys to camelCase
+ *
+ * @param {Object} obj the object
+ * @returns {Object}
+ */
 const genFileInfo = function(obj) {
 	const fileInfo = {}
 

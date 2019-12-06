@@ -19,16 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
 
 export default function(fileInfo, mime, component) {
-	this.path = generateRemoteUrl(`dav/files/${getCurrentUser().uid}${fileInfo.filename}`)
-	this.id = fileInfo.fileid
-	this.name = fileInfo.basename
-	this.hasPreview = fileInfo.hasPreview
-	this.mime = mime
-	this.modal = component
-	this.failed = false
-	this.loaded = false
+	const data = {
+		mime: mime,
+		modal: component,
+		failed: false,
+		loaded: false,
+	}
+
+	return Object.assign({}, fileInfo, data)
 }

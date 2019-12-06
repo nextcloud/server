@@ -20,49 +20,65 @@
  *
  */
 import debounce from 'debounce'
+import PreviewUrl from '../mixins/PreviewUrl'
+import parsePath from 'path-parse'
 
 export default {
+	inheritAttrs: false,
+	mixins: [PreviewUrl],
 	props: {
+		// Is the current component shown
 		active: {
 			type: Boolean,
 			default: false,
 		},
-		path: {
+		// file name
+		basename: {
 			type: String,
 			required: true,
 		},
-		fileId: {
+		// file path relative to user folder
+		filename: {
+			type: String,
+			required: true,
+		},
+		// file path relative to user folder
+		hasPreview: {
+			type: Boolean,
+			required: true,
+		},
+		// unique file id
+		fileid: {
 			type: Number,
 			required: true,
 		},
+		// list of all the visible files
 		fileList: {
 			type: Array,
 			default: [],
 		},
-		fileName: {
-			type: String,
-			required: true,
-		},
-		davPath: {
-			type: String,
-			required: true,
-		},
+		// file mime (aliased if specified in the model)
 		mime: {
 			type: String,
 			required: true,
 		},
+		// can the user swipe
 		canSwipe: {
 			type: Boolean,
 			default: true,
 		},
+		// is the content loaded?
+		// synced with parent
 		loaded: {
 			type: Boolean,
 			default: false,
 		},
-		sidebarShown: {
+		// is the sidebar currently opened ?
+		isSidebarShown: {
 			type: Boolean,
 			default: false,
 		},
+		// are we in fullscreen mode ?
 		isFullScreen: {
 			type: Boolean,
 			default: false,
@@ -81,10 +97,10 @@ export default {
 
 	computed: {
 		name() {
-			return this.fileName.split('.')[0]
+			return parsePath(this.basename).name
 		},
 		ext() {
-			return this.fileName.split('.')[1]
+			return parsePath(this.basename).ext
 		},
 	},
 
@@ -108,7 +124,7 @@ export default {
 	mounted() {
 		// detect error and let the viewer know
 		this.$el.addEventListener('error', e => {
-			console.error('Error loading', this.path, e)
+			console.error('Error loading', this.filename, e)
 			this.$emit('error', e)
 		})
 

@@ -30,10 +30,10 @@
 		:spread-navigation="true"
 		:has-previous="hasPrevious"
 		:has-next="hasNext"
-		:title="currentFile.name"
+		:title="currentFile.basename"
 		:enable-swipe="canSwipe"
 		:size="isMobile || isFullscreen ? 'full' : 'large'"
-		:style="{width: shownSidebar ? `calc(100% - ${sidebarWidth}px)` : null}"
+		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -51,62 +51,50 @@
 		<component
 			:is="previousFile.modal"
 			v-if="previousFile && !previousFile.failed"
-			:key="getPreviewIfAny(previousFile)"
+			:key="previousFile.fileid"
 			ref="previous-content"
-			:dav-path="previousFile.path"
-			:file-id="previousFile.id"
+			v-bind="previousFile"
 			:file-list="fileList"
-			:file-name="previousFile.name"
-			:mime="previousFile.mime"
-			:path="getPreviewIfAny(previousFile)"
 			class="hidden-visually file-view"
 			@error="previousFailed" />
 		<Error
 			v-else-if="previousFile"
 			class="hidden-visually"
-			:name="previousFile.name" />
+			:name="previousFile.basename" />
 
 		<!-- CURRENT -->
 		<component
 			:is="currentFile.modal"
 			v-if="!currentFile.failed"
-			:key="getPreviewIfAny(currentFile)"
+			:key="currentFile.fileid"
 			ref="content"
 			:active="true"
 			:can-swipe.sync="canSwipe"
-			:dav-path="currentFile.path"
-			:file-id="currentFile.id"
+			v-bind="currentFile"
 			:file-list="fileList"
-			:file-name="currentFile.name"
 			:is-full-screen="isFullscreen"
 			:loaded.sync="currentFile.loaded"
-			:mime="currentFile.mime"
-			:path="getPreviewIfAny(currentFile)"
-			:sidebar-shown="shownSidebar"
+			:is-sidebar-shown="isSidebarShown"
 			class="file-view active"
 			@error="currentFailed" />
 		<Error
 			v-else
-			:name="currentFile.name" />
+			:name="currentFile.basename" />
 
 		<!-- NEXT -->
 		<component
 			:is="nextFile.modal"
 			v-if="nextFile && !nextFile.failed"
-			:key="getPreviewIfAny(nextFile)"
+			:key="nextFile.fileid"
 			ref="next-content"
-			:dav-path="nextFile.path"
-			:file-id="nextFile.id"
+			v-bind="nextFile"
 			:file-list="fileList"
-			:file-name="nextFile.name"
-			:mime="nextFile.mime"
-			:path="getPreviewIfAny(nextFile)"
 			class="hidden-visually file-view"
 			@error="nextFailed" />
 		<Error
 			v-else-if="nextFile"
 			class="hidden-visually"
-			:name="nextFile.name" />
+			:name="nextFile.basename" />
 	</Modal>
 </template>
 
@@ -123,7 +111,6 @@ import Error from '../components/Error'
 import File from '../models/file'
 import getFileList from '../services/FileList'
 import getFileInfo from '../services/FileInfo'
-import PreviewUrl from '../mixins/PreviewUrl'
 
 import cancelableRequest from '../utils/CancelableRequest'
 
@@ -136,7 +123,7 @@ export default {
 		Error,
 	},
 
-	mixins: [isMobile, isFullscreen, PreviewUrl],
+	mixins: [isMobile, isFullscreen],
 
 	data: () => ({
 		Viewer: OCA.Viewer.state,
@@ -160,7 +147,7 @@ export default {
 		cancelRequestFile: () => {},
 		cancelRequestFolder: () => {},
 
-		shownSidebar: false,
+		isSidebarShown: false,
 		sidebarWidth: 0,
 
 		canSwipe: true,
@@ -571,7 +558,7 @@ export default {
 		},
 
 		showAppsSidebar() {
-			this.shownSidebar = true
+			this.isSidebarShown = true
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
 				sidebar.classList.add('app-sidebar--full')
@@ -588,7 +575,7 @@ export default {
 		},
 
 		hideAppsSidebar() {
-			this.shownSidebar = false
+			this.isSidebarShown = false
 			const sidebar = document.getElementById('app-sidebar')
 			if (sidebar) {
 				sidebar.classList.remove('app-sidebar--full')

@@ -20,15 +20,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
+	computed: {
+		/**
+		 * Link to the preview path if the file have a preview
+		 * @returns {string}
+		 */
+		previewpath() {
+			return this.getPreviewIfAny({
+				fileid: this.fileid,
+				hasPreview: this.hasPreview,
+				davPath: this.davPath,
+			})
+		},
+		/**
+		 * Absolute dav remote path of the file
+		 * @returns {string}
+		 */
+		davPath() {
+			return generateRemoteUrl(`dav/files/${getCurrentUser().uid}${this.filename}`)
+		},
+	},
 	methods: {
-		getPreviewIfAny(fileInfo) {
-			if (fileInfo.hasPreview) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
+		/**
+		 * Return the preview url if the file have an existing
+		 * preview or the absolute dav remote path if none.
+		 *
+		 * @param {Object} data destructuring object
+		 * @param {string} data.fileid the file id
+		 * @param {boolean} data.hasPreview have the file an existing preview ?
+		 * @param {string} data.davPath the absolute dav path
+		 * @returns {String} the absolute url
+		 */
+		getPreviewIfAny({ fileid, hasPreview, davPath }) {
+			if (hasPreview) {
+				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
-			return fileInfo.path
+			return davPath
 		},
 	},
 }
