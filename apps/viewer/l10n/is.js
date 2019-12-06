@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sýndu nýjustu myndirnar og myndskeiðin úr fríinu þínu, birtu kafla úr skúffuskáldskapnum þínum beint á Nextcloud, veldu skemmtilegustu GIF-myndirnar úr safninu þínu með forskoðun á eftirlætisskránum þínum, og margt fleira!",
     "Error loading {name}" : "Villa við að hlaða inn {name}",
     "Your browser does not support the video tag." : "Vafrinn þinn styður ekki myndskeiðamerkinguna.",
+    "Open sidebar" : "Opna hliðarspjald",
     "View" : "Skoða"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
