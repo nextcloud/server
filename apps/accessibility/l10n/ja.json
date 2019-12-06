@@ -1,6 +1,8 @@
 { "translations": {
     "Dark theme" : "ダークテーマ",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "ダークテーマは目の負担になりにくいです。このテーマは開発中のためバグを見つけたら報告してください。",
+    "High contrast mode" : "ハイ・コントラストモード",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "操作をわかりやすくするためのハイ・コントラストモード。\n見た目の美しさは低下しますが、明確さが向上します。",
     "Dyslexia font" : "Dyslexia フォント",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexicは、ディスレクシアによって引き起こされる一般的な読み間違いの一部を軽減するためにデザインされた、無料で利用できる書体/フォントです。",
     "Accessibility" : "アクセシビリティ",

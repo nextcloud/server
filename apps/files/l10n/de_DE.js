@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
+    "Incoming file transfer from {user}" : "Eingehende Dateiübertragung von {user}",
     "Do you want to accept {path}?" : "Soll der Pfad {path} bestätigt werden?",
     "File transfer failed" : "Dateiübertagung fehlgeschlagen",
     "Your transfer of {path} to {user} failed." : "Die Übertragung von {path} an {user} ist fehlgeschlagen.",

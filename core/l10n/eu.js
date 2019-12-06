@@ -261,6 +261,7 @@ OC.L10N.register(
     "You chose SQLite as database." : "SQLite hautatu duzu datu-base gisa.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite garapenerako eta instantzia txikietarako soilik erabili behar litzateke. Produkziorako beste datu-base sistema bat erabiltzea gomendatzen dugu.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Fitxategiak sinkronizatzeko bezeroak erabiltzen badituzu, SQLite ez erabiltzea aholkatzen da.",
+    "Install recommended apps" : "Instalatu gomendatutako aplikazioak",
     "Finish setup" : "Bukatu konfigurazioa",
     "Finishing …" : "Bukatzen...",
     "Need help?" : "Laguntza behar duzu?",

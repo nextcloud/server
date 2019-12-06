@@ -261,6 +261,7 @@ OC.L10N.register(
     "You chose SQLite as database." : "Você escolheu o SQLite como banco de dados.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "O SQLite deve ser usado apenas para instâncias mínimas e de desenvolvimento. Para produção, recomendamos um banco de dados diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Se você usa clientes para sincronização de arquivos, o SQLite é altamente desencorajado.",
+    "Install recommended apps" : "Instalar aplicativos recomendados",
     "Finish setup" : "Concluir configuração",
     "Finishing …" : "Finalizando...",
     "Need help?" : "Precisa de ajuda?",

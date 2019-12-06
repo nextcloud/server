@@ -259,6 +259,7 @@
     "You chose SQLite as database." : "Zvolíte jako databázi SQLite.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite by mělo být použito pouze pro opravdu malé a vývojové instance. Pro produkční použití doporučujeme použít robustnější databázové řešení.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Pokud používáte klienty pro synchronizaci souborů, je použití SQLite silně nedoporučeno.",
+    "Install recommended apps" : "Nainstalovat doporučené aplikace",
     "Finish setup" : "Dokončit nastavení",
     "Finishing …" : "Dokončování…",
     "Need help?" : "Potřebujete nápovědu?",
