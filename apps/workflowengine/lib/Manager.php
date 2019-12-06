@@ -145,7 +145,7 @@ class Manager implements IManager {
 			$operations[$operation] = $operations[$row['class']] ?? [];
 			$operations[$operation][$entity] = $operations[$operation][$entity] ?? [];
 
-			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames));
+			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames ?? []));
 		}
 		$result->closeCursor();
 
@@ -589,7 +589,7 @@ class Manager implements IManager {
 
 			$operation['checks'][] = $check;
 		}
-		$operation['events'] = json_decode($operation['events'], true);
+		$operation['events'] = json_decode($operation['events'], true) ?? [];
 
 
 		return $operation;
