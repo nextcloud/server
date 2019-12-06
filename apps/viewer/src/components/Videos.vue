@@ -22,7 +22,7 @@
 
 <template>
 	<video
-		v-if="path"
+		v-if="davPath"
 		:autoplay="active"
 		:controls="visibleControls"
 		:poster="livePhotoPath"
@@ -74,7 +74,7 @@ export default {
 			return this.fileList.find(file => {
 				// if same filename and extension is allowed
 				return file.filename !== this.davPath
-					&& file.basename.startsWith(this.name)
+					&& file.basename.startsWith(this.basename)
 					&& liveExt.indexOf(file.basename.split('.')[1]) > -1
 			})
 		},
@@ -91,6 +91,7 @@ export default {
 
 			// the item was playing before and is now hidden
 			} else if (val === false && old === true) {
+				console.info(val);
 				this.$el.pause()
 			}
 		},

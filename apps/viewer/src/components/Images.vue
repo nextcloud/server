@@ -91,7 +91,7 @@ export default {
 			case 'image/gif':
 				return this.davPath
 			default:
-				return this.path
+				return this.previewpath
 			}
 		},
 	},

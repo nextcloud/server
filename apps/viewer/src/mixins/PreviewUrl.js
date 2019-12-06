@@ -20,15 +20,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
-	methods: {
-		getPreviewIfAny(fileInfo) {
-			if (fileInfo.hasPreview) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
+	computed: {
+		/**
+		 * Link to the preview path if the file have a preview
+		 * @returns {string}
+		 */
+		previewpath() {
+			if (this.hasPreview) {
+				return generateUrl(`/core/preview?fileId=${this.fileid}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
-			return fileInfo.path
+			return this.davPath
+		},
+		/**
+		 * Absolute dav remote path of the file
+		 * @returns {string}
+		 */
+		davPath() {
+			return generateRemoteUrl(`dav/files/${getCurrentUser().uid}${this.filename}`)
 		},
 	},
 }
