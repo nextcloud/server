@@ -23,15 +23,15 @@
 	<div>
 		<h3>{{ t('files', 'Transfer ownership') }} </h3>
 		<p>
-			{{ t('files', 'Here you can select a directory that is transferred to another user. It may take some time until the process is done.') }}
+			{{ t('files', 'Select a file or directory to be transferred to another user. It may take some time until the process is done.') }}
 		</p>
 		<form @submit.prevent="submit">
 			<ol>
 				<li>
 					<div class="step-header">
-						{{ t('files', 'Directory to move') }}
+						{{ t('files', 'File or directory be transferred') }}
 					</div>
-					<span v-if="directory === undefined">{{ t('files', 'No directory selected') }}</span>
+					<span v-if="directory === undefined">{{ t('files', 'Nothing selected') }}</span>
 					<span v-else>{{ directory }}</span>
 					<button class="primary" @click.prevent="start">
 						{{ t('files', 'Select') }}
@@ -61,7 +61,7 @@
 				<li>
 					<input type="submit"
 						class="primary"
-						:value="t('files', 'Submit')"
+						:value="t('files', 'Transfer')"
 						:disabled="!canSubmit">
 					<span class="error">{{ submitError }}</span>
 				</li>
@@ -80,7 +80,7 @@ import Vue from 'vue'
 
 import logger from '../logger'
 
-const picker = getFilePickerBuilder(t('files', 'Select directory to transfer'))
+const picker = getFilePickerBuilder(t('files', 'Select a file or directory to be transferred'))
 	.setMultiSelect(false)
 	.setModal(true)
 	.setType(1)
@@ -127,7 +127,7 @@ export default {
 			picker.pick()
 				.then(dir => dir === '' ? '/' : dir)
 				.then(dir => {
-					logger.debug(`path ${dir} selected for transfer ownership`)
+					logger.debug(`path ${dir} selected for transferring ownership`)
 					if (!dir.startsWith('/')) {
 						throw new Error(t('files', 'Invalid path selected'))
 					}
@@ -135,7 +135,7 @@ export default {
 					// /ocs/v2.php/apps/files/api/v1/transferownership
 					this.directory = dir
 				}).catch(error => {
-					logger.error(`Selecting dir for transfer aborted: ${error.message || 'Unknown error'}`, { error })
+					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
 				})
