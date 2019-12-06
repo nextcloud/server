@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "Accept" : "Acceptera",
     "Decline" : "Neka",
+    "Incoming file transfer from {user}" : "Inkommande filöverföring från {user}",
     "Do you want to accept {path}?" : "Vill du acceptera {path}?",
     "File transfer failed" : "Filöverföringen misslyckades",
     "Your transfer of {path} to {user} failed." : "Din överföring av {path} till {user} misslyckades.",

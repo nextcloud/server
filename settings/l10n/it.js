@@ -235,6 +235,7 @@ OC.L10N.register(
     "All languages" : "Tutte le lingue",
     "Password change is disabled because the master key is disabled" : "La modifica della password è disabilitata poiché la chiave principale è disabilitata",
     "Your apps" : "Le tue applicazioni",
+    "Recommended apps" : "Applicazioni consigliate",
     "Active apps" : "Applicazioni attive",
     "Disabled apps" : "Applicazioni disabilitate",
     "Updates" : "Aggiornamenti",

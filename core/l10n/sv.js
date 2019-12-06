@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Vänligen ange portnumret tillsammans med värdnamnet (t.ex. localhost:5432).",
     "Performance warning" : "Prestandavarning",
     "You chose SQLite as database." : "Du valde SQLite som databas.",
+    "Install recommended apps" : "Installera rekommenderade appar",
     "Finish setup" : "Slutför installationen",
     "Finishing …" : "Avslutar ...",
     "Need help?" : "Behöver du hjälp?",

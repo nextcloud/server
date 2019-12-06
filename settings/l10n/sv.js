@@ -235,6 +235,7 @@ OC.L10N.register(
     "All languages" : "Alla språk",
     "Password change is disabled because the master key is disabled" : "Lösenordsbyte är inaktiverat eftersom huvudnyckeln är inaktiverad",
     "Your apps" : "Dina appar",
+    "Recommended apps" : "Rekommenderade appar",
     "Active apps" : "Aktiva appar",
     "Disabled apps" : "Inaktiverade appar",
     "Updates" : "Uppdateringar",

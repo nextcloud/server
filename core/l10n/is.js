@@ -25,6 +25,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Smelltu á eftirfarandi hnapp til að endurstilla lykilorðið þitt. Ef þú hefur ekki beðið um endurstillingu lykilorðs, skaltu hunsa þennan tölvupóst.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Smelltu á eftirfarandi tengil til að endurstilla lykilorðið þitt. Ef þú hefur ekki beðið um endurstillingu lykilorðs, skaltu hunsa þennan tölvupóst.",
     "Reset your password" : "Endurstilltu lykilorðið þitt",
+    "Nextcloud Server" : "Nextcloud þjónn",
     "Some of your link shares have been removed" : "Sumir tenglar þnir  sameignir hafa verið fjarlægðir",
     "Preparing update" : "Undirbý uppfærslu",
     "[%d / %d]: %s" : "[%d / %d]: %s",
