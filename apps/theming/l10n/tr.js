@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "Ön izleme yükleniyor...",
+    "Loading preview…" : "Ön izleme yükleniyor …",
     "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",

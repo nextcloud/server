@@ -172,6 +172,7 @@
     "A valid username must be provided" : "Ett giltigt användarnamn måste anges",
     "Username contains whitespace at the beginning or at the end" : "Användarnamnet består av ett mellanslag i början eller i slutet",
     "Username must not consist of dots only" : "Användarnamnet får inte innehålla enbart punkter",
+    "Username is invalid because files already exist for this user" : "Användarnamnet är ogiltigt eftersom det redan finns filer för den här användaren",
     "A valid password must be provided" : "Ett giltigt lösenord måste anges",
     "The username is already being used" : "Användarnamnet används redan",
     "Could not create user" : "Kunde inte skapa användare",
