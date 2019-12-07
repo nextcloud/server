@@ -72,7 +72,7 @@ OC.L10N.register(
     "Link:" : "Bağlantı:",
     "Accept" : "Kabul Et",
     "Decline" : "Reddet",
-    "More options …" : "Diğer seçenekler…",
+    "More options …" : "Diğer seçenekler …",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
     "Contacts" : "Kişiler",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "iOS/macOS üzerinde CalDAV ve CardDAV kullanabilmek için %s HTTPS kullanacak şekilde yapılandırılmalıdır.",
