@@ -70,7 +70,7 @@ const mutations = {
 		state.orderBy = orderBy;
 		state.userCount = userCount;
 		state.groups = orderGroups(state.groups, state.orderBy);
-		
+
 	},
 	addGroup(state, {gid, displayName}) {
 		try {
@@ -99,7 +99,7 @@ const mutations = {
 		let user = state.users.find(user => user.id == userid);
 		// increase count if user is enabled
 		if (group && user.enabled) {
-			group.usercount++; 
+			group.usercount++;
 		}
 		let groups = user.groups;
 		groups.push(gid);
@@ -189,7 +189,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -242,7 +242,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -264,7 +264,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details from a groupid
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -276,7 +276,7 @@ const actions = {
 			.then((response) => context.commit('getUsersFromList', response.data.ocs.data.users))
 			.catch((error) => context.commit('API_FAILURE', error));
 	},
-	
+
 
 	getPasswordPolicyMinLength(context) {
 		if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
@@ -288,7 +288,7 @@ const actions = {
 
 	/**
 	 * Add group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {string} gid Group id
 	 * @returns {Promise}
@@ -311,14 +311,14 @@ const actions = {
 
 	/**
 	 * Remove group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {string} gid Group id
 	 * @returns {Promise}
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(OC.linkToOCS(`cloud/groups/${gid}`, 2))
+			return api.delete(OC.linkToOCS(`cloud/groups/${encodeURIComponent(gid)}`, 2))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => {throw error;});
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }));
@@ -326,7 +326,7 @@ const actions = {
 
 	/**
 	 * Add user to group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -343,7 +343,7 @@ const actions = {
 
 	/**
 	 * Remove user from group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -359,13 +359,13 @@ const actions = {
 			context.commit('API_FAILURE', { userid, error });
 			// let's throw one more time to prevent
 			// the view from removing the user row on failure
-			throw error; 
+			throw error;
 		});
 	},
 
 	/**
 	 * Add user to group admin
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -382,7 +382,7 @@ const actions = {
 
 	/**
 	 * Remove user from group admin
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -399,9 +399,9 @@ const actions = {
 
 	/**
 	 * Delete a user
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	deleteUser(context, userid) {
@@ -414,7 +414,7 @@ const actions = {
 
 	/**
 	 * Add a user
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -439,9 +439,9 @@ const actions = {
 
 	/**
 	 * Get user data and commit addition
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	addUserData(context, userid) {
@@ -452,8 +452,8 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
 	},
 
-	/** Enable or disable user 
-	 * 
+	/** Enable or disable user
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -471,8 +471,8 @@ const actions = {
 
 	/**
 	 * Edit user data
-	 * 
-	 * @param {Object} context 
+	 *
+	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.key User field to edit
@@ -501,9 +501,9 @@ const actions = {
 
 	/**
 	 * Send welcome mail
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	sendWelcomeMail(context, userid) {
