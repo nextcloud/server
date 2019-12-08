@@ -100,10 +100,10 @@
 
 <script>
 import { generateRemoteUrl } from '@nextcloud/router'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
-import isFullscreen from 'nextcloud-vue/dist/Mixins/isFullscreen'
-import isMobile from 'nextcloud-vue/dist/Mixins/isMobile'
-import Modal from 'nextcloud-vue/dist/Components/Modal'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
 import Vue from 'vue'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils'
