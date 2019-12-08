@@ -47,8 +47,8 @@ use OCP\IURLGenerator;
  */
 class Detection implements IMimeTypeDetector {
 
-	public const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
-	public const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
+	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
+	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
 	protected $mimetypes = [];
 	protected $secureMimeTypes = [];
@@ -121,6 +121,18 @@ class Detection implements IMimeTypeDetector {
 		}
 	}
 
+	private function loadCustomDefinitions(string $fileName, array $definitions): array {
+		if (file_exists($this->customConfigDir . '/' . $fileName)) {
+			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . $fileName), true);
+			if (json_last_error() === JSON_ERROR_NONE) {
+				$definitions = array_merge($definitions, $custom);
+			} else {
+				$this->logger->warning('Failed to parse ' . $fileName . ': ' . json_last_error_msg());
+			}
+		}
+		return $definitions;
+	}
+
 	/**
 	 * Add the mimetype aliases if they are not yet present
 	 */
@@ -130,15 +142,7 @@ class Detection implements IMimeTypeDetector {
 		}
 
 		$this->mimeTypeAlias = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypealiases.dist.json'), true);
-
-		if (file_exists($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEALIASES)) {
-			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEALIASES), true);
-			if (json_last_error() === JSON_ERROR_NONE) {
-				$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
-			} else {
-				$this->logger->warning('Failed to parse ' . self::CUSTOM_MIMETYPEALIASES . ': ' . json_last_error_msg());
-			}
-		}
+		$this->mimeTypeAlias = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPEALIASES, $this->mimeTypeAlias);
 	}
 
 	/**
@@ -164,16 +168,7 @@ class Detection implements IMimeTypeDetector {
 		}
 
 		$mimetypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypemapping.dist.json'), true);
-
-		//Check if need to load custom mappings
-		if (file_exists($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEMAPPING)) {
-			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEMAPPING), true);
-			if (json_last_error() === JSON_ERROR_NONE) {
-				$mimetypeMapping = array_merge($mimetypeMapping, $custom);
-			} else {
-				$this->logger->warning('Failed to parse ' . self::CUSTOM_MIMETYPEMAPPING . ': ' . json_last_error_msg());
-			}
-		}
+		$mimetypeMapping = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPEMAPPING, $mimetypeMapping);
 
 		$this->registerTypeArray($mimetypeMapping);
 	}

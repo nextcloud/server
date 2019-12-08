@@ -116,9 +116,8 @@ class DetectionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$logger = $this->getMockBuilder(ILogger::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var ILogger $logger */
+		$logger = $this->createMock(ILogger::class);
 
 		//Only call the url generator once
 		$urlGenerator->expects($this->once())
