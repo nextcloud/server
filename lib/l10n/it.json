@@ -172,6 +172,7 @@
     "A valid username must be provided" : "Deve essere fornito un nome utente valido",
     "Username contains whitespace at the beginning or at the end" : "Il nome utente contiene spazi all'inizio o alla fine",
     "Username must not consist of dots only" : "Il nome utente non può consistere di soli punti",
+    "Username is invalid because files already exist for this user" : "Il nome utente non è valido poiché esiste già per questo utente",
     "A valid password must be provided" : "Deve essere fornita una password valida",
     "The username is already being used" : "Il nome utente è già utilizzato",
     "Could not create user" : "Impossibile creare l'utente",
