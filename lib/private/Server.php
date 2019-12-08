@@ -882,6 +882,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Files\IMimeTypeDetector::class, function (Server $c) {
 			return new \OC\Files\Type\Detection(
 				$c->getURLGenerator(),
+				$c->getLogger(),
 				\OC::$configDir,
 				\OC::$SERVERROOT . '/resources/config/'
 			);

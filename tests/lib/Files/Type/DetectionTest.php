@@ -22,6 +22,7 @@
 namespace Test\Files\Type;
 
 use OC\Files\Type\Detection;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class DetectionTest extends \Test\TestCase {
@@ -32,6 +33,7 @@ class DetectionTest extends \Test\TestCase {
 		parent::setUp();
 		$this->detection = new Detection(
 			\OC::$server->getURLGenerator(),
+			\OC::$server->getLogger(),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'
 		);
@@ -114,13 +116,17 @@ class DetectionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$logger = $this->getMockBuilder(ILogger::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		//Only call the url generator once
 		$urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with($this->equalTo('core'), $this->equalTo('filetypes/folder.png'))
 			->willReturn('folder.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('dir');
 		$this->assertEquals('folder.svg', $mimeType);
 
@@ -139,7 +145,7 @@ class DetectionTest extends \Test\TestCase {
 			->with($this->equalTo('core'), $this->equalTo('filetypes/folder-shared.png'))
 			->willReturn('folder-shared.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('dir-shared');
 		$this->assertEquals('folder-shared.svg', $mimeType);
 
@@ -159,7 +165,7 @@ class DetectionTest extends \Test\TestCase {
 			->with($this->equalTo('core'), $this->equalTo('filetypes/folder-external.png'))
 			->willReturn('folder-external.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('dir-external');
 		$this->assertEquals('folder-external.svg', $mimeType);
 
@@ -179,7 +185,7 @@ class DetectionTest extends \Test\TestCase {
 			->with($this->equalTo('core'), $this->equalTo('filetypes/my-type.png'))
 			->willReturn('my-type.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my-type.svg', $mimeType);
 
@@ -209,7 +215,7 @@ class DetectionTest extends \Test\TestCase {
 				}
 			));
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my.svg', $mimeType);
 
@@ -240,7 +246,7 @@ class DetectionTest extends \Test\TestCase {
 				}
 			));
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('foo-bar');
 		$this->assertEquals('file.svg', $mimeType);
 
@@ -259,7 +265,7 @@ class DetectionTest extends \Test\TestCase {
 			->with($this->equalTo('core'), $this->equalTo('filetypes/foo-bar.png'))
 			->willReturn('foo-bar.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('foo-bar');
 		$this->assertEquals('foo-bar.svg', $mimeType);
 		$mimeType = $detection->mimeTypeIcon('foo-bar');
@@ -285,7 +291,7 @@ class DetectionTest extends \Test\TestCase {
 			->with($this->equalTo('core'), $this->equalTo('filetypes/foobar-baz.png'))
 			->willReturn('foobar-baz.svg');
 
-		$detection = new Detection($urlGenerator, $confDir->url(), $confDir->url());
+		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('foo');
 		$this->assertEquals('foobar-baz.svg', $mimeType);
 	}

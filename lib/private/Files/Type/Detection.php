@@ -35,6 +35,7 @@
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 
 /**
@@ -45,6 +46,10 @@ use OCP\IURLGenerator;
  * @package OC\Files\Type
  */
 class Detection implements IMimeTypeDetector {
+
+	public const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
+	public const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
+
 	protected $mimetypes = [];
 	protected $secureMimeTypes = [];
 
@@ -55,6 +60,9 @@ class Detection implements IMimeTypeDetector {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var string */
 	private $customConfigDir;
 
@@ -63,13 +71,16 @@ class Detection implements IMimeTypeDetector {
 
 	/**
 	 * @param IURLGenerator $urlGenerator
+	 * @param ILogger $logger
 	 * @param string $customConfigDir
 	 * @param string $defaultConfigDir
 	 */
 	public function __construct(IURLGenerator $urlGenerator,
+								ILogger $logger,
 								$customConfigDir,
 								$defaultConfigDir) {
 		$this->urlGenerator = $urlGenerator;
+		$this->logger = $logger;
 		$this->customConfigDir = $customConfigDir;
 		$this->defaultConfigDir = $defaultConfigDir;
 	}
@@ -120,9 +131,13 @@ class Detection implements IMimeTypeDetector {
 
 		$this->mimeTypeAlias = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypealiases.dist.json'), true);
 
-		if (file_exists($this->customConfigDir . '/mimetypealiases.json')) {
-			$custom = json_decode(file_get_contents($this->customConfigDir . '/mimetypealiases.json'), true);
-			$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
+		if (file_exists($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEALIASES)) {
+			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEALIASES), true);
+			if (json_last_error() === JSON_ERROR_NONE) {
+				$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
+			} else {
+				$this->logger->warning('Failed to parse ' . self::CUSTOM_MIMETYPEALIASES . ': ' . json_last_error_msg());
+			}
 		}
 	}
 
@@ -151,9 +166,13 @@ class Detection implements IMimeTypeDetector {
 		$mimetypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypemapping.dist.json'), true);
 
 		//Check if need to load custom mappings
-		if (file_exists($this->customConfigDir . '/mimetypemapping.json')) {
-			$custom = json_decode(file_get_contents($this->customConfigDir . '/mimetypemapping.json'), true);
-			$mimetypeMapping = array_merge($mimetypeMapping, $custom);
+		if (file_exists($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEMAPPING)) {
+			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . self::CUSTOM_MIMETYPEMAPPING), true);
+			if (json_last_error() === JSON_ERROR_NONE) {
+				$mimetypeMapping = array_merge($mimetypeMapping, $custom);
+			} else {
+				$this->logger->warning('Failed to parse ' . self::CUSTOM_MIMETYPEMAPPING . ': ' . json_last_error_msg());
+			}
 		}
 
 		$this->registerTypeArray($mimetypeMapping);
