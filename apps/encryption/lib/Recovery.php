@@ -30,12 +30,10 @@ namespace OCA\Encryption;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\IFile;
-use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
-use OCP\Security\ISecureRandom;
 
 class Recovery {
 
