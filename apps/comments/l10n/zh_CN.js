@@ -10,9 +10,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 评论了 %2$s",
     "{author} commented on {file}" : "{author} 对 {file} 的评论",
     "<strong>Comments</strong> for files" : "文件的<strong>评论</strong>",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "您在 “{file}” 上一名用户的评论中被提到过，该用户在那之后被删除了",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了您，此评论已被删除",
     "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
-    "Files app plugin to add comments to files" : "文件应用插件用于为文件添加注释",
+    "Files app plugin to add comments to files" : "文件应用程序插件可向文件添加注释",
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
     "New comment …" : "新评论 ...",
@@ -27,7 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "更新 id 为 {id} 的评论出错",
     "Error occurred while posting comment" : "发布评论出错",
     "_%n unread comment_::_%n unread comments_" : ["%n 未读评论"],
-    "_1 new comment_::_{unread} new comments_" : ["{unread} 新评论"],
+    "_1 new comment_::_{unread} new comments_" : ["{unread} 条新评论"],
     "Comment" : "评论"
 },
 "nplurals=1; plural=0;");
