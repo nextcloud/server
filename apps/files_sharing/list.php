@@ -21,6 +21,7 @@
  */
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCP\EventDispatcher\GenericEvent;
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
@@ -37,7 +38,7 @@ $tmpl = new OCP\Template('files_sharing', 'list', '');
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 
 // fire script events
-$eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts');
+$eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts', new GenericEvent());
 $eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, new LoadAdditionalScriptsEvent());
 $eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
 
