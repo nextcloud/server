@@ -61,7 +61,7 @@ class AppsDisableTest extends TestCase {
 
 		$this->commandTester->execute($input);
 
-		$this->assertContains($output, $this->commandTester->getDisplay());
+		$this->assertStringContainsString($output, $this->commandTester->getDisplay());
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 

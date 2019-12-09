@@ -66,12 +66,12 @@ class AppsEnableTest extends TestCase {
 
 		$this->commandTester->execute($input);
 
-		$this->assertContains($output, $this->commandTester->getDisplay());
+		$this->assertStringContainsString($output, $this->commandTester->getDisplay());
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
 	public function dataCommandInput(): array {
-		return [
+		$data = [
 			[['admin_audit'], null, 0, 'admin_audit enabled'],
 			[['comments'], null, 0, 'comments enabled'],
 			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
@@ -83,16 +83,20 @@ class AppsEnableTest extends TestCase {
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
 			[['updatenotification'], ['admin'], 0, 'updatenotification enabled for groups: admin'],
-# TODO: not reliable due to dependency to appstore
-#			[['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
 			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
 
 			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification enabled for groups: admin'],
-# TODO: not reliable due to dependency to appstore
-#			[['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"],
-#			[['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"],
 			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin"],
 			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\naccessibility enabled for groups: admin\nCould not download app invalid_app"],
 		];
+
+		if (getenv('CI') === false) {
+			/** Tests disabled on drone/ci due to appstore dependency */
+			$data[] = [['updatenotification', 'contacts'], ['admin'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"];
+			$data[] = [['updatenotification', 'contacts'], ['admin', 'invalid_group'], 0, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin"];
+			$data[] = [['updatenotification', 'contacts', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification enabled for groups: admin\ncontacts enabled for groups: admin\nCould not download app invalid_app"];
+		}
+
+		return $data;
 	}
 }
