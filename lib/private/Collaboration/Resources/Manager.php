@@ -35,6 +35,7 @@ use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IProvider;
+use OCP\Collaboration\Resources\IProviderManager;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -50,17 +51,18 @@ class Manager implements IManager {
 
 	/** @var IDBConnection */
 	protected $connection;
+	/** @var IProviderManager */
+	protected $providerManager;
 	/** @var ILogger */
 	protected $logger;
 
 	/** @var string[] */
 	protected $providers = [];
 
-	/** @var IProvider[] */
-	protected $providerInstances = [];
 
-	public function __construct(IDBConnection $connection, ILogger $logger) {
+	public function __construct(IDBConnection $connection, IProviderManager $providerManager, ILogger $logger) {
 		$this->connection = $connection;
+		$this->providerManager = $providerManager;
 		$this->logger = $logger;
 	}
 
@@ -274,27 +276,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return IProvider[]
-	 * @since 16.0.0
-	 */
-	public function getProviders(): array {
-		if (!empty($this->providers)) {
-			foreach ($this->providers as $provider) {
-				try {
-					$this->providerInstances[] = \OC::$server->query($provider);
-				} catch (QueryException $e) {
-					$this->logger->logException($e, [
-						'message' => 'Error when instantiating resource provider'
-					]);
-				}
-			}
-			$this->providers = [];
-		}
-
-		return $this->providerInstances;
-	}
-
-	/**
 	 * Get the rich object data of a resource
 	 *
 	 * @param IResource $resource
@@ -302,7 +283,7 @@ class Manager implements IManager {
 	 * @since 16.0.0
 	 */
 	public function getResourceRichObject(IResource $resource): array {
-		foreach ($this->getProviders() as $provider) {
+		foreach ($this->providerManager->getResourceProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
 					return $provider->getResourceRichObject($resource);
@@ -329,7 +310,7 @@ class Manager implements IManager {
 		}
 
 		$access = false;
-		foreach ($this->getProviders() as $provider) {
+		foreach ($this->providerManager->getResourceProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
 				try {
 					if ($provider->canAccessResource($resource, $user)) {
@@ -532,7 +513,8 @@ class Manager implements IManager {
 	 * @param string $provider
 	 */
 	public function registerResourceProvider(string $provider): void {
-		$this->providers[] = $provider;
+		$this->logger->debug('\OC\Collaboration\Resources\Manager::registerResourceProvider is deprecated', ['provider' => $provider]);
+		$this->providerManager->registerResourceProvider($provider);
 	}
 
 	/**

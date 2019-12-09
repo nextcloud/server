@@ -290,6 +290,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $dispatcher;
 		});
 
+		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, OC\Collaboration\Resources\ProviderManager::class);
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, OC\Collaboration\Resources\Manager::class);
 	}
 
