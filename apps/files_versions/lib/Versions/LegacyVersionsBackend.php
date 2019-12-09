@@ -97,7 +97,7 @@ class LegacyVersionsBackend implements IVersionBackend {
 	}
 
 	public function rollback(IVersion $version) {
-		return Storage::rollback($version->getVersionPath(), $version->getRevisionId());
+		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
 	private function getVersionFolder(IUser $user): Folder {
