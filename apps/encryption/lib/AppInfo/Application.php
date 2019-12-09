@@ -167,10 +167,8 @@ class Application extends \OCP\AppFramework\App {
 				return new Recovery(
 					$server->getUserSession(),
 					$c->query('Crypt'),
-					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage(),
 					$server->getEncryptionFilesHelper(),
 					new View());
 			});

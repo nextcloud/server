@@ -215,10 +215,8 @@ class ChangePasswordController extends Controller {
 			$recovery = new \OCA\Encryption\Recovery(
 				\OC::$server->getUserSession(),
 				$crypt,
-				\OC::$server->getSecureRandom(),
 				$keyManager,
 				\OC::$server->getConfig(),
-				$keyStorage,
 				\OC::$server->getEncryptionFilesHelper(),
 				new \OC\Files\View());
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
