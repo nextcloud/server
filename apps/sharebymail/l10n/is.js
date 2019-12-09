@@ -40,6 +40,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s deildi »%2$s« með þér og vill bæta við:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s deildi »%2$s« með þér og vill bæta við",
     "»%s« added a note to a file shared with you" : "»%s« bætti minnispunkti við skrá sem deilt er með þér",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Þú varst í þessu að deila »%1$s« með %2$s. Sameignin var þegar send til viðtakandans. Vegna öryggisskilmála sem skilgreindir hafa verið af kerfisstjóra %3$s þarf hver sameign að vera varin með lykilorði og að ekki er leyfilegt að senda það lykilorð beint til viðtakandans. Því er nauðsynlegt að þú homir lykilorðinu beint til sjálfs viðtakandans.",
     "Password to access »%1$s« shared by you with %2$s" : "Lykilorði fyrir aðgang að »%1$s« var deilt af þér með %2$s",
     "This is the password:" : "Þetta er lykilorðið:",
     "You can choose a different password at any time in the share dialog." : "Þú getur hvenær sem er valið annað lykilorð með því að fara í deilingargluggann.",
