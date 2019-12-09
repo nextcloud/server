@@ -31,6 +31,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\IConfig;
 
 /**
@@ -111,7 +112,8 @@ class BackendService {
 		static $eventSent = false;
 		if(!$eventSent) {
 			\OC::$server->getEventDispatcher()->dispatch(
-				'OCA\\Files_External::loadAdditionalBackends'
+				'OCA\\Files_External::loadAdditionalBackends',
+				new GenericEvent()
 			);
 			$eventSent = true;
 		}
