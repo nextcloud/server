@@ -65,6 +65,7 @@ class ConvertFilecacheBigInt extends Command {
 			'file_locks' => ['id'],
 			'jobs' => ['id'],
 			'mimetypes' => ['id'],
+			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
 			'storages' => ['numeric_id'],
 		];
 	}
