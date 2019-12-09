@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -49,7 +49,8 @@ $application->registerRoutes($this, [
 	]
 ]);
 
-$application = new OCA\User_LDAP\AppInfo\Application();
+/** @var \OCA\User_LDAP\AppInfo\Application $application */
+$application = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		['name' => 'renewPassword#tryRenewPassword', 'url' => '/renewpassword', 'verb' => 'POST'],
