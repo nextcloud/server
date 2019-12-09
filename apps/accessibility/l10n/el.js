@@ -1,7 +1,7 @@
 OC.L10N.register(
     "accessibility",
     {
-    "Dark theme" : "Σκοτεινό θέμα",
+    "Dark theme" : "Σκούρο θέμα",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ένα σκοτεινό θέμα που διευκολύνει τα μάτια σας μειώνοντας την συνολική ακτινοβολία και φωτεινότητα. Είναι ακόμη υπό δοκιμή, οπότε θα σας παρακαλούσαμε να αναφέρετε οποιαδήποτε προβλήματα παρατηρηθούν.",
     "High contrast mode" : "Λειτουργία υψηλής αντίθεσης",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Λειτουργία με υψηλή αντίθεση για να διευκολύνει την πλοήγηση σας. Η οπτική ποιότητα θα είναι μειωμένη αλλά θα έχετε υψηλότερη ευκρίνεια.",
