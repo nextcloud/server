@@ -367,6 +367,7 @@ return array(
     'OCP\\Notification\\AlreadyProcessedException' => $baseDir . '/lib/public/Notification/AlreadyProcessedException.php',
     'OCP\\Notification\\IAction' => $baseDir . '/lib/public/Notification/IAction.php',
     'OCP\\Notification\\IApp' => $baseDir . '/lib/public/Notification/IApp.php',
+    'OCP\\Notification\\IDismissableNotifier' => $baseDir . '/lib/public/Notification/IDismissableNotifier.php',
     'OCP\\Notification\\IManager' => $baseDir . '/lib/public/Notification/IManager.php',
     'OCP\\Notification\\INotification' => $baseDir . '/lib/public/Notification/INotification.php',
     'OCP\\Notification\\INotifier' => $baseDir . '/lib/public/Notification/INotifier.php',

@@ -31,6 +31,7 @@ use OCP\AppFramework\QueryException;
 use OCP\ILogger;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IApp;
+use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -295,5 +296,19 @@ class Manager implements IManager {
 		}
 
 		return $count;
+	}
+
+	public function dismissNotification(INotification $notification): void {
+		$notifiers = $this->getNotifiers();
+
+		foreach ($notifiers as $notifier) {
+			if ($notifier instanceof IDismissableNotifier) {
+				try {
+					$notifier->dismissNotification($notification);
+				} catch (\InvalidArgumentException $e) {
+					continue;
+				}
+			}
+		}
 	}
 }
