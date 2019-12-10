@@ -213,7 +213,10 @@ class Detection implements IMimeTypeDetector {
 			if ($info) {
 				$info = strtolower($info);
 				$mimeType = strpos($info, ';') !== false ? substr($info, 0, strpos($info, ';')) : $info;
-				return $this->getSecureMimeType($mimeType);
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
 			}
 		}
 
@@ -226,7 +229,10 @@ class Detection implements IMimeTypeDetector {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
 			if ($mimeType !== false) {
-				return $this->getSecureMimeType($mimeType);
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
 			}
 		}
 
@@ -241,7 +247,10 @@ class Detection implements IMimeTypeDetector {
 			if ($mimeType !== false) {
 				//trim the newline
 				$mimeType = trim($mimeType);
-				return $this->getSecureMimeType($mimeType);
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
 			}
 
 		}
