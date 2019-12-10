@@ -158,8 +158,9 @@ class OC_App {
 					throw $ex;
 				}
 				\OC::$server->getLogger()->logException($ex);
-				if (!\OC::$server->getAppManager()->isShipped($app)) {
-					// Only disable apps which are not shipped
+
+				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication'])) {
+					// Only disable apps which are not shipped and that are not authentication apps
 					\OC::$server->getAppManager()->disableApp($app, true);
 				}
 			}
