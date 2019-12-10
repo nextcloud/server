@@ -26,6 +26,7 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Pasirinktas kanalas nepalaiko serverio atnaujinimų.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Yra prieinama nauja versija: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tikrinta {lastCheckedDate}",
+    "Checking apps for compatible updates" : "Tikrinama, ar yra suderinamų programėlių atnaujinimų",
     "View changelog" : "Rodyti keitinių žurnalą",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Visada galite atnaujinti į naujesnę versiją / eksperimentinį kanalą. Tačiau niekada negalite sendinti versijos ar persijungti į stabilų kanalą."
 },

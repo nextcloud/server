@@ -252,6 +252,7 @@ OC.L10N.register(
     "You chose SQLite as database." : "Þú valdir SQLite sem gagnagrunn.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite ætti aðeins að nota fyrir lágmarksuppsetningar og til prófana. Fyrir stærri uppsetningar mælum við með að velja annan gagnagrunnsbakenda.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Ef verið er að nota biðlaraforrit til að samstilla skrár, þá er ekki mælt með notkun SQLite.",
+    "Install recommended apps" : "Setja upp ráðlögð forrit",
     "Finish setup" : "Ljúka uppsetningu",
     "Finishing …" : "Að klára ...",
     "Need help?" : "Þarftu hjálp?",
