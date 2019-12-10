@@ -9,6 +9,7 @@
 namespace Test\Files\Config;
 
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Config\UserMountCache;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Log;
@@ -26,19 +27,14 @@ use Test\Util\User\Dummy;
  * @group DB
  */
 class UserMountCacheTest extends TestCase {
-	/**
-	 * @var IDBConnection
-	 */
+
+	/** @var IDBConnection */
 	private $connection;
 
-	/**
-	 * @var IUserManager
-	 */
+	/** @var IUserManager */
 	private $userManager;
 
-	/**
-	 * @var \OC\Files\Config\UserMountCache
-	 */
+	/** @var UserMountCache */
 	private $cache;
 
 	private $fileIds = [];
@@ -52,7 +48,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
+		$this->cache = new UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
 	}
 
 	protected function tearDown(): void {

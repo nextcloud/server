@@ -45,6 +45,7 @@ use OCP\IUserManager;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\UserInterface;
 
 /**
@@ -70,7 +71,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	private $backends = array();
 
 	/** @var User[] $cachedUsers */
-	private $cachedUsers = array();
+	private $cachedUsers = [];
 
 	/** @var IConfig */
 	private $config;
@@ -81,12 +82,11 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function __construct(IConfig $config,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
-		$cachedUsers = &$this->cachedUsers;
-		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
-			/** @var User $user */
-			unset($cachedUsers[$user->getUID()]);
-		});
 		$this->eventDispatcher = $eventDispatcher;
+
+		$eventDispatcher->addListener(UserDeletedEvent::class, function(UserDeletedEvent $event) {
+			unset($this->cachedUsers[$event->getUser()->getUID()]);
+		});
 	}
 
 	/**

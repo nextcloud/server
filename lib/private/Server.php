@@ -80,7 +80,7 @@ use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
 use OC\Files\Config\UserMountCache;
-use OC\Files\Config\UserMountCacheListener;
+use OC\Files\Listener\UserMountCacheListener;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\ObjectHomeMountProvider;
@@ -144,6 +144,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
@@ -813,13 +814,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('DateTimeFormatter', \OCP\IDateTimeFormatter::class);
 
-		$this->registerService(\OCP\Files\Config\IUserMountCache::class, function (Server $c) {
-			$mountCache = new UserMountCache($c->getDatabaseConnection(), $c->getUserManager(), $c->getLogger());
-			$listener = new UserMountCacheListener($mountCache);
-			$listener->listen($c->getUserManager());
-			return $mountCache;
-		});
 		$this->registerAlias('UserMountCache', \OCP\Files\Config\IUserMountCache::class);
+		$this->registerAlias(IUserMountCache::class, UserMountCache::class);
 
 		$this->registerService(\OCP\Files\Config\IMountProviderCollection::class, function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
@@ -1316,10 +1312,12 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	private function connectDispatcher() {
-		$dispatcher = $this->getEventDispatcher();
+		$legacyDispatcher = $this->getEventDispatcher();
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = $this->query(IEventDispatcher::class);
 
 		// Delete avatar on user deletion
-		$dispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
+		$legacyDispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
 			$logger = $this->getLogger();
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
@@ -1336,7 +1334,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 		});
 
-		$dispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
+		$legacyDispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
 			$user = $e->getSubject();
@@ -1356,6 +1354,8 @@ class Server extends ServerContainer implements IServerContainer {
 				// no avatar to remove
 			}
 		});
+
+		$dispatcher->addServiceListener(UserDeletedEvent::class, UserMountCacheListener::class);
 	}
 
 	/**
