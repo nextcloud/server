@@ -445,7 +445,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $this->userDisplayNames[$uid];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -1238,7 +1238,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `uri` = ? AND `calendartype` = ?');
 		$stmt->execute([$calendarId, $objectUri, $calendarType]);
 
-		$this->purgeProperties($calendarId, $data['id'], $calendarType);
+		if (is_array($data)) {
+			$this->purgeProperties($calendarId, $data['id'], $calendarType);
+		}
 
 		$this->addChange($calendarId, $objectUri, 3, $calendarType);
 	}
