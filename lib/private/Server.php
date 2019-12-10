@@ -148,9 +148,19 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
+use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -325,31 +335,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias('UserManager', \OC\User\Manager::class);
 		$this->registerAlias(\OCP\IUserManager::class, \OC\User\Manager::class);
 
-		$this->registerService(\OCP\IGroupManager::class, function (Server $c) {
-			$groupManager = new \OC\Group\Manager($this->getUserManager(), $c->getEventDispatcher(), $this->getLogger());
-			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
-				\OC_Hook::emit('OC_Group', 'pre_createGroup', array('run' => true, 'gid' => $gid));
-			});
-			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $gid) {
-				\OC_Hook::emit('OC_User', 'post_createGroup', array('gid' => $gid->getGID()));
-			});
-			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', array('run' => true, 'gid' => $group->getGID()));
-			});
-			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_User', 'post_deleteGroup', array('gid' => $group->getGID()));
-			});
-			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'pre_addToGroup', array('run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()));
-			});
-			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
-				//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
-				\OC_Hook::emit('OC_User', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
-			});
-			return $groupManager;
-		});
 		$this->registerAlias('GroupManager', \OCP\IGroupManager::class);
+		$this->registerAlias(IGroupManager::class, \OC\Group\Manager::class);
 
 		$this->registerService(Store::class, function (Server $c) {
 			$session = $c->getSession();
@@ -1221,10 +1208,12 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	private function connectDispatcher() {
-		$dispatcher = $this->getEventDispatcher();
+		$legacyDispatcher = $this->getEventDispatcher();
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = $this->query(IEventDispatcher::class);
 
 		// Delete avatar on user deletion
-		$dispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
+		$legacyDispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
 			$logger = $this->getLogger();
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
@@ -1241,7 +1230,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 		});
 
-		$dispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
+		$legacyDispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
 			$user = $e->getSubject();
@@ -1260,6 +1249,94 @@ class Server extends ServerContainer implements IServerContainer {
 			} catch (NotFoundException $e) {
 				// no avatar to remove
 			}
+		});
+
+		// Groups
+		$dispatcher->addListener(BeforeGroupCreatedEvent::class, function(BeforeGroupCreatedEvent $event) use ($legacyDispatcher) {
+			$this->getGroupManager()->emit('\OC\Group', 'preCreate', [
+				$event->getName(),
+			]);
+			\OC_Hook::emit('OC_Group', 'pre_createGroup', [
+				'run' => true,
+				'gid' => $event->getName(),
+			]);
+		});
+		$dispatcher->addListener(GroupCreatedEvent::class, function(GroupCreatedEvent $event) {
+			$this->getGroupManager()->emit('\OC\Group', 'postCreate', [
+				$event->getGroup(),
+			]);
+			\OC_Hook::emit('OC_Group', 'post_createGroup', [
+				'gid' => $event->getGroup()->getGID(),
+			]);
+		});
+		$dispatcher->addListener(BeforeUserAddedEvent::class, function(BeforeUserAddedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::preAddUser', new GenericEvent($event->getGroup(), [
+				'user' => $event->getUser(),
+			]));
+			$this->getGroupManager()->emit('\OC\Group', 'preAddUser', [
+				$event->getGroup(),
+				$event->getUser()
+			]);
+			\OC_Hook::emit('OC_Group', 'pre_addToGroup', [
+				'run' => true,
+				'uid' => $event->getUser()->getUID(),
+				'gid' => $event->getGroup()->getGID(),
+			]);
+		});
+		$dispatcher->addListener(UserAddedEvent::class, function(UserAddedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::postAddUser', new GenericEvent($event->getGroup(), [
+				'user' => $event->getUser(),
+			]));
+			$this->getGroupManager()->emit('\OC\Group', 'postAddUser', [
+				$event->getGroup(),
+				$event->getUser()
+			]);
+			\OC_Hook::emit('OC_Group', 'post_addToGroup', [
+				'uid' => $event->getUser()->getUID(),
+				'gid' => $event->getGroup()->getGID(),
+			]);
+			//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
+			\OC_Hook::emit('OC_User', 'post_addToGroup', [
+				'uid' => $event->getUser()->getUID(),
+				'gid' => $event->getGroup()->getGID(),
+			]);
+		});
+		$dispatcher->addListener(BeforeUserRemovedEvent::class, function(BeforeUserRemovedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::preRemoveUser', new GenericEvent($event->getGroup(), [
+				'user' => $event->getUser(),
+			]));
+			$this->getGroupManager()->emit('\OC\Group', 'preRemoveUser', [
+				$event->getGroup(),
+				$event->getUser()
+			]);
+		});
+		$dispatcher->addListener(UserRemovedEvent::class, function(UserRemovedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::postRemoveUser', new GenericEvent($event->getGroup(), [
+				'user' => $event->getUser(),
+			]));
+			$this->getGroupManager()->emit('\OC\Group', 'postRemoveUser', [
+				$event->getGroup(),
+				$event->getUser()
+			]);
+		});
+		$dispatcher->addListener(BeforeGroupDeletedEvent::class, function(BeforeGroupDeletedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::preDelete', new GenericEvent($event->getGroup()));
+			$this->getGroupManager()->emit('\OC\Group', 'preDelete', [
+				$event->getGroup(),
+			]);
+			\OC_Hook::emit('OC_Group', 'pre_deleteGroup', [
+				'run' => true,
+				'gid' => $event->getGroup()->getGID(),
+			]);
+		});
+		$dispatcher->addListener(GroupDeletedEvent::class, function(GroupDeletedEvent $event) use ($legacyDispatcher) {
+			$legacyDispatcher->dispatch(IGroup::class . '::postDelete', new GenericEvent($event->getGroup()));
+			$this->getGroupManager()->emit('\OC\Group', 'postDelete', [
+				$event->getGroup(),
+			]);
+			\OC_Hook::emit('OC_Group', 'post_deleteGroup', [
+				'gid' => $event->getGroup()->getGID(),
+			]);
 		});
 	}
 

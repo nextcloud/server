@@ -25,17 +25,17 @@ namespace Test\Group;
 
 use OC\Group\Database;
 use OC\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\ILogger;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */
 	protected $userManager;
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var ILogger|MockObject */
 	protected $logger;
@@ -44,7 +44,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(ILogger::class);
 	}
 

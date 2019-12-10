@@ -33,16 +33,6 @@ namespace OCP;
 /**
  * Class Manager
  *
- * Hooks available in scope \OC\Group:
- * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
- *
  * @package OC\Group
  * @since 8.0.0
  */

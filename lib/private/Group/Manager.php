@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -40,36 +43,34 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Manager
  *
- * Hooks available in scope \OC\Group:
- * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
- *
  * @package OC\Group
  */
 class Manager extends PublicEmitter implements IGroupManager {
+
 	/** @var GroupInterface[] */
 	private $backends = [];
 
 	/** @var \OC\User\Manager */
 	private $userManager;
-	/** @var EventDispatcherInterface */
+
+	/** @var IEventDispatcher */
 	private $dispatcher;
+
 	/** @var ILogger */
 	private $logger;
 
@@ -84,36 +85,25 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param \OC\User\Manager $userManager
-	 * @param EventDispatcherInterface $dispatcher
+	 * @param IEventDispatcher $dispatcher
 	 * @param ILogger $logger
 	 */
 	public function __construct(\OC\User\Manager $userManager,
-								EventDispatcherInterface $dispatcher,
+								IEventDispatcher $dispatcher,
 								ILogger $logger) {
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 
-		$cachedGroups = &$this->cachedGroups;
-		$cachedUserGroups = &$this->cachedUserGroups;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			unset($cachedGroups[$group->getGID()]);
-			$cachedUserGroups = [];
+		$dispatcher->addListener(GroupDeletedEvent::class, function(GroupDeletedEvent $event) {
+			unset($this->cachedGroups[$event->getGroup()->getGID()]);
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$dispatcher->addListener(UserAddedEvent::class, function() {
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$dispatcher->addListener(UserRemovedEvent::class, function() {
+			$this->cachedUserGroups = [];
 		});
 	}
 
@@ -220,12 +210,12 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} else if ($group = $this->get($gid)) {
 			return $group;
 		} else {
-			$this->emit('\OC\Group', 'preCreate', [$gid]);
+			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
 					if ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
-						$this->emit('\OC\Group', 'postCreate', [$group]);
+						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 						return $group;
 					}
 				}

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -32,18 +35,25 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Group implements IGroup {
+
 	/** @var null|string  */
 	protected $displayName;
 
@@ -58,23 +68,30 @@ class Group implements IGroup {
 
 	/** @var Backend[] */
 	private $backends;
-	/** @var EventDispatcherInterface */
+
+	/** @var IEventDispatcher */
 	private $dispatcher;
+
 	/** @var \OC\User\Manager|IUserManager  */
 	private $userManager;
+
 	/** @var PublicEmitter */
 	private $emitter;
-
 
 	/**
 	 * @param string $gid
 	 * @param Backend[] $backends
-	 * @param EventDispatcherInterface $dispatcher
+	 * @param IEventDispatcher $dispatcher
 	 * @param IUserManager $userManager
 	 * @param PublicEmitter $emitter
 	 * @param string $displayName
 	 */
-	public function __construct(string $gid, array $backends, EventDispatcherInterface $dispatcher, IUserManager $userManager, PublicEmitter $emitter = null, ?string $displayName = null) {
+	public function __construct(string $gid,
+								array $backends,
+								IEventDispatcher $dispatcher,
+								IUserManager $userManager,
+								PublicEmitter $emitter = null,
+								?string $displayName = null) {
 		$this->gid = $gid;
 		$this->backends = $backends;
 		$this->dispatcher = $dispatcher;
@@ -172,27 +189,14 @@ class Group implements IGroup {
 			return;
 		}
 
-		$this->dispatcher->dispatch(IGroup::class . '::preAddUser', new GenericEvent($this, [
-			'user' => $user,
-		]));
-
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preAddUser', array($this, $user));
-		}
+		$this->dispatcher->dispatchTyped(new BeforeUserAddedEvent($this, $user));
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
 				$backend->addToGroup($user->getUID(), $this->gid);
 				if ($this->users) {
 					$this->users[$user->getUID()] = $user;
 				}
-
-				$this->dispatcher->dispatch(IGroup::class . '::postAddUser', new GenericEvent($this, [
-					'user' => $user,
-				]));
-
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\Group', 'postAddUser', array($this, $user));
-				}
+				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
 				return;
 			}
 		}
@@ -204,26 +208,16 @@ class Group implements IGroup {
 	 * @param \OC\User\User $user
 	 */
 	public function removeUser($user) {
-		$result = false;
-		$this->dispatcher->dispatch(IGroup::class . '::preRemoveUser', new GenericEvent($this, [
-			'user' => $user,
-		]));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preRemoveUser', array($this, $user));
-		}
+		$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($this, $user));
+		$removedFromABackend = false;
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
 				$backend->removeFromGroup($user->getUID(), $this->gid);
-				$result = true;
+				$removedFromABackend = true;
 			}
 		}
-		if ($result) {
-			$this->dispatcher->dispatch(IGroup::class . '::postRemoveUser', new GenericEvent($this, [
-				'user' => $user,
-			]));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postRemoveUser', array($this, $user));
-			}
+		if ($removedFromABackend) {
+			$this->dispatcher->dispatchTyped(new UserRemovedEvent($this, $user));
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
 					if ($groupUser->getUID() === $user->getUID()) {
@@ -327,24 +321,18 @@ class Group implements IGroup {
 			return false;
 		}
 
-		$result = false;
-		$this->dispatcher->dispatch(IGroup::class . '::preDelete', new GenericEvent($this));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
-		}
+		$this->dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($this));
+		$deletedFromABackend = false;
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
-				$result = true;
+				$deletedFromABackend = true;
 				$backend->deleteGroup($this->gid);
 			}
 		}
-		if ($result) {
-			$this->dispatcher->dispatch(IGroup::class . '::postDelete', new GenericEvent($this));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postDelete', array($this));
-			}
+		if ($deletedFromABackend) {
+			$this->dispatcher->dispatchTyped(new GroupDeletedEvent($this));
 		}
-		return $result;
+		return $deletedFromABackend;
 	}
 
 	/**
