@@ -40,7 +40,7 @@
 				</li>
 				<li>
 					<div class="step-header">
-						{{ t('files', 'Target user') }}
+						{{ t('files', 'New owner') }}
 					</div>
 					<Multiselect
 						v-model="selectedUser"
