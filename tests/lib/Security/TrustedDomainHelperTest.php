@@ -31,7 +31,11 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	 * @param bool $result
 	 */
 	public function testIsTrustedDomain($trustedDomains, $testDomain, $result) {
-		$this->config->expects($this->once())
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('overwritehost')
+			->will($this->returnValue(''));
+		$this->config->expects($this->at(1))
 			->method('getSystemValue')
 			->with('trusted_domains')
 			->will($this->returnValue($trustedDomains));
@@ -107,5 +111,16 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			[$trustedHostTestList, '-bad.leading.host', false],
 			[$trustedHostTestList, 'bad..der.leading.host', false],
 		];
+	}
+
+	public function testIsTrustedDomainOverwriteHost() {
+		$this->config->expects($this->at(0))
+			->method('getSystemValue')
+			->with('overwritehost')
+			->will($this->returnValue('myproxyhost'));
+
+		$trustedDomainHelper = new TrustedDomainHelper($this->config);
+		$this->assertTrue($trustedDomainHelper->isTrustedDomain('myproxyhost'));
+		$this->assertTrue($trustedDomainHelper->isTrustedDomain('myotherhost'));
 	}
 }
