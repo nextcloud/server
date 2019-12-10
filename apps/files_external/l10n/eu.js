@@ -15,6 +15,7 @@ OC.L10N.register(
     "Never" : "inoiz ez",
     "Delete" : "Ezabatu",
     "Admin defined" : "Administratzaileak definitua",
+    "Delete storage?" : "Ezabatu biltegiratzea?",
     "Saved" : "Gordeta",
     "Saving..." : "Gordetzen...",
     "Save" : "Gorde",
