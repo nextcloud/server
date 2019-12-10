@@ -161,6 +161,8 @@ class QuerySearchHelper {
 			$value = self::TAG_FAVORITE;
 		} else if ($field === 'tagname') {
 			$field = 'tag.category';
+		} else if ($field === 'fileid') {
+			$field = 'file.fileid';
 		}
 		return [$field, $value, $type];
 	}
