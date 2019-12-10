@@ -52,6 +52,7 @@
     "oauth2",
     "settings",
     "twofactor_backupcodes",
+    "viewer",
     "workflowengine"
   ]
 }
