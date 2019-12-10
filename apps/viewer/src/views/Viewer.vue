@@ -25,6 +25,7 @@
 		v-if="initiated || currentFile.modal"
 		id="viewer-content"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
+		:dark="true"
 		:view="currentFile.modal"
 		:enable-slideshow="hasPrevious || hasNext"
 		:spread-navigation="true"
