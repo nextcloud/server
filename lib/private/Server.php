@@ -147,6 +147,14 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
+use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -341,23 +349,57 @@ class Server extends ServerContainer implements IServerContainer {
 			$groupManager = new \OC\Group\Manager($this->getUserManager(), $c->getEventDispatcher(), $this->getLogger());
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
 				\OC_Hook::emit('OC_Group', 'pre_createGroup', array('run' => true, 'gid' => $gid));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			});
-			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $gid) {
-				\OC_Hook::emit('OC_User', 'post_createGroup', array('gid' => $gid->getGID()));
+			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $group) {
+				\OC_Hook::emit('OC_User', 'post_createGroup', array('gid' => $group->getGID()));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
 				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', array('run' => true, 'gid' => $group->getGID()));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
 				\OC_Hook::emit('OC_User', 'post_deleteGroup', array('gid' => $group->getGID()));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new GroupDeletedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
 				\OC_Hook::emit('OC_Group', 'pre_addToGroup', array('run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new BeforeUserAddedEvent($group, $user));
 			});
 			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
 				\OC_Hook::emit('OC_Group', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
 				//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
 				\OC_Hook::emit('OC_User', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new UserAddedEvent($group, $user));
+			});
+			$groupManager->listen('\OC\Group', 'preRemoveUser', function (\OC\Group\Group $group, \OC\User\User $user) {
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new BeforeUserRemovedEvent($group, $user));
+			});
+			$groupManager->listen('\OC\Group', 'postRemoveUser', function (\OC\Group\Group $group, \OC\User\User $user) {
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = $this->query(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new UserRemovedEvent($group, $user));
 			});
 			return $groupManager;
 		});
