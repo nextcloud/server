@@ -1848,6 +1848,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @return EventDispatcherInterface
 	 * @since 8.2.0
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher
 	 */
 	public function getEventDispatcher() {
 		return $this->query(\OC\EventDispatcher\SymfonyAdapter::class);
