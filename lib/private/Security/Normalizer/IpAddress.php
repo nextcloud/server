@@ -75,6 +75,10 @@ class IpAddress {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
 			$ip = substr($ip, 1, strlen($ip) - 2);
 		}
+		$pos = strpos($ip, '%'); // if there is an explicit interface added to the IP, e.g. fe80::ae2d:d1e7:fe1e:9a8d%enp2s0
+		if ($pos !== false) {
+			$ip = substr($ip, 0, $pos-1);
+		}
 		$binary = \inet_pton($ip);
 		for ($i = 128; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
