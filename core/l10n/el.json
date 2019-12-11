@@ -30,6 +30,7 @@
     "Repair step:" : "Βήμα επιδιόρθωσης:",
     "Repair info:" : "Πληροφορίες επισκευής:",
     "Repair warning:" : "Προειδοποίηση επισκευής:",
+    "Repair error:" : "Διόρθωση σφάλματος:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Παρακαλώ ενημερώστε μέσω γραμμής εντολών διότι η αυτόματη ενημέρωση έχει απενεργοποιηθεί στο αρχείο config.php.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Έλεγχος πίνακα %s",
     "Turned on maintenance mode" : "Η λειτουργία συντήρησης ενεργοποιήθηκε",

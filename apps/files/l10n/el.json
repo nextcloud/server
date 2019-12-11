@@ -25,6 +25,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} από {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Η μεταφόρτωση αυτού του αντικειμένου δεν υποστηρίζεται",
     "Target folder does not exist any more" : "Ο επιλεγμένος φάκελος δεν υπάρχει πια",
+    "Error when assembling chunks, status code {status}" : "Σφάλμα κατά την συλλογή τμημάτων, κωδικός κατάστασης {status}",
     "Actions" : "Ενέργειες",
     "Rename" : "Μετονομασία",
     "Copy" : "Αντιγραφή",
