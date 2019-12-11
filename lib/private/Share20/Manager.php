@@ -1447,8 +1447,9 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function checkPassword(\OCP\Share\IShare $share, $password) {
-		$passwordProtected = $share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK
-			|| $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL;
+		$passwordProtected = $share->getShareType() !== IShare::TYPE_LINK
+							 || $share->getShareType() !== IShare::TYPE_EMAIL
+							 || $share->getShareType() !== IShare::TYPE_CIRCLE;
 		if (!$passwordProtected) {
 			//TODO maybe exception?
 			return false;
