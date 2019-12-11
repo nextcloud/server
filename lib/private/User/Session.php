@@ -900,9 +900,9 @@ class Session implements IUserSession, Emitter {
 	 * logout the user from the session
 	 */
 	public function logout() {
-		$this->manager->emit('\OC\User', 'logout');
 		$user = $this->getUser();
-		if (!is_null($user)) {
+		$this->manager->emit('\OC\User', 'logout', [$user]);
+		if ($user !== null) {
 			try {
 				$this->tokenProvider->invalidateToken($this->session->getId());
 			} catch (SessionNotAvailableException $ex) {
@@ -914,7 +914,7 @@ class Session implements IUserSession, Emitter {
 		$this->setToken(null);
 		$this->unsetMagicInCookie();
 		$this->session->clear();
-		$this->manager->emit('\OC\User', 'postLogout');
+		$this->manager->emit('\OC\User', 'postLogout', [$user]);
 	}
 
 	/**
