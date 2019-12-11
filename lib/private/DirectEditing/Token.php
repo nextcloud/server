@@ -50,7 +50,7 @@ class Token implements IToken {
 		if ($this->data['share_id'] !== null) {
 			return $this->manager->getShareForToken($this->data['share_id']);
 		}
-		return $this->manager->getFileForToken($this->data['user_id'], $this->data['file_id']);
+		return $this->manager->getFileForToken($this->data['user_id'], $this->data['file_id'], $this->data['file_path']);
 	}
 
 	public function getToken(): string {
