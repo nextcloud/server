@@ -145,6 +145,14 @@
 			var deferred = $.Deferred();
 			var view = this;
 
+			// query lookup GS by default if enabled
+			var capabilities = OC.getCapabilities()
+			if (capabilities.files_sharing
+				&& capabilities.files_sharing.sharee
+				&& capabilities.files_sharing.sharee.query_lookup_default) {
+					this._lookup = true;
+			}
+
 			$.get(
 				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
 				{
