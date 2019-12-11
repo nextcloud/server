@@ -23,6 +23,9 @@
 
 namespace OC\Hooks;
 
+/**
+ * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher
+ */
 abstract class BasicEmitter implements Emitter {
 	use EmitterTrait;
 }
