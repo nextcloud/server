@@ -36,6 +36,7 @@ use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\ForbiddenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
@@ -114,7 +115,7 @@ class Scan extends Base {
 
 	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->getLogger());
+		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->query(IEventDispatcher::class), \OC::$server->getLogger());
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 
