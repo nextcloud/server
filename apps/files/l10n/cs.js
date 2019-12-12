@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "Složka, kterou přesunout",
     "No directory selected" : "Nebyla vybrána žádná složka",
     "Target user" : "Cílový uživatel",
+    "Target user …" : "Cílový uživatel…",
     "Submit" : "Odeslat",
     "Select directory to transfer" : "Vyberte složku, kterou převést",
     "Invalid path selected" : "Vybrán neplatný popis umístění",
