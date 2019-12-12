@@ -116,7 +116,7 @@ class Sharing implements ISettings {
 			],
 			[
 				'id' => 'canshare',
-				'label' => $this->l->t('Share'),
+				'label' => $this->l->t('Reshare'),
 				'value' => Constants::PERMISSION_SHARE
 			],
 		];
