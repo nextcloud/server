@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "Katalog do przeniesienia",
     "No directory selected" : "Nie wybrano katalogu",
     "Target user" : "Użytkownik docelowy",
+    "Target user …" : "Użytkownik docelowy...",
     "Submit" : "Prześlij",
     "Select directory to transfer" : "Wybierz katalog do przeniesienia",
     "Invalid path selected" : "Wybrano nieprawidłową ścieżkę",
