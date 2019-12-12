@@ -818,6 +818,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\OCJSController' => __DIR__ . '/../../..' . '/core/Controller/OCJSController.php',
         'OC\\Core\\Controller\\OCSController' => __DIR__ . '/../../..' . '/core/Controller/OCSController.php',
         'OC\\Core\\Controller\\PreviewController' => __DIR__ . '/../../..' . '/core/Controller/PreviewController.php',
+        'OC\\Core\\Controller\\RecommendedAppsController' => __DIR__ . '/../../..' . '/core/Controller/RecommendedAppsController.php',
         'OC\\Core\\Controller\\SearchController' => __DIR__ . '/../../..' . '/core/Controller/SearchController.php',
         'OC\\Core\\Controller\\SetupController' => __DIR__ . '/../../..' . '/core/Controller/SetupController.php',
         'OC\\Core\\Controller\\SvgController' => __DIR__ . '/../../..' . '/core/Controller/SvgController.php',
