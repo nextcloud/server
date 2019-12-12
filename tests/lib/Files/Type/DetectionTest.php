@@ -62,7 +62,7 @@ class DetectionTest extends \Test\TestCase {
 	 * @param string $path
 	 * @param string $expected
 	 */
-	public function testDetectPath(string $path, string $expected): void {
+	public function testDetectPath(string $path, string $expected) {
 		$this->assertEquals($expected, $this->detection->detectPath($path));
 	}
 
@@ -82,7 +82,7 @@ class DetectionTest extends \Test\TestCase {
 	 * @param string $path
 	 * @param string $expected
 	 */
-	public function testDetectContent(string $path, string $expected): void {
+	public function testDetectContent(string $path, string $expected) {
 		$this->assertEquals($expected, $this->detection->detectContent(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
 
@@ -102,11 +102,11 @@ class DetectionTest extends \Test\TestCase {
 	 * @param string $path
 	 * @param string $expected
 	 */
-	public function testDetect(string $path, string $expected): void {
+	public function testDetect(string $path, string $expected) {
 		$this->assertEquals($expected, $this->detection->detect(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
 
-	public function testDetectString(): void {
+	public function testDetectString() {
 		$result = $this->detection->detectString('/data/data.tar.gz');
 		$expected = 'text/plain';
 		$this->assertEquals($expected, $result);
@@ -125,7 +125,7 @@ class DetectionTest extends \Test\TestCase {
 	 * @param string $mimeType
 	 * @param string $expected
 	 */
-	public function testGetSecureMimeType(string $mimeType, string $expected): void {
+	public function testGetSecureMimeType(string $mimeType, string $expected) {
 		$this->assertEquals($expected, $this->detection->getSecureMimeType($mimeType));
 	}
 
