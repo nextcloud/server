@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "Mapp att flytta",
     "No directory selected" : "Ingen mapp vald",
     "Target user" : "Målanvändare",
+    "Target user …" : "Målanvändare ...",
     "Submit" : "Verkställ",
     "Select directory to transfer" : "Välj mapp att överföra",
     "Invalid path selected" : "Ogiltig sökväg vald",
