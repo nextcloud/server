@@ -29,7 +29,9 @@
 					<button v-if="showUpdateAll"
 						id="app-list-update-all"
 						class="primary"
-						@click="updateAll">{{t('settings', 'Update all')}}</button>
+						@click="updateAll">
+						{{ t('settings', 'Update all') }}
+					</button>
 				</div>
 				<transition-group name="app-list" tag="div" class="apps-list-container">
 					<AppItem v-for="app in apps"

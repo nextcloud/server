@@ -524,7 +524,6 @@ td, th {
 		visibility: hidden;
 	}
 	&.password,
-	&.displayName,
 	&.mailAddress {
 		min-width: 5em;
 		max-width: 12em;
@@ -705,6 +704,7 @@ span.version {
 	#searchresults {
 		display: none;
 	}
+
 }
 #apps-list.store {
 	.section {
@@ -1351,8 +1351,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
-	$grid-row-height: 46px;
-	$grid-col-min-width: 120px;
+	$grid-row-height: 60px;
+	$grid-col-min-width: 150px;
 	#app-content.user-list-grid {
 		display: grid;
 		grid-auto-columns: 1fr;
@@ -1376,7 +1376,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 			/* grid col width */
 			.name,
-			.displayName,
 			.password,
 			.mailAddress,
 			.languages,
@@ -1384,12 +1383,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userBackend,
 			.lastLogin {
 				min-width: $grid-col-min-width;
+				display: flex;
+				color:  var(--color-text-dark);
+				vertical-align: baseline;
 			}
 			.groups,
 			.subadmins,
 			.quota {
 				.multiselect {
 					min-width: $grid-col-min-width;
+					color: var(--color-text-dark);
+					vertical-align: baseline;
 				}
 			}
 			.obfuscated {
@@ -1398,6 +1402,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 			.userActions {
 				min-width: 44px;
+			}
+			.subtitle {
+				color: var(--color-text-maxcontrast);
+				vertical-align: baseline;
 			}
 
 			/* various */
@@ -1427,16 +1435,23 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
 				z-index: 60; /* above new-user */
+				border-bottom-width: thin;
 
 				#headerDisplayName,
 				#headerPassword,
 				#headerAddress,
 				#headerGroups,
 				#headerSubAdmins,
+				#theHeaderUserBackend,
+				#theHeaderLastLogin,
 				#headerQuota,
+				#theHeaderStorageLocation,
 				#headerLanguages {
 					/* Line up header text with column content for when there’s inputs */
 					padding-left: 7px;
+					text-transform: none;
+					color: var(--color-text-maxcontrast);
+					vertical-align: baseline;
 				}
 			}
 			&:hover {
@@ -1451,8 +1466,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			> form {
 				grid-row: 1;
 				display: inline-flex;
-				align-items: center;
-				color: var(--color-text);
+				color: var(--color-text-lighter);
 				position: relative;
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
@@ -1478,7 +1492,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					}
 				}
 				&.name,
-				&.storageLocation {
+				&.userBackend {
 					/* better multi-line visual */
 					line-height: 1.3em;
 					max-height: 100%;
@@ -1492,16 +1506,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-box-orient: vertical;
 				}
 				&.quota {
-                    .multiselect--active + progress {
-                        display: none;
-                    }
+					height: 44px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
 					progress {
-						position: absolute;
-						width: calc(100% - 4px); /* minus left and right */
-						left: 2px;
-						bottom: 2px;
+						width: 100%;
+						margin: 0 10px;
 						height: 3px;
-						z-index: 5; /* above multiselect */
 					}
 				}
 				.icon-confirm {
@@ -1520,16 +1532,22 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					}
 				}
 				&.userActions {
+				  .action-item {
+					position: absolute;
+				  }
 					#newsubmit {
 						width: 100%;
 					}
 					.toggleUserActions {
 						position: relative;
+						display: block;
+						align-items: center;
 						.icon-more {
 							width: 44px;
 							height: 44px;
 							opacity: .5;
 							cursor: pointer;
+							margin-left: 40px;
 							&:hover {
 								opacity: .7;
 							}
