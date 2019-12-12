@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "目录移动",
     "No directory selected" : "未选择目录",
     "Target user" : "目标用户",
+    "Target user …" : "目标用户...",
     "Submit" : "提交",
     "Select directory to transfer" : "选择要转移的目录",
     "Invalid path selected" : "选择的路径无效",
