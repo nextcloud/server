@@ -203,9 +203,12 @@ class Detection implements IMimeTypeDetector {
 			$fileName = preg_replace('!((\.v\d+)|((\.ocTransferId\d+)?\.part))$!', '', $fileName);
 
 			//try to guess the type by the file extension
-			$extension = strtolower(strrchr($fileName, '.'));
-			$extension = substr($extension, 1); //remove leading .
-			return $this->mimetypes[$extension][0] ?? 'application/octet-stream';
+			$extension = strrchr($fileName, '.');
+			if ($extension !== false) {
+				$extension = strtolower($extension);
+				$extension = substr($extension, 1); //remove leading .
+				return $this->mimetypes[$extension][0] ?? 'application/octet-stream';
+			}
 		}
 
 		return 'application/octet-stream';
