@@ -241,6 +241,8 @@ class RefreshWebcalJobTest extends TestCase {
 			['172.16.42.1'],
 			['[fdf8:f53b:82e4::53]/secret.ics'],
 			['[fe80::200:5aee:feaa:20a2]/secret.ics'],
+			['[0:0:0:0:0:0:10.0.0.1]/secret.ics'],
+			['[0:0:0:0:0:ffff:127.0.0.0]/secret.ics'],
 			['10.0.0.1'],
 			['another-host.local'],
 			['service.localhost'],
