@@ -1339,6 +1339,13 @@ $CONFIG = array(
 'sharing.minSearchStringLength' => 0,
 
 /**
+ * Starting with Nextcloud 18 also internal shares have to be accepted. Setting
+ * this setting to true forces all internal shares to be accepted directly.
+ * (resulting in pre 18 behavior).
+ */
+'sharing.interal_shares_accepted' => false,
+
+/**
  * All other configuration options
  */
 
