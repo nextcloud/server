@@ -40,8 +40,16 @@ interface IMimeTypeDetector {
 	 * @param string $path
 	 * @return string
 	 * @since 8.2.0
-	 **/
+	 */
 	public function detectPath($path);
+
+	/**
+	 * detect mimetype only based on the content of file
+	 * @param string $path
+	 * @return string
+	 * @since 18.0.0
+	 */
+	public function detectContent(string $path): string;
 
 	/**
 	 * detect mimetype based on both filename and content

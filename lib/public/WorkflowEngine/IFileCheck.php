@@ -37,8 +37,11 @@ use OCP\Files\Storage\IStorage;
  */
 interface IFileCheck extends IEntityCheck {
 	/**
+	 * @param IStorage $storage
+	 * @param string $path
+	 * @param bool $isDir
 	 * @since 18.0.0
 	 */
-	public function setFileInfo(IStorage $storage, string $path);
+	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void;
 
 }
