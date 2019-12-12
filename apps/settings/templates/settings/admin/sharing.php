@@ -41,7 +41,7 @@
 	<p id="internalShareSettings" class="indent <?php if ($_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
 		<input type="checkbox" name="shareapi_default_internal_expire_date" id="shareapiDefaultInternalExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareDefaultInternalExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
-		<label for="shareapiDefaultInternalExpireDate"><?php p($l->t('Set default expiration date for non-link shares'));?></label><br/>
+		<label for="shareapiDefaultInternalExpireDate"><?php p($l->t('Set default expiration date for shares'));?></label><br/>
 	</p>
 	<p id="setDefaultInternalExpireDate" class="double-indent <?php if ($_['shareDefaultInternalExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') p('hidden');?>">
 		<?php p($l->t( 'Expire after ' )); ?>
