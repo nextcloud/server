@@ -51,8 +51,9 @@ class FileSize implements ICheck {
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
+	 * @param bool $isDir
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
+	public function setFileInfo(IStorage $storage, $path, $isDir = false) {
 	}
 
 	/**

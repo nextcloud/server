@@ -36,9 +36,10 @@ interface ICheck {
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
+	 * @param bool $isDir
 	 * @since 9.1
 	 */
-	public function setFileInfo(IStorage $storage, $path);
+	public function setFileInfo(IStorage $storage, $path, $isDir = false);
 
 	/**
 	 * @param string $operator
