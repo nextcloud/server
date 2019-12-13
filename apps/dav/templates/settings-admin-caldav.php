@@ -91,7 +91,7 @@ script('dav', [
 			)); ?>
 		</em>
 		<br>
-		<em><?php p($l->t('Notifications will be send through background jobs, so these need to happen often enough.')); ?></em>
+		<em><?php p($l->t('Notifications are sent via background jobs, so these must occur often enough.')); ?></em>
 	</p>
 	<p>
 		<input type="checkbox" name="caldav_send_reminders_notifications_push" id="caldavSendRemindersNotificationsPush" class="checkbox"
