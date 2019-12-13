@@ -27,27 +27,47 @@ declare(strict_types=1);
 
 namespace OCA\Files\Notification;
 
+use OCA\Files\Db\TransferOwnershipMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\IAction;
+use OCP\Notification\IDismissableNotifier;
+use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
-class Notifier implements INotifier {
+class Notifier implements INotifier, IDismissableNotifier {
 
 	/** @var IFactory */
 	protected $l10nFactory;
 
 	/** @var IURLGenerator */
 	protected $urlGenerator;
+	/** @var TransferOwnershipMapper */
+	private $mapper;
+	/** @var IManager */
+	private $notificationManager;
+	/** @var ITimeFactory */
+	private $timeFactory;
 
 	/**
 	 * @param IFactory $l10nFactory
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IFactory $l10nFactory, IURLGenerator $urlGenerator) {
+	public function __construct(IFactory $l10nFactory,
+								IURLGenerator $urlGenerator,
+								TransferOwnershipMapper $mapper,
+								IManager $notificationManager,
+								ITimeFactory $timeFactory) {
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->mapper = $mapper;
+		$this->notificationManager = $notificationManager;
+		$this->timeFactory = $timeFactory;
 	}
 
 	public function getID(): string {
@@ -246,5 +266,32 @@ class Notifier implements INotifier {
 			->setParsedMessage(str_replace(['{path}', '{user}'], [$param['nodeName'], $param['sourceUser']], $l->t('The transfer of {path} from {user} has completed.')));
 
 		return $notification;
+	}
+
+	public function dismissNotification(INotification $notification): void {
+		if ($notification->getApp() !== 'files') {
+			throw new \InvalidArgumentException('Unhandled app');
+		}
+
+		// TODO: This should all be moved to a service that also the transferownershipContoller uses.
+		try {
+			$transferOwnership = $this->mapper->getById((int)$notification->getObjectId());
+		} catch (DoesNotExistException $e) {
+			return;
+		}
+
+		$notification = $this->notificationManager->createNotification();
+		$notification->setUser($transferOwnership->getSourceUser())
+			->setApp('files')
+			->setDateTime($this->timeFactory->getDateTime())
+			->setSubject('transferownershipRequestDenied', [
+				'sourceUser' => $transferOwnership->getSourceUser(),
+				'targetUser' => $transferOwnership->getTargetUser(),
+				'nodeName' => $transferOwnership->getNodeName()
+			])
+			->setObject('transfer', (string)$transferOwnership->getId());
+		$this->notificationManager->notify($notification);
+
+		$this->mapper->delete($transferOwnership);
 	}
 }
