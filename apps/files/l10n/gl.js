@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "Directorio para mover",
     "No directory selected" : "Non seleccionou ningún directorio",
     "Target user" : "Usuario destino",
+    "Target user …" : "Usuario destino…",
     "Submit" : "Enviar",
     "Select directory to transfer" : "Seleccione o directorio para transferir",
     "Invalid path selected" : "Seleccionou unha ruta incorrecta.",

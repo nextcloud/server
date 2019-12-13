@@ -81,7 +81,6 @@
     "Install Client" : "Įdiegti kliento programą",
     "Create" : "Sukurti",
     "Change" : "Keisti",
-    "Share" : "Bendrinti",
     "Unlimited" : "Neribotai",
     "Nextcloud settings" : "Nextcloud nustatymai",
     "Save changes" : "Įrašyti pakeitimus",
@@ -140,10 +139,8 @@
     "Done" : "Atlikta",
     "Copied!" : "Nukopijuota!",
     "Copy" : "Kopijuoti",
-    "New password" : "Naujas slaptažodis",
     "Add user in group" : "Pridėti naudotoją į grupę",
     "No language set" : "Nenustatyta jokia kalba",
-    "Never" : "Niekada",
     "Delete user" : "Ištrinti naudotoją",
     "Wipe all devices" : "Ištrinti duomenis visuose įrenginiuose",
     "Disable user" : "Išjungti naudotoją",
@@ -165,7 +162,6 @@
     "All languages" : "Visos kalbos",
     "Password change is disabled because the master key is disabled" : "Slaptažodžių keitimas išjungtas, nes yra išjungtas pagrindinis raktas",
     "Your apps" : "Jūsų programėlės",
-    "Recommended apps" : "Rekomenduojamos programėlės",
     "Active apps" : "Aktyvios programėlės",
     "Disabled apps" : "Išjungtos programėlės",
     "Updates" : "Atnaujinimai",
@@ -183,6 +179,7 @@
     "Add group" : "Pridėti grupę",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Jūs ketinate pašalinti grupę {group}. Naudotojai NEBUS ištrinti.",
     "Please confirm the group removal " : "Patvirtinkite grupės pašalinimą",
+    "Never" : "Niekada",
     "An error occured during the request. Unable to proceed." : "Užklausos metu, įvyko klaida. Nepavyksta tęsti.",
     "App update" : "Programėlės atnaujinimas",
     "Error: This app can not be enabled because it makes the server unstable" : "Klaida: ši programėlė negali būti įjungta, nes ji neigiamai veikia serverio stabilumą",
@@ -293,6 +290,7 @@
     "Help translate" : "Padėkite išversti",
     "Locale" : "Lokalė",
     "Current password" : "Dabartinis slaptažodis",
+    "New password" : "Naujas slaptažodis",
     "Change password" : "Pakeisti slaptažodį",
     "Disconnect" : "Atsijungti",
     "Not supported!" : "Nepalaikoma!",
@@ -371,6 +369,7 @@
     "Official" : "Oficiali",
     "Store credentials" : "Išsaugoti prisijungimo duomenis",
     "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą",
-    "Follow us on Google+" : "Sekite mus Google+"
+    "Follow us on Google+" : "Sekite mus Google+",
+    "Share" : "Bendrinti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
