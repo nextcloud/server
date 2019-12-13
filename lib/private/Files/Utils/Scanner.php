@@ -36,9 +36,18 @@ use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeFileScannedEvent;
+use OCP\Files\Events\BeforeFolderScannedEvent;
+use OCP\Files\Events\NodeAddedToCache;
+use OCP\Files\Events\FileCacheUpdated;
+use OCP\Files\Events\NodeRemovedFromCache;
+use OCP\Files\Events\FileScannedEvent;
+use OCP\Files\Events\FolderScannedEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IDBConnection;
 use OCP\ILogger;
 
 /**
@@ -53,19 +62,16 @@ use OCP\ILogger;
 class Scanner extends PublicEmitter {
 	const MAX_ENTRIES_TO_COMMIT = 10000;
 
-	/**
-	 * @var string $user
-	 */
+	/** @var string $user */
 	private $user;
 
-	/**
-	 * @var \OCP\IDBConnection
-	 */
+	/** @var IDBConnection */
 	protected $db;
 
-	/**
-	 * @var ILogger
-	 */
+	/** @var IEventDispatcher */
+	private $dispatcher;
+
+	/** @var ILogger */
 	protected $logger;
 
 	/**
@@ -84,13 +90,15 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * @param string $user
-	 * @param \OCP\IDBConnection $db
+	 * @param IDBConnection|null $db
+	 * @param IEventDispatcher $dispatcher
 	 * @param ILogger $logger
 	 */
-	public function __construct($user, $db, ILogger $logger) {
-		$this->logger = $logger;
+	public function __construct($user, $db, IEventDispatcher $dispatcher, ILogger $logger) {
 		$this->user = $user;
 		$this->db = $db;
+		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 		// when DB locking is used, no DB transactions will be used
 		$this->useTransaction = !(\OC::$server->getLockingProvider() instanceof DBLockingProvider);
 	}
@@ -121,18 +129,21 @@ class Scanner extends PublicEmitter {
 	 */
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();
-		$emitter = $this;
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount, $emitter) {
-			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
+			$this->dispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, $emitter) {
-			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
+			$this->dispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount, $emitter) {
-			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFile', array($mount->getMountPoint() . $path));
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', array($mount->getMountPoint() . $path));
+			$this->dispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount, $emitter) {
-			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
+			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
 	}
 
@@ -225,12 +236,15 @@ class Scanner extends PublicEmitter {
 
 			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
+				$this->dispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
+				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
+				$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
 			});
 
 			if (!$storage->file_exists($relativePath)) {
