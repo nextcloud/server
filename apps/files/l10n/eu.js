@@ -152,6 +152,7 @@ OC.L10N.register(
     "Directory to move" : "Lekuz aldatu beharreko direktorioa",
     "No directory selected" : "Ez da direktoriorik hautatu",
     "Target user" : "Helburuko erabiltzailea",
+    "Target user …" : "Helburuko erabiltzailea …",
     "Submit" : "Bidali",
     "Select directory to transfer" : "Hautatu direktorioa transferitzeko",
     "Invalid path selected" : "Bide baliogabea hautatuta",
