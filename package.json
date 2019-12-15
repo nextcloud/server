@@ -66,7 +66,7 @@
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "toastify-js": "^1.6.1",
     "underscore": "^1.9.1",
-    "url-search-params-polyfill": "^7.0.0",
+    "url-search-params-polyfill": "^7.0.1",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
     "vue-click-outside": "^1.0.7",
