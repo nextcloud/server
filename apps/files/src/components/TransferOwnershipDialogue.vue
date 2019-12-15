@@ -61,7 +61,7 @@
 				<li>
 					<input type="submit"
 						class="primary"
-						:value="t('files', 'Transfer')"
+						:value="submitButtonText"
 						:disabled="!canSubmit">
 					<span class="error">{{ submitError }}</span>
 				</li>
@@ -115,6 +115,12 @@ export default {
 					icon: 'icon-user'
 				}
 			})
+		},
+		submitButtonText() {
+			if (!this.canSubmit) {
+				return t('files', 'Set options above')
+			}
+			return t('files', 'Transfer "{path}" to {userid}', { path: this.directory, userid: this.uid })
 		}
 	},
 	created() {
