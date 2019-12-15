@@ -35,10 +35,4 @@ describe('Files default view', function() {
 	it('Take screenshot', function() {
 		cy.screenshot()
 	})
-
-	it('Capture the app viewer version', function() {
-		cy.visit('/settings/apps/enabled/viewer')
-		cy.contains('.apps-list-container .section .app-name', 'Viewer')
-		cy.screenshot()
-	})
 })
