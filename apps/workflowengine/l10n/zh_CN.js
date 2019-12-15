@@ -51,7 +51,7 @@ OC.L10N.register(
     "PDF documents" : "PDF文档",
     "Custom mimetype" : "自定义MIME类型",
     "Select a tag" : "选择标签",
-    "No results" : "无结果",
+    "No results" : "没有结果",
     "%s (invisible)" : "%s（不可见）",
     "%s (restricted)" : "%s（受限）",
     "Please enter a valid time span" : "请输入有效的时间范围",
