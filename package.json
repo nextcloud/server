@@ -92,7 +92,7 @@
     "eslint-config-nextcloud": "0.0.6",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-nextcloud": "^0.3.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
