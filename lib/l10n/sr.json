@@ -172,6 +172,7 @@
     "A valid username must be provided" : "Морате унети исправно корисничко име",
     "Username contains whitespace at the beginning or at the end" : "Корисничко име садржи белине на почетку или на крају",
     "Username must not consist of dots only" : "Корисничко име не могу бити само тачке",
+    "Username is invalid because files already exist for this user" : "Корисничко име није исправно пошто већ постоје фајлови за овог корисника",
     "A valid password must be provided" : "Морате унети исправну лозинку",
     "The username is already being used" : "Корисничко име се већ користи",
     "Could not create user" : "Не могу да направим корисника",
