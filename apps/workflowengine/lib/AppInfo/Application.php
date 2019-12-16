@@ -110,7 +110,7 @@ class Application extends \OCP\AppFramework\App {
 									$operation->onEventCompat($eventName, $event, $ruleMatcher);
 								} else {
 									$logger = $this->getContainer()->getServer()->getLogger();
-									$logger->warning(
+									$logger->debug(
 										'Cannot handle event {name} of {event} against entity {entity} and operation {operation}',
 										[
 											'app' => self::APP_ID,
