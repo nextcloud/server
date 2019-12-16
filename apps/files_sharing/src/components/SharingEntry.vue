@@ -42,12 +42,24 @@
 
 				<!-- create permission -->
 				<ActionCheckbox
+					v-if="isFolder"
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
 					:disabled="saving">
 					{{ t('files_sharing', 'Allow creating') }}
 				</ActionCheckbox>
+
+				<!-- delete permission -->
+				<ActionCheckbox
+					v-if="isFolder"
+					ref="canDelete"
+					:checked.sync="canDelete"
+					:value="permissionsDelete"
+					:disabled="saving">
+					{{ t('files_sharing', 'Allow deleting') }}
+				</ActionCheckbox>
+
 				<!-- reshare permission -->
 				<ActionCheckbox
 					ref="canReshare"
@@ -57,14 +69,6 @@
 					{{ t('files_sharing', 'Allow resharing') }}
 				</ActionCheckbox>
 
-				<!-- delete permission -->
-				<ActionCheckbox
-					ref="canDelete"
-					:checked.sync="canDelete"
-					:value="permissionsDelete"
-					:disabled="saving">
-					{{ t('files_sharing', 'Allow deleting') }}
-				</ActionCheckbox>
 				<!-- expiration date -->
 				<ActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultExpireDateEnforced || saving"
@@ -253,6 +257,14 @@ export default {
 			set: function(checked) {
 				this.updatePermissions({ isReshareChecked: checked })
 			},
+		},
+
+		/**
+		 * Is the current share a folder ?
+		 * @returns {boolean}
+		 */
+		isFolder() {
+			return this.fileInfo.type === 'dir'
 		},
 
 		/**
