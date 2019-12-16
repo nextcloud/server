@@ -217,7 +217,7 @@ OC.L10N.register(
     "Account deletion" : "Löschung des Kontos",
     "Delete {userid}'s account" : "Konto von {userid} löschen",
     "Welcome mail sent!" : "Willkommens-E-Mail gesendet!",
-    "Edit User" : "Nutzer bearbeiten",
+    "Edit User" : "Benutzer bearbeiten",
     "{size} used" : "{size} verwendet",
     "Display name" : "Anzeigename",
     "Email" : "E-Mail",
