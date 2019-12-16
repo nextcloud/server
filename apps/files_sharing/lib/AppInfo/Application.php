@@ -35,6 +35,7 @@ use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\Listener\GlobalShareAcceptanceListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
@@ -54,6 +55,7 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\IContainer;
 use OCP\IGroup;
 use OCP\IServerContainer;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -210,6 +212,7 @@ class Application extends App {
 		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function() {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});
+		$dispatcher->addServiceListener(ShareCreatedEvent::class, GlobalShareAcceptanceListener::class);
 
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener('OCP\Share::postShare', function(GenericEvent $event) {
@@ -233,7 +236,7 @@ class Application extends App {
 		}
 
 		$sharingSublistArray = [];
-	
+
 		if (\OCP\Util::isSharingDisabledForUser() === false) {
 			array_push($sharingSublistArray, [
 				'id' => 'sharingout',
@@ -243,7 +246,7 @@ class Application extends App {
 				'name' => $l->t('Shared with others'),
 			]);
 		}
-	
+
 		array_push($sharingSublistArray, [
 			'id' => 'sharingin',
 			'appname' => 'files_sharing',
@@ -251,7 +254,7 @@ class Application extends App {
 			'order' => 15,
 			'name' => $l->t('Shared with you'),
 		]);
-	
+
 		if (\OCP\Util::isSharingDisabledForUser() === false) {
 			// Check if sharing by link is enabled
 			if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
@@ -264,7 +267,7 @@ class Application extends App {
 				]);
 			}
 		}
-	
+
 		array_push($sharingSublistArray, [
 			'id' => 'deletedshares',
 			'appname' => 'files_sharing',
@@ -272,7 +275,7 @@ class Application extends App {
 			'order' => 19,
 			'name' => $l->t('Deleted shares'),
 		]);
-	
+
 		// show_Quick_Access stored as string
 		\OCA\Files\App::getNavigationManager()->add([
 			'id' => 'shareoverview',

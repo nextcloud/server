@@ -454,6 +454,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Settings\\ISettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISettings.php',
         'OCP\\Settings\\ISubAdminSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/ISubAdminSettings.php',
         'OCP\\Share' => __DIR__ . '/../../..' . '/lib/public/Share.php',
+        'OCP\\Share\\Events\\ShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareCreatedEvent.php',
         'OCP\\Share\\Exceptions\\GenericShareException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/GenericShareException.php',
         'OCP\\Share\\Exceptions\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
         'OCP\\Share\\Exceptions\\ShareNotFound' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/ShareNotFound.php',

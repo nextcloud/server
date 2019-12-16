@@ -1171,7 +1171,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getEventDispatcher(),
 				$c->getMailer(),
 				$c->getURLGenerator(),
-				$c->getThemingDefaults()
+				$c->getThemingDefaults(),
+				$c->query(IEventDispatcher::class)
 			);
 
 			return $manager;
