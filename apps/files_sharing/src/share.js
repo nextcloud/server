@@ -254,7 +254,6 @@
 		 * @returns {boolean} true if the icon was set, false otherwise
 		 */
 		_updateFileActionIcon: function($tr, hasUserShares, hasLinkShares) {
-			console.info('object');
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
 			if (hasUserShares || hasLinkShares || $tr.attr('data-share-recipient-data') || $tr.attr('data-share-owner')) {
