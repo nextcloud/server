@@ -20,19 +20,19 @@
   -->
 
 <template>
-	<div class="update">
+	<div class="body-login-container">
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
-		<p v-if="loadingApps" class="loading">
+		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
 		</p>
-		<p v-else-if="loadingAppsError" class="loading-error">
+		<p v-else-if="loadingAppsError" class="loading-error text-center">
 			{{ t('core', 'Could not fetch list of apps from the app store.') }}
 		</p>
-		<p v-else>
-			{{ t('core', 'Installing recommended apps …') }}
+		<p v-else class="text-center">
+			{{ t('core', 'Installing apps …') }}
 		</p>
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
-			<img :src="customIcon(app.id)" :alt="t('core', 'Nextcloud app {app}', { app: app.name })">
+			<img :src="customIcon(app.id)" :alt="t('core', 'Nextcloud {app}', { app: app.name })">
 			<div class="info">
 				<h3>
 					{{ app.name }}
@@ -40,18 +40,18 @@
 					<span v-else-if="app.active" class="icon icon-checkmark-white" />
 				</h3>
 				<p v-html="customDescription(app.id)" />
-				<p v-if="app.installationError" class="error">
-					{{ t('core', 'App download or installation failed') }}
+				<p v-if="app.installationError">
+					<strong>{{ t('core', 'App download or installation failed') }}</strong>
 				</p>
-				<p v-else-if="!app.isCompatible" class="error">
-					{{ t('core', 'Can\'t install this app because it is not compatible') }}
+				<p v-else-if="!app.isCompatible">
+					<strong>{{ t('core', 'Can\'t install this app because it is not compatible') }}</strong>
 				</p>
-				<p v-else-if="!app.canInstall" class="error">
-					{{ t('core', 'Can\'t install this app') }}
+				<p v-else-if="!app.canInstall">
+					<strong>{{ t('core', 'Can\'t install this app') }}</strong>
 				</p>
 			</div>
 		</div>
-		<a :href="defaultPageUrl">{{ t('core', 'Go back') }}</a>
+		<p class="text-center"><a :href="defaultPageUrl">{{ t('core', 'Cancel') }}</a></p>
 	</div>
 </template>
 
@@ -165,16 +165,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.body-login-container {
+	max-width: 290px;
+}
+
 p.loading, p.loading-error {
 	height: 100px;
 }
+
+.text-center {
+	text-align: center;
+}
+
 .app {
 	display: flex;
 	flex-direction: row;
 
 	img {
-		height: 64px;
-		width: 64px;
+		height: 50px;
+		width: 50px;
+		filter: invert(1);
 	}
 
 	img, .info {
@@ -182,8 +192,13 @@ p.loading, p.loading-error {
 	}
 
 	.info {
-		h3 {
+		h3, p {
 			text-align: left;
+		}
+
+		h3 {
+			color: #fff;
+			margin-top: 0;
 		}
 
 		h3 > span.icon {
