@@ -53,6 +53,7 @@
 						:loading="loadingUsers"
 						track-by="user"
 						label="displayName"
+						:internal-search="false"
 						:clear-on-select="false"
 						:user-select="true"
 						@search-change="findUserDebounced" />
@@ -162,6 +163,7 @@ export default {
 					logger.error('Error fetching suggestions', { response })
 				}
 
+				this.userSuggestions = {}
 				response.data.ocs.data.users.forEach(user => {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
