@@ -67,8 +67,8 @@
 			})
 
 			var path = fileInfoModel.attributes.path + '/' + fileInfoModel.attributes.name
-			OCA.Files.Sidebar.file = path
-			OCA.Files.Sidebar.activeTab = 'sharing'
+			OCA.Files.Sidebar.open(path)
+			OCA.Files.Sidebar.setActiveTab('sharing')
 		}
 	})
 
