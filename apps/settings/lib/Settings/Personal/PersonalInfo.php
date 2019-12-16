@@ -251,6 +251,13 @@ class PersonalInfo implements ISettings {
 			return 0 === strpos($localeCode['code'], $userLang);
 		});
 
+		if (!$userLocale) {
+			$userLocale = [
+				'code' => 'en',
+				'name' => 'English'
+			];
+		}
+
 		return [
 			'activelocaleLang' => $userLocaleString,
 			'activelocale' => $userLocale,
