@@ -905,4 +905,4 @@ function b(){throw new Error("Dynamic requires are not currently supported by ro
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 i.nc=btoa(OC.requestToken),r.default.use(a.a),r.default.use(s.a,{defaultHtml:!1}),r.default.prototype.t=t,new(r.default.extend(N))({propsData:{tokens:OCP.InitialState.loadState("settings","app_tokens")}}).$mount("#security")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map?v=5d5caa0c5489c92d551d
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=6f8b7cc372a741a7cfa2
