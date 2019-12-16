@@ -180,7 +180,11 @@ class OC_Files {
 						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if($file instanceof \OC\Files\Node\File) {
-							$fh = $file->fopen('r');
+							try {
+								$fh = $file->fopen('r');
+							} catch (\OCP\Files\NotPermittedException $e) {
+								continue;
+							}
 							$fileSize = $file->getSize();
 							$fileTime = $file->getMTime();
 						} else {
@@ -309,7 +313,7 @@ class OC_Files {
 
 		OC_Util::obEnd();
 		$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
-		
+
 		$rangeArray = array();
 
 		if (isset($params['range']) && substr($params['range'], 0, 6) === 'bytes=') {

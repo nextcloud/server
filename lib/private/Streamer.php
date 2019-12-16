@@ -113,12 +113,16 @@ class Streamer {
 
 		$userFolder = \OC::$server->getRootFolder()->get(Filesystem::getRoot());
 		/** @var Folder $dirNode */
-		$dirNode = $userFolder->get($rootDir);
+		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
 		foreach($files as $file) {
 			if($file instanceof File) {
-				$fh = $file->fopen('r');
+				try {
+					$fh = $file->fopen('r');
+				} catch (NotPermittedException $e) {
+					continue;
+				}
 				$this->addFileFromStream(
 					$fh,
 					$internalDir . $file->getName(),
@@ -127,7 +131,9 @@ class Streamer {
 				);
 				fclose($fh);
 			} elseif ($file instanceof Folder) {
-				$this->addDirRecursive($file->getName(), $internalDir);
+				if($file->isReadable()) {
+					$this->addDirRecursive($dir . '/' . $file->getName(), $internalDir);
+				}
 			}
 		}
 	}
