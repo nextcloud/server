@@ -13,7 +13,9 @@ use OCP\DirectEditing\IToken;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -116,6 +118,12 @@ class ManagerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userFolder = $this->createMock(Folder::class);
+		$this->l10n = $this->createMock(IL10N::class);
+
+		$l10nFactory = $this->createMock(IFactory::class);
+		$l10nFactory->expects($this->once())
+			->method('get')
+			->willReturn($this->l10n);
 
 
 		$this->rootFolder->expects($this->any())
@@ -123,7 +131,7 @@ class ManagerTest extends TestCase {
 			->willReturn($this->userFolder);
 
 		$this->manager = new Manager(
-			$this->random, $this->connection, $this->userSession, $this->rootFolder
+			$this->random, $this->connection, $this->userSession, $this->rootFolder, $l10nFactory
 		);
 
 		$this->manager->registerDirectEditor($this->editor);

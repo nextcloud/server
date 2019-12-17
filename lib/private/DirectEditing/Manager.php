@@ -40,7 +40,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IShare;
 
@@ -61,17 +63,21 @@ class Manager implements IManager {
 	private $random;
 	private $userId;
 	private $rootFolder;
+	/** @var IL10N */
+	private $l10n;
 
 	public function __construct(
 		ISecureRandom $random,
 		IDBConnection $connection,
 		IUserSession $userSession,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		IFactory $l10nFactory
 	) {
 		$this->random = $random;
 		$this->connection = $connection;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->rootFolder = $rootFolder;
+		$this->l10n = $l10nFactory->get('core');
 	}
 
 	public function registerDirectEditor(IEditor $directEditor): void {
@@ -88,8 +94,24 @@ class Manager implements IManager {
 		}
 		$templates = [];
 		foreach ($this->editors[$editor]->getCreators() as $creator) {
-			if ($creator instanceof ACreateFromTemplate && $creator->getId() === $type) {
-				$templates = $creator->getTemplates();
+			if ($creator->getId() === $type) {
+				$templates = [
+					'empty' => [
+						'id' => 'empty',
+						'title' => $this->l10n->t('Empty file'),
+						'preview' => null
+					]
+				];
+
+				if ($creator instanceof ACreateFromTemplate) {
+					$templates = $creator->getTemplates();
+				}
+
+				$templates = array_map(function ($template) use ($creator) {
+					$template['extension'] = $creator->getExtension();
+					$template['mimetype'] = $creator->getMimetype();
+					return $template;
+				}, $templates);
 			}
 		}
 		$return = [];
