@@ -33,7 +33,7 @@
 				tooltip-message="" />
 		</template>
 		<ActionText icon="icon-user">
-			{{ t('files_sharing', 'Invited by {initiator}', { initiator: share.ownerDisplayName }) }}
+			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
 		</ActionText>
 		<ActionLink v-if="share.fileSource"
 			icon="icon-folder"
