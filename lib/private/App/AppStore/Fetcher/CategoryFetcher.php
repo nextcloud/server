@@ -53,6 +53,5 @@ class CategoryFetcher extends Fetcher {
 			$logger
 		);
 		$this->fileName = 'categories.json';
-		$this->endpointUrl = 'https://apps.nextcloud.com/api/v1/categories.json';
 	}
 }

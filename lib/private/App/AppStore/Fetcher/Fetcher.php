@@ -55,8 +55,6 @@ abstract class Fetcher {
 	/** @var string */
 	protected $fileName;
 	/** @var string */
-	protected $endpointUrl;
-	/** @var string */
 	protected $version;
 	/** @var string */
 	protected $channel;
@@ -106,7 +104,7 @@ abstract class Fetcher {
 		}
 
 		$client = $this->clientService->newClient();
-		$response = $client->get($this->endpointUrl, $options);
+		$response = $client->get($this->getEndpoint(), $options);
 
 		$responseJson = [];
 		if ($response->getStatusCode() === Http::STATUS_NOT_MODIFIED) {
@@ -218,5 +216,9 @@ abstract class Fetcher {
 	 */
 	public function setChannel(string $channel) {
 		$this->channel = $channel;
+	}
+
+	protected function getEndpoint(): string {
+		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->fileName;
 	}
 }
