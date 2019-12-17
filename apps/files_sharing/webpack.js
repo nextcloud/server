@@ -7,6 +7,7 @@ module.exports = {
 		'files_sharing_tab': path.join(__dirname, 'src', 'files_sharing_tab.js'),
 		'files_sharing': path.join(__dirname, 'src', 'files_sharing.js'),
 		'main': path.join(__dirname, 'src', 'index.js'),
+		'personal-settings': path.join(__dirname, 'src', 'personal-settings.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js/dist/'),

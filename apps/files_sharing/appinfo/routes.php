@@ -40,12 +40,16 @@ return [
 			'url' => '/publicpreview/{token}',
 			'verb' => 'GET',
 		],
-
 		[
 			'name' => 'ShareInfo#info',
 			'url' => '/shareinfo',
 			'verb' => 'POST',
 		],
+		[
+			'name' => 'Settings#setDefaultAccept',
+			'url' => '/settings/defaultAccept',
+			'verb' => 'PUT',
+		]
 	],
 	'ocs' => [
 		/*

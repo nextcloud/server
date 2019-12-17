@@ -38,6 +38,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\Listener\GlobalShareAcceptanceListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
@@ -213,6 +214,7 @@ class Application extends App {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, GlobalShareAcceptanceListener::class);
+		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener('OCP\Share::postShare', function(GenericEvent $event) {
