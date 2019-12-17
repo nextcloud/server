@@ -113,7 +113,7 @@ class File implements IEntity, IDisplayText {
 		try {
 			$node = $this->getNode();
 			$ruleMatcher->setEntitySubject($this, $node);
-			$ruleMatcher->setFileInfo($node->getStorage(), $node->getPath());
+			$ruleMatcher->setFileInfo($node->getStorage(), $node->getInternalPath());
 		} catch (NotFoundException $e) {
 			// pass
 		}
