@@ -43,7 +43,7 @@
 		<ActionButton v-if="share.canDelete"
 			icon="icon-delete"
 			@click.prevent="onDelete">
-			{{ t('files_sharing', 'Delete share') }}
+			{{ t('files_sharing', 'Unshare') }}
 		</actionbutton>
 	</SharingEntrySimple>
 </template>
