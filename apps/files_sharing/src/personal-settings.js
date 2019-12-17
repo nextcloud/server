@@ -35,4 +35,4 @@ __webpack_public_path__ = generateFilePath('files', '', 'js/')
 Vue.prototype.t = t
 
 const View = Vue.extend(PersonalSettings)
-new View().$mount('#files-personal-settings')
+new View().$mount('#files-sharing-personal-settings')
