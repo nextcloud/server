@@ -21,33 +21,27 @@
 
 <template>
 	<div>
-		<h3>{{ t('files', 'Transfer ownership') }} </h3>
-		<p>
-			{{ t('files', 'Here you can select a directory that is transferred to another user. It may take some time until the process is done.') }}
-		</p>
+		<h3>{{ t('files', 'Transfer ownership of a file or folder') }} </h3>
 		<form @submit.prevent="submit">
-			<ol>
-				<li>
-					<div class="step-header">
-						{{ t('files', 'Directory to move') }}
-					</div>
-					<span v-if="directory === undefined">{{ t('files', 'No directory selected') }}</span>
-					<span v-else>{{ directory }}</span>
-					<button class="primary" @click.prevent="start">
-						{{ t('files', 'Select') }}
-					</button>
-					<span class="error">{{ directoryPickerError }}</span>
-				</li>
-				<li>
-					<div class="step-header">
-						{{ t('files', 'Target user') }}
-					</div>
+			<p>
+				<span>{{ readableDirectory }}</span>
+				<button v-if="directory === undefined" @click.prevent="start">
+					{{ t('files', 'Choose file or folder to transfer') }}
+				</button>
+				<button v-else @click.prevent="start">
+					{{ t('files', 'Change') }}
+				</button>
+				<span class="error">{{ directoryPickerError }}</span>
+			</p>
+			<p>
+				<label>
+					<span>{{ t('files', 'New owner') }}</span>
 					<Multiselect
 						v-model="selectedUser"
 						:options="formatedUserSuggestions"
 						:multiple="false"
 						:searchable="true"
-						:placeholder="t('core', 'Target user …')"
+						:placeholder="t('files', 'Search users')"
 						:preselect-first="true"
 						:preserve-search="true"
 						:loading="loadingUsers"
@@ -56,16 +50,17 @@
 						:internal-search="false"
 						:clear-on-select="false"
 						:user-select="true"
-						@search-change="findUserDebounced" />
-				</li>
-				<li>
-					<input type="submit"
-						class="primary"
-						:value="t('files', 'Submit')"
-						:disabled="!canSubmit">
-					<span class="error">{{ submitError }}</span>
-				</li>
-			</ol>
+						@search-change="findUserDebounced"
+						class="middle-align" />
+				</label>
+			</p>
+			<p>
+				<input type="submit"
+					class="primary"
+					:value="submitButtonText"
+					:disabled="!canSubmit">
+				<span class="error">{{ submitError }}</span>
+			</p>
 		</form>
 	</div>
 </template>
@@ -80,7 +75,7 @@ import Vue from 'vue'
 
 import logger from '../logger'
 
-const picker = getFilePickerBuilder(t('files', 'Select directory to transfer'))
+const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)
 	.setModal(true)
 	.setType(1)
@@ -115,6 +110,19 @@ export default {
 					icon: 'icon-user'
 				}
 			})
+		},
+		submitButtonText() {
+			if (!this.canSubmit) {
+				return t('files', 'Transfer')
+			}
+			const components = this.readableDirectory.split('/')
+			return t('files', 'Transfer {path} to {userid}', { path: components[components.length - 1], userid: this.selectedUser.displayName })
+		},
+		readableDirectory() {
+			if (!this.directory) {
+				return ''
+			}
+			return this.directory.substring(1)
 		}
 	},
 	created() {
@@ -127,7 +135,7 @@ export default {
 			picker.pick()
 				.then(dir => dir === '' ? '/' : dir)
 				.then(dir => {
-					logger.debug(`path ${dir} selected for transfer ownership`)
+					logger.debug(`path ${dir} selected for transferring ownership`)
 					if (!dir.startsWith('/')) {
 						throw new Error(t('files', 'Invalid path selected'))
 					}
@@ -135,7 +143,7 @@ export default {
 					// /ocs/v2.php/apps/files/api/v1/transferownership
 					this.directory = dir
 				}).catch(error => {
-					logger.error(`Selecting dir for transfer aborted: ${error.message || 'Unknown error'}`, { error })
+					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
 				})
@@ -210,5 +218,11 @@ export default {
 </script>
 
 <style scoped>
-
+.middle-align {
+	vertical-align: middle;
+}
+p {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
 </style>

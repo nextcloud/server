@@ -83,7 +83,7 @@ class OwnershipTransferService {
 
 		// target user has to be ready
 		if (!$this->encryptionManager->isReadyForUser($destinationUid)) {
-			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to be logged in once.", 2);
+			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
 		}
 
 		$date = date('Y-m-d H-i-s');
@@ -156,8 +156,8 @@ class OwnershipTransferService {
 		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
 		if ($size > $freeSpace) {
-			$output->writeln('<error>Target user does not have enough free space available</error>');
-			throw new \Exception('Execution terminated');
+			$output->writeln('<error>Target user does not have enough free space available.</error>');
+			throw new \Exception('Execution terminated.');
 		}
 
 		$output->writeln("Analysing files of $sourceUid ...");
@@ -185,7 +185,7 @@ class OwnershipTransferService {
 
 		// no file is allowed to be encrypted
 		if (!empty($encryptedFiles)) {
-			$output->writeln("<error>Some files are encrypted - please decrypt them first</error>");
+			$output->writeln("<error>Some files are encrypted - please decrypt them first.</error>");
 			foreach ($encryptedFiles as $encryptedFile) {
 				/** @var FileInfo $encryptedFile */
 				$output->writeln("  " . $encryptedFile->getPath());
@@ -196,7 +196,7 @@ class OwnershipTransferService {
 
 	private function collectUsersShares(string $sourceUid,
 										OutputInterface $output): array {
-		$output->writeln("Collecting all share information for files and folder of $sourceUid ...");
+		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
 		$progress = new ProgressBar($output);
@@ -235,7 +235,7 @@ class OwnershipTransferService {
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
 		if ($view->rename($sourcePath, $finalTarget) === false) {
-			throw new TransferOwnershipException("Could not transfer files", 1);
+			throw new TransferOwnershipException("Could not transfer files.", 1);
 		}
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
