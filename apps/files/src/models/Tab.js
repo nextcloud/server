@@ -22,20 +22,27 @@
 
 export default class Tab {
 
-	#component;
-	#legacy;
-	#name;
+	#component
+	#legacy
+	#name
+	#enabled
 
 	/**
 	 * Create a new tab instance
 	 *
 	 * @param {string} name the name of this tab
 	 * @param {Object} component the vue component
+	 * @param {Function} [enabled] function that returns if the tab should be shown or not
 	 * @param {boolean} [legacy] is this a legacy tab
 	 */
-	constructor(name, component, legacy) {
+	constructor(name, component, enabled = () => true, legacy) {
+		if (typeof enabled !== 'function') {
+			throw new Error('The enabled argument should be a function')
+		}
+
 		this.#name = name
 		this.#component = component
+		this.#enabled = enabled
 		this.#legacy = legacy === true
 
 		if (this.#legacy) {
@@ -50,6 +57,10 @@ export default class Tab {
 
 	get component() {
 		return this.#component
+	}
+
+	get isEnabled() {
+		return this.#enabled
 	}
 
 	get isLegacyTab() {
