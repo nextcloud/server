@@ -96,16 +96,16 @@
 					pattern="[a-zA-Z0-9 _\.@\-']+"
 					required
 					type="text">
-			</div>
-			<div class="displayName">
-				<input id="newdisplayname"
-					v-model="newUser.displayName"
-					:placeholder="t('settings', 'Display name')"
-					autocapitalize="none"
-					autocomplete="off"
-					autocorrect="off"
-					name="displayname"
-					type="text">
+				<div class="displayName">
+					<input id="newdisplayname"
+						v-model="newUser.displayName"
+						:placeholder="t('settings', 'Display name')"
+						autocapitalize="none"
+						autocomplete="off"
+						autocorrect="off"
+						name="displayname"
+						type="text">
+				</div>
 			</div>
 			<div class="password">
 				<input id="newuserpassword"

@@ -1430,7 +1430,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 			// separate prop to set initial value to top: 50px
 			&#new-user {
-				top: $header-height + $grid-row-height;
+			  top: $header-height + $grid-row-height;
+			  height: 90px;
+			  .row {
+				padding-top: 50px;
+			  }
 			}
 			&#grid-header {
 				color: var(--color-text-maxcontrast);
