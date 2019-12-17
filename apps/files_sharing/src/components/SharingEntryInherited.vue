@@ -38,7 +38,7 @@
 		<ActionLink v-if="share.fileSource"
 			icon="icon-folder"
 			:href="fileTargetUrl">
-			{{ t('files_sharing', 'Open folder') }}
+			{{ t('files_sharing', 'Via folder') }}
 		</ActionLink>
 		<ActionButton v-if="share.canDelete"
 			icon="icon-delete"
