@@ -32,5 +32,5 @@ t.exports=function(t){return null!=t&&null!=t.constructor&&"function"==typeof t.
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-r.nc=btoa(Object(i.getRequestToken)()),r.p=Object(a.generateFilePath)("files","","js/"),o.default.prototype.t=t,(new(o.default.extend(p))).$mount("#files-personal-settings")}]);
+r.nc=btoa(Object(i.getRequestToken)()),r.p=Object(a.generateFilePath)("files","","js/"),o.default.prototype.t=t,(new(o.default.extend(p))).$mount("#files-sharing-personal-settings")}]);
 //# sourceMappingURL=personal-settings.js.map
