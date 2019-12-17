@@ -352,6 +352,8 @@
             <xs:enumeration value="social"/>
             <xs:enumeration value="tools"/>
             <xs:enumeration value="games"/>
+            <xs:enumeration value="search"/>
+            <xs:enumeration value="workflow"/>
         </xs:restriction>
     </xs:simpleType>
 
