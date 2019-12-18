@@ -60,7 +60,7 @@ abstract class Office extends ProviderV2 {
 		$pngPreview = null;
 		try {
 			list($dirname, , , $filename) = array_values(pathinfo($absPath));
-			$pngPreview = $dirname . '/' . $filename . '.png';
+			$pngPreview = $tmpDir . '/' . $filename . '.png';
 
 			$png = new \imagick($pngPreview . '[0]');
 			$png->setImageFormat('jpg');
