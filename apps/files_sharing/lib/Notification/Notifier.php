@@ -58,24 +58,19 @@ class Notifier implements INotifier {
 	protected $userManager;
 	/** @var IURLGenerator */
 	protected $url;
-	/** @var string */
-	private $userId;
-
 
 	public function __construct(IFactory $l10nFactory,
 								IManager $shareManager,
 								IRootFolder $rootFolder,
 								IGroupManager $groupManager,
 								IUserManager $userManager,
-								IURLGenerator $url,
-								string $userId) {
+								IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->url = $url;
-		$this->userId = $userId;
 	}
 
 	/**
@@ -117,7 +112,7 @@ class Notifier implements INotifier {
 		$attemptId = $notification->getObjectId();
 
 		try {
-			$share = $this->shareManager->getShareById($attemptId, $this->userId);
+			$share = $this->shareManager->getShareById($attemptId, $notification->getUser());
 		} catch (ShareNotFound $e) {
 			throw new AlreadyProcessedException();
 		}
