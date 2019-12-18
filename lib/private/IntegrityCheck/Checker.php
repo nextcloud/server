@@ -215,19 +215,28 @@ class Checker {
 	 */
 	private function createSignatureData(array $hashes,
 										 X509 $certificate,
-										 RSA $privateKey): array {
+										 RSA $privateKey,
+										 int $version): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
 		$privateKey->setMGFHash('sha512');
 		// See https://tools.ietf.org/html/rfc3447#page-38
 		$privateKey->setSaltLength(0);
-		$signature = $privateKey->sign(json_encode($hashes));
+
+		$encodedHashed = json_encode($hashes);
+		$signature = $privateKey->sign($encodedHashed);
+
+		$hashesOutput = $hashes;
+		if ($version === 2) {
+			$hashesOutput = $encodedHashed;
+		}
 
 		return [
-				'hashes' => $hashes,
+				'hashes' => $hashesOutput,
 				'signature' => base64_encode($signature),
 				'certificate' => $certificate->saveX509($certificate->currentCert),
+				'version' => 2,
 			];
 	}
 
@@ -239,16 +248,18 @@ class Checker {
 	 * @param RSA $privateKey
 	 * @throws \Exception
 	 */
-	public function writeAppSignature($path,
+	public function writeAppSignature(string $path,
 									  X509 $certificate,
 									  RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
 
+			$version = $this->maxSignatureVersion($appInfoDir . '/info.xml');
+
 			$iterator = $this->getFolderIterator($path);
 			$hashes = $this->generateHashes($iterator, $path);
-			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
+			$signature = $this->createSignatureData($hashes, $certificate, $privateKey, $version);
 				$this->fileAccessHelper->file_put_contents(
 					$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
@@ -262,6 +273,34 @@ class Checker {
 	}
 
 	/**
+	 * Checkl if we can sign the app with the v2 signature
+	 */
+	private function maxSignatureVersion(string $appInfoPath): int {
+		if (!file_exists($appInfoPath)) {
+			return 1;
+		}
+
+		$content = file_get_contents($appInfoPath);
+
+		try {
+			$xml = new \SimpleXMLElement($content);
+			$minNextcloudVersion = $xml->dependencies->nextcloud['min-version'];
+
+			if ($minNextcloudVersion === NULL) {
+				return 1;
+			}
+
+			if ((int)$minNextcloudVersion >= 19) {
+				return 2;
+			}
+		} catch (\Exception $e) {
+			return 1;
+		}
+
+		return 2;
+	}
+
+	/**
 	 * Write the signature of core
 	 *
 	 * @param X509 $certificate
@@ -271,14 +310,14 @@ class Checker {
 	 */
 	public function writeCoreSignature(X509 $certificate,
 									   RSA $rsa,
-									   $path) {
+									   string $path) {
 		$coreDir = $path . '/core';
 		try {
 
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);
 			$iterator = $this->getFolderIterator($path, $path);
 			$hashes = $this->generateHashes($iterator, $path);
-			$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
+			$signatureData = $this->createSignatureData($hashes, $certificate, $rsa, 2);
 			$this->fileAccessHelper->file_put_contents(
 				$coreDir . '/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
@@ -316,8 +355,6 @@ class Checker {
 			throw new InvalidSignatureException('Signature data not found.');
 		}
 
-		$expectedHashes = $signatureData['hashes'];
-		ksort($expectedHashes);
 		$signature = base64_decode($signatureData['signature']);
 		$certificate = $signatureData['certificate'];
 
@@ -343,9 +380,26 @@ class Checker {
 		$rsa->setMGFHash('sha512');
 		// See https://tools.ietf.org/html/rfc3447#page-38
 		$rsa->setSaltLength(0);
-		if(!$rsa->verify(json_encode($expectedHashes), $signature)) {
+
+		$version = 1;
+		if (isset($signatureData['version'])) {
+			$version = $signatureData['version'];
+		}
+
+		if ($version === 1) {
+			$expectedHashes = $signatureData['hashes'];
+			ksort($expectedHashes);
+			$expectedHashes = json_encode($expectedHashes);
+		}
+		if ($version === 2) {
+			$expectedHashes = $signatureData['hashes'];
+		}
+
+		if(!$rsa->verify($expectedHashes, $signature)) {
 			throw new InvalidSignatureException('Signature could not get verified.');
 		}
+
+		$expectedHashes = json_decode($expectedHashes, true);
 
 		// Fixes for the updater as shipped with ownCloud 9.0.x: The updater is
 		// replaced after the code integrity check is performed.

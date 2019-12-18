@@ -106,7 +106,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
-	
+
 	public function testWriteAppSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
@@ -479,7 +479,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	
+
 	public function testWriteCoreSignatureWithException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
@@ -503,7 +503,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
-	
+
 	public function testWriteCoreSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
