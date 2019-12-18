@@ -121,14 +121,16 @@ class RuleMatcher implements IRuleMatcher {
 			$operations = array_merge($operations, $this->manager->getOperations($class, $scope));
 		}
 
-		$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
-		foreach ($additionalScopes as $hash => $scopeCandidate) {
-			/** @var ScopeContext $scopeCandidate */
-			if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
-				continue;
-			}
-			if ($this->entity->isLegitimatedForUserId($scopeCandidate->getScopeId())) {
-				$operations = array_merge($operations, $this->manager->getOperations($class, $scopeCandidate));
+		if($this->entity instanceof IEntity) {
+			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
+			foreach ($additionalScopes as $hash => $scopeCandidate) {
+				/** @var ScopeContext $scopeCandidate */
+				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
+					continue;
+				}
+				if ($this->entity->isLegitimatedForUserId($scopeCandidate->getScopeId())) {
+					$operations = array_merge($operations, $this->manager->getOperations($class, $scopeCandidate));
+				}
 			}
 		}
 
