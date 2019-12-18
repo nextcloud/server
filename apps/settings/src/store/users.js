@@ -205,7 +205,7 @@ const actions = {
 		search = typeof search === 'string' ? search : ''
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
-			return api.get(OC.linkToOCS(`cloud/groups/${group}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+			return api.get(OC.linkToOCS(`cloud/groups/${encodeURIComponent(group)}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.users).length > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
@@ -275,7 +275,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
-		return api.get(OC.linkToOCS(`cloud/users/${groupid}/details?offset=${offset}&limit=${limit}`, 2))
+		return api.get(OC.linkToOCS(`cloud/users/${encodeURIComponent(groupid)}/details?offset=${offset}&limit=${limit}`, 2))
 			.then((response) => context.commit('getUsersFromList', response.data.ocs.data.users))
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
