@@ -77,12 +77,11 @@ class CheckerTest extends TestCase {
 			$this->config,
 			$this->cacheFactory,
 			$this->appManager,
-			\OC::$server->getTempManager(),
 			$this->mimeTypeDetector
 		);
 	}
 
-	
+
 	public function testWriteAppSignatureOfNotExistingApp() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');

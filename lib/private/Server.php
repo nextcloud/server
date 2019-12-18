@@ -899,7 +899,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$config,
 				$c->getMemCacheFactory(),
 				$appManager,
-				$c->getTempManager(),
 				$c->getMimeTypeDetector()
 			);
 		});
