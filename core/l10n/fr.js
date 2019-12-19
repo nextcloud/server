@@ -159,6 +159,7 @@ OC.L10N.register(
     "Resetting password" : "Réinitialisation du mot de passe",
     "Recommended apps" : "Applis recommandées",
     "Loading apps …" : "Chargement des applis …",
+    "Installing apps …" : "Installation des applis en cours ...",
     "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
     "Can't install this app" : "Impossible d'installer cette appli",
     "Cancel" : "Annuler",

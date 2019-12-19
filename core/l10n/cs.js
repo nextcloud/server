@@ -160,6 +160,8 @@ OC.L10N.register(
     "Recommended apps" : "Doporučené aplikace",
     "Loading apps …" : "Načítání aplikací…",
     "Could not fetch list of apps from the app store." : "Nedaří se získat seznam aplikací z katalogu.",
+    "Installing apps …" : "Instalace aplikací…",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Stažení aplikace nebo její instalace se nezdařilo",
     "Can't install this app because it is not compatible" : "Tuto aplikaci nelze nainstalovat, protože není kompatibilní",
     "Can't install this app" : "Tuto aplikaci nelze nainstalovat",
