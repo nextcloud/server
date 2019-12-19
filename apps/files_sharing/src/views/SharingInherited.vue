@@ -86,9 +86,7 @@ export default {
 			return 'icon-triangle-s'
 		},
 		mainTitle() {
-			return t('files_sharing', 'Others with access {count}', {
-				count: this.loaded ? `: ${this.shares.length}` : ''
-			})
+			return t('files_sharing', 'Others with access')
 		},
 		toggleTooltip() {
 			return this.fileInfo.type === 'dir'
