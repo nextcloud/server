@@ -255,11 +255,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		canDisplay(tab) {
-			if (tab.isLegacyTab) {
-				return this.fileInfo && tab.component.canDisplay && tab.component.canDisplay(this.fileInfo)
-			}
-			// if the tab does not have an enabled method, we assume it's always available
-			return tab.enabled ? tab.enabled(this.fileInfo) : true
+			return tab.isEnabled(this.fileInfo)
 		},
 		onClose() {
 			this.resetData()
