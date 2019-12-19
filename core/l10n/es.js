@@ -160,6 +160,8 @@ OC.L10N.register(
     "Recommended apps" : "Aplicaciones recomendadas",
     "Loading apps …" : "Cargando apps ...",
     "Could not fetch list of apps from the app store." : "No logro recuperar la lista de apps de la App Store.",
+    "Installing apps …" : "Instalando apps ...",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Falló la descarga o instalación de la App",
     "Can't install this app because it is not compatible" : "No se puede instalar esta aplicación porque no es compatible",
     "Can't install this app" : "No se puede instalar esta aplicación",

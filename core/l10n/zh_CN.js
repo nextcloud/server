@@ -160,6 +160,8 @@ OC.L10N.register(
     "Recommended apps" : "推荐的应用",
     "Loading apps …" : "正在加载应用…",
     "Could not fetch list of apps from the app store." : "无法从应用商店中获取应用列表。",
+    "Installing apps …" : "正在安装应用...",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "应用下载或安装失败",
     "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
     "Can't install this app" : "无法安装此应用",

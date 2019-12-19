@@ -64,6 +64,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["il y a %n minute","il y a %n minutes"],
     "in a few seconds" : "dans quelques secondes",
     "seconds ago" : "il y a quelques secondes",
+    "Empty file" : "Fichier vide",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Le module avec l'ID: %s n'existe pas. Merci de l'activer dans les paramètres d'applications ou de contacter votre administrateur.",
     "File name is a reserved word" : "Ce nom de fichier est un mot réservé",
     "File name contains at least one invalid character" : "Le nom de fichier contient un (des) caractère(s) non valide(s)",

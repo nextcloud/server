@@ -160,6 +160,8 @@ OC.L10N.register(
     "Recommended apps" : "Gomendatutako aplikazioak",
     "Loading apps …" : "Aplikazioak kargatzen...",
     "Could not fetch list of apps from the app store." : "Ezin izan da aplikazioen zerrenda eskuratu aplikazioen biltegitik.",
+    "Installing apps …" : "Aplikazioak instalatzen...",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Huts egin du aplikazioaren deskarga edo instalazioak",
     "Can't install this app because it is not compatible" : "Ezin da aplikazio hau instalatu ez delako bateragarria",
     "Can't install this app" : "Ezin da aplikazio hau instalatu",
