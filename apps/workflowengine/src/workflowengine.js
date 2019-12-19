@@ -33,9 +33,9 @@ import ShippedChecks from './components/Checks'
  * @property {string} class - The PHP class name of the check
  * @property {Comparison[]} operators - A list of possible comparison operations running on the check
  * @property {Vue} component - A vue component to handle the rendering of options
- * 	The component should handle the v-model directive properly,
- * 	so it needs a value property to receive data and emit an input
- * 	event once the data has changed
+ *  The component should handle the v-model directive properly,
+ *  so it needs a value property to receive data and emit an input
+ *  event once the data has changed
  * @property {callable} placeholder - Return a placeholder of no custom component is used
  * @property {callable} validate - validate a check if no custom component is used
  **/
@@ -48,9 +48,9 @@ import ShippedChecks from './components/Checks'
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
  * @property {Vue} component - A vue component to handle the rendering of options
- * 	The component should handle the v-model directive properly,
- * 	so it needs a value property to receive data and emit an input
- * 	event once the data has changed
+ *  The component should handle the v-model directive properly,
+ *  so it needs a value property to receive data and emit an input
+ *  event once the data has changed
  */
 
 /**

@@ -24,16 +24,24 @@ import { stringValidator, validateIPv4, validateIPv6 } from './../../helpers/val
 import FileMimeType from './FileMimeType'
 import FileSystemTag from './FileSystemTag'
 
+const stringOrRegexOperators = (check) => {
+	if (check.value.startsWith('/')) {
+		return [
+			{ operator: 'matches', name: t('workflowengine', 'matches') },
+			{ operator: '!matches', name: t('workflowengine', 'does not match') },
+		]
+	}
+	return [
+		{ operator: 'is', name: t('workflowengine', 'is') },
+		{ operator: '!is', name: t('workflowengine', 'is not') },
+	]
+}
+
 const FileChecks = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileName',
 		name: t('workflowengine', 'File name'),
-		operators: [
-			{ operator: 'is', name: t('workflowengine', 'is') },
-			{ operator: '!is', name: t('workflowengine', 'is not') },
-			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') },
-		],
+		operators: stringOrRegexOperators,
 		placeholder: (check) => {
 			if (check.operator === 'matches' || check.operator === '!matches') {
 				return '/^dummy-.+$/i'
@@ -46,12 +54,7 @@ const FileChecks = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileMimeType',
 		name: t('workflowengine', 'File MIME type'),
-		operators: [
-			{ operator: 'is', name: t('workflowengine', 'is') },
-			{ operator: '!is', name: t('workflowengine', 'is not') },
-			{ operator: 'matches', name: t('workflowengine', 'matches') },
-			{ operator: '!matches', name: t('workflowengine', 'does not match') },
-		],
+		operators: stringOrRegexOperators,
 		component: FileMimeType,
 	},
 

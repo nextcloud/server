@@ -120,7 +120,6 @@ export default {
 			return result !== null
 		},
 		setValue(value) {
-			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
 				this.newValue = value.pattern
 				this.$emit('input', this.newValue)
