@@ -59,6 +59,7 @@ class Application extends App {
 					$server->query(AddressHandler::class),
 					$server->getLogger(),
 					$server->getUserManager(),
+					$server->getShareManager(),
 					$server->getCloudIdManager(),
 					$server->getActivityManager(),
 					$server->getNotificationManager(),
