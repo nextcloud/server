@@ -108,7 +108,7 @@ export default {
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		max-width: 900px;
+		max-width: 1200px;
 		.actions__item {
 			max-width: 280px;
 			flex-basis: 250px;

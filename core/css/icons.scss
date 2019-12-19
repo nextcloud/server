@@ -486,6 +486,10 @@ img, object, video, button, textarea, input, select, div[contenteditable='true']
 	@include icon-color('search', 'actions', $color-black, 1, true);
 }
 
+.icon-category-workflow {
+	@include icon-color('workflow', 'categories', $color-black, 1, true);
+}
+
 .icon-talk {
 	@include icon-color('app-dark', 'spreed', $color-black, 1);
 }
