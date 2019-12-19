@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

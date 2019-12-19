@@ -7,6 +7,7 @@
  * @author Cthulhux <git@tuxproject.de>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Derek <derek.kelly27@gmail.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>

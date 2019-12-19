@@ -8,6 +8,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

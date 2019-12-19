@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roeland Jago Douma <rullzer@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

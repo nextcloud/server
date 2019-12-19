@@ -115,7 +115,6 @@ Nextcloud is written by:
  - Jesús Macias <jmacias@solidgear.es>
  - Joachim Bauch <bauch@struktur.de>
  - Joachim Sokolowski <github@sokolowski.org>
- - Joas Schilling <213943+nickvergessen@users.noreply.github.com>
  - Joas Schilling <coding@schilljs.com>
  - Joel S <joel.devbox@protonmail.com>
  - Johan Björk <johanimon@gmail.com>
@@ -143,6 +142,7 @@ Nextcloud is written by:
  - Klaas Freitag <freitag@owncloud.com>
  - Knut Ahlers <knut@ahlers.me>
  - Ko- <k.stoffelen@cs.ru.nl>
+ - Konrad Bucheli <kb@open.ch>
  - Kristof Provost <github@sigsegv.be>
  - Kyle Fazzari <kyrofa@ubuntu.com>
  - Lars <winnetou+github@catolic.de>
@@ -183,6 +183,8 @@ Nextcloud is written by:
  - Maxence Lange <maxence@artificial-owl.com>
  - Maxence Lange <maxence@nextcloud.com>
  - Maxence Lange <maxence@pontapreta.net>
+ - MichaIng <28480705+MichaIng@users.noreply.github.com>
+ - MichaIng <micha@dietpi.com>
  - Michael Gapczynski <GapczynskiM@gmail.com>
  - Michael Göhler <somebody.here@gmx.de>
  - Michael Jobst <mjobst+github@tecratech.de>
@@ -191,6 +193,7 @@ Nextcloud is written by:
  - Michael Roth <michael.roth@rz.uni-augsburg.de>
  - Michael Weimann <mail@michael-weimann.eu>
  - Michael Zamot <michael@zamot.io>
+ - Michał Węgrzynek <michal.wegrzynek@malloc.com.pl>
  - Miguel Prokop <miguel.prokop@vtu.com>
  - Mitar <mitar.git@tnode.com>
  - Morris Jobke <hey@morrisjobke.de>
@@ -240,7 +243,6 @@ Nextcloud is written by:
  - Robin McCorkell <robin@mccorkell.me.uk>
  - Robin Müller <coder-hugo@users.noreply.github.com>
  - Roeland Jago Douma <roeland@famdouma.nl>
- - Roeland Jago Douma <rullzer@users.noreply.github.com>
  - Roger Szabo <roger.szabo@web.de>
  - Roland Tapken <roland@bitarbeiter.net>
  - Romain Rivière <lecoyote@lecoyote.org>
@@ -259,7 +261,6 @@ Nextcloud is written by:
  - Sandro Lutz <sandro.lutz@temparus.ch>
  - Sascha Sambale <mastixmc@gmail.com>
  - Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
- - Sascha Wiswedel <wiswedel@users.noreply.github.com>
  - Scott Shambarger <devel@shambarger.net>
  - Sean Comeau <sean@ftlnetworks.ca>
  - Sebastian Döll <sebastian.doell@libasys.de>
