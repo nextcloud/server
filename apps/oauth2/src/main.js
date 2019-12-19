@@ -32,7 +32,7 @@ const clients = loadState('oauth2', 'clients')
 const View = Vue.extend(App)
 const oauth = new View({
 	propsData: {
-		clients
-	}
+		clients,
+	},
 })
 oauth.$mount('#oauth2')

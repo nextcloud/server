@@ -45,7 +45,7 @@ import {
 	AppNavigation,
 	AppNavigationItem,
 	AppSidebar,
-	Content
+	Content,
 } from 'nextcloud-vue'
 import AppList from '../components/AppList'
 import Vue from 'vue'
@@ -63,21 +63,21 @@ export default {
 		AppSidebar,
 		Content,
 		AppDetails,
-		AppList
+		AppList,
 	},
 	props: {
 		category: {
 			type: String,
-			default: 'installed'
+			default: 'installed',
 		},
 		id: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
 	data() {
 		return {
-			searchQuery: ''
+			searchQuery: '',
 		}
 	},
 	computed: {
@@ -111,13 +111,13 @@ export default {
 
 			// Map groups
 			categories = categories.map(category => {
-				let item = {}
+				const item = {}
 				item.id = 'app-category-' + category.ident
 				item.icon = 'icon-category-' + category.ident
 				item.classes = []							// empty classes, active will be set later
 				item.router = {								// router link to
 					name: 'apps-category',
-					params: { category: category.ident }
+					params: { category: category.ident },
 				}
 				item.text = category.displayName
 
@@ -125,27 +125,27 @@ export default {
 			})
 
 			// Add everyone group
-			let defaultCategories = [
+			const defaultCategories = [
 				{
 					id: 'app-category-your-apps',
 					classes: [],
 					router: { name: 'apps' },
 					icon: 'icon-category-installed',
-					text: t('settings', 'Your apps')
+					text: t('settings', 'Your apps'),
 				},
 				{
 					id: 'app-category-enabled',
 					classes: [],
 					icon: 'icon-category-enabled',
 					router: { name: 'apps-category', params: { category: 'enabled' } },
-					text: t('settings', 'Active apps')
+					text: t('settings', 'Active apps'),
 				}, {
 					id: 'app-category-disabled',
 					classes: [],
 					icon: 'icon-category-disabled',
 					router: { name: 'apps-category', params: { category: 'disabled' } },
-					text: t('settings', 'Disabled apps')
-				}
+					text: t('settings', 'Disabled apps'),
+				},
 			]
 
 			if (!this.settings.appstoreEnabled) {
@@ -159,7 +159,7 @@ export default {
 					icon: 'icon-download',
 					router: { name: 'apps-category', params: { category: 'updates' } },
 					text: t('settings', 'Updates'),
-					utils: { counter: this.$store.getters.getUpdateCount }
+					utils: { counter: this.$store.getters.getUpdateCount },
 				})
 			}
 
@@ -168,13 +168,13 @@ export default {
 				classes: [],
 				icon: 'icon-category-app-bundles',
 				router: { name: 'apps-category', params: { category: 'app-bundles' } },
-				text: t('settings', 'App bundles')
+				text: t('settings', 'App bundles'),
 			})
 
 			categories = defaultCategories.concat(categories)
 
 			// Set current group as active
-			let activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category)
+			const activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category)
 			if (activeGroup >= 0) {
 				categories[activeGroup].classes.push('active')
 			} else {
@@ -185,17 +185,17 @@ export default {
 				id: 'app-developer-docs',
 				classes: [],
 				href: this.settings.developerDocumentation,
-				text: t('settings', 'Developer documentation') + ' ↗'
+				text: t('settings', 'Developer documentation') + ' ↗',
 			})
 
 			// Return
 			return categories
-		}
+		},
 	},
 	watch: {
 		category: function(val, old) {
 			this.setSearch('')
-		}
+		},
 	},
 	beforeMount() {
 		this.$store.dispatch('getCategories')
@@ -219,9 +219,9 @@ export default {
 		hideAppDetails() {
 			this.$router.push({
 				name: 'apps-category',
-				params: { category: this.category }
+				params: { category: this.category },
 			})
-		}
-	}
+		},
+	},
 }
 </script>

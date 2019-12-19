@@ -27,7 +27,7 @@ export default {
 			return this.app.groups.map(group => { return { id: group, name: group } })
 		},
 		loading() {
-			let self = this
+			const self = this
 			return function(id) {
 				return self.$store.getters.loading(id)
 			}
@@ -59,7 +59,7 @@ export default {
 				return base + ' ' + t('settings', 'The app will be downloaded from the app store')
 			}
 			return base
-		}
+		},
 	},
 	mounted() {
 		if (this.app.groups.length > 0) {
@@ -92,12 +92,12 @@ export default {
 			return true
 		},
 		addGroupLimitation(group) {
-			let groups = this.app.groups.concat([]).concat([group.id])
+			const groups = this.app.groups.concat([]).concat([group.id])
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups: groups })
 		},
 		removeGroupLimitation(group) {
-			let currentGroups = this.app.groups.concat([])
-			let index = currentGroups.indexOf(group.id)
+			const currentGroups = this.app.groups.concat([])
+			const index = currentGroups.indexOf(group.id)
 			if (index > -1) {
 				currentGroups.splice(index, 1)
 			}
@@ -132,7 +132,7 @@ export default {
 			this.$store.dispatch('updateApp', { appId: appId })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
-		}
-	}
+		},
+	},
 }
 </script>

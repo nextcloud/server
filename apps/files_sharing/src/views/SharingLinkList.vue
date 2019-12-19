@@ -53,7 +53,7 @@ export default {
 	name: 'SharingLinkList',
 
 	components: {
-		SharingEntryLink
+		SharingEntryLink,
 	},
 
 	mixins: [ShareTypes],
@@ -62,17 +62,17 @@ export default {
 		fileInfo: {
 			type: Object,
 			default: () => {},
-			required: true
+			required: true,
 		},
 		shares: {
 			type: Array,
 			default: () => [],
-			required: true
+			required: true,
 		},
 		canReshare: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	computed: {
@@ -94,7 +94,7 @@ export default {
 		 */
 		hasShares() {
 			return this.shares.length > 0
-		}
+		},
 	},
 
 	methods: {
@@ -135,7 +135,7 @@ export default {
 		removeShare(share) {
 			const index = this.shares.findIndex(item => item === share)
 			this.shares.splice(index, 1)
-		}
-	}
+		},
+	},
 }
 </script>

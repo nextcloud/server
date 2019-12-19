@@ -16,26 +16,26 @@
 	 * @memberof OC.Comments
 	 * @private
 	 */
-	var CommentsModifyMenu = OC.Backbone.View.extend({
+	const CommentsModifyMenu = OC.Backbone.View.extend({
 		tagName: 'div',
 		className: 'commentsModifyMenu popovermenu bubble menu',
 		_scopes: [
 			{
 				name: 'edit',
 				displayName: t('comments', 'Edit comment'),
-				iconClass: 'icon-rename'
+				iconClass: 'icon-rename',
 			},
 			{
 				name: 'delete',
 				displayName: t('comments', 'Delete comment'),
-				iconClass: 'icon-delete'
-			}
+				iconClass: 'icon-delete',
+			},
 		],
 		initialize: function() {
 
 		},
 		events: {
-			'click a.action': '_onClickAction'
+			'click a.action': '_onClickAction',
 		},
 
 		/**
@@ -44,7 +44,7 @@
 		 * @param {Object} event event object
 		 */
 		_onClickAction: function(event) {
-			var $target = $(event.currentTarget)
+			let $target = $(event.currentTarget)
 			if (!$target.hasClass('menuitem')) {
 				$target = $target.closest('.menuitem')
 			}
@@ -59,7 +59,7 @@
 		 */
 		render: function() {
 			this.$el.html(OCA.Comments.Templates['commentsmodifymenu']({
-				items: this._scopes
+				items: this._scopes,
 			}))
 		},
 
@@ -70,19 +70,19 @@
 		show: function(context) {
 			this._context = context
 
-			for (var i in this._scopes) {
+			for (const i in this._scopes) {
 				this._scopes[i].active = false
 			}
 
-			var $el = $(context.target)
-			var offsetIcon = $el.offset()
-			var offsetContainer = $el.closest('.authorRow').offset()
+			const $el = $(context.target)
+			const offsetIcon = $el.offset()
+			const offsetContainer = $el.closest('.authorRow').offset()
 
 			// adding some extra top offset to push the menu below the button.
-			var position = {
+			const position = {
 				top: offsetIcon.top - offsetContainer.top + 48,
 				left: '',
-				right: ''
+				right: '',
 			}
 
 			position.left = offsetIcon.left - offsetContainer.left
@@ -100,7 +100,7 @@
 			this.$el.removeClass('hidden')
 
 			OC.showMenu(null, this.$el)
-		}
+		},
 	})
 
 	OCA.Comments = OCA.Comments || {}

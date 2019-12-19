@@ -82,29 +82,29 @@ export default {
 	props: {
 		username: {
 			type: String,
-			required: true
+			required: true,
 		},
 		resetPasswordLink: {
 			type: String,
-			required: true
+			required: true,
 		},
 		invertedColors: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			error: false,
 			loading: false,
 			message: undefined,
-			user: this.username
+			user: this.username,
 		}
 	},
 	watch: {
 		username(value) {
 			this.user = value
-		}
+		},
 	},
 	methods: {
 		updateUsername() {
@@ -117,7 +117,7 @@ export default {
 			const url = generateUrl('/lostpassword/email')
 
 			const data = {
-				user: this.user
+				user: this.user,
 			}
 
 			return axios.post(url, data)
@@ -136,8 +136,8 @@ export default {
 					this.message = 'send-error'
 				})
 				.then(() => { this.loading = false })
-		}
-	}
+		},
+	},
 }
 </script>
 

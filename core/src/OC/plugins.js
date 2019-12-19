@@ -36,7 +36,7 @@ export default {
 	 * @param {OC.Plugin} plugin plugin
 	 */
 	register: function(targetName, plugin) {
-		var plugins = this._plugins[targetName]
+		let plugins = this._plugins[targetName]
 		if (!plugins) {
 			plugins = this._plugins[targetName] = []
 		}
@@ -62,8 +62,8 @@ export default {
 	 * @param {Object} [options] options
 	 */
 	attach: function(targetName, targetObject, options) {
-		var plugins = this.getPlugins(targetName)
-		for (var i = 0; i < plugins.length; i++) {
+		const plugins = this.getPlugins(targetName)
+		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].attach) {
 				plugins[i].attach(targetObject, options)
 			}
@@ -78,12 +78,12 @@ export default {
 	 * @param {Object} [options] options
 	 */
 	detach: function(targetName, targetObject, options) {
-		var plugins = this.getPlugins(targetName)
-		for (var i = 0; i < plugins.length; i++) {
+		const plugins = this.getPlugins(targetName)
+		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].detach) {
 				plugins[i].detach(targetObject, options)
 			}
 		}
-	}
+	},
 
 }

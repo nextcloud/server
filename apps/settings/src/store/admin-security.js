@@ -27,7 +27,7 @@ Vue.use(Vuex)
 const state = {
 	enforced: false,
 	enforcedGroups: [],
-	excludedGroups: []
+	excludedGroups: [],
 }
 
 const mutations = {
@@ -39,11 +39,11 @@ const mutations = {
 	},
 	setExcludedGroups(state, used) {
 		Vue.set(state, 'excludedGroups', used)
-	}
+	},
 }
 
 export default new Vuex.Store({
 	strict: process.env.NODE_ENV !== 'production',
 	state,
-	mutations
+	mutations,
 })

@@ -32,13 +32,13 @@ import { Multiselect } from 'nextcloud-vue/dist/Components/Multiselect'
 export default {
 	name: 'Event',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		rule: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		entity() {
@@ -52,14 +52,14 @@ export default {
 		},
 		currentEvent() {
 			return this.allEvents.filter(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
-		}
+		},
 	},
 	methods: {
 		updateEvent(events) {
 			this.$set(this.rule, 'events', events.map(event => event.eventName))
 			this.$emit('update', this.rule)
-		}
-	}
+		},
+	},
 }
 </script>
 

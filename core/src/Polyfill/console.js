@@ -26,7 +26,7 @@ if (typeof console === 'undefined' || typeof console.log === 'undefined') {
 	}
 	const noOp = () => {}
 	const methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd']
-	for (var i = 0; i < methods.length; i++) {
+	for (let i = 0; i < methods.length; i++) {
 		console[methods[i]] = noOp
 	}
 }

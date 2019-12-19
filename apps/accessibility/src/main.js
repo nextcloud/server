@@ -14,7 +14,7 @@ const View = Vue.extend(App)
 const accessibility = new View({
 	propsData: {
 		availableConfig,
-		userConfig
-	}
+		userConfig,
+	},
 })
 accessibility.$mount('#accessibility')

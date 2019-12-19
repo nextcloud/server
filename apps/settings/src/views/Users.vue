@@ -94,7 +94,7 @@ import {
 	AppNavigationNew,
 	AppNavigationSettings,
 	Content,
-	Multiselect
+	Multiselect,
 } from 'nextcloud-vue'
 import UserList from '../components/UserList'
 
@@ -110,13 +110,13 @@ export default {
 		AppNavigationSettings,
 		Content,
 		UserList,
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		selectedGroup: {
 			type: String,
-			default: null
-		}
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -132,8 +132,8 @@ export default {
 				showUserBackend: false,
 				showLastLogin: false,
 				showNewUserForm: false,
-				showLanguages: false
-			}
+				showLanguages: false,
+			},
 		}
 	},
 	computed: {
@@ -152,25 +152,25 @@ export default {
 			get: function() { return this.getLocalstorage('showLanguages') },
 			set: function(status) {
 				this.setLocalStorage('showLanguages', status)
-			}
+			},
 		},
 		showLastLogin: {
 			get: function() { return this.getLocalstorage('showLastLogin') },
 			set: function(status) {
 				this.setLocalStorage('showLastLogin', status)
-			}
+			},
 		},
 		showUserBackend: {
 			get: function() { return this.getLocalstorage('showUserBackend') },
 			set: function(status) {
 				this.setLocalStorage('showUserBackend', status)
-			}
+			},
 		},
 		showStoragePath: {
 			get: function() { return this.getLocalstorage('showStoragePath') },
 			set: function(status) {
 				this.setLocalStorage('showStoragePath', status)
-			}
+			},
 		},
 
 		userCount() {
@@ -183,7 +183,7 @@ export default {
 		// default quota
 		quotaOptions() {
 			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
+			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
 			// add default presets
 			quotaPreset.unshift(this.unlimitedQuota)
 			return quotaPreset
@@ -202,20 +202,20 @@ export default {
 			},
 			set: function(quota) {
 				this.selectedQuota = quota
-			}
+			},
 
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
 		menu() {
 			// Data provided php side
-			let self = this
+			const self = this
 			let groups = this.$store.getters.getGroups
 			groups = Array.isArray(groups) ? groups : []
 
 			// Map groups
 			groups = groups.map(group => {
-				let item = {}
+				const item = {}
 				item.id = group.id.replace(' ', '_')
 				item.key = item.id
 				item.utils = {}
@@ -223,7 +223,7 @@ export default {
 				// router link to
 				item.router = {
 					name: 'group',
-					params: { selectedGroup: group.id }
+					params: { selectedGroup: group.id },
 				}
 
 				// group name
@@ -242,7 +242,7 @@ export default {
 						text: t('settings', 'Remove group'),
 						action: function() {
 							self.removeGroup(group.id)
-						}
+						},
 					}]
 				}
 				return item
@@ -256,16 +256,16 @@ export default {
 			realGroups = typeof realGroups === 'undefined' ? [] : realGroups
 			realGroups = Array.isArray(realGroups) ? realGroups : [realGroups]
 			if (realGroups.length > 0) {
-				let separator = {
+				const separator = {
 					caption: true,
-					text: t('settings', 'Groups')
+					text: t('settings', 'Groups'),
 				}
 				groups.unshift(separator)
 			}
 
 			// Adjust admin and disabled groups
-			let adminGroup = groups.find(group => group.id === 'admin')
-			let disabledGroup = groups.find(group => group.id === 'disabled')
+			const adminGroup = groups.find(group => group.id === 'admin')
+			const disabledGroup = groups.find(group => group.id === 'disabled')
 
 			// filter out admin and disabled
 			groups = groups.filter(group => ['admin', 'disabled'].indexOf(group.id) === -1)
@@ -291,27 +291,27 @@ export default {
 			}
 
 			// Add everyone group
-			let everyoneGroup = {
+			const everyoneGroup = {
 				id: 'everyone',
 				key: 'everyone',
 				icon: 'icon-contacts-dark',
 				router: { name: 'users' },
-				text: t('settings', 'Everyone')
+				text: t('settings', 'Everyone'),
 			}
 			// users count
 			if (this.userCount > 0) {
 				Vue.set(everyoneGroup, 'utils', {
-					counter: this.userCount
+					counter: this.userCount,
 				})
 			}
 			groups.unshift(everyoneGroup)
 
-			let addGroup = {
+			const addGroup = {
 				id: 'addgroup',
 				key: 'addgroup',
 				icon: 'icon-add',
 				text: t('settings', 'Add group'),
-				classes: this.loadingAddGroup ? 'icon-loading-small' : ''
+				classes: this.loadingAddGroup ? 'icon-loading-small' : '',
 			}
 			if (this.showAddGroupEntry) {
 				Vue.set(addGroup, 'edit', {
@@ -319,7 +319,7 @@ export default {
 					action: this.createGroup,
 					reset: function() {
 						self.showAddGroupEntry = false
-					}
+					},
 				})
 				addGroup.classes = 'editing'
 			} else {
@@ -334,13 +334,13 @@ export default {
 			groups.unshift(addGroup)
 
 			return groups
-		}
+		},
 	},
 	beforeMount() {
 		this.$store.commit('initGroups', {
 			groups: this.$store.getters.getServerData.groups,
 			orderBy: this.$store.getters.getServerData.sortGroups,
-			userCount: this.$store.getters.getServerData.userCount
+			userCount: this.$store.getters.getServerData.userCount,
 		})
 		this.$store.dispatch('getPasswordPolicyMinLength')
 	},
@@ -350,9 +350,9 @@ export default {
 		Object.assign(OCA, {
 			Settings: {
 				UserList: {
-					registerAction: this.registerAction
-				}
-			}
+					registerAction: this.registerAction,
+				},
+			},
 		})
 	},
 	methods: {
@@ -366,7 +366,7 @@ export default {
 		},
 		getLocalstorage(key) {
 			// force initialization
-			let localConfig = this.$localStorage.get(key)
+			const localConfig = this.$localStorage.get(key)
 			// if localstorage is null, fallback to original values
 			this.showConfig[key] = localConfig !== null ? localConfig === 'true' : this.showConfig[key]
 			return this.showConfig[key]
@@ -377,7 +377,7 @@ export default {
 			return status
 		},
 		removeGroup(groupid) {
-			let self = this
+			const self = this
 			// TODO migrate to a vue js confirm dialog component
 			OC.dialogs.confirm(
 				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', { group: groupid }),
@@ -400,7 +400,7 @@ export default {
 				app: 'files',
 				key: 'default_quota',
 				// ensure we only send the preset id
-				value: quota.id ? quota.id : quota
+				value: quota.id ? quota.id : quota,
 			}).then(() => {
 				if (typeof quota !== 'object') {
 					quota = { id: quota, label: quota }
@@ -417,7 +417,7 @@ export default {
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota === null) {
 				return this.setDefaultQuota('none')
 			} else {
@@ -438,7 +438,7 @@ export default {
 			this.externalActions.push({
 				icon: icon,
 				text: text,
-				action: action
+				action: action,
 			})
 			return this.externalActions
 		},
@@ -449,7 +449,7 @@ export default {
 		 * @param {Object} event The form submit event
 		 */
 		createGroup(event) {
-			let gid = event.target[0].value
+			const gid = event.target[0].value
 			this.loadingAddGroup = true
 			this.$store.dispatch('addGroup', gid)
 				.then(() => {
@@ -458,14 +458,14 @@ export default {
 					this.$router.push({
 						name: 'group',
 						params: {
-							selectedGroup: gid
-						}
+							selectedGroup: gid,
+						},
 					})
 				})
 				.catch(() => {
 					this.loadingAddGroup = false
 				})
-		}
-	}
+		},
+	},
 }
 </script>

@@ -29,10 +29,10 @@ export default {
 	props: ['score'],
 	computed: {
 		scoreImage() {
-			let score = Math.round(this.score * 10)
-			let imageName = 'rating/s' + score + '.svg'
+			const score = Math.round(this.score * 10)
+			const imageName = 'rating/s' + score + '.svg'
 			return OC.imagePath('core', imageName)
-		}
-	}
+		},
+	},
 }
 </script>

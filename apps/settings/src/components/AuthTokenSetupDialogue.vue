@@ -83,13 +83,13 @@ import confirmPassword from 'nextcloud-password-confirmation'
 export default {
 	name: 'AuthTokenSetupDialogue',
 	components: {
-		QR
+		QR,
 	},
 	props: {
 		add: {
 			type: Function,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -101,30 +101,30 @@ export default {
 			passwordCopied: false,
 			showQR: false,
 			qrUrl: '',
-			hoveringCopyButton: false
+			hoveringCopyButton: false,
 		}
 	},
 	computed: {
 		copyTooltipOptions() {
 			const base = {
 				hideOnTargetClick: false,
-				trigger: 'manual'
+				trigger: 'manual',
 			}
 
 			if (this.passwordCopied) {
 				return {
 					...base,
 					content: t('core', 'Copied!'),
-					show: true
+					show: true,
 				}
 			} else {
 				return {
 					...base,
 					content: t('core', 'Copy'),
-					show: this.hoveringCopyButton
+					show: this.hoveringCopyButton,
 				}
 			}
-		}
+		},
 	},
 	methods: {
 		selectInput(e) {
@@ -171,8 +171,8 @@ export default {
 			this.deviceName = ''
 			this.appPassword = ''
 			this.loginName = ''
-		}
-	}
+		},
+	},
 }
 </script>
 

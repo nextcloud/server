@@ -41,7 +41,7 @@ const actions = {
 			return api.post(OC.linkToOCS(`apps/provisioning_api/api/v1/config/apps/${app}/${key}`, 2), { value: value })
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { app, key, value, error }))
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

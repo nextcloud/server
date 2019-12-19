@@ -114,7 +114,7 @@ import SvgFilterMixin from '../SvgFilterMixin'
 export default {
 	name: 'AppItem',
 	components: {
-		AppScore
+		AppScore,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
@@ -122,24 +122,24 @@ export default {
 		category: {},
 		listView: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
 	data() {
 		return {
 			isSelected: false,
-			scrolled: false
+			scrolled: false,
 		}
 	},
 	computed: {
 		hasRating() {
 			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
-		}
+		},
 	},
 	watch: {
 		'$route.params.id': function(id) {
 			this.isSelected = (this.app.id === id)
-		}
+		},
 	},
 	mounted() {
 		this.isSelected = (this.app.id === this.$route.params.id)
@@ -155,7 +155,7 @@ export default {
 			try {
 				await this.$router.push({
 					name: 'apps-details',
-					params: { category: this.category, id: this.app.id }
+					params: { category: this.category, id: this.app.id },
 				})
 			} catch (e) {
 				// we already view this app
@@ -163,8 +163,8 @@ export default {
 		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
-		}
-	}
+		},
+	},
 }
 </script>
 

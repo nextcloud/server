@@ -15,7 +15,7 @@
 		PROPERTY_CAN_ASSIGN: '{' + OC.Files.Client.NS_OWNCLOUD + '}can-assign',
 		PROPERTY_DISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}display-name',
 		PROPERTY_USERVISIBLE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}user-visible',
-		PROPERTY_USERASSIGNABLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-assignable'
+		PROPERTY_USERASSIGNABLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-assignable',
 	})
 
 	/**
@@ -25,14 +25,14 @@
 	 * System tag
 	 *
 	 */
-	var SystemTagModel = OC.Backbone.Model.extend(
+	const SystemTagModel = OC.Backbone.Model.extend(
 		/** @lends OCA.SystemTags.SystemTagModel.prototype */ {
 			sync: OC.Backbone.davSync,
 
 			defaults: {
 				userVisible: true,
 				userAssignable: true,
-				canAssign: true
+				canAssign: true,
 			},
 
 			davProperties: {
@@ -41,7 +41,7 @@
 				'userVisible': OC.Files.Client.PROPERTY_USERVISIBLE,
 				'userAssignable': OC.Files.Client.PROPERTY_USERASSIGNABLE,
 				// read-only, effective permissions computed by the server,
-				'canAssign': OC.Files.Client.PROPERTY_CAN_ASSIGN
+				'canAssign': OC.Files.Client.PROPERTY_CAN_ASSIGN,
 			},
 
 			parse: function(data) {
@@ -50,9 +50,9 @@
 					name: data.name,
 					userVisible: data.userVisible === true || data.userVisible === 'true',
 					userAssignable: data.userAssignable === true || data.userAssignable === 'true',
-					canAssign: data.canAssign === true || data.canAssign === 'true'
+					canAssign: data.canAssign === true || data.canAssign === 'true',
 				}
-			}
+			},
 		})
 
 	OC.SystemTags = OC.SystemTags || {}

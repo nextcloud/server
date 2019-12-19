@@ -27,7 +27,7 @@ const TOAST_TYPE_CLASES = {
 	info: 'toast-info',
 	warning: 'toast-warning',
 	success: 'toast-success',
-	permanent: 'permanent'
+	permanent: 'permanent',
 }
 
 const Toast = {
@@ -59,7 +59,7 @@ const Toast = {
 			isHTML: false,
 			type: undefined,
 			close: true,
-			callback: () => {}
+			callback: () => {},
 		})
 		if (!options.isHTML) {
 			text = $('<div/>').text(text).html()
@@ -78,12 +78,12 @@ const Toast = {
 			selector: !window.TESTING ? 'content' : 'testArea',
 			positionLeft: false,
 			backgroundColor: '',
-			className: 'toast ' + classes
+			className: 'toast ' + classes,
 		})
 		toast.showToast()
 		// add toastify object to the element for reference in legacy OC.Notification
 		toast.toastElement.toastify = toast
 		return toast
-	}
+	},
 }
 export default Toast

@@ -27,7 +27,7 @@
 				$el.addClass('comment')
 				if (model.get('message') && this._isLong(model.get('message'))) {
 					$el.addClass('collapsed')
-					var $overlay = $('<div>').addClass('message-overlay')
+					const $overlay = $('<div>').addClass('message-overlay')
 					$el.find('.activitymessage').after($overlay)
 					$el.on('click', this._onClickCollapsedComment)
 				}
@@ -38,7 +38,7 @@
 		 * Copy of CommentsTabView._onClickComment()
 		 */
 		_onClickCollapsedComment: function(ev) {
-			var $row = $(ev.target)
+			let $row = $(ev.target)
 			if (!$row.is('.comment')) {
 				$row = $row.closest('.comment')
 			}
@@ -50,7 +50,7 @@
 		 */
 		_isLong: function(message) {
 			return message.length > 250 || (message.match(/\n/g) || []).length > 1
-		}
+		},
 	}
 
 })()

@@ -119,11 +119,11 @@ export default {
 	name: 'UpdateNotification',
 	components: {
 		Multiselect,
-		PopoverMenu
+		PopoverMenu,
 	},
 	directives: {
 		ClickOutside,
-		tooltip: VTooltip
+		tooltip: VTooltip,
 	},
 	data: function() {
 		return {
@@ -153,7 +153,7 @@ export default {
 			hideMissingUpdates: false,
 			hideAvailableUpdates: true,
 			openedWhatsNew: false,
-			openedUpdateChannelMenu: false
+			openedUpdateChannelMenu: false,
 		}
 	},
 
@@ -163,13 +163,13 @@ export default {
 	computed: {
 		newVersionAvailableString: function() {
 			return t('updatenotification', 'A new version is available: <strong>{newVersionString}</strong>', {
-				newVersionString: this.newVersionString
+				newVersionString: this.newVersionString,
 			})
 		},
 
 		lastCheckedOnString: function() {
 			return t('updatenotification', 'Checked on {lastCheckedDate}', {
-				lastCheckedDate: this.lastCheckedDate
+				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
 
@@ -195,8 +195,8 @@ export default {
 			if (this.whatsNewData.length === 0) {
 				return null
 			}
-			var whatsNew = []
-			for (var i in this.whatsNewData) {
+			const whatsNew = []
+			for (const i in this.whatsNewData) {
 				whatsNew[i] = { icon: 'icon-checkmark', longtext: this.whatsNewData[i] }
 			}
 			if (this.changelogURL) {
@@ -205,14 +205,14 @@ export default {
 					text: t('updatenotification', 'View changelog'),
 					icon: 'icon-link',
 					target: '_blank',
-					action: ''
+					action: '',
 				})
 			}
 			return whatsNew
 		},
 
 		channelList: function() {
-			let channelList = []
+			const channelList = []
 
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
@@ -220,7 +220,7 @@ export default {
 				icon: 'icon-star',
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,
-				action: this.changeReleaseChannelToEnterprise
+				action: this.changeReleaseChannelToEnterprise,
 			})
 
 			channelList.push({
@@ -228,7 +228,7 @@ export default {
 				longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
 				icon: 'icon-checkmark',
 				active: this.currentChannel === 'stable',
-				action: this.changeReleaseChannelToStable
+				action: this.changeReleaseChannelToStable,
 			})
 
 			channelList.push({
@@ -236,14 +236,14 @@ export default {
 				longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
 				icon: 'icon-category-customization',
 				active: this.currentChannel === 'beta',
-				action: this.changeReleaseChannelToBeta
+				action: this.changeReleaseChannelToBeta,
 			})
 
 			if (this.isNonDefaultChannel) {
 				channelList.push({
 					text: this.currentChannel,
 					icon: 'icon-rename',
-					active: true
+					active: true,
 				})
 			}
 
@@ -265,7 +265,7 @@ export default {
 			default:
 				return this.currentChannel
 			}
-		}
+		},
 	},
 
 	watch: {
@@ -274,7 +274,7 @@ export default {
 				return
 			}
 
-			var selectedGroups = []
+			const selectedGroups = []
 			_.each(selectedOptions, function(group) {
 				selectedGroups.push(group.value)
 			})
@@ -304,13 +304,13 @@ export default {
 					this.appStoreDisabled = xhr.responseJSON.ocs.data.appstore_disabled
 					this.isListFetched = true
 					this.appStoreFailed = true
-				}.bind(this)
+				}.bind(this),
 			})
-		}
+		},
 	},
 	beforeMount: function() {
 		// Parse server data
-		var data = JSON.parse($('#updatenotification').attr('data-json'))
+		const data = JSON.parse($('#updatenotification').attr('data-json'))
 
 		this.newVersion = data.newVersion
 		this.newVersionString = data.newVersionString
@@ -347,14 +347,14 @@ export default {
 			url: OC.linkToOCS('cloud', 2) + '/groups',
 			dataType: 'json',
 			success: function(data) {
-				var results = []
+				const results = []
 				$.each(data.ocs.data.groups, function(i, group) {
 					results.push({ value: group, label: group })
 				})
 
 				this.availableGroups = results
 				this.enableChangeWatcher = true
-			}.bind(this)
+			}.bind(this),
 		})
 	},
 
@@ -364,14 +364,14 @@ export default {
 			 */
 		clickUpdaterButton: function() {
 			$.ajax({
-				url: OC.generateUrl('/apps/updatenotification/credentials')
+				url: OC.generateUrl('/apps/updatenotification/credentials'),
 			}).success(function(token) {
 				// create a form to send a proper post request to the updater
-				var form = document.createElement('form')
+				const form = document.createElement('form')
 				form.setAttribute('method', 'post')
 				form.setAttribute('action', OC.getRootPath() + '/updater/')
 
-				var hiddenField = document.createElement('input')
+				const hiddenField = document.createElement('input')
 				hiddenField.setAttribute('type', 'hidden')
 				hiddenField.setAttribute('name', 'updater-secret-input')
 				hiddenField.setAttribute('value', token)
@@ -398,11 +398,11 @@ export default {
 				url: OC.generateUrl('/apps/updatenotification/channel'),
 				type: 'POST',
 				data: {
-					'channel': this.currentChannel
+					'channel': this.currentChannel,
 				},
 				success: function(data) {
 					OC.msg.finishedAction('#channel_save_msg', data)
-				}
+				},
 			})
 
 			this.openedUpdateChannelMenu = false
@@ -421,8 +421,8 @@ export default {
 		},
 		hideMenu: function() {
 			this.openedWhatsNew = false
-		}
-	}
+		},
+	},
 }
 </script>
 

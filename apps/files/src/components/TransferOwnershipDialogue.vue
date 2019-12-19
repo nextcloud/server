@@ -50,8 +50,8 @@
 						:internal-search="false"
 						:clear-on-select="false"
 						:user-select="true"
-						@search-change="findUserDebounced"
-						class="middle-align" />
+						class="middle-align"
+						@search-change="findUserDebounced" />
 				</label>
 			</p>
 			<p>
@@ -85,7 +85,7 @@ const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to trans
 export default {
 	name: 'TransferOwnershipDialogue',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	data() {
 		return {
@@ -94,7 +94,7 @@ export default {
 			submitError: undefined,
 			loadingUsers: false,
 			selectedUser: null,
-			userSuggestions: {}
+			userSuggestions: {},
 		}
 	},
 	computed: {
@@ -107,7 +107,7 @@ export default {
 				return {
 					user: user.uid,
 					displayName: user.displayName,
-					icon: 'icon-user'
+					icon: 'icon-user',
 				}
 			})
 		},
@@ -123,7 +123,7 @@ export default {
 				return ''
 			}
 			return this.directory.substring(1)
-		}
+		},
 	},
 	created() {
 		this.findUserDebounced = debounce(this.findUser, 300)
@@ -163,8 +163,8 @@ export default {
 						itemType: 'file',
 						search: query,
 						perPage: 20,
-						lookup: false
-					}
+						lookup: false,
+					},
 				})
 
 				if (response.data.ocs.meta.statuscode !== 100) {
@@ -175,7 +175,7 @@ export default {
 				response.data.ocs.data.users.forEach(user => {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
-						displayName: user.label
+						displayName: user.label,
 					})
 				})
 			} catch (error) {
@@ -192,7 +192,7 @@ export default {
 			this.submitError = undefined
 			const data = {
 				path: this.directory,
-				recipient: this.selectedUser.user
+				recipient: this.selectedUser.user,
 			}
 			logger.debug('submit transfer ownership form', data)
 
@@ -212,8 +212,8 @@ export default {
 
 					this.submitError = error.message || t('files', 'Unknown error')
 				})
-		}
-	}
+		},
+	},
 }
 </script>
 

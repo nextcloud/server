@@ -20,7 +20,7 @@
 		PROPERTY_OBJECTTYPE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}objectType',
 		PROPERTY_ACTORDISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}actorDisplayName',
 		PROPERTY_CREATIONDATETIME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}creationDateTime',
-		PROPERTY_MENTIONS: '{' + OC.Files.Client.NS_OWNCLOUD + '}mentions'
+		PROPERTY_MENTIONS: '{' + OC.Files.Client.NS_OWNCLOUD + '}mentions',
 	})
 
 	/**
@@ -30,13 +30,13 @@
 	 * Comment
 	 *
 	 */
-	var CommentModel = OC.Backbone.Model.extend(
+	const CommentModel = OC.Backbone.Model.extend(
 		/** @lends OCA.Comments.CommentModel.prototype */ {
 			sync: OC.Backbone.davSync,
 
 			defaults: {
 				actorType: 'users',
-				objectType: 'files'
+				objectType: 'files',
 			},
 
 			davProperties: {
@@ -49,7 +49,7 @@
 				'objectType':	OC.Files.Client.PROPERTY_OBJECTTYPE,
 				'objectId':	OC.Files.Client.PROPERTY_OBJECTID,
 				'isUnread':	OC.Files.Client.PROPERTY_ISUNREAD,
-				'mentions': OC.Files.Client.PROPERTY_MENTIONS
+				'mentions': OC.Files.Client.PROPERTY_MENTIONS,
 			},
 
 			parse: function(data) {
@@ -63,7 +63,7 @@
 					objectType: data.objectType,
 					objectId: data.objectId,
 					isUnread: (data.isUnread === 'true'),
-					mentions: this._parseMentions(data.mentions)
+					mentions: this._parseMentions(data.mentions),
 				}
 			},
 
@@ -71,14 +71,14 @@
 				if (_.isUndefined(mentions)) {
 					return {}
 				}
-				var result = {}
-				for (var i in mentions) {
-					var mention = mentions[i]
+				const result = {}
+				for (const i in mentions) {
+					const mention = mentions[i]
 					if (_.isUndefined(mention.localName) || mention.localName !== 'mention') {
 						continue
 					}
 					result[i] = {}
-					for (var child = mention.firstChild; child; child = child.nextSibling) {
+					for (let child = mention.firstChild; child; child = child.nextSibling) {
 						if (_.isUndefined(child.localName) || !child.localName.startsWith('mention')) {
 							continue
 						}
@@ -86,7 +86,7 @@
 					}
 				}
 				return result
-			}
+			},
 		})
 
 	OCA.Comments.CommentModel = CommentModel

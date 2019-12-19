@@ -34,12 +34,12 @@ export default {
 	props: {
 		availableConfig: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		userConfig: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		themes() {
@@ -55,7 +55,7 @@ export default {
 			return {
 				theme: this.userConfig.theme,
 				highcontrast: this.userConfig.highcontrast,
-				font: this.userConfig.font
+				font: this.userConfig.font,
 			}
 		},
 		description() {
@@ -87,7 +87,7 @@ export default {
 		},
 		designteamLink() {
 			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">${t('accessibility', 'our design team')}</a>`
-		}
+		},
 	},
 	methods: {
 		// SELECT handlers
@@ -123,17 +123,17 @@ export default {
 					url: generateOcsUrl('apps/accessibility/api/v1/config', 2) + type,
 					method: isDelete ? 'DELETE' : 'PUT',
 					data: {
-						value: id
-					}
+						value: id,
+					},
 				})
 
 				this.userConfig[type] = id
 
 				// Remove old link
-				let link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]')
+				const link = document.querySelector('link[rel=stylesheet][href*=accessibility][href*=user-]')
 				if (!link) {
 					// insert new css
-					let link = document.createElement('link')
+					const link = document.createElement('link')
 					link.rel = 'stylesheet'
 					link.href = generateUrl('/apps/accessibility/css/user-style.css') + '?v=' + new Date().getTime()
 					document.head.appendChild(link)
@@ -157,7 +157,7 @@ export default {
 				console.error(err, err.response)
 				OC.Notification.showTemporary(t('accessibility', err.response.data.ocs.meta.message + '. Unable to apply the setting.'))
 			}
-		}
-	}
+		},
+	},
 }
 </script>

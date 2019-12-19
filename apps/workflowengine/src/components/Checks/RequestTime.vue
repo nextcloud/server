@@ -28,16 +28,16 @@ const zones = moment.tz.names()
 export default {
 	name: 'RequestTime',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	mixins: [
-		valueMixin
+		valueMixin,
 	],
 	props: {
 		value: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
 	data() {
 		return {
@@ -46,8 +46,8 @@ export default {
 			newValue: {
 				startTime: null,
 				endTime: null,
-				timezone: moment.tz.guess()
-			}
+				timezone: moment.tz.guess(),
+			},
 		}
 	},
 	methods: {
@@ -58,7 +58,7 @@ export default {
 					this.newValue = {
 						startTime: data[0].split(' ', 2)[0],
 						endTime: data[1].split(' ', 2)[0],
-						timezone: data[0].split(' ', 2)[1]
+						timezone: data[0].split(' ', 2)[1],
 					}
 				}
 			} catch (e) {
@@ -78,8 +78,8 @@ export default {
 			} else {
 				this.valid = false
 			}
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -17,5 +17,5 @@ window.OCP.Collaboration.registerType('file', {
 		})
 	},
 	typeString: t('files_sharing', 'Link to a file'),
-	typeIconClass: 'icon-files-dark'
+	typeIconClass: 'icon-files-dark',
 })

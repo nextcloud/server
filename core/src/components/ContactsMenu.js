@@ -29,6 +29,6 @@ export const setUp = () => {
 	// eslint-disable-next-line no-new
 	new OC.ContactsMenu({
 		el: $('#contactsmenu .menu'),
-		trigger: $('#contactsmenu .menutoggle')
+		trigger: $('#contactsmenu .menutoggle'),
 	})
 }

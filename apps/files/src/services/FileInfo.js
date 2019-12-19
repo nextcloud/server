@@ -51,7 +51,7 @@ export default async function(url) {
 				<oc:owner-display-name />
 				<oc:share-types />
 			</d:prop>
-			</d:propfind>`
+			</d:propfind>`,
 	})
 
 	// TODO: create new parser or use cdav-lib when available

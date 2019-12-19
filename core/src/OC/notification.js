@@ -156,5 +156,5 @@ export default {
 	 */
 	isHidden: function() {
 		return !$('#content').find('.toastify').length
-	}
+	},
 }

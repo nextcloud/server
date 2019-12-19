@@ -37,8 +37,8 @@ export default {
 	props: {
 		client: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data: function() {
 		return {
@@ -47,7 +47,7 @@ export default {
 			redirectUri: this.client.redirectUri,
 			clientId: this.client.clientId,
 			clientSecret: this.client.clientSecret,
-			renderSecret: false
+			renderSecret: false,
 		}
 	},
 	computed: {
@@ -57,13 +57,13 @@ export default {
 			} else {
 				return '****'
 			}
-		}
+		},
 	},
 	methods: {
 		toggleSecret() {
 			this.renderSecret = !this.renderSecret
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -37,6 +37,6 @@ const View = Vue.extend(AuthTokenSection)
 new View({
 	propsData: {
 		tokens: loadState('settings', 'app_tokens'),
-		canCreateToken: loadState('settings', 'can_create_app_token')
-	}
+		canCreateToken: loadState('settings', 'can_create_app_token'),
+	},
 }).$mount('#security-authtokens')

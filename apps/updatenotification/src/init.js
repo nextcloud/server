@@ -28,12 +28,12 @@ Vue.mixin({
 		},
 		n: function(app, textSingular, textPlural, count, vars, options) {
 			return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options)
-		}
-	}
+		},
+	},
 })
 
 // eslint-disable-next-line no-new
 new Vue({
 	el: '#updatenotification',
-	render: h => h(Root)
+	render: h => h(Root),
 })

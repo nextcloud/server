@@ -11,7 +11,7 @@
 (function(OC, OCA) {
 
 	_.extend(OC.Files.Client, {
-		PROPERTY_READMARKER:	'{' + OC.Files.Client.NS_OWNCLOUD + '}readMarker'
+		PROPERTY_READMARKER:	'{' + OC.Files.Client.NS_OWNCLOUD + '}readMarker',
 	})
 
 	/**
@@ -22,7 +22,7 @@
 	 * like the read marker.
 	 *
 	 */
-	var CommentSummaryModel = OC.Backbone.Model.extend(
+	const CommentSummaryModel = OC.Backbone.Model.extend(
 		/** @lends OCA.Comments.CommentSummaryModel.prototype */ {
 			sync: OC.Backbone.davSync,
 
@@ -41,7 +41,7 @@
 			_objectId: null,
 
 			davProperties: {
-				'readMarker': OC.Files.Client.PROPERTY_READMARKER
+				'readMarker': OC.Files.Client.PROPERTY_READMARKER,
 			},
 
 			/**
@@ -63,7 +63,7 @@
 				return OC.linkToRemote('dav') + '/comments/'
 				+ encodeURIComponent(this._objectType) + '/'
 				+ encodeURIComponent(this.id) + '/'
-			}
+			},
 		})
 
 	OCA.Comments.CommentSummaryModel = CommentSummaryModel

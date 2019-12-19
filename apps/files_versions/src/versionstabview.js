@@ -15,7 +15,7 @@ import Template from './templates/template.handlebars';
 	/**
 	 * @memberof OCA.Versions
 	 */
-	var VersionsTabView = OCA.Files.DetailTabView.extend(/** @lends OCA.Versions.VersionsTabView.prototype */{
+	const VersionsTabView = OCA.Files.DetailTabView.extend(/** @lends OCA.Versions.VersionsTabView.prototype */{
 		id: 'versionsTabView',
 		className: 'tab versionsTabView',
 
@@ -24,7 +24,7 @@ import Template from './templates/template.handlebars';
 		$versionsContainer: null,
 
 		events: {
-			'click .revertVersion': '_onClickRevertVersion'
+			'click .revertVersion': '_onClickRevertVersion',
 		},
 
 		initialize: function() {
@@ -57,18 +57,17 @@ import Template from './templates/template.handlebars';
 		},
 
 		_onClickRevertVersion: function(ev) {
-			var self = this
-			var $target = $(ev.target)
-			var fileInfoModel = this.collection.getFileInfo()
-			var revision
+			const self = this
+			let $target = $(ev.target)
+			const fileInfoModel = this.collection.getFileInfo()
 			if (!$target.is('li')) {
 				$target = $target.closest('li')
 			}
 
 			ev.preventDefault()
-			revision = $target.attr('data-revision')
+			const revision = $target.attr('data-revision')
 
-			var versionModel = this.collection.get(revision)
+			const versionModel = this.collection.get(revision)
 			versionModel.revert({
 				success: function() {
 					// reset and re-fetch the updated collection
@@ -85,7 +84,7 @@ import Template from './templates/template.handlebars';
 						size: versionModel.get('size'),
 						mtime: versionModel.get('timestamp') * 1000,
 						// temp dummy, until we can do a PROPFIND
-						etag: versionModel.get('id') + versionModel.get('timestamp')
+						etag: versionModel.get('id') + versionModel.get('timestamp'),
 					})
 				},
 
@@ -96,13 +95,13 @@ import Template from './templates/template.handlebars';
 					OC.Notification.show(t('files_version', 'Failed to revert {file} to revision {timestamp}.',
 						{
 							file: versionModel.getFullPath(),
-							timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000)
+							timestamp: OC.Util.formatDate(versionModel.get('timestamp') * 1000),
 						}),
 					{
-						type: 'error'
+						type: 'error',
 					}
 					)
-				}
+				},
 			})
 
 			// spinner
@@ -125,7 +124,7 @@ import Template from './templates/template.handlebars';
 		},
 
 		_onAddModel: function(model) {
-			var $el = $(this.itemTemplate(this._formatItem(model)))
+			const $el = $(this.itemTemplate(this._formatItem(model)))
 			this.$versionsContainer.append($el)
 			$el.find('.has-tooltip').tooltip()
 		},
@@ -151,10 +150,10 @@ import Template from './templates/template.handlebars';
 		},
 
 		_formatItem: function(version) {
-			var timestamp = version.get('timestamp') * 1000
-			var size = version.has('size') ? version.get('size') : 0
-			var preview = OC.MimeType.getIconUrl(version.get('mimetype'))
-			var img = new Image()
+			const timestamp = version.get('timestamp') * 1000
+			const size = version.has('size') ? version.get('size') : 0
+			const preview = OC.MimeType.getIconUrl(version.get('mimetype'))
+			const img = new Image()
 			img.onload = function() {
 				$('li[data-revision=' + version.get('id') + '] .preview').attr('src', version.getPreviewUrl())
 			}
@@ -174,7 +173,7 @@ import Template from './templates/template.handlebars';
 				revertIconUrl: OC.imagePath('core', 'actions/history'),
 				previewUrl: preview,
 				revertLabel: t('files_versions', 'Restore'),
-				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
+				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0,
 			}, version.attributes)
 		},
 
@@ -183,7 +182,7 @@ import Template from './templates/template.handlebars';
 		 */
 		render: function() {
 			this.$el.html(this.template({
-				emptyResultLabel: t('files_versions', 'No other versions available')
+				emptyResultLabel: t('files_versions', 'No other versions available'),
 			}))
 			this.$el.find('.has-tooltip').tooltip()
 			this.$versionsContainer = this.$el.find('ul.versions')
@@ -200,7 +199,7 @@ import Template from './templates/template.handlebars';
 				return false
 			}
 			return !fileInfo.isDirectory()
-		}
+		},
 	})
 
 	OCA.Versions = OCA.Versions || {}

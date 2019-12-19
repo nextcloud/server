@@ -200,13 +200,13 @@ export default {
 	name: 'AppDetails',
 	components: {
 		Multiselect,
-		AppScore
+		AppScore,
 	},
 	mixins: [AppManagement, PrefixMixin, SvgFilterMixin],
 	props: ['category', 'app'],
 	data() {
 		return {
-			groupCheckedAppsData: false
+			groupCheckedAppsData: false,
 		}
 	},
 	computed: {
@@ -226,8 +226,8 @@ export default {
 			if (typeof this.app.author === 'string') {
 				return [
 					{
-						'@value': this.app.author
-					}
+						'@value': this.app.author,
+					},
 				]
 			}
 			if (this.app.author['@value']) {
@@ -244,10 +244,11 @@ export default {
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 		renderMarkdown() {
-			var renderer = new marked.Renderer()
+			const renderer = new marked.Renderer()
 			renderer.link = function(href, title, text) {
+				let prot
 				try {
-					var prot = decodeURIComponent(unescape(href))
+					prot = decodeURIComponent(unescape(href))
 						.replace(/[^\w:]/g, '')
 						.toLowerCase()
 				} catch (e) {
@@ -258,7 +259,7 @@ export default {
 					return ''
 				}
 
-				var out = '<a href="' + href + '" rel="noreferrer noopener"'
+				let out = '<a href="' + href + '" rel="noreferrer noopener"'
 				if (title) {
 					out += ' title="' + title + '"'
 				}
@@ -284,7 +285,7 @@ export default {
 					pedantic: false,
 					sanitize: true,
 					smartLists: true,
-					smartypants: false
+					smartypants: false,
 				}),
 				{
 					SAFE_FOR_JQUERY: true,
@@ -297,17 +298,17 @@ export default {
 						'li',
 						'em',
 						'del',
-						'blockquote'
-					]
+						'blockquote',
+					],
 				}
 			)
-		}
+		},
 	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
 		}
-	}
+	},
 }
 </script>
 

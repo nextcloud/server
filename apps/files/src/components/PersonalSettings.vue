@@ -32,7 +32,7 @@ import TransferOwnershipDialogue from './TransferOwnershipDialogue'
 export default {
 	name: 'PersonalSettings',
 	components: {
-		TransferOwnershipDialogue
-	}
+		TransferOwnershipDialogue,
+	},
 }
 </script>

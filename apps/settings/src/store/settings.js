@@ -21,17 +21,17 @@
  */
 
 const state = {
-	serverData: {}
+	serverData: {},
 }
 const mutations = {
 	setServerData(state, data) {
 		state.serverData = data
-	}
+	},
 }
 const getters = {
 	getServerData(state) {
 		return state.serverData
-	}
+	},
 }
 const actions = {}
 

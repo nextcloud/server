@@ -33,7 +33,7 @@ const shareWithTitle = function(share) {
 			'Shared with you and the group {group} by {owner}',
 			{
 				group: share.shareWithDisplayName,
-				owner: share.ownerDisplayName
+				owner: share.ownerDisplayName,
 			},
 			undefined,
 			{ escape: false }
@@ -44,7 +44,7 @@ const shareWithTitle = function(share) {
 			'Shared with you and {circle} by {owner}',
 			{
 				circle: share.shareWithDisplayName,
-				owner: share.ownerDisplayName
+				owner: share.ownerDisplayName,
 			},
 			undefined,
 			{ escape: false }
@@ -56,7 +56,7 @@ const shareWithTitle = function(share) {
 				'Shared with you and the conversation {conversation} by {owner}',
 				{
 					conversation: share.shareWithDisplayName,
-					owner: share.ownerDisplayName
+					owner: share.ownerDisplayName,
 				},
 				undefined,
 				{ escape: false }
@@ -66,7 +66,7 @@ const shareWithTitle = function(share) {
 				'files_sharing',
 				'Shared with you in a conversation by {owner}',
 				{
-					owner: share.ownerDisplayName
+					owner: share.ownerDisplayName,
 				},
 				undefined,
 				{ escape: false }

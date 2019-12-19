@@ -242,11 +242,11 @@ import Vue from 'vue'
 
 const unlimitedQuota = {
 	id: 'none',
-	label: t('settings', 'Unlimited')
+	label: t('settings', 'Unlimited'),
 }
 const defaultQuota = {
 	id: 'default',
-	label: t('settings', 'Default quota')
+	label: t('settings', 'Default quota'),
 }
 const newUser = {
 	id: '',
@@ -258,8 +258,8 @@ const newUser = {
 	quota: defaultQuota,
 	language: {
 		code: 'en',
-		name: t('settings', 'Default language')
-	}
+		name: t('settings', 'Default language'),
+	},
 }
 
 export default {
@@ -267,25 +267,25 @@ export default {
 	components: {
 		userRow,
 		Multiselect,
-		InfiniteLoading
+		InfiniteLoading,
 	},
 	props: {
 		users: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		showConfig: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		selectedGroup: {
 			type: String,
-			default: null
+			default: null,
 		},
 		externalActions: {
 			type: Array,
-			default: () => []
-		}
+			default: () => [],
+		},
 	},
 	data() {
 		return {
@@ -293,11 +293,11 @@ export default {
 			defaultQuota,
 			loading: {
 				all: false,
-				groups: false
+				groups: false,
 			},
 			scrolled: false,
 			searchQuery: '',
-			newUser: Object.assign({}, newUser)
+			newUser: Object.assign({}, newUser),
 		}
 	},
 	computed: {
@@ -336,9 +336,9 @@ export default {
 		},
 		quotaOptions() {
 			// convert the preset array into objects
-			let quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({
+			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({
 				id: cur,
-				label: cur
+				label: cur,
 			}), [])
 			// add default presets
 			quotaPreset.unshift(this.unlimitedQuota)
@@ -363,14 +363,14 @@ export default {
 			return [
 				{
 					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonlanguages
+					languages: this.settings.languages.commonlanguages,
 				},
 				{
 					label: t('settings', 'All languages'),
-					languages: this.settings.languages.languages
-				}
+					languages: this.settings.languages.languages,
+				},
 			]
-		}
+		},
 	},
 	watch: {
 		// watch url change and group select
@@ -394,7 +394,7 @@ export default {
 			} else if (val === 1 && old === 0) {
 				this.$refs.infiniteLoading.stateChanger.loaded()
 			}
-		}
+		},
 	},
 	mounted() {
 		if (!this.settings.canChangePassword) {
@@ -429,7 +429,7 @@ export default {
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
@@ -446,7 +446,7 @@ export default {
 				offset: this.usersOffset,
 				limit: this.usersLimit,
 				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
-				search: this.searchQuery
+				search: this.searchQuery,
 			})
 				.then((response) => {
 					response ? $state.loaded() : $state.complete()
@@ -494,7 +494,7 @@ export default {
 				groups: this.newUser.groups.map(group => group.id),
 				subadmin: this.newUser.subAdminsGroups.map(group => group.id),
 				quota: this.newUser.quota.id,
-				language: this.newUser.language.code
+				language: this.newUser.language.code,
 			})
 				.then(() => {
 					this.resetForm()
@@ -517,7 +517,7 @@ export default {
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
 				// setting new user default group to the current selected one
-				let currentGroup = this.groups.find(group => group.id === value)
+				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
 					return
@@ -560,7 +560,7 @@ export default {
 				this.$router.push({ name: 'users' })
 				this.$refs.infiniteLoading.stateChanger.reset()
 			}
-		}
-	}
+		},
+	},
 }
 </script>

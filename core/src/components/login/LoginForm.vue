@@ -141,34 +141,34 @@ export default {
 	props: {
 		username: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		redirectUrl: {
-			type: String
+			type: String,
 		},
 		errors: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		messages: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		throttleDelay: {
-			type: Number
+			type: Number,
 		},
 		invertedColors: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		autoCompleteAllowed: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		directLogin: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -177,7 +177,7 @@ export default {
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
 			user: this.username,
 			password: '',
-			passwordInputType: 'password'
+			passwordInputType: 'password',
 		}
 	},
 	computed: {
@@ -192,7 +192,7 @@ export default {
 		},
 		userDisabled() {
 			return this.errors.indexOf('userdisabled') !== -1
-		}
+		},
 	},
 	mounted() {
 		if (this.username === '') {
@@ -215,8 +215,8 @@ export default {
 		submit() {
 			this.loading = true
 			this.$emit('submit')
-		}
-	}
+		},
+	},
 }
 </script>
 

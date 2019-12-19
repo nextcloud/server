@@ -33,6 +33,6 @@ export default {
 		if (serverDataElmt !== null) {
 			this.$store.commit('setServerData', JSON.parse(document.getElementById('serverData').dataset.server))
 		}
-	}
+	},
 }
 </script>

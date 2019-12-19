@@ -77,7 +77,7 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 	 */
 	registerOperator: function(Plugin) {
 		store.commit('addPluginOperator', Plugin)
-	}
+	},
 })
 
 // Register shipped checks
@@ -88,6 +88,6 @@ Vue.prototype.t = t
 
 const View = Vue.extend(Settings)
 const workflowengine = new View({
-	store
+	store,
 })
 workflowengine.$mount('#workflowengine')

@@ -38,7 +38,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -64,7 +64,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -90,7 +90,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -117,7 +117,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -142,7 +142,7 @@ OCA.Sharing.App = {
 				// The file list is created when a "show" event is handled, so
 				// it should be marked as "shown" like it would have been done
 				// if handling the event with the file list already created.
-				shown: true
+				shown: true,
 			}
 		)
 
@@ -202,7 +202,7 @@ OCA.Sharing.App = {
 
 	_createFileActions: function() {
 		// inherit file actions from the files app
-		var fileActions = new OCA.Files.FileActions()
+		const fileActions = new OCA.Files.FileActions()
 		// note: not merging the legacy actions because legacy apps are not
 		// compatible with the sharing overview and need to be adapted first
 		fileActions.registerDefaultActions()
@@ -227,7 +227,7 @@ OCA.Sharing.App = {
 	},
 
 	_restoreShareAction: function() {
-		var fileActions = new OCA.Files.FileActions()
+		const fileActions = new OCA.Files.FileActions()
 		fileActions.registerAction({
 			name: 'Restore',
 			displayName: '',
@@ -237,14 +237,14 @@ OCA.Sharing.App = {
 			iconClass: 'icon-history',
 			type: OCA.Files.FileActions.TYPE_INLINE,
 			actionHandler: function(fileName, context) {
-				var shareId = context.$file.data('shareId')
+				const shareId = context.$file.data('shareId')
 				$.post(OC.linkToOCS('apps/files_sharing/api/v1/deletedshares', 2) + shareId)
 					.success(function(result) {
 						context.fileList.remove(context.fileInfoModel.attributes.name)
 					}).fail(function() {
 						OC.Notification.showTemporary(t('files_sharing', 'Something happened. Unable to restore the share.'))
 					})
-			}
+			},
 		})
 		return fileActions
 	},
@@ -269,7 +269,7 @@ OCA.Sharing.App = {
 	_extendFileList: function(fileList) {
 		// remove size column from summary
 		fileList.fileSummary.$el.find('.filesize').remove()
-	}
+	},
 }
 
 $(document).ready(function() {

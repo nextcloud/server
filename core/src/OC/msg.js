@@ -113,5 +113,5 @@ export default {
 			.addClass('error')
 			.removeClass('success')
 			.show()
-	}
+	},
 }

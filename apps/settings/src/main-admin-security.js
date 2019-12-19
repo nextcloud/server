@@ -19,5 +19,5 @@ store.replaceState(
 
 const View = Vue.extend(AdminTwoFactor)
 new View({
-	store
+	store,
 }).$mount('#two-factor-auth-settings')

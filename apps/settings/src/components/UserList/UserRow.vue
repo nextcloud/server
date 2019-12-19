@@ -241,7 +241,7 @@ import {
 	PopoverMenu,
 	Multiselect,
 	Actions,
-	ActionButton
+	ActionButton,
 } from 'nextcloud-vue'
 import UserRowSimple from './UserRowSimple'
 import UserRowMixin from '../../mixins/UserRowMixin'
@@ -255,45 +255,45 @@ export default {
 		PopoverMenu,
 		Actions,
 		ActionButton,
-		Multiselect
+		Multiselect,
 	},
 	directives: {
-		ClickOutside
+		ClickOutside,
 	},
 	mixins: [UserRowMixin],
 	props: {
 		user: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		settings: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		groups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		subAdminsGroups: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		quotaOptions: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		showConfig: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		languages: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		externalActions: {
 			type: Array,
-			default: () => []
-		}
+			default: () => [],
+		},
 	},
 	data() {
 		return {
@@ -312,39 +312,39 @@ export default {
 				delete: false,
 				disable: false,
 				languages: false,
-				wipe: false
-			}
+				wipe: false,
+			},
 		}
 	},
 	computed: {
 		/* USER POPOVERMENU ACTIONS */
 		userActions() {
-			let actions = [
+			const actions = [
 				{
 					icon: 'icon-delete',
 					text: t('settings', 'Delete user'),
-					action: this.deleteUser
+					action: this.deleteUser,
 				},
 				{
 					icon: 'icon-delete',
 					text: t('settings', 'Wipe all devices'),
-					action: this.wipeUserDevices
+					action: this.wipeUserDevices,
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
 					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
-					action: this.enableDisableUser
-				}
+					action: this.enableDisableUser,
+				},
 			]
 			if (this.user.email !== null && this.user.email !== '') {
 				actions.push({
 					icon: 'icon-mail',
 					text: t('settings', 'Resend welcome email'),
-					action: this.sendWelcomeMail
+					action: this.sendWelcomeMail,
 				})
 			}
 			return actions.concat(this.externalActions)
-		}
+		},
 	},
 
 	methods: {
@@ -357,7 +357,7 @@ export default {
 		},
 
 		wipeUserDevices() {
-			let userid = this.user.id
+			const userid = this.user.id
 			OC.dialogs.confirmDestructive(
 				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid: userid }),
 				t('settings', 'Remote wipe of devices'),
@@ -365,7 +365,7 @@ export default {
 					type: OC.dialogs.YES_NO_BUTTONS,
 					confirm: t('settings', 'Wipe {userid}\'s devices', { userid: userid }),
 					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel')
+					cancel: t('settings', 'Cancel'),
 				},
 				(result) => {
 					if (result) {
@@ -383,7 +383,7 @@ export default {
 		},
 
 		deleteUser() {
-			let userid = this.user.id
+			const userid = this.user.id
 			OC.dialogs.confirmDestructive(
 				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid: userid }),
 				t('settings', 'Account deletion'),
@@ -391,7 +391,7 @@ export default {
 					type: OC.dialogs.YES_NO_BUTTONS,
 					confirm: t('settings', 'Delete {userid}\'s account', { userid: userid }),
 					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel')
+					cancel: t('settings', 'Cancel'),
 				},
 				(result) => {
 					if (result) {
@@ -411,11 +411,11 @@ export default {
 		enableDisableUser() {
 			this.loading.delete = true
 			this.loading.all = true
-			let userid = this.user.id
-			let enabled = !this.user.enabled
+			const userid = this.user.id
+			const enabled = !this.user.enabled
 			return this.$store.dispatch('enableDisableUser', {
 				userid,
-				enabled
+				enabled,
 			})
 				.then(() => {
 					this.loading.delete = false
@@ -429,12 +429,12 @@ export default {
 			 * @param {string} displayName The display name
 			 */
 		updateDisplayName() {
-			let displayName = this.$refs.displayName.value
+			const displayName = this.$refs.displayName.value
 			this.loading.displayName = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'displayname',
-				value: displayName
+				value: displayName,
 			}).then(() => {
 				this.loading.displayName = false
 				this.$refs.displayName.value = displayName
@@ -447,12 +447,12 @@ export default {
 			 * @param {string} password The email adress
 			 */
 		updatePassword() {
-			let password = this.$refs.password.value
+			const password = this.$refs.password.value
 			this.loading.password = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'password',
-				value: password
+				value: password,
 			}).then(() => {
 				this.loading.password = false
 				this.$refs.password.value = '' // empty & show placeholder
@@ -465,12 +465,12 @@ export default {
 			 * @param {string} mailAddress The email adress
 			 */
 		updateEmail() {
-			let mailAddress = this.$refs.mailAddress.value
+			const mailAddress = this.$refs.mailAddress.value
 			this.loading.mailAddress = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'email',
-				value: mailAddress
+				value: mailAddress,
 			}).then(() => {
 				this.loading.mailAddress = false
 				this.$refs.mailAddress.value = mailAddress
@@ -486,7 +486,7 @@ export default {
 			this.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				let userid = this.user.id
+				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
 				console.error(error)
@@ -506,8 +506,8 @@ export default {
 				return false
 			}
 			this.loading.groups = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
@@ -528,13 +528,13 @@ export default {
 			}
 
 			this.loading.groups = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
 				await this.$store.dispatch('removeUserGroup', {
 					userid,
-					gid
+					gid,
 				})
 				this.loading.groups = false
 				// remove user from current list if current list is the removed group
@@ -553,13 +553,13 @@ export default {
 			 */
 		async addUserSubAdmin(group) {
 			this.loading.subadmins = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
 				await this.$store.dispatch('addUserSubAdmin', {
 					userid,
-					gid
+					gid,
 				})
 				this.loading.subadmins = false
 			} catch (error) {
@@ -574,13 +574,13 @@ export default {
 			 */
 		async removeUserSubAdmin(group) {
 			this.loading.subadmins = true
-			let userid = this.user.id
-			let gid = group.id
+			const userid = this.user.id
+			const gid = group.id
 
 			try {
 				await this.$store.dispatch('removeUserSubAdmin', {
 					userid,
-					gid
+					gid,
 				})
 			} catch (error) {
 				console.error(error)
@@ -604,7 +604,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota
+					value: quota,
 				})
 			} catch (error) {
 				console.error(error)
@@ -622,7 +622,7 @@ export default {
 			 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
@@ -644,7 +644,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'language',
-					value: lang.code
+					value: lang.code,
 				})
 			} catch (error) {
 				console.error(error)
@@ -670,8 +670,8 @@ export default {
 					}
 					this.loading.all = false
 				})
-		}
+		},
 
-	}
+	},
 }
 </script>

@@ -16,7 +16,7 @@
 	 * Collection of tags assigned to a an object
 	 *
 	 */
-	var SystemTagsMappingCollection = OC.Backbone.Collection.extend(
+	const SystemTagsMappingCollection = OC.Backbone.Collection.extend(
 		/** @lends OC.SystemTags.SystemTagsMappingCollection.prototype */ {
 
 			sync: OC.Backbone.davSync,
@@ -78,7 +78,7 @@
 				return this.map(function(model) {
 					return model.id
 				})
-			}
+			},
 		})
 
 	OC.SystemTags = OC.SystemTags || {}

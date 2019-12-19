@@ -26,7 +26,7 @@
 			}
 
 			fileList.registerTabView(new OCA.Versions.VersionsTabView('versionsTabView', { order: -10 }))
-		}
+		},
 	}
 })()
 

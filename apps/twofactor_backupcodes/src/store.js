@@ -29,7 +29,7 @@ const state = {
 	enabled: false,
 	total: 0,
 	used: 0,
-	codes: []
+	codes: [],
 }
 
 const mutations = {
@@ -44,7 +44,7 @@ const mutations = {
 	},
 	setCodes(state, codes) {
 		Vue.set(state, 'codes', codes)
-	}
+	},
 }
 
 const actions = {
@@ -58,12 +58,12 @@ const actions = {
 			commit('setCodes', codes)
 			return true
 		})
-	}
+	},
 }
 
 export default new Vuex.Store({
 	strict: process.env.NODE_ENV !== 'production',
 	state,
 	mutations,
-	actions
+	actions,
 })

@@ -52,7 +52,7 @@ Vue.prototype.oc_userconfig = oc_userconfig
 const app = new Vue({
 	router,
 	store,
-	render: h => h(App)
+	render: h => h(App),
 }).$mount('#content')
 
 export { app, router, store }

@@ -88,7 +88,7 @@
 import {
 	Actions,
 	ActionButton,
-	ActionCheckbox
+	ActionCheckbox,
 } from 'nextcloud-vue'
 
 const userAgentMap = {
@@ -114,7 +114,7 @@ const userAgentMap = {
 	// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
 	webPirate: /(Sailfish).*WebPirate\/(\d+)/,
 	// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
-	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/
+	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/,
 }
 const nameMap = {
 	ie: t('setting', 'Internet Explorer'),
@@ -131,7 +131,7 @@ const nameMap = {
 	androidTalkClient: t('setting', 'Nextcloud Talk for Android'),
 	davDroid: 'DAVdroid',
 	webPirate: 'WebPirate',
-	sailfishBrowser: 'SailfishBrowser'
+	sailfishBrowser: 'SailfishBrowser',
 }
 const iconMap = {
 	ie: 'icon-desktop',
@@ -148,7 +148,7 @@ const iconMap = {
 	androidTalkClient: 'icon-phone',
 	davDroid: 'icon-phone',
 	webPirate: 'icon-link',
-	sailfishBrowser: 'icon-link'
+	sailfishBrowser: 'icon-link',
 }
 
 export default {
@@ -156,20 +156,20 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
-		ActionCheckbox
+		ActionCheckbox,
 	},
 	props: {
 		token: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			showMore: this.token.canScope || this.token.canDelete,
 			renaming: false,
 			newName: '',
-			actionOpen: false
+			actionOpen: false,
 		}
 	},
 	computed: {
@@ -181,14 +181,14 @@ export default {
 		},
 		iconName() {
 			// pretty format sync client user agent
-			let matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/)
+			const matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/)
 
 			let icon = ''
 			if (matches) {
 				/* eslint-disable-next-line */
 				this.token.name = t('settings', 'Sync client - {os}', {
 					os: matches[1],
-					version: matches[2]
+					version: matches[2],
 				})
 				icon = 'icon-desktop'
 			}
@@ -196,7 +196,7 @@ export default {
 			// preserve title for cases where we format it further
 			const title = this.token.name
 			let name = this.token.name
-			for (let client in userAgentMap) {
+			for (const client in userAgentMap) {
 				const matches = title.match(userAgentMap[client])
 				if (matches) {
 					if (matches[2] && matches[1]) { // version number and os
@@ -216,12 +216,12 @@ export default {
 
 			return {
 				icon,
-				name
+				name,
 			}
 		},
 		wiping() {
 			return this.token.type === 2
-		}
+		},
 	},
 	methods: {
 		startRename() {
@@ -248,8 +248,8 @@ export default {
 		wipe() {
 			this.actionOpen = false
 			this.$emit('wipe', this.token)
-		}
-	}
+		},
+	},
 }
 </script>
 

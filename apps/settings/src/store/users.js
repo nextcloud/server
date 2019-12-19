@@ -41,8 +41,8 @@ const defaults = {
 		usercount: 0,
 		disabled: 0,
 		canAdd: true,
-		canRemove: true
-	}
+		canRemove: true,
+	},
 }
 
 const state = {
@@ -52,13 +52,13 @@ const state = {
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
-	userCount: 0
+	userCount: 0,
 }
 
 const mutations = {
 	appendUsers(state, usersObj) {
 		// convert obj to array
-		let users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
+		const users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
@@ -78,9 +78,9 @@ const mutations = {
 				return
 			}
 			// extend group to default values
-			let group = Object.assign({}, defaults.group, {
+			const group = Object.assign({}, defaults.group, {
 				id: gid,
-				name: displayName
+				name: displayName,
 			})
 			state.groups.push(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
@@ -89,50 +89,50 @@ const mutations = {
 		}
 	},
 	removeGroup(state, gid) {
-		let groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
 		if (groupIndex >= 0) {
 			state.groups.splice(groupIndex, 1)
 		}
 	},
 	addUserGroup(state, { userid, gid }) {
-		let group = state.groups.find(groupSearch => groupSearch.id === gid)
-		let user = state.users.find(user => user.id === userid)
+		const group = state.groups.find(groupSearch => groupSearch.id === gid)
+		const user = state.users.find(user => user.id === userid)
 		// increase count if user is enabled
 		if (group && user.enabled && state.userCount > 0) {
 			group.usercount++
 		}
-		let groups = user.groups
+		const groups = user.groups
 		groups.push(gid)
 		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	removeUserGroup(state, { userid, gid }) {
-		let group = state.groups.find(groupSearch => groupSearch.id === gid)
-		let user = state.users.find(user => user.id === userid)
+		const group = state.groups.find(groupSearch => groupSearch.id === gid)
+		const user = state.users.find(user => user.id === userid)
 		// lower count if user is enabled
 		if (group && user.enabled && state.userCount > 0) {
 			group.usercount--
 		}
-		let groups = user.groups
+		const groups = user.groups
 		groups.splice(groups.indexOf(gid), 1)
 		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	addUserSubAdmin(state, { userid, gid }) {
-		let groups = state.users.find(user => user.id === userid).subadmin
+		const groups = state.users.find(user => user.id === userid).subadmin
 		groups.push(gid)
 	},
 	removeUserSubAdmin(state, { userid, gid }) {
-		let groups = state.users.find(user => user.id === userid).subadmin
+		const groups = state.users.find(user => user.id === userid).subadmin
 		groups.splice(groups.indexOf(gid), 1)
 	},
 	deleteUser(state, userid) {
-		let userIndex = state.users.findIndex(user => user.id === userid)
+		const userIndex = state.users.findIndex(user => user.id === userid)
 		state.users.splice(userIndex, 1)
 	},
 	addUserData(state, response) {
 		state.users.push(response.data.ocs.data)
 	},
 	enableDisableUser(state, { userid, enabled }) {
-		let user = state.users.find(user => user.id === userid)
+		const user = state.users.find(user => user.id === userid)
 		user.enabled = enabled
 		// increment or not
 		if (state.userCount > 0) {
@@ -146,7 +146,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			let humanValue = OC.Util.computerFileSize(value)
+			const humanValue = OC.Util.computerFileSize(value)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -160,7 +160,7 @@ const mutations = {
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
-	}
+	},
 }
 
 const getters = {
@@ -185,7 +185,7 @@ const getters = {
 	},
 	getUserCount(state) {
 		return state.userCount
-	}
+	},
 }
 
 const actions = {
@@ -229,7 +229,7 @@ const actions = {
 
 	getGroups(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : ''
-		let limitParam = limit === -1 ? '' : `&limit=${limit}`
+		const limitParam = limit === -1 ? '' : `&limit=${limit}`
 		return api.get(OC.linkToOCS(`cloud/groups?offset=${offset}&search=${search}${limitParam}`, 2))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
@@ -477,7 +477,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	enableDisableUser(context, { userid, enabled = true }) {
-		let userStatus = enabled ? 'enable' : 'disable'
+		const userStatus = enabled ? 'enable' : 'disable'
 		return api.requireAdmin().then((response) => {
 			return api.put(OC.linkToOCS(`cloud/users/${userid}/${userStatus}`, 2))
 				.then((response) => context.commit('enableDisableUser', { userid, enabled }))
@@ -496,7 +496,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
-		let allowedEmpty = ['email', 'displayname']
+		const allowedEmpty = ['email', 'displayname']
 		if (['email', 'language', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
 			if (typeof value === 'string'
@@ -528,7 +528,7 @@ const actions = {
 				.then(response => true)
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
-	}
+	},
 }
 
 export default { state, mutations, getters, actions }

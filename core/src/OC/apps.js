@@ -10,12 +10,12 @@
 
 import $ from 'jquery'
 
-var dynamicSlideToggleEnabled = false
+let dynamicSlideToggleEnabled = false
 
 const Apps = {
 	enableDynamicSlideToggle: function() {
 		dynamicSlideToggleEnabled = true
-	}
+	},
 }
 
 /**
@@ -24,7 +24,7 @@ const Apps = {
  * @param {Object} [$el] sidebar element to show, defaults to $('#app-sidebar')
  */
 Apps.showAppSidebar = function($el) {
-	var $appSidebar = $el || $('#app-sidebar')
+	const $appSidebar = $el || $('#app-sidebar')
 	$appSidebar.removeClass('disappear').show()
 	$('#app-content').trigger(new $.Event('appresized'))
 }
@@ -36,7 +36,7 @@ Apps.showAppSidebar = function($el) {
  * @param {Object} [$el] sidebar element to hide, defaults to $('#app-sidebar')
  */
 Apps.hideAppSidebar = function($el) {
-	var $appSidebar = $el || $('#app-sidebar')
+	const $appSidebar = $el || $('#app-sidebar')
 	$appSidebar.hide().addClass('disappear')
 	$('#app-content').trigger(new $.Event('appresized'))
 }
@@ -51,7 +51,7 @@ Apps.hideAppSidebar = function($el) {
  * <div class=".slide-area" class="hidden">I'm sliding up</div>
  */
 export const registerAppsSlideToggle = () => {
-	var buttons = $('[data-apps-slide-toggle]')
+	let buttons = $('[data-apps-slide-toggle]')
 
 	if (buttons.length === 0) {
 		$('#app-navigation').addClass('without-app-settings')
@@ -65,8 +65,8 @@ export const registerAppsSlideToggle = () => {
 
 		buttons.each(function(index, button) {
 
-			var areaSelector = $(button).data('apps-slide-toggle')
-			var area = $(areaSelector)
+			const areaSelector = $(button).data('apps-slide-toggle')
+			const area = $(areaSelector)
 
 			function hideArea() {
 				area.slideUp(OC.menuSpeed * 4, function() {
@@ -82,7 +82,7 @@ export const registerAppsSlideToggle = () => {
 				})
 				area.addClass('opened')
 				$(button).addClass('opened')
-				var input = $(areaSelector + ' [autofocus]')
+				const input = $(areaSelector + ' [autofocus]')
 				if (input.length === 1) {
 					input.focus()
 				}
@@ -102,7 +102,7 @@ export const registerAppsSlideToggle = () => {
 					// all other areas that have not been clicked but are open
 					// should be slid up
 				} else {
-					var closest = $(event.target).closest(areaSelector)
+					const closest = $(event.target).closest(areaSelector)
 					if (area.is(':visible') && closest[0] !== area[0]) {
 						hideArea()
 					}

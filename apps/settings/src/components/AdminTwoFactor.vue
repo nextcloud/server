@@ -73,14 +73,14 @@ import _ from 'lodash'
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	data() {
 		return {
 			loading: false,
 			dirty: false,
 			groups: [],
-			loadingGroups: false
+			loadingGroups: false,
 		}
 	},
 	computed: {
@@ -91,7 +91,7 @@ export default {
 			set: function(val) {
 				this.dirty = true
 				this.$store.commit('setEnforced', val)
-			}
+			},
 		},
 		enforcedGroups: {
 			get: function() {
@@ -100,7 +100,7 @@ export default {
 			set: function(val) {
 				this.dirty = true
 				this.$store.commit('setEnforcedGroups', val)
-			}
+			},
 		},
 		excludedGroups: {
 			get: function() {
@@ -109,8 +109,8 @@ export default {
 			set: function(val) {
 				this.dirty = true
 				this.$store.commit('setExcludedGroups', val)
-			}
-		}
+			},
+		},
 	},
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
@@ -138,7 +138,7 @@ export default {
 			const data = {
 				enforced: this.enforced,
 				enforcedGroups: this.enforcedGroups,
-				excludedGroups: this.excludedGroups
+				excludedGroups: this.excludedGroups,
 			}
 			axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), data)
 				.then(resp => resp.data)
@@ -150,8 +150,8 @@ export default {
 					console.error('could not save changes', err)
 				})
 				.then(() => { this.loading = false })
-		}
-	}
+		},
+	},
 }
 </script>
 

@@ -34,8 +34,8 @@ __webpack_public_path__ = generateFilePath('core', '', 'js/')
 
 Vue.mixin({
 	methods: {
-		t
-	}
+		t,
+	},
 })
 
 const View = Vue.extend(RecommendedApps)
