@@ -158,6 +158,8 @@
     "Recommended apps" : "Polecane aplikacje",
     "Loading apps …" : "Ładowanie aplikacji…",
     "Could not fetch list of apps from the app store." : "Nie można pobrać listy aplikacji ze sklepu z aplikacjami.",
+    "Installing apps …" : "Instalowanie aplikacji…",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Pobieranie lub instalacja aplikacji nie powiodła się",
     "Can't install this app because it is not compatible" : "Nie można zainstalować tej aplikacji, ponieważ nie jest kompatybilna",
     "Can't install this app" : "Nie można zainstalować tej aplikacji",
