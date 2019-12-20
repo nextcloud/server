@@ -365,6 +365,7 @@ return array(
     'OCP\\LDAP\\ILDAPProviderFactory' => $baseDir . '/lib/public/LDAP/ILDAPProviderFactory.php',
     'OCP\\Lock\\ILockingProvider' => $baseDir . '/lib/public/Lock/ILockingProvider.php',
     'OCP\\Lock\\LockedException' => $baseDir . '/lib/public/Lock/LockedException.php',
+    'OCP\\Lock\\ManuallyLockedException' => $baseDir . '/lib/public/Lock/ManuallyLockedException.php',
     'OCP\\Lockdown\\ILockdownManager' => $baseDir . '/lib/public/Lockdown/ILockdownManager.php',
     'OCP\\Log\\IFileBased' => $baseDir . '/lib/public/Log/IFileBased.php',
     'OCP\\Log\\ILogFactory' => $baseDir . '/lib/public/Log/ILogFactory.php',

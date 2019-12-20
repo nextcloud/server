@@ -394,6 +394,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\LDAP\\ILDAPProviderFactory' => __DIR__ . '/../../..' . '/lib/public/LDAP/ILDAPProviderFactory.php',
         'OCP\\Lock\\ILockingProvider' => __DIR__ . '/../../..' . '/lib/public/Lock/ILockingProvider.php',
         'OCP\\Lock\\LockedException' => __DIR__ . '/../../..' . '/lib/public/Lock/LockedException.php',
+        'OCP\\Lock\\ManuallyLockedException' => __DIR__ . '/../../..' . '/lib/public/Lock/ManuallyLockedException.php',
         'OCP\\Lockdown\\ILockdownManager' => __DIR__ . '/../../..' . '/lib/public/Lockdown/ILockdownManager.php',
         'OCP\\Log\\IFileBased' => __DIR__ . '/../../..' . '/lib/public/Log/IFileBased.php',
         'OCP\\Log\\ILogFactory' => __DIR__ . '/../../..' . '/lib/public/Log/ILogFactory.php',
