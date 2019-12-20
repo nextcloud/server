@@ -18,6 +18,8 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author KB7777 <k.burkowski@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author MichaIng <28480705+MichaIng@users.noreply.github.com>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

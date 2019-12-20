@@ -4,7 +4,6 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roeland Jago Douma <rullzer@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

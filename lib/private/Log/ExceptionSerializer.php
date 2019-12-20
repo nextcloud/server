@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <213943+nickvergessen@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
