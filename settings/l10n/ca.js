@@ -209,7 +209,7 @@ OC.L10N.register(
     "Delete {userid}'s account" : "Suprimeix el compte de {userid}",
     "Welcome mail sent!" : "S'ha enviat el correu electrònic de benvinguda!",
     "{size} used" : "{size} en ús",
-    "Display name" : "Mostra nom",
+    "Display name" : "Nom per mostrar",
     "Email" : "Correu electrònic",
     "Group admin for" : "Administrador de grup per",
     "Quota" : "Quota",
