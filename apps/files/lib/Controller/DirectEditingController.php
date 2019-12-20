@@ -89,7 +89,7 @@ class DirectEditingController extends OCSController {
 			]);
 		} catch (Exception $e) {
 			$this->logger->logException($e, ['message' => 'Exception when creating a new file through direct editing']);
-			return new DataResponse('Failed to create file', Http::STATUS_FORBIDDEN);
+			return new DataResponse('Failed to create file: ' . $e->getMessage(), Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -106,7 +106,7 @@ class DirectEditingController extends OCSController {
 			]);
 		} catch (Exception $e) {
 			$this->logger->logException($e, ['message' => 'Exception when opening a file through direct editing']);
-			return new DataResponse('Failed to open file', Http::STATUS_FORBIDDEN);
+			return new DataResponse('Failed to open file: ' . $e->getMessage(), Http::STATUS_FORBIDDEN);
 		}
 	}
 
@@ -122,7 +122,7 @@ class DirectEditingController extends OCSController {
 			return new DataResponse($this->directEditingManager->getTemplates($editorId, $creatorId));
 		} catch (Exception $e) {
 			$this->logger->logException($e);
-			return new DataResponse('Failed to open file', Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse('Failed to obtain template list: ' . $e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
