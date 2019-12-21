@@ -137,6 +137,7 @@ OC.L10N.register(
     "Unlimited" : "Sınırsız",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "Accept" : "Kabul Et",
+    "Reject" : "Reddet",
     "File Management" : "Dosya Yönetimi",
     "Invalid path selected" : "Seçilen yol geçersiz",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
