@@ -52,9 +52,9 @@ class Movie extends ProviderV2 {
 		$absPath = $this->getLocalFile($file, 5242880); // only use the first 5MB
 
 		$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-		if ($result === false) {
+		if ($result === null) {
 			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-			if ($result === false) {
+			if ($result === null) {
 				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
 			}
 		}
