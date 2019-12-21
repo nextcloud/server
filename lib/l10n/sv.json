@@ -64,6 +64,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["%n minut sedan","%n minuter sedan"],
     "in a few seconds" : "om några sekunder",
     "seconds ago" : "sekunder sedan",
+    "Empty file" : "Tom fil",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Modul med ID: %s finns inte längre. Vänligen aktivera det i dina appinställningar eller kontakta din administratör.",
     "File name is a reserved word" : "Filnamnet är ett reserverat ord",
     "File name contains at least one invalid character" : "Filnamnet innehåller minst ett ogiltigt tecken",
