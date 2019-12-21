@@ -31,7 +31,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you." : "%1$s us ha compartit »%2$s«.",
     "Click the button below to open it." : "Feu clic al botó de sota per obrir-lo.",
     "Open »%s«" : "Obre «%s»",
-    "%1$s via %2$s" : "%1$s via %2$s",
+    "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s us ha compartit »%2$s«.\nHauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s us ha compartit »%2$s«. Hauríeu d'haver rebut un correu electrònic separat amb un enllaç per accedir-hi.",
     "Password to access »%1$s« shared to you by %2$s" : "%2$s us ha compartit la contrasenya per accedir a «%1$s»",

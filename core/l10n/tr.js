@@ -160,6 +160,8 @@ OC.L10N.register(
     "Recommended apps" : "Önerilen uygulamalar",
     "Loading apps …" : "Uygulamalar yükleniyor …",
     "Could not fetch list of apps from the app store." : "Uygulama mağazasından uygulama listesi alınamadı.",
+    "Installing apps …" : "Uygulamalar kuruluyor …",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Uygulama indirilemedi ya da kurulamadı",
     "Can't install this app because it is not compatible" : "Bu uygulama uyumlu olmadığından kurulamadı",
     "Can't install this app" : "Bu uygulama kurulamadı",

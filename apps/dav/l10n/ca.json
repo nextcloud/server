@@ -59,7 +59,7 @@
     "Date: %s" : "Data: %s",
     "Description: %s" : "Descripció: %s",
     "Where: %s" : "On: %s",
-    "%1$s via %2$s" : "%1$s via %2$s",
+    "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "Invitation canceled" : "Invitació cancel·lada",
     "Hello %s," : "Hola %s,",
     "The meeting »%1$s« with %2$s was canceled." : "La reunió »%1$s« amb %2$s ha estat cancel·lada.",
