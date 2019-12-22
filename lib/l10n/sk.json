@@ -27,6 +27,7 @@
     "Server version %s or higher is required." : "Je vyžadovaná verzia servera %s alebo vyššia.",
     "Server version %s or lower is required." : "Je vyžadovaná verzia servera %s alebo nižšia.",
     "Logged in user must be an admin" : "Prihlásený používateľ musí byť správca",
+    "Authentication" : "Autentifikácia",
     "Unknown filetype" : "Neznámy typ súboru",
     "Invalid image" : "Chybný obrázok",
     "Avatar image is not square" : "Obrázok avatara nie je štvorcový",

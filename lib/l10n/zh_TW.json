@@ -33,6 +33,7 @@
     "A remote wipe was started on device %s" : "遠端抹除已經在裝置 %s 開始",
     "Remote wipe finished" : "遠端抹除已完成",
     "The remote wipe on %s has finished" : "%s 的遠端抹除已經完成",
+    "Authentication" : "驗證",
     "Unknown filetype" : "未知的檔案類型",
     "Invalid image" : "無效的圖片",
     "Avatar image is not square" : "頭像不是正方形",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Nepavyko užmegzti federacinio viešinio, galbūt, neteisingas slaptažodis.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federacinio viešinio užklausa išsiųsta, jūs gausite pakvietimą. Tikrinkite savo pranešimus.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepavyko užmegzti federacinio viešinio, atrodo, kad serveris su kuriuo ketinama jungtis į federaciją yra per senas (Nextcloud <= 9).",
+    "Sharing %1$s failed, because this item is already shared with %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su %2$s",
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
     "File is already shared with %s" : "Failas jau yra bendrinamas su %s",
     "Could not find share" : "Nepavyko rasti bendrinamų duomenų",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Client Identifier" : "用戶識別",
     "Secret" : "密鑰Secret",
     "Add client" : "新增客戶端",
-    "Add" : "新增"
+    "Add" : "新增",
+    "Delete" : "刪除"
 },
 "nplurals=1; plural=0;");

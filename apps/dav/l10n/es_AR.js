@@ -41,9 +41,16 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> de un calendario fue modificado",
     "A calendar <strong>todo</strong> was modified" : "Un <strong>pendiente</strong> de un calendario fue modificado",
     "Contact birthdays" : "Cumpleaños del contacto",
+    "Hello %s," : "Hola %s:",
+    "Link:" : "Link:",
+    "Accept" : "Aceptar",
+    "Decline" : "Declinar",
     "Contacts" : "Contactos",
+    "WebDAV" : "WebDAV",
     "Technical details" : "Detalles técnicos",
     "Remote Address: %s" : "Dirección remota: %s",
-    "Request ID: %s" : "ID de solicitud: %s"
+    "Request ID: %s" : "ID de solicitud: %s",
+    "Tentative" : "Tentativo",
+    "Save" : "Guardar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Federated sharing" : "Federatīva koplietošana",
     "Accept" : "Akceptēt",
     "Decline" : "Noraidīt",
+    "Sharing" : "Koplietošana",
     "Federated Cloud Sharing" : "Federatīva mākoņkoplietošana",
     "Open documentation" : "Atvērt dokumentāciju",
     "Allow users on this server to send shares to other servers" : "Atļaut šī servera lietotājiem sūtīt koplietotnes uz citiem serveriem",

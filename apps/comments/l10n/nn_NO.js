@@ -13,9 +13,11 @@ OC.L10N.register(
     "New comment …" : "Ny kommentar...",
     "Post" : "Publiser",
     "Cancel" : "Avbryt",
+    "[Deleted user]" : "[Sletta brukar]",
     "No comments yet, start the conversation!" : "Ingen kommetarar enno, start samtala!",
     "More comments …" : "Fleire kommentarar...",
     "Save" : "Lagra",
+    "Allowed characters {count} of {max}" : "Tillate tegnmengde {count} av {max}",
     "Comment" : "Kommentér"
 },
 "nplurals=2; plural=(n != 1);");

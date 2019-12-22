@@ -25,6 +25,7 @@ OC.L10N.register(
     "Decline" : "Tolak",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya, lihat %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
+    "Sharing" : "Berbagi",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Buka dokumentasi",
     "Allow users on this server to send shares to other servers" : "Izinkan para pengguna di server ini untuk mengirimkan berbagi ke server lainnya.",

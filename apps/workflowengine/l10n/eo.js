@@ -63,6 +63,7 @@ OC.L10N.register(
     "Delete" : "Forigi",
     "The configuration is invalid" : "La agordo ne validas",
     "Save" : "Konservi",
+    "Browse the app store" : "Esplori la aplikaĵejon",
     "Show less" : "Montri malpli",
     "Show more" : "Montri pli",
     "matches" : "kongruas kun",

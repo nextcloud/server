@@ -105,6 +105,7 @@ OC.L10N.register(
     "Back" : "Späť",
     "Continue" : "Pokračovať",
     "An internal error occurred." : "Nastala interná chyba.",
+    "Please try again or contact your administrator." : "Skúste to znovu, alebo sa obráťte na vášho administrátora.",
     "Current password" : "Aktuálne heslo",
     "New password" : "Nové heslo",
     "Wrong password." : "Nesprávne heslo.",

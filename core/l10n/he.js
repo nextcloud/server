@@ -185,6 +185,7 @@ OC.L10N.register(
     "seconds ago" : "שניות",
     "Connection to server lost" : "החיבור לשרת אבד",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["תקלה בטעינת העמוד, יתבצע רענון בעוד שנייה","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות"],
+    "Hide details" : "הסתרת פרטים",
     "New in" : "חדש ב־",
     "View changelog" : "הצגת יומן שינויים",
     "No action available" : "אין פעולה זמינה",

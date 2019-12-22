@@ -23,6 +23,7 @@
     "Server version %s or higher is required." : "נדרשת גרסה שרת %s ומעלה.",
     "Server version %s or lower is required." : "נדרשת גרסה שרת %s ומטה.",
     "Logged in user must be an admin" : "על המשתמש שנכנס להיות מנהל",
+    "Authentication" : "אימות",
     "Unknown filetype" : "סוג קובץ לא מוכר",
     "Invalid image" : "תמונה לא חוקית",
     "Avatar image is not square" : "התמונה המייצגת אינה מרובעת",

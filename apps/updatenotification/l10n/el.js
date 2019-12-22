@@ -24,6 +24,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή.",
     "The selected update channel does not support updates of the server." : "Το συγκεκριμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις διακομιστή.",
     "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Αδυναμία σύνδεσης στο κατάστημα εφαρμογών, ή το κατάστημα εφαρμογών δεν εξέδωσε καμία ενημέρωση. Αναζητήστε χειροκίνητα ενημερώσεις ή βεβαιωθείτε ότι ο εξυπηρετητής έχει πρόσβαση στο διαδίκτυο και μπορεί να συνδεθεί στο κατάστημα εφαρμογών. ",
     "View changelog" : "Εμφάνιση αλλαγών",
     "Stable" : "Σταθερός",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",

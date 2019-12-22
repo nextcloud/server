@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Nahrať (max. %s)",
     "Accept" : "Prijať",
     "File Management" : "Správa súborov",
+    "Change" : "Zmeniť",
     "%s used" : "%s použitých",
     "%s%% of %s used" : "Využité %s%% z %s",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s",

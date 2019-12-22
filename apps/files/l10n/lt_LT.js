@@ -140,6 +140,7 @@ OC.L10N.register(
     "Reject" : "Atmesti",
     "Ownership transfer failed" : "Nuosavybės perdavimas nepavyko",
     "File Management" : "Failų tvarkymas",
+    "Change" : "Keisti",
     "New owner" : "Naujasis savininkas",
     "Search users" : "Ieškoti naudotojų",
     "Invalid path selected" : "Pasirinktas neteisingas kelias",

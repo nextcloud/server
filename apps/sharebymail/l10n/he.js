@@ -24,6 +24,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "ניתן לבחור בססמה אחרת בכל עת בתיבת דו־שיח השיתוף.",
     "Could not find share" : "לא ניתן למצוא את השיתוף",
     "Share by mail" : "שיתוף בדוא״ל",
+    "Share provider which allows you to share files by mail" : "ספק השיתוף שמאפשר לך לשתף קבצים בדוא״ל",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "מאפשר למשתמשים לשתף קישורים מותאמים אישית לקובץ או לתיקייה על ידי הקלדת כתובת דוא״ל.",
     "Send password by mail" : "שליחת ססמה בדוא״ל",
     "Enforce password protection" : "אילוץ הגנה בססמה"

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Decline" : "Refusar",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
+    "Sharing" : "Compartente",
     "Federated Cloud Sharing" : "Compartimento del Nube Federate",
     "Open documentation" : "Documentation aperte",
     "Allow users on this server to send shares to other servers" : "Permitter usatores in iste servitor a inviar elementos compartite a altere servitores",

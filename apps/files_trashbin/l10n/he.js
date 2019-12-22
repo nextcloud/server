@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted files" : "קבצים שנמחקו",
     "restored" : "שוחזר",
+    "This application enables users to restore files that were deleted from the system." : "יישומון זה מאפשר למשתמשים לשחזר קבצים שנמחקו מהמערכת.",
     "Restore" : "שחזור",
     "Delete permanently" : "מחיקה לצמיתות",
     "This operation is forbidden" : "פעולה זו אסורה",

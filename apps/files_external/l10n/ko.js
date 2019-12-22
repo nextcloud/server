@@ -119,6 +119,7 @@ OC.L10N.register(
     "Name" : "이름",
     "Storage type" : "저장소 종류",
     "Scope" : "범위",
+    "Open documentation" : "문서 열기",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "외부 저장소를 사용하여 외부 저장소 서비스나 장치를 Nextcloud 이차 저장 장치로 마운트할 수 있습니다. 사용자가 개별 외부 저장소 서비스를 마운트할 수 있도록 허용할 수도 있습니다.",
     "Folder name" : "폴더 이름",
     "External storage" : "외부 저장소",
