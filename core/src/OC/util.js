@@ -66,7 +66,7 @@ export default {
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
 	 * @param  {string} string file size in human readable format
-	 * @returns {number} or null if string could not be parsed
+	 * @returns {number|null} null if string could not be parsed
 	 *
 	 *
 	 */

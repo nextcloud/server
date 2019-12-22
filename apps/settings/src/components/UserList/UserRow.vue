@@ -604,7 +604,7 @@ export default {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+					value: OC.Util.computerFileSize(quota).toString(),
 				})
 			} catch (error) {
 				console.error(error)
@@ -620,12 +620,12 @@ export default {
 			 * @param {string} quota Quota in readable format '5 GB'
 			 * @returns {Promise|boolean}
 			 */
-		validateQuota(quota) {
+		async validateQuota(quota) {
 			// only used for new presets sent through @Tag
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+				return this.setUserQuota(quota)
 			}
 			// if no valid do not change
 			return false

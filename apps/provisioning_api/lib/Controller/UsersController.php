@@ -548,8 +548,6 @@ class UsersController extends AUserData {
 					}
 					if ($quota === -1) {
 						$quota = 'none';
-					} else {
-						$quota = \OCP\Util::humanFileSize($quota);
 					}
 				}
 				$targetUser->setQuota($quota);
