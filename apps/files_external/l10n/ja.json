@@ -117,6 +117,7 @@
     "Name" : "名前",
     "Storage type" : "ストレージ種別",
     "Scope" : "スコープ",
+    "Open documentation" : "ドキュメントを開く",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "外部ストレージを使用すると、外部ストレージサービスおよびデバイスをセカンダリのNextcloudストレージデバイスとしてマウントできます。 また、ユーザーが独自の外部ストレージサービスをマウントできるようにすることもできます。",
     "Folder name" : "フォルダー名",
     "External storage" : "外部ストレージ",

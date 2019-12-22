@@ -18,6 +18,7 @@
     "Failed to send share by email" : "Kunne ikke sende deling via e-mail",
     "Click the button below to open it." : "Klik på knappen nedenunder for at åbne.",
     "Open »%s«" : "Åbn »%s«",
+    "%1$s via %2$s" : "%1$s via %2$s",
     "Password to access »%s«" : "Kodeord for adgang til »%s«",
     "You can choose a different password at any time in the share dialog." : "Du kan til enhver tid vælge et andet password i delings dialogen.",
     "Could not find share" : "Kan ikke finde deling",

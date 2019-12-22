@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Няма намерени записи в тази папка",
     "Select all" : "Избери всички",
     "Name" : "Име",
+    "Actions" : "Действия",
     "Deleted" : "Изтрито",
     "Delete" : "Изтрий"
 },

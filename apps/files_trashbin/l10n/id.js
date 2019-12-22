@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Select all" : "Pilih Semua",
     "Name" : "Nama",
+    "Actions" : "Tindakan",
     "Deleted" : "Dihapus",
     "Delete" : "Hapus"
 },

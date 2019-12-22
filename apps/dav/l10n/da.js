@@ -74,6 +74,7 @@ OC.L10N.register(
     "More options …" : "Flere indstillinger…",
     "Contacts" : "Kontakter",
     "WebDAV" : "WebDAV",
+    "WebDAV endpoint" : "WebDAV endpoint",
     "Technical details" : "Tekniske detaljer",
     "Remote Address: %s" : "Fjernadresse: %s",
     "Request ID: %s" : "Forespørgsels-ID: %s",

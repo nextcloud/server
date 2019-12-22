@@ -105,6 +105,7 @@ OC.L10N.register(
     "Go to %s" : "Pergi ke %s",
     "Install Client" : "Pasang Klien",
     "Logged in user must be a subadmin" : "Masuk ke dalam pengguna harus sebagai seorang subadmin",
+    "Create" : "Buat",
     "Unlimited" : "Tak terbatas",
     "Limit to groups" : "Batasi ke grup",
     "Excluded groups" : "Grup yang dikecualikan",
@@ -261,6 +262,7 @@ OC.L10N.register(
     "Credentials" : "Kredensial",
     "SMTP Username" : "Nama pengguna SMTP",
     "SMTP Password" : "Kata sandi SMTP",
+    "Save" : "Simpan",
     "Test email settings" : "Pengaturan surel percobaan",
     "Send email" : "Kirim surel",
     "Security & setup warnings" : "Peringatan Keamanan & Pengaturan",
@@ -423,6 +425,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
     "Official" : "Resmi",
     "Store credentials" : "Simpan kredensial",
-    "Set default expiration date" : "Atur tanggal kadaluarsa default"
+    "Set default expiration date" : "Atur tanggal kadaluarsa default",
+    "Share" : "Bagikan"
 },
 "nplurals=1; plural=0;");

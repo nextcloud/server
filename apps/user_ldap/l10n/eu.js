@@ -76,6 +76,8 @@ OC.L10N.register(
     "Back" : "Atzera",
     "Continue" : "Jarraitu",
     "Please renew your password." : "Berritu zure pasahitza mesedez.",
+    "An internal error occurred." : "Barne-errorea gertatu da.",
+    "Please try again or contact your administrator." : "Saiatu berriro edo jarri harremanetan administratzailearekin.",
     "Current password" : "Uneko pasahitza",
     "New password" : "Pasahitz berria",
     "Renew password" : "Berritu pasahitza",

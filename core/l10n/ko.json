@@ -196,6 +196,7 @@
     "Connection to server lost" : "서버 연결이 끊어짐",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["페이지 불러오기 오류, %n초 후 새로 고침"],
     "Add to a project" : "프로젝트에 추가",
+    "Hide details" : "자세한 정보 숨기기",
     "Connect items to a project to make them easier to find" : "폴더 또는 파일을 찾기 쉽게 프로젝트에 연결하세요.",
     "Type to search for existing projects" : "이미 존재하는 프로젝트를 찾기 위해 입력하세요.",
     "New in" : "새로운 것",

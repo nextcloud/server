@@ -19,6 +19,7 @@
     "%1$s shared »%2$s« with you." : "%1$s διαμοιράστηκε »%2$s« με εσάς.",
     "Click the button below to open it." : "Κάντε κλικ στο παρακάτω κουμπί για να το ανοίξετε.",
     "Open »%s«" : "Ανοίξτε »%s«",
+    "%1$s via %2$s" : "%1$s μέσω %2$s",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s διαμοιράστηκε »%2$s« με εσάς. Θα πρέπει να έχετε ήδη λάβει ένα ξεχωριστό mail με έναν σύνδεσμο με πρόσβαση σε αυτό.",
     "Password to access »%1$s« shared to you by %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε μαζί σας μέσω %2$s",
     "Password to access »%s«" : "Συνθηματικό για πρόσβαση στο »%s«",

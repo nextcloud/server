@@ -11,6 +11,8 @@
     "You created two-factor backup codes for your account" : "Създадохте резервен код за двустепенното удостоверяване за вашия профил",
     "Second-factor backup codes" : "Резервен код за втората стъпка",
     "Backup code" : "Резервен код",
+    "Use backup code" : "Използвай код за възстановяване",
+    "Submit" : "Изпращане",
     "activated" : "активиран",
     "deactivated" : "деактивиран",
     "created" : "създаден",

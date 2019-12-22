@@ -121,6 +121,7 @@ OC.L10N.register(
     "Name" : "Имя",
     "Storage type" : "Тип хранилища",
     "Scope" : "Область",
+    "Open documentation" : "Открыть документацию",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Внешнее хранилище позволяет подключать внешние устройства хранения и устройства в качестве вторичных устройств хранения Nextcloud. Вы также можете разрешить пользователям устанавливать собственные внешние службы хранения.",
     "Folder name" : "Имя папки",
     "External storage" : "Внешнее хранилище",
