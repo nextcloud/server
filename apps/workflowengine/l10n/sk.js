@@ -62,6 +62,7 @@ OC.L10N.register(
     "Delete" : "Zmazať",
     "The configuration is invalid" : "Konfigurácia je neplatná",
     "Save" : "Uložiť",
+    "Browse the app store" : "Prehliadajte obchod aplikácií",
     "Show less" : "Zobraziť menej",
     "Show more" : "Zobraziť viac",
     "matches" : "súhlasí",

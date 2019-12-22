@@ -17,6 +17,7 @@ OC.L10N.register(
     "The given color is invalid" : "Väri on virheellinen",
     "The file was uploaded" : "Tiedosto lähetettiin",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Lähetetty tiedosto ylittää php.ini-tiedoston upload_max_filesize-tietueen arvon",
+    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Lähetettävän tiedoston enimmäiskoko ylittää HTML-lomakkeessa määritellyn MAX_FILE_SIZE-säännön",
     "The file was only partially uploaded" : "Tiedosto lähetettiin vain osittain",
     "No file was uploaded" : "Tiedostoa ei lähetetty",
     "Missing a temporary folder" : "Väliaikaiskansio puuttuu",

@@ -122,6 +122,7 @@ OC.L10N.register(
     "Save changes" : "Сохранить изменения",
     "This app is supported via your current Nextcloud subscription." : "Это приложение поддерживается через вашу текущую подписку Nextcloud.",
     "Supported" : "Поддерживается",
+    "Featured" : "Рекомендуемые",
     "by" : "автор",
     "Update to {version}" : "Обновление до {version}",
     "Remove" : "Удалить",

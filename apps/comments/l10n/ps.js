@@ -21,6 +21,9 @@ OC.L10N.register(
     "More comments …" : "نورې تبصرې ...",
     "Save" : "ساتل",
     "Allowed characters {count} of {max}" : "له {max} تورو څخه {count}",
+    "Error occurred while retrieving comment with ID {id}" : "د {id} کارن لپاره د تصبرې بېرته راوستلو په وخت کې يوه ستونزه رامنځ ته شوه.",
+    "Error occurred while updating comment with id {id}" : "د  {id} سره د تبصرې په تازه کولو کې ستونزه رامينځته شوه",
+    "Error occurred while posting comment" : "د تبصرې د پوسټ کولو په وخت کې ستونزه رامينځته شوه",
     "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
     "Comment" : "تبصره"
 },

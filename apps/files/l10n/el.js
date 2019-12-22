@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Μεταφόρτωση (max. %s)",
     "Accept" : "Αποδοχή",
     "File Management" : "Διαχείριση αρχείων",
+    "Change" : "Αλλαγή",
     "Invalid path selected" : "Επιλέχθηκε μη έγκυρη διαδρομή",
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
     "Error while loading the file data" : "Σφάλμα κατά την φόρτωση αρχείου δεδομένων",

@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Select all" : "Vælg alle",
     "Name" : "Navn",
+    "Actions" : "Handlinger",
     "Deleted" : "Slettet",
     "Delete" : "Slet"
 },

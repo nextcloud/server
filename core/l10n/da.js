@@ -25,6 +25,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klik på knappen for at nulstille din adgangskode. Hvis ikke det er dig selv der har efterspurgt at få nulstillet din adgangskode, ignorer denne e-mail.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klik på linket for at nulstille din adgangskode. Hvis ikke det er dig selv der har efterspurgt at få nulstillet din adgangskode, ignorer denne e-mail.",
     "Reset your password" : "Nulstil din adgangskode",
+    "Nextcloud Server" : "Nextcloud Server",
     "Preparing update" : "Forbereder opdatering",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparationstrin:",

@@ -46,6 +46,7 @@ OC.L10N.register(
     "Contact birthdays" : "Afmælisdagar tengiliðar",
     "Where:" : "Hvar:",
     "Description:" : "Lýsing:",
+    "Untitled event" : "Ónefndur atburður",
     "%1$s via %2$s" : "%1$s með %2$s",
     "Invitation canceled" : "Hætt við boð",
     "Hello %s," : "Halló %s,",

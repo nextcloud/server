@@ -113,6 +113,8 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for\tmembers of the following groups." : "Kaksivaiheinen tunnistautuminen ei ole pakotettu\tseuraavien ryhmien jäsenille.",
     "Save changes" : "Tallenna muutokset",
     "This app is supported via your current Nextcloud subscription." : "Tämä sovellus on tuettu nykyisen Nextcloud-tilauksesi kautta.",
+    "Featured" : "Poiminta",
+    "by" : " Kirjoittaja:",
     "Update to {version}" : "Päivitä versioon {version}",
     "Remove" : "Poista",
     "Disable" : "Poista käytöstä",

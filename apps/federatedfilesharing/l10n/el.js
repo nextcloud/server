@@ -27,6 +27,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου",
     "Sharing" : "Διαμοιρασμός",
+    "Federated file sharing" : "Federated διαμοιρασμός αρχείου",
     "Federated Cloud Sharing" : "Διαμοιρασμός Federated Cloud",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
     "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών",

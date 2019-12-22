@@ -60,6 +60,7 @@ OC.L10N.register(
     "Back" : "Назад",
     "Continue" : "Продължи",
     "An internal error occurred." : "Възникна вътрешно сървърна грешка.",
+    "Please try again or contact your administrator." : "Опитайте отново или се свържете с администраотра.",
     "Current password" : "Текуща парола",
     "New password" : "Нова парола",
     "Wrong password." : "Грешна парола.",

@@ -24,6 +24,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "You can choose a different password at any time in the share dialog.",
     "Could not find share" : "Could not find share",
     "Share by mail" : "Share by mail",
+    "Share provider which allows you to share files by mail" : "Share provider which allows you to share files by mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
     "Enforce password protection" : "Enforce password protection"

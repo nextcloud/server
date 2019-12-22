@@ -29,6 +29,7 @@ OC.L10N.register(
     "You deleted event {event} from calendar {calendar}" : "Jūs ištrynėte įvykį {event} iš kalendoriaus {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} kalendoriuje {calendar} atnaujino įvykį {event}",
     "You updated event {event} in calendar {calendar}" : "Jūs kalendoriuje {calendar} atnaujinote įvykį {event}",
+    "Busy" : "Užimtas laikas",
     "{actor} created todo {todo} in list {calendar}" : "{actor} sąraše {calendar} sukūrė užduotį {todo}",
     "You created todo {todo} in list {calendar}" : "Jūs sąraše {calendar} sukūrėte užduotį {todo}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} iš sąrašo {calendar} ištrynė užduotį {todo}",

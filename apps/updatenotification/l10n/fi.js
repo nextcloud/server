@@ -24,6 +24,8 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Valittu päivityskanava ei tue palvelimen päivityksiä.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Uusi versio on saatavilla: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
+    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Yhteyttä sovelluskauppaan ei voitu muodostaa tai sovelluskauppa ei ilmoittanut päivityksistä. Etsi päivityksiä manuaalisesti tai varmista, että palvelimellasi on yhteys internetiin ja se voi yhdistää sovelluskauppaan.",
     "View changelog" : "Näytä muutosloki",
     "Stable" : "Vakaa",
     "Beta" : "Beta",

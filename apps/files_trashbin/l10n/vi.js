@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Select all" : "Chọn tất cả",
     "Name" : "Tên",
+    "Actions" : "Hành động",
     "Deleted" : "Đã xóa",
     "Delete" : "Xóa"
 },

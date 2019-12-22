@@ -154,6 +154,7 @@
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "A fájljai titkosítva vannak. A jelszó visszaállítása után sehogy sem fogja tudja visszaszerezni azokat. Ha nem tudja mi a teendő, akkor beszéljen a helyi rendszergazdával. Biztos, hogy folytatja?",
     "I know what I'm doing" : "Tudom mit csinálok.",
     "Resetting password" : "Jelszó visszaállítása",
+    "Recommended apps" : "Ajánlott alkalmazások",
     "Cancel" : "Mégse",
     "Forgot password?" : "Elfelejtett jelszó?",
     "Settings" : "Beállítások",

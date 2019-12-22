@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Select all" : "Seleccionar todo",
     "Name" : "Nombre",
+    "Actions" : "Acciones",
     "Deleted" : "Borrado",
     "Delete" : "Borrar"
 },

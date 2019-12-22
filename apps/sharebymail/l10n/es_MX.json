@@ -22,6 +22,7 @@
     "You can choose a different password at any time in the share dialog." : "Puedes elegir una contraseña diferente en cualquier momento en la ventana de diálogo de compartir. ",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Share by mail" : "Compartir por correo",
+    "Share provider which allows you to share files by mail" : "Proveedor para compartir que te permite compartir archivos por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. ",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
     "Enforce password protection" : "Forzar protección con contraseña"
