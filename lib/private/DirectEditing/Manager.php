@@ -45,6 +45,8 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IShare;
+use function array_key_exists;
+use function in_array;
 
 class Manager implements IManager {
 
@@ -139,6 +141,9 @@ class Manager implements IManager {
 
 		if ($editorId === null) {
 			$editorId = $this->findEditorForFile($file);
+		}
+		if (!array_key_exists($editorId, $this->editors)) {
+			throw new \RuntimeException("Editor $editorId is unknown");
 		}
 
 		return $this->createToken($editorId, $file, $filePath);
