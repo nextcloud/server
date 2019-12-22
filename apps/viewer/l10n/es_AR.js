@@ -1,7 +1,6 @@
 OC.L10N.register(
     "viewer",
     {
-    "Open sidebar" : "Hapni sidebar-in",
-    "View" : "Shiko"
+    "Open sidebar" : "Abrir barra lateral"
 },
 "nplurals=2; plural=(n != 1);");
