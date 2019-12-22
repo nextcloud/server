@@ -103,7 +103,7 @@
     "handlebars-loader": "^1.7.1",
     "node-sass": "^4.13.0",
     "sass-loader": "^7.3.1",
-    "style-loader": "^1.0.1",
+    "style-loader": "^1.1.1",
     "url-loader": "^3.0.0",
     "vue-loader": "^15.7.2",
     "vue-template-compiler": "^2.6.10",
