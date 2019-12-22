@@ -1154,6 +1154,7 @@ return array(
     'OC\\Repair\\NC16\\ClearCollectionsAccessCache' => $baseDir . '/lib/private/Repair/NC16/ClearCollectionsAccessCache.php',
     'OC\\Repair\\NC17\\SetEnterpriseLogo' => $baseDir . '/lib/private/Repair/NC17/SetEnterpriseLogo.php',
     'OC\\Repair\\NC17\\SwitchUpdateChannel' => $baseDir . '/lib/private/Repair/NC17/SwitchUpdateChannel.php',
+    'OC\\Repair\\NC18\\ResetGeneratedAvatarFlag' => $baseDir . '/lib/private/Repair/NC18/ResetGeneratedAvatarFlag.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',

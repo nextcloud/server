@@ -108,12 +108,12 @@ class UserAvatar extends Avatar {
 
 		try {
 			$generated = $this->folder->getFile('generated');
-			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
 			$generated->delete();
 		} catch (NotFoundException $e) {
 			//
 		}
 
+		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'false');
 		$this->user->triggerChange('avatar', $file);
 	}
 

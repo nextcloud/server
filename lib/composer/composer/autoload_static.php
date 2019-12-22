@@ -1183,6 +1183,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\NC16\\ClearCollectionsAccessCache' => __DIR__ . '/../../..' . '/lib/private/Repair/NC16/ClearCollectionsAccessCache.php',
         'OC\\Repair\\NC17\\SetEnterpriseLogo' => __DIR__ . '/../../..' . '/lib/private/Repair/NC17/SetEnterpriseLogo.php',
         'OC\\Repair\\NC17\\SwitchUpdateChannel' => __DIR__ . '/../../..' . '/lib/private/Repair/NC17/SwitchUpdateChannel.php',
+        'OC\\Repair\\NC18\\ResetGeneratedAvatarFlag' => __DIR__ . '/../../..' . '/lib/private/Repair/NC18/ResetGeneratedAvatarFlag.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Owncloud\\DropAccountTermsTable' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
