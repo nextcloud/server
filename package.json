@@ -25,7 +25,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
     "@chenfengyuan/vue-qrcode": "^1.0.1",
-    "@nextcloud/auth": "^0.3.1",
+    "@nextcloud/auth": "^1.1.0",
     "@nextcloud/axios": "^0.5.0",
     "@nextcloud/dialogs": "^0.1.1",
     "@nextcloud/event-bus": "^0.2.1",
