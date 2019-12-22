@@ -33,7 +33,7 @@
     "@nextcloud/l10n": "^0.2.1",
     "@nextcloud/logger": "^0.1.0",
     "@nextcloud/paths": "^0.2.0",
-    "@nextcloud/router": "^0.1.0",
+    "@nextcloud/router": "^1.0.0",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
     "blueimp-md5": "^2.12.0",
