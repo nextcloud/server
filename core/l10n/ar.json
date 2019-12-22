@@ -51,6 +51,7 @@
     "Please reload the page." : "رجاء أعد تحميل الصفحة.",
     "Continue to Nextcloud" : "المواصلة إلى ناكست كلاود",
     "Searching other places" : "البحث في أماكن أخرى",
+    "No search results in other folders for {tag}{filter}{endtag}" : "لا نتائج بحث في مجلدات اخرى ل {tag}{filter}{endtag}",
     "Please contact your administrator." : "يرجى الإتصال بمدير خادومكم.",
     "An internal error occurred." : "طرأ هناك خطأ.",
     "Username or email" : "اسم المستخدم أو البريد الالكتروني",
@@ -82,6 +83,8 @@
     "No more subfolders in here" : "لا يوجد هنا ملفات فرعية",
     "Name" : "الاسم",
     "Size" : "الحجم",
+    "Modified" : "آخر تعديل",
+    "{newName} already exists" : "{newname} موجود مسبقاً",
     "Choose" : "اختيار",
     "Copy" : "نسخ",
     "Move" : "نقل",
@@ -160,6 +163,7 @@
     "Grant access" : "السماح بالنفاذ",
     "Account access" : "حساب النفاذ",
     "Account connected" : "الحساب متصل",
+    "This share is password-protected" : "هذه المشاركة محمية بكلمة مرور",
     "The password is wrong. Try again." : "كلمة المرور خاطئة. حاول مرة أخرى.",
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
@@ -223,6 +227,7 @@
     "Name or email address..." : "الإسم أو عنوان البريد الإلكتروني …",
     "Name or federated cloud ID..." : "الإسم أو معرّف السحابة المتحدة …",
     "Name..." : "التسمية …",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "استخدام SQLite غير مناسب خاصتا اذا تم استخدام برنامج المزامنة على الجهاز الشخصي.",
     "Wrong password." : "كلمة السر خاطئة.",
     "New Password" : "كلمة السر الجديدة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

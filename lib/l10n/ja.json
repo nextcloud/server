@@ -107,6 +107,7 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "%s のバックエンドの共有には、OCP\\Share_Backend インターフェースを実装しなければなりません。",
     "Sharing backend %s not found" : "共有バックエンド %s が見つかりません",
     "Sharing backend for %s not found" : "%s のための共有バックエンドが見つかりません",
+    "%1$s shared »%2$s« with you and wants to add:" : "%1$s さんが »%2$s« にノートを追加しました。",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s shared »%2$s« with you and wants to add",
     "»%s« added a note to a file shared with you" : "»%s« があなたと共有しているファイルにノートを追加しました。 ",
     "Open »%s«" : "»%s«を開く",

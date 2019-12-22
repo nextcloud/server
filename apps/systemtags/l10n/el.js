@@ -43,6 +43,7 @@ OC.L10N.register(
     "Please select tags to filter by" : "Παρακαλώ επιλέξτε ετικέτες για να φιλτραριστούν με",
     "No files found for the selected tags" : "Δεν βρέθηκαν αρχεία για τις επιλεγμένες ετικέτες",
     "Select tag …" : "Επιλογή ετικέτας ...",
+    "Create a new tag" : "Δημιούργησε νέα ετικέτα",
     "Name" : "Όνομα",
     "Public" : "Δημόσιο",
     "Restricted" : "Περιορισμένο",

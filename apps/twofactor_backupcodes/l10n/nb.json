@@ -1,4 +1,5 @@
 { "translations": {
+    "_" : "_",
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi-kodene",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dette er sikkerhetskopi-kodene. Lagre og/eller skriv dem ut siden du ikke vil kunne se kodene her igjen senere.",
     "Save backup codes" : "Lagre sikkerhetskopi-kodene",

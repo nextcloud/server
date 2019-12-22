@@ -12,6 +12,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Записів не знайдено в цій папці",
     "Select all" : "Вибрати всі",
     "Name" : "Ім'я",
+    "Actions" : "Дії",
     "Deleted" : "Видалено",
     "Delete" : "Видалити"
 },

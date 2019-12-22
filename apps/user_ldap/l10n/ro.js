@@ -72,6 +72,7 @@ OC.L10N.register(
     "Continue" : "Continuă",
     "Please renew your password." : "Te rog reînnoiește parola.",
     "An internal error occurred." : "A apărut o eroare internă.",
+    "Please try again or contact your administrator." : "Încearcă din nou sau contactează-ți administratorul.",
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Renew password" : "Reînnoiește parola",

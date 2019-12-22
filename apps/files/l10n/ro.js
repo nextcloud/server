@@ -135,6 +135,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>",
     "Unlimited" : "Nelimitată",
     "Upload (max. %s)" : "Încarcă (max. %s)",
+    "Accept" : "Accept",
     "File Management" : "Management fișiere",
     "%s used" : "%s folosiți",
     "%s%% of %s used" : "%s%%din %sfolosiți",

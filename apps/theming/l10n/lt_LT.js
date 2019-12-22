@@ -27,6 +27,7 @@ OC.L10N.register(
     "Legal notice" : "Teisinis pranešimas",
     "Privacy policy" : "Privatumo politika",
     "Adjust the Nextcloud theme" : "Derinti Nextcloud apipavidalinimą",
+    "Open documentation" : "Atverti dokumentaciją",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Apipavidalinimai leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą bei turinį. Tai bus matoma visiems naudotojams.",
     "Name" : "Pavadinimas",
     "Reset to default" : "Atstatyti į numatytąją",

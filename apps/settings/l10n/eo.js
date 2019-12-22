@@ -680,6 +680,7 @@ OC.L10N.register(
     "Romansh" : "Romanĉa",
     "Russian" : "Rusa",
     "Sango" : "Sangoa",
+    "Serbian" : "Serba",
     "Shona" : "Ŝona",
     "Sichuan Yi" : "Siĉua jia",
     "Slovak" : "Slovaka",

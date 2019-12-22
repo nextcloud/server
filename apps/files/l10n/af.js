@@ -31,6 +31,8 @@ OC.L10N.register(
     "Copy" : "Kopieer",
     "Choose target folder" : "Kies teikenvouer",
     "Open" : "Open",
+    "Delete file" : "Skrap lêer",
+    "Delete folder" : "Skrap vouer",
     "Disconnect storage" : "Ontkoppel berging",
     "Unshare" : "Ontdeel",
     "Could not load info for file \"{file}\"" : "Kon nie inligting vir lêer: “{file}” laai nie ",

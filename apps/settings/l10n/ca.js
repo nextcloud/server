@@ -122,6 +122,7 @@ OC.L10N.register(
     "Save changes" : "Desa els canvis",
     "This app is supported via your current Nextcloud subscription." : "Aquesta aplicació és compatible amb la vostra actual subscripció a Nextcloud.",
     "Supported" : "Compatible",
+    "Featured" : "Destacat",
     "by" : "per",
     "Update to {version}" : "Actualitza a {version}",
     "Remove" : "Suprimeix",

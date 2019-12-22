@@ -97,6 +97,8 @@
     "Excluded groups" : "Izločene skupine",
     "Save changes" : "Shrani spremembe",
     "Supported" : "Podprto",
+    "Featured" : "Izbrano",
+    "by" : "s strani",
     "Update to {version}" : "Posodobi na različico {version}",
     "Remove" : "Odstrani",
     "Disable" : "Onemogoči",
@@ -629,12 +631,21 @@
     "Swahili" : "Svahili",
     "Swedish (Finland)" : "Švedščina (Finska)",
     "Swedish (Sweden)" : "Švedščina (Švedska)",
+    "Swedish" : "Švedščina",
+    "Tamil" : "Tamilšlina",
+    "Telugu" : "Telugu",
+    "Thai" : "Tajščina",
+    "Tibetan" : "Tibetanščina",
     "Tonga (Tonga)" : "Tonga (Tonga)",
     "Tonga" : "Tonga",
+    "Turkish" : "Turščina",
+    "Ukrainian" : "Ukrajinščina",
+    "Vietnamese" : "Vietnamščina",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Uradne programe razvijajo posamezniki, ki sodelujejo s skupnostjo. Paketi vključujejo osrednje zmožnosti programa, uporaba pa je namenjena tudi končnim uporabnikom.",
     "Official" : "Uradno",
     "Store credentials" : "Shrani poverila",
     "Set default expiration date" : "Samodejno nastavi datuma poteka",
-    "Follow us on Google+" : "Sledite nam na Google+"
+    "Follow us on Google+" : "Sledite nam na Google+",
+    "Share" : "Souporaba"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

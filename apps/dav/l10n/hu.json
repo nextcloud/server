@@ -27,6 +27,7 @@
     "You deleted event {event} from calendar {calendar}" : "Törölted ezt az eseményt: {event} ebből a naptárból: {calendar}",
     "{actor} updated event {event} in calendar {calendar}" : "{actor} frissítette ezt az eseményt: {event} ebben a naptárban: {calendar}",
     "You updated event {event} in calendar {calendar}" : "Frissítetted ezt az eseményt: {event} ebben a naptárban: {calendar}",
+    "Busy" : "Foglalt",
     "{actor} created todo {todo} in list {calendar}" : "{actor} létrehozta ezt a teendőt: {todo} ebben a listában: {calendar}",
     "You created todo {todo} in list {calendar}" : "Létrehoztad ezt a teendőt: {todo} ebben a listában: {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} törölte ezt a teendőt: {todo} ebből a listából: {calendar}",

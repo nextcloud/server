@@ -17,6 +17,7 @@
     "Following platforms are supported: %s" : "Tiek atbalstītas šādas platformas: %s",
     "Server version %s or higher is required." : "Ir vajadzīga servera versija %s vai jaunāka.",
     "Server version %s or lower is required." : "Ir vajadzīga servera versija %s vai vecāka.",
+    "Authentication" : "Autentifikācija",
     "Unknown filetype" : "Nezināms datnes tips",
     "Invalid image" : "Nederīgs attēls",
     "Avatar image is not square" : "Avatar attēls nav kvadrāts",
@@ -35,10 +36,13 @@
     "__language_name__" : "Latviešu",
     "Help" : "Palīdzība",
     "Apps" : "Lietotnes",
+    "Settings" : "Iestatījumi",
+    "Log out" : "Izrakstīties",
     "Users" : "Lietotāji",
     "Unknown user" : "Nezināms lietotājs",
     "Sharing" : "Koplietošana",
     "Additional settings" : "Papildu iestatījumi",
+    "Personal info" : "Personiskā informācija",
     "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
     "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
     "%s you may not use dots in the database name" : "%s datubāžu nosaukumos nedrīkst izmantot punktus",
@@ -48,6 +52,7 @@
     "Set an admin username." : "Iestatiet administratora lietotājvārdu.",
     "Set an admin password." : "Iestatiet administratora paroli.",
     "Invalid Federated Cloud ID" : "Nederīgs Federated Cloud ID",
+    "Open »%s«" : "Atvērt »%s«",
     "Could not find category \"%s\"" : "Nevarēja atrast kategoriju “%s”",
     "Sunday" : "Svētdiena",
     "Monday" : "Pirmdiena",
@@ -116,6 +121,12 @@
     "Storage incomplete configuration. %s" : "Storage incomplete configuration. %s",
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
-    "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s"
+    "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
+    "Create" : "Izveidot",
+    "Change" : "Mainīt",
+    "Delete" : "Dzēst",
+    "Share" : "Koplietot",
+    "Unlimited" : "Neierobežota",
+    "Verify" : "Verificēt"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

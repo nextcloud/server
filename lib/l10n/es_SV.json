@@ -23,6 +23,7 @@
     "Server version %s or higher is required." : "Se requiere la versión del servidor %s o superior. ",
     "Server version %s or lower is required." : "La versión del servidor %s o inferior es requerdia. ",
     "Logged in user must be an admin" : "El usuario firmado debe ser un administrador",
+    "Authentication" : "Autenticación",
     "Unknown filetype" : "Tipo de archivo desconocido",
     "Invalid image" : "Imagen inválida",
     "Avatar image is not square" : "La imagen del avatar no es un cuadrado",

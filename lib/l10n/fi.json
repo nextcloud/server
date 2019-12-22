@@ -18,6 +18,7 @@
     "Server version %s or higher is required." : "Palvelinversio %s tai sitä uudempi vaaditaan.",
     "Server version %s or lower is required." : "Palvelinversio %s tai alhaisempi vaaditaan.",
     "Logged in user must be an admin" : "Sisäänkirjautuneen käyttäjän tulee olla ylläpitäjä",
+    "Authentication" : "Tunnistautuminen",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virheellinen kuva",
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
