@@ -407,7 +407,7 @@ body {
 .avatar, .avatardiv {
 	border-radius: 50%;
 	flex-shrink: 0;
-	img {
+	&> img {
 		border-radius: 50%;
 		flex-shrink: 0;
 	}
