@@ -346,6 +346,7 @@
 		},
 
 		onPasswordEntered: function(event) {
+			var self = this;
 			var $element = $(event.target);
 			var $li = $element.closest('li[data-share-id]');
 			var shareId = $li.data('share-id');
@@ -387,6 +388,11 @@
 					$loading.removeClass('inlineblock').addClass('hidden');
 				},
 				error: function(model, msg) {
+					// force open the menu
+					if (event) {
+						self.onToggleMenu(event)
+					}
+
 					// Add visual feedback to both the input and the submit button
 					$input.parent().find('input').addClass('error');
 
@@ -667,8 +673,8 @@
 				}
 			}
 
-			this.$el.on('beforeHide', function() {
-				this.onMenuhide()
+			this.$el.on('beforeHide', function(e) {
+				this.onMenuhide(e)
 			}.bind(this));
 
 			this.$el.html(linkShareTemplate({
@@ -709,13 +715,16 @@
 			}
 		},
 
-		onMenuhide: function() {
+		onMenuhide: function(event) {
 			if (this.hasPasswordChanged) {
 				var shareId = this.hasPasswordChanged
 				var target = this.$el.find('li[data-share-id=' + shareId + '] #linkPassText-' + shareId);
 				console.debug('Force saving password for share number ', shareId)
-				this.onPasswordEntered({ target: target })
+				// replace target by last opened menu
+				this.onPasswordEntered(_.extend(event, { target: target }))
 			}
+			// force close all opened tooltips
+			this.$el.find('[data-original-title]').tooltip('hide')
 		},
 
 		/**

@@ -202,14 +202,18 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('shows the working icon when called', function () {
-			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
+			view.onPasswordEntered(jQuery.Event('click', {
+				target: view.$el.find('.linkPassText')
+			}));
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
 			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
 		});
 
 		it('hides the working icon when saving the password succeeds', function () {
-			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
+			view.onPasswordEntered(jQuery.Event('click', {
+				target: view.$el.find('.linkPassText')
+			}));
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
 			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
@@ -220,7 +224,9 @@ describe('OC.Share.ShareDialogLinkShareView', function () {
 		});
 
 		it('hides the working icon when saving the password fails', function () {
-			view.onPasswordEntered({target: view.$el.find('.linkPassText')});
+			view.onPasswordEntered(jQuery.Event('click', {
+				target: view.$el.find('.linkPassText')
+			}));
 
 			expect($workingIcon.hasClass('hidden')).toBeFalsy();
 			expect(shareModel.saveLinkShare.withArgs({ password: 'myPassword', cid: 123 }).calledOnce).toBeTruthy();
