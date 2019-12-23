@@ -28,7 +28,7 @@ OC.L10N.register(
     "Bad Signature" : "Dålig signatur",
     "Missing Signature" : "Saknar signatur",
     "one-time password for server-side-encryption" : "engångslösenord för kryptering på serversidan",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ej dekryptera denna fil, förmodligen är det en delad fil. Be ägaren av filen att dela den med dig.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan inte dekryptera den här filen, förmodligen är det en delad fil. Be ägaren av filen att dela om filen med dig.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Filen kan inte läsas, troligtvis är det en delad fil. Be ägaren av filen att dela den med dig igen.",
     "Default encryption module" : "Krypteringsfunktion",
     "Default encryption module for server-side encryption" : "Standardkrypteringsmodul för kryptering på serversidan",

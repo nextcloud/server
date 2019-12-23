@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "Error occurred while updating comment with id {id}",
     "Error occurred while posting comment" : "Error occurred while posting comment",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
+    "_1 new comment_::_{unread} new comments_" : ["1 new comment","{unread} new comments"],
     "Comment" : "Comment"
 },
 "nplurals=2; plural=(n != 1);");
