@@ -99,7 +99,7 @@ const store = new Vuex.Store({
 				events,
 				name: '', // unused in the new ui, there for legacy reasons
 				checks: [
-					{ class: null, operator: null, value: '' }
+					{ class: null, operator: null, value: '' },
 				],
 				operation: rule.operation || '',
 			})

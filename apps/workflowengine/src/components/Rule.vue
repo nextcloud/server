@@ -30,7 +30,7 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<button	class="status-button icon"
+				<button class="status-button icon"
 					:class="ruleStatus.class"
 					@click="saveRule">
 					{{ ruleStatus.title }}
@@ -42,7 +42,9 @@
 					{{ t('workflowengine', 'Delete') }}
 				</button>
 			</div>
-			<p v-if="error" class="error-message">{{ error }}</p>
+			<p v-if="error" class="error-message">
+				{{ error }}
+			</p>
 		</div>
 	</div>
 </template>
