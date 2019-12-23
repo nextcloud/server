@@ -27,7 +27,7 @@
     "Save" : "Spara",
     "Empty response from the server" : "Tomt svar från servern",
     "Couldn't access. Please log out and in again to activate this mount point" : "Kunde inte ansluta. Försök logga ut och in igen för att aktivera denna monteringspunkt",
-    "Couldn't get the information from the remote server: {code} {type}" : "Kan ej läsa informationen från extern server: {code} {type} ",
+    "Couldn't get the information from the remote server: {code} {type}" : "Det gick inte att få informationen från fjärrservern: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Kunde inte hämta listan för externa monteringspunkter: {type}",
     "There was an error with message: " : "Det fanns ett fel med meddelande:",
     "External mount error" : "Fel vid extern montering",

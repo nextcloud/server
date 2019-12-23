@@ -381,7 +381,7 @@
     "Share link" : "Paylaşım bağlantısı",
     "New share link" : "Yeni paylaşım bağlantısı ",
     "Created on {time}" : "{time} zamanında oluşturulmuş",
-    "Password protect by Talk" : "Talk tarafından parola koruması",
+    "Password protect by Talk" : "Sohbet tarafından parola ile korunmuş",
     "Could not unshare" : "Paylaşım kaldırılamadı",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
     "Shared with you and {circle} by {owner}" : "{owner} tarafından sizinle ve {circle} ile paylaşılmış",
