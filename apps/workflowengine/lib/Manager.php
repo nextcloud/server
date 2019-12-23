@@ -601,7 +601,7 @@ class Manager implements IManager {
 	public function getEntitiesList(): array {
 		$this->eventDispatcher->dispatch(IManager::EVENT_NAME_REG_ENTITY, new GenericEvent($this));
 
-		return array_merge($this->getBuildInEntities(), $this->registeredEntities);
+		return array_values(array_merge($this->getBuildInEntities(), $this->registeredEntities));
 	}
 
 	/**
@@ -640,7 +640,7 @@ class Manager implements IManager {
 	protected function getBuildInEntities(): array {
 		try {
 			return [
-				$this->container->query(File::class),
+				File::class => $this->container->query(File::class),
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);
