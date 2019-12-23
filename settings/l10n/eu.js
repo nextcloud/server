@@ -242,7 +242,7 @@ OC.L10N.register(
     "Administrator documentation" : "Administratzaile dokumentazioa",
     "Documentation" : "Dokumentazioa",
     "Forum" : "Foroa",
-    "None" : "Ezer",
+    "None" : "Bat ere ez",
     "Login" : "Saio hasiera",
     "Plain" : "Arrunta",
     "NT LAN Manager" : "NT LAN Manager",
