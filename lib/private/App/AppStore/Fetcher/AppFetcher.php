@@ -151,6 +151,5 @@ class AppFetcher extends Fetcher {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
-		$this->setEndpoint();
 	}
 }
