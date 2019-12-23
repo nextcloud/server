@@ -385,7 +385,7 @@ class Generator {
 				$preview->preciseResize((int)round($scaleW), (int)round($scaleH));
 			}
 			$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
-			$cropY = 0;
+			$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
 			$preview->crop($cropX, $cropY, $width, $height);
 		} else {
 			$preview->resize(max($width, $height));
