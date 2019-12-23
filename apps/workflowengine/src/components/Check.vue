@@ -72,7 +72,7 @@ export default {
 			currentOption: null,
 			currentOperator: null,
 			options: [],
-			valid: true,
+			valid: false,
 		}
 	},
 	computed: {
@@ -107,6 +107,11 @@ export default {
 		this.options = Object.values(this.checks)
 		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
+
+		if (this.check.class === null) {
+			this.$nextTick(() => this.$refs.checkSelector.$el.focus())
+		}
+		this.check.invalid = !this.validate()
 	},
 	methods: {
 		showDelete() {

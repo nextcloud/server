@@ -30,8 +30,7 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<button v-tooltip="ruleStatus.tooltip"
-					class="status-button icon"
+				<button	class="status-button icon"
 					:class="ruleStatus.class"
 					@click="saveRule">
 					{{ ruleStatus.title }}
@@ -43,6 +42,7 @@
 					{{ t('workflowengine', 'Delete') }}
 				</button>
 			</div>
+			<p v-if="error" class="error-message">{{ error }}</p>
 		</div>
 	</div>
 </template>
@@ -84,7 +84,7 @@ export default {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
 		ruleStatus() {
-			if (this.error || !this.rule.valid || this.rule.checks.some((check) => check.invalid === true)) {
+			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					class: 'icon-close-white invalid',
@@ -174,10 +174,17 @@ export default {
 
 	.buttons {
 		display: block;
+		overflow: hidden;
+
 		button {
 			float: right;
 			height: 34px;
 		}
+	}
+
+	.error-message {
+		float: right;
+		margin-right: 10px;
 	}
 
 	.status-button {
