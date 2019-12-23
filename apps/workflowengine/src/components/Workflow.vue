@@ -13,7 +13,10 @@
 					:operation="operation"
 					@click.native="createNewRule(operation)" />
 
-				<a :key="'add'" :href="appstoreUrl" class="actions__item colored more">
+				<a v-if="showAppStoreHint"
+					:key="'add'"
+					:href="appstoreUrl"
+					class="actions__item colored more">
 					<div class="icon icon-add" />
 					<div class="actions__item__description">
 						<h3>{{ t('workflowengine', 'More flows') }}</h3>
@@ -49,6 +52,7 @@ import Rule from './Rule'
 import Operation from './Operation'
 import { mapGetters, mapState } from 'vuex'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 
 const ACTION_LIMIT = 3
 
@@ -61,7 +65,7 @@ export default {
 	data() {
 		return {
 			showMoreOperations: false,
-			appstoreUrl: '/index.php/settings/apps/workflow',
+			appstoreUrl: generateUrl('settings/apps/workflow'),
 			scope: loadState('workflowengine', 'scope'),
 		}
 	},
@@ -80,6 +84,9 @@ export default {
 				return Object.values(this.operations)
 			}
 			return Object.values(this.operations).slice(0, ACTION_LIMIT)
+		},
+		showAppStoreHint() {
+			return this.scope === 0 && OC.isUserAdmin()
 		},
 	},
 	mounted() {
