@@ -371,7 +371,7 @@ OC.L10N.register(
     "Read only" : "Schreibgeschützt",
     "File drop (upload only)" : "Dateien ablegen (nur Hochladen)",
     "Expiration date enforced" : "Ablaufdatum erzwungen",
-    "Set expiration date" : "Ein Ablaufdatum setzen",
+    "Set expiration date" : "Ablaufdatum setzen",
     "Expiration" : "Ablauf",
     "Expiration date" : "Ablaufdatum",
     "Note to recipient" : "Notiz an Empfänger",
