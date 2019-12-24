@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Aukeratu fitxategi bat.",
+    "Please select a file." : "Aukeratu fitxategi bat mesedez.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
     "The selected file cannot be read." : "Aukeratutako fitxategia ezin da irakurri.",

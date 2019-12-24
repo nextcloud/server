@@ -130,7 +130,7 @@
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Failas ar aplankas <strong>pakeistas</strong> ar <strong>pervadintas</strong>",
     "A new file or folder has been <strong>created</strong>" : "<strong>Sukurtas</strong> naujas failas ar aplankas",
     "A file or folder has been <strong>deleted</strong>" : "Failas ar aplankas <strong>ištrintas</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie jūsų <strong>mėgstamų failų</strong>sukūrimą ar pakeitimus <em>(Tik srautas)</em>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie jūsų <strong>mėgstamų failų</strong> sukūrimą ar pakeitimus <em>(Tik srautas)</em>",
     "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas <strong>atkurtas</strong>",
     "Unlimited" : "Neribotai",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
