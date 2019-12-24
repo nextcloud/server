@@ -117,6 +117,7 @@ OC.L10N.register(
     "Admin documentation" : "Skrbniška dokumentacija",
     "Developer documentation" : "Dokumentacija za razvijalce",
     "Update to {update}" : "Posodobi na različico {update}",
+    "Update all" : "Posodobi vse",
     "Results from other categories" : "Rezultati iskanja med drugimi kategorijami",
     "No apps found for your version" : "Za navedeni iskalni niz ni programov",
     "Disable all" : "Onemogoči vse",

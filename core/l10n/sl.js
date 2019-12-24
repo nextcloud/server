@@ -333,6 +333,7 @@ OC.L10N.register(
     "Share details could not be loaded for this item." : "Podrobnosti souporabe za ta predmet ni mogoče naložiti.",
     "No users or groups found for {search}" : "Ni najdenih uporabnikov ali skupin, skladnih z iskalnim nizom {search}",
     "No users found for {search}" : "Ni najdenih uporabnikov, skladnih z iskalnim nizom {search}",
+    "An error occurred (\"{message}\"). Please try again" : "Prišlo je do napake (»{message}«). Poskusite znova.",
     "An error occurred. Please try again" : "Prišlo je do napake. Poskusite znova.",
     "Home" : "Začetni pogled",
     "Work" : "Službeni naslov",
