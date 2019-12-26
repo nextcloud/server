@@ -41,7 +41,7 @@
 			{{ t('files_sharing', 'Via folder') }}
 		</ActionLink>
 		<ActionButton v-if="share.canDelete"
-			icon="icon-delete"
+			icon="icon-close"
 			@click.prevent="onDelete">
 			{{ t('files_sharing', 'Unshare') }}
 		</actionbutton>
