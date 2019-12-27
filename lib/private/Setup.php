@@ -523,6 +523,8 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !core/img/favicon.ico$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !core/img/manifest.json$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !apps/[\w-_]+/img/manifest.json$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !custom_apps/[\w-_]+/img/manifest.json$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/remote.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/public.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/cron.php";
