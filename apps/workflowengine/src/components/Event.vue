@@ -56,7 +56,21 @@ export default {
 	},
 	methods: {
 		updateEvent(events) {
-			this.$set(this.rule, 'events', events.map(event => event.eventName))
+			if (events.length === 0) {
+				window.OCP.Toast.warning(t('workflowengine', 'At least one event must be selected'))
+				return
+			}
+			const existingEntity = this.rule.entity
+			const newEntities = events.map(event => event.entity.id).filter((value, index, self) => self.indexOf(value) === index)
+			let newEntity = null
+			if (newEntities.length > 1) {
+				newEntity = newEntities.filter(entity => entity !== existingEntity)[0]
+			} else {
+				newEntity = newEntities[0]
+			}
+
+			this.$set(this.rule, 'entity', newEntity)
+			this.$set(this.rule, 'events', events.filter(event => event.entity.id === newEntity).map(event => event.eventName))
 			this.$emit('update', this.rule)
 		},
 	},

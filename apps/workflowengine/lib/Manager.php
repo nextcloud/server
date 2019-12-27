@@ -467,9 +467,16 @@ class Manager implements IManager {
 
 		$this->validateEvents($entity, $events, $instance);
 
+		if (count($checks) === 0) {
+			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
+		}
 		$instance->validateOperation($name, $checks, $operation);
 
 		foreach ($checks as $check) {
+			if (!is_string($check['class'])) {
+				throw new \UnexpectedValueException($this->l->t('Invalid check provided'));
+			}
+
 			try {
 				/** @var ICheck $instance */
 				$instance = $this->container->query($check['class']);
