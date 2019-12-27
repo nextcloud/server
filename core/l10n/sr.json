@@ -158,6 +158,8 @@
     "Recommended apps" : "Препоручене апликације",
     "Loading apps …" : "Учитавам апликације…",
     "Could not fetch list of apps from the app store." : "Не могу да дохватим листу апликација из продавнице.",
+    "Installing apps …" : "Инсталирам апликације…",
+    "Nextcloud {app}" : "Некстклауд апликација {app}",
     "App download or installation failed" : "Скидање или инсталирање апликације није успело",
     "Can't install this app because it is not compatible" : "Не могу да инсталирам ову апликација зато што није компатибилна",
     "Can't install this app" : "Не могу да инсталирам ову апликацију",
