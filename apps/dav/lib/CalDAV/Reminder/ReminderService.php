@@ -112,7 +112,11 @@ class ReminderService {
 		$reminders = $this->backend->getRemindersToProcess();
 
 		foreach($reminders as $reminder) {
-			$vcalendar = $this->parseCalendarData($reminder['calendardata']);
+			$calendarData = is_resource($reminder['calendardata'])
+				? stream_get_contents($reminder['calendardata'])
+				: $reminder['calendardata'];
+
+			$vcalendar = $this->parseCalendarData($calendarData);
 			if (!$vcalendar) {
 				$this->backend->removeReminder($reminder['id']);
 				continue;
@@ -181,8 +185,12 @@ class ReminderService {
 	 * @param array $objectData
 	 */
 	private function onCalendarObjectCreate(array $objectData):void {
+		$calendarData = is_resource($objectData['calendardata'])
+			? stream_get_contents($objectData['calendardata'])
+			: $objectData['calendardata'];
+
 		/** @var VObject\Component\VCalendar $vcalendar */
-		$vcalendar = $this->parseCalendarData($objectData['calendardata']);
+		$vcalendar = $this->parseCalendarData($calendarData);
 		if (!$vcalendar) {
 			return;
 		}
