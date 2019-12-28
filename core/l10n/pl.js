@@ -142,7 +142,7 @@ OC.L10N.register(
     "Username or email" : "Nazwa użytkownika lub adres e-mail",
     "Username or\temail" : "Nazwa użytkownika lub\te-mail",
     "Password" : "Hasło",
-    "Log in" : "Zaloguj",
+    "Log in" : "Zaloguj się",
     "Logging in …" : "Logowanie…",
     "Wrong username or password." : "Zła nazwa użytkownika lub hasło.",
     "User disabled" : "Użytkownik zablokowany",
