@@ -156,7 +156,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
     "Hide download" : "Sakrij preuzimanje",
     "Password protect" : "Zaštita zaporkom",
-    "Delete share" : "Izbriši dijeljenje",
     "Add another link" : "Dodaj drugu poveznicu",
     "Create a new share link" : "Stvori novu poveznicu dijeljenja",
     "Shared via link by {initiator}" : "Dijeli {initiator} putem poveznice",
