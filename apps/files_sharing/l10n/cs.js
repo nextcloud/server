@@ -162,7 +162,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Přetažení souboru (pouze nahrání)",
     "Hide download" : "Skrýt stahování",
     "Password protect" : "Chránit heslem",
-    "Delete share" : "Smazat sdílení",
     "Add another link" : "Přidat další odkaz",
     "Create a new share link" : "Vytvořit nový odkaz pro sdílení",
     "Shared via link by {initiator}" : "{initiator} sdílí odkazem",

@@ -136,7 +136,6 @@ OC.L10N.register(
     "Allow upload and editing" : "Leisti įkelti ir redaguoti",
     "File drop (upload only)" : "Failų įmetimas (tik įkėlimas)",
     "Password protect" : "Apsaugoti slaptažodžiu",
-    "Delete share" : "Ištrinti viešinį",
     "Add another link" : "Pridėti kitą nuorodą",
     "Create a new share link" : "Sukurti naują bendrinimo nuorodą",
     "Share link" : "Bendrinimo nuoroda",

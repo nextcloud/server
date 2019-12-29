@@ -162,7 +162,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Göm fillista (endast uppladdning)",
     "Hide download" : "Dölj nedladdning",
     "Password protect" : "Lösenordsskydda",
-    "Delete share" : "Ta bort delning",
     "Add another link" : "Lägg till en annan länk",
     "Create a new share link" : "Skapa en ny delad länk",
     "Shared via link by {initiator}" : "Delad via länk av {initiator}",
