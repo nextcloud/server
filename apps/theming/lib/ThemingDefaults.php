@@ -348,7 +348,7 @@ class ThemingDefaults extends \OC_Defaults {
 			try {
 				$appPath = $this->appManager->getAppPath($app);
 				if (file_exists($appPath . '/img/manifest.json')) {
-					return $this->urlGenerator->linkTo($app, 'img/manifest.json') . '?v=' . $cacheBusterValue;
+					return false;
 				}
 			} catch (AppPathNotFoundException $e) {}
 			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest');
