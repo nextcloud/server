@@ -212,14 +212,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
 			}
 
-			if ($input->isInteractive()) {
-				/** @var QuestionHelper $helper */
-				$helper = $this->getHelper('question');
-				$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', false);
+			$continueConversion = !$input->isInteractive(); // assume yes for --no-interaction and no otherwise.
+			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', $continueConversion);
 
-				if (!$helper->ask($input, $output, $question)) {
-					return;
-				}
+			/** @var QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+
+			if (!$helper->ask($input, $output, $question)) {
+				return;
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
