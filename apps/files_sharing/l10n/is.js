@@ -139,7 +139,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Slepping skráa (einungis innsending)",
     "Hide download" : "Fela niðurhal",
     "Password protect" : "Verja með lykilorði",
-    "Delete share" : "Eyða sameign",
     "Add another link" : "Bæta við öðrum tengli",
     "Share link" : "Deila tengli",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
