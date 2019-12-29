@@ -949,4 +949,4 @@ function x(){throw new Error("Dynamic requires are not currently supported by ro
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 i.nc=btoa(OC.requestToken),o.default.use(s.a),o.default.use(c.a,{defaultHtml:!1}),o.default.prototype.t=t,new(o.default.extend(M))({propsData:{tokens:Object(r.loadState)("settings","app_tokens"),canCreateToken:Object(r.loadState)("settings","can_create_app_token")}}).$mount("#security-authtokens")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map?v=c2f77a421510b288ca07
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=8915efa39741eecc1108
