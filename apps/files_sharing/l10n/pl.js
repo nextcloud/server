@@ -162,7 +162,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Upuszczanie pliku (tylko wysyłanie)",
     "Hide download" : "Ukryj pobieranie",
     "Password protect" : "Zabezpiecz hasłem",
-    "Delete share" : "Usuń udostępnianie",
     "Add another link" : "Dodaj kolejny link",
     "Create a new share link" : "Utwórz nowy link udostępniania",
     "Shared via link by {initiator}" : "Udostępnione przez link {initiator}",

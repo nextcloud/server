@@ -156,7 +156,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Demeti dosieron (nur alŝuto)",
     "Hide download" : "Kaŝi elŝuton",
     "Password protect" : "Protekti per pasvorto",
-    "Delete share" : "Forigi kunhavigon",
     "Add another link" : "Aldoni plian ligilon",
     "Create a new share link" : "Krei novan kunhavan ligilon",
     "Shared via link by {initiator}" : "Kunhavata per ligilo de {initiator}",

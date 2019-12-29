@@ -145,7 +145,6 @@ OC.L10N.register(
     "File drop (upload only)" : "Bestand droppen (alleen uploaden)",
     "Hide download" : "Verberg download",
     "Password protect" : "Wachtwoord beveiligen",
-    "Delete share" : "Verwijder share",
     "Add another link" : "Nog een  link toevoegen ",
     "Share link" : "Delen link",
     "Resharing is not allowed" : "Verder delen niet toegestaan",
