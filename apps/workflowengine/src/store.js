@@ -114,7 +114,9 @@ const store = new Vuex.Store({
 			context.commit('removeRule', rule)
 		},
 		async pushUpdateRule(context, rule) {
-			await confirmPassword()
+			if (context.state.scope === 0) {
+				await confirmPassword()
+			}
 			let result
 			if (rule.id < 0) {
 				result = await axios.post(getApiUrl(''), rule)
