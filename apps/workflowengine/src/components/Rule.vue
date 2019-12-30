@@ -10,6 +10,7 @@
 				<Check :check="check"
 					:rule="rule"
 					@update="updateRule"
+					@validate="validate"
 					@remove="removeCheck(check)" />
 			</p>
 			<p>
@@ -77,7 +78,6 @@ export default {
 			checks: [],
 			error: null,
 			dirty: this.rule.id < 0,
-			checking: false,
 			originalRule: null,
 		}
 	},
@@ -93,7 +93,7 @@ export default {
 					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
-			if (!this.dirty || this.checking) {
+			if (!this.dirty) {
 				return { title: t('workflowengine', 'Active'), class: 'icon icon-checkmark' }
 			}
 			return { title: t('workflowengine', 'Save'), class: 'icon-confirm-white primary' }
@@ -112,22 +112,17 @@ export default {
 			this.$set(this.rule, 'operation', operation)
 			await this.updateRule()
 		},
-		async updateRule() {
-			this.checking = true
+		validate(state) {
+			this.error = null
+			this.$store.dispatch('updateRule', this.rule)
+		},
+		updateRule() {
 			if (!this.dirty) {
 				this.dirty = true
 			}
-			try {
-				// TODO: add new verify endpoint
-				// let result = await axios.post(OC.generateUrl(`/apps/workflowengine/operations/test`), this.rule)
-				this.error = null
-				this.checking = false
-				this.$store.dispatch('updateRule', this.rule)
-			} catch (e) {
-				console.error('Failed to update operation', e)
-				this.error = e.response.ocs.meta.message
-				this.checking = false
-			}
+
+			this.error = null
+			this.$store.dispatch('updateRule', this.rule)
 		},
 		async saveRule() {
 			try {
