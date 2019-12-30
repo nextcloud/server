@@ -62,10 +62,6 @@ class Application extends \OCP\AppFramework\App {
 					class_exists(Template::class, true);
 				}
 
-				style(self::APP_ID, [
-					'admin',
-				]);
-
 				script('core', [
 					'files/fileinfo',
 					'files/client',
