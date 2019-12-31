@@ -75,6 +75,11 @@
 	}
 }
 
+@mixin header-menu-height() {
+	min-height: calc(44px * 1.5); // show at least 1.5 entries
+	max-height: calc(100vh - #{$header-height} * 2);
+}
+
 #header {
 	/* Header menu */
 	$header-menu-entry-height: 44px;
@@ -88,13 +93,10 @@
 		z-index: 2000;
 		position: absolute;
 		max-width: 350px;
-		min-height: calc(44px * 1.5); // show at least 1.5 entries
-		max-height: calc(100vh - #{$header-height} * 2);
+		@include header-menu-height();
 		right: 5px; // relative to parent
 		top: $header-height;
 		margin: 0;
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -113,9 +115,17 @@
 			right: 10px;
 		}
 
+		#apps > ul,
+		& > div,
+		& > ul {
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			@include header-menu-height();
+		}
+
 		/* Use by the apps menu and the settings right menu */
 		#apps > ul,
-		&.settings-menu {
+		&.settings-menu > ul {
 			li {
 				a {
 					display: inline-flex;
