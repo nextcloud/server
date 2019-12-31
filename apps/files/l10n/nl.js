@@ -137,6 +137,7 @@ OC.L10N.register(
     "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepteren",
+    "Reject" : "Afwijzen",
     "File Management" : "Bestandsbeheer",
     "Change" : "Pas aan",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
