@@ -125,7 +125,7 @@ OC.L10N.register(
     "new" : "nowy",
     "_download %n file_::_download %n files_" : ["pobrano %n plik","pobrano %n pliki","pobrano %n plików","pobrano %n plików"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "Trwa aktualizacja. W niektórych przypadkach, opuszczenie tej strony może przerwać ten proces.",
-    "Update to {version}" : "Uaktualnij do {version}",
+    "Update to {version}" : "Aktualizacja do {version}",
     "An error occurred." : "Wystąpił błąd.",
     "Please reload the page." : "Proszę odświeżyć stronę.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizacja nie powiodła się. Aby uzyskać więcej informacji, <a href=\"{url}\">zapoznaj się z naszym postem na forum</a> dotyczącym tego problemu.",

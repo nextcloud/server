@@ -204,6 +204,7 @@ OC.L10N.register(
     "Disable user" : "Gebruiker uitschakelen",
     "Enable user" : "Inschakelen gebruiker",
     "Resend welcome email" : "Verstuur verwelkomings e-mail opnieuw",
+    "Remote wipe of devices" : "Op afstand leegmaken toestellen",
     "Wipe {userid}'s devices" : "Wis {userid}'s toestel",
     "Cancel" : "Annuleren",
     "Account deletion" : "Accountverwijdering",
