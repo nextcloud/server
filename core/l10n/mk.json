@@ -169,7 +169,7 @@
     "Authentication required" : "Потребна е автентификација",
     "This action requires you to confirm your password" : "За оваа акција потребно е да ја потврдите вашата лозинка",
     "Confirm" : "Потврди",
-    "Failed to authenticate, try again" : "Грешна автентификација, обидете се повторно",
+    "Failed to authenticate, try again" : "Неуспешна автентификација, обидете се повторно",
     "seconds ago" : "пред неколку секунди",
     "Connection to server lost" : "Изгубена е врската со серверот",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Проблем при вчитување на страницата, превчитување за %n секунда","Проблем при вчитување на страницата, превчитување за %n секунди"],

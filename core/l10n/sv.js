@@ -326,6 +326,7 @@ OC.L10N.register(
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dina filer är krypterade. Det kommer inte att finnas något sätt att få tillbaka dina data efter att ditt lösenord om ditt lösenord återställs..<br />Om du är osäker på hur du ska göra, vänligen kontakta din administratör innan du fortsätter..<br />Är du verkligen säker på att du vill fortsätta?",
     "Sending email …" : "Skickar epost ...",
     "{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version." : "{name} under version {version} är installerad, för stabilitet och prestanda rekommenderar vi uppdatering till en nyare {name} version.",
+    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Åtkomst till webbplatsen osäkert via HTTP. Du rekommenderas starkt att ställa in din server att kräva HTTPS istället, som beskrivs i <a href=\"{docUrl}\">säkerhetstips ↗</a>.",
     "Shared" : "Delad",
     "Shared with" : "Delad med",
     "Shared by" : "Delad av",
