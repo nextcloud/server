@@ -1462,6 +1462,10 @@ class ShareAPIController extends OCSController {
 	 * @return bool
 	 */
 	private function hasResharingRights($viewer, $node): bool {
+		if ($viewer === $node->getOwner()->getUID()) {
+			return true;
+		}
+
 		foreach ([$node, $node->getParent()] as $node) {
 			$shares = $this->getSharesFromNode($viewer, $node, true);
 			foreach ($shares as $share) {
