@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "チェック %s は無効です",
     "Check #%s does not exist" : "チェック #%s は存在しません",
     "Check %s is invalid or does not exist" : "%sのチェックは無効か存在しません",
+    "Flow" : "Flow",
     "Images" : "画像",
     "No results" : "該当なし",
     "%s (invisible)" : "%s (不可視)",
