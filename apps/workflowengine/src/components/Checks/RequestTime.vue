@@ -50,6 +50,9 @@ export default {
 			},
 		}
 	},
+	mounted() {
+		this.validate()
+	},
 	methods: {
 		updateInternalValue(value) {
 			try {
@@ -66,17 +69,23 @@ export default {
 			}
 		},
 		validate() {
-			return this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
+			this.valid = this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
 				&& this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
 				&& moment.tz.zone(this.newValue.timezone) !== null
+			if (this.valid) {
+				this.$emit('valid')
+			} else {
+				this.$emit('invalid')
+			}
+			return this.valid
 		},
 		update() {
+			if (this.newValue.timezone === null) {
+				this.newValue.timezone = moment.tz.guess()
+			}
 			if (this.validate()) {
 				const output = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
 				this.$emit('input', output)
-				this.valid = true
-			} else {
-				this.valid = false
 			}
 		},
 	},

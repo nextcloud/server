@@ -25,7 +25,7 @@
 			class="option"
 			@input="updateCheck"
 			@valid="(valid=true) && validate()"
-			@invalid="(valid=false) && validate()" />
+			@invalid="!(valid=false) && validate()" />
 		<input v-else
 			v-model="check.value"
 			type="text"
@@ -111,7 +111,7 @@ export default {
 		if (this.check.class === null) {
 			this.$nextTick(() => this.$refs.checkSelector.$el.focus())
 		}
-		this.check.invalid = !this.validate()
+		this.validate()
 	},
 	methods: {
 		showDelete() {
@@ -124,7 +124,8 @@ export default {
 			if (this.currentOption && this.currentOption.validate) {
 				this.valid = !!this.currentOption.validate(this.check)
 			}
-			return this.valid
+			this.check.invalid = !this.valid
+			this.$emit('validate', this.valid)
 		},
 		updateCheck() {
 			const matchingOperator = this.operators.findIndex((operator) => this.check.operator === operator.operator)
@@ -134,7 +135,7 @@ export default {
 			this.check.class = this.currentOption.class
 			this.check.operator = this.currentOperator.operator
 
-			this.check.invalid = !this.validate()
+			this.validate()
 
 			this.$emit('update', this.check)
 		},
