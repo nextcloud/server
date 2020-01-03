@@ -77,7 +77,12 @@ class TransferOwnership extends Command {
 				InputOption::VALUE_REQUIRED,
 				'selectively provide the path to transfer. For example --path="folder_name"',
 				''
-			);
+			)->addOption(
+				'move',
+				null,
+				InputOption::VALUE_NONE,
+				'move data from source user to root directory of destination user, which must be empty'
+		);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -99,7 +104,8 @@ class TransferOwnership extends Command {
 				$sourceUserObject,
 				$destinationUserObject,
 				ltrim($input->getOption('path'), '/'),
-				$output
+				$output,
+				$input->getOption('move') === true
 			);
 		} catch (TransferOwnershipException $e) {
 			$output->writeln("<error>" . $e->getMessage() . "</error>");
