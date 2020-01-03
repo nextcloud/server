@@ -125,7 +125,7 @@ class Setting extends Base {
 	protected function checkInput(InputInterface $input) {
 		$uid = $input->getArgument('uid');
 		if (!$input->getOption('ignore-missing-user') && !$this->userManager->userExists($uid)) {
-			throw new \InvalidArgumentException('The user "' . $uid . '" does not exists.');
+			throw new \InvalidArgumentException('The user "' . $uid . '" does not exist.');
 		}
 
 		if ($input->getArgument('key') === '' && $input->hasParameterOption('--default-value')) {
