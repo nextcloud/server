@@ -1,4 +1,4 @@
-<div class="followupsection">
+<div class="section">
 	<p>
 		<?php print_unescaped(str_replace(
 			[
