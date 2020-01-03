@@ -71,12 +71,16 @@ class OwnershipTransferService {
 	 * @param IUser $destinationUser
 	 * @param string $path
 	 *
+	 * @param OutputInterface|null $output
+	 * @param bool $move
 	 * @throws TransferOwnershipException
+	 * @throws \OC\User\NoUserException
 	 */
 	public function transfer(IUser $sourceUser,
 							 IUser $destinationUser,
 							 string $path,
-							 ?OutputInterface $output = null): void {
+							 ?OutputInterface $output = null,
+							 bool $move = false): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
 		$destinationUid = $destinationUser->getUID();
@@ -87,8 +91,12 @@ class OwnershipTransferService {
 			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
 		}
 
-		$date = date('Y-m-d H-i-s');
-		$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+		if ($move) {
+			$finalTarget = "$destinationUid/files/";
+		} else {
+			$date = date('Y-m-d H-i-s');
+			$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+		}
 
 		// setup filesystem
 		Filesystem::initMountPoints($sourceUid);
@@ -98,6 +106,11 @@ class OwnershipTransferService {
 		if (!($view->is_dir($sourcePath) || $view->is_file($sourcePath))) {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
+
+		if ($move && (!$view->is_dir($finalTarget) || count($view->getDirectoryContent($finalTarget)) > 0)) {
+			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
+		}
+
 
 		// analyse source folder
 		$this->analyse(
