@@ -87,7 +87,7 @@ class OwnershipTransferService {
 		$sourcePath = rtrim($sourceUid . '/files/' . $path, '/');
 
 		// target user has to be ready
-		if (!$this->encryptionManager->isReadyForUser($destinationUid)) {
+		if ($destinationUser->getLastLogin() === 0 || !$this->encryptionManager->isReadyForUser($destinationUid)) {
 			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
 		}
 
