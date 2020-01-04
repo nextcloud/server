@@ -113,7 +113,7 @@ OC.L10N.register(
     "Nextcloud settings" : "Nextcloud параметри",
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторна автентикација може да биде задолжителна за сите\tкорисници и одредени групи. Доколку корисниците немаат поставено провајдер за двофакторна автентикација, нема да можат да се најават на системот.",
     "Enforce two-factor authentication" : "Задолжителна двофакторна автентикација",
-    "Limit to groups" : "Огранилчвање на групи",
+    "Limit to groups" : "Ограничување на групи",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Задолжителна двофакторна автентикација може да се постави само за одредени групи.",
     "Two-factor authentication is enforced for all\tmembers of the following groups." : "Двофакторна автентикација е задолжителна за сите\tчленовите во следните групи.",
     "Enforced groups" : "Задолжителни групи",
