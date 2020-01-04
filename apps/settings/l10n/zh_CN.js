@@ -99,7 +99,7 @@ OC.L10N.register(
     "Your %s account was created" : "您的账号 %s 已创建",
     "Welcome aboard" : "欢迎使用",
     "Welcome aboard %s" : "%s，欢迎使用",
-    "Welcome to your %s account, you can add, protect, and share your data." : "欢迎使用您的 %s 账号，您可以添加、保护和共享您的数据。",
+    "Welcome to your %s account, you can add, protect, and share your data." : "欢迎使用您的账号 %s ，您可以添加、保护和共享您的数据。",
     "Your username is: %s" : "您的用户名是：%s",
     "Set your password" : "设置您的密码",
     "Go to %s" : "访问 %s",

@@ -32,6 +32,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Check %s is invalid or does not exist" : "Έλεγχος %s δεν είναι έγκυρος ή δεν υπάρχει",
+    "Flow" : "Flow",
     "e.g. httpd/unix-directory" : "π.χ. httpd/unix-directory",
     "Images" : "Εικόνες",
     "PDF documents" : "Έγγραφα PDF",

@@ -21,6 +21,6 @@ OC.L10N.register(
     "Provides multiple accessibilities options to ease your use of nextcloud" : "Nextcloud 사용을 편리하게 하는 여러 접근성 옵션",
     "Themes" : "테마",
     "Fonts" : "글꼴",
-    "enabled" : "활성화"
+    "enabled" : "활성화됨"
 },
 "nplurals=1; plural=0;");
