@@ -26,7 +26,7 @@
     "Saving..." : "正在保存...",
     "Save" : "保存",
     "Empty response from the server" : "服务器响应为空",
-    "Couldn't access. Please log out and in again to activate this mount point" : "无法访问！请注销并重新登录以激活挂载点。",
+    "Couldn't access. Please log out and in again to activate this mount point" : "无法访问。 请登出并再次登录以激活此挂载点",
     "Couldn't get the information from the remote server: {code} {type}" : "无法从远程服务器获取信息：{code} {type}",
     "Couldn't get the list of external mount points: {type}" : "无法获取外部挂载点列表：{type}",
     "There was an error with message: " : "错误信息：",
