@@ -80,7 +80,7 @@
     "Verify settings and count the groups" : "验证设置和统计分组数",
     "When logging in, %s will find the user based on the following attributes:" : "登录时，%s将查找基于以下属性的用户：",
     "LDAP / AD Username:" : "LDAP/AD 用户名：",
-    "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "允许登录 LDAP/AD 用户名，这是“uid”或“sAMAccountName”，并将被检测到。",
+    "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "允许使用 LDAP / AD 用户名登录，该用户名可以是 “uid” 或 “sAMAccountName” 并将被检测到。",
     "LDAP / AD Email Address:" : "LDAP/AD 邮箱地址：",
     "Allows login against an email attribute. \"mail\" and \"mailPrimaryAddress\" allowed." : "允许根据电子邮件属性登录。 允许“mail”和“mailPrimaryAddress”。",
     "Other Attributes:" : "其他属性：",
