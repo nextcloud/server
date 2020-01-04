@@ -14,12 +14,18 @@
 @mixin faded-background-image {
 	@if ($color-primary == #0082C9) {
 		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+
+		@if($has-custom-background == true) {
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 	} @else {
 		@include faded-background;
 		background-size: contain;
 	}
 }
 
+$has-custom-background: variable_exists('theming-background-mime') and $theming-background-mime != '';
 $has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
 $invert: luma($color-primary) > 0.6;
 
