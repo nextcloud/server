@@ -132,7 +132,7 @@ export default {
 				return t('files_sharing', 'Name, federated cloud ID or email address …')
 			}
 
-			return 	t('files_sharing', 'Name …')
+			return t('files_sharing', 'Name …')
 		},
 
 		isValidQuery() {
@@ -184,6 +184,20 @@ export default {
 				lookup = true
 			}
 
+			const shareType = [
+				this.SHARE_TYPES.SHARE_TYPE_USER,
+				this.SHARE_TYPES.SHARE_TYPE_GROUP,
+				this.SHARE_TYPES.SHARE_TYPE_REMOTE,
+				this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP,
+				this.SHARE_TYPES.SHARE_TYPE_CIRCLE,
+				this.SHARE_TYPES.SHARE_TYPE_ROOM,
+				this.SHARE_TYPES.SHARE_TYPE_GUEST,
+			]
+
+			if (OC.getCapabilities()['files_sharing']['public']['enabled'] === true) {
+				shareType.push(this.SHARE_TYPES.SHARE_TYPE_EMAIL)
+			}
+
 			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
 				params: {
 					format: 'json',
@@ -191,6 +205,7 @@ export default {
 					search,
 					lookup,
 					perPage: this.config.maxAutocompleteResults,
+					shareType,
 				},
 			})
 

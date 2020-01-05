@@ -179,6 +179,7 @@ export default class Config {
 	 */
 	get isMailShareAllowed() {
 		return OC.appConfig.shareByMailEnabled !== undefined
+			&& OC.getCapabilities()['files_sharing']['public']['enabled'] === true
 	}
 
 	/**
