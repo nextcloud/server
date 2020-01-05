@@ -2,6 +2,7 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "タグ",
+    "Tag name is empty" : "タグ名が空です",
     "Update" : "更新",
     "Create" : "作成",
     "Select tag…" : "タグを選択...",

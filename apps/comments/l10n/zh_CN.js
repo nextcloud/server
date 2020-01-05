@@ -12,7 +12,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "文件的<strong>评论</strong>",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了您，此评论已被删除",
     "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的评论中提到了您",
-    "Files app plugin to add comments to files" : "文件应用程序插件可向文件添加注释",
+    "Files app plugin to add comments to files" : "文件 应用插件可向文件添加注释",
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
     "New comment …" : "新评论 ...",

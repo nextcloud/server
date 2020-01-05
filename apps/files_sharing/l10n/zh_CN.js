@@ -212,7 +212,7 @@ OC.L10N.register(
     "Upload files to %s" : "上传文件到 %s",
     "Note" : "备注",
     "Select or drop files" : "选择或删除文件",
-    "Uploading files…" : "上传文件... ",
+    "Uploading files…" : "正在上传文件... ",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "could not delete share" : "无法删除共享"
