@@ -58,7 +58,7 @@
     "nextcloud-router": "0.0.9",
     "nextcloud-vue": "^0.12.8",
     "nextcloud-vue-collections": "^0.7.1",
-    "p-limit": "^2.2.1",
+    "p-limit": "^2.2.2",
     "p-queue": "^6.2.1",
     "query-string": "^5.1.1",
     "select2": "3.5.1",
