@@ -198,13 +198,12 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
 		}
 
-		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
-			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
-			sort($shareTypes);
+		if ($shareType !== null && is_array($shareType)) {
+			$shareTypes = array_intersect($shareTypes, $shareType);
 		} else if (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
-			sort($shareTypes);
 		}
+		sort($shareTypes);
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
