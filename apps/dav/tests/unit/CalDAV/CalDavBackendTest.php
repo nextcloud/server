@@ -900,8 +900,10 @@ EOD;
 			'{http://owncloud.org/ns}owner-principal' => $isShared ? 'user2' : 'user1',
 		];
 
+		$searchOptions = ['timerange' => ['start' => new DateTime('2013-09-12 13:00:00'), 'end' => new DateTime('2013-09-12 14:00:00')]];
+
 		$result = $this->backend->search($calendarInfo, 'Test',
-			['SUMMARY', 'LOCATION', 'ATTENDEE'], [], null, null);
+			['SUMMARY', 'LOCATION', 'ATTENDEE'], $searchOptions, null, null);
 
 		$this->assertCount($count, $result);
 	}
