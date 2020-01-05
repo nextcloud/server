@@ -1553,12 +1553,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if (isset($options['timerange'])) {
 			if (isset($options['timerange']['start'])) {
 				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
 
 			}
 			if (isset($options['timerange']['end'])) {
 				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp())));
 			}
 		}
 
