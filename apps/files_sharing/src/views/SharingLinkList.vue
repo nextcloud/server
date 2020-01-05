@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<ul class="sharing-link-list">
+	<ul class="sharing-link-list" v-if="canLinkShare">
 		<!-- If no link shares, show the add link default entry -->
 		<SharingEntryLink v-if="!hasLinkShares && canReshare"
 			:can-reshare="canReshare"
@@ -73,6 +73,12 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	data() {
+		return {
+			canLinkShare: OC.getCapabilities()['files_sharing']['public']['enabled'],
+		}
 	},
 
 	computed: {
