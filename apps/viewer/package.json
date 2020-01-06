@@ -71,7 +71,7 @@
     "cypress": "^3.8.1",
     "cypress-image-snapshot": "^3.1.1",
     "eslint": "^5.16.0",
-    "eslint-config-nextcloud": "^0.1.0",
+    "eslint-config-nextcloud": "^0.1.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.12.0",
     "eslint-loader": "^3.0.3",
