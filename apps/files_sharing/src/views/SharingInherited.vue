@@ -25,7 +25,8 @@
 		<!-- Main collapsible entry -->
 		<SharingEntrySimple
 			class="sharing-entry__inherited"
-			:title="mainTitle">
+			:title="mainTitle"
+			:subtitle="subTitle">
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
@@ -87,6 +88,11 @@ export default {
 		},
 		mainTitle() {
 			return t('files_sharing', 'Others with access')
+		},
+		subTitle() {
+			return (this.showInheritedShares && this.shares.length === 0)
+				? t('files_sharing', 'No other users with access found')
+				: ''
 		},
 		toggleTooltip() {
 			return this.fileInfo.type === 'dir'
