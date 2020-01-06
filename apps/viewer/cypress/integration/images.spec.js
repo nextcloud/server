@@ -66,10 +66,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	})
-
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
@@ -111,10 +107,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	})
-
 	it('Have the proper height and width values', function() {
 		// not using should('have.css'), we want the inline styling
 		cy.get('#viewer-content .modal-container img.active')
@@ -141,10 +133,6 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
 	})
 
 	it('Have the proper height and width values', function() {
@@ -175,10 +163,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	})
-
 	it('Have the proper height and width values', function() {
 		// not using should('have.css'), we want the inline styling
 		cy.get('#viewer-content .modal-container img.active')
@@ -205,10 +189,6 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
 	})
 
 	it('Have the proper height and width values', function() {
