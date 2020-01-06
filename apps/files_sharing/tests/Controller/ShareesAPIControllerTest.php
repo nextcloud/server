@@ -271,9 +271,12 @@ class ShareesAPIControllerTest extends TestCase {
 			->setMethods(['isRemoteSharingAllowed', 'shareProviderExists', 'isRemoteGroupSharingAllowed'])
 			->getMock();
 
+		$expectedShareTypes = $shareTypes;
+		sort($expectedShareTypes);
+
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
-			->with($search, $shareTypes, $this->anything(), $perPage, $perPage * ($page -1))
+			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page -1))
 			->willReturn([[], false]);
 
 		$sharees->expects($this->any())
@@ -398,7 +401,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
 
-	
+
 	public function testSearchNoItemType() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
 		$this->expectExceptionMessage('Missing itemType');
