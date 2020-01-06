@@ -800,7 +800,7 @@ class Manager implements IManager {
 						$this->sendMailNotification(
 							$l,
 							$share->getNode()->getName(),
-							$this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]),
+							$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
 							$share->getSharedBy(),
 							$emailAddress,
 							$share->getExpirationDate()

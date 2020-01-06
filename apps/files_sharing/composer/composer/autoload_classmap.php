@@ -23,6 +23,7 @@ return array(
     'OCA\\Files_Sharing\\Collaboration\\ShareRecipientSorter' => $baseDir . '/../lib/Collaboration/ShareRecipientSorter.php',
     'OCA\\Files_Sharing\\Command\\CleanupRemoteStorages' => $baseDir . '/../lib/Command/CleanupRemoteStorages.php',
     'OCA\\Files_Sharing\\Command\\ExiprationNotification' => $baseDir . '/../lib/Command/ExiprationNotification.php',
+    'OCA\\Files_Sharing\\Controller\\AcceptController' => $baseDir . '/../lib/Controller/AcceptController.php',
     'OCA\\Files_Sharing\\Controller\\DeletedShareAPIController' => $baseDir . '/../lib/Controller/DeletedShareAPIController.php',
     'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => $baseDir . '/../lib/Controller/ExternalSharesController.php',
     'OCA\\Files_Sharing\\Controller\\PublicPreviewController' => $baseDir . '/../lib/Controller/PublicPreviewController.php',
