@@ -72,6 +72,6 @@ $noProviders = empty($_['providers']);
 	</p>
 	<?php endif; ?>
 	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-		<?php p($l->t('Cancel log in')) ?>
+		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>
