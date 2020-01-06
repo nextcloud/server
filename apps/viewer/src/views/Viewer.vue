@@ -168,6 +168,9 @@ export default {
 		file() {
 			return this.Viewer.file
 		},
+		files() {
+			return this.Viewer.files
+		},
 	},
 
 	watch: {
@@ -197,6 +200,15 @@ export default {
 			} else {
 				// path is empty, closing!
 				this.close()
+			}
+		},
+
+		files: function(fileList) {
+			// the files list changed, let's update the current opened index
+			const currentIndex = fileList.findIndex(file => file.basename === this.currentFile.basename)
+			if (currentIndex > -1) {
+				this.currentIndex = currentIndex
+				console.debug('The files list changed, new current file index is', currentIndex)
 			}
 		},
 	},
@@ -273,7 +285,14 @@ export default {
 
 				// check if part of a group, if so retrieve full files list
 				const group = this.mimeGroups[mime]
-				if (group) {
+				if (this.files && this.files.length > 0) {
+					console.debug('A files list have been provided. No folder content will be fetched.')
+					// we won't sort files here, let's use the order the array has
+					this.fileList = this.files
+
+					// store current position
+					this.currentIndex = this.fileList.findIndex(file => file.basename === fileName)
+				} else if (group) {
 					const mimes = this.mimeGroups[group]
 						? this.mimeGroups[group]
 						: [mime]
