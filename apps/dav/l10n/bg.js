@@ -44,6 +44,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Промяна на календарно <strong>събитие</strong>",
     "A calendar <strong>todo</strong> was modified" : "Промяна на календарна <strong>задача</strong>",
     "Contact birthdays" : "Рождени дни на контакти",
+    "%s (%s ago)" : "%s (преди %s)",
     "Hello %s," : "Здравейте %s,",
     "Link:" : "Връзка:",
     "Accept" : "Приемане",
