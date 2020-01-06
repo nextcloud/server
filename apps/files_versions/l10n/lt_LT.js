@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_versions",
     {
     "Versions" : "Versijos",
-    "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitų"],
+    "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitas"],
     "Restore" : "Atkurti",
     "No other versions available" : "Nėra kitų prieinamų versijų"
 },
