@@ -33,7 +33,7 @@
 		:has-next="hasNext"
 		:title="currentFile.basename"
 		:enable-swipe="canSwipe"
-		:size="isMobile || isFullscreen ? 'full' : 'large'"
+		:size="isMobile ? 'full' : 'large'"
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
 		@close="close"
 		@previous="previous"

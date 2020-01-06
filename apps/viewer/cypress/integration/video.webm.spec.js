@@ -57,10 +57,6 @@ describe('Open video.webm in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	})
-
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'video.webm')
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
