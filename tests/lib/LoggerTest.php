@@ -71,7 +71,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logs[]= "$level $message";
 	}
 
-	public function userAndPasswordData() {
+	public function userAndPasswordData(): array {
 		return [
 			['mySpecialUsername', 'MySuperSecretPassword'],
 			['my-user', '324324()#ä234'],
@@ -87,7 +87,7 @@ class LoggerTest extends TestCase implements IWriter {
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectlogin($user, $password) {
+	public function testDetectlogin(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -100,16 +100,16 @@ class LoggerTest extends TestCase implements IWriter {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectcheckPassword($user, $password) {
+	public function testDetectcheckPassword(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -122,16 +122,16 @@ class LoggerTest extends TestCase implements IWriter {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectvalidateUserPass($user, $password) {
+	public function testDetectvalidateUserPass(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -144,16 +144,16 @@ class LoggerTest extends TestCase implements IWriter {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetecttryLogin($user, $password) {
+	public function testDetecttryLogin(string $user, string $password): void {
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -166,16 +166,16 @@ class LoggerTest extends TestCase implements IWriter {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 
 	/**
 	 * @dataProvider userAndPasswordData
 	 */
-	public function testDetectclosure($user, $password) {
+	public function testDetectclosure(string $user, string $password): void {
 		$a = function($user, $password) {
 			throw new \Exception('test');
 		};
@@ -197,9 +197,9 @@ class LoggerTest extends TestCase implements IWriter {
 			unset($log[1]); // Remove `testDetectclosure(` because we are not testing this here, but the closure on stack trace 0
 			$logLine = implode('\n', $log);
 
-			$this->assertNotContains($user, $logLine);
-			$this->assertNotContains($password, $logLine);
-			$this->assertContains('*** sensitive parameters replaced ***', $logLine);
+			$this->assertStringNotContainsString($user, $logLine);
+			$this->assertStringNotContainsString($password, $logLine);
+			$this->assertStringContainsString('*** sensitive parameters replaced ***', $logLine);
 		}
 	}
 }
