@@ -101,7 +101,7 @@ const genFileInfo = function(obj) {
 		const data = obj[key]
 
 		// flatten object if any
-		if (!!data && typeof data === 'object') {
+		if (!!data && typeof data === 'object' && !Array.isArray(data)) {
 			Object.assign(fileInfo, genFileInfo(data))
 		} else {
 			// format key and add it to the fileInfo
