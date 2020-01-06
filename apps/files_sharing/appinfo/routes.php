@@ -49,7 +49,12 @@ return [
 			'name' => 'Settings#setDefaultAccept',
 			'url' => '/settings/defaultAccept',
 			'verb' => 'PUT',
-		]
+		],
+		[
+			'name' => 'Accept#accept',
+			'url' => '/accept/{shareId}',
+			'verb' => 'GET',
+		],
 	],
 	'ocs' => [
 		/*
