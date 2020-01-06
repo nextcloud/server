@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019, Fabian Dreßler <nudelsalat@clouz.de>
  *
  * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file. 
+ * See the COPYING-README file.
  */
 
 /* SETTINGS */
@@ -78,8 +78,7 @@
 			position: -webkit-sticky;
 			position: sticky;
 			// header + breadcrumbs
-			// 44px coming from #controls in core/css/styles.scss
-			top: $header-height + 44px;
+			top: $header-height;
 			// under breadcrumbs, over file list
 			z-index: 55;
 			display: block;
