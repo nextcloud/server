@@ -298,7 +298,6 @@
     "Set up two-factor authentication" : "Agordi dufazan aŭtentigon",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dufaza aŭtentigo estas ebligita, sed ĝi ne estis agordita por via konto. Uzu unu el viaj rezervkodoj por ensaluti, aŭ kontaktu vian administranton por helpo.",
     "Use backup code" : "Uzi rezervkodon",
-    "Cancel log in" : "Nuligi ensaluton",
     "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Plibonigita sekurigo estas devigata por via konto. Elektu provizanton agordotan:",
     "Error while validating your second factor" : "Eraro dum validigo de via dua fazo",
@@ -412,6 +411,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Kiam oni uzas la surtablan programon por sinkronigi la dosierojn, SQLite-uzo estas malrekomendita.",
     "Wrong password." : "Neĝusta pasvorto.",
     "New Password" : "Nova pasvorto",
+    "Cancel log in" : "Nuligi ensaluton",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "La ligilo por restarigi vian pasvorton estis sendita al via retpoŝtadreso. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon.<br>Se ĝi ne estas tie, pridemandu vian administranton.",
     "Search globally" : "Serĉi ĉie",
     "Your client should now be connected! You can close this window." : "Via kliento estas konektita! Vi povas fermi tiun fenestron."

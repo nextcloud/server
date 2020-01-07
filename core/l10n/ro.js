@@ -228,7 +228,7 @@ OC.L10N.register(
     "Two-factor authentication" : "Autentificare în doi-factori",
     "Set up two-factor authentication" : "Setează autentificarea cu doi factori",
     "Use backup code" : "Folosește un cod de backup",
-    "Cancel log in" : "Anulează conectarea",
+    "Cancel login" : "Anulează autentificarea",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori",
     "Error while validating your second factor" : "Eroare la validarea celui de-al doilea factor",
     "Access through untrusted domain" : "Acces printr-un domeniu nesigur",
@@ -336,6 +336,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "În special atunci când este folosit clientul desktop pentru sincronizarea fișierelor, utilizarea SQLite este nerecomandată.",
     "Wrong password." : "Parolă greșită.",
     "New Password" : "Noua Parolă",
+    "Cancel log in" : "Anulează conectarea",
     "Search globally" : "Caută global"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

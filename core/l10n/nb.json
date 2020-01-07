@@ -282,7 +282,7 @@
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "To-faktor autentisering er aktivert men er ikke satt opp for din konto. Kontakt administrator for hjelp.",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "To-faktor autentisering er aktivert men er ikke satt opp for din konto. Bruk en av dine sikkerhet koder for å logge inn eller kontakt administrator for hjelp.",
     "Use backup code" : "Bruker sikkerhetskopi kode",
-    "Cancel log in" : "Avbryt innlogging",
+    "Cancel login" : "Avbryt innlogging",
     "Error while validating your second factor" : "Feil under validering av din andre faktor",
     "Access through untrusted domain" : "Nå gjennom ubetrodd domene",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Kontakt din administrator. Hvis du er en administrator, sett opp innstillingen \"trusted_domains\" i config/config.php som eksemplet i config/config.sample.php.",
@@ -394,6 +394,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite er spesielt frarådet om man bruker skrivebordsklienten til filsynkronisering",
     "Wrong password." : "Feil passord.",
     "New Password" : "Nytt passord",
+    "Cancel log in" : "Avbryt innlogging",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Vi har sendt e-post for tilbakestilling av til e-postadressen for kontoen. Hvis du ikke mottar denne innen rimelig tid, må du sjekke mappene for spam/søppelpost.<br>Hvis den ikke er der, spør din lokale administrator om hjelp.",
     "Search globally" : "Søk globalt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

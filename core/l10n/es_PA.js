@@ -218,7 +218,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. ",
     "Two-factor authentication" : "Autenticación de dos-factores",
     "Use backup code" : "Usar código de respaldo",
-    "Cancel log in" : "Cancelar inicio de sesión",
     "Error while validating your second factor" : "Se presentó un error al validar tu segundo factor",
     "Access through untrusted domain" : "Accesa a través de un dominio no de confianza",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor contacta a tu adminsitrador. Si tu eres un administrador, edita la propiedad \"trusted_domains\" en el archivo config/config.php como en el ejemplo config.sample.php.",
@@ -303,6 +302,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Para instalaciones más grandes te recomendamos elegir un backend de base de datos diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLiite es especialmente desalentado al usar el cliente de escritorio para sincrionizar. ",
     "Wrong password." : "Contraseña inválida. ",
-    "New Password" : "Nueva Contraseña"
+    "New Password" : "Nueva Contraseña",
+    "Cancel log in" : "Cancelar inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

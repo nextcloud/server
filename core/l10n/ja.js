@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "二要素認証を設定",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "二要素認証が強制されていますが、アカウントに設定されていません。 バックアップコードを使用してログインするか、不明点は管理者に連絡してください。",
     "Use backup code" : "バックアップコードを使用する",
-    "Cancel log in" : "ログインをキャンセルする",
+    "Cancel login" : "ログインをキャンセル",
     "Setup two-factor authentication" : "二要素認証を設定",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "アカウントのセキュリティ強化が必要です。使用する認証手段を選択してください。",
     "Error while validating your second factor" : "第二要素の検証でエラーが発生しました",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特にデスクトップクライアントをファイル同期に使用する場合，SQLiteは非推奨です.",
     "Wrong password." : "パスワードが間違っています。",
     "New Password" : "新しいパスワード",
+    "Cancel log in" : "ログインをキャンセルする",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするためのメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にメールを受け取れない場合は、スパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合は、サーバー管理者に確認してください。",
     "Search globally" : "グローバルに検索",
     "Your client should now be connected! You can close this window." : "あなたのクライアントは接続されているはずです。 このウィンドウは閉じても構いません。"

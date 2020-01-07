@@ -192,7 +192,6 @@ OC.L10N.register(
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
     "Use backup code" : "از کد پشتیبان استفاده شود",
-    "Cancel log in" : "لغو ورود",
     "App update required" : "نیاز به بروزرسانی برنامه وجود دارد",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:",
     "The theme %s has been disabled." : "قالب %s غیر فعال شد.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "SQLite will be used as database." : "SQLite به عنوان پایگاه‎داده استفاده خواهد شد.",
     "For larger installations we recommend to choose a different database backend." : "برای نصب و راه اندازی بزرگتر توصیه می کنیم یک پایگاه داده متفاوتی را انتخاب کنید.",
     "Wrong password." : "گذرواژه اشتباه.",
-    "New Password" : "رمزعبور جدید"
+    "New Password" : "رمزعبور جدید",
+    "Cancel log in" : "لغو ورود"
 },
 "nplurals=2; plural=(n > 1);");

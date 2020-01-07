@@ -292,7 +292,7 @@
     "Set up two-factor authentication" : "Ställ in tvåfaktorsautentisering",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tvåfaktorsautentisering krävs men har inte konfigurerats för ditt konto. Använd en av dina säkerhetskoder för att logga in eller kontakta din administratör för hjälp.",
     "Use backup code" : "Använd reservkod",
-    "Cancel log in" : "Avbryt inloggning",
+    "Cancel login" : "Avbryt inloggning",
     "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Förbättrad säkerhet är aktiverad för ditt konto. Välj vilken leverantör du vill konfigurera:",
     "Error while validating your second factor" : "Fel vid verifiering av tvåfaktorsautentisering.",
@@ -406,6 +406,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Speciellt när skrivbordsklienten för filsynkronisering används så avråds användande av SQLite.",
     "Wrong password." : "Fel lösenord.",
     "New Password" : "Nytt lösenord",
+    "Cancel log in" : "Avbryt inloggning",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Vi har skickat ett mejl för lösenordsåterställning till den e-postadress som är känd för detta konto. Om du inte får det inom rimlig tid, kontrollera dina skräppost-mappar.<br>Om det inte är där, fråga din lokala administratör.",
     "Search globally" : "Sök globalt",
     "Your client should now be connected! You can close this window." : "Din klient ska nu vara ansluten! Du kan stänga det här fönstret."

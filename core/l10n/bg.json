@@ -209,7 +209,7 @@
     "Two-factor authentication" : "Двустепенно удостоверяване",
     "Set up two-factor authentication" : "Двустепенно удостоверяване",
     "Use backup code" : "Използвай код за възстановяване",
-    "Cancel log in" : "Откажи вписването",
+    "Cancel login" : "Откажи вписване",
     "Error while validating your second factor" : "Грешка при валидиране на втория ви фактор",
     "Access through untrusted domain" : "Достъп през недоверен домейн",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Моля, свържете се с администратора. Ако сте администратор на текущата инстанция, конфигурирайте \"trusted_domains\" настройките в config/config.php. Примерна конфигурация е предоставена в config/config.sample.php.",
@@ -300,6 +300,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Използването на SQLite не се препоръчва, особено ако ползвате клиента за настолни компютри.",
     "Wrong password." : "Грешна парола",
     "New Password" : "Нова парола",
+    "Cancel log in" : "Откажи вписването",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "До имейла на профила е изпратена връзка за възстановяване на паролата. Не забравяйте да проверете и спам/junk папката.<br> Свържете с администратора ако не получите имейла."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

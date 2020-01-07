@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Configura l'autenticazione a due fattori",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "L'autenticazione a due fattori è applicata, ma non è stata configurata nel tuo account. Utilizza uno dei tuoi codici di backup per accedere o contatta il tuo amministratore per assistenza.",
     "Use backup code" : "Usa il codice di backup",
-    "Cancel log in" : "Annulla l'accesso",
+    "Cancel login" : "Annulla l'accesso",
     "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La sicurezza migliorata è applicata al tuo account. Scegli quale fornitore configurare:",
     "Error while validating your second factor" : "Errore durante la convalida del tuo secondo fattore",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "In particolar modo, quando si utilizza il client desktop per la sincronizzazione dei file, l'uso di SQLite è sconsigliato.",
     "Wrong password." : "Password errata.",
     "New Password" : "Nuova password",
+    "Cancel log in" : "Annulla l'accesso",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Abbiamo inviato un'email di ripristino della password all'indirizzo di posta che conosciamo per questo account. Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale.",
     "Search globally" : "Cerca globalmente",
     "Your client should now be connected! You can close this window." : "Il client ora dovrebbe essere connesso! Puoi chiudere questa finestra."

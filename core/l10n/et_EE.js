@@ -195,7 +195,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Two-factor authentication" : "Kaheastmeline autentimine",
     "Use backup code" : "Kasuta varu koodi",
-    "Cancel log in" : "Katkesta sisselogimine",
     "Error while validating your second factor" : "Teise faktori valideerimise viga",
     "Access through untrusted domain" : "Ligipääs läbi ebausaldusväärse domeeni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Palun võtke ühendust oma administraatoriga. Kui olete administraator, muutke konfiguratsioonis config/config.php sätet \"trusted_domains\", nagu näidis config.sample.php failis.",
@@ -279,6 +278,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Suuremate paigalduste jaoks soovitame valida teise andmebaasi.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Eriti kui tasutad töölaua rakendust failide sünkroonimiseks on SQLite andmebaas ebasoovitav.",
     "Wrong password." : "Vale parool.",
-    "New Password" : "Uus parool"
+    "New Password" : "Uus parool",
+    "Cancel log in" : "Katkesta sisselogimine"
 },
 "nplurals=2; plural=(n != 1);");

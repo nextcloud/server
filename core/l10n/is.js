@@ -291,7 +291,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tveggja-þátta auðkenningar er krafist, en er ekki búið að setja upp á aðgangnu þínum. Notaðu einn af öryggisafritunarkóðunum þínum til að skrá þig inn, eða hafðu samband við kerfisstjóra til að fá aðstoð varðandi þetta.",
     "Use backup code" : "Nota öryggisafritskóða",
-    "Cancel log in" : "Hætta við innskráningu",
+    "Cancel login" : "Hætta við innskráningu",
     "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Aukið öryggi var virkjað fyrir aðganginn þinn. Veldu hvaða auðkenningarveitu eigi að nota til auðkenningar:",
     "Error while validating your second factor" : "Villa við að sannreyna seinna þrepið",
@@ -405,6 +405,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Sérstaklega þegar verið er að nota skjáborðsforritið til að samræma skrár, þá er ekki mælt með notkun SQLite.",
     "Wrong password." : "Rangt lykilorð.",
     "New Password" : "Nýtt lykilorð",
+    "Cancel log in" : "Hætta við innskráningu",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Tengillinn til að endurstilla lykilorðið þitt hefur verið sendur á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá ruslpóstmöppuna.<br>Ef hann er ekki þar, spurðu þá kerfisstjórann þinn.",
     "Search globally" : "Leita allstaðar",
     "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga."

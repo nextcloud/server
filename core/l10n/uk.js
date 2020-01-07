@@ -235,7 +235,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Пароль неправильний. Спробуйте ще раз.",
     "Two-factor authentication" : "Двофакторна аутентифікація",
     "Use backup code" : "Використати резервний код",
-    "Cancel log in" : "Скасувати вхід",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
     "Access through untrusted domain" : "Доступ з не довіреного домену",
     "App update required" : "Додаток потребує оновлення",
@@ -341,6 +340,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Використання SQLite особливо не рекомендується при синхронізації файлів з використанням клієнта для ПК.",
     "Wrong password." : "Невірний пароль.",
     "New Password" : "Новий пароль",
+    "Cancel log in" : "Скасувати вхід",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Посилання для скидання вашого паролю було надіслано на ваш email. Якщо ви не отримали його найближчим часом, перевірте теку зі спамом.<br>Якщо і там немає, спитайте вашого місцевого адміністратора.",
     "Search globally" : "Шукати всюди",
     "Your client should now be connected! You can close this window." : "Тепер ваш клієнт під’єднано. Ви можете закрити це вікно."
