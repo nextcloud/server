@@ -115,7 +115,7 @@ export default {
 		 */
 		davPath() {
 			const user = OC.getCurrentUser().uid
-			return OC.linkToRemote(`dav/files/${user}${this.file}`)
+			return OC.linkToRemote(`dav/files/${user}${encodeURIComponent(this.file)}`)
 		},
 
 		/**
