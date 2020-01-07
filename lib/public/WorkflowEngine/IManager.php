@@ -35,29 +35,32 @@ interface IManager {
 	const SCOPE_ADMIN = 0;
 	const SCOPE_USER = 1;
 
+	/**
+	 * @depreacted Will be removed in NC19. Use the dedicated events in OCP\WorkflowEngine\Events
+	 */
 	const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
 	const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
 	const EVENT_NAME_REG_CHECK = 'OCP\WorkflowEngine::registerChecks';
 
 	/**
-	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_ENTITY` at the
-	 * EventDispatcher for registering your entities.
+	 * Listen to `OCP\WorkflowEngine\Events\RegisterEntitiesEvent` at the
+	 * IEventDispatcher for registering your entities.
 	 *
 	 * @since 18.0.0
 	 */
 	public function registerEntity(IEntity $entity): void;
 
 	/**
-	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_OPERATION` at the
-	 * EventDispatcher for registering your operators.
+	 * Listen to `OCP\WorkflowEngine\Events\RegisterOperationsEvent` at the
+	 * IEventDispatcher for registering your operators.
 	 *
 	 * @since 18.0.0
 	 */
 	public function registerOperation(IOperation $operator): void;
 
 	/**
-	 * Listen to `\OCP\WorkflowEngine::EVENT_NAME_REG_CHECK` at the
-	 * EventDispatcher for registering your operators.
+	 * Listen to `OCP\WorkflowEngine\Events\RegisterChecksEvent` at the
+	 * IEventDispatcher for registering your operators.
 	 *
 	 * @since 18.0.0
 	 */
