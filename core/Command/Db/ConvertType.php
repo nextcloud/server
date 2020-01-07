@@ -212,9 +212,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
 			}
 
+			$continueConversion = !$input->isInteractive(); // assume yes for --no-interaction and no otherwise.
+			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', $continueConversion);
+
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
-			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', false);
 
 			if (!$helper->ask($input, $output, $question)) {
 				return;
