@@ -1100,11 +1100,31 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-		$result = array_map(function (IShare $share) {
-			return [
-				'id' => $share->getFullId(),
-			];
-		}, $pendingShares);
+		$result = array_filter(array_map(function (IShare $share) {
+			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			$nodes = $userFolder->getById($share->getNodeId());
+			if (empty($nodes)) {
+				// fallback to guessing the path
+				$node = $userFolder->get($share->getTarget());
+				if ($node === null || $share->getTarget() === '') {
+					return null;
+				}
+			} else {
+				$node = $nodes[0];
+			}
+
+			try {
+				$formattedShare = $this->formatShare($share, $node);
+				$formattedShare['status'] = $share->getStatus();
+				$formattedShare['path'] = $share->getNode()->getName();
+				$formattedShare['permissions'] = 0;
+				return $formattedShare;
+			} catch (NotFoundException $e) {
+				return null;
+			}
+		}, $pendingShares), function ($entry) {
+			return $entry !== null;
+		});
 
 		return new DataResponse($result);
 	}

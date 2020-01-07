@@ -39,6 +39,7 @@
 			_sharedWithUser: false,
 			_linksOnly: false,
 			_showDeleted: false,
+			_showPending: false,
 			_clientSideSort: true,
 			_allowSelection: false,
 			_isOverview: false,
@@ -61,6 +62,9 @@
 				}
 				if (options && options.showDeleted) {
 					this._showDeleted = true
+				}
+				if (options && options.showPending) {
+					this._showPending = true
 				}
 				if (options && options.isOverview) {
 					this._isOverview = true
@@ -87,7 +91,7 @@
 					var permission = parseInt($tr.attr('data-permissions')) | OC.PERMISSION_DELETE
 					$tr.attr('data-permissions', permission)
 				}
-				if (this._showDeleted) {
+				if (this._showDeleted || this._showPending) {
 					var permission = fileData.permissions
 					$tr.attr('data-share-permissions', permission)
 				}
@@ -196,6 +200,18 @@
 					}
 				}
 
+				var pendingShares = {
+					url: OC.linkToOCS('apps/files_sharing/api/v1/shares', 2) + 'pending',
+					/* jshint camelcase: false */
+					data: {
+						format: 'json'
+					},
+					type: 'GET',
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader('OCS-APIREQUEST', 'true')
+					}
+				}
+
 				var shares = {
 					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
 					/* jshint camelcase: false */
@@ -227,6 +243,8 @@
 				// and make sure we have 2 promises
 				if (this._showDeleted) {
 					promises.push($.ajax(deletedShares))
+				} else if (this._showPending) {
+					promises.push($.ajax(pendingShares))
 				} else {
 					promises.push($.ajax(shares))
 
