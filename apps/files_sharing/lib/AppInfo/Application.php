@@ -278,6 +278,15 @@ class Application extends App {
 			'name' => $l->t('Deleted shares'),
 		]);
 
+		array_push($sharingSublistArray, [
+			'id' => 'pendingshares',
+			'appname' => 'files_sharing',
+			'script' => 'list.php',
+			'order' => 19,
+			'name' => $l->t('Pending shares'),
+		]);
+
+
 		// show_Quick_Access stored as string
 		\OCA\Files\App::getNavigationManager()->add([
 			'id' => 'shareoverview',

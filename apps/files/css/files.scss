@@ -129,6 +129,7 @@
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout,
+.nav-icon-pendingshares,
 .nav-icon-shareoverview {
 	@include icon-color('share', 'files', $color-black);
 }

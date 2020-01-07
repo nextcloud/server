@@ -76,6 +76,11 @@ return [
 			'verb' => 'POST',
 		],
 		[
+			'name' => 'ShareAPI#pendingShares',
+			'url'  => '/api/v1/shares/pending',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'ShareAPI#getShare',
 			'url'  => '/api/v1/shares/{id}',
 			'verb' => 'GET',
