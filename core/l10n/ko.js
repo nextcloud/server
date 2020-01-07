@@ -286,7 +286,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "2단계 인증 설정",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "2단계 인증이 필수로 설정되어 있지만 현재 계정에 설정되어 있지 않습니다. 백업 코드를 사용하여 로그인하거나 관리자에게 도움을 요청하십시오.",
     "Use backup code" : "백업 코드 사용",
-    "Cancel log in" : "로그인 취소",
+    "Cancel login" : "로그인 취소",
     "Setup two-factor authentication" : "2단계 인증 설정",
     "Error while validating your second factor" : "2단계 인증을 검증하는 중 오류 발생",
     "Access through untrusted domain" : "신뢰하지 않는 도메인으로 접근",
@@ -399,6 +399,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "특히 파일 동기화를 위해 데스크톱 클라이언트를 사용할 예정이면 SQLite를 사용하지 않는 것이 좋습니다.",
     "Wrong password." : "암호가 잘못되었습니다.",
     "New Password" : "새 암호",
+    "Cancel log in" : "로그인 취소",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "암호 재설정 링크를 이 계정에 연결된 이메일 주소로 보냈습니다. 일정 시간이 지난 후에도 이메일을 받지 못했다면 스팸 메일함을 확인해 보십시오.<br>스팸 메일함에도 링크가 없다면 시스템 관리자에게 문의하십시오.",
     "Search globally" : "전역 검색",
     "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다."

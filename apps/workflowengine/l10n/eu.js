@@ -50,6 +50,7 @@ OC.L10N.register(
     "Android client" : "Android bezeroa",
     "iOS client" : "iOS bezeroa",
     "Desktop client" : "Mahaigaineko bezeroa",
+    "Thunderbird & Outlook addons" : "Thunderbird & Outlook gehigarriak",
     "When" : "Noiz",
     "and" : "eta",
     "Cancel" : "Utzi",

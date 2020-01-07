@@ -304,7 +304,6 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dvofaktorska autentifikacija se provodi, ali nije konfigurirana na vašem računu. Prijavite se s nekom od dodatnih sigurnosnih šifri ili se obratite administratoru za pomoć.",
     "Use backup code" : "Upotrijebi pričuvnu šifru",
-    "Cancel log in" : "Otkaži prijavu",
     "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
     "Error while validating your second factor" : "Pogreška prilikom potvrđivanja drugog faktora",
     "Access through untrusted domain" : "Pristup s nepouzdane domene",
@@ -417,6 +416,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Ako upotrebljavate klijent za sinkronizaciju datoteka, preporučujemo izbjegavanje baze podataka SQLite.",
     "Wrong password." : "Pogrešna zaporka.",
     "New Password" : "Nova zaporka",
+    "Cancel log in" : "Otkaži prijavu",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Poslali smo poruku e-pošte za resetiranje zaporke na adresu e-pošte koja nam je poznata za ovaj račun. Ako je ne primite u razumnom vremenskom razdoblju, provjerite mape neželjena pošta/smeće.<br>Ako se ne nalazi u tim mapama, obratite se svom lokalnom administratoru.",
     "Search globally" : "Pretraži globalno",
     "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor."

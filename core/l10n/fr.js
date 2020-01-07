@@ -311,7 +311,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Paramétrer l'authentification à double facteur",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "L'authentification en deux étapes a été imposée mais n'est pas configurée sur votre compte. Utilisez un de vos codes de secours pour vous connecter ou contactez votre administrateur pour avoir de l'aide.",
     "Use backup code" : "Utiliser un code de récupération",
-    "Cancel log in" : "Annuler l'authentification",
+    "Cancel login" : "Annuler la connexion",
     "Setup two-factor authentication" : "Paramétrer l'authentification à double facteur",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La sécurité renforcée est appliquée à votre compte. Choisissez le fournisseur à configurer :",
     "Error while validating your second factor" : "Erreur lors de la validation de votre second facteur",
@@ -425,6 +425,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "En particulier si vous utilisez le client de bureau pour synchroniser vos données, l'utilisation de SQLite est déconseillée.",
     "Wrong password." : "Mot de passe incorrect.",
     "New Password" : "Nouveau mot de passe",
+    "Cancel log in" : "Annuler l'authentification",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Nous avons envoyé un e-mail de réinitialisation de mot de passe à l'adresse e-mail que nous connaissons pour ce compte. Si vous ne le recevez pas dans un délai raisonnable, vérifiez vos dossiers de courrier indésirable/pourriel/spam.<br>S'il n'est pas présent, demandez à votre administrateur local.",
     "Search globally" : "Rechercher partout",
     "Your client should now be connected! You can close this window." : "Votre client devrait maintenant être connecté ! Vous pouvez fermer cette fenêtre."

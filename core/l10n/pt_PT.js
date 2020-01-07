@@ -285,7 +285,6 @@ OC.L10N.register(
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Não foi possível carregar pelo menos um dos métodos de autenticação de dois passos activados. Por favor, contacte o seu administrador.",
     "Set up two-factor authentication" : "Configurar autenticação de dois fatores",
     "Use backup code" : "Usar código de cópia de segurança",
-    "Cancel log in" : "Cancelar entrada",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
     "Error while validating your second factor" : "Erro ao validar o segundo factor",
     "Access through untrusted domain" : "Aceder através de um domínio não confiável",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "O uso de SQLite é desencorajado especialmente se estiver a pensar em dar uso ao cliente desktop para sincronizar os seus ficheiros no seu computador.",
     "Wrong password." : "Palavra-passe errada.",
     "New Password" : "Nova Palavra-passe",
+    "Cancel log in" : "Cancelar entrada",
     "Search globally" : "Procura global",
     "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela."
 },

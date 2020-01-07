@@ -57,6 +57,8 @@
     "Add rule" : "اضافه کردن قوانین ",
     "Reset" : "ریست",
     "Saving…" : "در حال ذخیره",
+    "Group list is empty" : "لیست گروه ها خالی است.",
+    "Unable to retrieve the group list" : "بازیابی لیست گروه امکان پذیر نیست",
     "Saved" : "ذخیره شده ",
     "Saving failed:" : "ذخیره فایل با خطا مواجه شد.",
     "Add rule group" : "اضافه کردن قوانین گروه",

@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Skonfiguruj uwierzytelnianie dwuskładnikowe",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Uwierzytelnianie dwuskładnikowe jest wymuszone, ale nie zostało skonfigurowane na Twoim koncie. Użyj jednego z kodów zapasowych, aby się zalogować lub skontaktuj się z administratorem w celu uzyskania pomocy.",
     "Use backup code" : "Użyj kodu zapasowego",
-    "Cancel log in" : "Anuluj logowanie",
+    "Cancel login" : "Anuluj logowanie",
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Dla Twojego konta zwiększono zabezpieczenie. Wybierz dostawcę, którego chcesz skonfigurować:",
     "Error while validating your second factor" : "Błąd podczas sprawdzania drugiego składnika",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Zwłaszcza przy korzystaniu z klienta desktopowego do synchronizacji plików nie zaleca się używania SQLite.",
     "Wrong password." : "Złe hasło.",
     "New Password" : "Nowe hasło",
+    "Cancel log in" : "Anuluj logowanie",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wysłaliśmy wiadomość dotyczącą resetowania hasła na adres e-mail przypisany dla tego konta. Jeśli nie otrzymasz go w rozsądnym czasie, sprawdź katalog ze spamem i kosz.<br>Jeśli nie, skontaktuj się z lokalnym administratorem.",
     "Search globally" : "Szukaj globalnie",
     "Your client should now be connected! You can close this window." : "Aplikacja kliencka powinna być już połączona! Można zamknąć to okno."

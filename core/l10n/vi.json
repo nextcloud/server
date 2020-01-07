@@ -199,7 +199,6 @@
     "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại.",
     "Two-factor authentication" : "Xác thực 2 bước",
     "Use backup code" : "Sử dụng mã dự phòng",
-    "Cancel log in" : "Hủy đăng nhập",
     "Error while validating your second factor" : "Lỗi khi xác thực 2 bước",
     "Access through untrusted domain" : "Truy nhập thông qua tên miền không đáng tin",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Xin vui lòng liên hệ với quản trị hệ thống của bạn. Nếu ban là người quản trị hệ thống, sửa phần thiết lập \"trusted_domains\" trong file config/config.php giống như trong ví dụ tại file config.sample.php.",
@@ -287,6 +286,7 @@
     "For larger installations we recommend to choose a different database backend." : "Đối với các cài đặt hệ thống lớn, chúng tôi khuyên bạn nên chọn một hệ cơ sở dữ liệu khác.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Đặc biệt khi đang sử dụng phần mềm đồng bộ dữ liệu desktop client  để đồng bộ file thì việc sử dụng CSDL SQLite là không nên.",
     "Wrong password." : "Sai mật khẩu.",
-    "New Password" : "Mật khẩu mới"
+    "New Password" : "Mật khẩu mới",
+    "Cancel log in" : "Hủy đăng nhập"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

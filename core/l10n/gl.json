@@ -312,7 +312,6 @@
     "Set up two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "É obrigada a autenticación de dous factores, mais non foi configurada na súa conta. Use un dos seus códigos de seguridade para iniciar sesión ou póñase en contacto co administrador para obter axuda.",
     "Use backup code" : "Usar código de seguridade",
-    "Cancel log in" : "Cancelar o inicio de sesión",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Foi activada a seguridade mellorada para a súa conta. Escolla o fornecedor que quere estabelecer:",
     "Error while validating your second factor" : "Produciuse un erro ao validar o seu segundo factor",
@@ -426,6 +425,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Concretamente, se emprega o cliente de escritorio para sincronización, desaconséllase o uso de SQLite.",
     "Wrong password." : "Contrasinal incorrecto.",
     "New Password" : "Novo contrasinal",
+    "Cancel log in" : "Cancelar o inicio de sesión",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Foi enviada ao enderezo de correo coñecido para esta conta, a ligazón para restabelecer o seu contrasinal. Se non a recibe nun prazo razoábel de tempo, vexa o seu cartafol de correo lixo.<br>Se non está alí pregúntelle ao administrador local.",
     "Search globally" : "Facer unha busca global",
     "Your client should now be connected! You can close this window." : "O seu cliente xa debe estar conectado. Pode pechar esta xanela."

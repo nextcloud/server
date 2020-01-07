@@ -302,7 +302,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Установить двухфакторную аутентификацию",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Двухфакторное подтверждение подлинности включено в настройках но ваша учётная запись еще не сконфигурирована для его использования. Используйте один из резервных кодов для входа в аккаунт или свяжитесь с вашим администратором для получения помощи.",
     "Use backup code" : "Использовать резервный код",
-    "Cancel log in" : "Отменить вход",
+    "Cancel login" : "Отменить вход",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повышенная безопасность включена для вашей учетной записи. Выберите провайдера для настройки:",
     "Error while validating your second factor" : "Ошибка проверки кода",
@@ -416,6 +416,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "В частности не рекомендуется использовать SQLite при синхронизации файлов с использованием клиента для ПК.",
     "Wrong password." : "Неправильный пароль.",
     "New Password" : "Новый пароль",
+    "Cancel log in" : "Отменить вход",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Письмо с инструкциями по сбору пароля было отправлено на адрес электронной почты, указанный для этой учётной записи. Если это письмо не будет получено в разумное время, проверьте папку «Спам».<br> В случае, если письмо не будет получено, сообщите об этом администратору системы.",
     "Search globally" : "Искать глобально",
     "Your client should now be connected! You can close this window." : "Ваш клиент должен быть подключен! Вы можете закрыть это окно."

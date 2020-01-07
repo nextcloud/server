@@ -252,7 +252,7 @@
     "Two-factor authentication" : "Dvo-stopenjska overitev",
     "Set up two-factor authentication" : "Nastavitev dvostopenjske overitve",
     "Use backup code" : "Uporabi varnostno kopijo šifre",
-    "Cancel log in" : "Prekini prijavo",
+    "Cancel login" : "Prekliči prijavo",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
     "Error while validating your second factor" : "Napaka med preverjanjem drugega koraka",
     "Access through untrusted domain" : "Dostop prek domene, ki ni zaupanja vredna",
@@ -348,6 +348,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Uporaba SQLite ni priporočljiva iz varnostnih razlogov, še posebej, če se sistem krajevno usklajuje z namizjem prek odjemalca.",
     "Wrong password." : "Napačno geslo!",
     "New Password" : "Novo geslo",
+    "Cancel log in" : "Prekini prijavo",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Povezava za ponastavitev gesla je bila poslana na nam poznan elektronski naslov za ta račun. V kolikor sporočila ne prejmete v kratkem, preverite tudi mapo neželene pošte.<br> Če sporočila ni niti v tej mapi, stopite v stik s skrbnikom."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -302,7 +302,7 @@
     "Set up two-factor authentication" : "Instellen tweefactor authenticatie",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tweefactor authenticatie is ingeschakeld, maar niet geconfigureerd voor je account. Gebruik een van je backup codes om in te loggen of neem voor hulp contact op met je beheerder.",
     "Use backup code" : "Gebruik back-upcode",
-    "Cancel log in" : "Inloggen annuleren",
+    "Cancel login" : "Inlog annuleren",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Versterkte beveiliging is ingeschakeld voor je account. Kies een provider om in te stellen:",
     "Error while validating your second factor" : "Fout bij het verifiëren van je tweede factor",
@@ -416,6 +416,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Vooral wanneer de desktop client wordt gebruik voor bestandssynchronisatie wordt gebruik van sqlite afgeraden.",
     "Wrong password." : "Onjuist wachtwoord.",
     "New Password" : "Nieuw wachtwoord",
+    "Cancel log in" : "Inloggen annuleren",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "We hebben een wachtwoordherstel e-mail verzonden naar het e-mailadres dat bij ons bekend is voor dit account. Als je het niet binnen een redelijke tijd hebt ontvangen, controleer dan je spam / ongewenste mappen. <br> Als het bericht er niet is, vraag het dan je beheerder.",
     "Search globally" : "Zoek door alles",
     "Your client should now be connected! You can close this window." : "Je client is nu verbonden! Je kunt het venster sluiten."

@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dvojfaktorová autentifikácia je vyžadovaná ale nebola nakonfigurovaná pre Váš účet.  Použite jeden zo záložných kódov na prihlásenie alebo kontaktujte administrátora pre ďalšiu asistenciu.",
     "Use backup code" : "Použiť záložný kód",
-    "Cancel log in" : "Zrušiť prihlásenie",
+    "Cancel login" : "Zruš prihlasovanie",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Pre váš účet je vynútená zvýšená bezpečnosť. Vyberte si poskytovateľa, ktorého chcete nastaviť:",
     "Error while validating your second factor" : "Chyba počas overovania druhého faktora",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Najmä pri používaní klientských aplikácií na synchronizáciu s desktopom neodporúčame používať SQLite.",
     "Wrong password." : "Nesprávne heslo.",
     "New Password" : "Nové heslo",
+    "Cancel log in" : "Zrušiť prihlásenie",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovenie hesla bol odoslaný na e-mailovú adresu uvedenú pre tento účet. Ak ho v krátkej dobe neobdržíte, skontrolujte si priečinok nevyžiadanej pošty a kôš.<br>Ak ho nenájdete, kontaktujte svojho správcu systému.",
     "Search globally" : "Hľadať globálne",
     "Your client should now be connected! You can close this window." : "Váš klient by mal byť pripojený. Toto okno už môžete zatvoriť."
