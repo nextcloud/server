@@ -81,7 +81,7 @@ Cypress.Commands.add('uploadFile', (fileName, mimeType) => {
 						'Content-Type': mimeType
 					}
 				}).then(response => {
-					cy.log(`Uploaded ${fileName}`, response.status)
+					cy.log(`Uploaded ${fileName}`, response)
 				})
 			})
 		})
@@ -98,6 +98,11 @@ Cypress.Commands.add('createFolder', dirName => {
 Cypress.Commands.add('openFile', fileName => {
 	cy.get(`#fileList tr[data-file="${fileName}"] a.name`).click()
 	cy.wait(250)
+})
+
+Cypress.Commands.add('getFileId', fileName => {
+	return cy.get(`#fileList tr[data-file="${fileName}"]`)
+		.should('have.attr', 'data-id')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {

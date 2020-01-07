@@ -30,6 +30,7 @@ export default class Viewer {
 	constructor() {
 		this.#state = {}
 		this.#state.file = ''
+		this.#state.files = []
 		this.#state.handlers = []
 
 		// ! built-in handlers
@@ -86,12 +87,19 @@ export default class Viewer {
 	 *
 	 * @memberof Viewer
 	 * @param {string} path the path to open
+	 * @param {Object[]} [list] the list of files as objects (fileinfo) format
 	 */
-	open(path) {
+	open(path, list = []) {
 		if (!path.startsWith('/')) {
 			throw new Error('Please use an absolute path')
 		}
+
+		if (!Array.isArray(list)) {
+			throw new Error('The files list must be an array')
+		}
+
 		this.#state.file = path
+		this.#state.files = list
 	}
 
 	/**
@@ -101,6 +109,7 @@ export default class Viewer {
 	 */
 	close() {
 		this.#state.file = ''
+		this.#state.files = []
 	}
 
 }
