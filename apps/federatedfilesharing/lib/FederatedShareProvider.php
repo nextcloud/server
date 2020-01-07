@@ -599,7 +599,8 @@ class FederatedShareProvider implements IShareProvider {
 	private function removeShareFromTableById($shareId) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)))
+			->where($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_CIRCLE)));
 		$qb->execute();
 
 		$qb->delete('federated_reshares')
