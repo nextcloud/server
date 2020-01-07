@@ -62,7 +62,7 @@
 				:file-info="fileInfo" />
 
 			<!-- inherited shares -->
-			<SharingInherited v-if="!loading" :file-info="fileInfo" />
+			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
 			<!-- internal link copy -->
 			<SharingEntryInternal :file-info="fileInfo" />
