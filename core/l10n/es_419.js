@@ -219,7 +219,6 @@ OC.L10N.register(
     "Two-factor authentication" : "Autenticación de dos factores",
     "Set up two-factor authentication" : "Configurar autenticación de dos factores",
     "Use backup code" : "Usar código de respaldo",
-    "Cancel log in" : "Cancelar inicio de sesión",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
     "Error while validating your second factor" : "Se presentó un error al validar tu segundo factor",
     "Access through untrusted domain" : "Accesa a través de un dominio no de confianza",
@@ -305,6 +304,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Para instalaciones más grandes te recomendamos elegir un backend de base de datos diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLiite es especialmente desalentado al usar el cliente de escritorio para sincrionizar. ",
     "Wrong password." : "Contraseña inválida. ",
-    "New Password" : "Nueva Contraseña"
+    "New Password" : "Nueva Contraseña",
+    "Cancel log in" : "Cancelar inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

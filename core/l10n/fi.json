@@ -256,7 +256,7 @@
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "Kaksivaiheinen tunnistautuminen on pakotettu, mutta sitä ei ole määritelty tilillesi. Ole yhteydessä ylläpitoon saadaksesi apua.",
     "Set up two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
     "Use backup code" : "Käytä varakoodia",
-    "Cancel log in" : "Peru kirjautuminen",
+    "Cancel login" : "Peru kirjautuminen",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
     "Error while validating your second factor" : "Tunnistuksen toisen vaiheen tarkistus epäonnistui",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Ota yhteys ylläpitoon, tai jos olet tämän palvelun ylläpitäjä, määritä \"trusted_domains\"-asetus config/config.php-tiedostossa. Esimerkkimääritys on tiedostossa config/config.sample.php.",
@@ -358,6 +358,7 @@
     "For larger installations we recommend to choose a different database backend." : "Suuria asennuksia varten suositellaan muun tietokannan käyttöä.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Varsinkin työpöytäsovelluksen tiedostosynkronointia käyttäessä SQLiten käyttö ei ole suositeltavaa.",
     "Wrong password." : "Väärä salasana.",
-    "New Password" : "Uusi salasana"
+    "New Password" : "Uusi salasana",
+    "Cancel log in" : "Peru kirjautuminen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

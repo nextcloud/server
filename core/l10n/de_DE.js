@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde für Ihr Konto jedoch nicht konfiguriert. Verwenden Sie zum Anmelden einen Ihrer Backup-Codes, oder wenden Sie sich für Unterstützung an Ihren Administrator.",
     "Use backup code" : "Backup-Code benutzen",
-    "Cancel log in" : "Anmeldung abbrechen",
+    "Cancel login" : "Anmelden abbrechen",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Erhöhte Sicherheit ist für Ihr Konto aktiviert. Bitte wählen Sie einen Anbieter zum Einrichten: ",
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Insbesondere bei Nutzung des Desktop-Clients zur Dateisynchronisierung wird vom Einsatz von SQLite abgeraten.",
     "Wrong password." : "Falsches Passwort.",
     "New Password" : "Neues Passwort",
+    "Cancel log in" : "Anmeldung abbrechen",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Wir haben eine E-Mail zum Zurücksetzen des Passworts an die für dieses Konto bekannte E-Mail-Adresse versendet. Sollten Sie diese nicht in Kürze erhalten, prüfen Sie bitte Ihren Spam-Ordner.<br>Wenn Sie keine E-Mail bekommen haben, wenden Sie sich bitte an Ihren lokalen Administrator.",
     "Search globally" : "Global suchen",
     "Your client should now be connected! You can close this window." : "Ihr Client ist jetzt verbunden! Sie können dieses Fenster schließen."

@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "İki aşamalı kimlik doğrulaması kullanımı zorunlu kılınmış ancak hesabınız için yapılandırılmamış. Yedek kodlarınızdan birini kullanın ya da yardım almak için sistem yöneticiniz ile görüşün.",
     "Use backup code" : "Yedek kodu kullanacağım",
-    "Cancel log in" : "Oturum açmaktan vazgeç",
+    "Cancel login" : "Oturum açmaktan vazgeç",
     "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Hesabınız için gelişmiş güvenlik kullanımı dayatılmış. Kuracağınız hizmet sağlayıcıyı seçin:",
     "Error while validating your second factor" : "İkinci aşama doğrulanırken sorun çıktı",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Wrong password." : "Parola yanlış.",
     "New Password" : "Yeni Parola",
+    "Cancel log in" : "Oturum açmaktan vazgeç",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.<br>E-postayı göremiyorsanız yerel sistem yöneticinizle görüşün.",
     "Search globally" : "Genel arama",
     "Your client should now be connected! You can close this window." : "İstemcinizin bağlanmış olması gerekir! Bu pencereyi kapatabilirsiniz"

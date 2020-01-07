@@ -167,7 +167,6 @@
     "The password is wrong. Try again." : "كلمة المرور خاطئة. حاول مرة أخرى.",
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
-    "Cancel log in" : "إلغاء تسجيل الدخول",
     "App update required" : "تحديث التطبيق مطلوب",
     "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :",
     "Start update" : "تشغيل التحديث",
@@ -229,6 +228,7 @@
     "Name..." : "التسمية …",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "استخدام SQLite غير مناسب خاصتا اذا تم استخدام برنامج المزامنة على الجهاز الشخصي.",
     "Wrong password." : "كلمة السر خاطئة.",
-    "New Password" : "كلمة السر الجديدة"
+    "New Password" : "كلمة السر الجديدة",
+    "Cancel log in" : "إلغاء تسجيل الدخول"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

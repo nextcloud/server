@@ -265,7 +265,7 @@
     "Set up two-factor authentication" : "הגדרת אימות דו־שלבי",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "אימות דו־שלבי נאכף אך הוא אינו מוגדר על החשבון שלך. נא להשתמש באחד מהקודים לצורכי גיבוי כדי להיכנס או ליצור קשר עם המנהל שלך לקבלת עזרה.",
     "Use backup code" : "שימוש בקוד גיבוי",
-    "Cancel log in" : "ביטול כניסה",
+    "Cancel login" : "ביטול התחברות",
     "Setup two-factor authentication" : "הגדרת אימות דו־שלבי",
     "Error while validating your second factor" : "שגיאה בעת אימות הגורם השני",
     "Access through untrusted domain" : "גישה דרך שם מתחם בלתי מהימן",
@@ -376,6 +376,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "במיוחד כאשר משתמשים במחשב שולחני לסנכרון קבצים השימוש ב SQLite אינו מומלץ.",
     "Wrong password." : "ססמה שגויה.",
     "New Password" : "ססמה חדשה",
+    "Cancel log in" : "ביטול כניסה",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "שלחנו הודעת דוא״ל לאיפוס ססמה לכתובת הדוא״ל שאנו מכירים לחשבון זה. אם לא קיבלת את ההודעה תוך זמן סביר, מומלץ לחפש בתיקיות הספאם/זבל שלך.<br>אם היא לא שם כדאי לשאול את מנהל הרשת המקומית.",
     "Search globally" : "חיפוש גלובלי",
     "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה."

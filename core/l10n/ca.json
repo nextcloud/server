@@ -302,7 +302,7 @@
     "Set up two-factor authentication" : "Configura l'autenticació de dos factors",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "L’autenticació de dos factor és obligada, però no ha estat configurada al vostre compte. Utilitzeu un dels codis secundaris per connectar o contactar amb el vostre administrador per rebre ajuda.",
     "Use backup code" : "Utilitza un codi de còpia de seguretat",
-    "Cancel log in" : "Cancel·la l'accés a",
+    "Cancel login" : "Cancel·la l'inici de sessió",
     "Setup two-factor authentication" : "Configura l'autenticació de dos factors",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La seguretat millorada és obligatòria per al vostre compte. Trieu quin proveïdor configurar:",
     "Error while validating your second factor" : "S'ha produït un error en validar el segon factor",
@@ -416,6 +416,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "L'ús de SQLite és desaconsellat especialment quan es fa servir el client d'escriptori per sincronitzar els fitxers.",
     "Wrong password." : "Contrasenya incorrecta.",
     "New Password" : "Contrasenya nova",
+    "Cancel log in" : "Cancel·la l'accés a",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "S'ha enviat un missatge per restablir la contrasenya a la vostra adreça de correu electrònic. Si no el rebeu en un temps raonable comproveu la carpeta de correu brossa. <br>Si no és allà, pregunteu a l'administrador local.",
     "Search globally" : "Cerca globalment",
     "Your client should now be connected! You can close this window." : "El vostre client ja està connectat! Podeu tancar aquesta finestra."

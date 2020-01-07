@@ -314,7 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Configurar autenticación de dos factores",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "La autenticación en dos pasos se aplica pero no se ha configurado en su cuenta. Use uno de sus códigos de respaldo para iniciar sesión o comuníquese con su administrador para obtener ayuda.",
     "Use backup code" : "Usar código de respaldo",
-    "Cancel log in" : "Cancelar inicio de sesión",
+    "Cancel login" : "Cancelar inicio de sesión",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Es obligatorio usar seguridad mejorada en tu cuenta. Escoge qué proveedor configurar:",
     "Error while validating your second factor" : "Error al validar su segundo factor",
@@ -428,6 +428,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Se desaconseja encarecidamente usar SQLite si se usa el cliente de escritorio para sincronizar archivos.",
     "Wrong password." : "Contraseña incorrecta.",
     "New Password" : "Contraseña nueva",
+    "Cancel log in" : "Cancelar inicio de sesión",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Se ha enviado un enlace para restablecer la contraseña a tu correo electrónico. Si no lo recibes en un tiempo razonable, revisa tu carpeta de correo no deseado.<br>Si no está ahí, ponte en contacto con el administrador.",
     "Search globally" : "Buscar globalmente",
     "Your client should now be connected! You can close this window." : "Tu cliente debería estar conectado ahora. Puedes cerrar esta ventana."

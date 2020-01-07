@@ -254,7 +254,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
     "Two-factor authentication" : "Dviejų žingsnių prisijungimas",
     "Use backup code" : "Naudoti atsarginį kodą",
-    "Cancel log in" : "Atšaukti prisijungimą",
     "Error while validating your second factor" : "Klaida antrame prisijungimo žingsnyje",
     "Access through untrusted domain" : "Prieiga iš nepatikimo domeno",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Susisiekite su savo administratoriumi. Jeigu jūs esate administratorius, pataisykite \"trusted_domains\" nustatymą config/config.php faile, kaip tai parodyta pavyzdyje config.sample.php faile.",
@@ -358,6 +357,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite naudojimas yra nerekomenduotinas, kai duomenų sinchronizacijai naudojamas darbalaukio klientas.",
     "Wrong password." : "Neteisingas slaptažodis.",
     "New Password" : "Naujas slaptažodis",
+    "Cancel log in" : "Atšaukti prisijungimą",
     "Search globally" : "Ieškoti visur",
     "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti."
 },
