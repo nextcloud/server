@@ -17,7 +17,68 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 ### 🧙 Advanced development stuff
 To build the Javascript whenever you make changes, instead of the full `make` you can also run `make build-js`.
 
-## 🔍 Add you own file view
+## API
+
+### Add the viewer to your app
+In php, on your page, emit the LoadViewer event.
+Check the documentation/tutorial for more info on this type of page controller sample.
+``` php
+use OCA\Viewer\Event\LoadViewer;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IRequest;
+
+class PageController extends Controller {
+	protected $appName;
+	
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+	
+	public function __construct($appName,
+								IRequest $request,
+								IEventDispatcher $eventDispatcher) {
+		parent::__construct($appName, $request);
+	
+		$this->appName = $appName;
+		$this->eventDispatcher = $eventDispatcher;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * Render default index template
+	 *
+	 * @return TemplateResponse
+	 */
+	public function index(): TemplateResponse {
+		$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+		$response = new TemplateResponse($this->appName, 'main');
+		return $response;
+	}
+}
+```
+This will load all the necessary scripts and make the Viewer accessible trough javascript at `OCA.Viewer`
+
+### Open a file
+1. Open a file and let the viewer fetch the folder data
+  ```js
+  OCA.Viewer.open('/path/to/file.jpg')
+  ```
+2. Open a file and profide a list of files
+  ```js
+  OCA.Viewer.open('/path/to/file.jpg', [
+    	{
+			basename: 'file.jpg',
+			filename: '/path/to/file.jpg',
+			...
+		},
+		...
+  ])
+  ```
+  The second parametter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also uses it.
+
+### 🔍 Add you own file view
 If you want to make your app compatible with this app, you can use the `OCA.Viewer` methods
 1. Create a vue component which use the `path` and `mime` props (they will be automatically passed by the viewer)
 2. Register your mime viewer with the following:
