@@ -77,6 +77,11 @@ This will load all the necessary scripts and make the Viewer accessible trough j
   ])
   ```
   The second parametter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also uses it.
+  
+### Close the viewer
+```js
+OCA.Viewer.close()
+```
 
 ### 🔍 Add you own file view
 If you want to make your app compatible with this app, you can use the `OCA.Viewer` methods
