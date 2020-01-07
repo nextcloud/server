@@ -28,6 +28,7 @@ namespace OC\Core\Controller;
 
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
@@ -54,6 +55,10 @@ class CSRFTokenController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function index(): JSONResponse {
+		if (!$this->request->passesStrictCookieCheck()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		$requestToken = $this->tokenManager->getToken();
 
 		return new JSONResponse([
