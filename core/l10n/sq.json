@@ -200,7 +200,7 @@
     "The password is wrong. Try again." : "Fjalëkalim i gabuar. Provojeni sërish.",
     "Two-factor authentication" : "Verifikim dy-element",
     "Use backup code" : "Përdorni kodin e kopjes rezervë",
-    "Cancel log in" : "Anuloni identifikimin",
+    "Cancel login" : "Anuloje hyrjen",
     "Error while validating your second factor" : "Gabim gjatë verifikimit të elementit të dytë",
     "App update required" : "Lypset përditësim aplikacioni",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:",
@@ -284,6 +284,7 @@
     "For larger installations we recommend to choose a different database backend." : "Për instalime më të mëdha këshillojmë të zgjidhni një tjetër program shërbyesi baze të dhënash.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Përdorimi i SQLite-it shkëshillohet veçanërisht, kur për njëkohësim kartelash përdoret klienti desktop.",
     "Wrong password." : "Fjalëkalim i gabuar.",
-    "New Password" : "Fjalëkalim i Ri"
+    "New Password" : "Fjalëkalim i Ri",
+    "Cancel log in" : "Anuloni identifikimin"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

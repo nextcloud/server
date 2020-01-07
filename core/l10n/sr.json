@@ -312,7 +312,6 @@
     "Set up two-factor authentication" : "Подеси двофакторску проверу идентитета",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Двофакторска провера идентитета је захтевана, али није још подешена на Вашем налогу. Или употребите Ваше резервне кôдове, или контактирајте администратора за помоћ.",
     "Use backup code" : "Користите резервни кôд",
-    "Cancel log in" : "Поништите пријаву",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Повећана сигурност је захтевана за овај налог. Одаберите провајдера којег желите да подесите:",
     "Error while validating your second factor" : "Грешка при провери Вашег другог фактора",
@@ -426,6 +425,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Нарочито ако се користи клијент у десктоп окружењу, коришћење СКуЛајта није препоручљиво.",
     "Wrong password." : "Погрешна лозинка.",
     "New Password" : "Нова лозинка",
+    "Cancel log in" : "Поништите пријаву",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Послали смо Вам е-пошту за ресетовање лозинке на е-мејл адресу која је повезана са овим налогом. Ако је не примите ускоро, проверите фасцикле за нежељену пошту.<br>Ако није ни тамо, контактирајте вашег администратора.",
     "Search globally" : "Претражите глобално",
     "Your client should now be connected! You can close this window." : "Ваш клијент сада треба да је повезан! Можете затворити овај прозор."

@@ -290,7 +290,6 @@ OC.L10N.register(
     "Two-factor authentication" : "Πιστοποίηση Δύο-Παραγόντων",
     "Set up two-factor authentication" : "Ρύθμιση πιστοποίησης δύο-βημάτων",
     "Use backup code" : "Χρήση εφεδρικών κωδικών",
-    "Cancel log in" : "Ακύρωση εισόδου",
     "Setup two-factor authentication" : "Ρύθμιση πιστοποίησης δύο-βημάτων",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Έχει ενεργοποιηθεί βελτιωμένη ασφάλεια για τον λογαριασμό σας. Επιλέξτε ποιόν πάροχο θα ρυθμίσετε:",
     "Error while validating your second factor" : "Σφάλμα κατά την επικύρωση του δεύτερου παράγοντα",
@@ -399,6 +398,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Ειδικά όταν χρησιμοποιείτε το λογισμικό για συγχρονισμό στον υπολογιστή σας, δεν συνίσταται η χρήση της SQLite.",
     "Wrong password." : "Λάθος συνθηματικό.",
     "New Password" : "Νέο Συνθηματικό",
+    "Cancel log in" : "Ακύρωση εισόδου",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Ο σύνδεσμος για την επαναφορά του συνθηματικού σας απεστάλη στο ηλ. ταχυδρομείο σας. Εάν δεν το παραλάβετε μέσα σε ένα εύλογο χρονικό διάστημα, ελέγξτε το φάκελο ανεπιθύμητων μηνυμάτων σας. <br> Εάν δεν βρίσκεται εκεί ρωτήστε τον διαχειριστή σας.",
     "Search globally" : "Γενική αναζήτηση",
     "Your client should now be connected! You can close this window." : "Η εφαρμογή υπολογιστή έχει συνδεθεί! Μπορείτε να κλείσετε το παράθυρο."

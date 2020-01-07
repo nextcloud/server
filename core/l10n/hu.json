@@ -296,7 +296,7 @@
     "Set up two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "A kétfaktoros hitelesítés be van tartatva, de nincs beállítva a fiókján. Használja a biztonsági kódjai egyikét a bejelentkezéshez, vagy ha segítségre van szüksége, akkor lépjen kapcsolatba a rendszergazdával.",
     "Use backup code" : "Biztonsági kód használata",
-    "Cancel log in" : "Bejelentkezés megszakítása",
+    "Cancel login" : "Bejelentkezés megszakítása",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
     "Error while validating your second factor" : "Hiba történt a második lépés évényesítésekor",
     "Access through untrusted domain" : "Nem megbízható domain-en keresztüli hozzáférés",
@@ -409,6 +409,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Amikor az asztali klienset használja fálj szinkronizációra, akkor az SQLite használata nem ajánlott.",
     "Wrong password." : "Hibás jelszó.",
     "New Password" : "Új jelszó",
+    "Cancel log in" : "Bejelentkezés megszakítása",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Egy jelszó visszaállítási e-mailt küldtünk a fiókban megadott e-mail címre. Ha nem kapja meg belátható időn belül, akkor ellenőrizze a levélszemét mappát.<br>Ha ott sincs, akkor kérdezze meg a helyi rendszergazdát.",
     "Search globally" : "Keresés globálisan",
     "Your client should now be connected! You can close this window." : "Az ügyfél már csatlakozhatott! Bezárhatod ezt az ablakot."

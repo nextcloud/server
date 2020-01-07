@@ -31,6 +31,7 @@
     "Users" : "کاربران",
     "Unknown user" : "کاربر نامعلوم",
     "Sharing" : "اشتراک گذاری",
+    "Security" : "امنیت",
     "Personal info" : "مشخصات شخصی",
     "%s enter the database username." : "%s نام کاربری پایگاه داده را وارد نمایید.",
     "%s enter the database name." : "%s نام پایگاه داده را وارد نمایید.",
@@ -101,8 +102,12 @@
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
     "Create" : "ایجاد کردن",
+    "Change" : "تغییر",
     "Delete" : "حذف",
     "Share" : "هم‌رسانی",
-    "Unlimited" : "نامحدود"
+    "Unlimited" : "نامحدود",
+    "Verifying" : "تایید شدن",
+    "Verifying …" : "در حال تایید شدن...",
+    "Verify" : "تأیید کنید"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

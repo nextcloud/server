@@ -193,7 +193,6 @@
     "The password is wrong. Try again." : "Error en la contraseña. Inténtelo de nuevo.",
     "Two-factor authentication" : "Autenticación de dos-factores",
     "Use backup code" : "Usar código de respaldo",
-    "Cancel log in" : "Cancelar inicio de sesión",
     "Error while validating your second factor" : "Se presentó un error al validar su segundo factor",
     "App update required" : "Se requiere una actualización de la aplicación",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:",
@@ -275,6 +274,7 @@
     "For larger installations we recommend to choose a different database backend." : "Para instalaciones más grandes le recomendamos elegir un backend de base de datos diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLiite es especialmente desalentado al usar el cliente de escritorio para sincrionizar. ",
     "Wrong password." : "Contraseña inválida. ",
-    "New Password" : "Nueva Contraseña"
+    "New Password" : "Nueva Contraseña",
+    "Cancel log in" : "Cancelar inicio de sesión"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

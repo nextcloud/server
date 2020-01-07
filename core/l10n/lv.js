@@ -211,7 +211,7 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
     "Two-factor authentication" : "Divpakāpju autentifikācija",
     "Use backup code" : "Izmantojiet dublēšanas kodu",
-    "Cancel log in" : "Atcelt pieteikšanos",
+    "Cancel login" : "Atcelt pieteikšanos",
     "Error while validating your second factor" : "Kļūda validējot jūsu otru faktoru.",
     "Access through untrusted domain" : "Piekļūt caur neuzticamu domēnu",
     "App update required" : "Lietotnei nepieciešama atjaunināšana",
@@ -297,6 +297,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Priekš lielākām instalācijām mēs iesakām izvēlēties citu datubāzes serveri.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Sevišķi, ja izmantojat darbvirsmas klientu datņu sinhronizācijai, SQLite izmantošana nav ieteicama.",
     "Wrong password." : "Nepareiza parole.",
-    "New Password" : "Jauna parole"
+    "New Password" : "Jauna parole",
+    "Cancel log in" : "Atcelt pieteikšanos"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

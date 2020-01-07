@@ -221,7 +221,6 @@ OC.L10N.register(
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან.",
     "Two-factor authentication" : "ორ-ფაქტრიანი აუტენტიფიკაცია",
     "Use backup code" : "ბექაფის კოდის გამოყენება",
-    "Cancel log in" : "ავტორიზაციის შეჩერება",
     "Error while validating your second factor" : "მეორე ფაქტორის ვალიდაციისას წარმოიშვა შეცდომა",
     "Access through untrusted domain" : "წვდომა არა-სანდო დომენიდან",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს. იმ შემთხვევაში თუ ბრძანდებით ადმინისტრატორი, config/config.php-ში შეცვალეთ \"trusted_domains\" პარამეტრი, ისე როგორც ნაჩვენებია მაგალითში config.sample.php.",
@@ -306,6 +305,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "უფრო დიდი ინსტალაციებისთვის რეკომენდაციას გიწევთ აირჩიოთ სხვა მონაცემთა ბაზა.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite-ის გამოყენება არაა რეკომედირებული განსაკუთრებით მაშინ, როდესაც ფაილების სინქრონიზაციისთვის იყენებთ დესკტოპ-კლიენტს.",
     "Wrong password." : "არასწორი პაროლი.",
-    "New Password" : "ახლი პაროლი"
+    "New Password" : "ახლი პაროლი",
+    "Cancel log in" : "ავტორიზაციის შეჩერება"
 },
 "nplurals=2; plural=(n!=1);");

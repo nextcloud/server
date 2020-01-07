@@ -312,7 +312,7 @@
     "Set up two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Bi faktoreko autentifikazioa aplikatzen da baina ez da konfiguratu zure kontuan. Erabili zure ordezko kode bat saioa hasteko edo jarri harremanetan zure administratzailearekin laguntza jasotzeko.",
     "Use backup code" : "Erabili ordezko kodea",
-    "Cancel log in" : "Ezeztatu saio hasiera",
+    "Cancel login" : "Ezeztatu login",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Segurtasun hobetua aplikatzen da zure kontuan. Aukeratu hornitzailea konfiguratzeko:",
     "Error while validating your second factor" : "Errorea zure bigarren faktorea balioztatzean",
@@ -426,6 +426,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite erabiltzea ez da gomendagarria fitxategiak sinkronizatzeko mahaigaineko aplikazioa erabiltzean.",
     "Wrong password." : "Pasahitz okerra.",
     "New Password" : "Pasahitz berria",
+    "Cancel log in" : "Ezeztatu saio hasiera",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Pasahitza berrezartzeko posta elektroniko bat bidali dugu kontu honen helbide elektronikora. Ez baduzu arrazoizko denbora epe batean jasotzen, begiratu zure zabor-posta karpetan. <br> Ez badago hor, galdetu zure administratzaile lokalari.",
     "Search globally" : "Bilatu globalki",
     "Your client should now be connected! You can close this window." : "Zure bezeroak konektatuta dago! Leiho hau itxi dezakezu."

@@ -170,7 +170,7 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "Two-factor authentication" : "Otentikasi Two-factor",
     "Use backup code" : "Gunakan kode cadangan",
-    "Cancel log in" : "Batalkan masuk log",
+    "Cancel login" : "Batalkan log masuk",
     "Error while validating your second factor" : "Galat ketika memvalidasi faktor kedua anda",
     "App update required" : "Diperlukan perbarui aplikasi",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:",
@@ -237,6 +237,7 @@ OC.L10N.register(
     "For larger installations we recommend to choose a different database backend." : "Untuk instalasi yang lebih besar, kami menyarankan untuk memilih backend basis data yang berbeda.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Terutama saat menggunakan klien desktop untuk sinkronisasi berkas, penggunaan SQLite tidak disarankan.",
     "Wrong password." : "Sandi salah.",
-    "New Password" : "Kata sandi Baru"
+    "New Password" : "Kata sandi Baru",
+    "Cancel log in" : "Batalkan masuk log"
 },
 "nplurals=1; plural=0;");

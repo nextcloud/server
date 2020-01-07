@@ -283,7 +283,7 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "To-faktor adgang påkrævet, men endnu ikke indstillet for din konto. kontakt venligst din administrator for hjælp.",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "To-faktor adgang påkrævet, men endnu ikke indstillet for din konto. Brug en af dine nødkoder for at logge ind eller kontakt din administrator for hjælp.",
     "Use backup code" : "Benyt backup-kode",
-    "Cancel log in" : "Annullér login",
+    "Cancel login" : "Annuller login",
     "Error while validating your second factor" : "Fejl i valideringen af din anden faktor login",
     "Access through untrusted domain" : "Tilgå gennem et utroværdigt domæne.",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Kontakt venligst din administrator. Hvis du er administratoren af denne server, skal du konfigurerer \"trusted-domains\" i filen config/config.php. Et eksempel på hvordan kan findes i filen config/config.sample.php",
@@ -395,6 +395,7 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Brug af SQLite frarådes især når skrivebordsklienten anvendes til filsynkronisering.",
     "Wrong password." : "Forkert kodeord.",
     "New Password" : "Ny adgangskode",
+    "Cancel log in" : "Annullér login",
     "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "En e-post til at nulstille dit kodeord er blevet sendt til e-postadressen for denne konto. Hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis den ikke er der, så spørg din lokale administrator.",
     "Search globally" : "Søg globalt",
     "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue"
