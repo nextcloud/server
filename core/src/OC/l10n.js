@@ -22,12 +22,7 @@ import {
 	unregisterAppTranslations,
 } from './l10n-registry'
 
-const sanitize = text => {
-	const purified = DOMPurify.sanitize(text)
-	const textArea = document.createElement('textarea')
-	textArea.innerHTML = purified
-	return textArea.value
-}
+const sanitize = text => DOMPurify.sanitize(text).replace('&amp;', '&')
 
 /**
  * L10N namespace with localization functions.
