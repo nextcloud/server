@@ -115,6 +115,7 @@
 						:class="{ error: errors.note}"
 						:disabled="saving"
 						:value.sync="share.note"
+						:title="t('files_sharing', 'Enter a note for the share recipient')"
 						icon="icon-edit"
 						@update:value="debounceQueueUpdate('note')" />
 				</template>

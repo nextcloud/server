@@ -77,6 +77,14 @@ export default {
 				SHARE_TYPE_REMOTE_GROUP: OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				SHARE_TYPE_ROOM: OC.Share.SHARE_TYPE_ROOM,
 			},
+
+			shareHasNote: !!this.share.note
+		}
+	},
+
+	watch: {
+		share(val) {
+			this.shareHasNote = !!val.note
 		}
 	},
 
@@ -88,12 +96,13 @@ export default {
 		 */
 		hasNote: {
 			get: function() {
-				return !!this.share.note
+				return this.shareHasNote
 			},
 			set: function(enabled) {
-				this.share.note = enabled
-					? t('files_sharing', 'Enter a note for the share recipient')
-					: ''
+				if (!enabled) {
+					this.share.note = ''
+				}
+				this.shareHasNote = enabled
 			},
 		},
 
