@@ -160,6 +160,7 @@ OC.L10N.register(
     "Recommended apps" : "Applis recommandées",
     "Loading apps …" : "Chargement des applis …",
     "Installing apps …" : "Installation des applis en cours ...",
+    "App download or installation failed" : "Échec lors du téléchargement ou de l'installation de l'appli",
     "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
     "Can't install this app" : "Impossible d'installer cette appli",
     "Cancel" : "Annuler",
