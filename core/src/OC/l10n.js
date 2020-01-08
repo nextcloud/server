@@ -22,6 +22,13 @@ import {
 	unregisterAppTranslations,
 } from './l10n-registry'
 
+const sanitize = text => {
+	const purified = DOMPurify.sanitize(text)
+	const textArea = document.createElement('textarea')
+	textArea.innerHTML = purified
+	return textArea.value
+}
+
 /**
  * L10N namespace with localization functions.
  *
@@ -102,12 +109,12 @@ const L10n = {
 					const r = vars[b]
 					if (typeof r === 'string' || typeof r === 'number') {
 						if (allOptions.escape) {
-							return DOMPurify.sanitize(escapeHTML(r))
+							return sanitize(escapeHTML(r))
 						} else {
-							return DOMPurify.sanitize(r)
+							return sanitize(r)
 						}
 					} else {
-						return DOMPurify.sanitize(a)
+						return sanitize(a)
 					}
 				}
 			)
@@ -120,9 +127,9 @@ const L10n = {
 		}
 
 		if (typeof vars === 'object' || count !== undefined) {
-			return DOMPurify.sanitize(_build(translation, vars, count))
+			return sanitize(_build(translation, vars, count))
 		} else {
-			return DOMPurify.sanitize(translation)
+			return sanitize(translation)
 		}
 	},
 
