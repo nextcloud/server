@@ -56,7 +56,7 @@
     "moment-timezone": "^0.5.27",
     "nextcloud-password-confirmation": "^0.4.2",
     "nextcloud-router": "0.0.9",
-    "nextcloud-vue": "^0.12.8",
+    "nextcloud-vue": "^0.12.11",
     "nextcloud-vue-collections": "^0.7.1",
     "p-limit": "^2.2.2",
     "p-queue": "^6.2.1",
