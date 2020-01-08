@@ -108,6 +108,16 @@ class RegistryTest extends TestCase {
 		$this->registry->disableProviderFor($provider, $user);
 	}
 
+	public function testDeleteUserData() {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->once())->method('getUID')->willReturn('user123');
+		$this->dao->expects($this->once())
+			->method('deleteByUser')
+			->with('user123');
+
+		$this->registry->deleteUserData($user);
+	}
+
 	public function testCleanUp() {
 		$this->dao->expects($this->once())
 			->method('deleteAll')
