@@ -172,7 +172,7 @@ export default {
 				}
 
 				this.userSuggestions = {}
-				response.data.ocs.data.users.forEach(user => {
+				response.data.ocs.data.exact.users.concat(response.data.ocs.data.users).forEach(user => {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
 						displayName: user.label,
