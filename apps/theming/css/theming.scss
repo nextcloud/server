@@ -12,7 +12,7 @@
 }
 
 @mixin faded-background-image {
-	@if ($color-primary == #0082C9) {
+	@if ($color-primary == #0082C9) or ($has-custom-background == true) {
 		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
 
 		@if($has-custom-background == true) {
