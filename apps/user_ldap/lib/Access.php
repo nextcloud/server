@@ -345,7 +345,7 @@ class Access extends LDAPUtility {
 		}
 		return [];
 	}
-	
+
 	/**
 	 * Set password for an LDAP user identified by a DN
 	 *
@@ -646,6 +646,8 @@ class Access extends LDAPUtility {
 			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
 				$this->cacheUserExists($name);
 				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+			} elseif (!$isUser) {
+				$this->cacheGroupExists($name);
 			}
 			return true;
 		}
@@ -747,6 +749,13 @@ class Access extends LDAPUtility {
 	 */
 	public function cacheUserExists($ocName) {
 		$this->connection->writeToCache('userExists'.$ocName, true);
+	}
+
+	/**
+	 * caches a group as existing
+	 */
+	public function cacheGroupExists(string $gid): void {
+		$this->connection->writeToCache('groupExists'.$gid, true);
 	}
 
 	/**
@@ -938,7 +947,15 @@ class Access extends LDAPUtility {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), $this->manyAttributes($attr));
+		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
+		array_walk($groupRecords, function($record) {
+			$newlyMapped = false;
+			$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
+			if(!$newlyMapped && is_string($gid)) {
+				$this->cacheGroupExists($gid);
+			}
+		});
+		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
 	}
 
 	/**
