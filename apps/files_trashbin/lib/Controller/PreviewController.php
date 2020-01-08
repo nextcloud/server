@@ -84,12 +84,12 @@ class PreviewController extends Controller {
 	 * @return DataResponse|Http\FileDisplayResponse
 	 */
 	public function getPreview(
-		int $fileId,
+		int $fileId = -1,
 		int $x = 128,
 		int $y = 128
 	) {
 
-		if ($x === 0 || $y === 0) {
+		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
