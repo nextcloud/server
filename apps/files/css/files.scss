@@ -786,6 +786,11 @@ table.dragshadow td.size {
 	}
 }
 
+.notCreatable {
+	padding-left: 12px;
+	padding-top: 12px;
+	color: var(--color-text-lighter);
+}
 
 #quota {
 	margin: 0 !important;
