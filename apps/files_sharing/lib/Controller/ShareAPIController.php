@@ -865,8 +865,8 @@ class ShareAPIController extends OCSController {
 		/** @var Node[] $nodes */
 		$nodes = [];
 		while ($node->getPath() !== $basePath) {
-			$nodes[] = $node;
 			$node = $node->getParent();
+			$nodes[] = $node;
 		}
 
 		// for each nodes, retrieve shares.
