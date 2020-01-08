@@ -650,6 +650,14 @@
 			var model = this.getModelForFile(tr)
 			var path = model.attributes.path + '/' + model.attributes.name
 
+			// make sure the file list has the correct context available
+			if (this._currentFileModel) {
+				this._currentFileModel.off();
+			}
+			this.$fileList.children().removeClass('highlighted');
+			tr.addClass('highlighted');
+			this._currentFileModel = model;
+
 			// open sidebar and set file
 			OCA.Files.Sidebar.open(path.replace('//', '/'))
 		},
