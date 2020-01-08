@@ -89,13 +89,15 @@ abstract class Avatar implements IAvatar {
 	 *
 	 * @return string
 	 */
-	private function getAvatarLetter(): string {
+	private function getAvatarText(): string {
 		$displayName = $this->getDisplayName();
 		if (empty($displayName) === true) {
 			return '?';
-		} else {
-			return mb_strtoupper(mb_substr($displayName, 0, 1), 'UTF-8');
 		}
+		$firstTwoLetters = array_map(function ($namePart) {
+			return mb_strtoupper(mb_substr($namePart, 0, 1), 'UTF-8');
+		}, explode(' ', $displayName, 2));
+		return implode('', $firstTwoLetters);
 	}
 
 	/**
@@ -130,9 +132,9 @@ abstract class Avatar implements IAvatar {
 		$userDisplayName = $this->getDisplayName();
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
-		$letter = $this->getAvatarLetter();
-		$toReplace = ['{size}', '{fill}', '{letter}'];
-		return str_replace($toReplace, [$size, $bgHEX, $letter], $this->svgTemplate);
+		$text = $this->getAvatarText();
+		$toReplace = ['{size}', '{fill}', '{text}'];
+		return str_replace($toReplace, [$size, $bgHEX, $text], $this->svgTemplate);
 	}
 
 	/**
@@ -168,7 +170,7 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 */
 	protected function generateAvatar($userDisplayName, $size) {
-		$letter = $this->getAvatarLetter();
+		$text = $this->getAvatarText();
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
 		$im = imagecreatetruecolor($size, $size);
@@ -185,10 +187,10 @@ abstract class Avatar implements IAvatar {
 
 		$fontSize = $size * 0.4;
 		list($x, $y) = $this->imageTTFCenter(
-			$im, $letter, $font, (int)$fontSize
+			$im, $text, $font, (int)$fontSize
 		);
 
-		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $letter);
+		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
 
 		ob_start();
 		imagepng($im);
