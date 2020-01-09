@@ -282,5 +282,5 @@ e.exports=function(e){var t={};function n(r){if(t[r])return t[r].exports;var i=t
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-i.default.use(G.a),i.default.prototype.t=t,window.addEventListener("DOMContentLoaded",(function(){if(window.OCA.Files||(window.OCA.Files={}),Object.assign(window.OCA.Files,{Sidebar:new M}),Object.assign(window.OCA.Files.Sidebar,{Tab:$}),document.getElementById("content")&&!document.getElementById("app-sidebar")){var e=document.getElementById("content"),t=document.createElement("div");t.id="app-sidebar",e.appendChild(t)}new i.default({name:"SidebarRoot",render:function(e){return e(T)}}).$mount("#app-sidebar")}))}]);
+i.default.use(G.a),i.default.prototype.t=t,window.OCA.Files||(window.OCA.Files={}),Object.assign(window.OCA.Files,{Sidebar:new M}),Object.assign(window.OCA.Files.Sidebar,{Tab:$}),window.addEventListener("DOMContentLoaded",(function(){if(document.getElementById("content")&&!document.getElementById("app-sidebar")){var e=document.getElementById("content"),t=document.createElement("div");t.id="app-sidebar",e.appendChild(t)}new i.default({name:"SidebarRoot",render:function(e){return e(T)}}).$mount("#app-sidebar")}))}]);
 //# sourceMappingURL=sidebar.js.map
