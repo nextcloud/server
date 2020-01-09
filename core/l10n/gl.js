@@ -314,6 +314,7 @@ OC.L10N.register(
     "Set up two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "É obrigada a autenticación de dous factores, mais non foi configurada na súa conta. Use un dos seus códigos de seguridade para iniciar sesión ou póñase en contacto co administrador para obter axuda.",
     "Use backup code" : "Usar código de seguridade",
+    "Cancel login" : "Cancelar o acceso",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Foi activada a seguridade mellorada para a súa conta. Escolla o fornecedor que quere estabelecer:",
     "Error while validating your second factor" : "Produciuse un erro ao validar o seu segundo factor",

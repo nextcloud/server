@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Sizinle paylaşılan",
     "Shared by link" : "Bağlantı ile paylaşılmış",
     "Deleted shares" : "Silinmiş paylaşımlar",
+    "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "File handling" : "Dosya işlemleri",

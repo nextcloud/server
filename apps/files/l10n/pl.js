@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Udostępnione dla Ciebie",
     "Shared by link" : "Udostępnione przez link",
     "Deleted shares" : "Usunięte współdzielenie",
+    "Pending shares" : "Oczekujące udostępnienia",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "File handling" : "Zarządzanie plikami",
