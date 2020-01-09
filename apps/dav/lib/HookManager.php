@@ -33,6 +33,7 @@ namespace OCA\DAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
@@ -61,6 +62,9 @@ class HookManager {
 	/** @var array */
 	private $addressBooksToDelete = [];
 
+	/** @var Defaults */
+	private $themingDefaults;
+
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
@@ -68,11 +72,13 @@ class HookManager {
 								SyncService $syncService,
 								CalDavBackend $calDav,
 								CardDavBackend $cardDav,
+								Defaults $themingDefaults,
 								EventDispatcherInterface $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;
 		$this->cardDav = $cardDav;
+		$this->themingDefaults = $themingDefaults;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -155,6 +161,8 @@ class HookManager {
 				try {
 					$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
 						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
+						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
+						'components'   => 'VEVENT'
 					]);
 				} catch (\Exception $ex) {
 					\OC::$server->getLogger()->logException($ex);
