@@ -138,7 +138,7 @@ const store = new Vuex.Store({
 	},
 	getters: {
 		getRules(state) {
-			return state.rules.sort((rule1, rule2) => {
+			return state.rules.filter((rule) => typeof state.operations[rule.class] !== 'undefined').sort((rule1, rule2) => {
 				return rule1.id - rule2.id || rule2.class - rule1.class
 			})
 		},
