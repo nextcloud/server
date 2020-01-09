@@ -875,6 +875,7 @@ $outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 	right: 0;
 	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
 	display: none;
+	will-change: filter;
 
 	&:after {
 		bottom: 100%;
