@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Mit Dir geteilt",
     "Shared by link" : "Über einen Link geteilt",
     "Deleted shares" : "Gelöschte Freigaben",
+    "Pending shares" : "Ausstehende Freigaben",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "File handling" : "Dateibehandlung",

@@ -292,6 +292,7 @@ OC.L10N.register(
     "Unable to toggle this option" : "Nepavyko perjungti pasirinkimo",
     "Resharing is not allowed" : "Dalijinasis išnaujo negalimas",
     "Link" : "Nuoroda",
+    "Hide download" : "Slėpti atsisiuntimą",
     "Password protection enforced" : "Aktyvuota apsauga slaptažodžiu",
     "Password protect" : "Apsaugoti slaptažodžiu",
     "Allow editing" : "Leisti redaguoti",
