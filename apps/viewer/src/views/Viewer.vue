@@ -41,7 +41,7 @@
 		<!-- ACTIONS -->
 		<template #actions>
 			<ActionButton
-				v-if="OCA.Files && OCA.Files.Sidebar"
+				v-if="Sidebar && !isSidebarShown"
 				icon="icon-menu-sidebar-white-forced"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
@@ -127,7 +127,9 @@ export default {
 	mixins: [isMobile, isFullscreen],
 
 	data: () => ({
+		// reactivity bindings
 		Viewer: OCA.Viewer.state,
+		Sidebar: null,
 		handlers: OCA.Viewer.availableHandlers,
 
 		components: {},
@@ -176,6 +178,10 @@ export default {
 		},
 		isEndOfList() {
 			return this.currentIndex === this.fileList.length - 1
+		},
+		// Current opened file in the sidebar if available
+		sidebarFile() {
+			return this.Sidebar && this.Sidebar.file
 		},
 	},
 
@@ -236,6 +242,13 @@ export default {
 				}
 			}
 		},
+
+		sidebarFile: function(file) {
+			// TODO: implement sidebar event bus
+			if (file === '') {
+				this.hideAppsSidebar()
+			}
+		},
 	},
 
 	beforeMount() {
@@ -245,18 +258,24 @@ export default {
 			this.handlers.forEach(handler => {
 				this.registerHandler(handler)
 			})
+
 			// then register aliases. We need to have the components
 			// first so we can bind the alias to them.
 			this.handlers.forEach(handler => {
 				this.registerHandlerAlias(handler)
 			})
 			this.isLoaded = true
+
+			// bind Sidebar if available
+			if (OCA.Files && OCA.Files.Sidebar) {
+				this.Sidebar = OCA.Files.Sidebar.state
+			}
 		})
 
 		window.addEventListener('resize', this.onResize)
 
 		if (this.standalone) {
-			console.debug('No OCA.Files found, viewer is now in standalone mode')
+			console.debug('No OCA.Files app found, viewer is now in standalone mode')
 		}
 	},
 
@@ -598,25 +617,19 @@ export default {
 
 		showSidebar() {
 			// Open the sidebar sharing tab
-			OCA.Files.App.fileList.showDetailsView(this.currentFile.basename)
+			OCA.Files.Sidebar.open(this.currentFile.filename)
 			this.showAppsSidebar()
 		},
 
 		showAppsSidebar() {
 			this.isSidebarShown = true
-			const sidebar = document.getElementById('app-sidebar')
-			if (sidebar) {
-				sidebar.classList.add('app-sidebar--full')
-			}
-
-			// overriding closing function
-			const origHideAppsSidebar = OC.Apps.hideAppSidebar
-			OC.Apps.hideAppSidebar = ($el) => {
-				this.hideAppsSidebar()
-				origHideAppsSidebar($el)
-			}
-
-			this.sidebarWidth = sidebar.offsetWidth
+			setTimeout(() => {
+				const sidebar = document.getElementById('app-sidebar')
+				if (sidebar) {
+					sidebar.classList.add('app-sidebar--full')
+					this.sidebarWidth = sidebar.offsetWidth
+				}
+			}, 200)
 		},
 
 		hideAppsSidebar() {
