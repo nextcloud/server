@@ -54,36 +54,69 @@ describe('Open images in viewer', function() {
 			.should('contain', 'image4.jpg')
 	})
 
-	it('Open the viewer with a specific list', function() {
+	it('Open the viewer with a specific list', async function() {
+		// make sure we only loadMore once
+		let loaded = false
+
 		// get the two files fileids
 		cy.getFileId('image1.jpg').then(fileID1 => {
-			cy.getFileId('image3.jpg').then(fileID3 => {
+			cy.getFileId('image2.jpg').then(fileID2 => {
+				cy.getFileId('image3.jpg').then(fileID3 => {
+					cy.getFileId('image4.jpg').then(fileID4 => {
 
-				// open the viewer with custom list of fileinfo
-				cy.window().then((win) => {
-					win.OCA.Viewer.open({
-						path: '/image1.jpg',
-						list: [
-							{
-								basename: 'image1.jpg',
-								filename: '/image1.jpg',
-								hasPreview: true,
-								fileid: parseInt(fileID1),
-								mime: 'image/jpeg',
-								etag: '123456789',
-							},
-							{
-								basename: 'image3.jpg',
-								filename: '/image3.jpg',
-								hasPreview: true,
-								fileid: parseInt(fileID3),
-								mime: 'image/jpeg',
-								etag: '987654321',
-							},
-						],
+						// open the viewer with custom list of fileinfo
+						cy.window().then((win) => {
+							win.OCA.Viewer.open({
+								path: '/image1.jpg',
+								list: [
+									{
+										basename: 'image1.jpg',
+										filename: '/image1.jpg',
+										hasPreview: true,
+										fileid: parseInt(fileID1),
+										mime: 'image/jpeg',
+										etag: 'etag123',
+									},
+									{
+										basename: 'image2.jpg',
+										filename: '/image2.jpg',
+										hasPreview: true,
+										fileid: parseInt(fileID2),
+										mime: 'image/jpeg',
+										etag: 'etag456',
+									},
+								],
+								// This will be triggered when we get to the end of the list
+								loadMore: function() {
+									// make sure we only loadMore once
+									if (loaded) {
+										return []
+									}
+
+									loaded = true
+									return [
+										{
+											basename: 'image3.jpg',
+											filename: '/image3.jpg',
+											hasPreview: true,
+											fileid: parseInt(fileID3),
+											mime: 'image/jpeg',
+											etag: 'etag123',
+										},
+										{
+											basename: 'image4.jpg',
+											filename: '/image4.jpg',
+											hasPreview: true,
+											fileid: parseInt(fileID4),
+											mime: 'image/jpeg',
+											etag: 'etag456',
+										},
+									]
+								}
+							})
+						})
 					})
 				})
-
 			})
 		})
 		cy.get('#viewer-content').should('be.visible')
@@ -123,7 +156,7 @@ describe('Open images in viewer', function() {
 		cy.matchImageSnapshot()
 	})
 
-	it('Show image3 on next', function() {
+	it('Show image2 on next', function() {
 		cy.get('#viewer-content a.next').click()
 		cy.get('#viewer-content .modal-container img').should('have.length', 2)
 		cy.get('#viewer-content a.prev').should('be.visible')
@@ -137,10 +170,32 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image3.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+	it('Have the proper height and width values', function() {
+		// not using should('have.css'), we want the inline styling
+		cy.get('#viewer-content .modal-container img.active')
+			.should('have.attr', 'style')
+			// 70% max width (see cypress config)
+			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
+			// capped by the width, keeping ratio
+			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 1688)}px`, 'i'))
+	})
+
+	it('Does not have any visual regression 2', function() {
+		cy.matchImageSnapshot()
+	})
+
+	it('Show image3 on next', function() {
+		cy.get('#viewer-content a.next').click()
+		cy.get('#viewer-content .modal-container img').should('have.length', 3)
+		cy.get('#viewer-content a.prev').should('be.visible')
+		cy.get('#viewer-content a.next').should('be.visible')
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('#viewer-content', { timeout: 4000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
 	})
 
 	it('Have the proper height and width values', function() {
@@ -153,11 +208,11 @@ describe('Open images in viewer', function() {
 			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2002)}px`, 'i'))
 	})
 
-	it('Does not have any visual regression 2', function() {
+	it('Does not have any visual regression 3', function() {
 		cy.matchImageSnapshot()
 	})
 
-	it('Show image1 on next', function() {
+	it('Show image4 on next', function() {
 		cy.get('#viewer-content a.next').click()
 		cy.get('#viewer-content .modal-container img').should('have.length', 2)
 		cy.get('#viewer-content a.prev').should('be.visible')
@@ -171,10 +226,32 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+	it('Have the proper height and width values', function() {
+		// not using should('have.css'), we want the inline styling
+		cy.get('#viewer-content .modal-container img.active')
+			.should('have.attr', 'style')
+			// 70% max width (see cypress config)
+			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
+			// capped by the width, keeping ratio
+			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
+	})
+
+	it('Does not have any visual regression 4', function() {
+		cy.matchImageSnapshot()
+	})
+
+	it('Show image1 again on next', function() {
+		cy.get('#viewer-content a.next').click()
+		cy.get('#viewer-content .modal-container img').should('have.length', 2)
+		cy.get('#viewer-content a.prev').should('be.visible')
+		cy.get('#viewer-content a.next').should('be.visible')
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('#viewer-content', { timeout: 4000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
 	})
 
 	it('Have the proper height and width values', function() {
@@ -187,7 +264,7 @@ describe('Open images in viewer', function() {
 			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
 	})
 
-	it('Does not have any visual regression 3', function() {
+	it('Does not have any visual regression 5', function() {
 		cy.matchImageSnapshot()
 	})
 })
