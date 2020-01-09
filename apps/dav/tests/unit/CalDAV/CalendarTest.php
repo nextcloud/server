@@ -1,12 +1,14 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2020, Gary Kim <gary@garykim.dev>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Gary Kim <gary@garykim.dev>
  *
  * @license AGPL-3.0
  *
@@ -73,7 +75,7 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
-	
+
 	public function testDeleteFromGroup() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -424,6 +426,27 @@ EOD;
 			$this->assertArrayNotHasKey('LOCATION', $event->VEVENT);
 			$this->assertArrayNotHasKey('DESCRIPTION', $event->VEVENT);
 			$this->assertArrayNotHasKey('ORGANIZER', $event->VEVENT);
+		} else {
+			$this->assertEquals('Test Event', $event->VEVENT->SUMMARY->getValue());
+		}
+
+		// Test l10n
+		$l10n = $this->createMock(IL10N::class);
+		if ($isShared) {
+			$l10n->expects($this->once())
+				->method('t')
+				->with('Busy')
+				->willReturn("Translated busy");
+		} else {
+			$l10n->expects($this->never());
+		}
+		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
+
+		$calData = $c->getChild('event-1')->get();
+		$event = Reader::read($calData);
+
+		if ($isShared) {
+			$this->assertEquals('Translated busy', $event->VEVENT->SUMMARY->getValue());
 		} else {
 			$this->assertEquals('Test Event', $event->VEVENT->SUMMARY->getValue());
 		}

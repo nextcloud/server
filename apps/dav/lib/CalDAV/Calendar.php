@@ -48,6 +48,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IL10N */
+	protected $l10n;
+
 	/**
 	 * Calendar constructor.
 	 *
@@ -68,6 +71,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$this->config = $config;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -289,7 +293,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 		$obj['acl'] = $this->getChildACL();
 
-		return new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+		return new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 
 	}
 
@@ -302,7 +306,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				continue;
 			}
 			$obj['acl'] = $this->getChildACL();
-			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+			$children[] = new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 		}
 		return $children;
 
@@ -317,7 +321,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				continue;
 			}
 			$obj['acl'] = $this->getChildACL();
-			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+			$children[] = new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 		}
 		return $children;
 
