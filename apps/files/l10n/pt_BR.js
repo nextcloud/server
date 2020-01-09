@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Compartilhado com você",
     "Shared by link" : "Compartilhado via link",
     "Deleted shares" : "Compartilhamentos excluídos",
+    "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
     "File handling" : "Tratamento de arquivo",

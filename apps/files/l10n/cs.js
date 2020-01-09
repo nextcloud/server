@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Sdíleno s vámi",
     "Shared by link" : "Sdíleno pomocí odkazu",
     "Deleted shares" : "Smazaná sdílení",
+    "Pending shares" : "Čekající sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "File handling" : "Zacházení se soubory",
