@@ -121,6 +121,7 @@ export default {
 			this.deleteVisible = false
 		},
 		validate() {
+			this.valid = true
 			if (this.currentOption && this.currentOption.validate) {
 				this.valid = !!this.currentOption.validate(this.check)
 			}
