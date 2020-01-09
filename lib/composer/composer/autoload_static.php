@@ -631,6 +631,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Listeners\\RemoteWipeActivityListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeActivityListener.php',
         'OC\\Authentication\\Listeners\\RemoteWipeEmailListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeEmailListener.php',
         'OC\\Authentication\\Listeners\\RemoteWipeNotificationsListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeNotificationsListener.php',
+        'OC\\Authentication\\Listeners\\UserDeletedStoreCleanupListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/UserDeletedStoreCleanupListener.php',
         'OC\\Authentication\\LoginCredentials\\Credentials' => __DIR__ . '/../../..' . '/lib/private/Authentication/LoginCredentials/Credentials.php',
         'OC\\Authentication\\LoginCredentials\\Store' => __DIR__ . '/../../..' . '/lib/private/Authentication/LoginCredentials/Store.php',
         'OC\\Authentication\\Login\\ALoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/ALoginCommand.php',

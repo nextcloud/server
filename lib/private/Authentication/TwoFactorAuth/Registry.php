@@ -66,6 +66,13 @@ class Registry implements IRegistry {
 		$this->dispatcher->dispatch(self::EVENT_PROVIDER_DISABLED, $event);
 	}
 
+	/**
+	 * @todo evaluate if we should emit RegistryEvents for each of the deleted rows -> needs documentation
+	 */
+	public function deleteUserData(IUser $user): void {
+		$this->assignmentDao->deleteByUser($user->getUID());
+	}
+
 	public function cleanUp(string $providerId) {
 		$this->assignmentDao->deleteAll($providerId);
 	}
