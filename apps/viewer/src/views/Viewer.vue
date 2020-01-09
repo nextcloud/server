@@ -171,6 +171,12 @@ export default {
 		files() {
 			return this.Viewer.files
 		},
+		loadMore() {
+			return this.Viewer.loadMore
+		},
+		isEndOfList() {
+			return this.currentIndex === this.fileList.length - 1
+		},
 	},
 
 	watch: {
@@ -209,6 +215,25 @@ export default {
 			if (currentIndex > -1) {
 				this.currentIndex = currentIndex
 				console.debug('The files list changed, new current file index is', currentIndex)
+			}
+			// finally replace the fileList
+			this.fileList = fileList
+		},
+
+		// user reached the end of list
+		isEndOfList: async function(isEndOfList) {
+			if (!isEndOfList) {
+				return
+			}
+
+			// if we have a loadMore handler, let's fetch more files
+			if (this.loadMore && typeof this.loadMore === 'function') {
+				console.debug('Fetching additional files...')
+				const list = await this.loadMore()
+
+				if (Array.isArray(list) && list.length > 0) {
+					this.fileList.push(...list)
+				}
 			}
 		},
 	},

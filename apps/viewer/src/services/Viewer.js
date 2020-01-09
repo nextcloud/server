@@ -31,6 +31,7 @@ export default class Viewer {
 		this.#state = {}
 		this.#state.file = ''
 		this.#state.files = []
+		this.#state.loadMore = () => ([])
 		this.#state.handlers = []
 
 		// ! built-in handlers
@@ -89,7 +90,13 @@ export default class Viewer {
 	 * @param {string} path the path to open
 	 * @param {Object[]} [list] the list of files as objects (fileinfo) format
 	 */
-	open(path, list = []) {
+	open({ path, list = [], loadMore = () => ([]) } = {}) {
+		// TODO: remove legacy method in NC 20 ?
+		if (typeof arguments[0] === 'string') {
+			path = arguments[0]
+			console.warn('Opening the viewer with a single string parameter is deprecated. Please use a destructuring object instead', `OCA.Viewer.open({ path: '${path}' })`)
+		}
+
 		if (!path.startsWith('/')) {
 			throw new Error('Please use an absolute path')
 		}
@@ -98,8 +105,13 @@ export default class Viewer {
 			throw new Error('The files list must be an array')
 		}
 
+		if (typeof loadMore !== 'function') {
+			throw new Error('The loadMore method must be a function')
+		}
+
 		this.#state.file = path
 		this.#state.files = list
+		this.#state.loadMore = loadMore
 	}
 
 	/**
@@ -110,6 +122,7 @@ export default class Viewer {
 	close() {
 		this.#state.file = ''
 		this.#state.files = []
+		this.#state.loadMore = () => ([])
 	}
 
 }
