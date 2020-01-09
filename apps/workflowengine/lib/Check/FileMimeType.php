@@ -154,4 +154,8 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	public function supportedEntities(): array {
 		return [ File::class ];
 	}
+
+	public function isAvailableForScope(int $scope): bool {
+		return true;
+	}
 }
