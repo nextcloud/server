@@ -131,6 +131,7 @@
 		methods: {
 			passwordResetFinished() {
 				this.resetPasswordTarget = ''
+				this.directLogin = true
 			}
 		}
 	}
