@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<ul class="sharing-link-list" v-if="canLinkShare">
+	<ul v-if="canLinkShare" class="sharing-link-list">
 		<!-- If no link shares, show the add link default entry -->
 		<SharingEntryLink v-if="!hasLinkShares && canReshare"
 			:can-reshare="canReshare"

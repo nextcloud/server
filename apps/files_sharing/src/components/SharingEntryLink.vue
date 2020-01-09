@@ -242,9 +242,9 @@
 						}"
 						:class="{ error: errors.note}"
 						:disabled="saving"
-						:value.sync="share.note"
+						:value="share.note"
 						icon="icon-edit"
-						@update:value="debounceQueueUpdate('note')" />
+						@update:value="onNoteChange" />
 				</template>
 
 				<!-- external sharing via url (social...) -->
@@ -733,7 +733,7 @@ export default {
 		 */
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword
+				this.share.password = this.share.newPassword.trim()
 				this.queueUpdate('password')
 			}
 		},
