@@ -81,8 +81,7 @@ class MailPlugin implements ISearchPlugin {
 		$emailType = new SearchResultType('emails');
 
 		// Search in contacts
-		//@todo Pagination missing
-		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN']);
+		$addressBookContacts = $this->contactsManager->search($search, ['EMAIL', 'FN'], ['limit' => $limit, 'offset' => $offset]);
 		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['EMAIL'])) {
