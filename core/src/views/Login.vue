@@ -131,6 +131,7 @@ export default {
 	methods: {
 		passwordResetFinished() {
 			this.resetPasswordTarget = ''
+			this.directLogin = true
 		},
 	},
 }
