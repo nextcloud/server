@@ -74,12 +74,6 @@ export default {
 		livePhoto() {
 			return this.fileList.find(file => {
 				// if same filename and extension is allowed
-				console.info(
-					file.filename,
-					file.filename !== this.filename,
-					file.basename.startsWith(this.basename),
-					liveExtRegex.exec(file.basename)
-				)
 				return file.filename !== this.filename
 					&& file.basename.startsWith(this.name)
 					&& liveExtRegex.test(file.basename)
@@ -98,7 +92,6 @@ export default {
 
 			// the item was playing before and is now hidden
 			} else if (val === false && old === true) {
-				console.info(val)
 				this.$el.pause()
 			}
 		},

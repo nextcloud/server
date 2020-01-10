@@ -58,7 +58,7 @@ describe('Open images in viewer', function() {
 		// make sure we only loadMore once
 		let loaded = false
 
-		// get the two files fileids
+		// get the files fileids
 		cy.getFileId('image1.jpg').then(fileID1 => {
 			cy.getFileId('image2.jpg').then(fileID2 => {
 				cy.getFileId('image3.jpg').then(fileID3 => {
