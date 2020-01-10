@@ -242,6 +242,7 @@
 						}"
 						:class="{ error: errors.note}"
 						:disabled="saving"
+						:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
 						:value="share.note"
 						icon="icon-edit"
 						@update:value="onNoteChange" />
