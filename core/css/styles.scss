@@ -990,16 +990,10 @@ span.ui-icon {
 	}
 }
 
-#contactsmenu > .menu {
+#header .header-right > div#contactsmenu > .menu {
 	/* show ~4.5 entries */
-	height: 278px;
+	max-height: 278px;
 	width: 350px;
-	max-width: 90%;
-	right: 13px;
-
-	&::after {
-		right: 61px;
-	}
 
 	.emptycontent {
 		margin-top: 5vh !important;
@@ -1011,8 +1005,10 @@ span.ui-icon {
 	}
 
 	.content {
-		max-height: calc(100% - #{$header-height});
-		height: 100%;
+		/* fixed max height of the parent container without the search input */
+		max-height: min(calc(278px - 50px), calc(100vh - 50px * 3));
+		height: min(calc(278px - 50px), calc(100vh - 50px * 3));
+		min-height: calc(44px * 1.5);
 		overflow-y: auto;
 
 		.footer {
