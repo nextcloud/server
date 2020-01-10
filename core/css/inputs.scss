@@ -115,11 +115,6 @@ div[contenteditable=true],
 			cursor: default;
 		}
 	}
-
-	&.error {
-		background-color: var(--color-error) !important;
-		border-color: var(--color-error);
-	}
 }
 
 div[contenteditable=false] {
@@ -197,6 +192,12 @@ input[type='reset'] {
 	/* Get rid of the inside dotted line in Firefox */
 	&::-moz-focus-inner {
 		border: 0;
+	}
+
+	&.error {
+		background-color: var(--color-error) !important;
+		border-color: var(--color-error) !important;
+		color: #fff !important;
 	}
 }
 button, .button {
