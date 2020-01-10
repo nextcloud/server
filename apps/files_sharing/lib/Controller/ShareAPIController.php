@@ -222,12 +222,12 @@ class ShareAPIController extends OCSController {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
-		} else if ($share->getShareType() === Share::SHARE_TYPE_LINK) {
+		} else if ($share->getShareType() === IShare::TYPE_LINK) {
 
 			// "share_with" and "share_with_displayname" for passwords of link
 			// shares was deprecated in Nextcloud 15, use "password" instead.
 			$result['share_with'] = $share->getPassword();
-			$result['share_with_displayname'] = $share->getPassword();
+			$result['share_with_displayname'] = '(' . $this->l->t('Shared link') . ')';
 
 			$result['password'] = $share->getPassword();
 
