@@ -23,7 +23,7 @@
 	<div>
 		<h3>{{ t('files', 'Transfer ownership of a file or folder') }} </h3>
 		<form @submit.prevent="submit">
-			<p>
+			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
 				<button v-if="directory === undefined" @click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
@@ -241,6 +241,11 @@ p {
 			flex-grow: 1;
 			max-width: 280px;
 		}
+	}
+}
+.transfer-select-row {
+	span {
+		margin-right: 8px;
 	}
 }
 </style>
