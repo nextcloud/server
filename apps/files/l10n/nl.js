@@ -140,6 +140,7 @@ OC.L10N.register(
     "Reject" : "Afwijzen",
     "File Management" : "Bestandsbeheer",
     "Change" : "Pas aan",
+    "Transfer" : "Transfer",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
     "Unable to change the favourite state of the file" : "Niet mogelijk om voorkeurtoestand van het bestand te wijzigen",
     "%s used" : "%s gebruikt",

@@ -74,7 +74,7 @@
     "Email setting test" : "Proba do axuste do correo",
     "Well done, %s!" : "Ben feito, %s!",
     "If you received this email, the email configuration seems to be correct." : "Se vostede ten recibido este correo, a configuración do correo semella ser correcta. ",
-    "Email could not be sent. Check your mail server log" : "Non foi posíbel enviar o correo. Comproba o rexistro do servidor de correo",
+    "Email could not be sent. Check your mail server log" : "Non foi posíbel enviar o correo. Comprobe o rexistro do servidor de correo",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Ocorreu un problema ao enviar o correo. Revise a súa configuración. (Erro: %s)",
     "You need to set your user email before being able to send test emails." : "É necesario configurar o correo do usuario antes de poder enviar mensaxes de correo de proba.",
     "Invalid mail address" : "Enderezo de correo incorrecto",
