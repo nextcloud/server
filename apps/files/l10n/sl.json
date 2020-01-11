@@ -128,7 +128,7 @@
     "{user} moved {oldfile} to {newfile}" : "{user} premakne datoteko {oldfile} v {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Datoteka je bila, ali dodana ali umaknjena iz <strong>priljubljenih</strong>",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Datoteka ali mapa je bila <strong>spremenjena</strong> ali <strong>preimenovana</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Nova datoteka ali mapa je bila <strong>ustvarjena</strong>",
+    "A new file or folder has been <strong>created</strong>" : "<strong>Ustvarjena</strong>je nova datoteka ali mapa",
     "A file or folder has been <strong>deleted</strong>" : "Datoteka ali mapa je bila <strong>izbrisana</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Omeji obvestila o ustvarjanju in spreminjanju <strong>najpogosteje uporabljenih</strong> datotek <em>(le za pretok)</em>",
     "A file or folder has been <strong>restored</strong>" : "Datoteka ali mapa je bila <strong>obnovljena</strong>",
