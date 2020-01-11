@@ -250,7 +250,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set note(note) {
-		this.#share.note = note.trim()
+		this.#share.note = note
 	}
 
 	/**
@@ -303,7 +303,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set password(password) {
-		this.#share.password = password.trim()
+		this.#share.password = password
 	}
 
 	// SHARED ITEM DATA ---------------------------------------------
