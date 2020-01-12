@@ -99,7 +99,8 @@ body {
 }
 
 .wrapper {
-	max-width: 100%;
+	width: 100%;
+	max-width: 700px;
 	margin-top: 10vh;
 }
 
