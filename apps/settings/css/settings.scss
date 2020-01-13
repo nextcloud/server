@@ -595,6 +595,11 @@ span.usersLastLoginTooltip {
 			width: 100%;
 		}
 	}
+  	.userActions {
+	  position: sticky;
+	  right: 50px;
+	  z-index: 110;
+ 	}
 	.userActions input {
 		width: 44px;
 		height: 44px;
@@ -1402,6 +1407,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 			.userActions {
 				min-width: 44px;
+			  	position: sticky;
+			  	right: 50px;
+			  	z-index: 109;
 			}
 			.subtitle {
 				color: var(--color-text-maxcontrast);
