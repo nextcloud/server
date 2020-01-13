@@ -67,7 +67,7 @@
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "browserslist-config-nextcloud": "0.1.0",
-    "css-loader": "^3.4.1",
+    "css-loader": "^3.4.2",
     "cypress": "^3.8.2",
     "cypress-image-snapshot": "^3.1.1",
     "eslint": "^5.16.0",
