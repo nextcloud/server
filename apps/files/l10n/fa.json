@@ -34,6 +34,7 @@
     "{newName} already exists" : "{newName} قبلاً موجود است",
     "Could not rename \"{fileName}\"" : "\"{fileName}\" تغییر نام داده نمی‌شود",
     "Could not create file \"{file}\"" : "فایل \"{file}\" ایجاد نمی‌شود",
+    "Could not create file \"{file}\" because it already exists" : "نمی توان پرونده \"{file}\" ایجاد کرد زیرا در حال حاضر وجود دارد",
     "Could not create folder \"{dir}\" because it already exists" : "شاخه \"{dir}\" به علت موجود بودن ساخته نشد",
     "Error deleting file \"{fileName}\"." : "خطای حذف فایل \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "جستجو در پوشه های دیگر برای {tag}{filter}{endtag} یافت نشد",
