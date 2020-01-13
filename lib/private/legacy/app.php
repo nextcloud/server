@@ -900,10 +900,11 @@ class OC_App {
 		if($appPath === false) {
 			return false;
 		}
-		self::registerAutoloading($appId, $appPath);
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$appData = self::getAppInfo($appId);
+
+		self::registerAutoloading($appId, $appPath);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
 		if (file_exists($appPath . '/appinfo/database.xml')) {
