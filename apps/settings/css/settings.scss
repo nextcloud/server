@@ -1614,14 +1614,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 
 				&.quota {
-					height: 44px;
-					display: flex;
-					align-items: center;
-					justify-content: center;
+					display: flex;;
+					justify-content: left;
+					white-space: nowrap;
+					position: relative;
 
 					progress {
-						width: 100%;
-						margin: 0 10px;
+						width: 150px;
+						margin-top: 35px;
 						height: 3px;
 					}
 				}
