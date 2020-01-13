@@ -195,6 +195,15 @@
 						{{ t('files_sharing', 'Enter a password') }}
 					</ActionInput>
 
+					<!-- password protected by Talk -->
+					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
+						:checked.sync="isPasswordProtectedByTalk"
+						:disabled="saving"
+						class="share-link-password-talk-checkbox"
+						@change="queueUpdate('sendPasswordByTalk')">
+						{{ t('files_sharing', 'Video verification') }}
+					</ActionCheckbox>
+
 					<!-- expiration date -->
 					<ActionCheckbox :checked.sync="hasExpirationDate"
 						:disabled="config.isDefaultExpireDateEnforced || saving"
@@ -415,6 +424,35 @@ export default {
 				// TODO: directly save after generation to make sure the share is always protected
 				this.share.password = enabled ? await this.generatePassword() : ''
 				this.share.newPassword = this.share.password
+			},
+		},
+
+		/**
+		 * Is Talk enabled?
+		 * @returns {boolean}
+		 */
+		isTalkEnabled() {
+			return OC.appswebroots['spreed'] !== undefined
+		},
+
+		/**
+		 * Is it possible to protect the password by Talk?
+		 * @returns {boolean}
+		 */
+		isPasswordProtectedByTalkAvailable() {
+			return this.isPasswordProtected && this.isTalkEnabled
+		},
+
+		/**
+		 * Is the current share password protected by Talk?
+		 * @returns {boolean}
+		 */
+		isPasswordProtectedByTalk: {
+			get: function() {
+				return this.share.sendPasswordByTalk
+			},
+			set: async function(enabled) {
+				this.share.sendPasswordByTalk = enabled
 			},
 		},
 

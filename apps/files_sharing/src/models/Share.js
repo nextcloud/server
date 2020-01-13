@@ -306,6 +306,28 @@ export default class Share {
 		this.#share.password = password
 	}
 
+	/**
+	 * Password protection by Talk of the share
+	 *
+	 * @returns {Boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get sendPasswordByTalk() {
+		return this.#share.send_password_by_talk
+	}
+
+	/**
+	 * Password protection by Talk of the share
+	 *
+	 * @param {Boolean} sendPasswordByTalk whether to send the password by Talk
+	 *        or not
+	 * @memberof Share
+	 */
+	set sendPasswordByTalk(sendPasswordByTalk) {
+		this.#share.send_password_by_talk = sendPasswordByTalk
+	}
+
 	// SHARED ITEM DATA ---------------------------------------------
 	/**
 	 * Get the shared item absolute full path
