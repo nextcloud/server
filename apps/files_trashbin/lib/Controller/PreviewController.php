@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author simonspa <1677436+simonspa@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
