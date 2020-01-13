@@ -659,6 +659,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if(isset($this->server[$header])) {
 					foreach(explode(',', $this->server[$header]) as $IP) {
 						$IP = trim($IP);
+						// Use IP only, remove the optional port (see RFC 7239, Section 5.3 and RFC 7230, Section 5.4)
+						$IP = explode(':', $IP)[0];  
 						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
 							return $IP;
 						}
