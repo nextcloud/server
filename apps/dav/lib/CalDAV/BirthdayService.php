@@ -165,7 +165,7 @@ class BirthdayService {
 		}
 		$this->calDavBackEnd->createCalendar($principal, self::BIRTHDAY_CALENDAR_URI, [
 			'{DAV:}displayname' => 'Contact birthdays',
-			'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
+			'{http://apple.com/ns/ical/}calendar-color' => '#E9D859',
 			'components'   => 'VEVENT',
 		]);
 
