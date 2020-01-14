@@ -1496,7 +1496,7 @@ $CONFIG = array(
  *
  * Defaults to ``1800`` (seconds)
  */
-'external_storage.auth_availability_delay' => 1800,
+'(int)$this->config->getSystemValue('external_storage.auth_availability_delay', 1800),
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
