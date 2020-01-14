@@ -34,6 +34,7 @@ use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCA\WorkflowEngine\Check\UserGroupMembership;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
+use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -127,7 +128,13 @@ class Manager implements IManager {
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
-		return new RuleMatcher($this->session, $this->container, $this->l, $this);
+		return new RuleMatcher(
+			$this->session,
+			$this->container,
+			$this->l,
+			$this,
+			$this->container->query(Logger::class)
+		);
 	}
 
 	public function getAllConfiguredEvents() {

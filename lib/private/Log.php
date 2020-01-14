@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OC;
 
+use OCP\Log\IDataLogger;
 use function array_merge;
 use InterfaSys\LogNormalizer\Normalizer;
 
@@ -54,7 +55,7 @@ use OCP\Support\CrashReport\IRegistry;
  *
  * MonoLog is an example implementing this interface.
  */
-class Log implements ILogger {
+class Log implements ILogger, IDataLogger {
 
 	/** @var IWriter */
 	private $logger;
@@ -334,6 +335,28 @@ class Log implements ILogger {
 			if (!is_null($this->crashReporters)) {
 				$this->crashReporters->delegateReport($exception, $context);
 			}
+		} catch (\Throwable $e) {
+			// make sure we dont hard crash if logging fails
+		}
+	}
+
+	public function logData(array $data, array $context = []): void {
+		$app = $context['app'] ?? 'no app in context';
+		$level = $context['level'] ?? ILogger::ERROR;
+
+		$minLevel = $this->getLogLevel($context);
+
+		array_walk($context, [$this->normalizer, 'format']);
+
+		try {
+			if ($level >= $minLevel) {
+				if (!$this->logger instanceof IFileBased) {
+					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
+				}
+				$this->writeLog($app, $data, $level);
+			}
+
+			$context['level'] = $level;
 		} catch (\Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
