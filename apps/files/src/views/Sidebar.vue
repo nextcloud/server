@@ -176,6 +176,7 @@ export default {
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
 					title: this.fileInfo.name,
+					'data-mimetype': this.fileInfo.mimetype,
 				}
 			} else if (this.error) {
 				return {
@@ -381,8 +382,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 #app-sidebar {
-	&.has-preview::v-deep .app-sidebar-header__figure {
-		background-size: cover;
+	&.has-preview::v-deep {
+		.app-sidebar-header__figure {
+			background-size: cover;
+		}
+
+		&[data-mimetype="text/plain"],
+		&[data-mimetype="text/markdown"] {
+			.app-sidebar-header__figure {
+				background-size: contain;
+			}
+		}
 	}
 }
 </style>
