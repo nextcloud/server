@@ -153,9 +153,9 @@ class ManagerTest extends TestCase {
 			->method('generate')
 			->willReturn($expectedToken);
 		$this->userFolder
-			->method('get')
+			->method('nodeExists')
 			->with('/File.txt')
-			->willThrowException(new NotFoundException());
+			->willReturn(false);
 		$this->userFolder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
@@ -173,9 +173,9 @@ class ManagerTest extends TestCase {
 			->method('generate')
 			->willReturn($expectedToken);
 		$this->userFolder
-			->method('get')
+			->method('nodeExists')
 			->with('/File.txt')
-			->willThrowException(new NotFoundException());
+			->willReturn(false);
 		$this->userFolder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
@@ -188,6 +188,10 @@ class ManagerTest extends TestCase {
 
 	public function testCreateFileAlreadyExists() {
 		$this->expectException(\RuntimeException::class);
+		$this->userFolder
+			->method('nodeExists')
+			->with('/File.txt')
+			->willReturn(true);
 
 		$this->manager->create('/File.txt', 'testeditor', 'createEmpty');
 	}
