@@ -176,6 +176,21 @@ class User {
 	}
 
 	/**
+	 * marks a user as deleted
+	 *
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function markUser() {
+		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
+		if($curValue === '1') {
+			// the user is already marked, do not write to DB again
+			return;
+		}
+		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '1');
+		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'foundDeleted', (string)time());
+	}
+
+	/**
 	 * processes results from LDAP for attributes as returned by getAttributesToRead()
 	 * @param array $ldapEntry the user entry as retrieved from LDAP
 	 */
