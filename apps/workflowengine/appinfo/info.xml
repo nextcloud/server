@@ -25,6 +25,10 @@
 		<nextcloud min-version="19" max-version="19"/>
 	</dependencies>
 
+	<background-jobs>
+		<job>OCA\WorkflowEngine\BackgroundJobs\Rotate</job>
+	</background-jobs>
+
 	<repair-steps>
 		<post-migration>
 			<step>OCA\WorkflowEngine\Migration\PopulateNewlyIntroducedDatabaseFields</step>

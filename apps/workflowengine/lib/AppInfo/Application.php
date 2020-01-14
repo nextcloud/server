@@ -22,7 +22,9 @@
 namespace OCA\WorkflowEngine\AppInfo;
 
 use OCA\WorkflowEngine\Controller\RequestTime;
+use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Manager;
+use OCA\WorkflowEngine\Service\Logger;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\Template;
@@ -97,6 +99,16 @@ class Application extends \OCP\AppFramework\App {
 								$ruleMatcher->setEntity($entity);
 								$ruleMatcher->setOperation($operation);
 
+								$ctx = new LogContext();
+								$ctx
+									->setOperation($operation)
+									->setEntity($entity)
+									->setEventName($eventName);
+
+								/** @var Logger $flowLogger */
+								$flowLogger = $this->getContainer()->query(Logger::class);
+								$flowLogger->logEventInit($ctx);
+
 								if ($event instanceof Event) {
 									$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 									$operation->onEvent($eventName, $event, $ruleMatcher);
@@ -117,6 +129,7 @@ class Application extends \OCP\AppFramework\App {
 										]
 									);
 								}
+								$flowLogger->logEventDone($ctx);
 
 							} catch (QueryException $e) {
 								// Ignore query exceptions since they might occur when an entity/operation were setup before by an app that is disabled now
@@ -126,5 +139,7 @@ class Application extends \OCP\AppFramework\App {
 				}, $eventNames ?? []);
 			}
 		}
+
+
 	}
 }
