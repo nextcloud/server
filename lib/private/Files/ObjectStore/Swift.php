@@ -25,6 +25,12 @@
 
 namespace OC\Files\ObjectStore;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\HandlerStack;
 use function GuzzleHttp\Psr7\stream_for;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
@@ -89,30 +95,33 @@ class Swift implements IObjectStore {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
-	 * @throws \Exception from openstack lib when something goes wrong
+	 * @throws \Exception from openstack or GuzzleHttp libs when something goes wrong
 	 * @throws NotFoundException if file does not exist
 	 */
 	public function readObject($urn) {
 		try {
-			$object = $this->getContainer()->getObject($urn);
+			$publicUri = $this->getContainer()->getObject($urn)->getPublicUri();
+			$tokenId = $this->swiftFactory->getCachedTokenId();
 
-			// we need to keep a reference to objectContent or
-			// the stream will be closed before we can do anything with it
-			$objectContent = $object->download();
-		} catch (BadResponseError $e) {
-			if ($e->getResponse()->getStatusCode() === 404) {
+			$response = (new Client())->request('GET', $publicUri,
+				[
+					'stream' => true,
+					'headers' => [
+						'X-Auth-Token' => $tokenId,
+						'Cache-Control' => 'no-cache'
+					],
+				]
+			);
+
+		} catch (BadResponseException $e) {
+			if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
 				throw new NotFoundException("object $urn not found in object store");
 			} else {
 				throw $e;
 			}
 		}
-		$objectContent->rewind();
 
-		$stream = $objectContent->detach();
-		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
-		stream_context_set_option($stream, 'swift', 'content', $objectContent);
-
-		return RetryWrapper::wrap($stream);
+		return RetryWrapper::wrap($response->getBody()->detach());
 	}
 
 	/**
