@@ -597,8 +597,8 @@ span.usersLastLoginTooltip {
 	}
   	.userActions {
 	  position: sticky;
-	  right: 50px;
-	  z-index: 110;
+	  right: 60px;
+	  z-index: 20;
  	}
 	.userActions input {
 		width: 44px;
@@ -1371,6 +1371,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			grid-row-start: span 1;
 			grid-gap: 3px;
 			align-items: center;
+		    z-index: 0;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
 			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
@@ -1408,7 +1409,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userActions {
 				min-width: 44px;
 			  	position: sticky;
-			  	right: 50px;
+			  	right: 20px;
 			  	z-index: 109;
 			}
 			.subtitle {

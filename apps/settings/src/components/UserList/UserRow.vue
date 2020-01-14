@@ -56,10 +56,14 @@
 		:sub-admins-groups="subAdminsGroups"
 		:user-actions="userActions"
 		:user="user"
+		:class="{'row--menu-opened': openedMenu}"
 		@hideMenu="hideMenu"
 		@toggleMenu="toggleMenu" />
 	<div v-else
-		:class="{'disabled': loading.delete || loading.disable}"
+		:class="{
+			'disabled': loading.delete || loading.disable,
+			'row--menu-opened': openedMenu
+		}"
 		:data-id="user.id"
 		class="row row--editable">
 		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
@@ -675,3 +679,9 @@ export default {
 	},
 }
 </script>
+<style scoped lang="scss">
+	// Force menu to be above other rows
+	.row--menu-opened {
+		z-index: 1 !important;
+	}
+</style>
