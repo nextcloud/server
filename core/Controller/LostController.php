@@ -326,6 +326,7 @@ class LostController extends Controller {
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
+			$this->config->deleteUserValue($userId, 'core', 'initial');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (HintException $e){
 			return $this->error($e->getHint());
