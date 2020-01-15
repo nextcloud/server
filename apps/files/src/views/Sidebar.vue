@@ -42,8 +42,12 @@
 		<template v-if="fileInfo" #secondary-actions>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
-			<ActionButton v-if="isSystemTagsEnabled" icon="icon-tag" @click="toggleTags">
-				{{ t('files_sharing', 'Manage tags') }}
+			<ActionButton
+				v-if="isSystemTagsEnabled"
+				:close-after-click="true"
+				icon="icon-tag"
+				@click="toggleTags">
+				{{ t('files_sharing', 'Tags') }}
 			</ActionButton>
 		</template>
 
