@@ -25,6 +25,7 @@
 		v-if="file"
 		ref="sidebar"
 		v-bind="appSidebar"
+		:force-menu="true"
 		@close="onClose"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
@@ -35,6 +36,19 @@
 				:key="view.cid"
 				:component="view"
 				:file-info="fileInfo" />
+		</template>
+
+		<!-- Actions menu -->
+		<template v-if="fileInfo" #secondary-actions>
+			<!-- TODO: create proper api for apps to register actions
+			And inject themselves here. -->
+			<ActionButton
+				v-if="isSystemTagsEnabled"
+				:close-after-click="true"
+				icon="icon-tag"
+				@click="toggleTags">
+				{{ t('files_sharing', 'Tags') }}
+			</ActionButton>
 		</template>
 
 		<!-- Error display -->
@@ -60,6 +74,7 @@
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
 import AppSidebar from 'nextcloud-vue/dist/Components/AppSidebar'
+import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
 import FileInfo from '../services/FileInfo'
 import LegacyTab from '../components/LegacyTab'
 import LegacyView from '../components/LegacyView'
@@ -69,6 +84,7 @@ export default {
 	name: 'Sidebar',
 
 	components: {
+		ActionButton,
 		AppSidebar,
 		LegacyView,
 	},
@@ -218,6 +234,10 @@ export default {
 		defaultActionListener() {
 			return this.defaultAction ? 'figure-click' : null
 		},
+
+		isSystemTagsEnabled() {
+			return OCA && 'SystemTags' in OCA
+		}
 	},
 
 	watch: {
@@ -377,6 +397,15 @@ export default {
 				})
 			}
 		},
+
+		/**
+		 * Toggle the tags selector
+		 */
+		toggleTags() {
+			if (OCA.SystemTags && OCA.SystemTags.View) {
+				OCA.SystemTags.View.toggle()
+			}
+		}
 	},
 }
 </script>

@@ -630,7 +630,7 @@
 		 * @param {string|OCA.Files.FileInfoModel} fileName file name from the current list or a FileInfoModel object
 		 * @param {boolean} [show=true] whether to open the sidebar if it was closed
 		 */
-		_updateDetailsView: function(fileName) {
+		_updateDetailsView: function(fileName, show) {
 			if (!(OCA.Files && OCA.Files.Sidebar)) {
 				console.error('No sidebar available');
 				return;
@@ -650,8 +650,18 @@
 			var model = this.getModelForFile(tr)
 			var path = model.attributes.path + '/' + model.attributes.name
 
+			// make sure the file list has the correct context available
+			if (this._currentFileModel) {
+				this._currentFileModel.off();
+			}
+			this.$fileList.children().removeClass('highlighted');
+			tr.addClass('highlighted');
+			this._currentFileModel = model;
+
 			// open sidebar and set file
-			OCA.Files.Sidebar.open(path.replace('//', '/'))
+			if (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== '')) {
+				OCA.Files.Sidebar.open(path.replace('//', '/'))
+			}
 		},
 
 		/**
