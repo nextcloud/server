@@ -349,6 +349,9 @@ class UsersController extends AUserData {
 						'app' => 'ocs_api',
 					]);
 				}
+			} else {
+				//Password was provided by the admin
+				$this->editUser($userid, 'initial', 'true');
 			}
 
 			return new DataResponse(['id' => $userid]);
@@ -520,6 +523,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
 				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
 				$permittedFields[] = 'quota';
+				$permittedFields[] = 'initial';
 			} else {
 				// No rights
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
@@ -593,6 +597,9 @@ class UsersController extends AUserData {
 					$userAccount[$key]['value'] = $value;
 					$this->accountManager->updateUser($targetUser, $userAccount);
 				}
+				break;
+			case 'initial':
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'initial', $value);
 				break;
 			default:
 				throw new OCSException('', 103);
