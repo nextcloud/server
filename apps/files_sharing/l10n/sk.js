@@ -13,6 +13,7 @@ OC.L10N.register(
     "Deleted shares" : "Zmazať sprístupnenia",
     "No deleted shares" : "Žiadne zmazané sprístupnené položky",
     "Shares you deleted will show up here" : "Tu sa zobrazia sprístupnené položky, ktoré zmažete",
+    "Pending shares" : "Čakajúce prístupy",
     "Shares" : "Sprístupnené položky",
     "No shares" : "Žiadne sprístupnené položky",
     "Shares will show up here" : "Tu sa zobrazia sprístupnené položky",

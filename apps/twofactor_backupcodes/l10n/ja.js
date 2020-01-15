@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "機能",
     "_" : "_",
     "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
     "{name} backup codes" : "{name} バックアップコード",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "destroyed" : "破棄されました",
     "beforeMount" : "マウント前",
     "Nextcloud backup codes" : "Nextcloud バックアップコード",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。"
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。",
+    "function" : "機能"
 },
 "nplurals=1; plural=0;");

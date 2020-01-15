@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "funkcija",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Prišlo je do namako med ustvarjanjem varnostnih kok",
     "{name} backup codes" : "Varnostne kode {name}",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "destroyed" : "uničeno",
     "beforeMount" : "pred priklapljanjem",
     "Nextcloud backup codes" : "Varnostne kode Nextcloud",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje.",
+    "function" : "funkcija"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
