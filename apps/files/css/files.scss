@@ -309,7 +309,7 @@ table.multiselect thead th {
 }
 
 table.multiselect #headerName {
-	position: relative;
+	position: sticky;
 	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 table.multiselect #modified {
