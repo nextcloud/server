@@ -89,7 +89,7 @@ import {
 	Actions,
 	ActionButton,
 	ActionCheckbox,
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 
 const userAgentMap = {
 	ie: /(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,

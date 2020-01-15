@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { PopoverMenu, Multiselect } from 'nextcloud-vue'
+import { PopoverMenu, Multiselect } from '@nextcloud/vue'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 

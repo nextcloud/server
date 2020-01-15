@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import Actions from 'nextcloud-vue/dist/Components/Actions'
-import Tooltip from 'nextcloud-vue/dist/Directives/Tooltip'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 export default {
 	name: 'SharingEntrySimple',

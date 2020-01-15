@@ -26,7 +26,7 @@
 		:active-tab="activeTab" />
 </template>
 <script>
-import AppSidebarTab from 'nextcloud-vue/dist/Components/AppSidebarTab'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 
 export default {
 	name: 'LegacyTab',

@@ -73,8 +73,8 @@
 <script>
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
-import AppSidebar from 'nextcloud-vue/dist/Components/AppSidebar'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
+import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import FileInfo from '../services/FileInfo'
 import LegacyTab from '../components/LegacyTab'
 import LegacyView from '../components/LegacyView'
@@ -237,6 +237,35 @@ export default {
 
 		isSystemTagsEnabled() {
 			return OCA && 'SystemTags' in OCA
+		},
+	},
+
+	watch: {
+		// update the sidebar data
+		async file(curr, prev) {
+			this.resetData()
+			if (curr && curr.trim() !== '') {
+				try {
+					this.fileInfo = await FileInfo(this.davPath)
+					// adding this as fallback because other apps expect it
+					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+
+					// DEPRECATED legacy views
+					// TODO: remove
+					this.views.forEach(view => {
+						view.setFileInfo(this.fileInfo)
+					})
+
+					this.$nextTick(() => {
+						if (this.$refs.sidebar) {
+							this.$refs.sidebar.updateTabs()
+						}
+					})
+				} catch (error) {
+					this.error = t('files', 'Error while loading the file data')
+					console.error('Error while loading the file data', error)
+				}
+			}
 		},
 	},
 

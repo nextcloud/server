@@ -187,7 +187,7 @@
 </template>
 
 <script>
-import { Multiselect } from 'nextcloud-vue'
+import { Multiselect } from '@nextcloud/vue'
 import marked from 'marked'
 import dompurify from 'dompurify'
 

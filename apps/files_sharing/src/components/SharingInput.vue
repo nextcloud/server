@@ -50,7 +50,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import Multiselect from 'nextcloud-vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import Config from '../services/ConfigService'
 import Share from '../models/Share'

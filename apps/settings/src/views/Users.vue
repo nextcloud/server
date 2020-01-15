@@ -28,7 +28,70 @@
 				button-class="icon-add"
 				@click="toggleNewUserMenu" />
 			<ul id="usergrouplist">
-				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
+				<AppNavigationItem
+					id="addgroup"
+					ref="addGroup"
+					:edit-placeholder="t('settings', 'Enter group name')"
+					:editable="true"
+					:loading="loadingAddGroup"
+					:title="t('settings', 'Add group')"
+					icon="icon-add"
+					@click="toggleAddGroupEntry(true)"
+					@update:title="createGroup" />
+				<AppNavigationItem
+					id="everyone"
+					:exact="true"
+					:title="t('settings', 'Everyone')"
+					:to="{ name: 'users' }"
+					icon="icon-contacts-dark">
+					<AppNavigationCounter v-if="userCount > 0" slot="counter">
+						{{ userCount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+				<AppNavigationItem
+					id="admin"
+					:exact="true"
+					:title="t('settings', 'Admins')"
+					:to="{ name: 'users', params: { selectedGroup: 'admin' } }"
+					icon="icon-user-admin">
+					<AppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
+						{{ adminGroupMenu.count }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+
+				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
+				<AppNavigationItem
+					v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
+					id="disabled"
+					:exact="true"
+					:title="t('settings', 'Disabled users')"
+					:to="{ name: 'users', params: { selectedGroup: 'disabled' } }"
+					icon="icon-disabled-users">
+					<AppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
+						{{ disabledGroupMenu.usercount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+
+				<AppNavigationCaption v-if="groupList.length > 0" :title="t('settings', 'Groups')" />
+				<AppNavigationItem
+					v-for="group in groupList"
+					:id="group.id"
+					:key="group.id"
+					:exact="true"
+					:title="group.title"
+					:to="{ name: 'users', params: { selectedGroup: group.id } }">
+					<AppNavigationCounter v-if="group.count" slot="counter">
+						{{ group.count }}
+					</AppNavigationCounter>
+					<template slot="actions">
+						<ActionButton
+							v-if="group.id !== 'admin' && group.id !== 'disabled' && settings.isAdmin"
+							icon="icon-delete"
+							@click="removeGroup(group.id)">
+							{{ t('settings', 'Remove group') }}
+						</ActionButton>
+					</template>
+				</AppNavigationItem>
 			</ul>
 			<AppNavigationSettings>
 				<div>
@@ -85,17 +148,19 @@
 </template>
 
 <script>
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationCaption from '@nextcloud/vue/dist/Components/AppNavigationCaption'
+import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import AppNavigationNew from '@nextcloud/vue/dist/Components/AppNavigationNew'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
+import Content from '@nextcloud/vue/dist/Components/Content'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
-import {
-	AppContent,
-	AppNavigation,
-	AppNavigationItem,
-	AppNavigationNew,
-	AppNavigationSettings,
-	Content,
-	Multiselect,
-} from 'nextcloud-vue'
+
 import UserList from '../components/UserList'
 
 Vue.use(VueLocalStorage)
@@ -103,14 +168,17 @@ Vue.use(VueLocalStorage)
 export default {
 	name: 'Users',
 	components: {
+		ActionButton,
 		AppContent,
 		AppNavigation,
+		AppNavigationCaption,
+		AppNavigationCounter,
 		AppNavigationItem,
 		AppNavigationNew,
 		AppNavigationSettings,
 		Content,
-		UserList,
 		Multiselect,
+		UserList,
 	},
 	props: {
 		selectedGroup: {
@@ -125,7 +193,6 @@ export default {
 			// temporary value used for multiselect change
 			selectedQuota: false,
 			externalActions: [],
-			showAddGroupEntry: false,
 			loadingAddGroup: false,
 			showConfig: {
 				showStoragePath: false,
@@ -139,6 +206,9 @@ export default {
 	computed: {
 		users() {
 			return this.$store.getters.getUsers
+		},
+		groups() {
+			return this.$store.getters.getGroups
 		},
 		usersOffset() {
 			return this.$store.getters.getUsersOffset
@@ -206,134 +276,20 @@ export default {
 
 		},
 
-		// BUILD APP NAVIGATION MENU OBJECT
-		menu() {
-			// Data provided php side
-			const self = this
-			let groups = this.$store.getters.getGroups
-			groups = Array.isArray(groups) ? groups : []
-
-			// Map groups
-			groups = groups.map(group => {
-				const item = {}
-				item.id = group.id.replace(' ', '_')
-				item.key = item.id
-				item.utils = {}
-
-				// router link to
-				item.router = {
-					name: 'group',
-					params: { selectedGroup: group.id },
-				}
-
-				// group name
-				item.text = group.name
-				item.title = group.name
-
-				// users count for all groups
-				if (group.usercount - group.disabled > 0 || group.usercount === -1) {
-					item.utils.counter = group.usercount - group.disabled
-				}
-
-				if (item.id !== 'admin' && item.id !== 'disabled' && this.settings.isAdmin) {
-					// add delete button on real groups
-					item.utils.actions = [{
-						icon: 'icon-delete',
-						text: t('settings', 'Remove group'),
-						action: function() {
-							self.removeGroup(group.id)
-						},
-					}]
-				}
-				return item
-			})
-
-			// Every item is added on top of the array, so we're going backward
-			// Groups, separator, disabled, admin, everyone
-
-			// Add separator
-			let realGroups = groups.find((group) => { return group.id !== 'disabled' && group.id !== 'admin' })
-			realGroups = typeof realGroups === 'undefined' ? [] : realGroups
-			realGroups = Array.isArray(realGroups) ? realGroups : [realGroups]
-			if (realGroups.length > 0) {
-				const separator = {
-					caption: true,
-					text: t('settings', 'Groups'),
-				}
-				groups.unshift(separator)
-			}
-
-			// Adjust admin and disabled groups
-			const adminGroup = groups.find(group => group.id === 'admin')
-			const disabledGroup = groups.find(group => group.id === 'disabled')
-
-			// filter out admin and disabled
-			groups = groups.filter(group => ['admin', 'disabled'].indexOf(group.id) === -1)
-
-			if (adminGroup && adminGroup.text) {
-				adminGroup.text = t('settings', 'Admins')	// rename admin group
-				adminGroup.icon = 'icon-user-admin'			// set icon
-				groups.unshift(adminGroup)					// add admin group if present
-			}
-			if (disabledGroup && disabledGroup.text) {
-				disabledGroup.text = t('settings', 'Disabled users')	// rename disabled group
-				disabledGroup.icon = 'icon-disabled-users'				// set icon
-				if (disabledGroup.utils && (
-					disabledGroup.utils.counter > 0						// add disabled if not empty
-					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled
-				) {
-					groups.unshift(disabledGroup)
-					if (disabledGroup.utils.counter === -1) {
-						// hides the counter instead of showing -1
-						delete disabledGroup.utils.counter
-					}
-				}
-			}
-
-			// Add everyone group
-			const everyoneGroup = {
-				id: 'everyone',
-				key: 'everyone',
-				icon: 'icon-contacts-dark',
-				router: { name: 'users' },
-				text: t('settings', 'Everyone'),
-			}
-			// users count
-			if (this.userCount > 0) {
-				Vue.set(everyoneGroup, 'utils', {
-					counter: this.userCount,
-				})
-			}
-			groups.unshift(everyoneGroup)
-
-			const addGroup = {
-				id: 'addgroup',
-				key: 'addgroup',
-				icon: 'icon-add',
-				text: t('settings', 'Add group'),
-				classes: this.loadingAddGroup ? 'icon-loading-small' : '',
-			}
-			if (this.showAddGroupEntry) {
-				Vue.set(addGroup, 'edit', {
-					text: t('settings', 'Add group'),
-					action: this.createGroup,
-					reset: function() {
-						self.showAddGroupEntry = false
-					},
-				})
-				addGroup.classes = 'editing'
-			} else {
-				Vue.set(addGroup, 'action', function() {
-					self.showAddGroupEntry = true
-					// focus input
-					Vue.nextTick(() => {
-						window.addgroup.querySelector('form > input[type="text"]').focus()
-					})
-				})
-			}
-			groups.unshift(addGroup)
+		groupList() {
+			const groups = Array.isArray(this.groups) ? this.groups : []
 
 			return groups
+				// filter out disabled and admin
+				.filter(group => group.id !== 'disabled' && group.id !== 'admin')
+				.map(group => this.formatGroupMenu(group))
+		},
+
+		adminGroupMenu() {
+			return this.formatGroupMenu(this.groups.find(group => group.id === 'admin'))
+		},
+		disabledGroupMenu() {
+			return this.formatGroupMenu(this.groups.find(group => group.id === 'disabled'))
 		},
 	},
 	beforeMount() {
@@ -446,26 +402,81 @@ export default {
 		/**
 		 * Create a new group
 		 *
-		 * @param {Object} event The form submit event
+		 * @param {string} gid The group id
 		 */
-		createGroup(event) {
-			const gid = event.target[0].value
-			this.loadingAddGroup = true
-			this.$store.dispatch('addGroup', gid)
-				.then(() => {
-					this.showAddGroupEntry = false
-					this.loadingAddGroup = false
-					this.$router.push({
-						name: 'group',
-						params: {
-							selectedGroup: gid,
-						},
-					})
+		async createGroup(gid) {
+			// group is not valid
+			if (gid.trim() === '') {
+				Vue.nextTick(() => {
+					this.toggleAddGroupEntry(true)
 				})
-				.catch(() => {
-					this.loadingAddGroup = false
+				return
+			}
+
+			try {
+				this.loadingAddGroup = true
+				await this.$store.dispatch('addGroup', gid.trim())
+
+				this.toggleAddGroupEntry(false)
+				this.$router.push({
+					name: 'group',
+					params: {
+						selectedGroup: gid.trim(),
+					},
 				})
+			} catch {
+				this.toggleAddGroupEntry(true)
+			} finally {
+				this.loadingAddGroup = false
+			}
+		},
+
+		/**
+		 * Toggle the add group entry editing state
+		 * @param {boolean} [state] set state instead of toggling
+		 */
+		toggleAddGroupEntry(state) {
+			if (state === undefined) {
+				state = !this.$refs.addGroup.editing
+			}
+			this.$refs.addGroup.editing = state
+
+			// focus input
+			Vue.nextTick(() => {
+				if (this.$refs.addGroup.$el) {
+					const input = this.$refs.addGroup.$el.querySelector('form > input[type="text"]')
+					if (input) {
+						input.focus()
+					}
+				}
+			})
+		},
+
+		/**
+		 * Format a group to a menu entry
+		 * @param {Object} group the group
+		 * @returns {Object}
+		 */
+		formatGroupMenu(group) {
+			const item = {}
+			item.id = group.id.replace(' ', '_')
+			item.title = group.name
+			item.usercount = group.usercount
+
+			// users count for all groups
+			if (group.usercount - group.disabled > 0) {
+				item.count = group.usercount - group.disabled
+			}
+
+			return item
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+// force hiding the editing action for the add group entry
+#usergrouplist #addgroup::v-deep .app-navigation-entry__utils {
+	display: none;
+}
+</style>

@@ -50,10 +50,10 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import Avatar from 'nextcloud-vue/dist/Components/Avatar'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
-import ActionLink from 'nextcloud-vue/dist/Components/ActionLink'
-import ActionText from 'nextcloud-vue/dist/Components/ActionText'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import ActionText from '@nextcloud/vue/dist/Components/ActionText'
 
 // eslint-disable-next-line no-unused-vars
 import Share from '../models/Share'
