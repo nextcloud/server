@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "функција",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Десила се грешка приликом генерисања резервних кодова",
     "{name} backup codes" : "{name} резервни кодови",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "destroyed" : "уништено",
     "beforeMount" : "преМонтирања",
     "Nextcloud backup codes" : "Некстклауд резервни кодови",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Укључили сте двофакторску проверу идентитета, али нисте још генерисали резервне кодове. Урадите ово обавезно, за случај да изгубите приступ Вашем другом фактору."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Укључили сте двофакторску проверу идентитета, али нисте још генерисали резервне кодове. Урадите ово обавезно, за случај да изгубите приступ Вашем другом фактору.",
+    "function" : "функција"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

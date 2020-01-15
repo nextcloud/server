@@ -103,7 +103,7 @@ OC.L10N.register(
     "Your username is: %s" : "Je gebruikersnaam is: %s",
     "Set your password" : "Stel je wachtwoord in",
     "Go to %s" : "Ga naar %s",
-    "Install Client" : "Klik hier en installeer een client op telefoon/tablet of pc.",
+    "Install Client" : "Installeer Client",
     "Logged in user must be a subadmin" : "Ingelogde gebruiker moet een subbeheerder zijn",
     "Create" : "Maak",
     "Change" : "Pas aan",
