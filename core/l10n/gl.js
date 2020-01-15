@@ -235,7 +235,7 @@ OC.L10N.register(
     "Admin" : "Administración",
     "Help" : "Axuda",
     "Access forbidden" : "Acceso denegado",
-    "File not found" : "Ficheiro non atopado",
+    "File not found" : "Non se atopou o ficheiro",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Non foi posíbel atopar o documento no servidor. É posíbel que a ligazón for eliminada ou que xa teña caducado.",
     "Back to %s" : "Volver a %s",
     "Error" : "Erro",
