@@ -59,8 +59,8 @@
 				<a v-if="a['@attributes'] && a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a><span v-else-if="a['@value']">{{ a['@value'] }}</span><span v-else>{{ a }}</span><span v-if="index+1 < author.length">, </span>
 			</span>
 		</div>
-		<div v-if="licence" class="app-licence">
-			{{ licence }}
+		<div v-if="versionAndLicense" class="app-version-licence">
+			{{ versionAndLicense }}
 		</div>
 		<div class="actions">
 			<div class="actions-buttons">
@@ -215,7 +215,30 @@ export default {
 		},
 		licence() {
 			if (this.app.licence) {
-				return t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
+				return ('' + this.app.licence).toUpperCase()
+			}
+			return null
+		},
+		appVersion() {
+			if (this.app.version) {
+				return this.app.version
+			}
+			if (this.app.appstoreData.releases && this.app.appstoreData.releases.length > 0) {
+				return this.app.appstoreData.releases[0].version
+			}
+			return null
+		},
+		versionAndLicense() {
+			const licence = this.licence
+			const version = this.appVersion
+			if (licence && version) {
+				return t('settings', 'Version {version}, {licence}-licensed', { version, licence })
+			}
+			if (licence) {
+				return t('settings', '{licence}-licensed', { licence })
+			}
+			if (version) {
+				return t('settings', 'Version {version}', { version })
 			}
 			return null
 		},
