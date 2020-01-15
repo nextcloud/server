@@ -437,7 +437,7 @@ export default {
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
-			let validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
 				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
@@ -525,7 +525,7 @@ export default {
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
 				// setting new user default group to the current selected one
-				let currentGroup = this.groups.find(group => group.id === value)
+				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
 					return
