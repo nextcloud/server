@@ -33,27 +33,7 @@
 
 			const systemTagsInfoView = new OCA.SystemTags.SystemTagsInfoView()
 			fileList.registerDetailView(systemTagsInfoView)
-
-			_.each(fileList.getRegisteredDetailViews(), function(detailView) {
-				if (detailView instanceof OCA.Files.MainFileInfoDetailView) {
-					const systemTagsInfoViewToggleView
-						= new OCA.SystemTags.SystemTagsInfoViewToggleView({
-							systemTagsInfoView: systemTagsInfoView,
-						})
-					systemTagsInfoViewToggleView.render()
-
-					// The toggle view element is detached before the
-					// MainFileInfoDetailView is rendered to prevent its event
-					// handlers from being removed.
-					systemTagsInfoViewToggleView.listenTo(detailView, 'pre-render', function() {
-						systemTagsInfoViewToggleView.$el.detach()
-					})
-					systemTagsInfoViewToggleView.listenTo(detailView, 'post-render', function() {
-						detailView.$el.find('.file-details').append(systemTagsInfoViewToggleView.$el)
-					})
-
-				}
-			})
+			OCA.SystemTags.View = systemTagsInfoView
 		},
 	}
 
