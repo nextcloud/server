@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "işlev",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Yedek kodlar oluşturulurken bir sorun çıktı",
     "{name} backup codes" : "{name} yedek kodları",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "destroyed" : "yokEdildi",
     "beforeMount" : "baglanmadanOnce",
     "Nextcloud backup codes" : "Nextcloud yedek kodları",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "İki aşamalı kimlik doğrulamasını etkinleştirmiş ancak yedek kodlarını üretmemişsiniz. İkinci aşamaya erişemediğiniz zaman kullanabilmek için yedek kodlarını üretmeyi unutmayın.",
+    "function" : "işlev"
 },
 "nplurals=2; plural=(n > 1);");

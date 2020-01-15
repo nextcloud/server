@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "功能",
     "_" : "_",
     "An error occurred while generating your backup codes" : "生成备用码时出错",
     "{name} backup codes" : "{name} 备用码",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "destroyed" : "已销毁",
     "beforeMount" : "挂载前",
     "Nextcloud backup codes" : "Nextcloud 备用码",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。"
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。",
+    "function" : "功能"
 },
 "nplurals=1; plural=0;");
