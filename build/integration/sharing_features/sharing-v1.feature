@@ -343,26 +343,8 @@ Feature: sharing
 		  | permissions | 16 |
 	And As an "user1"
 	And accepting last share
-#    And folder "first" of user "user0" is shared with user "user1"
-#	  And creating a share with
-#		  | path | /first/second |
-#		  | shareType | 0 |
-#		  | shareWith | user2 |
-#		  | permissions | 16 |
 	And folder "first/second" of user "user0" is shared with user "user2"
-#	  And As an "user1"
-#	  And creating a share with
-#		  | path | /first/test1.txt |
-#		  | shareType | 0 |
-#		  | shareWith | user3 |
-#		  | permissions | 8 |
     And file "first/test1.txt" of user "user0" is shared with user "user3"
-#	  And As an "user2"
-#	  And creating a share with
-#		  | path | /second/test2.txt |
-#		  | shareType | 0 |
-#		  | shareWith | user3 |
-#		  | permissions | 8 |
 	And file "first/second/test2.txt" of user "user0" is shared with user "user3"
     # get inherited shares from the owner PoV
 	And As an "user0"
@@ -372,14 +354,14 @@ Feature: sharing
     And User "user0" should not be included in the response
     And User "user1" should be included in the response
     And User "user2" should be included in the response
-    And User "user3" should be included in the response
+    And User "user3" should not be included in the response
     When sending "GET" to "/apps/files_sharing/api/v1/shares/inherited?path=first/test1.txt"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And User "user0" should not be included in the response
     And User "user1" should be included in the response
     And User "user2" should not be included in the response
-    And User "user3" should be included in the response
+    And User "user3" should not be included in the response
     # get inherited shares from the a user with no shares rights
     And As an "user2"
     When sending "GET" to "/apps/files_sharing/api/v1/shares/inherited?path=first/test1.txt"
@@ -393,13 +375,13 @@ Feature: sharing
     And User "user0" should not be included in the response
     And User "user1" should not be included in the response
     And User "user2" should be included in the response
-    And User "user3" should be included in the response
+    And User "user3" should not be included in the response
     When sending "GET" to "/apps/files_sharing/api/v1/shares/inherited?path=first/test1.txt"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And User "user0" should not be included in the response
     And User "user1" should not be included in the response
     And User "user2" should not be included in the response
-    And User "user3" should be included in the response
+    And User "user3" should not be included in the response
 
 # See sharing-v1-part2.feature
