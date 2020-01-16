@@ -20,7 +20,7 @@ trigger:
 
 ---
 kind: pipeline
-name: cypress-e2e-testing master
+name: cypress-e2e-testing
 
 services:
    # nextcloud server
