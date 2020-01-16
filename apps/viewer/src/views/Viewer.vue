@@ -629,7 +629,7 @@ export default {
 					sidebar.classList.add('app-sidebar--full')
 					this.sidebarWidth = sidebar.offsetWidth
 				}
-			}, 200)
+			}, 150)
 		},
 
 		hideAppsSidebar() {
