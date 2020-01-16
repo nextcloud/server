@@ -48,8 +48,11 @@ class Personal implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
-		$value = $this->config->getUserValue($this->userId, Application::APP_ID, 'default_accept', 'no') === 'yes';
-		$this->initialState->provideInitialState(Application::APP_ID, 'accept_default', $value);
+		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';
+		$acceptDefault = $this->config->getUserValue($this->userId, Application::APP_ID, 'default_accept', $defaultAcceptSystemConfig) === 'yes';
+		$enforceAccept = $this->config->getSystemValueBool('sharing.force_share_accept', false);
+		$this->initialState->provideInitialState(Application::APP_ID, 'accept_default', $acceptDefault);
+		$this->initialState->provideInitialState(Application::APP_ID, 'enforce_accept', $enforceAccept);
 		return new TemplateResponse('files_sharing', 'Settings/personal');
 	}
 
