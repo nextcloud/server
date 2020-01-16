@@ -76,15 +76,6 @@ export default class Sidebar {
 	}
 
 	/**
-	 * Close the sidebar
-	 *
-	 * @memberof Sidebar
-	 */
-	close() {
-		this.#state.file = ''
-	}
-
-	/**
 	 * Return current opened file
 	 *
 	 * @memberof Sidebar

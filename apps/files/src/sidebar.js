@@ -57,4 +57,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	})
 	AppSidebar.$mount('#app-sidebar')
 	window.OCA.Files.Sidebar.open = AppSidebar.open
+	window.OCA.Files.Sidebar.close = AppSidebar.close
 })
