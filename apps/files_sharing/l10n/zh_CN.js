@@ -169,6 +169,7 @@ OC.L10N.register(
     "File drop (upload only)" : "文件拖拽（仅上传）",
     "Hide download" : "隐藏下载",
     "Password protect" : "密码保护",
+    "Video verification" : "视频验证",
     "Enter a note for the share recipient" : "给共享接收人留备注",
     "Add another link" : "添加其他链接",
     "Create a new share link" : "创建新的共享链接",
