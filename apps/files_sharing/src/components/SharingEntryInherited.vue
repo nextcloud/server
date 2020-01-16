@@ -35,7 +35,7 @@
 		<ActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
 		</ActionText>
-		<ActionLink v-if="share.fileSource"
+		<ActionLink v-if="share.canDelete && share.fileSource"
 			icon="icon-folder"
 			:href="fileTargetUrl">
 			{{ t('files_sharing', 'Via folder') }}
