@@ -30,6 +30,7 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Delete" : "حذف",
     "Save" : "ذخیره",
+    "Browse the app store" : "فروشگاه برنامه را مرور کنید",
     "matches" : "مطابق است",
     "does not match" : "مطابق نیست",
     "is" : "هست ",
