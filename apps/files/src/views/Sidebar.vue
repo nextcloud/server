@@ -26,7 +26,7 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
-		@close="onClose"
+		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
 		@[defaultActionListener].stop.prevent="onDefaultAction">
@@ -251,10 +251,6 @@ export default {
 		canDisplay(tab) {
 			return tab.isEnabled(this.fileInfo)
 		},
-		onClose() {
-			this.resetData()
-			OCA.Files.Sidebar.close()
-		},
 		resetData() {
 			this.error = null
 			this.fileInfo = null
@@ -382,8 +378,9 @@ export default {
 		/**
 		 * Open the sidebar for the given file
 		 *
-		 * @memberof Sidebar
 		 * @param {string} path the file path to load
+		 * @returns {Promise}
+		 * @throws {Error} loading failure
 		 */
 		async open(path) {
 			// update current opened file
@@ -415,6 +412,14 @@ export default {
 					throw new Error(error)
 				}
 			}
+		},
+
+		/**
+		 * Close the sidebar
+		 */
+		close() {
+			this.Sidebar.file = ''
+			this.resetData()
 		},
 	},
 }
