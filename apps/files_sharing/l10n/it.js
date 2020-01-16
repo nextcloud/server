@@ -169,6 +169,7 @@ OC.L10N.register(
     "File drop (upload only)" : "Rilascia file (solo caricamento)",
     "Hide download" : "Nascondi scaricamento",
     "Password protect" : "Proteggi con password",
+    "Video verification" : "Verifica video",
     "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Add another link" : "Aggiungi un altro collegamento",
     "Create a new share link" : "Crea un nuovo collegamento di condivisione",
