@@ -237,35 +237,6 @@ export default {
 
 		isSystemTagsEnabled() {
 			return OCA && 'SystemTags' in OCA
-		}
-	},
-
-	watch: {
-		// update the sidebar data
-		async file(curr, prev) {
-			this.resetData()
-			if (curr && curr.trim() !== '') {
-				try {
-					this.fileInfo = await FileInfo(this.davPath)
-					// adding this as fallback because other apps expect it
-					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
-
-					// DEPRECATED legacy views
-					// TODO: remove
-					this.views.forEach(view => {
-						view.setFileInfo(this.fileInfo)
-					})
-
-					this.$nextTick(() => {
-						if (this.$refs.sidebar) {
-							this.$refs.sidebar.updateTabs()
-						}
-					})
-				} catch (error) {
-					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data', error)
-				}
-			}
 		},
 	},
 
@@ -405,7 +376,45 @@ export default {
 			if (OCA.SystemTags && OCA.SystemTags.View) {
 				OCA.SystemTags.View.toggle()
 			}
-		}
+		},
+
+		/**
+		 * Open the sidebar for the given file
+		 *
+		 * @memberof Sidebar
+		 * @param {string} path the file path to load
+		 */
+		async open(path) {
+			// update current opened file
+			this.Sidebar.file = path
+
+			// reset previous data
+			this.resetData()
+			if (path && path.trim() !== '') {
+				try {
+					this.fileInfo = await FileInfo(this.davPath)
+					// adding this as fallback because other apps expect it
+					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+
+					// DEPRECATED legacy views
+					// TODO: remove
+					this.views.forEach(view => {
+						view.setFileInfo(this.fileInfo)
+					})
+
+					this.$nextTick(() => {
+						if (this.$refs.sidebar) {
+							this.$refs.sidebar.updateTabs()
+						}
+					})
+				} catch (error) {
+					this.error = t('files', 'Error while loading the file data')
+					console.error('Error while loading the file data', error)
+
+					throw new Error(error)
+				}
+			}
+		},
 	},
 }
 </script>
