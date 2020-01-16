@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div id="files-sharing-personal-settings" class="section">
+	<div id="files-sharing-personal-settings" class="section" v-if="!enforceAcceptShares">
 		<h2>{{ t('files', 'Sharing') }}</h2>
 		<p>
 			<input id="files-sharing-personal-settings-accept"
@@ -42,11 +42,9 @@ export default {
 	name: 'PersonalSettings',
 	data() {
 		return {
-			accepting: true,
+			accepting: loadState('files_sharing', 'accept_default'),
+			enforceAcceptShares: loadState('files_sharing', 'enforce_accept'),
 		}
-	},
-	mounted() {
-		this.accepting = loadState('files_sharing', 'accept_default')
 	},
 	methods: {
 		toggleEnabled() {
