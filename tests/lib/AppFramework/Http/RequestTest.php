@@ -1222,6 +1222,52 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('',  $request->getServerHost());
 	}
 
+	/**
+	 * @return array
+	 */
+	public function dataGetServerHostTrustedDomain() {
+		return [
+			'is array' => ['my.trusted.host', ['my.trusted.host']],
+			'is array but undefined index 0' => ['my.trusted.host', [2 => 'my.trusted.host']],
+			'is string' => ['my.trusted.host', 'my.trusted.host'],
+			'is null' => ['', null],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetServerHostTrustedDomain
+	 * @param $expected
+	 * @param $trustedDomain
+	 */
+	public function testGetServerHostTrustedDomain($expected, $trustedDomain) {
+		$this->config
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) use ($trustedDomain) {
+				if ($key === 'trusted_proxies') {
+					return ['1.2.3.4'];
+				}
+				if ($key === 'trusted_domains') {
+					return $trustedDomain;
+				}
+				return $default;
+			});
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_X_FORWARDED_HOST' => 'my.untrusted.host',
+					'REMOTE_ADDR' => '1.2.3.4',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame($expected, $request->getServerHost());
+	}
+
 	public function testGetOverwriteHostDefaultNull() {
 		$this->config
 			->expects($this->once())

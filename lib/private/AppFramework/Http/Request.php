@@ -904,14 +904,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$trustedDomainHelper = new TrustedDomainHelper($this->config);
 		if ($trustedDomainHelper->isTrustedDomain($host)) {
 			return $host;
-		} else {
-			$trustedList = $this->config->getSystemValue('trusted_domains', []);
-			if(!empty($trustedList)) {
-				return $trustedList[0];
-			} else {
-				return '';
-			}
 		}
+
+		$trustedList = (array)$this->config->getSystemValue('trusted_domains', []);
+		if (count($trustedList) > 0) {
+			return reset($trustedList);
+		}
+
+		return '';
 	}
 
 	/**
