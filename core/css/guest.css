@@ -471,6 +471,10 @@ form .warning input[type='checkbox']+label {
 	color: #fff !important;
 }
 
+.body-login-container.two-factor {
+	max-width: 290px;
+	margin: 15px auto 0;
+}
 .two-factor-provider {
 	display: flex;
 	border-radius: 3px; /* --border-radius */

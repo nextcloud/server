@@ -1,7 +1,7 @@
 <?php
 $noProviders = empty($_['providers']);
 ?>
-<div class="body-login-container update">
+<div class="body-login-container update two-factor">
 	<h2 class="two-factor-header"><?php p($l->t('Two-factor authentication')) ?></h2>
 	<?php if (!$noProviders): ?>
 	<p><?php p($l->t('Enhanced security is enabled for your account. Choose a second factor for authentication:')) ?></p>
