@@ -39,6 +39,9 @@ class LoadSidebarListener implements IEventListener {
 		}
 
 		Util::addScript(Application::APP_ID, 'dist/sidebar');
+		// needed by the Sidebar legacy tabs
+		// TODO: remove when all tabs migrated to the new api
+		Util::addScript('files', 'fileinfomodel');
 	}
 
 }
