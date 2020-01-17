@@ -155,7 +155,7 @@ export default {
 				.catch(error => logger.error('could not install recommended apps', { error }))
 		},
 		customIcon(appId) {
-			if (!(appId in recommended)) {
+			if (!(appId in recommended) || !recommended[appId].icon) {
 				logger.warn(`no app icon for recommended app ${appId}`)
 				return imagePath('core', 'places/default-app-icon.svg')
 			}
@@ -174,7 +174,7 @@ export default {
 
 <style lang="scss" scoped>
 .body-login-container {
-	max-width: 290px;
+
 }
 
 p.loading, p.loading-error {
