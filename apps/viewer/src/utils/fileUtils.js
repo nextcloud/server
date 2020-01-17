@@ -23,23 +23,6 @@ import camelcase from 'camelcase'
 import { isNumber } from './numberUtil'
 
 /**
- * Get an url encoded path
- *
- * @param {String} path the full path
- * @returns {string} url encoded file path
- */
-const encodeFilePath = function(path) {
-	const pathSections = (path.startsWith('/') ? path : `/${path}`).split('/')
-	let relativePath = ''
-	pathSections.forEach((section) => {
-		if (section !== '') {
-			relativePath += '/' + encodeURIComponent(section)
-		}
-	})
-	return relativePath
-}
-
-/**
  * Extract dir and name from file path
  *
  * @param {String} path the full path
@@ -119,4 +102,4 @@ const genFileInfo = function(obj) {
 	return fileInfo
 }
 
-export { encodeFilePath, extractFilePaths, sortCompare, genFileInfo }
+export { extractFilePaths, sortCompare, genFileInfo }
