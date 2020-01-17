@@ -136,6 +136,7 @@ OC.L10N.register(
     "{size} used" : "მოხმარებულია {size}",
     "Display name" : "დისპლეი სახელი",
     "Email" : "ელ-ფოსტა",
+    "Close" : "დახურვა",
     "Group admin for" : "ადმინისტრატორის შეჯგუფება",
     "Quota" : "ქვოტა",
     "Language" : "ენა",

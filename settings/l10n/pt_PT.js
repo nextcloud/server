@@ -135,6 +135,7 @@ OC.L10N.register(
     "{size} used" : "{size} utilizado",
     "Display name" : "Nome de apresentação",
     "Email" : "Email",
+    "Close" : "Fechar",
     "Group admin for" : "Administrador de grupo para",
     "Quota" : "Quota",
     "Language" : "Idioma",
