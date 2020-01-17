@@ -275,6 +275,7 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite só debería empregarse para instancias mínimas e de desenvolvemento. Para produción recomendámoslle que empregue unha infraestrutura de base de datos diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Se emprega clientes para a sincronización dos ficheiros, desaconséllase encarecidamente o uso de SQLite.",
     "Install recommended apps" : "Instalar aplicacións recomendadas",
+    "Calendar, Contacts, Talk & Mail" : "Calendario, Contactos, Talk (falar) e Correo",
     "Finish setup" : "Rematar a configuración",
     "Finishing …" : "Rematando…",
     "Need help?" : "Precisa axuda?",

@@ -92,6 +92,7 @@ OC.L10N.register(
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Foi <strong>descargado</strong> un ficheiro ou cartafol compartido por correo ou ligazón pública",
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol dende <strong>outro servidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",
+    "Shared link" : "Ligazón compartida",
     "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
     "Could not delete share" : "Non foi posíbel eliminar o recurso compartido",
     "Please specify a file or folder path" : "Especifique a ruta dun ficheiro ou cartafol",

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Cancel" : "Atcelt",
     "Display name" : "Ekrāna vārds",
     "Email" : "E-pasts",
+    "Close" : "Aizvērt",
     "Group admin for" : "Admin grupa",
     "Quota" : "Apjoms",
     "Language" : "Valoda",
