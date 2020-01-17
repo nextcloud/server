@@ -22,58 +22,6 @@
 
 <template>
 	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
-		<div id="grid-header"
-			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
-			class="row">
-			<div id="headerAvatar" class="avatar" />
-			<div id="headerName" class="name">
-				{{ t('settings', 'Username') }}
-
-				<div class="subtitle">
-					{{ t('settings', 'Display name') }}
-				</div>
-			</div>
-			<div id="headerPassword" class="password">
-				{{ t('settings', 'Password') }}
-			</div>
-			<div id="headerAddress" class="mailAddress">
-				{{ t('settings', 'Email') }}
-			</div>
-			<div id="headerGroups" class="groups">
-				{{ t('settings', 'Groups') }}
-			</div>
-			<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-				id="headerSubAdmins"
-				class="subadmins">
-				{{ t('settings', 'Group admin for') }}
-			</div>
-			<div id="headerQuota" class="quota">
-				{{ t('settings', 'Quota') }}
-			</div>
-			<div v-if="showConfig.showLanguages"
-				id="headerLanguages"
-				class="languages">
-				{{ t('settings', 'Language') }}
-			</div>
-
-			<div v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-				class="headerUserBackend userBackend">
-				<div v-if="showConfig.showUserBackend" class="userBackend">
-					{{ t('settings', 'User backend') }}
-				</div>
-				<div v-if="showConfig.showStoragePath"
-					class="subtitle storageLocation">
-					{{ t('settings', 'Storage location') }}
-				</div>
-			</div>
-			<div v-if="showConfig.showLastLogin"
-				class="headerLastLogin lastLogin">
-				{{ t('settings', 'Last login') }}
-			</div>
-
-			<div class="userActions" />
-		</div>
-
 		<form v-show="showConfig.showNewUserForm"
 			id="new-user"
 			:class="{'sticky': scrolled && showConfig.showNewUserForm}"
@@ -96,16 +44,16 @@
 					pattern="[a-zA-Z0-9 _\.@\-']+"
 					required
 					type="text">
-			</div>
-			<div class="displayName">
-				<input id="newdisplayname"
-					v-model="newUser.displayName"
-					:placeholder="t('settings', 'Display name')"
-					autocapitalize="none"
-					autocomplete="off"
-					autocorrect="off"
-					name="displayname"
-					type="text">
+				<div class="displayName">
+					<input id="newdisplayname"
+						v-model="newUser.displayName"
+						:placeholder="t('settings', 'Display name')"
+						autocapitalize="none"
+						autocomplete="off"
+						autocorrect="off"
+						name="displayname"
+						type="text">
+				</div>
 			</div>
 			<div class="password">
 				<input id="newuserpassword"
@@ -204,8 +152,66 @@
 					class="button primary icon-checkmark-white has-tooltip"
 					type="submit"
 					value="">
+				<div class="closeButton">
+					<Actions>
+						<ActionButton icon="icon-close" @click="onClose">
+							{{ t('settings', 'Close') }}
+						</ActionButton>
+					</Actions>
+				</div>
 			</div>
 		</form>
+		<div id="grid-header"
+			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
+			class="row">
+			<div id="headerAvatar" class="avatar" />
+			<div id="headerName" class="name">
+				{{ t('settings', 'Username') }}
+
+				<div class="subtitle">
+					{{ t('settings', 'Display name') }}
+				</div>
+			</div>
+			<div id="headerPassword" class="password">
+				{{ t('settings', 'Password') }}
+			</div>
+			<div id="headerAddress" class="mailAddress">
+				{{ t('settings', 'Email') }}
+			</div>
+			<div id="headerGroups" class="groups">
+				{{ t('settings', 'Groups') }}
+			</div>
+			<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
+				id="headerSubAdmins"
+				class="subadmins">
+				{{ t('settings', 'Group admin for') }}
+			</div>
+			<div id="headerQuota" class="quota">
+				{{ t('settings', 'Quota') }}
+			</div>
+			<div v-if="showConfig.showLanguages"
+				id="headerLanguages"
+				class="languages">
+				{{ t('settings', 'Language') }}
+			</div>
+
+			<div v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+				class="headerUserBackend userBackend">
+				<div v-if="showConfig.showUserBackend" class="userBackend">
+					{{ t('settings', 'User backend') }}
+				</div>
+				<div v-if="showConfig.showStoragePath"
+					class="subtitle storageLocation">
+					{{ t('settings', 'Storage location') }}
+				</div>
+			</div>
+			<div v-if="showConfig.showLastLogin"
+				class="headerLastLogin lastLogin">
+				{{ t('settings', 'Last login') }}
+			</div>
+
+			<div class="userActions" />
+		</div>
 
 		<user-row v-for="(user, key) in filteredUsers"
 			:key="key"
@@ -236,7 +242,7 @@
 
 <script>
 import userRow from './UserList/UserRow'
-import { Multiselect } from 'nextcloud-vue'
+import { Multiselect, Actions, ActionButton } from 'nextcloud-vue'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
 
@@ -268,6 +274,8 @@ export default {
 		userRow,
 		Multiselect,
 		InfiniteLoading,
+		Actions,
+		ActionButton,
 	},
 	props: {
 		users: {
@@ -560,6 +568,9 @@ export default {
 				this.$router.push({ name: 'users' })
 				this.$refs.infiniteLoading.stateChanger.reset()
 			}
+		},
+		onClose() {
+			this.showConfig.showNewUserForm = false
 		},
 	},
 }
