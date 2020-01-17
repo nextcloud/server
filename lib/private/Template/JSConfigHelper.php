@@ -113,6 +113,15 @@ class JSConfigHelper {
 	}
 
 	public function getConfig() {
+		
+		if (($this->config->getSystemValue('privatized', true)) && (!\OCP\User::isLoggedIn())) {
+			$result = '';
+			if ($this->appManager->isInstalled('files_videoplayer')) {
+				$result .= 'var _oc_appswebroots={"files_videoplayer":"' . \OC_App::getAppWebPath('files_videoplayer') . '"};' . PHP_EOL;
+			}
+			$result .= 'var oc_appconfig={"core":{"enforcePasswordForPublicLink":' . json_encode(\OCP\Util::isPublicLinkPasswordRequired()) . '}};' . PHP_EOL;
+			return $result;
+		}
 
 		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
