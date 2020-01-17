@@ -82,6 +82,12 @@ const recommended = {
 	talk: {
 		description: t('core', 'Screensharing, online meetings and web conferencing – on desktop and with mobile apps.'),
 	},
+	onlyoffice: {
+		description: t('core', 'Collaboratively edit office documents.'),
+	},
+	documentserver_community: {
+		description: t('core', 'Local document editing back-end used by the OnlyOffice app.'),
+	},
 }
 const recommendedIds = Object.keys(recommended)
 const defaultPageUrl = loadState('core', 'defaultPageUrl')
