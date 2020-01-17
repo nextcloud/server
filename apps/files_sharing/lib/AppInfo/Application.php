@@ -214,7 +214,6 @@ class Application extends App {
 		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function() {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});
-		$dispatcher->addServiceListener(ShareCreatedEvent::class, GlobalShareAcceptanceListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 
 		// notifications api to accept incoming user shares
