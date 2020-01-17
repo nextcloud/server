@@ -169,6 +169,7 @@ OC.L10N.register(
     "Shared with you" : "Bendrinama su jumis",
     "Shared by link" : "Bendrinama pagal nuorodą",
     "Deleted shares" : "Ištrinti viešiniai",
+    "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "File handling" : "Failų apdorojimas",

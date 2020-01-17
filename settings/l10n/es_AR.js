@@ -133,6 +133,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Display name" : "Nombre para mostrar",
     "Email" : "Correo electrónico",
+    "Close" : "Cerrar",
     "Group admin for" : "Administrador del grupo para",
     "Quota" : "Cuota",
     "Language" : "Idioma",

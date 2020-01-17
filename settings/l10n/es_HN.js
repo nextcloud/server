@@ -135,6 +135,7 @@ OC.L10N.register(
     "{size} used" : "{size} usado",
     "Display name" : "Nombre a desplegar",
     "Email" : "Correo electrónico",
+    "Close" : "Cerrar",
     "Group admin for" : "Administrador del grupo para",
     "Quota" : "Cuota",
     "Language" : "Idioma",

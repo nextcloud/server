@@ -135,6 +135,7 @@ OC.L10N.register(
     "{size} used" : "{madhësia} e përdorur",
     "Display name" : "Shfaq emrin",
     "Email" : "Email",
+    "Close" : "Mbylleni",
     "Group admin for" : "Administratori i  grupit për",
     "Quota" : "Kuota",
     "Language" : "Gjuhë",
