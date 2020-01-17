@@ -121,6 +121,7 @@ OC.L10N.register(
     "{size} used" : "{size} usaos",
     "Display name" : "Nome",
     "Email" : "Corréu-e",
+    "Close" : "Zarrar",
     "Quota" : "Cuota",
     "Language" : "Llingua",
     "User backend" : "Backend d'usuarios",

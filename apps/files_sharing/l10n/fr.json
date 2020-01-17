@@ -90,6 +90,7 @@
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par mail ou par lien public a été <strong>téléchargé</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
+    "Shared link" : "Lien partagé",
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "Could not delete share" : "Impossible de supprimer le partage",
     "Please specify a file or folder path" : "Veuillez indiquer un fichier ou un chemin",
