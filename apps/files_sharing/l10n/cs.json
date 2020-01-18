@@ -90,6 +90,7 @@
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Byl <strong>stažen</strong> soubor nebo složka sdílená ve veřejném odkazu",
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo složka byla nasdíleny z <strong>jiného serveru</strong>",
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
+    "Shared link" : "Sdílený odkaz",
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Could not delete share" : "Nelze smazat sdílení",
     "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",

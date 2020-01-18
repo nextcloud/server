@@ -35,7 +35,7 @@ OC.L10N.register(
     "Name" : "名字",
     "Reset to default" : "重置为默认设置",
     "Web link" : "网站链接",
-    "https://…" : "https://",
+    "https://…" : "https://…",
     "Slogan" : "标语",
     "Color" : "颜色",
     "Logo" : "图标",

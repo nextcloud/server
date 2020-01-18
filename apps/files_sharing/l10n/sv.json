@@ -90,6 +90,7 @@
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "En fil eller mapp som delats via e-post eller offentlig länk har blivit <strong>hämtad</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mapp har <strong>delats</strong>",
+    "Shared link" : "Delad länk",
     "Wrong share ID, share doesn't exist" : "Fel delnings-ID, delningen finns inte",
     "Could not delete share" : "Kunde inte ta bort delningen",
     "Please specify a file or folder path" : "Ange sökväg till filen eller mappen",
