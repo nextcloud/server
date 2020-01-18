@@ -37,6 +37,7 @@ OC.L10N.register(
     "Cancel" : "Atsisakyti",
     "Delete" : "Ištrinti",
     "Save" : "Įrašyti",
+    "Browse the app store" : "Naršyti programėlių parduotuvę",
     "Show less" : "Rodyti mažiau",
     "Show more" : "Rodyti daugiau",
     "matches" : "atitinka",

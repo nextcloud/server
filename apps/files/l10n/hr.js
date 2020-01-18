@@ -182,6 +182,7 @@ OC.L10N.register(
     "Shared with you" : "Podijeljeno s vama",
     "Shared by link" : "Podijeljeno putem poveznice",
     "Deleted shares" : "Izbrisana dijeljenja",
+    "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "File handling" : "Obrada datoteke",
