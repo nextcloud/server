@@ -22,46 +22,6 @@
 
 <template>
 	<div id="app-details-view" style="padding: 20px;">
-		<h2>
-			<div v-if="!app.preview" class="icon-settings-dark" />
-			<svg v-if="app.previewAsIcon && app.preview"
-				width="32"
-				height="32"
-				viewBox="0 0 32 32">
-				<defs><filter :id="filterId"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
-				<image x="0"
-					y="0"
-					width="32"
-					height="32"
-					preserveAspectRatio="xMinYMin meet"
-					:filter="filterUrl"
-					:xlink:href="app.preview"
-					class="app-icon" />
-			</svg>
-			{{ app.name }}
-		</h2>
-		<img v-if="screenshotLoaded" :src="app.screenshot" width="100%">
-		<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
-			<span v-if="app.level === 300"
-				v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				class="supported icon-checkmark-color">
-				{{ t('settings', 'Supported') }}</span>
-			<span v-if="app.level === 200"
-				v-tooltip.auto="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				class="official icon-checkmark">
-				{{ t('settings', 'Featured') }}</span>
-			<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
-		</div>
-
-		<div v-if="author" class="app-author">
-			{{ t('settings', 'by') }}
-			<span v-for="(a, index) in author" :key="index">
-				<a v-if="a['@attributes'] && a['@attributes']['homepage']" :href="a['@attributes']['homepage']">{{ a['@value'] }}</a><span v-else-if="a['@value']">{{ a['@value'] }}</span><span v-else>{{ a }}</span><span v-if="index+1 < author.length">, </span>
-			</span>
-		</div>
-		<div v-if="licence" class="app-licence">
-			{{ licence }}
-		</div>
 		<div class="actions">
 			<div class="actions-buttons">
 				<input v-if="app.update"
@@ -192,24 +152,26 @@ import marked from 'marked'
 import dompurify from 'dompurify'
 
 import AppScore from './AppList/AppScore'
-import AppManagement from './AppManagement'
+import AppManagement from '../mixins/AppManagement'
 import PrefixMixin from './PrefixMixin'
-import SvgFilterMixin from './SvgFilterMixin'
 
 export default {
 	name: 'AppDetails',
+
 	components: {
 		Multiselect,
 		AppScore,
 	},
-	mixins: [AppManagement, PrefixMixin, SvgFilterMixin],
+	mixins: [AppManagement, PrefixMixin],
+
 	props: ['category', 'app'],
+
 	data() {
 		return {
 			groupCheckedAppsData: false,
-			screenshotLoaded: false,
 		}
 	},
+
 	computed: {
 		appstoreUrl() {
 			return `https://apps.nextcloud.com/apps/${this.app.id}`
@@ -308,13 +270,6 @@ export default {
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
-		}
-		if (this.app.screenshot) {
-			const image = new Image()
-			image.onload = (e) => {
-				this.screenshotLoaded = true
-			}
-			image.src = this.app.screenshot
 		}
 	},
 }
