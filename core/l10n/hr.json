@@ -312,6 +312,7 @@
     "Set up two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dvofaktorska autentifikacija se provodi, ali nije konfigurirana na vašem računu. Prijavite se s nekom od dodatnih sigurnosnih šifri ili se obratite administratoru za pomoć.",
     "Use backup code" : "Upotrijebi pričuvnu šifru",
+    "Cancel login" : "Otkaži prijavu",
     "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Na vašem se računu provodi poboljšana sigurnost. Odaberite davatelja usluga kojeg želite primjenjivati:",
     "Error while validating your second factor" : "Pogreška prilikom potvrđivanja drugog faktora",
