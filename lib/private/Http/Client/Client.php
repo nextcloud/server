@@ -48,27 +48,33 @@ class Client implements IClient {
 	private $config;
 	/** @var ICertificateManager */
 	private $certificateManager;
+	/** @var bool */
+	private $isCli;
 
 	/**
 	 * @param IConfig $config
 	 * @param ICertificateManager $certificateManager
 	 * @param GuzzleClient $client
+	 * @param bool $isCli
 	 */
 	public function __construct(
 		IConfig $config,
 		ICertificateManager $certificateManager,
-		GuzzleClient $client
+		GuzzleClient $client,
+		bool $isCli
 	) {
 		$this->config = $config;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
+		$this->isCli = $isCli;
 	}
 
 	private function buildRequestOptions(array $options): array {
+		$timeout = $this->isCli === false ? 30 : 0;
 		$defaults = [
 			RequestOptions::PROXY => $this->getProxyUri(),
 			RequestOptions::VERIFY => $this->getCertBundle(),
-			RequestOptions::TIMEOUT => 30,
+			RequestOptions::TIMEOUT => $timeout,
 		];
 
 		$options = array_merge($defaults, $options);

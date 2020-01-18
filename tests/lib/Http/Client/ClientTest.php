@@ -39,7 +39,8 @@ class ClientTest extends \Test\TestCase {
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
-			$this->guzzleClient
+			$this->guzzleClient,
+			true
 		);
 	}
 
@@ -113,7 +114,7 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
 			],
-			'timeout' => 30,
+			'timeout' => 0,
 		];
 	}
 
@@ -272,7 +273,7 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
 			],
-			'timeout' => 30,
+			'timeout' => 0,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
@@ -299,7 +300,32 @@ class ClientTest extends \Test\TestCase {
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler'
 			],
-			'timeout' => 30,
+			'timeout' => 0,
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public function testTimeoutForWebRequest(): void {
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with(null)
+			->willReturn('/my/path.crt');
+
+		$client = new Client(
+			$this->config,
+			$this->certificateManager,
+			$this->guzzleClient,
+			false
+		);
+
+		$this->assertEquals([
+			'verify' => '/my/path.crt',
+			'proxy' => null,
+			'headers' => [
+				'User-Agent' => 'Nextcloud Server Crawler'
+			],
+			'timeout' => 30,
+		], self::invokePrivate($client, 'buildRequestOptions', [[]]));
+
 	}
 }

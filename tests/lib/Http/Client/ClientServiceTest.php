@@ -26,7 +26,7 @@ class ClientServiceTest extends \Test\TestCase {
 
 		$clientService = new ClientService($config, $certificateManager);
 		$this->assertEquals(
-			new Client($config, $certificateManager, new GuzzleClient()),
+			new Client($config, $certificateManager, new GuzzleClient(), true),
 			$clientService->newClient()
 		);
 	}

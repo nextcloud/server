@@ -58,6 +58,6 @@ class ClientService implements IClientService {
 	 * @return Client
 	 */
 	public function newClient(): IClient {
-		return new Client($this->config, $this->certificateManager, new GuzzleClient());
+		return new Client($this->config, $this->certificateManager, new GuzzleClient(), \OC::$CLI);
 	}
 }
