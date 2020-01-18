@@ -126,7 +126,6 @@ div[contenteditable=false] {
 	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
-	cursor: text;
 
 	background-color: var(--color-background-dark);
 	color: var(--color-text-lighter);
@@ -229,7 +228,6 @@ textarea, div[contenteditable=true] {
 
 div[contenteditable=false] {
 	color: var(--color-text-lighter);
-	cursor: text;
 	font-family: inherit;
 	height: auto;
 }
