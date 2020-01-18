@@ -92,7 +92,7 @@ OC.L10N.register(
     "Favorite" : "Suosikki",
     "You can only favorite a single file or folder at a time" : "Voit valita suosikiksi vain yhden tiedoston tai kansion kerrallaan",
     "New folder" : "Uusi kansio",
-    "Upload file" : "Lähetä tiedosto",
+    "Upload file" : "Lähetä tiedosto",
     "Not favorited" : "Ei suosikeissa",
     "Remove from favorites" : "Poista suosikeista",
     "Add to favorites" : "Lisää suosikkeihin",

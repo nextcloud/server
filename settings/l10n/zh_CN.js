@@ -383,7 +383,7 @@ OC.L10N.register(
     "It can take up to 24 hours before the account is displayed as verified." : "在账号显示为已验证之前最多可能需要 24 小时。",
     "Link https://…" : "链接 https://…",
     "Twitter" : "Twitter",
-    "Twitter handle @…" : "Twitter 用户名@…",
+    "Twitter handle @…" : "Twitter 用户名 @…",
     "Help translate" : "帮助翻译",
     "Locale" : "本地",
     "Current password" : "当前密码",

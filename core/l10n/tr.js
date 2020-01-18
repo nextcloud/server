@@ -275,6 +275,7 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite yalnız küçük ve geliştirme ortamları için seçilmelidir. Üretim ortamları için farklı bir veritabanı kullanmanız önerilir.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Dosya eşitlemesi için istemcileri kullanıyorsanız SQLite kullanımından kaçınmalısınız.",
     "Install recommended apps" : "Önerilen uygulamaları kur",
+    "Calendar, Contacts, Talk & Mail" : "Takvim, Kişiler, Sohbet ve E-posta",
     "Finish setup" : "Kurulumu tamamla",
     "Finishing …" : "Tamamlanıyor …",
     "Need help?" : "Yardım gerekiyor mu?",
