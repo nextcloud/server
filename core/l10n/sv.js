@@ -257,6 +257,7 @@ OC.L10N.register(
     "Performance warning" : "Prestandavarning",
     "You chose SQLite as database." : "Du valde SQLite som databas.",
     "Install recommended apps" : "Installera rekommenderade appar",
+    "Calendar, Contacts, Talk & Mail" : "Kalender, Kontakter, Talk & E-post",
     "Finish setup" : "Slutför installationen",
     "Finishing …" : "Avslutar ...",
     "Need help?" : "Behöver du hjälp?",
