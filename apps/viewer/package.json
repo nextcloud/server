@@ -84,7 +84,7 @@
     "file-loader": "^5.0.2",
     "jest": "^24.9.0",
     "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.1",
+    "sass-loader": "^8.0.2",
     "stylelint": "^8.4.0",
     "stylelint-config-recommended-scss": "^3.3.0",
     "stylelint-scss": "^3.13.0",
