@@ -101,7 +101,7 @@ OC.L10N.register(
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN klientského uživatele, ke kterému tvoříte vazbu, např. uid=agent,dc=example,dc=com. Pro anonymní přístup ponechte DN a heslo prázdné.",
     "Password" : "Heslo",
     "For anonymous access, leave DN and Password empty." : "Pro anonymní přístup ponechte údaje DN and heslo prázdné.",
-    "Save Credentials" : "Uložit pověření",
+    "Save Credentials" : "Uložit přihlašovací údaje",
     "One Base DN per line" : "Každé základní DN na samostatném řádku",
     "You can specify Base DN for users and groups in the Advanced tab" : "V rozšířeném nastavení můžete určit základní DN pro uživatele a skupiny",
     "Detect Base DN" : "Zjistitit Base DN",

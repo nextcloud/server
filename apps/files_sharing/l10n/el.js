@@ -106,6 +106,7 @@ OC.L10N.register(
     "group" : "ομάδα",
     "conversation" : "συζήτηση",
     "remote" : "απομακρυσμένα",
+    "remote group" : "απομακρυσμένη ομάδα",
     "guest" : "Επισκέπτης",
     "Link copied" : "Ο σύνδεσμος αντιγράφηκε",
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
