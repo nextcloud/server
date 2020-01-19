@@ -11,13 +11,30 @@
 
   <IfModule mod_env.c>
     # Add security and privacy related headers
+
+    # Avoid doubled headers by unsetting headers in "onsuccess" table,
+    # then add headers to "always" table: https://github.com/nextcloud/server/pull/19002
+    Header onsuccess unset Referrer-Policy
     Header always set Referrer-Policy "no-referrer"
+
+    Header onsuccess unset X-Content-Type-Options
     Header always set X-Content-Type-Options "nosniff"
+
+    Header onsuccess unset X-Download-Options
     Header always set X-Download-Options "noopen"
+
+    Header onsuccess unset X-Frame-Options
     Header always set X-Frame-Options "SAMEORIGIN"
+
+    Header onsuccess unset X-Permitted-Cross-Domain-Policies
     Header always set X-Permitted-Cross-Domain-Policies "none"
+
+    Header onsuccess unset X-Robots-Tag
     Header always set X-Robots-Tag "none"
+
+    Header onsuccess unset X-XSS-Protection
     Header always set X-XSS-Protection "1; mode=block"
+
     SetEnv modHeadersAvailable true
   </IfModule>
 
