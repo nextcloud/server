@@ -60,7 +60,7 @@
     "nextcloud-vue-collections": "^0.7.1",
     "p-limit": "^2.2.2",
     "p-queue": "^6.2.1",
-    "query-string": "^5.1.1",
+    "query-string": "^6.10.1",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
