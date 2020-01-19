@@ -10,7 +10,7 @@ OC.L10N.register(
     "Shared by link" : "Sdíleno pomocí odkazu",
     "No shared links" : "Žádné sdílené odkazy",
     "Files and folders you share by link will show up here" : "Zde budou zobrazeny soubory a složky, sdílené jako webové odkazy",
-    "Deleted shares" : "Smazat sdílení",
+    "Deleted shares" : "Smazaná sdílení",
     "No deleted shares" : "Žádná smazaná sdílení",
     "Shares you deleted will show up here" : "Sdílení která smažete se zobrazí zde",
     "Pending shares" : "Čekající sdílení",

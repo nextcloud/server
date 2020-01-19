@@ -29,7 +29,7 @@ OC.L10N.register(
     "created" : "vytvořen",
     "beforeUpdate" : "předAktualizací",
     "beforeDestroy" : "předZničením",
-    "destroyed" : "zničeno",
+    "destroyed" : "zlikvidováno",
     "beforeMount" : "předPřipojením",
     "Nextcloud backup codes" : "Nextcloud záložní kódy",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi.",
