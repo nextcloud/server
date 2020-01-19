@@ -81,7 +81,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Technical details" : "Technické podrobnosti",
-    "Remote Address: %s" : "Vzdálená adresa: %s",
+    "Remote Address: %s" : "Adresa protějšku: %s",
     "Request ID: %s" : "Identif. požadavku: %s",
     "There was an error updating your attendance status." : "Vyskytla se chyba při aktualizaci vašeho stavu účasti.",
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",

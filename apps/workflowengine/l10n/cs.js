@@ -109,7 +109,7 @@ OC.L10N.register(
     "between" : "mezi",
     "not between" : "není mezi",
     "Request user agent" : "User agent požadavku",
-    "User group membership" : "Členství ve skupině uživatelů",
+    "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
     "Short rule description" : "Stručný popis pravidla",
