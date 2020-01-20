@@ -63,6 +63,12 @@ class Hasher implements IHasher {
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 
+		$this->options = [
+			'memory_cost' => (int)$this->config->getSystemValue('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST),
+			'time_cost' => (int)$this->config->getSystemValue('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST),
+			'threads' => (int)$this->config->getSystemValue('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS),
+		];
+
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
 		if(!\is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
