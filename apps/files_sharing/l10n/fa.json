@@ -90,6 +90,7 @@
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "یک پرونده یا پوشه به اشتراک گذاشته شده از طریق پست یا از طریق لینک عمومی بارگیری شد",
     "A file or folder was shared from <strong>another server</strong>" : "یک پرونده یا پوشه از سرور دیگر به اشتراک گذاشته شد",
     "A file or folder has been <strong>shared</strong>" : "فایل یا پوشه ای به <strong>اشتراک</strong> گذاشته شد",
+    "Shared link" : "پیوند به اشتراک گذاری شده",
     "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "Could not delete share" : "اشتراک گذاری حذف نشد",
     "Please specify a file or folder path" : "لطفاً مسیر فایل یا پوشه را مشخص کنید",
