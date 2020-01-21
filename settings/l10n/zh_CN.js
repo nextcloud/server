@@ -293,7 +293,7 @@ OC.L10N.register(
     "SMTP Password" : "SMTP 密码",
     "Save" : "保存",
     "Test email settings" : "测试电子邮件设置",
-    "Send email" : "发送邮件",
+    "Send email" : "发送电子邮件",
     "Security & setup warnings" : "安全与设置警告",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "您的每项配置对于实例的安全性和性能都至关重要。 为了帮助您，我们正在做一些自动检查。 有关详细信息，请参阅文档链接。",
     "All checks passed." : "所有检查已通过。",

@@ -34,6 +34,7 @@
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
+    "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
     "HTML Code:" : "HTML kodas:",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s (%2$s vardu) esantis kitame serveryje",
     "You received \"%3$s\" as a remote share from %1$s" : "Gavote galimybę peržiūrėti duomenis \"%3$s\", kuriuos pasidalino %1$s"
