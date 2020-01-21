@@ -12,3 +12,6 @@ trim_trailing_whitespace = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.svg]
+insert_final_newline = false
