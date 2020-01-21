@@ -159,7 +159,7 @@ class InstallerTest extends TestCase {
 		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'), 'Cached result should be returned and fetcher should be only called once');
 	}
 
-	
+
 	public function testDownloadAppWithRevokedCertificate() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate "4112" has been revoked');
@@ -203,7 +203,7 @@ gLgK8d8sKL60JMmKHN3boHrsThKBVA==
 		$installer->downloadApp('news');
 	}
 
-	
+
 	public function testDownloadAppWithNotNextcloudCertificate() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App with id news has a certificate not issued by a trusted Code Signing Authority');
@@ -246,7 +246,7 @@ YSu356M=
 		$installer->downloadApp('news');
 	}
 
-	
+
 	public function testDownloadAppWithDifferentCN() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App with id news has a cert issued to passman');
@@ -289,7 +289,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$installer->downloadApp('news');
 	}
 
-	
+
 	public function testDownloadAppWithInvalidSignature() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App with id passman has invalid signature');
@@ -347,7 +347,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -357,7 +357,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$installer->downloadApp('passman');
 	}
 
-	
+
 	public function testDownloadAppWithMoreThanOneFolderDownloaded() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Extracted app testapp has more than 1 folder');
@@ -431,7 +431,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -441,7 +441,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$installer->downloadApp('testapp');
 	}
 
-	
+
 	public function testDownloadAppWithMismatchingIdentifier() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App for id testapp has a wrong app ID in info.xml: testapp1');
@@ -514,7 +514,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -593,7 +593,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(0))
 			->method('newClient')
@@ -606,7 +606,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 
-	
+
 	public function testDownloadAppWithDowngrade() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App for id testapp has version 0.9 and tried to update to lower version 0.8');
@@ -679,7 +679,7 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(1))
 			->method('newClient')
