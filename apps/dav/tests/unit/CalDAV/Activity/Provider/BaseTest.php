@@ -5,6 +5,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,29 +31,36 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BaseTest extends TestCase {
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 
-	/** @var IProvider|Base|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|MockObject */
+	protected $url;
+
+	/** @var IProvider|Base|MockObject */
 	protected $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->url = $this->createMock(IURLGenerator::class);
 		$this->provider = $this->getMockBuilder(Base::class)
 			->setConstructorArgs([
 				$this->userManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->url,
 			])
 			->setMethods(['parse'])
 			->getMock();
@@ -71,7 +79,7 @@ class BaseTest extends TestCase {
 	 * @param array $parameters
 	 * @param string $parsedSubject
 	 */
-	public function testSetSubjects($subject, array $parameters, $parsedSubject) {
+	public function testSetSubjects(string $subject, array $parameters, string $parsedSubject) {
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('setRichSubject')
@@ -83,44 +91,6 @@ class BaseTest extends TestCase {
 			->willReturnSelf();
 
 		$this->invokePrivate($this->provider, 'setSubjects', [$event, $subject, $parameters]);
-	}
-
-	public function dataGenerateObjectParameter() {
-		return [
-			[23, 'c1'],
-			[42, 'c2'],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGenerateObjectParameter
-	 * @param int $id
-	 * @param string $name
-	 */
-	public function testGenerateObjectParameter($id, $name) {
-		$this->assertEquals([
-			'type' => 'calendar-event',
-			'id' => $id,
-			'name' => $name,
-		], $this->invokePrivate($this->provider, 'generateObjectParameter', [['id' => $id, 'name' => $name]]));
-	}
-
-	public function dataGenerateObjectParameterThrows() {
-		return [
-			['event'],
-			[['name' => 'event']],
-			[['id' => 42]],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGenerateObjectParameterThrows
-	 * @param mixed $eventData
-	 */
-	public function testGenerateObjectParameterThrows($eventData) {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);
 	}
 
 	public function dataGenerateCalendarParameter() {
@@ -137,7 +107,7 @@ class BaseTest extends TestCase {
 	 * @param array $data
 	 * @param string $name
 	 */
-	public function testGenerateCalendarParameter(array $data, $name) {
+	public function testGenerateCalendarParameter(array $data, string $name) {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
@@ -164,7 +134,7 @@ class BaseTest extends TestCase {
 	 * @param int $id
 	 * @param string $name
 	 */
-	public function testGenerateLegacyCalendarParameter($id, $name) {
+	public function testGenerateLegacyCalendarParameter(int $id, string $name) {
 		$this->assertEquals([
 			'type' => 'calendar',
 			'id' => $id,
@@ -183,7 +153,7 @@ class BaseTest extends TestCase {
 	 * @dataProvider dataGenerateGroupParameter
 	 * @param string $gid
 	 */
-	public function testGenerateGroupParameter($gid) {
+	public function testGenerateGroupParameter(string $gid) {
 		$this->assertEquals([
 			'type' => 'user-group',
 			'id' => $gid,
@@ -208,7 +178,7 @@ class BaseTest extends TestCase {
 	 * @param string $displayName
 	 * @param IUser|null $user
 	 */
-	public function testGenerateUserParameter($uid, $displayName, $user) {
+	public function testGenerateUserParameter(string $uid, string $displayName, ?IUser $user) {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with($uid)
