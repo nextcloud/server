@@ -131,7 +131,7 @@ class SecurityMiddleware extends Middleware {
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
 
-		if ($controller === \OCA\Talk\Controller\PageController::class && $methodName === 'showCall') {
+		if (get_class($controller) === \OCA\Talk\Controller\PageController::class && $methodName === 'showCall') {
 			$this->navigationManager->setActiveEntry('spreed');
 		}
 
