@@ -30,7 +30,7 @@
     "@nextcloud/dialogs": "^1.0.0",
     "@nextcloud/event-bus": "^1.0.0",
     "@nextcloud/initial-state": "^1.0.0",
-    "@nextcloud/l10n": "^1.0.0",
+    "@nextcloud/l10n": "^1.0.1",
     "@nextcloud/logger": "^1.0.0",
     "@nextcloud/paths": "^1.1.0",
     "@nextcloud/router": "^1.0.0",
