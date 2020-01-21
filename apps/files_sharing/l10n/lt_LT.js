@@ -157,6 +157,8 @@ OC.L10N.register(
     "Searching …" : "Ieškoma…",
     "No elements found." : "Nerasta jokių elementų.",
     "Search globally" : "Ieškoti visur",
+    "Others with access" : "Kiti asmenys, turintys prieigą",
+    "No other users with access found" : "Nerasta kitų naudotojų, turinčių prieigą",
     "Toggle list of others with access to this directory" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio katalogo",
     "Toggle list of others with access to this file" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio failo",
     "Unable to load the shares list" : "Nepavyko įkelti viešinių sąrašo",
