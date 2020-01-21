@@ -306,7 +306,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "您的客户端现在应该可以连接了！",
     "You can close this window." : "您可以关闭此窗口。",
     "This share is password-protected" : "这个共享是被密码保护的",
-    "The password is wrong. Try again." : "密码错误。请重试。",
+    "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "Two-factor authentication" : "两步验证",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "您的账号已启用安全增强。请选择第二种验证方式。",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "无法载入您启用的任何两步验证方法。请联系管理员。",

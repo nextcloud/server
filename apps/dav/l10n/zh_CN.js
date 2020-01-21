@@ -63,7 +63,7 @@ OC.L10N.register(
     "Where: %s" : "地点：%s",
     "%1$s via %2$s" : "%1$s 通过 %2$s",
     "Invitation canceled" : "邀请已取消",
-    "Hello %s," : "您好，%s，",
+    "Hello %s," : "%s 你好，",
     "The meeting »%1$s« with %2$s was canceled." : "与%2$s的会议 »%1$s« 已取消。",
     "Invitation updated" : "邀请已更新",
     "The meeting »%1$s« with %2$s was updated." : "与%2$s的会议 »%1$s« 已更新。",
