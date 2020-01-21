@@ -7,7 +7,7 @@ OC.L10N.register(
     "Cancel" : "Storno",
     "Add remote share" : "Přidat vzdálené sdílení",
     "Copy" : "Kopie",
-    "Copied!" : "Zkopírováno!",
+    "Copied!" : "Zkopírováno",
     "Not supported!" : "Nepodporováno!",
     "Press ⌘-C to copy." : "Zkopírujete stisknutím ⌘C.",
     "Press Ctrl-C to copy." : "Zkopírujete stisknutím Ctrl+C.",

@@ -204,7 +204,7 @@
     "Shared with you and the conversation {conversation} by {owner}" : "由{owner} 共享给您及对话 {conversation}",
     "Shared with you in a conversation by {owner}" : "由 {owner} 在一个会话中共享给您",
     "Shared with you by {owner}" : "{owner} 与您共享",
-    "No entries found in this folder" : "此文件夹中无项目",
+    "No entries found in this folder" : "在此文件夹中找不到项目",
     "Name" : "名称",
     "Share time" : "共享时间",
     "Expiration date" : "过期日期 ",
