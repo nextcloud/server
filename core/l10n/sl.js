@@ -332,6 +332,7 @@ OC.L10N.register(
     "Access control" : "Nadzor dostopa",
     "Error while sharing" : "Napaka med omogočanjem souporabe",
     "Share details could not be loaded for this item." : "Podrobnosti souporabe za ta predmet ni mogoče naložiti.",
+    "This list is maybe truncated - please refine your search term to see more results." : "Seznam je morda razčlenjen – spremenite iskalni niz za več zadetkov.",
     "No users or groups found for {search}" : "Ni najdenih uporabnikov ali skupin, skladnih z iskalnim nizom {search}",
     "No users found for {search}" : "Ni najdenih uporabnikov, skladnih z iskalnim nizom {search}",
     "An error occurred (\"{message}\"). Please try again" : "Prišlo je do napake (»{message}«). Poskusite znova.",
