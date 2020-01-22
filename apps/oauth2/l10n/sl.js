@@ -6,6 +6,7 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Dovoli skladno overitev OAuth2 prek drugih spletnih programov.",
     "OAuth 2.0 clients" : "Odjemalci OAuth 2.0",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "Program OAuth 2.0 omogoča zunanjim storitvam odobritev dostopa do {instanceName}.",
     "Name" : "Ime",
     "Redirection URI" : "Preusmeritveni naslov URI",
     "Client Identifier" : "ID odjemalca",

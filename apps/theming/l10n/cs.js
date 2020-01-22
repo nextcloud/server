@@ -47,7 +47,7 @@ OC.L10N.register(
     "Legal notice link" : "Odkaz na právní upozornění",
     "Privacy policy link" : "Odkaz na zásady ochrany osobních údajů",
     "Header logo" : "Logo v záhlaví",
-    "Upload new header logo" : "Nahrát nové logo do hlavičky",
+    "Upload new header logo" : "Nahrát nové logo do záhlaví",
     "Favicon" : "ikona webu",
     "Upload new favicon" : "Nahrát novou ikonu webu",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy."
