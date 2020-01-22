@@ -76,25 +76,6 @@ export default class Sidebar {
 	}
 
 	/**
-	 * Open the sidebar for the given file
-	 *
-	 * @memberof Sidebar
-	 * @param {string} path the file path to load
-	 */
-	open(path) {
-		this.#state.file = path
-	}
-
-	/**
-	 * Close the sidebar
-	 *
-	 * @memberof Sidebar
-	 */
-	close() {
-		this.#state.file = ''
-	}
-
-	/**
 	 * Return current opened file
 	 *
 	 * @memberof Sidebar
