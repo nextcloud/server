@@ -135,13 +135,13 @@
 </template>
 
 <script>
-import Avatar from 'nextcloud-vue/dist/Components/Avatar'
-import Actions from 'nextcloud-vue/dist/Components/Actions'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
-import ActionCheckbox from 'nextcloud-vue/dist/Components/ActionCheckbox'
-import ActionInput from 'nextcloud-vue/dist/Components/ActionInput'
-import ActionTextEditable from 'nextcloud-vue/dist/Components/ActionTextEditable'
-import Tooltip from 'nextcloud-vue/dist/Directives/Tooltip'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
+import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import SharesMixin from '../mixins/SharesMixin'
 

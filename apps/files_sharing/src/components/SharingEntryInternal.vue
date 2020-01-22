@@ -20,7 +20,7 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import ActionLink from 'nextcloud-vue/dist/Components/ActionLink'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import SharingEntrySimple from './SharingEntrySimple'
 
 export default {

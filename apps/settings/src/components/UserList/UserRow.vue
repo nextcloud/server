@@ -246,7 +246,7 @@ import {
 	Multiselect,
 	Actions,
 	ActionButton,
-} from 'nextcloud-vue'
+} from '@nextcloud/vue'
 import UserRowSimple from './UserRowSimple'
 import UserRowMixin from '../../mixins/UserRowMixin'
 

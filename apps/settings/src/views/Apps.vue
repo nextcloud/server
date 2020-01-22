@@ -27,7 +27,57 @@
 		:navigation-class="{ 'icon-loading': loading }">
 		<AppNavigation>
 			<ul id="appscategories">
-				<AppNavigationItem v-for="item in menu" :key="item.key" :item="item" />
+				<AppNavigationItem
+					id="app-category-your-apps"
+					:to="{ name: 'apps' }"
+					:exact="true"
+					icon="icon-category-installed"
+					:title="t('settings', 'Your apps')" />
+				<AppNavigationItem
+					id="app-category-enabled"
+					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
+					icon="icon-category-enabled"
+					:title="t('settings', 'Active apps')" />
+				<AppNavigationItem
+					id="app-category-disabled"
+					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
+					icon="icon-category-disabled"
+					:title="t('settings', 'Disabled apps')" />
+				<AppNavigationItem
+					v-if="updateCount > 0"
+					id="app-category-updates"
+					:to="{ name: 'apps-category', params: { category: 'updates' } }"
+					icon="icon-download"
+					:title="t('settings', 'Updates')">
+					<AppNavigationCounter slot="counter">
+						{{ updateCount }}
+					</AppNavigationCounter>
+				</AppNavigationItem>
+				<AppNavigationItem
+					id="app-category-your-bundles"
+					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
+					icon="icon-category-app-bundles"
+					:title="t('settings', 'App bundles')" />
+
+				<AppNavigationSpacer />
+
+				<!-- App store categories -->
+				<template v-if="settings.appstoreEnabled">
+					<AppNavigationItem
+						v-for="cat in categories"
+						:key="'icon-category-' + cat.ident"
+						:icon="'icon-category-' + cat.ident"
+						:to="{
+							name: 'apps-category',
+							params: { category: cat.ident },
+						}"
+						:title="cat.displayName" />
+				</template>
+
+				<AppNavigationItem
+					id="app-developer-docs"
+					href="settings.developerDocumentation"
+					:title="t('settings', 'Developer documentation') + ' ↗'" />
 			</ul>
 		</AppNavigation>
 		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
@@ -40,16 +90,17 @@
 </template>
 
 <script>
-import {
-	AppContent,
-	AppNavigation,
-	AppNavigationItem,
-	AppSidebar,
-	Content,
-} from 'nextcloud-vue'
-import AppList from '../components/AppList'
+import AppContent from '@nextcloud/vue/dist/Components/AppContent'
+import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
+import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
+import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
+import Content from '@nextcloud/vue/dist/Components/Content'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
+
+import AppList from '../components/AppList'
 import AppDetails from '../components/AppDetails'
 
 Vue.use(VueLocalStorage)
@@ -58,12 +109,14 @@ export default {
 	name: 'Apps',
 	components: {
 		AppContent,
-		AppNavigation,
-		AppNavigationItem,
-		AppSidebar,
-		Content,
 		AppDetails,
 		AppList,
+		AppNavigation,
+		AppNavigationCounter,
+		AppNavigationItem,
+		AppNavigationSpacer,
+		AppSidebar,
+		Content,
 	},
 	props: {
 		category: {
@@ -101,95 +154,6 @@ export default {
 		},
 		settings() {
 			return this.$store.getters.getServerData
-		},
-
-		// BUILD APP NAVIGATION MENU OBJECT
-		menu() {
-			// Data provided php side
-			let categories = this.$store.getters.getCategories
-			categories = Array.isArray(categories) ? categories : []
-
-			// Map groups
-			categories = categories.map(category => {
-				const item = {}
-				item.id = 'app-category-' + category.ident
-				item.icon = 'icon-category-' + category.ident
-				item.classes = []							// empty classes, active will be set later
-				item.router = {								// router link to
-					name: 'apps-category',
-					params: { category: category.ident },
-				}
-				item.text = category.displayName
-
-				return item
-			})
-
-			// Add everyone group
-			const defaultCategories = [
-				{
-					id: 'app-category-your-apps',
-					classes: [],
-					router: { name: 'apps' },
-					icon: 'icon-category-installed',
-					text: t('settings', 'Your apps'),
-				},
-				{
-					id: 'app-category-enabled',
-					classes: [],
-					icon: 'icon-category-enabled',
-					router: { name: 'apps-category', params: { category: 'enabled' } },
-					text: t('settings', 'Active apps'),
-				}, {
-					id: 'app-category-disabled',
-					classes: [],
-					icon: 'icon-category-disabled',
-					router: { name: 'apps-category', params: { category: 'disabled' } },
-					text: t('settings', 'Disabled apps'),
-				},
-			]
-
-			if (!this.settings.appstoreEnabled) {
-				return defaultCategories
-			}
-
-			if (this.$store.getters.getUpdateCount > 0) {
-				defaultCategories.push({
-					id: 'app-category-updates',
-					classes: [],
-					icon: 'icon-download',
-					router: { name: 'apps-category', params: { category: 'updates' } },
-					text: t('settings', 'Updates'),
-					utils: { counter: this.$store.getters.getUpdateCount },
-				})
-			}
-
-			defaultCategories.push({
-				id: 'app-category-app-bundles',
-				classes: [],
-				icon: 'icon-category-app-bundles',
-				router: { name: 'apps-category', params: { category: 'app-bundles' } },
-				text: t('settings', 'App bundles'),
-			})
-
-			categories = defaultCategories.concat(categories)
-
-			// Set current group as active
-			const activeGroup = categories.findIndex(group => group.id === 'app-category-' + this.category)
-			if (activeGroup >= 0) {
-				categories[activeGroup].classes.push('active')
-			} else {
-				categories[0].classes.push('active')
-			}
-
-			categories.push({
-				id: 'app-developer-docs',
-				classes: [],
-				href: this.settings.developerDocumentation,
-				text: t('settings', 'Developer documentation') + ' ↗',
-			})
-
-			// Return
-			return categories
 		},
 	},
 	watch: {

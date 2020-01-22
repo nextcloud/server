@@ -44,7 +44,7 @@
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import axios from '@nextcloud/axios'
 
 import Share from '../models/Share'

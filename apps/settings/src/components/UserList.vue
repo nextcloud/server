@@ -242,7 +242,7 @@
 
 <script>
 import userRow from './UserList/UserRow'
-import { Multiselect, Actions, ActionButton } from 'nextcloud-vue'
+import { Multiselect, Actions, ActionButton } from '@nextcloud/vue'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
 

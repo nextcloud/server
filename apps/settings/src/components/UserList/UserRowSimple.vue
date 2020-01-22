@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { PopoverMenu, Actions, ActionButton } from 'nextcloud-vue'
+import { PopoverMenu, Actions, ActionButton } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import { getCurrentUser } from '@nextcloud/auth'
 
