@@ -1442,19 +1442,25 @@ $CONFIG = array(
  */
 
 /**
- * The allowed maximum memory to be used by the algorithm for computing a hash.
+ * The allowed maximum memory in KiB to be used by the algorithm for computing a
+ * hash. The smallest possible value is 8. Values that undershoot the minimum
+ * will be ignored in favor of the default.
  */
 'hashingMemoryCost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
 
 /**
- * The allowed maximum time that can be used by the algorithm for computing a
- * hash.
+ * The allowed maximum time in seconds that can be used by the algorithm for
+ * computing a hash. The value must be an integer, and the minimum value is 1.
+ * Values that undershoot the minimum will be ignored in favor of the default.
  */
 'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
 
 /**
  * The allowed number of CPU threads that can be used by the algorithm for
- * computing a hash.
+ * computing a hash. The value must be an integer, and the minimum value is 1.
+ * Rationally it does not help to provide a number higher than the available
+ * threads on the machine. Values that undershoot the minimum will be ignored
+ * in favor of the default.
  */
 'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
 
