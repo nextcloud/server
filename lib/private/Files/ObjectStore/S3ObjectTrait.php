@@ -49,27 +49,16 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	function readObject($urn) {
-		$client = $this->getConnection();
-		$command = $client->getCommand('GetObject', [
-			'Bucket' => $this->bucket,
-			'Key' => $urn
+		$context = stream_context_create([
+			's3seek' => [
+				'client' => $this->getConnection(),
+				'bucket' => $this->bucket,
+				'urn' => $urn,
+			],
 		]);
-		$request = \Aws\serialize($command);
-		$headers = [];
-		foreach ($request->getHeaders() as $key => $values) {
-			foreach ($values as $value) {
-				$headers[] = "$key: $value";
-			}
-		}
-		$opts = [
-			'http' => [
-				'protocol_version'  => 1.1,
-				'header' => $headers
-			]
-		];
 
-		$context = stream_context_create($opts);
-		return fopen($request->getUri(), 'r', false, $context);
+		S3SeekableReadStream::registerIfNeeded();
+		return fopen('s3seek://', 'r', false, $context);
 	}
 
 	/**
