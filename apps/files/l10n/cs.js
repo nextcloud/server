@@ -73,7 +73,7 @@ OC.L10N.register(
     "New" : "Nový",
     "Select file range" : "Vybrat rozsah souborů",
     "{used} of {quota} used" : "Využito {used} z {quota} ",
-    "{used} used" : "{used} Využito",
+    "{used} used" : "{used} využito",
     "\"{name}\" is an invalid file name." : "„{name}“ není platným názvem souboru.",
     "File name cannot be empty." : "Je třeba vyplnit název souboru.",
     "\"/\" is not allowed inside a file name." : "„/“ není povolený znak v názvu souboru.",
