@@ -183,7 +183,7 @@ class Application extends App {
 				/** @var File $file */
 				$file = $event->getSubject();
 				$fileActions->preview([
-					'path' => substr($file->getInternalPath(), 5),
+					'path' => mb_substr($file->getInternalPath(), 5),
 					'width' => $event->getArguments()['width'],
 					'height' => $event->getArguments()['height'],
 					'crop' => $event->getArguments()['crop'],
