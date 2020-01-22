@@ -28,6 +28,7 @@ namespace Tests\Core\Controller;
 use OC\AppFramework\Http;
 use OC\Core\Controller\SvgController;
 use OC\Template\IconsCacher;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
@@ -45,6 +46,9 @@ class SvgControllerTest extends TestCase {
 		self::TEST_IMAGE_MIXED,
 		self::TEST_IMAGE_RECT,
 	];
+
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
 
 	/**
 	 * @var SvgController
@@ -87,17 +91,20 @@ class SvgControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function setupSvgController() {
+		/** @var IRequest */
 		$request = $this->getMockBuilder(IRequest::class)->getMock();
+		/** @var ITimeFactory $timeFactory */
 		$timeFactory = $this->getMockBuilder(ITimeFactory::class)->getMock();
-		$appManager = $this->getMockBuilder(IAppManager::class)->getMock();
+		/** @var IAppManager */
+		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
+		/** @var IconsCacher $iconsCacher */
 		$iconsCacher = $this->getMockBuilder(IconsCacher::class)->disableOriginalConstructor()->setMethods(['__construct'])->getMock();
-		$this->svgController = new SvgController('core', $request, $timeFactory, $appManager, $iconsCacher);
+		$this->svgController = new SvgController('core', $request, $timeFactory, $this->appManager, $iconsCacher);
 	}
 
 	/**
 	 * Checks that requesting an unknown image results in a 404.
 	 *
-	 * @test
 	 * @return void
 	 */
 	public function testGetSvgFromCoreNotFound() {
@@ -120,7 +127,6 @@ class SvgControllerTest extends TestCase {
 	/**
 	 * Tests that retrieving a colored SVG works.
 	 *
-	 * @test
 	 * @dataProvider provideGetSvgFromCoreTestData
 	 * @param string $name The requested svg name
 	 * @param string $color The requested color
@@ -129,6 +135,57 @@ class SvgControllerTest extends TestCase {
 	 */
 	public function testGetSvgFromCore(string $name, string $color, string $expected) {
 		$response = $this->svgController->getSvgFromCore('testImages', $name, $color);
+
+		self::assertEquals(Http::STATUS_OK, $response->getStatus());
+
+		$headers = $response->getHeaders();
+		self::assertArrayHasKey('Content-Type', $headers);
+		self::assertEquals($headers['Content-Type'], 'image/svg+xml');
+
+		self::assertEquals($expected, $response->getData());
+	}
+
+	/**
+	 * Checks that requesting an unknown image results in a 404.
+	 */
+	public function testGetSvgFromAppNotFound(): void {
+		$this->appManager->expects($this->once())
+			->method('getAppPath')
+			->with('invalid_app')
+			->willThrowException(new AppPathNotFoundException('Could not find path for invalid_app'));
+
+		$response = $this->svgController->getSvgFromApp('invalid_app', 'some-icon', '#ff0000');
+		self::assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	/**
+	 * Provides svg coloring test data.
+	 *
+	 * @return array
+	 */
+	public function provideGetSvgFromAppTestData(): array {
+		return [
+			'settings admin' => ['settings', 'admin', 'f00', file_get_contents(self::TEST_IMAGES_SOURCE_PATH . '/settings-admin-red.svg')],
+			'files app' => ['files', 'app', 'f00', file_get_contents(self::TEST_IMAGES_SOURCE_PATH . '/files-app-red.svg')],
+		];
+	}
+
+	/**
+	 * Tests that retrieving a colored SVG works.
+	 *
+	 * @dataProvider provideGetSvgFromAppTestData
+	 * @param string $appName
+	 * @param string $name The requested svg name
+	 * @param string $color The requested color
+	 * @param string $expected
+	 */
+	public function testGetSvgFromApp(string $appName, string $name, string $color, string $expected): void {
+		$this->appManager->expects($this->once())
+			->method('getAppPath')
+			->with($appName)
+			->willReturn(__DIR__ . '/../../../apps/' . $appName);
+
+		$response = $this->svgController->getSvgFromApp($appName, $name, $color);
 
 		self::assertEquals(Http::STATUS_OK, $response->getStatus());
 
