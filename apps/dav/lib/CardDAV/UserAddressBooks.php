@@ -28,11 +28,14 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CardDAV\Backend;
 use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\CardDAV\IAddressBook;
+use function array_map;
 use Sabre\DAV\MkCol;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
@@ -56,7 +59,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/**
 	 * Returns a list of address books
 	 *
-	 * @return array
+	 * @return IAddressBook[]
 	 */
 	function getChildren() {
 		if ($this->l10n === null) {
@@ -67,6 +70,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
+		/** @var IAddressBook[] $objects */
 		$objects = array_map(function(array $addressBook) {
 			if ($addressBook['principaluri'] === 'principals/system/system') {
 				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
@@ -74,11 +78,12 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
 		}, $addressBooks);
-		foreach ($this->pluginManager->getAddressBookPlugins() as $plugin) {
-			$plugin->fetchAllForAddressBookHome($this->principalUri);
-		}
-		return $objects;
+		/** @var IAddressBook[][] $objectsFromPlugins */
+		$objectsFromPlugins = array_map(function(IAddressBookProvider $plugin): array {
+			return $plugin->fetchAllForAddressBookHome($this->principalUri);
+		}, $this->pluginManager->getAddressBookPlugins());
 
+		return array_merge($objects, ...$objectsFromPlugins);
 	}
 
 	public function createExtendedCollection($name, MkCol $mkCol) {

@@ -66,7 +66,7 @@ class ListApps extends Base {
 		} else {
 			$shippedFilter = null;
 		}
-		
+
 		$apps = \OC_App::getAllApps();
 		$enabledApps = $disabledApps = [];
 		$versions = \OC_App::getAppVersions();
