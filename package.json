@@ -44,7 +44,7 @@
     "nextcloud-axios": "^0.1.3",
     "nextcloud-password-confirmation": "^0.4.1",
     "nextcloud-vue": "^0.8.0",
-    "nextcloud-vue-collections": "^0.4.0",
+    "nextcloud-vue-collections": "^0.4.2",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
     "underscore": "^1.9.1",
