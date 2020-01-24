@@ -120,6 +120,7 @@ OC.L10N.register(
     "Authentication" : "Prisijungimas",
     "Configuration" : "Konfigūracija",
     "Available for" : "Prieinamas",
+    "Click to recheck the configuration" : "Spustelėkite norėdami iš naujo patikrinti konfigūraciją",
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas"

@@ -137,6 +137,7 @@ OC.L10N.register(
     "Unlimited" : "無制限",
     "Upload (max. %s)" : "アップロード ( 最大 %s )",
     "Accept" : "承諾",
+    "Reject" : "拒否",
     "File Management" : "ファイル管理",
     "Change" : "変更",
     "Tags" : "タグ",

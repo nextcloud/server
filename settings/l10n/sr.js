@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "Пакети апликација",
     "{license}-licensed" : "{license}-лиценцирано",
     "New user" : "Нови корисник",
+    "Enter group name" : "Унесите назив групе",
     "Add group" : "Додај групу",
     "Everyone" : "Сви",
     "Admins" : "Администратори",
