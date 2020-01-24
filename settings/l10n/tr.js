@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "Uygulama Paketleri",
     "{license}-licensed" : "{license}-lisanslı",
     "New user" : "Yeni kullanıcı",
+    "Enter group name" : "Grup adını yazın",
     "Add group" : "Grup ekle",
     "Everyone" : "Herkes",
     "Admins" : "Yöneticiler",
