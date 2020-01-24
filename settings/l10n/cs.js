@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "Sady aplikací",
     "{license}-licensed" : "licencováno pod {license}",
     "New user" : "Nový uživatel",
+    "Enter group name" : "Zadejte název skupiny",
     "Add group" : "Přidat skupinu",
     "Everyone" : "Všichni",
     "Admins" : "Správci",

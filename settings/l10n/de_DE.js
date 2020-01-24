@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "App-Pakete",
     "{license}-licensed" : "{license}-Lizensiert",
     "New user" : "Neuer Benutzer",
+    "Enter group name" : "Gruppenname eingeben",
     "Add group" : "Gruppe hinzufügen",
     "Everyone" : "Jeder",
     "Admins" : "Administratoren",
