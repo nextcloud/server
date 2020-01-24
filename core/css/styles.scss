@@ -182,7 +182,7 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background-translucent);
-	z-index: 60;
+	z-index: 61; /* must be above the filelist sticky header */
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
