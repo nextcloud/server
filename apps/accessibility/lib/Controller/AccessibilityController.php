@@ -32,9 +32,6 @@ declare(strict_types=1);
 
 namespace OCA\Accessibility\Controller;
 
-use Leafo\ScssPhp\Compiler;
-use Leafo\ScssPhp\Exception\ParserException;
-use Leafo\ScssPhp\Formatter\Crunched;
 use OC\Template\IconsCacher;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -48,6 +45,9 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\ParserException;
+use ScssPhp\ScssPhp\Formatter\Crunched;
 
 class AccessibilityController extends Controller {
 
