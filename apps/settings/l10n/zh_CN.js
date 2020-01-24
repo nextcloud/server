@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "应用软件包",
     "{license}-licensed" : "{license}-许可协议",
     "New user" : "新建用户",
+    "Enter group name" : "输入群组名称",
     "Add group" : "添加分组",
     "Everyone" : "所有人",
     "Admins" : "管理员",
