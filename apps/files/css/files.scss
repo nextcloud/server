@@ -65,26 +65,22 @@
 	#emptycontent:not(.hidden) ~ & {
 		display: none;
 	}
+	// floating header
+	thead {
+		position: -webkit-sticky;
+		position: sticky;
+		@include position('sticky');
+		// header + breadcrumbs
+		top: $header-height;
+		// under breadcrumbs, over file list
+		z-index: 60;
+		display: block;
+		background-color: var(--color-main-background-translucent);
+	}
 }
 
 #filestable.hidden {
 	display: none;
-}
-
-@media only screen and (min-width: $breakpoint-mobile + 1) {
-	#filestable {
-		// floating header
-		thead {
-			position: -webkit-sticky;
-			position: sticky;
-			// header + breadcrumbs
-			top: $header-height;
-			// under breadcrumbs, over file list
-			z-index: 55;
-			display: block;
-			background-color: var(--color-main-background-translucent);
-		}
-	}
 }
 
 /* fit app list view heights */
@@ -289,14 +285,8 @@ table th.column-last, table td.column-last {
 	max-width: 130px;
 }
 
-/* Multiselect bar */
-table.multiselect thead {
-	@include position('sticky');
+#app-content-files thead {
 	top: 94px;
-	z-index: 55;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	left: $navigation-width;
 }
 
 table.multiselect thead th {
