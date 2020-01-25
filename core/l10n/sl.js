@@ -274,7 +274,7 @@ OC.L10N.register(
     "Maintenance mode" : "Vzdrževalni način",
     "This %s instance is currently in maintenance mode, which may take a while." : "Strežnik %s je trenutno v načinu vzdrževanja, kar lahko zadrži izvajanje postopka.",
     "This page will refresh itself when the instance is available again." : "Stran bo osvežena, ko bo vsebina spet na voljo.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Če se bo sporočilo še naprej nepričakovano pojavljajo, stopite v stik s skrbnikom sistema.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Ni mogoče poslati elektronskega sporočila za ponastavitev gesla, ker ni navedenega elektronskega naslova. Stopite v stik s skrbnikom sistema.",
     "Couldn't send reset email. Please make sure your username is correct." : "Ni mogoče poslati elektronskega sporočila. Prepričajte se, da je uporabniško ime pravilno.",
     "Dismiss" : "Opusti",

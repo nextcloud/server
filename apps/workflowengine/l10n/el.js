@@ -41,6 +41,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (περιορισμένο)",
     "Predefined URLs" : "Προορισμένα URLs",
     "Files WebDAV" : "Αρχεία WebDAV",
+    "Others" : "Άλλοι",
     "Android client" : "Πελάτης Android",
     "iOS client" : "Πελάτης iOS",
     "Desktop client" : "Πελάτης σταθερού υπολογιστή",

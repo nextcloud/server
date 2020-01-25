@@ -13,7 +13,7 @@ OC.L10N.register(
     "Deleted shares" : "Usunięte współdzielenia",
     "No deleted shares" : "Brak usuniętych udostępnień",
     "Shares you deleted will show up here" : "Tutaj pojawią się usunięte udostępnienia",
-    "Pending shares" : "Oczekujące akcje",
+    "Pending shares" : "Oczekujące współdzielenia",
     "No pending shares" : "Brak oczekujących udostępnień",
     "Shares you have received but not confirmed will show up here" : "Tutaj pojawią się niepotwierdzone udostępnienia",
     "Shares" : "Współdzielone",

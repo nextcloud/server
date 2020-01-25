@@ -264,7 +264,6 @@ OC.L10N.register(
     "You chose SQLite as database." : "Επιλέξατε την SQLite ως βάση δεδομένων.",
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "Η SQLite πρέπει να χρησιμοποιείται μόνο για μικρές εγκαταστάσεις και εγκαταστάσεις για ανάπτυξη. Για παραγωγικά συστήματα συνιστούμε διαφορετική βάση δεδομένων.",
     "Install recommended apps" : "Εγκατάσταση προτεινόμεων εφαρμογών",
-    "Calendar, Contacts, Talk & Mail" : "Ημερολόγιο, Επαφές, Συνομιλία & Αλληλογραφία",
     "Finish setup" : "Ολοκλήρωση ρύθμισης",
     "Finishing …" : "Ολοκλήρωση …",
     "Need help?" : "Θέλετε βοήθεια;",
