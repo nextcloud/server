@@ -273,7 +273,6 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite solo debería usarse para instancias mínimas y de desarrollo. Para producción recomendamos un motor de bases de datos diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Si usas clientes para sincronizar archivos, el uso del SQLite está muy desaconsejado.",
     "Install recommended apps" : "Instalar las aplicaciones recomendadas",
-    "Calendar, Contacts, Talk & Mail" : "Calendario, Contactos, Talk y Correo",
     "Finish setup" : "Completar la instalación",
     "Finishing …" : "Finalizando...",
     "Need help?" : "¿Necesita ayuda?",

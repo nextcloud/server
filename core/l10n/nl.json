@@ -273,7 +273,6 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite zou alleen moeten worden gebruikt voor minimale en ontwikkelomgevingen. Voor productie raden we aan om een andere database backend te gebruiken.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Als je clients gebruikt voor bestandssynchronisatie wordt het gebruik van SQLite sterk ontraden.",
     "Install recommended apps" : "Installeer aanbevolen apps",
-    "Calendar, Contacts, Talk & Mail" : "Agenda, Contactpersonen, Talk & e-Mail",
     "Finish setup" : "Installatie afronden",
     "Finishing …" : "Afronden ...",
     "Need help?" : "Hulp nodig?",

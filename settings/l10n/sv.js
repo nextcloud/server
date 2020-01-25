@@ -243,6 +243,7 @@ OC.L10N.register(
     "App bundles" : "App-paket",
     "{license}-licensed" : "{license}-licensierad",
     "New user" : "Ny användare",
+    "Enter group name" : "Ange gruppnamn",
     "Add group" : "Lägg till grupp",
     "Everyone" : "Alla",
     "Admins" : "Administratörer",

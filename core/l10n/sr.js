@@ -275,7 +275,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite треба да се користи само за најмање инстанце или за инстанце за развој. За продукцију, препоручујемо други тип база података.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Коришћење SQLite базе података нарочите није препоручљиво ако користите клијенте за синхронизацију фајлова.",
     "Install recommended apps" : "Инсталирајте препоручене апликације",
-    "Calendar, Contacts, Talk & Mail" : "Календар, контакти, разговор и пошта",
     "Finish setup" : "Заврши подешавање",
     "Finishing …" : "Завршавам…",
     "Need help?" : "Треба Вам помоћ?",
