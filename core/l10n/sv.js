@@ -262,7 +262,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite bör endast användas till små installationer och installationer avsedda för utveckling. För produktion rekommenderar vi byte till annan databas.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Om du använder synkklienter avråder vi starkt från användning av SQLite.",
     "Install recommended apps" : "Installera rekommenderade appar",
-    "Calendar, Contacts, Talk & Mail" : "Kalender, Kontakter, Talk & E-post",
     "Finish setup" : "Slutför installationen",
     "Finishing …" : "Avslutar ...",
     "Need help?" : "Behöver du hjälp?",
