@@ -152,24 +152,31 @@ class QBMapperTest extends \Test\TestCase {
 		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
 		$integerParam = $this->qb->createNamedParameter('integer_prop', IQueryBuilder::PARAM_INT);
 		$booleanParam = $this->qb->createNamedParameter('boolean_prop', IQueryBuilder::PARAM_BOOL);
+		$dateParam = $this->qb->createNamedParameter('date_prop', 'datetime');
+		$dateImmutableParam = $this->qb->createNamedParameter('date_immutable_prop', 'datetime_immutable');
 
-		$this->qb->expects($this->exactly(5))
+		$this->qb->expects($this->exactly(7))
 			->method('createNamedParameter')
 			->withConsecutive(
-				[$this->equalTo(123), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(true), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
-				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)]
+				[$this->equalTo(123), $this->equalTo(Type::getType(Type::INTEGER))],
+				[$this->equalTo(true), $this->equalTo(Type::getType(Type::BOOLEAN))],
+				[$this->equalTo('string'), $this->equalTo(Type::getType(Type::STRING))],
+				[$this->equalTo(456), $this->equalTo(Type::getType(Type::INTEGER))],
+				[$this->equalTo(false), $this->equalTo(Type::getType(Type::BOOLEAN))],
+				[$this->equalTo(new \DateTime('@1')), $this->equalTo(Type::getType(Type::DATETIME))],
+				[$this->equalTo(new \DateTimeImmutable('@2')), $this->equalTo(Type::getType(Type::DATETIME_IMMUTABLE))]
 			);
-		$this->qb->expects($this->exactly(5))
+
+		$this->qb->expects($this->exactly(7))
 			->method('setValue')
 			->withConsecutive(
 				[$this->equalTo('int_prop'), $this->equalTo($intParam)],
 				[$this->equalTo('bool_prop'), $this->equalTo($boolParam)],
 				[$this->equalTo('string_prop'), $this->equalTo($stringParam)],
 				[$this->equalTo('integer_prop'), $this->equalTo($integerParam)],
-				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)]
+				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)],
+				[$this->equalTo('date_prop'), $this->equalTo($dateParam)],
+				[$this->equalTo('date_immutable_prop'), $this->equalTo($dateImmutableParam)]
 			);
 
 		$this->mapper->insert($entity);
@@ -184,6 +191,8 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
+		$entity->setDateProp(new \DateTime('@1'));
+		$entity->setDateImmutableProp(new \DateTimeImmutable('@2'));
 
 		$idParam = $this->qb->createNamedParameter('id', IQueryBuilder::PARAM_INT);
 		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
@@ -191,26 +200,32 @@ class QBMapperTest extends \Test\TestCase {
 		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
 		$integerParam = $this->qb->createNamedParameter('integer_prop', IQueryBuilder::PARAM_INT);
 		$booleanParam = $this->qb->createNamedParameter('boolean_prop', IQueryBuilder::PARAM_BOOL);
+		$dateParam = $this->qb->createNamedParameter('date_prop', 'datetime');
+		$dateImmutableParam = $this->qb->createNamedParameter('date_immutable_prop', 'datetime_immutable');
 
-		$this->qb->expects($this->exactly(6))
+		$this->qb->expects($this->exactly(8))
 			->method('createNamedParameter')
 			->withConsecutive(
-				[$this->equalTo(123), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(true), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
-				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
-				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)]
+				[$this->equalTo(123), $this->equalTo(Type::getType(Type::INTEGER))],
+				[$this->equalTo(true), $this->equalTo(Type::getType(Type::BOOLEAN))],
+				[$this->equalTo('string'), $this->equalTo(Type::getType(Type::STRING))],
+				[$this->equalTo(456), $this->equalTo(Type::getType(Type::INTEGER))],
+				[$this->equalTo(false), $this->equalTo(Type::getType(Type::BOOLEAN))],
+				[$this->equalTo(new \DateTime('@1')), $this->equalTo(Type::getType(Type::DATETIME))],
+				[$this->equalTo(new \DateTimeImmutable('@2')), $this->equalTo(Type::getType(Type::DATETIME_IMMUTABLE))],
+				[$this->equalTo(789), $this->equalTo(Type::getType(Type::INTEGER))]
 			);
 
-		$this->qb->expects($this->exactly(5))
+		$this->qb->expects($this->exactly(7))
 			->method('set')
 			->withConsecutive(
 				[$this->equalTo('int_prop'), $this->equalTo($intParam)],
 				[$this->equalTo('bool_prop'), $this->equalTo($boolParam)],
 				[$this->equalTo('string_prop'), $this->equalTo($stringParam)],
 				[$this->equalTo('integer_prop'), $this->equalTo($integerParam)],
-				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)]
+				[$this->equalTo('boolean_prop'), $this->equalTo($booleanParam)],
+				[$this->equalTo('date_prop'), $this->equalTo($dateParam)],
+				[$this->equalTo('date_immutable_prop'), $this->equalTo($dateImmutableParam)]
 			);
 
 		$this->expr->expects($this->once())
