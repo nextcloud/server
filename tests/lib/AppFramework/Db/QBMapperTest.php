@@ -23,6 +23,7 @@
 
 namespace Test\AppFramework\Db;
 
+use Doctrine\DBAL\Types\Type;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
@@ -40,6 +41,10 @@ use OCP\IDBConnection;
  * @method void setBooleanProp(bool $booleanProp)
  * @method integer getIntegerProp()
  * @method void setIntegerProp(integer $integerProp)
+ * @method \DateTime getDateProp()
+ * @method setDateProp(\DateTime $dateProp)
+ * @method \DateTimeImmutable getDateImmutableProp()
+ * @method setDateImmutableProp(\DateTimeImmutable $dateImmutableProp)
  */
 class QBTestEntity extends Entity {
 
@@ -48,6 +53,8 @@ class QBTestEntity extends Entity {
 	protected $stringProp;
 	protected $integerProp;
 	protected $booleanProp;
+	protected $dateProp;
+	protected $dateImmutableProp;
 
 	public function __construct() {
 		$this->addType('intProp', 'int');
@@ -55,6 +62,8 @@ class QBTestEntity extends Entity {
 		$this->addType('stringProp', 'string');
 		$this->addType('integerProp', 'integer');
 		$this->addType('booleanProp', 'boolean');
+		$this->addType('dateProp', 'datetime');
+		$this->addType('dateImmutableProp', 'datetime_immutable');
 	}
 }
 
@@ -70,7 +79,7 @@ class QBTestMapper extends QBMapper {
 		parent::__construct($db, 'table');
 	}
 
-	public function getParameterTypeForPropertyForTest(Entity $entity, string $property): int {
+	public function getParameterTypeForPropertyForTest(Entity $entity, string $property): Type {
 		return parent::getParameterTypeForProperty($entity, $property);
 	}
 }
@@ -127,7 +136,7 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper = new QBTestMapper($this->db);
 	}
 
-	
+
 	public function testInsertEntityParameterTypeMapping() {
 		$entity = new QBTestEntity();
 		$entity->setIntProp(123);
@@ -135,6 +144,8 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
+		$entity->setDateProp(new \DateTime('@1'));
+		$entity->setDateImmutableProp(new \DateTimeImmutable('@2'));
 
 		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
 		$boolParam = $this->qb->createNamedParameter('bool_prop', IQueryBuilder::PARAM_BOOL);
@@ -164,7 +175,7 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper->insert($entity);
 	}
 
-	
+
 	public function testUpdateEntityParameterTypeMapping() {
 		$entity = new QBTestEntity();
 		$entity->setId(789);
@@ -210,26 +221,31 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper->update($entity);
 	}
 
-	
-	public function testGetParameterTypeForProperty() {
+	/**
+	 * @dataProvider dataGetParameterTypeForProperty
+	 * @param string $property
+	 * @param string $expected
+	 */
+	public function testGetParameterTypeForProperty(string $property, string $expected) {
 		$entity = new QBTestEntity();
 
-		$intType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'intProp');
-		$this->assertEquals(IQueryBuilder::PARAM_INT, $intType, 'Int type property mapping incorrect');
+		$type = $this->mapper->getParameterTypeForPropertyForTest($entity, $property);
+		$this->assertEquals($expected, $type->getName());
+	}
 
-		$integerType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'integerProp');
-		$this->assertEquals(IQueryBuilder::PARAM_INT, $integerType, 'Integer type property mapping incorrect');
-
-		$boolType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'boolProp');
-		$this->assertEquals(IQueryBuilder::PARAM_BOOL, $boolType, 'Bool type property mapping incorrect');
-
-		$booleanType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'booleanProp');
-		$this->assertEquals(IQueryBuilder::PARAM_BOOL, $booleanType, 'Boolean type property mapping incorrect');
-
-		$stringType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'stringProp');
-		$this->assertEquals(IQueryBuilder::PARAM_STR, $stringType, 'String type property mapping incorrect');
-
-		$unknownType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'someProp');
-		$this->assertEquals(IQueryBuilder::PARAM_STR, $unknownType, 'Unknown type property mapping incorrect');
+	/**
+	 * @return array
+	 */
+	public function dataGetParameterTypeForProperty() {
+		return [
+			['intProp', 'integer'],
+			['integerProp', 'integer'],
+			['boolProp', 'boolean'],
+			['booleanProp', 'boolean'],
+			['stringProp', 'string'],
+			['someProp', 'string'],
+			['dateProp', 'datetime'],
+			['dateImmutableProp', 'datetime_immutable'],
+		];
 	}
 }

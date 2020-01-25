@@ -40,6 +40,7 @@ abstract class Entity {
 
 	private $_updatedFields = [];
 	private $_fieldTypes = ['id' => 'integer'];
+	private $_extraFieldTypes = [];
 
 
 	/**
@@ -86,7 +87,7 @@ abstract class Entity {
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes() {
-		return $this->_fieldTypes;
+		return array_merge($this->_fieldTypes, $this->_extraFieldTypes);
 	}
 
 
@@ -241,8 +242,18 @@ abstract class Entity {
 	 * @param string $type the type which will be used to call settype()
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type){
-		$this->_fieldTypes[$fieldName] = $type;
+	protected function addType($fieldName, $type) {
+		$fieldTypes = ['boolean', 'integer', 'float', 'string', 'array', 'object', 'null'];
+		$aliasTypes = ['bool' => 'boolean', 'int' => 'integer', 'double' => 'float'];
+		$datumTypes = ['datetime', 'datetime_immutable', 'datetimetz', 'datetimetz_immutable', 'date', 'date_immutable', 'time', 'time_immutable'];
+
+		if (in_array($type, $fieldTypes, true)) {
+			$this->_fieldTypes[$fieldName] = $type;
+		} else if (isset($aliasTypes[$type])) {
+			$this->_fieldTypes[$fieldName] = $aliasTypes[$type];
+		} else if (in_array($type, $datumTypes, true)) {
+			$this->_extraFieldTypes[$fieldName] = $type;
+		}
 	}
 
 
