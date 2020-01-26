@@ -26,6 +26,8 @@
 namespace OCP\AppFramework\Db;
 
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 use function lcfirst;
 use function substr;
 
@@ -64,15 +66,26 @@ abstract class Entity {
 
 	/**
 	 * Maps the keys of the row array to the attributes
+	 *
 	 * @param array $row the row to map onto the entity
+	 * @param AbstractPlatform|null $platform
+	 * @return Entity
+	 * @throws \Doctrine\DBAL\DBALException
 	 * @since 7.0.0
 	 */
-	public static function fromRow(array $row){
+	public static function fromRow(array $row, AbstractPlatform $platform = null) {
 		$instance = new static();
+		$fieldTypes = $instance->getFieldTypes();
 
-		foreach($row as $key => $value){
-			$prop = ucfirst($instance->columnToProperty($key));
-			$setter = 'set' . $prop;
+		foreach ($row as $key => $value) {
+			$prop = $instance->columnToProperty($key);
+
+			if ($platform instanceof AbstractPlatform && isset($fieldTypes[$prop])) {
+				$type = Type::getType($fieldTypes[$prop]);
+				$value = $type->convertToPHPValue($value, $platform);
+			}
+
+			$setter = 'set' . ucfirst($prop);
 			$instance->$setter($value);
 		}
 

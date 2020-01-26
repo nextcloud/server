@@ -31,6 +31,7 @@ namespace OCP\AppFramework\Db;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -282,11 +283,12 @@ abstract class QBMapper {
 	 * from the current mapper name (MyEntityMapper -> MyEntity)
 	 *
 	 * @param array $row the row which should be converted to an entity
+	 * @param AbstractPlatform|null $platform
 	 * @return Entity the entity
 	 * @since 14.0.0
 	 */
-	protected function mapRowToEntity(array $row): Entity {
-		return \call_user_func($this->entityClass .'::fromRow', $row);
+	protected function mapRowToEntity(array $row, AbstractPlatform $platform = null): Entity {
+		return \call_user_func($this->entityClass . '::fromRow', $row, $platform);
 	}
 
 
@@ -323,7 +325,7 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	protected function findEntity(IQueryBuilder $query): Entity {
-		return $this->mapRowToEntity($this->findOneQuery($query));
+		return $this->mapRowToEntity($this->findOneQuery($query), $query->getConnection()->getDatabasePlatform());
 	}
 
 }
