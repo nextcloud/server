@@ -573,7 +573,7 @@ class Setup {
 		$content .= "    <IfModule mod_authz_host.c>\n";
 		$content .= "      Order Allow,Deny\n";
 		$content .= "      Deny from all\n";
-		$content .= "    <IifModule>\n";
+		$content .= "    </IfModule>\n";
 		$content .= "    Satisfy All\n";
 		$content .= "  </IfModule>\n";
 		$content .= "</IfModule>\n\n";
