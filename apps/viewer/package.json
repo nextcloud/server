@@ -48,7 +48,7 @@
     "path-parse": "^1.0.6",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
-    "webdav": "^2.10.1"
+    "webdav": "^2.10.2"
   },
   "browserslist": [
     "last 2 versions",
