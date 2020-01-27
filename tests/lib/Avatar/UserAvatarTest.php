@@ -35,22 +35,20 @@ class UserAvatarTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->folder = $this->createMock(SimpleFolder::class);
-		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
-		$l = $this->createMock(IL10N::class);
-		$l->method('t')->will($this->returnArgument(0));
-		$this->user = $this->createMock(User::class);
+		// abcdefghi is a convenient name that our algorithm convert to our nextcloud blue 0082c9
+		$this->user = $this->getUserWithDisplayName('abcdefghi');
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->avatar = new \OC\Avatar\UserAvatar(
-			$this->folder,
-			$l,
-			$this->user,
-			$this->createMock(ILogger::class),
-			$this->config
-		);
+		$this->avatar = $this->getUserAvatar($this->user);
+	}
 
-		// abcdefghi is a convenient name that our algorithm convert to our nextcloud blue 0082c9
-		$this->user->method('getDisplayName')->willReturn('abcdefghi');
+	public function avatarTextData() {
+		return [
+			['', '?'],
+			['matchish', 'M'],
+			['Firstname Lastname', 'FL'],
+			['Firstname Lastname Rest', 'FL'],
+		];
 	}
 
 	public function testGetNoAvatar() {
@@ -239,6 +237,18 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($avatar, $svg);
 	}
 
+
+	/**
+	 * @dataProvider avatarTextData
+	 */
+	public function testGetAvatarText($displayName, $expectedAvatarText) {
+		$user = $this->getUserWithDisplayName($displayName);
+		$avatar = $this->getUserAvatar($user);
+
+		$avatarText = $this->invokePrivate($avatar, 'getAvatarText');
+		$this->assertEquals($expectedAvatarText, $avatarText);
+	}
+
 	public function testHashToInt() {
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
@@ -259,6 +269,28 @@ class UserAvatarTest extends \Test\TestCase {
 		}
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
+	}
+
+	private function getUserWithDisplayName($name)
+	{
+		$user = $this->createMock(User::class);
+		$user->method('getDisplayName')->willReturn($name);
+		return $user;
+	}
+
+	private function getUserAvatar($user)
+	{
+		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')->will($this->returnArgument(0));
+
+		return new \OC\Avatar\UserAvatar(
+			$this->folder,
+			$l,
+			$user,
+			$this->createMock(ILogger::class),
+			$this->config
+		);
 	}
 
 }
