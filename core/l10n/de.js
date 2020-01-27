@@ -169,7 +169,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Plane Arbeiten und Besprechungen, die auf Deinen Geräten synchronisiert sind.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Halte die Kontakte zu Deinen Kollegen und Freunde an einem Ort zusammen, ohne deren privaten Daten zu weiterzugeben.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Einfache E-Mail App mit super integrierter Dateiverwaltung, Adressen und Kalender.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Bildschirm teilen, Online-Meetings und Web-Konferenzen - auf dem Desktop und mit mobilen Apps.",
     "Collaboratively edit office documents." : "Gemeinsames Bearbeiten von Office-Dokumenten.",
     "Local document editing back-end used by the OnlyOffice app." : "Lokales Dokumentenbearbeitungs-Backend, das von der OnlyOffice-Anwendung verwendet wird.",
     "Forgot password?" : "Passwort vergessen?",

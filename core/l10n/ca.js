@@ -161,7 +161,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Planifica feines i reunions, sincronitzat amb els vostres dispositius.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Tingueu col·legues i amistats en un sol lloc sense revelar llur informació privada.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Senzilla aplicació de correu electrònic ben integrada amb Fitxers, Contactes i el Calendari.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Compartició de pantalla, reunions en línia i conferències via web - a l'escriptori i amb aplicacions de mòbil.",
     "Forgot password?" : "Heu oblidat la contrasenya?",
     "Settings" : "Paràmetres",
     "Could not load your contacts" : "No s'han pogut carregar els vostres contactes",

@@ -169,7 +169,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "İşlerinizi ve toplantılarınızı planlayın ve tüm aygıtlarınızla eşitleyin.",
     "Keep your colleagues and friends in one place without leaking their private info." : "İş arkadaşlarınızın ve tanıdıklarınızın kayıtlarını kişisel bilgilerini sızdırmadan tek bir yerde tutun.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Dosyalar, Kişiler ve Takvim uygulamaları ile bir arada çalışan basit bir e-posta uygulaması.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Ekran paylaşımı, çevrimiçi toplantılar ve web görüşmeleri - masaüstü ve mobil için uygulamalar.",
     "Forgot password?" : "Parolamı unuttum",
     "Settings" : "Ayarlar",
     "Could not load your contacts" : "Kişileriniz yüklenemedi",
