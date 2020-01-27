@@ -219,7 +219,7 @@ class AppSettingsController extends Controller {
 			foreach($bundle->getAppIdentifiers() as $identifier) {
 				foreach($this->allApps as &$app) {
 					if($app['id'] === $identifier) {
-						$app['bundleId'] = $bundle->getIdentifier();
+						$app['bundleIds'][] = $bundle->getIdentifier();
 						continue;
 					}
 				}
