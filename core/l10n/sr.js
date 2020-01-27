@@ -169,7 +169,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Закажите посао & састанке, синхронизовано на све ваше уређаје.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Држите колеге и пријатеље на једном месту без цурења приватних података.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Једноставна е-мејл апликација која се лепо интегрише са Фајловима, Контактима и Календаром.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Дељење екрана, састанци на интернету & веб конференције – на десктоп рачунару и преко мобилних апликација.",
     "Forgot password?" : "Заборавили сте лозинку?",
     "Settings" : "Поставке",
     "Could not load your contacts" : "Не могу да учитам Ваше контакте",

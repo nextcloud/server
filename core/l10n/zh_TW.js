@@ -169,7 +169,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "排定工作和會議時間，並與您的所有裝置同步",
     "Keep your colleagues and friends in one place without leaking their private info." : "將您的同事和朋友的聯繫整合在一處，且不洩漏他們的個人資訊",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "簡潔的電子郵件應用程式，與檔案瀏覽器、通訊錄、行事曆完美整合",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "螢幕分享和線上會議—支援電腦和手機",
     "Forgot password?" : "忘記密碼？",
     "Settings" : "設定",
     "Could not load your contacts" : "無法載入您的聯絡人",
