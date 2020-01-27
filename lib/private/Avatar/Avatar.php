@@ -133,7 +133,7 @@ abstract class Avatar implements IAvatar {
 		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->r, $bgRGB->g, $bgRGB->b);
 		$text = $this->getAvatarText();
-		$toReplace = ['{size}', '{fill}', '{text}'];
+		$toReplace = ['{size}', '{fill}', '{letter}'];
 		return str_replace($toReplace, [$size, $bgHEX, $text], $this->svgTemplate);
 	}
 
