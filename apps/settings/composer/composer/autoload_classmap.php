@@ -41,4 +41,7 @@ return array(
     'OCA\\Settings\\Personal\\Security' => $baseDir . '/../lib/Settings/Personal/Security.php',
     'OCA\\Settings\\Personal\\Security\\Authtokens' => $baseDir . '/../lib/Settings/Personal/Security/Authtokens.php',
     'OCA\\Settings\\Personal\\ServerDevNotice' => $baseDir . '/../lib/Settings/Personal/ServerDevNotice.php',
+    'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => $baseDir . '/../lib/Sections/Personal/PersonalInfo.php',
+    'OCA\\Settings\\Sections\\Personal\\Security' => $baseDir . '/../lib/Sections/Personal/Security.php',
+    'OCA\\Settings\\Sections\\Personal\\SyncClients' => $baseDir . '/../lib/Sections/Personal/SyncClients.php',
 );

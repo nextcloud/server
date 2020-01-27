@@ -16,4 +16,10 @@
 	<dependencies>
 		<nextcloud min-version="19" max-version="19"/>
 	</dependencies>
+
+	<settings>
+		<personal-section>OCA\Settings\Sections\Personal\PersonalInfo</personal-section>
+		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
+		<personal-section>OCA\Settings\Sections\Personal\SyncClients</personal-section>
+	</settings>
 </info>
