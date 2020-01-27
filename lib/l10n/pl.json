@@ -45,7 +45,7 @@
     "Unknown filetype" : "Nieznany typ pliku",
     "Invalid image" : "Błędne zdjęcie",
     "Avatar image is not square" : "Zdjęcie awatara nie jest kwadratowe",
-    "today" : "dziś",
+    "today" : "dzisiaj",
     "tomorrow" : "jutro",
     "yesterday" : "wczoraj",
     "_in %n day_::_in %n days_" : ["za %n dzień","za %n dni","za %n dni","za %n dni"],

@@ -159,7 +159,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Προγραμματισμένες εργασίες & συνταντήσεις, συγχρονίζονται με όλες τις συσκευές σας.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Κρατήστε συνεργάτες και φίλους σε ένα μέρος χωρίς να κινδυνεύουν τα προσωπικά δεδομένα τους.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Απλή εφαρμογή ηλ.ταχυδρομίου ενσωματώνοντας Αρχεία, Επαφές και Ημερολόγιο.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Κοινή χρήση οθόνης, συναντήσεις και τηλεδιάσκεψη - για εφαρμογές κινητού και υπολογιστή.",
     "Forgot password?" : "Ξεχάσατε το συνθηματικό;",
     "Settings" : "Ρυθμίσεις",
     "Could not load your contacts" : "Αδυναμία φόρτωσης των επαφών σας",

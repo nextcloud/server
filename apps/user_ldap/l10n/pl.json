@@ -55,7 +55,7 @@
     "Please login with the new password" : "Proszę się zalogować z nowym hasłem",
     "LDAP User backend" : "Moduł użytkownika LDAP",
     "Your password will expire tomorrow." : "Twoje hasło wygasa jutro.",
-    "Your password will expire today." : "Twoje hasło wygasa dziś.",
+    "Your password will expire today." : "Twoje hasło wygasa dzisiaj.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Twoje hasło wygaśnie w ciągu %n dnia.","Twoje hasło wygaśnie w ciągu %n dni.","Twoje hasło wygaśnie w ciągu %n dni.","Twoje hasło wygaśnie w ciągu %n dni."],
     "LDAP / AD integration" : "Integracja z LDAP / AD",
     "_%s group found_::_%s groups found_" : ["%s znaleziona grupa","%s znalezionych grup","%s znalezionych grup","%s znalezionych grup"],

@@ -161,7 +161,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Составляйте графики работы и встреч, синхронизированные со всеми вашими устройствами.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Храните информацию о своих коллегах и друзьях в одном месте без утечки их личных данных.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Простое приложение электронной почты, прекрасно интегрированное с приложениями Files, Contacts и Calendar.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Доступ к изображению на экране, онлайн общение и веб-конференции – на ПК и мобильных устройствах.",
     "Forgot password?" : "Забыли пароль?",
     "Settings" : "Параметры",
     "Could not load your contacts" : "Ошибка получения контактов",

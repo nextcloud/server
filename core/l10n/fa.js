@@ -98,7 +98,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "برنامه کار و جلسات ، همگام سازی با تمام دستگاه های شما",
     "Keep your colleagues and friends in one place without leaking their private info." : "همکاران و دوستان خود را در یک مکان نگه دارید بدون اینکه اطلاعات خصوصی آنها را بشناسید.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "برنامه ایمیل ساده با پرونده ها ، مخاطبین و تقویم یکپارچه شده است.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "اشتراک گذاری صفحه ، جلسات آنلاین و کنفرانس وب - در دسک تاپ و با برنامه های تلفن همراه.",
     "Settings" : "تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
