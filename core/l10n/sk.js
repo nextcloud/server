@@ -169,7 +169,6 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Naplánujte si prácu a stretnutia, synchronizované so všetkými vašimi zariadeniami.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Udržujte si údaje o svojich kolegoch a priateľoch na jednom mieste bez hrozby úniku ich súkromných informácií tretím stranám.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Jednoduchá apka pre čítanie e-mailov, prepojená so Súbormi, Kontaktami a Kalendárom.",
-    "Screensharing, online meetings and web conferencing – on desktop and with mobile apps." : "Zdieľanie obrazovky, online schôdzky a webové konferencie - v PC a mobilných apkách.",
     "Forgot password?" : "Zabudli ste heslo?",
     "Settings" : "Nastavenia",
     "Could not load your contacts" : "Nie je možné načítať Vaše kontakty",
