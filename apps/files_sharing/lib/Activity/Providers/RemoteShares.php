@@ -34,8 +34,6 @@ use OCP\L10N\IFactory;
 
 class RemoteShares extends Base {
 
-	protected $cloudIdManager;
-
 	const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
 	const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
 	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
@@ -48,8 +46,7 @@ class RemoteShares extends Base {
 								IContactsManager $contactsManager,
 								ICloudIdManager $cloudIdManager
 	) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager, $contactsManager);
-		$this->cloudIdManager = $cloudIdManager;
+		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager);
 	}
 
 	/**
@@ -123,7 +120,7 @@ class RemoteShares extends Base {
 						'id' => $parameters[1],
 						'name' => $parameters[1],
 					],
-					'user' => $this->getFederatedUser($parameters[0]),
+					'user' => $this->getUser($parameters[0]),
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:
@@ -133,23 +130,9 @@ class RemoteShares extends Base {
 				}
 				return [
 					'file' => $this->getFile($fileParameter),
-					'user' => $this->getFederatedUser($parameters[0]),
+					'user' => $this->getUser($parameters[0]),
 				];
 		}
 		throw new \InvalidArgumentException();
-	}
-
-	/**
-	 * @param string $cloudId
-	 * @return array
-	 */
-	protected function getFederatedUser($cloudId) {
-		$remoteUser = $this->cloudIdManager->resolveCloudId($cloudId);
-		return [
-			'type' => 'user',
-			'id' => $remoteUser->getUser(),
-			'name' => $this->getDisplayNameForContact($remoteUser->getDisplayId()),
-			'server' => $remoteUser->getRemote(),
-		];
 	}
 }

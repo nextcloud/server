@@ -29,6 +29,7 @@ use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -65,10 +66,13 @@ class Provider implements IProvider {
 	/** @var IEventMerger */
 	protected $eventMerger;
 
+	/** @var ICloudIdManager */
+	protected $cloudIdManager;
+
 	/** @var IContactsManager */
 	protected $contactsManager;
 
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
+	/** @var string[] cached displayNames - key is the cloud id and value the displayname */
 	protected $displayNames = [];
 
 	protected $fileIsEncrypted = false;
@@ -78,6 +82,7 @@ class Provider implements IProvider {
 								IManager $activityManager,
 								IUserManager $userManager,
 								IRootFolder $rootFolder,
+								ICloudIdManager $cloudIdManager,
 								IContactsManager $contactsManager,
 								IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
@@ -85,6 +90,7 @@ class Provider implements IProvider {
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
+		$this->cloudIdManager = $cloudIdManager;
 		$this->contactsManager = $contactsManager;
 		$this->eventMerger = $eventMerger;
 	}
@@ -479,28 +485,41 @@ class Provider implements IProvider {
 	 * @return array
 	 */
 	protected function getUser($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		// First try local user
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return [
+				'type' => 'user',
+				'id' => $user->getUID(),
+				'name' => $user->getDisplayName(),
+			];
 		}
 
+		// Then a contact from the addressbook
+		if ($this->cloudIdManager->isValidCloudId($uid)) {
+			$cloudId = $this->cloudIdManager->resolveCloudId($uid);
+			return [
+				'type' => 'user',
+				'id' => $cloudId->getUser(),
+				'name' => $this->getDisplayNameFromAddressBook($cloudId->getDisplayId()),
+				'server' => $cloudId->getRemote(),
+			];
+		}
+
+		// Fallback to empty dummy data
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $uid,
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
+	protected function getDisplayNameFromAddressBook(string $search): string {
+		if (isset($this->displayNames[$search])) {
+			return $this->displayNames[$search];
 		}
 
-		$addressBookContacts = $this->contactsManager->search($uid, ['CLOUD']);
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD']);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;
@@ -512,15 +531,16 @@ class Provider implements IProvider {
 					$cloudIds = [$cloudIds];
 				}
 
-				$lowerSearch = strtolower($uid);
+				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
 					if (strtolower($cloudId) === $lowerSearch) {
-						return $contact['FN'] . " ($cloudId)";
+						$this->displayNames[$search] = $contact['FN'] . " ($cloudId)";
+						return $this->displayNames[$search];
 					}
 				}
 			}
 		}
 
-		return $uid;
+		return $search;
 	}
 }

@@ -27,6 +27,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\Federation\ICloudIdManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,6 +54,9 @@ abstract class Base implements IProvider {
 	/** @var IContactsManager */
 	protected $contactsManager;
 
+	/** @var ICloudIdManager */
+	protected $cloudIdManager;
+
 	/** @var array */
 	protected $displayNames = [];
 
@@ -60,11 +64,13 @@ abstract class Base implements IProvider {
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
+								ICloudIdManager $cloudIdManager,
 								IContactsManager $contactsManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->cloudIdManager = $cloudIdManager;
 		$this->contactsManager = $contactsManager;
 	}
 
@@ -163,31 +169,40 @@ abstract class Base implements IProvider {
 	 * @return array
 	 */
 	protected function getUser($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
+		// First try local user
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			return [
+				'type' => 'user',
+				'id' => $user->getUID(),
+				'name' => $user->getDisplayName(),
+			];
 		}
 
+		// Then a contact from the addressbook
+		if ($this->cloudIdManager->isValidCloudId($uid)) {
+			$cloudId = $this->cloudIdManager->resolveCloudId($uid);
+			return [
+				'type' => 'user',
+				'id' => $cloudId->getUser(),
+				'name' => $this->getDisplayNameFromAddressBook($cloudId->getDisplayId()),
+				'server' => $cloudId->getRemote(),
+			];
+		}
+
+		// Fallback to empty dummy data
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $uid,
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
+	protected function getDisplayNameFromAddressBook(string $search): string {
+		if (isset($this->displayNames[$search])) {
+			return $this->displayNames[$search];
 		}
 
-		return $this->getDisplayNameForContact($uid);
-	}
-
-	protected function getDisplayNameForContact(string $search): string {
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD']);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
@@ -203,7 +218,8 @@ abstract class Base implements IProvider {
 				$lowerSearch = strtolower($search);
 				foreach ($cloudIds as $cloudId) {
 					if (strtolower($cloudId) === $lowerSearch) {
-						return $contact['FN'] . " ($cloudId)";
+						$this->displayNames[$search] = $contact['FN'] . " ($cloudId)";
+						return $this->displayNames[$search];
 					}
 				}
 			}
