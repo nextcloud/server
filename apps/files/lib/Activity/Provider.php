@@ -28,6 +28,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -64,25 +65,27 @@ class Provider implements IProvider {
 	/** @var IEventMerger */
 	protected $eventMerger;
 
+	/** @var IContactsManager */
+	protected $contactsManager;
+
 	/** @var string[] cached displayNames - key is the UID and value the displayname */
 	protected $displayNames = [];
 
 	protected $fileIsEncrypted = false;
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 * @param IRootFolder $rootFolder
-	 * @param IEventMerger $eventMerger
-	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IRootFolder $rootFolder, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory,
+								IURLGenerator $url,
+								IManager $activityManager,
+								IUserManager $userManager,
+								IRootFolder $rootFolder,
+								IContactsManager $contactsManager,
+								IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
+		$this->contactsManager = $contactsManager;
 		$this->eventMerger = $eventMerger;
 	}
 
@@ -495,8 +498,29 @@ class Provider implements IProvider {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();
-		} else {
-			return $uid;
 		}
+
+		$addressBookContacts = $this->contactsManager->search($uid, ['CLOUD']);
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+
+			if (isset($contact['CLOUD'])) {
+				$cloudIds = $contact['CLOUD'];
+				if (is_string($cloudIds)) {
+					$cloudIds = [$cloudIds];
+				}
+
+				$lowerSearch = strtolower($uid);
+				foreach ($cloudIds as $cloudId) {
+					if (strtolower($cloudId) === $lowerSearch) {
+						return $contact['FN'] . " ($cloudId)";
+					}
+				}
+			}
+		}
+
+		return $uid;
 	}
 }

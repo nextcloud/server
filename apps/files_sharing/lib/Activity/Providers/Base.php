@@ -26,6 +26,7 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -49,20 +50,22 @@ abstract class Base implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IContactsManager */
+	protected $contactsManager;
+
 	/** @var array */
 	protected $displayNames = [];
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
+	public function __construct(IFactory $languageFactory,
+								IURLGenerator $url,
+								IManager $activityManager,
+								IUserManager $userManager,
+								IContactsManager $contactsManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
+		$this->contactsManager = $contactsManager;
 	}
 
 	/**
@@ -179,8 +182,33 @@ abstract class Base implements IProvider {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			return $user->getDisplayName();
-		} else {
-			return $uid;
 		}
+
+		return $this->getDisplayNameForContact($uid);
+	}
+
+	protected function getDisplayNameForContact(string $search): string {
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD']);
+		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
+
+			if (isset($contact['CLOUD'])) {
+				$cloudIds = $contact['CLOUD'];
+				if (is_string($cloudIds)) {
+					$cloudIds = [$cloudIds];
+				}
+
+				$lowerSearch = strtolower($search);
+				foreach ($cloudIds as $cloudId) {
+					if (strtolower($cloudId) === $lowerSearch) {
+						return $contact['FN'] . " ($cloudId)";
+					}
+				}
+			}
+		}
+
+		return $search;
 	}
 }
