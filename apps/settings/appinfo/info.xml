@@ -18,6 +18,12 @@
 	</dependencies>
 
 	<settings>
+		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Groupware</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Overview</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Security</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Server</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Sharing</admin-section>
 		<personal-section>OCA\Settings\Sections\Personal\PersonalInfo</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\SyncClients</personal-section>
