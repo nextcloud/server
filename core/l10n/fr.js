@@ -169,6 +169,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Planifiez votre travail et des réunions, synchronisées avec tous vos appareils.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Gardez les contacts de vos collègues et amis au même endroit sans divulguer leurs informations personnelles.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Application de messagerie électronique simple et bien intégrée avec Fichiers, Contacts et Calendar.",
+    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Discussions, appels vidéo, partage d'écran, réunions en ligne et conférences web – depuis votre navigateur et les applications mobiles.",
     "Collaboratively edit office documents." : "Modifier des documents de manière collaborative.",
     "Forgot password?" : "Mot de passe oublié ?",
     "Settings" : "Paramètres",
