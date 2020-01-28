@@ -33,7 +33,7 @@ class LogContext {
 	protected $details;
 
 	public function setDescription(string $description): LogContext {
-		$this->details['description'] = $description;
+		$this->details['message'] = $description;
 		return $this;
 	}
 
