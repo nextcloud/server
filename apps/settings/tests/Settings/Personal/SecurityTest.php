@@ -32,7 +32,6 @@ use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCA\Settings\Personal\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -40,9 +39,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-
-	/** @var IInitialStateService|MockObject */
-	private $initialStateService;
 
 	/** @var IUserManager|MockObject */
 	private $userManager;
@@ -65,7 +61,6 @@ class SecurityTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->providerLoader = $this->createMock(ProviderLoader::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -73,7 +68,6 @@ class SecurityTest extends TestCase {
 		$this->uid = 'test123';
 
 		$this->section = new Security(
-			$this->initialStateService,
 			$this->userManager,
 			$this->providerLoader,
 			$this->userSession,
