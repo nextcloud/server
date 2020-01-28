@@ -32,6 +32,7 @@ OC.L10N.register(
     "Check %s is not allowed with this entity" : "La comprovació de %s no es permet amb aquesta entitat.",
     "Check #%s does not exist" : "Comprovació #%s no existeix",
     "Check %s is invalid or does not exist" : "Comprovació %s no és vàlida o no existeix",
+    "Flow" : "Flux",
     "Nextcloud workflow engine" : "Motor de flux de treball de Nextcloud",
     "Select a filter" : "Seleccioneu un filtre",
     "Select a comparator" : "Seleccioneu un comparador",
