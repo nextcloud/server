@@ -1187,6 +1187,9 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($uid))
 				)
 			);
+		} else {
+			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			return;
 		}
 
 		$qb->execute();
