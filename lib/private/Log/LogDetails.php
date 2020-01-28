@@ -80,6 +80,16 @@ abstract class LogDetails {
 			'userAgent',
 			'version'
 		);
+
+		if(is_array($message) && !array_key_exists('Exception', $message)) {
+			// Exception messages should stay as they are,
+			// anything else modern is split to 'message' (string) and
+			// data (array) fields
+			$shortMessage = $message['message'] ?? '(no message provided)';
+			$entry['data'] = $message;
+			$entry['message'] = $shortMessage;
+		}
+
 		return $entry;
 	}
 

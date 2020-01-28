@@ -162,8 +162,10 @@ class Logger {
 			return;
 		}
 
+		$details = $logContext->getDetails();
 		$this->flowLogger->logData(
-			$logContext->getDetails(),
+			$details['message'],
+			$details,
 			['app' => Application::APP_ID, 'level' => $context['level']]
 		);
 	}

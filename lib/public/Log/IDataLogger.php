@@ -28,15 +28,15 @@ namespace OCP\Log;
  * Interface IDataLogger
  *
  * @package OCP\Log
- * @since 18.0.0
+ * @since 18.0.1
  */
 interface IDataLogger {
 
 	/**
 	 * allows to log custom data, similar to how logException works
 	 *
-	 * @since 18.0.0
+	 * @since 18.0.1
 	 */
-	public function logData(array $data, array $context = []): void;
+	public function logData(string $message, array $data, array $context = []): void;
 
 }

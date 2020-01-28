@@ -340,7 +340,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
-	public function logData(array $data, array $context = []): void {
+	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
@@ -350,6 +350,7 @@ class Log implements ILogger, IDataLogger {
 
 		try {
 			if ($level >= $minLevel) {
+				$data['message'] = $message;
 				if (!$this->logger instanceof IFileBased) {
 					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
 				}
