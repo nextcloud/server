@@ -350,11 +350,7 @@ class Manager implements IManager {
 			$this->l = $this->l10nFactory->get('lib');
 		}
 
-		$sections = [
-			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/user.svg'))],
-			5 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('settings', 'password.svg'))],
-			15 => [new Section('sync-clients', $this->l->t('Mobile & desktop'), 0, $this->url->imagePath('core', 'clients/phone.svg'))],
-		];
+		$sections = [];
 
 		$legacyForms = \OC_App::getForms('personal');
 		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
