@@ -22,7 +22,8 @@ $color-border-dark: lighten($color-main-background, 14%);
 #contactsmenu-menu a,
 #expanddiv a,
 .activity-section .activity-icon.monochrome {
-	img :not(.avatardiv){
+	& > img,
+	:not(.avatardiv) > img {
 		filter: invert(100%);
 	}
 }
