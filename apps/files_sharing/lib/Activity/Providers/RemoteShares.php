@@ -26,6 +26,7 @@ namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -40,20 +41,14 @@ class RemoteShares extends Base {
 	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
 	const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 * @param ICloudIdManager $cloudIdManager
-	 */
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
+								IContactsManager $contactsManager,
 								ICloudIdManager $cloudIdManager
 	) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager);
+		parent::__construct($languageFactory, $url, $activityManager, $userManager, $contactsManager);
 		$this->cloudIdManager = $cloudIdManager;
 	}
 
@@ -153,7 +148,7 @@ class RemoteShares extends Base {
 		return [
 			'type' => 'user',
 			'id' => $remoteUser->getUser(),
-			'name' => $cloudId,// Todo display name from contacts
+			'name' => $this->getDisplayNameForContact($remoteUser->getDisplayId()),
 			'server' => $remoteUser->getRemote(),
 		];
 	}
