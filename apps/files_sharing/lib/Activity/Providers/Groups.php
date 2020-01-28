@@ -27,6 +27,7 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\Federation\ICloudIdManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -53,9 +54,10 @@ class Groups extends Base {
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
+								ICloudIdManager $cloudIdManager,
 								IContactsManager $contactsManager,
 								IGroupManager $groupManager) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager, $contactsManager);
+		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager);
 		$this->groupManager = $groupManager;
 	}
 
