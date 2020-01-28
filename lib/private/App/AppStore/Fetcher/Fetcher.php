@@ -54,6 +54,8 @@ abstract class Fetcher {
 	/** @var string */
 	protected $fileName;
 	/** @var string */
+	protected $endpointName;
+	/** @var string */
 	protected $version;
 	/** @var string */
 	protected $channel;
@@ -218,6 +220,6 @@ abstract class Fetcher {
 	}
 
 	protected function getEndpoint(): string {
-		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->fileName;
+		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->endpointName;
 	}
 }
