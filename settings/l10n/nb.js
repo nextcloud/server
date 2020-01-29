@@ -103,6 +103,7 @@ OC.L10N.register(
     "Go to %s" : "Gå til %s",
     "Install Client" : "Installer klient",
     "Logged in user must be a subadmin" : "Innlogget bruker må være subadministrator",
+    "Personal info" : "Personlig informasjon",
     "Create" : "Ny",
     "Change" : "Endre",
     "Unlimited" : "Ubegrenset",

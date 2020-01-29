@@ -81,6 +81,8 @@ OC.L10N.register(
     "Set your password" : "設定您的密碼",
     "Go to %s" : "前往 %s",
     "Install Client" : "安裝客戶端程式",
+    "Personal info" : "個人資訊",
+    "Mobile & desktop" : "行動裝置及桌面",
     "Create" : "建立",
     "Change" : "更改",
     "Unlimited" : "無限制",

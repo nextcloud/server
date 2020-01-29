@@ -105,6 +105,8 @@ OC.L10N.register(
     "Go to %s" : "Оди до %s",
     "Install Client" : "Инсталирај клиент",
     "Logged in user must be a subadmin" : "Најавениот корисник мора да биде подадминистратор",
+    "Personal info" : "Лични податоци",
+    "Mobile & desktop" : "Мобилен & компјутер",
     "Create" : "Креирај",
     "Change" : "Измени",
     "Reshare" : "Пресподели",

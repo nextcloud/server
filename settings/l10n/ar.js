@@ -52,6 +52,7 @@ OC.L10N.register(
     "Set your password" : "قم بإدخال كلمتك السرية",
     "Go to %s" : "الإنتقال إلى %s",
     "Install Client" : "تنصيب العميل",
+    "Personal info" : "المعلومات الشخصية",
     "Create" : "إنشاء",
     "Unlimited" : "غير محدود",
     "Verifying" : "التحقق",
