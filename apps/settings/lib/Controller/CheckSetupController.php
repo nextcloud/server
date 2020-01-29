@@ -516,7 +516,7 @@ Raw output
 	}
 
 	protected function hasOpcacheLoaded(): bool {
-		return function_exists('opcache_get_status');
+		return extension_loaded('Zend OPcache');
 	}
 
 	/**
