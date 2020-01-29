@@ -208,19 +208,8 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getAdminSections(): array {
-		if ($this->l === null) {
-			$this->l = $this->l10nFactory->get('lib');
-		}
-
 		// built-in sections
-		$sections = [
-			0 => [new Section('overview', $this->l->t('Overview'), 0, $this->url->imagePath('settings', 'admin.svg'))],
-			1 => [new Section('server', $this->l->t('Basic settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
-			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
-			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
-			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts.svg'))],
-			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
-		];
+		$sections = [];
 
 		$appSections = $this->getSections('admin');
 

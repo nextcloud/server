@@ -69,51 +69,14 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSections() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(6))
-			->method('imagePath')
-			->willReturnMap([
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
 		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
 		], $this->manager->getAdminSections());
 	}
 
 	public function testGetPersonalSections() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$this->assertEquals([
@@ -122,35 +85,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSectionsEmptySection() {
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('lib')
-			->willReturn($this->l10n);
-		$this->l10n
-			->expects($this->any())
-			->method('t')
-			->will($this->returnArgument(0));
-
-		$this->url->expects($this->exactly(6))
-			->method('imagePath')
-			->willReturnMap([
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
-		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
-		], $this->manager->getAdminSections());
+		$this->assertEquals([], $this->manager->getAdminSections());
 	}
 
 	public function testGetPersonalSectionsEmptySection() {
@@ -253,32 +188,12 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
-		$this->url->expects($this->exactly(6))
-			->method('imagePath')
-			->willReturnMap([
-				['core', 'actions/user.svg', '1'],
-				['settings', 'password.svg', '2'],
-				['core', 'clients/phone.svg', '3'],
-				['settings', 'admin.svg', '0'],
-				['core', 'actions/settings-dark.svg', '1'],
-				['core', 'actions/share.svg', '2'],
-				['core', 'actions/password.svg', '3'],
-				['core', 'places/contacts.svg', '5'],
-				['settings', 'help.svg', '4'],
-			]);
-
 		$this->assertEquals([
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 
 		$this->assertEquals([
-			0 => [new Section('overview', 'Overview', 0, '0')],
-			1 => [new Section('server', 'Basic settings', 0, '1')],
-			5 => [new Section('sharing', 'Sharing', 0, '2')],
-			10 => [new Section('security', 'Security', 0, '3')],
-			50 => [new Section('groupware', 'Groupware', 0, '5')],
 			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
-			98 => [new Section('additional', 'Additional settings', 0, '1')],
 		], $this->manager->getAdminSections());
 	}
 }
