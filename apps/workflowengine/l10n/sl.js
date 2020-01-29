@@ -26,6 +26,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (omejeno)",
     "Predefined URLs" : "Določeni naslovi URL",
     "Files WebDAV" : "Datoteke WebDAV",
+    "Others" : "Ostali",
     "Android client" : "Odjemalec za Android",
     "iOS client" : "Odjemalec za iOS",
     "Desktop client" : "Odjemalec za namizne računalnike",

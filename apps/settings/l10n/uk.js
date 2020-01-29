@@ -94,6 +94,7 @@ OC.L10N.register(
     "Set your password" : "Встановіть свій пароль",
     "Go to %s" : "Перейти до %s",
     "Install Client" : "Встановити Клієнт",
+    "Personal info" : "Особиста інформація",
     "Create" : "Створити",
     "Unlimited" : "Необмежено",
     "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторна автентифікація може застосовуватися для всіх \t користувачів і конкретних груп. Якщо вони не мають налаштованого двофакторного провайдера для входу, вони не зможуть увійти в систему.",

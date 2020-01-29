@@ -103,6 +103,8 @@ OC.L10N.register(
     "Go to %s" : "Prejsť na %s",
     "Install Client" : "Inštalácia klienta",
     "Logged in user must be a subadmin" : "Prihlásený používateľ musí byť sub-správca",
+    "Personal info" : "Osobné informácie",
+    "Mobile & desktop" : "Mobil a počítač",
     "Create" : "Vytvárať",
     "Change" : "Zmeniť",
     "Unlimited" : "Nelimitované",

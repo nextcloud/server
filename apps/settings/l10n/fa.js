@@ -105,6 +105,7 @@ OC.L10N.register(
     "Go to %s" : "برو به %s",
     "Install Client" : "قسمت مشتری را نصب کنید",
     "Logged in user must be a subadmin" : "ورود به سیستم کاربر باید زیرمجموعه باشد",
+    "Personal info" : "مشخصات شخصی",
     "Create" : "ساختن",
     "Change" : "تغییرات",
     "Reshare" : "دوباره به اشتراک گذاشتن",

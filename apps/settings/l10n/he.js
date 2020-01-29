@@ -88,6 +88,8 @@ OC.L10N.register(
     "Go to %s" : "מעבר אל %s",
     "Install Client" : "התקנת לקו",
     "Logged in user must be a subadmin" : "המשתמש שנכנס חייב להיות תת־מנהל",
+    "Personal info" : "פרטים אישיים",
+    "Mobile & desktop" : "נייד ושולחן עבודה",
     "Create" : "יצירה",
     "Change" : "שינוי",
     "Unlimited" : "ללא הגבלה",
