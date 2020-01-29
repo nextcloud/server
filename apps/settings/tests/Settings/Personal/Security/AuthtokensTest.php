@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  */
 
-namespace Test\Settings\Personal\Security;
+namespace OCA\Settings\Tests\Settings\Personal\Security;
 
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
@@ -34,6 +34,7 @@ use OCA\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
 use OCP\ISession;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -44,6 +45,9 @@ class AuthtokensTest extends TestCase {
 
 	/** @var ISession|MockObject */
 	private $session;
+
+	/** @var IUserSession|MockObject */
+	private $userSession;
 
 	/** @var IInitialStateService|MockObject */
 	private $initialStateService;
@@ -59,12 +63,14 @@ class AuthtokensTest extends TestCase {
 
 		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->uid = 'test123';
 
 		$this->section = new Authtokens(
 			$this->authTokenProvider,
 			$this->session,
+			$this->userSession,
 			$this->initialStateService,
 			$this->uid
 		);
@@ -93,7 +99,7 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
-		$this->initialStateService->expects($this->once())
+		$this->initialStateService->expects($this->at(0))
 			->method('provideInitialState')
 			->with('settings', 'app_tokens', [
 				[
@@ -116,6 +122,10 @@ class AuthtokensTest extends TestCase {
 					'canRename' => true,
 				],
 			]);
+
+		$this->initialStateService->expects($this->at(1))
+			->method('provideInitialState')
+			->with('settings', 'can_create_app_token', true);
 
 		$form = $this->section->getForm();
 

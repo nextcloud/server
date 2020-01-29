@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Personal\Security;
 
+use OCP\IUserSession;
 use function array_map;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\INamedToken;
@@ -52,14 +53,19 @@ class Authtokens implements ISettings {
 	/** @var string|null */
 	private $uid;
 
+	/** @var IUserSession */
+	private $userSession;
+
 	public function __construct(IAuthTokenProvider $tokenProvider,
 								ISession $session,
+								IUserSession $userSession,
 								IInitialStateService $initialStateService,
 								?string $UserId) {
 		$this->tokenProvider = $tokenProvider;
 		$this->session = $session;
 		$this->initialStateService = $initialStateService;
 		$this->uid = $UserId;
+		$this->userSession = $userSession;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -67,6 +73,12 @@ class Authtokens implements ISettings {
 			'settings',
 			'app_tokens',
 			$this->getAppTokens()
+		);
+
+		$this->initialStateService->provideInitialState(
+			'settings',
+			'can_create_app_token',
+			$this->userSession->getImpersonatingUserID() === null
 		);
 
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');
