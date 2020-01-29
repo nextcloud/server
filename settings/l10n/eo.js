@@ -105,6 +105,8 @@ OC.L10N.register(
     "Go to %s" : "Iri al %s",
     "Install Client" : "Instali kienton",
     "Logged in user must be a subadmin" : "La konektita uzanto estu subadministranto.",
+    "Personal info" : "Persona informo",
+    "Mobile & desktop" : "Porteblaj kaj labortablaj aplikaĵoj",
     "Create" : "Krei",
     "Change" : "Ŝanĝi",
     "Unlimited" : "Senlima",

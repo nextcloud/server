@@ -55,7 +55,7 @@ OC.L10N.register(
     "Invalid Host" : "Neveljaven gostitelj",
     "Test Configuration" : "Preizkusne nastavitve",
     "Help" : "Pomoč",
-    "Groups meeting these criteria are available in %s:" : "Skupine, ki so skladne s kriterijem, so na voljo v %s:",
+    "Groups meeting these criteria are available in %s:" : "Skupine, skladne s kriterijem, so na voljo v %s:",
     "Only these object classes:" : "Le ti razredi predmetov:",
     "Only from these groups:" : "Le od skupin:",
     "Search groups" : "Iskanje skupin",

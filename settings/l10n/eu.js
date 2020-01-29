@@ -104,6 +104,8 @@ OC.L10N.register(
     "Go to %s" : "%s-ra joan",
     "Install Client" : "Instalatu bezeroa",
     "Logged in user must be a subadmin" : "Saioa hasitako erabiltzailea azpi-administratzailea izan behar du",
+    "Personal info" : "Informazio pertsonala",
+    "Mobile & desktop" : "Mugikorra eta mahaigaina",
     "Create" : "Sortu",
     "Change" : "Aldatu",
     "Reshare" : "Birpartekatu",

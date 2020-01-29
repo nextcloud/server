@@ -105,6 +105,8 @@ OC.L10N.register(
     "Go to %s" : "Πηγαίνετε στο %s",
     "Install Client" : "Εγκατάσταση πελάτη",
     "Logged in user must be a subadmin" : "Ο συνδεδεμένος χρήστης πρέπει να είναι subadmin",
+    "Personal info" : "Προσωπικές πληροφορίες",
+    "Mobile & desktop" : "Κινητό & σταθερό",
     "Create" : "Δημιουργία",
     "Change" : "Αλλαγή",
     "Reshare" : "Επαναδιαμοιρασμός",

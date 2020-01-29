@@ -105,6 +105,8 @@ OC.L10N.register(
     "Go to %s" : "Jít na %s",
     "Install Client" : "Nainstalovat klienta",
     "Logged in user must be a subadmin" : "Je třeba, aby přihlášený uživatel byl dílčím správcem",
+    "Personal info" : "Osobní údaje",
+    "Mobile & desktop" : "Mobilní a desktop",
     "Create" : "Vytvořit",
     "Change" : "Změnit",
     "Reshare" : "Sdílet dál dalším",

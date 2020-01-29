@@ -93,6 +93,8 @@ OC.L10N.register(
     "Set your password" : "Sæt dit password",
     "Go to %s" : "Gå til %s",
     "Install Client" : "Installer client",
+    "Personal info" : "Personlige oplysninger",
+    "Mobile & desktop" : "Mobil & desktop",
     "Create" : "Opret",
     "Change" : "Ændr",
     "Unlimited" : "Ubegrænset",

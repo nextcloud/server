@@ -103,6 +103,8 @@
     "Go to %s" : "Vés a %s",
     "Install Client" : "S'està instal·lant el Client",
     "Logged in user must be a subadmin" : "L’usuari que ha iniciat la sessió ha de ser un subadministrador",
+    "Personal info" : "Informació personal",
+    "Mobile & desktop" : "Mòbil i escriptori",
     "Create" : "Crea",
     "Change" : "Canvia",
     "Unlimited" : "Il·limitat",

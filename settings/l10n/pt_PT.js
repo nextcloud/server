@@ -80,6 +80,7 @@ OC.L10N.register(
     "Set your password" : "Escolher senha",
     "Go to %s" : "Ir para %s",
     "Install Client" : "Instalar cliente",
+    "Personal info" : "Informação pessoal",
     "Create" : "Criar",
     "Unlimited" : "Ilimitado",
     "Verifying" : "A verificar",

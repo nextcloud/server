@@ -73,6 +73,7 @@ OC.L10N.register(
     "Set your password" : "Afita la to contraseña",
     "Go to %s" : "Dir a %s",
     "Install Client" : "Instalar veceru",
+    "Personal info" : "Información personal",
     "Create" : "Crear",
     "Change" : "Camudar",
     "Unlimited" : "Non llendáu",
