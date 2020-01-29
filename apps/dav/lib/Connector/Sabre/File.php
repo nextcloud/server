@@ -409,6 +409,10 @@ class File extends Node implements IFile {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
 			if (!$this->info->isReadable()) {
+				if (!$this->fileView->file_exists(ltrim($this->path, '/'))) {
+					// the file was present in the file cache but doesn't exist on the storage
+					$this->fileView->unlink(ltrim($this->path, '/'));
+				}
 				// do a if the file did not exist
 				throw new NotFound();
 			}
