@@ -83,6 +83,8 @@ OC.L10N.register(
     "Go to %s" : "Go to %s",
     "Install Client" : "Install Client",
     "Logged in user must be a subadmin" : "Logged in user must be a subadmin",
+    "Personal info" : "Personal info",
+    "Mobile & desktop" : "Mobile & desktop",
     "Create" : "Create",
     "Change" : "Change",
     "Unlimited" : "Unlimited",

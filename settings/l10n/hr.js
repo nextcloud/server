@@ -105,6 +105,8 @@ OC.L10N.register(
     "Go to %s" : "Idi na %s",
     "Install Client" : "Instaliraj klijenta",
     "Logged in user must be a subadmin" : "Korisnik koji je prijavljen mora biti podadministrator",
+    "Personal info" : "Osobne informacije",
+    "Mobile & desktop" : "Mobilni uređaji i osobna računala",
     "Create" : "Stvori",
     "Change" : "Promijeni",
     "Reshare" : "Dijeli ponovno",

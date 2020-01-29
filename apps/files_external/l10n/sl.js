@@ -82,6 +82,7 @@ OC.L10N.register(
     "Region" : "Območje",
     "Enable SSL" : "Omogoči SSL",
     "Enable Path Style" : "Omogoči slog poti",
+    "Legacy (v2) authentication" : "Opuščena (v2) overitev",
     "WebDAV" : "WebDAV",
     "URL" : "Naslov URL",
     "Remote subfolder" : "Oddaljena podrejena mapa",

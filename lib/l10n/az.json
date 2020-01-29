@@ -13,7 +13,6 @@
     "Users" : "İstifadəçilər",
     "Unknown user" : "Istifadəçi tanınmır ",
     "Sharing" : "Paylaşılır",
-    "Personal info" : "Şəxsi məlumat",
     "%s enter the database username." : "Verilənlər bazası istifadəçi adını %s daxil et.",
     "%s enter the database name." : "Verilənlər bazası adını %s daxil et.",
     "Oracle connection could not be established" : "Oracle qoşulması alınmır",
@@ -68,6 +67,7 @@
     "Create" : "Yarat",
     "Delete" : "Sil",
     "Share" : "Paylaş",
+    "Personal info" : "Şəxsi məlumat",
     "Unlimited" : "Limitsiz",
     "Sharing %s failed, because the file does not exist" : "%s yayımlanmasında səhv baş verdi ona görə ki, fayl mövcud deyil."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -99,6 +99,8 @@ OC.L10N.register(
     "Set your password" : "Aseta salasanasi",
     "Go to %s" : "Siirry %s-palveluun",
     "Install Client" : "Asenna sovellus",
+    "Personal info" : "Henkilökohtaiset tiedot",
+    "Mobile & desktop" : "Mobiili ja työpöytä",
     "Create" : "Luo",
     "Change" : "Muuta",
     "Unlimited" : "Rajoittamaton",

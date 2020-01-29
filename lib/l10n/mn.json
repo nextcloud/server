@@ -21,7 +21,6 @@
     "Unknown user" : "  хэрэглэгч",
     "Sharing" : "Түгээх",
     "Security" : "Хамгаалалт",
-    "Personal info" : "Хувийн мэдээлэл",
     "Open »%s«" : "»%s« нээх",
     "Sunday" : "ням гариг",
     "Monday" : "даваа",
@@ -38,6 +37,7 @@
     "Create" : "Үүсгэх",
     "Delete" : "Устгах",
     "Share" : "Түгээх",
+    "Personal info" : "Хувийн мэдээлэл",
     "Verify" : "Шалнгах"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -99,6 +99,8 @@ OC.L10N.register(
     "Set your password" : "내 암호 설정하기",
     "Go to %s" : "%s(으)로 이동",
     "Install Client" : "클라이언트 설치",
+    "Personal info" : "개인 정보",
+    "Mobile & desktop" : "모바일 & 데스크톱",
     "Create" : "생성",
     "Change" : "변경",
     "Unlimited" : "무제한",

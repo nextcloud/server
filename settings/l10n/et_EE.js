@@ -77,6 +77,7 @@ OC.L10N.register(
     "Set your password" : "Määra oma parool",
     "Go to %s" : "Mine %s",
     "Install Client" : "Paigalda kliendiprogramm",
+    "Personal info" : "Isiklik info",
     "Create" : "Loo",
     "Unlimited" : "Piiramatult",
     "Verifying" : "Kontrollin",

@@ -169,6 +169,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "安排工作和会议，并与您的所有设备同步。",
     "Keep your colleagues and friends in one place without leaking their private info." : "将您的同事和朋友放在一个地方，而不会泄漏他们的私人信息。",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "简单的电子邮件应用程序与文件，联系人和日历完美集成。",
+    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "在浏览器和移动设备应用中进行聊天，视频通话，屏幕共享，线上见面和网络会议。",
     "Collaboratively edit office documents." : "协作编辑办公文档。",
     "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice 应用使用的本地文档编辑后端。",
     "Forgot password?" : "忘记密码？",

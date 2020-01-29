@@ -79,6 +79,7 @@ OC.L10N.register(
     "Set your password" : "Vendos fjalëkalimin tënd",
     "Go to %s" : "Shko tek %s",
     "Install Client" : "Instalo Klient",
+    "Personal info" : "Informacion personal",
     "Create" : "Krijo",
     "Change" : "Ndrysho",
     "Unlimited" : "E pakufizuar",

@@ -32,7 +32,7 @@
     "More than 1,000 directory entries available." : "Es sind mehr als 1.000 Verzeichniseinträge verfügbar.",
     "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} Eintrag in der angegebenen Base DN verfügbar","{objectsFound} Einträge in der angegebenen Base DN verfügbar"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Es ist ein Fehler aufgetreten. Bitte überprüfen Sie die Base DN wie auch die Verbindungseinstellungen und Anmeldeinformationen.",
-    "Do you really want to delete the current Server Configuration?" : "Soll die aktuelle Serverkonfiguration wirklich gelöscht werden?",
+    "Do you really want to delete the current Server Configuration?" : "Möchten Sie die aktuelle Serverkonfiguration wirklich löschen?",
     "Confirm Deletion" : "Löschen bestätigen",
     "Mappings cleared successfully!" : "Zuordnungen erfolgreich gelöscht!",
     "Error while clearing the mappings." : "Fehler beim Löschen der Zuordnungen.",
