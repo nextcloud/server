@@ -126,8 +126,12 @@ class HasherTest extends \Test\TestCase {
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
-			->with('passwordsalt', null)
-			->will($this->returnValue('6Wow67q1wZQZpUUeI6G2LsWUu4XKx'));
+			->willReturnCallback(function ($key, $default) {
+				if($key === 'passwordsalt') {
+					return '6Wow67q1wZQZpUUeI6G2LsWUu4XKx';
+				}
+				return $default;
+			});
 
 		$result = $this->hasher->verify($password, $hash);
 		$this->assertSame($expected, $result);
@@ -161,5 +165,62 @@ class HasherTest extends \Test\TestCase {
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$newHash]);
 
 		$this->assertFalse(password_needs_rehash($relativePath['hash'], PASSWORD_ARGON2I, []));
+	}
+
+	public function testUsePasswordDefaultArgon2iVerify() {
+		if (!\defined('PASSWORD_ARGON2I')) {
+			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
+		}
+
+		$this->config->method('getSystemValue')
+			->with('hashing_default_password')
+			->willReturn(true);
+
+		$message = 'mysecret';
+
+		$argon2i  = 2 . '|' . password_hash($message, PASSWORD_ARGON2I, []);
+
+		$newHash = null;
+		$this->assertTrue($this->hasher->verify($message, $argon2i, $newHash));
+		$this->assertNotNull($newHash);
+	}
+
+	public function testDoNotUserPasswordDefaultArgon2iVerify() {
+		if (!\defined('PASSWORD_ARGON2I')) {
+			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
+		}
+
+		$this->config->method('getSystemValue')
+			->with('hashing_default_password')
+			->willReturn(false);
+
+		$message = 'mysecret';
+
+		$argon2i  = 2 . '|' . password_hash($message, PASSWORD_ARGON2I, []);
+
+		$newHash = null;
+		$this->assertTrue($this->hasher->verify($message, $argon2i, $newHash));
+		$this->assertNull($newHash);
+	}
+
+	public function testHashUsePasswordDefault() {
+		if (!\defined('PASSWORD_ARGON2I')) {
+			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
+		}
+
+		$this->config->method('getSystemValue')
+			->with('hashing_default_password')
+			->willReturn(true);
+
+		$message = 'mysecret';
+
+		$hash = $this->hasher->hash($message);
+		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$hash]);
+
+		$this->assertSame(1, $relativePath['version']);
+
+		$info = password_get_info($relativePath['hash']);
+		$this->assertEquals(PASSWORD_BCRYPT, $info['algo']);
+
 	}
 }
