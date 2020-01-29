@@ -21,7 +21,9 @@
   -->
 
 <template>
-	<AppSidebarTab :icon="icon"
+	<AppSidebarTab
+		:id="id"
+		:icon="icon"
 		:name="name"
 		:active-tab="activeTab" />
 </template>
@@ -38,7 +40,7 @@ export default {
 			type: Object,
 			required: true,
 		},
-		name: {
+		id: {
 			type: String,
 			required: true,
 		},
@@ -52,9 +54,8 @@ export default {
 		icon() {
 			return this.component.getIcon()
 		},
-		id() {
-			// copied from AppSidebarTab
-			return this.name.toLowerCase().replace(/ /g, '-')
+		name() {
+			return this.component.getLabel()
 		},
 		order() {
 			return this.component.order
