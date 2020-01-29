@@ -1435,6 +1435,23 @@ $CONFIG = array(
 
 /**
  * Hashing
+ */
+
+/**
+ * By default Nextcloud uses the Argon2i algorithm. However you can chose to
+ * override the default algorithm
+ *
+ * Possible values (constants):
+ *  - PASSWORD_BCRYPT
+ *  - PASSWORD_ARGON2I (default)
+ *
+ * WARNING: Only modify this if you know what you are doing. Setting this to
+ * an incompatible algorithm could make your system unuseable.
+ */
+
+'hashingAlgorithm' => PASSWORD_ARGON2I,
+
+/**
  *
  * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
  * own and exposes its configuration options as following. More information can
