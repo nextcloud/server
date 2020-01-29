@@ -172,7 +172,7 @@ class File implements IEntity, IDisplayText, IUrl {
 		}
 
 		$options = [
-			$user ? $user->getDisplayName() : $this->t('Someone'),
+			$user ? $user->getDisplayName() : $this->l10n->t('Someone'),
 			$node->getName()
 		];
 
