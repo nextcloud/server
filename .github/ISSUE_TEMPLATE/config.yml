@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+    - name: ❓ Question
+      url: https://help.nextcloud.com/
+      about: I have a question …
+    - name: 🔒 Security Vulnerability
+      url: https://hackerone.com/nextcloud
+      about: Found a security vulnerability?

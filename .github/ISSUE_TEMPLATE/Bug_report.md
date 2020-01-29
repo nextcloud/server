@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: 🐛 Bug report
 about: Help us improving by reporting a bug
 labels: bug, 0. Needs triage
 ---
