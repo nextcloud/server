@@ -1435,6 +1435,16 @@ $CONFIG = array(
 
 /**
  * Hashing
+ */
+
+/**
+ * By default Nextcloud will use the Argon2 password hashing if available.
+ * However if for whatever reason you want to stick with the PASSWORD_DEFAULT
+ * of your php version. Then set the setting to true.
+ */
+'hashing_default_password' => false,
+
+/**
  *
  * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
  * own and exposes its configuration options as following. More information can

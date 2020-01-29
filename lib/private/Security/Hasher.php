@@ -92,11 +92,13 @@ class Hasher implements IHasher {
 	 * @return string Hash of the message with appended version parameter
 	 */
 	public function hash(string $message): string {
-		if (\defined('PASSWORD_ARGON2I')) {
+		$alg = $this->getPrefferedAlgorithm();
+
+		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
 			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
-		} else {
-			return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
 		}
+
+		return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
 	}
 
 	/**
@@ -147,12 +149,7 @@ class Hasher implements IHasher {
 	 */
 	protected function verifyHashV1(string $message, string $hash, &$newHash = null): bool {
 		if(password_verify($message, $hash)) {
-			$algo = PASSWORD_BCRYPT;
-			if (\defined('PASSWORD_ARGON2I')) {
-				$algo = PASSWORD_ARGON2I;
-			}
-
-			if(password_needs_rehash($hash, $algo, $this->options)) {
+			if ($this->needsRehash($hash)) {
 				$newHash = $this->hash($message);
 			}
 			return true;
@@ -170,7 +167,7 @@ class Hasher implements IHasher {
 	 */
 	protected function verifyHashV2(string $message, string $hash, &$newHash = null) : bool {
 		if(password_verify($message, $hash)) {
-			if(password_needs_rehash($hash, PASSWORD_ARGON2I, $this->options)) {
+			if($this->needsRehash($hash)) {
 				$newHash = $this->hash($message);
 			}
 			return true;
@@ -199,8 +196,27 @@ class Hasher implements IHasher {
 			return $this->legacyHashVerify($message, $hash, $newHash);
 		}
 
-
 		return false;
+	}
+
+	private function needsRehash(string $hash): bool {
+		$algorithm = $this->getPrefferedAlgorithm();
+
+		return password_needs_rehash($hash, $algorithm, $this->options);
+	}
+
+	private function getPrefferedAlgorithm() {
+		$default = PASSWORD_BCRYPT;
+		if (\defined('PASSWORD_ARGON2I')) {
+			$default = PASSWORD_ARGON2I;
+		}
+
+		// Check if we should use PASSWORD_DEFAULT
+		if ($this->config->getSystemValue('hashing_default_password', false) === true) {
+			$default = PASSWORD_DEFAULT;
+		}
+
+		return $default;
 	}
 
 }
