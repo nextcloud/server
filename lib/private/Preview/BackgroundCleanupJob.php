@@ -27,8 +27,9 @@ declare(strict_types=1);
 namespace OC\Preview;
 
 use OC\BackgroundJob\TimedJob;
-use OC\Files\AppData\Factory;
+use OC\Preview\Storage\Root;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
@@ -38,28 +39,47 @@ class BackgroundCleanupJob extends TimedJob {
 	/** @var IDBConnection */
 	private $connection;
 
-	/** @var Factory */
-	private $appDataFactory;
+	/** @var Root */
+	private $previewFolder;
 
 	/** @var bool */
 	private $isCLI;
 
+	/** @var IMimeTypeLoader */
+	private $mimeTypeLoader;
+
 	public function __construct(IDBConnection $connection,
-								Factory $appDataFactory,
+								Root $previewFolder,
+								IMimeTypeLoader $mimeTypeLoader,
 								bool $isCLI) {
 		// Run at most once an hour
 		$this->setInterval(3600);
 
 		$this->connection = $connection;
-		$this->appDataFactory = $appDataFactory;
+		$this->previewFolder = $previewFolder;
 		$this->isCLI = $isCLI;
+		$this->mimeTypeLoader = $mimeTypeLoader;
 	}
 
 	public function run($argument) {
-		$previews = $this->appDataFactory->get('preview');
+		foreach ($this->getDeletedFiles() as $fileId) {
+			try {
+				$preview = $this->previewFolder->getFolder((string)$fileId);
+				$preview->delete();
+			} catch (NotFoundException $e) {
+				// continue
+			} catch (NotPermittedException $e) {
+				// continue
+			}
+		}
+	}
 
-		$previewFodlerId = $previews->getId();
+	private function getDeletedFiles(): \Iterator {
+		yield from $this->getOldPreviewLocations();
+		yield from $this->getNewPreviewLocations();
+	}
 
+	private function getOldPreviewLocations(): \Iterator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('a.name')
 			->from('filecache', 'a')
@@ -69,7 +89,9 @@ class BackgroundCleanupJob extends TimedJob {
 			->where(
 				$qb->expr()->isNull('b.fileid')
 			)->andWhere(
-				$qb->expr()->eq('a.parent', $qb->createNamedParameter($previewFodlerId))
+				$qb->expr()->eq('a.parent', $qb->createNamedParameter($this->previewFolder->getId()))
+			)->andWhere(
+				$qb->expr()->like('a.name', $qb->createNamedParameter('__%'))
 			);
 
 		if (!$this->isCLI) {
@@ -79,14 +101,54 @@ class BackgroundCleanupJob extends TimedJob {
 		$cursor = $qb->execute();
 
 		while ($row = $cursor->fetch()) {
-			try {
-				$preview = $previews->getFolder($row['name']);
-				$preview->delete();
-			} catch (NotFoundException $e) {
-				// continue
-			} catch (NotPermittedException $e) {
-				// continue
-			}
+			yield $row['name'];
+		}
+
+		$cursor->closeCursor();
+	}
+
+	private function getNewPreviewLocations(): \Iterator {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('path', 'mimetype')
+			->from('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
+
+		if ($data === null) {
+			return [];
+		}
+
+		/*
+		 * This lovely like is the result of the way the new previews are stored
+		 * We take the md5 of the name (fileid) and split the first 7 chars. That way
+		 * there are not a gazillion files in the root of the preview appdata.
+		 */
+		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('a.name')
+			->from('filecache', 'a')
+			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
+				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
+			))
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->isNull('b.fileid'),
+					$qb->expr()->like('a.path', $qb->createNamedParameter($like)),
+					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))
+				)
+			);
+
+		if (!$this->isCLI) {
+			$qb->setMaxResults(10);
+		}
+
+		$cursor = $qb->execute();
+
+		while ($row = $cursor->fetch()) {
+			yield $row['name'];
 		}
 
 		$cursor->closeCursor();

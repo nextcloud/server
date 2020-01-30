@@ -1182,6 +1182,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Preview\\ProviderV2' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV2.php',
         'OC\\Preview\\SVG' => __DIR__ . '/../../..' . '/lib/private/Preview/SVG.php',
         'OC\\Preview\\StarOffice' => __DIR__ . '/../../..' . '/lib/private/Preview/StarOffice.php',
+        'OC\\Preview\\Storage\\Root' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/Root.php',
         'OC\\Preview\\TIFF' => __DIR__ . '/../../..' . '/lib/private/Preview/TIFF.php',
         'OC\\Preview\\TXT' => __DIR__ . '/../../..' . '/lib/private/Preview/TXT.php',
         'OC\\Preview\\Watcher' => __DIR__ . '/../../..' . '/lib/private/Preview/Watcher.php',
