@@ -17,7 +17,6 @@
     "Log out" : "প্রস্থান",
     "Users" : "ব্যবহারকারী",
     "Unknown user" : "অপরিচিত ব্যবহারকারী",
-    "Sharing" : "ভাগাভাগিরত",
     "You are not allowed to share %s" : "আপনি %s ভাগাভাগি করতে পারবেননা",
     "Sunday" : "রবিবার",
     "Monday" : "সোমবার",
@@ -63,6 +62,7 @@
     "Create" : "তৈরী কর",
     "Delete" : "মুছে",
     "Share" : "ভাগাভাগি কর",
+    "Sharing" : "ভাগাভাগিরত",
     "Unlimited" : "অসীম",
     "Sharing %s failed, because the file does not exist" : "%s ভাগাভাগি ব্যার্থ, কারণ ফাইলটি নেই"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

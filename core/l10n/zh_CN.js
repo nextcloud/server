@@ -398,7 +398,7 @@ OC.L10N.register(
     "remote" : "外部",
     "remote group" : "远程群组",
     "email" : "邮件",
-    "conversation" : "对话",
+    "conversation" : "会话",
     "shared by {sharer}" : "由 {sharer} 共享",
     "Can reshare" : "允许重新共享",
     "Can edit" : "可以编辑",

@@ -398,7 +398,7 @@ OC.L10N.register(
     "remote" : "απομακρυσμένα",
     "remote group" : "απομακρυσμένη ομάδα",
     "email" : "ηλεκτρονικό ταχυδρομείο",
-    "conversation" : "συζήτηση",
+    "conversation" : "συνομιλία",
     "shared by {sharer}" : "διαμοιράστηκε από {sharer}",
     "Can reshare" : "Δυνατότητα να διαμοιραστεί ξανά",
     "Can edit" : "Δυνατότητα επεξεργασίας",
