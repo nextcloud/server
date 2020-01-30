@@ -25,9 +25,9 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Settings\Tests\Settings\Personal;
+namespace OCA\Settings\Tests\Settings\Personal\Security;
 
-use OCA\Settings\Personal\Security\Password;
+use OCA\Settings\Settings\Personal\Security\Password;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -69,7 +69,7 @@ class PasswordTest extends TestCase {
 
 		$form = $this->section->getForm();
 
-		$expected = new TemplateResponse('settings', 'settings/personal/security', [
+		$expected = new TemplateResponse('settings', 'settings/personal/security/password', [
 			'passwordChangeSupported' => true,
 		]);
 		$this->assertEquals($expected, $form);

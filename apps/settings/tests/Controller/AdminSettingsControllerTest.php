@@ -28,7 +28,7 @@
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
-use OCA\Settings\Personal\ServerDevNotice;
+use OCA\Settings\Settings\Personal\ServerDevNotice;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;

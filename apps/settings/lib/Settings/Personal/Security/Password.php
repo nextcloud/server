@@ -26,7 +26,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Settings\Personal\Security;
+namespace OCA\Settings\Settings\Personal\Security;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUserManager;

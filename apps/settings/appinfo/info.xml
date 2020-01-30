@@ -24,6 +24,11 @@
 		<admin-section>OCA\Settings\Sections\Admin\Security</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Server</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Sharing</admin-section>
+		<personal>OCA\Settings\Settings\Personal\Additional</personal>
+		<personal>OCA\Settings\Settings\Personal\PersonalInfo</personal>
+		<personal>OCA\Settings\Settings\Personal\ServerDevNotice</personal>
+		<personal>OCA\Settings\Settings\Personal\Security\Authtokens</personal>
+		<personal>OCA\Settings\Settings\Personal\Security\Password</personal>
 		<personal>OCA\Settings\Settings\Personal\Security\TwoFactor</personal>
 		<personal-section>OCA\Settings\Sections\Personal\PersonalInfo</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
