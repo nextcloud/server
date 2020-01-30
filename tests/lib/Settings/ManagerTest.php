@@ -26,7 +26,7 @@ namespace OCA\Settings\Tests\AppInfo;
 use OC\Settings\Manager;
 use OC\Settings\Section;
 use OCA\Settings\Admin\Sharing;
-use OCA\Settings\Personal\Security;
+use OCA\Settings\Personal\Password;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -149,7 +149,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetPersonalSettings() {
-		$section = $this->createMock(Security::class);
+		$section = $this->createMock(Password::class);
 		$section->expects($this->once())
 			->method('getPriority')
 			->willReturn(16);
@@ -159,7 +159,7 @@ class ManagerTest extends TestCase {
 			->willReturn(100);
 		$this->container->expects($this->at(0))
 			->method('query')
-			->with(Security::class)
+			->with(Password::class)
 			->willReturn($section);
 		$this->container->expects($this->at(1))
 			->method('query')

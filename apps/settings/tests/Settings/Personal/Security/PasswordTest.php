@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -28,17 +27,14 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Tests\Settings\Personal;
 
-use OC\Authentication\TwoFactorAuth\ProviderLoader;
-use OCA\Settings\Personal\Security;
+use OCA\Settings\Personal\Security\Password;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class SecurityTest extends TestCase {
+class PasswordTest extends TestCase {
 
 	/** @var IUserManager|MockObject */
 	private $userManager;
@@ -46,7 +42,7 @@ class SecurityTest extends TestCase {
 	/** @var string */
 	private $uid;
 
-	/** @var Security */
+	/** @var Password */
 	private $section;
 
 	protected function setUp(): void {
@@ -55,7 +51,7 @@ class SecurityTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->uid = 'test123';
 
-		$this->section = new Security(
+		$this->section = new Password(
 			$this->userManager,
 			$this->uid
 		);

@@ -289,7 +289,7 @@ class Manager implements IManager {
 		}
 		if ($section === 'security') {
 			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Personal\Security::class);
+			$form = $this->container->query(\OCA\Settings\Personal\Security\Password::class);
 			$forms[$form->getPriority()] = [$form];
 
 			/** @var ISettings $form */

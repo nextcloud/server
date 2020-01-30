@@ -29,7 +29,7 @@ namespace OCA\Settings\Tests\Settings\Personal\Security;
 
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
-use OCA\Settings\Personal\Security;
+use OCA\Settings\Personal\Password;
 use OCA\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
