@@ -12,7 +12,6 @@
     "Settings" : "Instillingar",
     "Log out" : "Logg ut",
     "Users" : "Brukarar",
-    "Sharing" : "Deling",
     "Open »%s«" : "Opna »%s«",
     "Sunday" : "Søndag",
     "Monday" : "Måndag",
@@ -65,6 +64,7 @@
     "Create" : "Lag",
     "Delete" : "Ta bort",
     "Share" : "Del",
+    "Sharing" : "Deling",
     "Unlimited" : "Ubegrensa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

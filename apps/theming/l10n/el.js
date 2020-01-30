@@ -13,6 +13,7 @@ OC.L10N.register(
     "The file was uploaded" : "Το αρχείο μεταφορτώθηκε",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία upload_max_filesize στο php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Το μεταφορτωμένο αρχείο υπερβαίνει την οδηγία MAX_FILE_SIZE που καθορίστηκε στην φόρμα HTML.",
+    "The file was only partially uploaded" : "Το αρχείο μεταφορτώθηκε εν μέρει",
     "No file was uploaded" : "Δεν μεταφορτώθηκε κάποιο αρχείο",
     "Missing a temporary folder" : "Λείπει κάποιος προσωρινός φάκελος",
     "Could not write file to disk" : "Αδυναμία εγγραφής αρχείου στον δίσκο",

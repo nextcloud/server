@@ -13,7 +13,6 @@
     "Settings" : "設定",
     "Log out" : "登出",
     "Users" : "用戶",
-    "Sharing" : "分享",
     "Sunday" : "星期日",
     "Monday" : "星期一",
     "Tuesday" : "星期二",
@@ -36,6 +35,7 @@
     "Create" : "新增",
     "Delete" : "刪除",
     "Share" : "分享",
+    "Sharing" : "分享",
     "Unlimited" : "無限"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
