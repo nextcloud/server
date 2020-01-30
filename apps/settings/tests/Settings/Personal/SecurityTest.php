@@ -43,15 +43,6 @@ class SecurityTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var ProviderLoader|MockObject */
-	private $providerLoader;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
 	/** @var string */
 	private $uid;
 
@@ -62,16 +53,10 @@ class SecurityTest extends TestCase {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->providerLoader = $this->createMock(ProviderLoader::class);
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->uid = 'test123';
 
 		$this->section = new Security(
 			$this->userManager,
-			$this->providerLoader,
-			$this->userSession,
-			$this->config,
 			$this->uid
 		);
 	}
@@ -85,31 +70,11 @@ class SecurityTest extends TestCase {
 		$user->expects($this->once())
 			->method('canChangePassword')
 			->willReturn(true);
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-		$this->providerLoader->expects($this->once())
-			->method('getProviders')
-			->with($user)
-			->willReturn([]);
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with(
-				$this->uid,
-				'accessibility',
-				'theme',
-				false
-			)
-			->willReturn(false);
 
 		$form = $this->section->getForm();
 
 		$expected = new TemplateResponse('settings', 'settings/personal/security', [
 			'passwordChangeSupported' => true,
-			'twoFactorProviderData' => [
-				'providers' => [],
-			],
-			'themedark' => false,
 		]);
 		$this->assertEquals($expected, $form);
 	}

@@ -65,6 +65,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Sections/Personal/PersonalInfo.php',
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',
+        'OCA\\Settings\\Settings\\Personal\\Security\\TwoFactor' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/TwoFactor.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
