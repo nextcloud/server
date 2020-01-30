@@ -9,7 +9,6 @@
     "Log out" : "Clauder session",
     "Users" : "Usatores",
     "Unknown user" : "Usator incognite",
-    "Sharing" : "Compartente",
     "Invalid Federated Cloud ID" : "ID del Nube Federate",
     "Sunday" : "Dominica",
     "Monday" : "Lunedi",
@@ -63,6 +62,7 @@
     "Create" : "Crear",
     "Delete" : "Deler",
     "Share" : "Compartir",
+    "Sharing" : "Compartente",
     "Personal info" : "Information personal",
     "Unlimited" : "Ilimitate",
     "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator."

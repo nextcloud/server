@@ -40,7 +40,6 @@
     "Log out" : "Izrakstīties",
     "Users" : "Lietotāji",
     "Unknown user" : "Nezināms lietotājs",
-    "Sharing" : "Koplietošana",
     "Additional settings" : "Papildu iestatījumi",
     "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
     "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
@@ -125,6 +124,7 @@
     "Change" : "Mainīt",
     "Delete" : "Dzēst",
     "Share" : "Koplietot",
+    "Sharing" : "Koplietošana",
     "Personal info" : "Personiskā informācija",
     "Unlimited" : "Neierobežota",
     "Verify" : "Verificēt"
