@@ -33,6 +33,7 @@ OC.L10N.register(
     "Copy" : "Скопіювати",
     "Choose target folder" : "Виберіть цільовий каталог",
     "Open" : "Відкрити",
+    "Delete file" : "Видалити файл",
     "Delete folder" : "Видалити теку",
     "Disconnect storage" : "Від’єднати сховище",
     "Unshare" : "Закрити доступ",

@@ -24,6 +24,7 @@ OC.L10N.register(
     "No results" : "نتیجه ای یافت نشد",
     "Predefined URLs" : "URL از پیش تعریف شده ",
     "Files WebDAV" : "فایل های WebDAV",
+    "Others" : "دیگران",
     "Android client" : "دستگاه های اندروید ",
     "iOS client" : "دستگاه های IOS",
     "Desktop client" : "دستگاه دسکتاپ",

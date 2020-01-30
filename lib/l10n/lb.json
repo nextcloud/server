@@ -22,7 +22,6 @@
     "Settings" : "Astellungen",
     "Log out" : "Ofmellen",
     "Users" : "Benotzer",
-    "Sharing" : "Gedeelt",
     "Set an admin password." : "Admin Passwuert setzen",
     "Sunday" : "Sonndeg",
     "Monday" : "Méindeg",
@@ -66,6 +65,7 @@
     "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
     "Create" : "Erstellen",
     "Delete" : "Läschen",
-    "Share" : "Deelen"
+    "Share" : "Deelen",
+    "Sharing" : "Gedeelt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
