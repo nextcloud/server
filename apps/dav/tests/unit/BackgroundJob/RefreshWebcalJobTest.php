@@ -97,21 +97,21 @@ class RefreshWebcalJobTest extends TestCase {
 			->with('principals/users/testuser')
 			->will($this->returnValue([
 				[
-					'id' => 99,
+					'id' => '99',
 					'uri' => 'sub456',
-					'refreshreate' => 'P1D',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
+					'{http://apple.com/ns/ical/}refreshrate' => 'P1D',
+					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 					'source' => 'webcal://foo.bar/bla'
 				],
 				[
-					'id' => 42,
+					'id' => '42',
 					'uri' => 'sub123',
-					'refreshreate' => 'P1H',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
+					'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
+					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 					'source' => 'webcal://foo.bar/bla2'
 				],
 			]));
