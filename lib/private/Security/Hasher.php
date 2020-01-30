@@ -204,7 +204,7 @@ class Hasher implements IHasher {
 		return password_needs_rehash($hash, $alg, $this->options);
 	}
 
-	private function getPrefferedAlg(): string {
+	private function getPrefferedAlg() {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
