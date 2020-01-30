@@ -1129,7 +1129,6 @@
                 self._inputView.on('deselect', self._onDeselectTag, self);
                 self._inputView.render();
                 self.tagsContainer = $('<tr id="tag_multiple_files_container"><th colspan="4"></th></tr>');
-               // console.log('inputView',self._inputView, self._inputView.$el,'tag container', self.tagsContainer);
                 self.tagsContainer.children()[0].append(self._inputView.$el.context);
                 $('#app-content-files>#filestable>thead').append(self.tagsContainer);
 
