@@ -44,7 +44,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var array
 	 */
-	private $ignoredProperties = array(
+	private $ignoredProperties = [
 		'{DAV:}getcontentlength',
 		'{DAV:}getcontenttype',
 		'{DAV:}getetag',
@@ -55,7 +55,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
 		'{http://nextcloud.org/ns}is-encrypted',
-	);
+	];
 
 	/**
 	 * @var Tree
@@ -115,7 +115,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			// (soft fail)
 			\OC::$server->getLogger()->warning(
 				'Could not get node for path: \"' . $path . '\" : ' . $e->getMessage(),
-				array('app' => 'files')
+				['app' => 'files']
 			);
 			return;
 		}
@@ -172,7 +172,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			return;
 		}
 
-		$propPatch->handleRemaining(function($changedProps) use ($node) {
+		$propPatch->handleRemaining(function ($changedProps) use ($node) {
 			return $this->updateProperties($node, $changedProps);
 		});
 	}
@@ -186,7 +186,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$statement = $this->connection->prepare(
 			'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?'
 		);
-		$statement->execute(array($this->user->getUID(), $path));
+		$statement->execute([$this->user->getUID(), $this->formatPath($path)]);
 		$statement->closeCursor();
 
 		unset($this->cache[$path]);
@@ -205,12 +205,13 @@ class CustomPropertiesBackend implements BackendInterface {
 			'UPDATE `*PREFIX*properties` SET `propertypath` = ?' .
 			' WHERE `userid` = ? AND `propertypath` = ?'
 		);
-		$statement->execute(array($destination, $this->user->getUID(), $source));
+		$statement->execute([$this->formatPath($destination), $this->user->getUID(), $this->formatPath($source)]);
 		$statement->closeCursor();
 	}
 
 	/**
 	 * Returns a list of properties for this nodes.;
+	 *
 	 * @param Node $node
 	 * @param array $requestedProperties requested properties or empty array for "all"
 	 * @return array
@@ -228,8 +229,8 @@ class CustomPropertiesBackend implements BackendInterface {
 		// TODO: chunking if more than 1000 properties
 		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
 
-		$whereValues = array($this->user->getUID(), $path);
-		$whereTypes = array(null, null);
+		$whereValues = [$this->user->getUID(), $this->formatPath($path)];
+		$whereTypes = [null, null];
 
 		if (!empty($requestedProperties)) {
 			// request only a subset
@@ -276,38 +277,38 @@ class CustomPropertiesBackend implements BackendInterface {
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
-		$existing = $this->getProperties($node, array());
+		$existing = $this->getProperties($node, []);
 		$this->connection->beginTransaction();
 		foreach ($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if (array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($deleteStatement,
-						array(
+						[
 							$this->user->getUID(),
-							$path,
-							$propertyName
-						)
+							$this->formatPath($path),
+							$propertyName,
+						]
 					);
 				}
 			} else {
 				if (!array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($insertStatement,
-						array(
+						[
 							$this->user->getUID(),
-							$path,
+							$this->formatPath($path),
 							$propertyName,
-							$propertyValue
-						)
+							$propertyValue,
+						]
 					);
 				} else {
 					$this->connection->executeUpdate($updateStatement,
-						array(
+						[
 							$propertyValue,
 							$this->user->getUID(),
-							$path,
-							$propertyName
-						)
+							$this->formatPath($path),
+							$propertyName,
+						]
 					);
 				}
 			}
@@ -317,5 +318,19 @@ class CustomPropertiesBackend implements BackendInterface {
 		unset($this->cache[$path]);
 
 		return true;
+	}
+
+	/**
+	 * long paths are hashed to ensure they fit in the database
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	private function formatPath(string $path): string {
+		if (strlen($path) > 250) {
+			return sha1($path);
+		} else {
+			return $path;
+		}
 	}
 }
