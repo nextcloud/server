@@ -27,7 +27,6 @@
 
 namespace OCA\DAV\DAV;
 
-use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -319,56 +318,4 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		return true;
 	}
-
-	/**
-	 * Bulk load properties for directory children
-	 *
-	 * @param Directory $node
-	 * @param array $requestedProperties requested properties
-	 *
-	 * @return void
-	 */
-	private function loadChildrenProperties(Directory $node, $requestedProperties) {
-		$path = $node->getPath();
-		if (isset($this->cache[$path])) {
-			// we already loaded them at some point
-			return;
-		}
-
-		$childNodes = $node->getChildren();
-		// pre-fill cache
-		foreach ($childNodes as $childNode) {
-			$this->cache[$childNode->getPath()] = [];
-		}
-
-		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` LIKE ?';
-		$sql .= ' AND `propertyname` in (?) ORDER BY `propertypath`, `propertyname`';
-
-		$result = $this->connection->executeQuery(
-			$sql,
-			array($this->user->getUID(), $this->connection->escapeLikeParameter(rtrim($path, '/')) . '/%', $requestedProperties),
-			array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
-		);
-
-		$oldPath = null;
-		$props = [];
-		while ($row = $result->fetch()) {
-			$path = $row['propertypath'];
-			if ($oldPath !== $path) {
-				// save previously gathered props
-				$this->cache[$oldPath] = $props;
-				$oldPath = $path;
-				// prepare props for next path
-				$props = [];
-			}
-			$props[$row['propertyname']] = $row['propertyvalue'];
-		}
-		if (!is_null($oldPath)) {
-			// save props from last run
-			$this->cache[$oldPath] = $props;
-		}
-
-		$result->closeCursor();
-	}
-
 }
