@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -25,13 +26,13 @@
  *
  */
 
-namespace OCA\Settings\Personal;
+namespace OCA\Settings\Settings\Personal\Security;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
-class Security implements ISettings {
+class Password implements ISettings {
 
 	/** @var IUserManager */
 	private $userManager;
@@ -52,7 +53,7 @@ class Security implements ISettings {
 			$passwordChangeSupported = $user->canChangePassword();
 		}
 
-		return new TemplateResponse('settings', 'settings/personal/security', [
+		return new TemplateResponse('settings', 'settings/personal/security/password', [
 			'passwordChangeSupported' => $passwordChangeSupported,
 		]);
 	}

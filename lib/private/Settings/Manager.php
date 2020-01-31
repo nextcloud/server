@@ -175,7 +175,7 @@ class Manager implements IManager {
 
 			try {
 				/** @var ISettings $setting */
-				$setting = \OC::$server->query($class);
+				$setting = $this->container->query($class);
 			} catch (QueryException $e) {
 				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
@@ -273,39 +273,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $section
-	 *
-	 * @return ISection[]
-	 */
-	private function getBuiltInPersonalSettings($section): array {
-		$forms = [];
-
-		if ($section === 'personal-info') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Personal\PersonalInfo::class);
-			$forms[$form->getPriority()] = [$form];
-			$form = new \OCA\Settings\Personal\ServerDevNotice();
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'security') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Personal\Security::class);
-			$forms[$form->getPriority()] = [$form];
-
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Personal\Security\Authtokens::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'additional') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Personal\Additional::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-
-		return $forms;
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function getAdminSettings($section, bool $subAdminOnly = false): array {
@@ -380,7 +347,7 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getPersonalSettings($section): array {
-		$settings = $this->getBuiltInPersonalSettings($section);
+		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
 
 		foreach ($appSettings as $setting) {

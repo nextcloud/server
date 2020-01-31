@@ -51,11 +51,6 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/..' . '/../lib/Mailer/NewUserMailHelper.php',
         'OCA\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SubadminMiddleware.php',
-        'OCA\\Settings\\Personal\\Additional' => __DIR__ . '/..' . '/../lib/Settings/Personal/Additional.php',
-        'OCA\\Settings\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Settings/Personal/PersonalInfo.php',
-        'OCA\\Settings\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security.php',
-        'OCA\\Settings\\Personal\\Security\\Authtokens' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/Authtokens.php',
-        'OCA\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/..' . '/../lib/Settings/Personal/ServerDevNotice.php',
         'OCA\\Settings\\Sections\\Admin\\Additional' => __DIR__ . '/..' . '/../lib/Sections/Admin/Additional.php',
         'OCA\\Settings\\Sections\\Admin\\Groupware' => __DIR__ . '/..' . '/../lib/Sections/Admin/Groupware.php',
         'OCA\\Settings\\Sections\\Admin\\Overview' => __DIR__ . '/..' . '/../lib/Sections/Admin/Overview.php',
@@ -65,7 +60,12 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Sections/Personal/PersonalInfo.php',
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',
+        'OCA\\Settings\\Settings\\Personal\\Additional' => __DIR__ . '/..' . '/../lib/Settings/Personal/Additional.php',
+        'OCA\\Settings\\Settings\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Settings/Personal/PersonalInfo.php',
+        'OCA\\Settings\\Settings\\Personal\\Security\\Authtokens' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/Authtokens.php',
+        'OCA\\Settings\\Settings\\Personal\\Security\\Password' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/Password.php',
         'OCA\\Settings\\Settings\\Personal\\Security\\TwoFactor' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/TwoFactor.php',
+        'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/..' . '/../lib/Settings/Personal/ServerDevNotice.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

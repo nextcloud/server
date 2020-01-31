@@ -24,15 +24,14 @@
 namespace OCA\Settings\Tests\AppInfo;
 
 use OC\Settings\Manager;
-use OC\Settings\Section;
 use OCA\Settings\Admin\Sharing;
-use OCA\Settings\Personal\Security;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use Test\TestCase;
 
@@ -149,21 +148,27 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetPersonalSettings() {
-		$section = $this->createMock(Security::class);
-		$section->expects($this->once())
-			->method('getPriority')
+		$section = $this->createMock(ISettings::class);
+		$section->method('getPriority')
 			->willReturn(16);
-		$section2 = $this->createMock(Security\Authtokens::class);
-		$section2->expects($this->once())
-			->method('getPriority')
+		$section->method('getSection')
+			->willReturn('security');
+		$section2 = $this->createMock(ISettings::class);
+		$section2->method('getPriority')
 			->willReturn(100);
+		$section2->method('getSection')
+			->willReturn('security');
+
+		$this->manager->registerSetting('personal', 'section1');
+		$this->manager->registerSetting('personal', 'section2');
+
 		$this->container->expects($this->at(0))
 			->method('query')
-			->with(Security::class)
+			->with('section1')
 			->willReturn($section);
 		$this->container->expects($this->at(1))
 			->method('query')
-			->with(Security\Authtokens::class)
+			->with('section2')
 			->willReturn($section2);
 
 		$settings = $this->manager->getPersonalSettings('security');
