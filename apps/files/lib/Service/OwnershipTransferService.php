@@ -80,7 +80,8 @@ class OwnershipTransferService {
 							 IUser $destinationUser,
 							 string $path,
 							 ?OutputInterface $output = null,
-							 bool $move = false): void {
+							 bool $move = false,
+							 bool $firstLogin = false): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
 		$destinationUid = $destinationUser->getUID();
@@ -107,7 +108,13 @@ class OwnershipTransferService {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
 
-		if ($move && (!$view->is_dir($finalTarget) || count($view->getDirectoryContent($finalTarget)) > 0)) {
+		if ($move && (
+				!$view->is_dir($finalTarget) || (
+					!$firstLogin &&
+					count($view->getDirectoryContent($finalTarget)) > 0
+				)
+			)
+		) {
 			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
 		}
 
