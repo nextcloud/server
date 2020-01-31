@@ -22,9 +22,11 @@
  */
 namespace OCA\DAV\Tests\DAV;
 
+use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
@@ -44,19 +46,42 @@ class CustomPropertiesBackendTest extends TestCase {
 	/** @var CustomPropertiesBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $backend;
 
-	public function setUp() {
+	/** @var (Node | \PHPUnit_Framework_MockObject_MockObject)[] */
+	private $nodes = [];
+
+	protected function setUp() {
 		parent::setUp();
 
 		$this->tree = $this->createMock(Tree::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->user = $this->createMock(IUser::class);
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->with()
 			->will($this->returnValue('dummy_user_42'));
 
 		$this->backend = new CustomPropertiesBackend($this->tree,
 			$this->dbConnection, $this->user);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function ($path) {
+				if (isset($this->nodes[$path])) {
+					return $this->nodes[$path];
+				} else {
+					throw new NotFound();
+				}
+			});
+	}
+
+	/**
+	 * @param string $path
+	 * @return Node|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private function addNode($path) {
+		$node = $this->createMock(Node::class);
+		$node->method('getPath')
+			->willReturn($path);
+		$this->nodes[$path] = $node;
+		return $node;
 	}
 
 	public function testPropFindNoDbCalls() {
@@ -74,6 +99,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->dbConnection->expects($this->never())
 			->method($this->anything());
 
+		$this->addNode('foo_bar_path_1337_0');
 		$this->backend->propFind('foo_bar_path_1337_0', $propFind);
 	}
 
@@ -86,7 +112,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{DAV:}getcontentlength',
 				'{DAV:}getcontenttype',
 				'{DAV:}getetag',
-				'{abc}def'
+				'{abc}def',
 			]));
 
 		$propFind->expects($this->at(1))
@@ -99,7 +125,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{DAV:}displayname',
 				'{urn:ietf:params:xml:ns:caldav}calendar-description',
 				'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
-				'{abc}def'
+				'{abc}def',
 			]));
 
 		$statement = $this->createMock('\Doctrine\DBAL\Driver\Statement');
@@ -114,6 +140,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				[null, null, 102])
 			->will($this->returnValue($statement));
 
+		$this->addNode('calendars/foo/bar_path_1337_0');
 		$this->backend->propFind('calendars/foo/bar_path_1337_0', $propFind);
 	}
 
@@ -121,6 +148,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	 * @dataProvider propPatchProvider
 	 */
 	public function testPropPatch($path, $propPatch) {
+		$this->addNode($path);
 		$propPatch->expects($this->once())
 			->method('handleRemaining');
 

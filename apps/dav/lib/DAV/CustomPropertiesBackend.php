@@ -3,9 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author Aaron Wood <aaronjwood@gmail.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,8 +27,12 @@
 
 namespace OCA\DAV\DAV;
 
+use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Node;
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -63,7 +69,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	private $connection;
 
 	/**
-	 * @var string
+	 * @var IUser
 	 */
 	private $user;
 
@@ -85,7 +91,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		IUser $user) {
 		$this->tree = $tree;
 		$this->connection = $connection;
-		$this->user = $user->getUID();
+		$this->user = $user;
 	}
 
 	/**
@@ -96,6 +102,24 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return void
 	 */
 	public function propFind($path, PropFind $propFind) {
+		try {
+			$node = $this->tree->getNodeForPath($path);
+			if (!($node instanceof Node)) {
+				return;
+			}
+		} catch (ServiceUnavailable $e) {
+			// might happen for unavailable mount points, skip
+			return;
+		} catch (NotFound $e) {
+			// in some rare (buggy) cases the node might not be found,
+			// we catch the exception to prevent breaking the whole list with a 404
+			// (soft fail)
+			\OC::$server->getLogger()->warning(
+				'Could not get node for path: \"' . $path . '\" : ' . $e->getMessage(),
+				array('app' => 'files')
+			);
+			return;
+		}
 
 		$requestedProps = $propFind->get404Properties();
 
@@ -129,7 +153,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			return;
 		}
 
-		$props = $this->getProperties($path, $requestedProps);
+		$props = $this->getProperties($node, $requestedProps);
 		foreach ($props as $propName => $propValue) {
 			$propFind->set($propName, $propValue);
 		}
@@ -144,8 +168,13 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return void
 	 */
 	public function propPatch($path, PropPatch $propPatch) {
-		$propPatch->handleRemaining(function($changedProps) use ($path) {
-			return $this->updateProperties($path, $changedProps);
+		$node = $this->tree->getNodeForPath($path);
+		if (!($node instanceof Node)) {
+			return;
+		}
+
+		$propPatch->handleRemaining(function($changedProps) use ($node) {
+			return $this->updateProperties($node, $changedProps);
 		});
 	}
 
@@ -158,7 +187,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$statement = $this->connection->prepare(
 			'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?'
 		);
-		$statement->execute(array($this->user, $path));
+		$statement->execute(array($this->user->getUID(), $path));
 		$statement->closeCursor();
 
 		unset($this->cache[$path]);
@@ -177,13 +206,13 @@ class CustomPropertiesBackend implements BackendInterface {
 			'UPDATE `*PREFIX*properties` SET `propertypath` = ?' .
 			' WHERE `userid` = ? AND `propertypath` = ?'
 		);
-		$statement->execute(array($destination, $this->user, $source));
+		$statement->execute(array($destination, $this->user->getUID(), $source));
 		$statement->closeCursor();
 	}
 
 	/**
 	 * Returns a list of properties for this nodes.;
-	 * @param string $path
+	 * @param Node $node
 	 * @param array $requestedProperties requested properties or empty array for "all"
 	 * @return array
 	 * @note The properties list is a list of propertynames the client
@@ -191,7 +220,8 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
-	private function getProperties($path, array $requestedProperties) {
+	private function getProperties(Node $node, array $requestedProperties) {
+		$path = $node->getPath();
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
 		}
@@ -199,7 +229,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		// TODO: chunking if more than 1000 properties
 		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
 
-		$whereValues = array($this->user, $path);
+		$whereValues = array($this->user->getUID(), $path);
 		$whereTypes = array(null, null);
 
 		if (!empty($requestedProperties)) {
@@ -229,12 +259,13 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Update properties
 	 *
-	 * @param string $path node for which to update properties
+	 * @param Node $node node for which to update properties
 	 * @param array $properties array of properties to update
 	 *
 	 * @return bool
 	 */
-	private function updateProperties($path, $properties) {
+	private function updateProperties($node, $properties) {
+		$path = $node->getPath();
 
 		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
@@ -246,7 +277,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
-		$existing = $this->getProperties($path, array());
+		$existing = $this->getProperties($node, array());
 		$this->connection->beginTransaction();
 		foreach ($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
@@ -254,7 +285,7 @@ class CustomPropertiesBackend implements BackendInterface {
 				if (array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($deleteStatement,
 						array(
-							$this->user,
+							$this->user->getUID(),
 							$path,
 							$propertyName
 						)
@@ -264,7 +295,7 @@ class CustomPropertiesBackend implements BackendInterface {
 				if (!array_key_exists($propertyName, $existing)) {
 					$this->connection->executeUpdate($insertStatement,
 						array(
-							$this->user,
+							$this->user->getUID(),
 							$path,
 							$propertyName,
 							$propertyValue
@@ -274,7 +305,7 @@ class CustomPropertiesBackend implements BackendInterface {
 					$this->connection->executeUpdate($updateStatement,
 						array(
 							$propertyValue,
-							$this->user,
+							$this->user->getUID(),
 							$path,
 							$propertyName
 						)
@@ -287,6 +318,57 @@ class CustomPropertiesBackend implements BackendInterface {
 		unset($this->cache[$path]);
 
 		return true;
+	}
+
+	/**
+	 * Bulk load properties for directory children
+	 *
+	 * @param Directory $node
+	 * @param array $requestedProperties requested properties
+	 *
+	 * @return void
+	 */
+	private function loadChildrenProperties(Directory $node, $requestedProperties) {
+		$path = $node->getPath();
+		if (isset($this->cache[$path])) {
+			// we already loaded them at some point
+			return;
+		}
+
+		$childNodes = $node->getChildren();
+		// pre-fill cache
+		foreach ($childNodes as $childNode) {
+			$this->cache[$childNode->getPath()] = [];
+		}
+
+		$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` LIKE ?';
+		$sql .= ' AND `propertyname` in (?) ORDER BY `propertypath`, `propertyname`';
+
+		$result = $this->connection->executeQuery(
+			$sql,
+			array($this->user->getUID(), $this->connection->escapeLikeParameter(rtrim($path, '/')) . '/%', $requestedProperties),
+			array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+		);
+
+		$oldPath = null;
+		$props = [];
+		while ($row = $result->fetch()) {
+			$path = $row['propertypath'];
+			if ($oldPath !== $path) {
+				// save previously gathered props
+				$this->cache[$oldPath] = $props;
+				$oldPath = $path;
+				// prepare props for next path
+				$props = [];
+			}
+			$props[$row['propertyname']] = $row['propertyvalue'];
+		}
+		if (!is_null($oldPath)) {
+			// save props from last run
+			$this->cache[$oldPath] = $props;
+		}
+
+		$result->closeCursor();
 	}
 
 }
