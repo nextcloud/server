@@ -58,7 +58,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\CustomPropertiesBackend
+	 * @var \OCA\DAV\DAV\CustomPropertiesBackend
 	 */
 	private $plugin;
 
@@ -83,7 +83,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->method('getUID')
 			->will($this->returnValue($userId));
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\CustomPropertiesBackend(
+		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
 			$this->tree,
 			\OC::$server->getDatabaseConnection(),
 			$this->user
