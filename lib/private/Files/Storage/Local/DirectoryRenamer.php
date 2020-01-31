@@ -68,7 +68,6 @@ class DirectoryRenamer {
 
 	/**
 	 * Sets a temporary error handler that covers the cross-device link error with a state machine.
-	 * @throws CrossDeviceLinkException
 	 */
 	private function setupErrorHandler(): void {
 		$state = self::STATE_NO_ERROR;
