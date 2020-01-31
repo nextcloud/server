@@ -34,12 +34,15 @@ use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class CustomPropertiesBackendTest extends TestCase {
 
 	/** @var Tree | \PHPUnit_Framework_MockObject_MockObject */
 	private $tree;
 
-	/** @var  IDBConnection | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IDBConnection */
 	private $dbConnection;
 
 	/** @var IUser | \PHPUnit_Framework_MockObject_MockObject */
@@ -55,14 +58,17 @@ class CustomPropertiesBackendTest extends TestCase {
 		parent::setUp();
 
 		$this->tree = $this->createMock(Tree::class);
-		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')
 			->with()
 			->will($this->returnValue('dummy_user_42'));
+		$this->dbConnection = \OC::$server->getDatabaseConnection();
 
-		$this->backend = new CustomPropertiesBackend($this->tree,
-			$this->dbConnection, $this->user);
+		$this->backend = new CustomPropertiesBackend(
+			$this->tree,
+			$this->dbConnection,
+			$this->user
+		);
 
 		$this->tree->method('getNodeForPath')
 			->willReturnCallback(function ($path) {
@@ -86,7 +92,49 @@ class CustomPropertiesBackendTest extends TestCase {
 		return $node;
 	}
 
+	protected function tearDown(): void {
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->delete('properties');
+		$query->execute();
+
+		parent::tearDown();
+	}
+
+	protected function insertProps(string $user, string $path, array $props) {
+		foreach ($props as $name => $value) {
+			$this->insertProp($user, $path, $name, $value);
+		}
+	}
+
+	protected function insertProp(string $user, string $path, string $name, string $value) {
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->insert('properties')
+			->values([
+				'userid' => $query->createNamedParameter($user),
+				'propertypath' => $query->createNamedParameter($path),
+				'propertyname' => $query->createNamedParameter($name),
+				'propertyvalue' => $query->createNamedParameter($value),
+			]);
+		$query->execute();
+	}
+
+	protected function getProps(string $user, string $path) {
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->select('propertyname', 'propertyvalue')
+			->from('properties')
+			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
+			->where($query->expr()->eq('propertypath', $query->createNamedParameter($path)));
+		return $query->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+	}
+
 	public function testPropFindNoDbCalls() {
+		$db = $this->createMock(IDBConnection::class);
+		$backend = new CustomPropertiesBackend(
+			$this->tree,
+			$db,
+			$this->user
+		);
+
 		$propFind = $this->createMock(PropFind::class);
 		$propFind->expects($this->at(0))
 			->method('get404Properties')
@@ -98,17 +146,16 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{http://owncloud.org/ns}size',
 			]));
 
-		$this->dbConnection->expects($this->never())
+		$db->expects($this->never())
 			->method($this->anything());
 
 		$this->addNode('foo_bar_path_1337_0');
-		$this->backend->propFind('foo_bar_path_1337_0', $propFind);
+		$backend->propFind('foo_bar_path_1337_0', $propFind);
 	}
 
 	public function testPropFindCalendarCall() {
 		$propFind = $this->createMock(PropFind::class);
-		$propFind->expects($this->at(0))
-			->method('get404Properties')
+		$propFind->method('get404Properties')
 			->with()
 			->will($this->returnValue([
 				'{DAV:}getcontentlength',
@@ -117,8 +164,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{abc}def',
 			]));
 
-		$propFind->expects($this->at(1))
-			->method('getRequestedProperties')
+		$propFind->method('getRequestedProperties')
 			->with()
 			->will($this->returnValue([
 				'{DAV:}getcontentlength',
@@ -130,71 +176,60 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{abc}def',
 			]));
 
-		$statement = $this->createMock('\Doctrine\DBAL\Driver\Statement');
-		$this->dbConnection->expects($this->once())
-			->method('executeQuery')
-			->with('SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` in (?)',
-				['dummy_user_42', 'calendars/foo/bar_path_1337_0', [
-					3 => '{abc}def',
-					4 => '{DAV:}displayname',
-					5 => '{urn:ietf:params:xml:ns:caldav}calendar-description',
-					6 => '{urn:ietf:params:xml:ns:caldav}calendar-timezone']],
-				[null, null, 102])
-			->will($this->returnValue($statement));
+		$props = [
+			'{abc}def' => 'a',
+			'{DAV:}displayname' => 'b',
+			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'c',
+			'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => 'd',
+		];
+
+		$this->insertProps('dummy_user_42', 'calendars/foo/bar_path_1337_0', $props);
+
+		$setProps = [];
+		$propFind->method('set')
+			->willReturnCallback(function ($name, $value, $status) use (&$setProps) {
+				$setProps[$name] = $value;
+			});
 
 		$this->addNode('calendars/foo/bar_path_1337_0');
+
 		$this->backend->propFind('calendars/foo/bar_path_1337_0', $propFind);
+		$this->assertEquals($props, $setProps);
 	}
 
 	/**
 	 * @dataProvider propPatchProvider
 	 */
-	public function testPropPatch($path, $propPatch) {
+	public function testPropPatch(string $path, array $existing, array $props, array $result) {
+		$this->insertProps($this->user->getUID(), $path, $existing);
 		$this->addNode($path);
-		$propPatch->expects($this->once())
-			->method('handleRemaining');
+		$propPatch = new PropPatch($props);
 
 		$this->backend->propPatch($path, $propPatch);
+		$propPatch->commit();
+
+		$storedProps = $this->getProps($this->user->getUID(), $path);
+		$this->assertEquals($result, $storedProps);
 	}
 
 	public function propPatchProvider() {
-		$propPatchMock = $this->createMock(PropPatch::class);
 		return [
-			['foo_bar_path_1337', $propPatchMock],
+			['foo_bar_path_1337', [], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
+			['foo_bar_path_1337', ['{DAV:}displayname' => 'foo'], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
+			['foo_bar_path_1337', ['{DAV:}displayname' => 'foo'], ['{DAV:}displayname' => null], []],
 		];
 	}
 
 	public function testDelete() {
-		$statement = $this->createMock('\Doctrine\DBAL\Driver\Statement');
-		$statement->expects($this->at(0))
-			->method('execute')
-			->with(['dummy_user_42', 'foo_bar_path_1337']);
-		$statement->expects($this->at(1))
-			->method('closeCursor')
-			->with();
-
-		$this->dbConnection->expects($this->at(0))
-			->method('prepare')
-			->with('DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?')
-			->will($this->returnValue($statement));
-
+		$this->insertProps('dummy_user_42', 'foo_bar_path_1337', ['foo' => 'bar']);
 		$this->backend->delete('foo_bar_path_1337');
+		$this->assertEquals([], $this->getProps('dummy_user_42', 'foo_bar_path_1337'));
 	}
 
 	public function testMove() {
-		$statement = $this->createMock('\Doctrine\DBAL\Driver\Statement');
-		$statement->expects($this->at(0))
-			->method('execute')
-			->with(['bar_foo_path_7331', 'dummy_user_42', 'foo_bar_path_1337']);
-		$statement->expects($this->at(1))
-			->method('closeCursor')
-			->with();
-
-		$this->dbConnection->expects($this->at(0))
-			->method('prepare')
-			->with('UPDATE `*PREFIX*properties` SET `propertypath` = ? WHERE `userid` = ? AND `propertypath` = ?')
-			->will($this->returnValue($statement));
-
+		$this->insertProps('dummy_user_42', 'foo_bar_path_1337', ['foo' => 'bar']);
 		$this->backend->move('foo_bar_path_1337', 'bar_foo_path_7331');
+		$this->assertEquals([], $this->getProps('dummy_user_42', 'foo_bar_path_1337'));
+		$this->assertEquals(['foo' => 'bar'], $this->getProps('dummy_user_42', 'bar_foo_path_7331'));
 	}
 }
