@@ -30,7 +30,7 @@ namespace OCA\Settings\Tests\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Encryption\Manager;
-use OCA\Settings\Admin\Security;
+use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IUserManager;
