@@ -34,4 +34,21 @@
 		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\SyncClients</personal-section>
 	</settings>
+
+	<activity>
+		<settings>
+			<setting>OCA\Settings\Activity\GroupSetting</setting>
+			<setting>OCA\Settings\Activity\SecuritySetting</setting>
+			<setting>OCA\Settings\Activity\Setting</setting>
+		</settings>
+		<filter>
+			<filter>OCA\Settings\Activity\SecurityFilter</filter>
+		</filter>
+		<providers>
+			<provider>OCA\Settings\Activity\GroupProvider</provider>
+			<provider>OCA\Settings\Activity\Provider</provider>
+			<provider>OCA\Settings\Activity\SecurityProvider</provider>
+		</providers>
+
+	</activity>
 </info>
