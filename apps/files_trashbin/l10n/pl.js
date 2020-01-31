@@ -17,7 +17,7 @@ OC.L10N.register(
     "No deleted files" : "Brak usuniętych plików",
     "You will be able to recover deleted files from here" : "Stąd będziesz mógł odzyskać usunięte pliki",
     "No entries found in this folder" : "Brak plików w tym katalogu",
-    "Select all" : "Zaznacz wszystko",
+    "Select all" : "Wybierz wszystko",
     "Name" : "Nazwa",
     "Actions" : "Akcje",
     "Deleted" : "Usunięte",
