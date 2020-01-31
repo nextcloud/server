@@ -92,7 +92,7 @@ class Hasher implements IHasher {
 	 * @return string Hash of the message with appended version parameter
 	 */
 	public function hash(string $message): string {
-		$alg = $this->getPrefferedAlg();
+		$alg = $this->getPrefferedAlgorithm();
 
 		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
 			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
@@ -200,17 +200,23 @@ class Hasher implements IHasher {
 	}
 
 	private function needsRehash(string $hash): bool {
-		$alg = $this->getPrefferedAlg();
-		return password_needs_rehash($hash, $alg, $this->options);
+		$algorithm = $this->getPrefferedAlgorithm();
+
+		return password_needs_rehash($hash, $algorithm, $this->options);
 	}
 
-	private function getPrefferedAlg() {
+	private function getPrefferedAlgorithm() {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
 		}
 
-		return $this->config->getSystemValue('hashingAlgorithm', $default);
+		// Check if we should use PASSWORD_DEFAULT
+		if ($this->config->getSystemValue('hashingDefaultPassword', false) === true) {
+			$default = PASSWORD_DEFAULT;
+		}
+
+		return $default;
 	}
 
 }
