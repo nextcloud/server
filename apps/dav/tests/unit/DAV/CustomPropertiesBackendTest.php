@@ -98,6 +98,14 @@ class CustomPropertiesBackendTest extends TestCase {
 		parent::tearDown();
 	}
 
+	private function formatPath(string $path): string {
+		if (strlen($path) > 250) {
+			return sha1($path);
+		} else {
+			return $path;
+		}
+	}
+
 	protected function insertProps(string $user, string $path, array $props) {
 		foreach ($props as $name => $value) {
 			$this->insertProp($user, $path, $name, $value);
@@ -109,7 +117,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$query->insert('properties')
 			->values([
 				'userid' => $query->createNamedParameter($user),
-				'propertypath' => $query->createNamedParameter($path),
+				'propertypath' => $query->createNamedParameter($this->formatPath($path)),
 				'propertyname' => $query->createNamedParameter($name),
 				'propertyvalue' => $query->createNamedParameter($value),
 			]);
@@ -121,7 +129,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$query->select('propertyname', 'propertyvalue')
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
-			->where($query->expr()->eq('propertypath', $query->createNamedParameter($path)));
+			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 		return $query->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
 	}
 
@@ -211,23 +219,45 @@ class CustomPropertiesBackendTest extends TestCase {
 	}
 
 	public function propPatchProvider() {
+		$longPath = str_repeat('long_path', 100);
 		return [
 			['foo_bar_path_1337', [], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
 			['foo_bar_path_1337', ['{DAV:}displayname' => 'foo'], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
 			['foo_bar_path_1337', ['{DAV:}displayname' => 'foo'], ['{DAV:}displayname' => null], []],
+			[$longPath, [], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
 		];
 	}
 
-	public function testDelete() {
-		$this->insertProps('dummy_user_42', 'foo_bar_path_1337', ['foo' => 'bar']);
-		$this->backend->delete('foo_bar_path_1337');
-		$this->assertEquals([], $this->getProps('dummy_user_42', 'foo_bar_path_1337'));
+	/**
+	 * @dataProvider deleteProvider
+	 */
+	public function testDelete(string $path) {
+		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
+		$this->backend->delete($path);
+		$this->assertEquals([], $this->getProps('dummy_user_42', $path));
 	}
 
-	public function testMove() {
-		$this->insertProps('dummy_user_42', 'foo_bar_path_1337', ['foo' => 'bar']);
-		$this->backend->move('foo_bar_path_1337', 'bar_foo_path_7331');
-		$this->assertEquals([], $this->getProps('dummy_user_42', 'foo_bar_path_1337'));
-		$this->assertEquals(['foo' => 'bar'], $this->getProps('dummy_user_42', 'bar_foo_path_7331'));
+	public function deleteProvider() {
+		return [
+			['foo_bar_path_1337'],
+			[str_repeat('long_path', 100)]
+		];
+	}
+
+	/**
+	 * @dataProvider moveProvider
+	 */
+	public function testMove(string $source, string $target) {
+		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
+		$this->backend->move($source, $target);
+		$this->assertEquals([], $this->getProps('dummy_user_42', $source));
+		$this->assertEquals(['foo' => 'bar'], $this->getProps('dummy_user_42', $target));
+	}
+
+	public function moveProvider() {
+		return [
+			['foo_bar_path_1337', 'foo_bar_path_7333'],
+			[str_repeat('long_path1', 100), str_repeat('long_path2', 100)]
+		];
 	}
 }
