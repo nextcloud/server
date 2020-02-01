@@ -89,6 +89,9 @@ class PushProvider extends AbstractProvider {
 
 		$eventDetails = $this->extractEventDetails($vevent);
 		$eventDetails['calendar_displayname'] = $calendarDisplayName;
+		$eventUUID = (string) $vevent->UID;
+		// Empty Notification ObjectId will be catched by OC\Notification\Notification
+		$eventUUIDHash = $eventUUID ? hash('sha256', $eventUUID, false) : '';
 
 		foreach($users as $user) {
 			/** @var INotification $notification */
@@ -96,7 +99,7 @@ class PushProvider extends AbstractProvider {
 			$notification->setApp(Application::APP_ID)
 				->setUser($user->getUID())
 				->setDateTime($this->timeFactory->getDateTime())
-				->setObject(Application::APP_ID, (string) $vevent->UID)
+				->setObject(Application::APP_ID, $eventUUIDHash)
 				->setSubject('calendar_reminder', [
 					'title' => $eventDetails['title'],
 					'start_atom' => $eventDetails['start_atom']
