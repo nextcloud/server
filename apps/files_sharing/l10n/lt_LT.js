@@ -122,7 +122,7 @@ OC.L10N.register(
     "Expiration date enforced" : "Aktyvuotas galiojimo laikas",
     "Set expiration date" : "Nustatyti galiojimo pabaigos datą",
     "Note to recipient" : "Pastaba gavėjui",
-    "Unshare" : "Nebesidalinti",
+    "Unshare" : "Nustoti bendrinti",
     "group" : "grupė",
     "conversation" : "pokalbis",
     "remote" : "nuotolinis",

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Actions" : "فعالیت ها",
     "Rename" : "تغییرنام",
     "Copy" : "کپی کردن",
+    "Delete file" : "حذف فایل",
     "Delete folder" : "حذف پوشه",
     "Disconnect storage" : "فضای ذخیره را جدا کنید",
     "Unshare" : "لغو اشتراک",
