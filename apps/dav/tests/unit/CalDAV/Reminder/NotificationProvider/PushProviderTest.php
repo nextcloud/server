@@ -189,7 +189,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 
 		$notification->expects($this->once())
 			->method('setObject')
-			->with('dav', 'uid1234')
+			->with('dav', hash('sha256', 'uid1234', false))
 			->willReturn($notification);
 
 		$notification->expects($this->once())
