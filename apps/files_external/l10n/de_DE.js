@@ -90,7 +90,7 @@ OC.L10N.register(
     "Enable Path Style" : "Pfadstil aktivieren",
     "Legacy (v2) authentication" : "Legacy-Authentifizierung (V2)",
     "WebDAV" : "WebDAV",
-    "URL" : "Adresse",
+    "URL" : "URL",
     "Remote subfolder" : "Entfernter Unterordner",
     "Secure https://" : "Sicheres https://",
     "FTP" : "FTP",
