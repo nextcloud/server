@@ -173,7 +173,7 @@ OC.L10N.register(
     "Video verification" : "Videoüberprüfung",
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Add another link" : "Weiteren Link hinzufügen",
-    "Create a new share link" : "Neuen Freigabelink erstellen",
+    "Create a new share link" : "Neuen Freigabe-Link erstellen",
     "Shared via link by {initiator}" : "Geteilt mittels Link von {initiator}",
     "Share link" : "Link teilen",
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
