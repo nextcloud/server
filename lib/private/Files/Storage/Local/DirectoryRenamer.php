@@ -24,8 +24,6 @@
 
 namespace OC\Files\Storage\Local;
 
-use OC\Files\Storage\Local\CrossDeviceLinkException;
-
 /**
  * Support class for Local Storage, responsible only for handling directory renames.
  * It attempts to perform normal rename, 
@@ -80,7 +78,7 @@ class DirectoryRenamer {
 				case self::STATE_NO_ERROR:
 					if ($errstr === 'rename(): The first argument to copy() function cannot be a directory') {
 						$state = self::STATE_CAUGHT_RENAME_WARNING;
-						return;
+						return true;
 					}
 				break;
 			}
