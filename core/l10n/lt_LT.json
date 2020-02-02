@@ -250,7 +250,7 @@
     "Settings menu" : "Nustatymų meniu",
     "Confirm your password" : "Patvirtinkite savo slaptažodį",
     "Connect to your account" : "Prisijunkite prie paskyros",
-    "Please log in before granting %1$s access to your %2$s account." : "Prisijunkite norėdami suteikti %1$s prie jūsų %2$s paskyros.",
+    "Please log in before granting %1$s access to your %2$s account." : "Prisijunkite prieš suteikdami %1$s prieigą prie savo %2$s paskyros.",
     "App token" : "Išorinės sistemos įskiepio kodas",
     "Grant access" : "Suteikti prieigą",
     "Alternative log in using app token" : "Alternatyvus prisijungimas naudojant programėlės atpažinimo raktą",

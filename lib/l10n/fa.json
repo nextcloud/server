@@ -106,6 +106,7 @@
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
+    "Storage is temporarily not available" : "ذخیره سازی به طور موقت در دسترس نیست",
     "Create" : "ایجاد کردن",
     "Change" : "تغییر",
     "Delete" : "حذف",
