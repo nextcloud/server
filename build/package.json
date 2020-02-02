@@ -21,7 +21,7 @@
     "karma-jasmine-sinon": "^1.0.4",
     "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
-    "karma-viewport": "^1.0.4",
+    "karma-viewport": "^1.0.5",
     "node-sass": "~4.13.0",
     "phantomjs-prebuilt": "*",
     "sinon": "<= 5.0.7"
