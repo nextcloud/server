@@ -31,6 +31,7 @@ OC.L10N.register(
     "Desktop client" : "دستگاه دسکتاپ",
     "Cancel" : "لغو",
     "Delete" : "حذف",
+    "Active" : "فعال کردن",
     "Save" : "ذخیره",
     "Browse the app store" : "فروشگاه برنامه را مرور کنید",
     "matches" : "مطابق است",
