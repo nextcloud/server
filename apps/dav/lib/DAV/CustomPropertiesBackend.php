@@ -32,6 +32,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -103,7 +104,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	public function propFind($path, PropFind $propFind) {
 		try {
 			$node = $this->tree->getNodeForPath($path);
-			if (!($node instanceof Node)) {
+			if (!($node instanceof INode)) {
 				return;
 			}
 		} catch (ServiceUnavailable $e) {
@@ -168,7 +169,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	public function propPatch($path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof Node)) {
+		if (!($node instanceof INode)) {
 			return;
 		}
 
@@ -220,7 +221,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
-	private function getProperties(Node $node, array $requestedProperties) {
+	private function getProperties(INode $node, array $requestedProperties) {
 		$path = $node->getPath();
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
@@ -259,12 +260,12 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Update properties
 	 *
-	 * @param Node $node node for which to update properties
+	 * @param INode $node node for which to update properties
 	 * @param array $properties array of properties to update
 	 *
 	 * @return bool
 	 */
-	private function updateProperties($node, $properties) {
+	private function updateProperties(INode $node, array $properties) {
 		$path = $node->getPath();
 
 		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .

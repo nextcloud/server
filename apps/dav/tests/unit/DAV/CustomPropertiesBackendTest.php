@@ -27,6 +27,7 @@ use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
@@ -80,9 +81,21 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	/**
 	 * @param string $path
-	 * @return Node|\PHPUnit\Framework\MockObject\MockObject
+	 * @return INode|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function addNode($path) {
+		$node = $this->createMock(INode::class);
+		$node->method('getPath')
+			->willReturn($path);
+		$this->nodes[$path] = $node;
+		return $node;
+	}
+
+	/**
+	 * @param string $path
+	 * @return Node|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private function addCalendar($path) {
 		$node = $this->createMock(Node::class);
 		$node->method('getPath')
 			->willReturn($path);
