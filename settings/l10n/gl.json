@@ -188,7 +188,7 @@
     "Error while creating device token" : "Produciuse un erro mentres creaba unha marca de dispositivo",
     "Error while updating device token scope" : "Produciuse un erro ao actualizar o ámbito da marca do dispositivo",
     "Error while updating device token name" : "Produciuse un erro ao actualizar o nome da marca do dispositivo",
-    "Error while deleting the token" : "Produciuse un erro mentres eliminaba unha marca",
+    "Error while deleting the token" : "Produciuse un erro ao eliminar a marca",
     "Error while wiping the device with the token" : "Produciuse un erro ao limpar o dispositivo coa marca",
     "App name" : "Nome da aplicación",
     "Create new app password" : "Crear un novo contrasinal de aplicación",
