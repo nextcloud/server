@@ -96,6 +96,9 @@ export default {
 			loadingUsers: false,
 			selectedUser: null,
 			userSuggestions: {},
+			config: {
+				minSearchStringLength: parseInt(OC.config['sharing.minSearchStringLength'], 10) || 0,
+			},
 		}
 	},
 	computed: {
@@ -128,6 +131,7 @@ export default {
 	},
 	created() {
 		this.findUserDebounced = debounce(this.findUser, 300)
+		this.findUser('')
 	},
 	methods: {
 		start() {
@@ -152,7 +156,7 @@ export default {
 		async findUser(query) {
 			this.query = query.trim()
 
-			if (query.length < 3) {
+			if (query.length < this.config.minSearchStringLength) {
 				return
 			}
 
