@@ -156,7 +156,7 @@ form #datadirField legend {
 }
 
 #alternative-logins {
-	margin: 30px 15px 20px;
+	margin: auto;
 	display: block;
 	min-width: 260px;
 	max-width: 400px;
@@ -193,7 +193,7 @@ form #datadirField legend {
 		margin-top: 0;
 	}
 	#alternative-logins {
-		margin: 30px 15px 10px;
+		margin: auto;
 	}
 }
 
