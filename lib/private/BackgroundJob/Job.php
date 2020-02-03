@@ -63,7 +63,7 @@ abstract class Job implements IJob {
 
 			$logger->debug('Finished ' . get_class($this) . ' job with ID ' . $this->getId() . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
 			$jobList->setExecutionTime($this, $timeTaken);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			if ($logger) {
 				$logger->logException($e, [
 					'app' => 'core',
