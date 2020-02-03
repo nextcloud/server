@@ -8,8 +8,7 @@ on:
       - stable*
 
 jobs:
-  php-linters:
-
+  php:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,21 +27,20 @@ jobs:
     - name: Lint
       run: composer run lint
 
-  node-linters:
-
+  node:
     runs-on: ubuntu-latest
 
-    name: ESLint
+    strategy:
+      matrix:
+        node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@master
-    - name: Use node ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - name: Install dependencies
-      run: npm ci
-    - name: ESLint
-      run: npm run lint
-    env:
-      CI: true
+      - uses: actions/checkout@v2
+      - name: Use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - name: ESLint
+        run: npm run lint
