@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2020, Jakub Gawron <kubatek94@gmail.com>
  *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2020, Jakub Gawron <kubatek94@gmail.com>
  *
@@ -37,12 +36,17 @@ class DirectoryRenamer {
 	 * @var callable
 	 */
 	private $fallbackHandler;
+	/**
+	 * @var bool
+	 */
+	private $shouldRestoreHandler;
 
 	/**
 	 * @param callable $fallbackHandler Copy and unlink strategy to use when normal rename fails 
 	 */
 	public function __construct(callable $fallbackHandler) {
 		$this->fallbackHandler = $fallbackHandler;
+		$this->shouldRestoreHandler = true;
 	}
 
 	/**
@@ -59,6 +63,10 @@ class DirectoryRenamer {
 			return rename($oldname, $newname);
 		} catch (CrossDeviceLinkException $e) {
 			return ($this->fallbackHandler)();
+		} finally {
+			if ($this->shouldRestoreHandler) {
+				restore_error_handler();
+			}
 		}
 		
 		return false;
@@ -91,16 +99,20 @@ class DirectoryRenamer {
 				case self::STATE_CAUGHT_RENAME_WARNING:
 					if (static::endsWith($errstr, 'cross-device link')) {
 						restore_error_handler();
+						$this->shouldRestoreHandler = false;
 						throw new CrossDeviceLinkException();
 					}
 				break;
 			}
 
 			// if we get to this point, we got called with warnings which we can't handle (or not in the order anticipated)
-			// so we restore the previous error handler and return false to let it handle that error
+			// so we restore the previous error handler and trigger the error again so that it's propagated to original error handler
 			restore_error_handler();
-			return false;
-		}, E_WARNING);
+			$this->shouldRestoreHandler = false;
+			trigger_error($errstr, E_USER_WARNING);
+
+			return true;
+		}, E_WARNING | E_USER_WARNING);
 	}
 
 	/**
