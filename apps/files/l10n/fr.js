@@ -75,7 +75,7 @@ OC.L10N.register(
     "{used} of {quota} used" : "{used} de {quota} utilisés",
     "{used} used" : "{used} utilisés",
     "\"{name}\" is an invalid file name." : "\"{name}\" n'est pas un nom de fichier valide.",
-    "File name cannot be empty." : "Le nom de fichier ne peut être vide.",
+    "File name cannot be empty." : "Le nom de fichier ne peut pas être vide.",
     "\"/\" is not allowed inside a file name." : "\"/\" n'est pas autorisé dans un nom de fichier.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" n'est pas un type de fichier autorisé",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'espace de stockage de {owner} est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
