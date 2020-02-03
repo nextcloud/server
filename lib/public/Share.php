@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -59,7 +62,7 @@ class Share extends \OC\Share\Constants {
 	 * @since 6.0.0 - parameter $owner was added in 8.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user, $owner = null) {
+	public static function getItemSharedWithUser(string $itemType, string $itemSource, string $user, string $owner = null) {
 		return \OC\Share\Share::getItemSharedWithUser($itemType, $itemSource, $user, $owner);
 	}
 
@@ -74,7 +77,7 @@ class Share extends \OC\Share\Constants {
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
+	public static function getItemSharedWithBySource(string $itemType, string $itemSource, int $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
 		// not used by any app - only here to not break apps syntax
 	}
@@ -87,7 +90,7 @@ class Share extends \OC\Share\Constants {
 	 * @since 5.0.0 - parameter $checkPasswordProtection was added in 7.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function getShareByToken($token, $checkPasswordProtection = true) {
+	public static function getShareByToken(string $token, bool $checkPasswordProtection = true) {
 		// not used by any app - only here to not break apps syntax
 	}
 
@@ -103,8 +106,8 @@ class Share extends \OC\Share\Constants {
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
-		$limit = -1, $includeCollections = false) {
+	public static function getItemsShared(string $itemType, int $format = self::FORMAT_NONE, $parameters = null,
+		int $limit = -1, bool $includeCollections = false) {
 
 		// only used by AppVNCSafe app (https://github.com/vnc-biz/nextcloud-appvncsafe/issues/2) - only here to not break apps syntax
 	}
@@ -120,8 +123,8 @@ class Share extends \OC\Share\Constants {
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-	                                     $parameters = null, $includeCollections = false) {
+	public static function getItemShared(string $itemType, string $itemSource, int $format = self::FORMAT_NONE,
+	                                     $parameters = null, bool $includeCollections = false) {
 
 		return \OC\Share\Share::getItemShared($itemType, $itemSource, $format, $parameters, $includeCollections);
 	}
@@ -136,7 +139,7 @@ class Share extends \OC\Share\Constants {
 	 * @since 6.0.0 - parameter $originIsSource was added in 8.0.0
 	 * @deprecated 17.0.0
 	 */
-	public static function setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status) {
+	public static function setSendMailStatus(string $itemType, string $itemSource, int $shareType, string $recipient, bool $status) {
 		// not used by any app - only here to not break apps syntax
 	}
 }

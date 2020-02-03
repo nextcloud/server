@@ -23,6 +23,10 @@
 
 namespace OCP\DB;
 
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\Table;
+
 /**
  * Interface ISchemaWrapper
  *
@@ -34,11 +38,11 @@ interface ISchemaWrapper {
 	/**
 	 * @param string $tableName
 	 *
-	 * @return \Doctrine\DBAL\Schema\Table
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 * @return Table
+	 * @throws SchemaException
 	 * @since 13.0.0
 	 */
-	public function getTable($tableName);
+	public function getTable(string $tableName);
 
 	/**
 	 * Does this schema have a table with the given name?
@@ -48,30 +52,30 @@ interface ISchemaWrapper {
 	 * @return boolean
 	 * @since 13.0.0
 	 */
-	public function hasTable($tableName);
+	public function hasTable(string $tableName);
 
 	/**
 	 * Creates a new table.
 	 *
 	 * @param string $tableName Prefix is automatically prepended
-	 * @return \Doctrine\DBAL\Schema\Table
+	 * @return Table
 	 * @since 13.0.0
 	 */
-	public function createTable($tableName);
+	public function createTable(string $tableName);
 
 	/**
 	 * Drops a table from the schema.
 	 *
 	 * @param string $tableName Prefix is automatically prepended
-	 * @return \Doctrine\DBAL\Schema\Schema
+	 * @return Schema
 	 * @since 13.0.0
 	 */
-	public function dropTable($tableName);
+	public function dropTable(string $tableName);
 
 	/**
 	 * Gets all tables of this schema.
 	 *
-	 * @return \Doctrine\DBAL\Schema\Table[]
+	 * @return Table[]
 	 * @since 13.0.0
 	 */
 	public function getTables();
@@ -83,7 +87,7 @@ interface ISchemaWrapper {
 	 * @since 13.0.0
 	 */
 	public function getTableNames();
-	
+
 	/**
 	 * Gets all table names
 	 *

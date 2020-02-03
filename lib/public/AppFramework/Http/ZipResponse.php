@@ -54,6 +54,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 	}
 
 	/**
+	 * @param resource $r
 	 * @since 15.0.0
 	 */
 	public function addResource($r, string $internalName, int $size, int $time = -1) {

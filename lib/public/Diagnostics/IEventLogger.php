@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -38,7 +41,7 @@ interface IEventLogger {
 	 * @param string $description
 	 * @since 8.0.0
 	 */
-	public function start($id, $description);
+	public function start(string $id, string $description);
 
 	/**
 	 * Mark the end of an event with specific ID $id, marked by start() method.
@@ -48,7 +51,7 @@ interface IEventLogger {
 	 * @param string $id
 	 * @since 8.0.0
 	 */
-	public function end($id);
+	public function end(string $id);
 
 	/**
 	 * Mark the start and the end of an event with specific ID $id and description $description,
@@ -62,13 +65,13 @@ interface IEventLogger {
 	 * @param float $end
 	 * @since 8.0.0
 	 */
-	public function log($id, $description, $start, $end);
+	public function log(string $id, string $description, float $start, float $end);
 
 	/**
 	 * This method should return all \OCP\Diagnostics\IEvent objects stored using
 	 * start()/end() or log() methods
 	 *
-	 * @return \OCP\Diagnostics\IEvent[]
+	 * @return IEvent[]
 	 * @since 8.0.0
 	 */
 	public function getEvents();

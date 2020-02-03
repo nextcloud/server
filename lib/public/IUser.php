@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -61,7 +64,7 @@ interface IUser {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function setDisplayName($displayName);
+	public function setDisplayName(string $displayName);
 
 	/**
 	 * returns the timestamp of the user's last login or 0 if the user did never
@@ -94,7 +97,7 @@ interface IUser {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function setPassword($password, $recoveryPassword = null);
+	public function setPassword(string $password, string $recoveryPassword = null);
 
 	/**
 	 * get the users home folder to mount
@@ -175,7 +178,7 @@ interface IUser {
 	 * @return IImage|null
 	 * @since 9.0.0
 	 */
-	public function getAvatarImage($size);
+	public function getAvatarImage(int $size);
 
 	/**
 	 * get the federation cloud id
@@ -192,7 +195,7 @@ interface IUser {
 	 * @return void
 	 * @since 9.0.0
 	 */
-	public function setEMailAddress($mailAddress);
+	public function setEMailAddress(string $mailAddress);
 
 	/**
 	 * get the users' quota in human readable form. If a specific quota is not
@@ -211,5 +214,5 @@ interface IUser {
 	 * @return void
 	 * @since 9.0.0
 	 */
-	public function setQuota($quota);
+	public function setQuota(string $quota);
 }

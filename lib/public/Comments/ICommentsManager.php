@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,7 +30,10 @@
 
 namespace OCP\Comments;
 
+use Closure;
+use DateTime;
 use OCP\IUser;
+use OutOfBoundsException;
 
 /**
  * Interface ICommentsManager
@@ -58,7 +64,7 @@ interface ICommentsManager {
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function get($id);
+	public function get(string $id);
 
 	/**
 	 * returns the comment specified by the id and all it's child comments
@@ -96,7 +102,7 @@ interface ICommentsManager {
 	 *   ]
 	 * ]
 	 */
-	public function getTree($id, $limit = 0, $offset = 0);
+	public function getTree(string $id, int $limit = 0, int $offset = 0);
 
 	/**
 	 * returns comments for a specific object (e.g. a file).
@@ -108,17 +114,17 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * not specified, all comments are returned.
 	 * @param int $offset optional, starting point
-	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
+	 * @param DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @return IComment[]
 	 * @since 9.0.0
 	 */
 	public function getForObject(
-			$objectType,
-			$objectId,
-			$limit = 0,
-			$offset = 0,
-			\DateTime $notOlderThan = null
+			string $objectType,
+			string $objectId,
+			int $limit = 0,
+			int $offset = 0,
+			DateTime $notOlderThan = null
 	);
 
 	/**
@@ -156,13 +162,13 @@ interface ICommentsManager {
 	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
-	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
+	 * @param DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '');
+	public function getNumberOfCommentsForObject(string $objectType, string $objectId, DateTime $notOlderThan = null, string $verb = '');
 
 	/**
 	 * Get the number of unread comments for all files in a folder
@@ -172,7 +178,7 @@ interface ICommentsManager {
 	 * @return array [$fileId => $unreadCount]
 	 * @since 12.0.0
 	 */
-	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user);
+	public function getNumberOfUnreadCommentsForFolder(int $folderId, IUser $user);
 
 	/**
 	 * creates a new comment and returns it. At this point of time, it is not
@@ -186,7 +192,7 @@ interface ICommentsManager {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function create($actorType, $actorId, $objectType, $objectId);
+	public function create(string $actorType, string $actorId, string $objectType, string $objectId);
 
 	/**
 	 * permanently deletes the comment specified by the ID
@@ -198,7 +204,7 @@ interface ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function delete($id);
+	public function delete(string $id);
 
 	/**
 	 * saves the comment permanently
@@ -230,7 +236,7 @@ interface ICommentsManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function deleteReferencesOfActor($actorType, $actorId);
+	public function deleteReferencesOfActor(string $actorType, string $actorId);
 
 	/**
 	 * deletes all comments made of a specific object (e.g. on file delete)
@@ -240,7 +246,7 @@ interface ICommentsManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function deleteCommentsAtObject($objectType, $objectId);
+	public function deleteCommentsAtObject(string $objectType, string $objectId);
 
 	/**
 	 * sets the read marker for a given file to the specified date for the
@@ -248,11 +254,11 @@ interface ICommentsManager {
 	 *
 	 * @param string $objectType
 	 * @param string $objectId
-	 * @param \DateTime $dateTime
-	 * @param \OCP\IUser $user
+	 * @param DateTime $dateTime
+	 * @param IUser $user
 	 * @since 9.0.0
 	 */
-	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user);
+	public function setReadMark(string $objectType, string $objectId, DateTime $dateTime, IUser $user);
 
 	/**
 	 * returns the read marker for a given file to the specified date for the
@@ -261,20 +267,20 @@ interface ICommentsManager {
 	 *
 	 * @param string $objectType
 	 * @param string $objectId
-	 * @param \OCP\IUser $user
-	 * @return \DateTime|null
+	 * @param IUser $user
+	 * @return DateTime|null
 	 * @since 9.0.0
 	 */
-	public function getReadMark($objectType, $objectId, \OCP\IUser $user);
+	public function getReadMark(string $objectType, string $objectId, IUser $user);
 
 	/**
 	 * deletes the read markers for the specified user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function deleteReadMarksFromUser(\OCP\IUser $user);
+	public function deleteReadMarksFromUser(IUser $user);
 
 	/**
 	 * deletes the read markers on the specified object
@@ -284,29 +290,29 @@ interface ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function deleteReadMarksOnObject($objectType, $objectId);
+	public function deleteReadMarksOnObject(string $objectType, string $objectId);
 
 	/**
 	 * registers an Entity to the manager, so event notifications can be send
 	 * to consumers of the comments infrastructure
 	 *
-	 * @param \Closure $closure
+	 * @param Closure $closure
 	 * @since 11.0.0
 	 */
-	public function registerEventHandler(\Closure $closure);
+	public function registerEventHandler(Closure $closure);
 
 	/**
 	 * registers a method that resolves an ID to a display name for a given type
 	 *
 	 * @param string $type
-	 * @param \Closure $closure
-	 * @throws \OutOfBoundsException
+	 * @param Closure $closure
+	 * @throws OutOfBoundsException
 	 * @since 11.0.0
 	 *
 	 * Only one resolver shall be registered per type. Otherwise a
 	 * \OutOfBoundsException has to thrown.
 	 */
-	public function registerDisplayNameResolver($type, \Closure $closure);
+	public function registerDisplayNameResolver(string $type, Closure $closure);
 
 	/**
 	 * resolves a given ID of a given Type to a display name.
@@ -314,13 +320,13 @@ interface ICommentsManager {
 	 * @param string $type
 	 * @param string $id
 	 * @return string
-	 * @throws \OutOfBoundsException
+	 * @throws OutOfBoundsException
 	 * @since 11.0.0
 	 *
 	 * If a provided type was not registered, an \OutOfBoundsException shall
 	 * be thrown. It is upon the resolver discretion what to return of the
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
-	public function resolveDisplayName($type, $id);
+	public function resolveDisplayName(string $type, string $id);
 
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
@@ -24,9 +27,6 @@
 namespace OCP\Activity;
 
 /**
- * Interface IProvider
- *
- * @package OCP\Activity
  * @since 11.0.0
  */
 interface IProvider {
@@ -40,5 +40,5 @@ interface IProvider {
 	 * @throws \InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null);
+	public function parse(string $language, IEvent $event, IEvent $previousEvent = null);
 }

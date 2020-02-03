@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,6 +26,8 @@
 
 namespace OCP;
 
+use DateTimeZone;
+
 /**
  * Interface IDateTimeZone
  *
@@ -32,7 +37,7 @@ namespace OCP;
 interface IDateTimeZone {
 	/**
 	 * @param bool|int $timestamp
-	 * @return \DateTimeZone
+	 * @return DateTimeZone
 	 * @since 8.0.0 - parameter $timestamp was added in 8.1.0
 	 */
 	public function getTimeZone($timestamp = false);

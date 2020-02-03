@@ -39,6 +39,6 @@ interface IFile {
 	 * @return array
 	 * @since 8.1.0
 	 */
-	public function getAccessList($path);
+	public function getAccessList(string $path);
 
 }

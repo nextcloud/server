@@ -24,6 +24,8 @@
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use OCP\Files\File;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 /**
  * Class FileDisplayResponse
@@ -33,19 +35,19 @@ use OCP\AppFramework\Http;
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
 
-	/** @var \OCP\Files\File|\OCP\Files\SimpleFS\ISimpleFile */
+	/** @var File|ISimpleFile */
 	private $file;
 
 	/**
 	 * FileDisplayResponse constructor.
 	 *
-	 * @param \OCP\Files\File|\OCP\Files\SimpleFS\ISimpleFile $file
+	 * @param File|ISimpleFile $file
 	 * @param int $statusCode
 	 * @param array $headers
 	 * @since 11.0.0
 	 */
-	public function __construct($file, $statusCode=Http::STATUS_OK,
-								$headers=[]) {
+	public function __construct($file, int $statusCode = Http::STATUS_OK,
+								array $headers=[]) {
 		parent::__construct();
 
 		$this->file = $file;

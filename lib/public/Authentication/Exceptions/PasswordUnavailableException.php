@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017 Morris Jobke <hey@morrisjobke.de>
  *

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
@@ -24,10 +27,9 @@
 
 namespace OCP\App;
 
+use Exception;
+
 /**
- * Class AppPathNotFoundException
- *
- * @package OCP\App
  * @since 11.0.0
  */
-class AppPathNotFoundException extends \Exception {}
+class AppPathNotFoundException extends Exception {}

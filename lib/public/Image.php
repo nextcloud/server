@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,20 +26,13 @@
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * Image class
- *
- */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
-
 namespace OCP;
+
+use OC_Image;
 
 /**
  * This class provides functions to handle images
+ *
  * @since 6.0.0
  */
-class Image extends \OC_Image {
-}
+class Image extends OC_Image {}

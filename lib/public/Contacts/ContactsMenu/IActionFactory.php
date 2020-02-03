@@ -38,7 +38,7 @@ interface IActionFactory {
 	 * @param string $href target URL
 	 * @return ILinkAction
 	 */
-	public function newLinkAction($icon, $name, $href);
+	public function newLinkAction(string $icon, string $name, string $href);
 
 	/**
 	 * Construct and return a new email action for the contacts menu
@@ -50,5 +50,5 @@ interface IActionFactory {
 	 * @param string $email target e-mail address
 	 * @return ILinkAction
 	 */
-	public function newEMailAction($icon, $name, $email);
+	public function newEMailAction(string $icon, string $name, string $email);
 }

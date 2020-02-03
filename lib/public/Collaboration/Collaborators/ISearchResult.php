@@ -44,7 +44,7 @@ interface ISearchResult {
 	 * @return bool
 	 * @since 13.0.0
 	 */
-	public function hasResult(SearchResultType $type, $collaboratorId);
+	public function hasResult(SearchResultType $type, string $collaboratorId);
 
 	/**
 	 * @param SearchResultType $type

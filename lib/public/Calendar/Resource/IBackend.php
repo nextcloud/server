@@ -58,7 +58,7 @@ interface IBackend {
 	 * @return IResource|null
 	 * @since 14.0.0
 	 */
-	public function getResource($id);
+	public function getResource(string $id);
 
 	/**
 	 * Get unique identifier of the backend

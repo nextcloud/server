@@ -88,7 +88,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 8.1.0
 	 * @deprecated 10.0 CSP tokens are now used
 	 */
-	public function allowInlineScript($state = false) {
+	public function allowInlineScript(bool $state = false) {
 		$this->inlineScriptAllowed = $state;
 		return $this;
 	}
@@ -100,7 +100,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 11.0.0
 	 */
-	public function useJsNonce($nonce) {
+	public function useJsNonce(string $nonce) {
 		$this->useJsNonce = $nonce;
 		return $this;
 	}
@@ -112,7 +112,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 8.1.0
 	 * @deprecated Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
 	 */
-	public function allowEvalScript($state = true) {
+	public function allowEvalScript(bool $state = true) {
 		$this->evalScriptAllowed = $state;
 		return $this;
 	}
@@ -124,7 +124,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedScriptDomain($domain) {
+	public function addAllowedScriptDomain(string $domain) {
 		$this->allowedScriptDomains[] = $domain;
 		return $this;
 	}
@@ -136,7 +136,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowScriptDomain($domain) {
+	public function disallowScriptDomain(string $domain) {
 		$this->allowedScriptDomains = array_diff($this->allowedScriptDomains, [$domain]);
 		return $this;
 	}
@@ -147,7 +147,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function allowInlineStyle($state = true) {
+	public function allowInlineStyle(bool $state = true) {
 		$this->inlineStyleAllowed = $state;
 		return $this;
 	}
@@ -159,7 +159,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedStyleDomain($domain) {
+	public function addAllowedStyleDomain(string $domain) {
 		$this->allowedStyleDomains[] = $domain;
 		return $this;
 	}
@@ -171,7 +171,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowStyleDomain($domain) {
+	public function disallowStyleDomain(string $domain) {
 		$this->allowedStyleDomains = array_diff($this->allowedStyleDomains, [$domain]);
 		return $this;
 	}
@@ -183,7 +183,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedFontDomain($domain) {
+	public function addAllowedFontDomain(string $domain) {
 		$this->allowedFontDomains[] = $domain;
 		return $this;
 	}
@@ -195,7 +195,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowFontDomain($domain) {
+	public function disallowFontDomain(string $domain) {
 		$this->allowedFontDomains = array_diff($this->allowedFontDomains, [$domain]);
 		return $this;
 	}
@@ -207,7 +207,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedImageDomain($domain) {
+	public function addAllowedImageDomain(string $domain) {
 		$this->allowedImageDomains[] = $domain;
 		return $this;
 	}
@@ -219,7 +219,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowImageDomain($domain) {
+	public function disallowImageDomain(string $domain) {
 		$this->allowedImageDomains = array_diff($this->allowedImageDomains, [$domain]);
 		return $this;
 	}
@@ -230,7 +230,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedConnectDomain($domain) {
+	public function addAllowedConnectDomain(string $domain) {
 		$this->allowedConnectDomains[] = $domain;
 		return $this;
 	}
@@ -242,7 +242,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowConnectDomain($domain) {
+	public function disallowConnectDomain(string $domain) {
 		$this->allowedConnectDomains = array_diff($this->allowedConnectDomains, [$domain]);
 		return $this;
 	}
@@ -253,7 +253,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedMediaDomain($domain) {
+	public function addAllowedMediaDomain(string $domain) {
 		$this->allowedMediaDomains[] = $domain;
 		return $this;
 	}
@@ -265,7 +265,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowMediaDomain($domain) {
+	public function disallowMediaDomain(string $domain) {
 		$this->allowedMediaDomains = array_diff($this->allowedMediaDomains, [$domain]);
 		return $this;
 	}
@@ -276,7 +276,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedObjectDomain($domain) {
+	public function addAllowedObjectDomain(string $domain) {
 		$this->allowedObjectDomains[] = $domain;
 		return $this;
 	}
@@ -288,7 +288,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowObjectDomain($domain) {
+	public function disallowObjectDomain(string $domain) {
 		$this->allowedObjectDomains = array_diff($this->allowedObjectDomains, [$domain]);
 		return $this;
 	}
@@ -299,7 +299,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function addAllowedFrameDomain($domain) {
+	public function addAllowedFrameDomain(string $domain) {
 		$this->allowedFrameDomains[] = $domain;
 		return $this;
 	}
@@ -311,7 +311,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 8.1.0
 	 */
-	public function disallowFrameDomain($domain) {
+	public function disallowFrameDomain(string $domain) {
 		$this->allowedFrameDomains = array_diff($this->allowedFrameDomains, [$domain]);
 		return $this;
 	}
@@ -323,7 +323,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 8.1.0
 	 * @deprecated 15.0.0 use addAllowedWorkerSrcDomains or addAllowedFrameDomain
 	 */
-	public function addAllowedChildSrcDomain($domain) {
+	public function addAllowedChildSrcDomain(string $domain) {
 		$this->allowedChildSrcDomains[] = $domain;
 		return $this;
 	}
@@ -336,7 +336,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 8.1.0
 	 * @deprecated 15.0.0 use the WorkerSrcDomains or FrameDomain
 	 */
-	public function disallowChildSrcDomain($domain) {
+	public function disallowChildSrcDomain(string $domain) {
 		$this->allowedChildSrcDomains = array_diff($this->allowedChildSrcDomains, [$domain]);
 		return $this;
 	}
@@ -348,7 +348,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function addAllowedFrameAncestorDomain($domain) {
+	public function addAllowedFrameAncestorDomain(string $domain) {
 		$this->allowedFrameAncestors[] = $domain;
 		return $this;
 	}
@@ -360,7 +360,7 @@ class EmptyContentSecurityPolicy {
 	 * @return $this
 	 * @since 13.0.0
 	 */
-	public function disallowFrameAncestorDomain($domain) {
+	public function disallowFrameAncestorDomain(string $domain) {
 		$this->allowedFrameAncestors = array_diff($this->allowedFrameAncestors, [$domain]);
 		return $this;
 	}

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,6 +28,7 @@
  */
 
 namespace OCP\Encryption\Exceptions;
+use Exception;
 use OC\HintException;
 
 /**
@@ -39,10 +43,10 @@ class GenericEncryptionException extends HintException {
 	 * @param string $message
 	 * @param string $hint
 	 * @param int $code
-	 * @param \Exception|null $previous
+	 * @param Exception|null $previous
 	 * @since 8.1.0
 	 */
-	public function __construct($message = '', $hint = '', $code = 0, \Exception $previous = null) {
+	public function __construct(string $message = '', string $hint = '', int $code = 0, Exception $previous = null) {
 		if (empty($message)) {
 			$message = 'Unspecified encryption exception';
 		}

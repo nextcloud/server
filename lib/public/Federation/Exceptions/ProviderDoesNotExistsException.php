@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -41,7 +44,7 @@ class ProviderDoesNotExistsException extends HintException {
 	 *
 	 * @param string $providerId cloud federation provider ID
 	 */
-	public function __construct($providerId) {
+	public function __construct(string $providerId) {
 		$l = \OC::$server->getL10N('federation');
 		$message = 'Cloud Federation Provider with ID: "' . $providerId . '" does not exist.';
 		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);

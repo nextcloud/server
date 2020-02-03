@@ -60,7 +60,7 @@ interface IManager {
 	 * @return IBackend|null
 	 * @since 14.0.0
 	 */
-	public function getBackend($backendId);
+	public function getBackend(string $backendId);
 
 	/**
 	 * removes all registered backend instances

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,11 +25,6 @@
  * You should have received a copy of the GNU Affero General Public License, version 3,
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
- */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\JSONResponse class
  */
 
 namespace OCP\AppFramework\Http;
@@ -56,8 +54,8 @@ class OCSResponse extends Response {
 	 * @since 8.1.0
 	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
 	 */
-	public function __construct($format, $statuscode, $message,
-								$data=[], $itemscount='',
+	public function __construct(string $format, int $statuscode, string $message,
+								array $data = [], $itemscount='',
 								$itemsperpage='') {
 		parent::__construct();
 

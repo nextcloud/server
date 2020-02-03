@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,11 +30,13 @@
 
 namespace OCP\AppFramework\Db;
 
+use Doctrine\DBAL\Driver\Statement;
 use OCP\IDBConnection;
 
 /**
  * Simple parent class for inheriting your data access layer from. This class
  * may be subject to change in the future
+ *
  * @since 7.0.0
  * @deprecated 14.0.0 Move over to QBMapper
  */
@@ -49,13 +54,13 @@ abstract class Mapper {
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function __construct(IDBConnection $db, $tableName, $entityClass=null){
+	public function __construct(IDBConnection $db, string $tableName, string $entityClass = null) {
 		$this->db = $db;
 		$this->tableName = '*PREFIX*' . $tableName;
 
 		// if not given set the entity name to the class without the mapper part
 		// cache it here for later use since reflection is slow
-		if($entityClass === null) {
+		if ($entityClass === null) {
 			$this->entityClass = str_replace('Mapper', '', get_class($this));
 		} else {
 			$this->entityClass = $entityClass;
@@ -68,19 +73,20 @@ abstract class Mapper {
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function getTableName(){
+	public function getTableName() {
 		return $this->tableName;
 	}
 
 
 	/**
 	 * Deletes an entity from the table
+	 *
 	 * @param Entity $entity the entity that should be deleted
 	 * @return Entity the deleted entity
 	 * @since 7.0.0 - return value added in 8.1.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function delete(Entity $entity){
+	public function delete(Entity $entity) {
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
 		$stmt = $this->execute($sql, [$entity->getId()]);
 		$stmt->closeCursor();
@@ -90,12 +96,13 @@ abstract class Mapper {
 
 	/**
 	 * Creates a new entry in the db from an entity
+	 *
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function insert(Entity $entity){
+	public function insert(Entity $entity) {
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -105,7 +112,7 @@ abstract class Mapper {
 
 		// build the fields
 		$i = 0;
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 
@@ -113,7 +120,7 @@ abstract class Mapper {
 			$values .= '?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties) - 1) {
 				$columns .= ',';
 				$values .= ',';
 			}
@@ -124,11 +131,11 @@ abstract class Mapper {
 		}
 
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .
-				$columns . ') VALUES(' . $values . ')';
+			$columns . ') VALUES(' . $values . ')';
 
 		$stmt = $this->execute($sql, $params);
 
-		$entity->setId((int) $this->db->lastInsertId($this->tableName));
+		$entity->setId((int)$this->db->lastInsertId($this->tableName));
 
 		$stmt->closeCursor();
 
@@ -136,25 +143,25 @@ abstract class Mapper {
 	}
 
 
-
 	/**
 	 * Updates an entry in the db from an entity
-	 * @throws \InvalidArgumentException if entity has no id
+	 *
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
+	 * @throws \InvalidArgumentException if entity has no id
 	 * @since 7.0.0 - return value was added in 8.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function update(Entity $entity){
+	public function update(Entity $entity) {
 		// if entity wasn't changed it makes no sense to run a db query
 		$properties = $entity->getUpdatedFields();
-		if(count($properties) === 0) {
+		if (count($properties) === 0) {
 			return $entity;
 		}
 
 		// entity needs an id
 		$id = $entity->getId();
-		if($id === null){
+		if ($id === null) {
 			throw new \InvalidArgumentException(
 				'Entity which should be updated has no id');
 		}
@@ -169,7 +176,7 @@ abstract class Mapper {
 
 		// build the fields
 		$i = 0;
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
@@ -177,7 +184,7 @@ abstract class Mapper {
 			$columns .= '`' . $column . '` = ?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties) - 1) {
 				$columns .= ',';
 			}
 
@@ -186,7 +193,7 @@ abstract class Mapper {
 		}
 
 		$sql = 'UPDATE `' . $this->tableName . '` SET ' .
-				$columns . ' WHERE `id` = ?';
+			$columns . ' WHERE `id` = ?';
 		$params[] = $id;
 
 		$stmt = $this->execute($sql, $params);
@@ -197,6 +204,7 @@ abstract class Mapper {
 
 	/**
 	 * Checks if an array is associative
+	 *
 	 * @param array $array
 	 * @return bool true if associative
 	 * @since 8.1.0
@@ -208,7 +216,8 @@ abstract class Mapper {
 
 	/**
 	 * Returns the correct PDO constant based on the value type
-	 * @param $value
+	 *
+	 * @param mixed $value
 	 * @return int PDO constant
 	 * @since 8.1.0
 	 * @deprecated 14.0.0 Move over to QBMapper
@@ -227,15 +236,16 @@ abstract class Mapper {
 
 	/**
 	 * Runs an sql query
+	 *
 	 * @param string $sql the prepare string
 	 * @param array $params the params which should replace the ? in the sql query
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
-	 * @return \PDOStatement the database query result
+	 * @return Statement
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	protected function execute($sql, array $params=[], $limit=null, $offset=null){
+	protected function execute(string $sql, array $params = [], $limit = null, $offset = null) {
 		$query = $this->db->prepare($sql, $limit, $offset);
 
 		if ($this->isAssocArray($params)) {
@@ -260,22 +270,23 @@ abstract class Mapper {
 	/**
 	 * Returns an db result and throws exceptions when there are more or less
 	 * results
-	 * @see findEntity
+	 *
 	 * @param string $sql the sql query
 	 * @param array $params the parameters of the sql query
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
+	 * @return array the result as row
 	 * @throws DoesNotExistException if the item does not exist
 	 * @throws MultipleObjectsReturnedException if more than one item exist
-	 * @return array the result as row
+	 * @see findEntity
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	protected function findOneQuery($sql, array $params=[], $limit=null, $offset=null){
+	protected function findOneQuery(string $sql, array $params = [], int $limit = null, int $offset = null) {
 		$stmt = $this->execute($sql, $params, $limit, $offset);
 		$row = $stmt->fetch();
 
-		if($row === false || $row === null){
+		if ($row === false || $row === null) {
 			$stmt->closeCursor();
 			$msg = $this->buildDebugMessage(
 				'Did expect one result but found none when executing', $sql, $params, $limit, $offset
@@ -285,7 +296,7 @@ abstract class Mapper {
 		$row2 = $stmt->fetch();
 		$stmt->closeCursor();
 		//MDB2 returns null, PDO and doctrine false when no row is available
-		if( ! ($row2 === false || $row2 === null )) {
+		if (!($row2 === false || $row2 === null)) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $sql, $params, $limit, $offset
 			);
@@ -298,39 +309,42 @@ abstract class Mapper {
 	/**
 	 * Builds an error message by prepending the $msg to an error message which
 	 * has the parameters
-	 * @see findEntity
+	 *
 	 * @param string $sql the sql query
 	 * @param array $params the parameters of the sql query
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
 	 * @return string formatted error message string
+	 * @see findEntity
 	 * @since 9.1.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	private function buildDebugMessage($msg, $sql, array $params=[], $limit=null, $offset=null) {
+	private function buildDebugMessage(string $msg, string $sql, array $params = [], int $limit = null, int $offset = null) {
 		return $msg .
-					': query "' .	$sql . '"; ' .
-					'parameters ' . print_r($params, true) . '; ' .
-					'limit "' . $limit . '"; '.
-					'offset "' . $offset . '"';
+			': query "' . $sql . '"; ' .
+			'parameters ' . print_r($params, true) . '; ' .
+			'limit "' . $limit . '"; ' .
+			'offset "' . $offset . '"';
 	}
 
 
 	/**
 	 * Creates an entity from a row. Automatically determines the entity class
 	 * from the current mapper name (MyEntityMapper -> MyEntity)
+	 *
 	 * @param array $row the row which should be converted to an entity
 	 * @return Entity the entity
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	protected function mapRowToEntity($row) {
-		return call_user_func($this->entityClass .'::fromRow', $row);
+	protected function mapRowToEntity(array $row) {
+		return call_user_func($this->entityClass . '::fromRow', $row);
 	}
 
 
 	/**
 	 * Runs a sql query and returns an array of entities
+	 *
 	 * @param string $sql the prepare string
 	 * @param array $params the params which should replace the ? in the sql query
 	 * @param int $limit the maximum number of rows
@@ -339,12 +353,12 @@ abstract class Mapper {
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	protected function findEntities($sql, array $params=[], $limit=null, $offset=null) {
+	protected function findEntities(string $sql, array $params = [], int $limit = null, int $offset = null) {
 		$stmt = $this->execute($sql, $params, $limit, $offset);
 
 		$entities = [];
 
-		while($row = $stmt->fetch()){
+		while ($row = $stmt->fetch()) {
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
@@ -357,17 +371,18 @@ abstract class Mapper {
 	/**
 	 * Returns an db result and throws exceptions when there are more or less
 	 * results
+	 *
 	 * @param string $sql the sql query
 	 * @param array $params the parameters of the sql query
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
-	 * @throws DoesNotExistException if the item does not exist
-	 * @throws MultipleObjectsReturnedException if more than one item exist
 	 * @return Entity the entity
+	 * @throws MultipleObjectsReturnedException if more than one item exist
+	 * @throws DoesNotExistException if the item does not exist
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	protected function findEntity($sql, array $params=[], $limit=null, $offset=null){
+	protected function findEntity(string $sql, array $params = [], int $limit = null, int $offset = null) {
 		return $this->mapRowToEntity($this->findOneQuery($sql, $params, $limit, $offset));
 	}
 

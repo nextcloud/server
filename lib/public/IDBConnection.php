@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -37,6 +40,8 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 
 namespace OCP;
+
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
@@ -67,7 +72,7 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 * @since 6.0.0
 	 */
-	public function prepare($sql, $limit=null, $offset=null);
+	public function prepare(string $sql, int $limit = null, int $offset = null);
 
 	/**
 	 * Executes an, optionally parameterized, SQL query.
@@ -81,7 +86,7 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
 	 * @since 8.0.0
 	 */
-	public function executeQuery($query, array $params = array(), $types = array());
+	public function executeQuery(string $query, array $params = array(), $types = array());
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -95,7 +100,7 @@ interface IDBConnection {
 	 * @return integer The number of affected rows.
 	 * @since 8.0.0
 	 */
-	public function executeUpdate($query, array $params = array(), array $types = array());
+	public function executeUpdate(string $query, array $params = array(), array $types = array());
 
 	/**
 	 * Used to get the id of the just inserted element
@@ -103,7 +108,7 @@ interface IDBConnection {
 	 * @return int the id of the inserted element
 	 * @since 6.0.0
 	 */
-	public function lastInsertId($table = null);
+	public function lastInsertId(string $table = null);
 
 	/**
 	 * Insert a row if the matching row does not exists. To accomplish proper race condition avoidance
@@ -120,7 +125,7 @@ interface IDBConnection {
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null);
+	public function insertIfNotExist(string $table, array $input, array $compare = null);
 
 
 	/**
@@ -160,7 +165,7 @@ interface IDBConnection {
 	 * @param string $tableName
 	 * @since 9.1.0
 	 */
-	public function lockTable($tableName);
+	public function lockTable(string $tableName);
 
 	/**
 	 * Release a previous acquired lock again
@@ -240,13 +245,13 @@ interface IDBConnection {
 	 * @return string The quoted parameter.
 	 * @since 8.0.0
 	 */
-	public function quote($input, $type = IQueryBuilder::PARAM_STR);
+	public function quote($input, int $type = IQueryBuilder::PARAM_STR);
 
 	/**
 	 * Gets the DatabasePlatform instance that provides all the metadata about
 	 * the platform this driver connects to.
 	 *
-	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
+	 * @return AbstractPlatform The database platform.
 	 * @since 8.0.0
 	 */
 	public function getDatabasePlatform();
@@ -275,7 +280,7 @@ interface IDBConnection {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function escapeLikeParameter($param);
+	public function escapeLikeParameter(string $param);
 
 	/**
 	 * Check whether or not the current database support 4byte wide unicode

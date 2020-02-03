@@ -37,7 +37,7 @@ interface IOutput {
 	 * @param string $out
 	 * @since 8.1.0
 	 */
-	public function setOutput($out);
+	public function setOutput(string $out);
 
 	/**
 	 * @param string|resource $path or file handle
@@ -45,13 +45,13 @@ interface IOutput {
 	 * @return bool false if an error occurred
 	 * @since 8.1.0
 	 */
-	public function setReadfile($path);
+	public function setReadfile(string $path);
 
 	/**
 	 * @param string $header
 	 * @since 8.1.0
 	 */
-	public function setHeader($header);
+	public function setHeader(string $header);
 
 	/**
 	 * @return int returns the current http response code
@@ -63,7 +63,7 @@ interface IOutput {
 	 * @param int $code sets the http status code
 	 * @since 8.1.0
 	 */
-	public function setHttpResponseCode($code);
+	public function setHttpResponseCode(int $code);
 
 	/**
 	 * @param string $name
@@ -75,6 +75,6 @@ interface IOutput {
 	 * @param bool $httpOnly
 	 * @since 8.1.0
 	 */
-	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+	public function setCookie(string $name, string $value, int $expire, string $path, string $domain, bool $secure, bool $httpOnly);
 
 }

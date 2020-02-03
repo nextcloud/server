@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,8 +27,11 @@
 
 namespace OCP\Comments;
 
+use Exception;
+
 /**
  * Exception for not found entity
+ *
  * @since 9.0.0
  */
-class NotFoundException extends \Exception {}
+class NotFoundException extends Exception {}

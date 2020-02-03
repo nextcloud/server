@@ -40,7 +40,7 @@ class SearchResultType {
 	 * @param string $label
 	 * @since 13.0.0
 	 */
-	public function __construct($label) {
+	public function __construct(string $label) {
 		$this->label = $this->getValidatedType($label);
 	}
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -60,5 +63,5 @@ interface ITagManager {
 	 * @return \OCP\ITags
 	 * @since 6.0.0 - parameter $includeShared and $userId were added in 8.0.0
 	*/
-	public function load($type, $defaultTags = array(), $includeShared = false, $userId = null);
+	public function load(string $type, array $defaultTags = array(), bool $includeShared = false, string $userId = null);
 }

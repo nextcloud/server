@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -79,14 +82,14 @@ namespace OCP {
 		 *	]
 		 * @since 5.0.0
 		 */
-		public function search($pattern, $searchProperties, $options);
+		public function search(string $pattern, array $searchProperties, array $options);
 
 		/**
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @return array an array representing the contact just created or updated
 		 * @since 5.0.0
 		 */
-		public function createOrUpdate($properties);
+		public function createOrUpdate(array $properties);
 		//	// dummy
 		//	return array('id'    => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c',
 		//		     'PHOTO' => 'VALUE=uri:http://www.abc.com/pub/photos/jqpublic.gif',

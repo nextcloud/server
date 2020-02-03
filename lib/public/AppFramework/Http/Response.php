@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,11 +28,6 @@
  * You should have received a copy of the GNU Affero General Public License, version 3,
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
- */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\Response class
  */
 
 namespace OCP\AppFramework\Http;
@@ -137,7 +135,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, \DateTime $expireDate = null) {
+	public function addCookie(string $name, string $value, \DateTime $expireDate = null) {
 		$this->cookies[$name] = array('value' => $value, 'expireDate' => $expireDate);
 		return $this;
 	}
@@ -161,7 +159,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function invalidateCookie($name) {
+	public function invalidateCookie(string $name) {
 		$this->addCookie($name, 'expired', new \DateTime('1971-01-01 00:00'));
 		return $this;
 	}
@@ -196,7 +194,7 @@ class Response {
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function addHeader($name, $value) {
+	public function addHeader(string $name, string $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
 		                      // to be able to reliably check for security
 		                      // headers
@@ -264,7 +262,7 @@ class Response {
 	 * @return Response Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setStatus($status) {
+	public function setStatus(int $status) {
 		$this->status = $status;
 
 		return $this;
@@ -351,7 +349,7 @@ class Response {
 	 * @return Response Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setETag($ETag) {
+	public function setETag(string $ETag) {
 		$this->ETag = $ETag;
 
 		return $this;

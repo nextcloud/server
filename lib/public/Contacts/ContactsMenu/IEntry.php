@@ -61,5 +61,5 @@ interface IEntry extends JsonSerializable {
 	 * @param string $key
 	 * @return mixed the value of the property or null
 	 */
-	public function getProperty($key);
+	public function getProperty(string $key);
 }

@@ -47,6 +47,6 @@ interface IContactsStore {
 	 * @return IEntry|null
 	 * @since 13.0.0
 	 */
-	public function findOne(IUser $user, $shareType, $shareWith);
+	public function findOne(IUser $user, int $shareType, string $shareWith);
 
 }

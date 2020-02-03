@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,9 +29,6 @@
 namespace OCP\Activity;
 
 /**
- * Interface IExtension
- *
- * @package OCP\Activity
  * @since 8.0.0
  */
 interface IExtension {

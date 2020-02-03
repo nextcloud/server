@@ -45,7 +45,7 @@ interface IControllerMethodReflector {
 	 * @since 8.0.0
 	 * @deprecated 17.0.0 Reflect should not be called multiple times and only be used internally. This will be removed in Nextcloud 18
 	 */
-	public function reflect($object, string $method);
+	public function reflect(object $object, string $method);
 
 	/**
 	 * Inspects the PHPDoc parameters for types

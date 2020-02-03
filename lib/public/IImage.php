@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -95,7 +98,7 @@ interface IImage {
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function save($filePath = null, $mimeType = null);
+	public function save(string $filePath = null, string $mimeType = null);
 
 	/**
 	 * @return resource Returns the image resource in any.
@@ -136,11 +139,11 @@ interface IImage {
 	/**
 	 * Resizes the image preserving ratio.
 	 *
-	 * @param integer $maxSize The maximum size of either the width or height.
+	 * @param int $maxSize The maximum size of either the width or height.
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function resize($maxSize);
+	public function resize(int $maxSize);
 
 	/**
 	 * @param int $width
@@ -157,7 +160,7 @@ interface IImage {
 	 * @return bool for success or failure
 	 * @since 8.1.0
 	 */
-	public function centerCrop($size = 0);
+	public function centerCrop(int $size = 0);
 
 	/**
 	 * Crops the image from point $x$y with dimension $wx$h.
@@ -174,20 +177,20 @@ interface IImage {
 	/**
 	 * Resizes the image to fit within a boundary while preserving ratio.
 	 *
-	 * @param integer $maxWidth
-	 * @param integer $maxHeight
+	 * @param int $maxWidth
+	 * @param int $maxHeight
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function fitIn($maxWidth, $maxHeight);
+	public function fitIn(int $maxWidth, int $maxHeight);
 
 	/**
 	 * Shrinks the image to fit within a boundary while preserving ratio.
 	 *
-	 * @param integer $maxWidth
-	 * @param integer $maxHeight
+	 * @param int $maxWidth
+	 * @param int $maxHeight
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function scaleDownToFit($maxWidth, $maxHeight);
+	public function scaleDownToFit(int $maxWidth, int $maxHeight);
 }

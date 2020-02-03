@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,6 +30,8 @@
 
 namespace OCP;
 
+use Exception;
+use OC\NotSquareException;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 
@@ -38,8 +43,9 @@ interface IAvatar {
 
 	/**
 	 * get the users avatar
+	 *
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64, -1 can be used to not scale the image
-	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
+	 * @return boolean|IImage containing the avatar or false if there's no image
 	 * @since 6.0.0 - size of -1 was added in 9.0.0
 	 */
 	public function get($size = 64);
@@ -62,11 +68,12 @@ interface IAvatar {
 
 	/**
 	 * sets the users avatar
-	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
-	 * @throws \Exception if the provided file is not a jpg or png image
-	 * @throws \Exception if the provided image is not valid
-	 * @throws \OC\NotSquareException if the image is not square
+	 *
+	 * @param IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @return void
+	 * @throws Exception if the provided image is not valid
+	 * @throws NotSquareException if the image is not square
+	 * @throws Exception if the provided file is not a jpg or png image
 	 * @since 6.0.0
 	 */
 	public function set($data);
@@ -85,7 +92,7 @@ interface IAvatar {
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function getFile($size);
+	public function getFile(int $size);
 
 	/**
 	 * @param string $text

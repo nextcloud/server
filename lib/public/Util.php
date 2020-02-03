@@ -106,7 +106,7 @@ class Util {
 	 * @param string $channel
 	 * @since 8.1.0
 	 */
-	public static function setChannel($channel) {
+	public static function setChannel(string $channel) {
 		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 	}
 
@@ -127,7 +127,7 @@ class Util {
 	 * @since 4.0.0
 	 * @deprecated 13.0.0 use log of \OCP\ILogger
 	 */
-	public static function writeLog( $app, $message, $level ) {
+	public static function writeLog(string $app, string $message, int $level ) {
 		$context = ['app' => $app];
 		\OC::$server->getLogger()->log($level, $message, $context);
 	}
@@ -159,7 +159,7 @@ class Util {
 	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
-	public static function getL10N($application, $language = null) {
+	public static function getL10N(string $application, string $language = null) {
 		return \OC::$server->getL10N($application, $language);
 	}
 
@@ -169,7 +169,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addStyle( $application, $file = null ) {
+	public static function addStyle(string $application, string $file = null ) {
 		\OC_Util::addStyle( $application, $file );
 	}
 
@@ -179,7 +179,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addScript( $application, $file = null ) {
+	public static function addScript(string $application, string $file = null ) {
 		\OC_Util::addScript( $application, $file );
 	}
 
@@ -189,7 +189,7 @@ class Util {
 	 * @param string $languageCode language code, defaults to the current locale
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations(string $application, string $languageCode = null) {
 		\OC_Util::addTranslations($application, $languageCode);
 	}
 
@@ -202,7 +202,7 @@ class Util {
 	 * @param string $text the text content for the element
 	 * @since 4.0.0
 	 */
-	public static function addHeader($tag, $attributes, $text=null) {
+	public static function addHeader(string $tag, array $attributes, string $text=null) {
 		\OC_Util::addHeader($tag, $attributes, $text);
 	}
 
@@ -215,7 +215,7 @@ class Util {
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
-	public static function linkToAbsolute( $app, $file, $args = array() ) {
+	public static function linkToAbsolute(string $app, string $file, array $args = array() ) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
@@ -243,7 +243,7 @@ class Util {
 	 * @since 4.5.0
 	 * @deprecated 15.0.0 - use OCP\IURLGenerator
 	 */
-	public static function linkToPublic($service) {
+	public static function linkToPublic(string $service) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		if ($service === 'files') {
 			return $urlGenerator->getAbsoluteURL('/s');
@@ -282,7 +282,7 @@ class Util {
 	 * is passed to this function
 	 * @since 5.0.0
 	 */
-	public static function getDefaultEmailAddress($user_part) {
+	public static function getDefaultEmailAddress(string $user_part) {
 		$config = \OC::$server->getConfig();
 		$user_part = $config->getSystemValue('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
@@ -304,7 +304,7 @@ class Util {
 	 * @return string a human readable file size
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize($bytes) {
+	public static function humanFileSize(int $bytes) {
 		return \OC_Helper::humanFileSize($bytes);
 	}
 
@@ -316,7 +316,7 @@ class Util {
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
-	public static function computerFileSize($str) {
+	public static function computerFileSize(string $str) {
 		return \OC_Helper::computerFileSize($str);
 	}
 
@@ -334,7 +334,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
+	static public function connectHook(string $signalClass, string $signalName, $slotClass, string $slotName) {
 		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
 	}
 
@@ -348,7 +348,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function emitHook($signalclass, $signalname, $params = array()) {
+	static public function emitHook(string $signalclass, string $signalname, array $params = array()) {
 		return \OC_Hook::emit($signalclass, $signalname, $params);
 	}
 
@@ -381,7 +381,7 @@ class Util {
 	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
-	public static function sanitizeHTML($value) {
+	public static function sanitizeHTML(string $value) {
 		return \OC_Util::sanitizeHTML($value);
 	}
 
@@ -396,7 +396,7 @@ class Util {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public static function encodePath($component) {
+	public static function encodePath(string $component) {
 		return \OC_Util::encodePath($component);
 	}
 
@@ -409,7 +409,7 @@ class Util {
 	 * @return array
 	 * @since 4.5.0
 	 */
-	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
+	public static function mb_array_change_key_case(string $input, int $case = MB_CASE_LOWER, string $encoding = 'UTF-8') {
 		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
 	}
 
@@ -423,7 +423,7 @@ class Util {
 	 * @since 4.5.0
 	 * @deprecated 15.0.0
 	 */
-	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+	public static function recursiveArraySearch(array $haystack, string $needle, $index = null) {
 		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
 	}
 
@@ -435,7 +435,7 @@ class Util {
 	 * @return int number of bytes representing
 	 * @since 5.0.0
 	 */
-	public static function maxUploadFilesize($dir, $free = null) {
+	public static function maxUploadFilesize(string $dir, int $free = null) {
 		return \OC_Helper::maxUploadFilesize($dir, $free);
 	}
 
@@ -445,7 +445,7 @@ class Util {
 	 * @return int number of bytes representing
 	 * @since 7.0.0
 	 */
-	public static function freeSpace($dir) {
+	public static function freeSpace(string $dir) {
 		return \OC_Helper::freeSpace($dir);
 	}
 
@@ -467,7 +467,7 @@ class Util {
 	 * @since 7.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function isValidFileName($file) {
+	public static function isValidFileName(string $file) {
 		return \OC_Util::isValidFileName($file);
 	}
 
@@ -479,7 +479,7 @@ class Util {
 	 * or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
-	public static function naturalSortCompare($a, $b) {
+	public static function naturalSortCompare(string $a, string $b) {
 		return \OC\NaturalSort::getInstance()->compare($a, $b);
 	}
 

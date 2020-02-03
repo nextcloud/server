@@ -39,7 +39,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setShareWith($user);
+	public function setShareWith(string $user);
 
 	/**
 	 * set resource name (e.g. file, calendar, contact,...)
@@ -48,7 +48,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setResourceName($name);
+	public function setResourceName(string $name);
 
 	/**
 	 * set resource type (e.g. file, calendar, contact,...)
@@ -57,7 +57,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setResourceType($resourceType);
+	public function setResourceType(string $resourceType);
 
 	/**
 	 * set resource description (optional)
@@ -66,7 +66,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setDescription($description);
+	public function setDescription(string $description);
 
 	/**
 	 * set provider ID (e.g. file ID)
@@ -75,7 +75,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setProviderId($providerId);
+	public function setProviderId(string $providerId);
 
 	/**
 	 * set owner UID
@@ -84,7 +84,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setOwner($owner);
+	public function setOwner(string $owner);
 
 	/**
 	 * set owner display name
@@ -93,7 +93,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setOwnerDisplayName($ownerDisplayName);
+	public function setOwnerDisplayName(string $ownerDisplayName);
 
 	/**
 	 * set UID of the user who sends the share
@@ -102,16 +102,16 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setSharedBy($sharedBy);
+	public function setSharedBy(string $sharedBy);
 
 	/**
 	 * set display name of the user who sends the share
 	 *
-	 * @param $sharedByDisplayName
+	 * @param string $sharedByDisplayName
 	 *
 	 * @since 14.0.0
 	 */
-	public function setSharedByDisplayName($sharedByDisplayName);
+	public function setSharedByDisplayName(string $sharedByDisplayName);
 
 	/**
 	 * set protocol specification
@@ -129,7 +129,7 @@ interface ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setShareType($shareType);
+	public function setShareType(string $shareType);
 
 	/**
 	 * get the whole share, ready to send out

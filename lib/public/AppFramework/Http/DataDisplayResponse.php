@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -47,8 +50,8 @@ class DataDisplayResponse extends Response {
 	 * @param array $headers additional key value based headers
 	 * @since 8.1.0
 	 */
-	public function __construct($data='', $statusCode=Http::STATUS_OK,
-	                            $headers=[]) {
+	public function __construct(string $data = '', int $statusCode=Http::STATUS_OK,
+	                            array $headers=[]) {
 		parent::__construct();
 
 		$this->data = $data;
@@ -73,7 +76,7 @@ class DataDisplayResponse extends Response {
 	 * @return DataDisplayResponse Reference to this object
 	 * @since 8.1.0
 	 */
-	public function setData($data){
+	public function setData(string $data){
 		$this->data = $data;
 
 		return $this;

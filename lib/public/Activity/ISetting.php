@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
@@ -24,9 +27,6 @@
 namespace OCP\Activity;
 
 /**
- * Interface ISetting
- *
- * @package OCP\Activity
  * @since 11.0.0
  */
 interface ISetting {

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -23,10 +26,12 @@
 
 namespace OCP\Calendar;
 
+use Exception;
+
 /**
  * Class BackendTemporarilyUnavailableException
  *
  * @package OCP\Calendar
  * @since 14.0.0
  */
-class BackendTemporarilyUnavailableException extends \Exception {}
+class BackendTemporarilyUnavailableException extends Exception {}

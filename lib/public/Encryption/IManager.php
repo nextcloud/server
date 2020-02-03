@@ -52,7 +52,7 @@ interface IManager {
 	 * @throws ModuleAlreadyExistsException
 	 * @since 8.1.0
 	 */
-	public function registerEncryptionModule($id, $displayName, callable $callback);
+	public function registerEncryptionModule(string $id, string $displayName, callable $callback);
 
 	/**
 	 * Unregisters an encryption module
@@ -60,7 +60,7 @@ interface IManager {
 	 * @param string $moduleId
 	 * @since 8.1.0
 	 */
-	public function unregisterEncryptionModule($moduleId);
+	public function unregisterEncryptionModule(string $moduleId);
 
 	/**
 	 * get a list of all encryption modules
@@ -79,7 +79,7 @@ interface IManager {
 	 * @throws ModuleDoesNotExistsException
 	 * @since 8.1.0
 	 */
-	public function getEncryptionModule($moduleId = '');
+	public function getEncryptionModule(string $moduleId = '');
 
 	/**
 	 * get default encryption module Id
@@ -96,6 +96,6 @@ interface IManager {
 	 * @return string
 	 * @since 8.1.0
 	 */
-	public function setDefaultEncryptionModule($moduleId);
+	public function setDefaultEncryptionModule(string $moduleId);
 
 }

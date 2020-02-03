@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,11 +25,14 @@
 
 namespace OCP;
 
+use DomainException;
+
 /**
  * Exception for when a not allowed path is attempted to be autoloaded
+ *
  * @since 8.2.0
  */
-class AutoloadNotAllowedException extends \DomainException {
+class AutoloadNotAllowedException extends DomainException {
 	/**
 	 * @param string $path
 	 * @since 8.2.0

@@ -52,6 +52,7 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @since 18.0.0
 	 */
 	public function __construct($subject = null, array $arguments = []) {
+		parent::__construct();
 		$this->subject = $subject;
 		$this->arguments = $arguments;
 	}

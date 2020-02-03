@@ -39,5 +39,5 @@ interface Share_Backend_Collection extends Share_Backend {
 	 * @return array Returns an array of children each inside an array with the keys: source, target, and file_path if applicable
 	 * @since 5.0.0
 	 */
-	public function getChildren($itemSource);
+	public function getChildren(string $itemSource);
 }

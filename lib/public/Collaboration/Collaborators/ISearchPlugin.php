@@ -38,5 +38,5 @@ interface ISearchPlugin {
 	 * @return bool whether the plugin has more results
 	 * @since 13.0.0
 	 */
-	public function search($search, $limit, $offset, ISearchResult $searchResult);
+	public function search(string $search, int $limit, int $offset, ISearchResult $searchResult);
 }

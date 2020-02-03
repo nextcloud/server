@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,6 +26,7 @@
 
 namespace OCP\Comments;
 
+use Closure;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -37,7 +41,7 @@ class CommentsEntityEvent extends Event {
 
 	/** @var string */
 	protected $event;
-	/** @var \Closure[] */
+	/** @var Closure[] */
 	protected $collections;
 
 	/**
@@ -47,20 +51,21 @@ class CommentsEntityEvent extends Event {
 	 * @since 9.1.0
 	 */
 	public function __construct($event) {
+		parent::__construct();
 		$this->event = $event;
 		$this->collections = [];
 	}
 
 	/**
 	 * @param string $name
-	 * @param \Closure $entityExistsFunction The closure should take one
+	 * @param Closure $entityExistsFunction The closure should take one
 	 *                 argument, which is the id of the entity, that comments
 	 *                 should be handled for. The return should then be bool,
 	 *                 depending on whether comments are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */
-	public function addEntityCollection($name, \Closure $entityExistsFunction) {
+	public function addEntityCollection(string $name, Closure $entityExistsFunction) {
 		if (isset($this->collections[$name])) {
 			throw new \OutOfBoundsException('Duplicate entity name "' . $name . '"');
 		}
@@ -69,7 +74,7 @@ class CommentsEntityEvent extends Event {
 	}
 
 	/**
-	 * @return \Closure[]
+	 * @return Closure[]
 	 * @since 9.1.0
 	 */
 	public function getEntityCollections() {

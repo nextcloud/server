@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCP;
 
 use Closure;
+use JsonSerializable;
 
 /**
  * @since 16.0.0
@@ -38,11 +39,11 @@ interface IInitialStateService {
 	 * Use this if you know your initial state sill be used for example if
 	 * you are in the render function of you controller.
 	 *
-	 * @since 16.0.0
-	 *
 	 * @param string $appName
 	 * @param string $key
-	 * @param bool|int|float|string|array|\JsonSerializable $data
+	 * @param bool|int|float|string|array|JsonSerializable $data
+	 *@since 16.0.0
+	 *
 	 */
 	public function provideInitialState(string $appName, string $key, $data): void;
 

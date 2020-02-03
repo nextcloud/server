@@ -40,7 +40,7 @@ class MultipleObjectsReturnedException extends \Exception implements IMapperExce
 	 * @param string $msg the error message
 	 * @since 7.0.0
 	 */
-	public function __construct($msg){
+	public function __construct(string $msg){
 		parent::__construct($msg);
 	}
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -22,6 +25,8 @@
  */
 
 namespace OCP\Calendar;
+
+use Closure;
 
 /**
  * This class provides access to the Nextcloud CalDAV backend.
@@ -68,7 +73,7 @@ interface IManager {
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties=[], array $options=[], $limit=null, $offset=null);
+	public function search(string $pattern, array $searchProperties=[], array $options=[], int $limit=null, int $offset=null);
 
 	/**
 	 * Check if calendars are available
@@ -100,11 +105,11 @@ interface IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * calendars are actually requested
 	 *
-	 * @param \Closure $callable
+	 * @param Closure $callable
 	 * @return void
 	 * @since 13.0.0
 	 */
-	public function register(\Closure $callable);
+	public function register(Closure $callable);
 
 	/**
 	 * @return ICalendar[]

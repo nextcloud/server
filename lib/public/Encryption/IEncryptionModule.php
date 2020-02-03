@@ -66,7 +66,7 @@ interface IEncryptionModule {
 	 *                       or if no additional data is needed return a empty array
 	 * @since 8.1.0
 	 */
-	public function begin($path, $user, $mode, array $header, array $accessList);
+	public function begin(string $path, string $user, string $mode, array $header, array $accessList);
 
 	/**
 	 * last chunk received. This is the place where you can perform some final
@@ -82,7 +82,7 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function end($path, $position);
+	public function end(string $path, string $position);
 
 	/**
 	 * encrypt data
@@ -95,7 +95,7 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function encrypt($data, $position);
+	public function encrypt(string $data, string $position);
 
 	/**
 	 * decrypt data
@@ -108,7 +108,7 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function decrypt($data, $position);
+	public function decrypt(string $data, string $position);
 
 	/**
 	 * update encrypted file, e.g. give additional users access to the file
@@ -119,7 +119,7 @@ interface IEncryptionModule {
 	 * @return boolean
 	 * @since 8.1.0
 	 */
-	public function update($path, $uid, array $accessList);
+	public function update(string $path, string $uid, array $accessList);
 
 	/**
 	 * should the file be encrypted or not
@@ -128,7 +128,7 @@ interface IEncryptionModule {
 	 * @return boolean
 	 * @since 8.1.0
 	 */
-	public function shouldEncrypt($path);
+	public function shouldEncrypt(string $path);
 
 	/**
 	 * get size of the unencrypted payload per block.
@@ -138,7 +138,7 @@ interface IEncryptionModule {
 	 * @return int
 	 * @since 8.1.0 optional parameter $signed was added in 9.0.0
 	 */
-	public function getUnencryptedBlockSize($signed = false);
+	public function getUnencryptedBlockSize(bool $signed = false);
 
 	/**
 	 * check if the encryption module is able to read the file,
@@ -181,7 +181,7 @@ interface IEncryptionModule {
 	 * @return boolean
 	 * @since 9.1.0
 	 */
-	public function isReadyForUser($user);
+	public function isReadyForUser(string $user);
 
 	/**
 	 * Does the encryption module needs a detailed list of users with access to the file?

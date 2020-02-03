@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,9 +27,6 @@
 namespace OCP\Command;
 
 /**
- * Interface ICommand
- *
- * @package OCP\Command
  * @since 8.1.0
  */
 interface ICommand {

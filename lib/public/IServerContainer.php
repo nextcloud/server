@@ -141,7 +141,7 @@ interface IServerContainer extends IContainer {
 	 * @since 6.0.0 - parameter $userId was added in 8.0.0
 	 * @see getUserFolder in \OCP\Files\IRootFolder
 	 */
-	public function getUserFolder($userId = null);
+	public function getUserFolder(string $userId = null);
 
 	/**
 	 * Returns an app-specific view in ownClouds data directory
@@ -245,7 +245,7 @@ interface IServerContainer extends IContainer {
 	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $lang was added in 8.0.0
 	 */
-	public function getL10N($app, $lang = null);
+	public function getL10N(string $app, string $lang = null);
 
 	/**
 	 * @return \OC\Encryption\Manager
@@ -368,7 +368,7 @@ interface IServerContainer extends IContainer {
 	 * @return \OCP\ICertificateManager | null if $userId is null and no user is logged in
 	 * @since 8.0.0
 	 */
-	public function getCertificateManager($userId = null);
+	public function getCertificateManager(string $userId = null);
 
 	/**
 	 * Create a new event source

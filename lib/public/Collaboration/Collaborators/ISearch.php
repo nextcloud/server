@@ -39,7 +39,7 @@ interface ISearch {
 	 * @return array with two elements, 1st ISearchResult as array, 2nd a bool indicating whether more result are available
 	 * @since 13.0.0
 	 */
-	public function search($search, array $shareTypes, $lookup, $limit, $offset);
+	public function search(string $search, array $shareTypes, bool $lookup, int $limit, int $offset);
 
 	/**
 	 * @param array $pluginInfo with keys 'shareType' containing the name of a corresponding constant in \OCP\Share and

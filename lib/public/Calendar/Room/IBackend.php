@@ -58,7 +58,7 @@ interface IBackend {
 	 * @return IRoom|null
 	 * @since 14.0.0
 	 */
-	public function getRoom($id);
+	public function getRoom(string $id);
 
 	/**
 	 * Get unique identifier of the backend

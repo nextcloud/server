@@ -44,7 +44,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function image_path($app, $image) {
+	public static function image_path(string $app, string $image) {
 		return \image_path($app, $image);
 	}
 
@@ -57,7 +57,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function mimetype_icon($mimetype) {
+	public static function mimetype_icon(string $mimetype) {
 		return \mimetype_icon($mimetype);
 	}
 
@@ -69,7 +69,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function preview_icon($path) {
+	public static function preview_icon(string $path) {
 		return \preview_icon($path);
 	}
 
@@ -83,7 +83,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function publicPreview_icon($path, $token) {
+	public static function publicPreview_icon(string $path, string$token) {
 		return \publicPreview_icon($path, $token);
 	}
 
@@ -96,7 +96,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function human_file_size($bytes) {
+	public static function human_file_size(int $bytes) {
 		return \human_file_size($bytes);
 	}
 
@@ -110,7 +110,7 @@ class Template extends \OC_Template {
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanTypeMismatchArgument
 	 */
-	public static function relative_modified_date($timestamp, $dateOnly = false) {
+	public static function relative_modified_date(int $timestamp, bool $dateOnly = false) {
 		return \relative_modified_date($timestamp, null, $dateOnly);
 	}
 
@@ -124,7 +124,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function html_select_options($options, $selected, $params=array()) {
+	public static function html_select_options(array $options, $selected, array $params=array()) {
 		return \html_select_options($options, $selected, $params);
 	}
 }

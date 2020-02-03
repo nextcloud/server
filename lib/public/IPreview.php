@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -35,7 +38,9 @@
 
 namespace OCP;
 
+use Closure;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
@@ -60,11 +65,11 @@ interface IPreview {
 	 * $callable has to return an instance of \OCP\Preview\IProvider
 	 *
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
-	 * @param \Closure $callable
+	 * @param Closure $callable
 	 * @return void
 	 * @since 8.1.0
 	 */
-	public function registerProvider($mimeTypeRegex, \Closure $callable);
+	public function registerProvider(string $mimeTypeRegex, Closure $callable);
 
 	/**
 	 * Get all providers
@@ -105,14 +110,14 @@ interface IPreview {
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function isMimeSupported($mimeType = '*');
+	public function isMimeSupported(string $mimeType = '*');
 
 	/**
 	 * Check if a preview can be generated for a file
 	 *
-	 * @param \OCP\Files\FileInfo $file
+	 * @param FileInfo $file
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file);
+	public function isAvailable(FileInfo $file);
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -20,11 +23,6 @@
  * You should have received a copy of the GNU Affero General Public License, version 3,
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
- */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\DataResponse class
  */
 
 namespace OCP\AppFramework\Http;
@@ -51,8 +49,8 @@ class DataResponse extends Response {
 	 * @param array $headers additional key value based headers
 	 * @since 8.0.0
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK,
-	                            array $headers=array()) {
+	public function __construct(array $data = [], int $statusCode=Http::STATUS_OK,
+	                            array $headers = []) {
 		parent::__construct();
 
 		$this->data = $data;

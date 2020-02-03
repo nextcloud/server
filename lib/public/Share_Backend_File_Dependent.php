@@ -40,6 +40,6 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 	 * @return string|false
 	 * @since 5.0.0
 	 */
-	public function getFilePath($itemSource, $uidOwner);
+	public function getFilePath(string $itemSource, string $uidOwner);
 
 }

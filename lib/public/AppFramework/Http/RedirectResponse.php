@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -41,7 +44,7 @@ class RedirectResponse extends Response {
 	 * @param string $redirectURL the url to redirect to
 	 * @since 7.0.0
 	 */
-	public function __construct($redirectURL) {
+	public function __construct(string $redirectURL) {
 		parent::__construct();
 
 		$this->redirectURL = $redirectURL;

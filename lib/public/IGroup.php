@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -100,7 +103,7 @@ interface IGroup {
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchUsers($search, $limit = null, $offset = null);
+	public function searchUsers(string $search, int $limit = null, int $offset = null);
 
 	/**
 	 * returns the number of users matching the search string
@@ -109,7 +112,7 @@ interface IGroup {
 	 * @return int|bool
 	 * @since 8.0.0
 	 */
-	public function count($search = '');
+	public function count(string $search = '');
 
 	/**
 	 * returns the number of disabled users
@@ -128,7 +131,7 @@ interface IGroup {
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchDisplayName($search, $limit = null, $offset = null);
+	public function searchDisplayName(string $search, int $limit = null, int $offset = null);
 
 	/**
 	 * delete the group

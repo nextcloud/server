@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -45,12 +48,22 @@ interface ICloudFederationFactory {
 	 * @param string $sharedByDisplayName display name of the user who shared the resource
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
-	 * @param $resourceType ('file', 'calendar',...)
+	 * @param string $resourceType ('file', 'calendar',...)
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType);
+	public function getCloudFederationShare(string $shareWith,
+											string $name,
+											string $description,
+											string $providerId,
+											string $owner,
+											string $ownerDisplayName,
+											string $sharedBy,
+											string $sharedByDisplayName,
+											string $sharedSecret,
+											string $shareType,
+											string $resourceType);
 
 	/**
 	 * get a Cloud FederationNotification object to prepare a notification you

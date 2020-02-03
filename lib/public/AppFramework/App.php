@@ -134,7 +134,7 @@ class App {
 	 * $a = new TasksApp();
 	 * $a->registerRoutes($this, $routes);
 	 *
-	 * @param \OCP\Route\IRouter $router
+	 * @param IRouter $router
 	 * @param array $routes
 	 * @since 6.0.0
 	 * @suppress PhanAccessMethodInternal

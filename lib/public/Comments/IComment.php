@@ -25,6 +25,8 @@
 
 namespace OCP\Comments;
 
+use DateTime;
+
 /**
  * Interface IComment
  *
@@ -61,7 +63,7 @@ interface IComment {
 	 * @throws IllegalIDChangeException
 	 * @since 9.0.0
 	 */
-	public function setId($id);
+	public function setId(string $id);
 
 	/**
 	 * returns the parent ID of the comment
@@ -77,7 +79,7 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setParentId($parentId);
+	public function setParentId(string $parentId);
 
 	/**
 	 * returns the topmost parent ID of the comment
@@ -95,7 +97,7 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setTopmostParentId($id);
+	public function setTopmostParentId(string $id);
 
 	/**
 	 * returns the number of children
@@ -112,7 +114,7 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setChildrenCount($count);
+	public function setChildrenCount(int $count);
 
 	/**
 	 * returns the message of the comment
@@ -134,7 +136,7 @@ interface IComment {
 	 * @throws MessageTooLongException
 	 * @since 9.0.0 - $maxLength added in 16.0.2
 	 */
-	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH);
+	public function setMessage(string $message, int $maxLength = self::MAX_MESSAGE_LENGTH);
 
 	/**
 	 * returns an array containing mentions that are included in the comment
@@ -173,7 +175,7 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setVerb($verb);
+	public function setVerb(string $verb);
 
 	/**
 	 * returns the actor type
@@ -199,14 +201,14 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setActor($actorType, $actorId);
+	public function setActor(string $actorType, string $actorId);
 
 	/**
 	 * returns the creation date of the comment.
 	 *
 	 * If not explicitly set, it shall default to the time of initialization.
 	 *
-	 * @return \DateTime
+	 * @return DateTime
 	 * @since 9.0.0
 	 */
 	public function getCreationDateTime();
@@ -214,16 +216,16 @@ interface IComment {
 	/**
 	 * sets the creation date of the comment and returns itself
 	 *
-	 * @param \DateTime $dateTime
+	 * @param DateTime $dateTime
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setCreationDateTime(\DateTime $dateTime);
+	public function setCreationDateTime(DateTime $dateTime);
 
 	/**
 	 * returns the date of the most recent child
 	 *
-	 * @return \DateTime
+	 * @return DateTime
 	 * @since 9.0.0
 	 */
 	public function getLatestChildDateTime();
@@ -231,11 +233,11 @@ interface IComment {
 	/**
 	 * sets the date of the most recent child
 	 *
-	 * @param \DateTime $dateTime
+	 * @param DateTime $dateTime
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime);
+	public function setLatestChildDateTime(DateTime $dateTime);
 
 	/**
 	 * returns the object type the comment is attached to
@@ -261,6 +263,6 @@ interface IComment {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setObject($objectType, $objectId);
+	public function setObject(string $objectType, string $objectId);
 
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -65,7 +68,7 @@ interface IUserSession {
 	/**
 	 * set the currently active user
 	 *
-	 * @param \OCP\IUser|null $user
+	 * @param IUser|null $user
 	 * @since 8.0.0
 	 */
 	public function setUser($user);
@@ -73,7 +76,7 @@ interface IUserSession {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OCP\IUser|null Current user, otherwise null
+	 * @return IUser|null Current user, otherwise null
 	 * @since 8.0.0
 	 */
 	public function getUser();

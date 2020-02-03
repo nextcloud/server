@@ -23,6 +23,7 @@
 
 namespace OCP\Federation\Exceptions;
 
+use Exception;
 use OC\HintException;
 use OCP\AppFramework\Http;
 
@@ -43,9 +44,9 @@ class ProviderCouldNotAddShareException extends HintException {
 	 * @param string $message
 	 * @param string $hint
 	 * @param int $code
-	 * @param \Exception|null $previous
+	 * @param Exception|null $previous
 	 */
-	public function __construct($message, $hint = '', $code = Http::STATUS_BAD_REQUEST, \Exception $previous = null) {
+	public function __construct(string $message, string $hint = '', int $code = Http::STATUS_BAD_REQUEST, Exception $previous = null) {
 		parent::__construct($message, $hint, $code, $previous);
 	}
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,7 +36,7 @@ interface IBus {
 	/**
 	 * Schedule a command to be fired
 	 *
-	 * @param \OCP\Command\ICommand | callable $command
+	 * @param ICommand|callable $command
 	 * @since 8.1.0
 	 */
 	public function push($command);
@@ -44,5 +47,5 @@ interface IBus {
 	 * @param string $trait
 	 * @since 8.1.0
 	 */
-	public function requireSync($trait);
+	public function requireSync(string $trait);
 }

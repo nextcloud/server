@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -42,7 +45,7 @@ interface IEventSource {
 	 * if only one parameter is given, a typeless message will be send with that parameter as data
 	 * @since 8.0.0
 	 */
-	public function send($type, $data = null);
+	public function send(string $type, $data = null);
 
 	/**
 	 * close the connection of the event source

@@ -41,7 +41,7 @@ class DownloadResponse extends Response {
 	 * @param string $contentType the mimetype that the downloaded file should have
 	 * @since 7.0.0
 	 */
-	public function __construct($filename, $contentType) {
+	public function __construct(string $filename, string $contentType) {
 		parent::__construct();
 
 		$this->filename = $filename;

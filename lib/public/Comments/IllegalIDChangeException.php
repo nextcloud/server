@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,8 +27,11 @@
 
 namespace OCP\Comments;
 
+use Exception;
+
 /**
  * Exception for illegal attempts to modify a comment ID
+ *
  * @since 9.0.0
  */
-class IllegalIDChangeException extends \Exception {}
+class IllegalIDChangeException extends Exception {}

@@ -44,7 +44,7 @@ interface Share_Backend {
 	 * Return false if the item does not exist for the user
 	 * @since 5.0.0
 	 */
-	public function isValidSource($itemSource, $uidOwner);
+	public function isValidSource(string $itemSource, string $uidOwner);
 
 	/**
 	 * Get a unique name of the item for the specified user
@@ -57,7 +57,7 @@ interface Share_Backend {
 	 * If it does generate a new name e.g. name_#
 	 * @since 5.0.0
 	 */
-	public function generateTarget($itemSource, $shareWith, $exclude = null);
+	public function generateTarget(string $itemSource, $shareWith, array $exclude = null);
 
 	/**
 	 * Converts the shared item sources back into the item in the specified format
@@ -81,7 +81,7 @@ interface Share_Backend {
 	 * It is only called through calls to the public getItem(s)Shared(With) functions.
 	 * @since 5.0.0
 	 */
-	public function formatItems($items, $format, $parameters = null);
+	public function formatItems(string $items, int $format, $parameters = null);
 
 	/**
 	 * Check if a given share type is allowd by the back-end
@@ -94,6 +94,6 @@ interface Share_Backend {
 	 * all share types defined by the share API
 	 * @since 8.0.0
 	 */
-	public function isShareTypeAllowed($shareType);
+	public function isShareTypeAllowed(int $shareType);
 
 }

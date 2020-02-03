@@ -102,7 +102,7 @@ abstract class Entity {
 	 * Generic setter for properties
 	 * @since 7.0.0
 	 */
-	protected function setter($name, $args) {
+	protected function setter(string $name, array $args) {
 		// setters should only work for existing attributes
 		if(property_exists($this, $name)){
 			if($this->$name === $args[0]) {
@@ -126,7 +126,7 @@ abstract class Entity {
 	 * Generic getter for properties
 	 * @since 7.0.0
 	 */
-	protected function getter($name) {
+	protected function getter(string $name) {
 		// getters should only work for existing attributes
 		if(property_exists($this, $name)){
 			return $this->$name;
@@ -144,7 +144,7 @@ abstract class Entity {
 	 * getter method
 	 * @since 7.0.0
 	 */
-	public function __call($methodName, $args) {
+	public function __call(string $methodName, array $args) {
 		if (strpos($methodName, 'set') === 0) {
 			$this->setter(lcfirst(substr($methodName, 3)), $args);
 		} elseif (strpos($methodName, 'get') === 0) {
@@ -176,7 +176,7 @@ abstract class Entity {
 	 * @param string $attribute the name of the attribute
 	 * @since 7.0.0
 	 */
-	protected function markFieldUpdated($attribute){
+	protected function markFieldUpdated(string $attribute){
 		$this->_updatedFields[$attribute] = true;
 	}
 
@@ -187,7 +187,7 @@ abstract class Entity {
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty($columnName){
+	public function columnToProperty(string $columnName){
 		$parts = explode('_', $columnName);
 		$property = null;
 
@@ -209,7 +209,7 @@ abstract class Entity {
 	 * @return string the column name
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn(string $property){
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
@@ -241,7 +241,7 @@ abstract class Entity {
 	 * @param string $type the type which will be used to call settype()
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type){
+	protected function addType(string $fieldName, string $type){
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 
@@ -253,7 +253,7 @@ abstract class Entity {
 	 * @return string slugified value
 	 * @since 7.0.0
 	 */
-	public function slugify($attributeName){
+	public function slugify(string $attributeName){
 		// toSlug should only work for existing attributes
 		if(property_exists($this, $attributeName)){
 			$value = $this->$attributeName;

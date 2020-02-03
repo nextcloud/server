@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +60,7 @@ interface IGroupManager {
 	public function isBackendUsed($backendClass);
 
 	/**
-	 * @param \OCP\GroupInterface $backend
+	 * @param GroupInterface $backend
 	 * @since 8.0.0
 	 */
 	public function addBackend($backend);
@@ -69,7 +72,8 @@ interface IGroupManager {
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\GroupInterface[]
+	 *
+	 * @return GroupInterface[]
 	 * @since 13.0.0
 	 */
 	public function getBackends();
@@ -86,14 +90,14 @@ interface IGroupManager {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function groupExists($gid);
+	public function groupExists(string $gid);
 
 	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup|null
 	 * @since 8.0.0
 	 */
-	public function createGroup($gid);
+	public function createGroup(string $gid);
 
 	/**
 	 * @param string $search
@@ -102,7 +106,7 @@ interface IGroupManager {
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */
-	public function search($search, $limit = null, $offset = null);
+	public function search(string $search, int $limit = null, int $offset = null);
 
 	/**
 	 * @param \OCP\IUser|null $user
@@ -128,7 +132,7 @@ interface IGroupManager {
 	 * @return array an array of display names (value) and user ids (key)
 	 * @since 8.0.0
 	 */
-	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);
+	public function displayNamesInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
 	 * Checks if a userId is in the admin group
@@ -136,7 +140,7 @@ interface IGroupManager {
 	 * @return bool if admin
 	 * @since 8.0.0
 	 */
-	public function isAdmin($userId);
+	public function isAdmin(string $userId);
 
 	/**
 	 * Checks if a userId is in a group
@@ -145,5 +149,5 @@ interface IGroupManager {
 	 * @return bool if in group
 	 * @since 8.0.0
 	 */
-	public function isInGroup($userId, $group);
+	public function isInGroup(string $userId, string $group);
 }

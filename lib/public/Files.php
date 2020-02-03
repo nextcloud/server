@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -54,8 +57,8 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function rmdirr( $dir ) {
-		return \OC_Helper::rmdirr( $dir );
+	static public function rmdirr($dir) {
+		return \OC_Helper::rmdirr($dir);
 	}
 
 	/**
@@ -66,7 +69,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function getMimeType( $path ) {
+	static public function getMimeType(string $path) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -77,7 +80,7 @@ class Files {
 	 * @since 6.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function searchByMime($mimetype) {
+	static public function searchByMime(string $mimetype) {
 		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 
@@ -89,7 +92,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	public static function streamCopy( $source, $target ) {
+	public static function streamCopy($source, $target) {
 		list($count, ) = \OC_Helper::streamCopy( $source, $target );
 		return $count;
 	}
@@ -102,7 +105,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0 use getNonExistingName of the OCP\Files\Folder object
 	 */
-	public static function buildNotExistingFileName($path, $filename) {
+	public static function buildNotExistingFileName(string $path, string $filename) {
 		return \OC_Helper::buildNotExistingFileName($path, $filename);
 	}
 
@@ -114,7 +117,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0 use IAppData instead
 	 */
-	public static function getStorage($app) {
+	public static function getStorage(string $app) {
 		return \OC_App::getStorage( $app );
 	}
 }

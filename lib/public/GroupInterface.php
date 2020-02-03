@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -69,7 +72,7 @@ interface GroupInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC_Group_Backend::CREATE_GROUP etc.
 	 */
-	public function implementsActions($actions);
+	public function implementsActions(int $actions);
 
 	/**
 	 * is user in group?
@@ -80,7 +83,7 @@ interface GroupInterface {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid);
+	public function inGroup(string $uid, string $gid);
 
 	/**
 	 * Get all groups a user belongs to
@@ -91,7 +94,7 @@ interface GroupInterface {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid);
+	public function getUserGroups(string $uid);
 
 	/**
 	 * get a list of all groups
@@ -103,7 +106,7 @@ interface GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0);
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
 	 * check if a group exists
@@ -111,7 +114,7 @@ interface GroupInterface {
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function groupExists($gid);
+	public function groupExists(string $gid);
 
 	/**
 	 * get a list of all users in a group
@@ -122,6 +125,6 @@ interface GroupInterface {
 	 * @return array an array of user ids
 	 * @since 4.5.0
 	 */
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
+	public function usersInGroup(string $gid, string $search = '',int $limit = -1, int $offset = 0);
 
 }

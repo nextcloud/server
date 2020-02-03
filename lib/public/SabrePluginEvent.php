@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -48,6 +51,7 @@ class SabrePluginEvent extends Event {
 	 * @since 8.2.0
 	 */
 	public function __construct($server = null) {
+		parent::__construct();
 		$this->message = '';
 		$this->statusCode = Http::STATUS_OK;
 		$this->server = $server;
@@ -58,7 +62,7 @@ class SabrePluginEvent extends Event {
 	 * @return self
 	 * @since 8.2.0
 	 */
-	public function setStatusCode($statusCode) {
+	public function setStatusCode(int $statusCode) {
 		$this->statusCode = (int) $statusCode;
 		return $this;
 	}
@@ -68,7 +72,7 @@ class SabrePluginEvent extends Event {
 	 * @return self
 	 * @since 8.2.0
 	 */
-	public function setMessage($message) {
+	public function setMessage(string $message) {
 		$this->message = (string) $message;
 		return $this;
 	}

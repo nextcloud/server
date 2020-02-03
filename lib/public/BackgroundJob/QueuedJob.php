@@ -43,7 +43,7 @@ abstract class QueuedJob extends Job {
 	 *
 	 * @since 15.0.0
 	 */
-	final public function execute($jobList, ILogger $logger = null) {
+	final public function execute(IJobList $jobList, ILogger $logger = null) {
 		$jobList->remove($this, $this->argument);
 		parent::execute($jobList, $logger);
 	}

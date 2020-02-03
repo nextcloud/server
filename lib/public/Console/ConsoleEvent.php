@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -49,6 +52,7 @@ class ConsoleEvent extends Event {
 	 * @since 9.0.0
 	 */
 	public function __construct($event, array $arguments) {
+		parent::__construct();
 		$this->event = $event;
 		$this->arguments = $arguments;
 	}

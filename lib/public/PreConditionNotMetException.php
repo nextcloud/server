@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,8 +29,11 @@
 
 namespace OCP;
 
+use Exception;
+
 /**
  * Exception if the precondition of the config update method isn't met
+ *
  * @since 8.0.0
  */
-class PreConditionNotMetException extends \Exception {}
+class PreConditionNotMetException extends Exception {}

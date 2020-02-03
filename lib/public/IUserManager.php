@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -31,6 +34,9 @@
 namespace OCP;
 
 
+use Closure;
+use InvalidArgumentException;
+
 /**
  * Class Manager
  *
@@ -52,14 +58,15 @@ interface IUserManager {
 		/**
 	 * register a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 * @since 8.0.0
 	 */
-	public function registerBackend($backend);
+	public function registerBackend(UserInterface $backend);
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\UserInterface[]
+	 *
+	 * @return UserInterface[]
 	 * @since 8.0.0
 	 */
 	public function getBackends();
@@ -67,10 +74,10 @@ interface IUserManager {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 * @since 8.0.0
 	 */
-	public function removeBackend($backend);
+	public function removeBackend(UserInterface $backend);
 
 	/**
 	 * remove all user backends
@@ -82,10 +89,10 @@ interface IUserManager {
 	 * get a user by user id
 	 *
 	 * @param string $uid
-	 * @return \OCP\IUser|null Either the user or null if the specified user does not exist
+	 * @return IUser|null Either the user or null if the specified user does not exist
 	 * @since 8.0.0
 	 */
-	public function get($uid);
+	public function get(string $uid);
 
 	/**
 	 * check if a user exists
@@ -94,7 +101,7 @@ interface IUserManager {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function userExists($uid);
+	public function userExists(string $uid);
 
 	/**
 	 * Check if the password is valid for the user
@@ -104,7 +111,7 @@ interface IUserManager {
 	 * @return mixed the User object on success, false otherwise
 	 * @since 8.0.0
 	 */
-	public function checkPassword($loginName, $password);
+	public function checkPassword(string $loginName, string $password);
 
 	/**
 	 * search by user id
@@ -112,10 +119,10 @@ interface IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function search($pattern, $limit = null, $offset = null);
+	public function search(string $pattern, int $limit = null, int $offset = null);
 
 	/**
 	 * search by displayName
@@ -123,29 +130,29 @@ interface IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchDisplayName($pattern, $limit = null, $offset = null);
+	public function searchDisplayName(string $pattern, int $limit = null, int $offset = null);
 
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @throws \InvalidArgumentException
-	 * @return bool|\OCP\IUser the created user or false
+	 * @return bool|IUser the created user or false
+	 * @throws InvalidArgumentException
 	 * @since 8.0.0
 	 */
-	public function createUser($uid, $password);
+	public function createUser(string $uid, string $password);
 
 	/**
 	 * @param string $uid
 	 * @param string $password
 	 * @param UserInterface $backend
 	 * @return IUser|null
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @since 12.0.0
 	 */
-	public function createUserFromBackend($uid, $password, UserInterface $backend);
+	public function createUserFromBackend(string $uid, string $password, UserInterface $backend);
 
 	/**
 	 * returns how many users per backend exist (if supported by backend)
@@ -156,11 +163,11 @@ interface IUserManager {
 	public function countUsers();
 
 	/**
-	 * @param \Closure $callback
+	 * @param Closure $callback
 	 * @param string $search
 	 * @since 9.0.0
 	 */
-	public function callForAllUsers(\Closure $callback, $search = '');
+	public function callForAllUsers(Closure $callback, $search = '');
 
 	/**
 	 * returns how many users have logged in once
@@ -179,15 +186,15 @@ interface IUserManager {
 	public function countSeenUsers();
 
 	/**
-	 * @param \Closure $callback
+	 * @param Closure $callback
 	 * @since 11.0.0
 	 */
-	public function callForSeenUsers(\Closure $callback);
+	public function callForSeenUsers(Closure $callback);
 
 	/**
 	 * @param string $email
 	 * @return IUser[]
 	 * @since 9.1.0
 	 */
-	public function getByEmail($email);
+	public function getByEmail(string $email);
 }

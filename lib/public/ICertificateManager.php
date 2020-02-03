@@ -24,15 +24,18 @@
 
 namespace OCP;
 
+use Exception;
+
 /**
  * Manage trusted certificates for users
+ *
  * @since 8.0.0
  */
 interface ICertificateManager {
 	/**
 	 * Returns all certificates trusted by the user
 	 *
-	 * @return \OCP\ICertificate[]
+	 * @return ICertificate[]
 	 * @since 8.0.0
 	 */
 	public function listCertificates();
@@ -40,17 +43,17 @@ interface ICertificateManager {
 	/**
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return \OCP\ICertificate
-	 * @throws \Exception If the certificate could not get added
+	 * @return ICertificate
+	 * @throws Exception If the certificate could not get added
 	 * @since 8.0.0 - since 8.1.0 throws exception instead of returning false
 	 */
-	public function addCertificate($certificate, $name);
+	public function addCertificate(string $certificate, string $name);
 
 	/**
 	 * @param string $name
 	 * @since 8.0.0
 	 */
-	public function removeCertificate($name);
+	public function removeCertificate(string $name);
 
 	/**
 	 * Get the path to the certificate bundle for this user
@@ -59,7 +62,7 @@ interface ICertificateManager {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getCertificateBundle($uid = '');
+	public function getCertificateBundle(string $uid = '');
 
 	/**
 	 * Get the full local path to the certificate bundle for this user
@@ -68,5 +71,5 @@ interface ICertificateManager {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getAbsoluteBundlePath($uid = '');
+	public function getAbsoluteBundlePath(string $uid = '');
 }

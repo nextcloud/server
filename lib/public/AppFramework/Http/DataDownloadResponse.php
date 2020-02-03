@@ -43,7 +43,7 @@ class DataDownloadResponse extends DownloadResponse {
 	 * @param string $contentType the mimetype that the downloaded file should have
 	 * @since 8.0.0
 	 */
-	public function __construct($data, $filename, $contentType) {
+	public function __construct(string $data, string $filename, string $contentType) {
 		$this->data = $data;
 		parent::__construct($filename, $contentType);
 	}
@@ -52,7 +52,7 @@ class DataDownloadResponse extends DownloadResponse {
 	 * @param string $data
 	 * @since 8.0.0
 	 */
-	public function setData($data) {
+	public function setData(string $data) {
 		$this->data = $data;
 	}
 

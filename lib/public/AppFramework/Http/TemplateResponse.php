@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -75,8 +78,8 @@ class TemplateResponse extends Response {
 	 * @param string $renderAs how the page should be rendered, defaults to user
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
-	public function __construct($appName, $templateName, array $params=array(),
-	                            $renderAs='user') {
+	public function __construct(string $appName, string $templateName, array $params=array(),
+	                            string $renderAs = 'user') {
 		parent::__construct();
 
 		$this->templateName = $templateName;
@@ -132,7 +135,7 @@ class TemplateResponse extends Response {
 	 * @return TemplateResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function renderAs($renderAs){
+	public function renderAs(string $renderAs){
 		$this->renderAs = $renderAs;
 
 		return $this;

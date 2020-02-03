@@ -54,7 +54,7 @@ interface IAppContainer extends IContainer {
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function registerMiddleWare($middleWare);
+	public function registerMiddleWare(string $middleWare);
 
 	/**
 	 * Register a capability
@@ -62,5 +62,5 @@ interface IAppContainer extends IContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 * @since 8.2.0
 	 */
-	 public function registerCapability($serviceName);
+	 public function registerCapability(string $serviceName);
 }

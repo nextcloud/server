@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -70,7 +73,7 @@ interface ITags {
 	 * @return array|false
 	 * @since 8.0.0
 	 */
-	public function getTag($id);
+	public function getTag(string $id);
 
 	/**
 	 * Get the tags for a specific user.
@@ -121,7 +124,7 @@ interface ITags {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function hasTag($name);
+	public function hasTag(string $name);
 
 	/**
 	 * Checks whether a tag is saved for the given user,
@@ -132,7 +135,7 @@ interface ITags {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function userHasTag($name, $user);
+	public function userHasTag(string $name, string $user);
 
 	/**
 	 * Add a new tag.
@@ -141,7 +144,7 @@ interface ITags {
 	 * @return int|false the id of the added tag or false if it already exists.
 	 * @since 6.0.0
 	 */
-	public function add($name);
+	public function add(string $name);
 
 	/**
 	 * Rename tag.
@@ -151,7 +154,7 @@ interface ITags {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function rename($from, $to);
+	public function rename($from, string $to);
 
 	/**
 	 * Add a list of new tags.
@@ -163,7 +166,7 @@ interface ITags {
 	 * @return bool Returns false on error.
 	 * @since 6.0.0
 	 */
-	public function addMultiple($names, $sync=false, $id = null);
+	public function addMultiple(array $names, bool $sync = false, int $id = null);
 
 	/**
 	 * Delete tag/object relations from the db
@@ -189,7 +192,7 @@ interface ITags {
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function addToFavorites($objid);
+	public function addToFavorites(int $objid);
 
 	/**
 	 * Remove an object from favorites
@@ -198,7 +201,7 @@ interface ITags {
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function removeFromFavorites($objid);
+	public function removeFromFavorites(int $objid);
 
 	/**
 	 * Creates a tag/object relation.
@@ -208,7 +211,7 @@ interface ITags {
 	 * @return boolean Returns false on database error.
 	 * @since 6.0.0
 	 */
-	public function tagAs($objid, $tag);
+	public function tagAs(int $objid, string $tag);
 
 	/**
 	 * Delete single tag/object relation from the db
@@ -218,7 +221,7 @@ interface ITags {
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function unTag($objid, $tag);
+	public function unTag(int $objid, string $tag);
 
 	/**
 	 * Delete tags from the database
@@ -227,6 +230,6 @@ interface ITags {
 	 * @return bool Returns false on error
 	 * @since 6.0.0
 	 */
-	public function delete($names);
+	public function delete(array $names);
 
 }

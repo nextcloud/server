@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -56,7 +59,7 @@ interface IContainer {
 	 * @since 8.2.0
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
-	public function resolve($name);
+	public function resolve(string $name);
 
 	/**
 	 * Look up a service for a given name in the container.
@@ -77,7 +80,7 @@ interface IContainer {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerParameter($name, $value);
+	public function registerParameter(string $name, $value);
 
 	/**
 	 * A service is registered in the container where a closure is passed in which will actually
@@ -92,7 +95,7 @@ interface IContainer {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerService($name, Closure $closure, $shared = true);
+	public function registerService(string $name, Closure $closure, bool $shared = true);
 
 	/**
 	 * Shortcut for returning a service from a service under a different key,
@@ -102,5 +105,5 @@ interface IContainer {
 	 * @param string $target the target that should be resolved instead
 	 * @since 8.2.0
 	 */
-	public function registerAlias($alias, $target);
+	public function registerAlias(string $alias, string $target);
 }

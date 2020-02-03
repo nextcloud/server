@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -49,7 +52,7 @@ interface IJobList {
 	/**
 	 * Add a job to the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 * @since 7.0.0
 	 */
@@ -58,7 +61,7 @@ interface IJobList {
 	/**
 	 * Remove a job from the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
@@ -67,7 +70,7 @@ interface IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 * @since 7.0.0
@@ -77,7 +80,7 @@ interface IJobList {
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return \OCP\BackgroundJob\IJob[]
+	 * @return IJob[]
 	 * @since 7.0.0
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
 	 * memory problems when creating too many instances.
@@ -87,14 +90,14 @@ interface IJobList {
 	/**
 	 * get the next job in the list
 	 *
-	 * @return \OCP\BackgroundJob\IJob|null
+	 * @return IJob|null
 	 * @since 7.0.0
 	 */
 	public function getNext();
 
 	/**
 	 * @param int $id
-	 * @return \OCP\BackgroundJob\IJob|null
+	 * @return IJob|null
 	 * @since 7.0.0
 	 */
 	public function getById($id);
@@ -102,7 +105,7 @@ interface IJobList {
 	/**
 	 * set the job that was last ran to the current time
 	 *
-	 * @param \OCP\BackgroundJob\IJob $job
+	 * @param IJob $job
 	 * @since 7.0.0
 	 */
 	public function setLastJob(IJob $job);

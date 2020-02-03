@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -36,5 +39,5 @@ interface IMemcacheTTL extends IMemcache {
 	 * @param int $ttl time to live in seconds
 	 * @since 8.2.2
 	 */
-	public function setTTL($key, $ttl);
+	public function setTTL(string $key, int $ttl);
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -185,7 +188,7 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getLogo($useSvg = true) {
+	public function getLogo(bool $useSvg = true) {
 		return $this->defaults->getLogo($useSvg);
 	}
 
@@ -203,7 +206,7 @@ class Defaults {
 	 * @return string URL to doc with key
 	 * @since 12.0.0
 	 */
-	public function buildDocLinkToKey($key) {
+	public function buildDocLinkToKey(string $key) {
 		return $this->defaults->buildDocLinkToKey($key);
 	}
 

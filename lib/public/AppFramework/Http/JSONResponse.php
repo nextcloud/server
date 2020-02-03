@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,11 +28,6 @@
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\JSONResponse class
- */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -53,7 +51,7 @@ class JSONResponse extends Response {
 	 * @param int $statusCode the Http status code, defaults to 200
 	 * @since 6.0.0
 	 */
-	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
+	public function __construct($data = [], int $statusCode=Http::STATUS_OK) {
 		parent::__construct();
 
 		$this->data = $data;

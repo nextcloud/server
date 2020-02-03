@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,13 +30,10 @@
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\Controller class
- */
-
 namespace OCP\AppFramework;
 
+use Closure;
+use DomainException;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -54,7 +54,7 @@ abstract class Controller {
 
 	/**
 	 * current request
-	 * @var \OCP\IRequest
+	 * @var IRequest
 	 * @since 6.0.0
 	 */
 	protected $request;
@@ -71,7 +71,7 @@ abstract class Controller {
 	 * @param IRequest $request an instance of the request
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 	                            IRequest $request) {
 		$this->appName = $appName;
 		$this->request = $request;
@@ -107,7 +107,7 @@ abstract class Controller {
 	 * @since 7.0.0
 	 * @since 9.1.0 Added default parameter
 	 */
-	public function getResponderByHTTPHeader($acceptHeader, $default='json') {
+	public function getResponderByHTTPHeader(string $acceptHeader, string $default = 'json') {
 		$headers = explode(',', $acceptHeader);
 
 		// return the first matching responder
@@ -129,10 +129,10 @@ abstract class Controller {
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
-	 * @param \Closure $responder
+	 * @param Closure $responder
 	 * @since 7.0.0
 	 */
-	protected function registerResponder($format, \Closure $responder) {
+	protected function registerResponder(string $format, Closure $responder) {
 		$this->responders[$format] = $responder;
 	}
 
@@ -142,19 +142,17 @@ abstract class Controller {
 	 * @param mixed $response the value that was returned from a controller and
 	 * is not a Response instance
 	 * @param string $format the format for which a formatter has been registered
-	 * @throws \DomainException if format does not match a registered formatter
+	 * @throws DomainException if format does not match a registered formatter
 	 * @return Response
 	 * @since 7.0.0
 	 */
-	public function buildResponse($response, $format='json') {
+	public function buildResponse($response, string $format = 'json') {
 		if(array_key_exists($format, $this->responders)) {
-
 			$responder = $this->responders[$format];
 
 			return $responder($response);
-
 		}
-		throw new \DomainException('No responder registered for format '.
+		throw new DomainException('No responder registered for format '.
 			$format . '!');
 	}
 }

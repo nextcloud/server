@@ -57,7 +57,7 @@ interface IL10N {
 	 * returned.
 	 * @since 6.0.0
 	 */
-	public function t(string $text, $parameters = []): string;
+	public function t(string $text, array $parameters = []): string;
 
 	/**
 	 * Translating

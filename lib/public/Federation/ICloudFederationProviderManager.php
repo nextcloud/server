@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -45,7 +48,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @since 14.0.0
 	 */
-	public function addCloudFederationProvider($resourceType, $displayName, callable $callback);
+	public function addCloudFederationProvider(string $resourceType, string $displayName, callable $callback);
 
 	/**
 	 * remove cloud federation provider
@@ -54,7 +57,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @since 14.0.0
 	 */
-	public function removeCloudFederationProvider($resourceType);
+	public function removeCloudFederationProvider(string $resourceType);
 
 	/**
 	 * get a list of all cloudFederationProviders
@@ -74,7 +77,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationProvider($resourceType);
+	public function getCloudFederationProvider(string $resourceType);
 
 	/**
 	 * send federated share
@@ -95,7 +98,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @since 14.0.0
 	 */
-	public function sendNotification($url, ICloudFederationNotification $notification);
+	public function sendNotification(string $url, ICloudFederationNotification $notification);
 
 	/**
 	 * check if the new cloud federation API is ready to be used

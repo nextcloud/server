@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,11 +27,9 @@
 namespace OCP\App;
 
 use OCP\EventDispatcher\Event;
+use OCP\IGroup;
 
 /**
- * Class ManagerEvent
- *
- * @package OCP\APP
  * @since 9.0.0
  */
 class ManagerEvent extends Event {
@@ -46,18 +47,19 @@ class ManagerEvent extends Event {
 	protected $event;
 	/** @var string */
 	protected $appID;
-	/** @var \OCP\IGroup[]|null */
+	/** @var IGroup[]|null */
 	protected $groups;
 
 	/**
 	 * DispatcherEvent constructor.
 	 *
 	 * @param string $event
-	 * @param $appID
-	 * @param \OCP\IGroup[]|null $groups
+	 * @param string $appID
+	 * @param IGroup[]|null $groups
 	 * @since 9.0.0
 	 */
-	public function __construct($event, $appID, array $groups = null) {
+	public function __construct(string $event, string $appID, array $groups = null) {
+		parent::__construct();
 		$this->event = $event;
 		$this->appID = $appID;
 		$this->groups = $groups;
@@ -86,7 +88,7 @@ class ManagerEvent extends Event {
 	 */
 	public function getGroups() {
 		return array_map(function ($group) {
-			/** @var \OCP\IGroup $group */
+			/** @var IGroup $group */
 			return $group->getGID();
 		}, $this->groups);
 	}

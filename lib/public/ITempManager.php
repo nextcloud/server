@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -38,7 +41,7 @@ interface ITempManager {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getTemporaryFile($postFix = '');
+	public function getTemporaryFile(string $postFix = '');
 
 	/**
 	 * Create a temporary folder and return the path
@@ -47,7 +50,7 @@ interface ITempManager {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getTemporaryFolder($postFix = '');
+	public function getTemporaryFolder(string $postFix = '');
 
 	/**
 	 * Remove the temporary files and folders generated during this request

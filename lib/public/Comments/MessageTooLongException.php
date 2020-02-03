@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,8 +26,11 @@
 
 namespace OCP\Comments;
 
+use OverflowException;
+
 /**
  * Exception thrown when a comment message exceeds the allowed character limit
+ *
  * @since 9.0.0
  */
-class MessageTooLongException extends \OverflowException {}
+class MessageTooLongException extends OverflowException {}

@@ -40,7 +40,7 @@ class ActionNotSupportedException extends HintException {
 	 * @since 14.0.0
 	 *
 	 */
-	public function __construct($action) {
+	public function __construct(string $action) {
 		$l = \OC::$server->getL10N('federation');
 		$message = 'Action "' . $action . '" not supported or implemented.';
 		$hint = $l->t('Action "%s" not supported or implemented.', [$action]);

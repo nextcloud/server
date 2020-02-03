@@ -28,8 +28,12 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Utility;
 
 
+use DateTime;
+use DateTimeZone;
+
 /**
  * Needed to mock calls to time()
+ *
  * @since 8.0.0
  */
 interface ITimeFactory {
@@ -42,10 +46,10 @@ interface ITimeFactory {
 
 	/**
 	 * @param string $time
-	 * @param \DateTimeZone $timezone
-	 * @return \DateTime
+	 * @param DateTimeZone $timezone
+	 * @return DateTime
 	 * @since 15.0.0
 	 */
-	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
+	public function getDateTime(string $time = 'now', DateTimeZone $timezone = null): DateTime;
 
 }

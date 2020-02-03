@@ -34,7 +34,7 @@ interface IManager {
 	 * @param string $className – class name of the ISorter implementation
 	 * @since 13.0.0
 	 */
-	public function registerSorter($className);
+	public function registerSorter(string $className);
 
 	/**
 	 * @param array $sorters	list of sorter IDs, seperated by "|"

@@ -35,6 +35,9 @@
 
 namespace OCP\Contacts;
 
+use Closure;
+use OCP\IAddressBook;
+
 /**
  * This class provides access to the contacts app. Use this class exclusively if you want to access contacts.
  *
@@ -98,7 +101,7 @@ interface IManager {
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
-	public function search($pattern, $searchProperties = array(), $options = array());
+	public function search(string $pattern, array $searchProperties = array(), array $options = array());
 
 	/**
 	 * This function can be used to delete the contact identified by the given id
@@ -108,7 +111,7 @@ interface IManager {
 	 * @return bool successful or not
 	 * @since 6.0.0
 	 */
-	public function delete($id, $address_book_key);
+	public function delete($id, string $address_book_key);
 
 	/**
 	 * This function is used to create a new contact if 'id' is not given or not present.
@@ -119,7 +122,7 @@ interface IManager {
 	 * @return array an array representing the contact just created or updated
 	 * @since 6.0.0
 	 */
-	public function createOrUpdate($properties, $address_book_key);
+	public function createOrUpdate(array $properties, string $address_book_key);
 
 	/**
 	 * Check if contacts are available (e.g. contacts app enabled)
@@ -132,34 +135,34 @@ interface IManager {
 	/**
 	 * Registers an address book
 	 *
-	 * @param \OCP\IAddressBook $address_book
+	 * @param IAddressBook $address_book
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerAddressBook(\OCP\IAddressBook $address_book);
+	public function registerAddressBook(IAddressBook $address_book);
 
 	/**
 	 * Unregisters an address book
 	 *
-	 * @param \OCP\IAddressBook $address_book
+	 * @param IAddressBook $address_book
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function unregisterAddressBook(\OCP\IAddressBook $address_book);
+	public function unregisterAddressBook(IAddressBook $address_book);
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * address books are actually requested
 	 *
-	 * @param \Closure $callable
+	 * @param Closure $callable
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function register(\Closure $callable);
+	public function register(Closure $callable);
 
 	/**
 	 * Return a list of the user's addressbooks display names
-	 * 
+	 *
 	 * @return array
 	 * @since 6.0.0
 	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
@@ -168,7 +171,7 @@ interface IManager {
 
 	/**
 	 * Return a list of the user's addressbooks
-	 * 
+	 *
 	 * @return IAddressBook[]
 	 * @since 16.0.0
 	 */
@@ -176,7 +179,7 @@ interface IManager {
 
 	/**
 	 * removes all registered address book instances
-	 * 
+	 *
 	 * @return void
 	 * @since 6.0.0
 	 */
