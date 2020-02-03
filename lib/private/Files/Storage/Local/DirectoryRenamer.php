@@ -77,8 +77,7 @@ class DirectoryRenamer {
 	 */
 	private function setupErrorHandler(): void {
 		$state = self::STATE_NO_ERROR;
-
-		set_error_handler(function($errno, $errstr) use (&$state) {
+		$previousHandler = set_error_handler(function($errno, $errstr) use (&$state, &$previousHandler) {
 			// when we hit first warning, we'll check if it's what we expect
 			// if it is, we transition to next state and return
 			// otherwise we continue
@@ -106,10 +105,12 @@ class DirectoryRenamer {
 			}
 
 			// if we get to this point, we got called with warnings which we can't handle (or not in the order anticipated)
-			// so we restore the previous error handler and trigger the error again so that it's propagated to original error handler
+			// so we restore the previous error handler and let it handle this warning
 			restore_error_handler();
 			$this->shouldRestoreHandler = false;
-			trigger_error($errstr, E_USER_WARNING);
+			if ($previousHandler) {
+				return call_user_func_array($previousHandler, func_get_args());
+			}
 
 			return true;
 		}, E_WARNING | E_USER_WARNING);
