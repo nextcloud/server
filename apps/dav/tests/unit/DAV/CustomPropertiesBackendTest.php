@@ -52,9 +52,6 @@ class CustomPropertiesBackendTest extends TestCase {
 	/** @var CustomPropertiesBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $backend;
 
-	/** @var (Node | \PHPUnit_Framework_MockObject_MockObject)[] */
-	private $nodes = [];
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -71,38 +68,6 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->user
 		);
 
-		$this->tree->method('getNodeForPath')
-			->willReturnCallback(function ($path) {
-				if (isset($this->nodes[$path])) {
-					return $this->nodes[$path];
-				} else {
-					throw new NotFound();
-				}
-			});
-	}
-
-	/**
-	 * @param string $path
-	 * @return INode|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function addNode($path) {
-		$node = $this->createMock(INode::class);
-		$node->method('getPath')
-			->willReturn($path);
-		$this->nodes[$path] = $node;
-		return $node;
-	}
-
-	/**
-	 * @param string $path
-	 * @return Node|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function addCalendar($path) {
-		$node = $this->createMock(Node::class);
-		$node->method('getPath')
-			->willReturn($path);
-		$this->nodes[$path] = $node;
-		return $node;
 	}
 
 	protected function tearDown(): void {
@@ -170,7 +135,6 @@ class CustomPropertiesBackendTest extends TestCase {
 		$db->expects($this->never())
 			->method($this->anything());
 
-		$this->addNode('foo_bar_path_1337_0');
 		$backend->propFind('foo_bar_path_1337_0', $propFind);
 	}
 
@@ -212,8 +176,6 @@ class CustomPropertiesBackendTest extends TestCase {
 				$setProps[$name] = $value;
 			});
 
-		$this->addNode('calendars/foo/bar_path_1337_0');
-
 		$this->backend->propFind('calendars/foo/bar_path_1337_0', $propFind);
 		$this->assertEquals($props, $setProps);
 	}
@@ -223,7 +185,6 @@ class CustomPropertiesBackendTest extends TestCase {
 	 */
 	public function testPropPatch(string $path, array $existing, array $props, array $result) {
 		$this->insertProps($this->user->getUID(), $path, $existing);
-		$this->addNode($path);
 		$propPatch = new PropPatch($props);
 
 		$this->backend->propPatch($path, $propPatch);
