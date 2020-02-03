@@ -65,8 +65,13 @@ class Client implements IClient {
 	}
 
 	private function buildRequestOptions(array $options): array {
+		$proxyUri = $this->getProxyUri();
 		$defaults = [
-			RequestOptions::PROXY => $this->getProxyUri(),
+			RequestOptions::PROXY => $proxyUri ? [
+				'http' => $proxyUri,
+				'https' => $proxyUri,
+				'no' => $this->getNoProxy(),
+			] : null,
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => 30,
 		];
@@ -114,6 +119,19 @@ class Client implements IClient {
 		}
 
 		return $proxyUserPwd . '@' . $proxyHost;
+	}
+
+	private function getNoProxy(): ?array {
+		$noProxy = $this->config->getSystemValue('noproxy', null);
+
+		if ($noProxy === null) {
+			if ($noProxy = getenv('NO_PROXY')) {
+				$cleanedNoProxy = str_replace(' ', '', $noProxy);
+				return explode(',', $cleanedNoProxy);
+			}
+			return null;
+		}
+		return $noProxy;
 	}
 
 	/**

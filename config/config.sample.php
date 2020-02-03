@@ -532,6 +532,13 @@ $CONFIG = array(
  */
 'proxyuserpwd' => '',
 
+/**
+ * Exclude list from hosts that should not be handled by the proxy.
+ * The format is: ``['host1', 'host2']``.
+ *
+ * Defaults to ``'null``
+ */
+'noproxy' => null,
 
 /**
  * Deleted Items (trash bin)
