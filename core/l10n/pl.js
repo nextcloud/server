@@ -400,7 +400,7 @@ OC.L10N.register(
     "email" : "e-mail",
     "conversation" : "rozmowa",
     "shared by {sharer}" : "udostępnione przez {sharer}",
-    "Can reshare" : "Może udostępniać innym",
+    "Can reshare" : "Może udostępnić innym",
     "Can edit" : "Może edytować",
     "Can create" : "Może utworzyć",
     "Can change" : "Może zmienić",
