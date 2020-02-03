@@ -36,13 +36,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: Set up Node
+    - name: Use node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: npm install
+    - name: Install dependencies
       run: npm ci
-    - name: eslint
+    - name: ESLint
       run: npm run lint
     env:
       CI: true
