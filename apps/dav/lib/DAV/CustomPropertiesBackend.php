@@ -102,25 +102,6 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return void
 	 */
 	public function propFind($path, PropFind $propFind) {
-		try {
-			$node = $this->tree->getNodeForPath($path);
-			if (!($node instanceof INode)) {
-				return;
-			}
-		} catch (ServiceUnavailable $e) {
-			// might happen for unavailable mount points, skip
-			return;
-		} catch (NotFound $e) {
-			// in some rare (buggy) cases the node might not be found,
-			// we catch the exception to prevent breaking the whole list with a 404
-			// (soft fail)
-			\OC::$server->getLogger()->warning(
-				'Could not get node for path: \"' . $path . '\" : ' . $e->getMessage(),
-				['app' => 'files']
-			);
-			return;
-		}
-
 		$requestedProps = $propFind->get404Properties();
 
 		// these might appear
@@ -153,7 +134,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			return;
 		}
 
-		$props = $this->getProperties($node, $requestedProps);
+		$props = $this->getProperties($path, $requestedProps);
 		foreach ($props as $propName => $propValue) {
 			$propFind->set($propName, $propValue);
 		}
@@ -168,13 +149,8 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return void
 	 */
 	public function propPatch($path, PropPatch $propPatch) {
-		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof INode)) {
-			return;
-		}
-
-		$propPatch->handleRemaining(function ($changedProps) use ($node) {
-			return $this->updateProperties($node, $changedProps);
+		$propPatch->handleRemaining(function ($changedProps) use ($path) {
+			return $this->updateProperties($path, $changedProps);
 		});
 	}
 
@@ -213,7 +189,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Returns a list of properties for this nodes.;
 	 *
-	 * @param Node $node
+	 * @param string $path
 	 * @param array $requestedProperties requested properties or empty array for "all"
 	 * @return array
 	 * @note The properties list is a list of propertynames the client
@@ -221,8 +197,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
-	private function getProperties(INode $node, array $requestedProperties) {
-		$path = $node->getPath();
+	private function getProperties(string $path, array $requestedProperties) {
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
 		}
@@ -260,13 +235,12 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Update properties
 	 *
-	 * @param INode $node node for which to update properties
+	 * @param string $path path for which to update properties
 	 * @param array $properties array of properties to update
 	 *
 	 * @return bool
 	 */
-	private function updateProperties(INode $node, array $properties) {
-		$path = $node->getPath();
+	private function updateProperties(string $path, array $properties) {
 
 		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
@@ -278,7 +252,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
-		$existing = $this->getProperties($node, []);
+		$existing = $this->getProperties($path, []);
 		$this->connection->beginTransaction();
 		foreach ($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
