@@ -228,51 +228,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $section
-	 * @param Closure $filter
-	 *
-	 * @return ISection[]
-	 */
-	private function getBuiltInAdminSettings($section, Closure $filter = null): array {
-		$forms = [];
-
-		if ($section === 'overview') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Admin\Overview::class);
-			if ($filter === null || $filter($form)) {
-				$forms[$form->getPriority()] = [$form];
-			}
-		}
-		if ($section === 'server') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Admin\Server::class);
-			if ($filter === null || $filter($form)) {
-				$forms[$form->getPriority()] = [$form];
-			}
-			$form = $this->container->query(\OCA\Settings\Admin\Mail::class);
-			if ($filter === null || $filter($form)) {
-				$forms[$form->getPriority()] = [$form];
-			}
-		}
-		if ($section === 'security') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Admin\Security::class);
-			if ($filter === null || $filter($form)) {
-				$forms[$form->getPriority()] = [$form];
-			}
-		}
-		if ($section === 'sharing') {
-			/** @var ISettings $form */
-			$form = $this->container->query(\OCA\Settings\Admin\Sharing::class);
-			if ($filter === null || $filter($form)) {
-				$forms[$form->getPriority()] = [$form];
-			}
-		}
-
-		return $forms;
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function getAdminSettings($section, bool $subAdminOnly = false): array {
@@ -280,13 +235,12 @@ class Manager implements IManager {
 			$subAdminSettingsFilter = function(ISettings $settings) {
 				return $settings instanceof ISubAdminSettings;
 			};
-			$settings = $this->getBuiltInAdminSettings($section, $subAdminSettingsFilter);
 			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);
 		} else {
-			$settings = $this->getBuiltInAdminSettings($section);
 			$appSettings = $this->getSettings('admin', $section);
 		}
 
+		$settings = [];
 		foreach ($appSettings as $setting) {
 			if (!isset($settings[$setting->getPriority()])) {
 				$settings[$setting->getPriority()] = [];

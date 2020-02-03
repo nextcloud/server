@@ -28,7 +28,7 @@
 
 namespace OCA\Settings\Tests\Settings\Admin;
 
-use OCA\Settings\Admin\Sharing;
+use OCA\Settings\Settings\Admin\Sharing;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;

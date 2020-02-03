@@ -27,7 +27,7 @@
  *
  */
 
-namespace OCA\Settings\Admin;
+namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;

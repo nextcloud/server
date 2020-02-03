@@ -29,7 +29,7 @@
 
 namespace OCA\Settings\Tests\Settings\Admin;
 
-use OCA\Settings\Admin\Server;
+use OCA\Settings\Settings\Admin\Server;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use Test\TestCase;

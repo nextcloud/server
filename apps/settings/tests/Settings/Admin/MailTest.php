@@ -29,7 +29,7 @@
 
 namespace OCA\Settings\Tests\Settings\Admin;
 
-use OCA\Settings\Admin\Mail;
+use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use Test\TestCase;
