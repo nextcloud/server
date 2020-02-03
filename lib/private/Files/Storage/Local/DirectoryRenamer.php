@@ -112,7 +112,7 @@ class DirectoryRenamer {
 				return call_user_func_array($previousHandler, func_get_args());
 			}
 
-			return true;
+			return false;
 		}, E_WARNING | E_USER_WARNING);
 	}
 
