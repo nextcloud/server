@@ -20,30 +20,6 @@ trigger:
 
 ---
 kind: pipeline
-name: webpack-build
-
-steps:
-- name: build
-  image: nextcloudci/node:node-4
-  commands:
-    - npm ci
-    - npm run build
-- name: changes
-  image: nextcloudci/node:node-4
-  commands:
-    - git status
-    - bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && exit 1 )"
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: checkers
 
 steps:
