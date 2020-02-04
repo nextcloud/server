@@ -176,7 +176,6 @@ OC.L10N.register(
     "Email Field" : "E-Mail-Feld",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "E-Mail-Adresse des Benutzers aus seinem LDAP-Attribut generieren. Für Standard-Verhalten leer lassen.",
     "User Home Folder Naming Rule" : "Benennungsregel für das Home-Verzeichnis des Benutzers",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein.",
     "\"$home\" Placeholder Field" : "\"$home\" Platzhalter-Feld",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home in der Konfiguration eines extern angeschlossenen Speichers wird mit dem Wert des angegebenen Attributs ersetzt",
     "Internal Username" : "Interner Benutzername",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Benutzernamen dienen zum Speichern und Zuweisen von Metadaten. Um Benutzer eindeutig zu identifizieren und zu erkennen, besitzt jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung des jeweiligen Benutzernamens zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzers zugeordnet. Darüber hinaus wird der DN auch zwischengespeichert, um die Interaktion über LDAP zu reduzieren, was aber nicht zur Identifikation dient. Ändert sich der DN, werden die Änderungen gefunden. Der interne Benutzername wird durchgängig verwendet. Ein Löschen der Zuordnungen führt zum systemweiten Verbleib von Restdaten. Es bleibt nicht auf eine einzelne Konfiguration beschränkt, sondern wirkt sich auf alle LDAP-Konfigurationen aus! Löschen Sie die Zuordnungen nie innerhalb einer Produktivumgebung, sondern nur in einer Test- oder Experimentierumgebung.",
     "Clear Username-LDAP User Mapping" : "Lösche LDAP-Benutzernamenzuordnung",
-    "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung"
+    "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein."
 },
 "nplurals=2; plural=(n != 1);");
