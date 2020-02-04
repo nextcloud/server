@@ -176,7 +176,6 @@ OC.L10N.register(
     "Email Field" : "E-posta Alanı",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Kullanıcı varsayılan e-posta adresinin kullanılması için boş bırakın ya da bir LDAP/AD özniteliği belirtin.",
     "User Home Folder Naming Rule" : "Kullanıcı Ana Klasörünü Adlandırma Kuralı",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kullanıcı adının kullanılması için boş bırakın (varsayılan) ya da bir LDAP/AD özniteliği belirtin.",
     "\"$home\" Placeholder Field" : "\"$home\" Yer Belirleyici Alanı",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "Bir dış depolama yapılandırmasında $home yerine belirtilen öznitelik konulur",
     "Internal Username" : "İç Kullanıcı Adı",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirme",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Kullanıcı adları, üst veri depolaması ve ataması için kullanılır. Kullanıcıları kesin olarak belirlemek ve algılamak için, her LDAP kullanıcısına bir iç kullanıcı verilir. Bu kullanıcı adı ile LDAP kullanıcısının eşleştirilmesi gerekir. Oluşturulan kullanıcı adı LDAP kullanıcısının UUID değeri ile eşleştirilir. Bunun yanında LDAP etkileşimini azaltmak için DN ön belleğe alınır ancak bu işlem kimlik belirleme için kullanılmaz. DN üzerinde yapılan değişiklikler aktarılır. İç kullanıcı her yerde kullanıldığından, bir eşleştirmeyi kaldırmak pek çok yerde kalıntılar bırakır. Eşleştirmeleri kaldırmak yalnız yapılandırmaya bağlı değildir, tüm LDAP yapılandırmalarını etkiler! Üretim ortamında eşleştirmeleri asla kaldırmayın, yalnız sınama ya da deney aşamalarında kullanın.",
     "Clear Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirmesini Kaldır",
-    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır"
+    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kullanıcı adının kullanılması için boş bırakın (varsayılan) ya da bir LDAP/AD özniteliği belirtin."
 },
 "nplurals=2; plural=(n > 1);");

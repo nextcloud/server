@@ -151,7 +151,6 @@ OC.L10N.register(
     "Quota Default" : "Predvolená kvóta",
     "Email Field" : "Pole emailu",
     "User Home Folder Naming Rule" : "Pravidlo pre nastavenie názvu používateľského priečinka dát",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút z LDAP/AD.",
     "Internal Username" : "Interné používateľské meno",
     "Internal Username Attribute:" : "Atribút interného používateľského mena:",
     "Override UUID detection" : "Prepísať UUID detekciu",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribút pre skupiny:",
     "Username-LDAP User Mapping" : "Mapovanie názvov LDAP používateľských mien",
     "Clear Username-LDAP User Mapping" : "Zrušiť mapovanie LDAP používateľských mien",
-    "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín"
+    "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút z LDAP/AD."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

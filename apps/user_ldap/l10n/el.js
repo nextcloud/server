@@ -151,7 +151,6 @@ OC.L10N.register(
     "Quota Default" : "Προκαθισμενο πεδιο",
     "Email Field" : "Email τυπος",
     "User Home Folder Naming Rule" : "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας ",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD.",
     "Internal Username" : "Εσωτερικό Όνομα Χρήστη",
     "Internal Username Attribute:" : "Ιδιότητα Εσωτερικού Ονόματος Χρήστη:",
     "Override UUID detection" : "Παράκαμψη ανίχνευσης UUID",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Χαρακτηριστικό UUID για Ομάδες:",
     "Username-LDAP User Mapping" : "Αντιστοίχιση Χρηστών Όνομα Χρήστη-LDAP",
     "Clear Username-LDAP User Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Χρήστη LDAP-Χρήστη",
-    "Clear Groupname-LDAP Group Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας"
+    "Clear Groupname-LDAP Group Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD."
 },
 "nplurals=2; plural=(n != 1);");
