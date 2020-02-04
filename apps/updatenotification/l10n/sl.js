@@ -11,7 +11,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Na voljo je posodobitev programa {app} na različico %s.",
     "Update notification" : "Obvestilo o posodobitvi",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Pokaže obvestila o posodobitvah okolja Nextcloud in omogoča prijavo SSO za posodabljalnik.",
-    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Različica, ki je trenutno v uporabi, ni več vzdržavana. Priporočljivo je čim prej posodobiti okolje!",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Različica, ki je trenutno v uporabi, ni več vzdrževana. Priporočljivo je čim prej posodobiti okolje!",
     "Apps missing updates" : "Manjkajoče programske posodobitve",
     "View in store" : "Pokaži v trgovini",
     "Apps with available updates" : "Programi z objavljenimi posodobitvami",

@@ -121,11 +121,11 @@ OC.L10N.register(
     "Quota Default" : "預設配額",
     "Email Field" : "電郵欄位",
     "User Home Folder Naming Rule" : "使用者家目錄的命名規則",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。",
     "Internal Username" : "內部使用者名稱",
     "Internal Username Attribute:" : "內部使用者名稱屬性:",
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
-    "UUID Attribute for Groups:" : "群組的UUID值:"
+    "UUID Attribute for Groups:" : "群組的UUID值:",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。"
 },
 "nplurals=1; plural=0;");

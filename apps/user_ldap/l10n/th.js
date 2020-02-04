@@ -133,7 +133,6 @@ OC.L10N.register(
     "Quota Default" : "โควต้าเริ่มต้น",
     "Email Field" : "ช่องอีเมล",
     "User Home Folder Naming Rule" : "กฎการตั้งชื่อโฟลเดอร์แรกของผู้ใช้",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD",
     "Internal Username" : "ชื่อผู้ใช้ภายใน",
     "Internal Username Attribute:" : "ชื่อผู้ใช้ภายในคุณสมบัติ:",
     "Override UUID detection" : "แทนที่การตรวจสอบ UUID",
@@ -142,6 +141,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "แอตทริบิวต์ UUID สำหรับกลุ่ม:",
     "Username-LDAP User Mapping" : "Username-LDAP ผู้ใช้ Mapping",
     "Clear Username-LDAP User Mapping" : "ล้าง Username-LDAP ผู้ใช้ Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD"
 },
 "nplurals=1; plural=0;");
