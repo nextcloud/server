@@ -67,6 +67,11 @@ class RefreshWebcalJob extends Job {
 	/** @var array */
 	private $subscription;
 
+	private const REFRESH_RATE = '{http://apple.com/ns/ical/}refreshrate';
+	private const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
+	private const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
+	private const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+
 	/**
 	 * RefreshWebcalJob constructor.
 	 *
@@ -95,9 +100,11 @@ class RefreshWebcalJob extends Job {
 			return;
 		}
 
+		$this->fixSubscriptionRowTyping($subscription);
+
 		// if no refresh rate was configured, just refresh once a week
 		$subscriptionId = $subscription['id'];
-		$refreshrate = $subscription['refreshrate'] ?? 'P1W';
+		$refreshrate = $subscription[self::REFRESH_RATE] ?? 'P1W';
 
 		try {
 			/** @var \DateInterval $dateInterval */
@@ -131,9 +138,9 @@ class RefreshWebcalJob extends Job {
 			return;
 		}
 
-		$stripTodos = $subscription['striptodos'] ?? 1;
-		$stripAlarms = $subscription['stripalarms'] ?? 1;
-		$stripAttachments = $subscription['stripattachments'] ?? 1;
+		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
+		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
+		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
 
 		try {
 			$splitter = new ICalendar($webcalData, Reader::OPTION_FORGIVING);
@@ -179,7 +186,7 @@ class RefreshWebcalJob extends Job {
 
 			$newRefreshRate = $this->checkWebcalDataForRefreshRate($subscription, $webcalData);
 			if ($newRefreshRate) {
-				$mutations['{http://apple.com/ns/ical/}refreshrate'] = $newRefreshRate;
+				$mutations[self::REFRESH_RATE] = $newRefreshRate;
 			}
 
 			$this->updateSubscription($subscription, $mutations);
@@ -378,33 +385,33 @@ class RefreshWebcalJob extends Job {
 	private function checkWebcalDataForRefreshRate($subscription, $webcalData) {
 		// if there is no refreshrate stored in the database, check the webcal feed
 		// whether it suggests any refresh rate and store that in the database
-		if (isset($subscription['refreshrate']) && $subscription['refreshrate'] !== null) {
+		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
 			return null;
 		}
 
 		/** @var Component\VCalendar $vCalendar */
 		$vCalendar = Reader::read($webcalData);
 
-		$newRefreshrate = null;
+		$newRefreshRate = null;
 		if (isset($vCalendar->{'X-PUBLISHED-TTL'})) {
-			$newRefreshrate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
+			$newRefreshRate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
 		}
 		if (isset($vCalendar->{'REFRESH-INTERVAL'})) {
-			$newRefreshrate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
+			$newRefreshRate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
 		}
 
-		if (!$newRefreshrate) {
+		if (!$newRefreshRate) {
 			return null;
 		}
 
 		// check if new refresh rate is even valid
 		try {
-			DateTimeParser::parseDuration($newRefreshrate);
+			DateTimeParser::parseDuration($newRefreshRate);
 		} catch(InvalidDataException $ex) {
 			return null;
 		}
 
-		return $newRefreshrate;
+		return $newRefreshRate;
 	}
 
 	/**
@@ -460,5 +467,26 @@ class RefreshWebcalJob extends Job {
 		}
 
 		return $cleanURL;
+	}
+
+	/**
+	 * Fixes types of rows
+	 *
+	 * @param array $row
+	 */
+	private function fixSubscriptionRowTyping(array &$row):void {
+		$forceInt = [
+			'id',
+			'lastmodified',
+			self::STRIP_ALARMS,
+			self::STRIP_ATTACHMENTS,
+			self::STRIP_TODOS,
+		];
+
+		foreach($forceInt as $column) {
+			if (isset($row[$column])) {
+				$row[$column] = (int) $row[$column];
+			}
+		}
 	}
 }
