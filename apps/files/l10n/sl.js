@@ -173,7 +173,7 @@ OC.L10N.register(
     "Shared with you" : "V skupni rabi z vami",
     "Shared by link" : "V souporabi prek povezave",
     "Deleted shares" : "Izbrisana mesta souporabe",
-    "Pending shares" : "Souporabe na čakanju",
+    "Pending shares" : "Mesta souporabe na čakanju",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "File handling" : "Upravljanje z datotekami",

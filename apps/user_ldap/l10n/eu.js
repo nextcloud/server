@@ -122,7 +122,6 @@ OC.L10N.register(
     "Quota Default" : "Kuota Lehenetsia",
     "Email Field" : "Eposta eremua",
     "User Home Folder Naming Rule" : "Erabiltzailearen Karpeta Nagusia Izendatzeko Patroia",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua.",
     "Internal Username" : "Barneko erabiltzaile izena",
     "Internal Username Attribute:" : "Baliogabeko Erabiltzaile Izen atributua",
     "Override UUID detection" : "Gainidatzi UUID antzematea",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Taldeentzako UUID atributuak:",
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
-    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa"
+    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua."
 },
 "nplurals=2; plural=(n != 1);");
