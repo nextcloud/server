@@ -440,6 +440,10 @@ class IMipPlugin extends SabreIMipPlugin {
 				return $l10n->l('date', $dtstartDt, ['width' => 'medium']);
 			}
 
+			// DTEND is exclusive, so if the ics data says 2020-01-01 to 2020-01-05,
+			// the email should show 2020-01-01 to 2020-01-04.
+			$dtendDt->modify('-1 day');
+
 			//event that spans over multiple days
 			$localeStart = $l10n->l('date', $dtstartDt, ['width' => 'medium']);
 			$localeEnd = $l10n->l('date', $dtendDt, ['width' => 'medium']);
