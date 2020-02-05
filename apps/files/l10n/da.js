@@ -88,7 +88,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Gjort til foretrukken",
     "Favorite" : "Foretrukken",
-    "New folder" : "Ny Mappe",
+    "New folder" : "Ny mappe",
     "Upload file" : "Upload fil",
     "Not favorited" : "Ingen foretrukne",
     "Remove from favorites" : "Fjern fra favoritter",
