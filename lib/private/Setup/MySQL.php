@@ -34,6 +34,7 @@ namespace OC\Setup;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
@@ -102,10 +103,18 @@ class MySQL extends AbstractDatabase {
 			$password = $this->dbPassword;
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
-			$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-			$connection->executeUpdate($query);
-			$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-			$connection->executeUpdate($query);
+
+			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
+				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
+				$connection->executeUpdate($query);
+				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
+				$connection->executeUpdate($query);
+			} else {
+				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
+				$connection->executeUpdate($query);
+				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
+				$connection->executeUpdate($query);
+			}
 		}
 		catch (\Exception $ex){
 			$this->logger->logException($ex, [
