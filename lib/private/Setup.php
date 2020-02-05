@@ -353,11 +353,9 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		$dbSetup->initialize($options);
 		try {
-			$dbSetup->initialize($options);
 			$dbSetup->setupDatabase($username);
-			// apply necessary migrations
-			$dbSetup->runMigrations();
 		} catch (\OC\DatabaseSetupException $e) {
 			$error[] = [
 				'error' => $e->getMessage(),
@@ -367,6 +365,16 @@ class Setup {
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to create admin user: ' . $e->getMessage(),
+				'hint' => '',
+			];
+			return $error;
+		}
+		try {
+			// apply necessary migrations
+			$dbSetup->runMigrations();
+		} catch (Exception $e) {
+			$error[] = [
+				'error' => 'Error while trying to initialise the database: ' . $e->getMessage(),
 				'hint' => '',
 			];
 			return $error;
