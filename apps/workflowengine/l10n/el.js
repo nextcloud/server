@@ -50,6 +50,7 @@ OC.L10N.register(
     "Delete" : "Διαγραφή",
     "Active" : "Ενεργό",
     "Save" : "Αποθήκευση",
+    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών",
     "matches" : "ταιριάζει",
     "does not match" : "δεν ταιριάζει",
     "is" : "είναι",
