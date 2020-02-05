@@ -58,6 +58,16 @@ class MySQL extends AbstractDatabase {
 		//fill the database if needed
 		$query='select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
 		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
+
+		$connection->close();
+		$connection = $this->connect();
+		try {
+			$connection->connect();
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
+				$this->trans->t('You need to enter details of an existing account.'));
+		}
 	}
 
 	/**
