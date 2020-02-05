@@ -94,6 +94,10 @@ class Hasher implements IHasher {
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
+		if (\defined('PASSWORD_ARGON2ID') && $alg === PASSWORD_ARGON2ID) {
+			return 3 . '|' . password_hash($message, PASSWORD_ARGON2ID, $this->options);
+		}
+
 		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
 			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
 		}
@@ -142,32 +146,16 @@ class Hasher implements IHasher {
 
 	/**
 	 * Verify V1 (blowfish) hashes
+	 * Verify V2 (argon2i) hashes
+	 * Verify V3 (argon2id) hashes
 	 * @param string $message Message to verify
 	 * @param string $hash Assumed hash of the message
 	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
-	protected function verifyHashV1(string $message, string $hash, &$newHash = null): bool {
+	protected function verifyHash(string $message, string $hash, &$newHash = null): bool {
 		if(password_verify($message, $hash)) {
 			if ($this->needsRehash($hash)) {
-				$newHash = $this->hash($message);
-			}
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Verify V2 (argon2i) hashes
-	 * @param string $message Message to verify
-	 * @param string $hash Assumed hash of the message
-	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
-	 * @return bool Whether $hash is a valid hash of $message
-	 */
-	protected function verifyHashV2(string $message, string $hash, &$newHash = null) : bool {
-		if(password_verify($message, $hash)) {
-			if($this->needsRehash($hash)) {
 				$newHash = $this->hash($message);
 			}
 			return true;
@@ -187,10 +175,10 @@ class Hasher implements IHasher {
 
 		if(isset($splittedHash['version'])) {
 			switch ($splittedHash['version']) {
+				case 3:
 				case 2:
-					return $this->verifyHashV2($message, $splittedHash['hash'], $newHash);
 				case 1:
-					return $this->verifyHashV1($message, $splittedHash['hash'], $newHash);
+					return $this->verifyHash($message, $splittedHash['hash'], $newHash);
 			}
 		} else {
 			return $this->legacyHashVerify($message, $hash, $newHash);
@@ -209,6 +197,10 @@ class Hasher implements IHasher {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
+		}
+
+		if (\defined('PASSWORD_ARGON2ID')) {
+			$default = PASSWORD_ARGON2ID;
 		}
 
 		// Check if we should use PASSWORD_DEFAULT
