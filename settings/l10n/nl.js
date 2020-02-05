@@ -250,6 +250,7 @@ OC.L10N.register(
     "App bundles" : "App bundels",
     "{license}-licensed" : "{license}-gelicenseerd",
     "New user" : "Nieuwe gebruiker",
+    "Enter group name" : "Geef een groepsnaam op",
     "Add group" : "Groep toevoegen",
     "Everyone" : "Iedereen",
     "Admins" : "Beheerders",
