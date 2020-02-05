@@ -1345,7 +1345,7 @@ $(document).ready(function() {
 		var user = $form.find('[name=username]').val();
 		var password = $form.find('[name=password]').val();
 		var $submit = $form.find('[type=submit]');
-		$submit.val(t('files_external', 'Saving...'));
+		$submit.val(t('files_external', 'Saving …'));
 		$.ajax({
 			type: 'POST',
 			contentType: 'application/json',

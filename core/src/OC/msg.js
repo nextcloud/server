@@ -37,7 +37,7 @@ export default {
 	 * @param {Object} selector    Placeholder to display the message in
 	 */
 	startSaving: function(selector) {
-		this.startAction(selector, t('core', 'Saving...'))
+		this.startAction(selector, t('core', 'Saving …'))
 	},
 
 	/**
