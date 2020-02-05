@@ -20,6 +20,8 @@
  *
  */
 
+import escapeHTML from 'escape-html'
+
 /**
  * @typedef TypeDefinition
  * @method {callback} action This action is executed to let the user select a resource
