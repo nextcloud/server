@@ -25,7 +25,6 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "למחוק את האחסון החיצוני הזה?",
     "Delete storage?" : "למחוק אחסון?",
     "Saved" : "נשמר",
-    "Saving..." : "מתבצעת שמירה…",
     "Save" : "שמירה",
     "Empty response from the server" : "תגובה ריקה מהשרת",
     "Couldn't access. Please log out and in again to activate this mount point" : "לא ניתן לגשת. נא לצאת ולהיכנס שוב כדי להפעיל את נקודת העגינה הזו",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "יש ללחוץ כאן כדי לבדוק את ההגדרות מחדש",
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
-    "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני"
+    "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
+    "Saving..." : "מתבצעת שמירה…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

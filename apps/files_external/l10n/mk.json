@@ -23,7 +23,7 @@
     "Are you sure you want to delete this external storage?" : "Дали си сигурен дека сакаш да го избришеш ова надворешно складиште?",
     "Delete storage?" : "Избриши складиште?",
     "Saved" : "Снимено",
-    "Saving..." : "Зачувува ...",
+    "Saving …" : "Зачувува ...",
     "Save" : "Сними",
     "Empty response from the server" : "Нема одговор од серверот",
     "Couldn't access. Please log out and in again to activate this mount point" : "Неможе да се пристапи. Ве молиме одјавете се и повторно најавете се за да се активира монтираната точка.",
@@ -105,6 +105,7 @@
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
     "Allow users to mount external storage" : "Дозволи на корисниците да монтираат надворешни складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
+    "Saving..." : "Зачувува ..."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

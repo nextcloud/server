@@ -15,7 +15,7 @@ OC.L10N.register(
     "Read only" : "Само за четене",
     "Delete" : "Изтрий",
     "Saved" : "Запазено",
-    "Saving..." : "Запазване...",
+    "Saving …" : "Записване …",
     "Save" : "Запис",
     "external-storage" : "външно хранилище",
     "Username" : "Потребител",
@@ -68,6 +68,7 @@ OC.L10N.register(
     "Available for" : "Достъпно за",
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
-    "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища"
+    "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища",
+    "Saving..." : "Запазване..."
 },
 "nplurals=2; plural=(n != 1);");

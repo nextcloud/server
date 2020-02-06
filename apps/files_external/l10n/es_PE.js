@@ -24,7 +24,6 @@ OC.L10N.register(
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Saved" : "Guardado",
-    "Saving..." : "Guardando...",
     "Save" : "Guardar",
     "Empty response from the server" : "Respuesta del servidor vacía",
     "Couldn't access. Please log out and in again to activate this mount point" : "No fue posible accesar. Por favor sal de la sesión y vuelve a entrar para activar este punto de montaje",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
+    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
+    "Saving..." : "Guardando..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,7 +25,6 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Are you sure you want to delete this external storage?",
     "Delete storage?" : "Delete storage?",
     "Saved" : "Saved",
-    "Saving..." : "Saving...",
     "Save" : "Save",
     "Empty response from the server" : "Empty response from the server",
     "Couldn't access. Please log out and in again to activate this mount point" : "Couldn't access. Please log out and in again to activate this mount point",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
-    "Allow users to mount external storage" : "Allow users to mount external storage"
+    "Allow users to mount external storage" : "Allow users to mount external storage",
+    "Saving..." : "Saving..."
 },
 "nplurals=2; plural=(n != 1);");
