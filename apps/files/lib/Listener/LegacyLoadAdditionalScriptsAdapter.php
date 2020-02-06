@@ -31,7 +31,7 @@ use OC\EventDispatcher\SymfonyAdapter;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class LegacyLoadAdditionalScriptsAdapter implements IEventListener {
 
