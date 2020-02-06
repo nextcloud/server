@@ -351,7 +351,7 @@ OC.L10N.register(
     "Set default expiration date for link shares" : "设置链接共享的默认到期日期",
     "Allow resharing" : "允许二次共享",
     "Allow sharing with groups" : "允许群组共享",
-    "Restrict users to only share with users in their groups" : "限制仅与组内用户共享",
+    "Restrict users to only share with users in their groups" : "限制用户只与他们组中的用户共享",
     "Exclude groups from sharing" : "在共享中排除组",
     "These groups will still be able to receive shares, but not to initiate them." : "这些组将仍可以获取共享，但无法向他人共享。",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "在共享对话框中允许用户名自动完成。 如果被禁用，则需要输入完整的用户名或电子邮件地址。",

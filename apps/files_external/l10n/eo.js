@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?",
     "Delete storage?" : "Ĉu forigi konservejon?",
     "Saved" : "Konservita",
-    "Saving..." : "Konservado...",
+    "Saving …" : "Konservado...",
     "Save" : "Konservi",
     "Empty response from the server" : "Malplena respondo el la servilo",
     "Couldn't access. Please log out and in again to activate this mount point" : "Aliro ne eblis. Bv. elsaluti kaj re-ensaluti por aktivigi tiun surmetingon",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
+    "Saving..." : "Konservado..."
 },
 "nplurals=2; plural=(n != 1);");

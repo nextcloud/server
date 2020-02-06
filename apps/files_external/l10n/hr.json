@@ -23,7 +23,7 @@
     "Are you sure you want to delete this external storage?" : "Jeste li sigurni da želite izbrisati ovu vanjsku pohranu?",
     "Delete storage?" : "Želite li izbrisati pohranu?",
     "Saved" : "Spremljeno",
-    "Saving..." : "Spremanje...",
+    "Saving …" : "Spremanje...",
     "Save" : "Spremi",
     "Empty response from the server" : "Prazan odgovor poslužitelja",
     "Couldn't access. Please log out and in again to activate this mount point" : "Nije moguće pristupiti. Odjavite se i ponovno se prijavite kako biste aktivirali ovu točku postavljanja",
@@ -130,6 +130,7 @@
     "Add storage" : "Dodaj pohranu",
     "Advanced settings" : "Napredne postavke",
     "Allow users to mount external storage" : "Dopusti korisnicima postavljanje vanjske pohrane",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
+    "Saving..." : "Spremanje..."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

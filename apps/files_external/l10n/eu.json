@@ -16,7 +16,7 @@
     "Admin defined" : "Administratzaileak definitua",
     "Delete storage?" : "Ezabatu biltegiratzea?",
     "Saved" : "Gordeta",
-    "Saving..." : "Gordetzen...",
+    "Saving …" : "Gordetzen …",
     "Save" : "Gorde",
     "external-storage" : "kanpo-biltegiratzea",
     "Username" : "Erabiltzaile izena",
@@ -83,6 +83,7 @@
     "Configuration" : "Konfigurazioa",
     "Available for" : "Hauentzat eskuragarri",
     "Add storage" : "Gehitu biltegiratzea",
-    "Advanced settings" : "Ezarpen aurreratuak"
+    "Advanced settings" : "Ezarpen aurreratuak",
+    "Saving..." : "Gordetzen..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

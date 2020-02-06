@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "您确定要删除这个外部存储吗？",
     "Delete storage?" : "删除存储？",
     "Saved" : "已保存",
-    "Saving..." : "正在保存...",
+    "Saving …" : "正在保存…",
     "Save" : "保存",
     "Empty response from the server" : "服务器响应为空",
     "Couldn't access. Please log out and in again to activate this mount point" : "无法访问。 请登出并再次登录以激活此挂载点",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "增加存储",
     "Advanced settings" : "高级选项",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
+    "Saving..." : "正在保存..."
 },
 "nplurals=1; plural=0;");

@@ -20,7 +20,7 @@ OC.L10N.register(
     "Delete" : "Șterge",
     "Admin defined" : "Administrator definit",
     "Saved" : "Salvat",
-    "Saving..." : "Se salvează...",
+    "Saving …" : "Se salvează",
     "Save" : "Salvează",
     "Empty response from the server" : "Răspuns nul de la server",
     "There was an error with message: " : "A apărut o eroare cu mesajul:",
@@ -80,6 +80,7 @@ OC.L10N.register(
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",
     "Add storage" : "Adauga stocare",
-    "Advanced settings" : "Setări avansate"
+    "Advanced settings" : "Setări avansate",
+    "Saving..." : "Se salvează..."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
