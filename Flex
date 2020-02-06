@@ -1,0 +1,9 @@
+Gdks_cx/tf_gmservice$on
+Gdks_cx/eo "echos" off 
+Gdks-cx/ky: on (ini) 
+
+Classname/gmright 
+X-rays-u
+
+
+
