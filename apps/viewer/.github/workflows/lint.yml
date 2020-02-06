@@ -1,12 +1,20 @@
 name: Lint
-on: pull_request
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
 
 jobs:
-  php-linters:
+  php:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         php-versions: ['7.2', '7.3', '7.4']
+  
     name: php${{ matrix.php-versions }} lint
     steps:
     - name: Checkout
@@ -19,18 +27,20 @@ jobs:
     - name: Lint
       run: composer run lint
 
-  node-linters:
+  node:
     runs-on: ubuntu-latest
-    name: ESLint
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
     steps:
-    - uses: actions/checkout@master
-    - name: Set up Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - name: npm install
-      run: npm ci
-    - name: eslint
-      run: npm run lint
-    env:
-      CI: true
+      - uses: actions/checkout@v2
+      - name: Use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - name: ESLint
+        run: npm run lint
