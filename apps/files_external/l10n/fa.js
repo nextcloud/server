@@ -25,7 +25,6 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Saved" : "ذخیره شد",
-    "Saving..." : "در حال ذخیره سازی...",
     "Save" : "ذخیره",
     "Empty response from the server" : "خالی از پاسخ سرور",
     "Couldn't access. Please log out and in again to activate this mount point" : "دسترسی پیدا نشد. لطفاً برای فعال کردن این نقطه نصب از سیستم خارج شوید و دوباره وارد سیستم شوید",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
+    "Saving..." : "در حال ذخیره سازی..."
 },
 "nplurals=2; plural=(n > 1);");

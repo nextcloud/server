@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Да ли стварно желите да обришете ово спољашње складиште?",
     "Delete storage?" : "Обриши складиште?",
     "Saved" : "Сачувано",
-    "Saving..." : "Чувам...",
+    "Saving …" : "Чувам…",
     "Save" : "Сачувај",
     "Empty response from the server" : "Празан одговор са сервера",
     "Couldn't access. Please log out and in again to activate this mount point" : "Не могу да приступим. Одјавите се и пријавите поново да активирате ову тачку монтирања",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "Додај складиште",
     "Advanced settings" : "Напредне поставке",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
+    "Saving..." : "Чувам..."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

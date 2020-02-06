@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
     "Delete storage?" : "Usunąć magazyn?",
     "Saved" : "Zapisano",
-    "Saving..." : "Zapisywanie…",
+    "Saving …" : "Zapisywanie...",
     "Save" : "Zapisz",
     "Empty response from the server" : "Puste odpowiedzi z serwera",
     "Couldn't access. Please log out and in again to activate this mount point" : "Brak dostępu. Wyloguj się i zaloguj ponownie, aby aktywować ten punkt montowania",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
+    "Saving..." : "Zapisywanie…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

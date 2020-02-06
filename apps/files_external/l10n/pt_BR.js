@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Quer realmente excluir este armazenamento externo?",
     "Delete storage?" : "Excluir armazenamento?",
     "Saved" : "Salvo",
-    "Saving..." : "Salvando...",
+    "Saving …" : "Salvando...",
     "Save" : "Salvar",
     "Empty response from the server" : "Resposta vazia do servidor",
     "Couldn't access. Please log out and in again to activate this mount point" : "Não foi possível acessar. Refaça o login para ativar este ponto de montagem",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "Adic. armazenamento",
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
+    "Saving..." : "Salvando..."
 },
 "nplurals=2; plural=(n > 1);");
