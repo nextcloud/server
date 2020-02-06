@@ -34,6 +34,7 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    name: ESLint
     steps:
       - uses: actions/checkout@v2
       - name: Use node ${{ matrix.node-version }}
