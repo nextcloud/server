@@ -24,7 +24,7 @@ OC.L10N.register(
     "Admin defined" : "Ορίσθηκε διαχειριστής ",
     "Delete storage?" : "Διαγραφή αποθηκευτικού χώρου;",
     "Saved" : "Αποθηκεύτηκαν",
-    "Saving..." : "Γίνεται αποθήκευση...",
+    "Saving …" : "Αποθηκεύεται ...",
     "Save" : "Αποθήκευση",
     "Empty response from the server" : "Κενή απάντηση από τον διακομιστή",
     "Couldn't access. Please log out and in again to activate this mount point" : "Αδυναμία πρόσβασης. Παρακαλούμε αποσυνδεθείτε και συνδεθείτε ξανά για ενεργοποίηση του σημείου προσάρτησης",
@@ -119,6 +119,7 @@ OC.L10N.register(
     "Available for" : "Διαθέσιμο για",
     "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
-    "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου"
+    "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
+    "Saving..." : "Γίνεται αποθήκευση..."
 },
 "nplurals=2; plural=(n != 1);");

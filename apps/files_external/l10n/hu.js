@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Biztosan törlöd ezt a külső tárolót?",
     "Delete storage?" : "Tároló törlése?",
     "Saved" : "Elmentve",
-    "Saving..." : "Mentés...",
+    "Saving …" : "Mentés ...",
     "Save" : "Mentés",
     "Empty response from the server" : "Üres válasz a szervertől",
     "Couldn't access. Please log out and in again to activate this mount point" : "Nem hozzáférhető. Kérjük lépj ki és be ismét a csatolási pont aktiválásához",
@@ -125,6 +125,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kattints ide a konfiguráció újraellenőrzéséhez",
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
-    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére"
+    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
+    "Saving..." : "Mentés..."
 },
 "nplurals=2; plural=(n != 1);");

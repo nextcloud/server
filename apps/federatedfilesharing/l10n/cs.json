@@ -13,7 +13,7 @@
     "Server to server sharing is not enabled on this server" : "Sdílení ze serveru na server není na tomto serveru povoleno",
     "Couldn't establish a federated share." : "Nepodařilo se ustavit federované sdílení.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nepodařilo se ustavit federované sdílení – možná je nesprávné heslo.",
-    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požadavek na spojené sdílení byl odeslán, obdržíte pozvánku. Zkontrolujte vaše upozornění.",
+    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požadavek na federované sdílení byl odeslán, obdržíte pozvánku. Podívejte se do upozornění pro vás.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepodařilo se ustavit federované sdílení – vypadá to, že server, se kterým má být federováno, je příliš starý (Nextcloud verze 9 a starší).",
     "It is not allowed to send federated group shares from this server." : "Z tohoto serveru není povoleno posílat federovaná skupinová sdílení.",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "Sdílení %1$s se nezdařilo, protože tato položka už je sdílena s %2$s",

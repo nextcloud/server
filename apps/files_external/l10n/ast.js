@@ -17,7 +17,7 @@ OC.L10N.register(
     "Delete" : "Desaniciar",
     "Delete storage?" : "¿Desaniciar almacenamientu?",
     "Saved" : "Guardáu",
-    "Saving..." : "Guardando...",
+    "Saving …" : "Guardando...",
     "Save" : "Guardar",
     "Empty response from the server" : "Rempuesta balera del sirvidor",
     "Couldn't access. Please log out and in again to activate this mount point" : "Nun pudo accedese. Volvi aniciar sesión p'activar esti puntu de montaxe, por favor",
@@ -74,6 +74,7 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
-    "Advanced settings" : "Axustes avanzaos"
+    "Advanced settings" : "Axustes avanzaos",
+    "Saving..." : "Guardando..."
 },
 "nplurals=2; plural=(n != 1);");
