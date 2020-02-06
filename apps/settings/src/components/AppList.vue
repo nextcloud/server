@@ -146,6 +146,9 @@ export default {
 			if (this.category === 'updates') {
 				return apps.filter(app => app.update)
 			}
+			if (this.category === 'featured') {
+				return apps.filter(app => app.level === 200)
+			}
 			// filter app store categories
 			return apps.filter(app => {
 				return app.appstore && app.category !== undefined
@@ -179,7 +182,7 @@ export default {
 			return !this.useListView && !this.useBundleView
 		},
 		useListView() {
-			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates')
+			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates' || this.category === 'featured')
 		},
 		useBundleView() {
 			return (this.category === 'app-bundles')
