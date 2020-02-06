@@ -122,8 +122,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('get', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->get('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testGetWithOptions(): void {
@@ -136,8 +136,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('get', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->get('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testPost(): void {
@@ -145,8 +145,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('post', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->post('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->post('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testPostWithOptions(): void {
@@ -159,8 +159,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('post', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->post('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->post('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testPut(): void {
@@ -168,8 +168,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('put', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->put('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->put('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testPutWithOptions(): void {
@@ -182,8 +182,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('put', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->put('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->put('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testDelete(): void {
@@ -191,8 +191,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('delete', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->delete('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->delete('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testDeleteWithOptions(): void {
@@ -205,8 +205,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('delete', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->delete('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->delete('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testOptions(): void {
@@ -214,8 +214,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('options', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->options('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->options('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testOptionsWithOptions(): void {
@@ -228,8 +228,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('options', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->options('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->options('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testHead(): void {
@@ -237,8 +237,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('head', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->head('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->head('http://localhost/', [])->getStatusCode());
 	}
 
 	public function testHeadWithOptions(): void {
@@ -251,8 +251,8 @@ class ClientTest extends \Test\TestCase {
 
 		$this->guzzleClient->method('request')
 			->with('head', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->head('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->head('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
