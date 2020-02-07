@@ -26,7 +26,6 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
@@ -95,7 +94,7 @@ class CORSMiddleware extends Middleware {
 			}
 			$this->session->logout();
 			try {
-				if (!$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
+				if (!empty($user) && !empty($pass) && !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
 					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 				}
 			} catch (PasswordLoginForbiddenException $ex) {
