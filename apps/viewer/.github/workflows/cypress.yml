@@ -1,0 +1,83 @@
+name: Cypress
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+env:
+  APP_NAME: viewer
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # run 4 copies of the current job in parallel
+        containers: [1, 2, 3, 4]
+        node-versions: ['12.x']
+        php-versions: ['7.4']
+
+    name: Runner ${{ matrix.containers }}
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          repository: nextcloud/server
+          ref: ${{ github.base_ref }}
+
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+      - name: Checkout app
+        uses: actions/checkout@v2
+        with:
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up node ${{ matrix.node-versions }}
+        uses: actions/setup-node@v1
+        with:
+          node-versions: ${{ matrix.node-versions }}
+
+      - name: Install dependencies & build app
+        working-directory: apps/${{ env.APP_NAME }}
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite
+          coverage: none
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database sqlite --admin-user admin --admin-pass admin 
+          ./occ app:enable ${{ env.APP_NAME }}
+          php -S localhost:8080 &
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          record: true
+          parallel: true
+          # cypress env
+          working-directory: apps/${{ env.APP_NAME }}
+          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
+          # wait for server before running
+          wait-on: "http://localhost:8080"
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_baseUrl: http://localhost:8080/index.php
