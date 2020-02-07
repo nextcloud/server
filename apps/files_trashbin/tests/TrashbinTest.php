@@ -129,7 +129,7 @@ class TrashbinTest extends \Test\TestCase {
 					return $config->getSystemValue($key, $default);
 				}
 			}));
-		$this->overwriteService('AllConfig', $mockConfig);
+		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 
 		$this->trashRoot1 = '/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin';
 		$this->trashRoot2 = '/' . self::TEST_TRASHBIN_USER2 . '/files_trashbin';
@@ -138,7 +138,7 @@ class TrashbinTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->restoreService('AllConfig');
+		$this->restoreService(\OC\AllConfig::class);
 		// disable trashbin to be able to properly clean up
 		\OC::$server->getAppManager()->disableApp('files_trashbin');
 
