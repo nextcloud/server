@@ -44,6 +44,7 @@ use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
@@ -201,11 +202,17 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->shareController->setToken('token');
 
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner = $this->createMock(IUser::class);
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
+		$owner->method('isEnabled')->willReturn(true);
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+		$initiator->method('getUID')->willReturn('initiatorUID');
+		$initiator->method('isEnabled')->willReturn(true);
+
+		$file = $this->createMock(File::class);
 		$file->method('getName')->willReturn('file1.txt');
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
@@ -216,6 +223,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share->setId(42);
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
 			->setNode($file)
 			->setNote($note)
 			->setTarget('/file1.txt');
@@ -253,7 +261,15 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('My disclaimer text');
 
-		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatch')
@@ -325,6 +341,12 @@ class ShareControllerTest extends \Test\TestCase {
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
+		$owner->method('isEnabled')->willReturn(true);
+
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+		$initiator->method('getUID')->willReturn('initiatorUID');
+		$initiator->method('isEnabled')->willReturn(true);
 
 		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
 		$file->method('getName')->willReturn('file1.txt');
@@ -337,6 +359,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share->setId(42);
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
 			->setNode($file)
 			->setNote($note)
 			->setTarget('/file1.txt')
@@ -378,7 +401,15 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('My disclaimer text');
 
-		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatch')
@@ -451,6 +482,12 @@ class ShareControllerTest extends \Test\TestCase {
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
+		$owner->method('isEnabled')->willReturn(true);
+
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+		$initiator->method('getUID')->willReturn('initiatorUID');
+		$initiator->method('isEnabled')->willReturn(true);
 
 		/* @var MockObject|Storage $storage */
 		$storage = $this->getMockBuilder(Storage::class)
@@ -472,6 +509,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share->setId(42);
 		$share->setPermissions(Constants::PERMISSION_CREATE)
 			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
 			->setNode($folder)
 			->setTarget('/fileDrop');
 
@@ -481,7 +519,15 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->willReturn($share);
 
-		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -535,7 +581,7 @@ class ShareControllerTest extends \Test\TestCase {
 		self::assertEquals($expectedResponse, $response);
 	}
 
-	
+
 	public function testShowShareInvalid() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
@@ -603,5 +649,87 @@ class ShareControllerTest extends \Test\TestCase {
 		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDisabledOwner() {
+		$this->shareController->setToken('token');
+
+		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner->method('isEnabled')->willReturn(false);
+
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('isEnabled')->willReturn(false);
+
+		/* @var MockObject|Folder $folder */
+		$folder = $this->createMock(Folder::class);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+		$share->setPermissions(Constants::PERMISSION_CREATE)
+			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
+			->setNode($folder)
+			->setTarget('/share');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
+
+		$this->expectException(NotFoundException::class);
+
+		$this->shareController->showShare();
+	}
+
+	public function testDisabledInitiator() {
+		$this->shareController->setToken('token');
+
+		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner->method('isEnabled')->willReturn(false);
+
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('isEnabled')->willReturn(true);
+
+		/* @var MockObject|Folder $folder */
+		$folder = $this->createMock(Folder::class);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+		$share->setPermissions(Constants::PERMISSION_CREATE)
+			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
+			->setNode($folder)
+			->setTarget('/share');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
+
+		$this->expectException(NotFoundException::class);
+
+		$this->shareController->showShare();
 	}
 }
