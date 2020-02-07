@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Ertu viss um að þú viljir eyða þessari ytri geymslu?",
     "Delete storage?" : "Eyða geymslu?",
     "Saved" : "Vistað",
-    "Saving..." : "Er að vista ...",
+    "Saving …" : "Vista …",
     "Save" : "Vista",
     "Empty response from the server" : "Tómt svar frá þjóni móttekið",
     "Couldn't access. Please log out and in again to activate this mount point" : "Náði ekki aðgangi. Skráðu þig út og svo aftur inn til að virkja þennan tengipunkt",
@@ -128,6 +128,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Smelltu til að yfirfara aftur uppsetninguna",
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
-    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi"
+    "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
+    "Saving..." : "Er að vista ..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

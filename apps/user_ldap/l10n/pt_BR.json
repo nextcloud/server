@@ -174,7 +174,7 @@
     "Email Field" : "Campo de e-mail",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Defina o e-mail do usuário de seu atributo LDAP. Deixe vazio para o comportamento padrão.",
     "User Home Folder Naming Rule" : "Regra de nomeação de pasta de usuário Home",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixe vazio para nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD.",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Deixe em branco para o nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD.",
     "\"$home\" Placeholder Field" : "Campo Reservado \"$home\"",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home em uma configuração de armazenamento externo será substituído pelo valor do atributo especificado",
     "Internal Username" : "Nome de usuário interno",
@@ -187,6 +187,7 @@
     "Username-LDAP User Mapping" : "Mapeamento de Usuário Username-LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Os nomes de usuários são usados para armazenar e atribuir metadados. Para identificar e reconhecer com precisão os usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento do nome de usuário para o usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Além disso, o DN também é armazenado em cache para reduzir a interação LDAP, mas não é usado para identificação. Se o DN mudar, as alterações serão encontradas. O nome de usuário interno é usado em todo lugar. Limpar os mapeamentos gerará sobras em todos os lugares. Limpar os mapeamentos não é sensível à configuração e afeta todas as configurações do LDAP! Nunca limpe os mapeamentos em um ambiente de produção, apenas em um estágio de teste ou experimental.",
     "Clear Username-LDAP User Mapping" : "Limpar Mapeamento de Usuário username-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar Mapeamento do Grupo groupname-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar Mapeamento do Grupo groupname-LDAP",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixe vazio para nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

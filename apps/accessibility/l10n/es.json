@@ -14,11 +14,6 @@
     "Enable" : "Activa",
     "High contrast theme" : "Tema de alto contraste",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Tema de alto contraste para facilitar la navegación. Se reducirá la calidad visual pero se aumentará la claridad.",
-    "Dark theme (beta)" : "Tema oscuro (beta)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic es un tipo de letra/fuente libre diseñada para reducir algunos de los errores de lectura más comunes causados por la dislexia. Este tipo de letra lo creó Abelardo González, que lo liberó con una licencia de código abierto.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Proporciona múltiples opciones de accesibilidad para facilitar el uso de nextcloud",
-    "Themes" : "Temas",
-    "Fonts" : "Fuentes",
-    "enabled" : "activado"
+    "Dark theme (beta)" : "Tema oscuro (beta)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

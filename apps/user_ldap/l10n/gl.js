@@ -176,7 +176,7 @@ OC.L10N.register(
     "Email Field" : "Campo do correo",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Axustar o correo do usuario dende un atributo LDAP. Déixeo baleiro para un comportamento predeterminado.",
     "User Home Folder Naming Rule" : "Regra de nomeado do cartafol do usuario",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixar baleiro para o nome de usuario (predeterminado). Noutro caso, especifique un atributo LDAP/AD.",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Deixar baleiro para o nome de usuario (predeterminado). Noutro caso, especifique un atributo LDAP/AD.",
     "\"$home\" Placeholder Field" : "Campo de marcador de posición «$home»",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "Nunha configuración de almacenamento externo substituirase $home polo valor do atributo especificado",
     "Internal Username" : "Nome interno de usuario",
@@ -189,6 +189,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Asignación do usuario ao «nome de usuario LDAP»",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Os nomes de usuario empréganse para almacenar e asignar metadatos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome interno de usuario. Isto require unha asignación do nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados. O nome interno do usuario utilizase para todo. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun contorno de produción. Limpar as asignacións só en fases de proba ou experimentais.",
     "Clear Username-LDAP User Mapping" : "Limpar a asignación do usuario ao «nome de usuario LDAP»",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixar baleiro para o nome de usuario (predeterminado). Noutro caso, especifique un atributo LDAP/AD."
 },
 "nplurals=2; plural=(n != 1);");

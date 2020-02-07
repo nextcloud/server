@@ -16,11 +16,6 @@ OC.L10N.register(
     "Backup code" : "Varakoodi",
     "Use backup code" : "Käytä varakoodia",
     "Two factor backup codes" : "Kaksivaiheiden tunnistautumisen varakoodit",
-    "Submit" : "Lähetä",
-    "activated" : "aktivoitu",
-    "updated" : "päivitetty",
-    "created" : "luotu",
-    "destroyed" : "tuhottu",
-    "Nextcloud backup codes" : "Nextcloud-varakoodit"
+    "Submit" : "Lähetä"
 },
 "nplurals=2; plural=(n != 1);");

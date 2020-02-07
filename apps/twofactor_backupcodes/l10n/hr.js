@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "funkcija",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Došlo je do pogreške pri generiranju pričuvnih šifri",
     "{name} backup codes" : "{name} pričuvnih šifri",
@@ -22,17 +21,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Davatelj pričuvnih šifri za dvofaktorsku autentifikaciju",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Upotrijebite jednu od pričuvnih šifri koje ste spremili prilikom postavljanja dvofaktorske autentifikacije.",
     "Submit" : "Šalji",
-    "activated" : "aktivirane",
-    "updated" : "ažurirane",
-    "mounted" : "postavljene",
-    "deactivated" : "deaktivirane",
-    "beforeCreate" : "beforeCreate",
-    "created" : "stvorene",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "uništene",
-    "beforeMount" : "beforeMount",
-    "Nextcloud backup codes" : "Nextcloudove pričuvne šifre",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogućili ste dvofaktorsku autentifikaciju, ali još niste generirali pričuvne šifre. Obavezno to učinite u slučaju da izgubite pristup svom drugom faktoru."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogućili ste dvofaktorsku autentifikaciju, ali još niste generirali pričuvne šifre. Obavezno to učinite u slučaju da izgubite pristup svom drugom faktoru.",
+    "function" : "funkcija"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

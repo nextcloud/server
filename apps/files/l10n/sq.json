@@ -109,6 +109,7 @@
     "Upload (max. %s)" : "Ngarkim (max. %s)",
     "Accept" : "Prano",
     "Change" : "Ndrysho",
+    "Tags" : "Etiketë",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
     "Settings" : "Rregullime",
@@ -122,7 +123,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Kartelat që po rrekeni të ngarkoni e tejkalojnë madhësinë maksimale për ngarkime kartelash në këtë shërbyes.",
     "No favorites yet" : "Asnjë preferencë akoma",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
-    "Tags" : "Etiketë",
     "Deleted files" : "Skedar të fshirë",
     "Shares" : "Shpërndarjet",
     "Shared with others" : "E ndarë me të tjerët",
@@ -131,13 +131,6 @@
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "File handling" : "Trajtim kartele",
-    "Maximum upload size" : "Madhësi maksimale ngarkimi",
-    "max. possible: " : "maks. i mundshëm: ",
-    "Save" : "Ruaje",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Me PHP-FPM mund të duhen 5 minuta që ndryshimet të hyjnë në fuqi.",
-    "Missing permissions to edit from here." : "Mungojnë lejet për përpunim që nga këtu.",
-    "Cancel upload" : "Anulo ngarkimin",
     "%s of %s used" : "%s nga %s është përdorur"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

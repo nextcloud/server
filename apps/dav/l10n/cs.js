@@ -81,7 +81,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Technical details" : "Technické podrobnosti",
-    "Remote Address: %s" : "Vzdálená adresa: %s",
+    "Remote Address: %s" : "Adresa protějšku: %s",
     "Request ID: %s" : "Identif. požadavku: %s",
     "There was an error updating your attendance status." : "Vyskytla se chyba při aktualizaci vašeho stavu účasti.",
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",
@@ -98,8 +98,7 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "A tedy nebudou zpřístupněny ihned po povolení, ale objeví se až se zpožděním.",
     "Send notifications for events" : "Posílat upozornění na události",
     "Notifications are sent via background jobs, so these must occur often enough." : "Upozornění jsou odesílána prostřednictvím úloh na pozadí – proto je třeba, aby tyto probíhaly dostatečně často.",
-    "Enable notifications for events via push" : "Oznamovat události prostřednictvím push",
-    "Please make sure to properly set up the email settings above." : "Ujistěte se, že jste správně nastavili výše uvedená nastavení e-mailu.",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Oznámení budou odeslána prostřednictvím úloh na pozadí, takže je třeba, aby se děly dostatečně často."
+    "Enable notifications for events via push" : "Upozorňovat na události prostřednictvím služby push",
+    "Notifications will be send through background jobs, so these need to happen often enough." : "Upozornění budou odesílána prostřednictvím úloh na pozadí – Proto je třeba, aby probíhaly dostatečně často."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

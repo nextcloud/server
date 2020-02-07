@@ -28,7 +28,6 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Įsitikinkite, kad jūsų config.php nenustato <samp>appstoreenabled</samp> į neigiamą reikšmę.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nepavyko prisijungti prie programėlių parduotuvės arba programėlių parduotuvė negrąžino visiškai jokių atnaujinimų. Atlikite rankinę atnaujinimų paiešką arba įsitikinkite, kad jūsų serveris turi prieigą prie interneto ir gali prisijungti prie programėlių parduotuvės.",
     "View changelog" : "Rodyti keitinių žurnalą",
-    "Beta" : "Beta",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Visada galite atnaujinti į naujesnę versiją / eksperimentinį kanalą. Tačiau niekada negalite sendinti versijos ar persijungti į stabilų kanalą."
+    "Beta" : "Beta"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

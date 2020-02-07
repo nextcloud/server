@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Skicka aviseringar för händelser",
     "Notifications are sent via background jobs, so these must occur often enough." : "Aviseringar skickas genom bakgrundsjobb, så dessa måste ske tillräckligt ofta.",
     "Enable notifications for events via push" : "Aktivera aviseringar för händelser via push",
-    "Please make sure to properly set up the email settings above." : "Vänligen säkerställ att epost-inställningarna ovan är korrekt angivna",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Aviseringar skickas genom bakgrundsjobb, så dessa måste ske tillräckligt ofta."
 },
 "nplurals=2; plural=(n != 1);");

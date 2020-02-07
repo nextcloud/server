@@ -116,6 +116,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
     "Accept" : "Akceptēt",
     "Change" : "Mainīt",
+    "Tags" : "Birkas",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
     "Settings" : "Iestatījumi",
@@ -128,7 +129,6 @@ OC.L10N.register(
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
     "Files and folders you mark as favorite will show up here" : "Datnes un mapes, ko atzīmēsiet kā favorītus, tiks rādīti šeit",
-    "Tags" : "Birkas",
     "Deleted files" : "Dzēstās datnes",
     "Shares" : "Koplietots",
     "Shared with others" : "Koplietots ar citiem",
@@ -136,13 +136,6 @@ OC.L10N.register(
     "Shared by link" : "Koplietots ar saiti",
     "Deleted shares" : "Dzēstās koplietotnes",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt",
-    "File handling" : "Datņu pārvaldība",
-    "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
-    "max. possible: " : "maksimālais iespējamais:",
-    "Save" : "Saglabāt",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ar PHP-FPM var aizņemt 5 minūtes, kamēr izmaiņas stāsies spēkā.",
-    "Missing permissions to edit from here." : "Nepietiekamas tiesības lai rediģētu no šejienes.",
-    "Cancel upload" : "Atcelt augšupielādi"
+    "New text file.txt" : "Jauna teksta datne.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

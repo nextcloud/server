@@ -9,8 +9,6 @@
     "Log out" : "Meld af",
     "Users" : "Gebruikers",
     "Unknown user" : "Onbekende gebruiker",
-    "Security" : "Sekuriteit",
-    "Personal info" : "Persoonlike inligting",
     "Open »%s«" : "Open »%s«",
     "Sunday" : "Sondag",
     "Monday" : "Maandag",
@@ -24,6 +22,8 @@
     "Create" : "Skep",
     "Delete" : "Skrap",
     "Share" : "Deel",
+    "Security" : "Sekuriteit",
+    "Personal info" : "Persoonlike inligting",
     "Unlimited" : "Onbeperkte"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

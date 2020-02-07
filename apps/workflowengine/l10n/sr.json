@@ -33,6 +33,8 @@
     "Entity %s has no event %s" : "Ентитет %s нема ниједан догађај %s",
     "Operation %s does not exist" : "Операција %s не постоји",
     "Operation %s is invalid" : "Операција %s није исправна",
+    "At least one check needs to be provided" : "Треба да се зада бар једна провера",
+    "Invalid check provided" : "Задата неисправна потврда",
     "Check %s does not exist" : "Проверите да ли %s постоји",
     "Check %s is invalid" : "Проверите да ли је %s исправно",
     "Check %s is not allowed with this entity" : "Провера %s није дозвољена са овим ентитетом",
@@ -64,6 +66,7 @@
     "Desktop client" : "Десктоп клијент",
     "Thunderbird & Outlook addons" : "Додаци за Thunderbird & Outlook",
     "Custom user agent" : "Произвољни агент захтева",
+    "At least one event must be selected" : "Мора бити одабран бар један догађај",
     "Add new flow" : "Додај нови ток",
     "When" : "Када",
     "and" : "и",
@@ -122,10 +125,9 @@
     "End" : "Крај",
     "Select timezone…" : "Одаберите временску зону…",
     "Sync clients" : "Синхронизовани клијенти",
-    "Workflow" : "Ток рада",
+    "Tag management" : "Управљање ознакама",
     "Files workflow engine" : "Датотеке за мотор процеса рада",
     "Open documentation" : "Отвори документацију",
-    "Loading…" : "Учитавање…",
-    "Tag management" : "Управљање ознакама"
+    "Loading…" : "Учитавање…"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

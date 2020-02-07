@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "イベントの通知を送信",
     "Notifications are sent via background jobs, so these must occur often enough." : "通知はバックグラウンドジョブを介して送信されるため、十分な頻度で発生します。",
     "Enable notifications for events via push" : "イベントのプッシュ通知を有効にする",
-    "Please make sure to properly set up the email settings above." : "上記のメール設定を正しく設定してください。",
     "Notifications will be send through background jobs, so these need to happen often enough." : "通知はバックグラウンドジョブを介して送信されるため、十分な頻度で発生します。"
 },
 "nplurals=1; plural=0;");

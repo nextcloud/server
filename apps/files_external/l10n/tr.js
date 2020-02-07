@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Bu dış depolamayı silmek istediğinize emin misiniz?",
     "Delete storage?" : "Depolama silinsin mi?",
     "Saved" : "Kaydedildi",
-    "Saving..." : "Kaydediliyor...",
+    "Saving …" : "Kaydediliyor …",
     "Save" : "Kaydet",
     "Empty response from the server" : "Sunucudan boş yanıt alındı",
     "Couldn't access. Please log out and in again to activate this mount point" : "Erişilemedi. Lütfen bu bağlama noktasını etkinleştirmek için oturumunuzu kapatıp yeniden açın",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Add storage" : "Depolama ekle",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "Saving..." : "Kaydediliyor..."
 },
 "nplurals=2; plural=(n > 1);");

@@ -72,7 +72,6 @@ OC.L10N.register(
     "End" : "Selesai",
     "Select timezone…" : "Pilih zona waktu...",
     "Sync clients" : "Klien sync",
-    "Workflow" : "Alur kerja",
     "Open documentation" : "Buka dokumentasi",
     "Loading…" : "Memuat..."
 },

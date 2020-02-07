@@ -1,7 +1,6 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "function" : "funkce",
     "_" : "_",
     "An error occurred while generating your backup codes" : "Při pokusu o vytvoření záložních kódů nastala chyba.",
     "{name} backup codes" : "{name} záložní kódy",
@@ -22,17 +21,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Poskytovatel záložních kódů pro dvoustupňové ověřování",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Použijte jeden ze svých záložních kódů které jste si uložili při nastavování dvoufázového ověřování.",
     "Submit" : "Odeslat",
-    "activated" : "aktivováno",
-    "updated" : "aktualizováno",
-    "mounted" : "připojeno (mount)",
-    "deactivated" : "deaktivováno",
-    "beforeCreate" : "předVytvořením",
-    "created" : "vytvořen",
-    "beforeUpdate" : "předAktualizací",
-    "beforeDestroy" : "předZničením",
-    "destroyed" : "zničeno",
-    "beforeMount" : "předPřipojením",
-    "Nextcloud backup codes" : "Nextcloud záložní kódy",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi.",
+    "function" : "funkce"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

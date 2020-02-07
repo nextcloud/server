@@ -57,7 +57,6 @@ OC.L10N.register(
     "Request ID: %s" : "Päringu ID: %s",
     "Tentative" : "Esialgne",
     "Save" : "Salvesta",
-    "Send invitations to attendees" : "Saada osalejatele kutsed",
-    "Please make sure to properly set up the email settings above." : "Veendu, et e-posti seaded oleksid eespool õigesti seadistatud."
+    "Send invitations to attendees" : "Saada osalejatele kutsed"
 },
 "nplurals=2; plural=(n != 1);");

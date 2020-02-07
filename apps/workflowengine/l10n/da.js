@@ -26,6 +26,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begrænset)",
     "Predefined URLs" : "Foruddefineret URLer",
     "Files WebDAV" : "Fil WebDAV",
+    "Others" : "Andre",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
@@ -75,7 +76,6 @@ OC.L10N.register(
     "End" : "Stop",
     "Select timezone…" : "Vælg tidszone...",
     "Sync clients" : "Synkronisering klienter",
-    "Workflow" : "Workflow",
     "Files workflow engine" : "Filer workflow motoren",
     "Open documentation" : "Åbn dokumentationen",
     "Loading…" : "Indlæser..."

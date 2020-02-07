@@ -123,10 +123,9 @@ OC.L10N.register(
     "End" : "Slutet",
     "Select timezone…" : "Välj tidszon...",
     "Sync clients" : "Synkroniseringsklienter",
-    "Workflow" : "Arbetsflöde",
+    "Tag management" : "Tagghantering",
     "Files workflow engine" : "Arbetsflödesmotor för Filer",
     "Open documentation" : "Öppna dokumentation",
-    "Loading…" : "Laddar...",
-    "Tag management" : "Tagghantering"
+    "Loading…" : "Laddar..."
 },
 "nplurals=2; plural=(n != 1);");

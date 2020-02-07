@@ -14,11 +14,6 @@
     "Enable" : "Aktiver",
     "High contrast theme" : "Høykontrast-tema",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast tema for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
-    "Dark theme (beta)" : "Mørkt tema (beta)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic er en gratis skrifttype egnet for å minske de mest vanligste lesefeilene som dysleksi forårsaker. Fonten var laget av Abelardo Gonzalez, som publiserte den gjennom en \"Åpen kildekode\" lisens.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Gir muligheten for flere tilgjengelighetsvalg for å gjøre det lettere å bruke Nextcloud",
-    "Themes" : "Temaer",
-    "Fonts" : "Skrifttyper",
-    "enabled" : "aktivert"
+    "Dark theme (beta)" : "Mørkt tema (beta)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

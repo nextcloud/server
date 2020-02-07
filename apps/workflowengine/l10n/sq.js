@@ -73,7 +73,6 @@ OC.L10N.register(
     "End" : "Mbarim",
     "Select timezone…" : "Zgjidh brezin kohorë",
     "Sync clients" : "Klient të sinkronizuar",
-    "Workflow" : "Rrjedha e punëve",
     "Files workflow engine" : "Motori i rrjedhës së punës së skedarëve",
     "Open documentation" : "Dokumentacion i hapur",
     "Loading…" : "Po ngarkohet..."

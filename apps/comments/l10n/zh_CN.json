@@ -21,7 +21,7 @@
     "More comments …" : "更多评论 ...",
     "Save" : "保存",
     "Allowed characters {count} of {max}" : "当前字数： {count}，最多允许：{max}",
-    "Error occurred while retrieving comment with ID {id}" : "取回 ID {id} 的评论时发生错误",
+    "Error occurred while retrieving comment with ID {id}" : "取回 ID 为 {id} 的评论时发生错误",
     "Error occurred while updating comment with id {id}" : "更新 id 为 {id} 的评论出错",
     "Error occurred while posting comment" : "发表评论时发生错误",
     "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"],

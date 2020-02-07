@@ -43,7 +43,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Check %s is invalid or does not exist" : "Sprawdź, czy %s jest nieprawidłowa lub nie istnieje",
     "Flow" : "Przepływ",
-    "Nextcloud workflow engine" : "Silnik Nextcloud workflow",
+    "Nextcloud workflow engine" : "Silnik przepływu pracy Nextcloud",
     "Select a filter" : "Wybierz filtr",
     "Select a comparator" : "Wybierz komparator",
     "Select a file type" : "Wybierz typ pliku",
@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Koniec",
     "Select timezone…" : "Wybierz strefę czasową…",
     "Sync clients" : "Klienci synchronizacji",
-    "Workflow" : "Workflow",
-    "Files workflow engine" : "Pliki silnika workflow",
+    "Tag management" : "Zarządzanie etykietami",
+    "Files workflow engine" : "Pliki silnika przepływu pracy",
     "Open documentation" : "Otwórz dokumentację",
-    "Loading…" : "Wczytywanie…",
-    "Tag management" : "Zarządzanie etykietami"
+    "Loading…" : "Wczytywanie…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

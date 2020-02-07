@@ -88,7 +88,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Оттука, тие нема да бидат достапни веднаш по овозможувањето, но ќе се појават по некое време.",
     "Send notifications for events" : "Испрати известувања за настани",
     "Enable notifications for events via push" : "Овозможи известувања за настани преку push",
-    "Please make sure to properly set up the email settings above." : "Бидете сигурни дека правилно се поставени параметрите за Е-пошта.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Известувањата ќе бидат испраќани преку задачите што се извршуваат во позадина, така што тие треба да се случуваат доволно често."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

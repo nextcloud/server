@@ -49,7 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Dosyaların e-posta ile paylaşılması için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
-    "Enforce password protection" : "Parola koruması dayatılsın",
-    "Password to access »%1$s« shared with %2$s" : "»%1$s« için %2$s üzerinden paylaşılan erişim parolası"
+    "Enforce password protection" : "Parola koruması dayatılsın"
 },
 "nplurals=2; plural=(n > 1);");

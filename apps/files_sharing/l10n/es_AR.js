@@ -100,6 +100,7 @@ OC.L10N.register(
     "remote" : "remoto",
     "Link copied" : "Link copiado",
     "Copy to clipboard" : "Copiar al portapapeles",
+    "Only works for users with access to this folder" : "Solo funciona para usuarios con acceso a esta carpeta",
     "Password protection" : "Protección con contraseña",
     "Enter a password" : "Ingrese una contraseña",
     "Cancel" : "Cancelar",

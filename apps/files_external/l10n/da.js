@@ -24,7 +24,7 @@ OC.L10N.register(
     "Admin defined" : "Bestemt af administrator",
     "Delete storage?" : "Slet lager?",
     "Saved" : "Gemt",
-    "Saving..." : "Gemmer...",
+    "Saving …" : "Gemmer…",
     "Save" : "Gem",
     "Empty response from the server" : "Svar fra serveren uden data",
     "Couldn't access. Please log out and in again to activate this mount point" : "Kunne ikke forbinde. Log venligst ud og ind igen for at aktivere dette mount point.",
@@ -99,6 +99,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Del",
     "Show hidden files" : "Vis skjulte filer",
+    "Timeout" : "Timeout",
     "SMB / CIFS using OC login" : "SMB / CIFS med OC-login",
     "Username as share" : "Brugernavn som deling",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -117,6 +118,7 @@ OC.L10N.register(
     "Available for" : "Tilgængelig for",
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
-    "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager"
+    "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
+    "Saving..." : "Gemmer..."
 },
 "nplurals=2; plural=(n != 1);");

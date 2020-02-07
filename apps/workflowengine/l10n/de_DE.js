@@ -68,7 +68,7 @@ OC.L10N.register(
     "Desktop client" : "Desktop-Client",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook addons",
     "Custom user agent" : "Benutzerdefinierter User-Agent",
-    "At least one event must be selected" : "Mindestens ein Ereignis muss ausgewählt werden",
+    "At least one event must be selected" : "Mindestens ein Termin muss ausgewählt werden",
     "Add new flow" : "Neuen Ablauf hinzufügen",
     "When" : "Wenn",
     "and" : "und",
@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Ende",
     "Select timezone…" : "Wählen Sie die Zeitzone…",
     "Sync clients" : "Sync-Clients",
-    "Workflow" : "Arbeitsablauf",
+    "Tag management" : "Schlagwortverwaltung",
     "Files workflow engine" : "Datei-Arbeitsablauf-Engine",
     "Open documentation" : "Dokumentation öffnen",
-    "Loading…" : "Laden…",
-    "Tag management" : "Schlagwortverwaltung"
+    "Loading…" : "Laden…"
 },
 "nplurals=2; plural=(n != 1);");

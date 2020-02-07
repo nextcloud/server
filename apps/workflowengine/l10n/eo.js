@@ -108,10 +108,9 @@ OC.L10N.register(
     "End" : "Fino",
     "Select timezone…" : "Elekti horzonon...",
     "Sync clients" : "Sinkronigaj klientoj",
-    "Workflow" : "Laborfluo",
+    "Tag management" : "Etikeda administrado",
     "Files workflow engine" : "Modulo de dosiera laborfluo",
     "Open documentation" : "Malfermi dokumentaron",
-    "Loading…" : "Ŝargado...",
-    "Tag management" : "Etikeda administrado"
+    "Loading…" : "Ŝargado..."
 },
 "nplurals=2; plural=(n != 1);");

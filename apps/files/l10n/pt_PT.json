@@ -121,6 +121,7 @@
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (máx. %s)",
     "Accept" : "Aceitar",
+    "Tags" : "Etiquetas",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
     "Settings" : "Configurações",
@@ -135,7 +136,6 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que está a tentar enviar excedem o tamanho máximo para os envios de ficheiro neste servidor.",
     "No favorites yet" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
-    "Tags" : "Etiquetas",
     "Deleted files" : "Ficheiros eliminados",
     "Shares" : "Partilhas",
     "Shared with others" : "Partilhado com terceiros",
@@ -143,13 +143,6 @@
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "File handling" : "Utilização do ficheiro",
-    "Maximum upload size" : "Tamanho máximo de envio",
-    "max. possible: " : "Máx. possível: ",
-    "Save" : "Guardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com o PHP-FPM poderá demorar 5 minutos até que as alterações sejam aplicadas.",
-    "Missing permissions to edit from here." : "Faltam permissões para editar a partir daqui.",
-    "Cancel upload" : "Cancelar envio",
     "%s of %s used" : "%s de %s utilizado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

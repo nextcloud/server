@@ -102,6 +102,7 @@ OC.L10N.register(
     "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
     "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>",
     "Accept" : "Хүлээн зөвшөөрөх",
+    "Tags" : "Тэгүүд",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
     "Settings" : "Тохиргоо",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
@@ -110,17 +111,12 @@ OC.L10N.register(
     "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
-    "Tags" : "Тэгүүд",
     "Deleted files" : "Устгасан файлууд",
     "Shares" : "Түгээлтүүд",
     "Shared with others" : "Бусдад түгээсэн",
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt",
-    "File handling" : "файлтай харьцах",
-    "Maximum upload size" : "хамгийн их байршуулах хэмжээ",
-    "max. possible: " : "боломжтой хамгийн их хэмжээ",
-    "Save" : "хадгалах"
+    "New text file.txt" : "шинэ текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");

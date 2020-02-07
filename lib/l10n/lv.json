@@ -40,9 +40,7 @@
     "Log out" : "Izrakstīties",
     "Users" : "Lietotāji",
     "Unknown user" : "Nezināms lietotājs",
-    "Sharing" : "Koplietošana",
     "Additional settings" : "Papildu iestatījumi",
-    "Personal info" : "Personiskā informācija",
     "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
     "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
     "%s you may not use dots in the database name" : "%s datubāžu nosaukumos nedrīkst izmantot punktus",
@@ -126,6 +124,8 @@
     "Change" : "Mainīt",
     "Delete" : "Dzēst",
     "Share" : "Koplietot",
+    "Sharing" : "Koplietošana",
+    "Personal info" : "Personiskā informācija",
     "Unlimited" : "Neierobežota",
     "Verify" : "Verificēt"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

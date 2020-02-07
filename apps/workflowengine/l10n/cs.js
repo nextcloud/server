@@ -109,7 +109,7 @@ OC.L10N.register(
     "between" : "mezi",
     "not between" : "není mezi",
     "Request user agent" : "User agent požadavku",
-    "User group membership" : "Členství ve skupině uživatelů",
+    "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
     "Short rule description" : "Stručný popis pravidla",
@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Konec",
     "Select timezone…" : "Vybrat časové pásmo…",
     "Sync clients" : "Synchronizační klienti",
-    "Workflow" : "Postup práce",
+    "Tag management" : "Správa štítků",
     "Files workflow engine" : "Engine práce se soubory",
     "Open documentation" : "Otevřít dokumentaci",
-    "Loading…" : "Načítání…",
-    "Tag management" : "Správa štítků"
+    "Loading…" : "Načítání…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

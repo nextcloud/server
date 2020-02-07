@@ -14,11 +14,6 @@
     "Enable" : "Iespējo",
     "High contrast theme" : "Augsta kontrasta motīvs",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Augsta kontrasta režīms atvieglo navigāciju. Vizuālā kvalitāte tiks samazināta, bet skaidrība paaugstināsies.",
-    "Dark theme (beta)" : "Tumšs motīvs (beta)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic ir bezmaksas fonts, kas veidots, lai mazinātu tipiskākos lasīšanas traucējumus, ko izraisa disleksija. Fontu radīja Abelardo Gonzalez, kurš to publicēja ar atvērtā koda licences starpniecību.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Piedāvā vairākus pieejamības uzstādījumus, kas atvieglo nextcloud lietošanu.",
-    "Themes" : "Motīvi",
-    "Fonts" : "Fonti",
-    "enabled" : "iespējots"
+    "Dark theme (beta)" : "Tumšs motīvs (beta)"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

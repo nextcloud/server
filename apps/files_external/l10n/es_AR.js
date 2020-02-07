@@ -23,7 +23,6 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Admin defined" : "Administrador definido",
     "Saved" : "Guardado",
-    "Saving..." : "Guardando...",
     "Save" : "Guardar",
     "Empty response from the server" : "Respuesta vacía del servidor",
     "Couldn't get the information from the remote server: {code} {type}" : "No fue posible obtener la información del servidor remoto: {code} {type}",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
+    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
+    "Saving..." : "Guardando..."
 },
 "nplurals=2; plural=(n != 1);");

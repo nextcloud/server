@@ -111,6 +111,7 @@ OC.L10N.register(
     "Unlimited" : "Không giới hạn",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
     "Change" : "Chỉnh sửa",
+    "Tags" : "Nhãn",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
     "Settings" : "Cài đặt",
     "Show hidden files" : "Hiển thị cac file bị ẩn",
@@ -122,19 +123,11 @@ OC.L10N.register(
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
-    "Tags" : "Nhãn",
     "Deleted files" : "Thùng rác",
     "Shares" : "Chia sẻ",
     "Shared with others" : "Chia sẻ với người khác",
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
-    "Text file" : "Tập tin văn bản",
-    "File handling" : "Xử lý tập tin",
-    "Maximum upload size" : "Kích thước tối đa ",
-    "max. possible: " : "tối đa cho phép:",
-    "Save" : "Lưu",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Với PHP-FPM, có thể mất 5 phút để áp dụng các thay đổi.",
-    "Missing permissions to edit from here." : "Thiếu quyền để chỉnh sửa từ đây.",
-    "Cancel upload" : "Hủy tải lên"
+    "Text file" : "Tập tin văn bản"
 },
 "nplurals=1; plural=0;");

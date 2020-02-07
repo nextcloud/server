@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Haluatko varmasti poistaa tämän erillisen tallennustilan?",
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Saved" : "Tallennettu",
-    "Saving..." : "Tallennetaan...",
+    "Saving …" : "Tallennetaan…",
     "Save" : "Tallenna",
     "Empty response from the server" : "Tyhjä vastaus palvelimelta",
     "Couldn't access. Please log out and in again to activate this mount point" : "Käyttö ei onnistunut. Kirjaudu ulos ja takaisin sisään aktivoidaksesi tämän liitoskohdan",
@@ -130,6 +130,7 @@ OC.L10N.register(
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
+    "Saving..." : "Tallennetaan..."
 },
 "nplurals=2; plural=(n != 1);");

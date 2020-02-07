@@ -115,7 +115,7 @@ OC.L10N.register(
     "Short rule description" : "短规则说明",
     "Add rule" : "添加规则",
     "Reset" : "重置",
-    "Saving…" : "保存中...",
+    "Saving…" : "正在保存…",
     "Group list is empty" : "用户群组列表空",
     "Unable to retrieve the group list" : "无法获取用户群组列表",
     "Saved" : "已保存",
@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "结束",
     "Select timezone…" : "选择时区...",
     "Sync clients" : "同步客户端",
-    "Workflow" : "工作流",
+    "Tag management" : "标签管理",
     "Files workflow engine" : "文件工作流引擎",
     "Open documentation" : "打开文档",
-    "Loading…" : "加载中...",
-    "Tag management" : "标签管理"
+    "Loading…" : "正在加载…"
 },
 "nplurals=1; plural=0;");

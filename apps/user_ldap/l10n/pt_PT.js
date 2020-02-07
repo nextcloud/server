@@ -136,7 +136,6 @@ OC.L10N.register(
     "Quota Default" : "Quota padrão",
     "Email Field" : "Campo de email",
     "User Home Folder Naming Rule" : "Regra da pasta inicial do utilizador",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixe vazio para nome de utilizador (padrão). De outro modo, especifique um atributo LDAP/AD.",
     "Internal Username" : "Nome de utilizador interno",
     "Internal Username Attribute:" : "Atributo do nome de utilizador interno",
     "Override UUID detection" : "Passar a detecção do UUID",
@@ -145,6 +144,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixe vazio para nome de utilizador (padrão). De outro modo, especifique um atributo LDAP/AD."
 },
 "nplurals=2; plural=(n != 1);");

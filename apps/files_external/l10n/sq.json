@@ -21,7 +21,6 @@
     "Delete" : "Fshije",
     "Admin defined" : "Përcaktuar nga përgjegjësi",
     "Saved" : "U ruajt",
-    "Saving..." : "Po ruhet …",
     "Save" : "Ruaje",
     "Empty response from the server" : "Përgjigje e zbrazët prej serverit",
     "Couldn't access. Please log out and in again to activate this mount point" : "Nuk mund të ketë akses. Ju lutemi, dilni dhe hyni që të aktivizohet kjo pikë montimi",
@@ -113,6 +112,7 @@
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
-    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme"
+    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
+    "Saving..." : "Po ruhet …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

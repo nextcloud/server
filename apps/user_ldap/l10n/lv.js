@@ -109,10 +109,10 @@ OC.L10N.register(
     "Quota Default" : "Kvotas noklusējums",
     "Email Field" : "E-pasta lauks",
     "User Home Folder Naming Rule" : "Lietotāja mājas mapes nosaukšanas kārtula",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu.",
     "Internal Username" : "Iekšējais lietotājvārds",
     "Override UUID detection" : "Ignorēt UUID noteikšanu",
     "UUID Attribute for Users:" : "UUID atribūti lietotājiem:",
-    "UUID Attribute for Groups:" : "UUID atribūti grupām:"
+    "UUID Attribute for Groups:" : "UUID atribūti grupām:",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
