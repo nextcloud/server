@@ -87,6 +87,7 @@
     "%s enter the database username." : "Zadejte uživatelské jméno %s databáze.",
     "%s enter the database name." : "Zadejte název databáze pro %s databáze.",
     "%s you may not use dots in the database name" : "V názvu databáze %s není možné používat tečky.",
+    "MySQL username and/or password not valid" : "Neplatné uživatelské jméno a/nebo heslo do MySQL",
     "You need to enter details of an existing account." : "Je třeba zadat podrobnosti existujícího účtu.",
     "Oracle connection could not be established" : "Spojení s Oracle nemohlo být navázáno",
     "Oracle username and/or password not valid" : "Neplatné uživatelské jméno a/nebo heslo do Oracle",
