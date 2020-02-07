@@ -787,11 +787,11 @@ const Dialogs = {
 			$conflict.data('data', data)
 
 			$conflict.find('.filename').text(original.name)
-			$originalDiv.find('.size').text(humanFileSize(original.size))
+			$originalDiv.find('.size').text(OC.Util.humanFileSize(original.size))
 			$originalDiv.find('.mtime').text(formatDate(original.mtime))
 			// ie sucks
 			if (replacement.size && replacement.lastModifiedDate) {
-				$replacementDiv.find('.size').text(humanFileSize(replacement.size))
+				$replacementDiv.find('.size').text(OC.Util.humanFileSize(replacement.size))
 				$replacementDiv.find('.mtime').text(formatDate(replacement.lastModifiedDate))
 			}
 			var path = original.directory + '/' + original.name
@@ -1164,7 +1164,7 @@ const Dialogs = {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
 				var simpleSize, sizeColor
 				if (typeof (entry.size) !== 'undefined' && entry.size >= 0) {
-					simpleSize = humanFileSize(parseInt(entry.size, 10), true)
+					simpleSize = OC.Util.humanFileSize(parseInt(entry.size, 10), true)
 					sizeColor = Math.round(160 - Math.pow((entry.size / (1024 * 1024)), 2))
 				} else {
 					simpleSize = t('files', 'Pending')
