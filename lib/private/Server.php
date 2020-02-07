@@ -134,6 +134,7 @@ use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
@@ -158,9 +159,11 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\ICacheFactory;
+use OCP\IContainer;
 use OCP\IDBConnection;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IUser;
@@ -2178,5 +2181,19 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getGeneratorHelper() {
 		return $this->query(\OC\Preview\GeneratorHelper::class);
+	}
+
+	private function registerDeprecatedAlias(string $alias, string $target) {
+		$this->registerService($alias, function (IContainer $container) use ($target, $alias) {
+			try {
+				/** @var ILogger $logger */
+				$logger = $container->query(ILogger::class);
+				$logger->debug('The requested alias "' . $alias . '" is depreacted. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
+			} catch (QueryException $e) {
+				// Could not get logger. Continue
+			}
+
+			return $container->query($target);
+		}, false);
 	}
 }
