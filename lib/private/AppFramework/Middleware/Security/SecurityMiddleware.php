@@ -46,6 +46,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -170,13 +171,16 @@ class SecurityMiddleware extends Middleware {
 			 *
 			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
+			 * CORS routes are also allowed to pass since the authentication and possible required
+			 * CSRF token check is handled in the CORSMiddleware
 			 */
-			if(!$this->request->passesCSRFCheck() && !(
-					$controller instanceof OCSController && (
-						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
-						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
-					)
-				)) {
+			if (!$this->request->passesCSRFCheck()
+				&& !($controller instanceof ApiController && $this->reflector->hasAnnotation('CORS'))
+				&& !($controller instanceof OCSController && (
+					$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
+					strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0)
+				)
+			) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}

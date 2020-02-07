@@ -26,6 +26,7 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
+use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
@@ -80,7 +81,7 @@ class CORSMiddleware extends Middleware {
 	 * @throws SecurityException
 	 * @since 6.0.0
 	 */
-	public function beforeController($controller, $methodName){
+	public function beforeController($controller, $methodName) {
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
 		if ($this->reflector->hasAnnotation('CORS') &&
@@ -88,6 +89,10 @@ class CORSMiddleware extends Middleware {
 			$user = $this->request->server['PHP_AUTH_USER'];
 			$pass = $this->request->server['PHP_AUTH_PW'];
 
+			// Allow to use the current session if a CSRF token is provided
+			if ($this->request->passesCSRFCheck()) {
+				return;
+			}
 			$this->session->logout();
 			try {
 				if (!$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
