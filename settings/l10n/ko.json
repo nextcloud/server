@@ -108,13 +108,10 @@
     "Change" : "변경",
     "Unlimited" : "무제한",
     "Verifying" : "검사",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "2단계 인증을 모든 유저 또는 특정 그룹에 강제할 수 있습니다. 만약 대상자가 2단계 인증 공급자를 설정하지 않았다면, 대상자는 시스템에 접근할 수 없게 될 것입니다.",
     "Enforce two-factor authentication" : "2단계 인증 강제하기",
     "Limit to groups" : "그룹으로 제한",
     "Enforcement of two-factor authentication can be set for certain groups only." : "2단계 인증 강제는 특정 그룹에게만 적용됩니다.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "2단계 인증이 모든 멤버에게 강제된 그룹은\t다음과 같습니다.",
     "Enforced groups" : "강제된 그룹",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "2단계 인증이 강제되지 않은 그룹은\t다음과 같습니다.",
     "Excluded groups" : "제외된 그룹",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "그룹이 선택되거나 제외되었을 때, 다음과 같은 상황을 고려할 수 있습니다. 만약 2단계 인증이 강제되었고, 아무런 그룹이 선택되지 않았다면 제외된 그룹의 멤버를 제외하고 모든 유저에게 2단계 인증이 강제됩니다. 만약 그룹이 선택되었다면 그룹 안의 모든 멤버에게 2단계 인증이 강제됩니다. 만약 유저가 선택된 그룹과 제외된 그룹에 동시에 속해있다면, 선택된 그룹이 우선되며 2단계 인증이 강제됩니다.",
     "Save changes" : "변경 사항 저장",
@@ -333,11 +330,6 @@
     "New password" : "새 암호",
     "Change password" : "암호 변경",
     "Use a second factor besides your password to increase security for your account." : "사용자의 계정을 더욱 안전하게 보호하기 위해 암호와 함께 2단계 인증을 사용하세요.",
-    "Disconnect" : "연결 해제",
-    "Not supported!" : "지원되지 않습니다!",
-    "Press ⌘-C to copy." : "복사하려면 ⌘-C 키를 누르십시오.",
-    "Press Ctrl-C to copy." : "복사하기 위해 Ctrl-C를 누르세요.",
-    "Error while loading browser sessions and device tokens" : "웹 브라우저 세션과 장치 토큰을 불러오는 중 오류가 발생했습니다",
     "Korean" : "한국어",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "커뮤니티가 개발한 공식 앱입니다. 이 앱은 Nextcloud의 핵심 기능이며 프로덕션 환경에서 사용할 수 있습니다.",
     "Official" : "공식",
@@ -345,7 +337,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
     "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다.",
     "Set default expiration date" : "기본 만료 날짜 설정",
-    "Follow us on Google+" : "Google+에서 팔로하기",
     "Share" : "공유"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

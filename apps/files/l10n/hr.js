@@ -185,13 +185,6 @@ OC.L10N.register(
     "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
-    "File handling" : "Obrada datoteke",
-    "Maximum upload size" : "Maksimalna veličina otpreme",
-    "max. possible: " : "maks. moguća: ",
-    "Save" : "Spremi",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Kod PHP-FPM-a potrebno je 5 minuta da se promjene primijene.",
-    "Missing permissions to edit from here." : "Nedostaju dopuštenja za uređivanje.",
-    "Cancel upload" : "Otkaži otpremanje",
     "%s of %s used" : "Iskorišteno %s od %s",
     "%1$s%% of %2$s used" : "Iskorišteno %1$s%% od %2$s"
 },

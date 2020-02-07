@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Einde",
     "Select timezone…" : "Selecteer tijdzone...",
     "Sync clients" : "Synchroniseer clients",
-    "Workflow" : "Workflows",
+    "Tag management" : "Tagbeheer",
     "Files workflow engine" : "Betanden workflow engine",
     "Open documentation" : "Open documentatie",
-    "Loading…" : "Laden...",
-    "Tag management" : "Tagbeheer"
+    "Loading…" : "Laden..."
 },
 "nplurals=2; plural=(n != 1);");

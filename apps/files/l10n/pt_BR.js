@@ -185,13 +185,6 @@ OC.L10N.register(
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
-    "File handling" : "Tratamento de arquivo",
-    "Maximum upload size" : "Tamanho máximo para envio",
-    "max. possible: " : "max. possível:",
-    "Save" : "Salvar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com PHP-FPM pode demorar 5 minutos para que as alterações sejam aplicadas.",
-    "Missing permissions to edit from here." : "Faltando permissões para editar aqui.",
-    "Cancel upload" : "Cancelar envio",
     "%s of %s used" : "%s de %s usado",
     "%1$s%% of %2$s used" : "%1$s%% de %2$s usados"
 },

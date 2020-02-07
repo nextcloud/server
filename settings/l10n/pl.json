@@ -116,13 +116,10 @@
     "Unlimited" : "Bez limitu",
     "Verifying" : "Sprawdzanie",
     "Nextcloud settings" : "Ustawienia Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Uwierzytelnianie dwuskładnikowe może być wymuszane dla wszystkich\tużytkowników i określonych grup. Jeśli nie mają skonfigurowanego dostawcy logowania dwuskładnikowego, nie będą mogli zalogować się do systemu.",
     "Enforce two-factor authentication" : "Wymuś uwierzytelnianie dwuskładnikowe",
     "Limit to groups" : "Ogranicz do grup",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Wymuszanie uwierzytelniania dwuskładnikowego można ustawić tylko dla niektórych grup.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Uwierzytelnianie dwuskładnikowe jest wymuszane dla wszystkich\tczłonków następujących grup.",
     "Enforced groups" : "Wymuszone grupy",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Uwierzytelnianie dwuskładnikowe nie jest wymuszane dla\tczłonków następujących grup.",
     "Excluded groups" : "Wyłączone grupy",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Gdy grupy są wybierane/wykluczane, używają następującej logiki do określenia, czy użytkownik ma wymuszone 2FA: Jeśli nie wybrano żadnych grup, 2FA jest włączone dla wszystkich, z wyjątkiem członków grup wykluczonych. Jeśli wybrane są grupy, opcja 2FA jest włączona dla wszystkich członków. Jeśli użytkownik znajduje się zarówno w grupie wybranej, jak i wykluczonej, wybrane ma pierwszeństwo, a 2FA jest wymuszone.",
     "Save changes" : "Zapisz zmiany",
@@ -395,11 +392,6 @@
     "New password" : "Nowe hasło",
     "Change password" : "Zmień hasło",
     "Use a second factor besides your password to increase security for your account." : "Użyj drugiego zabezpieczenia oprócz hasła, aby zwiększyć bezpieczeństwo konta.",
-    "Disconnect" : "Rozłącz",
-    "Not supported!" : "Niewspierany!",
-    "Press ⌘-C to copy." : "Naciśnij ⌘-C, aby skopiować.",
-    "Press Ctrl-C to copy." : "Naciśnij Ctrl-C, aby skopiować.",
-    "Error while loading browser sessions and device tokens" : "Błąd podczas ładowania sesji przeglądarki i tokenów urządzenia",
     "Afrikaans (Namibia)" : "Afrykański (Namibia)",
     "Afrikaans (South Africa)" : "Afrykański (Południowa Afryka)",
     "Afrikaans" : "Afrykański",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Użyj cron.php, który jest zarejestrowany w usłudze webcron, aby wywoływać cron.php co 15 minut przez HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 15 minut.",
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
-    "Follow us on Google+" : "Bądź z nami na Google+",
     "Share" : "Udostępnij"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

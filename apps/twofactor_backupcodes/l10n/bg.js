@@ -15,11 +15,6 @@ OC.L10N.register(
     "Backup code" : "Резервен код",
     "Use backup code" : "Използвай код за възстановяване",
     "Submit" : "Изпращане",
-    "activated" : "активиран",
-    "deactivated" : "деактивиран",
-    "created" : "създаден",
-    "destroyed" : "унищожен",
-    "Nextcloud backup codes" : "Nextcloud резервни кодове",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Включили сте двустепенното удостоверяването, но не сте създали резервен код. Моля, създайте резервен код, който да ползвате когато загубите достъп до устройството генериращо кода за втората стъпка в удостоверяването."
 },
 "nplurals=2; plural=(n != 1);");

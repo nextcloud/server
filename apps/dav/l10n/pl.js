@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Wysyłaj powiadomienia o wydarzeniach",
     "Notifications are sent via background jobs, so these must occur often enough." : "Powiadomienia są wysyłane za pośrednictwem zadań w tle, więc muszą one występować wystarczająco często.",
     "Enable notifications for events via push" : "Włącz powiadomienia o zdarzeniach poprzez push",
-    "Please make sure to properly set up the email settings above." : "Upewnij się, że poprawnie skonfigurowałeś ustawienia e-mail.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Powiadomienia będą wysyłane za pośrednictwem zadań w tle, więc mogą pojawiać się one dosyć często."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

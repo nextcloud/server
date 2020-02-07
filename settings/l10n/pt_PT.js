@@ -267,18 +267,12 @@ OC.L10N.register(
     "Current password" : "Palavra-passe atual",
     "New password" : "Nova palavra-passe",
     "Change password" : "Alterar palavra-passe",
-    "Disconnect" : "Desligado",
-    "Not supported!" : "Não suportado!",
-    "Press ⌘-C to copy." : "Pressionar ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Pressionar Ctrl-C para copiar.",
-    "Error while loading browser sessions and device tokens" : "Erro durante o carregamento das sessões do navegador e tokens do dispositivo",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "As apps oficiais são desenvolvidas de e para a comunidade. Oferecem um repositório central de funcionalidades e estão preparadas para uso em produção.",
     "Official" : "Oficial",
     "Store credentials" : "Armazenar credenciais",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está registada num serviço webcron para chamar cron.php a cada 15 minutos através de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Use o serviço de tarefas automáticas para chamar o ficheiro cron.php a cada 15 minutos.",
     "Set default expiration date" : "Especificar a data padrão de expiração",
-    "Follow us on Google+" : "Siga-nos no Google+",
     "Share" : "Partilhar"
 },
 "nplurals=2; plural=(n != 1);");

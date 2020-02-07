@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Enviar notificações para eventos",
     "Notifications are sent via background jobs, so these must occur often enough." : "As notificações são enviadas via trabalhos em segundo plano, portanto, elas devem ocorrer com frequência suficiente.",
     "Enable notifications for events via push" : "Ativar notificações para eventos via push",
-    "Please make sure to properly set up the email settings above." : "Certifique-se de configurar corretamente o e-mail acima.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "As notificações serão enviadas por meio de tarefas em segundo plano. Portanto, elas precisam acontecer com frequência suficiente."
 },
 "nplurals=2; plural=(n > 1);");

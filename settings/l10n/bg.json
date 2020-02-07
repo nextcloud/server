@@ -67,7 +67,6 @@
     "Unlimited" : "Неограничено",
     "Verifying" : "Потвърждаване",
     "Nextcloud settings" : "Nextcloud настройки",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Ползването на двустепенното удостоверяване може да бъде наложено на всички\tпотребители или определени групи. Ако потребител не е настроил втората стъпка - няма да може да се впише.",
     "Limit to groups" : "Ограничен достъп",
     "Save changes" : "Запиши промените",
     "Supported" : "Поддържан",
@@ -250,9 +249,6 @@
     "New password" : "Нова парола",
     "Change password" : "Промени паролата",
     "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
-    "Not supported!" : "Не се поддържа!",
-    "Press ⌘-C to copy." : "За копиране натиснете ⌘-C.",
-    "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C.",
     "Afrikaans" : "африкаанс (бурски)",
     "Akan" : "акана",
     "Albanian" : "албански",
@@ -343,7 +339,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Услугата webcron стартира cron.php всеки 15 минути по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Ползва услугата cron на сървъра за да стартира cron.php всеки 15 минути.",
     "Set default expiration date" : "Задайте стандартен срок на валидност",
-    "Follow us on Google+" : "Следвайте ни в Google+",
     "Share" : "Сподели"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

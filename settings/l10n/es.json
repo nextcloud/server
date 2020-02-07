@@ -116,13 +116,10 @@
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificar",
     "Nextcloud settings" : "Ajustes de Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "La verificación en dos pasos se puede aplicar para todos\tlos usuarios y grupos específicos. Si no tienen configurado un proveedor de dos pasos, no podrán iniciar sesión en el sistema.",
     "Enforce two-factor authentication" : "Imponer verificación en dos pasos",
     "Limit to groups" : "Límite para grupos",
     "Enforcement of two-factor authentication can be set for certain groups only." : "La obligatoriedad de la autenticación de dos pasos puede establecerse solo para ciertos grupos.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "La autenticación de dos pasos es obligatoria para todos los \tmiembros de los siguientes grupos.",
     "Enforced groups" : "Grupos obligados",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "La verificación en dos pasos no está impuesta a\tmiembros de los siguientes grupos.",
     "Excluded groups" : "Grupos excluidos",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Cuando los grupos se seleccionan/excluyen, usan la siguiente lógica para determinar si un usuario tiene obligada la 2FA: si no hay grupos seleccionados, 2FA está activa para todos excepto los miembros de los grupos excluidos. Si hay grupos seleccionados, 2FA está activa para todos los miembros de estos. Si un usuaro está a la vez en un grupo seleccionado y otro excluido, el seleccionado tiene preferencia y se obliga la 2FA.",
     "Save changes" : "Guardar cambios",
@@ -395,11 +392,6 @@
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
     "Use a second factor besides your password to increase security for your account." : "Usa un segundo paso además de tu contraseña para incrementar la seguridad de tu cuenta. ",
-    "Disconnect" : "Desconectar",
-    "Not supported!" : "No está soportado!",
-    "Press ⌘-C to copy." : "Pulsa ⌘-C para copiar.",
-    "Press Ctrl-C to copy." : "Pulsa Ctrl-C para copiar.",
-    "Error while loading browser sessions and device tokens" : "Error al cargar la sesión del navegador y los tokens del dispositivo",
     "Afrikaans (Namibia)" : "Afrikáans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikáans (Sudáfrica)",
     "Afrikaans" : "Afrikáans",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usar el cron del sistema para ejecutar el archivo cron.php cada 15 minutos.",
     "Set default expiration date" : "Establecer fecha de caducidad predeterminada",
-    "Follow us on Google+" : "Síguenos en Google+",
     "Share" : "Compartir"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

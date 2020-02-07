@@ -35,7 +35,6 @@
     "Share by mail" : "Διαμοιρασμός με ηλεκτρονική αλληλογραφία",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
-    "Enforce password protection" : "Επιβάλετε προστασία συνθηματικού",
-    "Password to access »%1$s« shared with %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε με %2$s"
+    "Enforce password protection" : "Επιβάλετε προστασία συνθηματικού"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

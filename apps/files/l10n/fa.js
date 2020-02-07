@@ -117,12 +117,6 @@ OC.L10N.register(
     "Deleted shares" : "اشتراک گذاری های حذف شده",
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "فایل متنی جدید .txt",
-    "File handling" : "اداره پرونده ها",
-    "Maximum upload size" : "حداکثر اندازه بارگزاری",
-    "max. possible: " : "حداکثرمقدارممکن:",
-    "Save" : "ذخیره",
-    "Missing permissions to edit from here." : "عدم دسترسی برای ویرایش از اینجا.",
-    "Cancel upload" : "متوقف کردن بار گذاری"
+    "New text file.txt" : "فایل متنی جدید .txt"
 },
 "nplurals=2; plural=(n > 1);");

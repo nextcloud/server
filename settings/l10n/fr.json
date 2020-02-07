@@ -116,13 +116,10 @@
     "Unlimited" : "Illimité",
     "Verifying" : "Vérification en cours",
     "Nextcloud settings" : "Paramètres Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "L'authentification à deux facteurs peut être spécifiée pour tous les \tutilisateurs et groupes spécifiques. S'ils n'ont pas de fournisseur à deux facteurs configuré, ils seront dans l'incapacité de se connecter au système.",
     "Enforce two-factor authentication" : "Imposer l'authentification à deux facteurs",
     "Limit to groups" : "Limiter aux groupes",
     "Enforcement of two-factor authentication can be set for certain groups only." : "L'application de l'authentification à deux facteurs ne peut être définie que pour certains groupes.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "L'authentification à deux facteurs est appliquée aux membres des groupes suivants.",
     "Enforced groups" : "Groupes forcés",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "L'authentification à deux facteurs n'est pas appliquée aux \tutilisateurs des groupes suivants.",
     "Excluded groups" : "Groupes exclus",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Lorsque des groupes sont sélectionnés/exclus, la logique suivante est utilisée pour déterminer si un utilisateur a activé l'authentification double facteur (2FA). Si aucun groupe n'est sélectionné, l'authentification double facteur (2FA) est activé pour tout le monde sauf pour les membres des groupes exclus. Si des groupes sont sélectionnés, l'authentification double facteur (2FA) est activé pour tous les membres de ces groupes. Si un utilisateur est à la fois dans un groupe sélectionné et exclus, c'est le groupe sélectionné qui prime et l'authentification double facteur (2FA) est appliquée.",
     "Save changes" : "Enregistrer les modifications",
@@ -395,11 +392,6 @@
     "New password" : "Nouveau mot de passe",
     "Change password" : "Changer de mot de passe",
     "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
-    "Disconnect" : "Se déconnecter",
-    "Not supported!" : "Non supporté !",
-    "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
-    "Press Ctrl-C to copy." : "Appuyez sur Ctrl + C pour copier.",
-    "Error while loading browser sessions and device tokens" : "Erreur lors du chargement des jetons de la session du navigateur et de l'appareil",
     "Afrikaans (Namibia)" : "Afrikaans (Namibie)",
     "Afrikaans (South Africa)" : "Afrikaans (Afrique du Sud)",
     "Afrikaans" : "Afrikaans",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php est enregistré à un service webcron pour exécuter cron.php toutes les 15 minutes par HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Utiliser le service cron du système pour appeler le fichier cron.php toutes les 15 minutes.",
     "Set default expiration date" : "Indiquer une date d'expiration par défaut",
-    "Follow us on Google+" : "Nous suivre sur Google+",
     "Share" : "Partager"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

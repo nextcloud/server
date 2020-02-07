@@ -116,13 +116,10 @@
     "Unlimited" : "Neograničeno",
     "Verifying" : "Provjeravanje",
     "Nextcloud settings" : "Postavke Nextclouda",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvofaktorska autentifikacija može se primijeniti na sve\tkorisnike i određene grupe. Ako nisu konfigurirali davatelje usluge dvofaktorske autentifikacije, neće se moći prijaviti u sustav.",
     "Enforce two-factor authentication" : "Primijeni dvofaktorsku autentifikaciju",
     "Limit to groups" : "Ograniči na grupe",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Primjena dvofaktorske autentifikacije može se postaviti samo za određene grupe.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Dvofaktorska autentifikacija primjenjuje se na sve\tčlanove sljedećih grupa.",
     "Enforced groups" : "Obuhvaćene grupe",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Dvofaktorska autentifikacija ne primjenjuje se na\tčlanove sljedećih grupa.",
     "Excluded groups" : "Izuzete grupe",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Nakon odabira grupa koje će biti obuhvaćene/izuzete, primjenjuje se sljedeća logika za utvrđivanje je li 2FA omogućen za određenog korisnika: ako nije odabrana nijedna grupa, 2FA je omogućen za sve osim za članove izuzetih grupa. Ako su odabrane određene grupe, 2FA je omogućen samo za sve članove tih grupa. Ako je korisnik član odabrane i izuzete grupe, odabrana grupa ima prednost i 2FA se primjenjuje.",
     "Save changes" : "Spremi promjene",
@@ -394,11 +391,6 @@
     "New password" : "Nova zaporka",
     "Change password" : "Promijeni zaporku",
     "Use a second factor besides your password to increase security for your account." : "Koristite se i drugim faktorom pored zaporke kako biste povećali sigurnost svog računa.",
-    "Disconnect" : "Odspoji",
-    "Not supported!" : "Nije podržano!",
-    "Press ⌘-C to copy." : "Pritisnite ⌘-C za kopiranje.",
-    "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
-    "Error while loading browser sessions and device tokens" : "Pogreška prilikom učitavanja sesija preglednika i tokena uređaja",
     "Afrikaans (Namibia)" : "Afrikaans (Namibija)",
     "Afrikaans (South Africa)" : "Afrikaans (Južna Afrika)",
     "Afrikaans" : "Afrikaans",
@@ -839,7 +831,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php registriran je na servisu webcron za pozivanje datoteke cron.php svakih 15 minuta putem HTTP-a.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Koristite se sistemskim servisom cron za pozivanje datoteke cron.php svakih 15 minuta.",
     "Set default expiration date" : "Postavi zadani datum isteka",
-    "Follow us on Google+" : "Pratite nas na Google+",
     "Share" : "Dijeli"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

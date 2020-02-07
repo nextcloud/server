@@ -354,11 +354,6 @@ OC.L10N.register(
     "Current password" : "Uneko pasahitza",
     "New password" : "Pasahitz berria",
     "Change password" : "Aldatu pasahitza",
-    "Disconnect" : "Deskonektatu",
-    "Not supported!" : "Ez da onartzen!",
-    "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
-    "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
-    "Error while loading browser sessions and device tokens" : "Errorea nabigatzailearen saioa eta gailuaren tokenak kargatzean",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (Hego Africa)",
     "Afrikaans" : "Afrikaans",
@@ -659,7 +654,6 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko.",
     "Set default expiration date" : "Ezarri iraungitze-data lehenetsia",
-    "Follow us on Google+" : "Jarrai gaitzazu Google+en",
     "Share" : "Partekatu"
 },
 "nplurals=2; plural=(n != 1);");

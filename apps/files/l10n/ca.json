@@ -164,13 +164,6 @@
     "Deleted shares" : "Comparticions suprimides",
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text text.txt",
-    "File handling" : "Gestió de fitxers",
-    "Maximum upload size" : "Mida màxima de càrrega",
-    "max. possible: " : "màxim possible:",
-    "Save" : "Desa",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Amb PHP-FPM pot trigar 5 minuts a aplicar els canvis.",
-    "Missing permissions to edit from here." : "Falta els permisos per editar des d'aquí.",
-    "Cancel upload" : "Cancel·la la càrrega",
     "%s of %s used" : "Utilitzats %s de %s",
     "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

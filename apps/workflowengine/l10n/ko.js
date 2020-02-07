@@ -75,10 +75,9 @@ OC.L10N.register(
     "End" : "끝",
     "Select timezone…" : "시간대 선택…",
     "Sync clients" : "동기화 클라이언트",
-    "Workflow" : "작업 흐름",
+    "Tag management" : "태그 관리",
     "Files workflow engine" : "파일 작업 흐름 엔진",
     "Open documentation" : "문서 열기",
-    "Loading…" : "불러오는 중…",
-    "Tag management" : "태그 관리"
+    "Loading…" : "불러오는 중…"
 },
 "nplurals=1; plural=0;");

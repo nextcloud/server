@@ -71,7 +71,6 @@ OC.L10N.register(
     "End" : "დამთავრება",
     "Select timezone…" : "აირჩიეთ დროის სარტყელი...",
     "Sync clients" : "სინქ. კლიენტები",
-    "Workflow" : "შრომითი პროცესები",
     "Files workflow engine" : "ფაილების სამუშაოს შესრულების ძრავა",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Loading…" : "იტვირთება..."

@@ -197,7 +197,6 @@ OC.L10N.register(
     "this share just expired." : "ce partage vient d'expirer",
     "Link to a file" : "Lier à un fichier",
     "Error creating the share" : "Erreur lors de la création du partage",
-    "Error updating the share" : "Erreur lors de la mise à jour du partage",
     "Shared" : "Partagé",
     "Share" : "Partager",
     "Shared with" : "Partagé avec",

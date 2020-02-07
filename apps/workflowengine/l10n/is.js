@@ -77,10 +77,9 @@ OC.L10N.register(
     "End" : "Endar",
     "Select timezone…" : "Veldu tímabelti…",
     "Sync clients" : "Samstilla biðlara",
-    "Workflow" : "Vinnuferli",
+    "Tag management" : "Sýsl með merki",
     "Files workflow engine" : "Verkferlavél skráa",
     "Open documentation" : "Opna hjálparskjöl",
-    "Loading…" : "Hleð inn...",
-    "Tag management" : "Sýsl með merki"
+    "Loading…" : "Hleð inn..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -90,7 +90,6 @@
     "An internal error occurred." : "A apărut o eroare internă.",
     "Please try again or contact your administrator." : "Încearcă din nou sau contactează-ți administratorul.",
     "Username or email" : "Nume de utilizator sau adresă email",
-    "Username or\temail" : "Utilizator sau\temail",
     "Password" : "Parolă",
     "Log in" : "Autentificare",
     "Logging in …" : "Se autentifică...",
@@ -249,9 +248,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nu a putut fi trimis un email pentru resetare deoarece nu există o adresă de email pentru acest utilizator. Vă rugăm contactați administratorul.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nu a putut fi trimis un email pentru resetare. Asigură-te că numele de utilizator este corect.",
-    "Saving..." : "Se salvează...",
-    "Dismiss" : "Înlătură",
-    "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Linkul de resetare a parolei a fost trimis pe emailul tău. Dacă nu primești mesajul într-un timp rezonabil, verifică folderele SPAM/JUNK.<br />Dacă nu este nici acolo, întreabă-l pe administratorul tău de rețea.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Fișierele tale sunt criptate. Nu îți vei putea recupera informațiile după resetarea parolei.<br />Dacă nu ești sigur ce să faci, contactează administratorul de rețea înainte de a continua. <br />Sigur vrei să continui?",
     "Sending email …" : "Se trimite email ...",
     "Shared" : "Partajat",
@@ -313,6 +309,7 @@
     "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} partajat prin link",
     "Error while sharing" : "Eroare la partajare",
     "Share details could not be loaded for this item." : "Nu s-au putut încărca detaliile de partajare pentru acest element.",
+    "Search globally" : "Caută global",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Este necesar cel puțin {count} caracter pentru autocompletare","Sunt necesare cel puțin {count} caractere pentru autocompletare","Sunt necesare cel puțin {count} caractere pentru autocompletare"],
     "This list is maybe truncated - please refine your search term to see more results." : "Această listă este probabil trunchiată - te rugăm să revizuiești termenii de căutare pentru a obține mai multe rezultate.",
     "No users or groups found for {search}" : "Nu au fost găsiți utilizatori sau grupuri pentru {search}",
@@ -330,12 +327,9 @@
     "Name, federated cloud ID or email address..." : "Nume, ID de cloud federalizat sau adresă de email...",
     "Name..." : "Nume ...",
     "Error removing share" : "Eroare la înlăturarea elementului partajat",
-    "SQLite will be used as database." : "SQLite va fi folosit ca bază de date.",
-    "For larger installations we recommend to choose a different database backend." : "Pentru instalări mai mari recomandăm folosirea altei baze de date ca backend.",
-    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "În special atunci când este folosit clientul desktop pentru sincronizarea fișierelor, utilizarea SQLite este nerecomandată.",
-    "Wrong password." : "Parolă greșită.",
+    "Saving..." : "Se salvează...",
+    "Dismiss" : "Înlătură",
     "New Password" : "Noua Parolă",
-    "Cancel log in" : "Anulează conectarea",
-    "Search globally" : "Caută global"
+    "Cancel log in" : "Anulează conectarea"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

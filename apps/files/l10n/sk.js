@@ -185,13 +185,6 @@ OC.L10N.register(
     "Pending shares" : "Čakajúce prístupy",
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
-    "File handling" : "Nastavenie správania sa k súborom",
-    "Maximum upload size" : "Maximálna veľkosť odosielaného súboru",
-    "max. possible: " : "najväčšie možné:",
-    "Save" : "Uložiť",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Použitím PHP-FPM môžu byť zmeny vykonané do 5 minút.",
-    "Missing permissions to edit from here." : "Chýbajú oprávnenia pre možnosť tu upravovať.",
-    "Cancel upload" : "Zrušiť nahrávanie",
     "%s of %s used" : "Využité: %s z %s",
     "%1$s%% of %2$s used" : "použité %1$s%% z %2$s"
 },

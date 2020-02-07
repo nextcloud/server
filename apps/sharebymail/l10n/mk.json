@@ -38,7 +38,6 @@
     "Share by mail" : "Сподели преку е-пошта",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
-    "Enforce password protection" : "Задолжителна заштита со лозинка",
-    "Password to access »%1$s« shared with %2$s" : "Лозинката за пристап до »%1$s« е споделена со %2$s"
+    "Enforce password protection" : "Задолжителна заштита со лозинка"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

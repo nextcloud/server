@@ -14,11 +14,6 @@
     "Enable" : "Увімкнути",
     "High contrast theme" : "Висококонтрастна тема",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Висококонтрастна тема для того, щоб полегшити користування. Візуальні ефекти буде погіршено, однак чіткість - покращено.",
-    "Dark theme (beta)" : "Темна тема (бета)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic - це вільно доступний шрифт, що було розроблено для уникнення деяких загальних помилок, що спричинені дизлексією. Шрифт було розроблено Abelardo Gonzalez, який випустив його чере ліцензію з відкритим кодом.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Надає кілька опцій доступності для полегшення вашого користування Nextcloud",
-    "Themes" : "Теми",
-    "Fonts" : "Шрифти",
-    "enabled" : "увімкнено"
+    "Dark theme (beta)" : "Темна тема (бета)"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

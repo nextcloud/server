@@ -117,10 +117,6 @@ OC.L10N.register(
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt",
-    "File handling" : "файлтай харьцах",
-    "Maximum upload size" : "хамгийн их байршуулах хэмжээ",
-    "max. possible: " : "боломжтой хамгийн их хэмжээ",
-    "Save" : "хадгалах"
+    "New text file.txt" : "шинэ текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");

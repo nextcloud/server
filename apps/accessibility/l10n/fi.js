@@ -15,9 +15,6 @@ OC.L10N.register(
     "Enable" : "Ota käyttöön",
     "High contrast theme" : "Suuren kontrastin teema",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Suuren kontrastin teema helpottaa navigointiasi. Visuaalinen laatu on heikompi, mutta selkeys paranee.",
-    "Dark theme (beta)" : "Tumma teema (beta)",
-    "Themes" : "Teemat",
-    "Fonts" : "Fontit",
-    "enabled" : "käytössä"
+    "Dark theme (beta)" : "Tumma teema (beta)"
 },
 "nplurals=2; plural=(n != 1);");

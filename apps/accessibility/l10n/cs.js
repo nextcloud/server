@@ -13,14 +13,11 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Pokyny pro přístupnost webového obsahu (WCAG)",
     "our issue tracker" : "náš systém evidence hlášení problémů",
     "our design team" : "náš tým návrhářů",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním software, jako například čtečkami obrazovky. Máme za cíl být v souladu s {guidelines} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Pokud naleznete jakékoli problémy, neváhejte s jejich nahlášením na {issuetracker}. A pokud se chcete zapojit, přidejte se k {designteam}!",
     "Enable" : "Zapnout",
     "High contrast theme" : "Motiv vzhledu s vysokým kontrastem",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Motiv vzhledu s vysokým kontrastem pro usnadnění orientace při pohybu po aplikaci. Vizuální kvalita bude snížena, zato zřetelnost se zlepší.",
-    "Dark theme (beta)" : "Tmavý motiv vzhledu (testovací)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic je bezplatné písmo (font) navržené tak, aby odpomáhalo od některých běžných chybování při čtení, způsobených dyslexií. Toto písmo bylo vytvořeno Abelardem Gonzalezem, který ho vydal pod open source licencí.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Poskytuje vícero možností zpřístupnění pro usnadnění používání Nextcloud",
-    "Themes" : "Motivy vzhledu",
-    "Fonts" : "Písma",
-    "enabled" : "zapnuto"
+    "Dark theme (beta)" : "Tmavý motiv vzhledu (testovací)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

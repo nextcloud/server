@@ -204,9 +204,6 @@ OC.L10N.register(
     "Update needed" : "نیاز به روز رسانی دارد",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "ایمیل بازنشانی ارسال نشد, زیرا هیچ نشانی ایمیل برای این نام کاربری وجود ندارد. لطفا با ادمین خود تماس بگیرید.",
     "Couldn't send reset email. Please make sure your username is correct." : "پست الکترونیکی بازنشانی نشد, لطفا مطمئن شوید که نام کاربری شما درست است",
-    "Saving..." : "در حال ذخیره سازی...",
-    "Dismiss" : "پنهان کن",
-    "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "فایل های شما رمزگذاری می شوند پس از بازنشانی گذرواژه شما هیچ راهی برای بازگرداندن اطلاعات نخواهید داشت. <br /> اگر مطمئن نیستید که چه کاری باید انجام دهید، قبل از ادامه دادن، با ادمین خود تماس بگیرید. <br />واقعا می خواهید ادامه دهید؟ ",
     "Shared" : "اشتراک گذاشته شده",
     "Shared with" : "مشترک با",
@@ -259,6 +256,7 @@ OC.L10N.register(
     "Access control" : "کنترل دسترسی",
     "Error while sharing" : "خطا درحال به اشتراک گذاشتن",
     "Share details could not be loaded for this item." : "جزئیات اشتراک گذاری برای این مورد قابل بارگذاری نیست.",
+    "Search globally" : "در سطح جهان جستجو کنید",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["برای تکمیل خودکار لازم است حداقل {count} کاراکتر وجود داشته باشد","برای تکمیل خودکار لازم است حداقل {count} کاراکتر وجود داشته باشد"],
     "This list is maybe truncated - please refine your search term to see more results." : "این فهرست ممکن است کامل نباشد - لطفا نتایج جستجوی خود را ریفرش کنید تا نتایج بیشتری ببینید.",
     "No users or groups found for {search}" : "هیچ کاربری یا گروهی یافت نشد {search}",
@@ -275,11 +273,9 @@ OC.L10N.register(
     "Name, federated cloud ID or email address..." : "نام, آدرس ایمیل یا شناسه Federated Cloud ...",
     "Name..." : "نام...",
     "Error removing share" : "خطا در حذف اشتراک گذاری",
-    "SQLite will be used as database." : "SQLite به عنوان پایگاه‎داده استفاده خواهد شد.",
-    "For larger installations we recommend to choose a different database backend." : "برای نصب و راه اندازی بزرگتر توصیه می کنیم یک پایگاه داده متفاوتی را انتخاب کنید.",
-    "Wrong password." : "گذرواژه اشتباه.",
+    "Saving..." : "در حال ذخیره سازی...",
+    "Dismiss" : "پنهان کن",
     "New Password" : "رمزعبور جدید",
-    "Cancel log in" : "لغو ورود",
-    "Search globally" : "در سطح جهان جستجو کنید"
+    "Cancel log in" : "لغو ورود"
 },
 "nplurals=2; plural=(n > 1);");

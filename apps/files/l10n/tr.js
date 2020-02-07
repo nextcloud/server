@@ -185,13 +185,6 @@ OC.L10N.register(
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
-    "File handling" : "Dosya işlemleri",
-    "Maximum upload size" : "En büyük yükleme boyutu",
-    "max. possible: " : "olabilecek en büyük:",
-    "Save" : "Kaydet",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM üzerinde değişikliklerin uygulanması 5 dakika sürebilir.",
-    "Missing permissions to edit from here." : "Buradan düzenleme için izinler eksik.",
-    "Cancel upload" : "Yüklemeyi iptal et",
     "%s of %s used" : "%s / %s kullanılıyor",
     "%1$s%% of %2$s used" : "%1$s%% / %2$s kullanılmış"
 },

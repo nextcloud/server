@@ -29,7 +29,6 @@ OC.L10N.register(
     "View changelog" : "Näytä muutosloki",
     "Stable" : "Vakaa",
     "Beta" : "Beta",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Voit aina päivittää uudempaan versioon tai kokeellisen jakelukanavan versioon. Et voi kuitenkaan palata aiempaan, vakaan julkaisukanavan versioon.",
     "Production" : "Tuotanto"
 },
 "nplurals=2; plural=(n != 1);");

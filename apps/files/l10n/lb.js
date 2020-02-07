@@ -118,13 +118,6 @@ OC.L10N.register(
     "Shared with you" : "Mat dir gedeelt",
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt",
-    "File handling" : "Fichier handling",
-    "Maximum upload size" : "Maximum Upload Gréisst ",
-    "max. possible: " : "max. méiglech:",
-    "Save" : "Späicheren",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Mat PHP-FPM kann et 5 Minutten dauern bis d'Ännerungen iwwerholl goufen",
-    "Missing permissions to edit from here." : "Net genuch Recher fir hei eppes ze veränneren",
-    "Cancel upload" : "Eroplueden ofbriechen"
+    "New text file.txt" : "Neien Text file.txt"
 },
 "nplurals=2; plural=(n != 1);");

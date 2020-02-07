@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Zaslať upozornenia na udalosti",
     "Notifications are sent via background jobs, so these must occur often enough." : "Upozornenia sa odosielajú prostredníctvom úloh na pozadí - preto je potrebné, aby tieto prebiehali dostatočne často.",
     "Enable notifications for events via push" : "Zapnúť oznámenia o udalostiach prostredníctvom technológie push.",
-    "Please make sure to properly set up the email settings above." : "Uistite sa, že máte správne nastavené vyššie uvedené nastavenia e-mailu.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Oznámenia sa budú odosielať prostredníctvom úloh na pozadí - preto je potrebné, aby tieto prebiehali dostatočne často."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

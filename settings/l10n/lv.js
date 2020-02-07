@@ -185,10 +185,6 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "Disconnect" : "Atvienot",
-    "Not supported!" : "Nav atbalstīts!",
-    "Press ⌘-C to copy." : "Spied ⌘-C lai kopētu.",
-    "Press Ctrl-C to copy." : "Spied Ctrl-C lai kopētu.",
     "Store credentials" : "Saglabāt akreditācijas datus",
     "Set default expiration date" : "Iestatīt noklusējuma beigu datumu",
     "Share" : "Koplietot"

@@ -48,7 +48,6 @@ OC.L10N.register(
     "Share by mail" : "Partilhado por e-mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir aos utilizadores a partilha de uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de email.",
     "Send password by mail" : "Enviar palavra-chave por e-mail",
-    "Enforce password protection" : "Forçar proteção por palavra-passe",
-    "Password to access »%1$s« shared with %2$s" : "Palavra-chave para aceder a » %1$s« partilhado com %2$s"
+    "Enforce password protection" : "Forçar proteção por palavra-passe"
 },
 "nplurals=2; plural=(n != 1);");

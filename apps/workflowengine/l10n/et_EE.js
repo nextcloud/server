@@ -66,7 +66,6 @@ OC.L10N.register(
     "End" : "Lõpp",
     "Select timezone…" : "Vali ajavöönd",
     "Sync clients" : "Kliendiprogrammid",
-    "Workflow" : "Töövoog",
     "Open documentation" : "Ava dokumentatsioon",
     "Loading…" : "Laadimine..."
 },

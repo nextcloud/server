@@ -321,11 +321,6 @@
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
     "Change password" : "שינוי סיסמא",
-    "Disconnect" : "ניתוק",
-    "Not supported!" : "אין תמיכה!",
-    "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
-    "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
-    "Error while loading browser sessions and device tokens" : "שגיאה בזמן טעינת שיחת דפדפן ומחרוזת התקן",
     "Afrikaans (Namibia)" : "אפריקאנס (נמיביה)",
     "Afrikaans (South Africa)" : "אפריקאנס (דרום אפריקה)",
     "Afrikaans" : "אפריקאנס",
@@ -478,7 +473,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
     "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
-    "Follow us on Google+" : "לעקוב אחרינו ב־Google+‎",
     "Share" : "שיתוף"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -125,10 +125,9 @@
     "End" : "Završetak",
     "Select timezone…" : "Odaberi vremensku zonu...",
     "Sync clients" : "Sinkroniziraj klijente",
-    "Workflow" : "Tijek rada",
+    "Tag management" : "Upravljanje oznakama",
     "Files workflow engine" : "Upravljači program tijeka rada datoteka",
     "Open documentation" : "Otvori dokumentaciju",
-    "Loading…" : "Učitavanje…",
-    "Tag management" : "Upravljanje oznakama"
+    "Loading…" : "Učitavanje…"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

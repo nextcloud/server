@@ -183,13 +183,6 @@
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
-    "File handling" : "Filhantering",
-    "Maximum upload size" : "Största storlek att ladda upp",
-    "max. possible: " : "max. möjligt:",
-    "Save" : "Spara",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det ta cirka 5 minuter för ändringarna att träda i kraft.",
-    "Missing permissions to edit from here." : "Saknar rättigheter att ändra härifrån.",
-    "Cancel upload" : "Avbryt uppladdning",
     "%s of %s used" : "%s av %s använt",
     "%1$s%% of %2$s used" : "%1$s%% av %2$s använt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
