@@ -15,9 +15,6 @@ OC.L10N.register(
     "Enable" : "Ativar",
     "High contrast theme" : "Tema de alto contraste",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Um tema de alto contraste para facilitar a sua navegação. A qualidade visual será reduzida, mas a claridade será aumentada.",
-    "Dark theme (beta)" : "Tema escuro (beta)",
-    "Themes" : "Temas",
-    "Fonts" : "Fontes de Letras",
-    "enabled" : "Habilidado"
+    "Dark theme (beta)" : "Tema escuro (beta)"
 },
 "nplurals=2; plural=(n != 1);");

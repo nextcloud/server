@@ -16,7 +16,6 @@ OC.L10N.register(
     "Use backup code" : "Naudoti atsarginį kodą",
     "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
     "Submit" : "Pateikti",
-    "Nextcloud backup codes" : "Nextcloud atsarginiai kodai",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Jūs įjungėte dviejų faktorių tapatybės nustatymą, tačiau kol kas nesate sugeneravę atsarginių kodų. Nepamirškite to padaryti tam atvejui, jei prarasite prieigą prie savo antrojo faktoriaus."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

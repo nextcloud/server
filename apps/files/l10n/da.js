@@ -158,13 +158,6 @@ OC.L10N.register(
     "Shared by link" : "Delt via link",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "File handling" : "Filhåndtering",
-    "Maximum upload size" : "Maksimal upload-størrelse",
-    "max. possible: " : "max. mulige: ",
-    "Save" : "Gem",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Med PHP-FPM kan det tage 5 minuter for ændringerne at blive udført.",
-    "Missing permissions to edit from here." : "Rettighed mangler til at redigere på dette sted",
-    "Cancel upload" : "Annuller upload ",
     "%s of %s used" : "%s af %s brugt"
 },
 "nplurals=2; plural=(n != 1);");

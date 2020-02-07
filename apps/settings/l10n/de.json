@@ -116,13 +116,10 @@
     "Unlimited" : "Unbegrenzt",
     "Verifying" : "Überprüfe",
     "Nextcloud settings" : "Nextcloud-Einstellungen",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Zwei-Faktor-Authentifizierung kann für alle \nBenutzer und Gruppen erzwungen werden. Wenn kein Anbieter für Zwei-Faktor-Authentifizierung für sie eingerichtet ist, so können sie sich nicht am System anmelden.",
     "Enforce two-factor authentication" : "Zwei-Faktor-Authentifizierung erzwingen",
     "Limit to groups" : "Auf Gruppen beschränken",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Erzwingen der Zwei-Faktor-Authentifizierung kann nur für bestimmte Gruppen eingestellt werden.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Zwei-Faktor-Authentifizierung wird für alle\tMitglieder der folgenden Gruppen erzwungen.",
     "Enforced groups" : "Erzwungene Gruppen",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Zwei-Faktor-Authentifizierung wird nicht für\tMitglieder der folgenden Gruppen erzwungen.",
     "Excluded groups" : "Ausgeschlossene Gruppen",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Bei der Auswahl/Abwahl von Gruppen wird folgende Logik verwendet, um Festzustellen ob ein Benutzer 2FA verwenden muss: Wenn keine Gruppe ausgewählt ist, dann wird 2FA für alle Benutzer aktiviert, außer für Mitglieder der ausgenommenen Gruppen. Sind Gruppen ausgewählt, so wird 2FA für alle Mitglieder dieser Gruppen aktiviert. Ist ein Benutzer Mitglieder der ausgewählten und ausgenommenen Gruppe, so hat die Auswahl Vorrang und 2FA wird aktiviert. ",
     "Save changes" : "Änderungen speichern",
@@ -395,11 +392,6 @@
     "New password" : "Neues Passwort",
     "Change password" : "Passwort ändern",
     "Use a second factor besides your password to increase security for your account." : "Verwende neben Deinem Passwort einen zweiten Faktor, um die Sicherheit für Dein Konto zu erhöhen.",
-    "Disconnect" : "Trennen",
-    "Not supported!" : "Nicht unterstützt!",
-    "Press ⌘-C to copy." : "Drücke ⌘-C zum Kopieren.",
-    "Press Ctrl-C to copy." : "Zum Kopieren Strg-C drücken.",
-    "Error while loading browser sessions and device tokens" : "Fehler beim Laden der Browser-Sitzungen und Geräte-Token",
     "Afrikaans (Namibia)" : "Afrikanisch (Namibia)",
     "Afrikaans (South Africa)" : "Afrikanisch (Südafrika)",
     "Afrikaans" : "Afrikanisch",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft. ",
     "Use system cron service to call the cron.php file every 15 minutes." : "Nutze den System-Cron-Service um cron.php alle 15 Minuten aufzurufen.",
     "Set default expiration date" : "Standardmäßiges Ablaufdatum setzen",
-    "Follow us on Google+" : " Folge uns auf Google+",
     "Share" : "Teilen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

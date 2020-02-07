@@ -148,13 +148,6 @@ OC.L10N.register(
     "Deleted shares" : "삭제된 공유",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "File handling" : "파일 처리",
-    "Maximum upload size" : "최대 업로드 크기",
-    "max. possible: " : "최대 가능:",
-    "Save" : "저장",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM을 사용 중이면 변경 사항이 적용되는 데 최대 5분 정도 걸릴 수 있습니다.",
-    "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
-    "Cancel upload" : "업로드 취소",
     "%s of %s used" : "%s/%s 사용함"
 },
 "nplurals=1; plural=0;");

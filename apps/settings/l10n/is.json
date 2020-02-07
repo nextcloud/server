@@ -115,13 +115,10 @@
     "Unlimited" : "ótakmörkuðu",
     "Verifying" : "Sannreyni",
     "Nextcloud settings" : "Stillingar Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Hægt er að þvinga fram tveggja-þrepa auðkenningu fyrir alla notendur og/eða tiltekna hópa. Ef þeir eru ekki með tveggja-þrepa auðkenningarþjónustu uppsetta, munu þeir ekki geta skráð sig inn á kerfið.",
     "Enforce two-factor authentication" : "Þvinga fram tveggja-þrepa auðkenningu",
     "Limit to groups" : "Takmarka við hópa",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Hægt er að þvinga fram tveggja-þátta auðkenningu fyrir einungis ákveðna hópa.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Tveggja-þrepa auðkenning er ekki þvinguð fram\tfyrir all meðlimi eftirfarandi hópa.",
     "Enforced groups" : "Þvingaðir hópar",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Tveggja-þrepa auðkenning er ekki þvinguð fram\tfyrir meðlimi eftirfarandi hópa.",
     "Excluded groups" : "Útilokaðir hópar",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Þegar hópar eru valdir/útilokaðir, styðjast þeir við eftirfarandi röksemdafærslu til að ákvarða hvort notandi sé með þvingaða/virka tveggja-þrepa auðkenningu: tveggja-þrepa auðkenning er virk fyrir alla nema meðlimi útilokaðra hópa. Ef hópar eru valdir, er tveggja-þrepa auðkenningvirk fyrir alla meðlimi þessara hópa. Ef notandi er bæði í völdum og í útilokuðum hópum, ræður valið og því er tveggja-þrepa auðkenning virk.",
     "Save changes" : "Vista breytingar",
@@ -382,11 +379,6 @@
     "New password" : "Nýtt lykilorð",
     "Change password" : "Breyta lykilorði",
     "Use a second factor besides your password to increase security for your account." : "Notaðu annað þrep til viðbótar lykilorðinu þínu til að auka öryggi notandaaðgangsins þíns.",
-    "Disconnect" : "Aftengjast",
-    "Not supported!" : "Óstutt!",
-    "Press ⌘-C to copy." : "Ýttu á ⌘-C til að afrita.",
-    "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
-    "Error while loading browser sessions and device tokens" : "Villa við að hlaða inn vafrasetum og teiknum fyrir tæki",
     "Afrikaans (Namibia)" : "Afríkanska (Namibía)",
     "Afrikaans (South Africa)" : "Afrikaans (Suður Afríka)",
     "Afrikaans" : "Afríkanska",
@@ -827,7 +819,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er skráð á webcron-þjónustu til að kalla á cron.php á 15 mínútna fresti yfir HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Nota cron-þjónustu kerfisins til að kalla á cron.php skrána á 15 mínútna fresti.",
     "Set default expiration date" : "Setja sjálfgefinn gildistíma",
-    "Follow us on Google+" : "Fylgstu með okkur á Google+",
     "Share" : "Deila"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -136,13 +136,6 @@ OC.L10N.register(
     "Shared by link" : "Koplietots ar saiti",
     "Deleted shares" : "Dzēstās koplietotnes",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt",
-    "File handling" : "Datņu pārvaldība",
-    "Maximum upload size" : "Maksimālais datņu augšupielādes apjoms",
-    "max. possible: " : "maksimālais iespējamais:",
-    "Save" : "Saglabāt",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Ar PHP-FPM var aizņemt 5 minūtes, kamēr izmaiņas stāsies spēkā.",
-    "Missing permissions to edit from here." : "Nepietiekamas tiesības lai rediģētu no šejienes.",
-    "Cancel upload" : "Atcelt augšupielādi"
+    "New text file.txt" : "Jauna teksta datne.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

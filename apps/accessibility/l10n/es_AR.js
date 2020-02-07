@@ -16,11 +16,6 @@ OC.L10N.register(
     "Enable" : "Habilitar",
     "High contrast theme" : "Tema de alto contraste",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de alto contraste para facilitar su navegación. Se reducirá la calidad visual pero se aumentará la claridad.",
-    "Dark theme (beta)" : "Tema oscuro (beta)",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license." : "OpenDyslexic es un tipo de letra/fuente gratuito diseñado para mitigar algunos de los errores de lectura comunes causados ​​por la dislexia. El tipo de letra fue creado por Abelardo González, quien lo lanzó a través de una licencia de código abierto.",
-    "Provides multiple accessibilities options to ease your use of nextcloud" : "Proporciona múltiples opciones de accesibilidad para facilitar su uso de nextcloud",
-    "Themes" : "Temas",
-    "Fonts" : "Fuentes",
-    "enabled" : "habilitado"
+    "Dark theme (beta)" : "Tema oscuro (beta)"
 },
 "nplurals=2; plural=(n != 1);");

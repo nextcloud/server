@@ -116,13 +116,10 @@
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
     "Nextcloud settings" : "Nextcloud ayarları",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Tüm kullanıcılar ve belirli gruplar için iki aşamalı\tkimlik doğrulama kullanılır. Yapılandırılmış bir iki aşamalı kimlik doğrulama hizmeti sağlayıcısı olmayan kullanıcılar oturum açamaz.",
     "Enforce two-factor authentication" : "İki aşamalı kimlik doğrulama dayatılsın",
     "Limit to groups" : "Şu gruplarla sınırla",
     "Enforcement of two-factor authentication can be set for certain groups only." : "İki aşamalı kimlik doğrulaması yalnız belirli gruplara dayatılabilir.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "İki aşamalı kimlik doğrulaması şu grupların tüm üyelerine dayatılır.",
     "Enforced groups" : "Dayatılan gruplar",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Şu grupların üyeleri için iki aşamalı kimlik doğrulaması\tdayatılmaz.",
     "Excluded groups" : "Dayatılmayan gruplar",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Gruplar katıldığında ya da katılmadığında, bir kullanıcının İki Aşamalı Kimlik Doğrulaması kullanıp kullanmayacağına karar verilmesi için şu mantık yürütülür. Herhangi bir grup seçilmemiş ise, katılmayan grupların üyeleri dışındaki tüm üyeler için İki Aşamalı Kimlik Doğrulaması kullanılır. Seçilmiş gruplar varsa, İki Aşamalı Kimlik Doğrulaması katılan bu grupların üyeleri için kullanılır. Bir kullanıcının hem katılmış hem de katılmamış gruplarda üyeliği varsa, katılmış grupların önceliği vardır ve İki Aşamalı Kimlik Doğrulaması kullanılır.",
     "Save changes" : "Değişiklikleri kaydet",
@@ -395,11 +392,6 @@
     "New password" : "Yeni parola",
     "Change password" : "Parola değiştir",
     "Use a second factor besides your password to increase security for your account." : "Parolanızın yanında ikinci bir doğrulama kullanarak hesabınızın güvenliğini arttırabilirsiniz.",
-    "Disconnect" : "Bağlantıyı Kes",
-    "Not supported!" : "Desteklenmiyor!",
-    "Press ⌘-C to copy." : "Kopyalamak için ⌘-C tuşlarına basın.",
-    "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C tuşlarına basın.",
-    "Error while loading browser sessions and device tokens" : "Tarayıcı oturumu ve aygıt kodları yüklenirken sorun çıktı",
     "Afrikaans (Namibia)" : "Afrikaans (Namibya)",
     "Afrikaans (South Africa)" : "Afrikaans (Güney Afrika)",
     "Afrikaans" : "Afrikaans",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php, HTTP üzerinden 15 dakikada bir yürütülmesi için webcron hizmetine kaydedildi.",
     "Use system cron service to call the cron.php file every 15 minutes." : "15 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
     "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
-    "Follow us on Google+" : "Bizi Google+ üzerinde izleyin",
     "Share" : "Paylaş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

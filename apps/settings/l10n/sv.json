@@ -116,13 +116,10 @@
     "Unlimited" : "Obegränsat",
     "Verifying" : "Verifiera",
     "Nextcloud settings" : "Nextcloud-inställningar",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Tvåfaktorsautentisering kan påtvingas för alla\tanvändare och specifika grupper. Om de inte har en tvåfaktorsleverantör konfigurerad kommer de inte att kunna logga in i systemet.",
     "Enforce two-factor authentication" : "Påtvinga tvåfaktorsautentisering",
     "Limit to groups" : "Begränsa till grupper",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Påtvingad tvåfaktorsautentisering kan bara aktiveras för vissa grupper.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Tvåfaktorsautentisering är påtvingad för alla\tmedlemmar i följande grupper.",
     "Enforced groups" : "Påtvingade grupper",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Tvåfaktorsautentisering är inte påtvingad för\tmedlemmar i följande grupper.",
     "Excluded groups" : "Exkluderade grupper",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "När grupper väljs/exkluderas används följande logik för att avgöra om en användare har 2FA påtvingad: Om inga grupper väljs är 2FA aktiverat för alla förutom medlemmar i exkluderade grupper. Om grupper väljs är 2FA aktiverat för alla medlemmar i dessa grupper. Om en användare är medlem i både en vald och exkluderad grupp, har den valda företräde och 2FA påtvingas.",
     "Save changes" : "Spara ändringar",
@@ -395,11 +392,6 @@
     "New password" : "Nytt lösenord",
     "Change password" : "Ändra lösenord",
     "Use a second factor besides your password to increase security for your account." : "Använd en andra faktor förutom ditt lösenord för att öka säkerheten för ditt konto.",
-    "Disconnect" : "Koppla från",
-    "Not supported!" : "Stöds inte!",
-    "Press ⌘-C to copy." : "Tryck ⌘-C för att kopiera.",
-    "Press Ctrl-C to copy." : "Tryck Ctrl-C för att kopiera.",
-    "Error while loading browser sessions and device tokens" : "Fel vid inläsning av webbläsarsessioner och enhetstoken.",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (Sydafrika)",
     "Afrikaans" : "Afrikaans",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php är registrerat hos en webcron-tjänst att köra cron.php varje kvart över HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Använd systemets cron-tjänst för att anropa cron.php varje kvart.",
     "Set default expiration date" : "Ställ in standardutgångsdatum",
-    "Follow us on Google+" : "Följ oss på Google+",
     "Share" : "Dela"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

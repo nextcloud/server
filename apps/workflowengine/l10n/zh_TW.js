@@ -73,7 +73,6 @@ OC.L10N.register(
     "End" : "結束",
     "Select timezone…" : "選擇時區...",
     "Sync clients" : "同步客戶端",
-    "Workflow" : "工作流程",
     "Open documentation" : "開啟說明文件",
     "Loading…" : "載入中…"
 },

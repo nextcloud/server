@@ -197,7 +197,6 @@ OC.L10N.register(
     "this share just expired." : "این اشتراک تازه منقضی شد",
     "Link to a file" : "پیوند به یک پرونده",
     "Error creating the share" : "خطایی در ایجاد اشتراک",
-    "Error updating the share" : "خطایی در به روزرسانی اشتراک",
     "Shared" : "به اشتراک گزاشته شده ",
     "Share" : "هم‌رسانی",
     "Shared with" : "مشترک با",

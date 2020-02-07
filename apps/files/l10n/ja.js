@@ -165,13 +165,6 @@ OC.L10N.register(
     "Deleted shares" : "削除された共有",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
-    "File handling" : "ファイル操作",
-    "Maximum upload size" : "最大アップロードサイズ",
-    "max. possible: " : "最大容量: ",
-    "Save" : "保存",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM の場合は値を変更後、反映されるのに5分程度かかります。",
-    "Missing permissions to edit from here." : "ここから編集するための権限がありません。",
-    "Cancel upload" : "アップロードをキャンセル",
     "%s of %s used" : "%s / %s 使用中",
     "%1$s%% of %2$s used" : "%2$s 中%1$s %%が使われています。"
 },

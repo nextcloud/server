@@ -98,7 +98,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Per tant, no estaran disponibles immediatament després d'habilitar-los, però apareixeran d'aquí una estona.",
     "Send notifications for events" : "Envia notificacions per als esdeveniments",
     "Enable notifications for events via push" : "Habiliteu les notificacions per a esdeveniments mitjançant l'empenta.",
-    "Please make sure to properly set up the email settings above." : "Si us plau, assegureu-vos de configurar correctament la configuració del correu electrònic de dalt.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Les notificacions s'enviaran a través de tasques en segon terme; per tant, cal que succeeixin prou sovint."
 },
 "nplurals=2; plural=(n != 1);");

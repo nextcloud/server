@@ -296,18 +296,12 @@
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
-    "Disconnect" : "Disconnect",
-    "Not supported!" : "Not supported!",
-    "Press ⌘-C to copy." : "Press ⌘-C to copy.",
-    "Press Ctrl-C to copy." : "Press Ctrl-C to copy.",
-    "Error while loading browser sessions and device tokens" : "Error while loading browser sessions and device tokens",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
     "Official" : "Official",
     "Store credentials" : "Store credentials",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Use system cron service to call the cron.php file every 15 minutes.",
     "Set default expiration date" : "Set default expiry date",
-    "Follow us on Google+" : "Follow us on Google+",
     "Share" : "Share"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

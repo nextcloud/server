@@ -232,16 +232,10 @@
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
-    "Disconnect" : "Desconeutar",
-    "Not supported!" : "¡Nun se sofita!",
-    "Press ⌘-C to copy." : "Primi ⌘-C pa copiar.",
-    "Press Ctrl-C to copy." : "Primi Ctrl-C pa copiar.",
-    "Error while loading browser sessions and device tokens" : "Fallu entrín se carganben les sesiones del restolador y pases de preseos",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
     "Official" : "Oficial",
     "Store credentials" : "Atroxar credenciales",
     "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Follow us on Google+" : "Síguimos en Google+",
     "Share" : "Share"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

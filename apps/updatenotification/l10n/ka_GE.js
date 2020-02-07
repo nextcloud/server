@@ -24,7 +24,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "არჩეული განახლების არხი არ უჭერს მხარს სერვერის განახლებას.",
     "Checked on {lastCheckedDate}" : "შემოწმდა {lastCheckedDate}-ზე",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "გთხოვთ დარწმუნდეთ რომ თქვენს config.php-ში <samp>appstoreenabled</samp>-ის მნიშვნელობა არაა false.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstore-ს ვერ დავუკავშირდით ან არ დაბრუნდა პასუხი განახლებების შესახებ. განახლებები მოძებნეთ მექანიკურად ან დარწმუნდით, რომ თქვენს სერვერს გააჩნია წვდომა ინტერნეტთან და უკავშირდება appstore-ს.",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "ყოველთვის შეგიძლიათ განაახლოთ უფრო ახალ ვერსიაზე / ექსპერიმენტალურ არხზე. თუმცა სტაბილურ ვერსიაზე ჩამოსვლა ვერ მოხერხდება."
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstore-ს ვერ დავუკავშირდით ან არ დაბრუნდა პასუხი განახლებების შესახებ. განახლებები მოძებნეთ მექანიკურად ან დარწმუნდით, რომ თქვენს სერვერს გააჩნია წვდომა ინტერნეტთან და უკავშირდება appstore-ს."
 },
 "nplurals=2; plural=(n!=1);");

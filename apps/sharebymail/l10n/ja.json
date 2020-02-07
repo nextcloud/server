@@ -47,7 +47,6 @@
     "Share provider which allows you to share files by mail" : "メールでファイルを共有できる共有プロバイダ",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
-    "Enforce password protection" : "常にパスワード保護を有効にする",
-    "Password to access »%1$s« shared with %2$s" : "»%1$s«に共有アクセスのパスワードが %2$s から共有されました"
+    "Enforce password protection" : "常にパスワード保護を有効にする"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

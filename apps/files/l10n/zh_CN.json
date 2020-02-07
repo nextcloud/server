@@ -183,13 +183,6 @@
     "Pending shares" : "待定共享",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文档.txt",
-    "File handling" : "文件处理",
-    "Maximum upload size" : "最大上传大小",
-    "max. possible: " : "最大允许：",
-    "Save" : "保存",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "对于 PHP-FPM 这个值改变后可能需要 5 分钟才会生效。",
-    "Missing permissions to edit from here." : "缺少从此处进行编辑的权限。",
-    "Cancel upload" : "取消上传",
     "%s of %s used" : "已使用了 %s 中的 %s",
     "%1$s%% of %2$s used" : "%1$s 已使用了 %2$s 中的 %%"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Šalji obavijesti o događajima",
     "Notifications are sent via background jobs, so these must occur often enough." : "Obavijesti se šalju putem pozadinskih zadataka koji se moraju dovoljno često izvoditi.",
     "Enable notifications for events via push" : "Omogući slanje obavijesti o događajima putem push obavijesti",
-    "Please make sure to properly set up the email settings above." : "Provjerite jeste li ispravno postavili navedene postavke e-pošte.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Obavijesti se šalju putem pozadinskih zadataka koji se stoga moraju dovoljno često izvršavati."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

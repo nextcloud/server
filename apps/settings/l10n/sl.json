@@ -106,13 +106,10 @@
     "Unlimited" : "Neomejeno",
     "Verifying" : "Preverjanje",
     "Nextcloud settings" : "Nastavitve Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvostopenjsko overjanje je mogoče vsiliti za\tvse uporabnike in določene skupine. Če za prijavo nimajo nastavljenega ustreznega ponudnika, se v sistem ne bodo uspeli povezati.",
     "Enforce two-factor authentication" : "Vsili dvo-stopenjsko overjanje",
     "Limit to groups" : "Omeji na skupine",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Vsiljeno dvo-stopenjsko overjanje je mogoče določiti le za določene skupine.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Dvo-stopenjsko overjanje je obvezno\tza člane navedenih skupin.",
     "Enforced groups" : "Obvezno za skupine",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Dvo-stopenjsko overjanje ni obvezno\tza člane navedenih skupin.",
     "Excluded groups" : "Izločene skupine",
     "Save changes" : "Shrani spremembe",
     "This app is supported via your current Nextcloud subscription." : "Program je podprt prek trenutne naročnine Nextcloud",
@@ -368,11 +365,6 @@
     "New password" : "Novo geslo",
     "Change password" : "Spremeni geslo",
     "Use a second factor besides your password to increase security for your account." : "Ob geslu je priporočljivo uporabiti tudi drugo-stopenjsko overitev za večjo varnost računa.",
-    "Disconnect" : "Prekinjeni povezavo",
-    "Not supported!" : "Ni podprto!",
-    "Press ⌘-C to copy." : "Pritisnite ⌘-C za kopiranje.",
-    "Press Ctrl-C to copy." : "Pritisnite Ctrl-C za kopiranje.",
-    "Error while loading browser sessions and device tokens" : " Napaka med nalaganjem sej brskalnika in žetonov naprave",
     "Afrikaans (Namibia)" : "Afrikanščina (Namibia)",
     "Afrikaans (South Africa)" : "Afrikanščina (Južna Afrika)",
     "Afrikaans" : "Afrikanščina",
@@ -770,7 +762,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Za določila periodičnih opravil Webcron je vpisana datoteka cron.php. Opravilo se izvede vsakih 15 minut pri povezavi prek protokola HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Uporabi sistemsko storitev cron za periodična opravila datoteke cron.php vsakih 15 minut.",
     "Set default expiration date" : "Samodejno nastavi datuma poteka",
-    "Follow us on Google+" : "Sledite nam na Google+",
     "Share" : "Souporaba"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

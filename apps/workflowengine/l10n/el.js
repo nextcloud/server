@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Λήξη",
     "Select timezone…" : "Επιλογή ζώνης ώρας...",
     "Sync clients" : "Συγχρονίστε χρήστες",
-    "Workflow" : "Ροή εργασίας",
+    "Tag management" : "Διαχείριση ετικετών",
     "Files workflow engine" : "Μηχανή αρχείων ροής εργασιών",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Loading…" : "Φορτώνει...",
-    "Tag management" : "Διαχείριση ετικετών"
+    "Loading…" : "Φορτώνει..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -152,13 +152,6 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "File handling" : "File handling",
-    "Maximum upload size" : "Maximum upload size",
-    "max. possible: " : "max. possible: ",
-    "Save" : "Save",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "With PHP-FPM it might take 5 minutes for changes to be applied.",
-    "Missing permissions to edit from here." : "Missing permissions to edit from here.",
-    "Cancel upload" : "Cancel upload",
     "%s of %s used" : "%s of %s used"
 },
 "nplurals=2; plural=(n != 1);");

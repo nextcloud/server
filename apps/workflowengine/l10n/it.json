@@ -125,10 +125,9 @@
     "End" : "Fine",
     "Select timezone…" : "Seleziona fuso orario...",
     "Sync clients" : "Client di sincronizzazione",
-    "Workflow" : "Flusso di lavoro",
+    "Tag management" : "Gestione etichette",
     "Files workflow engine" : "Motore delle procedure dei file",
     "Open documentation" : "Apri documentazione",
-    "Loading…" : "Caricamento in corso...",
-    "Tag management" : "Gestione etichette"
+    "Loading…" : "Caricamento in corso..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

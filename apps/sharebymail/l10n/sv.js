@@ -49,7 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
-    "Enforce password protection" : "Tvinga lösenordsskydd",
-    "Password to access »%1$s« shared with %2$s" : "Lösenord för access till »%1$s« delad med %2$s"
+    "Enforce password protection" : "Tvinga lösenordsskydd"
 },
 "nplurals=2; plural=(n != 1);");

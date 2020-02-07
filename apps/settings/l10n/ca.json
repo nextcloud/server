@@ -115,13 +115,10 @@
     "Unlimited" : "Il·limitat",
     "Verifying" : "S'està verificant",
     "Nextcloud settings" : "Paràmetres del Nextcloud",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "L’autenticació de dos factors pot ser forçada per a tots\tels usuaris i grups específics. Si no tenen un proveïdor de dos factors configurat, no podran accedir en el sistema.",
     "Enforce two-factor authentication" : "Força l'autenticació de dos factors",
     "Limit to groups" : "Limita per grups",
     "Enforcement of two-factor authentication can be set for certain groups only." : "L’obligació d'autenticació amb dos factors es pot definir només per a certs grups.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "L’autenticació de dos factors està obligada per a tots\tels membres dels següents grups.",
     "Enforced groups" : "Grups obligats",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Autenticació de dos factors no està obligada per\tals membres dels següents grups.",
     "Excluded groups" : "Grups exclosos",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Quan es seleccionen/exclouen grups, es fa servir la lògica següent per determinar si un usuari té 2FA (Autentificació de 2 Factors) obligada: si no hi ha grups seleccionats, 2FA està activada per a tothom, a excepció de membres dels grups exclosos. Si els grups estan seleccionats, 2FA està activada per a tots els membres d'aquests. Si un usuari està tant en un grup seleccionat com exclòs, els seleccionats tenen prioritat i 2FA s'imposa.",
     "Save changes" : "Desa els canvis",
@@ -383,11 +380,6 @@
     "New password" : "Contrasenya nova",
     "Change password" : "Canvia la contrasenya",
     "Use a second factor besides your password to increase security for your account." : "Feu servir un segon factor a més de la vostra contrasenya per augmentar la seguretat del vostre compte.",
-    "Disconnect" : "Desconnecta",
-    "Not supported!" : "No suportat!",
-    "Press ⌘-C to copy." : "Premeu ⌘-C per copiar.",
-    "Press Ctrl-C to copy." : "Premeu Ctrl-C per copiar.",
-    "Error while loading browser sessions and device tokens" : "S'ha produït un error mentre es carregaven les sessions del navegador i els testimonis del dispositiu",
     "Afrikaans (Namibia)" : "Afrikaans (Namíbia)",
     "Afrikaans (South Africa)" : "Afrikaans (Sud-àfrica)",
     "Afrikaans" : "Afrikaans",
@@ -828,7 +820,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php està registrat en un servei webcron per cridar cron.php cada 15 minuts mitjançant HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Utilitza el servei del sistema cron per cridar al fitxer cron.php cada 15 minuts.",
     "Set default expiration date" : "Estableix la data de caducitat per defecte",
-    "Follow us on Google+" : "Seguiu-nos a Google+",
     "Share" : "Comparteix"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

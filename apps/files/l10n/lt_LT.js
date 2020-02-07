@@ -179,13 +179,6 @@ OC.L10N.register(
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "File handling" : "Failų apdorojimas",
-    "Maximum upload size" : "Maksimalus įkeliamo failo dydis",
-    "max. possible: " : "maks. įmanoma:",
-    "Save" : "Įrašyti",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Naudojant PHP-FPM, pakeitimų taikymas gali užtrukti 5 minutes.",
-    "Missing permissions to edit from here." : "Trūksta leidimų iš čia redaguoti",
-    "Cancel upload" : "Atsisakyti įkėlimo",
     "%s of %s used" : "naudojama %s iš %s",
     "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s"
 },
