@@ -70,7 +70,7 @@
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
 import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
 import Vue from 'vue'
 
@@ -210,7 +210,7 @@ export default {
 
 					this.directory = undefined
 					this.selectedUser = null
-					OCP.Toast.success(t('files', 'Ownership transfer request sent'))
+					showSuccess(t('files', 'Ownership transfer request sent'))
 				})
 				.catch(error => {
 					logger.error('Could not send ownership transfer request', { error })
