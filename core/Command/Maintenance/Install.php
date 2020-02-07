@@ -134,6 +134,10 @@ class Install extends Command {
 		} else {
 			$dbHost = $input->getOption('database-host');
 		}
+		if ($dbPort) {
+			// Append the port to the host so it is the same as in the config (there is no dbport config)
+			$dbHost .= ':' . $dbPort;
+		}
 		$dbTablePrefix = 'oc_';
 		if ($input->hasParameterOption('--database-table-prefix')) {
 			$dbTablePrefix = (string) $input->getOption('database-table-prefix');
@@ -183,7 +187,6 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
-			'dbport' => $dbPort,
 			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
