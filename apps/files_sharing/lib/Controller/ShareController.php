@@ -524,9 +524,12 @@ class ShareController extends AuthPublicShareController {
 			}
 		}
 
-
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
+		}
+
+		if ($share->getHideDownload()) {
+			return new NotFoundResponse();
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
