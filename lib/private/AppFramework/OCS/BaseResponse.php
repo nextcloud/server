@@ -126,7 +126,7 @@ abstract class BaseResponse extends Response   {
 	 */
 	protected function toXML(array $array, \XMLWriter $writer) {
 		foreach ($array as $k => $v) {
-			if ($k[0] === '@') {
+			if (\is_string($k) && strpos($k, '@') === 0) {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
 			}
