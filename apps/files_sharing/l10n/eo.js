@@ -172,7 +172,6 @@ OC.L10N.register(
     "this share just expired." : "Tiu kunhavo ĵus senvalidiĝis.",
     "Link to a file" : "Ligilo al dosiero",
     "Error creating the share" : "Eraro dum kreo de la kunhavigo",
-    "Error updating the share" : "Eraro dum ĝisdatigo de la kunhavigo",
     "Shared" : "Kunhavigita",
     "Share" : "Kunhavigi",
     "Shared with" : "Kunhavigita kun",

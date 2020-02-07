@@ -49,7 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Enforce password protection" : "Wachtwoordbeveiliging afdwingen",
-    "Password to access »%1$s« shared with %2$s" : "Wachtwoord voor toegang tot »%1$s« gedeeld met %2$s"
+    "Enforce password protection" : "Wachtwoordbeveiliging afdwingen"
 },
 "nplurals=2; plural=(n != 1);");

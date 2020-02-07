@@ -271,18 +271,12 @@ OC.L10N.register(
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
-    "Disconnect" : "კავშირის გაწყვეტა",
-    "Not supported!" : "არაა მხარდაჭერილი",
-    "Press ⌘-C to copy." : "კოპირებისთვის დააჭირეთ ⌘-C-ს.",
-    "Press Ctrl-C to copy." : "კოპირებისთვის დააჭირეთ Ctrl-C-ს.",
-    "Error while loading browser sessions and device tokens" : "ბრაუზერის სესიების და მოწყობილობების ტოკენების ჩატვირთვისას წარმოიშვა შეცდომა",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "ოფიციალური აპლიკაციები განვითარებულია და მოქცეულია ჩვენს საზოგადოებაში. ისინი გთავაზობენ ცენტრალურ ფუნქციონირებას და საწარმოო გამოყენებისათვის მზადყოფნაში არიან.",
     "Official" : "ოფიციალური",
     "Store credentials" : "უფლებამოსილებანის შენახვა",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
     "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში.",
     "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი",
-    "Follow us on Google+" : "გამოგვყევით Google+-ზე",
     "Share" : "გაზიარება"
 },
 "nplurals=2; plural=(n!=1);");

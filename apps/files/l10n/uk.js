@@ -162,13 +162,6 @@ OC.L10N.register(
     "Deleted shares" : "Вилучено зі спільного доступу",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt",
-    "File handling" : "Робота з файлами",
-    "Maximum upload size" : "Максимальний розмір вивантажень",
-    "max. possible: " : "макс. можливе:",
-    "Save" : "Зберегти",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "З PHP-FPM прийняття змін може тривати до 5 хвилин.",
-    "Missing permissions to edit from here." : "Недостатньо прав для редагування звідси.",
-    "Cancel upload" : "Скасувати завантаження",
     "%s of %s used" : "%s з %s використано",
     "%1$s%% of %2$s used" : "використано %1$s%% з %2$s"
 },

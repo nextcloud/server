@@ -167,13 +167,6 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "File handling" : "Dosiertraktado",
-    "Maximum upload size" : "Maksimuma alŝutogrando",
-    "max. possible: " : "maks. ebla: ",
-    "Save" : "Konservi",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Per PHP-FPM, ŝanĝoj povas postuli 5 minutojn por aplikiĝi.",
-    "Missing permissions to edit from here." : "Mankas permesoj por redakti ekde ĉi tie.",
-    "Cancel upload" : "Nuligi alŝuton",
     "%s of %s used" : "%s uzataj el %s",
     "%1$s%% of %2$s used" : "%1$s%% el %2$s uzataj"
 },

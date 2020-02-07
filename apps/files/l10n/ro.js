@@ -162,13 +162,6 @@ OC.L10N.register(
     "Deleted shares" : "Partajări șterse",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
-    "File handling" : "Manipulare fișiere",
-    "Maximum upload size" : "Dimensiune maximă admisă la încărcare",
-    "max. possible: " : "max. posibil:",
-    "Save" : "Salvează",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Cu PHP-FPM poate dura 5 minute pentru a aplica schimbările..",
-    "Missing permissions to edit from here." : "Nu ai permisiuni pentru a edita aici.",
-    "Cancel upload" : "Anulează încărcarea",
     "%s of %s used" : "%s din %s folosiți",
     "%1$s%% of %2$s used" : "%1$s%% din %2$s utilizat"
 },

@@ -118,12 +118,6 @@ OC.L10N.register(
     "Shared with you" : "شورك معك",
     "Shared by link" : "شاركته باستخدام رابط مشاركة",
     "Text file" : "ملف نصي",
-    "New text file.txt" : "ملف نصي جديد fille.txt",
-    "File handling" : "التعامل مع الملف",
-    "Maximum upload size" : "الحد الأقصى لحجم الملفات التي يمكن رفعها",
-    "max. possible: " : "الحد الأقصى المسموح به",
-    "Save" : "حفظ",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "باستخدام PHP-FPM قد يستغرق 5 دقائق لتطبيق التغيرات.",
-    "Cancel upload" : "إلغاء الرفع"
+    "New text file.txt" : "ملف نصي جديد fille.txt"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

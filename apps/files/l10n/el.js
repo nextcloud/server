@@ -170,13 +170,6 @@ OC.L10N.register(
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "File handling" : "Διαχείριση αρχείων",
-    "Maximum upload size" : "Μέγιστο μέγεθος μεταφόρτωσης",
-    "max. possible: " : "μέγιστο δυνατό: ",
-    "Save" : "Αποθήκευση",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Με PHP-FPM μπορεί να χρειαστούν μέχρι και 5 λεπτά για να ενεργοποιηθούν οι αλλαγές.",
-    "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει επεξεργασία από εδώ.",
-    "Cancel upload" : "Ακύρωση μεταφόρτωσης",
     "%s of %s used" : "%s από %s σε χρήση",
     "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση"
 },

@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Koniec",
     "Select timezone…" : "Wybierz strefę czasową…",
     "Sync clients" : "Klienci synchronizacji",
-    "Workflow" : "Przepływ pracy",
+    "Tag management" : "Zarządzanie etykietami",
     "Files workflow engine" : "Pliki silnika przepływu pracy",
     "Open documentation" : "Otwórz dokumentację",
-    "Loading…" : "Wczytywanie…",
-    "Tag management" : "Zarządzanie etykietami"
+    "Loading…" : "Wczytywanie…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

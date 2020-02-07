@@ -171,13 +171,6 @@ OC.L10N.register(
     "Deleted shares" : "Ezabatutako partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
-    "File handling" : "Fitxategien kudeaketa",
-    "Maximum upload size" : "Karga daitekeen gehienezko tamaina",
-    "max. possible: " : "gehienez:",
-    "Save" : "Gorde",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPMrekin 5 minutu pasa daitezke aldaketak aplikatu arte.",
-    "Missing permissions to edit from here." : "Hemendik editatzeko baimenik ez duzu.",
-    "Cancel upload" : "Karga bertan behera utzita",
     "%s of %s used" : "%s / %s erabilita",
     "%1$s%% of %2$s used" : "%1$s%% / %2$serabilita"
 },

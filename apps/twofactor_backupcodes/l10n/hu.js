@@ -14,9 +14,6 @@ OC.L10N.register(
     "Use backup code" : "Biztonsági kód használata",
     "Two factor backup codes" : "Kétfaktoros biztonsági mentési kódok",
     "A two-factor auth backup codes provider" : "Kétfaktoros azonosítás biztonsági kódok szolgáltatója",
-    "Submit" : "Küldés",
-    "activated" : "Aktivált",
-    "updated" : "frissítve",
-    "Nextcloud backup codes" : "Nextcloud biztonsági kódok"
+    "Submit" : "Küldés"
 },
 "nplurals=2; plural=(n != 1);");

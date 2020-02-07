@@ -185,9 +185,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nun pudo unviase'l corréu de reaniciu porque nun hai direición de corréu dala pa esti nome d'usuariu. Contauta col to alministrador, por favor.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nun pudo unviase'l corréu. Asegurate que'l to nome d'usuariu seya correutu, por favor",
-    "Saving..." : "Guardando...",
-    "Dismiss" : "Encaboxar",
-    "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Unviósete al corréu l'enllaz pa reaniciar la to contraseña. Si nun lu recibes nuna cantidá razonable de tiempu, comprueba les tos carpetes de corréu puxarra. <br>Si nun ta ehí, entruga al to alministrador llocal",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Los tos ficheros tán cifraos. Nun habrá mou de recuperar los datos dempués de reaniciar la to contraseña.<br />Si nun tas seguru de lo que facer, contautua col to alministrador enantes de siguir. <br />¿De xuru que quies siguir?",
     "Shared" : "Compartíu",
     "Shared by" : "Compartíos por",
@@ -237,10 +234,8 @@ OC.L10N.register(
     "Name, federated cloud ID or email address..." : "Nome, ID de ñube federada o direición de corréu...",
     "Name..." : "Nome...",
     "Error removing share" : "Fallu desaniciando la compartición",
-    "SQLite will be used as database." : "SQLite usaráse como base de datos.",
-    "For larger installations we recommend to choose a different database backend." : "Pa instalaciones más grandes, aconseyamos escoyer un backend diferente de base de datos.",
-    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especialmente al usar el veceru d'escritoriu. Pa la sincornización de ficheros nun s'aconseya.",
-    "Wrong password." : "Contraseña incorreuta",
+    "Saving..." : "Guardando...",
+    "Dismiss" : "Encaboxar",
     "New Password" : "Contraseña nueva"
 },
 "nplurals=2; plural=(n != 1);");

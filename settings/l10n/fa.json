@@ -112,13 +112,10 @@
     "Unlimited" : "نامحدود",
     "Verifying" : "تایید شدن",
     "Nextcloud settings" : "تنظیمات نکست کلود",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "احراز هویت دو عاملی برای کلیه کاربران و \tگروه های خاص قابل اجرا است. اگر آنها پیکربندی دوعاملی انجام نداده باشند، نمی تواند وارد سیستم شوند.",
     "Enforce two-factor authentication" : "احراز هویت دو عاملی",
     "Limit to groups" : "محدود کردن به گروه ها",
     "Enforcement of two-factor authentication can be set for certain groups only." : "اجرای احراز هویت دو عاملی فقط برای گروههای خاص قابل تنظیم است.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "احراز هویت دو عاملی برای همه\t اعضای گروه های زیر اعمال می شود.",
     "Enforced groups" : "گروههای اجباری",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "احراز هویت دو عاملی برای\tاعضای گروه های زیر اجرا نمی شود.",
     "Excluded groups" : "گروه های مستثنی",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "هنگامی که گروه ها انتخاب و حذف شدند ، از این منطق استفاده می کنند تا مشخص شود آیا کاربر 2FA اجباری دارد: اگر هیچ گروه انتخاب نشده باشند ، 2FA برای همه غیر از اعضای گروه های محروم امکان پذیر است. در صورت انتخاب گروه ها ، 2FA برای همه اعضای این گروه فعال است. اگر کاربر هر دو در یک گروه منتخب و مستثنی باشد ، انتخاب شده دارای اولویت است و 2FA اجرا می شود.",
     "Save changes" : "ذخیره تغییرات",
@@ -390,11 +387,6 @@
     "New password" : "گذرواژه جدید",
     "Change password" : "تغییر گذر واژه",
     "Use a second factor besides your password to increase security for your account." : "برای افزایش امنیت حساب کاربری خود ، از یک عامل دوم علاوه بر رمز عبور خود استفاده کنید.",
-    "Disconnect" : "قطع شدن",
-    "Not supported!" : "پشتیبانی وجود ندارد!",
-    "Press ⌘-C to copy." : "برای کپی کردن از دکمه های C+⌘ استفاده نمایید",
-    "Press Ctrl-C to copy." : "برای کپی کردن از دکمه ctrl+c استفاده نمایید",
-    "Error while loading browser sessions and device tokens" : "خطا در هنگام بارگیری جلسات مرورگر و نشانه های دستگاه",
     "Afrikaans (Namibia)" : "افریقایی (نامیبیا)",
     "Afrikaans (South Africa)" : "آفریقایی (آفریقای جنوبی)",
     "Afrikaans" : "افریقایی",
@@ -835,7 +827,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php در یک سرویس webcron ثبت نام کرده است تا هر 15 دقیقه از طریق HTTP با cron.php تماس بگیرد.",
     "Use system cron service to call the cron.php file every 15 minutes." : "برای تماس با پرونده cron.php هر 15 دقیقه یکبار از سرویس cron system استفاده کنید.",
     "Set default expiration date" : "اعمال تاریخ اتمام پیش فرض",
-    "Follow us on Google+" : "ما را در Google+ دنبال کنید",
     "Share" : "هم‌رسانی"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

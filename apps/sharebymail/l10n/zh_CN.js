@@ -49,7 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "共享提供程序，可让您通过邮件共享文件",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允许用户通过电子邮件地址来共享文件或文件夹的个性化链接。",
     "Send password by mail" : "通过电子邮件发送密码",
-    "Enforce password protection" : "强制密码保护",
-    "Password to access »%1$s« shared with %2$s" : "用于访问与 %2$s 共享的 »%1$s« 的密码"
+    "Enforce password protection" : "强制密码保护"
 },
 "nplurals=1; plural=0;");

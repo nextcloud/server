@@ -303,11 +303,6 @@ OC.L10N.register(
     "Current password" : "Nuværende adgangskode",
     "New password" : "Nyt kodeord",
     "Change password" : "Skift kodeord",
-    "Disconnect" : "Frakobl",
-    "Not supported!" : "Ikke understøttet!",
-    "Press ⌘-C to copy." : "Tryk ⌘-C for at kopiere.",
-    "Press Ctrl-C to copy." : "Tryk Ctrl-C for at kopiere.",
-    "Error while loading browser sessions and device tokens" : "Fejl vedhentning af browsersessioner og enhedsnøgler.",
     "Arabic" : "Arabisk",
     "Chinese" : "Kinesisk",
     "Croatian" : "Kroatisk",
@@ -333,7 +328,6 @@ OC.L10N.register(
     "Official" : "Officiel",
     "Store credentials" : "Gem brugeroplysninger",
     "Set default expiration date" : "Vælg standard udløbsdato",
-    "Follow us on Google+" : "Følg os på  Google+",
     "Share" : "Del"
 },
 "nplurals=2; plural=(n != 1);");

@@ -116,13 +116,10 @@
     "Unlimited" : "Неограничено",
     "Verifying" : "Проверавам",
     "Nextcloud settings" : "Некстклауд поставке",
-    "Two-factor authentication can be enforced for all\tusers and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторска провера идентитета се може захтевати свим\tкорисницима и и одређеним групама. Ако немају већ подешеног провајдера другог фактора, неће моћи да се пријаве на систем.",
     "Enforce two-factor authentication" : "Захтевај двофакторску проверу идентитета",
     "Limit to groups" : "Ограничи на групе",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Двофакторска провера идентитета се може захтевати за само поједине групе.",
-    "Two-factor authentication is enforced for all\tmembers of the following groups." : "Двофакторска провера идентитета се захтева за све\tчланове следећих група.",
     "Enforced groups" : "Групе којима се захтева",
-    "Two-factor authentication is not enforced for\tmembers of the following groups." : "Двофакторска провера идентитета се не захтева за\tчланове следећих група.",
     "Excluded groups" : "Искључене групе",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Када се групе означе/искључе, користи се следећа логика да се закључи да ли се захтева 2FA: ако није одабрана ниједна група, 2FA је укључен свима осим члановима искључених група. Ако има одабраних група, 2FA је укључен само њиховим члановима. Ако је корисник у исто време у одабраној и у искљученој групи, одабрана група има предност и 2FA се захтева.",
     "Save changes" : "Сними измене",
@@ -395,11 +392,6 @@
     "New password" : "Нова лозинка",
     "Change password" : "Измени лозинку",
     "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
-    "Disconnect" : "Раскачи се",
-    "Not supported!" : "Није подржано! ",
-    "Press ⌘-C to copy." : "Притисните ⌘-C за копирање.",
-    "Press Ctrl-C to copy." : "Притисни Ctrl-C за копирање.",
-    "Error while loading browser sessions and device tokens" : "Грешка при учитавању сесија веб читача и токена са уређаја",
     "Afrikaans (Namibia)" : "Африканс (Намибија)",
     "Afrikaans (South Africa)" : "Африканс (Јужноафричка република)",
     "Afrikaans" : "Африканс",
@@ -840,7 +832,6 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "Set default expiration date" : "Постави подразумевано време истека",
-    "Follow us on Google+" : "Пратите нас на Google+-у",
     "Share" : "Подели"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

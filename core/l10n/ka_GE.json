@@ -238,9 +238,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
     "Could not send reset email because there is no email address for this username. Please contact your administrator." : "ამ მომხმარებლისთვის ელ-ფოსტის მისამართი არაა დაყენებული, შესაბამისად აღდგენის ელ-წერილი ვერ გაიგზავნა. გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს.",
     "Couldn't send reset email. Please make sure your username is correct." : "აღდგენის ელ-წერილი ვერ გაიგზავნა. დარწმუნდით, რომ მომხმარებლის სახელი სწორია.",
-    "Saving..." : "შენახვა...",
-    "Dismiss" : "დათხოვნა",
-    "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "ბმული პაროლის აღდგენით თქვენს ელ-ფოსტაზე გაგზავნილია. თუ გავიდა გარკვეული დრო და მაინც არ მოგსვლიათ, შეამოწმეთ სპამის დირექტორიაც.<br>თუ მაინც ვერ მიაგენით მიმართეთ ლოკალურ ადმინისტრატორს.",
     "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ფაილები კოდირებულია. პაროლის აღდგენის შემდეგ ვერანაირად ვერ დაიბრუნებთ მონაცემებს.<br />თუ არ ხართ დარწმუნებული რა გააკეთოთ, გაგრძელებამდე მიმართეთ თქვენს ადმინისტრატორს.<br />დარწმუნებული ხართ, რომ გსურთ გაგრძელება?",
     "Sending email …" : "წერილი იგზავნება ...",
     "Shared" : "გაზიარებული",
@@ -299,10 +296,8 @@
     "Name, federated cloud ID or email address..." : "სახელი, ფედერალური ქლაუდ ID ან ელ-ფოსტის მისამართი",
     "Name..." : "სახელი...",
     "Error removing share" : "გაზიარების გაუქმებისას წარმოიშვა შეცდომა",
-    "SQLite will be used as database." : "მონაცემთა ბაზად მოხმარებულ იქნება SQLite.",
-    "For larger installations we recommend to choose a different database backend." : "უფრო დიდი ინსტალაციებისთვის რეკომენდაციას გიწევთ აირჩიოთ სხვა მონაცემთა ბაზა.",
-    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite-ის გამოყენება არაა რეკომედირებული განსაკუთრებით მაშინ, როდესაც ფაილების სინქრონიზაციისთვის იყენებთ დესკტოპ-კლიენტს.",
-    "Wrong password." : "არასწორი პაროლი.",
+    "Saving..." : "შენახვა...",
+    "Dismiss" : "დათხოვნა",
     "New Password" : "ახლი პაროლი",
     "Cancel log in" : "ავტორიზაციის შეჩერება"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"

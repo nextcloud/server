@@ -197,7 +197,6 @@ OC.L10N.register(
     "this share just expired." : "te udostępnienie właśnie wygasło.",
     "Link to a file" : "Link do pliku",
     "Error creating the share" : "Błąd podczas tworzenia udostępnienia",
-    "Error updating the share" : "Błąd podczas aktualizacji udostępnienia",
     "Shared" : "Udostępniono",
     "Share" : "Udostępnij",
     "Shared with" : "Współdzielone z",

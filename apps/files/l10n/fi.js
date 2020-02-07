@@ -164,13 +164,6 @@ OC.L10N.register(
     "Deleted shares" : "Poistetut jaot",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
-    "File handling" : "Tiedostonhallinta",
-    "Maximum upload size" : "Lähetettävän tiedoston suurin sallittu koko",
-    "max. possible: " : "suurin mahdollinen:",
-    "Save" : "Tallenna",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
-    "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
-    "Cancel upload" : "Perus lähetys",
     "%s of %s used" : "%s / %s käytetty",
     "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty"
 },

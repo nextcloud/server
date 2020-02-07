@@ -164,7 +164,6 @@ OC.L10N.register(
     "Unable to load the shares list" : "Nepavyko įkelti viešinių sąrašo",
     "this share just expired." : "šis viešinys ką tik nustojo galioti.",
     "Error creating the share" : "Klaida kuriant viešinį",
-    "Error updating the share" : "Klaida atnaujinant viešinį",
     "Shared" : "Pasidalinta",
     "Share" : "Dalintis",
     "Shared with" : "Bendrinama su",

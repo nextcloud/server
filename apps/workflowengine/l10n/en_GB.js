@@ -76,10 +76,9 @@ OC.L10N.register(
     "End" : "End",
     "Select timezone…" : "Select timezone…",
     "Sync clients" : "Sync clients",
-    "Workflow" : "Workflow",
+    "Tag management" : "Tag management",
     "Files workflow engine" : "Files workflow engine",
     "Open documentation" : "Open documentation",
-    "Loading…" : "Loading…",
-    "Tag management" : "Tag management"
+    "Loading…" : "Loading…"
 },
 "nplurals=2; plural=(n != 1);");

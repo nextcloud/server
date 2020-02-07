@@ -18,17 +18,6 @@
     "A two-factor auth backup codes provider" : "Ponudnik varnostnih kod za dvostopenjsko overitev",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uporabite eno izmed varnostnih kod, ki ste jo shranili pri nastavljanju dvostopenjske overitve",
     "Submit" : "Pošlji",
-    "activated" : "omogočeno",
-    "updated" : "posodobljeno",
-    "mounted" : "priklopljeno",
-    "deactivated" : "onemogočeno",
-    "beforeCreate" : "pred ustvarjanjem",
-    "created" : "ustvarjeno",
-    "beforeUpdate" : "pred posodabljanjem",
-    "beforeDestroy" : "pred uničenjem",
-    "destroyed" : "uničeno",
-    "beforeMount" : "pred priklapljanjem",
-    "Nextcloud backup codes" : "Varnostne kode Nextcloud",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje.",
     "function" : "funkcija"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

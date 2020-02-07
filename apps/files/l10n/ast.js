@@ -114,13 +114,6 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt",
-    "File handling" : "Alministración de ficheros",
-    "Maximum upload size" : "Tamañu máximu de xubida",
-    "max. possible: " : "máx. posible:",
-    "Save" : "Guardar",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM pue retrasase 5 minutos pa que los cambeos s'apliquen.",
-    "Missing permissions to edit from here." : "Falten permisos pa editar dende equí.",
-    "Cancel upload" : "Encaboxar xuba"
+    "New text file.txt" : "Nuevu testu ficheru.txt"
 },
 "nplurals=2; plural=(n != 1);");

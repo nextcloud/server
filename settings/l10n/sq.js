@@ -272,11 +272,6 @@ OC.L10N.register(
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
-    "Disconnect" : "Shkëputu",
-    "Not supported!" : "Nuk mbështetet!",
-    "Press ⌘-C to copy." : "Shtyp ⌘-C për të kopjuar.",
-    "Press Ctrl-C to copy." : "Shtyp Ctrl-C për të kopjuar",
-    "Error while loading browser sessions and device tokens" : "Gabim gjatë ngarkimit të sesioneve të shfletuesit dhe token-ësh pajisjesh",
     "Afrikaans" : "Afrikanë",
     "Bulgarian" : "Bullgarë",
     "English" : "Anglisht",
@@ -288,7 +283,6 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta.",
     "Set default expiration date" : "Caktoni datë parazgjedhje skadimi",
-    "Follow us on Google+" : "Na ndiqni në Google+",
     "Share" : "Shpërndaje"
 },
 "nplurals=2; plural=(n != 1);");

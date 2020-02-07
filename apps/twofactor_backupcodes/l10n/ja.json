@@ -19,17 +19,6 @@
     "A two-factor auth backup codes provider" : "二要素認証バックアップコードプロバイダ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "二要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
     "Submit" : "了解",
-    "activated" : "活性化されました",
-    "updated" : "アップデートされました",
-    "mounted" : "マウントされました",
-    "deactivated" : "失効した",
-    "beforeCreate" : "作成前",
-    "created" : "作成されました",
-    "beforeUpdate" : "更新前",
-    "beforeDestroy" : "破棄前",
-    "destroyed" : "破棄されました",
-    "beforeMount" : "マウント前",
-    "Nextcloud backup codes" : "Nextcloud バックアップコード",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。",
     "function" : "機能"
 },"pluralForm" :"nplurals=1; plural=0;"

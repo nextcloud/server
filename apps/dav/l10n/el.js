@@ -99,7 +99,6 @@ OC.L10N.register(
     "Send notifications for events" : "Αποστολή ειδοποιήσεων για γεγονότα",
     "Notifications are sent via background jobs, so these must occur often enough." : "Οι ειδοποιήσεις αποστέλλονται μέσω εργασιών παρασκηνίου, οπότε πρέπει να εμφανίζονται αρκετά συχνά.",
     "Enable notifications for events via push" : "Ενεργοποίηση ειδοποιήσεων μέσω push",
-    "Please make sure to properly set up the email settings above." : "Παρακαλούμε σιγουρευθείτε οτι θα ενημερώσετε τις ρυθμίσεις email, παραπάνω.",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Οι ειδοποιήσεις θα αποστέλλονται μέσω εργασιών στο παρασκήνιο, οπότε αυτές πρέπει να συμβαίνουν αρκετά συχνά."
 },
 "nplurals=2; plural=(n != 1);");

@@ -197,7 +197,6 @@ OC.L10N.register(
     "this share just expired." : "此共享已过期。",
     "Link to a file" : "链接到文件",
     "Error creating the share" : "创建共享时出错",
-    "Error updating the share" : "更新共享时出错",
     "Shared" : "已共享",
     "Share" : "共享",
     "Shared with" : "共享给",

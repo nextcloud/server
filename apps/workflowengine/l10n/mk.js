@@ -89,8 +89,8 @@ OC.L10N.register(
     "End" : "Крај",
     "Select timezone…" : "Изберете временска зона...",
     "Sync clients" : "Клиенти за синхронизација",
+    "Tag management" : "Управување со ознаки",
     "Open documentation" : "Отвори ја документацијата",
-    "Loading…" : "Се вчитува…",
-    "Tag management" : "Управување со ознаки"
+    "Loading…" : "Се вчитува…"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -109,6 +109,7 @@ OC.L10N.register(
     "Request timeout (seconds)" : "Prisijungimo laikas (sekundėmis)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL palaikymas yra neįjungtas arba neįdiegtas į PHP. %s prijungimas neįmanomas. Paprašykite sistemos administratoriaus pagalbos.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP palaikymas yra neįjungtas arba neįdiegtas į PHP. %s prijungimas neįmanomas. Paprašykite sistemos administratoriaus pagalbos.",
+    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" nėra įdiegtas. %2$s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad jį įdiegtų.",
     "External storage support" : "Išorinės saugyklos priežiūra",
     "No external storage configured or you don't have the permission to configure them" : "Nėra sukonfigūruota jokia išorinė saugykla arba jūs neturite leidimo jų konfigūruoti",
     "Name" : "Pavadinimas",

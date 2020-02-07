@@ -185,13 +185,6 @@ OC.L10N.register(
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
-    "File handling" : "Bestand afhandeling",
-    "Maximum upload size" : "Maximale bestandsgrootte voor uploads",
-    "max. possible: " : "max. mogelijk: ",
-    "Save" : "Bewaren",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Met PHP-FPM kan het 5 minuten duren voordat wijzigingen zijn doorgevoerd.",
-    "Missing permissions to edit from here." : "Ontbrekende rechten om vanaf hier te bewerken.",
-    "Cancel upload" : "Stop upload",
     "%s of %s used" : "%s van %s gebruikt",
     "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt"
 },

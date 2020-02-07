@@ -74,7 +74,6 @@ OC.L10N.register(
     "End" : "Fin",
     "Select timezone…" : "Selecciona la zona horaria...",
     "Sync clients" : "Sincronizar clientes",
-    "Workflow" : "Flujo de trabajo",
     "Files workflow engine" : "Motor de flujo de trabajo de archivos",
     "Open documentation" : "Abrir la documentación",
     "Loading…" : "Cargando..."

@@ -125,10 +125,9 @@
     "End" : "Ende",
     "Select timezone…" : "Wählen Sie die Zeitzone…",
     "Sync clients" : "Sync-Clients",
-    "Workflow" : "Arbeitsablauf",
+    "Tag management" : "Schlagwortverwaltung",
     "Files workflow engine" : "Datei-Arbeitsablauf-Engine",
     "Open documentation" : "Dokumentation öffnen",
-    "Loading…" : "Laden…",
-    "Tag management" : "Schlagwortverwaltung"
+    "Loading…" : "Laden…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

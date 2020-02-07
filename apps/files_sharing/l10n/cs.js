@@ -197,7 +197,6 @@ OC.L10N.register(
     "this share just expired." : "platnost tohoto sdílení právě skončila.",
     "Link to a file" : "Odkaz na soubor",
     "Error creating the share" : "Chyba při vytváření sdílení",
-    "Error updating the share" : "Chyba při aktualizaci sdílení",
     "Shared" : "Sdíleno",
     "Share" : "Sdílet",
     "Shared with" : "Sdíleno s",

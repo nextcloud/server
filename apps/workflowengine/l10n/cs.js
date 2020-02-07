@@ -127,10 +127,9 @@ OC.L10N.register(
     "End" : "Konec",
     "Select timezone…" : "Vybrat časové pásmo…",
     "Sync clients" : "Synchronizační klienti",
-    "Workflow" : "Postup práce",
+    "Tag management" : "Správa štítků",
     "Files workflow engine" : "Engine práce se soubory",
     "Open documentation" : "Otevřít dokumentaci",
-    "Loading…" : "Načítání…",
-    "Tag management" : "Správa štítků"
+    "Loading…" : "Načítání…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -19,17 +19,6 @@
     "A two-factor auth backup codes provider" : "Provizanto de rezervkodoj por dufaza aŭtentigo",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uzu unu el viaj rezervkodoj, kiujn vi konservis dum agordo de dufaza aŭtentigo.",
     "Submit" : "Sendi",
-    "activated" : "ŝaltita",
-    "updated" : "ĝisdatigita",
-    "mounted" : "muntita",
-    "deactivated" : "malŝaltita",
-    "beforeCreate" : "beforeCreate",
-    "created" : "kreita",
-    "beforeUpdate" : "beforeUpdate",
-    "beforeDestroy" : "beforeDestroy",
-    "destroyed" : "detruita",
-    "beforeMount" : "beforeMount",
-    "Nextcloud backup codes" : "Rezervkodoj por Nextcloud",
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Vi ŝaltis dufazan aŭtentigon, sed vi ankoraŭ ne generis rezervkodojn. Nepre faru tion tuj por eviti, ke vi ne povos ensaluti okaze de perdo de via dua fazo."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

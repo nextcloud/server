@@ -184,13 +184,6 @@ OC.L10N.register(
     "Deleted shares" : "Избришани споделувања",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
-    "File handling" : "Ракување со датотеки",
-    "Maximum upload size" : "Максимална големина за подигање",
-    "max. possible: " : "макс. можно:",
-    "Save" : "Зачувај",
-    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Со PHP-FPM може да треба 5 минути за промените да бидат имплементирани.",
-    "Missing permissions to edit from here." : "Недостасуваат пермисии за да уредувате од тука",
-    "Cancel upload" : "Откажи прикачување",
     "%s of %s used" : "искорестени %s од %s ",
     "%1$s%% of %2$s used" : "искористено %1$s%% од %2$s"
 },

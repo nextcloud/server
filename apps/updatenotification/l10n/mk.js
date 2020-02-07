@@ -42,10 +42,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација нема ажурирање за оваа веријза","<strong>%n</strong> апликации немаат ажурирања за оваа веријза"],
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Секогаш можете да ажурирате на понова верзија / експириментален канал. Но нема да можете да се вратите на стабилна верзија.",
-    "<strong>production</strong> will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2)." : "<strong>продуктивна</strong> овозможува најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува на секундарното минор идание (x.0.2).",
-    "<strong>stable</strong> is the most recent stable version. It is suited for regular use and will always update to the latest major version." : "<strong>стабилна</strong> е последна стабилна верзија. Се користи за регуларна употреба и секогаш ќе се ажурира на првото големо издание.",
-    "<strong>beta</strong> is a pre-release version only for testing new features, not for production environments." : "<strong>бета</strong> е неиздадена верзија и служи само за тестирање на новие можности, не е за продуктивна употреба.",
     "Production" : "Прудуктивна",
     "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "овозможува најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува на секундарното минор идание (x.0.2) и тоа само доколку истанцата е спремна за оваа верзија."
 },

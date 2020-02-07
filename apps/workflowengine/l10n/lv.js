@@ -74,7 +74,6 @@ OC.L10N.register(
     "End" : "Beigas",
     "Select timezone…" : "Izvēlieties laika joslu...",
     "Sync clients" : "Sync klients",
-    "Workflow" : "Darbplūsma",
     "Files workflow engine" : "Faila darblūsmas programma",
     "Open documentation" : "Atvērt dokumentāciju",
     "Loading…" : "Ielādē …"
