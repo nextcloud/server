@@ -13,18 +13,22 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-versions: [12.x]
 
+    name: node${{ matrix.node-versions }}
     steps:
       - uses: actions/checkout@v2
-      - name: Use node ${{ matrix.node-version }}
+
+      - name: Set up node ${{ matrix.node-versions }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-versions: ${{ matrix.node-versions }}
+
       - name: Install dependencies & build
         run: |
           npm ci
           npm run build --if-present
+
       - name: Check webpack build changes
         run: |
           bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && git status && exit 1 )"
