@@ -64,6 +64,12 @@
 				<!-- App store categories -->
 				<template v-if="settings.appstoreEnabled">
 					<AppNavigationItem
+						id="app-category-featured"
+						:to="{ name: 'apps-category', params: { category: 'featured' } }"
+						icon="icon-favorite"
+						:title="t('settings', 'Featured apps')" />
+
+					<AppNavigationItem
 						v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
 						:icon="'icon-category-' + cat.ident"
