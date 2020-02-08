@@ -13,6 +13,8 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Web Content Accessibility Guidelines",
     "our issue tracker" : "na listę błędów",
     "our design team" : "naszego zespołu projektowego",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalny dostęp jest dla nas bardzo ważny. Przestrzegamy standardów internetowych i sprawdzamy, aby wszystko było użyteczne również bez myszy i oprogramowania pomocniczego, takiego jak czytniki ekranu. Naszym celem jest zgodność z {guidelines} 2.1 na poziomie AA, z motywem o wysokim kontraście nawet na poziomie AAA.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Jeśli znajdziesz jakieś problemy, nie wahaj się zgłosić je na {issuetracker}. A jeśli chcesz się zaangażować, dołącz do {designteam}!",
     "Enable" : "Włącz",
     "High contrast theme" : "Motyw o dużym kontraście",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Motyw o dużym kontraście ułatwiający nawigację. Jakość obrazu jest zmniejszona, ale za to poprawiona przejrzystość.",
