@@ -14,7 +14,7 @@ OC.L10N.register(
     "Generate backup codes" : "Generar códigos de respaldo",
     "You created two-factor backup codes for your account" : "Has creado códigos de respaldo para la verificación en dos pasos de tu cuenta",
     "Second-factor backup codes" : "Códigos de respaldo para verificación en dos pasos",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Asegúrate de hacerlo para acceder a tu cuenta en caso de pérdida del segundo paso",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Has habilitado la verificación en dos pasos pero no has generado aún los códigos de respaldo. Son necesarios para acceder a tu cuenta en caso de pérdida del segundo paso.",
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usar código de respaldo",
     "Two factor backup codes" : "Códigos de respaldo de la verificación en dos pasos",
