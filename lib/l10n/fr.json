@@ -86,6 +86,7 @@
     "%s enter the database username." : "%s entrez le nom d'utilisateur de la base de données.",
     "%s enter the database name." : "%s entrez le nom de la base de données.",
     "%s you may not use dots in the database name" : "%s vous ne pouvez pas utiliser de points dans le nom de la base de données",
+    "MySQL username and/or password not valid" : "Nom d'utilisateur et/ou mot de passe de la base MySQL non valide(s)",
     "You need to enter details of an existing account." : "Vous devez indiquer les détails d'un compte existant.",
     "Oracle connection could not be established" : "La connexion Oracle ne peut être établie",
     "Oracle username and/or password not valid" : "Nom d'utilisateur et/ou mot de passe de la base Oracle non valide(s)",

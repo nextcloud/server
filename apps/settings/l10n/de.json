@@ -122,7 +122,7 @@
     "Enforcement of two-factor authentication can be set for certain groups only." : "Erzwingen der Zwei-Faktor-Authentifizierung kann nur für bestimmte Gruppen eingestellt werden.",
     "Two-factor authentication is enforced for all members of the following groups." : "Zwei-Faktor-Authentifizierung wird für alle Mitglieder der folgenden Gruppen erzwungen.",
     "Enforced groups" : "Erzwungene Gruppen",
-    "Two-factor authentication is not enforced for members of the following groups." : "Zwei-Faktor-Authentifizierung wird für Mitglieder der folgenden nicht Gruppen erzwungen.",
+    "Two-factor authentication is not enforced for members of the following groups." : "Zwei-Faktor-Authentifizierung wird für Mitglieder der folgenden Gruppen nicht erzwungen.",
     "Excluded groups" : "Ausgeschlossene Gruppen",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Bei der Auswahl/Abwahl von Gruppen wird folgende Logik verwendet, um Festzustellen ob ein Benutzer 2FA verwenden muss: Wenn keine Gruppe ausgewählt ist, dann wird 2FA für alle Benutzer aktiviert, außer für Mitglieder der ausgenommenen Gruppen. Sind Gruppen ausgewählt, so wird 2FA für alle Mitglieder dieser Gruppen aktiviert. Ist ein Benutzer Mitglieder der ausgewählten und ausgenommenen Gruppe, so hat die Auswahl Vorrang und 2FA wird aktiviert. ",
     "Save changes" : "Änderungen speichern",
