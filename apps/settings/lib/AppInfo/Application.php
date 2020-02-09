@@ -55,12 +55,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 
+	const APP_ID = 'settings';
 
 	/**
 	 * @param array $urlParams
 	 */
 	public function __construct(array $urlParams=[]){
-		parent::__construct('settings', $urlParams);
+		parent::__construct(self::APP_ID, $urlParams);
 
 		$container = $this->getContainer();
 

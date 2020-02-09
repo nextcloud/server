@@ -28,6 +28,7 @@ return array(
     'OCA\\Settings\\Controller\\PersonalSettingsController' => $baseDir . '/../lib/Controller/PersonalSettingsController.php',
     'OCA\\Settings\\Controller\\TwoFactorSettingsController' => $baseDir . '/../lib/Controller/TwoFactorSettingsController.php',
     'OCA\\Settings\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
+    'OCA\\Settings\\Controller\\WebAuthnController' => $baseDir . '/../lib/Controller/WebAuthnController.php',
     'OCA\\Settings\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Settings\\Mailer\\NewUserMailHelper' => $baseDir . '/../lib/Mailer/NewUserMailHelper.php',
     'OCA\\Settings\\Middleware\\SubadminMiddleware' => $baseDir . '/../lib/Middleware/SubadminMiddleware.php',
@@ -50,5 +51,6 @@ return array(
     'OCA\\Settings\\Settings\\Personal\\Security\\Authtokens' => $baseDir . '/../lib/Settings/Personal/Security/Authtokens.php',
     'OCA\\Settings\\Settings\\Personal\\Security\\Password' => $baseDir . '/../lib/Settings/Personal/Security/Password.php',
     'OCA\\Settings\\Settings\\Personal\\Security\\TwoFactor' => $baseDir . '/../lib/Settings/Personal/Security/TwoFactor.php',
+    'OCA\\Settings\\Settings\\Personal\\Security\\WebAuthn' => $baseDir . '/../lib/Settings/Personal/Security/WebAuthn.php',
     'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => $baseDir . '/../lib/Settings/Personal/ServerDevNotice.php',
 );

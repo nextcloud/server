@@ -270,6 +270,11 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * By default WebAuthn is available but it can be explicitly disabled by admins
+ */
+'auth.webauthn.enabled' => true,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.

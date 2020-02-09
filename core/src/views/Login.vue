@@ -22,7 +22,7 @@
 <template>
 	<div>
 		<transition name="fade" mode="out-in">
-			<div v-if="!resetPassword && resetPasswordTarget === ''"
+			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
 				<LoginForm
 					:username.sync="user"
@@ -44,6 +44,25 @@
 					:href="resetPasswordLink"
 					@click.prevent="resetPassword = true">
 					{{ t('core', 'Forgot password?') }}
+				</a>
+				<br>
+				<a v-if="hasPasswordless" @click.prevent="passwordlessLogin = true">
+					{{ t('core', 'Log in with a device') }}
+				</a>
+			</div>
+			<div v-else-if="!loading && passwordlessLogin"
+				key="reset"
+				class="login-additional">
+				<PasswordLessLoginForm
+					:username.sync="user"
+					:redirect-url="redirectUrl"
+					:inverted-colors="invertedColors"
+					:auto-complete-allowed="autoCompleteAllowed"
+					:isHttps="isHttps"
+					:hasPublicKeyCredential="hasPublicKeyCredential"
+					@submit="loading = true" />
+				<a @click.prevent="passwordlessLogin = false">
+					{{ t('core', 'Back') }}
 				</a>
 			</div>
 			<div v-else-if="!loading && canResetPassword"
@@ -69,6 +88,7 @@
 
 <script>
 import LoginForm from '../components/login/LoginForm.vue'
+import PasswordLessLoginForm from '../components/login/PasswordLessLoginForm.vue'
 import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
 
@@ -76,6 +96,7 @@ export default {
 	name: 'Login',
 	components: {
 		LoginForm,
+		PasswordLessLoginForm,
 		ResetPassword,
 		UpdatePassword,
 	},
@@ -120,11 +141,24 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		hasPasswordless: {
+			type: Boolean,
+			default: false,
+		},
+		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		hasPublicKeyCredential: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
 			loading: false,
 			user: this.username,
+			passwordlessLogin: false,
 			resetPassword: false,
 		}
 	},
