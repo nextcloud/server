@@ -60,30 +60,15 @@ trigger:
     - pull_request
     - push
 
----
-kind: pipeline
-name: syntax-and-phan
-
-steps:
-- name: submodules
-  image: docker:git
-  commands:
-    - git submodule update --init
-- name: syntax-php7.2
-  image: nextcloudci/php7.2:php7.2-13
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
-- name: syntax-php7.3
-  image: nextcloudci/php7.3:php7.3-4
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
-- name: syntax-php7.4
-  image: nextcloudci/php7.4:2
-  commands:
-    - composer install
-    - ./lib/composer/bin/parallel-lint --exclude lib/composer/jakub-onderka/ --exclude 3rdparty/symfony/polyfill-php70/Resources/stubs/ --exclude 3rdparty/patchwork/utf8/src/Patchwork/Utf8/Bootup/ --exclude 3rdparty/paragonie/random_compat/lib/ --exclude lib/composer/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php --exclude 3rdparty/doctrine/cache/lib/Doctrine/Common/Cache/RiakCache.php .
+#---
+#kind: pipeline
+#name: syntax-and-phan
+#
+#steps:
+#- name: submodules
+#  image: docker:git
+#  commands:
+#    - git submodule update --init
 #- name: phan
 #  image: nextcloudci/php7.2:php7.2-13
 #  commands:
@@ -91,14 +76,14 @@ steps:
 #    - composer require --dev "phan/phan:0.11.1"
 #    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
 #    - php ./build/.phan/plugin-checker.php
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
+#
+#trigger:
+#  branch:
+#    - master
+#    - stable*
+#  event:
+#    - pull_request
+#    - push
 
 ---
 kind: pipeline
