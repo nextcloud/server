@@ -134,10 +134,18 @@ OC.L10N.register(
     "Unlimited" : "Ubegrænset",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepter",
+    "Reject" : "Afvis",
     "File Management" : "Filhåndtering",
+    "Choose file or folder to transfer" : "Vælg fil eller mappe til overførsel",
     "Change" : "Ændr",
+    "New owner" : "Ny ejer",
+    "Search users" : "Søg efter brugere",
+    "Choose a file or folder to transfer" : "Vælg en fil eller mappe til overførsel",
+    "Transfer" : "Overfør",
+    "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Tags" : "Mærker",
     "%s used" : "%s brugt",
+    "%s%% of %s used" : "%s%% af %s brugt",
     "%1$s of %2$s used" : "%1$s af %2$s brugt",
     "Settings" : "Indstillinger",
     "Show hidden files" : "Vis skjulte filer",
@@ -158,6 +166,7 @@ OC.L10N.register(
     "Shared by link" : "Delt via link",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "%s of %s used" : "%s af %s brugt"
+    "%s of %s used" : "%s af %s brugt",
+    "%1$s%% of %2$s used" : "%1$s%% af %2$s brugt"
 },
 "nplurals=2; plural=(n != 1);");
