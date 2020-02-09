@@ -347,7 +347,7 @@
     "Always ask for a password" : "Pedir siempre la contraseña",
     "Enforce password protection" : "Forzar la protección por contraseña.",
     "Set default expiration date for link shares" : "Establecer fecha de caducidad predeterminada para enlaces compartidos",
-    "Allow resharing" : "Permitir recompartir",
+    "Allow resharing" : "Permitir que se vuelva a compartir",
     "Allow sharing with groups" : "Permitir compartir con grupos",
     "Restrict users to only share with users in their groups" : "Limitar a los usuarios a compartir solo con los usuarios de sus grupos",
     "Exclude groups from sharing" : "Excluye grupos de compartir",
