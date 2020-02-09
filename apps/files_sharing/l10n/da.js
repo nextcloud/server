@@ -60,6 +60,7 @@ OC.L10N.register(
     "Share API is disabled" : "Delings-API er slået fra",
     "File sharing" : "Fildeling",
     "Accept" : "Accepter",
+    "Reject" : "Afvis",
     "Sharing" : "Deling",
     "Allow editing" : "Tillad redigering",
     "Allow resharing" : "Tillad videredeling",
