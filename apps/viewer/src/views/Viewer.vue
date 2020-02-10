@@ -1,5 +1,6 @@
 <!--
  - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ - @copyright Copyright (c) 2020 Gary Kim <gary@garykim.dev>
  -
  - @author John Molakvoæ <skjnldsv@protonmail.com>
  -
@@ -375,6 +376,7 @@ export default {
 					console.error(`The following file could not be displayed`, fileName, fileInfo)
 					this.close()
 				}
+				this.changeSidebar()
 			} catch (error) {
 				console.error(error)
 			}
@@ -389,7 +391,17 @@ export default {
 			// override mimetype if existing alias
 			const mime = fileInfo.mime
 			this.currentFile = new File(fileInfo, mime, this.components[mime])
+			this.changeSidebar()
 			this.updatePreviousNext()
+		},
+
+		/**
+		 * Show sidebar if sidebar is already opened
+		 */
+		changeSidebar() {
+			if (this.sidebarFile !== '') {
+				this.showSidebar()
+			}
 		},
 
 		/**
