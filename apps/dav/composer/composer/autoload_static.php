@@ -94,6 +94,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter' => __DIR__ . '/..' . '/../lib/CalDAV/Search/Xml/Filter/SearchTermFilter.php',
         'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport' => __DIR__ . '/..' . '/../lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php',
         'OCA\\DAV\\CalDAV\\WebcalCaching\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/Plugin.php',
+        'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
         'OCA\\DAV\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\DAV\\CardDAV\\AddressBook' => __DIR__ . '/..' . '/../lib/CardDAV/AddressBook.php',
         'OCA\\DAV\\CardDAV\\AddressBookImpl' => __DIR__ . '/..' . '/../lib/CardDAV/AddressBookImpl.php',
