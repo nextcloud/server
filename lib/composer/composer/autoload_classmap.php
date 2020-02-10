@@ -367,6 +367,7 @@ return array(
     'OCP\\Lock\\LockedException' => $baseDir . '/lib/public/Lock/LockedException.php',
     'OCP\\Lock\\ManuallyLockedException' => $baseDir . '/lib/public/Lock/ManuallyLockedException.php',
     'OCP\\Lockdown\\ILockdownManager' => $baseDir . '/lib/public/Lockdown/ILockdownManager.php',
+    'OCP\\Log\\IDataLogger' => $baseDir . '/lib/public/Log/IDataLogger.php',
     'OCP\\Log\\IFileBased' => $baseDir . '/lib/public/Log/IFileBased.php',
     'OCP\\Log\\ILogFactory' => $baseDir . '/lib/public/Log/ILogFactory.php',
     'OCP\\Log\\IWriter' => $baseDir . '/lib/public/Log/IWriter.php',
