@@ -32,6 +32,7 @@ use DateInterval;
 use OC\BackgroundJob\Job;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\ILogger;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -43,6 +44,11 @@ class RefreshWebcalJob extends Job {
 	 */
 	private $refreshWebcalService;
 
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
 	/** @var ILogger */
 	private $logger;
 
@@ -53,11 +59,13 @@ class RefreshWebcalJob extends Job {
 	 * RefreshWebcalJob constructor.
 	 *
 	 * @param RefreshWebcalService $refreshWebcalService
+	 * @param IConfig $config
 	 * @param ILogger $logger
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(RefreshWebcalService $refreshWebcalService, ILogger $logger, ITimeFactory $timeFactory) {
+	public function __construct(RefreshWebcalService $refreshWebcalService, IConfig $config, ILogger $logger, ITimeFactory $timeFactory) {
 		$this->refreshWebcalService = $refreshWebcalService;
+		$this->config = $config;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
 	}
@@ -76,12 +84,14 @@ class RefreshWebcalJob extends Job {
 		$this->fixSubscriptionRowTyping($subscription);
 
 		// if no refresh rate was configured, just refresh once a week
+		$defaultRefreshRate = $this->config->getAppValue('dav', 'calendarSubscriptionRefreshRate', 'P1W');
+		$refreshRate = $subscription[RefreshWebcalService::REFRESH_RATE] ?? $defaultRefreshRate;
+
 		$subscriptionId = $subscription['id'];
-		$refreshrate = $subscription[RefreshWebcalService::REFRESH_RATE] ?? 'P1W';
 
 		try {
 			/** @var DateInterval $dateInterval */
-			$dateInterval = DateTimeParser::parseDuration($refreshrate);
+			$dateInterval = DateTimeParser::parseDuration($refreshRate);
 		} catch(InvalidDataException $ex) {
 			$this->logger->logException($ex);
 			$this->logger->warning("Subscription $subscriptionId could not be refreshed, refreshrate in database is invalid");
