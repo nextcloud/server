@@ -103,14 +103,14 @@ export const initSessionHeartBeat = () => {
 
 			// Let apps know we're online and requests will have the new token
 			emit('networkOnline', {
-				success: true
+				success: true,
 			})
 		} catch (e) {
 			console.error('could not update session token after resuming network', e)
 
 			// Let apps know we're online but requests might have an outdated token
 			emit('networkOnline', {
-				success: false
+				success: false,
 			})
 		}
 	})
