@@ -248,6 +248,7 @@ OC.L10N.register(
     "Disabled apps" : "已禁用的应用",
     "Updates" : "更新",
     "App bundles" : "应用捆绑包",
+    "Featured apps" : "精选应用",
     "{license}-licensed" : "{license}-许可协议",
     "New user" : "新建用户",
     "Enter group name" : "输入群组名称",
