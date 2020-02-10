@@ -170,6 +170,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Application de messagerie électronique simple et bien intégrée avec Fichiers, Contacts et Calendar.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Discussions, appels vidéo, partage d'écran, réunions en ligne et conférences web – depuis votre navigateur et les applications mobiles.",
     "Collaboratively edit office documents." : "Modifier des documents de manière collaborative.",
+    "Local document editing back-end used by the OnlyOffice app." : "Moteur d'édition de documents locaux utilisé par l'application OnlyOffice.",
     "Forgot password?" : "Mot de passe oublié ?",
     "Settings" : "Paramètres",
     "Could not load your contacts" : "Impossible de charger vos contacts",

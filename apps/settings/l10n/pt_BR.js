@@ -248,6 +248,7 @@ OC.L10N.register(
     "Disabled apps" : "Aplicativos desativados",
     "Updates" : "Atualizações",
     "App bundles" : "Pacotes de aplicativos",
+    "Featured apps" : "Aplicativos em destaque",
     "{license}-licensed" : "{license}-licenciado",
     "New user" : "Novo usuário",
     "Enter group name" : "Insira o nome do grupo",

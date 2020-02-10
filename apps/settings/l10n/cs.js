@@ -248,6 +248,7 @@ OC.L10N.register(
     "Disabled apps" : "Vypnuté aplikace",
     "Updates" : "Aktualizace",
     "App bundles" : "Sady aplikací",
+    "Featured apps" : "Doporučené aplikace",
     "{license}-licensed" : "licencováno pod {license}",
     "New user" : "Nový uživatel",
     "Enter group name" : "Zadejte název skupiny",
