@@ -29,6 +29,7 @@ use OCA\DAV\BackgroundJob\RefreshWebcalJob;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -38,6 +39,9 @@ class RefreshWebcalJobTest extends TestCase {
 
 	/** @var RefreshWebcalService | MockObject */
 	private $refreshWebcalService;
+
+	/** @var IConfig | MockObject */
+	private $config;
 
 	/** @var ILogger | MockObject */
 	private $logger;
@@ -52,6 +56,7 @@ class RefreshWebcalJobTest extends TestCase {
 		parent::setUp();
 
 		$this->refreshWebcalService = $this->createMock(RefreshWebcalService::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(ILogger::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -67,7 +72,7 @@ class RefreshWebcalJobTest extends TestCase {
 	 * @dataProvider runDataProvider
 	 */
 	public function testRun(int $lastRun, int $time, bool $process) {
-		$backgroundJob = new RefreshWebcalJob($this->refreshWebcalService, $this->logger, $this->timeFactory);
+		$backgroundJob = new RefreshWebcalJob($this->refreshWebcalService, $this->config, $this->logger, $this->timeFactory);
 
 		$backgroundJob->setArgument([
 			'principaluri' => 'principals/users/testuser',
@@ -87,6 +92,11 @@ class RefreshWebcalJobTest extends TestCase {
 				'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 				'source' => 'webcal://foo.bar/bla'
 			]);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'calendarSubscriptionRefreshRate', 'P1W')
+			->will($this->returnValue('P1W'));
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
