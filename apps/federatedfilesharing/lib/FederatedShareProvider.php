@@ -40,6 +40,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -92,7 +93,7 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
-	/** @var \OCP\GlobalScale\IConfig */
+	/** @var IGlobalScaleConfig */
 	private $gsConfig;
 
 	/** @var ICloudFederationProviderManager */
@@ -114,22 +115,22 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IConfig $config
 	 * @param IUserManager $userManager
 	 * @param ICloudIdManager $cloudIdManager
-	 * @param \OCP\GlobalScale\IConfig $globalScaleConfig
+	 * @param IGlobalScaleConfig $globalScaleConfig
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 */
 	public function __construct(
-			IDBConnection $connection,
-			AddressHandler $addressHandler,
-			Notifications $notifications,
-			TokenHandler $tokenHandler,
-			IL10N $l10n,
-			ILogger $logger,
-			IRootFolder $rootFolder,
-			IConfig $config,
-			IUserManager $userManager,
-			ICloudIdManager $cloudIdManager,
-			\OCP\GlobalScale\IConfig $globalScaleConfig,
-			ICloudFederationProviderManager $cloudFederationProviderManager
+		IDBConnection $connection,
+		AddressHandler $addressHandler,
+		Notifications $notifications,
+		TokenHandler $tokenHandler,
+		IL10N $l10n,
+		ILogger $logger,
+		IRootFolder $rootFolder,
+		IConfig $config,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IGlobalScaleConfig $globalScaleConfig,
+		ICloudFederationProviderManager $cloudFederationProviderManager
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -193,8 +194,16 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 
-		// don't allow federated shares if source and target server are the same
 		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		// check that cloudId is an allowed recipient
+		if (!$this->allowedOutgoingFederation($cloudId->getRemote())) {
+			$message = 'Not allowed to create a federated share outside of the internal GlobalScale.';
+			$message_t = $this->l->t($message);
+			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
+			throw new \Exception($message_t);
+		}
+
+		// don't allow federated shares if source and target server are the same
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
@@ -274,6 +283,14 @@ class FederatedShareProvider implements IShareProvider {
 				$sharedByFederatedId = $cloudId->getId();
 			}
 			$ownerCloudId = $this->cloudIdManager->getCloudId($share->getShareOwner(), $this->addressHandler->generateRemoteURL());
+			// if in GS and recipient is internal, generate password
+			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedWith());
+			$password = '';
+			if ($this->gsConfig->remoteIsInternal($remote)) {
+				$password = $this->gsConfig->generateInternalKey($token);
+			}
+			$share->setPassword($password);
+
 			$send = $this->notifications->sendRemoteShare(
 				$token,
 				$share->getSharedWith(),
@@ -283,7 +300,8 @@ class FederatedShareProvider implements IShareProvider {
 				$ownerCloudId->getId(),
 				$share->getSharedBy(),
 				$sharedByFederatedId,
-				$share->getShareType()
+				$share->getShareType(),
+				$share->getPassword()
 			);
 
 			if ($send === false) {
@@ -977,13 +995,16 @@ class FederatedShareProvider implements IShareProvider {
 	/**
 	 * check if users from other Nextcloud instances are allowed to mount public links share by this instance
 	 *
+	 * @param string $remote
+	 *
 	 * @return bool
 	 */
 	public function isOutgoingServer2serverShareEnabled() {
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
+		if ($this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::OUTGOING)) {
+			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+
 		return ($result === 'yes');
 	}
 
@@ -993,10 +1014,11 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isIncomingServer2serverShareEnabled() {
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
+		if ($this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::INCOMING)) {
+			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+
 		return ($result === 'yes');
 	}
 
@@ -1007,10 +1029,11 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isOutgoingServer2serverGroupShareEnabled() {
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
+		if ($this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::OUTGOING)) {
+			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
+
 		return ($result === 'yes');
 	}
 
@@ -1020,12 +1043,38 @@ class FederatedShareProvider implements IShareProvider {
 	 * @return bool
 	 */
 	public function isIncomingServer2serverGroupShareEnabled() {
-		if ($this->gsConfig->onlyInternalFederation()) {
-			return false;
+		if ($this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::INCOMING)) {
+			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
+
 		return ($result === 'yes');
 	}
+
+
+	/**
+	 * @param string $remote
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowedOutgoingFederation(string $remote) {
+		return $this->gsConfig->allowedOutgoingFederation($remote);
+	}
+
+
+	/**
+	 * @param string $token
+	 * @param string $key
+	 * @param string $remote
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowedIncomingFederation(string $remote, string $token, string $key): bool {
+		return $this->gsConfig->allowedIncomingFederation($remote, $token, $key);
+	}
+
 
 	/**
 	 * check if federated group sharing is supported, therefore the OCM API need to be enabled
@@ -1047,6 +1096,7 @@ class FederatedShareProvider implements IShareProvider {
 			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
+
 		return ($result === 'yes');
 	}
 
@@ -1062,6 +1112,7 @@ class FederatedShareProvider implements IShareProvider {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
+
 		return ($result === 'yes');
 	}
 
@@ -1130,4 +1181,5 @@ class FederatedShareProvider implements IShareProvider {
 		}
 		$cursor->closeCursor();
 	}
+
 }

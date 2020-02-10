@@ -37,7 +37,8 @@ use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\Notifier;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
 use OCP\AppFramework\App;
-use OCP\GlobalScale\IConfig;
+
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 
 class Application extends App {
 
@@ -68,6 +69,7 @@ class Application extends App {
 					$server->getURLGenerator(),
 					$server->getCloudFederationFactory(),
 					$server->getCloudFederationProviderManager(),
+					$server->query(IGlobalScaleConfig::class),
 					$server->getDatabaseConnection(),
 					$server->getGroupManager()
 				);
@@ -109,7 +111,7 @@ class Application extends App {
 		$federatedShareProvider = $this->getFederatedShareProvider();
 
 		$manager->registerNotifierService(Notifier::class);
-		
+
 		$eventDispatcher->addListener(
 			'OCA\Files::loadAdditionalScripts',
 			function() use ($federatedShareProvider) {
@@ -166,7 +168,7 @@ class Application extends App {
 			\OC::$server->getConfig(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getCloudIdManager(),
-			$c->query(IConfig::class),
+			$c->query(IGlobalScaleConfig::class),
 			\OC::$server->getCloudFederationProviderManager()
 
 		);

@@ -196,6 +196,10 @@ class MountPublicLinkController extends Controller {
 
 		$cloudId = $this->cloudIdManager->getCloudId($this->userSession->getUser()->getUID(), $this->addressHandler->generateRemoteURL());
 
+		if (!$this->federatedShareProvider->allowedIncomingFederation($cloudId->getRemote(), $token, $password)) {
+			return new JSONResponse(['message' => $this->l->t('Server to server sharing is only available internally')], Http::STATUS_BAD_REQUEST);
+		}
+
 		$httpClient = $this->clientService->newClient();
 
 		try {

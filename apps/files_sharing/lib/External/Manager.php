@@ -37,6 +37,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -90,6 +91,9 @@ class Manager {
 	/** @var ICloudFederationFactory */
 	private $cloudFederationFactory;
 
+	/** @var IGlobalScaleConfig */
+	private $gsConfig;
+
 	/** @var IGroupManager  */
 	private $groupManager;
 
@@ -105,6 +109,7 @@ class Manager {
 	 * @param IDiscoveryService $discoveryService
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 * @param ICloudFederationFactory $cloudFederationFactory
+	 * @param IGlobalScaleConfig $globalScaleConfig
 	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
 	 * @param string $uid
@@ -117,6 +122,7 @@ class Manager {
 								IDiscoveryService $discoveryService,
 								ICloudFederationProviderManager $cloudFederationProviderManager,
 								ICloudFederationFactory $cloudFederationFactory,
+								IGlobalScaleConfig $globalScaleConfig,
 								IGroupManager $groupManager,
 								IUserManager $userManager,
 								$uid) {
@@ -129,6 +135,7 @@ class Manager {
 		$this->discoveryService = $discoveryService;
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 		$this->cloudFederationFactory = $cloudFederationFactory;
+		$this->gsConfig = $globalScaleConfig;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 	}
@@ -465,6 +472,8 @@ class Manager {
 		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
 		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
+		$data['password'] = $this->generateGSPassword($data['token'], '');
+
 		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 	}
 
@@ -649,5 +658,23 @@ class Manager {
 		$result = $shares->execute($parameters);
 
 		return $result ? $shares->fetchAll() : [];
+	}
+
+
+	/**
+	 * Generate a password based on jwt key on GS setup.
+	 * The condition is that it will be generated only to reach an internal GlobalScale share.
+	 *
+	 * @param string $token
+	 * @param string $remote
+	 *
+	 * @return string
+	 */
+	public function generateGSPassword(string $token, string $remote): string {
+		if (!$this->gsConfig->remoteIsInternal($remote)) {
+			return '';
+		}
+
+		return $this->gsConfig->generateInternalKey($token);
 	}
 }

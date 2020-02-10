@@ -38,7 +38,7 @@ class MountProvider implements IMountProvider {
 	private $connection;
 
 	/**
-	 * @var callable
+	 * @var Manager
 	 */
 	private $managerProvider;
 
@@ -67,6 +67,7 @@ class MountProvider implements IMountProvider {
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
 		$data['certificateManager'] = \OC::$server->getCertificateManager($user->getUID());
 		$data['HttpClientService'] = \OC::$server->getHTTPClientService();
+		$data['password'] = $manager->generateGSPassword($data['token'], $data['remote']);
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 

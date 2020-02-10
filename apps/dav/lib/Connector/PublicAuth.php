@@ -30,6 +30,8 @@
 
 namespace OCA\DAV\Connector;
 
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -56,17 +58,24 @@ class PublicAuth extends AbstractBasic {
 	/** @var IRequest */
 	private $request;
 
+	/** @var IGlobalScaleConfig */
+	private $gsConfig;
+
+
 	/**
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 * @param ISession $session
+	 * @param IGlobalScaleConfig $gsConfig
 	 */
 	public function __construct(IRequest $request,
 								IManager $shareManager,
-								ISession $session) {
+								ISession $session,
+								IGlobalScaleConfig $gsConfig) {
 		$this->request = $request;
 		$this->shareManager = $shareManager;
 		$this->session = $session;
+		$this->gsConfig = $gsConfig;
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
@@ -117,11 +126,21 @@ class PublicAuth extends AbstractBasic {
 					return false;
 				}
 			} else if ($share->getShareType() === IShare::TYPE_REMOTE) {
+				// there is no password in federation share ?
 				return true;
 			} else {
 				return false;
 			}
 		} else {
+
+			if ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
+				if ($this->gsConfig->allowedOutgoingFederation('', $share->getToken(), $password)) {
+					return true;
+				}
+
+				return false;
+			}
+
 			return true;
 		}
 	}

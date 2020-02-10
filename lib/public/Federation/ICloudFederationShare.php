@@ -249,4 +249,15 @@ interface ICloudFederationShare {
 	 */
 	public function getProtocol();
 
+
+	/**
+	 * return password
+	 *
+	 * @return string
+	 *
+	 * @since 19.0.0
+	 */
+	public function getPassword(): string;
+
 }
+

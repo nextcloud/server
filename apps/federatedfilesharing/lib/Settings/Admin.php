@@ -27,7 +27,7 @@ namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\GlobalScale\IConfig;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
@@ -35,16 +35,16 @@ class Admin implements ISettings {
 	/** @var FederatedShareProvider */
 	private $fedShareProvider;
 
-	/** @var IConfig */
+	/** @var IGlobalScaleConfig */
 	private $gsConfig;
 
 	/**
 	 * Admin constructor.
 	 *
 	 * @param FederatedShareProvider $fedShareProvider
-	 * @param IConfig $globalScaleConfig
+	 * @param IGlobalScaleConfig $globalScaleConfig
 	 */
-	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig) {
+	public function __construct(FederatedShareProvider $fedShareProvider, IGlobalScaleConfig $globalScaleConfig) {
 		$this->fedShareProvider = $fedShareProvider;
 		$this->gsConfig = $globalScaleConfig;
 	}
@@ -55,7 +55,8 @@ class Admin implements ISettings {
 	public function getForm() {
 
 		$parameters = [
-			'internalOnly' => $this->gsConfig->onlyInternalFederation(),
+			'incomingInternalOnly' => $this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::INCOMING),
+			'outgoingInternalOnly' => $this->gsConfig->onlyInternalFederation(IGlobalScaleConfig::OUTGOING),
 			'outgoingServer2serverShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverShareEnabled(),
 			'incomingServer2serverShareEnabled' => $this->fedShareProvider->isIncomingServer2serverShareEnabled(),
 			'federatedGroupSharingSupported' => $this->fedShareProvider->isFederatedGroupSharingSupported(),

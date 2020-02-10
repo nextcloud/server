@@ -88,11 +88,13 @@ class Notifications {
 	 * @param string $sharedBy
 	 * @param string $sharedByFederatedId
 	 * @param int $shareType (can be a remote user or group share)
+	 * @param string $password (used to confirm that share is internal to GS)
+	 *
 	 * @return bool
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
+	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType, string $password = '') {
 
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
@@ -109,7 +111,8 @@ class Notifications {
 				'sharedBy' => $sharedBy,
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
-				'shareType' => $shareType
+				'shareType' => $shareType,
+				'password' => $password
 			);
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
@@ -394,7 +397,8 @@ class Notifications {
 					$fields['sharedBy'],
 					$fields['token'],
 					$fields['shareType'],
-					'file'
+					'file',
+					''
 				);
 				return $this->federationProviderManager->sendShare($share);
 			case 'reshare':

@@ -33,20 +33,76 @@ namespace OCP\GlobalScale;
  */
 interface IConfig {
 
+
+	const INCOMING = 'incoming';
+	const OUTGOING = 'outgoing';
+
+
 	/**
 	 * check if global scale is enabled
 	 *
-	 * @since 12.0.1
 	 * @return bool
+	 * @since 12.0.1
 	 */
 	public function isGlobalScaleEnabled();
 
 	/**
 	 * check if federation should only be used internally in a global scale setup
 	 *
+	 * @param string $type since 19.0.0
+	 *
+	 * @return bool
 	 * @since 12.0.1
+	 */
+	public function onlyInternalFederation(string $type);
+
+
+	/**
+	 * check if the outgoing federation is allowed, based on the $remote address
+	 * If $token+$key is provided, only check the $token+$key (mainly for reading file purpose)
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param string $key
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowedOutgoingFederation(string $remote, string $token = '', string $key = ''): bool;
+
+
+	/**
+	 * check if the incoming federation is allowed, based on the $token+$key.
+	 * ~! If $remote is provided, only check the $remote (mainly for re-share purposing) !~
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param string $key
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowedIncomingFederation(string $remote, string $token, string $key): bool;
+
+
+	/**
+	 * generate the key to confirm internal federation.
+	 *
+	 * @param $token
+	 *
+	 * @return string
+	 */
+	public function generateInternalKey(string $token): string;
+
+
+	/**
+	 * check that remote instance is internal.
+	 *
+	 * @param string $remote
+	 *
 	 * @return bool
 	 */
-	public function onlyInternalFederation();
+	public function remoteIsInternal(string $remote): bool;
 
 }
+

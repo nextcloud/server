@@ -43,6 +43,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -93,6 +94,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var ICloudFederationProviderManager */
 	private $cloudFederationProviderManager;
 
+	/** @var IGlobalScaleConfig */
+	private $gsConfig;
+
 	/** @var IDBConnection */
 	private $connection;
 
@@ -114,6 +118,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICloudFederationFactory $cloudFederationFactory
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
+	 * @param IGlobalScaleConfig $gsConfig
 	 * @param IDBConnection $connection
 	 * @param IGroupManager $groupManager
 	 */
@@ -129,6 +134,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 								IURLGenerator $urlGenerator,
 								ICloudFederationFactory $cloudFederationFactory,
 								ICloudFederationProviderManager $cloudFederationProviderManager,
+								IGlobalScaleConfig $gsConfig,
 								IDBConnection $connection,
 								IGroupManager $groupManager
 	) {
@@ -144,6 +150,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->urlGenerator = $urlGenerator;
 		$this->cloudFederationFactory = $cloudFederationFactory;
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
+		$this->gsConfig = $gsConfig;
 		$this->connection = $connection;
 		$this->groupManager = $groupManager;
 	}
@@ -187,6 +194,10 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		$token = $share->getShareSecret();
+		if (!$this->federatedShareProvider->allowedIncomingFederation($remote, $token, $share->getPassword())) {
+			throw new ProviderCouldNotAddShareException('Server only support internal federated cloud sharing', '', Http::STATUS_SERVICE_UNAVAILABLE);
+		}
+
 		$name = $share->getResourceName();
 		$owner = $share->getOwnerDisplayName();
 		$sharedBy = $share->getSharedByDisplayName();
@@ -239,6 +250,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
+				$this->gsConfig,
 				\OC::$server->getGroupManager(),
 				\OC::$server->getUserManager(),
 				$shareWith

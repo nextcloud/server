@@ -29,6 +29,8 @@
  *
  */
 
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
+
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 
@@ -41,7 +43,8 @@ OC_Util::obEnd();
 $authBackend = new OCA\DAV\Connector\PublicAuth(
 	\OC::$server->getRequest(),
 	\OC::$server->getShareManager(),
-	\OC::$server->getSession()
+	\OC::$server->getSession(),
+	\OC::$server->query(IGlobalScaleConfig::class)
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 

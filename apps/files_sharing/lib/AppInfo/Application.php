@@ -36,7 +36,6 @@ use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\External\Manager;
-use OCA\Files_Sharing\Listener\GlobalShareAcceptanceListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
@@ -54,6 +53,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IContainer;
 use OCP\IGroup;
 use OCP\IServerContainer;
@@ -131,6 +131,7 @@ class Application extends App {
 				$server->query(\OCP\OCS\IDiscoveryService::class),
 				$server->getCloudFederationProviderManager(),
 				$server->getCloudFederationFactory(),
+				$server->query(IGlobalScaleConfig::class),
 				$server->getGroupManager(),
 				$server->getUserManager(),
 				$uid

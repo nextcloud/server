@@ -122,7 +122,6 @@ class RequestHandlerController extends Controller {
 	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -177,6 +176,8 @@ class RequestHandlerController extends Controller {
 		$ownerDisplayName = $ownerDisplayName === null ? $owner : $ownerDisplayName;
 		$sharedByDisplayName = $sharedByDisplayName === null ? $sharedBy : $sharedByDisplayName;
 
+		$password = '';
+
 		// sharedBy* parameter is optional, if nothing is set we assume that it is the same user as the owner
 		if ($sharedBy === null) {
 			$sharedBy = $owner;
@@ -185,7 +186,7 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType, $password);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
 		} catch (ProviderDoesNotExistsException $e) {

@@ -38,6 +38,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		'ownerDisplayName' => '',
 		'sharedBy' => '',
 		'sharedByDisplayName' => '',
+		'password' => '',
 		'protocol' => []
 	];
 
@@ -55,6 +56,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param string $resourceType ('file', 'calendar',...)
 	 * @param string $sharedSecret
+	 * @param string $password
 	 */
 	public function __construct($shareWith = '',
 								$name = '',
@@ -66,7 +68,8 @@ class CloudFederationShare implements ICloudFederationShare {
 								$sharedByDisplayName = '',
 								$shareType = '',
 								$resourceType = '',
-								$sharedSecret = ''
+								$sharedSecret = '',
+								$password = ''
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -85,7 +88,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		]);
 		$this->setShareType($shareType);
 		$this->setResourceType($resourceType);
-
+		$this->setPassword($password);
 	}
 
 	/**
@@ -212,6 +215,17 @@ class CloudFederationShare implements ICloudFederationShare {
 			$this->share['shareType'] = 'user';
 		}
 	}
+
+
+	/**
+	 * @param $password
+	 *
+	 * @since 19.0.0
+	 */
+	public function setPassword($password) {
+		$this->share['password'] = $password;
+	}
+
 
 	/**
 	 * get the whole share, ready to send out
@@ -355,4 +369,15 @@ class CloudFederationShare implements ICloudFederationShare {
 	public function getProtocol() {
 		return $this->share['protocol'];
 	}
+
+
+	/**
+	 * get password
+	 *
+	 * @return string
+	 */
+	public function getPassword(): string {
+		return $this->share['password'];
+	}
+
 }
