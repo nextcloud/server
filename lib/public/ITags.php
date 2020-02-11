@@ -53,6 +53,10 @@ use OC\Tags;
  */
 
 interface ITags {
+	/**
+	 * @since 19.0.0
+	 */
+	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/**
 	 * Check if any tags are saved for this type and user.

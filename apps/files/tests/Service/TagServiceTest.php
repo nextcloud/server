@@ -25,9 +25,9 @@
 
 namespace OCA\Files\Tests\Service;
 
-use OC\Tags;
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
+use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -172,7 +172,7 @@ class TagServiceTest extends \Test\TestCase {
 			);
 
 		// set tags
-		$this->tagService->updateFileTags('subdir/test.txt', [Tags::TAG_FAVORITE]);
+		$this->tagService->updateFileTags('subdir/test.txt', [ITags::TAG_FAVORITE]);
 
 		// remove tag
 		$this->tagService->updateFileTags('subdir/test.txt', []);
