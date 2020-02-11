@@ -174,6 +174,7 @@
     "Email Field" : "E-posta Alanı",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Kullanıcı varsayılan e-posta adresinin kullanılması için boş bırakın ya da bir LDAP/AD özniteliği belirtin.",
     "User Home Folder Naming Rule" : "Kullanıcı Ana Klasörünü Adlandırma Kuralı",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Kullanıcı adının kullanılması için boş bırakın (varsayılan) ya da bir LDAP/AD özniteliği belirtin.",
     "\"$home\" Placeholder Field" : "\"$home\" Yer Belirleyici Alanı",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "Bir dış depolama yapılandırmasında $home yerine belirtilen öznitelik konulur",
     "Internal Username" : "İç Kullanıcı Adı",
