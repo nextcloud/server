@@ -13,6 +13,8 @@ OC.L10N.register(
     "Web Content Accessibility Guidelines" : "Οδηγίες προσβασιμότητας περιεχομένου ιστού",
     "our issue tracker" : "ο ανιχνευτής ζητημάτων μας",
     "our design team" : "η σχεδιαστική ομάδα μας",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Η γενική πρόσβαση είναι πολύ σημαντική για εμάς. Ακολουθούμε τα πρότυπα του διαδικτύου και ελέγχουμε ότι τα πάντα μπορούν να χρησιμοποιηθούν χωρίς ποντίκι και βοηθητικό λογισμικό όπως προγράμματα ανάγνωσης οθόνης. Στόχος μας είναι να συμμορφωνόμαστε με την {guidelines} 2.1 σε επίπεδο AA, με το θέμα υψηλής αντίθεσης ακόμη και σε επίπεδο ΑΑΑ.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Αν διαπιστώσετε τυχόν προβλήματα, μη διστάσετε να τα αναφέρετε στον {issuetracker}. Και αν θέλετε να εμπλακείτε, έρθετε στο {designteam}!",
     "Enable" : "Ενεργοποίηση",
     "High contrast theme" : "Θέμα υψηλής αντίθεσης",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ένα θέμα με υψηλή αντίθεση για να διευκολύνει την πλοήγηση σας. Η οπτική ποιότητα θα είναι μειωμένη αλλά θα έχετε υψηλότερη ευκρίνεια.",
