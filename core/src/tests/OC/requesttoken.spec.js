@@ -19,11 +19,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {JSDOM} from 'jsdom'
 import {subscribe, unsubscribe} from '@nextcloud/event-bus'
 
-import {setToken} from '../../OC/requesttoken'
+import {manageToken, setToken} from '../../OC/requesttoken'
 
 describe('request token', () => {
+
+	let dom
+	let emit
+	let manager
+	const token = 'abc123'
+
+	beforeEach(() => {
+		dom = new JSDOM()
+		emit = sinon.spy()
+		const head = dom.window.document.getElementsByTagName('head')[0]
+		head.setAttribute('data-requesttoken', token)
+
+		manager = manageToken(dom.window.document, emit)
+	})
+
+	it('reads the token from the document', () => {
+		expect(manager.getToken()).to.equal('abc123')
+	})
+
+	it('remembers the updated token', () => {
+		manager.setToken('bca321')
+
+		expect(manager.getToken()).to.equal('bca321')
+	})
 
 	describe('@nextcloud/auth integration', () => {
 		let listener

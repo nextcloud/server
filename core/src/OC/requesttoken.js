@@ -21,20 +21,35 @@
 
 import { emit } from '@nextcloud/event-bus'
 
-let token = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
+/**
+ * @private
+ * @param {Document} global the document to read the initial value from
+ * @param {Function} emit the function to invoke for every new token
+ * @returns {Object}
+ */
+export const manageToken = (global, emit) => {
+	let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
+
+	return {
+		getToken: () => token,
+		setToken: newToken => {
+			token = newToken
+
+			emit('csrf-token-update', {
+				token,
+			})
+		},
+	}
+}
+
+const manageFromDocument = manageToken(document, emit)
 
 /**
  * @returns {string}
  */
-export const getToken = () => token
+export const getToken = manageFromDocument.getToken
 
 /**
  * @param {String} newToken new token
  */
-export const setToken = newToken => {
-	token = newToken
-
-	emit('csrf-token-update', {
-		token,
-	})
-}
+export const setToken = manageFromDocument.setToken
