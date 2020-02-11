@@ -87,6 +87,7 @@
     "%s enter the database username." : "%s veritabanı kullanıcı adını yazın.",
     "%s enter the database name." : "%s veritabanı adını yazın.",
     "%s you may not use dots in the database name" : "%s veritabanı adında nokta kullanamayabilirsiniz",
+    "MySQL username and/or password not valid" : "MySQL kullanıcı adı ya da parolası geçersiz",
     "You need to enter details of an existing account." : "Var olan bir hesabın bilgilerini yazmalısınız.",
     "Oracle connection could not be established" : "Oracle bağlantısı kurulamadı",
     "Oracle username and/or password not valid" : "Oracle kullanıcı adı ya da parolası geçersiz",
