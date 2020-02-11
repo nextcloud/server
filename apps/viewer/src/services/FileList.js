@@ -21,7 +21,6 @@
  */
 
 import client from './DavClient'
-import { encodePath } from '@nextcloud/paths'
 import { genFileInfo } from '../utils/fileUtils'
 
 /**
@@ -35,7 +34,7 @@ export default async function(path, options) {
 	// getDirectoryContents doesn't accept / for root
 	const fixedPath = path === '/' ? '' : path
 
-	const response = await client.getDirectoryContents(encodePath(fixedPath), Object.assign({
+	const response = await client.getDirectoryContents(fixedPath, Object.assign({
 		data: `<?xml version="1.0"?>
 			<d:propfind  xmlns:d="DAV:"
 				xmlns:oc="http://owncloud.org/ns"
