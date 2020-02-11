@@ -87,34 +87,33 @@ const deprecate = (func, funcName, version) => {
 }
 
 const setDeprecatedProp = (global, cb, msg) => {
-	if (window[global] !== undefined) {
-		delete window[global]
-	}
-	Object.defineProperty(window, global, {
-		get: () => {
-			if (msg) {
-				warnIfNotTesting(`${global} is deprecated: ${msg}`)
-			} else {
-				warnIfNotTesting(`${global} is deprecated`)
-			}
+	(Array.isArray(global) ? global : [global]).map(global => {
+		if (window[global] !== undefined) {
+			delete window[global]
+		}
+		Object.defineProperty(window, global, {
+			get: () => {
+				if (msg) {
+					warnIfNotTesting(`${global} is deprecated: ${msg}`)
+				} else {
+					warnIfNotTesting(`${global} is deprecated`)
+				}
 
-			return cb()
-		},
+				return cb()
+			},
+		})
 	})
 }
 
 window['_'] = _
-window['$'] = $
+setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be updated to v2.4 in Nextcloud 20 and v3.x in Nextcloud 21. In later versions of Nextcloud it might be removed completely. Please ship your own.')
 setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('Clipboard', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('ClipboardJS', () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window['dav'] = dav
 setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, ship your own')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('jstimezonedetect', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('jstz', () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
-window['jQuery'] = $
+setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 window['marked'] = deprecate(marked, 'marked', 19)
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
