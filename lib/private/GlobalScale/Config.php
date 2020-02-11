@@ -24,32 +24,29 @@
 namespace OC\GlobalScale;
 
 
-use daita\NcSmallPhpTools\Exceptions\RequestContentException;
-use daita\NcSmallPhpTools\Exceptions\RequestNetworkException;
-use daita\NcSmallPhpTools\Exceptions\RequestResultNotJsonException;
-use daita\NcSmallPhpTools\Exceptions\RequestResultSizeException;
-use daita\NcSmallPhpTools\Exceptions\RequestServerException;
-use daita\NcSmallPhpTools\Model\Request;
-use daita\NcSmallPhpTools\Traits\TRequest;
 use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 
 
 class Config implements IGlobalScaleConfig {
 
 
-	use TRequest;
-
+	/** @var IClientService */
+	private $clientService;
 
 	/** @var IConfig */
 	private $config;
 
+
 	/**
 	 * Config constructor.
 	 *
+	 * @param IClientService $clientService
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IClientService $clientService, IConfig $config) {
+		$this->clientService = $clientService;
 		$this->config = $config;
 	}
 
@@ -192,17 +189,24 @@ class Config implements IGlobalScaleConfig {
 		/** @var string $lookup */
 		$lookup = $this->config->getSystemValue('lookup_server', '');
 
-		$request = new Request('/instances', Request::TYPE_GET);
-		$request->setAddressFromUrl($lookup);
+		if ($lookup === '') {
+			return [];
+		}
+
+		$client = $this->clientService->newClient();
+		$url = rtrim($lookup, '/') . '/instances';
 
 		try {
-			return $instances = $this->retrieveJson($request);
-		} catch (RequestContentException | RequestNetworkException | RequestResultSizeException | RequestServerException | RequestResultNotJsonException $e) {
+			$response = $client->get($url, ['connect_timeout' => 10]);
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()
-						->log(2, 'Issue while retrieving instances from lookup: ' . $e->getMessage());
+						->warning('Issue while retrieving instances from lookup: ' . $e->getMessage());
 
 			return [];
 		}
+
+		return json_decode($response->getBody(), true);
 	}
 
 }
+

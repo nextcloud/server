@@ -1232,7 +1232,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(IConfig::class, function (Server $c) {
-			return new GlobalScale\Config($c->getConfig());
+			return new GlobalScale\Config($c->getHTTPClientService(), $c->getConfig());
 		});
 
 		$this->registerService(ICloudFederationProviderManager::class, function (Server $c) {
