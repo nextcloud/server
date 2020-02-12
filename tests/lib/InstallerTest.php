@@ -57,7 +57,8 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			$config
+			$config,
+			false
 		);
 		$installer->removeApp(self::$appid);
 	}
@@ -68,7 +69,8 @@ class InstallerTest extends TestCase {
 			$this->clientService,
 			$this->tempManager,
 			$this->logger,
-			$this->config
+			$this->config,
+			false
 		);
 	}
 
@@ -78,7 +80,8 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			false
 		);
 		$installer->removeApp(self::$appid);
 		\OC::$server->getConfig()->setSystemValue('appstoreenabled', $this->appstore);
@@ -101,7 +104,8 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			false
 		);
 		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
 		$this->assertSame('testapp', $installer->installApp(self::$appid));
