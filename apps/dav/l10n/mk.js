@@ -39,7 +39,7 @@ OC.L10N.register(
     "Date:" : "Датум:",
     "Where:" : "Каде: ",
     "Description:" : "Опис:",
-    "Untitled event" : "Насловен настан",
+    "Untitled event" : "Неименуван настан",
     "_%n year_::_%n years_" : ["една година","%n години"],
     "_%n month_::_%n months_" : ["еден месец","%n месеци"],
     "_%n day_::_%n days_" : ["еден ден","%n дена"],
