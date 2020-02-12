@@ -8,7 +8,7 @@
 				v-model="checked"
 				type="checkbox"
 				class="checkbox">
-			<label :for="'accessibility-' + preview.id">{{ t('accessibility', 'Enable') }} {{ preview.title.toLowerCase() }}</label>
+			<label :for="'accessibility-' + preview.id">{{ preview.enableLabel }}</label>
 		</div>
 	</div>
 </template>

@@ -62,6 +62,7 @@ class AccessibilityProvider {
 				'id'    => 'dark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
 				'title' => $this->l->t('Dark theme'),
+				'enableLabel' => $this->l->t('Enable dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
 			]
 		);
@@ -72,6 +73,7 @@ class AccessibilityProvider {
 				'id'    => 'highcontrast',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'mode-highcontrast.jpg'),
 				'title' => $this->l->t('High contrast mode'),
+				'enableLabel' => $this->l->t('Enable high contrast mode'),
 				'text'  => $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.')
 			];
 	}
@@ -82,6 +84,7 @@ class AccessibilityProvider {
 				'id'    => 'fontdyslexic',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-opendyslexic.jpg'),
 				'title' => $this->l->t('Dyslexia font'),
+				'enableLabel' => $this->l->t('Enable dyslexia font'),
 				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.')
 			]
 		);
