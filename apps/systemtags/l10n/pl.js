@@ -51,7 +51,7 @@ OC.L10N.register(
     "No tags found" : "Nie znaleziono etykiet",
     "Please select tags to filter by" : "Wybierz etykiety do filtrowania",
     "No files found for the selected tags" : "Nie znaleziono plików dla wybranych etykiet",
-    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Wspólne tagowanie jest dostępne dla wszystkich użytkowników. Ograniczone etykiety są widoczne dla użytkowników, ale nie mogą być przez nich przypisywane. Etykiety niewidoczne są przeznaczone do użytku wewnętrznego, ponieważ użytkownicy nie mogą ich zobaczyć ani przypisać.",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Wspólne etykietowanie jest dostępne dla wszystkich użytkowników. Ograniczone etykiety są widoczne dla użytkowników, ale nie mogą być przez nich przypisywane. Etykiety niewidoczne są przeznaczone do użytku wewnętrznego, ponieważ użytkownicy nie mogą ich zobaczyć ani przypisać.",
     "Select tag …" : "Wybierz etykietę…",
     "Create a new tag" : "Utwórz nową etykietę",
     "Name" : "Nazwa",
