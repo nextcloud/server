@@ -248,6 +248,7 @@ OC.L10N.register(
     "Disabled apps" : "Оневозможени апликации",
     "Updates" : "Ажурирања",
     "App bundles" : "Пакети со апликации",
+    "Featured apps" : "Истакнати апликации",
     "{license}-licensed" : "{license}-лиценца",
     "New user" : "Нов корисник",
     "Enter group name" : "Внеси име на групата",

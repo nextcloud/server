@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "Pristupačnost",
     "Accessibility options for nextcloud" : "Mogućnosti pristupačnosti za Nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Pruža višestruke mogućnosti pristupačnosti za jednostavniju upotrebu Nextclouda",
+    "High contrast theme" : "Tema jakog kontrasta",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Tema jakog kontrasta olakšava navigaciju. Smanjuje vizualnu kvalitetu, ali povećava jasnoću prikaza.",
+    "Dark theme (beta)" : "Tamna tema (beta)",
     "Web Content Accessibility Guidelines" : "Smjernice pristupačnosti web-sadržaja",
     "our issue tracker" : "naš alat za praćenje problema",
     "our design team" : "naš dizajnerski tim",
-    "Enable" : "Omogući",
-    "High contrast theme" : "Tema jakog kontrasta",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Tema jakog kontrasta olakšava navigaciju. Smanjuje vizualnu kvalitetu, ali povećava jasnoću prikaza.",
-    "Dark theme (beta)" : "Tamna tema (beta)"
+    "Enable" : "Omogući"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -96,6 +96,7 @@ OC.L10N.register(
     "Set your password" : "Določitev gesla",
     "Go to %s" : "Odpri oblak %s",
     "Install Client" : "Namesti odjemalca",
+    "Logged in user must be a subadmin" : "Prijavljen uporabnik mora imeti dovoljenja podpornega skrbnika",
     "Additional settings" : "Dodatne nastavitve",
     "Groupware" : "Skupinsko delo",
     "Overview" : "Splošni pregled",

@@ -10,14 +10,14 @@ OC.L10N.register(
     "Accessibility" : "Accesibilidade",
     "Accessibility options for nextcloud" : "Opcións de accesibilidade para o Nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Ofrece múltiples opcións de accesibilidade para facilitar o uso do Nextcloud",
+    "High contrast theme" : "Tema de alto contraste",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de alto contraste para facilitar a navegación. A calidade visual será reducida, mais a claridade aumentará.",
+    "Dark theme (beta)" : "Tema escuro (beta)",
     "Web Content Accessibility Guidelines" : "Pautas de accesibilidade ao contido web",
     "our issue tracker" : "o noso seguidor de incidencias",
     "our design team" : "o noso equipo de deseño",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Para nós o acceso universal é moi importante. Seguimos os estándares web e comprobamos que todo poida ser utilizado sen rato e software de axuda como os lectores de pantalla. O noso obxectivo é ter cumprir ás {directrices} 2.1 a nivel AA, co tema de alto contraste incluso a nivel AAA.",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Se atopa algún problema, non dubide en informalo en {issuetracker}. E se quere involucrarse, entre en {designteam}!",
-    "Enable" : "Activar",
-    "High contrast theme" : "Tema de alto contraste",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de alto contraste para facilitar a navegación. A calidade visual será reducida, mais a claridade aumentará.",
-    "Dark theme (beta)" : "Tema escuro (beta)"
+    "Enable" : "Activar"
 },
 "nplurals=2; plural=(n != 1);");

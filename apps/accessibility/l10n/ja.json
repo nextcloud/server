@@ -8,12 +8,12 @@
     "Accessibility" : "アクセシビリティ",
     "Accessibility options for nextcloud" : "nextcloudのアクセシビリティオプション",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "あなたのNextcloudの利用を簡単にするための複数のユーザー補助のオプションを提供します。",
+    "High contrast theme" : "ハイコントラストテーマ",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "ハイコントラストテーマは表示の質は下がりますが、見やすさは上がります。",
+    "Dark theme (beta)" : "ダークテーマ (ベータ版)",
     "Web Content Accessibility Guidelines" : "Webコンテンツ アクセシビリティガイドライン",
     "our issue tracker" : "問題追跡",
     "our design team" : "デザインチーム",
-    "Enable" : "有効にする",
-    "High contrast theme" : "ハイコントラストテーマ",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "ハイコントラストテーマは表示の質は下がりますが、見やすさは上がります。",
-    "Dark theme (beta)" : "ダークテーマ (ベータ版)"
+    "Enable" : "有効にする"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

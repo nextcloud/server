@@ -36,6 +36,7 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Active" : "Dejavno",
     "Save" : "Shrani",
+    "Browse the app store" : "Prebrskaj po trgovini programov",
     "matches" : "se sklada z",
     "does not match" : "se ne sklada z",
     "is" : "je",

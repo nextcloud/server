@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "Prístupnosť",
     "Accessibility options for nextcloud" : "Možnosti prístupnosti pre Nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Poskytuje viac možností prístupnosti pre uľahčenie používania Nextcloud",
+    "High contrast theme" : "Motív vzhľadu s vysokým kontrastom",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Motív vzhľadu s vysokým kontrastom pre uľahčenie navigácie. Zníži sa síce vizuálna kvalita, ale zvýši sa čitateľnosť.",
+    "Dark theme (beta)" : "Tmavý motív vzhľadu (beta)",
     "Web Content Accessibility Guidelines" : "Usmernenia o prístupnosti webového obsahu",
     "our issue tracker" : "náš systém evidencie hlásenia chýb",
     "our design team" : "náš tím dizajnérov",
-    "Enable" : "Zapnúť",
-    "High contrast theme" : "Motív vzhľadu s vysokým kontrastom",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Motív vzhľadu s vysokým kontrastom pre uľahčenie navigácie. Zníži sa síce vizuálna kvalita, ale zvýši sa čitateľnosť.",
-    "Dark theme (beta)" : "Tmavý motív vzhľadu (beta)"
+    "Enable" : "Zapnúť"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

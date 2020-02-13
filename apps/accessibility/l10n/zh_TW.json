@@ -8,12 +8,12 @@
     "Accessibility" : "協助工具",
     "Accessibility options for nextcloud" : "Nextcloud 協助工具設定",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "提供多種協助工具使您更易於操作 Nextcloud",
+    "High contrast theme" : "高對比主題",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "使用高對比度主題以便於頁面導覽。提高操作理解程度，但視覺質感會下降。",
+    "Dark theme (beta)" : "黑暗主題（測試）",
     "Web Content Accessibility Guidelines" : "網路內容協助工具指南",
     "our issue tracker" : "問題追蹤",
     "our design team" : "我們的設計團隊",
-    "Enable" : "啟用",
-    "High contrast theme" : "高對比主題",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "使用高對比度主題以便於頁面導覽。提高操作理解程度，但視覺質感會下降。",
-    "Dark theme (beta)" : "黑暗主題（測試）"
+    "Enable" : "啟用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

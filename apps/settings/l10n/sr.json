@@ -301,7 +301,7 @@
     "Save" : "Сачувај",
     "Test email settings" : "Тестирај поставке е-поште",
     "Send email" : "Пошаљи е-пошту",
-    "Security & setup warnings" : "Безбедносна и упозорења поставе",
+    "Security & setup warnings" : "Упозорења за безбедност и поставке",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Због безбедности и перформанси Ваше инстанце сервера, важно је да је све подешено исправно. Да бисмо Вам помогли у томе, радићемо неке аутоматске провере. Погледајте увезану документацију за више информација.",
     "All checks passed." : "Све провере успешно прошле.",
     "There are some errors regarding your setup." : "Постоје неке грешке у вези са Вашом инсталацијом.",

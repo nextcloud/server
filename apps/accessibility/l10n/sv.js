@@ -10,14 +10,14 @@ OC.L10N.register(
     "Accessibility" : "Tillgänglighet",
     "Accessibility options for nextcloud" : "Tillgänglighetsalternativ för Nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Ger flera tillgänglighetsalternativ för att underlätta din användning av Nextcloud",
+    "High contrast theme" : "Högkontrasttema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ett tema med hög kontrast för att underlätta din navigering. Visuell kvalitet kommer att minskas men klarhet kommer att ökas.",
+    "Dark theme (beta)" : "Mörkt tema (beta)",
     "Web Content Accessibility Guidelines" : "Riktlinjer för webbinnehåll ur tillgänglighetssynpunkt",
     "our issue tracker" : "vår felrapportering",
     "our design team" : "vårt designteam",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå.",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Om du hittar några problem, tveka inte att rapportera dem på {issuetracker}. Och om du vill engagera dig, gå med i {designteam}!",
-    "Enable" : "Aktivera",
-    "High contrast theme" : "Högkontrasttema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ett tema med hög kontrast för att underlätta din navigering. Visuell kvalitet kommer att minskas men klarhet kommer att ökas.",
-    "Dark theme (beta)" : "Mörkt tema (beta)"
+    "Enable" : "Aktivera"
 },
 "nplurals=2; plural=(n != 1);");

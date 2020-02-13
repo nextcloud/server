@@ -8,12 +8,12 @@
     "Accessibility" : "إمكانية الوصول",
     "Accessibility options for nextcloud" : "خيارات إمكانية الوصول لـNextCloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "توفر خيارات إمكانية الوصول عديدة لتسهيل إستخدامك لـNextCloud",
+    "High contrast theme" : "وضع التباين العالي",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "وضع التباين العالي يساعدك في إستخدام التطبيق والإنتقال في القوائم بسهوله. علماً أن الجودة سوف تتظرر سلبياً من هذا الوضع لكن الدقة سوف تتحسن بكثير.",
+    "Dark theme (beta)" : "مظهر مظلم (تحت التجريب)",
     "Web Content Accessibility Guidelines" : "شروط إمكانية الوصول لمحتوى الويب",
     "our issue tracker" : "تعقب الأخطاء الخاص بنا",
     "our design team" : "فريق التصميم الخاص بنا",
-    "Enable" : "تفعيل",
-    "High contrast theme" : "وضع التباين العالي",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "وضع التباين العالي يساعدك في إستخدام التطبيق والإنتقال في القوائم بسهوله. علماً أن الجودة سوف تتظرر سلبياً من هذا الوضع لكن الدقة سوف تتحسن بكثير.",
-    "Dark theme (beta)" : "مظهر مظلم (تحت التجريب)"
+    "Enable" : "تفعيل"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
