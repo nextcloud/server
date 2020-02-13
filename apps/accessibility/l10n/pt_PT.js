@@ -9,12 +9,12 @@ OC.L10N.register(
     "Accessibility" : "Acessibilidade",
     "Accessibility options for nextcloud" : "Opções de acessibilidade para nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Fornece várias opções de acessibilidade para facilitar a sua utilização do Nextcloud",
+    "High contrast theme" : "Tema de alto contraste",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Um tema de alto contraste para facilitar a sua navegação. A qualidade visual será reduzida, mas a claridade será aumentada.",
+    "Dark theme (beta)" : "Tema escuro (beta)",
     "Web Content Accessibility Guidelines" : "Recomendações de Acessibilidade de Conteúdo da Web",
     "our issue tracker" : "o nosso registo de erros",
     "our design team" : "a nossa equipa de desenho",
-    "Enable" : "Ativar",
-    "High contrast theme" : "Tema de alto contraste",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Um tema de alto contraste para facilitar a sua navegação. A qualidade visual será reduzida, mas a claridade será aumentada.",
-    "Dark theme (beta)" : "Tema escuro (beta)"
+    "Enable" : "Ativar"
 },
 "nplurals=2; plural=(n != 1);");

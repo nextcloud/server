@@ -9,12 +9,12 @@ OC.L10N.register(
     "Accessibility" : "Saavutettavuus",
     "Accessibility options for nextcloud" : "Saavutettavuusvaihtoehdot Nextcloudille",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Tarjoaa monia saavutettavuusvaihtoehtoja helpottamaan Nexcloudin käyttöä.",
+    "High contrast theme" : "Suuren kontrastin teema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Suuren kontrastin teema helpottaa navigointiasi. Visuaalinen laatu on heikompi, mutta selkeys paranee.",
+    "Dark theme (beta)" : "Tumma teema (beta)",
     "Web Content Accessibility Guidelines" : "Verkkosisällön saavutettavuusohjeet",
     "our issue tracker" : "virheidenseurantajärjestelmämme",
     "our design team" : "suunnitteluryhmämme",
-    "Enable" : "Ota käyttöön",
-    "High contrast theme" : "Suuren kontrastin teema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Suuren kontrastin teema helpottaa navigointiasi. Visuaalinen laatu on heikompi, mutta selkeys paranee.",
-    "Dark theme (beta)" : "Tumma teema (beta)"
+    "Enable" : "Ota käyttöön"
 },
 "nplurals=2; plural=(n != 1);");

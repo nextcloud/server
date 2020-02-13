@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "접근성",
     "Accessibility options for nextcloud" : "Nextcloud 접근성 옵션",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Nextcloud 사용을 편리하게 하는 여러 접근성 옵션",
+    "High contrast theme" : "고대비 테마",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "쉬운 탐색을 위한 고대비 테마입니다. 색감이 나빠지지만 더 선명해집니다.",
+    "Dark theme (beta)" : "어두운 테마(베타)",
     "Web Content Accessibility Guidelines" : "웹 콘텐츠 접근성 가이드라인",
     "our issue tracker" : "우리의 이슈 트래커",
     "our design team" : "우리의 디자인 팀",
-    "Enable" : "활성화",
-    "High contrast theme" : "고대비 테마",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "쉬운 탐색을 위한 고대비 테마입니다. 색감이 나빠지지만 더 선명해집니다.",
-    "Dark theme (beta)" : "어두운 테마(베타)"
+    "Enable" : "활성화"
 },
 "nplurals=1; plural=0;");

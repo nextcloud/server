@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "Akadálymentesítés",
     "Accessibility options for nextcloud" : "Akadálymentesítési lehetőségek a Nextcloudhoz",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Több akadálymentesítési lehetőséget biztosít, hogy megkönnyítse a Nextcloud használatát",
+    "High contrast theme" : "Magas kontrasztú téma",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "A magas kontrasztú téma megkönnyíti a navigációt. A képi minőség csökken, de az olvashatóság javul.",
+    "Dark theme (beta)" : "Sötét téma (béta)",
     "Web Content Accessibility Guidelines" : "Webes tartalom akadálymentesítési irányelvek",
     "our issue tracker" : "a hibakövetőnk",
     "our design team" : "a fejlesztőcsapatunk",
-    "Enable" : "Engedélyezés",
-    "High contrast theme" : "Magas kontrasztú téma",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "A magas kontrasztú téma megkönnyíti a navigációt. A képi minőség csökken, de az olvashatóság javul.",
-    "Dark theme (beta)" : "Sötét téma (béta)"
+    "Enable" : "Engedélyezés"
 },
 "nplurals=2; plural=(n != 1);");

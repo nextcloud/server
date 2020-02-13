@@ -10,14 +10,14 @@ OC.L10N.register(
     "Accessibility" : "Dostopnost",
     "Accessibility options for nextcloud" : "Možnosti dostopnosti za okolje Nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Omogoča več možnosti dostopnosti za lažje delo v okolju Nextcloud.",
+    "High contrast theme" : "Visoko kontrastna tema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Visoko kontrastna tema omogoča nazornejši prikaz vmesnika. Pogled se poenostavi, povečajo pa se možnosti hitre uporabe.",
+    "Dark theme (beta)" : "Temna tema (preizkusno)",
     "Web Content Accessibility Guidelines" : "Priporočila dostopnosti za spletno vsebino",
     "our issue tracker" : "sledilnik napak",
     "our design team" : "oblikovalska skupina",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Splošno enostavni dostop je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vse uporabno tudi brez miške in brez podporne programske opreme, kot so zaslonski bralniki. Zagotavljamo skladnost z vodili {guidelines} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA.",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Če naletite na težave, ne odlašajte in takoj pošljite poročilo na sledilnik {issuetracker}, če želite sodelovati, pa se pridružite skupini {designteam}!",
-    "Enable" : "Omogoči",
-    "High contrast theme" : "Visoko kontrastna tema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Visoko kontrastna tema omogoča nazornejši prikaz vmesnika. Pogled se poenostavi, povečajo pa se možnosti hitre uporabe.",
-    "Dark theme (beta)" : "Temna tema (preizkusno)"
+    "Enable" : "Omogoči"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
