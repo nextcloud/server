@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Ali ste prepričani, da želite izbrisati to  zunanjo shrambo?",
     "Delete storage?" : "Ali ste prepričani, da želite izbrisati shrambo?",
     "Saved" : "Shranjeno",
-    "Saving …" : "Shranjevanje...",
+    "Saving …" : "Poteka shranjevanje ...",
     "Save" : "Shrani",
     "Empty response from the server" : "S strežnika je prejet odziv brez vsebine.",
     "Couldn't get the list of external mount points: {type}" : "Ni mogoče pridobiti seznama zunanjih priklopnih točk: {type}",

@@ -8,13 +8,13 @@
     "Accessibility" : "Tilgjengelighet",
     "Accessibility options for nextcloud" : "Tilgjengelighetsvalg for nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Gir muligheten for flere tilgjengelighetsvalg for å gjøre det lettere å bruke Nextcloud",
+    "High contrast theme" : "Høykontrast-tema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast tema for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
+    "Dark theme (beta)" : "Mørkt tema (beta)",
     "Web Content Accessibility Guidelines" : "Retningslinjer for tilgjengelighet på nettsider",
     "our issue tracker" : "vår problemsporer",
     "our design team" : "vårt designteam",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Ikke nøl med å rapportere problemer du måtte finne på {issuetracker}. Og bli med i {designteam} hvis du vil bidra.",
-    "Enable" : "Aktiver",
-    "High contrast theme" : "Høykontrast-tema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast tema for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
-    "Dark theme (beta)" : "Mørkt tema (beta)"
+    "Enable" : "Aktiver"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
