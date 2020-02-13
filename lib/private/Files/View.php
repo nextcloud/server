@@ -1392,7 +1392,7 @@ class View {
 			}
 			$ownerId = $storage->getOwner($internalPath);
 			$owner = null;
-			if ($ownerId !== null) {
+			if ($ownerId !== null && $ownerId !== false) {
 				// ownerId might be null if files are accessed with an access token without file system access
 				$owner = $this->getUserObjectForOwner($ownerId);
 			}
