@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "Prieinamumas",
     "Accessibility options for nextcloud" : "Nextcloud prieinamumo parinktys",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Pateikia kelias prieinamumo parinktis, skirtas palengvinti jūsų naudojimąsi Nextcloud",
+    "High contrast theme" : "Didelio kontrasto apipavidalinimas",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Didelio kontrasto apipavidalinimas, skirtas palengvinti jūsų naršymą. Vaizdinė kokybė bus sumažinta, tačiau aiškumas bus padidintas.",
+    "Dark theme (beta)" : "Tamsus apipavidalinimas (beta)",
     "Web Content Accessibility Guidelines" : "Saityno turinio prieinamumo gairės",
     "our issue tracker" : "mūsų klaidų sekiklis",
     "our design team" : "mūsų dizaino komanda",
-    "Enable" : "Įjungti",
-    "High contrast theme" : "Didelio kontrasto apipavidalinimas",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Didelio kontrasto apipavidalinimas, skirtas palengvinti jūsų naršymą. Vaizdinė kokybė bus sumažinta, tačiau aiškumas bus padidintas.",
-    "Dark theme (beta)" : "Tamsus apipavidalinimas (beta)"
+    "Enable" : "Įjungti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

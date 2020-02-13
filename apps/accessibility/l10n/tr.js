@@ -10,12 +10,12 @@ OC.L10N.register(
     "Accessibility" : "Erişilebilirlik",
     "Accessibility options for nextcloud" : "Nextcloud erişebilirlik ayarları",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Nextcloud kullanımınızı kolaylaştıracak çeşitli erişebilirlik seçenekleri sunar",
+    "High contrast theme" : "Yüksek renk karşıtlıklı tema",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Yüksek renk karşıtlıklı tema gezinmeyi kolaylaştırır. Görsel kalite azalır ancak netlik artar.",
+    "Dark theme (beta)" : "Koyu tema (beta)",
     "Web Content Accessibility Guidelines" : "Web İçeriği Erişebilirlik Kılavuzları",
     "our issue tracker" : "sorun kayıt sistemimiz",
     "our design team" : "geliştirme ekibimiz",
-    "Enable" : "Etkinleştir",
-    "High contrast theme" : "Yüksek renk karşıtlıklı tema",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Yüksek renk karşıtlıklı tema gezinmeyi kolaylaştırır. Görsel kalite azalır ancak netlik artar.",
-    "Dark theme (beta)" : "Koyu tema (beta)"
+    "Enable" : "Etkinleştir"
 },
 "nplurals=2; plural=(n > 1);");

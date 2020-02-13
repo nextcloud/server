@@ -10,14 +10,14 @@ OC.L10N.register(
     "Accessibility" : "Acessibilidade",
     "Accessibility options for nextcloud" : "Opções de acessibilidade para nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Fornece várias opções de acessibilidade para facilitar o uso do Nextcloud",
+    "High contrast theme" : "Tema de alto contraste",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Um tema de alto contraste para facilitar a navegação. A qualidade visual será reduzida, mas a clareza aumentada.",
+    "Dark theme (beta)" : "Tema escuro (beta)",
     "Web Content Accessibility Guidelines" : "Diretrizes de Acessibilidade ao Conteúdo da Web",
     "our issue tracker" : "nosso rastreador de problemas",
     "our design team" : "nossa equipe de design",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "O acesso universal é muito importante para nós. Seguimos os padrões da web e nos certificamos de tornar tudo utilizável também sem mouse e software auxiliar, como leitores de tela. Nosso objetivo é estar em conformidade com as {guidelines} 2.1 no nível AA, com o tema de alto contraste, mesmo no nível AAA.",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Se você encontrar algum problema, não hesite em reportá-lo no {issuetracker}. E se você quiser se envolver, junte-se ao {designteam}!",
-    "Enable" : "Ativar",
-    "High contrast theme" : "Tema de alto contraste",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Um tema de alto contraste para facilitar a navegação. A qualidade visual será reduzida, mas a clareza aumentada.",
-    "Dark theme (beta)" : "Tema escuro (beta)"
+    "Enable" : "Ativar"
 },
 "nplurals=2; plural=(n > 1);");
