@@ -55,7 +55,11 @@ class ChangesCheck {
 	public function getChangesForVersion(string $version): array {
 		$version = $this->normalizeVersion($version);
 		$changesInfo = $this->mapper->getChanges($version);
-		return json_decode($changesInfo->getData(), true);
+		$changesData = json_decode($changesInfo->getData(), true);
+		if(empty($changesData)) {
+			throw new DoesNotExistException();
+		}
+		return $changesData;
 	}
 
 	/**

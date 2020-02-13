@@ -279,6 +279,10 @@ class ChangesCheckTest extends TestCase {
 					],
 				]
 			],
+			[ # 4 - empty
+				'',
+				[]
+			],
 		];
 	}
 
