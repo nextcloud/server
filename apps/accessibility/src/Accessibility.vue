@@ -82,7 +82,7 @@ export default {
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)
-				.replace('{linkend}', '</a>')
+				.replace('/{linkend}/g', '</a>')
 		},
 		issuetrackerLink() {
 			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">`
