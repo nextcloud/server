@@ -106,6 +106,7 @@ export const generateUrl = (url, params, options) => {
  * @param {string} app the app id to which the image belongs
  * @param {string} file the name of the image file
  * @returns {string}
+ * @deprecated 19.0.0 use `imagePath` from https://www.npmjs.com/package/@nextcloud/router
  */
 export const imagePath = (app, file) => {
 	if (file.indexOf('.') === -1) {
@@ -122,6 +123,7 @@ export const imagePath = (app, file) => {
  * @param {string} type the type of the file to link to (e.g. css,img,ajax.template)
  * @param {string} file the filename
  * @returns {string} Absolute URL for a file in an app
+ * @deprecated 19.0.0 use `generateFilePath` from https://www.npmjs.com/package/@nextcloud/router
  */
 export const filePath = (app, type, file) => {
 	const isCore = coreApps.indexOf(app) !== -1
@@ -172,6 +174,7 @@ export const filePath = (app, type, file) => {
  *
  * @returns {string} web root path
  *
+ * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
  * @since 8.2
  */
 export const getRootPath = () => OC.webroot
