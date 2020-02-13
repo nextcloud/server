@@ -20,7 +20,7 @@
 	<settings>
 		<admin>OCA\Settings\Settings\Admin\Mail</admin>
 		<admin>OCA\Settings\Settings\Admin\Overview</admin>
-		<admin>OCA\Settings\Settomgs\Admin\Security</admin>
+		<admin>OCA\Settings\Settings\Admin\Security</admin>
 		<admin>OCA\Settings\Settings\Admin\Server</admin>
 		<admin>OCA\Settings\Settings\Admin\Sharing</admin>
 		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
