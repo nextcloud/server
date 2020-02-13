@@ -45,6 +45,12 @@ interface ICacheEvent {
 	public function getPath(): string;
 
 	/**
+	 * @param string $path
+	 * @since 19.0.0
+	 */
+	public function setPath(string $path): void;
+
+	/**
 	 * @return int
 	 * @since 16.0.0
 	 */
