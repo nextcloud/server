@@ -124,7 +124,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param string $file
 	 * @param int $reuseExisting
 	 * @param int $parentId
-	 * @param array | null $cacheData existing data in the cache for the file to be scanned
+	 * @param array|null|false $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array an array of metadata of the scanned file
 	 * @throws \OC\ServerNotAvailableException
@@ -223,13 +223,13 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData['parent'] = $parentId;
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
-					if (isset($cacheData['size'])) {
+					if ($cacheData && isset($cacheData['size'])) {
 						$data['oldSize'] = $cacheData['size'];
 					} else {
 						$data['oldSize'] = 0;
 					}
 
-					if (isset($cacheData['encrypted'])) {
+					if ($cacheData && isset($cacheData['encrypted'])) {
 						$data['encrypted'] = $cacheData['encrypted'];
 					}
 
@@ -437,7 +437,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		foreach ($newChildren as $file) {
 			$child = $path ? $path . '/' . $file : $file;
 			try {
-				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : null;
+				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
