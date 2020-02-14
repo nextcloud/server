@@ -292,7 +292,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$this->cache->update($fileId, $data);
 				return $fileId;
 			} else {
-				return $this->cache->put($path, $data);
+				return $this->cache->insert($path, $data);
 			}
 		} else {
 			return -1;
