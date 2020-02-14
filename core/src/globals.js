@@ -111,7 +111,7 @@ setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will b
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window['dav'] = dav
-setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, ship your own')
+setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, this will be removed in Nextcloud 21')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 window['marked'] = deprecate(marked, 'marked', 19)
@@ -120,16 +120,16 @@ setDeprecatedProp('moment', () => moment, 'please ship your own, this will be re
 
 window['OC'] = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
-setDeprecatedProp('oc_appswebroots', () => OC.appswebroots, 'use OC.appswebroots instead')
-setDeprecatedProp('oc_capabilities', OC.getCapabilities, 'use OC.getCapabilities instead')
-setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead')
-setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead')
-setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead')
-setDeprecatedProp('oc_defaults', () => OC.theme, 'use OC.theme instead')
-setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead')
-setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead')
-setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead')
-setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead')
+setDeprecatedProp('oc_appswebroots', () => OC.appswebroots, 'use OC.appswebroots instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_capabilities', OC.getCapabilities, 'use OC.getCapabilities instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_defaults', () => OC.theme, 'use OC.theme instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead, this will be removed in Nextcloud 20')
+setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML', 19)
