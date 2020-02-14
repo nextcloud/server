@@ -59,7 +59,7 @@ class Logger {
 
 	public function logFlowRequests(LogContext $logContext) {
 		$message = 'Flow activation: rules were requested for operation {op}';
-		$context = ['op' => $logContext->getDetails()['operation']['name']];
+		$context = ['op' => $logContext->getDetails()['operation']['name'], 'level' => ILogger::DEBUG];
 
 		$logContext->setDescription('Flow activation: rules were requested');
 
@@ -80,6 +80,7 @@ class Logger {
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
 			'config' => $logContext->getDetails()['configuration'],
+			'level' => ILogger::DEBUG,
 		];
 
 		$logContext->setDescription('Flow rule qualified to run');
@@ -113,6 +114,7 @@ class Logger {
 		$message = 'No flow configurations is going to run {op}';
 		$context = [
 			'op' => $logContext->getDetails()['operation']['name'],
+			'level' => ILogger::DEBUG,
 		];
 
 		$logContext->setDescription('No flow configurations is going to run');
@@ -125,6 +127,7 @@ class Logger {
 
 		$context = [
 			'ev' => $logContext->getDetails()['eventName'],
+			'level' => ILogger::DEBUG,
 		];
 
 		$logContext->setDescription('Flow activated by event');
