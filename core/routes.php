@@ -88,10 +88,10 @@ $application->registerRoutes($this, [
 
 		// Legacy routes that need to be globally available while they are handled by an app
 		['name' => 'viewcontroller#showFile', 'url' => '/f/{fileid}', 'verb' => 'GET', 'app' => 'files'],
-		['name' => 'sharecontroller#showShare', 'url' => '/s/{token}', 'verb' => 'GET', 'app' => 'files_sharing'],
-		['name' => 'sharecontroller#showAuthenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'GET', 'app' => 'files_sharing'],
-		['name' => 'sharecontroller#authenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'POST', 'app' => 'files_sharing'],
-		['name' => 'sharecontroller#downloadShare', 'url' => '/s/{token}/download', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'share#showShare', 'url' => '/s/{token}', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'share#showAuthenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'GET', 'app' => 'files_sharing'],
+		['name' => 'share#authenticate', 'url' => '/s/{token}/authenticate/{redirect}', 'verb' => 'POST', 'app' => 'files_sharing'],
+		['name' => 'share#downloadShare', 'url' => '/s/{token}/download', 'verb' => 'GET', 'app' => 'files_sharing'],
 		['name' => 'publicpreview#directLink', 'url' => '/s/{token}/preview', 'verb' => 'GET', 'app' => 'files_sharing'],
 		['name' => 'requesthandlercontroller#addShare', 'url' => '/ocm/shares', 'verb' => 'POST', 'app' => 'cloud_federation_api'],
 		['name' => 'requesthandlercontroller#receiveNotification', 'url' => '/ocm/notifications', 'verb' => 'POST', 'app' => 'cloud_federation_api'],

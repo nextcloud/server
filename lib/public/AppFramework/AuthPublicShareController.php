@@ -157,13 +157,23 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
+	 * @param $string
+	 * @return string
+	 */
+	private function camelCaseToLowerCaseUnderscored($string)
+	{
+		$value = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string);
+		return mb_strtolower($value, 'utf-8');
+	}
+
+	/**
 	 * @since 14.0.0
 	 */
 	private function getRoute(string $function): string {
 		$app = strtolower($this->appName);
-		$class = strtolower((new \ReflectionClass($this))->getShortName());
-
-		return $app . '.' . $class . '.' . $function;
+		$class = (new \ReflectionClass($this))->getShortName();
+		// $class = $this->camelCaseToLowerCaseUnderscored(substr($class, 0, strpos($class, 'Controller')));
+		return $app .'.'. $class .'.'. $function;
 	}
 
 	/**
