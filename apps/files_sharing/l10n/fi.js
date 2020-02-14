@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "Jaot",
     "No shares" : "Ei jakoja",
     "Shares will show up here" : "Jaot näkyvät täällä",
+    "Restore" : "Palauta",
     "Restore share" : "Palauta jako",
     "Something happened. Unable to restore the share." : "Jotain tapahtui. Jakoa ei kyetty palauttamaan.",
     "This will stop your current uploads." : "Tämä pysäyttää meneillään olevat lähetykset.",

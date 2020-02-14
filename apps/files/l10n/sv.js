@@ -59,6 +59,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "Kunde inte skapa fil \"{fileName}\"",
     "Could not create file \"{file}\" because it already exists" : "Kunde inte skapa fil \"{file}\" därför att den redan existerar",
     "Could not create folder \"{dir}\" because it already exists" : "Kunde inte skapa \"{dir}\" därför att den redan existerar",
+    "Could not fetch file details \"{file}\"" : "Kunde inte hämta filinformation \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Fel när \"{fileName}\" skulle raderas.",
     "No search results in other folders for {tag}{filter}{endtag}" : "Inga sökresultat i andra mappar för {tag}{filter}{endtag}",
     "Name" : "Namn",

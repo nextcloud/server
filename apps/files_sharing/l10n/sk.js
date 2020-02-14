@@ -17,6 +17,7 @@ OC.L10N.register(
     "Shares" : "Sprístupnené položky",
     "No shares" : "Žiadne sprístupnené položky",
     "Shares will show up here" : "Tu sa zobrazia sprístupnené položky",
+    "Restore" : "Obnoviť",
     "Restore share" : "Obnoviť sprístupnené položky",
     "Something happened. Unable to restore the share." : "Niečo sa udialo. Nedarí sa obnoviť sprístupnenú položku.",
     "This will stop your current uploads." : "Toto zastaví práve prebiehajúce nahrávania.",

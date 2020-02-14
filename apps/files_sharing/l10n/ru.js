@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares" : "Опубликованные ресурсы",
     "No shares" : "Нет ресурсов общего доступа",
     "Shares will show up here" : "Здесь будут показаны общие ресурсы",
+    "Restore" : "Восстановить",
     "Restore share" : "Восстановить ресурсы общего доступа",
     "Something happened. Unable to restore the share." : "Не удалось восстановить общий ресурс.",
     "Accept share" : "Принять общий ресурс",

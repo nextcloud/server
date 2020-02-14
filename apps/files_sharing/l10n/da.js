@@ -11,6 +11,7 @@ OC.L10N.register(
     "No shared links" : "Ingen delte link",
     "Files and folders you share by link will show up here" : "Filer og mapper som du deler gennem link, vil blive vist her",
     "Shares" : "Delinger",
+    "Restore" : "Gendan",
     "This will stop your current uploads." : "Dette vil stoppe din nuværende uploads.",
     "Move or copy" : "Flyt eller kopier",
     "Download" : "Hent",

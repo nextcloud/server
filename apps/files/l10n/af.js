@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Berging is tydelik nie beskikbaar nie",
+    "Storage is temporarily not available" : "Berging is tydelik onbeskikbaar",
     "Storage invalid" : "Berging ongeldig",
     "Unknown error" : "Onbekende fout",
     "All files" : "Alle lêers",
@@ -49,7 +49,14 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Kon nie \"{file}\" kopieer nie, teiken bestaan",
     "Could not copy \"{file}\"" : "Kon nie \"{file}\" kopieer nie",
     "Copied {origin} inside {destination}" : "{origin} binne {destination} gekopieer",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} en {nbfiles} ander lêers binne {destination} gekopieer",
     "{newName} already exists" : "{newName} bestaan reeds",
+    "Could not rename \"{fileName}\", it does not exist any more" : "Kon nie “{fileName}” hernoem nie, dit bestaan nie meer nie",
+    "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Die naam “{targetName}” word reeds in vouer “{dir}” gebruik. Kies asb. ’n ander naam.",
+    "Could not rename \"{fileName}\"" : "Kon nie “{file}” hernoem nie",
+    "Could not create file \"{file}\"" : "Kan nie lêer “{file}” skep nie",
+    "Could not create file \"{file}\" because it already exists" : "Kon nie lêer “{file}” skep nie omdat dit reeds bestaan",
+    "Could not create folder \"{dir}\" because it already exists" : "Kon nie vouer “{dir}” skep nie omdat dit reeds bestaan",
     "Name" : "Naam",
     "Size" : "Grootte",
     "Modified" : "Gewysig",

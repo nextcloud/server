@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Recursos compartidos",
     "No shares" : "Ningún recurso compartido",
     "Shares will show up here" : "Os recursos compartidos amosaránse aquí",
+    "Restore" : "Restaurar",
     "Restore share" : "Restaurar recursos compartido",
     "Something happened. Unable to restore the share." : "Algo aconteceu. Non é posíbel restaurar o recurso compartido",
     "Accept share" : "Aceptar o recurso compartido",

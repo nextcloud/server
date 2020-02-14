@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "Comparticions",
     "No shares" : "No hi ha comparticions",
     "Shares will show up here" : "Les comparticions es mostraran aquí",
+    "Restore" : "Restaura",
     "Restore share" : "Restaura una compartició",
     "Something happened. Unable to restore the share." : "Alguna cosa ha passat. No es pot restaurar la compartició.",
     "This will stop your current uploads." : "Això aturarà les càrregues actuals.",

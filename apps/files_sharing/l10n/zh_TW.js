@@ -14,6 +14,7 @@ OC.L10N.register(
     "No deleted shares" : "沒有移除的分享",
     "Shares" : "分享",
     "No shares" : "無分享",
+    "Restore" : "回復",
     "Restore share" : "還原分享",
     "Something happened. Unable to restore the share." : "出了些狀況，無法還原分享。",
     "This will stop your current uploads." : "這會終止目前任何的上傳。",

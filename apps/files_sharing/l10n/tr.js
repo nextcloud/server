@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Paylaşımlar",
     "No shares" : "Henüz bir şey paylaşılmamış",
     "Shares will show up here" : "Paylaşımlar burada görüntülenir",
+    "Restore" : "Geri Yükle",
     "Restore share" : "Paylaşımı geri yükle",
     "Something happened. Unable to restore the share." : "Bir sorun çıktı. Paylaşım geri yüklenemedi.",
     "Accept share" : "Paylaşımı kabul et",

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "Kunhavoj",
     "No shares" : "Neniu kunhavo",
     "Shares will show up here" : "Kunhavoj aperos ĉi tie",
+    "Restore" : "Restaŭri",
     "Restore share" : "Restaŭri kunhavon",
     "Something happened. Unable to restore the share." : "Io okazis. Ne eblis restaŭri la kunhavon. ",
     "This will stop your current uploads." : "Tio haltigos viajn nunajn alŝutojn.",
