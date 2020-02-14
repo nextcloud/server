@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "اشتراک گذاری ها",
     "No shares" : "اشتراک گذاری وجود ندارد",
     "Shares will show up here" : "موارد به اشتراک گذاری شده اینجا نمایش داده خواهند شد",
+    "Restore" : "بازیابی",
     "Restore share" : "بازیابی مورد اشتراک گذاری شده",
     "Something happened. Unable to restore the share." : "موردی پیش آمده است. امکان بازیابی مورد اشتراک گذاری شده وجود ندارد.",
     "Accept share" : "پذیرفتن اشتراک ",

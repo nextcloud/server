@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "공유",
     "No shares" : "공유 없음",
     "Shares will show up here" : "공유 목록이 여기에 표시됩니다",
+    "Restore" : "Restore",
     "Restore share" : "공유 복원",
     "Something happened. Unable to restore the share." : "무언가 잘못되었습니다. 공유를 복원할 수 없습니다.",
     "Move or copy" : "이동이나 복사",

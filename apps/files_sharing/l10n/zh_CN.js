@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "共享",
     "No shares" : "没有共享",
     "Shares will show up here" : "共享将在这里显示",
+    "Restore" : "恢复",
     "Restore share" : "恢复共享",
     "Something happened. Unable to restore the share." : "发生了问题。无法恢复该共享。",
     "Accept share" : "接受共享",

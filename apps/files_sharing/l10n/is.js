@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "Sameignir",
     "No shares" : "Engar sameignir",
     "Shares will show up here" : "Sameignir munu birtast hér",
+    "Restore" : "Endurheimta",
     "Restore share" : "Endurheimta sameign",
     "Something happened. Unable to restore the share." : "Eitthvað skrýtið gerðist. Gat ekki endurheimt sameignina.",
     "This will stop your current uploads." : "Þetta mun stöðva núverandi innsendingar þínar.",

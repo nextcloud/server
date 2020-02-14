@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Współdzielone",
     "No shares" : "Brak udostępnień",
     "Shares will show up here" : "Tutaj pojawią się udostępnienia",
+    "Restore" : "Przywróć",
     "Restore share" : "Przywróć udostępnienia",
     "Something happened. Unable to restore the share." : "Coś nie tak. Nie można przywrócić udostępnienia",
     "Accept share" : "Akceptacja udostępnienia",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Споделувања",
     "No shares" : "Нема споделувања",
     "Shares will show up here" : "Споделувањата ќе се појават овде",
+    "Restore" : "Врати",
     "Restore share" : "Врати споделување",
     "Something happened. Unable to restore the share." : "Нешто се случило. Неможе да се врати споделувањето.",
     "Accept share" : "Прифати го споделувањето",
