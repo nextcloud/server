@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Condivisioni",
     "No shares" : "Nessuna condivisione",
     "Shares will show up here" : "Le condivisioni saranno mostrate qui",
+    "Restore" : "Ripristina",
     "Restore share" : "Ripristina condivisione",
     "Something happened. Unable to restore the share." : "Qualcosa non ha funzionato. Impossible ripristinare la condivisione.",
     "Accept share" : "Accetta condivisione",

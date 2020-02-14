@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Freigaben",
     "No shares" : "Keine Freigaben",
     "Shares will show up here" : "Freigaben werden hier angezeigt",
+    "Restore" : "Wiederherstellen",
     "Restore share" : "Freigabe wiederherstellen",
     "Something happened. Unable to restore the share." : "Die Freigabe konnte nicht wiederhergestellt werden.",
     "Accept share" : "Freigabe akzeptieren",

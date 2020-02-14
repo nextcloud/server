@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files and folders you share by link will show up here" : "Këtu do të shfaqen kartelat dhe dosjet që ndani përmes lidhjesh",
     "Deleted shares" : "Fshi shpërndarjet",
     "Shares" : "Shpërndarje",
+    "Restore" : "Rikthe",
     "Download" : "Shkarko",
     "Delete" : "Delete",
     "You can upload into this folder" : "Mund të ngarkoni te kjo dosje",

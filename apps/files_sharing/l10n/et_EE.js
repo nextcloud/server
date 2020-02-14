@@ -11,6 +11,7 @@ OC.L10N.register(
     "No shared links" : "Jagatud linke pole",
     "Files and folders you share by link will show up here" : "Siin kuvatakse faile ja kaustasid, mida sa jagad lingiga",
     "Shares" : "Jagamisi",
+    "Restore" : "Taasta",
     "Move or copy" : "Liiguta või kopeeri",
     "Download" : "Lae alla",
     "Delete" : "Kustuta",

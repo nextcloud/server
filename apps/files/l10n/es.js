@@ -59,6 +59,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "No se pudo crear archivo \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "No se pudo crear archivo \"{file}\" porque ya existe",
     "Could not create folder \"{dir}\" because it already exists" : "No se ha podido crear la carpeta \"{dir}\" porque ya existe",
+    "Could not fetch file details \"{file}\"" : "No se pudieron obtener los detalles de \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Error al borrar el archivo \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados de búsqueda en otras carpetas para  {tag}{filter}{endtag}",
     "Name" : "Nombre",
