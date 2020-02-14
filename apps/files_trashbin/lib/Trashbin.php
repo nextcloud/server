@@ -44,7 +44,6 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
-use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
 use OCP\Files\File;
