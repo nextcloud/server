@@ -274,7 +274,9 @@ class Cache implements ICache {
 		}
 
 		$data['path'] = $file;
-		$data['parent'] = $this->getParentId($file);
+		if (!isset($data['parent'])) {
+			$data['parent'] = $this->getParentId($file);
+		}
 		$data['name'] = basename($file);
 
 		[$values, $extensionValues] = $this->normalizeData($data);
