@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Delningar",
     "No shares" : "Inga delningar",
     "Shares will show up here" : "Delningar visas här",
+    "Restore" : "Återställ",
     "Restore share" : "Återställ delning",
     "Something happened. Unable to restore the share." : "Ett fel uppstod. Kan inte återställa delningen.",
     "Accept share" : "Acceptera delning",

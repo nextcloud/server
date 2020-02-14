@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Shares",
     "No shares" : "Geen shares",
     "Shares will show up here" : "Shares worden hier getoond",
+    "Restore" : "Herstellen",
     "Restore share" : "Herstel share",
     "Something happened. Unable to restore the share." : "Er is iets gebeurd. Kan de share niet herstellen.",
     "Accept share" : "Accepteer deellink",

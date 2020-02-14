@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "Delinger",
     "No shares" : "Ingen delinger",
     "Shares will show up here" : "Delinger vil vises her",
+    "Restore" : "Gjenopprett",
     "Restore share" : "Gjenopprett deling",
     "This will stop your current uploads." : "Dette fille stoppe dine nåværende opplastinger.",
     "Move or copy" : "Flytt eller kopier",

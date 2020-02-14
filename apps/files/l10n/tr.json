@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "\"{file}\" dosyası oluşturulamadı",
     "Could not create file \"{file}\" because it already exists" : "\"{file}\" dosyası zaten var olduğundan oluşturulamadı",
     "Could not create folder \"{dir}\" because it already exists" : "\"{dir}\" klasörü zaten var olduğundan oluşturulamadı",
+    "Could not fetch file details \"{file}\"" : "\"{file}\" dosyasının ayrıntıları alınamadı",
     "Error deleting file \"{fileName}\"." : "\"{fileName}\" dosyası silinirken sorun çıktı.",
     "No search results in other folders for {tag}{filter}{endtag}" : "{tag}{filter}{endtag} için diğer klasörlerde herhangi bir arama sonucu yok",
     "Name" : "Ad",

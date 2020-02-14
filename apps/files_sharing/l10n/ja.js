@@ -16,6 +16,7 @@ OC.L10N.register(
     "Shares" : "共有",
     "No shares" : "共有なし",
     "Shares will show up here" : "共有がここに表示されます",
+    "Restore" : "復元",
     "Restore share" : "共有を復元する",
     "Something happened. Unable to restore the share." : "何らかの原因で、 共有を復元できません。",
     "This will stop your current uploads." : "現在のアップロードが停止されます",

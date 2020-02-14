@@ -19,6 +19,7 @@ OC.L10N.register(
     "Shares" : "Дељења",
     "No shares" : "Нема дељења",
     "Shares will show up here" : "Дељења ће се појавити овде",
+    "Restore" : "Врати",
     "Restore share" : "Поврати дељење",
     "Something happened. Unable to restore the share." : "Нешто чудно се десило. Дељење не може да се поврати.",
     "Accept share" : "Прихвати дељење",

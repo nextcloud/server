@@ -18,6 +18,7 @@ OC.L10N.register(
     "Shares" : "Viešiniai",
     "No shares" : "Nėra jokių viešinių",
     "Shares will show up here" : "Čia bus rodomi viešiniai",
+    "Restore" : "Atkurti",
     "Restore share" : "Atkurti viešinį",
     "Something happened. Unable to restore the share." : "Kažkas nutiko. Nepavyko atkurti viešinio.",
     "Accept share" : "Priimti viešinį",

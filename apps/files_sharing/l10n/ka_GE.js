@@ -11,6 +11,7 @@ OC.L10N.register(
     "No shared links" : "გაზიარებული ბმულები არაა",
     "Files and folders you share by link will show up here" : "აქ გამოჩნდება ფაილები და დირექტორიები რომლებსაც ბმულით აზიარებთ თქვენ",
     "Shares" : "გაზიარებები",
+    "Restore" : "აღდგენა",
     "Move or copy" : "გადაიტანეთ ან დააკოპირეთ",
     "Download" : "ჩამოტვირთვა",
     "Delete" : "წაშლა",

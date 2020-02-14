@@ -42,7 +42,7 @@ OC.L10N.register(
     "Invalid mount point" : "Neveljavna priklopna točka",
     "Objectstore forbidden" : "Shranjevanje predmeta je prepovedano",
     "Invalid storage backend \"%s\"" : "Neveljaven ozadnji program shrambe » %s «",
-    "Not permitted to use backend \"%s\"" : "Uporaba ozadnjega programa \"%s\" ni dovoljena.",
+    "Not permitted to use backend \"%s\"" : "Uporaba ozadnjega programa »%s« ni dovoljena.",
     "Not permitted to use authentication mechanism \"%s\"" : "Uporaba načina overitve » %s « ni dovoljena.",
     "Unsatisfied backend parameters" : "Nezadovoljivi parametri ozadnjega programa",
     "Unsatisfied authentication mechanism parameters" : "Nezadovoljivi parametri mehanizma overitve",
