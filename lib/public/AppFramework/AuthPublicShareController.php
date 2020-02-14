@@ -156,15 +156,6 @@ abstract class AuthPublicShareController extends PublicShareController {
 		);
 	}
 
-	/**
-	 * @param $string
-	 * @return string
-	 */
-	private function camelCaseToLowerCaseUnderscored($string)
-	{
-		$value = preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string);
-		return mb_strtolower($value, 'utf-8');
-	}
 
 	/**
 	 * @since 14.0.0
@@ -172,7 +163,11 @@ abstract class AuthPublicShareController extends PublicShareController {
 	private function getRoute(string $function): string {
 		$app = strtolower($this->appName);
 		$class = (new \ReflectionClass($this))->getShortName();
-		// $class = $this->camelCaseToLowerCaseUnderscored(substr($class, 0, strpos($class, 'Controller')));
+		if ($this->appName === 'files_sharing') {
+			$class = strtolower($class);
+		} else if (substr($class, -10) === 'Controller') {
+			$class = substr($class, 0, -10);
+		}
 		return $app .'.'. $class .'.'. $function;
 	}
 
