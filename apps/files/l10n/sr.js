@@ -59,6 +59,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "Не могу да направим фајл \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Не могу да направим фајл \"{file}\" јер већ постоји",
     "Could not create folder \"{dir}\" because it already exists" : "Не могу да направим фасциклу \"{dir}\" јер већ постоји",
+    "Could not fetch file details \"{file}\"" : "Не могу да дохватим детаље за „{file}”",
     "Error deleting file \"{fileName}\"." : "Грешка при брисању фајла \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нема резултата претраге у осталим фасциклама за {tag}{filter}{endtag}",
     "Name" : "Назив",
