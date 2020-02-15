@@ -59,6 +59,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "无法创建文件 \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "无法创建文件 \"{file}\"，因为它已经存在",
     "Could not create folder \"{dir}\" because it already exists" : "无法创建文件夹 \"{dir}\"，因为它已经存在",
+    "Could not fetch file details \"{file}\"" : "无法获取文件详细信息 “{file}”",
     "Error deleting file \"{fileName}\"." : "删除文件 \"{fileName}\" 时出错。",
     "No search results in other folders for {tag}{filter}{endtag}" : "在其它的文件夹里没有关于 {tag}{filter}{endtag} 的搜索结果",
     "Name" : "名称",

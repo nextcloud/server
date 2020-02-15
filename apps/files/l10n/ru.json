@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Невозможно создать файл «{file}»",
     "Could not create file \"{file}\" because it already exists" : "Невозможно создать файл «{file}», он уже существует",
     "Could not create folder \"{dir}\" because it already exists" : "Невозможно создать каталог «{dir}», он уже существует",
+    "Could not fetch file details \"{file}\"" : "Не удалось получить сведения о файле «{file}»",
     "Error deleting file \"{fileName}\"." : "Ошибка удаления файла «{fileName}».",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нет результатов поиска в других папках для {tag}{filter}{endtag}",
     "Name" : "Имя",
