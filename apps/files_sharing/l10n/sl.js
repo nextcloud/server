@@ -150,7 +150,7 @@ OC.L10N.register(
     "Share note" : "Omogoči souporabo zabeležke",
     "Toggle grid view" : "Preklopi mrežni pogled",
     "Download %s" : "Prejmi %s",
-    "Upload files to %s" : "Pošlji datoteke v %s",
+    "Upload files to %s" : "Pošlji datoteke v račun %s",
     "Note" : "Opomba",
     "Select or drop files" : "Izberte ali povlecite datoteke",
     "Uploading files…" : "Poteka pošiljanje datotek ...",
