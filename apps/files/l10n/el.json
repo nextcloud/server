@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Αδυναμία δημιουργίας του αρχείου \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Αδυναμία δημιουργίας του αρχείου \"{file}\" επειδή υπάρχει ήδη",
     "Could not create folder \"{dir}\" because it already exists" : "Αδυναμία δημιουργίας του φακέλου \"{dir}\" επειδή υπάρχει ήδη",
+    "Could not fetch file details \"{file}\"" : "Δεν είναι δυνατή η ανάγνωση λεπτομερειών του αρχείου \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Σφάλμα διαγραφής του \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Κανένα αποτέλεσμα αναζήτησης σε άλλους φακέλους για {tag}{filter}{endtag}",
     "Name" : "Όνομα",
