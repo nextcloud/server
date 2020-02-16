@@ -138,6 +138,7 @@ class Generator {
 
 		// Get the max preview and infer the max preview sizes from that
 		$maxPreview = $this->getMaxPreview($previewFolder, $file, $mimeType, $previewVersion);
+		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
 			throw new NotFoundException('Max preview size 0, invalid!');
@@ -174,7 +175,11 @@ class Generator {
 				try {
 					$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
 				} catch (NotFoundException $e) {
-					$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+					if ($maxPreviewImage === null) {
+						$maxPreviewImage = $this->helper->getImage($maxPreview);
+					}
+
+					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException();
@@ -386,9 +391,8 @@ class Generator {
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	private function generatePreview(ISimpleFolder $previewFolder, ISimpleFile $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
-		$preview = $this->helper->getImage($maxPreview);
-
+	private function generatePreview(ISimpleFolder $previewFolder, IImage $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
+		$preview = $maxPreview;
 		if (!$preview->valid()) {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
 		}
@@ -406,13 +410,13 @@ class Generator {
 					$scaleH = $maxHeight / $widthR;
 					$scaleW = $width;
 				}
-				$preview->preciseResize((int)round($scaleW), (int)round($scaleH));
+				$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
 			}
 			$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
 			$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
-			$preview->crop($cropX, $cropY, $width, $height);
+			$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
 		} else {
-			$preview->resize(max($width, $height));
+			$preview = $maxPreview->resizeCopy(max($width, $height));
 		}
 
 
