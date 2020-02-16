@@ -173,15 +173,21 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
+	 * @param string | resource | null $content
 	 * @return \OC\Files\Node\File
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function newFile($path) {
+	public function newFile($path, $content = null) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
-			if (!$this->view->touch($fullPath)) {
+			if ($content !== null) {
+				$result = $this->view->file_put_contents($fullPath, $content);
+			} else {
+				$result = $this->view->touch($fullPath);
+			}
+			if (!$result) {
 				throw new NotPermittedException('Could not create path');
 			}
 			$node = new File($this->root, $this->view, $fullPath);
