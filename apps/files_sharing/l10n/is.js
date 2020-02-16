@@ -69,6 +69,7 @@ OC.L10N.register(
     "{actor} removed share for {user}" : "{actor} fjarlægði deilingu með {user}",
     "Shared by {actor}" : "Deilt af {actor}",
     "{actor} removed share" : "{actor} fjarlægði deilingu",
+    "Share expired" : "Sameignin er útrunnin",
     "You shared {file} with {user}" : "Þú deildir {file} með {user}",
     "You removed {user} from {file}" : "Þú fjarlægðir {user} af {file}",
     "You removed yourself from {file}" : "Þú fjarlægðir sjálfan þig af {file}",
