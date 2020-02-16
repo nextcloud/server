@@ -397,6 +397,7 @@ OC.L10N.register(
     "Polish" : "Lenkų",
     "Portuguese" : "Portugalų",
     "Russian" : "Rusų",
+    "Spanish" : "Ispanų",
     "Swedish (Finland)" : "Švedų (Suomija)",
     "Swedish (Sweden)" : "Švedų (Švedija)",
     "Swedish" : "Švedų",
