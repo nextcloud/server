@@ -151,6 +151,22 @@ class PreviewManager implements IPreview {
 		return !empty($this->providers);
 	}
 
+	private function getGenerator(): Generator {
+		if ($this->generator === null) {
+			$this->generator = new Generator(
+				$this->config,
+				$this,
+				$this->appData,
+				new GeneratorHelper(
+					$this->rootFolder,
+					$this->config
+				),
+				$this->eventDispatcher
+			);
+		}
+		return $this->generator;
+	}
+
 	/**
 	 * Returns a preview of a file
 	 *
@@ -169,20 +185,22 @@ class PreviewManager implements IPreview {
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
-		if ($this->generator === null) {
-			$this->generator = new Generator(
-				$this->config,
-				$this,
-				$this->appData,
-				new GeneratorHelper(
-					$this->rootFolder,
-					$this->config
-				),
-				$this->eventDispatcher
-			);
-		}
+		return $this->getGenerator()->getPreview($file, $width, $height, $crop, $mode, $mimeType);
+	}
 
-		return $this->generator->getPreview($file, $width, $height, $crop, $mode, $mimeType);
+	/**
+	 * Generates previews of a file
+	 *
+	 * @param File $file
+	 * @param array $specifications
+	 * @param string $mimeType
+	 * @return ISimpleFile the last preview that was generated
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 * @since 19.0.0
+	 */
+	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
 	/**

@@ -91,21 +91,36 @@ class Generator {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		$specification = [
+			'width' => $width,
+			'height' => $height,
+			'crop' => $crop,
+			'mode' => $mode,
+		];
+		$this->eventDispatcher->dispatch(
+			IPreview::EVENT,
+			new GenericEvent($file, $specification)
+		);
+
+		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
+		return $this->generatePreviews($file, [$specification], $mimeType);
+	}
+
+	/**
+	 * Generates previews of a file
+	 *
+	 * @param File $file
+	 * @param array $specifications
+	 * @param string $mimeType
+	 * @return ISimpleFile the last preview that was generated
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 */
+	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
 		//Make sure that we can read the file
 		if (!$file->isReadable()) {
 			throw new NotFoundException('Cannot read file');
 		}
-
-
-		$this->eventDispatcher->dispatch(
-			IPreview::EVENT,
-			new GenericEvent($file, [
-				'width' => $width,
-				'height' => $height,
-				'crop' => $crop,
-				'mode' => $mode
-			])
-		);
 
 		if ($mimeType === null) {
 			$mimeType = $file->getMimeType();
@@ -128,36 +143,47 @@ class Generator {
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
-		list($maxWidth, $maxHeight) = $this->getPreviewSize($maxPreview, $previewVersion);
+		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
 
-		// If both width and heigth are -1 we just want the max preview
-		if ($width === -1 && $height === -1) {
-			$width = $maxWidth;
-			$height = $maxHeight;
-		}
+		$preview = null;
 
-		// Calculate the preview size
-		list($width, $height) = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
+		foreach ($specifications as $specification) {
+			$width = $specification['width'] ?? -1;
+			$height = $specification['height'] ?? -1;
+			$crop = $specification['crop'] ?? false;
+			$mode = $specification['mode'] ?? IPreview::MODE_FILL;
 
-		// No need to generate a preview that is just the max preview
-		if ($width === $maxWidth && $height === $maxHeight) {
-			return $maxPreview;
-		}
-
-		// Try to get a cached preview. Else generate (and store) one
-		try {
-			try {
-				$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
-			} catch (NotFoundException $e) {
-				$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+			// If both width and heigth are -1 we just want the max preview
+			if ($width === -1 && $height === -1) {
+				$width = $maxWidth;
+				$height = $maxHeight;
 			}
-		} catch (\InvalidArgumentException $e) {
-			throw new NotFoundException();
-		}
 
-		if ($preview->getSize() === 0) {
-			$preview->delete();
-			throw new NotFoundException('Cached preview size 0, invalid!');
+			// Calculate the preview size
+			[$width, $height] = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
+
+			// No need to generate a preview that is just the max preview
+			if ($width === $maxWidth && $height === $maxHeight) {
+				// ensure correct return value if this was the last one
+				$preview = $maxPreview;
+				continue;
+			}
+
+			// Try to get a cached preview. Else generate (and store) one
+			try {
+				try {
+					$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
+				} catch (NotFoundException $e) {
+					$preview = $this->generatePreview($previewFolder, $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+				}
+			} catch (\InvalidArgumentException $e) {
+				throw new NotFoundException();
+			}
+
+			if ($preview->getSize() === 0) {
+				$preview->delete();
+				throw new NotFoundException('Cached preview size 0, invalid!');
+			}
 		}
 
 		return $preview;
