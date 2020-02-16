@@ -111,8 +111,9 @@ try {
 		// Work
 		$jobList = \OC::$server->getJobList();
 
-		// We only ask for jobs for 14 minutes, because after 15 minutes the next
-		// system cron task should spawn.
+		// We only ask for jobs for 14 minutes, because after 5 minutes the next
+		// system cron task should spawn and we want to have at most three
+		// cron jobs running in parallel.
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
