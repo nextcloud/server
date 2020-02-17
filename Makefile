@@ -4,7 +4,7 @@ all: clean dev-setup build-js-production
 dev-setup: clean clean-dev npm-init
 
 npm-init:
-	npm install
+	npm ci
 
 npm-update:
 	npm update
