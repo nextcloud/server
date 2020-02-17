@@ -29,26 +29,40 @@
 <div class="section" id="backgroundjobs">
 	<h2 class="inlineblock"><?php p($l->t('Background jobs'));?></h2>
 	<p class="cronlog inlineblock">
-		<?php if ($_['lastcron'] !== false):
+		<?php if ($_['lastcron'] !== false) {
 			$relative_time = relative_modified_date($_['lastcron']);
+			$maxAgeRelativeTime = relative_modified_date($_['cronMaxAge']);
 
 			$formatter = \OC::$server->getDateTimeFormatter();
 			$absolute_time = $formatter->formatDateTime($_['lastcron'], 'long', 'long');
-			if (time() - $_['lastcron'] <= 600): ?>
-				<span class="status success"></span>
-				<span class="crondate" title="<?php p($absolute_time);?>">
-				<?php p($l->t("Last job ran %s.", [$relative_time]));?>
-			</span>
-			<?php else: ?>
+			$maxAgeAbsoluteTime = $formatter->formatDateTime($_['cronMaxAge'], 'long', 'long');
+			if (time() - $_['lastcron'] > 600) { ?>
 				<span class="status error"></span>
 				<span class="crondate" title="<?php p($absolute_time);?>">
-				<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
-			</span>
-			<?php endif;
-		else: ?>
+					<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
+				</span>
+			<?php } else if (time() - $_['cronMaxAge'] > 12*3600) {
+					if ($_['backgroundjobs_mode'] === 'cron') { ?>
+						<span class="status warning"></span>
+						<span class="crondate" title="<?php p($maxAgeAbsoluteTime);?>">
+							<?php p($l->t("Some jobs haven’t been executed since %s. Please consider increasing the execution frequency.", [$maxAgeRelativeTime]));?>
+						</span>
+					<?php } else { ?>
+						<span class="status error"></span>
+						<span class="crondate" title="<?php p($maxAgeAbsoluteTime);?>">
+							<?php p($l->t("Some jobs didn’t execute since %s. Please consider switching to system cron.", [$maxAgeRelativeTime]));?>
+						</span>
+					<?php }
+			} else { ?>
+				<span class="status success"></span>
+				<span class="crondate" title="<?php p($absolute_time);?>">
+					<?php p($l->t("Last job ran %s.", [$relative_time]));?>
+				</span>
+			<?php }
+		} else { ?>
 			<span class="status error"></span>
 			<?php p($l->t("Background job didn’t run yet!"));
-		endif; ?>
+		} ?>
 	</p>
 	<a target="_blank" rel="noreferrer noopener" class="icon-info"
 	   title="<?php p($l->t('Open documentation'));?>"
