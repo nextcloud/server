@@ -66,6 +66,11 @@ export default {
 		return {
 			predefinedTypes: [
 				{
+					icon: 'icon-folder',
+					label: t('workflowengine', 'Folder'),
+					pattern: 'httpd/unix-directory',
+				},
+				{
 					icon: 'icon-picture',
 					label: t('workflowengine', 'Images'),
 					pattern: '/image\\/.*/',
