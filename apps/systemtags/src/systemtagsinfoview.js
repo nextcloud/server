@@ -33,6 +33,9 @@
 			className: 'systemTagsInfoView',
 			name: 'systemTags',
 
+			/* required by the new files sidebar to check if the view is unique */
+			id: 'systemTagsInfoView',
+
 			/**
 			 * @type OC.SystemTags.SystemTagsInputField
 			 */
