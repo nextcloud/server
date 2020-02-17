@@ -75,6 +75,7 @@ class AppsEnableTest extends TestCase {
 		$data = [
 			[['admin_audit'], null, 0, 'admin_audit enabled'],
 			[['comments'], null, 0, 'comments enabled'],
+			[['comments', 'comments'], null, 0, "comments enabled\ncomments already enabled"],
 			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
 
 			[['admin_audit', 'comments'], null, 0, "admin_audit enabled\ncomments enabled"],
