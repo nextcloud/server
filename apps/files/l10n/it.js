@@ -124,7 +124,7 @@ OC.L10N.register(
     "{user} deleted {file}" : "{user} ha eliminato {file}",
     "{user} deleted an encrypted file in {file}" : "{user} ha eliminato un file cifrato in {file}",
     "You restored {file}" : "Hai ripristinato {file}",
-    "{user} restored {file}" : "{user1} ha ripristinato {file}",
+    "{user} restored {file}" : "{user} ha ripristinato {file}",
     "You renamed {oldfile} to {newfile}" : "Hai rinominato {oldfile} in {newfile}",
     "{user} renamed {oldfile} to {newfile}" : "{user} ha rinominato {oldfile} in {newfile}",
     "You moved {oldfile} to {newfile}" : "Hai spostato {oldfile} in {newfile}",
